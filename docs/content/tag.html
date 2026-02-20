@@ -1,0 +1,657 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Tag</h1>
+      <p class="docs__subtitle">
+        Statische oder interaktive Labels zur Kategorisierung und Kennzeichnung von Inhalten.
+        Kanonische Klasse: <code class="docs__token">.nc-tag</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-tag-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="tag-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Tag-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Variante und Optionen, um den Tag live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM (24px)</option>
+                  <option value="md" selected>MD (32px)</option>
+                  <option value="lg">LG (40px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default</option>
+                  <option value="outline">Outline</option>
+                  <option value="primary">Primary</option>
+                  <option value="success">Success</option>
+                  <option value="warning">Warning</option>
+                  <option value="error">Error</option>
+                  <option value="info">Info</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-interactive" />
+                  <span class="docs-stage__label">Interactive</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-removable" />
+                  <span class="docs-stage__label">Removable</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Icon</span>
+                <select class="docs-stage__select" id="stage-icon">
+                  <option value="none" selected>Kein Icon</option>
+                  <option value="leading">Leading Icon</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders tag here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;span class="nc-tag"&gt;Tag&lt;/span&gt;</pre>
+          </div>
+
+          <!-- Showcase: All Variants -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten</h2>
+            <p class="docs__section-desc">
+              7 Farbvarianten f&uuml;r verschiedene semantische Kontexte. Default hat keinen Modifier.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tag">Default</span>
+              <span class="nc-tag nc-tag--outline">Outline</span>
+              <span class="nc-tag nc-tag--primary">Primary</span>
+              <span class="nc-tag nc-tag--success">Success</span>
+              <span class="nc-tag nc-tag--warning">Warning</span>
+              <span class="nc-tag nc-tag--error">Error</span>
+              <span class="nc-tag nc-tag--info">Info</span>
+            </div>
+          </section>
+
+          <!-- Showcase: Sizes -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;enstufen: SM (24px), MD (32px, Default), LG (40px).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <span class="nc-tag nc-tag--sm">Small</span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM &mdash; 24px</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-tag">Medium</span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; 32px</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-tag nc-tag--lg">Large</span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG &mdash; 40px</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: With Icon -->
+          <section class="docs__section" id="with-icon">
+            <h2 class="docs__section-title">Mit Icon</h2>
+            <p class="docs__section-desc">
+              Ein f&uuml;hrendes Icon (<code class="docs__token">.nc-tag__icon</code>) zur visuellen Unterst&uuml;tzung des Tag-Inhalts.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tag nc-tag--primary">
+                <svg class="nc-tag__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/></svg>
+                Status
+              </span>
+              <span class="nc-tag nc-tag--success">
+                <svg class="nc-tag__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 8 7 11 12 5"/></svg>
+                Erledigt
+              </span>
+              <span class="nc-tag nc-tag--error">
+                <svg class="nc-tag__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                Fehler
+              </span>
+              <span class="nc-tag nc-tag--info">
+                <svg class="nc-tag__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><line x1="8" y1="7" x2="8" y2="11"/><circle cx="8" cy="5" r="0.5"/></svg>
+                Hinweis
+              </span>
+            </div>
+          </section>
+
+          <!-- Showcase: Interactive Tags -->
+          <section class="docs__section" id="interactive-tags">
+            <h2 class="docs__section-title">Interaktive Tags</h2>
+            <p class="docs__section-desc">
+              Als <code class="docs__token">&lt;a&gt;</code>-Links mit <code class="docs__token">.nc-tag--interactive</code> f&uuml;r Hover- und Focus-Zust&auml;nde.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <a href="#" class="nc-tag nc-tag--interactive">Navigation</a>
+              <a href="#" class="nc-tag nc-tag--interactive nc-tag--primary">Kategorie</a>
+              <a href="#" class="nc-tag nc-tag--interactive nc-tag--success">Aktiv</a>
+              <a href="#" class="nc-tag nc-tag--interactive nc-tag--info">Mehr erfahren</a>
+            </div>
+          </section>
+
+          <!-- Showcase: Removable Tags -->
+          <section class="docs__section" id="removable-tags">
+            <h2 class="docs__section-title">Entfernbare Tags</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-tag__remove</code>-Button und X-Icon zum Entfernen.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tag">
+                Filter A
+                <button class="nc-tag__remove" aria-label="Filter A entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+              <span class="nc-tag nc-tag--primary">
+                Filter B
+                <button class="nc-tag__remove" aria-label="Filter B entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+              <span class="nc-tag nc-tag--warning">
+                Filter C
+                <button class="nc-tag__remove" aria-label="Filter C entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+              <span class="nc-tag nc-tag--error">
+                Filter D
+                <button class="nc-tag__remove" aria-label="Filter D entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+            </div>
+          </section>
+
+          <!-- Showcase: Mixed Usage / Tag Cloud -->
+          <section class="docs__section" id="tag-cloud">
+            <h2 class="docs__section-title">Gemischte Verwendung (Tag Cloud)</h2>
+            <p class="docs__section-desc">
+              Kombination aus statischen, interaktiven und entfernbaren Tags f&uuml;r typische UI-Szenarien
+              wie Filter-Leisten oder Kategorien-&Uuml;bersichten.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tag nc-tag--sm nc-tag--primary">Design System</span>
+              <a href="#" class="nc-tag nc-tag--sm nc-tag--interactive nc-tag--info">Dokumentation</a>
+              <span class="nc-tag nc-tag--sm nc-tag--success">
+                <svg class="nc-tag__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 8 7 11 12 5"/></svg>
+                Fertig
+              </span>
+              <span class="nc-tag nc-tag--sm nc-tag--warning">
+                In Review
+                <button class="nc-tag__remove" aria-label="In Review entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+              <span class="nc-tag nc-tag--sm nc-tag--outline">v2.0</span>
+              <a href="#" class="nc-tag nc-tag--sm nc-tag--interactive">Alle anzeigen</a>
+              <span class="nc-tag nc-tag--sm nc-tag--error">
+                Kritisch
+                <button class="nc-tag__remove" aria-label="Kritisch entfernen">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg>
+                </button>
+              </span>
+              <span class="nc-tag nc-tag--sm">Allgemein</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Font-Size</th><th>Padding (inline)</th><th>Icon-Size</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SM</strong></td><td>24px</td><td>12px (0.75rem)</td><td>8px</td><td>12px</td></tr>
+                <tr><td><strong>MD</strong></td><td>32px</td><td>14px (0.875rem)</td><td>12px</td><td>14px</td></tr>
+                <tr><td><strong>LG</strong></td><td>40px</td><td>16px (1rem)</td><td>16px</td><td>16px</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens pro Variante</h2>
+            <table class="docs__table">
+              <thead><tr><th>Variante</th><th>Background</th><th>Text/Border</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Default</strong></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-text-primary)</td><td>Neutraler Standard-Tag</td></tr>
+                <tr><td><strong>Outline</strong></td><td>transparent</td><td>var(--fnd-color-border-primary)</td><td>Nur Rahmen, kein Hintergrund</td></tr>
+                <tr><td><strong>Primary</strong></td><td>var(--fnd-color-interactive-bg)</td><td>var(--fnd-color-interactive-text)</td><td>Prim&auml;rfarbe des Systems</td></tr>
+                <tr><td><strong>Success</strong></td><td>var(--fnd-color-feedback-success-bg)</td><td>var(--fnd-color-feedback-success)</td><td>Erfolg / Positiv</td></tr>
+                <tr><td><strong>Warning</strong></td><td>var(--fnd-color-feedback-warning-bg)</td><td>var(--fnd-color-feedback-warning)</td><td>Warnung / Aufmerksamkeit</td></tr>
+                <tr><td><strong>Error</strong></td><td>var(--fnd-color-feedback-danger-bg)</td><td>var(--fnd-color-feedback-danger)</td><td>Fehler / Kritisch</td></tr>
+                <tr><td><strong>Info</strong></td><td>var(--fnd-color-feedback-info-bg)</td><td>var(--fnd-color-feedback-info)</td><td>Information / Hinweis</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Geometrie-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-tag-radius</code></td><td>var(--fnd-radius-full)</td><td>Pill-Form (9999px)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-border-width</code></td><td>1px</td><td>Rahmenbreite (Outline-Variante)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-gap</code></td><td>4px</td><td>Abstand zwischen Icon und Text</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-font-weight</code></td><td>500</td><td>Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-transition-duration</code></td><td>0.15s</td><td>Transitions-Dauer (Hover/Focus)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-remove-size</code></td><td>16px</td><td>Gr&ouml;&szlig;e des Remove-Buttons</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixins &amp; BEM-Klassen</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-tag                         // Block (Default: md, pill-form)
+.nc-tag__icon                   // Leading-Icon-Element
+.nc-tag__remove                 // Remove-Button mit X-Icon
+
+// Gr&ouml;&szlig;en
+.nc-tag--sm                     // 24px H&ouml;he
+// (md = Default, kein Modifier)
+.nc-tag--lg                     // 40px H&ouml;he
+
+// Varianten
+.nc-tag--outline                // Nur Rahmen, transparenter Hintergrund
+.nc-tag--primary                // Prim&auml;rfarbe
+.nc-tag--success                // Erfolg (Gr&uuml;n)
+.nc-tag--warning                // Warnung (Gelb/Orange)
+.nc-tag--error                  // Fehler (Rot)
+.nc-tag--info                   // Information (Blau)
+
+// Interaktiv
+.nc-tag--interactive            // Hover/Focus-Zust&auml;nde (als &lt;a&gt;-Element)
+
+// ===== SCSS Mixins =====
+
+@mixin tag-base                 // Display, Radius, Gap, Transition
+@mixin tag-size($size)          // Height, Padding, Font-Size, Icon-Size
+@mixin tag-interactive          // Hover/Focus-Stile, cursor: pointer
+@mixin tag-default              // Default-Variante Farben
+@mixin tag-outline              // Outline-Variante
+@mixin tag-primary              // Primary-Variante
+@mixin tag-success              // Success-Variante
+@mixin tag-warning              // Warning-Variante
+@mixin tag-error                // Error-Variante
+@mixin tag-info                 // Info-Variante
+@mixin tag-icon-element         // Icon-Sizing und Alignment
+@mixin tag-remove-button        // Remove-Button Styling</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-tag</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-tag</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-tag-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_tag.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 32px (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Default-Form</strong></td><td>Pill (border-radius: 9999px)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;span&gt;</code> (statisch), <code class="docs__token">&lt;a&gt;</code> (interaktiv), oder <code class="docs__token">&lt;span&gt;</code> mit <code class="docs__token">&lt;button&gt;</code> (removable)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-tag</code></td><td>Block</td><td>Tag-Container. Default: MD (32px), Pill-Form, Default-Farbe.</td></tr>
+                <tr><td><code class="docs__token">.nc-tag__icon</code></td><td>Element</td><td>Leading-Icon (SVG). Gr&ouml;&szlig;e wird per Size-Token gesteuert.</td></tr>
+                <tr><td><code class="docs__token">.nc-tag__remove</code></td><td>Element</td><td>Remove-Button (<code class="docs__token">&lt;button&gt;</code>) mit X-Icon zum Entfernen.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>H&ouml;he</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-tag--sm</code></td><td>24px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>32px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--lg</code></td><td>40px</td><td>Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><em>(kein Modifier)</em></td><td>Default &mdash; neutraler Hintergrund, prim&auml;re Textfarbe</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--outline</code></td><td>Transparenter Hintergrund, nur Rahmen</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--primary</code></td><td>Prim&auml;rfarbe des Design-Systems</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--success</code></td><td>Erfolgs-/Positiv-Kontext (gr&uuml;n)</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--warning</code></td><td>Warnungs-Kontext (gelb/orange)</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--error</code></td><td>Fehler-/Kritisch-Kontext (rot)</td></tr>
+                <tr><td><code class="docs__token">.nc-tag--info</code></td><td>Informations-Kontext (blau)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Interaktiv-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-tag--interactive</code></td><td>Aktiviert Hover- und Focus-Zust&auml;nde. Wird mit <code class="docs__token">&lt;a&gt;</code>-Element verwendet.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">href</code></td>
+                  <td><code class="docs__token">&lt;a class="nc-tag"&gt;</code></td>
+                  <td>Ja (bei Links)</td>
+                  <td>Ziel-URL f&uuml;r interaktive Tags</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-tag__remove</code></td>
+                  <td>Ja</td>
+                  <td>Barrierefreier Name f&uuml;r den Remove-Button (z.B. &ldquo;Filter A entfernen&rdquo;)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sizes</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-height-sm</code></td><td>24px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-height-md</code></td><td>32px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-height-lg</code></td><td>40px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-padding-sm</code></td><td>8px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-padding-md</code></td><td>12px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-padding-lg</code></td><td>16px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-font-size-sm</code></td><td>0.75rem (12px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-font-size-md</code></td><td>0.875rem (14px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-font-size-lg</code></td><td>1rem (16px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-font-weight</code></td><td>500</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-radius</code></td><td>9999px</td><td>var(--fnd-radius-full)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-gap</code></td><td>4px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-transition-duration</code></td><td>0.15s</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-border-color</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Remove Button</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-remove-size</code></td><td>16px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-remove-color</code></td><td>currentColor</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-remove-hover-bg</code></td><td>rgba(0,0,0,0.1)</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Icon</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-icon-size-sm</code></td><td>12px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-icon-size-md</code></td><td>14px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-tag-icon-size-lg</code></td><td>16px</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">tag-base</code></td><td>&mdash;</td><td>Display (inline-flex), align-items, border-radius, gap, transition. Default MD.</td></tr>
+                <tr><td><code class="docs__token">tag-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'</code></td><td>Height, Padding-Inline, Font-Size, Icon-Size pro Gr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">tag-interactive</code></td><td>&mdash;</td><td>Hover/Focus-Stile: cursor pointer, opacity/background-Wechsel, outline.</td></tr>
+                <tr><td><code class="docs__token">tag-default</code></td><td>&mdash;</td><td>Neutrale Hintergrund- und Textfarbe.</td></tr>
+                <tr><td><code class="docs__token">tag-outline</code></td><td>&mdash;</td><td>Transparenter Hintergrund, sichtbarer Rahmen.</td></tr>
+                <tr><td><code class="docs__token">tag-primary</code></td><td>&mdash;</td><td>Prim&auml;rfarbe Background und Text.</td></tr>
+                <tr><td><code class="docs__token">tag-success</code></td><td>&mdash;</td><td>Success-Feedback-Farben.</td></tr>
+                <tr><td><code class="docs__token">tag-warning</code></td><td>&mdash;</td><td>Warning-Feedback-Farben.</td></tr>
+                <tr><td><code class="docs__token">tag-error</code></td><td>&mdash;</td><td>Error/Danger-Feedback-Farben.</td></tr>
+                <tr><td><code class="docs__token">tag-info</code></td><td>&mdash;</td><td>Info-Feedback-Farben.</td></tr>
+                <tr><td><code class="docs__token">tag-icon-element</code></td><td>&mdash;</td><td>Icon-Sizing, flex-shrink, Alignment innerhalb des Tags.</td></tr>
+                <tr><td><code class="docs__token">tag-remove-button</code></td><td>&mdash;</td><td>Appearance-Reset, Sizing, Hover-Background, border-radius, cursor.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Statischer Tag --&gt;
+&lt;span class="nc-tag [--size] [--variant]"&gt;
+  Tag-Text
+&lt;/span&gt;
+
+&lt;!-- Tag mit Leading Icon --&gt;
+&lt;span class="nc-tag [--size] [--variant]"&gt;
+  &lt;!-- Slot 1: Icon (optional, f&uuml;hrendes Icon) --&gt;
+  &lt;svg class="nc-tag__icon" viewBox="0 0 16 16"&gt;...&lt;/svg&gt;
+  Tag-Text
+&lt;/span&gt;
+
+&lt;!-- Interaktiver Tag (Link) --&gt;
+&lt;a href="/kategorie" class="nc-tag nc-tag--interactive [--variant]"&gt;
+  Kategorie
+&lt;/a&gt;
+
+&lt;!-- Entfernbarer Tag --&gt;
+&lt;span class="nc-tag [--size] [--variant]"&gt;
+  Tag-Text
+  &lt;!-- Slot 2: Remove-Button (optional) --&gt;
+  &lt;button class="nc-tag__remove" aria-label="Tag-Text entfernen"&gt;
+    &lt;svg viewBox="0 0 16 16"&gt;
+      &lt;line x1="4" y1="4" x2="12" y2="12"/&gt;
+      &lt;line x1="12" y1="4" x2="4" y2="12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/span&gt;
+
+&lt;!-- Kombination: Icon + Removable --&gt;
+&lt;span class="nc-tag nc-tag--primary nc-tag--lg"&gt;
+  &lt;svg class="nc-tag__icon" viewBox="0 0 16 16"&gt;...&lt;/svg&gt;
+  Vollst&auml;ndig
+  &lt;button class="nc-tag__remove" aria-label="Vollst&auml;ndig entfernen"&gt;
+    &lt;svg viewBox="0 0 16 16"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/span&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Tag-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+            Statische Tags sind dekorativ, interaktive und entfernbare Tags erfordern zus&auml;tzliche Semantik.
+          </p>
+
+          <!-- R5: Static = not focusable -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R5: Statische Tags sind nicht fokussierbar</h4>
+              <ul>
+                <li>Statische Tags (<code class="docs__token">&lt;span class="nc-tag"&gt;</code>) erhalten <strong>keinen</strong> Fokus</li>
+                <li>Sie dienen nur der visuellen Kategorisierung und sind f&uuml;r Screenreader als normaler Text lesbar</li>
+                <li>Kein <code class="docs__token">tabindex</code>, kein <code class="docs__token">role="button"</code> &mdash; reiner Text-Content</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R1: Navigation = <a href> -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R1: Navigation = echtes <code class="docs__token">&lt;a href&gt;</code></h4>
+              <ul>
+                <li>Interaktive Tags, die als Links dienen, <strong>m&uuml;ssen</strong> als <code class="docs__token">&lt;a href="..."&gt;</code> implementiert werden</li>
+                <li>Niemals <code class="docs__token">&lt;span&gt;</code> mit <code class="docs__token">onclick</code> verwenden &mdash; das ist nicht barrierefrei</li>
+                <li>Links erhalten automatisch Fokus und k&ouml;nnen per <code class="docs__token">Enter</code> aktiviert werden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R2: Remove action = <button> -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R2: Remove-Aktion = <code class="docs__token">&lt;button&gt;</code> mit aria-label</h4>
+              <ul>
+                <li>Der Remove-Button <strong>muss</strong> ein <code class="docs__token">&lt;button&gt;</code>-Element sein</li>
+                <li>Ein beschreibendes <code class="docs__token">aria-label</code> ist <strong>Pflicht</strong>, z.B. <code class="docs__token">aria-label="Filter A entfernen"</code></li>
+                <li>Das X-Icon allein ist nicht ausreichend f&uuml;r Screenreader</li>
+                <li>Wird per <code class="docs__token">Enter</code> oder <code class="docs__token">Space</code> aktiviert</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R7: Color + text combined -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R7: Farbe + Text kombiniert (WCAG 1.4.1 / 1.4.3)</h4>
+              <ul>
+                <li>Farbe allein darf <strong>nicht</strong> die einzige Informationsquelle sein</li>
+                <li>Jeder Tag enth&auml;lt beschreibenden Text &mdash; die Varianten-Farbe ist rein unterst&uuml;tzend</li>
+                <li>Text muss mindestens <strong>4.5:1</strong> Kontrast zum Hintergrund haben</li>
+                <li>Bei Custom-Farben den Kontrast manuell pr&uuml;fen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Bedienung</h4>
+              <ul>
+                <li><code class="docs__token">Tab</code>: Springt zu interaktiven Tags (<code class="docs__token">&lt;a&gt;</code>) und Remove-Buttons (<code class="docs__token">&lt;button&gt;</code>)</li>
+                <li><code class="docs__token">Enter</code>: Aktiviert Links (Navigation) und Remove-Buttons (Entfernen)</li>
+                <li><code class="docs__token">Space</code>: Aktiviert Remove-Buttons (native <code class="docs__token">&lt;button&gt;</code>-Verhalten)</li>
+                <li>Statische Tags sind <strong>nicht</strong> per Tastatur erreichbar (kein Fokus)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Statischer Tag --&gt;
+&lt;span class="nc-tag nc-tag--success"&gt;Aktiv&lt;/span&gt;
+
+&lt;!-- RICHTIG: Interaktiver Tag als Link --&gt;
+&lt;a href="/kategorie/design" class="nc-tag nc-tag--interactive nc-tag--primary"&gt;
+  Design
+&lt;/a&gt;
+
+&lt;!-- RICHTIG: Entfernbarer Tag mit aria-label --&gt;
+&lt;span class="nc-tag nc-tag--warning"&gt;
+  In Review
+  &lt;button class="nc-tag__remove" aria-label="In Review entfernen"&gt;
+    &lt;svg viewBox="0 0 16 16"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Link als span mit onclick --&gt;
+&lt;span class="nc-tag" onclick="navigate()"&gt;Kategorie&lt;/span&gt;
+
+&lt;!-- FALSCH: Remove-Button ohne aria-label --&gt;
+&lt;span class="nc-tag"&gt;
+  Filter
+  &lt;button class="nc-tag__remove"&gt;
+    &lt;svg viewBox="0 0 16 16"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Remove als span statt button --&gt;
+&lt;span class="nc-tag"&gt;
+  Filter
+  &lt;span class="nc-tag__remove" onclick="remove()"&gt;X&lt;/span&gt;
+&lt;/span&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="tag-docs.js"></script>
+<!-- /SCRIPTS -->

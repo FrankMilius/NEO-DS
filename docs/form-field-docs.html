@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Field | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Form-Field-Komponente mit Live-Demo, BEM-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* ================================================================ */
+    /* Decision Tree Styles (from component-matrix-docs)                */
+    /* ================================================================ */
+    .decision-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--fnd-spacing-06) 0;
+      max-width: 820px;
+    }
+
+    .dt-step {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+
+    .dt-question {
+      flex: 0 0 380px;
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      font-weight: 600;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .dt-question__number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--fnd-color-text-primary);
+      color: var(--fnd-color-background-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: var(--fnd-spacing-03);
+      flex-shrink: 0;
+    }
+
+    .dt-arrow {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .dt-arrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow-label {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .dt-outcome {
+      flex: 1;
+      border-radius: 8px;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 2px solid;
+    }
+
+    .dt-outcome__element {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      margin-bottom: 2px;
+    }
+
+    .dt-outcome__label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    /* Connector between steps */
+    .dt-connector {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding-left: 190px;
+    }
+
+    .dt-connector__line {
+      width: 2px;
+      height: 28px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-connector__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-tertiary);
+      padding-left: var(--fnd-spacing-03);
+      display: flex;
+      align-items: center;
+    }
+
+    /* Sub-outcomes (for branching choices) */
+    .dt-branch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      flex: 1;
+    }
+
+    .dt-branch .dt-outcome {
+      flex: none;
+    }
+
+    /* ================================================================ */
+    /* Form outcome color variants                                       */
+    /* ================================================================ */
+    .dt-outcome--form-check { background: color-mix(in srgb, var(--fnd-color-success) 15%, transparent); border-color: var(--fnd-color-success); color: var(--fnd-color-on-success); }
+    .dt-outcome--form-switch { background: color-mix(in srgb, var(--fnd-color-success) 10%, transparent); border-color: color-mix(in srgb, var(--fnd-color-success) 70%, var(--fnd-color-interactive)); color: var(--fnd-color-on-success); }
+    .dt-outcome--form-radio { background: color-mix(in srgb, var(--fnd-color-warning) 15%, transparent); border-color: var(--fnd-color-warning); color: var(--fnd-color-on-warning); }
+    .dt-outcome--form-segment { background: color-mix(in srgb, var(--fnd-color-danger) 15%, transparent); border-color: var(--fnd-color-danger); color: var(--fnd-color-on-danger); }
+    .dt-outcome--form-select { background: color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent); border-color: var(--fnd-color-interactive); color: var(--fnd-color-on-accent); }
+    .dt-outcome--form-combo { background: color-mix(in srgb, var(--fnd-color-accent) 15%, transparent); border-color: var(--fnd-color-accent); color: var(--fnd-color-on-accent); }
+    .dt-outcome--form-multi { background: color-mix(in srgb, var(--fnd-color-accent) 10%, transparent); border-color: color-mix(in srgb, var(--fnd-color-accent) 70%, var(--fnd-color-danger)); color: var(--fnd-color-on-accent); }
+    .dt-outcome--form-input { background: color-mix(in srgb, var(--fnd-color-interactive) 10%, transparent); border-color: color-mix(in srgb, var(--fnd-color-interactive) 70%, var(--fnd-color-accent)); color: var(--fnd-color-on-accent); }
+    .dt-outcome--form-slider { background: color-mix(in srgb, var(--fnd-color-warning) 10%, transparent); border-color: color-mix(in srgb, var(--fnd-color-warning) 80%, var(--fnd-color-success)); color: var(--fnd-color-on-warning); }
+    .dt-outcome--form-date { background: color-mix(in srgb, var(--fnd-color-info) 15%, transparent); border-color: var(--fnd-color-info); color: var(--fnd-color-on-info); }
+
+    /* Responsive tree */
+    @media (max-width: 768px) {
+      .dt-question { flex: 0 0 240px; font-size: 0.8125rem; }
+      .dt-arrow { flex: 0 0 40px; }
+      .dt-connector { padding-left: 120px; }
+    }
+
+    @media (max-width: 480px) {
+      .dt-step { flex-direction: column; gap: var(--fnd-spacing-02); }
+      .dt-question { flex: none; }
+      .dt-arrow { flex: none; transform: rotate(90deg); height: 40px; }
+      .dt-connector { padding-left: 0; justify-content: center; }
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Form Field</h1>
+      <p class="docs__subtitle">
+        Universeller Wrapper f&uuml;r Label + Input + Hint + Error. Kombiniert alle Form-Bestandteile zu einer zusammenh&auml;ngenden Einheit.
+        Kanonische Klasse: <code class="docs__token">.nc-form-field</code> (BEM).
+        Enth&auml;lt <code class="docs__token">.nc-form-label</code>, <code class="docs__token">.nc-form-hint</code> und <code class="docs__token">.nc-form-error</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="form-field-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Field-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-decision" id="trigger-decision">Entscheidungshilfe</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Input-Typ, State und Optionen, um das Form Field live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Input-Typ</span>
+                <select class="docs-stage__select" id="stage-input-type">
+                  <option value="input" selected>Input</option>
+                  <option value="textarea">Textarea</option>
+                  <option value="select">Select</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="error">Error</option>
+                  <option value="success">Success</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-required" />
+                  <span class="docs-stage__label">Required</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-hint" checked />
+                  <span class="docs-stage__label">Hint anzeigen</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-horizontal" />
+                  <span class="docs-stage__label">Horizontal</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders form field here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-form-field"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Default Form Field -->
+          <section class="docs__section" id="default-form-field">
+            <h2 class="docs__section-title">Default Form Field</h2>
+            <p class="docs__section-desc">
+              Standard-Aufbau: Label, optionaler Hint, Input und optionale Error-Message. Vertikal gestapelt.
+            </p>
+            <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-form-field">
+                <label class="nc-form-label" for="demo-default">
+                  <span class="nc-form-label__text">Benutzername</span>
+                </label>
+                <p class="nc-form-hint" id="hint-default">Mindestens 3 Zeichen, nur Buchstaben und Zahlen.</p>
+                <input class="nc-input" type="text" id="demo-default" placeholder="z.B. max_mustermann" aria-describedby="hint-default" />
+              </div>
+            </div>
+          </section>
+
+          <!-- Error State -->
+          <section class="docs__section" id="error-state">
+            <h2 class="docs__section-title">Error State</h2>
+            <p class="docs__section-desc">
+              Modifier <code class="docs__token">.nc-form-field--error</code> propagiert den Fehlerstatus auf den enthaltenen Input
+              und zeigt die <code class="docs__token">.nc-form-error</code> Nachricht an.
+            </p>
+            <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-form-field nc-form-field--error">
+                <label class="nc-form-label" for="demo-error">
+                  <span class="nc-form-label__text">E-Mail</span>
+                  <span class="nc-form-label__required" aria-hidden="true">*</span>
+                </label>
+                <input class="nc-input" type="email" id="demo-error" value="ungueltig" aria-invalid="true" aria-describedby="error-email" aria-required="true" />
+                <p class="nc-form-error" role="alert" id="error-email">
+                  <span class="nc-form-error__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+                  <span class="nc-form-error__text">Bitte geben Sie eine g&uuml;ltige E-Mail-Adresse ein.</span>
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Horizontal Layout -->
+          <section class="docs__section" id="horizontal-layout">
+            <h2 class="docs__section-title">Horizontal Layout</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-form-field--horizontal</code> werden Label und Input nebeneinander angeordnet (ab Tablet-Breakpoint).
+            </p>
+            <div style="max-width: 600px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-form-field nc-form-field--horizontal" style="margin-block-end: var(--fnd-spacing-04);">
+                <label class="nc-form-label" for="demo-horiz-1">
+                  <span class="nc-form-label__text">Vorname</span>
+                </label>
+                <input class="nc-input" type="text" id="demo-horiz-1" placeholder="Max" />
+              </div>
+              <div class="nc-form-field nc-form-field--horizontal">
+                <label class="nc-form-label" for="demo-horiz-2">
+                  <span class="nc-form-label__text">Nachname</span>
+                </label>
+                <input class="nc-input" type="text" id="demo-horiz-2" placeholder="Mustermann" />
+              </div>
+            </div>
+          </section>
+
+          <!-- Different Input Types -->
+          <section class="docs__section" id="input-types">
+            <h2 class="docs__section-title">Verschiedene Input-Typen</h2>
+            <p class="docs__section-desc">
+              Das Form Field funktioniert mit allen Eingabetypen: Input, Textarea und Select.
+            </p>
+            <div style="max-width: 400px; display: flex; flex-direction: column; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-form-field">
+                <label class="nc-form-label" for="demo-input-type">
+                  <span class="nc-form-label__text">Text Input</span>
+                </label>
+                <input class="nc-input" type="text" id="demo-input-type" placeholder="Eingabe..." />
+              </div>
+              <div class="nc-form-field">
+                <label class="nc-form-label" for="demo-textarea-type">
+                  <span class="nc-form-label__text">Textarea</span>
+                </label>
+                <p class="nc-form-hint" id="hint-textarea-type">Maximal 500 Zeichen.</p>
+                <textarea class="nc-textarea" id="demo-textarea-type" rows="3" placeholder="Nachricht eingeben..." aria-describedby="hint-textarea-type"></textarea>
+              </div>
+              <div class="nc-form-field">
+                <label class="nc-form-label" for="demo-select-type">
+                  <span class="nc-form-label__text">Select</span>
+                </label>
+                <select class="nc-select" id="demo-select-type">
+                  <option value="" disabled selected>Bitte w&auml;hlen...</option>
+                  <option value="option1">Option 1</option>
+                  <option value="option2">Option 2</option>
+                  <option value="option3">Option 3</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (BEM-Klassen)                                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-form-field">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-field</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-field</code></td><td>Block</td><td>Flex-Column-Container, der Label + Input + Hint + Error zusammenfasst.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-field--error</code></td><td>Modifier</td><td>Error-State. Propagiert roten Rand auf Kind-Input/Textarea/Select.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-field--success</code></td><td>Modifier</td><td>Success-State. Propagiert gr&uuml;nen Rand auf Kind-Input.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-field--disabled</code></td><td>Modifier</td><td>Disabled-State. Graut Label und Hint aus, cursor: not-allowed.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-field--horizontal</code></td><td>Modifier</td><td>Horizontal-Layout: Label + Input nebeneinander (ab Tablet-Breakpoint).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-field--required</code></td><td>Modifier</td><td>Pflichtfeld-Markierung (optional, zur semantischen Kennzeichnung).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-form-label">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-label</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-label</code></td><td>Block</td><td>Flex-Baseline-Container f&uuml;r Label-Text + Indikatoren.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-label__text</code></td><td>Element</td><td>Der eigentliche Label-Text.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-label__required</code></td><td>Element</td><td>Rotes Sternchen &ldquo;*&rdquo; als Pflichtfeld-Indikator.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-label__optional</code></td><td>Element</td><td>Grauer &ldquo;(Optional)&rdquo; Text f&uuml;r nicht-erforderliche Felder.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-label--inline</code></td><td>Modifier</td><td>Inline-Label (neben dem Input, kein margin-bottom).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-label--disabled</code></td><td>Modifier</td><td>Disabled-State: ausgegraut, cursor: not-allowed.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-form-hint">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-hint</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Block</td><td>Hilfetext unterhalb oder oberhalb des Inputs.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-hint__icon</code></td><td>Element</td><td>Optionales Info-Icon vor dem Hint-Text.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-hint__text</code></td><td>Element</td><td>Der eigentliche Hint-Text.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-form-error">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-error</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-error</code></td><td>Block</td><td>Validierungs-/Fehlermeldung unterhalb des Inputs.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-error__icon</code></td><td>Element</td><td>Ausrufezeichen-Icon vor dem Fehlertext.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-error__text</code></td><td>Element</td><td>Der eigentliche Fehlertext.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem-overview">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Form Field (kanonisch) =====
+
+.nc-form-field                     // Block (flex column container)
+.nc-form-field--error              // Error-State
+.nc-form-field--success            // Success-State
+.nc-form-field--disabled           // Disabled-State
+.nc-form-field--horizontal         // Label + Input nebeneinander
+.nc-form-field--required           // Pflichtfeld-Kennzeichnung
+
+// ===== Form Label =====
+
+.nc-form-label                     // Block (flex baseline)
+.nc-form-label__text               // Label-Text
+.nc-form-label__required           // "*" Pflichtfeld-Indikator
+.nc-form-label__optional           // "(Optional)" Text
+.nc-form-label--inline             // Inline-Darstellung
+.nc-form-label--disabled           // Disabled-State
+
+// ===== Form Hint =====
+
+.nc-form-hint                      // Block (Hilfetext)
+.nc-form-hint__icon                // Info-Icon
+.nc-form-hint__text                // Hint-Text
+
+// ===== Form Error =====
+
+.nc-form-error                     // Block (Fehlermeldung)
+.nc-form-error__icon               // Error-Icon
+.nc-form-error__text               // Fehlertext</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-field</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-field</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-field-*</code>, <code class="docs__token">--nc-form-label-*</code>, <code class="docs__token">--nc-form-hint-*</code>, <code class="docs__token">--nc-form-error-*</code></td></tr>
+                <tr><td><strong>SCSS-Dateien</strong></td><td><code class="docs__token">scss/06-molecules/_form-field.scss</code>, <code class="docs__token">_form-label.scss</code>, <code class="docs__token">_form-hint.scss</code>, <code class="docs__token">_form-error.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine direkte &mdash; delegiert an enthaltene Input-Elemente</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- HTML Structure -->
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Standard Form Field</h3>
+            <div class="docs__code-block">&lt;div class="nc-form-field"&gt;
+  &lt;label class="nc-form-label" for="input-id"&gt;
+    &lt;span class="nc-form-label__text"&gt;Label&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;p class="nc-form-hint" id="hint-id"&gt;Hint text&lt;/p&gt;
+  &lt;input class="nc-input" type="text" id="input-id"
+         aria-describedby="hint-id" /&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Required Field mit Error</h3>
+            <div class="docs__code-block">&lt;div class="nc-form-field nc-form-field--error"&gt;
+  &lt;label class="nc-form-label" for="email-id"&gt;
+    &lt;span class="nc-form-label__text"&gt;E-Mail&lt;/span&gt;
+    &lt;span class="nc-form-label__required" aria-hidden="true"&gt;*&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input class="nc-input" type="email" id="email-id"
+         aria-invalid="true"
+         aria-required="true"
+         aria-describedby="error-email-id" /&gt;
+  &lt;p class="nc-form-error" role="alert" id="error-email-id"&gt;
+    &lt;span class="nc-form-error__icon"&gt;
+      &lt;svg&gt;...&lt;/svg&gt;
+    &lt;/span&gt;
+    &lt;span class="nc-form-error__text"&gt;Fehlermeldung&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Optional Field mit Hint-Icon</h3>
+            <div class="docs__code-block">&lt;div class="nc-form-field"&gt;
+  &lt;label class="nc-form-label" for="note-id"&gt;
+    &lt;span class="nc-form-label__text"&gt;Anmerkung&lt;/span&gt;
+    &lt;span class="nc-form-label__optional"&gt;(Optional)&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;p class="nc-form-hint" id="hint-note-id"&gt;
+    &lt;span class="nc-form-hint__icon"&gt;
+      &lt;svg&gt;...&lt;/svg&gt;
+    &lt;/span&gt;
+    &lt;span class="nc-form-hint__text"&gt;Hilfetext&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;textarea class="nc-textarea" id="note-id"
+            aria-describedby="hint-note-id"&gt;&lt;/textarea&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal Layout</h3>
+            <div class="docs__code-block">&lt;div class="nc-form-field nc-form-field--horizontal"&gt;
+  &lt;label class="nc-form-label" for="horiz-id"&gt;
+    &lt;span class="nc-form-label__text"&gt;Label&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input class="nc-input" type="text" id="horiz-id" /&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">aria-describedby Pattern</h3>
+            <div class="docs__code-block">&lt;!-- Input verlinkt auf Hint UND Error --&gt;
+&lt;div class="nc-form-field nc-form-field--error"&gt;
+  &lt;label class="nc-form-label" for="combo-id"&gt;
+    &lt;span class="nc-form-label__text"&gt;Passwort&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;p class="nc-form-hint" id="hint-combo"&gt;Min. 8 Zeichen&lt;/p&gt;
+  &lt;input class="nc-input" type="password" id="combo-id"
+         aria-invalid="true"
+         aria-describedby="hint-combo error-combo" /&gt;
+  &lt;p class="nc-form-error" role="alert" id="error-combo"&gt;
+    &lt;span class="nc-form-error__text"&gt;Passwort zu kurz.&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Form-Field-Komponenten verbinden Labels, Hints und Errors semantisch mit dem zugeh&ouml;rigen Input-Element.
+          </p>
+
+          <!-- aria-describedby Linking -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-describedby Verlinkung</h4>
+              <ul>
+                <li>Jeder Input muss &uuml;ber <code class="docs__token">aria-describedby</code> mit seinen Hint- und Error-Elementen verlinkt sein</li>
+                <li>Hint und Error erhalten eindeutige <code class="docs__token">id</code>-Attribute (z.B. <code class="docs__token">hint-email</code>, <code class="docs__token">error-email</code>)</li>
+                <li>Mehrere IDs werden durch Leerzeichen getrennt: <code class="docs__token">aria-describedby="hint-email error-email"</code></li>
+                <li>Das Label wird &uuml;ber <code class="docs__token">for</code>/<code class="docs__token">id</code> verlinkt &mdash; nicht &uuml;ber aria-describedby</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- role="alert" on Errors -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>role="alert" auf Fehlermeldungen</h4>
+              <ul>
+                <li>Jede <code class="docs__token">.nc-form-error</code> muss <code class="docs__token">role="alert"</code> haben, damit Screenreader den Fehler sofort vorlesen</li>
+                <li>Alternativ <code class="docs__token">aria-live="polite"</code> f&uuml;r weniger dringliche Validierung</li>
+                <li>Der Input selbst erh&auml;lt <code class="docs__token">aria-invalid="true"</code> im Error-State</li>
+                <li>Bei dynamischer Validierung: Fehlermeldung erst nach Interaktion einblenden (nicht sofort bei Seitenladung)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Required Indicator -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Required-Indikator</h4>
+              <ul>
+                <li>Das visuelle Sternchen <code class="docs__token">.nc-form-label__required</code> erh&auml;lt <code class="docs__token">aria-hidden="true"</code></li>
+                <li>Die programmatische Pflichtfeld-Information kommt &uuml;ber <code class="docs__token">aria-required="true"</code> am Input-Element</li>
+                <li>Screenreader lesen &ldquo;required&rdquo; automatisch vor &mdash; das Sternchen ist nur visueller Hinweis</li>
+                <li>Alternativ: <code class="docs__token">required</code> HTML-Attribut am Input (native Validierung)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Label Association -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Label-Zuordnung</h4>
+              <ul>
+                <li>Jeder Input braucht ein zugeordnetes <code class="docs__token">&lt;label&gt;</code> mit <code class="docs__token">for="input-id"</code></li>
+                <li>Das Label muss sichtbar sein &mdash; <code class="docs__token">aria-label</code> allein gen&uuml;gt nicht als Ersatz (WCAG 2.4.6)</li>
+                <li>Klick auf das Label fokussiert den zugeh&ouml;rigen Input (native Browser-Funktionalit&auml;t)</li>
+                <li>Im Horizontal-Layout bleibt die for/id-Verlinkung identisch</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Vollst&auml;ndiges Form Field mit aria-describedby --&gt;
+&lt;div class="nc-form-field"&gt;
+  &lt;label class="nc-form-label" for="name"&gt;
+    &lt;span class="nc-form-label__text"&gt;Name&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;p class="nc-form-hint" id="hint-name"&gt;Vor- und Nachname&lt;/p&gt;
+  &lt;input class="nc-input" type="text" id="name"
+         aria-describedby="hint-name" /&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Error-State mit aria-invalid + role="alert" --&gt;
+&lt;div class="nc-form-field nc-form-field--error"&gt;
+  &lt;label class="nc-form-label" for="pw"&gt;
+    &lt;span class="nc-form-label__text"&gt;Passwort&lt;/span&gt;
+    &lt;span class="nc-form-label__required" aria-hidden="true"&gt;*&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input class="nc-input" type="password" id="pw"
+         aria-invalid="true" aria-required="true"
+         aria-describedby="error-pw" /&gt;
+  &lt;p class="nc-form-error" role="alert" id="error-pw"&gt;
+    &lt;span class="nc-form-error__text"&gt;Pflichtfeld&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Kein Label --&gt;
+&lt;div class="nc-form-field"&gt;
+  &lt;input class="nc-input" type="text" placeholder="Name" /&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: aria-describedby fehlt --&gt;
+&lt;div class="nc-form-field nc-form-field--error"&gt;
+  &lt;label class="nc-form-label" for="x"&gt;
+    &lt;span class="nc-form-label__text"&gt;Feld&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;input class="nc-input" id="x" /&gt;
+  &lt;p class="nc-form-error"&gt;Fehler ohne Verlinkung&lt;/p&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: Entscheidungshilfe (Form Component Decision Tree)    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-decision" aria-labelledby="trigger-decision">
+
+          <h2 class="docs__section-title">Welche Form-Komponente?</h2>
+          <p class="docs__section-desc">
+            Semantische Entscheidungslogik (Faustregeln) f&uuml;r die Wahl der richtigen
+            Form-Komponente basierend auf Datentyp und Auswahlmodus.
+          </p>
+
+          <div class="decision-tree">
+
+            <!-- Step 1: Boolean-Wert? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">1</span>
+                Boolean-Wert? (Ja/Nein, An/Aus)
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--success">
+                  <span class="dt-outcome__element">Checkbox</span>
+                  <span class="dt-outcome__label">Zustimmung, Opt-in, AGB</span>
+                </div>
+                <div class="dt-outcome dt-outcome--success">
+                  <span class="dt-outcome__element">Switch</span>
+                  <span class="dt-outcome__label">Setting mit sofortigem Effekt, z.&thinsp;B. Dark Mode</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector 1-2 -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 2: Einzelauswahl, wenige Optionen (2-5)? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">2</span>
+                Einzelauswahl, wenige Optionen (2&ndash;5)?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--warning">
+                  <span class="dt-outcome__element">Radio Group</span>
+                  <span class="dt-outcome__label">Alle sichtbar, vertikale Liste</span>
+                </div>
+                <div class="dt-outcome dt-outcome--danger">
+                  <span class="dt-outcome__element">Segmented Control</span>
+                  <span class="dt-outcome__label">Kompakt, 2&ndash;4 kurze Labels</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector 2-3 -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 3: Einzelauswahl, viele Optionen (6+)? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">3</span>
+                Einzelauswahl, viele Optionen (6+)?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--accent">
+                  <span class="dt-outcome__element">Select</span>
+                  <span class="dt-outcome__label">Standard-Dropdown, &le;20 Optionen</span>
+                </div>
+                <div class="dt-outcome dt-outcome--interactive">
+                  <span class="dt-outcome__element">Combobox</span>
+                  <span class="dt-outcome__label">Sehr viele Optionen oder Suche n&ouml;tig</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector 3-4 -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 4: Mehrfachauswahl? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">4</span>
+                Mehrfachauswahl?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--success">
+                  <span class="dt-outcome__element">Checkbox Group</span>
+                  <span class="dt-outcome__label">Wenige (&le;7), alle sichtbar</span>
+                </div>
+                <div class="dt-outcome dt-outcome--interactive">
+                  <span class="dt-outcome__element">Multi-Select / Tag Picker</span>
+                  <span class="dt-outcome__label">Viele Optionen, platzsparend</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector 4-5 -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 5: Numerischer Wert? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">5</span>
+                Numerischer Wert?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--accent">
+                  <span class="dt-outcome__element">Number Input + Stepper</span>
+                  <span class="dt-outcome__label">Exakter Wert: Menge, Alter, PLZ</span>
+                </div>
+                <div class="dt-outcome dt-outcome--warning">
+                  <span class="dt-outcome__element">Slider</span>
+                  <span class="dt-outcome__label">Ungef&auml;hrer/kontinuierlicher Wert &mdash; Wert immer sichtbar machen!</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector 5-6 -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 6: Datum oder Uhrzeit? -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">6</span>
+                Datum oder Uhrzeit?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-outcome dt-outcome--info">
+                <span class="dt-outcome__element">Date/Time Input + Picker</span>
+                <span class="dt-outcome__label">Keyboard-first! Tastatureingabe + optionaler Picker kombinieren</span>
+              </div>
+            </div>
+
+            <!-- Final Fallback -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr; Fallback</span>
+            </div>
+
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">7</span>
+                Keiner der obigen F&auml;lle?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">&rarr;</span>
+              </div>
+              <div class="dt-outcome dt-outcome--accent">
+                <span class="dt-outcome__element">Text Input</span>
+                <span class="dt-outcome__label">Freitext (Fallback)</span>
+              </div>
+            </div>
+
+          </div><!-- /.decision-tree -->
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="form-field-docs.js"></script>
+
+</body>
+</html>

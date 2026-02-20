@@ -1,0 +1,97 @@
+// ==========================================================================
+// 04-Objects: Grid
+// ==========================================================================
+// 12-Column Grid System
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Grid Container
+// ---------------------------------------------------------------------------
+
+.o-grid {
+  @include grid-container;
+}
+
+// Mobile: reduce grid to 4 columns (< 768px)
+@include mobile-only {
+  .o-grid {
+    --columns: 4;
+  }
+
+  // Spans > 4 become full-width on mobile
+  @for $i from 5 through 12 {
+    .o-col-#{$i} {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Grid Column Spans (Utility Classes)
+// ---------------------------------------------------------------------------
+
+@for $i from 1 through 12 {
+  .o-col-#{$i} {
+    grid-column: span #{$i};
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Responsive Grid Spans
+// ---------------------------------------------------------------------------
+
+@include tablet-up {
+  @for $i from 1 through 12 {
+    .o-col-sm-#{$i} {
+      grid-column: span #{$i};
+    }
+  }
+}
+
+@include desktop-up {
+  @for $i from 1 through 12 {
+    .o-col-lg-#{$i} {
+      grid-column: span #{$i};
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Grid Gap Variants
+// ---------------------------------------------------------------------------
+
+.o-grid--gap-sm {
+  gap: var(--fnd-spacing-04);
+}
+
+.o-grid--gap-lg {
+  gap: var(--fnd-spacing-08);
+}
+
+// ---------------------------------------------------------------------------
+// Grid: Auto-fit (content-driven columns)
+// ---------------------------------------------------------------------------
+
+/// Columns auto-fit to content width — no breakpoints needed
+.o-grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}
+
+// ---------------------------------------------------------------------------
+// Grid Alignment
+// ---------------------------------------------------------------------------
+
+.o-grid--center {
+  align-items: center;
+}
+
+.o-grid--end {
+  align-items: end;
+}
+
+.o-grid--between {
+  justify-content: space-between;
+}

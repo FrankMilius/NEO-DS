@@ -1,0 +1,373 @@
+// ==========================================================================
+// 06-Molecules: Square Value
+// ==========================================================================
+// 3D rotierende Würfel-Komponente
+// Migriert von: square-value.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Square Value Wrapper
+// ---------------------------------------------------------------------------
+
+.square-value-wrapper {
+  min-height: var(--square-value-small);
+  
+  @include desktop-up {
+    min-height: var(--square-value-big);
+  }
+  
+  // Green Theme
+  &:has(.green-theme) .square-wrapper > div > div:not(:has(picture)) {
+    background-color: var(--fnd-color-background-accent-green);
+    overflow: hidden;
+  }
+  
+  // Vertical Variants
+  @include desktop-up {
+    &:has(.desktop-vertical) > .square-value {
+      flex-direction: column;
+    }
+  }
+  
+  @include tablet-up {
+    &:has(.tablet-vertical) > .square-value {
+      flex-direction: column;
+    }
+  }
+  
+  &:has(.mobile-vertical) > .square-value {
+    flex-direction: column;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Square Value Container
+// ---------------------------------------------------------------------------
+
+.square-value {
+  display: flex;
+  gap: var(--fnd-spacing-02);
+  
+  @include desktop-up {
+    gap: var(--fnd-spacing-03);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Square Wrapper
+// ---------------------------------------------------------------------------
+
+.square-value .square-wrapper {
+  @include transition(transform, '300');
+  
+  &:nth-child(2) > div {
+    transition-delay: var(--fnd-motion-duration-300);
+  }
+  
+  // 3D Container
+  > div {
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+    transform: translateZ(calc(-1 * var(--square-translate-z)));
+    position: relative;
+    height: var(--square-value-small);
+    width: var(--square-value-small);
+    
+    @include desktop-up {
+      height: var(--square-value-big);
+      width: var(--square-value-big);
+    }
+    
+    // Cube Faces
+    > div {
+      background-color: var(--fnd-color-background-inverse);
+      border-radius: var(--fnd-radius-lg);
+      height: var(--square-value-small);
+      width: var(--square-value-small);
+      @include flex-column;
+      justify-content: space-between;
+      align-items: start;
+      @include transition(transform, '300');
+      position: absolute;
+      display: flex;
+      
+      @include desktop-up {
+        padding-block: var(--fnd-spacing-05);
+        height: var(--square-value-big);
+        width: var(--square-value-big);
+      }
+      
+      // Face with Picture
+      &:has(picture) {
+        background-color: transparent;
+        padding: 0;
+        aspect-ratio: var(--fnd-image-ratio-1-1);
+        overflow: hidden;
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // 3D Rotations (Horizontal - Default)
+  // ---------------------------------------------------------------------------
+  
+  > div > div {
+    &:nth-child(1):not(.initial) {
+      transform: rotateX(0) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(2) {
+      transform: rotateX(90deg) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(3) {
+      transform: rotateX(180deg) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(4) {
+      transform: rotateX(-90deg) translateZ(var(--square-translate-z));
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // 3D Rotations (Vertical - Mobile)
+  // ---------------------------------------------------------------------------
+  
+  &.mobile-vertical .square-wrapper > div > div {
+    &:nth-child(1):not(.initial) {
+      transform: rotateY(0) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(2) {
+      transform: rotateY(90deg) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(3) {
+      transform: rotateY(180deg) translateZ(var(--square-translate-z));
+    }
+    &:nth-child(4) {
+      transform: rotateY(-90deg) translateZ(var(--square-translate-z));
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // 3D Rotations (Vertical - Tablet)
+  // ---------------------------------------------------------------------------
+  
+  @include tablet-up {
+    &.tablet-vertical .square-wrapper > div > div {
+      &:nth-child(1):not(.initial) {
+        transform: rotateY(0) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(2) {
+        transform: rotateY(90deg) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(3) {
+        transform: rotateY(180deg) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(4) {
+        transform: rotateY(-90deg) translateZ(var(--square-translate-z));
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // 3D Rotations (Vertical - Desktop)
+  // ---------------------------------------------------------------------------
+  
+  @include desktop-up {
+    &.desktop-vertical .square-wrapper > div > div {
+      &:nth-child(1):not(.initial) {
+        transform: rotateY(0) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(2) {
+        transform: rotateY(90deg) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(3) {
+        transform: rotateY(180deg) translateZ(var(--square-translate-z));
+      }
+      &:nth-child(4) {
+        transform: rotateY(-90deg) translateZ(var(--square-translate-z));
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Square Block (Animation Container)
+  // ---------------------------------------------------------------------------
+  
+  .square-wrapper .square-block {
+    display: flex;
+    justify-content: center;
+    transform: translateZ(calc(-1 * var(--square-translate-z))) rotateX(var(--rotate, 0deg));
+    
+    > div:nth-child(1),
+    > div:nth-child(4) {
+      visibility: visible;
+    }
+    
+    > div:nth-child(2),
+    > div:nth-child(3) {
+      visibility: hidden;
+    }
+  }
+  
+  // Rotation States
+  .square-wrapper {
+    .rotate-once {
+      > div:nth-child(1),
+      > div:nth-child(2) {
+        visibility: visible;
+      }
+      > div:nth-child(3),
+      > div:nth-child(4) {
+        visibility: hidden;
+      }
+    }
+    
+    .rotate-twice {
+      > div:nth-child(2),
+      > div:nth-child(3) {
+        visibility: visible;
+      }
+      > div:nth-child(1),
+      > div:nth-child(4) {
+        visibility: hidden;
+      }
+    }
+    
+    .rotate-thrice {
+      > div:nth-child(3),
+      > div:nth-child(4) {
+        visibility: visible;
+      }
+      > div:nth-child(1),
+      > div:nth-child(2) {
+        visibility: hidden;
+      }
+    }
+    
+    // Initial State
+    .initial {
+      visibility: visible;
+      transform: scale(0);
+      opacity: 0;
+    }
+    
+    .entered {
+      transform: scale(1) rotateY(0) translateZ(var(--square-translate-z));
+      opacity: 1;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Typography
+  // ---------------------------------------------------------------------------
+  
+  .square-wrapper {
+    .title,
+    p {
+      color: var(--fnd-color-text-inverse);
+      margin: 0;
+      padding-top: 0;
+    }
+    
+    .title {
+      @include paragraph('m');
+    }
+    
+    p {
+      @include heading('m');
+      
+      + p {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Media
+  // ---------------------------------------------------------------------------
+  
+  .square-wrapper {
+    picture,
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    div:has(> p.title) {
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-03);
+    }
+    
+    p:has(video),
+    .video-wrap,
+    .auto-player-wrapper,
+    .video-wrap-autoplay {
+      height: 100%;
+    }
+    
+    video {
+      object-fit: cover;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Character Animation
+  // ---------------------------------------------------------------------------
+  
+  .square-wrapper {
+    .word-wrap-square {
+      overflow: hidden;
+      display: inline-block;
+      
+      .char-square {
+        display: inline-block;
+        @include transition(transform, '300');
+        transform: translateY(50px);
+      }
+    }
+    
+    .show .char-square {
+      transform: translateY(0);
+    }
+    
+    .hide .char-square {
+      transform: translateY(-50px);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Exit/Scale States
+  // ---------------------------------------------------------------------------
+  
+  .square-wrapper {
+    &.exit {
+      transform: scale(0);
+    }
+    
+    &.scale {
+      transform: scale(var(--animation-scale, 1));
+      transition-duration: 10ms;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Mobile Vertical Square Block
+  // ---------------------------------------------------------------------------
+  
+  &.mobile-vertical .square-wrapper .square-block {
+    transform: translateZ(calc(-1 * var(--square-translate-z))) rotateY(var(--rotate, 0deg));
+  }
+  
+  @include tablet-up {
+    &.tablet-vertical .square-wrapper .square-block {
+      transform: translateZ(calc(-1 * var(--square-translate-z))) rotateY(var(--rotate, 0deg));
+    }
+  }
+  
+  @include desktop-up {
+    &.desktop-vertical .square-wrapper .square-block {
+      transform: translateZ(calc(-1 * var(--square-translate-z))) rotateY(var(--rotate, 0deg));
+    }
+  }
+}

@@ -1,0 +1,571 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Tabs</h1>
+      <p class="docs__subtitle">
+        Horizontale und vertikale Tabs mit Line- und Contained-Variante, drei Gr&ouml;&szlig;enstufen und Icon-Support.
+        Inspiriert von Carbon Design System Tabs und shadcn Tabs.
+        Kanonische Klasse: <code class="docs__token">.nc-tabs</code> (BEM).
+        Verwendet <code class="docs__token">--nc-tabs-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="tabs-docs-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Tabs-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Variante, Orientierung und Gr&ouml;&szlig;e, um die Tabs live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="line" selected>Line</option>
+                  <option value="contained">Contained</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Orientierung</span>
+                <select class="docs-stage__select" id="stage-orientation">
+                  <option value="horizontal" selected>Horizontal</option>
+                  <option value="vertical">Vertikal</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">Small (sm)</option>
+                  <option value="md" selected>Medium (md)</option>
+                  <option value="lg">Large (lg)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 1.5rem; align-items: flex-start;">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code"></pre>
+          </div>
+
+          <!-- Showcase 1: Line Tabs (Default) -->
+          <section class="docs__section" id="line-tabs">
+            <h2 class="docs__section-title">Line Tabs (Default)</h2>
+            <p class="docs__section-desc">
+              Horizontale Tabs mit Underline-Indikator. Der aktive Tab wird durch eine farbige Unterstreichung hervorgehoben.
+            </p>
+            <div id="showcase-line" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 2: Contained Tabs -->
+          <section class="docs__section" id="contained-tabs">
+            <h2 class="docs__section-title">Contained Tabs</h2>
+            <p class="docs__section-desc">
+              Tabs mit gef&uuml;lltem Hintergrund. Der aktive Tab bekommt einen erh&ouml;hten Hintergrund mit Shadow &mdash; &auml;hnlich dem Segmented Control.
+            </p>
+            <div id="showcase-contained" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 3: Vertikale Tabs (Line) -->
+          <section class="docs__section" id="vertical-line-tabs">
+            <h2 class="docs__section-title">Vertikale Tabs (Line)</h2>
+            <p class="docs__section-desc">
+              Tabs in vertikaler Ausrichtung mit seitlichem Underline-Indikator. Die Tab-Leiste wird als Sidebar dargestellt.
+            </p>
+            <div id="showcase-vertical-line" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 4: Vertikale Contained Tabs -->
+          <section class="docs__section" id="vertical-contained-tabs">
+            <h2 class="docs__section-title">Vertikale Contained Tabs</h2>
+            <p class="docs__section-desc">
+              Vertikale Tabs mit Contained-Variante. Aktiver Tab mit erh&ouml;htem Hintergrund.
+            </p>
+            <div id="showcase-vertical-contained" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 5: Tabs mit Icons -->
+          <section class="docs__section" id="icon-tabs">
+            <h2 class="docs__section-title">Tabs mit Icons</h2>
+            <p class="docs__section-desc">
+              Tabs mit Icon + Text-Kombination. Icons stammen aus dem Icon-Set und werden inline als SVG eingebettet.
+            </p>
+            <div id="showcase-icons" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 6: Icon-only Tabs -->
+          <section class="docs__section" id="icon-only-tabs">
+            <h2 class="docs__section-title">Icon-only Tabs</h2>
+            <p class="docs__section-desc">
+              Tabs nur mit Icon &mdash; ohne sichtbaren Text. Jeder Tab ben&ouml;tigt ein <code class="docs__token">aria-label</code> f&uuml;r Barrierefreiheit.
+            </p>
+            <div id="showcase-icon-only" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 7: Icon-only with Tooltip -->
+          <section class="docs__section" id="tooltip-tabs">
+            <h2 class="docs__section-title">Icon-only mit Tooltip</h2>
+            <p class="docs__section-desc">
+              Icon-only Tabs mit Tooltip beim Hovern. Das Label wird als Tooltip angezeigt, sodass der Nutzer die Bedeutung
+              jedes Icons erkennen kann. Verwendet die bestehende <code class="docs__token">.nc-tooltip</code>-Komponente
+              als Wrapper um jeden Tab-Trigger. Funktioniert horizontal und vertikal.
+            </p>
+            <div id="showcase-tooltip" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 8: Scrollable Overflow -->
+          <section class="docs__section" id="scrollable-tabs">
+            <h2 class="docs__section-title">Scrollable Overflow</h2>
+            <p class="docs__section-desc">
+              Wenn die Anzahl der Tabs die Breite des Containers &uuml;berschreitet, erscheinen links und rechts
+              Scroll-Buttons (Chevrons). Per Klick wird die Tab-Liste um einen Schritt gescrollt.
+              Die Buttons werden automatisch deaktiviert, wenn der Anfang bzw. das Ende erreicht ist.
+              Nur f&uuml;r horizontale Orientierung.
+            </p>
+            <div id="showcase-scrollable" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Design Tokens</h2>
+          <p class="docs__section-desc">
+            Alle <code class="docs__token">--nc-tabs-*</code> Tokens werden auf dem Block <code class="docs__token">.nc-tabs</code> definiert und k&ouml;nnen per Override angepasst werden.
+          </p>
+
+          <!-- Shared Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shared Tokens</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-tabs-gap</code></td><td><code>0</code></td><td>Abstand zwischen Tabs</td></tr>
+                <tr><td><code>--nc-tabs-transition-duration</code></td><td><code>var(--fnd-motion-duration-150)</code></td><td>Transitions-Dauer</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Trigger Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Trigger Tokens</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-tabs-trigger-font-weight</code></td><td><code>500</code></td><td>Font-Weight (normal)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-font-weight-active</code></td><td><code>600</code></td><td>Font-Weight (aktiv)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-color</code></td><td><code>var(--fnd-color-text-mid)</code></td><td>Textfarbe (normal)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-color-hover</code></td><td><code>var(--fnd-color-text-high)</code></td><td>Textfarbe (hover)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-color-active</code></td><td><code>var(--fnd-color-interactive-default)</code></td><td>Textfarbe (aktiv)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-color-disabled</code></td><td><code>var(--fnd-color-text-disabled)</code></td><td>Textfarbe (disabled)</td></tr>
+                <tr><td><code>--nc-tabs-trigger-disabled-opacity</code></td><td><code>0.5</code></td><td>Opacity (disabled)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Line Variant Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Line Variant Tokens</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-tabs-line-border-color</code></td><td><code>var(--fnd-color-border-low)</code></td><td>Underline-Farbe (Liste)</td></tr>
+                <tr><td><code>--nc-tabs-line-border-width</code></td><td><code>2px</code></td><td>Underline-St&auml;rke</td></tr>
+                <tr><td><code>--nc-tabs-line-indicator-color</code></td><td><code>var(--fnd-color-interactive-default)</code></td><td>Aktiv-Indikator Farbe</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Contained Variant Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Contained Variant Tokens</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-tabs-contained-bg</code></td><td><code>var(--fnd-color-background-secondary)</code></td><td>Container-Hintergrund</td></tr>
+                <tr><td><code>--nc-tabs-contained-radius</code></td><td><code>var(--fnd-radius-md)</code></td><td>Container-Radius</td></tr>
+                <tr><td><code>--nc-tabs-contained-padding</code></td><td><code>var(--fnd-spacing-01)</code></td><td>Container-Padding</td></tr>
+                <tr><td><code>--nc-tabs-contained-trigger-bg</code></td><td><code>transparent</code></td><td>Tab-Hintergrund</td></tr>
+                <tr><td><code>--nc-tabs-contained-trigger-bg-hover</code></td><td><code>var(--fnd-color-background-tertiary)</code></td><td>Tab-Hintergrund (hover)</td></tr>
+                <tr><td><code>--nc-tabs-contained-trigger-bg-active</code></td><td><code>var(--fnd-color-background-primary)</code></td><td>Tab-Hintergrund (aktiv)</td></tr>
+                <tr><td><code>--nc-tabs-contained-trigger-radius</code></td><td><code>var(--fnd-radius-sm)</code></td><td>Tab-Radius</td></tr>
+                <tr><td><code>--nc-tabs-contained-trigger-shadow</code></td><td><code>var(--fnd-shadow-sm)</code></td><td>Tab-Shadow (aktiv)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Size Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Tokens</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>sm</th><th>md (Default)</th><th>lg</th></tr></thead>
+              <tbody>
+                <tr><td>H&ouml;he</td><td><code>32px</code></td><td><code>40px</code></td><td><code>48px</code></td></tr>
+                <tr><td>Font-Size</td><td><code>0.75rem</code></td><td><code>0.875rem</code></td><td><code>1rem</code></td></tr>
+                <tr><td>Padding-X</td><td><code>var(--fnd-spacing-03)</code></td><td><code>var(--fnd-spacing-04)</code></td><td><code>var(--fnd-spacing-05)</code></td></tr>
+                <tr><td>Icon-Size</td><td><code>16px</code></td><td><code>20px</code></td><td><code>20px</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Scroll Button Tokens -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Scroll-Button Tokens (--scrollable)</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-tabs-scroll-btn-size</code></td><td><code>32px</code></td><td>Breite des Scroll-Buttons</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-bg</code></td><td><code>var(--fnd-color-background-primary)</code></td><td>Hintergrund</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-bg-hover</code></td><td><code>var(--fnd-color-background-secondary)</code></td><td>Hintergrund (hover)</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-color</code></td><td><code>var(--fnd-color-text-mid)</code></td><td>Icon-Farbe</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-color-hover</code></td><td><code>var(--fnd-color-text-high)</code></td><td>Icon-Farbe (hover)</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-color-disabled</code></td><td><code>var(--fnd-color-text-disabled)</code></td><td>Icon-Farbe (disabled)</td></tr>
+                <tr><td><code>--nc-tabs-scroll-btn-border</code></td><td><code>var(--fnd-color-border-low)</code></td><td>Trennlinie</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- BEM Overview -->
+          <h2 class="docs__section-title">BEM-Struktur</h2>
+          <div class="docs__code-block">.nc-tabs                       &rarr; Block (Wrapper)
+.nc-tabs__list                  &rarr; Tablist Container (role="tablist")
+.nc-tabs__trigger               &rarr; Einzelner Tab (role="tab")
+.nc-tabs__trigger-icon          &rarr; Icon im Tab
+.nc-tabs__trigger-label         &rarr; Text-Label
+.nc-tabs__panel                 &rarr; Inhalt-Panel (role="tabpanel")
+
+Modifiers (Block):
+.nc-tabs--line                  &rarr; Line-Variante (Default)
+.nc-tabs--contained             &rarr; Contained-Variante
+.nc-tabs--vertical              &rarr; Vertikale Orientierung
+.nc-tabs--sm / --md / --lg      &rarr; Gr&ouml;&szlig;en
+.nc-tabs--full-width            &rarr; Volle Breite
+.nc-tabs--scrollable            &rarr; Scrollbare Overflow-Variante
+
+Modifiers (Trigger):
+.nc-tabs__trigger--icon-only    &rarr; Nur-Icon Tab
+
+Scrollable Elemente:
+.nc-tabs__scroll-container      &rarr; Wrapper f&uuml;r Buttons + List
+.nc-tabs__scroll-btn            &rarr; Scroll-Button (Chevron)
+.nc-tabs__scroll-btn--start     &rarr; Scroll links
+.nc-tabs__scroll-btn--end       &rarr; Scroll rechts
+
+Tooltip-Integration:
+.nc-tooltip (Wrapper)           &rarr; Um jeden Icon-only Trigger
+.nc-tooltip__content            &rarr; Tooltip-Text (role="tooltip")
+.nc-tooltip__arrow              &rarr; Tooltip-Pfeil</div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Component Overview</h2>
+          <p class="docs__section-desc">
+            <code class="docs__token">.nc-tabs</code> ist eine rein CSS-basierte Tab-Komponente. Tab-Wechsel, Keyboard-Navigation und Panel-Sichtbarkeit werden per JavaScript gesteuert.
+          </p>
+
+          <!-- CSS Classes -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">CSS-Klassen</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>.nc-tabs</code></td><td>Block</td><td>Wrapper-Element</td></tr>
+                <tr><td><code>.nc-tabs--line</code></td><td>Modifier</td><td>Line-Variante (Underline)</td></tr>
+                <tr><td><code>.nc-tabs--contained</code></td><td>Modifier</td><td>Contained-Variante (gef&uuml;llt)</td></tr>
+                <tr><td><code>.nc-tabs--vertical</code></td><td>Modifier</td><td>Vertikale Orientierung</td></tr>
+                <tr><td><code>.nc-tabs--sm</code></td><td>Modifier</td><td>Kleine Gr&ouml;&szlig;e (32px)</td></tr>
+                <tr><td><code>.nc-tabs--lg</code></td><td>Modifier</td><td>Gro&szlig;e Gr&ouml;&szlig;e (48px)</td></tr>
+                <tr><td><code>.nc-tabs--full-width</code></td><td>Modifier</td><td>Volle Breite</td></tr>
+                <tr><td><code>.nc-tabs--scrollable</code></td><td>Modifier</td><td>Scrollbare Overflow-Variante</td></tr>
+                <tr><td><code>.nc-tabs__scroll-container</code></td><td>Element</td><td>Wrapper f&uuml;r Scroll-Buttons + List</td></tr>
+                <tr><td><code>.nc-tabs__scroll-btn</code></td><td>Element</td><td>Scroll-Button (Chevron)</td></tr>
+                <tr><td><code>.nc-tabs__scroll-btn--start</code></td><td>Modifier</td><td>Scroll nach links</td></tr>
+                <tr><td><code>.nc-tabs__scroll-btn--end</code></td><td>Modifier</td><td>Scroll nach rechts</td></tr>
+                <tr><td><code>.nc-tabs__list</code></td><td>Element</td><td>Tablist-Container</td></tr>
+                <tr><td><code>.nc-tabs__trigger</code></td><td>Element</td><td>Einzelner Tab-Button</td></tr>
+                <tr><td><code>.nc-tabs__trigger--icon-only</code></td><td>Modifier</td><td>Icon-only Tab</td></tr>
+                <tr><td><code>.nc-tabs__trigger-icon</code></td><td>Element</td><td>Icon-Slot</td></tr>
+                <tr><td><code>.nc-tabs__trigger-label</code></td><td>Element</td><td>Text-Label</td></tr>
+                <tr><td><code>.nc-tabs__panel</code></td><td>Element</td><td>Tab-Panel</td></tr>
+                <tr><td><code>.nc-tabs__panel.is-active</code></td><td>State</td><td>Sichtbares Panel</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Element Structure: Line -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Line Tabs</h3>
+          <div class="docs__code-block">&lt;div class="nc-tabs nc-tabs--line"&gt;
+  &lt;div class="nc-tabs__list" role="tablist" aria-label="..."&gt;
+    &lt;button class="nc-tabs__trigger" role="tab"
+            aria-selected="true" aria-controls="panel-1"
+            id="tab-1" tabindex="0"&gt;
+      &lt;span class="nc-tabs__trigger-label"&gt;Tab 1&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button class="nc-tabs__trigger" role="tab"
+            aria-selected="false" aria-controls="panel-2"
+            id="tab-2" tabindex="-1"&gt;
+      &lt;span class="nc-tabs__trigger-label"&gt;Tab 2&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel is-active" role="tabpanel"
+       id="panel-1" aria-labelledby="tab-1"&gt;
+    Inhalt 1
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel" role="tabpanel"
+       id="panel-2" aria-labelledby="tab-2"&gt;
+    Inhalt 2
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+          <!-- Element Structure: Contained -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Contained Tabs</h3>
+          <div class="docs__code-block">&lt;div class="nc-tabs nc-tabs--contained"&gt;
+  &lt;div class="nc-tabs__list" role="tablist" aria-label="..."&gt;
+    &lt;button class="nc-tabs__trigger" role="tab"
+            aria-selected="true" ...&gt;Tab 1&lt;/button&gt;
+    &lt;button class="nc-tabs__trigger" role="tab"
+            aria-selected="false" ...&gt;Tab 2&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel is-active" role="tabpanel" ...&gt;Inhalt&lt;/div&gt;
+&lt;/div&gt;</div>
+
+          <!-- Element Structure: Vertical -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Vertikale Tabs</h3>
+          <div class="docs__code-block">&lt;div class="nc-tabs nc-tabs--line nc-tabs--vertical"&gt;
+  &lt;div class="nc-tabs__list" role="tablist"
+       aria-label="..." aria-orientation="vertical"&gt;
+    &lt;button class="nc-tabs__trigger" role="tab" ...&gt;Tab 1&lt;/button&gt;
+    &lt;button class="nc-tabs__trigger" role="tab" ...&gt;Tab 2&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel is-active" role="tabpanel" ...&gt;Inhalt&lt;/div&gt;
+&lt;/div&gt;</div>
+
+          <!-- Element Structure: With Icons -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Tabs mit Icons</h3>
+          <div class="docs__code-block">&lt;button class="nc-tabs__trigger" role="tab" ...&gt;
+  &lt;span class="nc-tabs__trigger-icon"&gt;
+    &lt;svg ...&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-tabs__trigger-label"&gt;Tab-Text&lt;/span&gt;
+&lt;/button&gt;</div>
+
+          <!-- Element Structure: Icon-only -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Icon-only</h3>
+          <div class="docs__code-block">&lt;button class="nc-tabs__trigger nc-tabs__trigger--icon-only"
+        role="tab" aria-label="Einstellungen" ...&gt;
+  &lt;span class="nc-tabs__trigger-icon"&gt;
+    &lt;svg ...&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-tabs__trigger-label"&gt;Einstellungen&lt;/span&gt;
+&lt;/button&gt;</div>
+
+          <!-- Element Structure: Icon-only with Tooltip -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Icon-only mit Tooltip</h3>
+          <div class="docs__code-block">&lt;div class="nc-tabs nc-tabs--line"&gt;
+  &lt;div class="nc-tabs__list" role="tablist" aria-label="..."&gt;
+    &lt;span class="nc-tooltip nc-tooltip--bottom"&gt;
+      &lt;button class="nc-tabs__trigger nc-tabs__trigger--icon-only"
+              role="tab" aria-label="Startseite"
+              aria-describedby="tip-1"
+              aria-selected="true" aria-controls="panel-1"
+              id="tab-1" tabindex="0"&gt;
+        &lt;span class="nc-tabs__trigger-icon"&gt;
+          &lt;svg&gt;&lt;!-- home.svg --&gt;&lt;/svg&gt;
+        &lt;/span&gt;
+        &lt;span class="nc-tabs__trigger-label"&gt;Startseite&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;span class="nc-tooltip__content" role="tooltip" id="tip-1"&gt;
+        Startseite
+        &lt;span class="nc-tooltip__arrow"&gt;&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel is-active" role="tabpanel" ...&gt;Inhalt&lt;/div&gt;
+&lt;/div&gt;</div>
+
+          <!-- Element Structure: Scrollable Overflow -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur: Scrollable Overflow</h3>
+          <div class="docs__code-block">&lt;div class="nc-tabs nc-tabs--line nc-tabs--scrollable"&gt;
+  &lt;div class="nc-tabs__scroll-container"&gt;
+    &lt;button class="nc-tabs__scroll-btn nc-tabs__scroll-btn--start"
+            aria-label="Tabs nach links scrollen" tabindex="-1"&gt;
+      &lt;svg viewBox="0 0 16 16"&gt;&lt;polyline points="10 4 6 8 10 12"/&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;div class="nc-tabs__list" role="tablist" aria-label="..."&gt;
+      &lt;button class="nc-tabs__trigger" role="tab" ...&gt;Tab 1&lt;/button&gt;
+      &lt;button class="nc-tabs__trigger" role="tab" ...&gt;Tab 2&lt;/button&gt;
+      &lt;!-- ... viele Tabs ... --&gt;
+    &lt;/div&gt;
+    &lt;button class="nc-tabs__scroll-btn nc-tabs__scroll-btn--end"
+            aria-label="Tabs nach rechts scrollen" tabindex="-1"&gt;
+      &lt;svg viewBox="0 0 16 16"&gt;&lt;polyline points="6 4 10 8 6 12"/&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-tabs__panel is-active" role="tabpanel" ...&gt;Inhalt&lt;/div&gt;
+&lt;/div&gt;</div>
+
+          <!-- JS API -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">JavaScript API</h3>
+          <div class="docs__code-block">// Tab-Wechsel per JavaScript
+const tabs = document.querySelector('.nc-tabs');
+const triggers = tabs.querySelectorAll('.nc-tabs__trigger');
+const panels = tabs.querySelectorAll('.nc-tabs__panel');
+
+function activateTab(trigger) {
+  // Alle Tabs deaktivieren
+  triggers.forEach(t =&gt; {
+    t.setAttribute('aria-selected', 'false');
+    t.setAttribute('tabindex', '-1');
+  });
+  panels.forEach(p =&gt; p.classList.remove('is-active'));
+
+  // Ziel-Tab aktivieren
+  trigger.setAttribute('aria-selected', 'true');
+  trigger.setAttribute('tabindex', '0');
+  trigger.focus();
+
+  const panelId = trigger.getAttribute('aria-controls');
+  document.getElementById(panelId)?.classList.add('is-active');
+}</div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">WAI-ARIA Tabs Pattern</h2>
+          <p class="docs__section-desc">
+            Die Tabs-Komponente implementiert das <strong>WAI-ARIA Tabs-Pattern</strong> f&uuml;r vollst&auml;ndige Barrierefreiheit.
+          </p>
+
+          <!-- ARIA Roles & Attributes -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Rollen &amp; Attribute</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Element</th><th>Rolle / Attribut</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Tab-Container</td><td><code>role="tablist"</code></td><td>Gruppiert alle Tabs</td></tr>
+                <tr><td>Tab-Container</td><td><code>aria-label</code></td><td>Beschreibt den Zweck der Tabs</td></tr>
+                <tr><td>Tab-Container</td><td><code>aria-orientation</code></td><td><code>"horizontal"</code> (default) oder <code>"vertical"</code></td></tr>
+                <tr><td>Tab-Button</td><td><code>role="tab"</code></td><td>Identifiziert das Element als Tab</td></tr>
+                <tr><td>Tab-Button</td><td><code>aria-selected</code></td><td><code>"true"</code> f&uuml;r aktiven Tab</td></tr>
+                <tr><td>Tab-Button</td><td><code>aria-controls</code></td><td>ID des zugeordneten Panels</td></tr>
+                <tr><td>Tab-Button</td><td><code>tabindex</code></td><td><code>"0"</code> aktiv, <code>"-1"</code> inaktiv (Roving Tabindex)</td></tr>
+                <tr><td>Tab-Panel</td><td><code>role="tabpanel"</code></td><td>Identifiziert das Panel</td></tr>
+                <tr><td>Tab-Panel</td><td><code>aria-labelledby</code></td><td>ID des zugeordneten Tabs</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Keyboard Navigation -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Keyboard-Navigation</h3>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Taste</th><th>Horizontal</th><th>Vertikal</th></tr></thead>
+              <tbody>
+                <tr><td><kbd>Arrow Right</kbd></td><td>N&auml;chster Tab</td><td>&mdash;</td></tr>
+                <tr><td><kbd>Arrow Left</kbd></td><td>Vorheriger Tab</td><td>&mdash;</td></tr>
+                <tr><td><kbd>Arrow Down</kbd></td><td>&mdash;</td><td>N&auml;chster Tab</td></tr>
+                <tr><td><kbd>Arrow Up</kbd></td><td>&mdash;</td><td>Vorheriger Tab</td></tr>
+                <tr><td><kbd>Home</kbd></td><td colspan="2">Erster Tab</td></tr>
+                <tr><td><kbd>End</kbd></td><td colspan="2">Letzter Tab</td></tr>
+                <tr><td><kbd>Tab</kbd></td><td colspan="2">Fokus verl&auml;sst Tablist → Panel</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Focus Management -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Focus Management</h3>
+          <p class="docs__section-desc">
+            Die Tabs verwenden das <strong>Roving Tabindex</strong>-Pattern: Nur der aktive Tab hat <code class="docs__token">tabindex="0"</code>,
+            alle anderen haben <code class="docs__token">tabindex="-1"</code>. Arrow-Keys verschieben den Fokus und aktivieren gleichzeitig den Tab.
+          </p>
+
+          <!-- Icon-only -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon-only Tabs</h3>
+          <p class="docs__section-desc">
+            Icon-only Tabs m&uuml;ssen ein <code class="docs__token">aria-label</code> besitzen, das den Tab-Inhalt beschreibt.
+            Der visuelle Text wird per <code class="docs__token">sr-only</code>-Pattern versteckt, bleibt aber f&uuml;r Screenreader zug&auml;nglich.
+          </p>
+
+          <!-- Tooltip Accessibility -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon-only mit Tooltip</h3>
+          <p class="docs__section-desc">
+            Bei der Tooltip-Variante wird jeder Tab-Trigger in einen <code class="docs__token">.nc-tooltip</code>-Wrapper eingebettet.
+            Der Tooltip erscheint automatisch bei <code class="docs__token">:hover</code> und <code class="docs__token">:focus-within</code> (CSS-only).
+            Zus&auml;tzlich wird <code class="docs__token">aria-describedby</code> auf dem Trigger gesetzt, das auf die Tooltip-ID zeigt.
+            So erh&auml;lt auch der Screenreader den Tooltip-Text.
+          </p>
+
+          <!-- Scrollable Accessibility -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Scrollable Overflow</h3>
+          <p class="docs__section-desc">
+            Scroll-Buttons haben <code class="docs__token">tabindex="-1"</code> und sind nicht per Tastatur fokussierbar.
+            Stattdessen werden Tabs &uuml;ber die Arrow-Keys navigiert, und der aktive Tab wird automatisch in den sichtbaren Bereich gescrollt.
+            Scroll-Buttons haben <code class="docs__token">aria-label</code> f&uuml;r Screenreader-Nutzer.
+            Buttons werden automatisch <code class="docs__token">disabled</code>, wenn der Rand erreicht ist.
+          </p>
+
+          <!-- Best Practices -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Best Practices</h3>
+          <ul style="margin-block-end: var(--fnd-spacing-06); padding-inline-start: var(--fnd-spacing-05); color: var(--fnd-color-text-mid);">
+            <li>Immer <code class="docs__token">aria-label</code> auf dem <code class="docs__token">role="tablist"</code>-Element setzen</li>
+            <li>F&uuml;r vertikale Tabs <code class="docs__token">aria-orientation="vertical"</code> verwenden</li>
+            <li>Icon-only Tabs ben&ouml;tigen <code class="docs__token">aria-label</code></li>
+            <li>Icon-only Tabs mit Tooltip: <code class="docs__token">aria-describedby</code> auf den Tooltip setzen</li>
+            <li>Scrollable Tabs: Scroll-Buttons mit <code class="docs__token">aria-label</code> und <code class="docs__token">tabindex="-1"</code></li>
+            <li>Maximal 6&ndash;8 Tabs pro Tablist verwenden (oder Scrollable f&uuml;r mehr)</li>
+            <li>Tab-Labels kurz und beschreibend halten</li>
+            <li>Deaktivierte Tabs mit <code class="docs__token">disabled</code> oder <code class="docs__token">aria-disabled="true"</code> markieren</li>
+          </ul>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="tabs-docs.js"></script>
+<!-- /SCRIPTS -->

@@ -1,0 +1,207 @@
+// ==========================================================================
+// 05-Atoms: Icon
+// ==========================================================================
+// Token-basierte Icon-Komponente mit 6 Größenstufen, semantischen Farben,
+// Touch-Target-Support und Button-Icon-Mapping.
+//
+// GRÖSSEN:
+//   .icon--xs   → 16px    .icon--lg   → 28px
+//   .icon--sm   → 20px    .icon--xl   → 32px
+//   .icon--md   → 24px    .icon--2xl  → 36px
+//
+// DEPRECATED:
+//   .icon--2xs  → 12px (altes xs, backward-compat)
+//
+// FARBEN:
+//   .icon--primary    → text-primary (default)
+//   .icon--secondary  → text-secondary
+//   .icon--tertiary   → text-tertiary
+//   .icon--inverse    → text-inverse
+//   .icon--disabled   → text-disabled
+//
+// DEPRECATED ALIASES:
+//   .icon--high → .icon--primary
+//   .icon--mid  → .icon--secondary
+//   .icon--low  → .icon--tertiary
+//
+// INTERACTIVE:
+//   .icon--interactive → min 44×44px Touch Target + hover + focus-ring
+//
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Icon Base
+// ---------------------------------------------------------------------------
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--nc-icon-color-default);
+
+  // Default size: sm (20px)
+  width: var(--nc-icon-size-sm);
+  height: var(--nc-icon-size-sm);
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    // Ensure strokes also respond to currentColor
+    // (SVGs with stroke="currentColor" are normalized in the manifest generator)
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Icon Sizes
+// ---------------------------------------------------------------------------
+
+// Extra Small (16px)
+.icon--xs {
+  width: var(--nc-icon-size-xs);
+  height: var(--nc-icon-size-xs);
+}
+
+// Small (20px) — Default
+.icon--sm {
+  width: var(--nc-icon-size-sm);
+  height: var(--nc-icon-size-sm);
+}
+
+// Medium (24px)
+.icon--md {
+  width: var(--nc-icon-size-md);
+  height: var(--nc-icon-size-md);
+}
+
+// Large (28px)
+.icon--lg {
+  width: var(--nc-icon-size-lg);
+  height: var(--nc-icon-size-lg);
+}
+
+// Extra Large (32px)
+.icon--xl {
+  width: var(--nc-icon-size-xl);
+  height: var(--nc-icon-size-xl);
+}
+
+// 2X Large (36px)
+.icon--2xl {
+  width: var(--nc-icon-size-2xl);
+  height: var(--nc-icon-size-2xl);
+}
+
+// ---------------------------------------------------------------------------
+// Deprecated Size (backward-compat)
+// ---------------------------------------------------------------------------
+
+/// @deprecated – Use .icon--xs (16px) or adjust to the new scale.
+/// Old xs was 12px; new xs is 16px. Use .icon--2xs for the old 12px value.
+.icon--2xs {
+  width: var(--nc-icon-size-2xs);
+  height: var(--nc-icon-size-2xs);
+}
+
+// ---------------------------------------------------------------------------
+// Icon Colors (Semantic)
+// ---------------------------------------------------------------------------
+
+.icon--primary {
+  color: var(--nc-icon-color-default);
+}
+
+.icon--secondary {
+  color: var(--nc-icon-color-secondary);
+}
+
+.icon--tertiary {
+  color: var(--nc-icon-color-tertiary);
+}
+
+.icon--inverse {
+  color: var(--nc-icon-color-inverse);
+}
+
+.icon--disabled {
+  color: var(--nc-icon-color-disabled);
+}
+
+// ---------------------------------------------------------------------------
+// Deprecated Color Aliases (backward-compat)
+// ---------------------------------------------------------------------------
+
+/// @deprecated – Use .icon--primary instead
+.icon--high {
+  color: var(--nc-icon-color-default);
+}
+
+/// @deprecated – Use .icon--secondary instead
+.icon--mid {
+  color: var(--nc-icon-color-secondary);
+}
+
+/// @deprecated – Use .icon--tertiary instead
+.icon--low {
+  color: var(--nc-icon-color-tertiary);
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Icon (Touch Target)
+// ---------------------------------------------------------------------------
+// For standalone clickable icons: ensures min 44×44px touch target (WCAG 2.5.5)
+// via padding. Adds hover/focus states.
+
+.icon--interactive {
+  position: relative;
+  cursor: pointer;
+  min-width: var(--nc-icon-touch-target);
+  min-height: var(--nc-icon-touch-target);
+  padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-sm)) / 2);
+  border-radius: var(--fnd-radius-sm);
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: var(--fnd-color-background-secondary);
+  }
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width, 2px) solid var(--fnd-color-interactive-focus);
+    outline-offset: var(--fnd-focus-ring-offset, 3px);
+  }
+
+  // Adjust padding for each size to maintain 44px touch target
+  &.icon--xs {
+    padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-xs)) / 2);
+  }
+  &.icon--md {
+    padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-md)) / 2);
+  }
+  &.icon--lg {
+    padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-lg)) / 2);
+  }
+  &.icon--xl {
+    padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-xl)) / 2);
+  }
+  &.icon--2xl {
+    padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-2xl)) / 2);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Specific Icons
+// ---------------------------------------------------------------------------
+
+// Logo Icon
+.icon-logo {
+  width: 88px;
+  height: 22px;
+
+  svg {
+    height: 20px;
+    width: auto;
+  }
+}

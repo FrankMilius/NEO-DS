@@ -1,0 +1,416 @@
+#!/usr/bin/env node
+// ==========================================================================
+// Docs Server — Lokaler Dev-Server für Design System Dokumentation
+// ==========================================================================
+// Stellt statische Dateien bereit + Save-Endpoint für Theme-Konfiguration.
+//
+// Nutzung:
+//   node scripts/docs-server.js
+//   → http://localhost:3333/docs/color-config.html
+//
+// Endpoints:
+//   GET  /*                → Statische Dateien aus Projekt-Root
+//   POST /api/save-theme   → Schreibt data/custom-theme.json
+// ==========================================================================
+
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const PORT = process.env.PORT || 3000;
+const ROOT = path.resolve(__dirname, '..');
+const THEME_FILE = path.join(ROOT, 'data', 'custom-theme.json');
+
+// MIME-Types
+const mimeTypes = {
+  '.html': 'text/html; charset=utf-8',
+  '.css':  'text/css; charset=utf-8',
+  '.js':   'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.svg':  'image/svg+xml',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf':  'font/ttf',
+  '.ico':  'image/x-icon'
+};
+
+const server = http.createServer((req, res) => {
+  // ---- CORS Headers (for local dev) ----
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // ---- Cache Control (dev mode: no caching for HTML/JS/CSS) ----
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
+  // ---- POST /api/save-theme ----
+  if (req.method === 'POST' && req.url === '/api/save-theme') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        // Validate JSON
+        const json = JSON.parse(body);
+        if (!json.primitives || !json.theme) {
+          throw new Error('Invalid theme JSON: missing primitives or theme');
+        }
+
+        // Validate hex colors
+        ['primary', 'secondary', 'accent'].forEach(key => {
+          if (json.primitives[key] && !/^#[0-9a-fA-F]{6}$/.test(json.primitives[key])) {
+            throw new Error('Invalid hex color for ' + key + ': ' + json.primitives[key]);
+          }
+        });
+
+        // Write file
+        fs.writeFileSync(THEME_FILE, JSON.stringify(json, null, 2) + '\n', 'utf8');
+        console.log('[SAVE] Theme saved to', THEME_FILE);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ok', path: THEME_FILE }));
+      } catch (err) {
+        console.error('[ERROR]', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', message: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ---- GET /api/neo-theme-defaults ----
+  // Returns the factory-default NEO Theme snapshot from the secure data folder.
+  // Used by the Theme Configurator for reliable reset-to-defaults.
+  if (req.method === 'GET' && req.url === '/api/neo-theme-defaults') {
+    try {
+      const defaultsPath = path.join(ROOT, 'data/neo-theme-defaults/neo-theme-defaults.json');
+      const content = fs.readFileSync(defaultsPath, 'utf-8');
+      const data = JSON.parse(content);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ status: 'ok', defaults: data }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ status: 'error', message: 'Could not load NEO theme defaults: ' + err.message }));
+    }
+    return;
+  }
+
+  // ---- GET /api/styleguide-status ----
+  // Returns the list of supporting palettes currently in _color-primitives.scss
+  if (req.method === 'GET' && req.url === '/api/styleguide-status') {
+    try {
+      const scssPath = path.join(ROOT, 'scss/scss/00-settings/_color-primitives.scss');
+      const scss = fs.readFileSync(scssPath, 'utf8');
+      // Extract supporting palette names from SCSS variable declarations
+      const existing = [];
+      const re = /^\$_([a-z][a-z0-9-]*)-base:\s*#([0-9a-fA-F]{6})\s*!default;/gm;
+      let m;
+      // Only capture those between "Supporting Palettes" and "CSS Custom Properties Output"
+      const supportingStart = scss.indexOf('// Supporting Palettes');
+      const supportingEnd = scss.indexOf('// CSS Custom Properties Output', supportingStart);
+      const supportingBlock = supportingStart >= 0
+        ? scss.substring(supportingStart, supportingEnd >= 0 ? supportingEnd : scss.length)
+        : '';
+      while ((m = re.exec(supportingBlock)) !== null) {
+        existing.push({ id: m[1], base: '#' + m[2] });
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', palettes: existing }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'error', message: err.message }));
+    }
+    return;
+  }
+
+  // ---- POST /api/preview-styleguide-update ----
+  // Generates a diff preview of what would change (dry-run)
+  if (req.method === 'POST' && req.url === '/api/preview-styleguide-update') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const json = JSON.parse(body);
+        const palettes = json.palettes;
+        if (!Array.isArray(palettes) || palettes.length === 0) {
+          throw new Error('palettes array is required');
+        }
+
+        // Validate
+        palettes.forEach(p => {
+          if (!p.id || !p.label || !p.base) throw new Error('Each palette needs id, label, base');
+          if (!/^#[0-9a-fA-F]{6}$/.test(p.base)) throw new Error('Invalid hex for ' + p.id + ': ' + p.base);
+          if (!/^[a-z][a-z0-9-]*$/.test(p.id)) throw new Error('Invalid id: ' + p.id);
+        });
+
+        // Check which palettes are actually new
+        const scssPath = path.join(ROOT, 'scss/scss/00-settings/_color-primitives.scss');
+        const scss = fs.readFileSync(scssPath, 'utf8');
+        const newPalettes = palettes.filter(p => !scss.includes('$_' + p.id + '-base:'));
+
+        if (newPalettes.length === 0) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({
+            status: 'ok',
+            summary: 'All palettes already exist in the styleguide',
+            files: [],
+            diffs: []
+          }));
+          return;
+        }
+
+        // Generate diffs for each new palette
+        const diffs = newPalettes.map(p => ({
+          palette: p.id,
+          changes: [
+            {
+              file: '_color-primitives.scss',
+              lines: [
+                '+ $_' + p.id + '-base: ' + p.base + ' !default;',
+                '+ $' + p.id + ': fn.generate-shade-scale($_' + p.id + '-base) !default;',
+                '+ @each $step, $color in $' + p.id + ' {',
+                '+   --fnd-primitive-' + p.id + '-#{$step}: #{$color};',
+                '+ }'
+              ]
+            },
+            {
+              file: 'color-docs.html',
+              lines: [
+                '+ <h4 class="docs__semantic-group-title">' + p.label + '</h4>',
+                '+ <div class="docs__shade-scale" id="scale-' + p.id + '"></div>'
+              ]
+            },
+            {
+              file: 'color-docs.js',
+              lines: [
+                "+ " + p.id + ": ['--fnd-primitive-" + p.id + "-', steps10]"
+              ]
+            }
+          ]
+        }));
+
+        const files = [
+          { path: 'scss/scss/00-settings/_color-primitives.scss', type: 'scss', action: 'modify' },
+          { path: 'docs/color-docs.html', type: 'html', action: 'modify' },
+          { path: 'docs/color-docs.js', type: 'js', action: 'modify' }
+        ];
+
+        console.log('[PREVIEW] Generated diff for', newPalettes.length, 'palette(s):', newPalettes.map(p => p.id).join(', '));
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          status: 'ok',
+          summary: 'Add ' + newPalettes.length + ' supporting palette(s) to the Design System',
+          files: files,
+          diffs: diffs
+        }));
+      } catch (err) {
+        console.error('[ERROR]', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', message: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ---- POST /api/update-styleguide ----
+  // Adds new supporting palettes to _color-primitives.scss, color-docs.html, color-docs.js
+  if (req.method === 'POST' && req.url === '/api/update-styleguide') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const json = JSON.parse(body);
+        const palettes = json.palettes; // [{ id, label, base }]
+        if (!Array.isArray(palettes) || palettes.length === 0) {
+          throw new Error('palettes array is required');
+        }
+
+        // Validate
+        palettes.forEach(p => {
+          if (!p.id || !p.label || !p.base) throw new Error('Each palette needs id, label, base');
+          if (!/^#[0-9a-fA-F]{6}$/.test(p.base)) throw new Error('Invalid hex for ' + p.id + ': ' + p.base);
+          if (!/^[a-z][a-z0-9-]*$/.test(p.id)) throw new Error('Invalid id: ' + p.id);
+        });
+
+        const updated = [];
+
+        // ---- 1. Update _color-primitives.scss ----
+        const scssPath = path.join(ROOT, 'scss/scss/00-settings/_color-primitives.scss');
+        let scss = fs.readFileSync(scssPath, 'utf8');
+
+        palettes.forEach(p => {
+          // Check if already exists
+          if (scss.includes('$_' + p.id + '-base:')) {
+            return; // skip existing
+          }
+
+          // A) Insert variable declaration before the CSS Custom Properties section
+          const varLine = '$_' + p.id + '-base:' + ' '.repeat(Math.max(1, 15 - p.id.length)) + p.base + ' !default;';
+          const scaleLine = '$' + p.id + ':' + ' '.repeat(Math.max(1, 12 - p.id.length)) + 'fn.generate-shade-scale($_' + p.id + '-base) !default;';
+
+          // Insert before "// ---...\n// CSS Custom Properties Output"
+          const cssOutputMarker = '// ---------------------------------------------------------------------------\n// CSS Custom Properties Output: Primitives';
+          scss = scss.replace(cssOutputMarker, varLine + '\n' + scaleLine + '\n\n' + cssOutputMarker);
+
+          // B) Insert :root output loop before the closing section comment for supporting palettes
+          const rootOutputBlock = '  @each $step, $color in $' + p.id + ' {\n    --fnd-primitive-' + p.id + '-#{$step}: #{$color};\n  }';
+          // Insert after the last supporting palette @each loop (before the system colors backward-compat comment)
+          const systemColorMarker = '\n  // --- System Colors (single values, backward-compat) ---';
+          scss = scss.replace(systemColorMarker, '\n' + rootOutputBlock + '\n' + systemColorMarker);
+
+          updated.push(p);
+        });
+
+        fs.writeFileSync(scssPath, scss, 'utf8');
+
+        // ---- 2. Update color-docs.html ----
+        if (updated.length > 0) {
+          const htmlPath = path.join(ROOT, 'docs/color-docs.html');
+          let html = fs.readFileSync(htmlPath, 'utf8');
+
+          // Insert palette entries before the closing </div> of the Supporting Palettes subsection
+          // Find the last scale-* div in the supporting section
+          const closingTag = '      </div>\n\n      <div class="docs__code-block">';
+          const newHtmlEntries = updated.map(p =>
+            '\n        <h4 class="docs__semantic-group-title">' + p.label + '</h4>\n' +
+            '        <div class="docs__shade-scale" id="scale-' + p.id + '"></div>\n'
+          ).join('');
+
+          html = html.replace(closingTag, newHtmlEntries + '      </div>\n\n      <div class="docs__code-block">');
+          fs.writeFileSync(htmlPath, html, 'utf8');
+        }
+
+        // ---- 3. Update color-docs.js ----
+        if (updated.length > 0) {
+          const jsPath = path.join(ROOT, 'docs/color-docs.js');
+          let js = fs.readFileSync(jsPath, 'utf8');
+
+          // Insert new palette entries into the palettes object.
+          // Strategy: Find the last entry before `};` and add a comma to it,
+          // then insert the new entries.
+          updated.forEach(p => {
+            if (js.includes("'" + p.id + "'")) return; // already exists
+
+            // Find the closing of the palettes object
+            const closingMarker = "\n  };\n\n  function renderScales()";
+            const closingIdx = js.indexOf(closingMarker);
+            if (closingIdx === -1) return;
+
+            // Find the last non-whitespace line before the closing marker
+            // and ensure it has a trailing comma
+            const beforeClosing = js.substring(0, closingIdx);
+            const lastLineEnd = beforeClosing.lastIndexOf('\n');
+            const lastLine = beforeClosing.substring(lastLineEnd + 1);
+
+            // Add comma to last entry if missing
+            if (lastLine.trim().endsWith(']') && !lastLine.trim().endsWith('],')) {
+              const fixedLastLine = lastLine.replace(/\](\s*)$/, '],$1');
+              js = beforeClosing.substring(0, lastLineEnd + 1) + fixedLastLine + js.substring(closingIdx);
+            }
+
+            // Now insert the new entry before the closing marker
+            const newEntry = "\n    " + p.id + ":" + " ".repeat(Math.max(1, 12 - p.id.length)) + "['--fnd-primitive-" + p.id + "-', steps10]";
+            js = js.replace(closingMarker, newEntry + closingMarker);
+          });
+
+          fs.writeFileSync(jsPath, js, 'utf8');
+        }
+
+        console.log('[STYLEGUIDE] Updated supporting palettes:', updated.map(p => p.id).join(', '));
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          status: 'ok',
+          updated: updated.map(p => p.id),
+          files: [
+            'scss/scss/00-settings/_color-primitives.scss',
+            'docs/color-docs.html',
+            'docs/color-docs.js'
+          ]
+        }));
+      } catch (err) {
+        console.error('[ERROR]', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', message: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ---- Static File Serving ----
+  // Strip query string and hash for file resolution
+  const urlPath = req.url.split('?')[0].split('#')[0];
+  let filePath = path.join(ROOT, urlPath === '/' ? '/docs/color-docs.html' : urlPath);
+
+  // Security: prevent directory traversal
+  if (!filePath.startsWith(ROOT)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
+  }
+
+  // Helper: serve a resolved file
+  function serveFile(fp) {
+    const ext = path.extname(fp).toLowerCase();
+    const contentType = mimeTypes[ext] || 'application/octet-stream';
+    fs.readFile(fp, (err, data) => {
+      if (err) {
+        res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'text/plain' });
+        res.end(err.code === 'ENOENT' ? '404 Not Found: ' + req.url : '500 Server Error');
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(data);
+    });
+  }
+
+  // Try the exact path first, then .html fallback, then index.html in directory
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (!err) {
+      // Check if it's a directory — try index.html inside it
+      fs.stat(filePath, (statErr, stats) => {
+        if (!statErr && stats.isDirectory()) {
+          serveFile(path.join(filePath, 'index.html'));
+        } else {
+          serveFile(filePath);
+        }
+      });
+    } else {
+      // File not found — try appending .html extension
+      const htmlFallback = filePath + '.html';
+      fs.access(htmlFallback, fs.constants.F_OK, (htmlErr) => {
+        if (!htmlErr) {
+          serveFile(htmlFallback);
+        } else {
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('404 Not Found: ' + req.url);
+        }
+      });
+    }
+  });
+});
+
+server.listen(PORT, () => {
+  console.log('\n  Design System Docs Server');
+  console.log('  ========================\n');
+  console.log('  URL:      http://localhost:' + PORT + '/docs/');
+  console.log('  Colors:   http://localhost:' + PORT + '/docs/color-docs');
+  console.log('  Grid:     http://localhost:' + PORT + '/docs/grid-docs');
+  console.log('  Spacing:  http://localhost:' + PORT + '/docs/spacing-docs');
+  console.log('  Typo:     http://localhost:' + PORT + '/docs/typography-docs');
+  console.log('\n  Theme Configurator:');
+  console.log('  Config:   http://localhost:' + PORT + '/config/theme-config');
+  console.log('\n  Save API: POST http://localhost:' + PORT + '/api/save-theme');
+  console.log('  Theme:    ' + THEME_FILE);
+  console.log('\n  Press Ctrl+C to stop.\n');
+});

@@ -1,0 +1,147 @@
+// ==========================================================================
+// 07-Organisms: Form Actions
+// ==========================================================================
+// Action-Bar fuer Formular-Buttons (Submit, Cancel, Reset etc.).
+// Positioniert Buttons am Ende eines Formulars mit verschiedenen
+// Layout-Optionen.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-actions-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-form-actions
+//     .nc-button (Primary: Submit)
+//     .nc-button (Secondary: Cancel)
+//     .nc-button (Ghost: Reset)
+//
+// TOKENS:
+//   --nc-form-actions-gap    Abstand zwischen den Buttons
+//
+// BEM-KLASSEN:
+//   .nc-form-actions             Block (flex container)
+//   .nc-form-actions--start      Links ausgerichtet (default)
+//   .nc-form-actions--center     Zentriert
+//   .nc-form-actions--end        Rechts ausgerichtet
+//   .nc-form-actions--spread     Verteilt (space-between)
+//   .nc-form-actions--sticky     Sticky am unteren Rand
+//   .nc-form-actions--stacked    Vertikal gestapelt (mobile)
+//   .nc-form-actions--bordered   Mit Trennlinie oben
+//
+// ACCESSIBILITY:
+//   role="group" mit aria-label="Form actions"
+//   Primary Action an erster Stelle im DOM
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Form-Actions-Bar.
+@mixin form-actions-base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nc-form-actions-gap);
+  padding-top: var(--fnd-spacing-04);
+}
+
+/// Rechts ausgerichtet.
+@mixin form-actions-end {
+  justify-content: flex-end;
+}
+
+/// Zentriert.
+@mixin form-actions-center {
+  justify-content: center;
+}
+
+/// Verteilt (Primary rechts, Cancel/Reset links).
+@mixin form-actions-spread {
+  justify-content: space-between;
+}
+
+/// Sticky am unteren Viewport-Rand.
+/// Nuetzlich fuer lange Formulare — Buttons bleiben sichtbar.
+@mixin form-actions-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  padding: var(--fnd-spacing-04);
+  margin-inline: calc(var(--fnd-spacing-04) * -1);
+  background-color: var(--fnd-color-background-base);
+  border-top: 1px solid var(--nc-form-divider-color);
+  box-shadow: var(--fnd-elevation-raised);
+}
+
+/// Vertikal gestapelt (fuer mobile Ansichten).
+@mixin form-actions-stacked {
+  flex-direction: column;
+  align-items: stretch;
+
+  // Buttons volle Breite
+  > .nc-button,
+  > button,
+  > [type='submit'],
+  > [type='reset'] {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/// Mit Trennlinie oben.
+@mixin form-actions-bordered {
+  border-top: 1px solid var(--nc-form-divider-color);
+  margin-top: var(--fnd-spacing-04);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form-actions {
+  @include form-actions-base;
+
+  // -- Ausrichtungs-Modifier --
+
+  &--start {
+    justify-content: flex-start;
+  }
+
+  &--center {
+    @include form-actions-center;
+  }
+
+  &--end {
+    @include form-actions-end;
+  }
+
+  &--spread {
+    @include form-actions-spread;
+  }
+
+  // -- Layout-Modifier --
+
+  &--sticky {
+    @include form-actions-sticky;
+  }
+
+  &--stacked {
+    @include form-actions-stacked;
+  }
+
+  &--bordered {
+    @include form-actions-bordered;
+  }
+
+  // -- Responsive: Mobile automatisch stacked --
+  // Opt-in via Modifier oder automatisch bei schmalen Viewports
+
+  &--responsive {
+    @media (max-width: 479px) {
+      @include form-actions-stacked;
+    }
+  }
+}

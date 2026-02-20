@@ -1,0 +1,156 @@
+<!-- STYLES -->
+  <style>
+    .micro-docs {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--fnd-spacing-10) var(--fnd-spacing-05);
+    }
+
+    .micro-docs__intro {
+      margin-bottom: var(--fnd-spacing-08);
+    }
+
+    .micro-docs__title {
+      margin-bottom: var(--fnd-spacing-03);
+    }
+
+    .micro-docs__lead {
+      color: var(--fnd-color-text-secondary);
+      max-width: 70ch;
+    }
+
+    .micro-card {
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-lg);
+      background: var(--fnd-color-background-secondary);
+      padding: var(--fnd-spacing-06);
+      margin-bottom: var(--fnd-spacing-05);
+    }
+
+    .micro-card__title {
+      margin-bottom: var(--fnd-spacing-02);
+    }
+
+    .micro-card__desc {
+      color: var(--fnd-color-text-secondary);
+      margin-bottom: var(--fnd-spacing-05);
+    }
+
+    .micro-card__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-03);
+      align-items: center;
+    }
+
+    .micro-card__meta {
+      margin-top: var(--fnd-spacing-04);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--fnd-color-text-tertiary);
+    }
+
+    .micro-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-03);
+      margin-top: var(--fnd-spacing-04);
+    }
+
+    .micro-range {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      margin-top: var(--fnd-spacing-04);
+      color: var(--fnd-color-text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .micro-range input {
+      width: 220px;
+    }
+
+    .micro-layout-toggle {
+      margin-bottom: var(--fnd-spacing-06);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="micro-docs">
+    <section class="micro-docs__intro">
+      <h1 class="micro-docs__title">Button Micro Animationen</h1>
+      <p class="micro-docs__lead">
+        Diese Seite ist unabhängig von der bestehenden Button-Dokumentation und zeigt drei Varianten:
+        <code>.nc-button--micro-a</code>, <code>.nc-button--micro-b</code> und <code>.nc-button--micro-c</code>.
+      </p>
+    </section>
+
+    <div class="micro-layout-toggle">
+      <button class="nc-button nc-button--outline nc-button--sm" data-theme-toggle type="button">Theme wechseln</button>
+    </div>
+
+    <section class="micro-card">
+      <h2 class="micro-card__title">Variante A: Hover, Press, Ripple</h2>
+      <p class="micro-card__desc">
+        Leichtes Scale-Up auf Hover, Depress beim Press und Ripple vom Klickpunkt.
+      </p>
+      <div class="micro-card__row">
+        <button class="nc-button nc-button--micro-a" type="button">Primary Micro A</button>
+        <button class="nc-button nc-button--secondary nc-button--micro-a" type="button">Secondary Micro A</button>
+        <button class="nc-button nc-button--accent nc-button--micro-a" type="button">Accent Micro A</button>
+      </div>
+      <p class="micro-card__meta">Klasse: <code>.nc-button--micro-a</code></p>
+    </section>
+
+    <section class="micro-card">
+      <h2 class="micro-card__title">Variante B: Loading, Progress, Success, Error</h2>
+      <p class="micro-card__desc">
+        Text zu Spinner im Loading-State, Progress-Bar im Button, Success mit Check + Bounce und Error mit Shake.
+      </p>
+
+      <div class="micro-card__row">
+        <button class="nc-button nc-button--micro-b" data-demo="b-target" type="button">
+          <span class="nc-button__label">Speichern</span>
+          <span class="nc-button__spinner"></span>
+        </button>
+      </div>
+
+      <div class="micro-controls">
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="loading" type="button">Loading</button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="success" type="button">Success</button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="error" type="button">Error</button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="reset" type="button">Reset</button>
+      </div>
+
+      <label class="micro-range" for="progress-range">
+        Fortschritt:
+        <input id="progress-range" type="range" min="0" max="100" value="42" />
+        <span id="progress-value">42%</span>
+      </label>
+
+      <p class="micro-card__meta">Klasse: <code>.nc-button--micro-b</code></p>
+    </section>
+
+    <section class="micro-card">
+      <h2 class="micro-card__title">Variante C: Expressive Feedback-Variante</h2>
+      <p class="micro-card__desc">
+        Wie Variante B, mit stärkerem Press/Hover-Verhalten und zusätzlicher Error-Progress-Markierung.
+      </p>
+      <div class="micro-card__row">
+        <button class="nc-button nc-button--info nc-button--micro-c" data-demo="c-target" type="button">
+          <span class="nc-button__label">Absenden</span>
+          <span class="nc-button__spinner"></span>
+        </button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="c-success" type="button">C Success</button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="c-error" type="button">C Error</button>
+        <button class="nc-button nc-button--outline nc-button--sm" data-demo-action="c-loading" type="button">C Loading</button>
+      </div>
+      <p class="micro-card__meta">Klasse: <code>.nc-button--micro-c</code></p>
+    </section>
+  </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="button-micro-docs.js"></script>
+<!-- /SCRIPTS -->

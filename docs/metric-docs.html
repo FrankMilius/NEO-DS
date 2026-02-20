@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metric | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Metric-Komponente mit Live-Demo, Token-Referenz und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Metric</h1>
+      <p class="docs__subtitle">
+        Hervorgehobene Kennzahl-Darstellung mit gro&szlig;em Wert und erkl&auml;rendem Label.
+        Geeignet f&uuml;r KPIs, Statistiken und Impact-Zahlen im Hero-Bereich
+        oder auf Landing Pages. Kanonische Klassen:
+        <code class="docs__token">.nc-metric</code> (Block) und
+        <code class="docs__token">.nc-metric__value</code> (gro&szlig;e Kennzahl).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="metric-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Metric-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Metric-Komponente in verschiedenen Themes. Der inverse Hintergrund und
+            die gr&uuml;ne Akzentfarbe des Werts sind fest definiert.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--fnd-spacing-04); max-width: 640px;">
+                <div class="nc-metric">
+                  <div class="nc-metric__value">98 %</div>
+                  Kundenzufriedenheit
+                </div>
+                <div class="nc-metric">
+                  <div class="nc-metric__value">4,7 Mio.</div>
+                  Aktive Nutzer
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;div class="nc-metric"&gt;
+  &lt;div class="nc-metric__value"&gt;98 %&lt;/div&gt;
+  Kundenzufriedenheit
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Einzelne Metric -->
+          <section class="docs__section" id="metric-single">
+            <h2 class="docs__section-title">Einzelne Kennzahl</h2>
+            <p class="docs__section-desc">
+              Die Komponente verbindet einen gro&szlig;en invertierten Block mit einer
+              gr&uuml;n gef&auml;rbten Zahl und einem Label in Standardtextgr&ouml;&szlig;e.
+            </p>
+            <div style="max-width: 280px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-metric">
+                <div class="nc-metric__value">12&thinsp;000+</div>
+                Unterst&uuml;tzte Projekte weltweit
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 2: Metric Grid -->
+          <section class="docs__section" id="metric-grid">
+            <h2 class="docs__section-title">Kennzahl-Raster</h2>
+            <p class="docs__section-desc">
+              Mehrere Metrics nebeneinander in einem
+              <code class="docs__token">.nc-metric-grid</code>-Container.
+              Das Grid passt sich automatisch an die verf&uuml;gbare Breite an.
+            </p>
+            <div class="nc-metric-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-metric">
+                <div class="nc-metric__value">99,9 %</div>
+                Uptime SLA
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">48 ms</div>
+                Durchschn. Antwortzeit
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">ISO 27001</div>
+                Zertifiziert
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">5 Jahre</div>
+                Support garantiert
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 3: Verschiedene Wertformate -->
+          <section class="docs__section" id="metric-formats">
+            <h2 class="docs__section-title">Verschiedene Wertformate</h2>
+            <p class="docs__section-desc">
+              Der Wert kann eine Zahl, Prozentangabe, Einheit oder eine kurze Zeichenkette sein.
+              Die Schriftgr&ouml;&szlig;e ist fix und skaliert nicht automatisch.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-metric">
+                <div class="nc-metric__value">42</div>
+                Reine Zahl
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">73 %</div>
+                Prozentwert
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">1,2 Mrd.</div>
+                Abgek&uuml;rzter Wert
+              </div>
+              <div class="nc-metric">
+                <div class="nc-metric__value">&lt; 1 s</div>
+                Zeitangabe
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-block">
+            <h2 class="docs__section-title">Block-Tokens (.nc-metric)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">background</code></td><td>var(--fnd-color-background-inverse)</td><td>Invertierter Hintergrund (dunkel in Light-Theme)</td></tr>
+                <tr><td><code class="docs__token">color</code></td><td>var(--fnd-color-text-inverse)</td><td>Invertierte Textfarbe (hell in Light-Theme)</td></tr>
+                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-lg)</td><td>Abgerundete Ecken</td></tr>
+                <tr><td><code class="docs__token">padding</code></td><td>var(--fnd-spacing-06)</td><td>Innenabstand rundum</td></tr>
+                <tr><td><code class="docs__token">font-size</code></td><td>var(--fs-lg)</td><td>Label-Textgr&ouml;&szlig;e</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-value">
+            <h2 class="docs__section-title">Wert-Tokens (.nc-metric__value)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">font-family</code></td><td>var(--font-heading)</td><td>Heading-Schrift f&uuml;r starke visuelle Wirkung</td></tr>
+                <tr><td><code class="docs__token">font-size</code></td><td>var(--fs-6xl)</td><td>Sehr gro&szlig;e Schrift f&uuml;r maximale Aufmerksamkeit</td></tr>
+                <tr><td><code class="docs__token">font-weight</code></td><td>var(--fnd-font-weight-black)</td><td>Schwerster Schriftschnitt (900) f&uuml;r maximalen Kontrast</td></tr>
+                <tr><td><code class="docs__token">color</code></td><td>var(--fnd-color-background-accent-green)</td><td>Gr&uuml;ne Akzentfarbe f&uuml;r die Kennzahl</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
+            <div class="docs__code-block">// ===== Metric BEM-Klassen =====
+
+.nc-metric            // Block: inverser Hintergrund, inverser Text, radius-lg, padding-06
+.nc-metric__value     // Wert: Heading-Font, fs-6xl, font-weight-black, Akzentgr&uuml;n
+
+// Grid-Kontext (kein eigener SCSS-Block, per Utility oder Inline-Grid):
+.nc-metric-grid       // Container: grid, auto-fit, minmax</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-metric</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-metric</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_metric.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> oder <code class="docs__token">&lt;article&gt;</code></td></tr>
+                <tr><td><strong>JS erforderlich</strong></td><td>Nein &ndash; rein CSS</td></tr>
+                <tr><td><strong>Farbe</strong></td><td>Invertiertes Design (dark-on-light / light-on-dark)</td></tr>
+                <tr><td><strong>Wert-Farbe</strong></td><td>Immer Akzentgr&uuml;n (<code class="docs__token">--fnd-color-background-accent-green</code>)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-metric</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;article&gt;</code></td><td>Container mit inversem Hintergrund, Padding und Radius.</td></tr>
+                <tr><td><code class="docs__token">.nc-metric__value</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;p&gt;</code>, <code class="docs__token">&lt;span&gt;</code></td><td>Die gro&szlig;e Kennzahl in Heading-Schrift, schwarz, gr&uuml;n eingef&auml;rbt.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Einzelne Kennzahl --&gt;
+&lt;div class="nc-metric"&gt;
+  &lt;div class="nc-metric__value"&gt;98 %&lt;/div&gt;
+  Kundenzufriedenheit  &lt;!-- Label als direkter Text-Node --&gt;
+&lt;/div&gt;
+
+&lt;!-- Mehrere Kennzahlen im Raster --&gt;
+&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;"&gt;
+  &lt;div class="nc-metric"&gt;
+    &lt;div class="nc-metric__value"&gt;99,9 %&lt;/div&gt;
+    Uptime SLA
+  &lt;/div&gt;
+  &lt;div class="nc-metric"&gt;
+    &lt;div class="nc-metric__value"&gt;48 ms&lt;/div&gt;
+    Antwortzeit
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Semantisch mit article (wenn eigenst&auml;ndige inhaltliche Einheit) --&gt;
+&lt;article class="nc-metric" aria-label="Kundenzufriedenheit: 98 Prozent"&gt;
+  &lt;div class="nc-metric__value" aria-hidden="true"&gt;98 %&lt;/div&gt;
+  Kundenzufriedenheit
+&lt;/article&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Metric-Komponenten stellen Zahlen und Label in engem visuellen Zusammenhang dar.
+            Der Screenreader muss beide Informationen gemeinsam lesen k&ouml;nnen.
+            Invertierte Farben m&uuml;ssen ausreichend Kontrast bieten.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Wert und Label als zusammenh&auml;ngende Einheit</h4>
+              <ul>
+                <li>Wert und Label m&uuml;ssen f&uuml;r Screenreader eine sinnvolle Einheit bilden</li>
+                <li>Empfehlung: <code class="docs__token">aria-label</code> auf dem Container setzen, z.B. <code class="docs__token">aria-label="Kundenzufriedenheit: 98 Prozent"</code></li>
+                <li>Alternativ: <code class="docs__token">.nc-metric__value</code> mit <code class="docs__token">aria-hidden="true"</code> und der Text-Label tr&auml;gt die vollst&auml;ndige Information</li>
+                <li>Typografische Sonderzeichen (<code class="docs__token">%</code>, <code class="docs__token">Mio.</code>) werden von Screenreadern unterschiedlich interpretiert &ndash; <code class="docs__token">aria-label</code> l&ouml;st Mehrdeutigkeiten</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li>Inverser Hintergrund (<code class="docs__token">--fnd-color-background-inverse</code>) muss mindestens 4,5:1 Kontrast zum Label-Text bieten</li>
+                <li>Gr&uuml;ne Wert-Farbe (<code class="docs__token">--fnd-color-background-accent-green</code>) auf dem inversen Hintergrund muss mindestens 4,5:1 erf&uuml;llen</li>
+                <li>Beide Token-Werte sind in der Semantik-Schicht f&uuml;r alle 4 Themes korrekt kalibriert</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Strukturierung im Seitenkontext</h4>
+              <ul>
+                <li>Mehrere Metrics in einem Bereich mit beschreibendem Heading strukturieren</li>
+                <li>Beispiel: <code class="docs__token">&lt;section aria-labelledby="metrics-title"&gt;&lt;h2 id="metrics-title"&gt;Unsere Zahlen&lt;/h2&gt; ...&lt;/section&gt;</code></li>
+                <li>Verwende <code class="docs__token">&lt;article&gt;</code> f&uuml;r eigenst&auml;ndige Kennzahl-Einheiten, <code class="docs__token">&lt;div&gt;</code> f&uuml;r gruppenabh&auml;ngige</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: aria-label kl&auml;rt Bedeutung des Werts --&gt;
+&lt;div class="nc-metric" aria-label="Kundenzufriedenheit: 98 Prozent"&gt;
+  &lt;div class="nc-metric__value" aria-hidden="true"&gt;98 %&lt;/div&gt;
+  Kundenzufriedenheit
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Gruppe mit Kontext-Heading --&gt;
+&lt;section aria-labelledby="metrics-heading"&gt;
+  &lt;h2 id="metrics-heading"&gt;Unsere Zahlen&lt;/h2&gt;
+  &lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;"&gt;
+    &lt;div class="nc-metric" aria-label="Uptime SLA: 99,9 Prozent"&gt;
+      &lt;div class="nc-metric__value" aria-hidden="true"&gt;99,9 %&lt;/div&gt;
+      Uptime SLA
+    &lt;/div&gt;
+    &lt;div class="nc-metric" aria-label="Durchschnittliche Antwortzeit: 48 Millisekunden"&gt;
+      &lt;div class="nc-metric__value" aria-hidden="true"&gt;48 ms&lt;/div&gt;
+      Antwortzeit
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- FALSCH: Wert ohne Label --&gt;
+&lt;div class="nc-metric"&gt;
+  &lt;div class="nc-metric__value"&gt;98 %&lt;/div&gt;
+  &lt;!-- Kein Label: Screenreader liest nur "98 %" ohne Kontext --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Nur visuelle Darstellung ohne Semantik --&gt;
+&lt;div class="nc-metric" aria-hidden="true"&gt;
+  &lt;div class="nc-metric__value"&gt;98 %&lt;/div&gt;
+  Kundenzufriedenheit
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+
+</body>
+</html>

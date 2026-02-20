@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Stories | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Stories-Card-Variante mit Grid-Layout und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .docs-stories-grid {
+      display: grid;
+      gap: var(--fnd-spacing-06);
+    }
+    @media (min-width: 768px) {
+      .docs-stories-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .docs-stories-card {
+      background-color: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background-color var(--fnd-motion-duration-200) ease;
+    }
+    .docs-stories-card:hover {
+      background-color: var(--fnd-color-background-tertiary);
+    }
+    .docs-stories-card:hover .docs-stories-card__img {
+      transform: scale(1.05);
+    }
+    .docs-stories-card:hover .docs-stories-card__link {
+      color: var(--fnd-color-text-mid);
+    }
+    .docs-stories-media {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background-color: var(--fnd-color-background-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fnd-color-text-mid);
+    }
+    .docs-stories-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 300ms ease;
+    }
+    .docs-stories-body {
+      padding: var(--fnd-spacing-06);
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    @media (min-width: 1024px) {
+      .docs-stories-body { padding: var(--fnd-spacing-08); }
+    }
+    .docs-stories-card .overheadline {
+      font-size: var(--fnd-typography-body-s-font-size);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--fnd-color-text-mid);
+      margin: 0 0 var(--fnd-spacing-02);
+    }
+    .docs-stories-card .heading {
+      font-size: var(--fnd-typography-heading-s-font-size);
+      font-weight: var(--fnd-font-weight-semibold);
+      color: var(--fnd-color-text-high);
+      margin: 0 0 var(--fnd-spacing-04);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+    }
+    .docs-stories-card p:not(.overheadline) {
+      font-size: var(--fnd-typography-body-l-font-size);
+      color: var(--fnd-color-text-mid);
+      margin: 0;
+      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .docs-stories-card .button-container {
+      margin-top: var(--fnd-spacing-06);
+    }
+    .docs-stories-card__link {
+      font-size: var(--fnd-typography-body-l-font-size);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      color: var(--fnd-color-text-high);
+      text-decoration: none;
+      transition: color var(--fnd-motion-duration-200) ease;
+    }
+    .docs-stories-card__link svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .docs-stories-client-logo {
+      margin-top: var(--fnd-spacing-04);
+      padding-top: var(--fnd-spacing-04);
+      border-top: 1px solid var(--fnd-color-border-low);
+    }
+    .docs-stories-client-logo img {
+      height: 24px;
+      width: auto;
+      filter: grayscale(100%);
+      opacity: 0.7;
+    }
+    /* Featured variant */
+    .docs-stories-card.featured {
+      display: block;
+    }
+    @media (min-width: 1024px) {
+      .docs-stories-grid.featured-grid { grid-template-columns: 1fr; }
+      .docs-stories-card.featured {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .docs-stories-card.featured .docs-stories-media {
+        aspect-ratio: auto;
+        height: 100%;
+      }
+      .docs-stories-card.featured .heading {
+        font-size: var(--fnd-typography-heading-m-font-size);
+      }
+      .docs-stories-card.featured .docs-stories-body {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Card Stories</h1>
+      <p class="docs__subtitle">Stories- und Case-Study-Karten präsentieren Kundenerfolge mit 16:9-Bild, Kategorie-Überzeile, Headline, Teaser-Text und optionalem Client-Logo. Bietet eine Featured-Variante für volle Breite.</p>
+
+      <!-- ============================================================= -->
+      <!-- TABS                                                          -->
+      <!-- ============================================================= -->
+      <div class="docs-tabs" id="card-stories-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Card Stories Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 1: BENUTZUNG                                            -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p>Stories-Karte mit Image-Zoom-on-Hover, Kategorie, Titel (line-clamp 2) und Teaser (line-clamp 3).</p>
+
+          <!-- Staging Area -->
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="standard" selected>Standard (2-spaltig)</option>
+                  <option value="featured">Featured (voll)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-logo" />
+                  <span class="docs-stage__label">Client Logo</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: var(--fnd-spacing-08);">
+              <!-- JS renders component here -->
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code"></pre>
+          </div>
+
+          <!-- Static Examples -->
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Standard (2-spaltig)</h2>
+          <p>Je zwei Karten pro Zeile. Bild hat Image-Zoom bei Hover. Client-Logo optional am Kartenende.</p>
+          <div class="cards stories">
+            <ul class="docs-stories-grid" style="margin: 0; padding: 0; list-style: none;">
+              <li class="docs-stories-card">
+                <div class="docs-stories-media" aria-hidden="true">
+                  <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                </div>
+                <div class="docs-stories-body">
+                  <p class="overheadline">Automotive</p>
+                  <p class="heading">Wie MegaCorp ihre digitale Plattform in 6 Monaten modernisierte</p>
+                  <p>Ein Rückblick auf die Herausforderungen, Entscheidungen und den Erfolg der Migration zu einem modernen Design System.</p>
+                  <div class="button-container">
+                    <a href="#" class="docs-stories-card__link" onclick="event.preventDefault();">
+                      Case Study lesen
+                      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                  <div class="docs-stories-client-logo">
+                    <span style="font-size: var(--fnd-typography-body-xs-font-size); color: var(--fnd-color-text-mid);">[Client Logo Placeholder]</span>
+                  </div>
+                </div>
+              </li>
+              <li class="docs-stories-card">
+                <div class="docs-stories-media" aria-hidden="true">
+                  <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                </div>
+                <div class="docs-stories-body">
+                  <p class="overheadline">Fintech</p>
+                  <p class="heading">Accessibility-first Banking-App für 2 Millionen Nutzer</p>
+                  <p>Wie ein globales Finanzunternehmen WCAG 2.2 AA vollständig umgesetzt hat und dabei die UX verbesserte.</p>
+                  <div class="button-container">
+                    <a href="#" class="docs-stories-card__link" onclick="event.preventDefault();">
+                      Case Study lesen
+                      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Featured (volle Breite)</h2>
+          <p>Auf Desktop: Bild und Textinhalt nebeneinander (50/50). Heading skaliert auf heading('m').</p>
+          <div class="cards stories featured">
+            <ul class="docs-stories-grid featured-grid" style="margin: 0; padding: 0; list-style: none;">
+              <li class="docs-stories-card featured">
+                <div class="docs-stories-media" aria-hidden="true" style="min-height: 240px;">
+                  <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                </div>
+                <div class="docs-stories-body">
+                  <p class="overheadline">Featured Story</p>
+                  <p class="heading" style="font-size: var(--fnd-typography-heading-m-font-size);">Das Fundament für digitale Exzellenz: Unser Design System nach 3 Jahren</p>
+                  <p>Eine ehrliche Bestandsaufnahme &mdash; was funktioniert, was gelernt wurde und wohin die Reise geht.</p>
+                  <div class="button-container">
+                    <a href="#" class="docs-stories-card__link" onclick="event.preventDefault();">
+                      Vollständige Story lesen
+                      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 2: STYLE                                                -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Design Tokens</h2>
+          <table class="docs__table docs__table--compact">
+            <thead>
+              <tr><th>Token / Eigenschaft</th><th>Wert</th><th>Kategorie</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Karten-Basis</td></tr>
+              <tr><td><code class="docs__token">background-color (li)</code></td><td>var(--fnd-color-background-secondary)</td><td>Farbe</td></tr>
+              <tr><td><code class="docs__token">background-color:hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>Farbe</td></tr>
+              <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-lg)</td><td>Radius</td></tr>
+              <tr><td><code class="docs__token">overflow</code></td><td>hidden (für Bild-Zoom)</td><td>Layout</td></tr>
+              <tr><td><code class="docs__token">transition (li)</code></td><td>background-color, duration-200</td><td>Motion</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Bild</td></tr>
+              <tr><td><code class="docs__token">picture aspect-ratio</code></td><td>var(--fnd-image-ratio-16-9)</td><td>Layout</td></tr>
+              <tr><td><code class="docs__token">img transform:hover</code></td><td>scale(1.05)</td><td>Motion</td></tr>
+              <tr><td><code class="docs__token">img transition</code></td><td>transform, duration-300</td><td>Motion</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Inhaltsbereich (.content-body)</td></tr>
+              <tr><td><code class="docs__token">padding (mobil)</code></td><td>var(--fnd-spacing-06)</td><td>Spacing</td></tr>
+              <tr><td><code class="docs__token">padding (desktop)</code></td><td>var(--fnd-spacing-08)</td><td>Spacing</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typografie</td></tr>
+              <tr><td><code class="docs__token">.overheadline / .category</code></td><td>paragraph('s'), uppercase, letter-spacing 0.5px, color: text-mid</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.heading</code></td><td>heading('s'), color: text-high, line-clamp(2)</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.heading (featured, desktop)</code></td><td>heading('m')</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">p (Teaser)</code></td><td>paragraph('l'), color: text-mid, line-clamp(3), flex-grow</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.button-container a</code></td><td>paragraph('l'), flex, gap spacing-02, color: text-high</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.button-container a:hover (li:hover)</code></td><td>color: var(--fnd-color-text-mid)</td><td>Interaktiv</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Client Logo</td></tr>
+              <tr><td><code class="docs__token">.client-logo margin-top</code></td><td>var(--fnd-spacing-04)</td><td>Spacing</td></tr>
+              <tr><td><code class="docs__token">.client-logo border-top</code></td><td>1px solid var(--fnd-color-border-low)</td><td>Border</td></tr>
+              <tr><td><code class="docs__token">.client-logo img</code></td><td>height 24px, filter grayscale(100%), opacity 0.7</td><td>Farbe</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Featured-Variante (Desktop)</td></tr>
+              <tr><td><code class="docs__token">grid (featured, desktop)</code></td><td>1fr 1fr (Bild + Text nebeneinander)</td><td>Layout</td></tr>
+              <tr><td><code class="docs__token">picture aspect-ratio (featured)</code></td><td>auto, height 100%</td><td>Layout</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">BEM-Klassen &Uuml;bersicht</h2>
+          <div class="docs__code-block">.cards.stories                     // Block-Wrapper
+.cards.stories.featured            // Variante: Featured / volle Breite
+.cards.stories ul                  // Grid-Container (1→2 Spalten)
+.cards.stories li                  // Einzel-Karte (bg, radius, overflow, hover)
+.cards.stories .card-content       // Haupt-Inhaltsbereich (flex-column)
+.cards.stories .card-content picture // 16:9 Bild mit Zoom-Effekt
+.cards.stories .content-body       // Text-Bereich (padding, flex-column)
+.cards.stories .overheadline       // Kategorie (uppercase, text-mid)
+.cards.stories .category           // Alias für .overheadline
+.cards.stories .heading            // Titel (heading s, line-clamp 2)
+.cards.stories p                   // Teaser (paragraph l, line-clamp 3)
+.cards.stories .button-container   // CTA-Bereich
+.cards.stories .button-container a // Lese-Link (color: text-high)
+.cards.stories .client-logo        // Logo-Bereich (border-top, grayscale)</div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 3: API                                                  -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Komponenten-&Uuml;bersicht</h2>
+          <table class="docs__table">
+            <tbody>
+              <tr><td><strong>Kanonische Klasse</strong></td><td><code>.cards.stories</code></td></tr>
+              <tr><td><strong>Variante</strong></td><td><code>.cards.stories.featured</code></td></tr>
+              <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens <code>--fnd-*</code></td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/06-molecules/_card-stories.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>06-Molecules</td></tr>
+              <tr><td><strong>Besonderheiten</strong></td><td>Image-Zoom per CSS transform + overflow:hidden; <code>.client-logo</code> optional; Featured-Grid via <code>display: contents</code> auf desktop</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">HTML-Struktur (Standard)</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="cards stories"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;div class="card-content"&gt;
+        &lt;picture&gt;
+          &lt;img src="/assets/pexels-dkomov-34804018.jpg" alt="MegaCorp Bürogebäude in Frankfurt" /&gt;
+        &lt;/picture&gt;
+        &lt;div class="content-body"&gt;
+          &lt;p class="overheadline"&gt;Automotive&lt;/p&gt;
+          &lt;p class="heading"&gt;Wie MegaCorp ihre Plattform modernisierte&lt;/p&gt;
+          &lt;p&gt;Ein Rückblick auf 6 Monate Transformation.&lt;/p&gt;
+          &lt;div class="button-container"&gt;
+            &lt;a href="/stories/megacorp"&gt;
+              Case Study lesen
+              &lt;svg class="icon" aria-hidden="true"&gt;...&lt;/svg&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+          &lt;div class="client-logo"&gt;
+            &lt;img src="/assets/screen-2.svg" alt="MegaCorp Logo" /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">HTML-Struktur (Featured)</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="cards stories featured"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;!-- Auf Desktop: grid 1fr 1fr (Bild | Inhalt) --&gt;
+      &lt;div class="card-content"&gt;
+        &lt;picture&gt;
+          &lt;img src="/assets/chris-j-davis-ox6xHbLU8gs-unsplash.jpg" alt="Beschreibendes Bild der Featured Story" /&gt;
+        &lt;/picture&gt;
+        &lt;div class="content-body"&gt;
+          &lt;p class="overheadline"&gt;Featured Story&lt;/p&gt;
+          &lt;p class="heading"&gt;Das Fundament für digitale Exzellenz&lt;/p&gt;
+          &lt;p&gt;Teaser-Text...&lt;/p&gt;
+          &lt;div class="button-container"&gt;
+            &lt;a href="/stories/featured"&gt;Vollständige Story lesen&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Inhalts-Slots</h2>
+          <table class="docs__table">
+            <thead>
+              <tr><th>Slot / Klasse</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>picture</code></td><td><code>&lt;picture&gt;</code></td><td>Empfohlen</td><td>16:9 Story-Bild mit Zoom-on-Hover</td></tr>
+              <tr><td><code>.overheadline</code> / <code>.category</code></td><td><code>&lt;p&gt;</code></td><td>Optional</td><td>Branche oder Kategorie (uppercase, text-mid)</td></tr>
+              <tr><td><code>.heading</code></td><td><code>&lt;p&gt;</code></td><td>Ja</td><td>Story-Titel (heading s, max. 2 Zeilen)</td></tr>
+              <tr><td><code>p</code> (Teaser)</td><td><code>&lt;p&gt;</code></td><td>Optional</td><td>Kurzbeschreibung (max. 3 Zeilen)</td></tr>
+              <tr><td><code>.button-container</code></td><td><code>&lt;div&gt;</code></td><td>Empfohlen</td><td>CTA-Link mit Pfeil</td></tr>
+              <tr><td><code>.client-logo</code></td><td><code>&lt;div&gt;</code></td><td>Optional</td><td>Kunden-Logo (Trennlinie, grayscale, opacity 0.7)</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 4: ACCESSIBILITY                                        -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Semantik &amp; Struktur</h2>
+          <table class="docs__table">
+            <thead>
+              <tr><th>Element</th><th>Empfehlung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Story-Bild</td><td>Beschreibender <code>alt</code>-Text der den Bildinhalt erklärt (nicht den Artikel-Titel)</td></tr>
+              <tr><td>Client-Logo</td><td><code>alt="[Firmenname] Logo"</code> — kurz und eindeutig</td></tr>
+              <tr><td>Pfeil-Icon im Link</td><td><code>aria-hidden="true"</code> — dekorativ</td></tr>
+              <tr><td>CTA-Link</td><td>Eindeutiger Text &mdash; Screenreader liest Links isoliert</td></tr>
+              <tr><td><code>line-clamp</code></td><td>Vollständiger Text im DOM (Screenreader liest alles)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-08);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Image-Zoom und Reduced Motion</h4>
+              <ul>
+                <li>Der Bild-Zoom-Effekt bei Hover (<code>transform: scale(1.05)</code>) ist eine Transition.</li>
+                <li>Bei <code>@media (prefers-reduced-motion: reduce)</code> muss die Transition deaktiviert werden: <code>transition: none</code>.</li>
+                <li>Der Zoom ist rein ästhetisch &mdash; er kommuniziert keinen Status oder keine Information.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Client Logo Kontrast</h4>
+              <ul>
+                <li>Das Client-Logo hat <code>opacity: 0.7</code> und <code>filter: grayscale(100%)</code>.</li>
+                <li>Prüfe, ob das gedimmte Logo noch ausreichend Kontrast hat (mindestens 3:1 für grafische Elemente, WCAG 1.4.11).</li>
+                <li>Wenn das Logo nur dekorativ ist (Firmenzugehörigkeit bereits im Text), kann <code>alt=""</code> verwendet werden.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Kategorie (overheadline) und uppercase</h4>
+              <ul>
+                <li>Text in Großbuchstaben (<code>text-transform: uppercase</code>) ist schwerer lesbar.</li>
+                <li>Im HTML-Quelltext den Text in normaler Schreibweise belassen &mdash; das CSS übernimmt die Darstellung.</li>
+                <li>Screenreader lesen den ursprünglichen HTML-Text, nicht den CSS-transformierten.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Validierungscheckliste</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Story-Bild hat aussagekräftigen <code>alt</code>-Text</td><td>1.1.1</td></tr>
+              <tr><td>2</td><td>Client-Logo hat <code>alt</code> (Firmenname oder leer wenn dekorativ)</td><td>1.1.1</td></tr>
+              <tr><td>3</td><td>Pfeil-Icon ist <code>aria-hidden="true"</code></td><td>4.1.2</td></tr>
+              <tr><td>4</td><td>CTA-Link ist eindeutig beschriftet</td><td>2.4.6</td></tr>
+              <tr><td>5</td><td>CTA-Link Fokus-Ring sichtbar</td><td>2.4.7</td></tr>
+              <tr><td>6</td><td><code>prefers-reduced-motion</code>: Kein Image-Zoom</td><td>2.3.3</td></tr>
+              <tr><td>7</td><td>Client-Logo Kontrast ≥ 3:1 (nach opacity + grayscale)</td><td>1.4.11</td></tr>
+              <tr><td>8</td><td>uppercase-Text nur via CSS (nicht im HTML)</td><td>1.3.1</td></tr>
+              <tr><td>9</td><td>line-clamp: Vollständiger Text im DOM</td><td>1.3.1</td></tr>
+              <tr><td>10</td><td>Farbkontrast Text ≥ 4.5:1</td><td>1.4.3</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+<script src="card-stories-docs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+// ==========================================================================
+// 03-Elements: Buttons
+// ==========================================================================
+// Basis-Styles für Button-Elemente (unclassed)
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--fnd-opacity-disabled);
+  }
+}

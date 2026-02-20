@@ -1,0 +1,86 @@
+// ==========================================================================
+// 05-Atoms: Square
+// ==========================================================================
+// Dekorative Quadrate (vor Text)
+// Migriert von: lazy-styles.css
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Square Base Mixin
+// ---------------------------------------------------------------------------
+
+%square-base {
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: var(--fnd-radius-sm);
+    margin-right: var(--fnd-spacing-02);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Square Variants
+// ---------------------------------------------------------------------------
+
+// Default (Green)
+.square {
+  @extend %square-base;
+  
+  &::before {
+    background-color: var(--fnd-color-background-accent-green);
+  }
+}
+
+// White Square
+.white-square {
+  @extend %square-base;
+  
+  &::before {
+    background-color: var(--fnd-color-always-light);
+  }
+}
+
+// Dark Square
+.dark-square {
+  @extend %square-base;
+  
+  &::before {
+    background-color: var(--fnd-color-always-dark);
+  }
+}
+
+// Adaptive Square (folgt Theme)
+.adaptive-square {
+  @extend %square-base;
+  
+  &::before {
+    background-color: var(--fnd-color-background-inverse);
+  }
+}
+
+// Blinking Square
+.blinking-square {
+  @extend %square-base;
+  
+  &::before {
+    background-color: var(--fnd-color-background-accent-green);
+    animation: animations-flash var(--fnd-motion-duration-1500) infinite;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Square Sizes
+// ---------------------------------------------------------------------------
+
+.square-l::before {
+  width: 12px;
+  height: 12px;
+}
+
+.square-s::before {
+  width: 8px;
+  height: 8px;
+  margin-right: var(--fnd-spacing-01);
+}

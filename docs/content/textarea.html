@@ -1,0 +1,592 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Textarea</h1>
+      <p class="docs__subtitle">
+        Mehrzeilige Texteingabe mit optionalem Zeichenz&auml;hler und Auto-Resize.
+        Kanonische Klasse: <code class="docs__token">.nc-textarea</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-textarea-*</code> und <code class="docs__token">--nc-input-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="textarea-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Textarea-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, State, Auto-Resize und Zeichenz&auml;hler, um die Textarea live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM</option>
+                  <option value="md" selected>MD</option>
+                  <option value="lg">LG</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="error">Error</option>
+                  <option value="success">Success</option>
+                  <option value="disabled">Disabled</option>
+                  <option value="readonly">Readonly</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-autosize" />
+                  <span class="docs-stage__label">Auto-Resize</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-counter" />
+                  <span class="docs-stage__label">Zeichenz&auml;hler</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders textarea here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;textarea class="nc-textarea" rows="4" placeholder="Text eingeben..."&gt;&lt;/textarea&gt;</pre>
+          </div>
+
+          <!-- Alle Groessen -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;en: SM, MD (Default), LG. Die Gr&ouml;&szlig;e beeinflusst Padding und Schriftgr&ouml;&szlig;e.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: flex-start; margin-block-end: var(--fnd-spacing-06);">
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea nc-textarea--sm" rows="3" placeholder="SM Textarea..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea" rows="3" placeholder="MD Textarea..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; Default</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea nc-textarea--lg" rows="3" placeholder="LG Textarea..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Alle States -->
+          <section class="docs__section" id="all-states">
+            <h2 class="docs__section-title">Alle States</h2>
+            <p class="docs__section-desc">
+              5 Zust&auml;nde: Default, Error, Success, Disabled, Readonly.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: flex-start; margin-block-end: var(--fnd-spacing-06);">
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea" rows="3" placeholder="Default..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Default</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea nc-textarea--error" rows="3" aria-invalid="true" placeholder="Error..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Error</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea nc-textarea--success" rows="3" placeholder="Success..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Success</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea" rows="3" disabled placeholder="Disabled..."></textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Disabled</div>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <textarea class="nc-textarea" rows="3" readonly>Readonly-Inhalt</textarea>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Readonly</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Zeichenzaehler -->
+          <section class="docs__section" id="character-counter">
+            <h2 class="docs__section-title">Zeichenz&auml;hler</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">maxlength</code> und dem Element <code class="docs__token">.nc-textarea__counter</code> wird ein Zeichenz&auml;hler angezeigt.
+              Bei Erreichen des Limits erh&auml;lt der Z&auml;hler die Klasse <code class="docs__token">.nc-textarea__counter--limit</code>.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <textarea class="nc-textarea" id="demo-counter-textarea" rows="4" maxlength="200" placeholder="Maximal 200 Zeichen..."></textarea>
+              <span class="nc-textarea__counter" id="demo-counter-display">0 / 200</span>
+            </div>
+          </section>
+
+          <!-- Auto-Resize -->
+          <section class="docs__section" id="auto-resize">
+            <h2 class="docs__section-title">Auto-Resize</h2>
+            <p class="docs__section-desc">
+              Mit dem Modifier <code class="docs__token">.nc-textarea--autosize</code> w&auml;chst die Textarea automatisch mit dem Inhalt.
+              Der Resize-Handle wird deaktiviert, die H&ouml;he wird per JavaScript gesteuert.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <textarea class="nc-textarea nc-textarea--autosize" id="demo-autosize-textarea" rows="2" placeholder="Tippe Text ein &mdash; die H&ouml;he passt sich an..."></textarea>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en-Tokens</h2>
+            <p class="docs__section-desc">
+              Die Textarea erbt Gr&ouml;&szlig;en-Tokens von <code class="docs__token">--nc-input-*</code> und erg&auml;nzt <code class="docs__token">--nc-textarea-*</code> f&uuml;r Min-Height und Resize.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>Padding</th><th>Font-Size</th><th>Token-Basis</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SM</strong></td><td>4px 12px</td><td>var(--fs-xs)</td><td><code class="docs__token">--nc-input-*-sm</code></td></tr>
+                <tr><td><strong>MD</strong></td><td>8px 16px</td><td>var(--fs-sm)</td><td><code class="docs__token">--nc-input-*-md</code></td></tr>
+                <tr><td><strong>LG</strong></td><td>12px 20px</td><td>var(--fs-base)</td><td><code class="docs__token">--nc-input-*-lg</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens (States)</h2>
+            <table class="docs__table">
+              <thead><tr><th>State</th><th>Border</th><th>Background</th><th>Color</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Default</strong></td>
+                  <td><code class="docs__token">--nc-input-border</code></td>
+                  <td><code class="docs__token">--nc-input-bg</code></td>
+                  <td><code class="docs__token">--nc-input-color</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Hover</strong></td>
+                  <td><code class="docs__token">--nc-input-border-hover</code></td>
+                  <td>&mdash;</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><strong>Focus</strong></td>
+                  <td><code class="docs__token">--nc-input-border-focus</code></td>
+                  <td>&mdash;</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><strong>Error</strong></td>
+                  <td><code class="docs__token">--nc-input-border-error</code></td>
+                  <td>&mdash;</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><strong>Success</strong></td>
+                  <td><code class="docs__token">--nc-input-border-success</code></td>
+                  <td>&mdash;</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><strong>Disabled</strong></td>
+                  <td><code class="docs__token">--nc-input-disabled-border</code></td>
+                  <td><code class="docs__token">--nc-input-disabled-bg</code></td>
+                  <td><code class="docs__token">--nc-input-disabled-color</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Readonly</strong></td>
+                  <td><code class="docs__token">--nc-input-border-readonly</code></td>
+                  <td><code class="docs__token">--nc-input-bg-readonly</code></td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-textarea-tokens">
+            <h2 class="docs__section-title">Textarea-spezifische Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-textarea-min-height</code></td><td>80px</td><td>Minimale H&ouml;he der Textarea</td></tr>
+                <tr><td><code class="docs__token">--nc-textarea-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td>Internes Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-textarea-resize</code></td><td>vertical</td><td>Resize-Richtung (vertical, none, both)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Geometrie-Tokens (von Input geerbt)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-input-radius</code></td><td>var(--fnd-radius-lg) (8px)</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-width</code></td><td>var(--fnd-border-width-xs) (1px)</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-input-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>&Uuml;bergangsdauer</td></tr>
+                <tr><td><code class="docs__token">--nc-input-placeholder</code></td><td>var(--fnd-color-text-tertiary)</td><td>Placeholder-Farbe</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-textarea                      // Block (Default: md)
+.nc-textarea__counter              // Zeichenz&auml;hler-Element
+
+// Gr&ouml;&szlig;en
+.nc-textarea--sm                   // Small (kompakteres Padding/Font)
+// (md = Default, kein Modifier)
+.nc-textarea--lg                   // Large (gr&ouml;&szlig;eres Padding/Font)
+
+// State-Modifier
+.nc-textarea--error                // Roter Rand (Error-Zustand)
+.nc-textarea--success              // Gr&uuml;ner Rand (Success-Zustand)
+
+// Spezial-Modifier
+.nc-textarea--autosize             // Auto-Height, kein Resize-Handle
+.nc-textarea--no-resize            // Resize deaktiviert
+
+// Counter-Modifier
+.nc-textarea__counter--limit       // Z&auml;hler bei Limit (rote Farbe)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-textarea</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-textarea</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-textarea-*</code> und <code class="docs__token">--nc-input-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_textarea.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Ja &mdash; fokussierbar, editierbar</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;textarea&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-textarea</code></td><td>Block</td><td>Textarea-Element. Default: MD, vertikaler Resize.</td></tr>
+                <tr><td><code class="docs__token">.nc-textarea__counter</code></td><td>Element</td><td>Zeichenz&auml;hler unterhalb der Textarea.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-textarea--sm</code></td><td>Small &mdash; kompakteres Padding, kleinere Schrift</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-textarea--lg</code></td><td>Large &mdash; gr&ouml;&szlig;eres Padding, gr&ouml;&szlig;ere Schrift</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-textarea--error</code></td><td>Fehler</td><td>Roter Rand, signalisiert Validierungsfehler</td></tr>
+                <tr><td><code class="docs__token">.nc-textarea--success</code></td><td>Erfolg</td><td>Gr&uuml;ner Rand, signalisiert g&uuml;ltige Eingabe</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Spezial-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-textarea--autosize</code></td><td>Auto-Height: resize deaktiviert, H&ouml;he wird per JS gesteuert</td></tr>
+                <tr><td><code class="docs__token">.nc-textarea--no-resize</code></td><td>Resize komplett deaktiviert</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Counter-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-textarea__counter--limit</code></td><td>Wird gesetzt wenn maxlength erreicht ist &mdash; rote Farbe</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">rows</code></td><td>number</td><td>Sichtbare Zeilenanzahl (Default: browserspezifisch, empfohlen: 4)</td></tr>
+                <tr><td><code class="docs__token">cols</code></td><td>number</td><td>Sichtbare Spaltenbreite (selten ben&ouml;tigt, CSS-Width bevorzugen)</td></tr>
+                <tr><td><code class="docs__token">maxlength</code></td><td>number</td><td>Maximale Zeichenanzahl &mdash; aktiviert den Zeichenz&auml;hler</td></tr>
+                <tr><td><code class="docs__token">minlength</code></td><td>number</td><td>Minimale Zeichenanzahl f&uuml;r Validierung</td></tr>
+                <tr><td><code class="docs__token">placeholder</code></td><td>string</td><td>Platzhaltertext (verschwindet bei Eingabe)</td></tr>
+                <tr><td><code class="docs__token">required</code></td><td>boolean</td><td>Pflichtfeld-Markierung</td></tr>
+                <tr><td><code class="docs__token">disabled</code></td><td>boolean</td><td>Deaktiviert &mdash; nicht editierbar, nicht fokussierbar</td></tr>
+                <tr><td><code class="docs__token">readonly</code></td><td>boolean</td><td>Nur lesbar &mdash; fokussierbar, aber nicht editierbar</td></tr>
+                <tr><td><code class="docs__token">aria-invalid</code></td><td>"true" | "false"</td><td>Kennzeichnet ung&uuml;ltige Eingabe (aktiviert Error-Styling)</td></tr>
+                <tr><td><code class="docs__token">aria-describedby</code></td><td>string</td><td>Verweist auf Hilfetext oder Fehlermeldung</td></tr>
+                <tr><td><code class="docs__token">aria-label</code></td><td>string</td><td>Barrierefreies Label (wenn kein sichtbares Label vorhanden)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Textarea-spezifisch</td></tr>
+                <tr><td><code class="docs__token">--nc-textarea-min-height</code></td><td>80px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-textarea-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-textarea-resize</code></td><td>vertical</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Padding (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-padding-x-sm</code></td><td>&mdash;</td><td>var(--fnd-spacing-03) (12px)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-padding-x-md</code></td><td>&mdash;</td><td>var(--fnd-spacing-04) (16px)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-padding-x-lg</code></td><td>&mdash;</td><td>var(--fnd-spacing-05) (20px)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-font-size-sm</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-font-size-md</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-font-size-lg</code></td><td>&mdash;</td><td>var(--fs-base)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-lg) (8px)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-width</code></td><td>&mdash;</td><td>var(--fnd-border-width-xs) (1px)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-transition-duration</code></td><td>&mdash;</td><td>var(--fnd-motion-duration-200)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-placeholder</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-hover</code></td><td>&mdash;</td><td>var(--fnd-color-border-strong)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-focus</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-focus)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-error</code></td><td>&mdash;</td><td>var(--fnd-color-border-danger)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-success</code></td><td>&mdash;</td><td>var(--fnd-color-border-success)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Disabled (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-opacity</code></td><td>0.5</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Readonly (von Input)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-bg-readonly</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-readonly</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Counter / Hint</td></tr>
+                <tr><td><code class="docs__token">--nc-form-hint-font-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-form-hint-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-form-hint-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-01) (4px)</td></tr>
+                <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Textarea --&gt;
+&lt;textarea class="nc-textarea [--sm|--lg] [--error|--success]"
+          rows="4"
+          placeholder="Text eingeben..."&gt;&lt;/textarea&gt;
+
+&lt;!-- Textarea mit Zeichenz&auml;hler --&gt;
+&lt;div class="nc-textarea-wrapper"&gt;
+  &lt;textarea class="nc-textarea"
+            rows="4"
+            maxlength="200"
+            placeholder="Maximal 200 Zeichen..."&gt;&lt;/textarea&gt;
+  &lt;span class="nc-textarea__counter"&gt;0 / 200&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Auto-Resize Textarea --&gt;
+&lt;textarea class="nc-textarea nc-textarea--autosize"
+          rows="2"
+          placeholder="W&auml;chst automatisch..."&gt;&lt;/textarea&gt;
+
+&lt;!-- Disabled --&gt;
+&lt;textarea class="nc-textarea" disabled
+          placeholder="Nicht editierbar"&gt;&lt;/textarea&gt;
+
+&lt;!-- Readonly --&gt;
+&lt;textarea class="nc-textarea" readonly&gt;Nur lesen&lt;/textarea&gt;
+
+&lt;!-- Error mit aria-invalid --&gt;
+&lt;textarea class="nc-textarea nc-textarea--error"
+          aria-invalid="true"
+          aria-describedby="error-msg"&gt;&lt;/textarea&gt;
+&lt;span id="error-msg"&gt;Bitte f&uuml;llen Sie dieses Feld aus.&lt;/span&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Die Textarea-Komponente ist ein interaktives Formularelement und muss die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Keyboard -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="6" y1="16" x2="18" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Navigation</h4>
+              <ul>
+                <li><code class="docs__token">Tab</code> &mdash; Fokus auf die Textarea setzen / weiter zum n&auml;chsten Element</li>
+                <li><code class="docs__token">Shift+Tab</code> &mdash; Fokus zur&uuml;ck zum vorherigen Element</li>
+                <li><code class="docs__token">Enter</code> &mdash; Neue Zeile im Text (im Gegensatz zum Input-Feld)</li>
+                <li>Texteingabe, Pfeiltasten, Markierung funktionieren wie &uuml;blich</li>
+                <li>Bei <code class="docs__token">disabled</code> wird die Textarea &uuml;bersprungen</li>
+                <li>Bei <code class="docs__token">readonly</code> bleibt die Textarea fokussierbar, Text kann markiert/kopiert werden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ARIA -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ARIA-Attribute</h4>
+              <ul>
+                <li><code class="docs__token">aria-invalid="true"</code> &mdash; kennzeichnet ung&uuml;ltige Eingabe, aktiviert Error-Styling</li>
+                <li><code class="docs__token">aria-describedby</code> &mdash; verweist auf Hilfetext, Fehlermeldung oder Zeichenz&auml;hler</li>
+                <li><code class="docs__token">aria-label</code> &mdash; barrierefreies Label, wenn kein sichtbares <code class="docs__token">&lt;label&gt;</code> vorhanden ist</li>
+                <li><code class="docs__token">aria-required="true"</code> &mdash; alternativ zu <code class="docs__token">required</code> Attribut</li>
+                <li>Immer ein sichtbares <code class="docs__token">&lt;label&gt;</code> mit <code class="docs__token">for</code>-Attribut oder <code class="docs__token">aria-label</code> verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Screen Reader -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Screenreader-Ank&uuml;ndigungen</h4>
+              <ul>
+                <li>Label wird beim Fokussieren vorgelesen, gefolgt von &ldquo;Textbereich&rdquo; (oder &ldquo;text area&rdquo;)</li>
+                <li>Placeholder wird als zus&auml;tzlicher Kontext angek&uuml;ndigt, ersetzt aber kein Label</li>
+                <li>Bei <code class="docs__token">aria-invalid="true"</code> wird &ldquo;ung&uuml;ltig&rdquo; angek&uuml;ndigt</li>
+                <li>Bei <code class="docs__token">required</code> wird &ldquo;erforderlich&rdquo; angek&uuml;ndigt</li>
+                <li>Zeichenz&auml;hler mit <code class="docs__token">aria-live="polite"</code> f&uuml;r dynamische Aktualisierungen</li>
+                <li>Fehlermeldungen &uuml;ber <code class="docs__token">aria-describedby</code> verkn&uuml;pfen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus Visible -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Visible</h4>
+              <ul>
+                <li>Sichtbarer Fokusring &uuml;ber <code class="docs__token">:focus-visible</code> via <code class="docs__token">@include focus-ring</code></li>
+                <li>Fokusring verwendet <code class="docs__token">--nc-input-border-focus</code> (interaktive Focus-Farbe)</li>
+                <li>Der Fokusring ist bei allen Themes ausreichend kontrastreich</li>
+                <li>Kein Fokusring bei Maus-Klick (nur bei Tastatur-Navigation)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Textarea mit Label --&gt;
+&lt;label class="nc-form-label" for="comment"&gt;
+  &lt;span class="nc-form-label__text"&gt;Kommentar&lt;/span&gt;
+&lt;/label&gt;
+&lt;textarea class="nc-textarea" id="comment" rows="4"
+          placeholder="Schreiben Sie Ihren Kommentar..."&gt;&lt;/textarea&gt;
+
+&lt;!-- RICHTIG: Textarea mit Zeichenz&auml;hler und aria-describedby --&gt;
+&lt;label class="nc-form-label" for="bio"&gt;
+  &lt;span class="nc-form-label__text"&gt;Biografie&lt;/span&gt;
+&lt;/label&gt;
+&lt;textarea class="nc-textarea" id="bio" rows="4"
+          maxlength="200"
+          aria-describedby="bio-counter"&gt;&lt;/textarea&gt;
+&lt;span class="nc-textarea__counter" id="bio-counter"
+      aria-live="polite"&gt;0 / 200&lt;/span&gt;
+
+&lt;!-- RICHTIG: Error-Zustand mit Fehlermeldung --&gt;
+&lt;label class="nc-form-label" for="msg"&gt;
+  &lt;span class="nc-form-label__text"&gt;Nachricht&lt;/span&gt;
+&lt;/label&gt;
+&lt;textarea class="nc-textarea nc-textarea--error" id="msg"
+          aria-invalid="true"
+          aria-describedby="msg-error"
+          required&gt;&lt;/textarea&gt;
+&lt;span id="msg-error" role="alert"&gt;
+  Bitte geben Sie eine Nachricht ein.
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Kein Label --&gt;
+&lt;textarea class="nc-textarea"
+          placeholder="Kommentar..."&gt;&lt;/textarea&gt;
+
+&lt;!-- FALSCH: Placeholder als Ersatz f&uuml;r Label --&gt;
+&lt;textarea class="nc-textarea"
+          placeholder="Ihr Name"&gt;&lt;/textarea&gt;
+&lt;!-- Placeholder verschwindet bei Eingabe, kein Label vorhanden --&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="textarea-docs.js"></script>
+<!-- /SCRIPTS -->

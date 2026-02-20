@@ -1,0 +1,162 @@
+// ==========================================================================
+// 01-Tools: Layout Mixins
+// ==========================================================================
+// Mixins für Layout-Patterns
+// ==========================================================================
+
+@use 'sass:map';
+@use '../00-settings/breakpoints' as *;
+@use '../00-settings/spacing' as *;
+
+// ---------------------------------------------------------------------------
+// Container Padding (eliminiert ~15x Code-Duplizierung)
+// ---------------------------------------------------------------------------
+
+/// Container padding — fluid with clamp()
+/// Scales from 16px (320px viewport) to 48px (1600px viewport).
+/// At xxl (1920px) switches to centered max-width with no padding.
+@mixin container-padding {
+  margin-inline: auto;
+  box-sizing: border-box;
+  padding-inline: clamp(16px, 3.5vw, 48px);
+  --container-pad: clamp(16px, 3.5vw, 48px);
+
+  @media (min-width: map.get($breakpoints, 'xxl')) {
+    padding-inline: 0;
+    max-width: $container-max-width;
+    --container-pad: 0px;
+  }
+}
+
+/// Container with max-width only (no padding)
+@mixin container-max-width {
+  margin-inline: auto;
+  max-width: $container-max-width;
+}
+
+/// Wide container with max-width only (no padding)
+@mixin container-max-width-wide {
+  margin-inline: auto;
+  max-width: $container-max-width-wide;
+}
+
+/// Container padding with wide max-width at XXL
+@mixin container-padding-wide {
+  @include container-padding;
+
+  @media (min-width: map.get($breakpoints, 'xxl')) {
+    max-width: $container-max-width-wide; // override standard container-padding max-width
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Flexbox Helpers
+// ---------------------------------------------------------------------------
+
+/// Flex center (both axes)
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/// Flex between (space-between)
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/// Flex column
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/// Flex row wrap
+@mixin flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// ---------------------------------------------------------------------------
+// Grid Helpers
+// ---------------------------------------------------------------------------
+
+/// 12-column grid container
+@mixin grid-container {
+  --columns: 12;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+/// Grid span columns
+/// @param {Number} $n - Number of columns
+@mixin grid-span($n) {
+  grid-column: span #{$n};
+}
+
+// ---------------------------------------------------------------------------
+// Positioning
+// ---------------------------------------------------------------------------
+
+/// Absolute fill (inset: 0)
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+/// Fixed fill
+@mixin fixed-fill {
+  position: fixed;
+  inset: 0;
+}
+
+/// Sticky top
+/// @param {Length} $top [0] - Top offset
+@mixin sticky-top($top: 0) {
+  position: sticky;
+  top: $top;
+}
+
+// ---------------------------------------------------------------------------
+// Touch Target (WCAG 2.5.8)
+// ---------------------------------------------------------------------------
+
+/// Ensure minimum touch target size
+/// @param {Length} $min [var(--fnd-touch-target-min)] - Minimum size (default 44px)
+@mixin touch-target($min: var(--fnd-touch-target-min)) {
+  min-height: #{$min};
+  min-width: #{$min};
+}
+
+// ---------------------------------------------------------------------------
+// Overflow
+// ---------------------------------------------------------------------------
+
+/// Hide scrollbar
+@mixin hide-scrollbar {
+  scrollbar-width: none; // Firefox
+  
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari
+  }
+}
+
+/// Text overflow ellipsis
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/// Multi-line text clamp
+/// @param {Number} $lines - Number of lines
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: #{$lines};
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

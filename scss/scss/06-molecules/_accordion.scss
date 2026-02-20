@@ -1,0 +1,141 @@
+// ==========================================================================
+// 06-Molecules: Accordion
+// ==========================================================================
+// Accordion/Details-Komponente
+// Migriert von: solutions.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.accordion {
+  --time-to-wait: 10s;
+}
+
+// ---------------------------------------------------------------------------
+// Accordion Item
+// ---------------------------------------------------------------------------
+
+.accordion-item {
+  padding-block: var(--fnd-spacing-07);
+  border-block: 1px solid var(--fnd-color-border-low);
+  overflow-y: clip;
+  
+  + .accordion-item {
+    border-top: none;
+  }
+  
+  p {
+    margin: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accordion Summary (Trigger)
+// ---------------------------------------------------------------------------
+
+.accordion-item-summary {
+  @include heading('xs');
+  color: var(--fnd-color-text-high);
+  list-style: none;
+  cursor: pointer;
+  
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accordion Summary Icon
+// ---------------------------------------------------------------------------
+
+.accordion-item-summary-icon {
+  display: grid;
+  background-color: var(--fnd-color-background-secondary);
+  color: var(--fnd-color-text-mid);
+  border-radius: var(--fnd-radius-lg);
+  padding: var(--fnd-spacing-03);
+  
+  > * {
+    grid-area: 1 / 1;
+  }
+  
+  .icon {
+    width: var(--fnd-spacing-04);
+    height: var(--fnd-spacing-04);
+    display: grid;
+    align-content: center;
+    @include transition(transform, '200');
+  }
+  
+  .accordion-icon-collapse {
+    transform: scaleY(0);
+  }
+}
+
+// Open State Icons
+[open] .accordion-item-summary-icon {
+  .accordion-icon-collapse {
+    transform: scaleY(1);
+  }
+  
+  .accordion-icon-expand {
+    transform: scaleY(0);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accordion Content
+// ---------------------------------------------------------------------------
+
+.accordion-item-content {
+  @include paragraph('l');
+  color: var(--fnd-color-text-mid);
+  overflow-y: clip;
+  
+  @include desktop-up {
+    margin-inline-end: var(--fnd-spacing-09);
+  }
+  
+  > :first-child {
+    padding-block-start: var(--fnd-spacing-04);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accordion Progress Bar
+// ---------------------------------------------------------------------------
+
+.accordion-progress {
+  display: none;
+  
+  @include desktop-up {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--fnd-color-border-high);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  
+  &.active {
+    transform: scaleX(1);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Data Accordion (für Animated Content)
+// ---------------------------------------------------------------------------
+
+[data-accordion] {
+  @include transition(opacity, '200');
+  transition-delay: var(--fnd-motion-delay-200);
+  
+  @include desktop-up {
+    &:not(.show) {
+      opacity: 0;
+      transition-delay: 0s;
+      pointer-events: none;
+    }
+  }
+}

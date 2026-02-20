@@ -1,0 +1,146 @@
+// ==========================================================================
+// 06-Molecules: Card Testimonials
+// ==========================================================================
+// Testimonial/Quote Card Variante
+// Migriert von: cards.css (.cards.testimonials)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.cards.testimonials {
+  ul {
+    display: grid;
+    gap: var(--fnd-spacing-06);
+    
+    @include tablet-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop-up {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  li {
+    background-color: var(--fnd-color-background-secondary);
+    border-radius: var(--fnd-radius-lg);
+    padding: var(--fnd-spacing-06);
+    @include flex-column;
+    
+    @include desktop-up {
+      padding: var(--fnd-spacing-08);
+    }
+  }
+  
+  .card-content {
+    @include flex-column;
+    height: 100%;
+    
+    // Quote Icon
+    &::before {
+      content: '"';
+      @include display('s');
+      color: var(--fnd-color-text-low);
+      line-height: 1;
+      margin-bottom: var(--fnd-spacing-04);
+    }
+    
+    // Quote Text
+    blockquote,
+    .quote {
+      @include heading('xs');
+      color: var(--fnd-color-text-high);
+      margin: 0 0 var(--fnd-spacing-06);
+      flex-grow: 1;
+      
+      p {
+        margin: 0;
+      }
+    }
+    
+    // Author Info
+    .author,
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      margin-top: auto;
+      
+      picture {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      
+      .author-info {
+        .name {
+          @include paragraph('l');
+          color: var(--fnd-color-text-high);
+          margin: 0;
+          font-weight: var(--fnd-font-weight-medium);
+        }
+        
+        .role,
+        .position {
+          @include paragraph('m');
+          color: var(--fnd-color-text-mid);
+          margin: 0;
+        }
+      }
+    }
+    
+    // Company Logo
+    .company-logo {
+      margin-top: var(--fnd-spacing-04);
+      
+      img {
+        height: 24px;
+        width: auto;
+        filter: grayscale(100%);
+        opacity: 0.6;
+      }
+    }
+  }
+  
+  // Video Testimonial Variant
+  &.with-video {
+    li {
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    .card-content {
+      &::before {
+        display: none;
+      }
+      
+      picture,
+      .video-wrap {
+        aspect-ratio: var(--fnd-image-ratio-16-9);
+        width: 100%;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      
+      .quote-section {
+        padding: var(--fnd-spacing-06);
+        
+        @include desktop-up {
+          padding: var(--fnd-spacing-08);
+        }
+      }
+    }
+  }
+}

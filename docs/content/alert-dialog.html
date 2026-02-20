@@ -1,0 +1,542 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Alert Dialog</h1>
+      <p class="docs__subtitle">
+        Modaler Best&auml;tigungs-Dialog basierend auf dem nativen <code class="docs__token">&lt;dialog&gt;</code>-Element.
+        Fokus-Trap, ESC-Close und Body-Scroll-Lock sind nativ integriert.
+        Kanonische Klasse: <code class="docs__token">.nc-alert-dialog</code> (BEM).
+        Verwendet <code class="docs__token">--nc-dialog-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="alert-dialog-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Alert-Dialog-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Action-Style und Beschreibungs-Modus, um den Alert Dialog live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Action-Style</span>
+                <select class="docs-stage__select" id="stage-action-style">
+                  <option value="danger" selected>Danger</option>
+                  <option value="primary">Primary</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-description" checked />
+                  <span class="docs-stage__label">Beschreibung</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <button class="nc-button" id="stage-open-dialog">Dialog &ouml;ffnen</button>
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;Sind Sie sicher?&lt;/h2&gt;
+    &lt;p class="nc-alert-dialog__description" id="dlg-desc"&gt;
+      Diese Aktion kann nicht r&uuml;ckg&auml;ngig gemacht werden.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger" autofocus&gt;L&ouml;schen&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</pre>
+          </div>
+
+          <!-- Static Examples -->
+
+          <!-- 1. Basis Alert Dialog -->
+          <section class="docs__section" id="basis-alert-dialog">
+            <h2 class="docs__section-title">Basis Alert Dialog</h2>
+            <p class="docs__section-desc">
+              Kanonische HTML-Struktur eines Alert Dialogs. Der Dialog wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und ist ein modales Overlay.
+            </p>
+            <div class="docs__code-block">&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;Sind Sie sicher?&lt;/h2&gt;
+    &lt;p class="nc-alert-dialog__description" id="dlg-desc"&gt;
+      Diese Aktion kann nicht r&uuml;ckg&auml;ngig gemacht werden.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger" autofocus&gt;L&ouml;schen&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</div>
+          </section>
+
+          <!-- 2. Destructive Confirmation -->
+          <section class="docs__section" id="destructive-confirmation">
+            <h2 class="docs__section-title">Destructive Confirmation</h2>
+            <p class="docs__section-desc">
+              Ein destruktiver Best&auml;tigungs-Dialog f&uuml;r kritische Aktionen wie das L&ouml;schen eines Kontos.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--danger nc-button--outline" id="demo-open-destructive">Konto l&ouml;schen</button>
+            </div>
+          </section>
+
+          <!-- 3. Ohne Beschreibung -->
+          <section class="docs__section" id="ohne-beschreibung">
+            <h2 class="docs__section-title">Ohne Beschreibung</h2>
+            <p class="docs__section-desc">
+              Ein vereinfachter Dialog ohne Beschreibungstext &mdash; nur Titel und Aktions-Buttons.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--outline" id="demo-open-simple">Einfacher Dialog</button>
+            </div>
+          </section>
+
+          <!-- 4. JavaScript API -->
+          <section class="docs__section" id="js-api-usage">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <p class="docs__section-desc">
+              Die native <code class="docs__token">&lt;dialog&gt;</code>-API zum &Ouml;ffnen, Schlie&szlig;en und Event-Handling.
+            </p>
+            <div class="docs__code-block">// &Ouml;ffnen (modal mit Backdrop + Focus-Trap)
+const dialog = document.querySelector('.nc-alert-dialog');
+dialog.showModal();
+
+// Schlie&szlig;en
+dialog.close();
+
+// Event: Dialog wurde geschlossen
+dialog.addEventListener('close', () =&gt; {
+  console.log('Dialog geschlossen, returnValue:', dialog.returnValue);
+});
+
+// Event: ESC gedr&uuml;ckt
+dialog.addEventListener('cancel', (e) =&gt; {
+  // Optional: e.preventDefault() um ESC zu blockieren
+});</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- Dialog-Tokens -->
+          <section class="docs__section" id="style-dialog-tokens">
+            <h2 class="docs__section-title">Dialog-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dialog-max-width</code></td><td>560px</td><td>Maximale Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-padding</code></td><td>var(--fnd-spacing-06)</td><td>Innenabstand (24px)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-radius</code></td><td>var(--fnd-radius-3xl)</td><td>Border-Radius (16px)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-bg</code></td><td>var(--fnd-color-background-primary)</td><td>Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-shadow</code></td><td>var(--fnd-shadow-xl)</td><td>Schatten</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-overlay-bg</code></td><td>rgba(0,0,0,0.5)</td><td>Overlay-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-font-size</code></td><td>heading-m</td><td>Titel-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-font-weight</code></td><td>600</td><td>Titel-Gewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-color</code></td><td>text-primary</td><td>Titel-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>body-m</td><td>Beschreibungs-Schrift</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>text-secondary</td><td>Beschreibungs-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>var(--fnd-spacing-03) / 12px</td><td>Button-Abstand</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-header-gap</code></td><td>var(--fnd-spacing-02) / 8px</td><td>Header-Gap</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-section-gap</code></td><td>var(--fnd-spacing-06) / 24px</td><td>Section-Gap</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Animation -->
+          <section class="docs__section" id="style-animation">
+            <h2 class="docs__section-title">Animation</h2>
+            <p class="docs__section-desc">
+              Der Dialog nutzt CSS-Transitions f&uuml;r sanfte Ein- und Ausblend-Animationen.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Open</strong></td><td>opacity 0&rarr;1, translate(0, 16px)&rarr;translate(0, 0), @starting-style</td></tr>
+                <tr><td><strong>Duration</strong></td><td>--fnd-motion-duration-300</td></tr>
+                <tr><td><strong>Easing</strong></td><td>--fnd-motion-ease-focused</td></tr>
+                <tr><td><strong>Backdrop</strong></td><td>Fade-in Animation</td></tr>
+                <tr><td><strong>Reduced Motion</strong></td><td>transition: none</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- SCSS Mixin-Referenz -->
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixin-Referenz</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">alert-dialog-base</code></td><td>Fixed, centered, display logic, animations</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-header</code></td><td>Flex-column, gap</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-title</code></td><td>Font-size, weight, color</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-description</code></td><td>Font-size, color</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-footer</code></td><td>Flex, justify-end, gap</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BEM-Klassen&uuml;bersicht -->
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-alert-dialog                    // Block (dialog-Element)
+.nc-alert-dialog__header            // Header-Bereich (Titel + Beschreibung)
+.nc-alert-dialog__title             // Dialog-Titel (h2)
+.nc-alert-dialog__description       // Beschreibungstext (optional)
+.nc-alert-dialog__footer            // Footer mit Aktions-Buttons
+
+// Pseudo-Elemente
+::backdrop                          // Nativer Backdrop bei showModal()</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-alert-dialog</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-alert-dialog</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-dialog-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;dialog&gt;</code></td></tr>
+                <tr><td><strong>JS-API</strong></td><td><code class="docs__token">showModal()</code> / <code class="docs__token">close()</code></td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Modal &mdash; Fokus-Trap, ESC-Close, Backdrop-Click</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS-Klassen -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-alert-dialog</code></td><td>Block</td><td>Dialog-Container. Natives <code class="docs__token">&lt;dialog&gt;</code>-Element.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert-dialog__header</code></td><td>Element</td><td>Header-Bereich mit Titel und optionaler Beschreibung.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert-dialog__title</code></td><td>Element</td><td>Dialog-Titel. <code class="docs__token">&lt;h2&gt;</code>-Element.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert-dialog__description</code></td><td>Element</td><td>Beschreibungstext (optional). <code class="docs__token">&lt;p&gt;</code>-Element.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert-dialog__footer</code></td><td>Element</td><td>Footer mit Cancel- und Action-Button.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-max-width</code></td><td>560px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-padding</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-radius</code></td><td>16px</td><td>var(--fnd-radius-3xl)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Farben</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-shadow</code></td><td>&mdash;</td><td>var(--fnd-shadow-xl)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-overlay-bg</code></td><td>rgba(0,0,0,0.5)</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typografie</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-font-size</code></td><td>&mdash;</td><td>heading-m</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-font-weight</code></td><td>600</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-title-color</code></td><td>&mdash;</td><td>text-primary</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>&mdash;</td><td>body-m</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>&mdash;</td><td>text-secondary</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Spacing</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-header-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-dialog-section-gap</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">alert-dialog-base</code></td><td>&mdash;</td><td>Fixed positioning, centered, max-width, padding, radius, shadow, backdrop, display logic, open/close animation.</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-header</code></td><td>&mdash;</td><td>Flex-column Layout, gap zwischen Titel und Beschreibung.</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-title</code></td><td>&mdash;</td><td>Font-size (heading-m), font-weight (600), color (text-primary).</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-description</code></td><td>&mdash;</td><td>Font-size (body-m), color (text-secondary).</td></tr>
+                <tr><td><code class="docs__token">alert-dialog-footer</code></td><td>&mdash;</td><td>Flex, justify-content: flex-end, gap f&uuml;r Buttons.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. JavaScript API -->
+          <section class="docs__section" id="api-js">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <table class="docs__table">
+              <thead><tr><th>Methode / Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">showModal()</code></td><td>Methode</td><td>&Ouml;ffnet den Dialog modal mit Backdrop und Focus-Trap.</td></tr>
+                <tr><td><code class="docs__token">close(returnValue?)</code></td><td>Methode</td><td>Schlie&szlig;t den Dialog. Optionaler returnValue wird gesetzt.</td></tr>
+                <tr><td><code class="docs__token">returnValue</code></td><td>Property</td><td>Enth&auml;lt den Wert, der bei <code class="docs__token">close()</code> &uuml;bergeben wurde.</td></tr>
+                <tr><td><code class="docs__token">open</code></td><td>Property</td><td>Boolean &mdash; <code class="docs__token">true</code> wenn der Dialog ge&ouml;ffnet ist.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Events</h3>
+            <table class="docs__table">
+              <thead><tr><th>Event</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">close</code></td><td>Wird ausgel&ouml;st wenn der Dialog geschlossen wird (close() oder ESC).</td></tr>
+                <tr><td><code class="docs__token">cancel</code></td><td>Wird ausgel&ouml;st wenn ESC gedr&uuml;ckt wird. <code class="docs__token">preventDefault()</code> blockiert das Schlie&szlig;en.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Alert Dialog Struktur --&gt;
+&lt;dialog class="nc-alert-dialog" aria-labelledby="[title-id]" aria-describedby="[desc-id]"&gt;
+
+  &lt;!-- Slot 1: Header (Titel + optionale Beschreibung) --&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="[title-id]"&gt;Titel&lt;/h2&gt;
+    &lt;p class="nc-alert-dialog__description" id="[desc-id]"&gt;
+      Optionaler Beschreibungstext.
+    &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Slot 2: Footer (Cancel + Action Buttons) --&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button [--variant]" autofocus&gt;Aktion&lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;/dialog&gt;
+
+&lt;!-- Ohne Beschreibung --&gt;
+&lt;dialog class="nc-alert-dialog" aria-labelledby="[title-id]"&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="[title-id]"&gt;Titel&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button" autofocus&gt;Aktion&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Der Alert Dialog nutzt das native <code class="docs__token">&lt;dialog&gt;</code>-Element und erf&uuml;llt die WCAG 2.1 AA-Kriterien nativ.
+          </p>
+
+          <!-- 1. Natives <dialog> -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Natives <code class="docs__token">&lt;dialog&gt;</code></h4>
+              <ul>
+                <li>Automatisch <code class="docs__token">role="dialog"</code> und <code class="docs__token">aria-modal="true"</code> bei <code class="docs__token">showModal()</code></li>
+                <li>Kein manuelles ARIA-Setup n&ouml;tig &mdash; der Browser &uuml;bernimmt die korrekte Semantik</li>
+                <li>Unterst&uuml;tzt in allen modernen Browsern (Chrome, Firefox, Safari, Edge)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. aria-labelledby / aria-describedby -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-labelledby / aria-describedby</h4>
+              <ul>
+                <li><code class="docs__token">aria-labelledby</code> verlinkt den Dialog mit der Titel-ID (<code class="docs__token">.nc-alert-dialog__title</code>)</li>
+                <li><code class="docs__token">aria-describedby</code> verlinkt mit der Beschreibungs-ID (<code class="docs__token">.nc-alert-dialog__description</code>)</li>
+                <li>Screenreader lesen beim &Ouml;ffnen automatisch Titel und Beschreibung vor</li>
+                <li>Ohne Beschreibung: <code class="docs__token">aria-describedby</code> weglassen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. Focus-Trap -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Trap</h4>
+              <ul>
+                <li>Nativ bei <code class="docs__token">showModal()</code> &mdash; Fokus bleibt im Dialog</li>
+                <li>Tab-Navigation zykliert zwischen den interaktiven Elementen innerhalb des Dialogs</li>
+                <li>Elemente au&szlig;erhalb des Dialogs sind nicht erreichbar (inert)</li>
+                <li>Kein JavaScript-basierter Focus-Trap n&ouml;tig</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. ESC-Close -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ESC-Close</h4>
+              <ul>
+                <li>Native Tastaturunterst&uuml;tzung &mdash; ESC schlie&szlig;t den Dialog</li>
+                <li>L&ouml;st das <code class="docs__token">cancel</code>-Event aus, gefolgt vom <code class="docs__token">close</code>-Event</li>
+                <li>Optional: <code class="docs__token">e.preventDefault()</code> im <code class="docs__token">cancel</code>-Event blockiert das Schlie&szlig;en per ESC</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5. Focus-R&uuml;ckkehr -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-R&uuml;ckkehr</h4>
+              <ul>
+                <li>Fokus kehrt automatisch zum Trigger-Element zur&uuml;ck, das den Dialog ge&ouml;ffnet hat</li>
+                <li>Natives Verhalten von <code class="docs__token">&lt;dialog&gt;</code> &mdash; kein manuelles Focus-Management n&ouml;tig</li>
+                <li>Funktioniert sowohl bei <code class="docs__token">close()</code> als auch bei ESC</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. autofocus -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>autofocus</h4>
+              <ul>
+                <li>Action-Button mit <code class="docs__token">autofocus</code>-Attribut f&uuml;r direkten Keyboard-Zugriff</li>
+                <li>Bei <code class="docs__token">showModal()</code> erh&auml;lt das Element mit <code class="docs__token">autofocus</code> automatisch den Fokus</li>
+                <li>Erm&ouml;glicht sofortige Bet&auml;tigung per Enter/Space ohne Tab-Navigation</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. Body-Scroll-Lock -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Body-Scroll-Lock</h4>
+              <ul>
+                <li>CSS-basiert via <code class="docs__token">body:has(.nc-alert-dialog[open]) { overflow: hidden; }</code></li>
+                <li>Verhindert Hintergrund-Scrollen w&auml;hrend der Dialog ge&ouml;ffnet ist</li>
+                <li>Kein JavaScript n&ouml;tig &mdash; rein deklarativ</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Alert Dialog mit Titel und Beschreibung --&gt;
+&lt;dialog class="nc-alert-dialog"
+        aria-labelledby="dlg-title"
+        aria-describedby="dlg-desc"&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;Sind Sie sicher?&lt;/h2&gt;
+    &lt;p class="nc-alert-dialog__description" id="dlg-desc"&gt;
+      Diese Aktion kann nicht r&uuml;ckg&auml;ngig gemacht werden.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger" autofocus&gt;L&ouml;schen&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- RICHTIG: Ohne Beschreibung (kein aria-describedby) --&gt;
+&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title"&gt;
+  &lt;div class="nc-alert-dialog__header"&gt;
+    &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;&Auml;nderungen verwerfen?&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button" autofocus&gt;Verwerfen&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- RICHTIG: showModal() statt show() verwenden --&gt;
+&lt;script&gt;
+  // showModal() aktiviert Backdrop, Focus-Trap und aria-modal
+  dialog.showModal();
+&lt;/script&gt;
+
+&lt;!-- FALSCH: show() statt showModal() --&gt;
+&lt;script&gt;
+  // show() hat keinen Backdrop, keinen Focus-Trap, kein aria-modal
+  dialog.show(); // NICHT f&uuml;r Alert Dialogs verwenden!
+&lt;/script&gt;
+
+&lt;!-- FALSCH: Kein aria-labelledby --&gt;
+&lt;dialog class="nc-alert-dialog"&gt;
+  &lt;!-- Screenreader kann den Dialog nicht identifizieren --&gt;
+&lt;/dialog&gt;
+
+&lt;!-- FALSCH: autofocus fehlt --&gt;
+&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title"&gt;
+  &lt;div class="nc-alert-dialog__footer"&gt;
+    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger"&gt;L&ouml;schen&lt;/button&gt;
+    &lt;!-- Kein autofocus &mdash; Keyboard-User muss erst tab-navigieren --&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="alert-dialog-docs.js"></script>
+<!-- /SCRIPTS -->

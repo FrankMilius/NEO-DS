@@ -1,0 +1,661 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Badge</h1>
+      <p class="docs__subtitle">
+        Nicht-interaktive Status-Indikatoren f&uuml;r Labels, Z&auml;hler und Zust&auml;nde.
+        Badges sind rein dekorativ und dienen der visuellen Kennzeichnung &mdash; sie sind nicht klick- oder fokussierbar.
+        Kanonische Klasse: <code class="docs__token">.nc-badge</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-badge-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="badge-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Badge-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Variante, Icon und Dot-Modus, um das Badge live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM (20px)</option>
+                  <option value="md" selected>MD (24px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default</option>
+                  <option value="secondary">Secondary</option>
+                  <option value="outline">Outline</option>
+                  <option value="success">Success</option>
+                  <option value="warning">Warning</option>
+                  <option value="error">Error</option>
+                  <option value="info">Info</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Icon</span>
+                <select class="docs-stage__select" id="stage-icon">
+                  <option value="none" selected>Kein Icon</option>
+                  <option value="leading">Leading Icon</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-dot" />
+                  <span class="docs-stage__label">Dot Mode</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders badge here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;span class="nc-badge"&gt;Badge&lt;/span&gt;</pre>
+          </div>
+
+          <!-- All Variants -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten</h2>
+            <p class="docs__section-desc">
+              7 Varianten: Default, Secondary, Outline, Success, Warning, Error, Info.
+              Default-Gr&ouml;&szlig;e ist MD (24px H&ouml;he).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge">Default</span>
+              <span class="nc-badge nc-badge--secondary">Secondary</span>
+              <span class="nc-badge nc-badge--outline">Outline</span>
+              <span class="nc-badge nc-badge--success">Success</span>
+              <span class="nc-badge nc-badge--warning">Warning</span>
+              <span class="nc-badge nc-badge--error">Error</span>
+              <span class="nc-badge nc-badge--info">Info</span>
+            </div>
+          </section>
+
+          <!-- Sizes -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              2 Gr&ouml;&szlig;en: SM (20px H&ouml;he) und MD (24px H&ouml;he, Default).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--sm">Small</span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM &mdash; 20px</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-badge">Medium</span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; 24px</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- With Icon -->
+          <section class="docs__section" id="with-icon">
+            <h2 class="docs__section-title">Mit Icon</h2>
+            <p class="docs__section-desc">
+              Ein Leading-Icon (<code class="docs__token">.nc-badge__icon</code>) kann vor dem Text platziert werden.
+              Das Icon wird inline als SVG eingebunden.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge nc-badge--success">
+                <span class="nc-badge__icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                Erledigt
+              </span>
+              <span class="nc-badge nc-badge--info">
+                <span class="nc-badge__icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+                Info
+              </span>
+              <span class="nc-badge nc-badge--warning">
+                <span class="nc-badge__icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                Warnung
+              </span>
+              <span class="nc-badge nc-badge--error">
+                <span class="nc-badge__icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+                Fehler
+              </span>
+            </div>
+          </section>
+
+          <!-- Dot Badges -->
+          <section class="docs__section" id="dot-badges">
+            <h2 class="docs__section-title">Dot Badges</h2>
+            <p class="docs__section-desc">
+              Mit dem Modifier <code class="docs__token">.nc-badge--dot</code> wird das Badge zu einem kleinen farbigen Punkt
+              ohne Text reduziert. Ideal f&uuml;r Status-Indikatoren.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--dot"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Default</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--dot nc-badge--success"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Success</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--dot nc-badge--warning"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Warning</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--dot nc-badge--error"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Error</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-badge nc-badge--dot nc-badge--info"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Info</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Usage Examples -->
+          <section class="docs__section" id="usage-examples">
+            <h2 class="docs__section-title">Anwendungsbeispiele</h2>
+            <p class="docs__section-desc">
+              Badges in typischen Kontexten: auf Avataren, als Benachrichtigungsz&auml;hler, und als Status-Labels.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Badge auf Avatar</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">FM</span>
+                </div>
+                <span class="nc-badge nc-badge--error nc-badge--sm" style="position: absolute; top: -4px; right: -4px;">3</span>
+              </div>
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">AK</span>
+                </div>
+                <span class="nc-badge nc-badge--dot nc-badge--success" style="position: absolute; top: 0; right: 0;"></span>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Benachrichtigungsz&auml;hler</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02);">
+                <span style="font-size: var(--fnd-typography-body-m-font-size);">Nachrichten</span>
+                <span class="nc-badge nc-badge--error nc-badge--sm">12</span>
+              </div>
+              <div style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02);">
+                <span style="font-size: var(--fnd-typography-body-m-font-size);">Aufgaben</span>
+                <span class="nc-badge nc-badge--warning nc-badge--sm">5</span>
+              </div>
+              <div style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02);">
+                <span style="font-size: var(--fnd-typography-body-m-font-size);">Updates</span>
+                <span class="nc-badge nc-badge--info nc-badge--sm">Neu</span>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Status-Labels</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge nc-badge--success">
+                <span class="nc-badge__icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                Aktiv
+              </span>
+              <span class="nc-badge nc-badge--error">Inaktiv</span>
+              <span class="nc-badge nc-badge--warning">Ausstehend</span>
+              <span class="nc-badge nc-badge--info">Beta</span>
+              <span class="nc-badge nc-badge--secondary">Entwurf</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">H&ouml;hen-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Token</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SM</strong></td><td>20px</td><td><code class="docs__token">--nc-badge-height-sm</code></td></tr>
+                <tr><td><strong>MD</strong></td><td>24px</td><td><code class="docs__token">--nc-badge-height-md</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens je Variante</h2>
+            <table class="docs__table">
+              <thead><tr><th>Variante</th><th>Background</th><th>Color</th><th>Border</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Default</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-default</code></td>
+                  <td><code class="docs__token">--nc-badge-color-default</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-default</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Secondary</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-secondary</code></td>
+                  <td><code class="docs__token">--nc-badge-color-secondary</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-secondary</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Outline</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-outline</code></td>
+                  <td><code class="docs__token">--nc-badge-color-outline</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-outline</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Success</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-success</code></td>
+                  <td><code class="docs__token">--nc-badge-color-success</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-success</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Warning</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-warning</code></td>
+                  <td><code class="docs__token">--nc-badge-color-warning</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-warning</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Error</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-error</code></td>
+                  <td><code class="docs__token">--nc-badge-color-error</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-error</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Info</strong></td>
+                  <td><code class="docs__token">--nc-badge-bg-info</code></td>
+                  <td><code class="docs__token">--nc-badge-color-info</code></td>
+                  <td><code class="docs__token">--nc-badge-border-color-info</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Geometrie-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-badge-padding-x-sm</code></td><td>6px</td><td>Horizontales Padding (SM)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-padding-x-md</code></td><td>8px</td><td>Horizontales Padding (MD)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-radius</code></td><td>9999px</td><td>Border-Radius (Pill-Form)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-size-sm</code></td><td>0.6875rem (11px)</td><td>Schriftgr&ouml;&szlig;e SM</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-size-md</code></td><td>0.75rem (12px)</td><td>Schriftgr&ouml;&szlig;e MD</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-weight</code></td><td>600</td><td>Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-line-height</code></td><td>1</td><td>Zeilenh&ouml;he</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-icon-size</code></td><td>12px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-icon-gap</code></td><td>4px</td><td>Abstand Icon &mdash; Text</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-dot-size</code></td><td>8px</td><td>Dot-Badge-Gr&ouml;&szlig;e</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixin-Referenz</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">badge-base</code></td><td>&mdash;</td><td>Display, Alignment, Radius, Font-Weight, Line-Height, Border-Width. Default MD.</td></tr>
+                <tr><td><code class="docs__token">badge-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'</code></td><td>Height, Padding-X, Font-Size pro Gr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">badge-default</code></td><td>&mdash;</td><td>Farben f&uuml;r Default-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-secondary</code></td><td>&mdash;</td><td>Farben f&uuml;r Secondary-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-outline</code></td><td>&mdash;</td><td>Farben f&uuml;r Outline-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-success</code></td><td>&mdash;</td><td>Farben f&uuml;r Success-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-warning</code></td><td>&mdash;</td><td>Farben f&uuml;r Warning-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-error</code></td><td>&mdash;</td><td>Farben f&uuml;r Error-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-info</code></td><td>&mdash;</td><td>Farben f&uuml;r Info-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-icon-element</code></td><td>&mdash;</td><td>Icon-Sizing, Flex-Shrink, Vertical-Alignment.</td></tr>
+                <tr><td><code class="docs__token">badge-dot</code></td><td>&mdash;</td><td>Dot-Modus: Width/Height, Padding 0, kein Text.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-badge                      // Block (Default: md, default-variante)
+.nc-badge__icon                // Icon-Element (leading SVG)
+
+// Gr&ouml;&szlig;en
+.nc-badge--sm                  // 20px H&ouml;he
+// (md = Default, kein Modifier)
+
+// Varianten
+.nc-badge--secondary           // Ged&auml;mpfte Hintergrund-/Textfarbe
+.nc-badge--outline             // Transparenter Hintergrund, Rahmen
+.nc-badge--success             // Gr&uuml;n (Erfolg)
+.nc-badge--warning             // Gelb (Warnung)
+.nc-badge--error               // Rot (Fehler)
+.nc-badge--info                // Blau (Information)
+
+// Modi
+.nc-badge--dot                 // Dot-Modus (kleiner Punkt, kein Text)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-badge</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-badge</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-badge-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_badge.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 24px H&ouml;he (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine &mdash; nicht fokussierbar, nicht klickbar</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;span&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-badge</code></td><td>Block</td><td>Badge-Container. Default: MD (24px), default-Variante, Pill-Form.</td></tr>
+                <tr><td><code class="docs__token">.nc-badge__icon</code></td><td>Element</td><td>Icon-Wrapper (leading). Enth&auml;lt inline SVG.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>H&ouml;he</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-badge--sm</code></td><td>20px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>24px</td><td>Medium &mdash; Default</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><em>(kein Modifier)</em></td><td>Default</td><td>Standard-Badge mit neutraler Farbe</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--secondary</code></td><td>Secondary</td><td>Ged&auml;mpftes, dezentes Badge</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--outline</code></td><td>Outline</td><td>Transparenter Hintergrund, sichtbarer Rahmen</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--success</code></td><td>Erfolg</td><td>Gr&uuml;n &mdash; positiver Status</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--warning</code></td><td>Warnung</td><td>Gelb &mdash; Aufmerksamkeit erforderlich</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--error</code></td><td>Fehler</td><td>Rot &mdash; kritischer Zustand</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--info</code></td><td>Information</td><td>Blau &mdash; informativer Hinweis</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modus-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-badge--dot</code></td><td>Dot-Modus: kleiner farbiger Punkt ohne Text (8px)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Heights</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-height-sm</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-height-md</code></td><td>24px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-padding-x-sm</code></td><td>6px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-padding-x-md</code></td><td>8px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-size-sm</code></td><td>0.6875rem (11px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-size-md</code></td><td>0.75rem (12px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-font-weight</code></td><td>600</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-line-height</code></td><td>1</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-radius</code></td><td>9999px</td><td>var(--fnd-radius-full)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-icon-size</code></td><td>12px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-icon-gap</code></td><td>4px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-dot-size</code></td><td>8px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Default Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-default</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-default</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-default</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Secondary Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-secondary</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-secondary</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-secondary</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Outline Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-outline</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-outline</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-outline</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-success</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-success</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-success</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-warning</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-warning</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-warning</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Error Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-error</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-error</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-error</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-bg-info</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-color-info</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-border-color-info</code></td><td>transparent</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">badge-base</code></td><td>&mdash;</td><td>Inline-Flex, Alignment, Radius, Font-Weight, Line-Height, Border. Default MD.</td></tr>
+                <tr><td><code class="docs__token">badge-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'</code></td><td>Height, Padding-X, Font-Size pro Gr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">badge-default</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Default-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-secondary</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Secondary-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-outline</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Outline-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-success</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Success-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-warning</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Warning-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-error</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Error-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-info</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Info-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-icon-element</code></td><td>&mdash;</td><td>Width/Height des Icons, Flex-Shrink 0, Display Inline-Flex.</td></tr>
+                <tr><td><code class="docs__token">badge-dot</code></td><td>&mdash;</td><td>Dot-Modus: feste Width/Height, Padding 0, Border-Radius 50%, kein Text-Inhalt.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Badge --&gt;
+&lt;span class="nc-badge [--size] [--variant]"&gt;
+  Label
+&lt;/span&gt;
+
+&lt;!-- Badge mit Leading Icon --&gt;
+&lt;span class="nc-badge [--size] [--variant]"&gt;
+
+  &lt;!-- Slot 1: Icon (optional, vor dem Text) --&gt;
+  &lt;span class="nc-badge__icon"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+
+  &lt;!-- Slot 2: Text-Inhalt --&gt;
+  Label
+
+&lt;/span&gt;
+
+&lt;!-- Dot Badge (kein Text) --&gt;
+&lt;span class="nc-badge nc-badge--dot [--variant]"&gt;&lt;/span&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Badge-Komponenten sind nicht-interaktive Status-Indikatoren und m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- R5: Not Focusable -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Nicht fokussierbar (R5)</h4>
+              <ul>
+                <li>Badges d&uuml;rfen <strong>niemals</strong> fokussierbar sein &mdash; kein <code class="docs__token">tabindex</code>, kein <code class="docs__token">&lt;button&gt;</code>, kein <code class="docs__token">&lt;a&gt;</code></li>
+                <li>Kein <code class="docs__token">role="button"</code> oder andere interaktive Rollen verwenden</li>
+                <li>Wenn eine Aktion ben&ouml;tigt wird, stattdessen ein <code class="docs__token">&lt;button&gt;</code> mit Badge-Styling oder einen Tag/Chip verwenden</li>
+                <li>Das Badge-Element ist ein <code class="docs__token">&lt;span&gt;</code> &mdash; rein pr&auml;sentational</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R7: Color Never Sole Signal -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbe nie als alleiniges Signal (R7)</h4>
+              <ul>
+                <li>Farbe darf <strong>nicht</strong> das einzige Mittel sein, um Informationen zu vermitteln (WCAG 1.4.1)</li>
+                <li>Badges m&uuml;ssen immer einen <strong>Textinhalt</strong> oder ein <strong>Icon</strong> zus&auml;tzlich zur Farbe haben</li>
+                <li>Dot-Badges ohne Text brauchen zus&auml;tzlichen Kontext im umgebenden Element (z.B. Label oder <code class="docs__token">aria-label</code> am Container)</li>
+                <li>Beispiel: Nicht nur ein rotes Badge zeigen &mdash; immer auch &ldquo;Fehler&rdquo; oder ein entsprechendes Icon hinzuf&uuml;gen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Screen Reader Announcement -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Screenreader-Ank&uuml;ndigungen</h4>
+              <ul>
+                <li>Der Text-Inhalt des Badges wird automatisch vom Screenreader vorgelesen</li>
+                <li>F&uuml;r Dot-Badges oder Badges ohne sichtbaren Text: <code class="docs__token">aria-label</code> am Badge oder <code class="docs__token">&lt;span class="sr-only"&gt;</code> nutzen</li>
+                <li>Icons innerhalb von Badges sollten <code class="docs__token">aria-hidden="true"</code> haben, da der Badge-Text bereits die Information vermittelt</li>
+                <li>F&uuml;r dynamische Z&auml;hler (z.B. Benachrichtigungen) kann <code class="docs__token">aria-live="polite"</code> am Container sinnvoll sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Color Contrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li>Badge-Text muss mindestens <strong>4.5:1</strong> Kontrast zum Badge-Hintergrund haben</li>
+                <li>Die Default-Tokens aller Varianten erf&uuml;llen WCAG AA</li>
+                <li>Bei Custom-&Uuml;berschreibungen den Kontrast manuell pr&uuml;fen</li>
+                <li>Outline-Variante: Der Rahmen allein gen&uuml;gt nicht als Kontrast &mdash; der Text muss ebenfalls kontrastreich sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Standard Badge mit Text --&gt;
+&lt;span class="nc-badge nc-badge--success"&gt;Aktiv&lt;/span&gt;
+
+&lt;!-- RICHTIG: Badge mit Icon und Text --&gt;
+&lt;span class="nc-badge nc-badge--success"&gt;
+  &lt;span class="nc-badge__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  Erledigt
+&lt;/span&gt;
+
+&lt;!-- RICHTIG: Dot-Badge mit Kontext --&gt;
+&lt;div aria-label="Status: Online"&gt;
+  &lt;span class="nc-badge nc-badge--dot nc-badge--success"&gt;
+    &lt;span class="sr-only"&gt;Online&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Benachrichtigungsz&auml;hler --&gt;
+&lt;div style="position: relative; display: inline-flex;"&gt;
+  &lt;button aria-label="Nachrichten, 5 ungelesen"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-badge nc-badge--error nc-badge--sm" aria-hidden="true"&gt;5&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Badge als Button missbraucht --&gt;
+&lt;span class="nc-badge" role="button" tabindex="0" onclick="..."&gt;
+  Klick mich
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Nur Farbe als Signal --&gt;
+&lt;span class="nc-badge nc-badge--error"&gt;&lt;/span&gt;
+&lt;!-- Kein Text, kein Icon, kein aria-label --&gt;
+
+&lt;!-- FALSCH: Dot ohne Kontext --&gt;
+&lt;span class="nc-badge nc-badge--dot nc-badge--success"&gt;&lt;/span&gt;
+&lt;!-- Kein umgebender Kontext, kein sr-only Text --&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="badge-docs.js"></script>
+<!-- /SCRIPTS -->

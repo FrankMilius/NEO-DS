@@ -1,0 +1,723 @@
+// ==========================================================================
+// 05-Atoms: Button
+// ==========================================================================
+// Token-basiertes Button-System mit 4 Größen, fester Typography,
+// formalisierter Icon-Integration und BEM-Klassen (.nc-button).
+//
+// GRÖSSEN (4 Stufen):
+//   xs → 24px (1.5rem)   font: 12px (compact)
+//   sm → 32px (2rem)     font: 12px (compact)
+//   md → 40px (2.5rem)   font: 16px (expressive) — DEFAULT
+//   lg → 48px (3rem)     font: 16px (expressive)
+//
+// TYPOGRAPHY-TOKENS:
+//   --nc-button-label-compact    → 0.75rem (12px) für XS/SM
+//   --nc-button-label-expressive → 1rem   (16px) für MD/LG
+//
+// ICONS:
+//   Nur SVG aus der Icon Foundation. Element: .nc-button__icon
+//   Position: links oder rechts vom Label (DOM-Reihenfolge)
+//
+// KLASSEN:
+//   .nc-button (kanonisch, BEM)
+//   .button    (deprecated Alias, backward-compat)
+//
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nc-button-gap);
+  position: relative;
+  min-width: var(--nc-button-min-width);
+  border: var(--nc-button-border-width-sm) solid transparent;
+  background: none;
+  font-family: inherit;
+  font-weight: var(--nc-button-font-weight);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  transition:
+    background-color var(--nc-button-transition-duration) ease,
+    border-color var(--nc-button-transition-duration) ease,
+    color var(--nc-button-transition-duration) ease,
+    box-shadow var(--nc-button-transition-duration) ease,
+    opacity var(--nc-button-transition-duration) ease,
+    transform var(--nc-button-transition-duration) ease;
+  appearance: none;
+
+  // Default size: md
+  @include button-size('md');
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active {
+    transform: scale(var(--nc-button-scale-active));
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-button-disabled-bg);
+    color: var(--nc-button-disabled-color);
+    border-color: var(--nc-button-disabled-border);
+    opacity: var(--nc-button-opacity-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+  }
+
+  &[data-loading='true'] {
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Size Mixins (4 Stufen, feste font-size)
+// ---------------------------------------------------------------------------
+
+@mixin button-size($size: 'md') {
+  @if $size == 'xs' {
+    min-height: var(--nc-button-height-xs);                     // 24px
+    padding: var(--nc-button-padding-y-xs) var(--nc-button-padding-x-xs);
+    font-size: var(--nc-button-font-size-xs);                   // 12px (fest)
+    line-height: var(--nc-button-line-height);                  // 1.25
+    border-radius: var(--nc-button-radius-xs);                  // 2px
+    border-width: var(--nc-button-border-width-sm);             // 1px
+    gap: var(--nc-button-icon-gap-xs);                          // 4px
+
+    .nc-button__icon,
+    .button__icon {
+      width: var(--nc-button-icon-size-xs);                     // 16px
+      height: var(--nc-button-icon-size-xs);
+    }
+  } @else if $size == 'sm' {
+    min-height: var(--nc-button-height-sm);                     // 32px
+    padding: var(--nc-button-padding-y-sm) var(--nc-button-padding-x-sm);
+    font-size: var(--nc-button-font-size-sm);                   // 12px (fest)
+    line-height: var(--nc-button-line-height);                  // 1.25
+    border-radius: var(--nc-button-radius-sm);                  // 4px
+    border-width: var(--nc-button-border-width-sm);             // 1px
+    gap: var(--nc-button-icon-gap-sm);                          // 8px
+
+    .nc-button__icon,
+    .button__icon {
+      width: var(--nc-button-icon-size-sm);                     // 16px
+      height: var(--nc-button-icon-size-sm);
+    }
+  } @else if $size == 'md' {
+    min-height: var(--nc-button-height-md);                     // 40px
+    padding: var(--nc-button-padding-y-md) var(--nc-button-padding-x-md);
+    font-size: var(--nc-button-font-size-md);                   // 16px (fest)
+    line-height: var(--nc-button-line-height);                  // 1.25
+    border-radius: var(--nc-button-radius-md);                  // 6px
+    border-width: var(--nc-button-border-width-sm);             // 1px
+    gap: var(--nc-button-icon-gap-md);                          // 8px
+
+    .nc-button__icon,
+    .button__icon {
+      width: var(--nc-button-icon-size-md);                     // 20px
+      height: var(--nc-button-icon-size-md);
+    }
+  } @else if $size == 'lg' {
+    min-height: var(--nc-button-height-lg);                     // 48px
+    padding: var(--nc-button-padding-y-lg) var(--nc-button-padding-x-lg);
+    font-size: var(--nc-button-font-size-lg);                   // 16px (fest)
+    line-height: var(--nc-button-line-height);                  // 1.25
+    border-radius: var(--nc-button-radius-lg);                  // 8px
+    border-width: var(--nc-button-border-width-lg);             // 2px
+    gap: var(--nc-button-icon-gap-lg);                          // 12px
+
+    .nc-button__icon,
+    .button__icon {
+      width: var(--nc-button-icon-size-lg);                     // 20px
+      height: var(--nc-button-icon-size-lg);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Icon Element
+// ---------------------------------------------------------------------------
+
+@mixin button-icon-element {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    // fill/stroke werden NICHT überschrieben — Library-SVGs setzen
+    // stroke="currentColor" und/oder fill="currentColor" explizit.
+    // CSS color fließt via currentColor automatisch.
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Variant Mixins
+// ---------------------------------------------------------------------------
+
+@mixin button-primary {
+  @include button-base;
+  background-color: var(--nc-button-primary-bg);
+  color: var(--nc-button-primary-color);
+  border-color: var(--nc-button-primary-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-primary-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-primary-bg-active);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: var(--nc-button-secondary-bg);
+  border-color: var(--nc-button-secondary-border);
+  color: var(--nc-button-secondary-color);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-secondary-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-secondary-bg-active);
+  }
+}
+
+@mixin button-accent {
+  @include button-base;
+  background-color: var(--nc-button-accent-bg);
+  color: var(--nc-button-accent-color);
+  border-color: var(--nc-button-accent-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-accent-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-accent-bg-active);
+  }
+}
+
+@mixin button-outline {
+  @include button-base;
+  background-color: var(--nc-button-outline-bg);
+  border-color: var(--nc-button-outline-border);
+  color: var(--nc-button-outline-color);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-outline-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-outline-bg-active);
+  }
+}
+
+@mixin button-tertiary {
+  @include button-outline;
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background-color: var(--nc-button-ghost-bg);
+  border-color: var(--nc-button-ghost-border);
+  color: var(--nc-button-ghost-color);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-ghost-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-ghost-bg-active);
+  }
+}
+
+// -- Semantic Variants --
+
+@mixin button-success {
+  @include button-base;
+  background-color: var(--nc-button-success-bg);
+  color: var(--nc-button-success-color);
+  border-color: var(--nc-button-success-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-success-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-success-bg-active);
+  }
+}
+
+@mixin button-warning {
+  @include button-base;
+  background-color: var(--nc-button-warning-bg);
+  color: var(--nc-button-warning-color);
+  border-color: var(--nc-button-warning-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-warning-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-warning-bg-active);
+  }
+}
+
+@mixin button-error {
+  @include button-base;
+  background-color: var(--nc-button-error-bg);
+  color: var(--nc-button-error-color);
+  border-color: var(--nc-button-error-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-error-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-error-bg-active);
+  }
+}
+
+/// @deprecated Use button-error instead
+@mixin button-destructive {
+  @include button-error;
+}
+
+/// @deprecated Use button-error instead
+@mixin button-danger {
+  @include button-error;
+}
+
+@mixin button-info {
+  @include button-base;
+  background-color: var(--nc-button-info-bg);
+  color: var(--nc-button-info-color);
+  border-color: var(--nc-button-info-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-info-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-info-bg-active);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Specialized Mixins
+// ---------------------------------------------------------------------------
+
+@mixin button-icon-only($size: 'md') {
+  @include button-size($size);
+  width: var(--nc-button-height-#{$size});
+  min-width: auto;
+  padding: 0;
+}
+
+@mixin button-loading {
+  &[data-loading='true'] {
+    .button-text,
+    .nc-button__label {
+      opacity: 0;
+    }
+
+    .button-spinner,
+    .nc-button__spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: var(--nc-button-spinner-size);
+      height: var(--nc-button-spinner-size);
+      border: var(--nc-button-spinner-border-width) solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: button-spin 1s linear infinite;
+    }
+  }
+}
+
+@mixin button-micro-variant-a {
+  --nc-button-hover-scale: 1.03;
+  --nc-button-press-scale: 0.97;
+  --nc-button-hover-shadow: 0 12px 24px color-mix(in srgb, var(--fnd-color-always-dark) 18%, transparent);
+  --nc-button-press-shadow: 0 5px 12px color-mix(in srgb, var(--fnd-color-always-dark) 12%, transparent);
+  --nc-button-ripple-opacity: 0.32;
+  --nc-button-ripple-scale: 3.25;
+  isolation: isolate;
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(var(--nc-button-hover-scale));
+    box-shadow: var(--nc-button-hover-shadow);
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(var(--nc-button-press-scale));
+    box-shadow: var(--nc-button-press-shadow);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: var(--nc-ripple-x, 50%);
+    top: var(--nc-ripple-y, 50%);
+    width: var(--nc-ripple-size, 14px);
+    height: var(--nc-ripple-size, 14px);
+    border-radius: 50%;
+    pointer-events: none;
+    background-color: color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: 0;
+  }
+
+  &.is-rippling::after {
+    animation: button-ripple 520ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@mixin button-micro-variant-b {
+  --nc-button-progress: 0%;
+  --nc-button-progress-bg: color-mix(in srgb, var(--fnd-color-always-light) 36%, transparent);
+  --nc-button-success-bg-micro: var(--nc-button-success-bg);
+  --nc-button-error-outline-micro: var(--fnd-color-feedback-danger);
+  @include button-micro-variant-a;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 0;
+    width: var(--nc-button-progress);
+    height: 3px;
+    background: var(--nc-button-progress-bg);
+    opacity: 0;
+    transition: width 240ms linear, opacity 200ms ease;
+    z-index: 2;
+  }
+
+  &[data-loading='true']::before,
+  &[aria-busy='true']::before {
+    opacity: 1;
+  }
+
+  &[data-state='success'] {
+    background-color: var(--nc-button-success-bg-micro);
+    border-color: var(--nc-button-success-bg-micro);
+    animation: button-bounce-in 240ms ease-out;
+  }
+
+  &[data-state='success'] .nc-button__label,
+  &[data-state='success'] .button-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+  }
+
+  &[data-state='success'] .nc-button__label::after,
+  &[data-state='success'] .button-text::after {
+    content: '';
+    width: 9px;
+    height: 14px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transform-origin: center;
+    animation: button-check-in 260ms ease-out 80ms forwards;
+  }
+
+  &[data-state='error'] {
+    border-color: var(--nc-button-error-outline-micro);
+    box-shadow: 0 0 0 1px var(--nc-button-error-outline-micro);
+    animation: button-shake 260ms ease-in-out;
+  }
+}
+
+@mixin button-micro-variant-c {
+  --nc-button-hover-scale: 1.02;
+  --nc-button-press-scale: 0.96;
+  --nc-button-hover-shadow: 0 10px 22px color-mix(in srgb, var(--fnd-color-always-dark) 22%, transparent);
+  --nc-button-press-shadow: 0 4px 10px color-mix(in srgb, var(--fnd-color-always-dark) 14%, transparent);
+  --nc-button-ripple-opacity: 0.28;
+  @include button-micro-variant-b;
+
+  &[data-state='error']::before {
+    opacity: 1;
+    width: 100%;
+    background-color: color-mix(in srgb, var(--fnd-color-feedback-danger) 70%, transparent);
+  }
+}
+
+@mixin button-toggle {
+  @include button-outline;
+
+  &[aria-pressed='true'],
+  &.active {
+    background-color: var(--nc-button-primary-bg);
+    border-color: var(--nc-button-primary-bg);
+    color: var(--nc-button-primary-color);
+  }
+}
+
+@mixin button-group {
+  display: inline-flex;
+
+  .button,
+  .nc-button {
+    border-radius: 0;
+    border-inline-end: none;
+
+    &:first-child {
+      border-start-start-radius: var(--nc-button-radius-md);
+      border-end-start-radius: var(--nc-button-radius-md);
+    }
+
+    &:last-child {
+      border-start-end-radius: var(--nc-button-radius-md);
+      border-end-end-radius: var(--nc-button-radius-md);
+      border-inline-end: var(--nc-button-border-width-sm) solid currentColor;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+@keyframes button-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes button-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: var(--nc-button-ripple-opacity, 0.3);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(var(--nc-button-ripple-scale, 3));
+    opacity: 0;
+  }
+}
+
+@keyframes button-bounce-in {
+  0% {
+    transform: scale(0.95);
+  }
+  65% {
+    transform: scale(1.045);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes button-check-in {
+  0% {
+    transform: rotate(45deg) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes button-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kanonische BEM-Klasse: .nc-button
+// ---------------------------------------------------------------------------
+
+.nc-button {
+  @include button-primary;
+
+  // -- Icon Element --
+  &__icon {
+    @include button-icon-element;
+  }
+
+  // -- Label Element (für Loading-State) --
+  &__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // -- Spinner Element --
+  &__spinner {
+    // Styled by button-loading mixin
+  }
+
+  // -- Varianten (BEM Modifier) --
+  &--secondary { @include button-secondary; }
+  &--accent    { @include button-accent; }
+  &--outline   { @include button-outline; }
+  &--tertiary  { @include button-tertiary; }
+  &--ghost     { @include button-ghost; }
+  &--success   { @include button-success; }
+  &--warning   { @include button-warning; }
+  &--info      { @include button-info; }
+
+  // Error (canonical) + deprecated aliases (destructive, danger)
+  &--error,
+  &--destructive,
+  &--danger { @include button-error; }
+
+  // -- Größen --
+  &--xs { @include button-size('xs'); }
+  &--sm { @include button-size('sm'); }
+  // md = Default (bereits in button-base)
+  &--lg { @include button-size('lg'); }
+
+  // -- Spezialisiert --
+  &--icon-only {
+    @include button-icon-only;
+
+    &.nc-button--xs { @include button-icon-only('xs'); }
+    &.nc-button--sm { @include button-icon-only('sm'); }
+    // md = Default (via Mixin)
+    &.nc-button--lg { @include button-icon-only('lg'); }
+  }
+  &--loading   { @include button-loading; }
+  &--toggle    { @include button-toggle; }
+  &--micro-a   { @include button-micro-variant-a; }
+  &--micro-b   { @include button-micro-variant-b; }
+  &--micro-c   { @include button-micro-variant-c; }
+}
+
+.nc-button-group {
+  @include button-group;
+}
+
+// ---------------------------------------------------------------------------
+// Deprecated Alias: .button (backward-compat)
+// ---------------------------------------------------------------------------
+/// @deprecated Use .nc-button with BEM modifiers instead.
+
+.button {
+  @include button-primary;
+
+  // Icon-Element auch für .button
+  .button__icon {
+    @include button-icon-element;
+  }
+
+  // Varianten (alte Modifier-Klassen)
+  &.secondary { @include button-secondary; }
+  &.accent    { @include button-accent; }
+  &.outline   { @include button-outline; }
+  &.tertiary  { @include button-tertiary; }
+  &.ghost     { @include button-ghost; }
+  &.success   { @include button-success; }
+  &.warning   { @include button-warning; }
+  &.info      { @include button-info; }
+
+  // Error (canonical) + deprecated aliases (destructive, danger)
+  &.error,
+  &.destructive,
+  &.danger { @include button-error; }
+
+  // Größen (4 Stufen)
+  &.xs { @include button-size('xs'); }
+  &.sm { @include button-size('sm'); }
+  &.md { @include button-size('md'); }
+  &.lg { @include button-size('lg'); }
+
+  // Spezialisiert
+  &.icon-only {
+    @include button-icon-only;
+
+    &.xs { width: var(--nc-button-height-xs); }
+    &.sm { width: var(--nc-button-height-sm); }
+    &.lg { width: var(--nc-button-height-lg); }
+  }
+  &.loading   { @include button-loading; }
+  &.toggle    { @include button-toggle; }
+  &.micro-a   { @include button-micro-variant-a; }
+  &.micro-b   { @include button-micro-variant-b; }
+  &.micro-c   { @include button-micro-variant-c; }
+}
+
+.button-group {
+  @include button-group;
+}
+
+// ---------------------------------------------------------------------------
+// Icon Button (standalone)
+// ---------------------------------------------------------------------------
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nc-icon-button-padding);
+  border-radius: var(--nc-icon-button-radius);
+  width: var(--nc-icon-button-size);
+  height: var(--nc-icon-button-size);
+  background-color: var(--nc-icon-button-bg);
+  color: var(--nc-icon-button-color);
+  border: none;
+  cursor: pointer;
+  @include transition(background-color, '200');
+
+  &:hover {
+    background-color: var(--nc-icon-button-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Button Container (layout helper)
+// ---------------------------------------------------------------------------
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-04);
+
+  a.button,
+  a.nc-button {
+    text-decoration: none;
+  }
+}

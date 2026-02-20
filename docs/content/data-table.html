@@ -1,0 +1,1150 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <h1 class="docs__title">Data Table</h1>
+      <p class="docs__subtitle">
+        Token-basiertes DataTable-System mit 9 kombinierbaren Varianten.
+        Kanonische Klasse: <code class="docs__token">.nc-data-table</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-dt-*</code> Component-Tokens.
+        JS-Controller: <code class="docs__token">setupDataTable()</code>.
+      </p>
+
+      <!-- Tab Navigation -->
+      <div class="docs-tabs" id="dt-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="DataTable-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- 1. Basic -->
+          <section class="docs__section" id="demo-basic">
+            <h2 class="docs__section-title">Basic</h2>
+            <p class="docs__section-desc">Einfache Tabelle mit Header und Body. Keine Interaktivitaet.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-basic">
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th" data-dt-col="name">Name</th>
+                      <th class="nc-data-table__th" data-dt-col="email">E-Mail</th>
+                      <th class="nc-data-table__th" data-dt-col="role">Rolle</th>
+                      <th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:maria@example.com">maria@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:thomas@example.com">thomas@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:lisa@example.com">lisa@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:stefan@example.com">stefan@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:anna@example.com">anna@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Sortable -->
+          <section class="docs__section" id="demo-sortable">
+            <h2 class="docs__section-title">Sortable</h2>
+            <p class="docs__section-desc">Tri-State Sort (none &rarr; ascending &rarr; descending &rarr; none). Klick oder Enter/Space auf den Header.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-sortable" data-dt-sortable>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th" data-dt-col="name" aria-sort="none">
+                        <button class="nc-data-table__sort-button" type="button" data-dt-sort="name">
+                          <span>Name</span>
+                          <svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg>
+                        </button>
+                      </th>
+                      <th class="nc-data-table__th" data-dt-col="email" aria-sort="none">
+                        <button class="nc-data-table__sort-button" type="button" data-dt-sort="email">
+                          <span>E-Mail</span>
+                          <svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg>
+                        </button>
+                      </th>
+                      <th class="nc-data-table__th" data-dt-col="role" aria-sort="none">
+                        <button class="nc-data-table__sort-button" type="button" data-dt-sort="role">
+                          <span>Rolle</span>
+                          <svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg>
+                        </button>
+                      </th>
+                      <th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="s1"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:maria@example.com">maria@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="s2"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:thomas@example.com">thomas@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="s3"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:lisa@example.com">lisa@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="s4"><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:stefan@example.com">stefan@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="s5"><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:anna@example.com">anna@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. Selectable + Batch Actions -->
+          <section class="docs__section" id="demo-selectable">
+            <h2 class="docs__section-title">Selectable + Batch Actions</h2>
+            <p class="docs__section-desc">Checkbox-Spalte mit Select-All (Indeterminate) und Batch-Actions-Leiste.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-selectable" data-dt-selectable="multi">
+              <div class="nc-data-table__toolbar" role="toolbar" aria-label="Tabellen-Aktionen">
+                <div class="nc-data-table__toolbar-actions">
+                  <button class="nc-button nc-button--sm nc-button--primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg> Hinzufuegen</button>
+                  <button class="nc-button nc-button--sm nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></button>
+                </div>
+              </div>
+              <div class="nc-data-table__batch-bar" hidden aria-live="polite">
+                <span class="nc-data-table__batch-count" data-dt-batch-count>0</span>
+                <span>ausgewaehlt</span>
+                <div class="nc-data-table__batch-actions">
+                  <button class="nc-button nc-button--sm nc-button--ghost" data-dt-batch-action="export">Exportieren</button>
+                  <button class="nc-button nc-button--sm nc-button--error" data-dt-batch-action="delete">Loeschen</button>
+                </div>
+                <button class="nc-data-table__batch-cancel" type="button" data-dt-batch-cancel aria-label="Auswahl aufheben">&times;</button>
+              </div>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th nc-data-table__checkbox-cell">
+                        <label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-all aria-label="Alle Zeilen auswaehlen" /><span class="nc-checkbox__control"></span></label>
+                      </th>
+                      <th class="nc-data-table__th" data-dt-col="name">Name</th>
+                      <th class="nc-data-table__th" data-dt-col="email">E-Mail</th>
+                      <th class="nc-data-table__th" data-dt-col="role">Rolle</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="sel-1" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="sel-1" aria-label="Maria Schmidt auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td">maria@example.com</td><td class="nc-data-table__td">Admin</td>
+                    </tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="sel-2" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="sel-2" aria-label="Thomas Mueller auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td">thomas@example.com</td><td class="nc-data-table__td">Editor</td>
+                    </tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="sel-3" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="sel-3" aria-label="Lisa Weber auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td">lisa@example.com</td><td class="nc-data-table__td">Viewer</td>
+                    </tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="sel-4" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="sel-4" aria-label="Stefan Braun auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td">stefan@example.com</td><td class="nc-data-table__td">Editor</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Expandable -->
+          <section class="docs__section" id="demo-expandable">
+            <h2 class="docs__section-title">Expandable</h2>
+            <p class="docs__section-desc">Progressive Disclosure: Klick auf den Chevron zeigt Detail-Panel.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-expandable" data-dt-expandable>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th nc-data-table__expand-cell"></th>
+                      <th class="nc-data-table__th" data-dt-col="name">Name</th>
+                      <th class="nc-data-table__th" data-dt-col="email">E-Mail</th>
+                      <th class="nc-data-table__th" data-dt-col="role">Rolle</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="exp-1">
+                      <td class="nc-data-table__td nc-data-table__expand-cell">
+                        <button class="nc-data-table__expand-button" type="button" aria-expanded="false" aria-controls="dt-expand-exp-1" data-dt-expand="exp-1">
+                          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                      </td>
+                      <td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td">maria@example.com</td><td class="nc-data-table__td">Admin</td>
+                    </tr>
+                    <tr class="nc-data-table__row nc-data-table__row--expand" id="dt-expand-exp-1" hidden>
+                      <td class="nc-data-table__td" colspan="4"><div class="nc-data-table__expand-panel"><p><strong>Abteilung:</strong> IT &middot; <strong>Standort:</strong> Berlin &middot; <strong>Seit:</strong> 2019</p></div></td>
+                    </tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="exp-2">
+                      <td class="nc-data-table__td nc-data-table__expand-cell">
+                        <button class="nc-data-table__expand-button" type="button" aria-expanded="false" aria-controls="dt-expand-exp-2" data-dt-expand="exp-2">
+                          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                      </td>
+                      <td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td">thomas@example.com</td><td class="nc-data-table__td">Editor</td>
+                    </tr>
+                    <tr class="nc-data-table__row nc-data-table__row--expand" id="dt-expand-exp-2" hidden>
+                      <td class="nc-data-table__td" colspan="4"><div class="nc-data-table__expand-panel"><p><strong>Abteilung:</strong> Marketing &middot; <strong>Standort:</strong> Hamburg &middot; <strong>Seit:</strong> 2021</p></div></td>
+                    </tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="exp-3">
+                      <td class="nc-data-table__td nc-data-table__expand-cell">
+                        <button class="nc-data-table__expand-button" type="button" aria-expanded="false" aria-controls="dt-expand-exp-3" data-dt-expand="exp-3">
+                          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                      </td>
+                      <td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td">lisa@example.com</td><td class="nc-data-table__td">Viewer</td>
+                    </tr>
+                    <tr class="nc-data-table__row nc-data-table__row--expand" id="dt-expand-exp-3" hidden>
+                      <td class="nc-data-table__td" colspan="4"><div class="nc-data-table__expand-panel"><p><strong>Abteilung:</strong> Design &middot; <strong>Standort:</strong> Muenchen &middot; <strong>Seit:</strong> 2022</p></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 5. Filterable + Sortable + Paginated -->
+          <section class="docs__section" id="demo-combined">
+            <h2 class="docs__section-title">Filterable + Sortable + Paginated</h2>
+            <p class="docs__section-desc">Kombination: Toolbar mit Suche, sortierbare Header und Pagination im Footer.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-combined" data-dt-sortable data-dt-filterable data-dt-paginated data-dt-page-size="5">
+              <div class="nc-data-table__title-bar">
+                <h2 class="nc-data-table__title">Teamuebersicht</h2>
+                <p class="nc-data-table__description">Alle Teammitglieder mit Rolle und aktuellem Status.</p>
+              </div>
+              <div class="nc-data-table__toolbar" role="toolbar" aria-label="Tabellen-Steuerung">
+                <div class="nc-data-table__search">
+                  <label class="u-sr-only" for="dt-search-combined">Suche</label>
+                  <input class="nc-input nc-input--sm" type="search" id="dt-search-combined" placeholder="Suche..." data-dt-search autocomplete="off" />
+                </div>
+              </div>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th" data-dt-col="name" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="name"><span>Name</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th" data-dt-col="email" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="email"><span>E-Mail</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th" data-dt-col="role" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="role"><span>Rolle</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="c1"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:maria@example.com">maria@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c2"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:thomas@example.com">thomas@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c3"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:lisa@example.com">lisa@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c4"><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:stefan@example.com">stefan@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c5"><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:anna@example.com">anna@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c6"><td class="nc-data-table__td">Klaus Wagner</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:klaus@example.com">klaus@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c7"><td class="nc-data-table__td">Julia Becker</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:julia@example.com">julia@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c8"><td class="nc-data-table__td">Michael Hoffmann</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:michael@example.com">michael@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c9"><td class="nc-data-table__td">Sandra Koch</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:sandra@example.com">sandra@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c10"><td class="nc-data-table__td">Peter Richter</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:peter@example.com">peter@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c11"><td class="nc-data-table__td">Claudia Wolf</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:claudia@example.com">claudia@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="c12"><td class="nc-data-table__td">Markus Schaefer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:markus@example.com">markus@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="nc-data-table__pagination" aria-label="Tabellen-Navigation">
+                <div class="nc-data-table__rows-per-page">
+                  <label for="dt-rpp-combined">Zeilen pro Seite:</label>
+                  <select class="nc-select nc-select--sm nc-data-table__rows-select" id="dt-rpp-combined" data-dt-rows-per-page>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                  </select>
+                </div>
+                <span class="nc-data-table__page-info" data-dt-page-info></span>
+                <div class="nc-data-table__page-select">
+                  <span>Seite</span>
+                  <select class="nc-select nc-select--sm nc-data-table__page-select-input" data-dt-page-select aria-label="Seite auswaehlen"></select>
+                  <span data-dt-page-max></span>
+                </div>
+                <div class="nc-data-table__page-buttons">
+                  <button class="nc-button nc-button--sm nc-button--ghost" data-dt-page="prev" aria-label="Vorherige Seite">&lsaquo;</button>
+                  <button class="nc-button nc-button--sm nc-button--ghost" data-dt-page="next" aria-label="Naechste Seite">&rsaquo;</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 6. Column Types (Spaltentypen) -->
+          <section class="docs__section" id="demo-column-types">
+            <h2 class="docs__section-title">Spaltentypen</h2>
+            <p class="docs__section-desc">Alle unterstuetzten Spaltentypen in einer Tabelle. Spaltentypen sind rein CSS-basiert (BEM-Modifier auf <code>__td</code>). Die HTML-Struktur komponiert bestehende Atom-Komponenten (Badge, Avatar, Button) innerhalb der Zellen.</p>
+
+            <div class="nc-data-table" data-dt-id="demo-column-types" data-dt-selectable="multi">
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <colgroup>
+                    <col style="width: 52px" />
+                    <col style="width: 220px" />
+                    <col style="width: 100px" />
+                    <col style="width: 110px" />
+                    <col style="width: 120px" />
+                    <col style="width: 160px" />
+                    <col style="width: 150px" />
+                    <col style="width: 100px" />
+                  </colgroup>
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th nc-data-table__checkbox-cell">
+                        <label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-all aria-label="Alle auswaehlen" /><span class="nc-checkbox__control"></span></label>
+                      </th>
+                      <th class="nc-data-table__th" data-dt-col="user">Benutzer</th>
+                      <th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+                      <th class="nc-data-table__th nc-data-table__th--numeric" data-dt-col="revenue">Umsatz</th>
+                      <th class="nc-data-table__th nc-data-table__th--date" data-dt-col="date">Erstellt</th>
+                      <th class="nc-data-table__th" data-dt-col="progress">Fortschritt</th>
+                      <th class="nc-data-table__th" data-dt-col="website">Website</th>
+                      <th class="nc-data-table__th nc-data-table__th--center">Aktionen</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <!-- Row 1: Aktiv, hoher Umsatz, hoher Fortschritt -->
+                    <tr class="nc-data-table__row" data-dt-row-id="ct-1" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-1" aria-label="Maria Schmidt auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td nc-data-table__td--user">
+                        <div class="nc-data-table__user-info">
+                          <span class="nc-avatar nc-avatar--sm"><span class="nc-avatar__fallback">MS</span></span>
+                          <div class="nc-data-table__user-text">
+                            <span class="nc-data-table__user-name">Maria Schmidt</span>
+                            <span class="nc-data-table__user-email">maria@example.com</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td>
+                      <td class="nc-data-table__td nc-data-table__td--numeric">12.450,00&nbsp;&euro;</td>
+                      <td class="nc-data-table__td nc-data-table__td--date"><time datetime="2025-11-15">15.11.2025</time></td>
+                      <td class="nc-data-table__td nc-data-table__td--progress">
+                        <div class="nc-data-table__progress-wrapper">
+                          <div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><div class="nc-data-table__progress-fill nc-data-table__progress-fill--success" style="width:88%"></div></div>
+                          <span class="nc-data-table__progress-label">88%</span>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--link"><a href="https://example.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg><span>example.com</span></a></td>
+                      <td class="nc-data-table__td nc-data-table__td--actions">
+                        <div class="nc-data-table__actions-wrapper">
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></button>
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></button>
+                          <button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg></button>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- Row 2: Warnung, mittlerer Fortschritt -->
+                    <tr class="nc-data-table__row" data-dt-row-id="ct-2" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-2" aria-label="Thomas Mueller auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td nc-data-table__td--user">
+                        <div class="nc-data-table__user-info">
+                          <span class="nc-avatar nc-avatar--sm"><span class="nc-avatar__fallback">TM</span></span>
+                          <div class="nc-data-table__user-text">
+                            <span class="nc-data-table__user-name">Thomas Mueller</span>
+                            <span class="nc-data-table__user-email">thomas@example.com</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--warning nc-badge--sm">Warnung</span></td>
+                      <td class="nc-data-table__td nc-data-table__td--numeric">8.320,50&nbsp;&euro;</td>
+                      <td class="nc-data-table__td nc-data-table__td--date"><time datetime="2025-09-03">03.09.2025</time></td>
+                      <td class="nc-data-table__td nc-data-table__td--progress">
+                        <div class="nc-data-table__progress-wrapper">
+                          <div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"><div class="nc-data-table__progress-fill nc-data-table__progress-fill--warning" style="width:42%"></div></div>
+                          <span class="nc-data-table__progress-label">42%</span>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--link"><a href="https://mueller-gmbh.de" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg><span>mueller-gmbh.de</span></a></td>
+                      <td class="nc-data-table__td nc-data-table__td--actions">
+                        <div class="nc-data-table__actions-wrapper">
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></button>
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></button>
+                          <button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg></button>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- Row 3: Fehler, niedriger Fortschritt -->
+                    <tr class="nc-data-table__row" data-dt-row-id="ct-3" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-3" aria-label="Lisa Weber auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td nc-data-table__td--user">
+                        <div class="nc-data-table__user-info">
+                          <span class="nc-avatar nc-avatar--sm"><span class="nc-avatar__fallback">LW</span></span>
+                          <div class="nc-data-table__user-text">
+                            <span class="nc-data-table__user-name">Lisa Weber</span>
+                            <span class="nc-data-table__user-email">lisa@example.com</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Fehler</span></td>
+                      <td class="nc-data-table__td nc-data-table__td--numeric">2.180,00&nbsp;&euro;</td>
+                      <td class="nc-data-table__td nc-data-table__td--date"><time datetime="2026-01-22">22.01.2026</time></td>
+                      <td class="nc-data-table__td nc-data-table__td--progress">
+                        <div class="nc-data-table__progress-wrapper">
+                          <div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"><div class="nc-data-table__progress-fill nc-data-table__progress-fill--danger" style="width:15%"></div></div>
+                          <span class="nc-data-table__progress-label">15%</span>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--link"><a href="https://weber-design.de" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg><span>weber-design.de</span></a></td>
+                      <td class="nc-data-table__td nc-data-table__td--actions">
+                        <div class="nc-data-table__actions-wrapper">
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></button>
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></button>
+                          <button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg></button>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- Row 4: Info, 65% -->
+                    <tr class="nc-data-table__row" data-dt-row-id="ct-4" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-4" aria-label="Stefan Braun auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td nc-data-table__td--user">
+                        <div class="nc-data-table__user-info">
+                          <span class="nc-avatar nc-avatar--sm"><span class="nc-avatar__fallback">SB</span></span>
+                          <div class="nc-data-table__user-text">
+                            <span class="nc-data-table__user-name">Stefan Braun</span>
+                            <span class="nc-data-table__user-email">stefan@example.com</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--info nc-badge--sm">Neu</span></td>
+                      <td class="nc-data-table__td nc-data-table__td--numeric">5.790,25&nbsp;&euro;</td>
+                      <td class="nc-data-table__td nc-data-table__td--date"><time datetime="2026-02-10">10.02.2026</time></td>
+                      <td class="nc-data-table__td nc-data-table__td--progress">
+                        <div class="nc-data-table__progress-wrapper">
+                          <div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="nc-data-table__progress-fill" style="width:65%"></div></div>
+                          <span class="nc-data-table__progress-label">65%</span>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--link"><a href="https://braun-consulting.de" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg><span>braun-consulting.de</span></a></td>
+                      <td class="nc-data-table__td nc-data-table__td--actions">
+                        <div class="nc-data-table__actions-wrapper">
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></button>
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></button>
+                          <button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg></button>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- Row 5: Neutral, 100% -->
+                    <tr class="nc-data-table__row" data-dt-row-id="ct-5" aria-selected="false">
+                      <td class="nc-data-table__td nc-data-table__checkbox-cell"><label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-5" aria-label="Anna Fischer auswaehlen" /><span class="nc-checkbox__control"></span></label></td>
+                      <td class="nc-data-table__td nc-data-table__td--user">
+                        <div class="nc-data-table__user-info">
+                          <span class="nc-avatar nc-avatar--sm"><span class="nc-avatar__fallback">AF</span></span>
+                          <div class="nc-data-table__user-text">
+                            <span class="nc-data-table__user-name">Anna Fischer</span>
+                            <span class="nc-data-table__user-email">anna@example.com</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--sm">Neutral</span></td>
+                      <td class="nc-data-table__td nc-data-table__td--numeric">21.000,00&nbsp;&euro;</td>
+                      <td class="nc-data-table__td nc-data-table__td--date"><time datetime="2025-06-28">28.06.2025</time></td>
+                      <td class="nc-data-table__td nc-data-table__td--progress">
+                        <div class="nc-data-table__progress-wrapper">
+                          <div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="nc-data-table__progress-fill nc-data-table__progress-fill--success" style="width:100%"></div></div>
+                          <span class="nc-data-table__progress-label">100%</span>
+                        </div>
+                      </td>
+                      <td class="nc-data-table__td nc-data-table__td--link"><a href="https://fischer-architekten.de" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg><span>fischer-architekten.de</span></a></td>
+                      <td class="nc-data-table__td nc-data-table__td--actions">
+                        <div class="nc-data-table__actions-wrapper">
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg></button>
+                          <button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></button>
+                          <button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Spaltentyp-Referenz -->
+            <h3 class="docs__section-subtitle" style="margin-top:var(--fnd-spacing-06)">Spaltentyp-Referenz</h3>
+            <div class="nc-data-table">
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th">Typ</th>
+                      <th class="nc-data-table__th">BEM-Modifier</th>
+                      <th class="nc-data-table__th nc-data-table__th--center">Alignment</th>
+                      <th class="nc-data-table__th nc-data-table__th--center">Min-Breite</th>
+                      <th class="nc-data-table__th">Overflow</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>String</strong></td><td class="nc-data-table__td">(Standard)</td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">80px</td><td class="nc-data-table__td">Ellipsis (truncate)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Email</strong></td><td class="nc-data-table__td"><code>__td--email</code></td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">160px</td><td class="nc-data-table__td">Ellipsis (truncate)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Numerisch</strong></td><td class="nc-data-table__td"><code>__td--numeric</code></td><td class="nc-data-table__td nc-data-table__td--center">right</td><td class="nc-data-table__td nc-data-table__td--center">80px</td><td class="nc-data-table__td">Nowrap</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Datum</strong></td><td class="nc-data-table__td"><code>__td--date</code></td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">120px</td><td class="nc-data-table__td">Nowrap</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Status</strong></td><td class="nc-data-table__td"><code>__td--status</code></td><td class="nc-data-table__td nc-data-table__td--center">center</td><td class="nc-data-table__td nc-data-table__td--center">100px</td><td class="nc-data-table__td">Visible (kein Clip)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>URL/Link</strong></td><td class="nc-data-table__td"><code>__td--link</code></td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">120px</td><td class="nc-data-table__td">Ellipsis (truncate)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>User Identity</strong></td><td class="nc-data-table__td"><code>__td--user</code></td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">200px</td><td class="nc-data-table__td">Ellipsis (Name+Email)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Progress</strong></td><td class="nc-data-table__td"><code>__td--progress</code></td><td class="nc-data-table__td nc-data-table__td--center">left</td><td class="nc-data-table__td nc-data-table__td--center">120px</td><td class="nc-data-table__td">Visible</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Actions</strong></td><td class="nc-data-table__td"><code>__td--actions</code></td><td class="nc-data-table__td nc-data-table__td--center">right</td><td class="nc-data-table__td nc-data-table__td--center">52&ndash;120px</td><td class="nc-data-table__td">Visible</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Checkbox</strong></td><td class="nc-data-table__td"><code>__checkbox-cell</code></td><td class="nc-data-table__td nc-data-table__td--center">center</td><td class="nc-data-table__td nc-data-table__td--center">52px</td><td class="nc-data-table__td">n/a</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Radio</strong></td><td class="nc-data-table__td"><code>__radio-cell</code></td><td class="nc-data-table__td nc-data-table__td--center">center</td><td class="nc-data-table__td nc-data-table__td--center">52px</td><td class="nc-data-table__td">n/a</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 7. Table Header & Toolbar -->
+          <section class="docs__section" id="demo-title-toolbar">
+            <h2 class="docs__section-title">Table Header &amp; Toolbar</h2>
+            <p class="docs__section-desc">Zwei optionale Bereiche oberhalb der Tabelle: ein <strong>Table Header</strong> (Titel + optionale Beschreibung) und eine <strong>Toolbar</strong> mit Controls fuer globale Aktionen auf dem Dataset (Suche, Anlegen, Aendern, Loeschen, Export, Filter).</p>
+
+            <!-- 7a. Nur Table Header -->
+            <h3 style="font-size: 0.875rem; margin: var(--fnd-spacing-06) 0 var(--fnd-spacing-02);">Nur Table Header (Titel + Beschreibung)</h3>
+            <div class="nc-data-table" data-dt-id="demo-title-only">
+              <div class="nc-data-table__title-bar">
+                <h2 class="nc-data-table__title">Letzte Bestellungen</h2>
+                <p class="nc-data-table__description">Uebersicht der letzten 5 eingegangenen Bestellungen im aktuellen Monat.</p>
+              </div>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th">Bestellnr.</th>
+                      <th class="nc-data-table__th">Kunde</th>
+                      <th class="nc-data-table__th nc-data-table__th--numeric">Betrag</th>
+                      <th class="nc-data-table__th nc-data-table__th--status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">#2024-0471</td><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--numeric">1.249,00 &euro;</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Bezahlt</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">#2024-0472</td><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--numeric">89,90 &euro;</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--warning nc-badge--sm">Ausstehend</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">#2024-0473</td><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--numeric">450,00 &euro;</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Bezahlt</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">#2024-0474</td><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--numeric">2.100,50 &euro;</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Storniert</span></td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td">#2024-0475</td><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--numeric">675,00 &euro;</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--info nc-badge--sm">Versendet</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 7b. Nur Toolbar -->
+            <h3 style="font-size: 0.875rem; margin: var(--fnd-spacing-06) 0 var(--fnd-spacing-02);">Nur Toolbar (Suche + Action-Buttons)</h3>
+            <div class="nc-data-table" data-dt-id="demo-toolbar-only" data-dt-filterable>
+              <div class="nc-data-table__toolbar" role="toolbar" aria-label="Tabellen-Aktionen">
+                <div class="nc-data-table__search">
+                  <label class="u-sr-only" for="dt-search-toolbar">Suche</label>
+                  <input class="nc-input nc-input--sm" type="search" id="dt-search-toolbar" placeholder="Suche..." data-dt-search autocomplete="off" />
+                </div>
+                <div class="nc-data-table__toolbar-actions">
+                  <button class="nc-button nc-button--sm nc-button--primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg> Hinzufuegen</button>
+                  <button class="nc-button nc-button--sm nc-button--ghost nc-button--icon-only" type="button" aria-label="Exportieren"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg></button>
+                  <button class="nc-button nc-button--sm nc-button--ghost nc-button--icon-only" type="button" aria-label="Filter"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227" /></svg></button>
+                </div>
+              </div>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th">Name</th>
+                      <th class="nc-data-table__th">E-Mail</th>
+                      <th class="nc-data-table__th">Rolle</th>
+                      <th class="nc-data-table__th nc-data-table__th--status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="tb1"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:maria@example.com">maria@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="tb2"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:thomas@example.com">thomas@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="tb3"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:lisa@example.com">lisa@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="tb4"><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:stefan@example.com">stefan@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="tb5"><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:anna@example.com">anna@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 7c. Kombiniert: Table Header + Toolbar + Sortable + Paginated -->
+            <h3 style="font-size: 0.875rem; margin: var(--fnd-spacing-06) 0 var(--fnd-spacing-02);">Kombiniert (Header + Toolbar + Sortable + Paginated)</h3>
+            <div class="nc-data-table" data-dt-id="demo-full-header" data-dt-sortable data-dt-filterable data-dt-paginated data-dt-page-size="5">
+              <div class="nc-data-table__title-bar">
+                <h2 class="nc-data-table__title">Benutzerverwaltung</h2>
+                <p class="nc-data-table__description">Verwalten Sie alle registrierten Benutzer und deren Berechtigungen.</p>
+              </div>
+              <div class="nc-data-table__toolbar" role="toolbar" aria-label="Benutzer-Aktionen">
+                <div class="nc-data-table__search">
+                  <label class="u-sr-only" for="dt-search-full">Suche</label>
+                  <input class="nc-input nc-input--sm" type="search" id="dt-search-full" placeholder="Benutzer suchen..." data-dt-search autocomplete="off" />
+                </div>
+                <div class="nc-data-table__toolbar-actions">
+                  <button class="nc-button nc-button--sm nc-button--primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg> Benutzer anlegen</button>
+                  <button class="nc-button nc-button--sm nc-button--ghost nc-button--icon-only" type="button" aria-label="Exportieren"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg></button>
+                  <button class="nc-button nc-button--sm nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></button>
+                </div>
+              </div>
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th" data-dt-col="name" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="name"><span>Name</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th" data-dt-col="email" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="email"><span>E-Mail</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th" data-dt-col="role" aria-sort="none"><button class="nc-data-table__sort-button" type="button" data-dt-sort="role"><span>Rolle</span><svg class="nc-data-table__sort-icon" data-dt-sort-icon="none" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 9l4-4l4 4m-4-4v14"/><path d="M21 15l-4 4l-4-4m4 4v-14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="asc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l4-4l4 4m-4-4v14"/></svg><svg class="nc-data-table__sort-icon" data-dt-sort-icon="desc" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="display:none"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 15l-4 4l-4-4m4 4v-14"/></svg></button></th>
+                      <th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row" data-dt-row-id="fh1"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:maria@example.com">maria@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh2"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:thomas@example.com">thomas@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh3"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:lisa@example.com">lisa@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh4"><td class="nc-data-table__td">Stefan Braun</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:stefan@example.com">stefan@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh5"><td class="nc-data-table__td">Anna Fischer</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:anna@example.com">anna@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh6"><td class="nc-data-table__td">Klaus Wagner</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:klaus@example.com">klaus@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh7"><td class="nc-data-table__td">Julia Becker</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:julia@example.com">julia@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh8"><td class="nc-data-table__td">Michael Hoffmann</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:michael@example.com">michael@example.com</a></td><td class="nc-data-table__td">Admin</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh9"><td class="nc-data-table__td">Sandra Koch</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:sandra@example.com">sandra@example.com</a></td><td class="nc-data-table__td">Viewer</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span></td></tr>
+                    <tr class="nc-data-table__row" data-dt-row-id="fh10"><td class="nc-data-table__td">Peter Richter</td><td class="nc-data-table__td nc-data-table__td--email"><a href="mailto:peter@example.com">peter@example.com</a></td><td class="nc-data-table__td">Editor</td><td class="nc-data-table__td nc-data-table__td--status"><span class="nc-badge nc-badge--error nc-badge--sm">Inaktiv</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="nc-data-table__pagination" aria-label="Tabellen-Navigation">
+                <div class="nc-data-table__rows-per-page">
+                  <label for="dt-rpp-full">Zeilen pro Seite:</label>
+                  <select class="nc-select nc-select--sm nc-data-table__rows-select" id="dt-rpp-full" data-dt-rows-per-page>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+                <span class="nc-data-table__page-info" data-dt-page-info></span>
+                <div class="nc-data-table__page-select">
+                  <span>Seite</span>
+                  <select class="nc-select nc-select--sm nc-data-table__page-select-input" data-dt-page-select aria-label="Seite auswaehlen"></select>
+                  <span data-dt-page-max></span>
+                </div>
+                <div class="nc-data-table__page-buttons">
+                  <button class="nc-button nc-button--sm nc-button--ghost" data-dt-page="prev" aria-label="Vorherige Seite">&lsaquo;</button>
+                  <button class="nc-button nc-button--sm nc-button--ghost" data-dt-page="next" aria-label="Naechste Seite">&rsaquo;</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 8. Density -->
+          <section class="docs__section" id="demo-density">
+            <h2 class="docs__section-title">Density</h2>
+            <p class="docs__section-desc">Drei Dichtestufen: compact (32px), default (40px), comfortable (48px).</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--fnd-spacing-04);">
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Compact</h3>
+                <div class="nc-data-table nc-data-table--compact" data-dt-id="demo-density-compact">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">Rolle</th></tr></thead>
+                    <tbody class="nc-data-table__tbody"><tr class="nc-data-table__row"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td">Admin</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td">Editor</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td">Viewer</td></tr></tbody></table>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Default</h3>
+                <div class="nc-data-table" data-dt-id="demo-density-default">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">Rolle</th></tr></thead>
+                    <tbody class="nc-data-table__tbody"><tr class="nc-data-table__row"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td">Admin</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td">Editor</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td">Viewer</td></tr></tbody></table>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Comfortable</h3>
+                <div class="nc-data-table nc-data-table--comfortable" data-dt-id="demo-density-comfortable">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">Rolle</th></tr></thead>
+                    <tbody class="nc-data-table__tbody"><tr class="nc-data-table__row"><td class="nc-data-table__td">Maria Schmidt</td><td class="nc-data-table__td">Admin</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Thomas Mueller</td><td class="nc-data-table__td">Editor</td></tr><tr class="nc-data-table__row"><td class="nc-data-table__td">Lisa Weber</td><td class="nc-data-table__td">Viewer</td></tr></tbody></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 9. States -->
+          <section class="docs__section" id="demo-states">
+            <h2 class="docs__section-title">States: Empty, Loading, Error</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--fnd-spacing-04);">
+              <!-- Empty -->
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Empty</h3>
+                <div class="nc-data-table">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">E-Mail</th></tr></thead>
+                    <tbody class="nc-data-table__tbody"><tr class="nc-data-table__row"><td class="nc-data-table__td" colspan="2">
+                      <div class="nc-data-table__empty">
+                        <svg class="nc-data-table__empty-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                        <span class="nc-data-table__empty-title">Keine Daten vorhanden</span>
+                        <span>Versuche eine andere Suche oder erstelle einen neuen Eintrag.</span>
+                      </div>
+                    </td></tr></tbody></table>
+                  </div>
+                </div>
+              </div>
+              <!-- Loading -->
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Loading (Skeleton)</h3>
+                <div class="nc-data-table nc-data-table--loading">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">E-Mail</th></tr></thead>
+                    <tbody class="nc-data-table__tbody">
+                      <tr class="nc-data-table__row nc-data-table__skeleton-row" aria-hidden="true"><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td></tr>
+                      <tr class="nc-data-table__row nc-data-table__skeleton-row" aria-hidden="true"><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td></tr>
+                      <tr class="nc-data-table__row nc-data-table__skeleton-row" aria-hidden="true"><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td><td class="nc-data-table__td"><div class="nc-data-table__skeleton-bar"></div></td></tr>
+                    </tbody></table>
+                  </div>
+                </div>
+              </div>
+              <!-- Error -->
+              <div>
+                <h3 style="font-size: 0.875rem; margin-bottom: var(--fnd-spacing-02);">Error</h3>
+                <div class="nc-data-table nc-data-table--error">
+                  <div class="nc-data-table__scroll-container">
+                    <table class="nc-data-table__table"><thead class="nc-data-table__thead"><tr class="nc-data-table__row"><th class="nc-data-table__th">Name</th><th class="nc-data-table__th">E-Mail</th></tr></thead>
+                    <tbody class="nc-data-table__tbody"><tr class="nc-data-table__row"><td class="nc-data-table__td" colspan="2">
+                      <div class="nc-data-table__error">
+                        <span>Fehler beim Laden der Daten. Bitte erneut versuchen.</span>
+                        <button class="nc-button nc-button--sm nc-button--outline">Erneut laden</button>
+                      </div>
+                    </td></tr></tbody></table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 10. Variant Reference Table -->
+          <section class="docs__section" id="variant-reference">
+            <h2 class="docs__section-title">Varianten-Referenz</h2>
+            <div class="nc-data-table">
+              <div class="nc-data-table__scroll-container">
+                <table class="nc-data-table__table">
+                  <thead class="nc-data-table__thead">
+                    <tr class="nc-data-table__row">
+                      <th class="nc-data-table__th">Variante</th>
+                      <th class="nc-data-table__th">Primaerer Nutzen</th>
+                      <th class="nc-data-table__th">Typische UI-Elemente</th>
+                      <th class="nc-data-table__th">UX-Risiko/Trade-off</th>
+                      <th class="nc-data-table__th">Wann waehlen</th>
+                    </tr>
+                  </thead>
+                  <tbody class="nc-data-table__tbody">
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Basic</strong></td><td class="nc-data-table__td">Maximale Einfachheit</td><td class="nc-data-table__td">Head, Body, optional Footer</td><td class="nc-data-table__td">Fehlende Steuerung bei grossen Daten</td><td class="nc-data-table__td">Kleine Tabellen, statische Inhalte</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Sortable</strong></td><td class="nc-data-table__td">Ordnung/Scanbarkeit</td><td class="nc-data-table__td">Sort-Icons, aria-sort; Header per Tab/Enter/Space</td><td class="nc-data-table__td">Sort-State muss sichtbar &amp; zuruecksetzbar sein</td><td class="nc-data-table__td">Wenn Nutzer nach Rang/Datum/Status sucht</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Filterable</strong></td><td class="nc-data-table__td">Finden statt Blaettern</td><td class="nc-data-table__td">Toolbar Search + Filter</td><td class="nc-data-table__td">No-Results &amp; Clear-Filter Pflicht</td><td class="nc-data-table__td">Listen mit &gt; 30&ndash;50 Eintraegen</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Paginated</strong></td><td class="nc-data-table__td">Performance + Orientierung</td><td class="nc-data-table__td">Rows-per-page, Paginator im Footer</td><td class="nc-data-table__td">Kontextbruch bei Seitenwechsel</td><td class="nc-data-table__td">Material/Carbon Standard bei grossen Listen</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Selectable (multi)</strong></td><td class="nc-data-table__td">Batch Operations</td><td class="nc-data-table__td">Checkbox-Spalte + Batch-Actions-Bar</td><td class="nc-data-table__td">Gefaehrliche Aktionen &rarr; Confirm/Undo</td><td class="nc-data-table__td">Delete/Export/Assign etc.</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Expandable</strong></td><td class="nc-data-table__td">Progressive Disclosure</td><td class="nc-data-table__td">Expand-Chevron + Panel/Child-Row</td><td class="nc-data-table__td">Row-Height-Jump &amp; Keyboard-Focus-Mgmt</td><td class="nc-data-table__td">Details, die nicht in Spalten passen</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Row Actions</strong></td><td class="nc-data-table__td">Kontextaktionen pro Item</td><td class="nc-data-table__td">Kebab-Menu / Inline-Icons</td><td class="nc-data-table__td">Clutter; mobile Hit-Targets</td><td class="nc-data-table__td">Edit/Details/... pro Datensatz</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Density (compact)</strong></td><td class="nc-data-table__td">Mehr Daten pro Viewport</td><td class="nc-data-table__td">Reduzierte Paddings/Heights</td><td class="nc-data-table__td">Lesbarkeit/Touch leidet</td><td class="nc-data-table__td">Ops-Teams, Desktop-only</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Virtualized/Grid</strong></td><td class="nc-data-table__td">Sehr grosse Daten</td><td class="nc-data-table__td">Viewport-Rendering</td><td class="nc-data-table__td">Komplexitaet, tricky a11y</td><td class="nc-data-table__td">Unlimited Data, Analytics (spaeter)</td></tr>
+                    <tr class="nc-data-table__row"><td class="nc-data-table__td"><strong>Column Pinning</strong></td><td class="nc-data-table__td">Vergleich/Orientierung</td><td class="nc-data-table__td">Pinned Columns left/right</td><td class="nc-data-table__td">Layout-Komplexitaet</td><td class="nc-data-table__td">Viele Spalten + horizontal Scroll (spaeter)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 11. DataTable vs DataGrid -->
+          <section class="docs__section" id="datatable-vs-datagrid">
+            <h2 class="docs__section-title">DataTable vs. DataGrid</h2>
+            <table class="docs__table">
+              <thead><tr><th></th><th>DataTable</th><th>DataGrid (Grid-Tier)</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Datenvolumen</strong></td><td>&lt; 1.000 Zeilen</td><td>&gt; 1.000 Zeilen, virtualisiert</td></tr>
+                <tr><td><strong>Interaktion</strong></td><td>Sort, Filter, Select, Expand</td><td>+ Cell-Editing, Column Resize/Pin, Infinite Scroll</td></tr>
+                <tr><td><strong>Markup</strong></td><td>Semantisches &lt;table&gt;</td><td>div-Grid mit ARIA role=grid</td></tr>
+                <tr><td><strong>Abhaengigkeiten</strong></td><td>Vanilla JS, keine Libs</td><td>TanStack Virtual oder Custom</td></tr>
+                <tr><td><strong>Wann</strong></td><td>Standard-CRUD, Admin-Panels</td><td>Analytics, Spreadsheet-artige UIs</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div><!-- /tab-usage -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Token-Referenz</h2>
+            <p class="docs__section-desc">Alle <code class="docs__token">--nc-dt-*</code> Component-Tokens. Ueberschreibbar auf jedem Scope.</p>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default-Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dt-row-height</code></td><td>40px</td><td>Aktive Zeilenhoehe (Alias)</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-row-height-compact</code></td><td>32px</td><td>Compact-Zeilenhoehe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-row-height-comfortable</code></td><td>48px</td><td>Comfortable-Zeilenhoehe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-cell-padding-x</code></td><td>16px</td><td>Horizontales Cell-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-cell-padding-y</code></td><td>12px</td><td>Vertikales Cell-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-header-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Header-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Header-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-body-bg</code></td><td>var(--fnd-color-background-base)</td><td>Body-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-row-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>Hover-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-row-bg-selected</code></td><td>var(--fnd-color-layer-02)</td><td>Selektierte Zeile</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-row-bg-stripe</code></td><td>var(--fnd-color-layer-01)</td><td>Zebra-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-radius</code></td><td>8px</td><td>Container-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-batch-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>Batch-Bar-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-batch-color</code></td><td>var(--fnd-color-text-inverse)</td><td>Batch-Bar-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-error-border</code></td><td>var(--fnd-color-border-danger)</td><td>Error-State-Randfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+                <!-- Spaltentyp-Tokens -->
+                <tr><td colspan="3" style="font-weight:var(--fnd-font-weight-semibold);background:var(--fnd-color-background-secondary)">Spaltentypen</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-link-color</code></td><td>var(--fnd-color-text-link)</td><td>Link-Textfarbe (Email, URL)</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-link-color-hover</code></td><td>var(--fnd-color-text-link-hover)</td><td>Link-Hover-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-link-icon-size</code></td><td>14px</td><td>URL-Link-Icon-Groesse</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-radio-column-width</code></td><td>52px</td><td>Radio-Spaltenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-user-avatar-size</code></td><td>32px</td><td>Avatar-Groesse in User-Spalte</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-user-gap</code></td><td>12px</td><td>Abstand Avatar/Text</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-user-name-font-weight</code></td><td>semibold</td><td>Name-Schriftstärke</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-user-email-font-size</code></td><td>12px</td><td>Email-Schriftgroesse</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-height</code></td><td>6px</td><td>Progress-Bar-Hoehe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Progress-Track</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-fill</code></td><td>var(--fnd-color-interactive-default)</td><td>Progress-Fuellfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-fill-success</code></td><td>var(--fnd-color-feedback-success)</td><td>Fortschritt: Erfolg</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-fill-warning</code></td><td>var(--fnd-color-feedback-warning)</td><td>Fortschritt: Warnung</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-fill-danger</code></td><td>var(--fnd-color-feedback-danger)</td><td>Fortschritt: Gefahr</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-progress-radius</code></td><td>9999px</td><td>Progress-Radius (Pill)</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-actions-gap</code></td><td>4px</td><td>Abstand zwischen Action-Buttons</td></tr>
+                <tr><th colspan="3" style="padding-top:var(--fnd-spacing-04);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--fnd-color-text-secondary)">Table Title Bar</th></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-bar-padding</code></td><td>16px 16px 0</td><td>Padding der Title Bar</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-bar-gap</code></td><td>8px</td><td>Abstand Titel ↔ Beschreibung</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-font-size</code></td><td>heading-m</td><td>Schriftgroesse des Tabellentitels</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-font-weight</code></td><td>semibold</td><td>Schriftstaerke des Titels</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-color</code></td><td>text-primary</td><td>Farbe des Titels</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-title-line-height</code></td><td>1.3</td><td>Zeilenhoehe des Titels</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-description-font-size</code></td><td>body-m</td><td>Schriftgroesse der Beschreibung</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-description-color</code></td><td>text-secondary</td><td>Farbe der Beschreibung</td></tr>
+                <tr><td><code class="docs__token">--nc-dt-description-line-height</code></td><td>1.5</td><td>Zeilenhoehe der Beschreibung</td></tr>
+                <tr><th colspan="3" style="padding-top:var(--fnd-spacing-04);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--fnd-color-text-secondary)">Pagination: Page-Jump</th></tr>
+                <tr><td><code class="docs__token">--nc-dt-page-select-width</code></td><td>72px</td><td>Breite des Seiten-Jump-Selects</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-override">
+            <h2 class="docs__section-title">Theme-Override Beispiel</h2>
+            <div class="docs__code-block">/* Eigene Tabelle mit erhoehtem Radius und Akzent-Header */
+.my-section .nc-data-table {
+  --nc-dt-radius: var(--fnd-radius-2xl);
+  --nc-dt-header-bg: var(--fnd-color-interactive-default);
+  --nc-dt-header-color: var(--fnd-color-text-on-interactive);
+}</div>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen</h2>
+            <div class="docs__code-block">.nc-data-table                      // Block (Wrapper)
+  --compact                         // Modifier: 32px rows
+  --comfortable                     // Modifier: 48px rows
+  --striped                         // Modifier: Zebra-Streifen
+  --bordered                        // Modifier: Zell-Raender
+  --sticky-header                   // Modifier: Sticky Header
+  --loading                         // Modifier: Lade-Zustand
+  --error                           // Modifier: Fehler-Zustand
+  __title-bar                       // Table Header (Titel + Beschreibung)
+  __title                           // Tabellen-Titel (Pflicht)
+  __description                     // Tabellen-Beschreibung (optional)
+  __toolbar                         // Toolbar (Search, Filter, Actions)
+  __search                          // Such-Input-Wrapper
+  __toolbar-actions                 // Flex-Container (Buttons rechts)
+  __batch-bar                       // Batch-Actions-Leiste
+  __batch-count                     // Zaehler
+  __batch-actions                   // Action-Buttons
+  __batch-cancel                    // Abbrechen-Button
+  __scroll-container                // Horizontaler Scroll
+  __table                           // &lt;table&gt;
+  __thead / __tbody                 // Gruppen
+  __row                             // &lt;tr&gt;
+  __row--expand                     // Expansion-Zeile
+  __th / __td                       // Zellen
+  __th--numeric / __td--numeric     // Rechtsbuendig
+  __sort-button                     // Sort-Trigger
+  __sort-icon                       // Sort-Pfeil
+  __checkbox-cell                   // Checkbox-Spalte
+  __expand-cell                     // Expand-Spalte
+  __expand-button                   // Expand-Toggle
+  __expand-panel                    // Detail-Inhalt
+  __action-cell                     // Action-Spalte (einzeln)
+  __action-menu                     // Kebab-Button
+  __pagination                      // Pagination-Bereich
+  __rows-per-page / __rows-select   // Rows-per-Page
+  __page-info / __page-buttons      // Seiten-Info/Buttons
+  __page-select                     // Page-Jump-Wrapper (Seite X von Y)
+  __page-select-input               // Page-Jump Select-Element
+  __empty / __empty-icon / __empty-title  // Leerzustand
+  __error                           // Fehlerzustand
+  __skeleton-row / __skeleton-bar   // Lade-Skeleton
+
+  // -- Spaltentyp-Modifier (Column Data Types) --
+  __td--email                       // Email-Link-Spalte
+  __td--date / __th--date           // Datum-Spalte (tabular-nums)
+  __td--link                        // URL-Link mit Icon
+  __td--status / __th--status       // Status/Badge-Spalte (zentriert)
+  __td--user                        // User-Identity-Spalte
+  __td--progress                    // Progress-Bar-Spalte
+  __td--actions                     // Multi-Action-Spalte
+  __radio-cell                      // Radio-Selection-Spalte
+  __user-info                       // Flex-Wrapper (Avatar + Text)
+  __user-text                       // Stacked Name/Email
+  __user-name                       // Name (fett)
+  __user-email                      // Email (sekundaer)
+  __progress-wrapper                // Flex-Wrapper (Bar + Label)
+  __progress-bar                    // Track-Element
+  __progress-fill                   // Fuell-Element
+  __progress-fill--success/warning/danger  // Farb-Varianten
+  __progress-label                  // Prozent-Anzeige
+  __actions-wrapper                 // Flex-Wrapper fuer Buttons</div>
+          </section>
+        </div><!-- /tab-style -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-data-table</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-dt-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_data-table.scss</code></td></tr>
+                <tr><td><strong>JS-Datei</strong></td><td><code class="docs__token">js/data-table.js</code></td></tr>
+                <tr><td><strong>Auto-Init</strong></td><td><code class="docs__token">setupDataTables()</code> &mdash; alle <code>[data-dt-id]</code></td></tr>
+                <tr><td><strong>Manuell</strong></td><td><code class="docs__token">setupDataTable(container, options)</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-options">
+            <h2 class="docs__section-title">Optionen</h2>
+            <table class="docs__table">
+              <thead><tr><th>Option</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>sortable</code></td><td>boolean</td><td>false</td><td>Tri-State-Sort aktivieren</td></tr>
+                <tr><td><code>selectable</code></td><td>false | 'single' | 'multi'</td><td>false</td><td>Zeilen-Auswahl aktivieren</td></tr>
+                <tr><td><code>expandable</code></td><td>boolean</td><td>false</td><td>Aufklappbare Zeilen</td></tr>
+                <tr><td><code>paginated</code></td><td>boolean</td><td>false</td><td>Client-Pagination</td></tr>
+                <tr><td><code>filterable</code></td><td>boolean</td><td>false</td><td>Globale Suche</td></tr>
+                <tr><td><code>pageSize</code></td><td>number</td><td>25</td><td>Zeilen pro Seite</td></tr>
+                <tr><td><code>onSort</code></td><td>function</td><td>null</td><td>(column, direction) Callback</td></tr>
+                <tr><td><code>onSelect</code></td><td>function</td><td>null</td><td>(selectedIds[]) Callback</td></tr>
+                <tr><td><code>onExpand</code></td><td>function</td><td>null</td><td>(rowId, expanded) Callback</td></tr>
+                <tr><td><code>onPageChange</code></td><td>function</td><td>null</td><td>(page, pageSize) Callback</td></tr>
+                <tr><td><code>onSearch</code></td><td>function</td><td>null</td><td>(query) Callback</td></tr>
+                <tr><td><code>onBatchAction</code></td><td>function</td><td>null</td><td>(actionId, selectedIds[]) Callback</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-methods">
+            <h2 class="docs__section-title">Return API</h2>
+            <table class="docs__table">
+              <thead><tr><th>Methode</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>destroy()</code></td><td>Alle Event-Listener sauber entfernen</td></tr>
+                <tr><td><code>refresh()</code></td><td>DOM-Zustand neu lesen (nach dynamischem Update)</td></tr>
+                <tr><td><code>getSelectedRows()</code></td><td>Array der selektierten Row-IDs</td></tr>
+                <tr><td><code>setPage(n)</code></td><td>Zu Seite n springen</td></tr>
+                <tr><td><code>getState()</code></td><td>Aktueller State-Snapshot (Kopie)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-data-attrs">
+            <h2 class="docs__section-title">Data-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>data-dt-id</code></td><td>Container</td><td>Eindeutige ID fuer Auto-Init</td></tr>
+                <tr><td><code>data-dt-sortable</code></td><td>Container</td><td>Sort aktivieren</td></tr>
+                <tr><td><code>data-dt-selectable</code></td><td>Container</td><td>='multi' oder ='single'</td></tr>
+                <tr><td><code>data-dt-expandable</code></td><td>Container</td><td>Expand aktivieren</td></tr>
+                <tr><td><code>data-dt-paginated</code></td><td>Container</td><td>Pagination aktivieren</td></tr>
+                <tr><td><code>data-dt-filterable</code></td><td>Container</td><td>Suche aktivieren</td></tr>
+                <tr><td><code>data-dt-page-size</code></td><td>Container</td><td>Zeilen pro Seite (Zahl)</td></tr>
+                <tr><td><code>data-dt-col</code></td><td>&lt;th&gt;</td><td>Spalten-ID</td></tr>
+                <tr><td><code>data-dt-sort</code></td><td>Sort-Button</td><td>Spalten-ID zum Sortieren</td></tr>
+                <tr><td><code>data-dt-row-id</code></td><td>&lt;tr&gt;</td><td>Zeilen-ID</td></tr>
+                <tr><td><code>data-dt-select-all</code></td><td>Checkbox</td><td>Select-All Checkbox</td></tr>
+                <tr><td><code>data-dt-select-row</code></td><td>Checkbox</td><td>=rowId fuer Zeilen-Checkbox</td></tr>
+                <tr><td><code>data-dt-expand</code></td><td>Button</td><td>=rowId fuer Expand-Toggle</td></tr>
+                <tr><td><code>data-dt-search</code></td><td>Input</td><td>Such-Input</td></tr>
+                <tr><td><code>data-dt-page</code></td><td>Button</td><td>=prev|next|first|last</td></tr>
+                <tr><td><code>data-dt-rows-per-page</code></td><td>Select</td><td>Rows-per-Page Dropdown</td></tr>
+                <tr><td><code>data-dt-page-info</code></td><td>Span</td><td>Anzeige '1&ndash;25 von 142'</td></tr>
+                <tr><td><code>data-dt-page-select</code></td><td>Select</td><td>Page-Jump Dropdown (Seite X von Y)</td></tr>
+                <tr><td><code>data-dt-page-max</code></td><td>Span</td><td>Anzeige 'von {n}' (max. Seitenzahl)</td></tr>
+                <tr><td><code>data-dt-batch-count</code></td><td>Span</td><td>Zaehler in Batch-Bar</td></tr>
+                <tr><td><code>data-dt-batch-action</code></td><td>Button</td><td>=actionId fuer Batch-Aktion</td></tr>
+                <tr><td><code>data-dt-batch-cancel</code></td><td>Button</td><td>Batch-Auswahl aufheben</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-usage">
+            <h2 class="docs__section-title">Verwendungs-Beispiel</h2>
+            <div class="docs__code-block">&lt;!-- Auto-Init via data-Attribute --&gt;
+&lt;div class="nc-data-table"
+     data-dt-id="users"
+     data-dt-sortable
+     data-dt-selectable="multi"
+     data-dt-paginated
+     data-dt-page-size="25"&gt;
+  &lt;!-- ... Toolbar, Table, Pagination ... --&gt;
+&lt;/div&gt;
+
+&lt;script src="js/data-table.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // Auto-Init: alle [data-dt-id] Container
+  setupDataTables();
+
+  // Oder manuell:
+  const dt = setupDataTable(
+    document.querySelector('#my-table'),
+    {
+      sortable: true,
+      selectable: 'multi',
+      paginated: true,
+      pageSize: 10,
+      onSort: (col, dir) =&gt; console.log('Sort:', col, dir),
+      onSelect: (ids) =&gt; console.log('Selected:', ids),
+    }
+  );
+
+  // API nutzen
+  dt.getSelectedRows();  // ['row-1', 'row-3']
+  dt.setPage(2);
+  dt.destroy();
+&lt;/script&gt;</div>
+          </section>
+
+          <!-- Table Header & Toolbar -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Table Header &amp; Toolbar</h2>
+            <p class="docs__section-desc">Zwei optionale Bereiche oberhalb der Tabelle. Der <strong>Table Header</strong> (<code>__title-bar</code>) zeigt Titel und optionale Beschreibung. Die <strong>Toolbar</strong> (<code>__toolbar</code>) enthaelt Controls fuer globale Aktionen.</p>
+
+            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Markup-Hierarchie</h3>
+            <div class="docs__code-block">.nc-data-table
+  ├── .nc-data-table__title-bar         // Optional: Table Header
+  │   ├── h2.nc-data-table__title       // Pflicht wenn title-bar vorhanden
+  │   └── p.nc-data-table__description  // Optional
+  ├── .nc-data-table__toolbar           // Optional: Toolbar (role="toolbar")
+  │   ├── .nc-data-table__search        // Optional: Such-Feld
+  │   └── .nc-data-table__toolbar-actions // Optional: Buttons (margin-start:auto)
+  ├── .nc-data-table__scroll-container
+  │   └── table.nc-data-table__table
+  └── .nc-data-table__pagination        // Optional</div>
+
+            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Varianten</h3>
+            <table class="docs__table">
+              <thead><tr><th>Kombination</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Nur Title Bar</td><td>Zeigt <code>__title-bar</code> mit Titel + optionaler Beschreibung, direkt gefolgt von der Tabelle.</td></tr>
+                <tr><td>Nur Toolbar</td><td>Zeigt <code>__toolbar</code> mit Suche und/oder Action-Buttons. <code>role="toolbar"</code> setzen.</td></tr>
+                <tr><td>Title Bar + Toolbar</td><td>Title Bar oberhalb der Toolbar. Titel gibt Kontext, Toolbar bietet Aktionen.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Toolbar-Controls</h3>
+            <table class="docs__table">
+              <thead><tr><th>Control</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Suche</td><td><code>__search</code> + <code>[data-dt-search]</code></td><td>Globales Such-Feld, wird vom JS erkannt</td></tr>
+                <tr><td>Primaer-Button</td><td><code>.nc-button--sm --primary</code></td><td>Z.B. &laquo;Hinzufuegen&raquo; mit Plus-Icon</td></tr>
+                <tr><td>Icon-Button</td><td><code>.nc-button--sm --ghost --icon-only</code></td><td>Z.B. Export, Filter, Loeschen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Spaltentyp-Klassen -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Spaltentyp-Klassen</h2>
+            <p class="docs__section-desc">Rein CSS-basierte Modifier auf <code>&lt;td&gt;</code>/<code>&lt;th&gt;</code>. Keine JS-Konfiguration noetig — das HTML komponiert bestehende Atom-Komponenten innerhalb der Zellen.</p>
+            <table class="nc-data-table__table" style="width:100%;border-collapse:collapse">
+              <thead>
+                <tr>
+                  <th style="text-align:left;padding:8px;border-bottom:2px solid var(--fnd-color-border-secondary)">Modifier</th>
+                  <th style="text-align:left;padding:8px;border-bottom:2px solid var(--fnd-color-border-secondary)">Zweck</th>
+                  <th style="text-align:center;padding:8px;border-bottom:2px solid var(--fnd-color-border-secondary)">Empfohlene Breite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--email</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Email als klickbarer <code>&lt;a href="mailto:"&gt;</code> Link</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">160px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--date</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Datum mit tabular-nums, <code>&lt;time&gt;</code> empfohlen</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">120px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--numeric</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Rechtsbuendig, tabular-nums (auch fuer Waehrung)</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">80px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--status</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Bettet <code>.nc-badge</code> ein, zentriert</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">100px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--link</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">URL mit Icon + Text, Flex-Layout</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">120px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--user</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Avatar + Name + Email Komposit-Spalte</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">200px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--progress</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Inline Progress-Bar mit Prozent-Label</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">120px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__td--actions</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Mehrere Icon-Buttons via <code>__actions-wrapper</code></td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">52–120px</td></tr>
+                <tr><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)"><code>__radio-cell</code></td><td style="padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">Radio-Button Einzelauswahl (analog __checkbox-cell)</td><td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--fnd-color-border-secondary)">52px</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div><!-- /tab-api -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <section class="docs__section" id="a11y-aria">
+            <h2 class="docs__section-title">ARIA-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>aria-sort</code></td><td>&lt;th&gt;</td><td>none | ascending | descending</td></tr>
+                <tr><td><code>aria-selected</code></td><td>&lt;tr&gt;</td><td>true | false bei selektierbaren Zeilen</td></tr>
+                <tr><td><code>aria-expanded</code></td><td>Expand-Button</td><td>true | false</td></tr>
+                <tr><td><code>aria-controls</code></td><td>Expand-Button</td><td>ID des zugehoerigen Expand-Panels</td></tr>
+                <tr><td><code>aria-label</code></td><td>Checkboxen</td><td>Zeilen-Kontext (z.B. &ldquo;Maria Schmidt auswaehlen&rdquo;)</td></tr>
+                <tr><td><code>aria-label</code></td><td>Pagination-Buttons</td><td>Vorherige/Naechste Seite</td></tr>
+                <tr><td><code>aria-live="polite"</code></td><td>Batch-Bar</td><td>Screenreader-Ankuendigung bei Aenderung</td></tr>
+                <tr><td><code>aria-hidden="true"</code></td><td>Skeleton-Rows</td><td>Lade-Platzhalter vor Screenreadern verstecken</td></tr>
+                <tr><td><code>role="toolbar"</code></td><td>Toolbar</td><td>Semantik fuer Such-/Filter-Bereich</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="a11y-keyboard">
+            <h2 class="docs__section-title">Tastatur-Interaktion</h2>
+            <table class="docs__table">
+              <thead><tr><th>Taste</th><th>Kontext</th><th>Aktion</th></tr></thead>
+              <tbody>
+                <tr><td><code>Tab</code></td><td>Tabelle</td><td>Zwischen interaktiven Elementen navigieren</td></tr>
+                <tr><td><code>Enter</code> / <code>Space</code></td><td>Sort-Button</td><td>Sortierung umschalten (Tri-State)</td></tr>
+                <tr><td><code>Space</code></td><td>Checkbox</td><td>Zeile selektieren/deselektieren</td></tr>
+                <tr><td><code>Enter</code> / <code>Space</code></td><td>Expand-Button</td><td>Detail-Panel auf-/zuklappen</td></tr>
+                <tr><td><code>Enter</code></td><td>Pagination-Button</td><td>Seite wechseln</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="a11y-guidelines">
+            <h2 class="docs__section-title">Richtlinien</h2>
+            <div class="docs-a11y-block">
+              <div class="docs-a11y-block__content">
+                <ul>
+                  <li>Semantisches <code>&lt;table&gt;</code>-Markup verwenden &mdash; Screenreader lesen Zeilen/Spalten-Beziehungen automatisch vor.</li>
+                  <li>Jede Checkbox braucht ein <code>aria-label</code> mit Zeilen-Kontext.</li>
+                  <li>Focus-Ring muss auf allen interaktiven Elementen sichtbar sein (via <code>:focus-visible</code> + <code>@include focus-ring</code>).</li>
+                  <li>Sort-State per <code>aria-sort</code> auf <code>&lt;th&gt;</code> &mdash; Screenreader kuendigen &ldquo;sorted ascending/descending&rdquo; an.</li>
+                  <li>Batch-Bar nutzt <code>aria-live="polite"</code> &mdash; Aenderungen werden automatisch angesagt.</li>
+                  <li><code>prefers-reduced-motion</code> deaktiviert Skeleton-Shimmer und Transition-Animationen.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div><!-- /tab-a11y -->
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="../js/data-table.js"></script>
+  <script src="data-table-docs.js"></script>
+<!-- /SCRIPTS -->

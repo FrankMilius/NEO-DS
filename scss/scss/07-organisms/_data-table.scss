@@ -1,0 +1,960 @@
+// ==========================================================================
+// 07-Organisms: DataTable
+// ==========================================================================
+// Token-basiertes DataTable-System mit 9 kombinierbaren Varianten:
+// basic, sortable, filterable, selectable, expandable, actions,
+// paginated, sticky-header, density.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-dt-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// MARKUP:
+//   Semantisches <table>-Element mit <thead>, <tbody>.
+//   Wrapper: .nc-data-table (Rahmen, Radius, Scroll).
+//   Toolbar:    .nc-data-table__toolbar
+//   Pagination: .nc-data-table__pagination
+//
+// DICHTE (3 Stufen):
+//   default     → 40px Zeilenhoehe
+//   compact     → 32px
+//   comfortable → 48px
+//
+// BEM-KLASSEN:
+//   .nc-data-table                      Block (Wrapper)
+//   .nc-data-table__title-bar           Table Header (Titel + Beschreibung)
+//   .nc-data-table__title               Tabellen-Titel (Pflichtfeld)
+//   .nc-data-table__description         Tabellen-Beschreibung (optional)
+//   .nc-data-table__toolbar             Toolbar (Suche, Filter, Batch-Actions)
+//   .nc-data-table__scroll-container    Horizontaler Scroll-Wrapper
+//   .nc-data-table__table               Das <table>-Element
+//   .nc-data-table__thead               <thead>
+//   .nc-data-table__tbody               <tbody>
+//   .nc-data-table__row                 <tr>
+//   .nc-data-table__th                  <th>
+//   .nc-data-table__td                  <td>
+//   .nc-data-table__sort-button         Sort-Trigger in <th>
+//   .nc-data-table__sort-icon           Sort-Pfeil-SVG
+//   .nc-data-table__checkbox-cell       Checkbox-Spalte (fest breit)
+//   .nc-data-table__expand-cell         Expand-Spalte (fest breit)
+//   .nc-data-table__expand-button       Expand-Toggle
+//   .nc-data-table__row--expand         Versteckte Expansions-Zeile
+//   .nc-data-table__expand-panel        Progressive-Disclosure-Inhalt
+//   .nc-data-table__action-cell         Actions-Spalte (fest breit)
+//   .nc-data-table__action-menu         Kebab-Menu-Trigger
+//   .nc-data-table__batch-bar           Batch-Actions-Leiste
+//   .nc-data-table__pagination          Pagination-Bereich
+//   .nc-data-table__page-select         Page-Jump-Dropdown (Seite X von Y)
+//   .nc-data-table__page-select-input   Select-Element im Page-Jump
+//   .nc-data-table__empty               Leerzustand
+//   .nc-data-table__error               Fehlerzustand
+//   .nc-data-table__skeleton-row        Lade-Zustand (Skeleton)
+//   .nc-data-table__skeleton-bar        Einzelner Skeleton-Balken
+//
+// MODIFIER:
+//   --compact / --comfortable           Dichte
+//   --sortable                          Sortierbare Spalten
+//   --selectable                        Zeilen-Auswahl
+//   --expandable                        Aufklappbare Zeilen
+//   --striped                           Zebra-Streifen
+//   --bordered                          Vollstaendige Zellgrenzen
+//   --sticky-header                     Sticky <thead>
+//   --loading                           Skeleton-Lade-Zustand
+//   --error                             Fehlerzustand
+//
+// ACCESSIBILITY:
+//   aria-sort auf <th> (ascending/descending/none)
+//   aria-selected auf <tr> fuer selektierte Zeilen
+//   aria-expanded auf Expand-Button
+//   aria-controls verbindet Expand-Button → Panel
+//   aria-label fuer Checkboxen mit Zeilenkontext
+//   aria-live="polite" fuer Batch-Bar Zaehler
+//   role="toolbar" fuer Toolbar
+//   Keyboard: Tab, Enter, Space fuer Sort/Expand/Select
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Aeusserer Wrapper (.nc-data-table).
+@mixin dt-wrapper {
+  position: relative;
+  border: var(--nc-dt-border);
+  border-radius: var(--nc-dt-radius);
+  overflow: hidden;
+  background: var(--nc-dt-body-bg);
+  color: var(--nc-dt-body-color);
+  font-size: var(--nc-dt-body-font-size);
+  font-weight: var(--nc-dt-body-font-weight);
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/// Horizontaler Scroll-Container mit CSS-Schatten an den Raendern.
+@mixin dt-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Scroll-Schatten links/rechts via Background-Gradient-Trick
+  background:
+    // Linker Schatten-Indicator
+    linear-gradient(to right, var(--nc-dt-body-bg) 30%, transparent) left center,
+    // Rechter Schatten-Indicator
+    linear-gradient(to left, var(--nc-dt-body-bg) 30%, transparent) right center,
+    // Linker Schatten
+    radial-gradient(farthest-side at 0% 50%, color-mix(in srgb, var(--fnd-color-always-dark) 12%, transparent), transparent) left center,
+    // Rechter Schatten
+    radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--fnd-color-always-dark) 12%, transparent), transparent) right center;
+
+  background-repeat: no-repeat;
+  background-size:
+    var(--nc-dt-scroll-shadow-size) 100%,
+    var(--nc-dt-scroll-shadow-size) 100%,
+    calc(var(--nc-dt-scroll-shadow-size) / 2) 100%,
+    calc(var(--nc-dt-scroll-shadow-size) / 2) 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
+/// Das <table>-Element.
+@mixin dt-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+/// Header-Zelle <th>.
+@mixin dt-header-cell {
+  height: var(--nc-dt-header-height);
+  padding: var(--nc-dt-cell-padding-y) var(--nc-dt-cell-padding-x);
+  background: var(--nc-dt-header-bg);
+  color: var(--nc-dt-header-color);
+  font-size: var(--nc-dt-header-font-size);
+  font-weight: var(--nc-dt-header-font-weight);
+  letter-spacing: var(--nc-dt-header-letter-spacing);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-bottom: var(--nc-dt-header-border-bottom);
+  user-select: none;
+
+  &:first-child {
+    padding-inline-start: var(--nc-dt-cell-padding-x);
+  }
+
+  &:last-child {
+    padding-inline-end: var(--nc-dt-cell-padding-x);
+  }
+}
+
+/// Body-Zelle <td>.
+@mixin dt-body-cell {
+  height: var(--nc-dt-row-height);
+  padding: var(--nc-dt-cell-padding-y) var(--nc-dt-cell-padding-x);
+  vertical-align: middle;
+  border-bottom: var(--nc-dt-row-border-bottom);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:first-child {
+    padding-inline-start: var(--nc-dt-cell-padding-x);
+  }
+
+  &:last-child {
+    padding-inline-end: var(--nc-dt-cell-padding-x);
+  }
+}
+
+/// Interaktive Zeile (Hover + Selected).
+@mixin dt-row-interactive {
+  @include transition-quick(background-color);
+
+  &:hover {
+    background-color: var(--nc-dt-row-bg-hover);
+  }
+
+  &[aria-selected='true'] {
+    background-color: var(--nc-dt-row-bg-selected);
+  }
+
+  &:last-child > .nc-data-table__td {
+    border-bottom: none;
+  }
+}
+
+/// Sort-Button innerhalb <th>.
+@mixin dt-sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-01);
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  min-height: var(--nc-dt-sort-hit-area);
+  // Der Klickbereich muss gross genug sein
+  min-width: var(--nc-dt-sort-hit-area);
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: var(--fnd-radius-sm);
+  }
+}
+
+/// Dichte umschalten.
+/// @param {String} $density - 'compact' | 'comfortable'
+@mixin dt-density($density) {
+  @if $density == 'compact' {
+    --nc-dt-row-height: var(--nc-dt-row-height-compact);
+    --nc-dt-cell-padding-x: var(--fnd-spacing-03);     // 12px
+    --nc-dt-cell-padding-y: var(--fnd-spacing-02);      // 8px
+    --nc-dt-header-height: 36px;
+  } @else if $density == 'comfortable' {
+    --nc-dt-row-height: var(--nc-dt-row-height-comfortable);
+    --nc-dt-cell-padding-x: var(--fnd-spacing-05);     // 20px
+    --nc-dt-cell-padding-y: var(--fnd-spacing-04);      // 16px
+    --nc-dt-header-height: 52px;
+  }
+}
+
+/// Table Title Bar — optionaler Bereich fuer Titel + Beschreibung.
+@mixin dt-title-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-dt-title-bar-gap);
+  padding: var(--nc-dt-title-bar-padding);
+}
+
+/// Toolbar-Bereich.
+@mixin dt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-dt-toolbar-gap);
+  min-height: var(--nc-dt-toolbar-height);
+  padding: var(--nc-dt-toolbar-padding);
+  background: var(--nc-dt-toolbar-bg);
+  border-bottom: var(--nc-dt-toolbar-border-bottom);
+}
+
+/// Pagination-Bereich.
+@mixin dt-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--nc-dt-pagination-gap);
+  min-height: var(--nc-dt-pagination-height);
+  padding: var(--nc-dt-pagination-padding);
+  background: var(--nc-dt-pagination-bg);
+  border-top: var(--nc-dt-pagination-border-top);
+  font-size: var(--nc-dt-pagination-font-size);
+  color: var(--nc-dt-pagination-color);
+}
+
+/// Batch-Actions-Leiste (ueber Toolbar).
+@mixin dt-batch-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--fnd-z-dropdown);
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-04);
+  min-height: var(--nc-dt-batch-height);
+  padding: var(--nc-dt-batch-padding);
+  background: var(--nc-dt-batch-bg);
+  color: var(--nc-dt-batch-color);
+  border-radius: var(--nc-dt-batch-radius) var(--nc-dt-batch-radius) 0 0;
+  @include transition-quick((transform, opacity));
+}
+
+/// Expand-Panel (progressive Disclosure).
+@mixin dt-expand-panel {
+  background: var(--nc-dt-expand-panel-bg);
+  padding: var(--nc-dt-expand-panel-padding);
+}
+
+/// Skeleton-Zeile (Lade-Zustand).
+@mixin dt-skeleton-bar {
+  position: relative;
+  height: 14px;
+  width: 75%;
+  background: var(--nc-dt-skeleton-bg);
+  border-radius: var(--nc-dt-skeleton-radius);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--nc-dt-skeleton-shimmer),
+      transparent
+    );
+    animation: dt-shimmer 1.5s infinite;
+  }
+}
+
+/// Leerzustand.
+@mixin dt-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--fnd-spacing-08) var(--fnd-spacing-04);
+  text-align: center;
+}
+
+// ---------------------------------------------------------------------------
+// Icon-Button Basis (intern, fuer Expand + Action)
+// ---------------------------------------------------------------------------
+
+@mixin dt-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fnd-spacing-01);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fnd-color-text-secondary);
+  border-radius: var(--fnd-radius-sm);
+  @include transition-quick((background-color, color, transform));
+
+  &:hover {
+    background: var(--fnd-color-background-hover);
+    color: var(--fnd-color-text-primary);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-data-table {
+  @include dt-wrapper;
+
+  // -- Scroll Container --
+
+  &__scroll-container {
+    @include dt-scroll-container;
+  }
+
+  // -- Table --
+
+  &__table {
+    @include dt-table;
+  }
+
+  // -- Header --
+
+  &__th {
+    @include dt-header-cell;
+  }
+
+  // -- Body Rows --
+
+  &__row {
+    @include dt-row-interactive;
+
+    // Expansion-Zeile: kein Hover, kein Border
+    &--expand {
+      &:hover {
+        background-color: transparent;
+      }
+
+      > .nc-data-table__td {
+        padding: 0;
+        border-bottom: var(--nc-dt-row-border-bottom);
+      }
+    }
+  }
+
+  // -- Body Cell --
+
+  &__td {
+    @include dt-body-cell;
+  }
+
+  // -- Numerische Ausrichtung --
+
+  &__th--numeric,
+  &__td--numeric {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // -- Icon/Center-Ausrichtung --
+
+  &__th--center,
+  &__td--center {
+    text-align: center;
+  }
+
+  // =====================================================================
+  // Spaltentyp-Modifier (Column Data Types)
+  // =====================================================================
+
+  // -- Email-Spalte: Linkfarbe, Hover-Underline, Focus-Ring --
+
+  &__td--email {
+    a {
+      color: var(--nc-dt-link-color);
+      text-decoration: none;
+      @include transition-quick(color);
+
+      &:hover {
+        color: var(--nc-dt-link-color-hover);
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+        border-radius: var(--fnd-radius-sm);
+      }
+    }
+  }
+
+  // -- Datum-Spalte: Tabular-Nums, kein Umbruch --
+
+  &__th--date,
+  &__td--date {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: var(--nc-dt-date-font-feature);
+    white-space: nowrap;
+  }
+
+  // -- URL/Link-Spalte: Icon + Text im Flex-Wrapper --
+
+  &__td--link {
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--nc-dt-link-gap);
+      color: var(--nc-dt-link-color);
+      text-decoration: none;
+      max-width: 100%;
+      @include transition-quick(color);
+
+      &:hover {
+        color: var(--nc-dt-link-color-hover);
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+        border-radius: var(--fnd-radius-sm);
+      }
+
+      > svg {
+        flex-shrink: 0;
+        width: var(--nc-dt-link-icon-size);
+        height: var(--nc-dt-link-icon-size);
+      }
+
+      > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // -- Status/Badge-Spalte: Zentriert, kein Clipping --
+
+  &__th--status,
+  &__td--status {
+    text-align: center;
+  }
+
+  &__td--status {
+    overflow: visible;
+  }
+
+  // -- Radio-Spalte (analog zu Checkbox-Spalte) --
+
+  &__radio-cell {
+    width: var(--nc-dt-radio-column-width);
+    padding: 0 var(--nc-dt-radio-padding-x);
+    text-align: center;
+  }
+
+  // -- Multi-Actions-Spalte (mehrere Icon-Buttons) --
+
+  &__td--actions {
+    overflow: visible;
+  }
+
+  &__actions-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--nc-dt-actions-gap);
+  }
+
+  // =====================================================================
+  // Zusammengesetzte Spaltentypen (Composite Column Types)
+  // =====================================================================
+
+  // -- User Identity: Avatar + Name + Email --
+
+  &__td--user {
+    overflow: hidden;
+  }
+
+  &__user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-dt-user-gap);
+    min-width: 0;
+  }
+
+  &__user-info > .nc-avatar {
+    flex-shrink: 0;
+    width: var(--nc-dt-user-avatar-size);
+    height: var(--nc-dt-user-avatar-size);
+    min-width: var(--nc-dt-user-avatar-size);
+    min-height: var(--nc-dt-user-avatar-size);
+  }
+
+  &__user-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  &__user-name {
+    font-weight: var(--nc-dt-user-name-font-weight);
+    color: var(--nc-dt-user-name-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__user-email {
+    font-size: var(--nc-dt-user-email-font-size);
+    color: var(--nc-dt-user-email-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // -- Inline Progress Bar --
+
+  &__td--progress {
+    overflow: visible;
+  }
+
+  &__progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-dt-progress-gap);
+  }
+
+  &__progress-bar {
+    flex: 1;
+    height: var(--nc-dt-progress-height);
+    background: var(--nc-dt-progress-bg);
+    border-radius: var(--nc-dt-progress-radius);
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: var(--nc-dt-progress-fill);
+    border-radius: var(--nc-dt-progress-radius);
+    @include transition-quick(width);
+
+    &--success { background: var(--nc-dt-progress-fill-success); }
+    &--warning { background: var(--nc-dt-progress-fill-warning); }
+    &--danger  { background: var(--nc-dt-progress-fill-danger); }
+  }
+
+  &__progress-label {
+    flex-shrink: 0;
+    width: var(--nc-dt-progress-label-width);
+    text-align: end;
+    font-size: var(--nc-dt-progress-label-font-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--fnd-color-text-secondary);
+  }
+
+  // =====================================================================
+  // Density-Anpassungen fuer zusammengesetzte Spalten
+  // =====================================================================
+
+  // Compact: Avatar verkleinern (xs = 24px statt sm = 32px)
+  &--compact &__user-info > .nc-avatar {
+    width: var(--nc-avatar-size-xs);
+    height: var(--nc-avatar-size-xs);
+    min-width: var(--nc-avatar-size-xs);
+    min-height: var(--nc-avatar-size-xs);
+  }
+
+  // Compact: Progress-Bar etwas flacher
+  &--compact &__progress-bar {
+    height: 4px;
+  }
+
+  // -- Sort Button --
+
+  &__sort-button {
+    @include dt-sort-button;
+  }
+
+  &__sort-icon {
+    flex-shrink: 0;
+    width: var(--nc-dt-sort-icon-size);
+    height: var(--nc-dt-sort-icon-size);
+    color: var(--nc-dt-sort-icon-color);
+    @include transition-quick(color);
+
+    // Tabler-Icon-Attribute normalisieren
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+
+    // Drei Zustandsicons: nur das aktive anzeigen
+    // Standard: alle versteckt, JS steuert via display
+    &[data-dt-sort-icon='asc'],
+    &[data-dt-sort-icon='desc'] {
+      display: none;
+    }
+
+    // Aktiver Sort (Spalte ist sortiert)
+    &--active {
+      color: var(--nc-dt-sort-icon-color-active);
+    }
+  }
+
+  // -- Checkbox-Spalte --
+
+  &__checkbox-cell {
+    width: var(--nc-dt-checkbox-column-width);
+    padding: 0 var(--nc-dt-checkbox-padding-x);
+    text-align: center;
+  }
+
+  // -- Expand-Spalte --
+
+  &__expand-cell {
+    width: var(--nc-dt-expand-column-width);
+    padding: 0;
+    text-align: center;
+  }
+
+  &__expand-button {
+    @include dt-icon-button;
+    width: 32px;
+    height: 32px;
+
+    > svg {
+      width: var(--nc-dt-expand-icon-size);
+      height: var(--nc-dt-expand-icon-size);
+      @include transition-quick(transform);
+    }
+
+    &[aria-expanded='true'] > svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__expand-panel {
+    @include dt-expand-panel;
+  }
+
+  // -- Action-Spalte --
+
+  &__action-cell {
+    width: var(--nc-dt-action-column-width);
+    padding: 0;
+    text-align: center;
+  }
+
+  &__action-menu {
+    @include dt-icon-button;
+    width: 32px;
+    height: 32px;
+
+    > svg {
+      width: var(--nc-dt-action-icon-size);
+      height: var(--nc-dt-action-icon-size);
+    }
+  }
+
+  // -- Table Title Bar --
+
+  &__title-bar {
+    @include dt-title-bar;
+  }
+
+  &__title {
+    font-size: var(--nc-dt-title-font-size);
+    font-weight: var(--nc-dt-title-font-weight);
+    line-height: var(--nc-dt-title-line-height);
+    color: var(--nc-dt-title-color);
+    margin: 0;
+  }
+
+  &__description {
+    font-size: var(--nc-dt-description-font-size);
+    line-height: var(--nc-dt-description-line-height);
+    color: var(--nc-dt-description-color);
+    margin: 0;
+  }
+
+  // -- Toolbar --
+
+  &__toolbar {
+    @include dt-toolbar;
+  }
+
+  &__search {
+    min-width: var(--nc-dt-search-min-width);
+    flex: 0 1 auto;
+  }
+
+  &__toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-dt-toolbar-gap);
+    margin-inline-start: auto;
+  }
+
+  // -- Batch Actions Bar --
+
+  &__batch-bar {
+    @include dt-batch-bar;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__batch-count {
+    font-weight: var(--fnd-font-weight-semibold);
+  }
+
+  &__batch-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+  }
+
+  &__batch-cancel {
+    @include dt-icon-button;
+    width: 32px;
+    height: 32px;
+    margin-inline-start: auto;
+    color: var(--nc-dt-batch-color);
+
+    &:hover {
+      background: color-mix(in srgb, var(--nc-dt-batch-color) 12%, transparent);
+      color: var(--nc-dt-batch-color);
+    }
+  }
+
+  // -- Pagination --
+
+  &__pagination {
+    @include dt-pagination;
+  }
+
+  &__rows-per-page {
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+  }
+
+  &__rows-select {
+    width: var(--nc-dt-select-width);
+  }
+
+  &__page-info {
+    color: var(--nc-dt-pagination-color);
+    white-space: nowrap;
+  }
+
+  &__page-select {
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+    white-space: nowrap;
+  }
+
+  &__page-select-input {
+    width: var(--nc-dt-page-select-width);
+  }
+
+  &__page-buttons {
+    display: flex;
+    gap: var(--fnd-spacing-01);
+  }
+
+  // -- Empty State --
+
+  &__empty {
+    @include dt-empty-state;
+    color: var(--nc-dt-empty-body-color);
+  }
+
+  &__empty-icon {
+    width: var(--nc-dt-empty-icon-size);
+    height: var(--nc-dt-empty-icon-size);
+    color: var(--nc-dt-empty-body-color);
+  }
+
+  &__empty-title {
+    font-weight: var(--fnd-font-weight-semibold);
+    color: var(--nc-dt-empty-title-color);
+  }
+
+  // -- Error State --
+
+  &__error {
+    @include dt-empty-state;
+    color: var(--nc-dt-error-color);
+  }
+
+  // -- Skeleton (Loading) --
+
+  &__skeleton-row {
+    pointer-events: none;
+  }
+
+  &__skeleton-bar {
+    @include dt-skeleton-bar;
+  }
+
+  // Verschiedene Skeleton-Breiten fuer natuerlicheres Aussehen
+  &__skeleton-row:nth-child(odd) &__skeleton-bar {
+    width: 65%;
+  }
+
+  &__skeleton-row:nth-child(3n) &__skeleton-bar {
+    width: 80%;
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Dichte (Density)
+  // -----------------------------------------------------------------------
+
+  &--compact {
+    @include dt-density('compact');
+  }
+
+  &--comfortable {
+    @include dt-density('comfortable');
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Zebra-Streifen
+  // -----------------------------------------------------------------------
+
+  &--striped &__tbody &__row:nth-child(even of :not(.nc-data-table__row--expand)) {
+    background-color: var(--nc-dt-row-bg-stripe);
+  }
+
+  // Fallback fuer Browser ohne :nth-child(...of S)
+  @supports not selector(:nth-child(1 of .a)) {
+    &--striped &__tbody &__row:nth-child(even) {
+      background-color: var(--nc-dt-row-bg-stripe);
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Zell-Raender
+  // -----------------------------------------------------------------------
+
+  &--bordered &__td,
+  &--bordered &__th {
+    border-inline-end: var(--nc-dt-row-border-bottom);
+
+    &:last-child {
+      border-inline-end: none;
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Sticky Header
+  // -----------------------------------------------------------------------
+
+  &--sticky-header &__scroll-container {
+    max-height: var(--nc-dt-sticky-max-height, 70vh);
+    overflow-y: auto;
+  }
+
+  &--sticky-header &__th {
+    position: sticky;
+    top: 0;
+    z-index: var(--fnd-z-sticky);
+    // Schatten unter dem Header beim Scrollen
+    box-shadow: 0 1px 0 0 var(--fnd-color-border-secondary);
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Loading
+  // -----------------------------------------------------------------------
+
+  &--loading &__tbody {
+    opacity: var(--fnd-opacity-disabled);
+    pointer-events: none;
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Error
+  // -----------------------------------------------------------------------
+
+  &--error {
+    border-color: var(--nc-dt-error-border);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Keyframes: Skeleton Shimmer
+// ---------------------------------------------------------------------------
+
+@keyframes dt-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-data-table__sort-icon,
+  .nc-data-table__expand-button > svg,
+  .nc-data-table__row,
+  .nc-data-table__progress-fill {
+    transition: none !important;
+  }
+
+  .nc-data-table__skeleton-bar::after {
+    animation: none;
+  }
+}

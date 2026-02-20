@@ -1,0 +1,152 @@
+// ==========================================================================
+// 08-Templates: Settings Page
+// ==========================================================================
+// Settings-Layout mit seitlicher Navigation und Content-Bereich.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Layout
+// ---------------------------------------------------------------------------
+
+.t-settings {
+  max-width: var(--fnd-content-max-width);
+  margin-inline: auto;
+  padding: var(--fnd-spacing-06);
+
+  @include tablet-up {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--fnd-spacing-06);
+    align-items: start;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Navigation
+// ---------------------------------------------------------------------------
+
+.t-settings__nav {
+  @include tablet-up {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--fnd-spacing-06));
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: var(--fnd-spacing-06);
+  }
+}
+
+.t-settings__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-01);
+
+  @media (max-width: 767px) {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: var(--fnd-spacing-02);
+    padding-bottom: var(--fnd-spacing-02);
+  }
+}
+
+.t-settings__nav-link {
+  display: block;
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+  border-radius: var(--fnd-radius-md);
+  color: var(--fnd-color-text-secondary);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  @include transition(color background-color, '150');
+
+  &:hover {
+    color: var(--fnd-color-text-high);
+    background: var(--fnd-color-layer-01);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[aria-current='page'] {
+    color: var(--fnd-color-interactive-default);
+    background: var(--fnd-color-layer-01);
+    font-weight: var(--fnd-font-weight-medium);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content
+// ---------------------------------------------------------------------------
+
+.t-settings__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-06);
+}
+
+.t-settings__section {
+  background: var(--fnd-color-layer-01);
+  border-radius: var(--fnd-radius-lg);
+  padding: var(--fnd-spacing-06);
+  box-shadow: var(--fnd-elevation-base);
+}
+
+.t-settings__section-header {
+  margin-bottom: var(--fnd-spacing-04);
+  padding-bottom: var(--fnd-spacing-04);
+  border-bottom: 1px solid var(--fnd-color-border-low);
+}
+
+.t-settings__section-title {
+  @include heading('s');
+  margin: 0 0 var(--fnd-spacing-01);
+  color: var(--fnd-color-on-layer-01);
+}
+
+.t-settings__section-description {
+  color: var(--fnd-color-text-secondary);
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Setting Row
+// ---------------------------------------------------------------------------
+
+.t-settings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fnd-spacing-04);
+  padding: var(--fnd-spacing-04) 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--fnd-color-border-low);
+  }
+}
+
+.t-settings__row-label {
+  flex: 1;
+}
+
+.t-settings__row-title {
+  font-weight: var(--fnd-font-weight-medium);
+  color: var(--fnd-color-on-layer-01);
+  margin: 0;
+}
+
+.t-settings__row-description {
+  color: var(--fnd-color-text-secondary);
+  font-size: var(--fs-sm);
+  margin: var(--fnd-spacing-01) 0 0;
+}
+
+.t-settings__row-action {
+  flex-shrink: 0;
+}

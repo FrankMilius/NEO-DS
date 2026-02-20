@@ -1,0 +1,166 @@
+// ==========================================================================
+// 06-Molecules: Breadcrumb
+// ==========================================================================
+// Semantische Breadcrumb-Navigation mit <nav> + <ol>.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-breadcrumb-* Component-Tokens.
+//   Linearer Pfad mit Links, Separatoren und aktuellem Seitenindikator.
+//   Optional Ellipsis fuer abgekuerzte Pfade.
+//
+// PATTERN:
+//   <nav aria-label="Breadcrumb">
+//     <ol> mit <li> Items, <a> Links, <span> Separatoren/Current
+//
+// BEM-KLASSEN:
+//   .nc-breadcrumb                 Block (<nav> Wrapper)
+//   .nc-breadcrumb__list           <ol> (flex, wrap, gap)
+//   .nc-breadcrumb__item           <li> (inline-flex, align-center)
+//   .nc-breadcrumb__link           <a> (hover: underline + color)
+//   .nc-breadcrumb__page           <span> aktuelle Seite (font-weight 500)
+//   .nc-breadcrumb__separator      Chevron-SVG oder / (aria-hidden)
+//   .nc-breadcrumb__ellipsis       Truncation-Button (24x24, hover bg)
+//
+// ACCESSIBILITY:
+//   <nav aria-label="Breadcrumb"> auf Wrapper
+//   <ol> fuer geordnete Semantik
+//   aria-current="page" auf aktuellem Item
+//   Separatoren aria-hidden="true" (dekorativ)
+//   Ellipsis-Button aria-label="Weitere Seiten anzeigen"
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Breadcrumb-Wrapper (<nav>).
+@mixin breadcrumb-base {
+  font-size: var(--nc-breadcrumb-font-size);
+  color: var(--nc-breadcrumb-color);
+}
+
+/// Breadcrumb-Liste (<ol>).
+@mixin breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nc-breadcrumb-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/// Breadcrumb-Item (<li>).
+@mixin breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nc-breadcrumb-gap);
+}
+
+/// Breadcrumb-Link (<a>).
+@mixin breadcrumb-link {
+  color: var(--nc-breadcrumb-color);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  @include transition(color, '200');
+
+  &:hover {
+    color: var(--nc-breadcrumb-color-hover);
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: var(--fnd-radius-sm);
+  }
+}
+
+/// Aktuelle Seite (<span>, nicht klickbar).
+@mixin breadcrumb-page {
+  color: var(--nc-breadcrumb-color-current);
+  font-weight: var(--fnd-font-weight-medium);
+}
+
+/// Separator (Chevron-SVG oder /).
+@mixin breadcrumb-separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--nc-breadcrumb-separator-color);
+  flex-shrink: 0;
+  user-select: none;
+
+  > svg {
+    width: var(--nc-breadcrumb-separator-size);
+    height: var(--nc-breadcrumb-separator-size);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Ellipsis-Button fuer abgekuerzte Pfade.
+@mixin breadcrumb-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--nc-breadcrumb-color);
+  cursor: pointer;
+  border-radius: var(--fnd-radius-sm);
+  @include transition(background-color color, '200');
+
+  &:hover {
+    background-color: var(--fnd-color-background-secondary);
+    color: var(--nc-breadcrumb-color-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-breadcrumb {
+  @include breadcrumb-base;
+
+  &__list {
+    @include breadcrumb-list;
+  }
+
+  &__item {
+    @include breadcrumb-item;
+  }
+
+  &__link {
+    @include breadcrumb-link;
+  }
+
+  &__page {
+    @include breadcrumb-page;
+  }
+
+  &__separator {
+    @include breadcrumb-separator;
+  }
+
+  &__ellipsis {
+    @include breadcrumb-ellipsis;
+  }
+}

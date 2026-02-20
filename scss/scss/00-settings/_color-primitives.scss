@@ -1,0 +1,274 @@
+// ==========================================================================
+// 00-Settings: Color Primitives
+// ==========================================================================
+// Schicht 1 der Color-Architektur: Rohfarben und Paletten.
+// Jede Palette hat eine 100–950 Shade-Skala (500 = Basis).
+// Neutral wird generiert aus #7a7a7a.
+// Foundation Colors liefern Transparenz-Stufen für Black/White (10–100%).
+// ==========================================================================
+
+@use 'sass:map';
+@use 'sass:meta';
+@use 'color-functions' as fn;
+
+// ---------------------------------------------------------------------------
+// Brand Source Toggle (Customer-Theming)
+// ---------------------------------------------------------------------------
+// Setze $brand-source auf 'customer' und definiere $customer-primary etc.
+// um die Neo-Palette durch eigene Farben zu ersetzen.
+
+$brand-source: 'neo' !default;
+
+// Neo Brand Farben (Default)
+$_neo-primary-base:   #002049 !default;  // Neo Darkblue (jetzt Primary)
+$_neo-secondary-base: #009fe3 !default;  // Neo Blue (jetzt Secondary)
+$_neo-accent-base:    #37e93d !default;  // Neo Lime/Green
+
+// Customer Brand Farben (Override)
+$customer-primary-base:   null !default;
+$customer-secondary-base: null !default;
+$customer-accent-base:    null !default;
+
+// ---------------------------------------------------------------------------
+// Resolved Base Colors
+// ---------------------------------------------------------------------------
+
+$_primary-base: if(
+  $brand-source == 'customer' and $customer-primary-base != null,
+  $customer-primary-base,
+  $_neo-primary-base
+);
+
+$_secondary-base: if(
+  $brand-source == 'customer' and $customer-secondary-base != null,
+  $customer-secondary-base,
+  $_neo-secondary-base
+);
+
+$_accent-base: if(
+  $brand-source == 'customer' and $customer-accent-base != null,
+  $customer-accent-base,
+  $_neo-accent-base
+);
+
+// ---------------------------------------------------------------------------
+// Main Palettes (100–950 Shade Scale)
+// ---------------------------------------------------------------------------
+
+/// Primary Palette (Neo Darkblue / Customer Primary)
+$primary: fn.generate-shade-scale($_primary-base) !default;
+
+/// Secondary Palette (Neo Blue / Customer Secondary)
+$secondary: fn.generate-shade-scale($_secondary-base) !default;
+
+/// Accent Palette (Neo Lime / Customer Accent)
+$accent: fn.generate-shade-scale($_accent-base) !default;
+
+// ---------------------------------------------------------------------------
+// Foundation Colors (Black / White mit Transparenz-Skala 10–100%)
+// ---------------------------------------------------------------------------
+
+$foundation-black: (
+  100: #000000,
+  90: color-mix(in srgb, #000 90%, transparent),
+  80: color-mix(in srgb, #000 80%, transparent),
+  70: color-mix(in srgb, #000 70%, transparent),
+  60: color-mix(in srgb, #000 60%, transparent),
+  50: color-mix(in srgb, #000 50%, transparent),
+  40: color-mix(in srgb, #000 40%, transparent),
+  30: color-mix(in srgb, #000 30%, transparent),
+  20: color-mix(in srgb, #000 20%, transparent),
+  10: color-mix(in srgb, #000 10%, transparent)
+) !default;
+
+$foundation-white: (
+  100: #ffffff,
+  90: color-mix(in srgb, #fff 90%, transparent),
+  80: color-mix(in srgb, #fff 80%, transparent),
+  70: color-mix(in srgb, #fff 70%, transparent),
+  60: color-mix(in srgb, #fff 60%, transparent),
+  50: color-mix(in srgb, #fff 50%, transparent),
+  40: color-mix(in srgb, #fff 40%, transparent),
+  30: color-mix(in srgb, #fff 30%, transparent),
+  20: color-mix(in srgb, #fff 20%, transparent),
+  10: color-mix(in srgb, #fff 10%, transparent)
+) !default;
+
+// ---------------------------------------------------------------------------
+// Neutral Palette (Generated)
+// ---------------------------------------------------------------------------
+// Generiert aus Basis #7a7a7a via generate-shade-scale().
+// Reine Weiß/Schwarz-Werte liegen in Foundation (white-100, black-100).
+
+$_neutral-base: #7a7a7a !default;
+$neutral: fn.generate-shade-scale($_neutral-base) !default;
+
+// ---------------------------------------------------------------------------
+// System Colors (Feedback / Status)
+// ---------------------------------------------------------------------------
+
+// Base-Farben (einzeln — backward-compat)
+$system: (
+  info:    #4589ff,
+  success: #24a148,
+  warning: #d4a400,
+  danger:  #fa4d56
+) !default;
+
+// Vollständige Shade-Skalen (100–950)
+$_info-base:    #4589ff;
+$_success-base: #24a148;
+$_warning-base: #d4a400;
+$_danger-base:  #fa4d56;
+
+$info:    fn.generate-shade-scale($_info-base) !default;
+$success: fn.generate-shade-scale($_success-base) !default;
+$warning: fn.generate-shade-scale($_warning-base) !default;
+$danger:  fn.generate-shade-scale($_danger-base) !default;
+
+// Semantische Feedback-Text-Farben (leicht abweichend für Kontrast)
+$system-text: (
+  success: #0b9e23,
+  danger-light: #bf281b,
+  danger-dark: #ef5b4e
+) !default;
+
+// Semantische Feedback-Background-Farben (Pastell-Toene, Light Mode)
+$system-bg: (
+  success: #d5ffd1,
+  danger:  #ffdfdc
+) !default;
+
+// Semantische Feedback-Background-Farben (tiefe Toene, Dark Mode)
+$system-bg-dark: (
+  success: #0d2b15,
+  danger:  #3b1419
+) !default;
+
+// ---------------------------------------------------------------------------
+// Supporting Palettes
+// ---------------------------------------------------------------------------
+
+$_beige-base:      #D9D2C4 !default;
+$_chartreuse-base: #E6FF9E !default;
+$_pink-base:       #FF53CB !default;
+$_aqua-base:       #C0E8E8 !default;
+$_cyan-base:       #00FFFF !default;
+$_burgundy-base:   #800020 !default;
+
+$beige:      fn.generate-shade-scale($_beige-base) !default;
+$chartreuse: fn.generate-shade-scale($_chartreuse-base) !default;
+$pink:       fn.generate-shade-scale($_pink-base) !default;
+$aqua:       fn.generate-shade-scale($_aqua-base) !default;
+$cyan:       fn.generate-shade-scale($_cyan-base) !default;
+$burgundy:   fn.generate-shade-scale($_burgundy-base) !default;
+
+$_coral-base:          #e06060 !default;
+$coral:       fn.generate-shade-scale($_coral-base) !default;
+
+$_mustard-base:        #FFCE1B !default;
+$mustard:     fn.generate-shade-scale($_mustard-base) !default;
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output: Primitives
+// ---------------------------------------------------------------------------
+
+:root {
+  // --- Main Palettes ---
+
+  // Primary Palette
+  @each $step, $color in $primary {
+    --fnd-primitive-primary-#{$step}: #{$color};
+  }
+
+  // Secondary Palette
+  @each $step, $color in $secondary {
+    --fnd-primitive-secondary-#{$step}: #{$color};
+  }
+
+  // Accent Palette
+  @each $step, $color in $accent {
+    --fnd-primitive-accent-#{$step}: #{$color};
+  }
+
+  // --- Foundation Palettes ---
+
+  // Foundation Black (incl. Transparency)
+  @each $key, $value in $foundation-black {
+    --fnd-primitive-black-#{$key}: #{$value};
+  }
+
+  // Foundation White (incl. Transparency)
+  @each $key, $value in $foundation-white {
+    --fnd-primitive-white-#{$key}: #{$value};
+  }
+
+  // --- Neutral Palette ---
+  @each $step, $color in $neutral {
+    --fnd-primitive-neutral-#{$step}: #{$color};
+  }
+
+  // --- System Palettes (Shade Scales) ---
+
+  @each $step, $color in $info {
+    --fnd-primitive-info-#{$step}: #{$color};
+  }
+  @each $step, $color in $success {
+    --fnd-primitive-success-#{$step}: #{$color};
+  }
+  @each $step, $color in $warning {
+    --fnd-primitive-warning-#{$step}: #{$color};
+  }
+  @each $step, $color in $danger {
+    --fnd-primitive-danger-#{$step}: #{$color};
+  }
+
+  // --- Supporting Palettes ---
+
+  @each $step, $color in $beige {
+    --fnd-primitive-beige-#{$step}: #{$color};
+  }
+  @each $step, $color in $chartreuse {
+    --fnd-primitive-chartreuse-#{$step}: #{$color};
+  }
+  @each $step, $color in $pink {
+    --fnd-primitive-pink-#{$step}: #{$color};
+  }
+  @each $step, $color in $aqua {
+    --fnd-primitive-aqua-#{$step}: #{$color};
+  }
+  @each $step, $color in $cyan {
+    --fnd-primitive-cyan-#{$step}: #{$color};
+  }
+  @each $step, $color in $burgundy {
+    --fnd-primitive-burgundy-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $coral {
+    --fnd-primitive-coral-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $mustard {
+    --fnd-primitive-mustard-#{$step}: #{$color};
+  }
+
+  // --- System Colors (single values, backward-compat) ---
+  @each $key, $value in $system {
+    --fnd-primitive-system-#{$key}: #{$value};
+  }
+
+  // --- Static Colors (backward-compatible alias) ---
+  --fnd-color-always-dark: #{map.get($foundation-black, 100)};
+  --fnd-color-always-light: #{map.get($foundation-white, 100)};
+
+  // --- Neo Brand Palette (backward-compatible alias) ---
+  --neo-color-neo-blue-500: #{map.get($secondary, 500)};
+  --neo-color-neo-darkblue-500: #{map.get($primary, 500)};
+  --neo-color-lime-500: #{map.get($accent, 500)};
+
+  // --- System Colors (backward-compatible alias) ---
+  --neo-color-information: #{map.get($system, info)};
+  --neo-color-error: #{map.get($system, danger)};
+  --neo-color-warning: #{map.get($system, warning)};
+  --neo-color-success: #{map.get($system, success)};
+}

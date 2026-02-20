@@ -1,0 +1,179 @@
+// ==========================================================================
+// 07-Organisms: Feature Accordion
+// ==========================================================================
+// Two-column layout with navigation links (left) and expandable
+// feature chapters (right).
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Layout
+// ---------------------------------------------------------------------------
+
+.nc-feature-accordeon {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1fr);
+  align-items: stretch;
+}
+
+// ---------------------------------------------------------------------------
+// Left Column (Navigation)
+// ---------------------------------------------------------------------------
+
+.nc-feature-accordeon__left {
+  display: grid;
+  align-content: start;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.nc-feature-accordeon__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.4vw, 3.2rem);
+  line-height: 1.2;
+  max-width: 16ch;
+}
+
+.nc-feature-accordeon__lead {
+  font-size: calc(var(--fs-lg) * var(--type-scale, 1));
+  color: var(--fnd-color-text-secondary);
+  max-width: 56ch;
+  line-height: var(--lh-body);
+  margin: 0;
+}
+
+.nc-feature-accordeon__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.nc-feature-accordeon__link {
+  border: 0;
+  background: transparent;
+  color: var(--fnd-color-text-secondary);
+  padding: 0.45rem 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  @include transition(color, '200');
+}
+
+.nc-feature-accordeon__link:hover,
+.nc-feature-accordeon__link:focus-visible {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-feature-accordeon__link.is-active {
+  color: var(--fnd-color-text-primary);
+  font-weight: var(--fnd-font-weight-bold);
+}
+
+// ---------------------------------------------------------------------------
+// Right Column (Chapters)
+// ---------------------------------------------------------------------------
+
+.nc-feature-accordeon__right {
+  height: 100%;
+  max-height: min(72vh, 920px);
+  overflow-y: auto;
+  padding-inline-end: 0.25rem;
+}
+
+.nc-feature-accordeon__chapter {
+  margin-block-end: 2.75rem;
+}
+
+.nc-feature-accordeon__chapter-title {
+  margin: 0 0 1.2rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.55rem, 2vw, 2rem);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-feature-accordeon__chapter-items {
+  border-block-start: 1px solid var(--fnd-color-border-primary);
+}
+
+.nc-feature-accordeon__item {
+  border-block-end: 1px solid var(--fnd-color-border-primary);
+}
+
+.nc-feature-accordeon__item-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1rem 2rem 1rem 0;
+  position: relative;
+  font-size: var(--fs-xl);
+}
+
+.nc-feature-accordeon__item-summary::-webkit-details-marker {
+  display: none;
+}
+
+.nc-feature-accordeon__item-summary::after {
+  content: '+';
+  position: absolute;
+  inset-inline-end: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: var(--fnd-font-weight-light);
+}
+
+.nc-feature-accordeon__item[open] .nc-feature-accordeon__item-summary::after {
+  content: '-';
+}
+
+.nc-feature-accordeon__item-body {
+  padding: 0 0 1.1rem;
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-feature-accordeon__item-text {
+  margin: 0;
+}
+
+.nc-feature-accordeon__item-list {
+  margin: 1rem 0 0;
+  padding-inline-start: 1.4rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nc-feature-accordeon__item-list-entry {
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@media (max-width: 720px) {
+  .nc-feature-accordeon {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .nc-feature-accordeon__title {
+    max-width: none;
+  }
+
+  .nc-feature-accordeon__lead {
+    max-width: none;
+  }
+
+  .nc-feature-accordeon__right {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding-inline-end: 0;
+  }
+}

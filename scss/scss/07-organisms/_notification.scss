@@ -1,0 +1,100 @@
+// ==========================================================================
+// 07-Organisms: Notification
+// ==========================================================================
+// Notification Banner (Sticky Top)
+// Migriert von: lazy-styles.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.notification {
+  @include paragraph('m');
+  display: flex;
+  position: sticky !important;
+  z-index: var(--fnd-z-notification);
+  top: 0;
+  background: var(--fnd-color-background-base);
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
+  color: var(--fnd-color-text-mid);
+  padding: 0;
+  border-bottom: solid 1px var(--fnd-color-border-low);
+  
+  @include desktop-up {
+    align-items: center;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Show State
+  // ---------------------------------------------------------------------------
+  
+  &.show {
+    padding: var(--fnd-spacing-04);
+    visibility: visible;
+    height: auto;
+    opacity: 1;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Body
+  // ---------------------------------------------------------------------------
+  
+  .notification-body {
+    width: calc(100% - 32px - var(--fnd-spacing-04));
+    min-height: calc(80px - var(--fnd-spacing-04) * 2);
+    
+    @include desktop-up {
+      @include flex-center;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Typography
+  // ---------------------------------------------------------------------------
+  
+  strong {
+    color: var(--fnd-color-text-high);
+  }
+  
+  p {
+    margin: 0;
+    
+    + .secondary {
+      margin-block-start: var(--fnd-spacing-06);
+      width: auto;
+      
+      @include desktop-up {
+        margin: 0;
+        margin-inline-start: var(--fnd-spacing-08);
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Icon Button (Close)
+  // ---------------------------------------------------------------------------
+  
+  a.icon-button {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    
+    &:hover,
+    &:focus {
+      background: transparent !important;
+    }
+    
+    .icon {
+      margin: 0;
+    }
+    
+    .icon-only {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+    }
+  }
+}

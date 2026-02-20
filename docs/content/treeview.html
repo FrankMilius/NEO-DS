@@ -1,0 +1,502 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">TreeView</h1>
+      <p class="docs__subtitle">
+        Hierarchische Baumnavigation mit Expand/Collapse, Keyboard-Navigation und optionalen Icons.
+        Inspiriert vom Carbon Design System TreeView.
+        Kanonische Klasse: <code class="docs__token">.nc-treeview</code> (BEM).
+        Verwendet <code class="docs__token">--nc-treeview-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="treeview-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="TreeView-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme und Variante, um den TreeView live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default</option>
+                  <option value="controlled">Controlled Expansion</option>
+                  <option value="icons">With Icons</option>
+                  <option value="links">With Links</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 1.5rem; align-items: flex-start;">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code"></pre>
+          </div>
+
+          <!-- Showcase 1: Default -->
+          <section class="docs__section" id="default-treeview">
+            <h2 class="docs__section-title">Default</h2>
+            <p class="docs__section-desc">
+              Einfache verschachtelte Baumstruktur mit Expand/Collapse. Klicke auf eine Zeile oder den Chevron, um Untergruppen zu &ouml;ffnen.
+            </p>
+            <div id="showcase-default" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 2: Controlled Expansion -->
+          <section class="docs__section" id="controlled-treeview">
+            <h2 class="docs__section-title">Controlled Expansion</h2>
+            <p class="docs__section-desc">
+              TreeView mit zwei Steuerungs-Buttons: &bdquo;Alles aufklappen&ldquo; und &bdquo;Alles zuklappen&ldquo;.
+            </p>
+            <div id="showcase-controlled" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 3: With Icons -->
+          <section class="docs__section" id="icons-treeview">
+            <h2 class="docs__section-title">With Icons</h2>
+            <p class="docs__section-desc">
+              TreeView mit kontextuellen Icons aus dem Icon-Set. Ordner-Icons f&uuml;r Branch-Nodes, Dokument-Icons f&uuml;r Leaf-Nodes.
+            </p>
+            <div id="showcase-icons" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- Showcase 4: With Links -->
+          <section class="docs__section" id="links-treeview">
+            <h2 class="docs__section-title">With Links (extern)</h2>
+            <p class="docs__section-desc">
+              TreeView mit externen Links. Leaf-Nodes sind <code class="docs__token">&lt;a&gt;</code>-Elemente mit <code class="docs__token">target="_blank"</code> und einem External-Link-Indikator.
+            </p>
+            <div id="showcase-links" style="padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);"></div>
+          </section>
+
+          <!-- JavaScript API -->
+          <section class="docs__section" id="js-api-usage">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <p class="docs__section-desc">
+              Expand/Collapse wird &uuml;ber <code class="docs__token">aria-expanded</code> gesteuert. Selection &uuml;ber CSS-Klasse und <code class="docs__token">aria-selected</code>.
+            </p>
+            <div class="docs__code-block">// Toggle expand/collapse
+const item = document.querySelector('.nc-treeview__item--branch');
+const isExpanded = item.getAttribute('aria-expanded') === 'true';
+item.setAttribute('aria-expanded', String(!isExpanded));
+
+// Select an item
+tree.querySelectorAll('.nc-treeview__item').forEach(i =&gt; {
+  i.classList.remove('nc-treeview__item--selected');
+  i.setAttribute('aria-selected', 'false');
+});
+item.classList.add('nc-treeview__item--selected');
+item.setAttribute('aria-selected', 'true');
+
+// Expand all
+tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
+  i.setAttribute('aria-expanded', 'true');
+});
+
+// Collapse all
+tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
+  i.setAttribute('aria-expanded', 'false');
+});</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- Layout Tokens -->
+          <section class="docs__section" id="style-layout-tokens">
+            <h2 class="docs__section-title">Layout-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-treeview-indent</code></td><td>24px</td><td>Einr&uuml;ckung pro Level</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-item-height</code></td><td>32px</td><td>Minimale Zeilenh&ouml;he</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-item-padding-x</code></td><td>var(--fnd-spacing-02)</td><td>Horizontaler Innenabstand (8px)</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-icon-size</code></td><td>20px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-icon-gap</code></td><td>var(--fnd-spacing-02)</td><td>Abstand zwischen Elementen (8px)</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-toggle-size</code></td><td>20px</td><td>Chevron-Button-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-radius</code></td><td>var(--fnd-radius-sm)</td><td>Border-Radius der Node-Zeile (4px)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Typography Tokens -->
+          <section class="docs__section" id="style-typography-tokens">
+            <h2 class="docs__section-title">Typography-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-treeview-label-font-size</code></td><td>body-m (0.875rem)</td><td>Label-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-label-color</code></td><td>text-primary</td><td>Label-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-label-font-weight</code></td><td>400</td><td>Label-Gewicht</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Color & Interaction Tokens -->
+          <section class="docs__section" id="style-color-tokens">
+            <h2 class="docs__section-title">Farbe &amp; Interaktion</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-treeview-bg-hover</code></td><td>background-secondary</td><td>Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-bg-selected</code></td><td>background-tertiary</td><td>Selected-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-border-selected</code></td><td>interactive-default</td><td>Selected-Left-Border</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-border-selected-width</code></td><td>3px</td><td>Selected-Border-Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-toggle-color</code></td><td>text-secondary</td><td>Chevron-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-icon-color</code></td><td>text-secondary</td><td>Icon-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-link-color</code></td><td>interactive-default</td><td>Link-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-link-color-hover</code></td><td>interactive-hover</td><td>Link-Hover-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-disabled-opacity</code></td><td>0.5</td><td>Disabled-Opazit&auml;t</td></tr>
+                <tr><td><code class="docs__token">--nc-treeview-transition-duration</code></td><td>150ms</td><td>Animations-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BEM-Klassen&uuml;bersicht -->
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-treeview                        // Block (nav Wrapper)
+.nc-treeview__controls              // Expand/Collapse-All Buttons
+.nc-treeview__list                  // ul (role="tree" / role="group")
+.nc-treeview__item                  // li (role="treeitem")
+.nc-treeview__node                  // Interaktive Zeile (div)
+.nc-treeview__toggle                // Chevron-Button
+.nc-treeview__icon                  // Icon-Slot (optional)
+.nc-treeview__label                 // Text-Content
+.nc-treeview__link                  // Externer Link (ersetzt label)
+
+// Modifier
+.nc-treeview__item--branch          // Hat Kinder (expandable)
+.nc-treeview__item--leaf            // Kein Kinder (terminal)
+.nc-treeview__item--selected        // Ausgewaehlt
+.nc-treeview__item--disabled        // Deaktiviert
+
+// State via ARIA
+[aria-expanded="true"]              // Branch ist aufgeklappt
+[aria-expanded="false"]             // Branch ist zugeklappt
+[aria-selected="true"]              // Item ist selektiert</div>
+          </section>
+
+          <!-- State Management -->
+          <section class="docs__section" id="style-states">
+            <h2 class="docs__section-title">State Management</h2>
+            <p class="docs__section-desc">
+              States werden &uuml;ber ARIA-Attribute und CSS-Klassen gesteuert &mdash; kein <code class="docs__token">data-state</code>.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>State</th><th>Mechanismus</th><th>CSS-Selektor</th></tr></thead>
+              <tbody>
+                <tr><td>Expanded</td><td><code class="docs__token">aria-expanded="true"</code></td><td><code class="docs__token">[aria-expanded='true']</code></td></tr>
+                <tr><td>Collapsed</td><td><code class="docs__token">aria-expanded="false"</code></td><td><code class="docs__token">:not([aria-expanded='true'])</code></td></tr>
+                <tr><td>Selected</td><td><code class="docs__token">.nc-treeview__item--selected</code></td><td>Klasse + <code class="docs__token">aria-selected</code></td></tr>
+                <tr><td>Disabled</td><td><code class="docs__token">.nc-treeview__item--disabled</code></td><td>Klasse + <code class="docs__token">aria-disabled</code></td></tr>
+                <tr><td>Hover</td><td>CSS <code class="docs__token">:hover</code></td><td><code class="docs__token">.nc-treeview__node:hover</code></td></tr>
+                <tr><td>Focus</td><td>CSS <code class="docs__token">:focus-visible</code></td><td>Focus-Ring Mixin</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-treeview</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-treeview</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-treeview-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;nav&gt;</code> + <code class="docs__token">&lt;ul&gt;</code></td></tr>
+                <tr><td><strong>ARIA-Rollen</strong></td><td><code class="docs__token">tree</code>, <code class="docs__token">treeitem</code>, <code class="docs__token">group</code></td></tr>
+                <tr><td><strong>Varianten</strong></td><td>Default, Controlled Expansion, With Icons, With Links</td></tr>
+                <tr><td><strong>Keyboard</strong></td><td>Arrow-Keys, Home/End, Enter/Space</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- CSS-Klassen -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-treeview</code></td><td>Block</td><td>Nav-Wrapper f&uuml;r den gesamten Baum.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__controls</code></td><td>Element</td><td>Container f&uuml;r &bdquo;Alles aufklappen&ldquo;/&bdquo;Alles zuklappen&ldquo; Buttons.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__list</code></td><td>Element</td><td><code class="docs__token">&lt;ul&gt;</code> mit <code class="docs__token">role="tree"</code> (root) oder <code class="docs__token">role="group"</code> (nested).</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__item</code></td><td>Element</td><td><code class="docs__token">&lt;li&gt;</code> mit <code class="docs__token">role="treeitem"</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__node</code></td><td>Element</td><td>Interaktive Zeile (Flex-Container, fokussierbar).</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__toggle</code></td><td>Element</td><td>Chevron-Button f&uuml;r Expand/Collapse.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__icon</code></td><td>Element</td><td>Icon-Slot (optional, f&uuml;r Ordner/Dokument/Globe).</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__label</code></td><td>Element</td><td>Text-Label des Nodes.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__link</code></td><td>Element</td><td>Externer Link (ersetzt Label bei Link-Variante).</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-treeview__item--branch</code></td><td>Node hat Kinder (expandable). Zeigt Chevron an.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__item--leaf</code></td><td>Node hat keine Kinder (terminal). Chevron unsichtbar.</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__item--selected</code></td><td>Ausgew&auml;hlter Node (Left-Border + Background).</td></tr>
+                <tr><td><code class="docs__token">.nc-treeview__item--disabled</code></td><td>Deaktivierter Node (opacity + pointer-events: none).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Slots / Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Default TreeView --&gt;
+&lt;nav class="nc-treeview" aria-label="Dateistruktur"&gt;
+  &lt;ul class="nc-treeview__list" role="tree"&gt;
+
+    &lt;!-- Branch Node --&gt;
+    &lt;li class="nc-treeview__item nc-treeview__item--branch"
+        role="treeitem" aria-expanded="false" style="--_level: 0"&gt;
+      &lt;div class="nc-treeview__node" tabindex="0"&gt;
+        &lt;button class="nc-treeview__toggle" tabindex="-1" aria-hidden="true"&gt;
+          &lt;svg viewBox="0 0 16 16"&gt;&lt;polyline points="6 4 10 8 6 12"/&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+        &lt;span class="nc-treeview__label"&gt;Ordnername&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;ul class="nc-treeview__list" role="group"&gt;
+
+        &lt;!-- Leaf Node --&gt;
+        &lt;li class="nc-treeview__item nc-treeview__item--leaf"
+            role="treeitem" style="--_level: 1"&gt;
+          &lt;div class="nc-treeview__node" tabindex="-1"&gt;
+            &lt;span class="nc-treeview__toggle" aria-hidden="true"&gt;
+              &lt;svg viewBox="0 0 16 16"&gt;&lt;polyline points="6 4 10 8 6 12"/&gt;&lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;span class="nc-treeview__label"&gt;Dateiname&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+
+      &lt;/ul&gt;
+    &lt;/li&gt;
+
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;!-- With Icons (Icon-Slot hinzufuegen) --&gt;
+&lt;div class="nc-treeview__node" tabindex="0"&gt;
+  &lt;button class="nc-treeview__toggle" ...&gt;...&lt;/button&gt;
+  &lt;span class="nc-treeview__icon"&gt;
+    &lt;svg&gt;&lt;!-- folder.svg --&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-treeview__label"&gt;Ordnername&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- With Links (Link ersetzt Label) --&gt;
+&lt;div class="nc-treeview__node" tabindex="-1"&gt;
+  &lt;span class="nc-treeview__toggle" aria-hidden="true"&gt;...&lt;/span&gt;
+  &lt;span class="nc-treeview__icon"&gt;
+    &lt;svg&gt;&lt;!-- globe.svg --&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;a class="nc-treeview__link" href="https://..."
+     target="_blank" rel="noopener noreferrer"&gt;
+    Linktext
+    &lt;svg&gt;&lt;!-- external-arrow --&gt;&lt;/svg&gt;
+  &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- Controlled Expansion (Controls um Tree wrappen) --&gt;
+&lt;div class="nc-treeview__controls"&gt;
+  &lt;button class="nc-button nc-button--outline nc-button--sm"
+          data-treeview-expand-all&gt;Alles aufklappen&lt;/button&gt;
+  &lt;button class="nc-button nc-button--outline nc-button--sm"
+          data-treeview-collapse-all&gt;Alles zuklappen&lt;/button&gt;
+&lt;/div&gt;
+&lt;nav class="nc-treeview" ...&gt;...&lt;/nav&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Der TreeView implementiert das WAI-ARIA Tree-Pattern f&uuml;r vollst&auml;ndige Barrierefreiheit.
+          </p>
+
+          <!-- 1. ARIA-Rollen -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ARIA-Rollen</h4>
+              <ul>
+                <li><code class="docs__token">role="tree"</code> auf dem Root-<code class="docs__token">&lt;ul&gt;</code></li>
+                <li><code class="docs__token">role="treeitem"</code> auf jedem <code class="docs__token">&lt;li&gt;</code></li>
+                <li><code class="docs__token">role="group"</code> auf verschachtelten <code class="docs__token">&lt;ul&gt;</code> (Kinder-Container)</li>
+                <li><code class="docs__token">aria-label</code> auf dem <code class="docs__token">&lt;nav&gt;</code> f&uuml;r den Baum-Zweck</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. aria-expanded -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-expanded</h4>
+              <ul>
+                <li>Branch-Items erhalten <code class="docs__token">aria-expanded="true/false"</code></li>
+                <li>Screenreader k&uuml;ndigen den Expand/Collapse-Status an</li>
+                <li>CSS nutzt <code class="docs__token">[aria-expanded]</code> f&uuml;r Chevron-Rotation und Children-Visibility</li>
+                <li>Leaf-Items haben kein <code class="docs__token">aria-expanded</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. Keyboard Navigation -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Keyboard-Navigation (WAI-ARIA TreeView Pattern)</h4>
+              <table class="docs__table" style="margin-block-start: var(--fnd-spacing-03);">
+                <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+                <tbody>
+                  <tr><td><kbd>&darr;</kbd> ArrowDown</td><td>N&auml;chster sichtbarer Node</td></tr>
+                  <tr><td><kbd>&uarr;</kbd> ArrowUp</td><td>Vorheriger sichtbarer Node</td></tr>
+                  <tr><td><kbd>&rarr;</kbd> ArrowRight</td><td>Branch aufklappen / zum ersten Kind navigieren</td></tr>
+                  <tr><td><kbd>&larr;</kbd> ArrowLeft</td><td>Branch zuklappen / zum Eltern-Node navigieren</td></tr>
+                  <tr><td><kbd>Home</kbd></td><td>Erster Node im Baum</td></tr>
+                  <tr><td><kbd>End</kbd></td><td>Letzter sichtbarer Node im Baum</td></tr>
+                  <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Node aktivieren (Expand/Collapse oder Select)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 4. Focus Management -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus Management (Roving Tabindex)</h4>
+              <ul>
+                <li>Nur ein Node ist per Tab erreichbar (<code class="docs__token">tabindex="0"</code>)</li>
+                <li>Alle anderen Nodes haben <code class="docs__token">tabindex="-1"</code></li>
+                <li>Arrow-Keys verschieben den Fokus und aktualisieren <code class="docs__token">tabindex</code></li>
+                <li>Beim Verlassen und Zur&uuml;ckkehren wird der zuletzt fokussierte Node angesteuert</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5. Selection -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Selection</h4>
+              <ul>
+                <li><code class="docs__token">aria-selected="true/false"</code> kommuniziert den Auswahlstatus</li>
+                <li>Visueller Indikator: Left-Border + Background-Highlight</li>
+                <li>Single-Selection: Nur ein Node gleichzeitig selektiert</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. External Links -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Externe Links</h4>
+              <ul>
+                <li><code class="docs__token">target="_blank"</code> + <code class="docs__token">rel="noopener noreferrer"</code></li>
+                <li>Visueller External-Arrow-Indikator f&uuml;r Sighted Users</li>
+                <li>Links innerhalb des Baums sind per Tab + Enter erreichbar</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Tree mit korrekten ARIA-Rollen --&gt;
+&lt;nav class="nc-treeview" aria-label="Dateistruktur"&gt;
+  &lt;ul class="nc-treeview__list" role="tree"&gt;
+    &lt;li class="nc-treeview__item nc-treeview__item--branch"
+        role="treeitem" aria-expanded="false"&gt;
+      &lt;div class="nc-treeview__node" tabindex="0"&gt;...&lt;/div&gt;
+      &lt;ul class="nc-treeview__list" role="group"&gt;...&lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;!-- FALSCH: Kein role="tree" --&gt;
+&lt;ul class="nc-treeview__list"&gt;
+  &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- FALSCH: aria-expanded auf Leaf-Node --&gt;
+&lt;li class="nc-treeview__item nc-treeview__item--leaf"
+    role="treeitem" aria-expanded="false"&gt;
+  &lt;!-- Leaf-Nodes haben keine Kinder! --&gt;
+&lt;/li&gt;
+
+&lt;!-- RICHTIG: Roving Tabindex --&gt;
+&lt;div class="nc-treeview__node" tabindex="0"&gt;...&lt;/div&gt;  &lt;!-- Fokussiert --&gt;
+&lt;div class="nc-treeview__node" tabindex="-1"&gt;...&lt;/div&gt; &lt;!-- Nicht direkt tabbbar --&gt;
+
+&lt;!-- FALSCH: Alle Nodes tabbbar --&gt;
+&lt;div class="nc-treeview__node" tabindex="0"&gt;...&lt;/div&gt;
+&lt;div class="nc-treeview__node" tabindex="0"&gt;...&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="treeview-docs.js"></script>
+<!-- /SCRIPTS -->

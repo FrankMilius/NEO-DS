@@ -1,0 +1,95 @@
+// ==========================================================================
+// 06-Molecules: Form Label
+// ==========================================================================
+// Token-basiertes Form-Label mit Required/Optional-Indikator.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-label-* Component-Tokens.
+//
+// HINWEIS:
+//   Dies ist das FORM-Label (fuer Formular-Felder), NICHT das
+//   visuelle Pill-Label aus 05-atoms/_label.scss.
+//
+// BEM-KLASSEN:
+//   .nc-form-label               Block (display: flex, align-items)
+//   .nc-form-label__text         Label-Text
+//   .nc-form-label__required     "*" Pflichtfeld-Indikator (rot)
+//   .nc-form-label__optional     "(Optional)" Text (grau)
+//   .nc-form-label--inline       Inline-Label (neben Input)
+//   .nc-form-label--disabled     Disabled-State
+//
+// ACCESSIBILITY:
+//   <label for="input-id"> → verlinkt Label mit Input
+//   .nc-form-label__required: aria-hidden="true" (Screen Reader liest
+//   aria-required am Input statt "*" am Label)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer das Form-Label.
+@mixin form-label-base {
+  display: flex;
+  align-items: baseline;
+  gap: var(--fnd-spacing-01);
+  margin-bottom: var(--nc-form-label-gap);
+  font-size: var(--nc-form-label-font-size);
+  font-weight: var(--nc-form-label-font-weight);
+  color: var(--nc-form-label-color);
+  line-height: 1.45;
+  cursor: pointer;
+  user-select: none;
+}
+
+/// Required-Indikator: rotes Sternchen.
+@mixin form-label-required {
+  color: var(--nc-form-label-required-color);
+  font-weight: var(--fnd-font-weight-bold);
+  margin-inline-start: 2px;
+}
+
+/// Optional-Indikator: grauer Text.
+@mixin form-label-optional {
+  color: var(--nc-form-label-optional-color);
+  font-weight: var(--fnd-font-weight-regular);
+  font-size: 0.85em;
+  margin-inline-start: var(--fnd-spacing-01);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form-label {
+  @include form-label-base;
+
+  // -- Sub-Elemente --
+
+  &__text {
+    // Standard-Text, erbt Styles vom Block
+  }
+
+  &__required {
+    @include form-label-required;
+  }
+
+  &__optional {
+    @include form-label-optional;
+  }
+
+  // -- Modifier --
+
+  &--inline {
+    display: inline-flex;
+    margin-bottom: 0;
+    margin-inline-end: var(--fnd-spacing-03);
+  }
+
+  &--disabled {
+    color: var(--fnd-color-text-disabled);
+    cursor: not-allowed;
+  }
+}

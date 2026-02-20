@@ -1,0 +1,199 @@
+// ==========================================================================
+// 06-Molecules: Input Group
+// ==========================================================================
+// Input mit Prefix- und/oder Suffix-Addons (z.B. Icons, Buttons, Labels).
+// Ermoeglicht zusammengesetzte Eingabefelder wie "https:// | URL-Eingabe"
+// oder "Suche | [Button]".
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-input-group-* Component-Tokens.
+//   Die enthaltenen Inputs verwenden ihre eigenen --nc-input-* Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-input-group
+//     .nc-input-group__prepend   (optional, Prefix-Addon)
+//     .nc-input                  (Eingabefeld)
+//     .nc-input-group__append    (optional, Suffix-Addon)
+//
+// TOKENS:
+//   --nc-input-group-addon-bg           Hintergrund der Addon-Bereiche
+//   --nc-input-group-addon-color        Textfarbe der Addon-Bereiche
+//   --nc-input-group-addon-border       Randfarbe der Addon-Bereiche
+//   --nc-input-group-addon-padding-x    Horizontales Padding der Addons
+//   --nc-input-group-addon-font-size    Schriftgroesse der Addons
+//
+// BEM-KLASSEN:
+//   .nc-input-group               Block (flex row container)
+//   .nc-input-group__prepend      Prefix-Addon (links)
+//   .nc-input-group__append       Suffix-Addon (rechts)
+//   .nc-input-group--error        Error-State
+//   .nc-input-group--disabled     Disabled-State
+//   .nc-input-group--sm / --lg    Groessen-Modifier
+//
+// BORDER-RADIUS-LOGIK:
+//   Erstes Kind bekommt linken Radius, letztes Kind bekommt rechten Radius,
+//   mittlere Kinder bekommen keinen Radius (nahtloser Uebergang).
+//
+// ACCESSIBILITY:
+//   Addons mit aria-hidden="true" wenn rein dekorativ
+//   Input behaelt vollstaendige Keyboard-Accessibility
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Input-Group-Container.
+/// Flexbox-Row-Layout, stellt sicher dass alle Kinder
+/// nahtlos aneinander grenzen.
+@mixin input-group-base {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+
+  // Border-Radius-Logik: Alle direkten Kinder verlieren
+  // ihren Radius. Erstes und letztes Kind bekommen
+  // nur die jeweilige Seite zurueck.
+  > * {
+    border-radius: 0;
+  }
+
+  > :first-child {
+    border-start-start-radius: var(--nc-input-radius);
+    border-end-start-radius: var(--nc-input-radius);
+  }
+
+  > :last-child {
+    border-start-end-radius: var(--nc-input-radius);
+    border-end-end-radius: var(--nc-input-radius);
+  }
+
+  // Negative Margin um doppelte Borders zu vermeiden
+  // (jedes Kind ausser dem ersten ueberlappt die rechte Border des Vorgaengers)
+  > :not(:first-child) {
+    margin-inline-start: calc(var(--nc-input-border-width, 1px) * -1);
+  }
+
+  // Z-Index bei Focus: fokussiertes Element liegt ueber seinen Nachbarn
+  > :focus-within {
+    z-index: 1;
+  }
+}
+
+/// Styling fuer Addon-Bereiche (Prepend und Append).
+/// Zeigt statischen Text, Icons oder kleine Buttons neben dem Input.
+@mixin input-group-addon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--nc-input-group-addon-padding-x);
+  font-size: var(--nc-input-group-addon-font-size);
+  font-weight: var(--fnd-font-weight-regular);
+  line-height: 1.5;
+  color: var(--nc-input-group-addon-color);
+  background-color: var(--nc-input-group-addon-bg);
+  border: var(--nc-input-border-width) solid var(--nc-input-group-addon-border);
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  // Icons innerhalb der Addons
+  > svg,
+  > .nc-icon {
+    width: var(--nc-input-icon-size);
+    height: var(--nc-input-icon-size);
+    color: inherit;
+    flex-shrink: 0;
+  }
+}
+
+/// Error-State: propagiert Error-Border auf alle Kinder.
+@mixin input-group-error {
+  > .nc-input,
+  > .nc-input-group__prepend,
+  > .nc-input-group__append {
+    border-color: var(--nc-input-border-error);
+  }
+
+  > .nc-input:focus-visible {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Disabled-State: graut die gesamte Gruppe aus.
+@mixin input-group-disabled {
+  > .nc-input-group__prepend,
+  > .nc-input-group__append {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    border-color: var(--nc-input-disabled-border);
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+  }
+}
+
+/// Groessen-Modifier: passt Addon-Padding und Font-Size an.
+/// @param {String} $size - 'sm' | 'lg'
+@mixin input-group-size($size) {
+  @if $size == 'sm' {
+    > .nc-input-group__prepend,
+    > .nc-input-group__append {
+      padding-inline: var(--nc-input-padding-x-sm);
+      font-size: var(--nc-input-font-size-sm);
+    }
+  } @else if $size == 'lg' {
+    > .nc-input-group__prepend,
+    > .nc-input-group__append {
+      padding-inline: var(--nc-input-padding-x-lg);
+      font-size: var(--nc-input-font-size-lg);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-input-group {
+  @include input-group-base;
+
+  // -- Sub-Elemente --
+
+  &__prepend {
+    @include input-group-addon;
+  }
+
+  &__append {
+    @include input-group-addon;
+  }
+
+  // -- Enthaltener Input nimmt verbleibenden Platz ein --
+
+  > .nc-input {
+    flex: 1 1 auto;
+    width: 1%; // Flex-Basis-Trick: verhindert Overflow
+    min-width: 0;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    @include input-group-size('sm');
+  }
+
+  &--lg {
+    @include input-group-size('lg');
+  }
+
+  // -- State-Modifier --
+
+  &--error {
+    @include input-group-error;
+  }
+
+  &--disabled {
+    @include input-group-disabled;
+  }
+}

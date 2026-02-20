@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radio | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Radio-Komponente mit Live-Demo, BEM-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Radio</h1>
+      <p class="docs__subtitle">
+        Custom Radio-Button mit nativem Input und visuellem Control-Element.
+        Kanonische Klasse: <code class="docs__token">.nc-radio</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-radio-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="radio-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Radio-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e und State, um den Radio-Button live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM (16px)</option>
+                  <option value="md" selected>MD (20px)</option>
+                  <option value="lg">LG (24px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="checked">Checked</option>
+                  <option value="error">Error</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders radio here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;label class="nc-radio"&gt;...&lt;/label&gt;</pre>
+          </div>
+
+          <!-- All Sizes -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;en: SM (16px), MD (20px, Default), LG (24px).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <label class="nc-radio nc-radio--sm">
+                  <input type="radio" class="nc-radio__input" name="demo-size" checked />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Small</span>
+                </label>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM &mdash; 16px</div>
+              </div>
+              <div style="text-align: center;">
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-size-md" checked />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Medium</span>
+                </label>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; 20px</div>
+              </div>
+              <div style="text-align: center;">
+                <label class="nc-radio nc-radio--lg">
+                  <input type="radio" class="nc-radio__input" name="demo-size-lg" checked />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Large</span>
+                </label>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG &mdash; 24px</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Radio Group Example -->
+          <section class="docs__section" id="radio-group">
+            <h2 class="docs__section-title">Radio Group</h2>
+            <p class="docs__section-desc">
+              Mehrere Radios k&ouml;nnen in einer <code class="docs__token">.nc-radio-group</code> gruppiert werden.
+              Mit <code class="docs__token">.nc-radio-group--horizontal</code> werden sie nebeneinander dargestellt.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Vertikal (Default)</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-radio-group" role="radiogroup" aria-label="Lieblingsfarbe">
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-v" value="rot" checked />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Rot</span>
+                </label>
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-v" value="gruen" />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Gr&uuml;n</span>
+                </label>
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-v" value="blau" />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Blau</span>
+                </label>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-radio-group nc-radio-group--horizontal" role="radiogroup" aria-label="Zahlungsmethode">
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-h" value="kreditkarte" checked />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">Kreditkarte</span>
+                </label>
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-h" value="paypal" />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">PayPal</span>
+                </label>
+                <label class="nc-radio">
+                  <input type="radio" class="nc-radio__input" name="demo-group-h" value="ueberweisung" />
+                  <span class="nc-radio__control"></span>
+                  <span class="nc-radio__label">&Uuml;berweisung</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (BEM-Klassen&uuml;bersicht)                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Radio BEM-Klassen (kanonisch) =====
+
+.nc-radio                      // Block (Wrapper, inline-flex)
+.nc-radio__input               // Native &lt;input type="radio"&gt; (sr-only)
+.nc-radio__control             // Custom Circle (visuelles Element)
+.nc-radio__label               // Label-Text
+
+// Gr&ouml;&szlig;en
+.nc-radio--sm                  // 16px Control
+// (md = Default, kein Modifier)
+.nc-radio--lg                  // 24px Control
+
+// States
+.nc-radio--error               // Error-State (roter Rand)
+
+// ===== Radio Group =====
+
+.nc-radio-group                // Block (flex column container)
+.nc-radio-group--horizontal    // Optionen nebeneinander
+.nc-radio-group--error         // Gruppen-Error-State
+.nc-radio-group--disabled      // Gesamte Gruppe deaktiviert</div>
+          </section>
+
+          <section class="docs__section" id="style-classes">
+            <h2 class="docs__section-title">CSS-Klassen Detail</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-radio</code></td><td>Block</td><td>Wrapper &mdash; inline-flex, Gap zum Label.</td></tr>
+                <tr><td><code class="docs__token">.nc-radio__input</code></td><td>Element</td><td>Natives <code class="docs__token">&lt;input type="radio"&gt;</code>, visuell versteckt (sr-only).</td></tr>
+                <tr><td><code class="docs__token">.nc-radio__control</code></td><td>Element</td><td>Custom Circle &mdash; border-radius 50%, Dot via ::after.</td></tr>
+                <tr><td><code class="docs__token">.nc-radio__label</code></td><td>Element</td><td>Label-Text neben dem Control.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Control-Gr&ouml;&szlig;e</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-radio--sm</code></td><td>16px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>20px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-radio--lg</code></td><td>24px</td><td>Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-radio--error</code></td><td>Error-State: roter Rand am Control.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Radio Group</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-radio-group</code></td><td>Flex-Column-Container f&uuml;r mehrere Radios.</td></tr>
+                <tr><td><code class="docs__token">.nc-radio-group--horizontal</code></td><td>Horizontales Layout (flex-direction: row, flex-wrap).</td></tr>
+                <tr><td><code class="docs__token">.nc-radio-group--error</code></td><td>Propagiert Error-Border auf alle enthaltenen Controls.</td></tr>
+                <tr><td><code class="docs__token">.nc-radio-group--disabled</code></td><td>Deaktiviert die gesamte Gruppe visuell.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-radio</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-radio</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-radio-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_radio.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 20px Control (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Fokussierbar &mdash; natives <code class="docs__token">&lt;input type="radio"&gt;</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;label&gt;</code> (Wrapper)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- HTML Structure: Single Radio -->
+          <section class="docs__section" id="api-single">
+            <h2 class="docs__section-title">HTML-Struktur: Einzelner Radio</h2>
+            <div class="docs__code-block">&lt;!-- Standard Radio --&gt;
+&lt;label class="nc-radio [--sm | --lg] [--error]"&gt;
+  &lt;input type="radio" class="nc-radio__input"
+         name="group-name" value="option-1" /&gt;
+  &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+  &lt;span class="nc-radio__label"&gt;Option 1&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Checked Radio --&gt;
+&lt;label class="nc-radio"&gt;
+  &lt;input type="radio" class="nc-radio__input"
+         name="group-name" value="option-2" checked /&gt;
+  &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+  &lt;span class="nc-radio__label"&gt;Option 2 (ausgew&auml;hlt)&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Disabled Radio --&gt;
+&lt;label class="nc-radio"&gt;
+  &lt;input type="radio" class="nc-radio__input"
+         name="group-name" value="option-3" disabled /&gt;
+  &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+  &lt;span class="nc-radio__label"&gt;Option 3 (deaktiviert)&lt;/span&gt;
+&lt;/label&gt;</div>
+          </section>
+
+          <!-- HTML Structure: Radio Group -->
+          <section class="docs__section" id="api-group">
+            <h2 class="docs__section-title">HTML-Struktur: Radio Group</h2>
+            <div class="docs__code-block">&lt;!-- Vertikale Radio Group --&gt;
+&lt;div class="nc-radio-group" role="radiogroup"
+     aria-labelledby="group-label"&gt;
+
+  &lt;label class="nc-radio"&gt;
+    &lt;input type="radio" class="nc-radio__input"
+           name="farbe" value="rot" /&gt;
+    &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+    &lt;span class="nc-radio__label"&gt;Rot&lt;/span&gt;
+  &lt;/label&gt;
+
+  &lt;label class="nc-radio"&gt;
+    &lt;input type="radio" class="nc-radio__input"
+           name="farbe" value="gruen" /&gt;
+    &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+    &lt;span class="nc-radio__label"&gt;Gr&uuml;n&lt;/span&gt;
+  &lt;/label&gt;
+
+  &lt;label class="nc-radio"&gt;
+    &lt;input type="radio" class="nc-radio__input"
+           name="farbe" value="blau" /&gt;
+    &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+    &lt;span class="nc-radio__label"&gt;Blau&lt;/span&gt;
+  &lt;/label&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Horizontale Radio Group --&gt;
+&lt;div class="nc-radio-group nc-radio-group--horizontal"
+     role="radiogroup" aria-labelledby="group-label"&gt;
+  &lt;!-- ... Radio-Buttons ... --&gt;
+&lt;/div&gt;
+
+&lt;!-- Radio Group mit Error --&gt;
+&lt;div class="nc-radio-group nc-radio-group--error"
+     role="radiogroup" aria-labelledby="group-label"
+     aria-describedby="group-error"&gt;
+  &lt;!-- ... Radio-Buttons ... --&gt;
+  &lt;span class="nc-form-error" id="group-error"&gt;
+    Bitte w&auml;hle eine Option.
+  &lt;/span&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Radio-Komponenten nutzen natives <code class="docs__token">&lt;input type="radio"&gt;</code> und m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- role="radiogroup" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>role="radiogroup"</h4>
+              <ul>
+                <li>Der Container f&uuml;r zusammengeh&ouml;rige Radios muss <code class="docs__token">role="radiogroup"</code> erhalten</li>
+                <li><code class="docs__token">aria-labelledby</code> verweist auf die sichtbare Gruppen-&Uuml;berschrift</li>
+                <li>Bei Validierungsfehlern <code class="docs__token">aria-describedby</code> auf die Fehlermeldung setzen</li>
+                <li>Alle Radios einer Gruppe teilen denselben <code class="docs__token">name</code>-Attribut</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Arrow Key Navigation -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Navigation (Pfeiltasten)</h4>
+              <ul>
+                <li><strong>Tab</strong> springt in die Gruppe (fokussiert den ausgew&auml;hlten oder ersten Radio)</li>
+                <li><strong>Pfeil hoch / Pfeil links</strong> &mdash; vorherige Option ausw&auml;hlen</li>
+                <li><strong>Pfeil runter / Pfeil rechts</strong> &mdash; n&auml;chste Option ausw&auml;hlen</li>
+                <li>Die Auswahl wechselt sofort beim Pfeiltasten-Dr&uuml;cken (natives Verhalten)</li>
+                <li><strong>Space</strong> w&auml;hlt den aktuell fokussierten Radio aus (falls nicht bereits ausgew&auml;hlt)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus Ring -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Ring</h4>
+              <ul>
+                <li>Der Focus-Ring wird auf <code class="docs__token">.nc-radio__control</code> delegiert, obwohl der native Input fokussiert ist</li>
+                <li>Nur bei <code class="docs__token">:focus-visible</code> sichtbar (nicht bei Maus-Klick)</li>
+                <li>Der native Input ist per <code class="docs__token">sr-only</code> visuell versteckt, bleibt aber im Tab-Flow</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Radio Group mit role und Label --&gt;
+&lt;div class="nc-radio-group" role="radiogroup"
+     aria-labelledby="farbe-label"&gt;
+  &lt;span id="farbe-label"&gt;Lieblingsfarbe&lt;/span&gt;
+  &lt;label class="nc-radio"&gt;
+    &lt;input type="radio" class="nc-radio__input"
+           name="farbe" value="rot" /&gt;
+    &lt;span class="nc-radio__control"&gt;&lt;/span&gt;
+    &lt;span class="nc-radio__label"&gt;Rot&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;!-- weitere Optionen --&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Error-State mit aria-describedby --&gt;
+&lt;div class="nc-radio-group nc-radio-group--error"
+     role="radiogroup" aria-labelledby="farbe-label"
+     aria-describedby="farbe-error"&gt;
+  &lt;!-- Radio-Buttons --&gt;
+  &lt;span class="nc-form-error" id="farbe-error"&gt;
+    Bitte w&auml;hle eine Farbe.
+  &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Kein role="radiogroup" --&gt;
+&lt;div class="nc-radio-group"&gt;
+  &lt;!-- Fehlende Semantik f&uuml;r Screen Reader --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Radios ohne gemeinsamen name --&gt;
+&lt;input type="radio" name="a" value="1" /&gt;
+&lt;input type="radio" name="b" value="2" /&gt;
+&lt;!-- Kein Gruppen-Verhalten bei Pfeiltasten --&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="radio-docs.js"></script>
+
+</body>
+</html>

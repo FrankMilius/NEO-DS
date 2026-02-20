@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Border Radius Foundation | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Border-Radius Token-Systems mit 7+2 Stufen (null–2xl, 3xl, full)." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* Radii-Docs-specific styles */
+    .radii-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--fnd-spacing-05);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .radii-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      padding: var(--fnd-spacing-05);
+      background-color: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+      text-align: center;
+    }
+    .radii-card__sample {
+      width: 80px;
+      height: 80px;
+      background-color: var(--fnd-color-interactive-default);
+    }
+    .radii-card__label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+    .radii-card__value {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+      font-family: monospace;
+    }
+    .radii-card__token {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-tertiary);
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .radii-comparison {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .radii-comparison__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+    }
+    .radii-comparison__box {
+      width: 64px;
+      height: 40px;
+      background-color: var(--fnd-color-interactive-default);
+    }
+    .radii-comparison__label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      color: var(--fnd-color-text-primary);
+    }
+
+    .radii-button-map {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--fnd-spacing-05);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .radii-button-map__item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background-color: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+    }
+    .radii-button-map__size-label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+    .radii-button-map__meta {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+      font-family: monospace;
+    }
+
+    .radii-migration-table {
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .radii-migration-table .deprecated {
+      text-decoration: line-through;
+      color: var(--fnd-color-text-tertiary);
+    }
+    .radii-migration-table .new {
+      color: var(--fnd-color-feedback-success);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Mobile Sidebar Toggle -->
+      <!-- Page Header -->
+      <h1 class="docs__title">Border Radius</h1>
+      <p class="docs__subtitle">
+        9-stufige Radius-Skala von <code class="docs__token">0px</code> (sharp) bis
+        <code class="docs__token">9999px</code> (pill). Jeder Radius-Token ist als
+        CSS Custom Property <code class="docs__token">--fnd-radius-{size}</code> verf&uuml;gbar.
+      </p>
+
+      <!-- ================================================================ -->
+      <!-- 1. SCALE OVERVIEW                                                -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="scale-overview">
+        <h2 class="docs__section-title">Radius-Skala</h2>
+        <p class="docs__section-desc">
+          Die Skala umfasst 7 Kernstufen (null&ndash;2xl), eine Kompatibilit&auml;tsstufe (3xl)
+          und den Sonderwert <code class="docs__token">full</code> f&uuml;r Pill-Shapes.
+        </p>
+
+        <div class="radii-showcase">
+          <!-- null -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-null);"></div>
+            <span class="radii-card__label">null</span>
+            <span class="radii-card__value">0px</span>
+            <span class="radii-card__token">--fnd-radius-null</span>
+          </div>
+          <!-- xs -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-xs);"></div>
+            <span class="radii-card__label">xs</span>
+            <span class="radii-card__value">2px</span>
+            <span class="radii-card__token">--fnd-radius-xs</span>
+          </div>
+          <!-- sm -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-sm);"></div>
+            <span class="radii-card__label">sm</span>
+            <span class="radii-card__value">4px</span>
+            <span class="radii-card__token">--fnd-radius-sm</span>
+          </div>
+          <!-- md -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-md);"></div>
+            <span class="radii-card__label">md</span>
+            <span class="radii-card__value">6px</span>
+            <span class="radii-card__token">--fnd-radius-md</span>
+          </div>
+          <!-- lg -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-lg);"></div>
+            <span class="radii-card__label">lg</span>
+            <span class="radii-card__value">8px</span>
+            <span class="radii-card__token">--fnd-radius-lg</span>
+          </div>
+          <!-- xl -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-xl);"></div>
+            <span class="radii-card__label">xl</span>
+            <span class="radii-card__value">10px</span>
+            <span class="radii-card__token">--fnd-radius-xl</span>
+          </div>
+          <!-- 2xl -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-2xl);"></div>
+            <span class="radii-card__label">2xl</span>
+            <span class="radii-card__value">12px</span>
+            <span class="radii-card__token">--fnd-radius-2xl</span>
+          </div>
+          <!-- 3xl -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-3xl);"></div>
+            <span class="radii-card__label">3xl</span>
+            <span class="radii-card__value">16px</span>
+            <span class="radii-card__token">--fnd-radius-3xl</span>
+          </div>
+          <!-- full -->
+          <div class="radii-card">
+            <div class="radii-card__sample" style="border-radius: var(--fnd-radius-full);"></div>
+            <span class="radii-card__label">full</span>
+            <span class="radii-card__value">9999px</span>
+            <span class="radii-card__token">--fnd-radius-full</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 2. TOKEN REFERENCE TABLE                                         -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="token-reference">
+        <h2 class="docs__section-title">Token-Referenz</h2>
+        <p class="docs__section-desc">
+          Vollst&auml;ndige Auflistung aller Radius-Tokens mit CSS Custom Property, SCSS-Getter und Wert.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Stufe</th>
+              <th>CSS Custom Property</th>
+              <th>SCSS-Getter</th>
+              <th>Wert</th>
+              <th>Verwendung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>null</strong></td>
+              <td><code class="docs__token">--fnd-radius-null</code></td>
+              <td><code class="docs__token">radius('null')</code></td>
+              <td>0px</td>
+              <td>Kein Radius (sharp edges)</td>
+            </tr>
+            <tr>
+              <td><strong>xs</strong></td>
+              <td><code class="docs__token">--fnd-radius-xs</code></td>
+              <td><code class="docs__token">radius('xs')</code></td>
+              <td>2px</td>
+              <td>Minimale Rundung (Badges, Tags, kleine Elemente)</td>
+            </tr>
+            <tr>
+              <td><strong>sm</strong></td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td><code class="docs__token">radius('sm')</code></td>
+              <td>4px</td>
+              <td>Subtile Rundung (Code-Bl&ouml;cke, Labels, Tooltips)</td>
+            </tr>
+            <tr>
+              <td><strong>md</strong></td>
+              <td><code class="docs__token">--fnd-radius-md</code></td>
+              <td><code class="docs__token">radius('md')</code></td>
+              <td>6px</td>
+              <td>Standard-Rundung (Buttons MD, Inputs)</td>
+            </tr>
+            <tr>
+              <td><strong>lg</strong></td>
+              <td><code class="docs__token">--fnd-radius-lg</code></td>
+              <td><code class="docs__token">radius('lg')</code></td>
+              <td>8px</td>
+              <td>Mittlere Rundung (Cards, Modals, Formulare)</td>
+            </tr>
+            <tr>
+              <td><strong>xl</strong></td>
+              <td><code class="docs__token">--fnd-radius-xl</code></td>
+              <td><code class="docs__token">radius('xl')</code></td>
+              <td>10px</td>
+              <td>Betonte Rundung (Buttons XL, gro&szlig;e Karten)</td>
+            </tr>
+            <tr>
+              <td><strong>2xl</strong></td>
+              <td><code class="docs__token">--fnd-radius-2xl</code></td>
+              <td><code class="docs__token">radius('2xl')</code></td>
+              <td>12px</td>
+              <td>Gro&szlig;e Rundung (Buttons 2XL, Hero-Elemente)</td>
+            </tr>
+            <tr>
+              <td><strong>3xl</strong></td>
+              <td><code class="docs__token">--fnd-radius-3xl</code></td>
+              <td><code class="docs__token">radius('3xl')</code></td>
+              <td>16px</td>
+              <td>Extra gro&szlig;e Rundung (Dialoge, Cards, Media)</td>
+            </tr>
+            <tr>
+              <td><strong>full</strong></td>
+              <td><code class="docs__token">--fnd-radius-full</code></td>
+              <td><code class="docs__token">radius('full')</code></td>
+              <td>9999px</td>
+              <td>Pill-Shape / Kreis (Badges, Avatare, Chips)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 3. BUTTON SIZE MAPPING                                           -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="button-mapping">
+        <h2 class="docs__section-title">Button-Radius-Mapping</h2>
+        <p class="docs__section-desc">
+          Jede Button-Gr&ouml;&szlig;e erh&auml;lt einen proportional zugeordneten Radius-Token.
+          Gr&ouml;&szlig;ere Buttons bekommen proportional st&auml;rkere Rundungen.
+        </p>
+
+        <div class="radii-button-map">
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">XS (24px)</span>
+            <button class="button xs" style="align-self: flex-start;">Button XS</button>
+            <span class="radii-button-map__meta">--nc-button-radius-xs &rarr; 2px</span>
+          </div>
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">SM (32px)</span>
+            <button class="button sm" style="align-self: flex-start;">Button SM</button>
+            <span class="radii-button-map__meta">--nc-button-radius-sm &rarr; 4px</span>
+          </div>
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">MD (40px)</span>
+            <button class="button md" style="align-self: flex-start;">Button MD</button>
+            <span class="radii-button-map__meta">--nc-button-radius-md &rarr; 6px</span>
+          </div>
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">LG (48px)</span>
+            <button class="button lg" style="align-self: flex-start;">Button LG</button>
+            <span class="radii-button-map__meta">--nc-button-radius-lg &rarr; 8px</span>
+          </div>
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">XL (64px)</span>
+            <button class="button xl" style="align-self: flex-start;">Button XL</button>
+            <span class="radii-button-map__meta">--nc-button-radius-xl &rarr; 10px</span>
+          </div>
+          <div class="radii-button-map__item">
+            <span class="radii-button-map__size-label">2XL (80px)</span>
+            <button class="button 2xl" style="align-self: flex-start;">Button 2XL</button>
+            <span class="radii-button-map__meta">--nc-button-radius-2xl &rarr; 12px</span>
+          </div>
+        </div>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Button-Gr&ouml;&szlig;e</th>
+              <th>H&ouml;he</th>
+              <th>Component Token</th>
+              <th>Foundation Token</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>XS</strong></td>
+              <td>24px</td>
+              <td><code class="docs__token">--nc-button-radius-xs</code></td>
+              <td><code class="docs__token">--fnd-radius-xs</code></td>
+              <td>2px</td>
+            </tr>
+            <tr>
+              <td><strong>SM</strong></td>
+              <td>32px</td>
+              <td><code class="docs__token">--nc-button-radius-sm</code></td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
+            </tr>
+            <tr>
+              <td><strong>MD</strong></td>
+              <td>40px</td>
+              <td><code class="docs__token">--nc-button-radius-md</code></td>
+              <td><code class="docs__token">--fnd-radius-md</code></td>
+              <td>6px</td>
+            </tr>
+            <tr>
+              <td><strong>LG</strong></td>
+              <td>48px</td>
+              <td><code class="docs__token">--nc-button-radius-lg</code></td>
+              <td><code class="docs__token">--fnd-radius-lg</code></td>
+              <td>8px</td>
+            </tr>
+            <tr>
+              <td><strong>XL</strong></td>
+              <td>64px</td>
+              <td><code class="docs__token">--nc-button-radius-xl</code></td>
+              <td><code class="docs__token">--fnd-radius-xl</code></td>
+              <td>10px</td>
+            </tr>
+            <tr>
+              <td><strong>2XL</strong></td>
+              <td>80px</td>
+              <td><code class="docs__token">--nc-button-radius-2xl</code></td>
+              <td><code class="docs__token">--fnd-radius-2xl</code></td>
+              <td>12px</td>
+            </tr>
+            <tr>
+              <td><strong>Pill</strong></td>
+              <td>&mdash;</td>
+              <td><code class="docs__token">--nc-button-radius-full</code></td>
+              <td><code class="docs__token">--fnd-radius-full</code></td>
+              <td>9999px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 4. COMPONENT USAGE                                               -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="component-usage">
+        <h2 class="docs__section-title">Verwendung in Komponenten</h2>
+        <p class="docs__section-desc">
+          &Uuml;bersicht, welche Radius-Tokens von welchen Komponenten &uuml;ber Component-Tokens konsumiert werden.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Komponente</th>
+              <th>Component Token</th>
+              <th>Foundation Token</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Button (per Size)</strong></td>
+              <td><code class="docs__token">--nc-button-radius-{size}</code></td>
+              <td>xs&ndash;2xl</td>
+              <td>2&ndash;12px</td>
+            </tr>
+            <tr>
+              <td><strong>Card</strong></td>
+              <td><code class="docs__token">--nc-card-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-3xl</code></td>
+              <td>16px</td>
+            </tr>
+            <tr>
+              <td><strong>Input</strong></td>
+              <td><code class="docs__token">--nc-input-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-lg</code></td>
+              <td>8px</td>
+            </tr>
+            <tr>
+              <td><strong>Dialog/Modal</strong></td>
+              <td><code class="docs__token">--nc-dialog-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-3xl</code></td>
+              <td>16px</td>
+            </tr>
+            <tr>
+              <td><strong>Alert</strong></td>
+              <td><code class="docs__token">--nc-alert-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-lg</code></td>
+              <td>8px</td>
+            </tr>
+            <tr>
+              <td><strong>Badge</strong></td>
+              <td><code class="docs__token">--nc-badge-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-full</code></td>
+              <td>9999px</td>
+            </tr>
+            <tr>
+              <td><strong>Tooltip</strong></td>
+              <td><code class="docs__token">--nc-tooltip-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
+            </tr>
+            <tr>
+              <td><strong>Toast</strong></td>
+              <td><code class="docs__token">--nc-toast-radius</code></td>
+              <td><code class="docs__token">--fnd-radius-lg</code></td>
+              <td>8px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 5. VISUAL COMPARISON                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="visual-comparison">
+        <h2 class="docs__section-title">Visuelle Vergleichsleiste</h2>
+        <p class="docs__section-desc">
+          Alle Radius-Stufen nebeneinander auf identischen Elementen.
+        </p>
+
+        <div class="radii-comparison">
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-null);"></div>
+            <span class="radii-comparison__label">null</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-xs);"></div>
+            <span class="radii-comparison__label">xs</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-sm);"></div>
+            <span class="radii-comparison__label">sm</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-md);"></div>
+            <span class="radii-comparison__label">md</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-lg);"></div>
+            <span class="radii-comparison__label">lg</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-xl);"></div>
+            <span class="radii-comparison__label">xl</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-2xl);"></div>
+            <span class="radii-comparison__label">2xl</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-3xl);"></div>
+            <span class="radii-comparison__label">3xl</span>
+          </div>
+          <div class="radii-comparison__item">
+            <div class="radii-comparison__box" style="border-radius: var(--fnd-radius-full);"></div>
+            <span class="radii-comparison__label">full</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 6. CODE USAGE                                                    -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="code-usage">
+        <h2 class="docs__section-title">Code-Beispiele</h2>
+
+        <h3 style="margin-block-end: var(--fnd-spacing-03);">CSS Custom Properties</h3>
+        <div class="docs__code-block">/* Radius-Token als CSS Custom Property */
+.card {
+  border-radius: var(--fnd-radius-lg);    /* 8px */
+}
+
+.modal {
+  border-radius: var(--fnd-radius-3xl);   /* 16px */
+}
+
+.badge {
+  border-radius: var(--fnd-radius-full);  /* 9999px &rarr; Pill */
+}
+
+/* Button-Radius &uuml;ber Component-Token */
+.custom-button {
+  border-radius: var(--nc-button-radius-md);  /* 6px */
+}</div>
+
+        <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">SCSS-Getter</h3>
+        <div class="docs__code-block">@use '../00-settings' as *;
+
+// SCSS-Funktion radius() liefert den px-Wert
+.element {
+  border-radius: radius('lg');    // 8px
+}
+
+// F&uuml;r Mixins, die einen Radius-Wert ben&ouml;tigen
+$my-radius: radius('md');         // 6px</div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 7. MIGRATION GUIDE                                               -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="migration">
+        <h2 class="docs__section-title">Migrations-Leitfaden</h2>
+        <p class="docs__section-desc">
+          Die alte 3-Stufen-Skala (s, m, l) wurde durch die neue 9-Stufen-Skala ersetzt.
+          F&uuml;r Abw&auml;rtskompatibilit&auml;t existieren CSS-Aliases. Neue Entwicklungen sollten
+          ausschlie&szlig;lich die neuen Token-Namen verwenden.
+        </p>
+
+        <table class="docs__table radii-migration-table">
+          <thead>
+            <tr>
+              <th>Alt (deprecated)</th>
+              <th>Neu</th>
+              <th>Wert</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs__token deprecated">--fnd-radius-s</code></td>
+              <td><code class="docs__token new">--fnd-radius-sm</code></td>
+              <td>4px</td>
+              <td>Alias aktiv, deprecated</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token deprecated">--fnd-radius-m</code></td>
+              <td><code class="docs__token new">--fnd-radius-lg</code></td>
+              <td>8px</td>
+              <td>Alias aktiv, deprecated</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token deprecated">--fnd-radius-l</code></td>
+              <td><code class="docs__token new">--fnd-radius-3xl</code></td>
+              <td>16px</td>
+              <td>Alias aktiv, deprecated</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token deprecated">--fnd-radius-2xs</code></td>
+              <td><code class="docs__token new">--fnd-radius-null</code></td>
+              <td>0px</td>
+              <td>Alias aktiv, deprecated</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="docs__code-block">/* Im CSS: Aliases funktionieren weiterhin */
+:root {
+  --fnd-radius-s: var(--fnd-radius-sm);     /* 4px */
+  --fnd-radius-m: var(--fnd-radius-lg);     /* 8px */
+  --fnd-radius-l: var(--fnd-radius-3xl);    /* 16px */
+  --fnd-radius-2xs: var(--fnd-radius-null); /* 0px */
+}
+
+/* Alter Code funktioniert ohne &Auml;nderung: */
+.legacy-card { border-radius: var(--fnd-radius-m); } /* = 8px */
+
+/* Neuer Code verwendet neue Token: */
+.new-card { border-radius: var(--fnd-radius-lg); }   /* = 8px */</div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 8. DESIGN PRINCIPLES                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="principles">
+        <h2 class="docs__section-title">Design-Prinzipien</h2>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>3-Schichten-Architektur</strong>
+            <p>Foundation Token (<code class="docs__token">--fnd-radius-*</code>) &rarr;
+            Component Token (<code class="docs__token">--nc-{comp}-radius</code>) &rarr;
+            Page Override. Komponenten referenzieren nie direkt Foundation-Tokens,
+            sondern immer Component-Tokens.</p>
+          </div>
+        </div>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>Proportionale Skalierung</strong>
+            <p>Gr&ouml;&szlig;ere UI-Elemente erhalten proportional gr&ouml;&szlig;ere Radii.
+            Ein XS-Button (24px H&ouml;he) hat 2px Radius, ein 2XL-Button (80px) hat 12px.
+            Dies sorgt f&uuml;r optische Konsistenz &uuml;ber alle Gr&ouml;&szlig;en.</p>
+          </div>
+        </div>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>Customer Theming</strong>
+            <p>Radius-Tokens k&ouml;nnen pro Scope &uuml;berschrieben werden.
+            Ein Kunde kann z.B. <code class="docs__token">--fnd-radius-lg: 12px</code>
+            setzen, um alle Elemente runder zu gestalten. Component-Tokens
+            flie&szlig;en die &Auml;nderung automatisch durch.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Viewport indicator
+    (function() {
+      var info = document.getElementById('viewport-info');
+      if (!info) return;
+      function update() { info.textContent = window.innerWidth + ' px'; }
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+
+</body>
+</html>

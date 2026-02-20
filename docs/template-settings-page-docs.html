@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Template: Settings Page | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Settings-Page-Templates mit Settings-Navigation und Content-Bereich." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .docs-template-preview {
+      border-radius: var(--fnd-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--fnd-color-border-low);
+      background: var(--fnd-color-background-base);
+    }
+    .docs-tpl-settings {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--fnd-spacing-05);
+      padding: var(--fnd-spacing-05);
+      background: var(--fnd-color-background-base);
+      min-height: 380px;
+      align-items: start;
+    }
+    .docs-tpl-settings__nav-link {
+      display: block;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-radius: var(--fnd-radius-md);
+      color: var(--fnd-color-text-secondary);
+      font-size: var(--fs-sm, 0.875rem);
+      margin-bottom: var(--fnd-spacing-01);
+    }
+    .docs-tpl-settings__nav-link--active {
+      color: var(--fnd-color-interactive-default);
+      background: var(--fnd-color-layer-01);
+      font-weight: var(--fnd-font-weight-medium);
+    }
+    .docs-tpl-settings__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-04);
+    }
+    .docs-tpl-settings__section {
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-lg);
+      padding: var(--fnd-spacing-05);
+      box-shadow: var(--fnd-elevation-base);
+    }
+    .docs-tpl-settings__section-header {
+      margin-bottom: var(--fnd-spacing-04);
+      padding-bottom: var(--fnd-spacing-03);
+      border-bottom: 1px solid var(--fnd-color-border-low);
+    }
+    .docs-tpl-settings__section-title {
+      font-size: 0.9375rem;
+      font-weight: var(--fnd-font-weight-semibold);
+      color: var(--fnd-color-on-layer-01);
+      margin: 0 0 var(--fnd-spacing-01);
+    }
+    .docs-tpl-settings__section-desc {
+      color: var(--fnd-color-text-secondary);
+      font-size: var(--fs-sm, 0.875rem);
+      margin: 0;
+    }
+    .docs-tpl-settings__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-03) 0;
+      border-bottom: 1px solid var(--fnd-color-border-low);
+    }
+    .docs-tpl-settings__row:last-child {
+      border-bottom: none;
+    }
+    .docs-tpl-settings__row-title {
+      font-size: var(--fs-sm, 0.875rem);
+      font-weight: var(--fnd-font-weight-medium);
+      color: var(--fnd-color-on-layer-01);
+      margin: 0;
+    }
+    .docs-tpl-settings__row-desc {
+      color: var(--fnd-color-text-secondary);
+      font-size: var(--fs-xs, 0.75rem);
+      margin: var(--fnd-spacing-01) 0 0;
+    }
+    .docs-tpl-settings__toggle {
+      width: 36px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--fnd-color-interactive-default);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .docs-tpl-settings__toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+    }
+    .docs-tpl-settings__toggle--off {
+      background: var(--fnd-color-border-low);
+    }
+    .docs-tpl-settings__toggle--off::after {
+      right: auto;
+      left: 2px;
+    }
+    .docs-layout-diagram {
+      font-family: var(--font-mono, monospace);
+      font-size: var(--fs-sm, 0.875rem);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      padding: var(--fnd-spacing-05);
+      line-height: 1.7;
+      color: var(--fnd-color-text-primary);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Template: Settings Page</h1>
+      <p class="docs__subtitle">Einstellungsseite mit seitlicher Navigationsleiste und gestapelten Inhalts-Sektionen. Navigation ist auf Tablet+ sticky; auf Mobile horizontal scrollend. Basisklasse: <code>.t-settings</code>.</p>
+
+      <!-- ============================================================= -->
+      <!-- TABS                                                          -->
+      <!-- ============================================================= -->
+      <div class="docs-tabs" id="settings-page-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Settings-Page-Template-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 1: BENUTZUNG                                            -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendungszweck</h2>
+          <p>Das Settings-Page-Template ist f&uuml;r Benutzereinstellungen, Account-Verwaltung und Konfigurationsseiten optimiert. Die vertikale Navigationsleiste (220px) bleibt auf Tablet+ sticky und erm&ouml;glicht direktes Springen zu Abschnitten innerhalb der Seite. Jede Setting-Row zeigt Titel, optionale Beschreibung und ein Aktionselement (Toggle, Button, Select).</p>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Vorschau</h2>
+          <div class="docs-template-preview">
+            <div class="docs-tpl-settings">
+              <nav aria-label="Einstellungs-Navigation (Demo)">
+                <a class="docs-tpl-settings__nav-link docs-tpl-settings__nav-link--active" href="#" onclick="event.preventDefault();" aria-current="page">Profil</a>
+                <a class="docs-tpl-settings__nav-link" href="#" onclick="event.preventDefault();">Sicherheit</a>
+                <a class="docs-tpl-settings__nav-link" href="#" onclick="event.preventDefault();">Benachrichtigungen</a>
+                <a class="docs-tpl-settings__nav-link" href="#" onclick="event.preventDefault();">Erscheinungsbild</a>
+                <a class="docs-tpl-settings__nav-link" href="#" onclick="event.preventDefault();">Datenschutz</a>
+              </nav>
+              <div class="docs-tpl-settings__content">
+                <section class="docs-tpl-settings__section" aria-labelledby="settings-notif-title">
+                  <div class="docs-tpl-settings__section-header">
+                    <h2 class="docs-tpl-settings__section-title" id="settings-notif-title">Benachrichtigungen</h2>
+                    <p class="docs-tpl-settings__section-desc">Steuern Sie, welche E-Mails und Pushbenachrichtigungen Sie erhalten.</p>
+                  </div>
+                  <div class="docs-tpl-settings__row">
+                    <div>
+                      <p class="docs-tpl-settings__row-title">E-Mail-Benachrichtigungen</p>
+                      <p class="docs-tpl-settings__row-desc">Erhalten Sie Updates zu Ihren Projekten</p>
+                    </div>
+                    <div class="docs-tpl-settings__toggle" role="presentation" aria-hidden="true"></div>
+                  </div>
+                  <div class="docs-tpl-settings__row">
+                    <div>
+                      <p class="docs-tpl-settings__row-title">Push-Benachrichtigungen</p>
+                      <p class="docs-tpl-settings__row-desc">Browser-Benachrichtigungen aktivieren</p>
+                    </div>
+                    <div class="docs-tpl-settings__toggle docs-tpl-settings__toggle--off" role="presentation" aria-hidden="true"></div>
+                  </div>
+                  <div class="docs-tpl-settings__row">
+                    <div>
+                      <p class="docs-tpl-settings__row-title">Wochen-Bericht</p>
+                      <p class="docs-tpl-settings__row-desc">Zusammenfassung jeden Montag</p>
+                    </div>
+                    <button class="nc-button nc-button--outline nc-button--sm">Konfigurieren</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Wann einsetzen?</h2>
+          <table class="docs__table">
+            <thead><tr><th>Szenario</th><th>Empfehlung</th></tr></thead>
+            <tbody>
+              <tr><td>Benutzereinstellungen (Profil, Sicherheit, Benachrichtigungen)</td><td>Prim&auml;r f&uuml;r dieses Template</td></tr>
+              <tr><td>Account-Verwaltung und Abonnements</td><td>Geeignet</td></tr>
+              <tr><td>Applikations-Konfiguration (Admin)</td><td>Geeignet; Template in <code>.t-dashboard</code> einbetten</td></tr>
+              <tr><td>Formular mit Schritt-Progression</td><td>Stattdessen <code>.t-form-page</code> verwenden</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 2: STYLE                                                -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Layout-Struktur</h2>
+          <p>Auf Tablet+: 2-Spalten-Grid (<code>220px 1fr</code>). Auf Mobile: 1-Spalten-Layout; Nav-Liste wird horizontal scrollend (<code>flex-direction: row; overflow-x: auto</code>).</p>
+
+          <div class="docs-layout-diagram">
+.t-settings                      // max-width: content-max-width; margin: auto; padding: spacing-06
+                                   // tablet+: grid 220px 1fr; gap: spacing-06; align-items: start
+  nav.t-settings__nav            // tablet+: sticky; top: nav-height + spacing-06
+    ul.t-settings__nav-list      // flex-column; gap: spacing-01
+                                   // mobile: flex-row; overflow-x: auto; gap: spacing-02
+      a.t-settings__nav-link     // block; radius-md; text-secondary; hover: text-high + layer-01
+                                   // [aria-current=page]: interactive-default + layer-01 + font-weight-medium
+  div.t-settings__content        // flex-column; gap: spacing-06
+    section.t-settings__section  // layer-01; radius-lg; elevation-base; padding: spacing-06
+      div.t-settings__section-header  // mb: spacing-04; pb: spacing-04; border-bottom: border-low
+        h2.t-settings__section-title  // heading(s); on-layer-01; mb: spacing-01
+        p.t-settings__section-description  // text-secondary; fs-sm
+      div.t-settings__row        // flex; space-between; gap: spacing-04; py: spacing-04
+                                   // :not(:last-child): border-bottom: border-low
+        div.t-settings__row-label  // flex: 1
+          p.t-settings__row-title  // font-weight-medium; on-layer-01
+          p.t-settings__row-description  // text-secondary; fs-sm; mt: spacing-01
+        div.t-settings__row-action  // flex-shrink: 0
+          [Toggle / Button / Select]
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Verwendete Tokens</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+            <tbody>
+              <tr><td><code>--fnd-content-max-width</code></td><td>Template-Container-Breite</td></tr>
+              <tr><td><code>--fnd-color-text-secondary</code></td><td>Nav-Links (Standard), Section-Beschreibung, Row-Beschreibung</td></tr>
+              <tr><td><code>--fnd-color-text-high</code></td><td>Nav-Link-Hover</td></tr>
+              <tr><td><code>--fnd-color-interactive-default</code></td><td>Aktiver Nav-Link</td></tr>
+              <tr><td><code>--fnd-color-layer-01</code></td><td>Section-Karten, Aktiver Nav-Link-Hintergrund, Nav-Link-Hover-Hintergrund</td></tr>
+              <tr><td><code>--fnd-color-on-layer-01</code></td><td>Section-Titel, Row-Titel</td></tr>
+              <tr><td><code>--fnd-color-border-low</code></td><td>Section-Header-Trennlinie, Row-Trennlinien</td></tr>
+              <tr><td><code>--fnd-elevation-base</code></td><td>Section-Karten-Schatten</td></tr>
+              <tr><td><code>--fnd-font-weight-medium</code></td><td>Aktiver Nav-Link, Row-Titel</td></tr>
+              <tr><td><code>--fnd-radius-lg</code></td><td>Section-Karten-Radius</td></tr>
+              <tr><td><code>--fnd-radius-md</code></td><td>Nav-Link-Radius</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Responsive Breakpoints</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Breakpoint</th><th>&Auml;nderung</th></tr></thead>
+            <tbody>
+              <tr><td>Mobile (<code>max-width: 767px</code>)</td><td>Nav-Liste horizontal; <code>margin-bottom: spacing-06</code> auf <code>.t-settings__nav</code></td></tr>
+              <tr><td><code>tablet-up</code></td><td>Grid aktiv (<code>220px 1fr</code>); Nav sticky</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">SCSS-Datei</h2>
+          <div class="docs-snippet"><pre>scss/scss/08-templates/_settings-page.scss</pre></div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 3: API                                                  -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Klassen-Referenz</h2>
+          <table class="docs__table">
+            <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td><code>.t-settings</code></td><td><code>&lt;div&gt;</code></td><td>Grid-Root; <code>max-width: content-max-width</code>; auf Tablet+: <code>220px 1fr</code></td></tr>
+              <tr><td><code>.t-settings__nav</code></td><td><code>&lt;nav&gt;</code></td><td>Seitennavigation; auf Tablet+ sticky; auf Mobile: <code>margin-bottom: spacing-06</code></td></tr>
+              <tr><td><code>.t-settings__nav-list</code></td><td><code>&lt;ul&gt;</code></td><td>Flex-Column (Tablet) / Flex-Row-scrollend (Mobile); kein <code>list-style</code></td></tr>
+              <tr><td><code>.t-settings__nav-link</code></td><td><code>&lt;a&gt;</code></td><td>Einzel-Link; <code>[aria-current='page']</code> f&uuml;r aktuellen Abschnitt; <code>white-space: nowrap</code></td></tr>
+              <tr><td><code>.t-settings__content</code></td><td><code>&lt;div&gt;</code></td><td>Gestapelter Content-Bereich; <code>flex-column</code>; <code>gap: spacing-06</code></td></tr>
+              <tr><td><code>.t-settings__section</code></td><td><code>&lt;section&gt;</code></td><td>Einstellungs-Gruppe; <code>layer-01</code>; <code>elevation-base</code>; <code>radius-lg</code></td></tr>
+              <tr><td><code>.t-settings__section-header</code></td><td><code>&lt;div&gt;</code></td><td>Sektion-Kopfzeile; <code>border-bottom</code>; <code>mb: spacing-04</code>; <code>pb: spacing-04</code></td></tr>
+              <tr><td><code>.t-settings__section-title</code></td><td><code>&lt;h2&gt;</code></td><td>Sektions-Titel; <code>heading(s)</code>; <code>on-layer-01</code></td></tr>
+              <tr><td><code>.t-settings__section-description</code></td><td><code>&lt;p&gt;</code></td><td>Erkl&auml;rungstext zur Sektion; <code>text-secondary</code>; <code>fs-sm</code></td></tr>
+              <tr><td><code>.t-settings__row</code></td><td><code>&lt;div&gt;</code></td><td>Einzel-Einstellung; <code>flex space-between</code>; <code>border-bottom</code> auf Nicht-Letzte</td></tr>
+              <tr><td><code>.t-settings__row-label</code></td><td><code>&lt;div&gt;</code></td><td>Label-Bereich; <code>flex: 1</code></td></tr>
+              <tr><td><code>.t-settings__row-title</code></td><td><code>&lt;p&gt;</code></td><td>Einstellungs-Name; <code>font-weight-medium</code>; <code>on-layer-01</code></td></tr>
+              <tr><td><code>.t-settings__row-description</code></td><td><code>&lt;p&gt;</code></td><td>Erkl&auml;rungstext; <code>text-secondary</code>; <code>fs-sm</code>; <code>mt: spacing-01</code></td></tr>
+              <tr><td><code>.t-settings__row-action</code></td><td><code>&lt;div&gt;</code></td><td>Aktions-Element-Container; <code>flex-shrink: 0</code></td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Minimales HTML</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="t-settings"&gt;
+  &lt;nav class="t-settings__nav" aria-label="Einstellungen"&gt;
+    &lt;ul class="t-settings__nav-list"&gt;
+      &lt;li&gt;&lt;a class="t-settings__nav-link" href="#profil" aria-current="page"&gt;Profil&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a class="t-settings__nav-link" href="#sicherheit"&gt;Sicherheit&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+
+  &lt;div class="t-settings__content"&gt;
+    &lt;section class="t-settings__section" id="profil" aria-labelledby="profil-title"&gt;
+      &lt;div class="t-settings__section-header"&gt;
+        &lt;h2 class="t-settings__section-title" id="profil-title"&gt;Profil&lt;/h2&gt;
+        &lt;p class="t-settings__section-description"&gt;Ihre &ouml;ffentlichen Profilinformationen.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="t-settings__row"&gt;
+        &lt;div class="t-settings__row-label"&gt;
+          &lt;p class="t-settings__row-title"&gt;Anzeigename&lt;/p&gt;
+          &lt;p class="t-settings__row-description"&gt;Dieser Name ist &ouml;ffentlich sichtbar.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="t-settings__row-action"&gt;
+          &lt;button class="nc-button nc-button--outline nc-button--sm"&gt;Bearbeiten&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Template-&Uuml;bersicht</h2>
+          <table class="docs__table">
+            <tbody>
+              <tr><td><strong>Template-Pr&auml;fix</strong></td><td><code>.t-settings</code></td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/08-templates/_settings-page.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>08-Templates</td></tr>
+              <tr><td><strong>Grid</strong></td><td><code>220px 1fr</code> (ab <code>tablet-up</code>)</td></tr>
+              <tr><td><strong>JS-Abh&auml;ngigkeit</strong></td><td>Optional: Scroll-Spy f&uuml;r <code>aria-current</code> auf Nav-Links</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 4: ACCESSIBILITY                                        -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Landmark-Struktur</h2>
+          <table class="docs__table">
+            <thead><tr><th>Element</th><th>Rolle</th><th>Anforderung</th></tr></thead>
+            <tbody>
+              <tr><td><code>&lt;nav&gt;.t-settings__nav</code></td><td><code>navigation</code></td><td><code>aria-label="Einstellungen"</code> setzen; bei mehreren <code>&lt;nav&gt;</code>-Elementen auf der Seite eindeutige Labels</td></tr>
+              <tr><td><code>&lt;section&gt;.t-settings__section</code></td><td><code>region</code></td><td><code>aria-labelledby</code> auf <code>.t-settings__section-title</code>; <code>id</code> als Sprungziel</td></tr>
+              <tr><td><code>.t-settings__row</code></td><td>Kein Landmark</td><td>Setting-Rows sind keine Landmarks; ggf. <code>role="group"</code> wenn mehrere zusammengeh&ouml;ren</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Heading-Hierarchie</h2>
+          <div class="docs-snippet"><pre>&lt;main&gt;
+  &lt;h1&gt;Einstellungen&lt;/h1&gt;  &lt;!-- Seitentitel, ggf. aus dem Kontext (Header, Breadcrumb) --&gt;
+  &lt;div class="t-settings"&gt;
+    &lt;nav ...&gt; ... &lt;/nav&gt;
+    &lt;div class="t-settings__content"&gt;
+      &lt;section id="profil" aria-labelledby="profil-h2"&gt;
+        &lt;h2 id="profil-h2" class="t-settings__section-title"&gt;Profil&lt;/h2&gt;
+        &lt;!-- Row-Titel sind &lt;p&gt;, nicht weitere Headings --&gt;
+      &lt;/section&gt;
+      &lt;section id="sicherheit" aria-labelledby="sicherheit-h2"&gt;
+        &lt;h2 id="sicherheit-h2" class="t-settings__section-title"&gt;Sicherheit&lt;/h2&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</pre></div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Setting-Row: Aktion und Label verbinden</h4>
+              <ul>
+                <li>Das Aktions-Element (<code>.t-settings__row-action</code>) muss mit <code>.t-settings__row-title</code> verbunden sein.</li>
+                <li>Toggle-Buttons: <code>aria-label="E-Mail-Benachrichtigungen aktivieren"</code> oder <code>aria-labelledby</code> auf den Row-Titel.</li>
+                <li>Button &bdquo;Bearbeiten&ldquo;: <code>aria-label="Anzeigename bearbeiten"</code> f&uuml;r eindeutigen Kontext.</li>
+                <li><code>.t-settings__row-description</code> via <code>aria-describedby</code> mit dem Toggle/Button verbinden.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Toggle-Switches</h4>
+              <ul>
+                <li>Toggle-Switches m&uuml;ssen entweder als <code>&lt;input type="checkbox"&gt;</code> mit passendem <code>&lt;label&gt;</code> oder als <code>&lt;button role="switch" aria-checked="true/false"&gt;</code> implementiert werden.</li>
+                <li>Rein visuell dargestellte Toggles (wie in der Vorschau) sind f&uuml;r Screenreader nicht verwendbar.</li>
+                <li>Der Toggle-Zustand muss auch in der Row-Beschriftung kommuniziert werden (&bdquo;Derzeit aktiviert&ldquo;).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Mobile Navigation</h4>
+              <ul>
+                <li>Die horizontale Nav-Leiste auf Mobile (<code>overflow-x: auto</code>) ist per Tastatur scrollbar &mdash; sicherstellen, dass keine Elemente durch <code>overflow: hidden</code> verdeckt werden.</li>
+                <li><code>white-space: nowrap</code> auf den Links verhindert Umbruch; Kontrast auch im gescrollten Bereich gew&auml;hrleisten.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Pr&uuml;fliste</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><code>&lt;nav aria-label="Einstellungen"&gt;</code></td><td>4.1.2</td></tr>
+              <tr><td>2</td><td>Sections haben <code>id</code> + <code>aria-labelledby</code></td><td>4.1.2</td></tr>
+              <tr><td>3</td><td>Aktiver Nav-Link: <code>aria-current="page"</code></td><td>4.1.2</td></tr>
+              <tr><td>4</td><td>Toggle-Aktionen: <code>role="switch"</code> oder nativer Checkbox</td><td>4.1.2</td></tr>
+              <tr><td>5</td><td>Row-Aktionen: beschreibende <code>aria-label</code> mit Kontext</td><td>2.4.6</td></tr>
+              <tr><td>6</td><td>Fokus-Ring auf Nav-Links sichtbar</td><td>2.4.7</td></tr>
+              <tr><td>7</td><td>Heading-Hierarchie eingehalten (h1 &rarr; h2)</td><td>1.3.1</td></tr>
+              <tr><td>8</td><td>Mobile Nav per Tastatur bedienbar</td><td>2.1.1</td></tr>
+              <tr><td>9</td><td>Farbkontrast Text auf Layer-01 &ge; 4.5:1</td><td>1.4.3</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

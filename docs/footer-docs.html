@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Footer | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Footer-Komponente mit Minimal-Variante und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Footer</h1>
+      <p class="docs__subtitle">
+        Site-Footer als Organismus-Komponente mit Navigation, Metanavigation und Branding.
+        Zwei Varianten: <code class="docs__token">.footer</code> (vollst&auml;ndig) und
+        <code class="docs__token">.minimal</code> (reduziert).
+        Alle Farben und Abst&auml;nde kommen aus Foundation-Tokens (<code class="docs__token">--fnd-*</code>).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="footer-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Footer-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Live Demo -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme und Variante, um den Footer live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="full" selected>Vollst&auml;ndig</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 0; overflow: hidden;">
+              <!-- JS renders footer here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;footer&gt;&lt;div class="footer"&gt;...&lt;/div&gt;&lt;/footer&gt;</pre>
+          </div>
+
+          <!-- Vollst&auml;ndiger Footer -->
+          <section class="docs__section" id="full-footer">
+            <h2 class="docs__section-title">Vollst&auml;ndiger Footer</h2>
+            <p class="docs__section-desc">
+              Der vollst&auml;ndige Footer (<code class="docs__token">.footer</code>) enth&auml;lt Haupt-Navigation,
+              Spalten-Links, Sprachauswahl, Metanavigation und eine Bilder-Sektion.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-lg); overflow: hidden;">
+              <footer>
+                <div class="footer">
+                  <div>
+                    <p class="footer-heading">Produkt</p>
+                    <p class="footer-heading">Features &amp; Preise</p>
+
+                    <div class="footer-columns-links">
+                      <ul class="footer-links-list">
+                        <li>
+                          Features
+                          <ul class="footer-links-sublist">
+                            <li><a href="#">&Uuml;bersicht</a></li>
+                            <li><a href="#">Integrationen</a></li>
+                            <li><a href="#">Neuigkeiten</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          Preise
+                          <ul class="footer-links-sublist">
+                            <li><a href="#">Preispl&auml;ne</a></li>
+                            <li><a href="#">Kontakt</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          Ressourcen
+                          <ul class="footer-links-sublist">
+                            <li><a href="#">Dokumentation</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Support</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <hr class="footer-separator footer-separator-0" />
+                    <hr class="footer-separator footer-separator-1" />
+
+                    <div class="footer-bottom-links">
+                      <div class="footer-buttons-wrapper">
+                        <button class="footer-language-selector">
+                          <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                          Deutsch
+                          <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                      </div>
+                      <ul class="footer-bottom-link-list">
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Nutzungsbedingungen</a></li>
+                        <li><a href="#">Cookie-Einstellungen</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </section>
+
+          <!-- Minimal Variant -->
+          <section class="docs__section" id="minimal-footer">
+            <h2 class="docs__section-title">Minimal-Variante</h2>
+            <p class="docs__section-desc">
+              Die Minimal-Variante (<code class="docs__token">.minimal</code> auf dem inneren <code class="docs__token">&lt;div&gt;</code>)
+              reduziert den Footer auf Metanavigation und Sprachauswahl &mdash; ohne Haupt-Links und Bilder-Sektion.
+              Wird typischerweise auf Unterseiten und in Applikationen verwendet.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-lg); overflow: hidden;">
+              <footer>
+                <div class="footer">
+                  <div class="minimal">
+                    <hr class="footer-separator footer-separator-min" />
+                    <div class="footer-bottom-links">
+                      <div class="footer-buttons-wrapper">
+                        <button class="footer-language-selector">
+                          <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                          Deutsch
+                          <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                      </div>
+                      <ul class="footer-bottom-link-list">
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Nutzungsbedingungen</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </section>
+
+          <!-- Marketing Footer (nc-footer) -->
+          <section class="docs__section" id="nc-footer">
+            <h2 class="docs__section-title">Marketing-Footer (<code class="docs__token">.nc-footer</code>)</h2>
+            <p class="docs__section-desc">
+              Separate BEM-Variante f&uuml;r Marketing- und Landing-Pages. Grid-basiertes Layout,
+              dreispaltig ab Tablet. Kein Branding-Bereich; nur Spalten-Links und Metazeile.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-lg); overflow: hidden; padding: var(--fnd-spacing-08);">
+              <footer>
+                <div class="nc-footer">
+                  <div class="nc-footer__columns">
+                    <div>
+                      <p style="font-weight: var(--fnd-font-weight-semibold); margin-block-end: var(--fnd-spacing-03);">Produkt</p>
+                      <ul class="nc-footer__links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Preise</a></li>
+                        <li><a href="#">Neuigkeiten</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p style="font-weight: var(--fnd-font-weight-semibold); margin-block-end: var(--fnd-spacing-03);">Ressourcen</p>
+                      <ul class="nc-footer__links">
+                        <li><a href="#">Dokumentation</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Support</a></li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p style="font-weight: var(--fnd-font-weight-semibold); margin-block-end: var(--fnd-spacing-03);">Unternehmen</p>
+                      <ul class="nc-footer__links">
+                        <li><a href="#">&Uuml;ber uns</a></li>
+                        <li><a href="#">Karriere</a></li>
+                        <li><a href="#">Kontakt</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="nc-footer__bottom">
+                    &copy; 2026 Neocosmo. Alle Rechte vorbehalten. &mdash;
+                    <a href="#">Datenschutz</a> &middot;
+                    <a href="#">Impressum</a>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-foundation-tokens">
+            <h2 class="docs__section-title">Foundation-Token-Referenz</h2>
+            <p class="docs__section-desc">
+              Der Footer verwendet ausschlie&szlig;lich Foundation-Tokens (<code class="docs__token">--fnd-*</code>).
+              Es existieren keine eigenen <code class="docs__token">--nc-footer-*</code> Component-Tokens.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Hintergrundfarbe</td><td><code class="docs__token">--fnd-color-background-base</code></td><td>Basis-Hintergrund des gesamten Footers</td></tr>
+                <tr><td>Textfarbe (hoch)</td><td><code class="docs__token">--fnd-color-text-high</code></td><td>Prim&auml;re &Uuml;berschrift und Haupttext</td></tr>
+                <tr><td>Textfarbe (mittel)</td><td><code class="docs__token">--fnd-color-text-mid</code></td><td>Kategorie-Labels (uppercase), Icon-Farbe in Selektoren</td></tr>
+                <tr><td>Textfarbe (niedrig)</td><td><code class="docs__token">--fnd-color-text-low</code></td><td>Sekund&auml;re &Uuml;berschriften (<code class="docs__token">.footer-heading</code>)</td></tr>
+                <tr><td>Link-Hover-Farbe</td><td><code class="docs__token">--fnd-color-text-mid</code></td><td>Alle Links beim :hover-Zustand</td></tr>
+                <tr><td>Trennlinie</td><td><code class="docs__token">--fnd-color-border-low</code></td><td>Horizontale Separator-Linie</td></tr>
+                <tr><td>Marketing-Textfarbe</td><td><code class="docs__token">--fnd-color-text-secondary</code></td><td><code class="docs__token">.nc-footer__bottom</code> Metazeile</td></tr>
+                <tr><td>Marketing-Trennlinie</td><td><code class="docs__token">--fnd-color-border-secondary</code></td><td><code class="docs__token">.nc-footer__bottom</code> border-block-start</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-spacing-tokens">
+            <h2 class="docs__section-title">Abstands-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Oberer Innenabstand (Mobil)</td><td><code class="docs__token">--fnd-spacing-10</code></td><td>padding-top des .footer-Wrappers</td></tr>
+                <tr><td>Oberer Innenabstand (Desktop)</td><td><code class="docs__token">--fnd-spacing-11</code></td><td>padding-top des .footer-Wrappers auf Desktop</td></tr>
+                <tr><td>Footer-Heading margin-bottom</td><td><code class="docs__token">--fnd-spacing-01</code></td><td>Standard-Abstand unter .footer-heading</td></tr>
+                <tr><td>Letztes Footer-Heading (Mobil)</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>margin-bottom :last-of-type auf Mobil</td></tr>
+                <tr><td>Letztes Footer-Heading (Desktop)</td><td><code class="docs__token">--fnd-spacing-09</code></td><td>margin-bottom :last-of-type auf Desktop</td></tr>
+                <tr><td>Link-Gap</td><td><code class="docs__token">--fnd-spacing-02</code></td><td>Gap in allen Footer-Links</td></tr>
+                <tr><td>Separator-Margin</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>Vertikaler Abstand der Trennlinie</td></tr>
+                <tr><td>Separator-Margin (Desktop)</td><td><code class="docs__token">--fnd-spacing-09</code> / <code class="docs__token">--fnd-spacing-04</code></td><td>footer-separator-1 auf Desktop</td></tr>
+                <tr><td>footer-links-list gap</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>Abstand zwischen Kategorie-Listen (Mobil)</td></tr>
+                <tr><td>footer-links-sublist padding-top</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Einzug der Unterlinks (Mobil)</td></tr>
+                <tr><td>footer-links-sublist gap</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Abstand zwischen Unterlinks (Mobil)</td></tr>
+                <tr><td>footer-links-sublist (Tablet)</td><td><code class="docs__token">--fnd-spacing-03</code></td><td>Reduzierter Gap ab Tablet</td></tr>
+                <tr><td>footer-bottom-link-list gap</td><td><code class="docs__token">--fnd-spacing-04</code> / <code class="docs__token">--fnd-spacing-06</code></td><td>Zeilen- und Spalten-Gap (Mobil)</td></tr>
+                <tr><td>footer-bottom-link-list gap (Desktop)</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Einheitlicher Gap auf Desktop</td></tr>
+                <tr><td>footer-bottom-link-list padding-left</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>Links-Einzug auf Desktop</td></tr>
+                <tr><td>Language/Country-Selector padding</td><td><code class="docs__token">--fnd-spacing-02</code> / <code class="docs__token">--fnd-spacing-04</code></td><td>Block/Inline-Padding</td></tr>
+                <tr><td>Language/Country-Selector gap</td><td><code class="docs__token">--fnd-spacing-01</code></td><td>Abstand zwischen Icon und Text</td></tr>
+                <tr><td>Language/Country-Selector margin-bottom</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>Abstand nach unten (aufgehoben ab Desktop)</td></tr>
+                <tr><td>Bilder-Sektion padding-top</td><td><code class="docs__token">--fnd-spacing-11</code></td><td>Oberer Abstand der footer-images-section</td></tr>
+                <tr><td>Footer-Buttons-Wrapper gap</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Abstand zwischen Buttons</td></tr>
+                <tr><td>Minimal: bottom-links padding-block</td><td><code class="docs__token">--fnd-spacing-08</code></td><td>Vertikaler Innenabstand in der Minimal-Variante</td></tr>
+                <tr><td>Minimal: bottom-links padding-block-start (Tablet+)</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Reduzierter padding-block-start ab Tablet</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Site Footer (BEM-Konvention) =====
+
+// HTML-Element
+footer                          // Natives Element &mdash; setzt background-color + font-size
+
+// Haupt-Wrapper
+.footer                         // Innerer Wrapper &mdash; kontrolliert Layout und alle Kinder-Elemente
+
+// Variante
+.minimal                        // Modifier auf dem inneren &lt;div&gt; &mdash; reduziert auf Metanavigation
+
+// Inhalts-Elemente
+.footer-heading                 // &Uuml;berschrift einer Spalten-Gruppe (uppercase, text-low / text-high)
+.footer-separator               // Horizontale Trennlinie (&lt;hr&gt;)
+.footer-separator-min           // Modifier: kein vertikaler Margin (f&uuml;r Minimal-Variante)
+.footer-separator-0             // Modifier: auf Desktop ausgeblendet
+.footer-separator-1             // Modifier: Desktop-spezifische Abst&auml;nde
+.footer-columns-links           // Breiten-Wrapper f&uuml;r Link-Spalten (Grid-Spalten-basiert)
+.footer-links-list              // Kategorie-Liste (uppercase, text-mid, flex-column/row)
+.footer-links-sublist           // Unterlink-Liste einer Kategorie (paragraph l)
+.footer-bottom-links            // Metanavigation-Bereich (Sprache + rechtliche Links)
+.footer-bottom-link-list        // Liste rechtlicher Links (flex row wrap)
+.footer-buttons-wrapper         // Wrapper f&uuml;r Sprach-/L&auml;nder-Buttons
+.footer-language-selector       // Sprach-Auswahl-Button
+.footer-country-selector        // L&auml;nder-Auswahl-Button
+.footer-images-section          // Bild/Logo-Bereich (flex-between, align-end)
+.footer-form-section            // Newsletter-/Formular-Bereich (Breiten-gesteuert)
+
+// ===== Marketing Footer (eigenst&auml;ndiges BEM) =====
+
+.nc-footer                      // Block: Grid-Container mit gap + padding-block-end
+.nc-footer__columns             // Element: Grid-Spalten (1 &rarr; 3 ab 768px)
+.nc-footer__links               // Element: Link-Liste (grid, list-style none)
+.nc-footer__bottom              // Element: Metazeile mit Trennlinie</div>
+          </section>
+
+          <section class="docs__section" id="style-responsive">
+            <h2 class="docs__section-title">Responsive Verhalten</h2>
+            <table class="docs__table">
+              <thead><tr><th>Breakpoint</th><th>Verhalten</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Mobil (default)</strong></td><td>Alle Bereiche stapeln sich vertikal. Links-Listen als flex-column.</td></tr>
+                <tr><td><strong>Tablet (<code class="docs__token">tablet-up</code>)</strong></td><td><code class="docs__token">.footer-links-list</code> wechselt zu flex-row mit 3 gleichbreiten Spalten. Sublist-Gap reduziert sich.</td></tr>
+                <tr><td><strong>Desktop (<code class="docs__token">desktop-up</code>)</strong></td><td>Footer-Wrapper wird flex-row (justify-content: space-between). Bottom-Links werden nebeneinander angeordnet. <code class="docs__token">.footer-separator-0</code> wird ausgeblendet.</td></tr>
+                <tr><td><strong>Marketing-Footer</strong></td><td>Ab 768px: <code class="docs__token">.nc-footer__columns</code> wechselt zu 3 gleichbreiten Grid-Spalten.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;footer&gt;</code></td></tr>
+                <tr><td><strong>Haupt-Klasse</strong></td><td><code class="docs__token">.footer</code> (auf innerem <code class="docs__token">&lt;div&gt;</code>)</td></tr>
+                <tr><td><strong>Marketing-Klasse</strong></td><td><code class="docs__token">.nc-footer</code> (eigenst&auml;ndiges BEM)</td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-*</code> (keine eigenen <code class="docs__token">--nc-footer-*</code> Tokens)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/scss/07-organisms/_footer.scss</code></td></tr>
+                <tr><td><strong>Varianten</strong></td><td>Vollst&auml;ndig (default), Minimal (<code class="docs__token">.minimal</code>), Marketing (<code class="docs__token">.nc-footer</code>)</td></tr>
+                <tr><td><strong>JavaScript</strong></td><td>Keine eigene JS-Datei &mdash; Sprachauswahl/Selektor-Logik extern</td></tr>
+                <tr><td><strong>Kategorie</strong></td><td>Organismus (07-organisms)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Site Footer</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">footer</code> (Element)</td><td>Natives HTML</td><td>Basis-Styling: background-color, font-size-xs.</td></tr>
+                <tr><td><code class="docs__token">.footer</code></td><td>Wrapper</td><td>Innerer Container. Steuert Padding, Farbe, Flex-Layout auf Desktop.</td></tr>
+                <tr><td><code class="docs__token">.minimal</code></td><td>Variante</td><td>Modifier auf innerem <code class="docs__token">&lt;div&gt;</code>. Reduziert Footer auf Metanavigation.</td></tr>
+                <tr><td><code class="docs__token">.footer-heading</code></td><td>Element</td><td>Spalten-&Uuml;berschrift. Heading &lsquo;m&rsquo;. Erste: text-high, weitere: text-low.</td></tr>
+                <tr><td><code class="docs__token">.footer-separator</code></td><td>Element</td><td>Horizontale <code class="docs__token">&lt;hr&gt;</code>-Trennlinie. H&ouml;he 1px, border 0.</td></tr>
+                <tr><td><code class="docs__token">.footer-separator-min</code></td><td>Modifier</td><td>Kein vertikaler Margin &mdash; f&uuml;r Minimal-Variante.</td></tr>
+                <tr><td><code class="docs__token">.footer-separator-0</code></td><td>Modifier</td><td>Wird auf Desktop ausgeblendet (<code class="docs__token">display: none</code>).</td></tr>
+                <tr><td><code class="docs__token">.footer-separator-1</code></td><td>Modifier</td><td>Desktop-spezifische Abst&auml;nde (spacing-09 oben, spacing-04 unten).</td></tr>
+                <tr><td><code class="docs__token">.footer-columns-links</code></td><td>Element</td><td>Breiten-Wrapper. 4 Spalten Mobil, 12 Tablet, 6 Desktop (grid-columns).</td></tr>
+                <tr><td><code class="docs__token">.footer-links-list</code></td><td>Element</td><td>Kategorie-Liste (<code class="docs__token">&lt;ul&gt;</code>). Paragraph &lsquo;m&rsquo;, uppercase, text-mid.</td></tr>
+                <tr><td><code class="docs__token">.footer-links-sublist</code></td><td>Element</td><td>Unterlink-Liste. Paragraph &lsquo;l&rsquo;, text-transform: none.</td></tr>
+                <tr><td><code class="docs__token">.footer-bottom-links</code></td><td>Element</td><td>Metanavigation-Bereich. Auf Desktop: flex-row, space-between, center.</td></tr>
+                <tr><td><code class="docs__token">.footer-bottom-link-list</code></td><td>Element</td><td>Liste rechtlicher Links (<code class="docs__token">&lt;ul&gt;</code>). Paragraph &lsquo;m&rsquo;, flex row wrap.</td></tr>
+                <tr><td><code class="docs__token">.footer-buttons-wrapper</code></td><td>Element</td><td>Flex-Container f&uuml;r Sprach-/L&auml;nder-Buttons.</td></tr>
+                <tr><td><code class="docs__token">.footer-language-selector</code></td><td>Element</td><td>Sprach-Button. Paragraph &lsquo;m&rsquo;, min-height 40px, Icon links+rechts.</td></tr>
+                <tr><td><code class="docs__token">.footer-country-selector</code></td><td>Element</td><td>L&auml;nder-Button. Identisches Styling wie language-selector.</td></tr>
+                <tr><td><code class="docs__token">.footer-images-section</code></td><td>Element</td><td>Logo/Bild-Bereich. Flex-between, align-end, overflow hidden.</td></tr>
+                <tr><td><code class="docs__token">.footer-form-section</code></td><td>Element</td><td>Formular-Bereich. 8 Spalten Tablet, 5 Spalten Desktop.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Marketing Footer (.nc-footer)</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-footer</code></td><td>Block</td><td>Grid-Container. gap: 2rem, padding-block-end: 3rem.</td></tr>
+                <tr><td><code class="docs__token">.nc-footer__columns</code></td><td>Element</td><td>Grid-Spalten. 1 Spalte Mobil, 3 Spalten ab 768px.</td></tr>
+                <tr><td><code class="docs__token">.nc-footer__links</code></td><td>Element</td><td>Link-Liste (<code class="docs__token">&lt;ul&gt;</code>). Grid, list-style none, gap: 0.5rem.</td></tr>
+                <tr><td><code class="docs__token">.nc-footer__bottom</code></td><td>Element</td><td>Metazeile. font-size 0.85rem, text-secondary, Trennlinie oben.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. Slots / Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Vollst&auml;ndiger Footer</h3>
+            <div class="docs__code-block">&lt;footer&gt;
+  &lt;div class="footer"&gt;
+    &lt;div&gt; &lt;!-- Haupt-Container (kein eigener Klassenname) --&gt;
+
+      &lt;!-- Slot 1: Haupt-&Uuml;berschriften --&gt;
+      &lt;p class="footer-heading"&gt;Kategorie-Name&lt;/p&gt;  &lt;!-- :first-of-type: text-high --&gt;
+      &lt;p class="footer-heading"&gt;Unterbereich&lt;/p&gt;     &lt;!-- text-low --&gt;
+
+      &lt;!-- Slot 2: Spalten-Links --&gt;
+      &lt;div class="footer-columns-links"&gt;
+        &lt;ul class="footer-links-list"&gt;
+          &lt;li&gt;
+            Kategorie-Label  &lt;!-- uppercase, text-mid --&gt;
+            &lt;ul class="footer-links-sublist"&gt;
+              &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Slot 3: Trennlinien --&gt;
+      &lt;hr class="footer-separator footer-separator-0" /&gt; &lt;!-- Mobil sichtbar, Desktop verborgen --&gt;
+      &lt;hr class="footer-separator footer-separator-1" /&gt; &lt;!-- Desktop: spacing-09 oben --&gt;
+
+      &lt;!-- Slot 4: Metanavigation --&gt;
+      &lt;div class="footer-bottom-links"&gt;
+
+        &lt;!-- Slot 4a: Sprache/Land (optional) --&gt;
+        &lt;div class="footer-buttons-wrapper"&gt;
+          &lt;button class="footer-language-selector"&gt;
+            &lt;svg class="icon" aria-hidden="true"&gt;...&lt;/svg&gt;
+            Deutsch
+            &lt;svg class="icon" aria-hidden="true"&gt;...&lt;/svg&gt; &lt;!-- Chevron --&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Slot 4b: Rechtliche Links --&gt;
+        &lt;ul class="footer-bottom-link-list"&gt;
+          &lt;li&gt;&lt;a href="#"&gt;Datenschutz&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="#"&gt;Impressum&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Slot 5: Bilder/Logo-Bereich (optional) --&gt;
+      &lt;div class="footer-images-section"&gt;
+        &lt;div class="icon-logo"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/div&gt;
+        &lt;div class="icon-brand-imagotype"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Minimal-Variante</h3>
+            <div class="docs__code-block">&lt;footer&gt;
+  &lt;div class="footer"&gt;
+    &lt;div class="minimal"&gt; &lt;!-- .minimal Klasse direkt auf innerem div --&gt;
+
+      &lt;hr class="footer-separator footer-separator-min" /&gt;
+
+      &lt;div class="footer-bottom-links"&gt;
+        &lt;div class="footer-buttons-wrapper"&gt;
+          &lt;button class="footer-language-selector"&gt;...&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;ul class="footer-bottom-link-list"&gt;
+          &lt;li&gt;&lt;a href="#"&gt;Datenschutz&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="#"&gt;Impressum&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Marketing-Footer</h3>
+            <div class="docs__code-block">&lt;footer&gt;
+  &lt;div class="nc-footer"&gt;
+
+    &lt;div class="nc-footer__columns"&gt;
+      &lt;div&gt;
+        &lt;p&gt;Spalten-Titel&lt;/p&gt;
+        &lt;ul class="nc-footer__links"&gt;
+          &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+      &lt;!-- weitere Spalten ... --&gt;
+    &lt;/div&gt;
+
+    &lt;div class="nc-footer__bottom"&gt;
+      &amp;copy; 2026 Neocosmo &amp;mdash;
+      &lt;a href="#"&gt;Datenschutz&lt;/a&gt; &amp;middot;
+      &lt;a href="#"&gt;Impressum&lt;/a&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/footer&gt;</div>
+          </section>
+
+          <!-- 4. Select-Wrapper Integration -->
+          <section class="docs__section" id="api-select">
+            <h2 class="docs__section-title">Select-Wrapper Integration</h2>
+            <p class="docs__section-desc">
+              Im Footer kann ein <code class="docs__token">.select-wrapper</code> anstelle der nativen Button-Selektoren eingesetzt werden.
+              Das Footer-SCSS &uuml;berschreibt dabei spezifische Toggle-Eigenschaften.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>H&ouml;he des Toggles</td><td>48px</td><td>Feste H&ouml;he des <code class="docs__token">.select-toggle</code> im Footer</td></tr>
+                <tr><td>Padding des Toggles</td><td><code class="docs__token">--fnd-spacing-02</code> / <code class="docs__token">--fnd-spacing-04</code></td><td>Block/Inline-Padding</td></tr>
+                <tr><td>Toggle-Gap</td><td><code class="docs__token">--fnd-spacing-01</code></td><td>Abstand zwischen Icon und Text-Label</td></tr>
+                <tr><td>Text-Farbe</td><td><code class="docs__token">--fnd-color-text-high</code></td><td><code class="docs__token">.select-toggle-text</code></td></tr>
+                <tr><td>Icon-Farbe</td><td><code class="docs__token">--fnd-color-text-mid</code></td><td><code class="docs__token">.icon</code> im Toggle</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Als Landmark-Element spielt der Footer eine wichtige Rolle in der Seitenstruktur.
+            Er muss korrekt ausgezeichnet sein und alle WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Semantisches Landmark -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Semantisches Landmark</h4>
+              <ul>
+                <li>Das native <code class="docs__token">&lt;footer&gt;</code>-Element erzeugt automatisch die ARIA-Landmark-Rolle <code class="docs__token">contentinfo</code></li>
+                <li>Screenreader-Nutzer k&ouml;nnen so direkt zur Fu&szlig;zeile navigieren</li>
+                <li>Es darf pro Seite nur <strong>einen</strong> <code class="docs__token">&lt;footer&gt;</code> auf oberster Ebene geben (kein <code class="docs__token">role="contentinfo"</code> n&ouml;tig)</li>
+                <li><code class="docs__token">&lt;footer&gt;</code>-Elemente innerhalb von <code class="docs__token">&lt;article&gt;</code>, <code class="docs__token">&lt;section&gt;</code> etc. erhalten <strong>keine</strong> implizite contentinfo-Rolle</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Navigation-Bereiche -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Navigations-Bereiche</h4>
+              <ul>
+                <li>Link-Gruppen (<code class="docs__token">.footer-links-list</code>, <code class="docs__token">.footer-bottom-link-list</code>) sollten in <code class="docs__token">&lt;nav&gt;</code>-Elemente eingebettet werden</li>
+                <li>Jedes <code class="docs__token">&lt;nav&gt;</code> im Footer ben&ouml;tigt ein eindeutiges <code class="docs__token">aria-label</code> (z.&nbsp;B. <code class="docs__token">aria-label="Footer-Navigation"</code>, <code class="docs__token">aria-label="Rechtliche Hinweise"</code>)</li>
+                <li>Kategorie-Labels der <code class="docs__token">.footer-links-list</code> sollten als <code class="docs__token">&lt;p&gt;</code> oder <code class="docs__token">&lt;span&gt;</code>, <strong>nicht</strong> als <code class="docs__token">&lt;li&gt;</code>-Text allein umgesetzt werden, um korrekte Listen-Semantik zu gew&auml;hrleisten</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Links und Fokus -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Links und Fokus-Sichtbarkeit</h4>
+              <ul>
+                <li>Alle Links m&uuml;ssen per Tastatur fokussierbar und mit <kbd>Enter</kbd> aktivierbar sein</li>
+                <li>Der Fokus-Ring muss auf dem dunklen Footer-Hintergrund sichtbar sein (WCAG 2.4.11)</li>
+                <li>Links mit Icon (<code class="docs__token">:any-link:has(.icon)</code>) erhalten gr&ouml;&szlig;eres Schrift-Layout &mdash; ausreichend Klickfl&auml;che sichergestellt</li>
+                <li>Links im Footer sollten einen aussagekr&auml;ftigen Link-Text haben &mdash; kein &bdquo;Hier klicken&ldquo;</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Sprach-/L&auml;nder-Selektor -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Sprach- und L&auml;nder-Selektor</h4>
+              <ul>
+                <li>Der <code class="docs__token">.footer-language-selector</code>/<code class="docs__token">.footer-country-selector</code> ist ein <code class="docs__token">&lt;button&gt;</code>-Element und muss ein beschreibendes <code class="docs__token">aria-label</code> tragen (z.&nbsp;B. <code class="docs__token">aria-label="Sprache w&auml;hlen: Deutsch"</code>)</li>
+                <li>Wenn ein Dropdown ge&ouml;ffnet wird: <code class="docs__token">aria-expanded="true/false"</code> und <code class="docs__token">aria-haspopup="listbox"</code> setzen</li>
+                <li>Das Chevron-Icon muss <code class="docs__token">aria-hidden="true"</code> tragen</li>
+                <li>Das Globus-Icon muss <code class="docs__token">aria-hidden="true"</code> tragen &mdash; der Button-Text liefert die Bezeichnung</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Bilder-Sektion -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Bilder-Sektion</h4>
+              <ul>
+                <li>SVG-Logos in <code class="docs__token">.footer-images-section</code> m&uuml;ssen entweder ein <code class="docs__token">aria-label</code> auf dem umschlie&szlig;enden Element oder <code class="docs__token">aria-hidden="true"</code> tragen, wenn der Firmenname bereits an anderer Stelle vorhanden ist</li>
+                <li>Dekorative SVGs: <code class="docs__token">aria-hidden="true"</code> auf dem <code class="docs__token">&lt;svg&gt;</code>-Element setzen</li>
+                <li>Logo als Homelink: <code class="docs__token">&lt;a href="/" aria-label="Zur Startseite"&gt;&lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;&lt;/a&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Footer mit nav-Landmarks und aria-labels --&gt;
+&lt;footer&gt;
+  &lt;div class="footer"&gt;
+    &lt;div&gt;
+      &lt;nav aria-label="Footer-Navigation"&gt;
+        &lt;ul class="footer-links-list"&gt;
+          &lt;li&gt;
+            &lt;span&gt;Produkt&lt;/span&gt;
+            &lt;ul class="footer-links-sublist"&gt;
+              &lt;li&gt;&lt;a href="/features"&gt;Features&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+
+      &lt;nav aria-label="Rechtliche Hinweise"&gt;
+        &lt;ul class="footer-bottom-link-list"&gt;
+          &lt;li&gt;&lt;a href="/datenschutz"&gt;Datenschutz&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="/impressum"&gt;Impressum&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+
+      &lt;button class="footer-language-selector"
+              aria-label="Sprache w&auml;hlen: Deutsch"
+              aria-expanded="false"
+              aria-haspopup="listbox"&gt;
+        &lt;svg class="icon" aria-hidden="true"&gt;...&lt;/svg&gt;
+        Deutsch
+        &lt;svg class="icon" aria-hidden="true"&gt;...&lt;/svg&gt;
+      &lt;/button&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;
+
+&lt;!-- FALSCH: Links ohne nav-Landmark --&gt;
+&lt;div class="footer-bottom-link-list"&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Datenschutz&lt;/a&gt;&lt;/li&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Selektor-Button ohne aria-label --&gt;
+&lt;button class="footer-language-selector"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+  Deutsch
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Dekoratives Logo-SVG ohne aria-hidden --&gt;
+&lt;div class="icon-logo"&gt;
+  &lt;svg&gt;&lt;!-- kein aria-hidden --&gt;&lt;/svg&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- WCAG-Checkliste -->
+          <section class="docs__section" id="a11y-wcag" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">WCAG 2.1 AA-Checkliste</h2>
+            <table class="docs__table">
+              <thead><tr><th>Kriterium</th><th>Anforderung</th><th>Umsetzung</th></tr></thead>
+              <tbody>
+                <tr><td>1.3.1 Info and Relationships</td><td>Navigationsstruktur semantisch korrekt</td><td><code class="docs__token">&lt;footer&gt;</code> + <code class="docs__token">&lt;nav aria-label&gt;</code> + <code class="docs__token">&lt;ul&gt;</code></td></tr>
+                <tr><td>1.4.1 Use of Color</td><td>Farbe nicht alleiniges Signal</td><td>Links haben Text-Label; Kategorie-Trennung durch Struktur, nicht nur Farbe</td></tr>
+                <tr><td>2.1.1 Keyboard</td><td>Alle Interaktionen per Tastatur</td><td>Alle Links und Buttons nativ fokussierbar</td></tr>
+                <tr><td>2.4.3 Focus Order</td><td>Fokus-Reihenfolge sinnvoll</td><td>DOM-Reihenfolge entspricht visueller Struktur</td></tr>
+                <tr><td>2.4.6 Headings and Labels</td><td>Beschreibende Labels f&uuml;r Landmarks</td><td><code class="docs__token">aria-label</code> auf jedem <code class="docs__token">&lt;nav&gt;</code></td></tr>
+                <tr><td>2.4.11 Focus Appearance</td><td>Fokus-Ring sichtbar</td><td>Globaler Focus-Ring via <code class="docs__token">@include focus-ring</code> auf Links</td></tr>
+                <tr><td>4.1.2 Name, Role, Value</td><td>Interaktive Elemente korrekt beschriftet</td><td><code class="docs__token">aria-label</code> auf Selektor-Buttons, <code class="docs__token">aria-expanded</code> bei Dropdowns</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

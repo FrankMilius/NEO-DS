@@ -1,0 +1,163 @@
+// ==========================================================================
+// 05-Atoms: Radio
+// ==========================================================================
+// Token-basierte Radio-Komponente mit custom Styling,
+// 3 Groessen und Error-State.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-radio-* Component-Tokens.
+//
+// PATTERN:
+//   Wie Checkbox, aber border-radius: 50% (Kreis) und Dot statt Checkmark.
+//   Native <input type="radio"> bleibt im DOM.
+//
+// SIZES (3 Stufen):
+//   sm  →  16px
+//   md  →  20px    — DEFAULT
+//   lg  →  24px
+//
+// BEM-KLASSEN:
+//   .nc-radio                     Block (Wrapper, inline-flex)
+//   .nc-radio__input              Native <input> (sr-only)
+//   .nc-radio__control            Custom Circle
+//   .nc-radio__label              Label-Text
+//   .nc-radio--sm / --lg          Groessen-Modifier
+//   .nc-radio--error              Error-State (roter Rand)
+//
+// ACCESSIBILITY:
+//   Native <input type="radio"> bleibt fokussierbar
+//   :focus-visible auf __control delegiert
+//   :checked → Dot via ::after pseudo-element
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Radio-Wrapper.
+@mixin radio-base {
+  @include form-check-base;
+  gap: var(--nc-radio-label-gap);
+}
+
+/// Custom Radio Circle.
+@mixin radio-control {
+  @include form-check-control(50%);
+  @include form-check-size('md', 'radio');
+  border: var(--nc-radio-border-width) solid var(--nc-radio-border);
+  background-color: var(--nc-radio-bg);
+
+  // Dot via ::after (skaliert bei :checked)
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--nc-radio-dot-color);
+    transform: scale(0);
+    transition: transform var(--nc-radio-transition-duration) ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}
+
+/// Radio-Groesse aendern.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+@mixin radio-size($size: 'md') {
+  > .nc-radio__control {
+    @include form-check-size($size, 'radio');
+  }
+}
+
+/// Label-Text neben dem Radio.
+@mixin radio-label {
+  color: var(--nc-radio-label-color);
+  line-height: 1.4;
+  cursor: inherit;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-radio {
+  @include radio-base;
+
+  // -- Native Input (sr-only) --
+
+  &__input {
+    @include sr-only;
+
+    // Focus-Ring auf Control delegieren
+    &:focus-visible + .nc-radio__control {
+      @include focus-ring;
+    }
+
+    // Hover-State
+    &:not(:disabled):not([aria-disabled='true']):hover + .nc-radio__control,
+    &:not(:disabled):not([aria-disabled='true']) + .nc-radio__control:hover {
+      border-color: var(--nc-radio-border-hover);
+    }
+
+    // Checked-State: Dot skaliert auf
+    &:checked + .nc-radio__control {
+      background-color: var(--nc-radio-bg-checked);
+      border-color: var(--nc-radio-border-checked);
+
+      &::after {
+        transform: scale(var(--nc-radio-dot-scale));
+      }
+    }
+
+    // Disabled-State
+    &:disabled + .nc-radio__control,
+    &[aria-disabled='true'] + .nc-radio__control {
+      background-color: var(--nc-radio-disabled-bg);
+      border-color: var(--nc-radio-disabled-border);
+      opacity: var(--nc-radio-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    &:disabled:checked + .nc-radio__control,
+    &[aria-disabled='true']:checked + .nc-radio__control {
+      background-color: var(--nc-radio-disabled-border);
+    }
+
+    // Disabled Label
+    &:disabled ~ .nc-radio__label,
+    &[aria-disabled='true'] ~ .nc-radio__label {
+      color: var(--fnd-color-text-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  // -- Custom Control --
+
+  &__control {
+    @include radio-control;
+  }
+
+  // -- Label --
+
+  &__label {
+    @include radio-label;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm { @include radio-size('sm'); }
+  // md = Default
+  &--lg { @include radio-size('lg'); }
+
+  // -- Error-State --
+
+  &--error > .nc-radio__control,
+  &--error .nc-radio__input:not(:checked) + .nc-radio__control {
+    border-color: var(--nc-radio-border-error);
+  }
+}

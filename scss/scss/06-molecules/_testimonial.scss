@@ -1,0 +1,43 @@
+// ==========================================================================
+// 06-Molecules: Testimonial
+// ==========================================================================
+// Quote card with author avatar and metadata.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-testimonial {
+  scroll-snap-align: start;
+  display: grid;
+  gap: 1.25rem;
+  box-shadow: none;
+  padding: var(--fnd-spacing-05);
+  background-color: var(--fnd-color-background-secondary);
+  border-radius: var(--fnd-radius-lg);
+}
+
+.nc-testimonial__quote {
+  font-size: var(--fs-lg);
+  line-height: 1.25;
+}
+
+.nc-testimonial__author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nc-testimonial__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.nc-testimonial__name {
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.nc-testimonial__role {
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-secondary);
+}

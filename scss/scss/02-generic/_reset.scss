@@ -1,0 +1,121 @@
+// ==========================================================================
+// 02-Generic: Reset
+// ==========================================================================
+// Basis-Reset und Normalisierung
+// Migriert von: styles-new.css
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Box Sizing
+// ---------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// ---------------------------------------------------------------------------
+// Document
+// ---------------------------------------------------------------------------
+
+html {
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Body
+// ---------------------------------------------------------------------------
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ---------------------------------------------------------------------------
+// Global Focus Visible
+// ---------------------------------------------------------------------------
+
+:focus-visible {
+  outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+  outline-offset: var(--fnd-focus-ring-offset);
+}
+
+// Forced-Colors (Windows High Contrast Mode)
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+// High-Contrast preference — thicker focus ring
+@media (prefers-contrast: more) {
+  :root {
+    --fnd-focus-ring-width: 3px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Scroll Margin for Anchors
+// ---------------------------------------------------------------------------
+
+[id] {
+  scroll-margin-block-start: calc(var(--nav-height) + var(--anchor-nav-height, 0px));
+}
+
+// ---------------------------------------------------------------------------
+// Selection
+// ---------------------------------------------------------------------------
+
+::selection {
+  background-color: var(--fnd-color-selection-bg);
+  color: var(--fnd-color-selection-color);
+}
+
+// ---------------------------------------------------------------------------
+// Scrollbar (Webkit + Standard)
+// ---------------------------------------------------------------------------
+
+// Standard scrollbar-color (Firefox, Chrome 121+)
+* {
+  scrollbar-color: var(--fnd-color-scrollbar-thumb) var(--fnd-color-scrollbar-track);
+  scrollbar-width: thin;
+}
+
+// ---------------------------------------------------------------------------
+// Global Reduced Motion
+// ---------------------------------------------------------------------------
+// Reduziert ALLE Animationen und Transitions global, wenn der User
+// in den Betriebssystem-Einstellungen "Bewegung reduzieren" aktiviert hat.
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Fullscreen Embed Mode
+// ---------------------------------------------------------------------------
+
+:root:has(meta[name='fullscreenembed'][content='true']) {
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  iframe {
+    height: calc(100vh - var(--nav-height) - var(--min-footer-height)) !important;
+  }
+}

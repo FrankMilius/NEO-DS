@@ -1,0 +1,134 @@
+// ==========================================================================
+// 00-Settings: Color Themes
+// ==========================================================================
+// Schicht 3 der Color-Architektur: Theme-Klassen und CSS Custom Properties.
+// Generiert --fnd-color-* Variablen aus den semantischen Token-Maps.
+//
+// 4 Themes:
+//   Neo Light     (.neo-light-theme)     — Heller Neo-Standard (default)
+//   Neo Dark      (.neo-dark-theme)      — Dunkler Neo-Standard
+//   Customer Light(.customer-light-theme)— Heller Kunden-Theme
+//   Customer Dark (.customer-dark-theme) — Dunkler Kunden-Theme
+//
+// LAYERING/NESTING-REGELN:
+//   - Neo Light (base) ist der Standard auf :root / <body>.
+//   - Customer Light (secondary) dient als verschobene Variante fuer
+//     eingebettete Sections innerhalb von Neo Light (z.B. ein grauer
+//     Hintergrund-Bereich). Sein background-base = neutral-100.
+//   - Gleiches Prinzip im Dark Mode: Customer Dark ist die verschobene
+//     Variante von Neo Dark (base = neutral-950 statt schwarz).
+//   - Verschachtelung: .neo-light-theme > section.customer-light-theme > ...
+//     erzeugt automatisch den richtigen visuellen Layer-Wechsel.
+//
+// Backward-Compatibility: Alte Klassen-Namen als Aliases beibehalten.
+// ==========================================================================
+
+@use 'sass:map';
+@use 'color-semantic' as sem;
+
+// ---------------------------------------------------------------------------
+// Mixin: Generate Theme CSS Variables
+// ---------------------------------------------------------------------------
+
+/// Gibt alle semantischen Tokens als CSS Custom Properties aus.
+/// @param {Map} $theme-map - Eine der $semantic-* Maps aus _color-semantic.scss
+@mixin generate-theme-vars($theme-map) {
+  @each $key, $value in $theme-map {
+    --fnd-color-#{$key}: #{$value};
+  }
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+// Default Theme (Neo Light) auf :root
+:root {
+  color-scheme: light;
+  @include generate-theme-vars(sem.$semantic-light-base);
+}
+
+// ---------------------------------------------------------------------------
+// Neue Theme-Klassen (kanonisch)
+// ---------------------------------------------------------------------------
+
+.neo-light-theme {
+  color-scheme: light;
+  @include generate-theme-vars(sem.$semantic-light-base);
+}
+
+.neo-dark-theme {
+  color-scheme: dark;
+  @include generate-theme-vars(sem.$semantic-dark-base);
+}
+
+.customer-light-theme {
+  color-scheme: light;
+  @include generate-theme-vars(sem.$semantic-light-secondary);
+}
+
+.customer-dark-theme {
+  color-scheme: dark;
+  @include generate-theme-vars(sem.$semantic-dark-secondary);
+}
+
+// ---------------------------------------------------------------------------
+// Automatic Dark Mode (prefers-color-scheme)
+// ---------------------------------------------------------------------------
+// Aktiviert sich automatisch, wenn kein explizites Theme-Attribut gesetzt ist.
+// Opt-out: data-theme="light" oder data-theme="dark" auf <html> setzen.
+// Dann greift der Media-Query NICHT (Selektor prueft :not([data-theme])).
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    @include generate-theme-vars(sem.$semantic-dark-base);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Theme Transition (smooth theme switching)
+// ---------------------------------------------------------------------------
+// Farbtransition beim Themenwechsel fuer sanften Uebergang.
+// Wird nur bei JavaScript-gesteuertem Wechsel sichtbar.
+
+[data-theme-transition] {
+  &,
+  & *,
+  & *::before,
+  & *::after {
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Backward-Compatibility Aliases (deprecated)
+// ---------------------------------------------------------------------------
+
+/// @deprecated Use .neo-light-theme instead
+.light-base-theme {
+  color-scheme: light;
+  @include generate-theme-vars(sem.$semantic-light-base);
+}
+
+/// @deprecated Use .neo-dark-theme instead
+.dark-base-theme {
+  color-scheme: dark;
+  @include generate-theme-vars(sem.$semantic-dark-base);
+}
+
+/// @deprecated Use .customer-light-theme instead
+.light-secondary-theme {
+  color-scheme: light;
+  @include generate-theme-vars(sem.$semantic-light-secondary);
+}
+
+/// @deprecated Use .customer-dark-theme instead
+.dark-secondary-theme {
+  color-scheme: dark;
+  @include generate-theme-vars(sem.$semantic-dark-secondary);
+}

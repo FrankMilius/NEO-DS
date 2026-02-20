@@ -1,0 +1,228 @@
+// ==========================================================================
+// 05-Atoms: Alert
+// ==========================================================================
+// Token-basierte Alert/Banner-Komponente fuer Feedback-Nachrichten.
+//
+// ARCHITEKTUR:
+//   Statische Display-Komponente (wie Badge). Alle Werte kommen aus
+//   --nc-alert-* Component-Tokens. Varianten-Farben ueber private
+//   --_alert-* Variablen.
+//
+// PATTERN:
+//   Icon + Content (Title + Description) + optionale Action/Close.
+//   4 semantische Varianten: info, success, warning, danger.
+//
+// BEM-KLASSEN:
+//   .nc-alert                     Block (flex row container)
+//   .nc-alert__icon               Icon-Container (20px, SVG)
+//   .nc-alert__content            Flex-1 Text-Bereich
+//   .nc-alert__title              Titel (font-weight 600)
+//   .nc-alert__description        Beschreibungstext
+//   .nc-alert__action             Optionaler Button-Bereich
+//   .nc-alert__close              Schliessen-Button
+//   .nc-alert--info               Info-Variante (Standard)
+//   .nc-alert--success            Success-Variante
+//   .nc-alert--warning            Warning-Variante
+//   .nc-alert--danger             Danger/Destructive-Variante
+//
+// ACCESSIBILITY:
+//   role="alert" fuer danger/warning (urgent, unterbricht Screen Reader)
+//   role="status" fuer info/success (polite, unterbricht nicht)
+//   Icon aria-hidden="true" — Text liefert die Information
+//   Close-Button aria-label="Schliessen"
+//   Farbe nie alleiniges Signal (R7) — immer mit Icon + Text
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Alert-Container.
+@mixin alert-base {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nc-alert-gap);
+  padding: var(--nc-alert-padding);
+  border-radius: var(--nc-alert-radius);
+  border: var(--nc-alert-border-width) solid var(--_alert-border, var(--nc-alert-info-border));
+  background-color: var(--_alert-bg, var(--nc-alert-info-bg));
+  color: var(--_alert-color, var(--nc-alert-info-color));
+  line-height: 1.5;
+
+  // Default: info
+  @include alert-variant-info;
+}
+
+/// Info-Variante (blau, Standard).
+@mixin alert-variant-info {
+  --_alert-bg: var(--nc-alert-info-bg);
+  --_alert-color: var(--nc-alert-info-color);
+  --_alert-border: var(--nc-alert-info-border);
+  --_alert-icon-color: var(--nc-alert-info-icon-color);
+}
+
+/// Success-Variante (gruen).
+@mixin alert-variant-success {
+  --_alert-bg: var(--nc-alert-success-bg);
+  --_alert-color: var(--nc-alert-success-color);
+  --_alert-border: var(--nc-alert-success-border);
+  --_alert-icon-color: var(--nc-alert-success-icon-color);
+}
+
+/// Warning-Variante (gelb/orange).
+@mixin alert-variant-warning {
+  --_alert-bg: var(--nc-alert-warning-bg);
+  --_alert-color: var(--nc-alert-warning-color);
+  --_alert-border: var(--nc-alert-warning-border);
+  --_alert-icon-color: var(--nc-alert-warning-icon-color);
+}
+
+/// Danger-Variante (rot).
+@mixin alert-variant-danger {
+  --_alert-bg: var(--nc-alert-danger-bg);
+  --_alert-color: var(--nc-alert-danger-color);
+  --_alert-border: var(--nc-alert-danger-border);
+  --_alert-icon-color: var(--nc-alert-danger-icon-color);
+}
+
+/// Icon-Element (links).
+@mixin alert-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-alert-icon-size);
+  height: var(--nc-alert-icon-size);
+  flex-shrink: 0;
+  color: var(--_alert-icon-color);
+  margin-top: 2px; // Optische Ausrichtung mit erster Textzeile
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Content-Container (flex-1).
+@mixin alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/// Titel.
+@mixin alert-title {
+  font-weight: var(--fnd-font-weight-semibold);
+  margin: 0 0 var(--fnd-spacing-01) 0;
+}
+
+/// Beschreibung.
+@mixin alert-description {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/// Optionaler Action-Bereich (z.B. Button).
+@mixin alert-action {
+  margin-top: var(--fnd-spacing-03);
+}
+
+/// Schliessen-Button.
+@mixin alert-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--fnd-radius-sm);
+  background: none;
+  color: var(--_alert-color);
+  opacity: 0.6;
+  cursor: pointer;
+  @include transition(opacity background-color, '200');
+
+  &:hover {
+    opacity: 1;
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+
+  > svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-alert {
+  @include alert-base;
+
+  // -- Elemente --
+
+  &__icon {
+    @include alert-icon;
+  }
+
+  &__content {
+    @include alert-content;
+  }
+
+  &__title {
+    @include alert-title;
+  }
+
+  &__description {
+    @include alert-description;
+  }
+
+  &__action {
+    @include alert-action;
+  }
+
+  &__close {
+    @include alert-close;
+  }
+
+  // -- Varianten --
+
+  &--info {
+    @include alert-variant-info;
+  }
+
+  &--success {
+    @include alert-variant-success;
+  }
+
+  &--warning {
+    @include alert-variant-warning;
+  }
+
+  &--danger {
+    @include alert-variant-danger;
+  }
+
+  /// @deprecated Alias fuer --danger (shadcn-Kompatibilitaet)
+  &--destructive {
+    @include alert-variant-danger;
+  }
+}

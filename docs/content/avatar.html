@@ -1,0 +1,753 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Avatar</h1>
+      <p class="docs__subtitle">
+        Token-basierte Avatar-Komponente mit 5 Gr&ouml;&szlig;en, Image/Fallback-Pattern,
+        Status-Badge, Shape-Varianten und Gruppen-Layout.
+        Kanonische Klasse: <code class="docs__token">.nc-avatar</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-avatar-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="avatar-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Avatar-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Inhalt, Badge und Form, um den Avatar live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="xs">XS (24px)</option>
+                  <option value="sm">SM (32px)</option>
+                  <option value="md" selected>MD (40px)</option>
+                  <option value="lg">LG (48px)</option>
+                  <option value="xl">XL (64px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Inhalt</span>
+                <select class="docs-stage__select" id="stage-content">
+                  <option value="image" selected>Bild</option>
+                  <option value="initials">Initialen</option>
+                  <option value="icon">Icon Fallback</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Badge</span>
+                <select class="docs-stage__select" id="stage-badge">
+                  <option value="none" selected>Kein Badge</option>
+                  <option value="online">Online</option>
+                  <option value="offline">Offline</option>
+                  <option value="busy">Busy</option>
+                  <option value="away">Away</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Form</span>
+                <select class="docs-stage__select" id="stage-shape">
+                  <option value="round" selected>Rund</option>
+                  <option value="square">Quadratisch</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-ring" />
+                  <span class="docs-stage__label">Ring</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders avatar here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-avatar"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Alle Groessen -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              5 Gr&ouml;&szlig;enstufen von XS (24px) bis XL (64px). Default: MD (40px).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: end; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--xs">
+                  <span class="nc-avatar__fallback">XS</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">XS &mdash; 24px</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--sm">
+                  <span class="nc-avatar__fallback">SM</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM &mdash; 32px</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar">
+                  <span class="nc-avatar__fallback">MD</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; 40px</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">LG</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG &mdash; 48px</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--xl">
+                  <span class="nc-avatar__fallback">XL</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">XL &mdash; 64px</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Image vs Fallback -->
+          <section class="docs__section" id="content-types">
+            <h2 class="docs__section-title">Inhalt: Image &amp; Fallback</h2>
+            <p class="docs__section-desc">
+              Das Image-Element (<code class="docs__token">.nc-avatar__image</code>) &uuml;berdeckt den Fallback.
+              Bei fehlendem Image wird der Fallback (<code class="docs__token">.nc-avatar__fallback</code>) sichtbar &mdash; Initialen oder Icon.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Initialen-Fallback</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-avatar nc-avatar--lg">
+                <span class="nc-avatar__fallback">FM</span>
+              </div>
+              <div class="nc-avatar nc-avatar--lg">
+                <span class="nc-avatar__fallback">AK</span>
+              </div>
+              <div class="nc-avatar nc-avatar--lg">
+                <span class="nc-avatar__fallback">JD</span>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon-Fallback</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-avatar nc-avatar--lg">
+                <span class="nc-avatar__fallback">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+              </div>
+              <div class="nc-avatar nc-avatar--lg nc-avatar--square">
+                <span class="nc-avatar__fallback">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Status Badge -->
+          <section class="docs__section" id="badges">
+            <h2 class="docs__section-title">Status Badge</h2>
+            <p class="docs__section-desc">
+              Ein kleiner Status-Dot (<code class="docs__token">.nc-avatar__badge</code>) oben rechts.
+              4 Status-Varianten: Online, Offline, Busy, Away.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">ON</span>
+                  <span class="nc-avatar__badge nc-avatar__badge--online"></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Online</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">OF</span>
+                  <span class="nc-avatar__badge nc-avatar__badge--offline"></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Offline</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">BS</span>
+                  <span class="nc-avatar__badge nc-avatar__badge--busy"></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Busy</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">AW</span>
+                  <span class="nc-avatar__badge nc-avatar__badge--away"></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Away</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Shape -->
+          <section class="docs__section" id="shapes">
+            <h2 class="docs__section-title">Shape-Varianten</h2>
+            <p class="docs__section-desc">
+              Default: rund (<code class="docs__token">border-radius: 9999px</code>).
+              Mit <code class="docs__token">.nc-avatar--square</code>: quadratisch mit abgerundeten Ecken.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg">
+                  <span class="nc-avatar__fallback">FM</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Rund (Default)</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg nc-avatar--square">
+                  <span class="nc-avatar__fallback">FM</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Quadratisch</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg nc-avatar--ring">
+                  <span class="nc-avatar__fallback">FM</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Ring</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-avatar nc-avatar--lg nc-avatar--square nc-avatar--ring">
+                  <span class="nc-avatar__fallback">FM</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Square + Ring</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Avatar Group -->
+          <section class="docs__section" id="group">
+            <h2 class="docs__section-title">Avatar-Gruppe</h2>
+            <p class="docs__section-desc">
+              Container <code class="docs__token">.nc-avatar-group</code> f&uuml;r &uuml;berlappende Avatare.
+              Mit <code class="docs__token">.nc-avatar-group__count</code> f&uuml;r den Z&auml;hler.
+              Die Reihenfolge im DOM ist umgekehrt (flex-direction: row-reverse).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div class="nc-avatar-group">
+                  <span class="nc-avatar-group__count">+3</span>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">JD</span></div>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">AK</span></div>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">FM</span></div>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 8px;">Default (MD)</div>
+              </div>
+              <div>
+                <div class="nc-avatar-group nc-avatar-group--sm">
+                  <span class="nc-avatar-group__count">+5</span>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">C</span></div>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">B</span></div>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">A</span></div>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 8px;">Small (SM)</div>
+              </div>
+              <div>
+                <div class="nc-avatar-group nc-avatar-group--lg">
+                  <span class="nc-avatar-group__count">+2</span>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">JD</span></div>
+                  <div class="nc-avatar"><span class="nc-avatar__fallback">FM</span></div>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 8px;">Large (LG)</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>Dimension</th><th>Font-Size</th><th>Radius</th></tr></thead>
+              <tbody>
+                <tr><td><strong>XS</strong></td><td>24px</td><td>10px (0.625rem)</td><td>9999px (Kreis)</td></tr>
+                <tr><td><strong>SM</strong></td><td>32px</td><td>12px (0.75rem)</td><td>9999px (Kreis)</td></tr>
+                <tr><td><strong>MD</strong></td><td>40px</td><td>14px (0.875rem)</td><td>9999px (Kreis)</td></tr>
+                <tr><td><strong>LG</strong></td><td>48px</td><td>16px (1rem)</td><td>9999px (Kreis)</td></tr>
+                <tr><td><strong>XL</strong></td><td>64px</td><td>20px (1.25rem)</td><td>9999px (Kreis)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-avatar-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Fallback-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-color</code></td><td>var(--fnd-color-text-primary)</td><td>Fallback-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-border-color</code></td><td>var(--fnd-color-border-primary)</td><td>Rahmenfarbe (optional)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-weight</code></td><td>600</td><td>Schriftgewicht Initialen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-badge">
+            <h2 class="docs__section-title">Badge-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-avatar-badge-size</code></td><td>12px</td><td>Gr&ouml;&szlig;e des Status-Dots</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-border-width</code></td><td>1px</td><td>Border um den Badge</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-border-color</code></td><td>var(--fnd-color-background-base)</td><td>Border-Farbe (Hintergrund-Match)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-online</code></td><td>var(--fnd-color-feedback-success)</td><td>Gr&uuml;n &mdash; Online</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-offline</code></td><td>var(--fnd-color-text-disabled)</td><td>Grau &mdash; Offline</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-busy</code></td><td>var(--fnd-color-feedback-danger)</td><td>Rot &mdash; Busy</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-away</code></td><td>var(--fnd-color-feedback-warning)</td><td>Gelb &mdash; Away</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-group">
+            <h2 class="docs__section-title">Group- &amp; Shape-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-avatar-radius</code></td><td>var(--fnd-radius-full)</td><td>Kreis (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-radius-square</code></td><td>var(--fnd-radius-lg)</td><td>8px (Square-Variante)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-ring-width</code></td><td>2px</td><td>Ring-Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-ring-color</code></td><td>var(--fnd-color-background-base)</td><td>Ring-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-spacing</code></td><td>-8px</td><td>Negatives Spacing f&uuml;r &Uuml;berlappung</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-ring-width</code></td><td>2px</td><td>Ring um jedes Kind in der Gruppe</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-ring-color</code></td><td>var(--fnd-color-background-base)</td><td>Ring-Farbe in Gruppe</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixins &amp; BEM-Klassen</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-avatar                      // Block (Default: md, rund)
+.nc-avatar__image               // Bild-Element (object-fit cover)
+.nc-avatar__fallback            // Fallback (Initialen / Icon)
+.nc-avatar__badge               // Status-Dot (Default: offline)
+  .nc-avatar__badge--online     // Gr&uuml;n (Success)
+  .nc-avatar__badge--offline    // Grau (Disabled)
+  .nc-avatar__badge--busy       // Rot (Danger)
+  .nc-avatar__badge--away       // Gelb (Warning)
+
+// Gr&ouml;&szlig;en
+.nc-avatar--xs                  // 24px
+.nc-avatar--sm                  // 32px
+// (md = Default, kein Modifier)
+.nc-avatar--lg                  // 48px
+.nc-avatar--xl                  // 64px
+
+// Varianten
+.nc-avatar--square              // Quadratisch (border-radius: 8px)
+.nc-avatar--ring                // Ring-Border (box-shadow)
+
+// Gruppe
+.nc-avatar-group                // &Uuml;berlappende Avatare
+.nc-avatar-group__count         // "+N" Z&auml;hler
+.nc-avatar-group--sm            // Gruppe in SM
+.nc-avatar-group--lg            // Gruppe in LG</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-avatar</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-avatar</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-avatar-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_avatar.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 40px (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Default-Form</strong></td><td>Rund (border-radius: 9999px)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-avatar</code></td><td>Block</td><td>Avatar-Container. Default: MD (40px), rund.</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__image</code></td><td>Element</td><td>Bild-Element (<code class="docs__token">&lt;img&gt;</code>). object-fit cover, z-index 1.</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__fallback</code></td><td>Element</td><td>Fallback (Initialen/Icon). Position absolute, z-index 0.</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__badge</code></td><td>Element</td><td>Status-Dot oben rechts. Default: offline (grau).</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Badge-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Farbe</th><th>Bedeutung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-avatar__badge--online</code></td><td>Gr&uuml;n (Success)</td><td>Benutzer ist online</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__badge--offline</code></td><td>Grau (Disabled)</td><td>Benutzer ist offline</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__badge--busy</code></td><td>Rot (Danger)</td><td>Benutzer ist besch&auml;ftigt</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar__badge--away</code></td><td>Gelb (Warning)</td><td>Benutzer ist abwesend</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Dimension</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-avatar--xs</code></td><td>24px</td><td>Extra Small</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar--sm</code></td><td>32px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>40px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar--lg</code></td><td>48px</td><td>Large</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar--xl</code></td><td>64px</td><td>Extra Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shape- &amp; Varianten-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-avatar--square</code></td><td>Quadratische Form mit abgerundeten Ecken (8px)</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar--ring</code></td><td>Ring-Border via box-shadow zur Abgrenzung</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gruppen-Klassen</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-avatar-group</code></td><td>Block</td><td>&Uuml;berlappende Avatar-Gruppe (flex-direction: row-reverse)</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar-group__count</code></td><td>Element</td><td>&ldquo;+N&rdquo; Z&auml;hler-Element</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar-group--sm</code></td><td>Modifier</td><td>Gruppe mit SM-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">.nc-avatar-group--lg</code></td><td>Modifier</td><td>Gruppe mit LG-Gr&ouml;&szlig;e</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">alt</code></td>
+                  <td><code class="docs__token">.nc-avatar__image</code></td>
+                  <td>Ja</td>
+                  <td>Beschreibender Alternativtext f&uuml;r das Bild</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="img"</code></td>
+                  <td><code class="docs__token">.nc-avatar__fallback</code></td>
+                  <td>Empfohlen</td>
+                  <td>Semantische Rolle f&uuml;r Initialen-Fallback</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-avatar__fallback</code></td>
+                  <td>Empfohlen</td>
+                  <td>Barrierefreier Name wenn Fallback angezeigt wird</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="group"</code></td>
+                  <td><code class="docs__token">.nc-avatar-group</code></td>
+                  <td>Empfohlen</td>
+                  <td>Semantische Gruppierung f&uuml;r Avatar-Gruppen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-avatar-group</code></td>
+                  <td>Empfohlen</td>
+                  <td>Beschreibung der Gruppe (z.B. &ldquo;Team-Mitglieder&rdquo;)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sizes</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-size-xs</code></td><td>24px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-size-sm</code></td><td>32px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-size-md</code></td><td>40px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-size-lg</code></td><td>48px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-size-xl</code></td><td>64px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-size-xs</code></td><td>0.625rem (10px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-size-sm</code></td><td>0.75rem (12px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-size-md</code></td><td>0.875rem (14px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-size-lg</code></td><td>1rem (16px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-size-xl</code></td><td>1.25rem (20px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-font-weight</code></td><td>600</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Ring</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-ring-width</code></td><td>2px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-ring-color</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Shape</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-radius</code></td><td>9999px</td><td>var(--fnd-radius-full)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-radius-square</code></td><td>8px</td><td>var(--fnd-radius-lg)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Badge</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-size</code></td><td>12px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-online</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-offline</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-busy</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-badge-away</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Group</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-spacing</code></td><td>-8px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-ring-width</code></td><td>2px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-group-ring-color</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
+                <tr><td><code class="docs__token">--nc-avatar-transition-duration</code></td><td>0.2s</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">avatar-base</code></td><td>&mdash;</td><td>Position, Display, Overflow, Radius, Transition. Default MD.</td></tr>
+                <tr><td><code class="docs__token">avatar-size($size)</code></td><td><code class="docs__token">$size: 'xs'&nbsp;|&nbsp;'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'&nbsp;|&nbsp;'xl'</code></td><td>Width, Height, Min-Width, Min-Height, Font-Size pro Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">avatar-image</code></td><td>&mdash;</td><td>100% Fill, object-fit cover, z-index 1</td></tr>
+                <tr><td><code class="docs__token">avatar-fallback</code></td><td>&mdash;</td><td>Absolute Fill, Grid, z-index 0, Background/Color/Font-Weight</td></tr>
+                <tr><td><code class="docs__token">avatar-badge</code></td><td>&mdash;</td><td>Position absolute, Bottom-Right, Radius, Border</td></tr>
+                <tr><td><code class="docs__token">avatar-ring</code></td><td>&mdash;</td><td>Box-Shadow Ring</td></tr>
+                <tr><td><code class="docs__token">avatar-square</code></td><td>&mdash;</td><td>Border-Radius Override auf --nc-avatar-radius-square</td></tr>
+                <tr><td><code class="docs__token">avatar-group</code></td><td>&mdash;</td><td>Flex, row-reverse, negatives Spacing, Ring pro Kind</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;div class="nc-avatar [--size] [--square] [--ring]"&gt;
+
+  &lt;!-- Slot 1: Image (optional, &uuml;berdeckt Fallback) --&gt;
+  &lt;img class="nc-avatar__image" src="user.jpg" alt="Name" /&gt;
+
+  &lt;!-- Slot 2: Fallback (immer im DOM, sichtbar wenn kein Image) --&gt;
+  &lt;span class="nc-avatar__fallback" role="img" aria-label="Name"&gt;
+    FM  &lt;!-- Initialen --&gt;
+  &lt;/span&gt;
+
+  &lt;!-- Slot 3: Badge (optional, Status-Indikator) --&gt;
+  &lt;span class="nc-avatar__badge nc-avatar__badge--online"&gt;&lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Avatar-Gruppe --&gt;
+&lt;div class="nc-avatar-group" role="group" aria-label="Team"&gt;
+  &lt;!-- Umgekehrte DOM-Reihenfolge (row-reverse) --&gt;
+  &lt;span class="nc-avatar-group__count"&gt;+3&lt;/span&gt;
+  &lt;div class="nc-avatar"&gt;...&lt;/div&gt;
+  &lt;div class="nc-avatar"&gt;...&lt;/div&gt;
+  &lt;div class="nc-avatar"&gt;...&lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- 7. Deprecated API -->
+          <section class="docs__section" id="api-deprecated">
+            <h2 class="docs__section-title">Deprecated API</h2>
+            <table class="docs__table">
+              <thead><tr><th>Deprecated</th><th>Ersetzt durch</th><th>Anmerkung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">--nc-avatar-size</code></td>
+                  <td><code class="docs__token">--nc-avatar-size-lg</code></td>
+                  <td>Altes Single-Size Token (48px). Alias vorhanden.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--nc-avatar-font-size</code></td>
+                  <td><code class="docs__token">--nc-avatar-font-size-md</code></td>
+                  <td>Altes Single-Font-Size Token. Alias vorhanden.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-avatar img</code> (ohne Klasse)</td>
+                  <td><code class="docs__token">.nc-avatar__image</code></td>
+                  <td>Legacy-Pattern. Backward-compat Regel vorhanden.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Avatar-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Image Alt Text -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Image Alt-Text</h4>
+              <ul>
+                <li><code class="docs__token">&lt;img&gt;</code> Elemente <strong>m&uuml;ssen</strong> ein beschreibendes <code class="docs__token">alt</code>-Attribut haben</li>
+                <li>Alt-Text sollte den Namen der Person enthalten, z.B. <code class="docs__token">alt="Max Mustermann"</code></li>
+                <li>Generische Platzhalter wie &ldquo;Avatar&rdquo; oder &ldquo;Bild&rdquo; vermeiden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Fallback Accessibility -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fallback-Barrierefreiheit</h4>
+              <ul>
+                <li>Initialen-Fallback sollte <code class="docs__token">role="img"</code> und <code class="docs__token">aria-label</code> erhalten</li>
+                <li>Icon-Fallback: SVG ist dekorativ, <code class="docs__token">aria-label</code> auf dem Fallback-Span setzen</li>
+                <li>Beispiel: <code class="docs__token">&lt;span class="nc-avatar__fallback" role="img" aria-label="Max Mustermann"&gt;MM&lt;/span&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Badge Semantics -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Badge-Semantik</h4>
+              <ul>
+                <li>Status-Badge ist rein visuell &mdash; zus&auml;tzlich <strong>versteckten Text</strong> f&uuml;r Screenreader hinzuf&uuml;gen</li>
+                <li>Beispiel: <code class="docs__token">&lt;span class="nc-avatar__badge nc-avatar__badge--online"&gt;&lt;span class="sr-only"&gt;Online&lt;/span&gt;&lt;/span&gt;</code></li>
+                <li>Oder <code class="docs__token">aria-label</code> auf dem Badge-Element</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Color Contrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li>Initialen-Text muss mindestens <strong>4.5:1</strong> Kontrast zum Hintergrund haben</li>
+                <li>Die Default-Tokens <code class="docs__token">--nc-avatar-color</code> und <code class="docs__token">--nc-avatar-bg</code> erf&uuml;llen WCAG AA</li>
+                <li>Bei Custom-&Uuml;berschreibungen den Kontrast manuell pr&uuml;fen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Group Semantics -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Gruppen-Semantik</h4>
+              <ul>
+                <li>Avatar-Gruppen mit <code class="docs__token">role="group"</code> und <code class="docs__token">aria-label</code> versehen</li>
+                <li>Beispiel: <code class="docs__token">&lt;div class="nc-avatar-group" role="group" aria-label="Team-Mitglieder"&gt;</code></li>
+                <li>Der Z&auml;hler (<code class="docs__token">.nc-avatar-group__count</code>) ist automatisch f&uuml;r Screenreader lesbar</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Avatar mit Bild und Fallback --&gt;
+&lt;div class="nc-avatar"&gt;
+  &lt;img class="nc-avatar__image" src="user.jpg" alt="Max Mustermann" /&gt;
+  &lt;span class="nc-avatar__fallback" role="img" aria-label="Max Mustermann"&gt;MM&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Avatar mit Badge und verstecktem Status --&gt;
+&lt;div class="nc-avatar nc-avatar--lg"&gt;
+  &lt;span class="nc-avatar__fallback" role="img" aria-label="Anna Klein"&gt;AK&lt;/span&gt;
+  &lt;span class="nc-avatar__badge nc-avatar__badge--online"&gt;
+    &lt;span class="sr-only"&gt;Online&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Avatar-Gruppe mit Semantik --&gt;
+&lt;div class="nc-avatar-group" role="group" aria-label="Team-Mitglieder"&gt;
+  &lt;span class="nc-avatar-group__count"&gt;+3&lt;/span&gt;
+  &lt;div class="nc-avatar"&gt;
+    &lt;span class="nc-avatar__fallback" role="img" aria-label="Jan D."&gt;JD&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-avatar"&gt;
+    &lt;span class="nc-avatar__fallback" role="img" aria-label="Frank M."&gt;FM&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Bild ohne alt-Text --&gt;
+&lt;div class="nc-avatar"&gt;
+  &lt;img class="nc-avatar__image" src="user.jpg" /&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Fallback ohne aria-label --&gt;
+&lt;div class="nc-avatar"&gt;
+  &lt;span class="nc-avatar__fallback"&gt;FM&lt;/span&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="avatar-docs.js"></script>
+<!-- /SCRIPTS -->

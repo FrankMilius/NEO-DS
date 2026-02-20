@@ -1,0 +1,1639 @@
+// AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
+// Token Contract v2.0.0 — Theme Configurator App Data Model
+// Generated: 2026-02-19
+
+// ==========================================================================
+// NEO Theme Configurator — Token Data Model (Generated)
+// ==========================================================================
+// 3-Tier Token System:
+//   Level 1: Primitives (raw values)
+//   Level 2: Semantic (intent-based)
+//   Level 3: Component (usage-specific)
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Level 1: Primitives
+// ---------------------------------------------------------------------------
+
+// --- Main Palettes (Brand) ---
+export const primitiveColors = {
+  "primary": {
+    "label": "Neo Darkblue",
+    "base": "#002049",
+    "shades": {
+      "100": "#ccd2db",
+      "200": "#99a6b6",
+      "300": "#667992",
+      "400": "#334d6d",
+      "500": "#002049",
+      "600": "#001a3a",
+      "700": "#00132c",
+      "800": "#000d1d",
+      "900": "#00060f",
+      "950": "#000308"
+    }
+  },
+  "secondary": {
+    "label": "Neo Blue",
+    "base": "#009fe3",
+    "shades": {
+      "100": "#ccecfa",
+      "200": "#99d9f4",
+      "300": "#66c5ef",
+      "400": "#33b2e9",
+      "500": "#009fe3",
+      "600": "#007fb6",
+      "700": "#006088",
+      "800": "#00405b",
+      "900": "#00202e",
+      "950": "#001017"
+    }
+  },
+  "accent": {
+    "label": "Neo Lime",
+    "base": "#37e93d",
+    "shades": {
+      "100": "#d7fbd8",
+      "200": "#aff7b1",
+      "300": "#87f38a",
+      "400": "#5fef63",
+      "500": "#37e93d",
+      "600": "#2cba31",
+      "700": "#218c25",
+      "800": "#165d18",
+      "900": "#0b2f0c",
+      "950": "#051706"
+    }
+  }
+}
+
+// --- Supporting Palettes ---
+export const supportingPalettes = {
+  "beige": {
+    "label": "Beige",
+    "base": "#D9D2C4",
+    "shades": {
+      "100": "#f7f6f3",
+      "200": "#efede8",
+      "300": "#e7e4dc",
+      "400": "#e0dbd0",
+      "500": "#D9D2C4",
+      "600": "#ada89d",
+      "700": "#827e76",
+      "800": "#56544f",
+      "900": "#2b2a27",
+      "950": "#161514"
+    }
+  },
+  "chartreuse": {
+    "label": "Chartreuse",
+    "base": "#E6FF9E",
+    "shades": {
+      "100": "#faffeb",
+      "200": "#f4ffd7",
+      "300": "#edffc3",
+      "400": "#e6ffb0",
+      "500": "#E6FF9E",
+      "600": "#b8cc7e",
+      "700": "#8a995f",
+      "800": "#5c663f",
+      "900": "#2e3320",
+      "950": "#171a10"
+    }
+  },
+  "pink": {
+    "label": "Pink",
+    "base": "#FF53CB",
+    "shades": {
+      "100": "#ffddf4",
+      "200": "#ffbbe9",
+      "300": "#ff99de",
+      "400": "#ff76d4",
+      "500": "#FF53CB",
+      "600": "#cc43a2",
+      "700": "#99327a",
+      "800": "#662151",
+      "900": "#331129",
+      "950": "#1a0814"
+    }
+  },
+  "aqua": {
+    "label": "Aqua",
+    "base": "#C0E8E8",
+    "shades": {
+      "100": "#f2fafa",
+      "200": "#e6f5f5",
+      "300": "#d9f0f0",
+      "400": "#ccecec",
+      "500": "#C0E8E8",
+      "600": "#99baba",
+      "700": "#738b8b",
+      "800": "#4d5d5d",
+      "900": "#262e2e",
+      "950": "#131717"
+    }
+  },
+  "cyan": {
+    "label": "Cyan",
+    "base": "#00FFFF",
+    "shades": {
+      "100": "#ccffff",
+      "200": "#99ffff",
+      "300": "#66ffff",
+      "400": "#33ffff",
+      "500": "#00FFFF",
+      "600": "#00cccc",
+      "700": "#009999",
+      "800": "#006666",
+      "900": "#003333",
+      "950": "#001a1a"
+    }
+  },
+  "burgundy": {
+    "label": "Burgundy",
+    "base": "#800020",
+    "shades": {
+      "100": "#e5ccd2",
+      "200": "#cc99a6",
+      "300": "#b26679",
+      "400": "#99334d",
+      "500": "#800020",
+      "600": "#66001a",
+      "700": "#4d0013",
+      "800": "#33000d",
+      "900": "#1a0006",
+      "950": "#0d0003"
+    }
+  }
+}
+
+// --- Foundation Palettes (Black / White Transparency) ---
+export const foundationPalettes = {
+  "black": {
+    "label": "Foundation Black",
+    "base": "#000000",
+    "shades": {
+      "10": "rgba(0,0,0,0.1)",
+      "20": "rgba(0,0,0,0.2)",
+      "30": "rgba(0,0,0,0.3)",
+      "40": "rgba(0,0,0,0.4)",
+      "50": "rgba(0,0,0,0.5)",
+      "60": "rgba(0,0,0,0.6)",
+      "70": "rgba(0,0,0,0.7)",
+      "80": "rgba(0,0,0,0.8)",
+      "90": "rgba(0,0,0,0.9)",
+      "100": "#000000"
+    }
+  },
+  "white": {
+    "label": "Foundation White",
+    "base": "#ffffff",
+    "shades": {
+      "10": "rgba(255,255,255,0.1)",
+      "20": "rgba(255,255,255,0.2)",
+      "30": "rgba(255,255,255,0.3)",
+      "40": "rgba(255,255,255,0.4)",
+      "50": "rgba(255,255,255,0.5)",
+      "60": "rgba(255,255,255,0.6)",
+      "70": "rgba(255,255,255,0.7)",
+      "80": "rgba(255,255,255,0.8)",
+      "90": "rgba(255,255,255,0.9)",
+      "100": "#ffffff"
+    }
+  }
+}
+
+// --- Neutral Palette ---
+export const neutralPalette = {
+  "neutral": {
+    "label": "Neutral",
+    "base": "#7a7a7a",
+    "shades": {
+      "0": "#ffffff",
+      "100": "#f5f5f5",
+      "200": "#e5e5e5",
+      "300": "#d9d9d9",
+      "400": "#cbcbcb",
+      "500": "#8e8d8d",
+      "600": "#767676",
+      "700": "#666666",
+      "800": "#4d4d4d",
+      "900": "#333333",
+      "950": "#1d1d1d",
+      "1000": "#000000"
+    }
+  }
+}
+
+// --- System Palettes (Feedback / Status with shade scales) ---
+export const systemPalettes = {
+  "info": {
+    "label": "Info",
+    "base": "#4589ff",
+    "shades": {
+      "100": "#dae8ff",
+      "200": "#b5d1ff",
+      "300": "#8fbaff",
+      "400": "#6aa3ff",
+      "500": "#4589ff",
+      "600": "#376ecc",
+      "700": "#295299",
+      "800": "#1c3766",
+      "900": "#0e1b33",
+      "950": "#070e1a"
+    }
+  },
+  "success": {
+    "label": "Success",
+    "base": "#24a148",
+    "shades": {
+      "100": "#d2ecd9",
+      "200": "#a5d9b4",
+      "300": "#78c68e",
+      "400": "#4bb369",
+      "500": "#24a148",
+      "600": "#1d813a",
+      "700": "#16612b",
+      "800": "#0e401d",
+      "900": "#07200e",
+      "950": "#041007"
+    }
+  },
+  "warning": {
+    "label": "Warning",
+    "base": "#d4a400",
+    "shades": {
+      "100": "#f7edcc",
+      "200": "#efdb99",
+      "300": "#e7c966",
+      "400": "#dfb733",
+      "500": "#d4a400",
+      "600": "#aa8300",
+      "700": "#7f6200",
+      "800": "#554200",
+      "900": "#2a2100",
+      "950": "#151000"
+    }
+  },
+  "danger": {
+    "label": "Danger",
+    "base": "#fa4d56",
+    "shades": {
+      "100": "#fedcde",
+      "200": "#fdb9bd",
+      "300": "#fc969c",
+      "400": "#fb727a",
+      "500": "#fa4d56",
+      "600": "#c83e45",
+      "700": "#962e34",
+      "800": "#641f22",
+      "900": "#320f11",
+      "950": "#190809"
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Level 2: Semantic Tokens (all 4 themes)
+// ---------------------------------------------------------------------------
+
+export const semanticTokenGroups = [
+  {
+    "id": "text",
+    "label": "Text",
+    "icon": "typography",
+    "tokens": [
+      {
+        "id": "text-primary",
+        "label": "Primary Text"
+      },
+      {
+        "id": "text-secondary",
+        "label": "Secondary Text"
+      },
+      {
+        "id": "text-tertiary",
+        "label": "Tertiary Text"
+      },
+      {
+        "id": "text-inverse",
+        "label": "Inverse Text"
+      },
+      {
+        "id": "text-disabled",
+        "label": "Disabled Text"
+      },
+      {
+        "id": "text-on-interactive",
+        "label": "On Interactive"
+      },
+      {
+        "id": "text-link",
+        "label": "Link"
+      },
+      {
+        "id": "text-link-hover",
+        "label": "Link Hover"
+      },
+      {
+        "id": "text-success",
+        "label": "Success Text"
+      },
+      {
+        "id": "text-danger",
+        "label": "Danger Text"
+      }
+    ]
+  },
+  {
+    "id": "background",
+    "label": "Background",
+    "icon": "layout",
+    "tokens": [
+      {
+        "id": "background-base",
+        "label": "Base"
+      },
+      {
+        "id": "background-secondary",
+        "label": "Secondary"
+      },
+      {
+        "id": "background-tertiary",
+        "label": "Tertiary"
+      },
+      {
+        "id": "background-quaternary",
+        "label": "Quaternary"
+      },
+      {
+        "id": "background-inverse",
+        "label": "Inverse"
+      },
+      {
+        "id": "background-disabled",
+        "label": "Disabled"
+      },
+      {
+        "id": "background-hover",
+        "label": "Hover"
+      },
+      {
+        "id": "background-active",
+        "label": "Active"
+      },
+      {
+        "id": "background-accent",
+        "label": "Accent"
+      },
+      {
+        "id": "background-accent-secondary",
+        "label": "Accent Secondary"
+      },
+      {
+        "id": "background-success",
+        "label": "Success BG"
+      },
+      {
+        "id": "background-danger",
+        "label": "Danger BG"
+      }
+    ]
+  },
+  {
+    "id": "border",
+    "label": "Border",
+    "icon": "square",
+    "tokens": [
+      {
+        "id": "border-primary",
+        "label": "Primary"
+      },
+      {
+        "id": "border-secondary",
+        "label": "Secondary"
+      },
+      {
+        "id": "border-strong",
+        "label": "Strong"
+      },
+      {
+        "id": "border-inverse",
+        "label": "Inverse"
+      },
+      {
+        "id": "border-disabled",
+        "label": "Disabled"
+      },
+      {
+        "id": "border-success",
+        "label": "Success"
+      },
+      {
+        "id": "border-danger",
+        "label": "Danger"
+      }
+    ]
+  },
+  {
+    "id": "interactive",
+    "label": "Interactive",
+    "icon": "click",
+    "tokens": [
+      {
+        "id": "interactive-default",
+        "label": "Default"
+      },
+      {
+        "id": "interactive-hover",
+        "label": "Hover"
+      },
+      {
+        "id": "interactive-active",
+        "label": "Active"
+      },
+      {
+        "id": "interactive-visited",
+        "label": "Visited"
+      },
+      {
+        "id": "interactive-focus",
+        "label": "Focus"
+      }
+    ]
+  },
+  {
+    "id": "feedback",
+    "label": "Feedback",
+    "icon": "alert-circle",
+    "tokens": [
+      {
+        "id": "feedback-info",
+        "label": "Info"
+      },
+      {
+        "id": "feedback-success",
+        "label": "Success"
+      },
+      {
+        "id": "feedback-warning",
+        "label": "Warning"
+      },
+      {
+        "id": "feedback-danger",
+        "label": "Danger"
+      }
+    ]
+  },
+  {
+    "id": "layer",
+    "label": "Surface / Layer",
+    "icon": "stack-2",
+    "tokens": [
+      {
+        "id": "layer-01",
+        "label": "Surface 01"
+      },
+      {
+        "id": "layer-02",
+        "label": "Surface 02"
+      },
+      {
+        "id": "layer-03",
+        "label": "Surface 03"
+      }
+    ]
+  },
+  {
+    "id": "on-color",
+    "label": "On-Color",
+    "icon": "contrast",
+    "tokens": [
+      {
+        "id": "on-surface",
+        "label": "On Surface"
+      },
+      {
+        "id": "on-layer-01",
+        "label": "On Layer 01"
+      },
+      {
+        "id": "on-layer-02",
+        "label": "On Layer 02"
+      },
+      {
+        "id": "on-accent",
+        "label": "On Accent"
+      },
+      {
+        "id": "on-success",
+        "label": "On Success"
+      },
+      {
+        "id": "on-warning",
+        "label": "On Warning"
+      },
+      {
+        "id": "on-danger",
+        "label": "On Danger"
+      },
+      {
+        "id": "on-info",
+        "label": "On Info"
+      }
+    ]
+  }
+]
+
+// Default semantic values for all 4 themes
+export const semanticDefaults = {
+  "neo-light": {
+    "text-primary": "#000000",
+    "text-secondary": "#666666",
+    "text-tertiary": "#8e8d8d",
+    "text-inverse": "#ffffff",
+    "text-disabled": "#8e8d8d",
+    "text-on-interactive": "#ffffff",
+    "text-link": "#009fe3",
+    "text-link-hover": "#007fb6",
+    "text-success": "#0b9e23",
+    "text-danger": "#bf281b",
+    "background-base": "#ffffff",
+    "background-secondary": "#f5f5f5",
+    "background-tertiary": "#e5e5e5",
+    "background-quaternary": "#cbcbcb",
+    "background-inverse": "#000000",
+    "background-disabled": "#e5e5e5",
+    "background-hover": "#f5f5f5",
+    "background-active": "#e5e5e5",
+    "background-accent": "#37e93d",
+    "background-accent-secondary": "#04cd24",
+    "background-success": "#d5ffd1",
+    "background-danger": "#ffdfdc",
+    "border-primary": "#cbcbcb",
+    "border-secondary": "#e5e5e5",
+    "border-strong": "#000000",
+    "border-inverse": "#ffffff",
+    "border-disabled": "#e5e5e5",
+    "border-success": "#0b9e23",
+    "border-danger": "#bf281b",
+    "interactive-default": "#009fe3",
+    "interactive-hover": "#007fb6",
+    "interactive-active": "#006088",
+    "interactive-visited": "#006088",
+    "interactive-focus": "#009fe3",
+    "feedback-info": "#4589ff",
+    "feedback-success": "#24a148",
+    "feedback-warning": "#d4a400",
+    "feedback-danger": "#fa4d56",
+    "layer-01": "#f5f5f5",
+    "layer-02": "#ffffff",
+    "layer-03": "#f5f5f5",
+    "on-surface": "#000000",
+    "on-layer-01": "#000000",
+    "on-layer-02": "#000000",
+    "on-accent": "#000000",
+    "on-success": "#000000",
+    "on-warning": "#000000",
+    "on-danger": "#000000",
+    "on-info": "#ffffff"
+  },
+  "neo-dark": {
+    "text-primary": "#ffffff",
+    "text-secondary": "#cbcbcb",
+    "text-tertiary": "#767676",
+    "text-inverse": "#000000",
+    "text-disabled": "#8e8d8d",
+    "text-on-interactive": "#ffffff",
+    "text-link": "#009fe3",
+    "text-link-hover": "#33b2e9",
+    "text-success": "#0b9e23",
+    "text-danger": "#ef5b4e",
+    "background-base": "#000000",
+    "background-secondary": "#1d1d1d",
+    "background-tertiary": "#4d4d4d",
+    "background-quaternary": "#666666",
+    "background-inverse": "#ffffff",
+    "background-disabled": "#333333",
+    "background-hover": "#1d1d1d",
+    "background-active": "#333333",
+    "background-accent": "#5fef63",
+    "background-accent-secondary": "#37e93d",
+    "background-success": "#0d2b15",
+    "background-danger": "#3b1419",
+    "border-primary": "#767676",
+    "border-secondary": "#333333",
+    "border-strong": "#ffffff",
+    "border-inverse": "#000000",
+    "border-disabled": "#333333",
+    "border-success": "#0b9e23",
+    "border-danger": "#ef5b4e",
+    "interactive-default": "#009fe3",
+    "interactive-hover": "#33b2e9",
+    "interactive-active": "#66c5ef",
+    "interactive-visited": "#007fb6",
+    "interactive-focus": "#009fe3",
+    "feedback-info": "#4589ff",
+    "feedback-success": "#24a148",
+    "feedback-warning": "#d4a400",
+    "feedback-danger": "#fa4d56",
+    "layer-01": "#1d1d1d",
+    "layer-02": "#333333",
+    "layer-03": "#4d4d4d",
+    "on-surface": "#ffffff",
+    "on-layer-01": "#ffffff",
+    "on-layer-02": "#ffffff",
+    "on-accent": "#000000",
+    "on-success": "#ffffff",
+    "on-warning": "#000000",
+    "on-danger": "#ffffff",
+    "on-info": "#ffffff"
+  },
+  "customer-light": {
+    "text-primary": "#000000",
+    "text-secondary": "#666666",
+    "text-tertiary": "#8e8d8d",
+    "text-inverse": "#ffffff",
+    "text-disabled": "#8e8d8d",
+    "text-on-interactive": "#ffffff",
+    "text-link": "#009fe3",
+    "text-link-hover": "#007fb6",
+    "text-success": "#0b9e23",
+    "text-danger": "#bf281b",
+    "background-base": "#f5f5f5",
+    "background-secondary": "#ffffff",
+    "background-tertiary": "#d9d9d9",
+    "background-quaternary": "#cbcbcb",
+    "background-inverse": "#000000",
+    "background-disabled": "#e5e5e5",
+    "background-hover": "#e5e5e5",
+    "background-active": "#d9d9d9",
+    "background-accent": "#5cfe50",
+    "background-accent-secondary": "#04cd24",
+    "background-success": "#d5ffd1",
+    "background-danger": "#ffdfdc",
+    "border-primary": "#cbcbcb",
+    "border-secondary": "#d9d9d9",
+    "border-strong": "#000000",
+    "border-inverse": "#ffffff",
+    "border-disabled": "#e5e5e5",
+    "border-success": "#0b9e23",
+    "border-danger": "#bf281b",
+    "interactive-default": "#009fe3",
+    "interactive-hover": "#007fb6",
+    "interactive-active": "#006088",
+    "interactive-visited": "#006088",
+    "interactive-focus": "#009fe3",
+    "feedback-info": "#4589ff",
+    "feedback-success": "#24a148",
+    "feedback-warning": "#d4a400",
+    "feedback-danger": "#fa4d56",
+    "layer-01": "#ffffff",
+    "layer-02": "#f5f5f5",
+    "layer-03": "#ffffff",
+    "on-surface": "#000000",
+    "on-layer-01": "#000000",
+    "on-layer-02": "#000000",
+    "on-accent": "#000000",
+    "on-success": "#000000",
+    "on-warning": "#000000",
+    "on-danger": "#000000",
+    "on-info": "#ffffff"
+  },
+  "customer-dark": {
+    "text-primary": "#ffffff",
+    "text-secondary": "#cbcbcb",
+    "text-tertiary": "#767676",
+    "text-inverse": "#000000",
+    "text-disabled": "#8e8d8d",
+    "text-on-interactive": "#ffffff",
+    "text-link": "#009fe3",
+    "text-link-hover": "#33b2e9",
+    "text-success": "#0b9e23",
+    "text-danger": "#ef5b4e",
+    "background-base": "#1d1d1d",
+    "background-secondary": "#333333",
+    "background-tertiary": "#4d4d4d",
+    "background-quaternary": "#666666",
+    "background-inverse": "#ffffff",
+    "background-disabled": "#333333",
+    "background-hover": "#333333",
+    "background-active": "#4d4d4d",
+    "background-accent": "#5fef63",
+    "background-accent-secondary": "#37e93d",
+    "background-success": "#0d2b15",
+    "background-danger": "#3b1419",
+    "border-primary": "#767676",
+    "border-secondary": "#333333",
+    "border-strong": "#ffffff",
+    "border-inverse": "#000000",
+    "border-disabled": "#333333",
+    "border-success": "#0b9e23",
+    "border-danger": "#ef5b4e",
+    "interactive-default": "#009fe3",
+    "interactive-hover": "#33b2e9",
+    "interactive-active": "#66c5ef",
+    "interactive-visited": "#007fb6",
+    "interactive-focus": "#009fe3",
+    "feedback-info": "#4589ff",
+    "feedback-success": "#24a148",
+    "feedback-warning": "#d4a400",
+    "feedback-danger": "#fa4d56",
+    "layer-01": "#333333",
+    "layer-02": "#4d4d4d",
+    "layer-03": "#666666",
+    "on-surface": "#ffffff",
+    "on-layer-01": "#ffffff",
+    "on-layer-02": "#ffffff",
+    "on-accent": "#000000",
+    "on-success": "#ffffff",
+    "on-warning": "#000000",
+    "on-danger": "#ffffff",
+    "on-info": "#ffffff"
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Level 3: Component Tokens
+// ---------------------------------------------------------------------------
+
+export const componentTokenGroups = [
+  {
+    "id": "button",
+    "label": "Button",
+    "icon": "rectangle",
+    "tokens": [
+      {
+        "id": "nc-button-height-xs",
+        "label": "Height XS",
+        "type": "size",
+        "default": "24px"
+      },
+      {
+        "id": "nc-button-height-sm",
+        "label": "Height SM",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-button-height-md",
+        "label": "Height MD",
+        "type": "size",
+        "default": "40px"
+      },
+      {
+        "id": "nc-button-height-lg",
+        "label": "Height LG",
+        "type": "size",
+        "default": "48px"
+      },
+      {
+        "id": "nc-button-radius-sm",
+        "label": "Radius SM",
+        "type": "size",
+        "default": "4px"
+      },
+      {
+        "id": "nc-button-radius-md",
+        "label": "Radius MD",
+        "type": "size",
+        "default": "6px"
+      },
+      {
+        "id": "nc-button-radius-lg",
+        "label": "Radius LG",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-button-primary-bg",
+        "label": "Primary BG",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-button-primary-bg-hover",
+        "label": "Primary BG Hover",
+        "type": "color",
+        "ref": "interactive-hover"
+      },
+      {
+        "id": "nc-button-primary-color",
+        "label": "Primary Text",
+        "type": "color",
+        "ref": "text-on-interactive"
+      },
+      {
+        "id": "nc-button-secondary-bg",
+        "label": "Secondary BG",
+        "type": "color",
+        "default": "transparent"
+      },
+      {
+        "id": "nc-button-secondary-color",
+        "label": "Secondary Text",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-button-secondary-border",
+        "label": "Secondary Border",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-button-ghost-bg",
+        "label": "Ghost BG",
+        "type": "color",
+        "default": "transparent"
+      },
+      {
+        "id": "nc-button-ghost-color",
+        "label": "Ghost Text",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-button-error-bg",
+        "label": "Error BG",
+        "type": "color",
+        "ref": "feedback-danger"
+      },
+      {
+        "id": "nc-button-error-color",
+        "label": "Error Text",
+        "type": "color",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "id": "input",
+    "label": "Input",
+    "icon": "forms",
+    "tokens": [
+      {
+        "id": "nc-input-height-sm",
+        "label": "Height SM",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-input-height-md",
+        "label": "Height MD",
+        "type": "size",
+        "default": "40px"
+      },
+      {
+        "id": "nc-input-height-lg",
+        "label": "Height LG",
+        "type": "size",
+        "default": "48px"
+      },
+      {
+        "id": "nc-input-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "4px"
+      },
+      {
+        "id": "nc-input-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-input-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-input-border",
+        "label": "Border Color",
+        "type": "color",
+        "ref": "border-primary"
+      },
+      {
+        "id": "nc-input-placeholder",
+        "label": "Placeholder",
+        "type": "color",
+        "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-input-border-hover",
+        "label": "Border Hover",
+        "type": "color",
+        "ref": "border-strong"
+      },
+      {
+        "id": "nc-input-border-focus",
+        "label": "Border Focus",
+        "type": "color",
+        "ref": "interactive-focus"
+      },
+      {
+        "id": "nc-input-border-error",
+        "label": "Border Error",
+        "type": "color",
+        "ref": "border-danger"
+      }
+    ]
+  },
+  {
+    "id": "badge",
+    "label": "Badge",
+    "icon": "badge",
+    "tokens": [
+      {
+        "id": "nc-badge-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "9999px"
+      },
+      {
+        "id": "nc-badge-height-sm",
+        "label": "Height SM",
+        "type": "size",
+        "default": "20px"
+      },
+      {
+        "id": "nc-badge-height-md",
+        "label": "Height MD",
+        "type": "size",
+        "default": "24px"
+      },
+      {
+        "id": "nc-badge-default-bg",
+        "label": "Default BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-badge-default-color",
+        "label": "Default Text",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-badge-success-bg",
+        "label": "Success BG",
+        "type": "color",
+        "ref": "background-success"
+      },
+      {
+        "id": "nc-badge-success-color",
+        "label": "Success Text",
+        "type": "color",
+        "ref": "text-success"
+      },
+      {
+        "id": "nc-badge-error-bg",
+        "label": "Error BG",
+        "type": "color",
+        "ref": "background-danger"
+      },
+      {
+        "id": "nc-badge-error-color",
+        "label": "Error Text",
+        "type": "color",
+        "ref": "text-danger"
+      },
+      {
+        "id": "nc-badge-info-bg",
+        "label": "Info BG",
+        "type": "color",
+        "default": "rgba(69, 137, 255, 0.15)"
+      },
+      {
+        "id": "nc-badge-warning-bg",
+        "label": "Warning BG",
+        "type": "color",
+        "default": "rgba(212, 164, 0, 0.15)"
+      }
+    ]
+  },
+  {
+    "id": "card",
+    "label": "Card",
+    "icon": "id",
+    "tokens": [
+      {
+        "id": "nc-card-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-card-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-card-border",
+        "label": "Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-card-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "16px"
+      },
+      {
+        "id": "nc-card-shadow",
+        "label": "Shadow Level",
+        "type": "shadow",
+        "default": "xs"
+      }
+    ]
+  },
+  {
+    "id": "dialog",
+    "label": "Dialog",
+    "icon": "layout-bottombar",
+    "tokens": [
+      {
+        "id": "nc-dialog-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-dialog-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "16px"
+      },
+      {
+        "id": "nc-dialog-shadow",
+        "label": "Shadow Level",
+        "type": "shadow",
+        "default": "xl"
+      }
+    ]
+  },
+  {
+    "id": "switch",
+    "label": "Switch",
+    "icon": "toggle-right",
+    "tokens": [
+      {
+        "id": "nc-switch-width",
+        "label": "Width",
+        "type": "size",
+        "default": "44px"
+      },
+      {
+        "id": "nc-switch-height",
+        "label": "Height",
+        "type": "size",
+        "default": "24px"
+      },
+      {
+        "id": "nc-switch-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-switch-bg-checked",
+        "label": "BG Checked",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-switch-thumb-color",
+        "label": "Thumb Color",
+        "type": "color",
+        "ref": "background-base"
+      }
+    ]
+  },
+  {
+    "id": "tooltip",
+    "label": "Tooltip",
+    "icon": "message",
+    "tokens": [
+      {
+        "id": "nc-tooltip-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-inverse"
+      },
+      {
+        "id": "nc-tooltip-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-inverse"
+      },
+      {
+        "id": "nc-tooltip-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "4px"
+      }
+    ]
+  },
+  {
+    "id": "avatar",
+    "label": "Avatar",
+    "icon": "user-circle",
+    "tokens": [
+      {
+        "id": "nc-avatar-size-sm",
+        "label": "Size SM",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-avatar-size-md",
+        "label": "Size MD",
+        "type": "size",
+        "default": "40px"
+      },
+      {
+        "id": "nc-avatar-size-lg",
+        "label": "Size LG",
+        "type": "size",
+        "default": "48px"
+      },
+      {
+        "id": "nc-avatar-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-tertiary"
+      },
+      {
+        "id": "nc-avatar-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-primary"
+      }
+    ]
+  }
+]
+
+// ---------------------------------------------------------------------------
+// Foundation non-color tokens
+// ---------------------------------------------------------------------------
+
+export const foundationTokens = {
+  "radius": {
+    "label": "Border Radius",
+    "icon": "border-radius",
+    "tokens": {
+      "null": {
+        "label": "None",
+        "value": "0px"
+      },
+      "xs": {
+        "label": "XS",
+        "value": "2px"
+      },
+      "sm": {
+        "label": "SM",
+        "value": "4px"
+      },
+      "md": {
+        "label": "MD",
+        "value": "6px"
+      },
+      "lg": {
+        "label": "LG",
+        "value": "8px"
+      },
+      "xl": {
+        "label": "XL",
+        "value": "10px"
+      },
+      "2xl": {
+        "label": "2XL",
+        "value": "12px"
+      },
+      "3xl": {
+        "label": "3XL",
+        "value": "16px"
+      },
+      "full": {
+        "label": "Full",
+        "value": "9999px"
+      }
+    }
+  },
+  "spacing": {
+    "label": "Spacing",
+    "icon": "spacing-horizontal",
+    "tokens": {
+      "10": {
+        "label": "10",
+        "value": "64px"
+      },
+      "11": {
+        "label": "11",
+        "value": "80px"
+      },
+      "12": {
+        "label": "12",
+        "value": "120px"
+      },
+      "13": {
+        "label": "13",
+        "value": "160px"
+      },
+      "01": {
+        "label": "01",
+        "value": "4px"
+      },
+      "02": {
+        "label": "02",
+        "value": "8px"
+      },
+      "03": {
+        "label": "03",
+        "value": "12px"
+      },
+      "04": {
+        "label": "04",
+        "value": "16px"
+      },
+      "05": {
+        "label": "05",
+        "value": "20px"
+      },
+      "06": {
+        "label": "06",
+        "value": "24px"
+      },
+      "07": {
+        "label": "07",
+        "value": "32px"
+      },
+      "08": {
+        "label": "08",
+        "value": "40px"
+      },
+      "09": {
+        "label": "09",
+        "value": "48px"
+      }
+    }
+  },
+  "shadow": {
+    "label": "Shadow",
+    "icon": "shadow",
+    "tokens": {
+      "xs": {
+        "label": "XS",
+        "value": "0 1px 2px rgba(15, 23, 42, 0.06)"
+      },
+      "sm": {
+        "label": "SM",
+        "value": "0 4px 10px rgba(15, 23, 42, 0.08)"
+      },
+      "md": {
+        "label": "MD",
+        "value": "0 10px 24px rgba(15, 23, 42, 0.12)"
+      },
+      "lg": {
+        "label": "LG",
+        "value": "0 18px 40px rgba(15, 23, 42, 0.16)"
+      },
+      "xl": {
+        "label": "XL",
+        "value": "0 30px 60px rgba(15, 23, 42, 0.2)"
+      }
+    }
+  },
+  "elevation": {
+    "label": "Elevation",
+    "icon": "stack-3",
+    "tokens": {
+      "base": {
+        "label": "Base",
+        "value": "xs",
+        "maps_to": "shadow"
+      },
+      "raised": {
+        "label": "Raised",
+        "value": "sm",
+        "maps_to": "shadow"
+      },
+      "floating": {
+        "label": "Floating",
+        "value": "md",
+        "maps_to": "shadow"
+      },
+      "overlay": {
+        "label": "Overlay",
+        "value": "lg",
+        "maps_to": "shadow"
+      },
+      "modal": {
+        "label": "Modal",
+        "value": "xl",
+        "maps_to": "shadow"
+      }
+    }
+  },
+  "opacity": {
+    "label": "Opacity",
+    "icon": "eye",
+    "tokens": {
+      "disabled": {
+        "label": "Disabled",
+        "value": 0.5
+      },
+      "hover": {
+        "label": "Hover",
+        "value": 0.08
+      },
+      "focus": {
+        "label": "Focus",
+        "value": 0.12
+      },
+      "pressed": {
+        "label": "Pressed",
+        "value": 0.12
+      },
+      "dragged": {
+        "label": "Dragged",
+        "value": 0.16
+      }
+    }
+  },
+  "typography": {
+    "label": "Typography",
+    "icon": "typography",
+    "tokens": {
+      "font-body": {
+        "label": "Body Font",
+        "value": "Manrope, Helvetica Neue, Arial, sans-serif",
+        "type": "font"
+      },
+      "font-heading": {
+        "label": "Heading Font",
+        "value": "Space Grotesk, Helvetica Neue, Arial, sans-serif",
+        "type": "font"
+      },
+      "font-mono": {
+        "label": "Mono Font",
+        "value": "DM Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
+        "type": "font"
+      },
+      "weight-light": {
+        "label": "Light",
+        "value": 300,
+        "type": "weight"
+      },
+      "weight-regular": {
+        "label": "Regular",
+        "value": 400,
+        "type": "weight"
+      },
+      "weight-medium": {
+        "label": "Medium",
+        "value": 500,
+        "type": "weight"
+      },
+      "weight-semibold": {
+        "label": "Semibold",
+        "value": 600,
+        "type": "weight"
+      },
+      "weight-bold": {
+        "label": "Bold",
+        "value": 700,
+        "type": "weight"
+      },
+      "weight-black": {
+        "label": "Black",
+        "value": 900,
+        "type": "weight"
+      }
+    }
+  },
+  "motion": {
+    "label": "Motion",
+    "icon": "ripple",
+    "tokens": {
+      "easing-informative": {
+        "label": "Informative",
+        "value": "linear",
+        "type": "easing"
+      },
+      "easing-focused": {
+        "label": "Focused",
+        "value": "ease-in-out",
+        "type": "easing"
+      },
+      "easing-expressive": {
+        "label": "Expressive",
+        "value": "ease-out",
+        "type": "easing"
+      },
+      "duration-quick": {
+        "label": "Quick",
+        "value": "0.2s",
+        "type": "duration"
+      },
+      "duration-base": {
+        "label": "Base",
+        "value": "0.3s",
+        "type": "duration"
+      },
+      "duration-slow": {
+        "label": "Slow",
+        "value": "0.45s",
+        "type": "duration"
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar navigation tree structure
+// ---------------------------------------------------------------------------
+
+export const navigationTree = [
+  {
+    "id": "foundation",
+    "label": "Foundation",
+    "icon": "building-arch",
+    "children": [
+      {
+        "id": "colors",
+        "label": "Colors",
+        "icon": "palette",
+        "section": "foundation-colors"
+      },
+      {
+        "id": "surfaces",
+        "label": "Surfaces",
+        "icon": "stack-2",
+        "section": "foundation-surfaces"
+      },
+      {
+        "id": "radius",
+        "label": "Radius",
+        "icon": "border-radius",
+        "section": "foundation-radius"
+      },
+      {
+        "id": "shadows",
+        "label": "Shadows",
+        "icon": "shadow",
+        "section": "foundation-shadows"
+      },
+      {
+        "id": "spacing",
+        "label": "Spacing",
+        "icon": "spacing-horizontal",
+        "section": "foundation-spacing"
+      },
+      {
+        "id": "typography",
+        "label": "Typography",
+        "icon": "typography",
+        "section": "foundation-typography"
+      },
+      {
+        "id": "opacity",
+        "label": "Opacity",
+        "icon": "eye",
+        "section": "foundation-opacity"
+      },
+      {
+        "id": "motion",
+        "label": "Motion",
+        "icon": "ripple",
+        "section": "foundation-motion"
+      }
+    ]
+  },
+  {
+    "id": "components",
+    "label": "Components",
+    "icon": "components",
+    "children": [
+      {
+        "id": "button",
+        "label": "Buttons",
+        "icon": "rectangle",
+        "section": "component-button"
+      },
+      {
+        "id": "input",
+        "label": "Inputs",
+        "icon": "forms",
+        "section": "component-input"
+      },
+      {
+        "id": "badge",
+        "label": "Badges",
+        "icon": "badge",
+        "section": "component-badge"
+      },
+      {
+        "id": "card",
+        "label": "Cards",
+        "icon": "id",
+        "section": "component-card"
+      },
+      {
+        "id": "switch",
+        "label": "Switch",
+        "icon": "toggle-right",
+        "section": "component-switch"
+      },
+      {
+        "id": "avatar",
+        "label": "Avatar",
+        "icon": "user-circle",
+        "section": "component-avatar"
+      },
+      {
+        "id": "dialog",
+        "label": "Dialog",
+        "icon": "layout-bottombar",
+        "section": "component-dialog"
+      },
+      {
+        "id": "tooltip",
+        "label": "Tooltip",
+        "icon": "message",
+        "section": "component-tooltip"
+      }
+    ]
+  },
+  {
+    "id": "modules",
+    "label": "Modules",
+    "icon": "layout",
+    "children": [
+      {
+        "id": "header",
+        "label": "Header",
+        "icon": "layout-navbar",
+        "section": "module-header"
+      },
+      {
+        "id": "sidebar",
+        "label": "Sidebar",
+        "icon": "layout-sidebar-left",
+        "section": "module-sidebar"
+      },
+      {
+        "id": "card-group",
+        "label": "Card Groups",
+        "icon": "layout-grid",
+        "section": "module-card-group"
+      }
+    ]
+  },
+  {
+    "id": "templates",
+    "label": "Templates",
+    "icon": "template",
+    "children": [
+      {
+        "id": "hero",
+        "label": "Hero",
+        "icon": "photo",
+        "section": "template-hero"
+      },
+      {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "icon": "dashboard",
+        "section": "template-dashboard"
+      },
+      {
+        "id": "content-page",
+        "label": "Content Page",
+        "icon": "article",
+        "section": "template-content"
+      },
+      {
+        "id": "form-page",
+        "label": "Form Page",
+        "icon": "forms",
+        "section": "template-form"
+      },
+      {
+        "id": "settings-page",
+        "label": "Settings Page",
+        "icon": "settings",
+        "section": "template-settings"
+      },
+      {
+        "id": "error-page",
+        "label": "Error Page",
+        "icon": "alert-triangle",
+        "section": "template-error"
+      }
+    ]
+  }
+]

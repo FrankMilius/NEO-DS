@@ -1,0 +1,501 @@
+// ==========================================================================
+// 06-Molecules: Toast / Sonner
+// ==========================================================================
+// Token-basierte Toast-Komponente fuer temporaere Feedback-Nachrichten.
+// Inspiriert von shadcn Sonner — angepasst an Neocosmo Vanilla JS + SASS.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-toast-* Component-Tokens.
+//   Sichtbarkeit per JS — Toasts werden dynamisch erzeugt und entfernt.
+//   Optional: Auto-Dismiss mit Fortschrittsbalken.
+//
+// PATTERN:
+//   Ein fester Viewport-Container (Toaster) haelt gestapelte Toasts.
+//   6 Positionen: top-left, top-center, top-right, bottom-left,
+//                 bottom-center, bottom-right.
+//   4 semantische Varianten: default, success, warning, error.
+//   Slide-in/Slide-out Animationen je nach Position.
+//   Auto-Dismiss mit optionalem Progress-Bar.
+//
+// BEM-KLASSEN:
+//   .nc-toaster                    Viewport-Container (fixed, z-index toast)
+//   .nc-toaster--top-left          Position oben links
+//   .nc-toaster--top-center        Position oben mitte
+//   .nc-toaster--top-right         Position oben rechts (Standard)
+//   .nc-toaster--bottom-left       Position unten links
+//   .nc-toaster--bottom-center     Position unten mitte
+//   .nc-toaster--bottom-right      Position unten rechts
+//
+//   .nc-toast                      Block (einzelner Toast)
+//   .nc-toast__icon                Icon-Container (20px, SVG)
+//   .nc-toast__content             Flex-1 Text-Bereich
+//   .nc-toast__title               Titel (font-weight 600)
+//   .nc-toast__description         Beschreibungstext
+//   .nc-toast__action              Optionaler Action-Button
+//   .nc-toast__close               Schliessen-Button
+//   .nc-toast__progress            Fortschrittsbalken (Auto-Dismiss)
+//   .nc-toast--default             Default-Variante (Standard)
+//   .nc-toast--success             Success-Variante
+//   .nc-toast--warning             Warning-Variante
+//   .nc-toast--error               Error/Danger-Variante
+//   .nc-toast--info                Info-Variante
+//   .nc-toast.is-entering          Eintritts-Animation
+//   .nc-toast.is-leaving           Austritts-Animation
+//
+// ACCESSIBILITY:
+//   role="status" auf Toast (polite announcements)
+//   aria-live="polite" auf Toaster-Container
+//   role="alert" fuer error/warning (dringend)
+//   Close-Button aria-label="Schliessen"
+//   Farbe nie alleiniges Signal — immer mit Icon + Text
+//   Focus-Management: ESC schliesst neuesten Toast
+//   Reduzierte Bewegung: keine Slide-Animationen
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+// Slide from right
+@keyframes nc-toast-slide-in-right {
+  from { transform: translateX(calc(100% + var(--nc-toast-offset))); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes nc-toast-slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(calc(100% + var(--nc-toast-offset))); opacity: 0; }
+}
+
+// Slide from left
+@keyframes nc-toast-slide-in-left {
+  from { transform: translateX(calc(-100% - var(--nc-toast-offset))); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes nc-toast-slide-out-left {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(calc(-100% - var(--nc-toast-offset))); opacity: 0; }
+}
+
+// Slide from top
+@keyframes nc-toast-slide-in-top {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes nc-toast-slide-out-top {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(-100%); opacity: 0; }
+}
+
+// Slide from bottom
+@keyframes nc-toast-slide-in-bottom {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes nc-toast-slide-out-bottom {
+  from { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(100%); opacity: 0; }
+}
+
+// Progress bar countdown
+@keyframes nc-toast-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Toaster Viewport-Container.
+@mixin toaster-base {
+  position: fixed;
+  z-index: var(--nc-toast-z-index, 50);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-toast-gap);
+  padding: var(--nc-toast-offset);
+  pointer-events: none;
+  max-height: 100vh;
+  box-sizing: border-box;
+}
+
+/// Toast-Element Basis.
+@mixin toast-base {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nc-toast-item-gap);
+  width: var(--nc-toast-width);
+  max-width: 100%;
+  padding: var(--nc-toast-padding);
+  border-radius: var(--nc-toast-radius);
+  border: var(--nc-toast-border-width) solid var(--_toast-border, var(--nc-toast-default-border));
+  background-color: var(--_toast-bg, var(--nc-toast-default-bg));
+  color: var(--_toast-color, var(--nc-toast-default-color));
+  box-shadow: var(--nc-toast-shadow);
+  line-height: 1.5;
+  font-size: var(--nc-toast-font-size);
+  pointer-events: auto;
+  overflow: hidden;
+
+  // Default variant
+  @include toast-variant-default;
+}
+
+/// Default-Variante.
+@mixin toast-variant-default {
+  --_toast-bg: var(--nc-toast-default-bg);
+  --_toast-color: var(--nc-toast-default-color);
+  --_toast-border: var(--nc-toast-default-border);
+  --_toast-icon-color: var(--nc-toast-default-icon-color);
+  --_toast-progress-bg: var(--nc-toast-default-progress-bg);
+}
+
+/// Success-Variante.
+@mixin toast-variant-success {
+  --_toast-bg: var(--nc-toast-success-bg);
+  --_toast-color: var(--nc-toast-success-color);
+  --_toast-border: var(--nc-toast-success-border);
+  --_toast-icon-color: var(--nc-toast-success-icon-color);
+  --_toast-progress-bg: var(--nc-toast-success-progress-bg);
+}
+
+/// Warning-Variante.
+@mixin toast-variant-warning {
+  --_toast-bg: var(--nc-toast-warning-bg);
+  --_toast-color: var(--nc-toast-warning-color);
+  --_toast-border: var(--nc-toast-warning-border);
+  --_toast-icon-color: var(--nc-toast-warning-icon-color);
+  --_toast-progress-bg: var(--nc-toast-warning-progress-bg);
+}
+
+/// Error-Variante.
+@mixin toast-variant-error {
+  --_toast-bg: var(--nc-toast-error-bg);
+  --_toast-color: var(--nc-toast-error-color);
+  --_toast-border: var(--nc-toast-error-border);
+  --_toast-icon-color: var(--nc-toast-error-icon-color);
+  --_toast-progress-bg: var(--nc-toast-error-progress-bg);
+}
+
+/// Info-Variante.
+@mixin toast-variant-info {
+  --_toast-bg: var(--nc-toast-info-bg);
+  --_toast-color: var(--nc-toast-info-color);
+  --_toast-border: var(--nc-toast-info-border);
+  --_toast-icon-color: var(--nc-toast-info-icon-color);
+  --_toast-progress-bg: var(--nc-toast-info-progress-bg);
+}
+
+/// Icon-Element.
+@mixin toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-toast-icon-size);
+  height: var(--nc-toast-icon-size);
+  flex-shrink: 0;
+  color: var(--_toast-icon-color);
+  margin-top: 2px; // Optische Ausrichtung mit erster Textzeile
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Content-Container.
+@mixin toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/// Titel.
+@mixin toast-title {
+  font-weight: var(--fnd-font-weight-semibold);
+  margin: 0 0 var(--fnd-spacing-01) 0;
+}
+
+/// Beschreibung.
+@mixin toast-description {
+  margin: 0;
+  opacity: 0.85;
+  font-size: var(--nc-toast-description-font-size);
+}
+
+/// Action-Button.
+@mixin toast-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+  border: 1px solid var(--_toast-border);
+  border-radius: var(--fnd-radius-sm);
+  background: transparent;
+  color: inherit;
+  font-size: var(--nc-toast-description-font-size);
+  font-weight: var(--fnd-font-weight-medium);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  @include transition(background-color opacity, '200');
+
+  &:hover {
+    background-color: color-mix(in srgb, currentColor 8%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/// Schliessen-Button.
+@mixin toast-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--fnd-radius-sm);
+  background: none;
+  color: var(--_toast-color);
+  opacity: 0.5;
+  cursor: pointer;
+  @include transition(opacity background-color, '200');
+
+  &:hover {
+    opacity: 1;
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+
+  > svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Fortschrittsbalken.
+@mixin toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: var(--nc-toast-progress-height);
+  background-color: var(--_toast-progress-bg, var(--nc-toast-default-progress-bg));
+  border-radius: 0 0 0 var(--nc-toast-radius);
+  // Animation wird per JS-Inline-Style gesteuert (duration)
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen: Toaster (Viewport Container)
+// ---------------------------------------------------------------------------
+
+.nc-toaster {
+  @include toaster-base;
+
+  // -- Position: top-left --
+  &--top-left {
+    top: 0;
+    left: 0;
+    align-items: flex-start;
+  }
+
+  // -- Position: top-center --
+  &--top-center {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+  }
+
+  // -- Position: top-right (Standard) --
+  &--top-right {
+    top: 0;
+    right: 0;
+    align-items: flex-end;
+  }
+
+  // -- Position: bottom-left --
+  &--bottom-left {
+    bottom: 0;
+    left: 0;
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+
+  // -- Position: bottom-center --
+  &--bottom-center {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
+  // -- Position: bottom-right --
+  &--bottom-right {
+    bottom: 0;
+    right: 0;
+    align-items: flex-end;
+    flex-direction: column-reverse;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen: Toast (Einzelner Toast)
+// ---------------------------------------------------------------------------
+
+.nc-toast {
+  @include toast-base;
+
+  // -- Elemente --
+
+  &__icon {
+    @include toast-icon;
+  }
+
+  &__content {
+    @include toast-content;
+  }
+
+  &__title {
+    @include toast-title;
+  }
+
+  &__description {
+    @include toast-description;
+  }
+
+  &__action {
+    @include toast-action;
+  }
+
+  &__close {
+    @include toast-close;
+  }
+
+  &__progress {
+    @include toast-progress;
+  }
+
+  // -- Varianten --
+
+  &--default {
+    @include toast-variant-default;
+  }
+
+  &--success {
+    @include toast-variant-success;
+  }
+
+  &--warning {
+    @include toast-variant-warning;
+  }
+
+  &--error {
+    @include toast-variant-error;
+  }
+
+  &--info {
+    @include toast-variant-info;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Animations per Position (via .nc-toaster parent modifier)
+  // ---------------------------------------------------------------------------
+
+  // -- Top-Left: slide from left --
+  .nc-toaster--top-left &.is-entering {
+    animation: nc-toast-slide-in-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--top-left &.is-leaving {
+    animation: nc-toast-slide-out-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Top-Center: slide from top --
+  .nc-toaster--top-center &.is-entering {
+    animation: nc-toast-slide-in-top var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--top-center &.is-leaving {
+    animation: nc-toast-slide-out-top var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Top-Right: slide from right --
+  .nc-toaster--top-right &.is-entering {
+    animation: nc-toast-slide-in-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--top-right &.is-leaving {
+    animation: nc-toast-slide-out-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Bottom-Left: slide from left --
+  .nc-toaster--bottom-left &.is-entering {
+    animation: nc-toast-slide-in-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--bottom-left &.is-leaving {
+    animation: nc-toast-slide-out-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Bottom-Center: slide from bottom --
+  .nc-toaster--bottom-center &.is-entering {
+    animation: nc-toast-slide-in-bottom var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--bottom-center &.is-leaving {
+    animation: nc-toast-slide-out-bottom var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Bottom-Right: slide from right --
+  .nc-toaster--bottom-right &.is-entering {
+    animation: nc-toast-slide-in-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  .nc-toaster--bottom-right &.is-leaving {
+    animation: nc-toast-slide-out-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+  }
+
+  // -- Reduced Motion --
+
+  @media (prefers-reduced-motion: reduce) {
+    &.is-entering,
+    &.is-leaving {
+      animation: none !important;
+    }
+
+    &.is-entering {
+      opacity: 1;
+    }
+
+    &.is-leaving {
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+// ==========================================================================
+// 06-Molecules: Text Only
+// ==========================================================================
+// Text-Only Section mit Animation
+// Migriert von: text-only.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.text-only {
+  @include flex-column;
+  padding: var(--fnd-spacing-10) 0;
+  color: var(--fnd-color-text-high);
+  
+  @include desktop-up {
+    padding: var(--fnd-spacing-12) 0;
+  }
+  
+  // Grid Layout Desktop
+  @include desktop-up {
+    > div > div {
+      --columns: 12;
+      display: grid;
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+      gap: var(--grid-gap);
+    }
+  }
+  
+  // Main Paragraph
+  p:not(.button-container) {
+    @include heading('s');
+    margin-block-start: 0;
+    
+    @include desktop-up {
+      grid-column: 1 / 8;
+      margin: 0;
+    }
+    
+    // Animated Spans
+    span {
+      display: inline-block;
+      color: var(--fnd-color-text-transparency-low);
+      @include transition(color, '150', 'focused');
+    }
+    
+    &.visible span {
+      animation: change-color;
+      animation-duration: var(--fnd-motion-duration-focused-slow);
+      animation-timing-function: var(--fnd-motion-ease-focused);
+      animation-fill-mode: forwards;
+    }
+  }
+  
+  // Button Container
+  .button-container {
+    margin-top: var(--fnd-spacing-08);
+    
+    @include desktop-up {
+      grid-column: 1 / 8;
+      margin-top: var(--fnd-spacing-09);
+    }
+  }
+}
+
+// Wrapper Background
+.text-only-wrapper {
+  background-color: var(--fnd-color-background-base);
+}

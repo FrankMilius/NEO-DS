@@ -1,0 +1,174 @@
+// ==========================================================================
+// 07-Organisms: Validation Summary
+// ==========================================================================
+// Error-Summary-Box am Anfang eines Formulars. Zeigt alle Validierungs-
+// fehler gesammelt an, mit Links zu den betroffenen Feldern.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-validation-summary-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-validation-summary
+//     .nc-validation-summary__icon     (Error-Icon)
+//     .nc-validation-summary__title    ("Es gibt X Fehler")
+//     .nc-validation-summary__list     (Fehler-Liste)
+//       .nc-validation-summary__item   (Einzelner Fehler als Link)
+//
+// TOKENS:
+//   --nc-validation-summary-bg         Hintergrund (danger-light)
+//   --nc-validation-summary-border     Border-Farbe (danger)
+//   --nc-validation-summary-color      Textfarbe
+//   --nc-validation-summary-radius     Border-Radius
+//   --nc-validation-summary-padding    Innenabstand
+//
+// BEM-KLASSEN:
+//   .nc-validation-summary            Block
+//   .nc-validation-summary__icon      Error-Icon (links)
+//   .nc-validation-summary__title     Ueberschrift
+//   .nc-validation-summary__list      Fehler-Liste (ol/ul)
+//   .nc-validation-summary__item      Einzelner Fehler
+//   .nc-validation-summary--hidden    Versteckt (JS zeigt bei Fehler)
+//
+// ACCESSIBILITY:
+//   role="alert", aria-live="assertive" oder aria-labelledby
+//   Focus auf Container bei erstem Rendern (JS-seitig)
+//   Links: href="#field-id" fuer direkten Sprung zum Feld
+//   Liste: <ol> fuer geordnete Fehler oder <ul>
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Validation-Summary-Box.
+@mixin validation-summary-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-03);
+  padding: var(--nc-validation-summary-padding);
+  border: 1px solid var(--nc-validation-summary-border);
+  border-radius: var(--nc-validation-summary-radius);
+  background-color: var(--nc-validation-summary-bg);
+  color: var(--nc-validation-summary-color);
+
+  // Focus fuer JS-gesteuerten Fokus
+  &:focus {
+    @include focus-ring;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/// Error-Icon (optional, links neben dem Titel).
+@mixin validation-summary-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--nc-validation-summary-color);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/// Titel ("Es gibt X Fehler im Formular").
+@mixin validation-summary-title {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  font-size: var(--nc-input-font-size-md);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: inherit;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/// Fehler-Liste.
+@mixin validation-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-01);
+  margin: 0;
+  padding-inline-start: var(--fnd-spacing-05);
+  list-style: disc;
+}
+
+/// Einzelner Fehler-Eintrag.
+/// Kann als <a href="#field-id"> oder als <li> verwendet werden.
+@mixin validation-summary-item {
+  font-size: var(--nc-input-font-size-sm);
+  color: inherit;
+  line-height: 1.5;
+
+  // Link-Styling fuer Sprung zum Feld
+  > a,
+  &[href] {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      border-radius: var(--fnd-radius-sm);
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+  }
+}
+
+/// Hidden-State: wird via JS entfernt wenn Fehler vorhanden.
+@mixin validation-summary-hidden {
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-validation-summary {
+  @include validation-summary-base;
+
+  // -- Sub-Elemente --
+
+  &__icon {
+    @include validation-summary-icon;
+  }
+
+  &__title {
+    @include validation-summary-title;
+  }
+
+  &__list {
+    @include validation-summary-list;
+  }
+
+  &__item {
+    @include validation-summary-item;
+  }
+
+  // -- Modifier --
+
+  &--hidden {
+    @include validation-summary-hidden;
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    border: 2px solid Mark;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}

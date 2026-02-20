@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluid Spacing Foundation | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Fluid Spacing Systems auf 4px-Basegrid mit clamp()." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Mobile Sidebar Toggle -->
+      <!-- Page Header -->
+      <h1 class="docs__title">Fluid Spacing</h1>
+    <p class="docs__subtitle">
+      13-stufige Spacing-Scale auf dem 4px-Basegrid. Stufen 01&ndash;05 sind statisch,
+      Stufen 06&ndash;13 skalieren fluid mit <code class="docs__token">clamp()</code>
+      zwischen 320px und 1400px Viewport-Breite.
+    </p>
+
+    <!-- ================================================================ -->
+    <!-- 1. BASE UNIT                                                     -->
+    <!-- ================================================================ -->
+    <!--
+      Das gesamte Spacing-System baut auf einer 4px Base-Unit auf.
+      Jeder Spacing-Wert ist ein ganzzahliges Vielfaches von 4px.
+
+      CSS-Token: --fnd-base-unit: 4px
+      SCSS-Variable: $base-unit: 4px
+    -->
+    <section class="docs__section" id="base-unit">
+      <h2 class="docs__section-title">4px Base Unit</h2>
+      <p class="docs__section-desc">
+        Alle Spacing-Werte sind Vielfache von
+        <code class="docs__token">--fnd-base-unit: 4px</code>. Dies sorgt
+        für ein konsistentes vertikales und horizontales Raster in der
+        gesamten Anwendung. Die kleinste Einheit ist 4px (1&times;),
+        die grösste 160px (40&times;).
+      </p>
+
+      <!-- Visuelles 4px-Raster -->
+      <div style="display: flex; gap: 2px; margin-block-end: var(--fnd-spacing-06);">
+        <div style="width: 4px; height: 4px; background: var(--fnd-color-interactive); border-radius: 1px;" title="1 Base Unit = 4px"></div>
+        <div style="width: 4px; height: 4px; background: var(--fnd-color-interactive); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: var(--fnd-color-interactive); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: var(--fnd-color-interactive); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: color-mix(in srgb, var(--fnd-color-interactive) 30%, transparent); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: color-mix(in srgb, var(--fnd-color-interactive) 30%, transparent); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: color-mix(in srgb, var(--fnd-color-interactive) 30%, transparent); border-radius: 1px;"></div>
+        <div style="width: 4px; height: 4px; background: color-mix(in srgb, var(--fnd-color-interactive) 30%, transparent); border-radius: 1px;"></div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--fnd-color-text-low); margin-block-end: var(--fnd-spacing-06);">
+        4 blaue Quadrate = 16px (spacing-04) &mdash; 8 Quadrate = 32px (spacing-07)
+      </p>
+
+      <div class="docs__code-block">/* CSS Custom Property */
+--fnd-base-unit: 4px;
+
+/* SCSS Variable + Funktion */
+$base-unit: 4px;
+snap-to-grid(17px) → 16px   /* Rundet auf nächstes 4px-Vielfaches */
+snap-to-grid(22px) → 24px</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 2. SPACING SCALE (statisch + fluid)                              -->
+    <!-- ================================================================ -->
+    <!--
+      Die Scale hat 13 Stufen: 01 (4px) bis 13 (160px).
+
+      Statisch (01-05): Werte sind fix, da sie zu klein für sinnvolle
+                        Viewport-Skalierung sind.
+
+      Fluid (06-13):    Werte skalieren zwischen einem min und max Wert
+                        via clamp(). Min ist ca. 75-80% des Nominalwerts.
+                        Viewport-Range: 320px – 1400px.
+
+      CSS-Token: --fnd-spacing-{01-13}
+      SCSS: spacing('04') → 16px
+            var(--fnd-spacing-04) im CSS
+    -->
+    <section class="docs__section" id="scale">
+      <h2 class="docs__section-title">Spacing Scale</h2>
+      <p class="docs__section-desc">
+        Resize das Browserfenster, um die Fluid-Skalierung der Balken 06&ndash;13
+        live zu sehen. Die Balken mit Verlauf (blau &rarr; grün) sind fluid.
+      </p>
+
+      <div class="docs__spacing-scale">
+        <!-- Statische Stufen 01-05 -->
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">01</span>
+          <div><div class="docs__spacing-bar" style="width: var(--fnd-spacing-01);"></div></div>
+          <span class="docs__spacing-value">4px &mdash; statisch</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">02</span>
+          <div><div class="docs__spacing-bar" style="width: var(--fnd-spacing-02);"></div></div>
+          <span class="docs__spacing-value">8px &mdash; statisch</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">03</span>
+          <div><div class="docs__spacing-bar" style="width: var(--fnd-spacing-03);"></div></div>
+          <span class="docs__spacing-value">12px &mdash; statisch</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">04</span>
+          <div><div class="docs__spacing-bar" style="width: var(--fnd-spacing-04);"></div></div>
+          <span class="docs__spacing-value">16px &mdash; statisch</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">05</span>
+          <div><div class="docs__spacing-bar" style="width: var(--fnd-spacing-05);"></div></div>
+          <span class="docs__spacing-value">20px &mdash; statisch</span>
+        </div>
+
+        <!-- Fluid Stufen 06-13 -->
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">06</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-06);"></div></div>
+          <span class="docs__spacing-value">20px &rarr; 24px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">07</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-07);"></div></div>
+          <span class="docs__spacing-value">24px &rarr; 32px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">08</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-08);"></div></div>
+          <span class="docs__spacing-value">32px &rarr; 40px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">09</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-09);"></div></div>
+          <span class="docs__spacing-value">36px &rarr; 48px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">10</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-10);"></div></div>
+          <span class="docs__spacing-value">48px &rarr; 64px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">11</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-11);"></div></div>
+          <span class="docs__spacing-value">56px &rarr; 80px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">12</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-12);"></div></div>
+          <span class="docs__spacing-value">80px &rarr; 120px</span>
+        </div>
+        <div class="docs__spacing-row">
+          <span class="docs__spacing-label">13</span>
+          <div><div class="docs__spacing-bar docs__spacing-bar--fluid" style="width: var(--fnd-spacing-13);"></div></div>
+          <span class="docs__spacing-value">112px &rarr; 160px</span>
+        </div>
+      </div>
+
+      <!-- Referenztabelle -->
+      <table class="docs__table docs__table--compact">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Nominal</th>
+            <th>Typ</th>
+            <th>Min (320px)</th>
+            <th>Max (1400px)</th>
+            <th>4px &times;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="docs__token">--fnd-spacing-01</code></td><td>4px</td><td>statisch</td><td>4px</td><td>4px</td><td>1</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-02</code></td><td>8px</td><td>statisch</td><td>8px</td><td>8px</td><td>2</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-03</code></td><td>12px</td><td>statisch</td><td>12px</td><td>12px</td><td>3</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>16px</td><td>statisch</td><td>16px</td><td>16px</td><td>4</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-05</code></td><td>20px</td><td>statisch</td><td>20px</td><td>20px</td><td>5</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-06</code></td><td>24px</td><td>fluid</td><td>20px</td><td>24px</td><td>6</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-07</code></td><td>32px</td><td>fluid</td><td>24px</td><td>32px</td><td>8</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-08</code></td><td>40px</td><td>fluid</td><td>32px</td><td>40px</td><td>10</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-09</code></td><td>48px</td><td>fluid</td><td>36px</td><td>48px</td><td>12</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-10</code></td><td>64px</td><td>fluid</td><td>48px</td><td>64px</td><td>16</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-11</code></td><td>80px</td><td>fluid</td><td>56px</td><td>80px</td><td>20</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-12</code></td><td>120px</td><td>fluid</td><td>80px</td><td>120px</td><td>30</td></tr>
+          <tr><td><code class="docs__token">--fnd-spacing-13</code></td><td>160px</td><td>fluid</td><td>112px</td><td>160px</td><td>40</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs__code-block">/* Statisch (01-05) */
+--fnd-spacing-04: 16px;
+
+/* Fluid (06-13) — skaliert mit dem Viewport */
+--fnd-spacing-10: clamp(48px, 43.26px + 1.48vw, 64px);
+
+/* SCSS Funktion */
+spacing('04') → 16px
+
+/* Fluid-Funktion in SCSS */
+fluid-spacing(48px, 64px) → clamp(48px, ..., 64px)</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 3. SEMANTISCHE TOKENS                                            -->
+    <!-- ================================================================ -->
+    <!--
+      Semantische Spacing-Tokens geben dem Abstand eine Bedeutung,
+      unabhängig vom konkreten Pixelwert. Sie verweisen auf die
+      numerischen Tokens.
+
+      --fnd-spacing-section   → var(--fnd-spacing-12) = 80-120px
+      --fnd-spacing-component → var(--fnd-spacing-08) = 32-40px
+      --fnd-spacing-element   → var(--fnd-spacing-04) = 16px
+    -->
+    <section class="docs__section" id="semantic">
+      <h2 class="docs__section-title">Semantische Tokens</h2>
+      <p class="docs__section-desc">
+        Statt numerische Tokens direkt zu nutzen, erlauben semantische Tokens
+        eine kontextbezogene Verwendung. So bleibt die Bedeutung erhalten,
+        auch wenn sich die konkreten Werte ändern.
+      </p>
+
+      <!-- Visuelle Demo: Section → Component → Element -->
+      <div class="docs__semantic-demo">
+        <div class="docs__semantic-block">
+          <strong>Section A</strong><br>
+          <small>Seitenabschnitt (z.B. Hero, Features)</small>
+        </div>
+        <div class="docs__semantic-spacer" style="height: var(--fnd-spacing-section);">
+          --fnd-spacing-section
+        </div>
+        <div class="docs__semantic-block" style="padding: var(--fnd-spacing-component);">
+          <strong>Section B</strong><br>
+          <small style="display: block; margin-block-start: var(--fnd-spacing-element);">Komponenten-Abstand (padding) = --fnd-spacing-component</small>
+          <div style="display: flex; gap: var(--fnd-spacing-element); margin-block-start: var(--fnd-spacing-element); justify-content: center;">
+            <div style="background: var(--fnd-color-background-tertiary); padding: var(--fnd-spacing-03) var(--fnd-spacing-04); border-radius: var(--fnd-radius-s); font-size: 0.75rem;">Element</div>
+            <div style="background: var(--fnd-color-background-tertiary); padding: var(--fnd-spacing-03) var(--fnd-spacing-04); border-radius: var(--fnd-radius-s); font-size: 0.75rem;">Element</div>
+          </div>
+          <small style="display: block; margin-block-start: var(--fnd-spacing-02); color: var(--fnd-color-text-low);">
+            Gap zwischen Elementen = --fnd-spacing-element
+          </small>
+        </div>
+      </div>
+
+      <table class="docs__table">
+        <thead>
+          <tr>
+            <th>Semantischer Token</th>
+            <th>Mapped auf</th>
+            <th>Wert (fluid)</th>
+            <th>Verwendung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="docs__token">--fnd-spacing-section</code></td>
+            <td><code class="docs__token">--fnd-spacing-12</code></td>
+            <td>80px &rarr; 120px</td>
+            <td>Abstand zwischen Sektionen</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">--fnd-spacing-component</code></td>
+            <td><code class="docs__token">--fnd-spacing-08</code></td>
+            <td>32px &rarr; 40px</td>
+            <td>Abstand zwischen Komponenten</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">--fnd-spacing-element</code></td>
+            <td><code class="docs__token">--fnd-spacing-04</code></td>
+            <td>16px (statisch)</td>
+            <td>Abstand innerhalb Komponenten</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 4. UTILITY-KLASSEN                                               -->
+    <!-- ================================================================ -->
+    <!--
+      Spacing-Utilities setzen Margin, Padding oder Gap direkt per Klasse.
+
+      Basis-Pattern:     .u-{m|p}{t|r|b|l|x|y}-{01-13}
+      Responsive-Pattern: .u-{m|p}{t|r|b|l|x|y}-{sm|md|lg|xl}-{01-13}
+
+      Beispiele:
+        .u-mb-04        → margin-bottom: var(--fnd-spacing-04) immer
+        .u-mt-lg-08     → margin-top: var(--fnd-spacing-08) ab 1200px
+        .u-px-sm-06     → padding-inline: var(--fnd-spacing-06) ab 768px
+        .u-gap-04       → gap: var(--fnd-spacing-04) immer
+    -->
+    <section class="docs__section" id="utilities">
+      <h2 class="docs__section-title">Utility-Klassen</h2>
+      <p class="docs__section-desc">
+        Spacing-Utilities können direkt auf HTML-Elemente angewendet werden.
+        Responsive Varianten sind für die Breakpoints
+        <code class="docs__token">sm</code>,
+        <code class="docs__token">md</code>,
+        <code class="docs__token">lg</code> und
+        <code class="docs__token">xl</code> verfügbar.
+      </p>
+
+      <table class="docs__table docs__table--compact">
+        <thead>
+          <tr>
+            <th>Klasse</th>
+            <th>CSS-Property</th>
+            <th>Beispiel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="docs__token">.u-m-{n}</code></td>
+            <td>margin</td>
+            <td><code class="docs__token">.u-m-04</code> &rarr; 16px</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-mt-{n}</code></td>
+            <td>margin-top</td>
+            <td><code class="docs__token">.u-mt-08</code> &rarr; 32&ndash;40px</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-mx-{n}</code></td>
+            <td>margin-inline</td>
+            <td><code class="docs__token">.u-mx-auto</code> &rarr; zentriert</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-my-{n}</code></td>
+            <td>margin-block</td>
+            <td><code class="docs__token">.u-my-10</code> &rarr; 48&ndash;64px</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-p-{n}</code></td>
+            <td>padding</td>
+            <td><code class="docs__token">.u-p-06</code> &rarr; 20&ndash;24px</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-px-{n}</code></td>
+            <td>padding-inline</td>
+            <td><code class="docs__token">.u-px-04</code> &rarr; 16px</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">.u-gap-{n}</code></td>
+            <td>gap</td>
+            <td><code class="docs__token">.u-gap-04</code> &rarr; 16px</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="docs__code-block">/* Basis */
+&lt;div class="u-mb-06 u-p-04"&gt;...&lt;/div&gt;
+
+/* Responsive: Mobile 16px Padding, Desktop 40px */
+&lt;div class="u-p-04 u-p-lg-08"&gt;...&lt;/div&gt;
+
+/* Responsive Margin: 24px ab Tablet, 64px ab Desktop */
+&lt;section class="u-mt-sm-06 u-mt-lg-10"&gt;...&lt;/section&gt;
+
+/* Pattern */
+.u-{property}-{breakpoint}-{scale}
+  property:   m, mt, mr, mb, ml, mx, my, p, pt, pr, pb, pl, px, py, gap
+  breakpoint: sm (768px), md (960px), lg (1200px), xl (1600px)
+  scale:      01-13</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 5. FLUID MECHANIK                                                -->
+    <!-- ================================================================ -->
+    <!--
+      Fluid Spacing nutzt CSS clamp() um Werte linear zwischen einem
+      Minimum (bei 320px Viewport) und Maximum (bei 1400px Viewport)
+      zu interpolieren.
+
+      Formel:
+        clamp(min, intercept + slope * 1vw, max)
+
+      wobei:
+        slope = (max - min) / (1400 - 320)
+        intercept = min - slope * 320
+
+      Die SCSS-Funktion fluid-spacing($min, $max) erzeugt den clamp()-Ausdruck.
+    -->
+    <section class="docs__section" id="fluid">
+      <h2 class="docs__section-title">Fluid Mechanik</h2>
+      <p class="docs__section-desc">
+        Die fluid-Funktion interpoliert linear zwischen zwei Werten
+        basierend auf der Viewport-Breite. Unter 320px wird der
+        Minimalwert fixiert, über 1400px der Maximalwert.
+      </p>
+
+      <div style="background: var(--fnd-color-background-secondary); padding: var(--fnd-spacing-06); border-radius: var(--fnd-radius-m); margin-block-end: var(--fnd-spacing-06);">
+        <div style="display: flex; align-items: center; gap: var(--fnd-spacing-04); flex-wrap: wrap;">
+          <div style="text-align: center; flex: 0 0 auto;">
+            <div style="font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--fnd-color-interactive);">320px</div>
+            <div style="font-size: 0.75rem; color: var(--fnd-color-text-low);">Viewport Min</div>
+          </div>
+          <div style="flex: 1; height: 4px; background: linear-gradient(90deg, var(--fnd-color-interactive), var(--fnd-color-accent)); border-radius: 2px; min-width: 60px;"></div>
+          <div style="text-align: center; flex: 0 0 auto;">
+            <div style="font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--fnd-color-accent);">1400px</div>
+            <div style="font-size: 0.75rem; color: var(--fnd-color-text-low);">Viewport Max</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="docs__code-block">/* Formel */
+clamp(MIN, INTERCEPT + SLOPE * 1vw, MAX)
+
+/* Beispiel: spacing-10 (48px → 64px) */
+slope     = (64 - 48) / (1400 - 320) = 0.0148
+intercept = 48 - 0.0148 * 320 = 43.26px
+
+→ clamp(48px, 43.26px + 1.48vw, 64px)
+
+/* SCSS */
+@function fluid-spacing($min, $max) {
+  /* Berechnet slope und intercept automatisch */
+  @return clamp(#{$min}, #{$intercept} + #{$slope} * 1vw, #{$max});
+}</div>
+    </section>
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    (function() {
+      const bps = [
+        { name: 'xxl', min: 1920 },
+        { name: 'xl',  min: 1600 },
+        { name: 'lg',  min: 1200 },
+        { name: 'md',  min: 960 },
+        { name: 'sm',  min: 768 },
+        { name: 'xs',  min: 0 }
+      ];
+      const viewportInfo = document.getElementById('viewport-info');
+
+      function update() {
+        const w = window.innerWidth;
+        const active = bps.find(bp => w >= bp.min) || bps[bps.length - 1];
+        if (viewportInfo) viewportInfo.textContent = w + 'px \u2014 ' + active.name;
+      }
+
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+
+</body>
+</html>

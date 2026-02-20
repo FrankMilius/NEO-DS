@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Border Foundation | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Border-Width und Border-Style Token-Systems." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* Border-Docs-specific styles */
+    .border-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--fnd-spacing-05);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .border-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      padding: var(--fnd-spacing-05);
+      background-color: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+      text-align: center;
+    }
+    .border-card__sample {
+      width: 100%;
+      height: 48px;
+      background-color: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-md);
+      border-style: solid;
+      border-color: var(--fnd-color-interactive-default);
+    }
+    .border-card__label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+    .border-card__value {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+      font-family: monospace;
+    }
+    .border-card__token {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-tertiary);
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .border-style-showcase {
+      display: flex;
+      gap: var(--fnd-spacing-06);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .border-style-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+    }
+    .border-style-item__sample {
+      width: 120px;
+      height: 48px;
+      background-color: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-md);
+      border-width: 2px;
+      border-color: var(--fnd-color-interactive-default);
+    }
+    .border-style-item__label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+
+    .border-button-map {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--fnd-spacing-05);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .border-button-map__item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background-color: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+    }
+    .border-button-map__size-label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+    .border-button-map__meta {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+      font-family: monospace;
+    }
+    .border-button-map__stufe {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--fnd-radius-sm);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+    }
+    .border-button-map__stufe--sm {
+      background-color: color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent);
+      color: var(--fnd-color-interactive-default);
+    }
+    .border-button-map__stufe--lg {
+      background-color: color-mix(in srgb, var(--fnd-color-feedback-success) 12%, transparent);
+      color: var(--fnd-color-feedback-success);
+    }
+
+    .border-comparison {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--fnd-spacing-05);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .border-comparison__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+    }
+    .border-comparison__line {
+      width: 80px;
+      border-style: solid;
+      border-color: var(--fnd-color-interactive-default);
+      border-top: none;
+    }
+    .border-comparison__label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      color: var(--fnd-color-text-primary);
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Mobile Sidebar Toggle -->
+      <!-- Page Header -->
+      <h1 class="docs__title">Border</h1>
+      <p class="docs__subtitle">
+        6-stufige Border-Width-Skala von <code class="docs__token">0px</code> (null) bis
+        <code class="docs__token">8px</code> (xl/bold) plus 3 Border-Styles.
+        Alle Tokens sind als CSS Custom Properties <code class="docs__token">--fnd-border-width-{size}</code>
+        und <code class="docs__token">--fnd-border-style-{name}</code> verf&uuml;gbar.
+      </p>
+
+      <!-- ================================================================ -->
+      <!-- 1. BORDER-WIDTH SCALE                                            -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="width-scale">
+        <h2 class="docs__section-title">Border-Width-Skala</h2>
+        <p class="docs__section-desc">
+          6 Stufen (null&ndash;xl), erg&auml;nzt durch semantische Aliases f&uuml;r sprechende Benennung.
+          Default ist <code class="docs__token">sm</code> (2px).
+        </p>
+
+        <div class="border-showcase">
+          <!-- null -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-null);"></div>
+            <span class="border-card__label">null</span>
+            <span class="border-card__value">0px</span>
+            <span class="border-card__token">--fnd-border-width-null</span>
+          </div>
+          <!-- xs -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-xs);"></div>
+            <span class="border-card__label">xs</span>
+            <span class="border-card__value">1px</span>
+            <span class="border-card__token">--fnd-border-width-xs</span>
+          </div>
+          <!-- sm -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-sm);"></div>
+            <span class="border-card__label">sm (default)</span>
+            <span class="border-card__value">2px</span>
+            <span class="border-card__token">--fnd-border-width-sm</span>
+          </div>
+          <!-- md -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-md);"></div>
+            <span class="border-card__label">md</span>
+            <span class="border-card__value">4px</span>
+            <span class="border-card__token">--fnd-border-width-md</span>
+          </div>
+          <!-- lg -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-lg);"></div>
+            <span class="border-card__label">lg</span>
+            <span class="border-card__value">6px</span>
+            <span class="border-card__token">--fnd-border-width-lg</span>
+          </div>
+          <!-- xl -->
+          <div class="border-card">
+            <div class="border-card__sample" style="border-width: var(--fnd-border-width-xl);"></div>
+            <span class="border-card__label">xl</span>
+            <span class="border-card__value">8px</span>
+            <span class="border-card__token">--fnd-border-width-xl</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 2. VISUAL COMPARISON                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="visual-comparison">
+        <h2 class="docs__section-title">Visuelle Vergleichsleiste</h2>
+        <p class="docs__section-desc">Alle Width-Stufen als horizontale Linie nebeneinander.</p>
+
+        <div class="border-comparison">
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-null);"></div>
+            <span class="border-comparison__label">null (0)</span>
+          </div>
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-xs);"></div>
+            <span class="border-comparison__label">xs (1px)</span>
+          </div>
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-sm);"></div>
+            <span class="border-comparison__label">sm (2px)</span>
+          </div>
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-md);"></div>
+            <span class="border-comparison__label">md (4px)</span>
+          </div>
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-lg);"></div>
+            <span class="border-comparison__label">lg (6px)</span>
+          </div>
+          <div class="border-comparison__item">
+            <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-xl);"></div>
+            <span class="border-comparison__label">xl (8px)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 3. TOKEN REFERENCE — WIDTH                                       -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="token-reference-width">
+        <h2 class="docs__section-title">Token-Referenz &mdash; Border Width</h2>
+
+        <h3 style="margin-block-end: var(--fnd-spacing-03);">Scale-Tokens</h3>
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Stufe</th>
+              <th>CSS Custom Property</th>
+              <th>SCSS-Getter</th>
+              <th>Wert</th>
+              <th>Verwendung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>null</strong></td>
+              <td><code class="docs__token">--fnd-border-width-null</code></td>
+              <td><code class="docs__token">border-width('null')</code></td>
+              <td>0px</td>
+              <td>Keine Border</td>
+            </tr>
+            <tr>
+              <td><strong>xs</strong></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td><code class="docs__token">border-width('xs')</code></td>
+              <td>1px</td>
+              <td>Haarlinie (Buttons SM, Inputs, Divider)</td>
+            </tr>
+            <tr>
+              <td><strong>sm</strong></td>
+              <td><code class="docs__token">--fnd-border-width-sm</code></td>
+              <td><code class="docs__token">border-width('sm')</code></td>
+              <td>2px</td>
+              <td>Default (Buttons LG, Focus-Ring, Akzent)</td>
+            </tr>
+            <tr>
+              <td><strong>md</strong></td>
+              <td><code class="docs__token">--fnd-border-width-md</code></td>
+              <td><code class="docs__token">border-width('md')</code></td>
+              <td>4px</td>
+              <td>Betont (Hervorhebungen, Sidebar-Akzent)</td>
+            </tr>
+            <tr>
+              <td><strong>lg</strong></td>
+              <td><code class="docs__token">--fnd-border-width-lg</code></td>
+              <td><code class="docs__token">border-width('lg')</code></td>
+              <td>6px</td>
+              <td>Stark (dekorative Borders)</td>
+            </tr>
+            <tr>
+              <td><strong>xl</strong></td>
+              <td><code class="docs__token">--fnd-border-width-xl</code></td>
+              <td><code class="docs__token">border-width('xl')</code></td>
+              <td>8px</td>
+              <td>Bold (Hero-Elemente, Keyvisuals)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">Semantische Aliases</h3>
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Alias</th>
+              <th>CSS Custom Property</th>
+              <th>Referenziert</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>hairline</strong></td>
+              <td><code class="docs__token">--fnd-border-width-hairline</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><strong>thin</strong></td>
+              <td><code class="docs__token">--fnd-border-width-thin</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><strong>light</strong></td>
+              <td><code class="docs__token">--fnd-border-width-light</code></td>
+              <td><code class="docs__token">--fnd-border-width-sm</code></td>
+              <td>2px</td>
+            </tr>
+            <tr>
+              <td><strong>medium</strong></td>
+              <td><code class="docs__token">--fnd-border-width-medium</code></td>
+              <td><code class="docs__token">--fnd-border-width-lg</code></td>
+              <td>6px</td>
+            </tr>
+            <tr>
+              <td><strong>bold</strong></td>
+              <td><code class="docs__token">--fnd-border-width-bold</code></td>
+              <td><code class="docs__token">--fnd-border-width-xl</code></td>
+              <td>8px</td>
+            </tr>
+            <tr>
+              <td><strong>thick</strong></td>
+              <td><code class="docs__token">--fnd-border-width-thick</code></td>
+              <td><code class="docs__token">--fnd-border-width-md</code></td>
+              <td>4px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 4. TOKEN REFERENCE — STYLE                                       -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="token-reference-style">
+        <h2 class="docs__section-title">Token-Referenz &mdash; Border Style</h2>
+        <p class="docs__section-desc">
+          Drei vordefinierte Border-Styles als CSS Custom Properties.
+        </p>
+
+        <div class="border-style-showcase">
+          <div class="border-style-item">
+            <div class="border-style-item__sample" style="border-style: solid;"></div>
+            <span class="border-style-item__label">solid</span>
+          </div>
+          <div class="border-style-item">
+            <div class="border-style-item__sample" style="border-style: dashed;"></div>
+            <span class="border-style-item__label">dashed</span>
+          </div>
+          <div class="border-style-item">
+            <div class="border-style-item__sample" style="border-style: dotted;"></div>
+            <span class="border-style-item__label">dotted</span>
+          </div>
+        </div>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Style</th>
+              <th>CSS Custom Property</th>
+              <th>SCSS-Getter</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>solid</strong></td>
+              <td><code class="docs__token">--fnd-border-style-solid</code></td>
+              <td><code class="docs__token">border-style('solid')</code></td>
+              <td>solid</td>
+            </tr>
+            <tr>
+              <td><strong>dashed</strong></td>
+              <td><code class="docs__token">--fnd-border-style-dashed</code></td>
+              <td><code class="docs__token">border-style('dashed')</code></td>
+              <td>dashed</td>
+            </tr>
+            <tr>
+              <td><strong>dotted</strong></td>
+              <td><code class="docs__token">--fnd-border-style-dotted</code></td>
+              <td><code class="docs__token">border-style('dotted')</code></td>
+              <td>dotted</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 5. BUTTON BORDER-WIDTH MAPPING                                   -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="button-mapping">
+        <h2 class="docs__section-title">Button-Border-Width-Mapping</h2>
+        <p class="docs__section-desc">
+          Buttons verwenden ein 2-Stufen-System: kleine Buttons (XS/SM/MD) erhalten
+          <code class="docs__token">xs</code> (1px), gro&szlig;e Buttons (LG)
+          erhalten <code class="docs__token">sm</code> (2px).
+        </p>
+
+        <div class="border-button-map">
+          <div class="border-button-map__item">
+            <span class="border-button-map__size-label">XS (24px)</span>
+            <button class="nc-button nc-button--outline nc-button--xs" style="align-self: flex-start;">Button XS</button>
+            <span class="border-button-map__meta">--nc-button-border-width-sm &rarr; 1px</span>
+            <span class="border-button-map__stufe border-button-map__stufe--sm">Stufe 1</span>
+          </div>
+          <div class="border-button-map__item">
+            <span class="border-button-map__size-label">SM (32px)</span>
+            <button class="nc-button nc-button--outline nc-button--sm" style="align-self: flex-start;">Button SM</button>
+            <span class="border-button-map__meta">--nc-button-border-width-sm &rarr; 1px</span>
+            <span class="border-button-map__stufe border-button-map__stufe--sm">Stufe 1</span>
+          </div>
+          <div class="border-button-map__item">
+            <span class="border-button-map__size-label">MD (40px)</span>
+            <button class="nc-button nc-button--outline" style="align-self: flex-start;">Button MD</button>
+            <span class="border-button-map__meta">--nc-button-border-width-sm &rarr; 1px</span>
+            <span class="border-button-map__stufe border-button-map__stufe--sm">Stufe 1</span>
+          </div>
+          <div class="border-button-map__item">
+            <span class="border-button-map__size-label">LG (48px)</span>
+            <button class="nc-button nc-button--outline nc-button--lg" style="align-self: flex-start;">Button LG</button>
+            <span class="border-button-map__meta">--nc-button-border-width-lg &rarr; 2px</span>
+            <span class="border-button-map__stufe border-button-map__stufe--lg">Stufe 2</span>
+          </div>
+        </div>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Button-Gr&ouml;&szlig;e</th>
+              <th>Stufe</th>
+              <th>Component Token</th>
+              <th>Foundation Token</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>XS / SM / MD</strong></td>
+              <td>Stufe 1</td>
+              <td><code class="docs__token">--nc-button-border-width-sm</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><strong>LG</strong></td>
+              <td>Stufe 2</td>
+              <td><code class="docs__token">--nc-button-border-width-lg</code></td>
+              <td><code class="docs__token">--fnd-border-width-sm</code></td>
+              <td>2px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 6. COMPONENT USAGE                                               -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="component-usage">
+        <h2 class="docs__section-title">Verwendung in Komponenten</h2>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Komponente</th>
+              <th>Component Token</th>
+              <th>Foundation Token</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Button (XS/SM/MD)</strong></td>
+              <td><code class="docs__token">--nc-button-border-width-sm</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><strong>Button (LG)</strong></td>
+              <td><code class="docs__token">--nc-button-border-width-lg</code></td>
+              <td><code class="docs__token">--fnd-border-width-sm</code></td>
+              <td>2px</td>
+            </tr>
+            <tr>
+              <td><strong>Alert</strong></td>
+              <td><code class="docs__token">--nc-alert-border-width</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td>1px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 7. CODE USAGE                                                    -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="code-usage">
+        <h2 class="docs__section-title">Code-Beispiele</h2>
+
+        <h3 style="margin-block-end: var(--fnd-spacing-03);">CSS Custom Properties</h3>
+        <div class="docs__code-block">/* Border-Width-Token als CSS Custom Property */
+.card {
+  border: var(--fnd-border-width-xs) solid var(--fnd-color-border-primary);
+}
+
+/* Semantischen Alias verwenden */
+.divider {
+  border-bottom: var(--fnd-border-width-hairline) solid var(--fnd-color-border-secondary);
+}
+
+/* Default-Width */
+.panel {
+  border: var(--fnd-border-width-default) solid var(--fnd-color-border-primary);
+  /* = 2px */
+}
+
+/* Border-Style-Token */
+.dashed-box {
+  border: var(--fnd-border-width-sm) var(--fnd-border-style-dashed) var(--fnd-color-border-primary);
+}</div>
+
+        <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">SCSS-Getter</h3>
+        <div class="docs__code-block">@use '../00-settings' as *;
+
+// SCSS-Funktion border-width() liefert den px-Wert
+.element {
+  border-width: border-width('sm');       // 2px
+}
+
+// Semantischer Alias
+.element-alt {
+  border-width: border-width('hairline'); // 1px
+}
+
+// SCSS-Funktion border-style()
+.element-dashed {
+  border-style: border-style('dashed');   // dashed
+}</div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 8. DESIGN PRINCIPLES                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="principles">
+        <h2 class="docs__section-title">Design-Prinzipien</h2>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>Scale + Aliases</strong>
+            <p>Die numerische Skala (null&ndash;xl) definiert die konkreten Werte.
+            Semantische Aliases (hairline, thin, light, medium, bold, thick) bieten
+            sprechende Namen f&uuml;r h&auml;ufig verwendete Kombinationen.</p>
+          </div>
+        </div>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>2-Stufen Button-Modell</strong>
+            <p>Kleine Buttons (XS/SM/MD) nutzen 1px Border, gro&szlig;e Buttons (LG)
+            2px. Der visuelle Sprung ist subtil, sorgt aber f&uuml;r optische Harmonie
+            bei gr&ouml;&szlig;eren Button-Fl&auml;chen.</p>
+          </div>
+        </div>
+
+        <div class="docs-a11y-block">
+          <div class="docs-a11y-block__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+          </div>
+          <div class="docs-a11y-block__content">
+            <strong>Theming-f&auml;hig</strong>
+            <p>Wie bei Radii k&ouml;nnen Border-Width-Tokens pro Scope &uuml;berschrieben werden.
+            Z.B. <code class="docs__token">--fnd-border-width-xs: 2px</code> f&uuml;r ein
+            Theme mit dickeren Borders.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 9. MIGRATION GUIDE                                               -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="migration">
+        <h2 class="docs__section-title">Migrations-Leitfaden</h2>
+        <p class="docs__section-desc">
+          Die alte Named-Skala (hairline, thin, medium, thick) wurde durch
+          eine numerische Skala (null&ndash;xl) mit semantischen Aliases ersetzt.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Alt</th>
+              <th>Neu (Scale)</th>
+              <th>Alias verf&uuml;gbar</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs__token">hairline (1px)</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td><code class="docs__token">--fnd-border-width-hairline</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">thin (1px)</code></td>
+              <td><code class="docs__token">--fnd-border-width-xs</code></td>
+              <td><code class="docs__token">--fnd-border-width-thin</code></td>
+              <td>1px</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">medium (2px)</code></td>
+              <td><code class="docs__token">--fnd-border-width-sm</code></td>
+              <td>&mdash;</td>
+              <td>2px (Wert ge&auml;ndert: war 2px, medium zeigt jetzt auf lg=6px)</td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">thick (4px)</code></td>
+              <td><code class="docs__token">--fnd-border-width-md</code></td>
+              <td><code class="docs__token">--fnd-border-width-thick</code></td>
+              <td>4px</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="docs__code-block">/* Alter Code (funktioniert &uuml;ber Aliases): */
+.legacy { border-width: var(--fnd-border-width-hairline); } /* = 1px */
+.legacy { border-width: var(--fnd-border-width-thick); }    /* = 4px */
+
+/* Neuer Code (Scale-Tokens bevorzugt): */
+.modern { border-width: var(--fnd-border-width-xs); }  /* = 1px */
+.modern { border-width: var(--fnd-border-width-md); }  /* = 4px */</div>
+      </section>
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Viewport indicator
+    (function() {
+      var info = document.getElementById('viewport-info');
+      if (!info) return;
+      function update() { info.textContent = window.innerWidth + ' px'; }
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+
+</body>
+</html>

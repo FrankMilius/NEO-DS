@@ -1,0 +1,117 @@
+// ==========================================================================
+// 07-Organisms: Video Section
+// ==========================================================================
+// Side-by-side video + content layout with play overlay.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Video Layout
+// ---------------------------------------------------------------------------
+
+.nc-video {
+  display: grid;
+  gap: 4rem;
+  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-inline: auto;
+  width: min(100%, var(--container-max-width));
+  padding: 0 !important;
+}
+
+.nc-video__media {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--fnd-color-always-dark);
+  border-radius: var(--fnd-radius-lg);
+  overflow: hidden;
+}
+
+.nc-video__media video,
+.nc-video__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  box-shadow: var(--fnd-elevation-overlay);
+}
+
+.nc-video__content {
+  display: grid;
+  gap: 2rem;
+  align-self: start;
+}
+
+.nc-video__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--fnd-color-always-light);
+}
+
+.nc-video__text {
+  margin: 0;
+  color: var(--fnd-color-always-light);
+}
+
+// ---------------------------------------------------------------------------
+// Play Overlay
+// ---------------------------------------------------------------------------
+
+.nc-video__overlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: linear-gradient(0deg,
+    color-mix(in srgb, var(--fnd-color-always-dark) 35%, transparent),
+    color-mix(in srgb, var(--fnd-color-always-dark) 20%, transparent)
+  );
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  @include transition(opacity, '200');
+}
+
+.nc-video__overlay-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fnd-color-background-base) 92%, transparent);
+  box-shadow: var(--fnd-elevation-floating);
+  position: relative;
+}
+
+.nc-video__overlay-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  transform: translate(-40%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid var(--fnd-color-always-dark);
+}
+
+.nc-video__media.is-playing .nc-video__overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@media (max-width: 900px) {
+  .nc-video {
+    grid-template-columns: 1fr;
+  }
+}

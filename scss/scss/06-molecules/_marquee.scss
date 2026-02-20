@@ -1,0 +1,29 @@
+// ==========================================================================
+// 06-Molecules: Marquee
+// ==========================================================================
+// Horizontal scrolling text/logo ticker.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.nc-marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.nc-marquee__text {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 6vw, 1.25rem);
+  font-weight: var(--fnd-font-weight-regular);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

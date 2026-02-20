@@ -1,0 +1,316 @@
+// ==========================================================================
+// 05-Atoms: Slider
+// ==========================================================================
+// Token-basierter Range-Slider mit Custom-Track und -Thumb Styling.
+// Unterstuetzt Single-Value und Range (Dual-Thumb) Varianten.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-slider-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//   Nie direkte Hex-Werte — Theme-Aenderungen fliessen automatisch durch.
+//
+// PATTERN:
+//   Verwendet <input type="range"> mit Cross-Browser Custom-Styling
+//   via ::-webkit-slider-*, ::-moz-range-* Pseudo-Elemente.
+//
+// BEM-KLASSEN:
+//   .nc-slider                    Block (Wrapper)
+//   .nc-slider__input             <input type="range"> (Custom-Styled)
+//   .nc-slider__track             Optionaler Track-Container (fuer JS-Fill)
+//   .nc-slider__fill              Gefuellter Track-Bereich (via JS-Width)
+//   .nc-slider__thumb             Optionaler Thumb-Override
+//   .nc-slider__output            Wert-Anzeige (Tooltip oder Label)
+//   .nc-slider__labels            Min/Max Labels Container
+//   .nc-slider__label-min         Minimum-Label
+//   .nc-slider__label-max         Maximum-Label
+//   .nc-slider--disabled          Disabled-State
+//   .nc-slider--error             Error-State
+//   .nc-slider--vertical          Vertikale Orientierung (optional)
+//
+// ACCESSIBILITY:
+//   Native <input type="range"> — volle Keyboard/Screen-Reader Unterstuetzung
+//   aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext
+//   :focus-visible → @include focus-ring auf Thumb
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Slider-Wrapper.
+@mixin slider-base {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+  width: 100%;
+}
+
+/// Gemeinsames Track-Styling (Cross-Browser).
+@mixin slider-track-styles {
+  width: 100%;
+  height: var(--nc-slider-track-height);
+  background-color: var(--nc-slider-track-bg);
+  border-radius: var(--nc-slider-track-radius);
+  border: none;
+  cursor: pointer;
+}
+
+/// Gemeinsames Thumb-Styling (Cross-Browser).
+@mixin slider-thumb-styles {
+  width: var(--nc-slider-thumb-size);
+  height: var(--nc-slider-thumb-size);
+  background-color: var(--nc-slider-thumb-bg);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--nc-slider-thumb-shadow);
+  cursor: pointer;
+  appearance: none;
+  transition:
+    border-color var(--nc-input-transition-duration) ease,
+    box-shadow var(--nc-input-transition-duration) ease,
+    transform var(--nc-input-transition-duration) ease;
+}
+
+/// Custom-Styling fuer <input type="range">.
+@mixin slider-input {
+  width: 100%;
+  height: var(--nc-slider-thumb-size);
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+
+  // --- WebKit (Chrome, Safari, Edge) ---
+
+  &::-webkit-slider-runnable-track {
+    @include slider-track-styles;
+  }
+
+  &::-webkit-slider-thumb {
+    @include slider-thumb-styles;
+    // Vertikale Zentrierung des Thumbs auf dem Track
+    margin-top: calc((var(--nc-slider-track-height) - var(--nc-slider-thumb-size)) / 2);
+  }
+
+  // --- Firefox ---
+
+  &::-moz-range-track {
+    @include slider-track-styles;
+  }
+
+  &::-moz-range-thumb {
+    @include slider-thumb-styles;
+    // Firefox braucht kein margin-top
+  }
+
+  // Firefox: Gefuellter Bereich links vom Thumb
+  &::-moz-range-progress {
+    height: var(--nc-slider-track-height);
+    background-color: var(--nc-slider-track-bg-active);
+    border-radius: var(--nc-slider-track-radius);
+    border: none;
+  }
+
+  // --- Focus ---
+
+  &:focus-visible {
+    outline: none;
+
+    &::-webkit-slider-thumb {
+      @include focus-ring;
+      border-color: var(--nc-slider-thumb-border);
+    }
+
+    &::-moz-range-thumb {
+      @include focus-ring;
+      border-color: var(--nc-slider-thumb-border);
+    }
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // --- Hover ---
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    &::-webkit-slider-thumb {
+      transform: scale(1.15);
+    }
+
+    &::-moz-range-thumb {
+      transform: scale(1.15);
+    }
+  }
+
+  // --- Disabled ---
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: var(--nc-slider-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // --- Reduced Motion ---
+
+  @media (prefers-reduced-motion: reduce) {
+    &::-webkit-slider-thumb {
+      transition: none;
+    }
+
+    &::-moz-range-thumb {
+      transition: none;
+    }
+  }
+}
+
+/// JS-gesteuerte Track-Fill Darstellung.
+/// Breite wird via CSS-Variable --nc-slider-fill oder inline-style gesetzt.
+@mixin slider-track {
+  position: relative;
+  width: 100%;
+  height: var(--nc-slider-track-height);
+  background-color: var(--nc-slider-track-bg);
+  border-radius: var(--nc-slider-track-radius);
+  overflow: hidden;
+}
+
+/// Gefuellter Bereich des Tracks.
+@mixin slider-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--nc-slider-track-bg-active);
+  border-radius: inherit;
+  pointer-events: none;
+  // Breite via inline-style oder CSS-Variable
+  width: var(--nc-slider-fill, 0%);
+}
+
+/// Wert-Anzeige (Tooltip oder Text).
+@mixin slider-output {
+  display: inline-block;
+  font-size: var(--nc-input-font-size-sm);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--nc-input-color);
+  text-align: center;
+  min-width: 2em;
+  user-select: none;
+}
+
+/// Min/Max Labels unter dem Slider.
+@mixin slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--nc-input-font-size-sm);
+  color: var(--fnd-color-text-secondary);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-slider {
+  @include slider-base;
+
+  // -- Sub-Elemente --
+
+  &__input {
+    @include slider-input;
+  }
+
+  &__track {
+    @include slider-track;
+  }
+
+  &__fill {
+    @include slider-fill;
+  }
+
+  &__output {
+    @include slider-output;
+  }
+
+  &__labels {
+    @include slider-labels;
+  }
+
+  &__label-min,
+  &__label-max {
+    font-size: inherit;
+    color: inherit;
+  }
+
+  // -- State-Modifier --
+
+  &--disabled {
+    opacity: var(--nc-slider-disabled-opacity);
+    cursor: not-allowed;
+
+    .nc-slider__input {
+      pointer-events: none;
+    }
+  }
+
+  &--error {
+    .nc-slider__input {
+      &::-webkit-slider-thumb {
+        border-color: var(--nc-input-border-error);
+      }
+
+      &::-moz-range-thumb {
+        border-color: var(--nc-input-border-error);
+      }
+    }
+
+    .nc-slider__fill {
+      background-color: var(--nc-input-border-error);
+    }
+  }
+
+  // -- Vertikale Variante --
+
+  &--vertical {
+    writing-mode: vertical-lr;
+    direction: rtl; // Bottom-to-top Wert-Richtung
+    height: 200px;
+    width: auto;
+
+    .nc-slider__input {
+      writing-mode: vertical-lr;
+      direction: rtl;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-slider__input {
+      &::-webkit-slider-thumb {
+        background-color: ButtonText;
+        border-color: ButtonText;
+      }
+
+      &::-moz-range-thumb {
+        background-color: ButtonText;
+        border-color: ButtonText;
+      }
+
+      &::-webkit-slider-runnable-track {
+        background-color: Canvas;
+        border: 1px solid ButtonText;
+      }
+
+      &::-moz-range-track {
+        background-color: Canvas;
+        border: 1px solid ButtonText;
+      }
+    }
+  }
+}

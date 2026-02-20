@@ -1,0 +1,89 @@
+// ==========================================================================
+// 08-Templates: Home Basic
+// ==========================================================================
+// Basic Section Template für Homepage
+// Migriert von: home-basic.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.home-basic {
+  padding-block: var(--fnd-spacing-10);
+  
+  @include desktop-up {
+    display: grid;
+    grid-template-columns: 
+      grid-columns(7)
+      grid-columns(5);
+    gap: var(--grid-gap);
+    grid-template-areas:
+      'title link'
+      'body media';
+    padding-block: var(--fnd-spacing-12);
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Title
+  // ---------------------------------------------------------------------------
+  
+  &-title {
+    @include heading('xl');
+    grid-area: title;
+    color: var(--fnd-color-text-low);
+    margin-block: 0 var(--fnd-spacing-08);
+    
+    @include desktop-up {
+      margin: 0;
+    }
+    
+    em {
+      font-style: normal;
+      color: var(--fnd-color-text-high);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Link
+  // ---------------------------------------------------------------------------
+  
+  &-link {
+    grid-area: link;
+    place-self: start end;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Media
+  // ---------------------------------------------------------------------------
+  
+  &-media {
+    grid-area: media;
+    display: block;
+    border-radius: var(--fnd-radius-lg);
+    overflow: clip;
+    margin-block: var(--fnd-spacing-10);
+    
+    @include desktop-up {
+      margin: 0;
+    }
+    
+    img {
+      aspect-ratio: var(--fnd-image-ratio-4-3);
+      object-fit: cover;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Body
+  // ---------------------------------------------------------------------------
+  
+  &-body {
+    @include heading('xs');
+    grid-area: body;
+    align-self: end;
+    color: var(--fnd-color-text-mid);
+    
+    .button-container {
+      margin-block: var(--fnd-spacing-08) 0;
+    }
+  }
+}

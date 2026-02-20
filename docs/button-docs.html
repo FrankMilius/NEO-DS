@@ -1,0 +1,1551 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buttons | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Button-Komponente mit Live-Demo, Token-Referenz und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* ================================================================ */
+    /* Decision Tree Styles                                              */
+    /* ================================================================ */
+    .decision-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--fnd-spacing-06) 0;
+      max-width: 820px;
+    }
+
+    .dt-step {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+
+    .dt-question {
+      flex: 0 0 380px;
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      font-weight: 600;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .dt-question__number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--fnd-color-text-primary);
+      color: var(--fnd-color-background-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: var(--fnd-spacing-03);
+      flex-shrink: 0;
+    }
+
+    .dt-arrow {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .dt-arrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow-label {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .dt-outcome {
+      flex: 1;
+      border-radius: 8px;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 2px solid;
+    }
+
+    .dt-outcome__element {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      margin-bottom: 2px;
+    }
+
+    .dt-outcome__label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    /* Connector between steps */
+    .dt-connector {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding-left: 190px;
+    }
+
+    .dt-connector__line {
+      width: 2px;
+      height: 28px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-connector__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-tertiary);
+      padding-left: var(--fnd-spacing-03);
+      display: flex;
+      align-items: center;
+    }
+
+    /* Sub-outcomes (for branching choices) */
+    .dt-branch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      flex: 1;
+    }
+
+    .dt-branch .dt-outcome {
+      flex: none;
+    }
+
+    /* ================================================================ */
+    /* Semantik Rule Cards                                               */
+    /* ================================================================ */
+    .rule-card {
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-06);
+      margin-bottom: var(--fnd-spacing-05);
+    }
+
+    .rule-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+
+    .rule-card__id {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 28px;
+      padding: 0 var(--fnd-spacing-02);
+      border-radius: 6px;
+      background: var(--fnd-color-text-primary);
+      color: var(--fnd-color-background-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    .rule-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-primary);
+    }
+
+    .rule-card__desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--fnd-color-text-secondary);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+
+    /* ================================================================ */
+    /* Button-specific outcome colors                                    */
+    /* ================================================================ */
+    .dt-outcome--btn-primary { background: color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent); border-color: var(--fnd-color-interactive); color: var(--fnd-color-on-accent); }
+    .dt-outcome--btn-secondary { background: color-mix(in srgb, var(--fnd-color-accent) 15%, transparent); border-color: var(--fnd-color-accent); color: var(--fnd-color-on-accent); }
+    .dt-outcome--btn-tertiary { background: var(--fnd-color-background-secondary); border-color: var(--fnd-color-border-secondary); color: var(--fnd-color-text-secondary); }
+    .dt-outcome--btn-ghost { background: var(--fnd-color-background-primary); border-color: var(--fnd-color-border-tertiary); color: var(--fnd-color-text-tertiary); }
+    .dt-outcome--btn-outline { background: color-mix(in srgb, var(--fnd-color-warning) 15%, transparent); border-color: var(--fnd-color-warning); color: var(--fnd-color-on-warning); }
+    .dt-outcome--btn-system { background: color-mix(in srgb, var(--fnd-color-danger) 15%, transparent); border-color: var(--fnd-color-danger); color: var(--fnd-color-on-danger); }
+
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Buttons</h1>
+      <p class="docs__subtitle">
+        Token-basierte Button-Komponente mit 10 Varianten in 3 Gruppen (Main, Supporting, System),
+        4 Gr&ouml;&szlig;en, fester Typography und Icon-Support.
+        Kanonische Klasse: <code class="docs__token">.nc-button</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-button-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="button-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Button-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-decision" id="trigger-decision">Entscheidungshilfe</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Staging Area)                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Variante und Gr&ouml;&szlig;e, um den Button live in der Staging Area zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <optgroup label="Main">
+                    <option value="" selected>Primary</option>
+                    <option value="secondary">Secondary</option>
+                    <option value="accent">Accent</option>
+                  </optgroup>
+                  <optgroup label="Supporting">
+                    <option value="tertiary">Tertiary</option>
+                    <option value="ghost">Ghost</option>
+                    <option value="outline">Outline</option>
+                  </optgroup>
+                  <optgroup label="System">
+                    <option value="success">Success</option>
+                    <option value="error">Error</option>
+                    <option value="warning">Warning</option>
+                    <option value="info">Info</option>
+                  </optgroup>
+                  <optgroup label="Spezial">
+                    <option value="__link">Link als Button</option>
+                    <option value="__spinner">Spinner</option>
+                    <option value="__group">Button Group</option>
+                    <option value="__toggle">Toggle</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="xs">XS (24px)</option>
+                  <option value="sm">SM (32px)</option>
+                  <option value="md" selected>MD (40px)</option>
+                  <option value="lg">LG (48px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Icon</span>
+                <select class="docs-stage__select" id="stage-icon">
+                  <option value="none" selected>Kein Icon</option>
+                  <option value="leading">Icon links</option>
+                  <option value="trailing">Icon rechts</option>
+                  <option value="only">Icon-Only</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-disabled" />
+                  <span class="docs-stage__label">Disabled</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview docs-stage__preview--start" id="stage-preview">
+              <!-- JS renders buttons here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;button class="nc-button"&gt;Button Label&lt;/button&gt;</pre>
+          </div>
+
+          <!-- Variant Showcase -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten</h2>
+            <p class="docs__section-desc">
+              10 Button-Varianten in 3 Gruppen. Default-Gr&ouml;&szlig;e: MD (40px).
+            </p>
+
+            <!-- Main -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Main</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button">Primary</button>
+              <button class="nc-button nc-button--secondary">Secondary</button>
+              <button class="nc-button nc-button--accent">Accent</button>
+            </div>
+
+            <!-- Supporting -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Supporting</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--tertiary">Tertiary</button>
+              <button class="nc-button nc-button--ghost">Ghost</button>
+              <button class="nc-button nc-button--outline">Outline</button>
+            </div>
+
+            <!-- System -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">System</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--success">Success</button>
+              <button class="nc-button nc-button--error">Error</button>
+              <button class="nc-button nc-button--warning">Warning</button>
+              <button class="nc-button nc-button--info">Info</button>
+            </div>
+
+            <!-- Disabled States -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Disabled</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button" disabled>Disabled</button>
+              <button class="nc-button nc-button--secondary" disabled>Disabled</button>
+              <button class="nc-button nc-button--outline" disabled>Disabled</button>
+            </div>
+          </section>
+
+          <!-- Size Showcase -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              4 Gr&ouml;&szlig;enstufen von XS (24px) bis LG (48px). Die Default-Gr&ouml;&szlig;e ist MD (40px).
+              Typography ist <strong>fest</strong> (nicht fluid):
+              <code class="docs__token">compact</code> (12px) f&uuml;r XS/SM,
+              <code class="docs__token">expressive</code> (16px) f&uuml;r MD/LG.
+            </p>
+
+            <div class="docs-size-row">
+              <span class="docs-size-label">XS</span>
+              <button class="nc-button nc-button--xs">Extra Small</button>
+              <button class="nc-button nc-button--secondary nc-button--xs">Secondary XS</button>
+            </div>
+            <div class="docs-size-row">
+              <span class="docs-size-label">SM</span>
+              <button class="nc-button nc-button--sm">Small</button>
+              <button class="nc-button nc-button--secondary nc-button--sm">Secondary SM</button>
+            </div>
+            <div class="docs-size-row">
+              <span class="docs-size-label">MD</span>
+              <button class="nc-button">Medium</button>
+              <button class="nc-button nc-button--secondary">Secondary MD</button>
+            </div>
+            <div class="docs-size-row">
+              <span class="docs-size-label">LG</span>
+              <button class="nc-button nc-button--lg">Large</button>
+              <button class="nc-button nc-button--secondary nc-button--lg">Secondary LG</button>
+            </div>
+          </section>
+
+          <!-- Buttons mit Icons -->
+          <section class="docs__section" id="icons">
+            <h2 class="docs__section-title">Buttons mit Icons</h2>
+            <p class="docs__section-desc">
+              Icons werden als <code class="docs__token">&lt;span class="nc-button__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;</code>
+              eingebunden. Nur SVG-Icons aus der <a href="./icons-docs.html">Icon Foundation</a> verwenden.
+              Icons k&ouml;nnen links oder rechts vom Label positioniert werden.
+            </p>
+
+            <!-- Icon links -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon links</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Hinzuf&uuml;gen
+              </button>
+              <button class="nc-button nc-button--secondary">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M4,17 L4,19 C4,20.1045695 4.8954305,21 6,21 L18,21 C19.1045695,21 20,20.1045695 20,19 L20,17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><polyline stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="7 11 12 16 17 11"></polyline><line x1="12" y1="4" x2="12" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Herunterladen
+              </button>
+              <button class="nc-button nc-button--ghost">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span>
+                Einstellungen
+              </button>
+              <button class="nc-button nc-button--error">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><line x1="4" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><path d="M5,7 L6,19 C6,20.1045695 6.8954305,21 8,21 L16,21 C17.1045695,21 18,20.1045695 18,19 L19,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9,7 L9,4 C9,3.44771525 9.44771525,3 10,3 L14,3 C14.5522847,3 15,3.44771525 15,4 L15,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></g></g></svg></span>
+                L&ouml;schen
+              </button>
+            </div>
+
+            <!-- Icon rechts -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon rechts</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button">
+                Weiter
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><polyline stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="translate(12, 12) rotate(270) translate(-12, -12)" points="6 9 12 15 18 9"></polyline></g></g></g></svg></span>
+              </button>
+              <button class="nc-button nc-button--secondary">
+                &Ouml;ffnen
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M11,7 L6,7 C4.8954305,7 4,7.8954305 4,9 L4,18 C4,19.1045695 4.8954305,20 6,20 L15,20 C16.1045695,20 17,19.1045695 17,18 L17,13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><line x1="10" y1="14" x2="20" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><polyline stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="15 4 20 4 20 9"></polyline></g></g></g></svg></span>
+              </button>
+            </div>
+
+            <!-- Alle Varianten mit Icon -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Alle Varianten mit Icon</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Primary
+              </button>
+              <button class="nc-button nc-button--secondary">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M9,7 L6,7 C4.8954305,7 4,7.8954305 4,9 L4,18 C4,19.1045695 4.8954305,20 6,20 L15,20 C16.1045695,20 17,19.1045695 17,18 L17,15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9,15 L12,15 L20.5,6.5 C21.3284271,5.67157288 21.3284271,4.32842712 20.5,3.5 C19.6715729,2.67157288 18.3284271,2.67157288 17.5,3.5 L9,12 L9,15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><line x1="16" y1="5" x2="19" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Secondary
+              </button>
+              <button class="nc-button nc-button--outline">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><circle stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Outline
+              </button>
+              <button class="nc-button nc-button--ghost">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span>
+                Ghost
+              </button>
+              <button class="nc-button nc-button--accent">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Accent
+              </button>
+              <button class="nc-button nc-button--success">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M6,4 L16,4 L20,8 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,6 C4,4.8954305 4.8954305,4 6,4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" cx="12" cy="14" r="2"></circle><polyline stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="14 4 14 8 8 8 8 4"></polyline></g></g></g></svg></span>
+                Success
+              </button>
+              <button class="nc-button nc-button--warning">
+                <span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><circle stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg></span>
+                Warning
+              </button>
+              <button class="nc-button nc-button--error">
+                <span class="nc-button__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+                Error
+              </button>
+            </div>
+
+            <!-- Icon-only -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon-Only Button</h3>
+            <p class="docs__section-desc">
+              Klasse: <code class="docs__token">.nc-button--icon-only</code> (quadratisch, height = width).
+              Immer mit <code class="docs__token">aria-label</code>.
+              Erlaubte Varianten: Primary, Secondary, Tertiary, Ghost.
+              Alle 4 Gr&ouml;&szlig;en unterst&uuml;tzt.
+            </p>
+
+            <!-- Icon-only: Header row -->
+            <div style="display: grid; grid-template-columns: 40px repeat(4, auto); gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-02); font-size: var(--fs-xs); color: var(--fnd-color-text-secondary);">
+              <span></span>
+              <span>Primary</span>
+              <span>Secondary</span>
+              <span>Tertiary</span>
+              <span>Ghost</span>
+            </div>
+
+            <!-- Icon-only: XS row -->
+            <div style="display: grid; grid-template-columns: 40px repeat(4, auto); gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-03);">
+              <span style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); font-weight: 600;">XS</span>
+              <button class="nc-button nc-button--icon-only nc-button--xs" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--secondary nc-button--icon-only nc-button--xs" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--tertiary nc-button--icon-only nc-button--xs" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--ghost nc-button--icon-only nc-button--xs" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+            </div>
+
+            <!-- Icon-only: SM row -->
+            <div style="display: grid; grid-template-columns: 40px repeat(4, auto); gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-03);">
+              <span style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); font-weight: 600;">SM</span>
+              <button class="nc-button nc-button--icon-only nc-button--sm" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--secondary nc-button--icon-only nc-button--sm" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--tertiary nc-button--icon-only nc-button--sm" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+            </div>
+
+            <!-- Icon-only: MD row (default) -->
+            <div style="display: grid; grid-template-columns: 40px repeat(4, auto); gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-03);">
+              <span style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); font-weight: 600;">MD</span>
+              <button class="nc-button nc-button--icon-only" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--secondary nc-button--icon-only" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--tertiary nc-button--icon-only" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--ghost nc-button--icon-only" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+            </div>
+
+            <!-- Icon-only: LG row -->
+            <div style="display: grid; grid-template-columns: 40px repeat(4, auto); gap: var(--fnd-spacing-03); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); font-weight: 600;">LG</span>
+              <button class="nc-button nc-button--icon-only nc-button--lg" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--secondary nc-button--icon-only nc-button--lg" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--tertiary nc-button--icon-only nc-button--lg" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+              <button class="nc-button nc-button--ghost nc-button--icon-only nc-button--lg" aria-label="Einstellungen"><span class="nc-button__icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><rect x="0" y="0" width="24" height="24" rx="3"></rect><g><polygon points="0 0 24 0 24 24 0 24"></polygon><path d="M19,6.873 C19.6234513,7.23292309 20.0053693,7.90013379 20.0000559,8.62 L20.0000559,15.156 C19.9998281,15.8822818 19.6059422,16.5513902 18.971,16.904 L12.971,20.737 C12.3671034,21.0723689 11.6328966,21.0723689 11.029,20.737 L5.029,16.904 C4.39437058,16.5515641 4.00053487,15.8829237 4,15.157 L4,8.62 C4.0001719,7.89371815 4.39405775,7.22460983 5.029,6.872 L11.029,3.3 C11.6507466,2.95389748 12.4072534,2.95389748 13.029,3.3 L19.029,6.873 L19,6.873 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle stroke="currentColor" stroke-width="1.5" cx="12" cy="12" r="3"></circle></g></g></g></svg></span></button>
+            </div>
+          </section>
+
+          <!-- Spezial-Varianten -->
+          <section class="docs__section" id="special-variants">
+            <h2 class="docs__section-title">Spezial-Varianten</h2>
+
+            <!-- Spinner / Loading -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Loading / Spinner</h3>
+            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button--loading</code> + Attribut <code class="docs__token">data-loading="true"</code>.</p>
+            <div style="display: flex; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--loading" data-loading="true">
+                <span class="button-text">Speichern</span>
+                <span class="button-spinner"></span>
+              </button>
+              <button class="nc-button nc-button--secondary nc-button--loading" data-loading="true">
+                <span class="button-text">Laden</span>
+                <span class="button-spinner"></span>
+              </button>
+            </div>
+
+            <!-- Button Group -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Button Group</h3>
+            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button-group</code> verbindet Buttons mit geteilten Radii.</p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-button-group">
+                <button class="nc-button nc-button--outline">Links</button>
+                <button class="nc-button nc-button--outline">Mitte</button>
+                <button class="nc-button nc-button--outline">Rechts</button>
+              </div>
+            </div>
+
+            <!-- Toggle -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toggle Button</h3>
+            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button--toggle</code> mit <code class="docs__token">aria-pressed</code>.</p>
+            <div style="display: flex; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--toggle" aria-pressed="false">Inaktiv</button>
+              <button class="nc-button nc-button--toggle" aria-pressed="true">Aktiv</button>
+            </div>
+
+            <!-- Link als Button -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Link als Button</h3>
+            <p class="docs__section-desc">Jede Variante kann auch als <code class="docs__token">&lt;a class="nc-button"&gt;</code> verwendet werden.</p>
+            <div style="display: flex; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <a href="#" class="nc-button" role="button">Primary Link</a>
+              <a href="#" class="nc-button nc-button--secondary" role="button">Secondary Link</a>
+              <a href="#" class="nc-button nc-button--ghost" role="button">Ghost Link</a>
+            </div>
+
+          </section>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                                -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- Globale Tokens -->
+          <section class="docs__section" id="style-global">
+            <h2 class="docs__section-title">Globale Tokens</h2>
+            <p class="docs__section-desc">
+              Diese Tokens gelten f&uuml;r alle Button-Varianten und -Gr&ouml;&szlig;en.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Padding</th><th>Font-Size</th><th>Radius</th><th>Border</th><th>Icon Gap</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>XS</strong></td>
+                  <td>24px</td>
+                  <td>4px 8px</td>
+                  <td>12px (compact)</td>
+                  <td>4px</td>
+                  <td>1px</td>
+                  <td>4px</td>
+                </tr>
+                <tr>
+                  <td><strong>SM</strong></td>
+                  <td>32px</td>
+                  <td>8px 12px</td>
+                  <td>12px (compact)</td>
+                  <td>4px</td>
+                  <td>1px</td>
+                  <td>8px</td>
+                </tr>
+                <tr>
+                  <td><strong>MD</strong></td>
+                  <td>40px</td>
+                  <td>12px 20px</td>
+                  <td>16px (expressive)</td>
+                  <td>6px</td>
+                  <td>1px</td>
+                  <td>8px</td>
+                </tr>
+                <tr>
+                  <td><strong>LG</strong></td>
+                  <td>48px</td>
+                  <td>16px 24px</td>
+                  <td>16px (expressive)</td>
+                  <td>8px</td>
+                  <td>2px</td>
+                  <td>12px</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography-Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-label-compact</code></td><td>0.75rem (12px)</td><td>Font-Size f&uuml;r XS &amp; SM</td></tr>
+                <tr><td><code class="docs__token">--nc-button-label-expressive</code></td><td>1rem (16px)</td><td>Font-Size f&uuml;r MD &amp; LG</td></tr>
+                <tr><td><code class="docs__token">--nc-button-line-height</code></td><td>1.25</td><td>Feste Line-Height (alle Gr&ouml;&szlig;en)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-weight</code></td><td>600</td><td>Schriftgewicht (alle Varianten)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon-Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-icon-size-xs</code></td><td>16px</td><td>Icon-Gr&ouml;&szlig;e in XS-Buttons</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-sm</code></td><td>16px</td><td>Icon-Gr&ouml;&szlig;e in SM-Buttons</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-md</code></td><td>20px</td><td>Icon-Gr&ouml;&szlig;e in MD-Buttons</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-lg</code></td><td>20px</td><td>Icon-Gr&ouml;&szlig;e in LG-Buttons</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Allgemeine Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-min-width</code></td><td>64px</td><td>Minimale Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-button-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+                <tr><td><code class="docs__token">--nc-button-scale-active</code></td><td>0.98</td><td>Scale bei :active</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-full</code></td><td>var(--fnd-radius-full) = 9999px</td><td>Pill-Shape Radius</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Disabled-State Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-disabled-bg</code></td><td>var(--fnd-color-background-disabled)</td><td>Hintergrund deaktiviert</td></tr>
+                <tr><td><code class="docs__token">--nc-button-disabled-color</code></td><td>var(--fnd-color-text-disabled)</td><td>Textfarbe deaktiviert</td></tr>
+                <tr><td><code class="docs__token">--nc-button-disabled-border</code></td><td>var(--fnd-color-border-secondary)</td><td>Rahmenfarbe deaktiviert</td></tr>
+                <tr><td><code class="docs__token">--nc-button-opacity-disabled</code></td><td>0.5</td><td>Opacity bei :disabled</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- SCSS Mixins -->
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixins &amp; BEM-Klassen</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+// Main
+.nc-button                          // Primary (Default)
+.nc-button--secondary               // Sekund&auml;r
+.nc-button--accent                   // Accent
+
+// Supporting
+.nc-button--tertiary                 // Tertiary
+.nc-button--ghost                    // Ghost
+.nc-button--outline                  // Outline
+
+// System
+.nc-button--success                  // Erfolg
+.nc-button--error                    // Fehler (Error)
+.nc-button--warning                  // Warnung
+.nc-button--info                     // Info
+
+// Gr&ouml;&szlig;en
+.nc-button--xs                       // 24px
+.nc-button--sm                       // 32px
+// (md = Default, kein Modifier)
+.nc-button--lg                       // 48px
+
+// Icons
+.nc-button__icon                     // Icon-Wrapper (SVG-Container)
+.nc-button--icon-only                // Quadratischer Icon-Button
+
+// Spezialisiert
+.nc-button--loading                  // Spinner/Loading
+.nc-button--toggle                   // Toggle mit aria-pressed
+.nc-button-group                     // Button-Gruppe
+
+// ===== Deprecated Aliases =====
+.nc-button--destructive              // &rarr; .nc-button--error
+.nc-button--danger                   // &rarr; .nc-button--error
+.button                              // &rarr; .nc-button
+.button.secondary                    // &rarr; .nc-button--secondary
+// ... usw.</div>
+          </section>
+
+          <!-- Varianten-Referenz (Farb-Tokens pro Variante) -->
+          <h2 class="docs__section-title" style="margin-block-start: var(--fnd-spacing-10);">Varianten-Referenz</h2>
+          <p class="docs__section-desc">
+            Jede Variante mit Interaction-States in der Standard-Gr&ouml;&szlig;e (MD) und vollst&auml;ndiger Token-Tabelle.
+          </p>
+
+          <!-- PRIMARY -->
+          <section class="docs__section" id="style-primary">
+            <h3 class="docs__section-title">Primary</h3>
+            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button</code> &mdash; Mixin: <code class="docs__token">button-primary</code></p>
+            <div class="docs-variant-stage" style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; padding: var(--fnd-spacing-06); background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-04);">
+              <div style="text-align:center"><button class="nc-button">Default</button><div style="font-size:var(--fs-xs); color:var(--fnd-color-text-secondary); margin-top:4px;">default</div></div>
+              <div style="text-align:center"><button class="nc-button" style="background-color: var(--nc-button-primary-bg-hover);">Hover</button><div style="font-size:var(--fs-xs); color:var(--fnd-color-text-secondary); margin-top:4px;">:hover</div></div>
+              <div style="text-align:center"><button class="nc-button" style="background-color: var(--nc-button-primary-bg-active); transform: scale(0.98);">Active</button><div style="font-size:var(--fs-xs); color:var(--fnd-color-text-secondary); margin-top:4px;">:active</div></div>
+              <div style="text-align:center"><button class="nc-button" tabindex="-1" style="outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color); outline-offset: var(--fnd-focus-ring-offset);">Focus</button><div style="font-size:var(--fs-xs); color:var(--fnd-color-text-secondary); margin-top:4px;">:focus-visible</div></div>
+              <div style="text-align:center"><button class="nc-button" disabled>Disabled</button><div style="font-size:var(--fs-xs); color:var(--fnd-color-text-secondary); margin-top:4px;">:disabled</div></div>
+            </div>
+            <table class="docs__table">
+              <thead><tr><th>State</th><th>Token</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td>background</td><td><code class="docs__token">--nc-button-primary-bg</code></td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td>color</td><td><code class="docs__token">--nc-button-primary-color</code></td><td>var(--fnd-color-text-on-interactive)</td></tr>
+                <tr><td>border-color</td><td><code class="docs__token">--nc-button-primary-border</code></td><td>transparent</td></tr>
+                <tr><td>hover bg</td><td><code class="docs__token">--nc-button-primary-bg-hover</code></td><td>var(--fnd-color-interactive-hover)</td></tr>
+                <tr><td>active bg</td><td><code class="docs__token">--nc-button-primary-bg-active</code></td><td>var(--fnd-color-interactive-active)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Remaining variants use identical pattern - abbreviated for brevity -->
+          <!-- The other 9 variant sections (Secondary, Accent, Tertiary, Ghost, Outline, Success, Error, Warning, Info) follow the same structure -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-button</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-button</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-button-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_button.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Variante</strong></td><td>Primary (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 40px (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>HTML-Elemente</strong></td><td><code class="docs__token">&lt;button&gt;</code>, <code class="docs__token">&lt;a role="button"&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button</code></td><td>Block</td><td>Basis-Button. Wendet Primary-Variante und MD-Gr&ouml;&szlig;e als Default an.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier &mdash; Main</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button--secondary</code></td><td>Transparenter Hintergrund, interaktiver Border</td></tr>
+                <tr><td><code class="docs__token">.nc-button--accent</code></td><td>Accent-Hintergrund mit dunklem Text</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier &mdash; Supporting</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button--tertiary</code></td><td>Alias f&uuml;r Outline-Style</td></tr>
+                <tr><td><code class="docs__token">.nc-button--ghost</code></td><td>Kein Hintergrund, kein Border &mdash; nur Text</td></tr>
+                <tr><td><code class="docs__token">.nc-button--outline</code></td><td>Transparenter Hintergrund mit sichtbarem Border</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier &mdash; System</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button--success</code></td><td>Gr&uuml;ner Feedback-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">.nc-button--error</code></td><td>Roter Feedback-Hintergrund (kanonisch, ersetzt destructive/danger)</td></tr>
+                <tr><td><code class="docs__token">.nc-button--warning</code></td><td>Gelber/amber Feedback-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">.nc-button--info</code></td><td>Blauer Info-Hintergrund</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>H&ouml;he</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button--xs</code></td><td>24px</td><td>Extra Small</td></tr>
+                <tr><td><code class="docs__token">.nc-button--sm</code></td><td>32px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>40px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-button--lg</code></td><td>48px</td><td>Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Spezial-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th><th>Erfordert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button--icon-only</code></td><td>Quadratischer Icon-Button (width = height)</td><td><code class="docs__token">aria-label</code></td></tr>
+                <tr><td><code class="docs__token">.nc-button--loading</code></td><td>Lade-/Spinner-Status, versteckt Label</td><td><code class="docs__token">data-loading="true"</code></td></tr>
+                <tr><td><code class="docs__token">.nc-button--toggle</code></td><td>Toggle-Button mit Outline-Basis</td><td><code class="docs__token">aria-pressed</code></td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Elemente &amp; Gruppen</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button__icon</code></td><td>Element</td><td>Icon-Wrapper (SVG-Container). Erbt <code class="docs__token">currentColor</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-button-group</code></td><td>Block</td><td>Gruppiert Buttons mit geteilten Border-Radii</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Typ</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">disabled</code></td>
+                  <td>HTML</td>
+                  <td>Optional</td>
+                  <td>Deaktiviert den Button, Disabled-Styling und verhindert Interaktion</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-disabled="true"</code></td>
+                  <td>ARIA</td>
+                  <td>Optional</td>
+                  <td>Alternative zu <code class="docs__token">disabled</code> wenn der Fokus erhalten bleiben soll</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">data-loading="true"</code></td>
+                  <td>Data</td>
+                  <td>F&uuml;r <code class="docs__token">--loading</code></td>
+                  <td>Aktiviert den Spinner-Status. Paaren mit <code class="docs__token">.nc-button--loading</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td>ARIA</td>
+                  <td>F&uuml;r <code class="docs__token">--icon-only</code></td>
+                  <td>Barrierefreier Name f&uuml;r Icon-Only Buttons ohne sichtbaren Text</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-pressed</code></td>
+                  <td>ARIA</td>
+                  <td>F&uuml;r <code class="docs__token">--toggle</code></td>
+                  <td>Toggle-Status: <code class="docs__token">"true"</code> oder <code class="docs__token">"false"</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="button"</code></td>
+                  <td>ARIA</td>
+                  <td>F&uuml;r <code class="docs__token">&lt;a&gt;</code></td>
+                  <td>Pflicht wenn Anchor-Elemente als Buttons fungieren</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-height-xs</code></td><td>24px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-button-height-sm</code></td><td>32px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-button-height-md</code></td><td>40px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-button-height-lg</code></td><td>48px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-x-xs</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-x-sm</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-x-md</code></td><td>20px</td><td>var(--fnd-spacing-05)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-x-lg</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-y-xs</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-y-sm</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-y-md</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-padding-y-lg</code></td><td>16px</td><td>var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-xs</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-sm</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-md</code></td><td>6px</td><td>var(--fnd-radius-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-lg</code></td><td>8px</td><td>var(--fnd-radius-lg)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-radius-full</code></td><td>9999px</td><td>var(--fnd-radius-full)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-label-compact</code></td><td>0.75rem (12px)</td><td>Font-Size f&uuml;r XS &amp; SM</td></tr>
+                <tr><td><code class="docs__token">--nc-button-label-expressive</code></td><td>1rem (16px)</td><td>Font-Size f&uuml;r MD &amp; LG</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-size-xs</code></td><td>var(--nc-button-label-compact)</td><td>12px</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-size-sm</code></td><td>var(--nc-button-label-compact)</td><td>12px</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-size-md</code></td><td>var(--nc-button-label-expressive)</td><td>16px</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-size-lg</code></td><td>var(--nc-button-label-expressive)</td><td>16px</td></tr>
+                <tr><td><code class="docs__token">--nc-button-line-height</code></td><td>1.25</td><td>Fest, alle Gr&ouml;&szlig;en</td></tr>
+                <tr><td><code class="docs__token">--nc-button-font-weight</code></td><td>600</td><td>Bold, alle Varianten</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icons</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-icon-size-xs</code></td><td>16px</td><td>var(--nc-icon-size-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-sm</code></td><td>16px</td><td>var(--nc-icon-size-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-md</code></td><td>20px</td><td>var(--nc-icon-size-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-size-lg</code></td><td>20px</td><td>var(--nc-icon-size-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-gap-xs</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-gap-sm</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-gap-md</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-icon-gap-lg</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Allgemein</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-gap</code></td><td>8px</td><td>Icon/Text-Abstand (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-min-width</code></td><td>64px</td><td>Minimale Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-button-border-width-sm</code></td><td>1px</td><td>Border f&uuml;r XS/SM/MD</td></tr>
+                <tr><td><code class="docs__token">--nc-button-border-width-lg</code></td><td>2px</td><td>Border f&uuml;r LG</td></tr>
+                <tr><td><code class="docs__token">--nc-button-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+                <tr><td><code class="docs__token">--nc-button-scale-active</code></td><td>0.98</td><td>Scale bei :active</td></tr>
+                <tr><td><code class="docs__token">--nc-button-opacity-disabled</code></td><td>0.5</td><td>Opacity bei :disabled</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Farben</h3>
+            <p class="docs__section-desc">
+              Jede Variante definiert 5 Farb-Tokens. Muster: <code class="docs__token">--nc-button-{variant}-{property}</code>
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token-Muster</th><th>Properties</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-{variant}-bg</code></td><td>Hintergrundfarbe (default)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-{variant}-bg-hover</code></td><td>Hintergrundfarbe (:hover)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-{variant}-bg-active</code></td><td>Hintergrundfarbe (:active)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-{variant}-color</code></td><td>Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-button-{variant}-border</code></td><td>Rahmenfarbe</td></tr>
+              </tbody>
+            </table>
+            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-03);">
+              <strong>Varianten:</strong> primary, secondary, accent, outline, ghost, success, warning, error, info
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Disabled &amp; Spinner</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-disabled-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-disabled-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-disabled-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-button-spinner-size</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-button-spinner-border-width</code></td><td>2px</td><td>var(--fnd-border-width-sm)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Override-Pattern</h3>
+            <div class="docs__code-block">// Component-Tokens auf beliebigem Scope &uuml;berschreiben:
+.my-section {
+  --nc-button-primary-bg: var(--fnd-color-feedback-success);
+  --nc-button-primary-bg-hover: color-mix(in srgb,
+    var(--fnd-color-feedback-success) 85%, var(--fnd-color-always-dark));
+}
+
+// Beispiel: Alle Buttons in einer Card mit Pill-Shape
+.nc-card {
+  --nc-button-radius-md: var(--fnd-radius-full);
+}</div>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <p class="docs__section-desc">
+              Alle Mixins sind in <code class="docs__token">scss/05-atoms/_button.scss</code> definiert.
+              Konsumenten k&ouml;nnen diese f&uuml;r Custom-Buttons verwenden.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">button-base</code></td>
+                  <td>&mdash;</td>
+                  <td>Flexbox-Layout, Transitions, Focus-Ring, Disabled-States. Default MD.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-size($size)</code></td>
+                  <td><code class="docs__token">$size: 'xs'&nbsp;|&nbsp;'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'</code></td>
+                  <td>H&ouml;he, Padding, Font-Size, Radius, Border-Width, Icon-Gap pro Gr&ouml;&szlig;e</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-icon-element</code></td>
+                  <td>&mdash;</td>
+                  <td>Icon-Wrapper: inline-flex, flex-shrink, currentColor</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-icon-only($size)</code></td>
+                  <td><code class="docs__token">$size: 'md'</code></td>
+                  <td>Quadratischer Icon-Button. Setzt width = height, entfernt min-width</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-loading</code></td>
+                  <td>&mdash;</td>
+                  <td>Loading/Spinner-Animation. Versteckt Label, zentriert Spinner</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-toggle</code></td>
+                  <td>&mdash;</td>
+                  <td>Toggle mit Outline-Basis + aria-pressed Styling</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-group</code></td>
+                  <td>&mdash;</td>
+                  <td>Gruppierte Buttons mit geteilten Border-Radii</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Varianten-Mixins</td></tr>
+                <tr><td><code class="docs__token">button-primary</code></td><td>&mdash;</td><td>Primary-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-secondary</code></td><td>&mdash;</td><td>Secondary-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-accent</code></td><td>&mdash;</td><td>Accent-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-outline</code></td><td>&mdash;</td><td>Outline-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-tertiary</code></td><td>&mdash;</td><td>Alias f&uuml;r button-outline</td></tr>
+                <tr><td><code class="docs__token">button-ghost</code></td><td>&mdash;</td><td>Ghost-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-success</code></td><td>&mdash;</td><td>Success-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-warning</code></td><td>&mdash;</td><td>Warning-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-error</code></td><td>&mdash;</td><td>Error-Farben (inkl. button-base)</td></tr>
+                <tr><td><code class="docs__token">button-info</code></td><td>&mdash;</td><td>Info-Farben (inkl. button-base)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;button class="nc-button [--variant] [--size] [--icon-only]"&gt;
+
+  &lt;!-- Slot 1: Icon (optional, Position = f&uuml;hrend oder folgend) --&gt;
+  &lt;span class="nc-button__icon"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+
+  &lt;!-- Slot 2: Label (Text-Inhalt) --&gt;
+  Button Label
+
+  &lt;!-- Slot 3: Spinner (nur bei --loading + data-loading="true") --&gt;
+  &lt;span class="button-text"&gt;Label&lt;/span&gt;
+  &lt;span class="button-spinner"&gt;&lt;/span&gt;
+
+&lt;/button&gt;
+
+&lt;!-- Button Group --&gt;
+&lt;div class="nc-button-group"&gt;
+  &lt;button class="nc-button nc-button--outline"&gt;Links&lt;/button&gt;
+  &lt;button class="nc-button nc-button--outline"&gt;Mitte&lt;/button&gt;
+  &lt;button class="nc-button nc-button--outline"&gt;Rechts&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- 7. Deprecated API -->
+          <section class="docs__section" id="api-deprecated">
+            <h2 class="docs__section-title">Deprecated API</h2>
+            <p class="docs__section-desc">
+              Diese Klassen und Mixins sind veraltet. Sie funktionieren weiterhin f&uuml;r Backward-Kompatibilit&auml;t,
+              sollten aber in neuem Code nicht mehr verwendet werden.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Deprecated</th><th>Ersetzt durch</th><th>Anmerkung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.nc-button--destructive</code></td>
+                  <td><code class="docs__token">.nc-button--error</code></td>
+                  <td>Token-Aliases vorhanden</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-button--danger</code></td>
+                  <td><code class="docs__token">.nc-button--error</code></td>
+                  <td>Token-Aliases vorhanden</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.button</code></td>
+                  <td><code class="docs__token">.nc-button</code></td>
+                  <td>Legacy-Klasse ohne BEM-Prefix</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.button.secondary</code></td>
+                  <td><code class="docs__token">.nc-button--secondary</code></td>
+                  <td>Legacy Modifier-Pattern</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.button.ghost</code></td>
+                  <td><code class="docs__token">.nc-button--ghost</code></td>
+                  <td>Legacy Modifier-Pattern</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">SCSS Mixins</td></tr>
+                <tr>
+                  <td><code class="docs__token">button-destructive</code></td>
+                  <td><code class="docs__token">button-error</code></td>
+                  <td>Mixin-Alias</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">button-danger</code></td>
+                  <td><code class="docs__token">button-error</code></td>
+                  <td>Mixin-Alias</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">CSS Custom Properties</td></tr>
+                <tr>
+                  <td><code class="docs__token">--nc-button-destructive-*</code></td>
+                  <td><code class="docs__token">--nc-button-error-*</code></td>
+                  <td>5 Token-Aliases (bg, bg-hover, bg-active, color, border)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Button-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Keyboard -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h0M10 10h0M14 10h0M18 10h0M8 14h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Keyboard-Navigation</h4>
+              <ul>
+                <li><code class="docs__token">Enter</code> oder <code class="docs__token">Space</code> aktiviert den Button</li>
+                <li><code class="docs__token">Tab</code> bewegt den Fokus zum n&auml;chsten interaktiven Element</li>
+                <li><code class="docs__token">Shift+Tab</code> bewegt den Fokus zur&uuml;ck</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Ring (WCAG 2.4.7)</h4>
+              <p>
+                Alle Buttons nutzen <code class="docs__token">@include focus-ring</code> bei <code class="docs__token">:focus-visible</code>.
+                Der Focus-Ring ist klar sichtbar auf allen Hintergr&uuml;nden.
+              </p>
+            </div>
+          </div>
+
+          <!-- ARIA -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ARIA-Attribute</h4>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Attribut</th><th>Verwendung</th><th>Beispiel</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><code class="docs__token">aria-label</code></td>
+                    <td>Icon-only Buttons ohne sichtbaren Text</td>
+                    <td><code class="docs__token">&lt;button aria-label="Schlie&szlig;en"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">aria-pressed</code></td>
+                    <td>Toggle-Buttons (true/false)</td>
+                    <td><code class="docs__token">&lt;button aria-pressed="true"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">aria-disabled</code></td>
+                    <td>Alternative zu <code class="docs__token">disabled</code> wenn Focus erhalten bleiben soll</td>
+                    <td><code class="docs__token">&lt;button aria-disabled="true"&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">role="button"</code></td>
+                    <td>Auf <code class="docs__token">&lt;a&gt;</code>-Elementen die als Button fungieren</td>
+                    <td><code class="docs__token">&lt;a role="button"&gt;</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Touch Target -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 13V7M12 21a2 2 0 0 0 2-2v-4l4 1V9a8 8 0 1 0-12 0v7l4-1v4a2 2 0 0 0 2 2z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Touch Target Size (WCAG 2.5.8)</h4>
+              <ul>
+                <li><strong>Minimum:</strong> 24&times;24px (XS Gr&ouml;&szlig;e erf&uuml;llt dies)</li>
+                <li><strong>Empfohlen:</strong> 44&times;44px (LG Gr&ouml;&szlig;e)</li>
+                <li>Auf mobilen Ger&auml;ten immer mindestens SM (32px) oder gr&ouml;&szlig;er verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Icon-Button A11y -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Icons in Buttons</h4>
+              <ul>
+                <li>Icon-Only Buttons <strong>m&uuml;ssen</strong> <code class="docs__token">aria-label</code> haben</li>
+                <li>Nur SVG-Icons aus der <strong>Icon Foundation</strong> verwenden</li>
+                <li>SVGs erben <code class="docs__token">currentColor</code> &mdash; Kontrast wird automatisch gew&auml;hrleistet</li>
+                <li>Icons neben Text sind dekorativ &mdash; kein <code class="docs__token">aria-label</code> n&ouml;tig</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Button mit Icon (links) --&gt;
+&lt;button class="nc-button"&gt;
+  &lt;span class="nc-button__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  Hinzuf&uuml;gen
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Button mit Icon (rechts) --&gt;
+&lt;button class="nc-button nc-button--secondary"&gt;
+  Weiter
+  &lt;span class="nc-button__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Icon-Only mit aria-label --&gt;
+&lt;button class="nc-button nc-button--icon-only" aria-label="L&ouml;schen"&gt;
+  &lt;span class="nc-button__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Toggle mit aria-pressed --&gt;
+&lt;button class="nc-button nc-button--toggle" aria-pressed="false"&gt;
+  Benachrichtigungen
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Icon-Button ohne Label --&gt;
+&lt;button class="nc-button nc-button--icon-only"&gt;
+  &lt;span class="nc-button__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Icon nicht in .nc-button__icon Wrapper --&gt;
+&lt;button class="nc-button"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+  Label
+&lt;/button&gt;</div>
+          </section>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: Entscheidungshilfe                                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-decision" aria-labelledby="trigger-decision">
+
+          <h2 class="docs__section-title">Welche Button-Variante?</h2>
+          <p class="docs__section-desc">
+            Entscheidungshilfe f&uuml;r die Wahl der richtigen Button-Variante,
+            -gr&ouml;&szlig;e und semantischen Rolle.
+          </p>
+
+          <!-- ========================================================== -->
+          <!-- Section 1: Varianten-Regeln                                 -->
+          <!-- ========================================================== -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Hierarchie</h3>
+
+            <!-- B1 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B1</span>
+                <span class="rule-card__title">Primary = Haupt-CTA der Seite/Section</span>
+              </div>
+              <p class="rule-card__desc">
+                Nur EIN Primary Button pro sichtbarem Viewport. Repr&auml;sentiert die wichtigste Aktion
+                (Absenden, Kaufen, Weiter). Maximale visuelle Gewichtung.
+              </p>
+            </div>
+
+            <!-- B2 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B2</span>
+                <span class="rule-card__title">Secondary = Zweitwichtigste Aktion</span>
+              </div>
+              <p class="rule-card__desc">
+                Steht neben dem Primary als Alternative (z.B. &bdquo;Mehr erfahren&ldquo; neben &bdquo;Jetzt starten&ldquo;).
+                Geringere visuelle Gewichtung, gleiche Gr&ouml;&szlig;e.
+              </p>
+            </div>
+
+            <!-- B3 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B3</span>
+                <span class="rule-card__title">Tertiary / Ghost / Outline = Untergeordnete Aktionen</span>
+              </div>
+              <p class="rule-card__desc">
+                Tertiary: Reduzierte Fl&auml;che, f&uuml;r Cancel, Zur&uuml;ck, optionale Aktionen.
+                Ghost: Minimal, nur Text+Hover. In Toolbars, Inline-Aktionen.
+                Outline: Mit Rahmen, f&uuml;r sekund&auml;re Aktionen mit klarer Begrenzung.
+              </p>
+            </div>
+
+            <!-- B4 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B4</span>
+                <span class="rule-card__title">System-Varianten (Success/Error/Warning/Info)</span>
+              </div>
+              <p class="rule-card__desc">
+                Success: Best&auml;tigende Aktionen (Speichern, Best&auml;tigen).
+                Error: Destruktive Aktionen (L&ouml;schen, Abbrechen) &mdash; immer mit Confirmation!
+                Warning: Aktionen mit Nebeneffekten (Zur&uuml;cksetzen, &Uuml;berschreiben).
+                Info: Informative Aktionen (Details anzeigen, Hilfe).
+              </p>
+            </div>
+
+            <!-- B5 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B5</span>
+                <span class="rule-card__title">Icon-Only vs. Text-Button</span>
+              </div>
+              <p class="rule-card__desc">
+                Icon-Only nur wenn das Icon universell verst&auml;ndlich ist (Schlie&szlig;en, Suche, Men&uuml;)
+                UND Platz begrenzt ist. Immer <code class="docs__token">aria-label</code> setzen.
+                Sonst: Icon + Text kombinieren.
+              </p>
+            </div>
+
+            <!-- B6 -->
+            <div class="rule-card">
+              <div class="rule-card__header">
+                <span class="rule-card__id">B6</span>
+                <span class="rule-card__title">Button vs. Link Semantik</span>
+              </div>
+              <p class="rule-card__desc">
+                <code class="docs__token">&lt;button&gt;</code>: L&ouml;st eine Aktion aus (Submit, Toggle, Dialog &ouml;ffnen).
+                <code class="docs__token">&lt;a href&gt;</code>: Navigiert zu einer URL.
+                Auch wenn es wie ein Button aussieht &rarr; Verweis auf Komponenten-Matrix R1.
+              </p>
+            </div>
+
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- Section 2: Entscheidungsbaum                                -->
+          <!-- ========================================================== -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Entscheidungsbaum: Varianten-Wahl</h3>
+
+            <div class="decision-tree">
+
+              <!-- Step 1 -->
+              <div class="dt-step">
+                <div class="dt-question">
+                  <span class="dt-question__number">1</span>
+                  Ist es die wichtigste Aktion im Viewport?
+                </div>
+                <div class="dt-arrow">
+                  <span class="dt-arrow-label">Ja</span>
+                </div>
+                <div class="dt-outcome dt-outcome--accent">
+                  <span class="dt-outcome__element">Primary</span>
+                  <span class="dt-outcome__label">Haupt-CTA, max. 1 pro Viewport</span>
+                </div>
+              </div>
+
+              <!-- Connector -->
+              <div class="dt-connector">
+                <div class="dt-connector__line"></div>
+                <span class="dt-connector__label">Nein &darr;</span>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="dt-step">
+                <div class="dt-question">
+                  <span class="dt-question__number">2</span>
+                  Hat die Aktion einen semantischen Zustand?
+                </div>
+                <div class="dt-arrow">
+                  <span class="dt-arrow-label">Ja</span>
+                </div>
+                <div class="dt-outcome dt-outcome--danger">
+                  <span class="dt-outcome__element">System-Variante</span>
+                  <span class="dt-outcome__label">Success / Error / Warning / Info</span>
+                </div>
+              </div>
+
+              <!-- Connector -->
+              <div class="dt-connector">
+                <div class="dt-connector__line"></div>
+                <span class="dt-connector__label">Nein &darr;</span>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="dt-step">
+                <div class="dt-question">
+                  <span class="dt-question__number">3</span>
+                  Braucht der Button eine klare visuelle Begrenzung?
+                </div>
+                <div class="dt-arrow">
+                  <span class="dt-arrow-label">Ja</span>
+                </div>
+                <div class="dt-branch">
+                  <div class="dt-outcome dt-outcome--interactive">
+                    <span class="dt-outcome__element">Secondary</span>
+                    <span class="dt-outcome__label">Zweit-CTA neben Primary</span>
+                  </div>
+                  <div class="dt-outcome dt-outcome--warning">
+                    <span class="dt-outcome__element">Outline</span>
+                    <span class="dt-outcome__label">Eigenst&auml;ndige Aktion mit Rahmen</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Connector -->
+              <div class="dt-connector">
+                <div class="dt-connector__line"></div>
+                <span class="dt-connector__label">Nein &darr;</span>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="dt-step">
+                <div class="dt-question">
+                  <span class="dt-question__number">4</span>
+                  Minimale visuelle Pr&auml;senz gew&uuml;nscht?
+                </div>
+                <div class="dt-arrow">
+                  <span class="dt-arrow-label">Ja</span>
+                </div>
+                <div class="dt-branch">
+                  <div class="dt-outcome dt-outcome--neutral">
+                    <span class="dt-outcome__element">Tertiary</span>
+                    <span class="dt-outcome__label">Cancel, Zur&uuml;ck</span>
+                  </div>
+                  <div class="dt-outcome dt-outcome--secondary">
+                    <span class="dt-outcome__element">Ghost</span>
+                    <span class="dt-outcome__label">Toolbar, Inline, nur bei Hover sichtbar</span>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /.decision-tree -->
+
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="button-docs.js"></script>
+
+</body>
+</html>

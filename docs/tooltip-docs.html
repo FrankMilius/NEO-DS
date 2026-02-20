@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tooltip | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Tooltip-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Tooltip</h1>
+      <p class="docs__subtitle">
+        CSS-only Tooltip-Komponente mit 4 Positionierungen und Arrow. Erscheint bei Hover und Focus.
+        Kanonische Klasse: <code class="docs__token">.nc-tooltip</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-tooltip-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="tooltip-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Tooltip-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Position und Arrow, um den Tooltip live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Position</span>
+                <select class="docs-stage__select" id="stage-position">
+                  <option value="top" selected>Top</option>
+                  <option value="bottom">Bottom</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-arrow" checked />
+                  <span class="docs-stage__label">Arrow</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+              <!-- JS renders tooltip here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;span class="nc-tooltip"&gt;...&lt;/span&gt;</pre>
+          </div>
+
+          <!-- Alle Positionen -->
+          <section class="docs__section" id="all-positions">
+            <h2 class="docs__section-title">Alle Positionen</h2>
+            <p class="docs__section-desc">
+              4 Positionierungen: Top (Standard), Bottom, Left, Right.
+              Tooltips erscheinen hier dauerhaft sichtbar zur Demonstration.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-10); align-items: center; justify-content: center; padding: var(--fnd-spacing-08); margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tooltip">
+                <button class="nc-button nc-button--outline">Oben</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-top" style="opacity:1;visibility:visible;">
+                  Tooltip oben
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+              <span class="nc-tooltip nc-tooltip--bottom">
+                <button class="nc-button nc-button--outline">Unten</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-bottom" style="opacity:1;visibility:visible;">
+                  Tooltip unten
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+              <span class="nc-tooltip nc-tooltip--left">
+                <button class="nc-button nc-button--outline">Links</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-left" style="opacity:1;visibility:visible;">
+                  Tooltip links
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+              <span class="nc-tooltip nc-tooltip--right">
+                <button class="nc-button nc-button--outline">Rechts</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-right" style="opacity:1;visibility:visible;">
+                  Tooltip rechts
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+            </div>
+          </section>
+
+          <!-- Auf Icon-Button -->
+          <section class="docs__section" id="icon-button">
+            <h2 class="docs__section-title">Auf Icon-Button</h2>
+            <p class="docs__section-desc">
+              Tooltip auf einem Icon-only Button. Ideal f&uuml;r Icons ohne sichtbares Label.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tooltip">
+                <button class="nc-button nc-button--ghost nc-button--icon-only" aria-describedby="tip-settings">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-settings" style="opacity:1;visibility:visible;">
+                  Einstellungen
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+            </div>
+          </section>
+
+          <!-- Langer Text -->
+          <section class="docs__section" id="long-text">
+            <h2 class="docs__section-title">Langer Text</h2>
+            <p class="docs__section-desc">
+              Tooltip mit mehrzeiligem Text. Die maximale Breite ist auf 280px begrenzt (<code class="docs__token">--nc-tooltip-max-width</code>).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tooltip">
+                <button class="nc-button nc-button--outline" aria-describedby="tip-long">Langer Tooltip</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-long" style="opacity:1;visibility:visible;">
+                  Dies ist ein l&auml;ngerer Tooltip-Text, der zeigt, wie mehrzeilige Tooltips dargestellt werden.
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+            </div>
+          </section>
+
+          <!-- Disabled Button Pattern -->
+          <section class="docs__section" id="disabled-button">
+            <h2 class="docs__section-title">Disabled Button Pattern</h2>
+            <p class="docs__section-desc">
+              Tooltip auf einem deaktivierten Button. Der Wrapper <code class="docs__token">&lt;span tabindex="0"&gt;</code> macht den Tooltip per Tastatur erreichbar.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-tooltip" tabindex="0">
+                <button class="nc-button nc-button--outline" disabled aria-describedby="tip-disabled">Deaktiviert</button>
+                <span class="nc-tooltip__content" role="tooltip" id="tip-disabled" style="opacity:1;visibility:visible;">
+                  Aktion nicht verf&uuml;gbar
+                  <span class="nc-tooltip__arrow"></span>
+                </span>
+              </span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-basis-tokens">
+            <h2 class="docs__section-title">Basis-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-tooltip-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>Hintergrundfarbe (dunkel)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-color</code></td><td>var(--fnd-color-text-inverse)</td><td>Textfarbe (hell)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-padding</code></td><td>10px var(--fnd-spacing-03)</td><td>Innenabstand (10px Y, 12px X)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td>Border-Radius (4px)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-shadow</code></td><td>var(--fnd-shadow-md)</td><td>Schatten</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-font-size</code></td><td>var(--fs-sm)</td><td>Schriftgr&ouml;&szlig;e (fluid ~12&ndash;15px)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-max-width</code></td><td>320px</td><td>Maximale Breite</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixin-Referenz</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">tooltip-wrapper</code></td><td>Wrapper (relative, inline-flex)</td></tr>
+                <tr><td><code class="docs__token">tooltip-content-base</code></td><td>Content (absolute, z-index, colors, visibility)</td></tr>
+                <tr><td><code class="docs__token">tooltip-visible</code></td><td>Sichtbarkeit (opacity 1, visibility visible)</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-top</code></td><td>Position oben (Standard)</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-bottom</code></td><td>Position unten</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-left</code></td><td>Position links</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-right</code></td><td>Position rechts</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-base</code></td><td>Arrow Basis (8x8, rotated 45deg)</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-top</code></td><td>Arrow-Positionierung oben</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-bottom</code></td><td>Arrow-Positionierung unten</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-left</code></td><td>Arrow-Positionierung links</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-right</code></td><td>Arrow-Positionierung rechts</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-tooltip                    // Block (Wrapper, position: relative)
+.nc-tooltip__content           // Content-Element (Tooltip-Box)
+.nc-tooltip__arrow             // Arrow-Element (Pfeil)
+
+// Positions-Modifier
+// (top = Default, kein Modifier)
+.nc-tooltip--bottom            // Position unten
+.nc-tooltip--left              // Position links
+.nc-tooltip--right             // Position rechts</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-tooltip</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-tooltip</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-tooltip-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_tooltip.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Position</strong></td><td>Top &mdash; kein Modifier n&ouml;tig</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>CSS-only &mdash; Hover und Focus</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;span&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-tooltip</code></td><td>Block</td><td>Tooltip-Wrapper. Position: relative, Display: inline-flex.</td></tr>
+                <tr><td><code class="docs__token">.nc-tooltip__content</code></td><td>Element</td><td>Tooltip-Inhalt. Position: absolute, z-index, Farben, Visibility.</td></tr>
+                <tr><td><code class="docs__token">.nc-tooltip__arrow</code></td><td>Element</td><td>Pfeil-Element. 8x8px, rotated 45deg, gleiche Hintergrundfarbe.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Position-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Position</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><em>(kein Modifier)</em></td><td>Top</td><td>Tooltip erscheint oberhalb &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-tooltip--bottom</code></td><td>Bottom</td><td>Tooltip erscheint unterhalb</td></tr>
+                <tr><td><code class="docs__token">.nc-tooltip--left</code></td><td>Left</td><td>Tooltip erscheint links</td></tr>
+                <tr><td><code class="docs__token">.nc-tooltip--right</code></td><td>Right</td><td>Tooltip erscheint rechts</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Appearance</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-inverse)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-inverse)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-shadow</code></td><td>&mdash;</td><td>var(--fnd-shadow-md)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Spacing</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-padding</code></td><td>&mdash;</td><td>10px var(--fnd-spacing-03)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-max-width</code></td><td>320px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-tooltip-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">tooltip-wrapper</code></td><td>&mdash;</td><td>Position relative, Display inline-flex. Wrapper f&uuml;r Trigger + Content.</td></tr>
+                <tr><td><code class="docs__token">tooltip-content-base</code></td><td>&mdash;</td><td>Position absolute, z-index, Background, Color, Padding, Radius, Shadow, Visibility hidden.</td></tr>
+                <tr><td><code class="docs__token">tooltip-visible</code></td><td>&mdash;</td><td>Opacity 1, Visibility visible. Angewendet bei :hover und :focus-within.</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-top</code></td><td>&mdash;</td><td>Bottom 100%, left 50%, translateX(-50%). Standard-Positionierung.</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-bottom</code></td><td>&mdash;</td><td>Top 100%, left 50%, translateX(-50%).</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-left</code></td><td>&mdash;</td><td>Right 100%, top 50%, translateY(-50%).</td></tr>
+                <tr><td><code class="docs__token">tooltip-position-right</code></td><td>&mdash;</td><td>Left 100%, top 50%, translateY(-50%).</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-base</code></td><td>&mdash;</td><td>Width/Height 8px, Background inherit, Transform rotate(45deg).</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-top</code></td><td>&mdash;</td><td>Arrow-Positionierung f&uuml;r Top-Tooltip.</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-bottom</code></td><td>&mdash;</td><td>Arrow-Positionierung f&uuml;r Bottom-Tooltip.</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-left</code></td><td>&mdash;</td><td>Arrow-Positionierung f&uuml;r Left-Tooltip.</td></tr>
+                <tr><td><code class="docs__token">tooltip-arrow-right</code></td><td>&mdash;</td><td>Arrow-Positionierung f&uuml;r Right-Tooltip.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Tooltip (Position: Top) --&gt;
+&lt;span class="nc-tooltip"&gt;
+
+  &lt;!-- Slot 1: Trigger (beliebiges interaktives Element) --&gt;
+  &lt;button class="nc-button"&gt;Trigger&lt;/button&gt;
+
+  &lt;!-- Slot 2: Tooltip-Content --&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-id"&gt;
+    Tooltip-Text
+
+    &lt;!-- Slot 3: Arrow (optional) --&gt;
+    &lt;span class="nc-tooltip__arrow"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+
+&lt;/span&gt;
+
+&lt;!-- Mit Position-Modifier --&gt;
+&lt;span class="nc-tooltip nc-tooltip--bottom"&gt;
+  &lt;button class="nc-button" aria-describedby="tip-id"&gt;Trigger&lt;/button&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-id"&gt;
+    Tooltip-Text
+    &lt;span class="nc-tooltip__arrow"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- Ohne Arrow --&gt;
+&lt;span class="nc-tooltip"&gt;
+  &lt;button class="nc-button" aria-describedby="tip-id"&gt;Trigger&lt;/button&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-id"&gt;
+    Tooltip-Text
+  &lt;/span&gt;
+&lt;/span&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Tooltip-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen und d&uuml;rfen nur erg&auml;nzende Informationen enthalten.
+          </p>
+
+          <!-- role="tooltip" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>role="tooltip"</h4>
+              <ul>
+                <li>Das Content-Element (<code class="docs__token">.nc-tooltip__content</code>) bekommt <code class="docs__token">role="tooltip"</code></li>
+                <li>Screenreader erkennen das Element dadurch als Tooltip und k&uuml;ndigen es entsprechend an</li>
+                <li>Jeder Tooltip muss eine eindeutige <code class="docs__token">id</code> haben</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- aria-describedby -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-describedby</h4>
+              <ul>
+                <li>Der Trigger (Button, Link etc.) referenziert die Tooltip-ID &uuml;ber <code class="docs__token">aria-describedby</code></li>
+                <li>Dadurch wird der Tooltip-Text als Beschreibung des Triggers vorgelesen</li>
+                <li>Beispiel: <code class="docs__token">&lt;button aria-describedby="tip-1"&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard Support -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/><line x1="14" y1="16" x2="14.01" y2="16"/><line x1="18" y1="16" x2="18.01" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Keyboard-Support</h4>
+              <ul>
+                <li><code class="docs__token">:focus-within</code> zeigt den Tooltip, wenn der Trigger per Tab fokussiert wird</li>
+                <li>ESC schlie&szlig;t den Tooltip (optional, erfordert JS)</li>
+                <li>Der Tooltip darf den Fokus <strong>nicht</strong> einfangen &mdash; er ist rein informativ</li>
+                <li>Tab navigiert zum n&auml;chsten fokussierbaren Element, nicht in den Tooltip hinein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Disabled Button Pattern -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Disabled-Button Pattern</h4>
+              <ul>
+                <li>Deaktivierte Buttons (<code class="docs__token">disabled</code>) sind nicht fokussierbar</li>
+                <li>L&ouml;sung: Wrapper <code class="docs__token">&lt;span class="nc-tooltip" tabindex="0"&gt;</code> macht den Tooltip per Tastatur erreichbar</li>
+                <li>Der <code class="docs__token">tabindex="0"</code> auf dem Wrapper erm&ouml;glicht <code class="docs__token">:focus-within</code></li>
+                <li>Alternativ: <code class="docs__token">aria-disabled="true"</code> statt <code class="docs__token">disabled</code> verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Erg&auml;nzend, nie essenziell -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Erg&auml;nzend, nie essenziell</h4>
+              <ul>
+                <li>Tooltip-Inhalt muss <strong>erg&auml;nzend</strong> sein &mdash; die Kernfunktion muss auch ohne Tooltip verst&auml;ndlich bleiben</li>
+                <li>Keine essenziellen Informationen, Formularbeschriftungen oder Fehlermeldungen in Tooltips</li>
+                <li>Tooltips sind auf Mobilger&auml;ten nicht zuverl&auml;ssig erreichbar (kein Hover)</li>
+                <li>Maximale Textl&auml;nge beachten &mdash; f&uuml;r l&auml;ngere Inhalte Popover oder Inline-Text verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Tooltip mit role und aria-describedby --&gt;
+&lt;span class="nc-tooltip"&gt;
+  &lt;button class="nc-button" aria-describedby="tip-save"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-save"&gt;
+    Speichern
+    &lt;span class="nc-tooltip__arrow"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- RICHTIG: Disabled Button mit tabindex-Wrapper --&gt;
+&lt;span class="nc-tooltip" tabindex="0"&gt;
+  &lt;button class="nc-button" disabled aria-describedby="tip-dis"&gt;
+    L&ouml;schen
+  &lt;/button&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-dis"&gt;
+    Keine Berechtigung
+    &lt;span class="nc-tooltip__arrow"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Tooltip ohne role --&gt;
+&lt;span class="nc-tooltip"&gt;
+  &lt;button&gt;Trigger&lt;/button&gt;
+  &lt;span class="nc-tooltip__content"&gt;
+    Kein role="tooltip" gesetzt!
+  &lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Essenzielle Information im Tooltip --&gt;
+&lt;span class="nc-tooltip"&gt;
+  &lt;input type="text" /&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip"&gt;
+    Pflichtfeld &mdash; bitte ausf&uuml;llen
+    &lt;!-- Pflichtfeld-Hinweise geh&ouml;ren nicht in Tooltips --&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- FALSCH: Kein aria-describedby am Trigger --&gt;
+&lt;span class="nc-tooltip"&gt;
+  &lt;button&gt;Trigger&lt;/button&gt;
+  &lt;span class="nc-tooltip__content" role="tooltip" id="tip-x"&gt;
+    Screenreader kann Tooltip nicht zuordnen
+  &lt;/span&gt;
+&lt;/span&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="tooltip-docs.js"></script>
+
+</body>
+</html>

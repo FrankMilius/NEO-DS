@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text Blocks | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Text-Blocks-Komponente mit Section-Title, Eyebrow und Lead." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Text Blocks</h1>
+      <p class="docs__subtitle">
+        Wiederverwendbare Text-Primitive f&uuml;r Section-Titles, Eyebrows und Lead-Paragraphen.
+        Drei Klassen: <code class="docs__token">.nc-section-title</code>, <code class="docs__token">.nc-eyebrow</code>, <code class="docs__token">.nc-lead</code>.
+        Alle Farben und Abst&auml;nde kommen aus Foundation-Tokens.
+        Typischerweise verwendet in Hero-Sektionen, Abschnittsk&ouml;pfen und Marketing-Layouts.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="text-blocks-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Text-Blocks-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, um die Text-Blöcke in verschiedenen Themes zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders text blocks here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;p class="nc-eyebrow"&gt;Produkt&lt;/p&gt;
+&lt;h2 class="nc-section-title"&gt;Abschnitts&uuml;berschrift&lt;/h2&gt;
+&lt;p class="nc-lead"&gt;Eine Einleitung, die den Abschnitt er&ouml;ffnet und die wichtigsten Punkte zusammenfasst.&lt;/p&gt;</pre>
+          </div>
+
+          <!-- Einzelne Elemente -->
+          <section class="docs__section" id="single-elements">
+            <h2 class="docs__section-title">Einzelne Elemente</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">nc-eyebrow</h3>
+            <p class="docs__section-desc">
+              Overline / Kicker &mdash; Uppercase, tracked, sekundte Textfarbe. Steht &uuml;blicherweise &uuml;ber der Haupttitel.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <p class="nc-eyebrow">Neue Funktion</p>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">nc-section-title</h3>
+            <p class="docs__section-desc">
+              Section-Titel &mdash; Gro&szlig;e Heading-Schrift, Heading-Font-Family, großer unterer Abstand.
+              Skaliert &uuml;ber <code class="docs__token">--type-scale</code> Custom Property.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <h2 class="nc-section-title" style="margin-block-end: 0;">Unsere Vision f&uuml;r modernes Lernen</h2>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">nc-lead</h3>
+            <p class="docs__section-desc">
+              Lead-Paragraph &mdash; Etwas gr&ouml;&szlig;ere Schrift, sekund&auml;re Textfarbe, begrenzte Zeilenbreite (56ch).
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <p class="nc-lead">NEOCOSMO entwickelt innovative L&ouml;sungen f&uuml;r digitales Lernen und Wissensmanagement. Unsere Plattform unterst&uuml;tzt Unternehmen dabei, das Potenzial ihrer Mitarbeiter voll auszusch&ouml;pfen.</p>
+            </div>
+          </section>
+
+          <!-- Kombinierte Verwendung -->
+          <section class="docs__section" id="combined">
+            <h2 class="docs__section-title">Kombinierte Verwendung</h2>
+            <p class="docs__section-desc">
+              Alle drei Text-Blöcke zusammen &mdash; typisches Abschnittsk&ouml;nig-Pattern.
+            </p>
+            <div style="max-width: 600px; margin-block-end: var(--fnd-spacing-06);">
+              <p class="nc-eyebrow">Unsere Plattform</p>
+              <h2 class="nc-section-title" style="margin-block-end: 1rem;">Lernen neu gedacht</h2>
+              <p class="nc-lead">Mit unserer integrierten L&ouml;sung verbinden Sie Lernen, Wissen und Zusammenarbeit auf einer einzigen Plattform. Flexibel, skalierbar und auf Ihre Bed&uuml;rfnisse zugeschnitten.</p>
+            </div>
+          </section>
+
+          <!-- Scaling -->
+          <section class="docs__section" id="type-scale">
+            <h2 class="docs__section-title">Type Scale</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">nc-section-title</code> und <code class="docs__token">nc-lead</code> skalieren &uuml;ber die <code class="docs__token">--type-scale</code> Custom Property.
+              Der Standardwert ist 1. Ein &uuml;bergeordnetes Element kann diesen Wert &uuml;berschreiben.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div style="--type-scale: 0.85;">
+                <p class="nc-eyebrow">Skaliert (0.85)</p>
+                <h2 class="nc-section-title" style="margin-block-end: 0.5rem;">Kleinerer Abschnittstitel</h2>
+                <p class="nc-lead">Etwas kompaktere Lead-Variante f&uuml;r engere Layouts.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-section-title">
+            <h2 class="docs__section-title">nc-section-title</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Font-Family</td><td><code class="docs__token">var(--font-heading)</code></td><td>Heading-Schriftfamilie</td></tr>
+                <tr><td>Font-Size</td><td><code class="docs__token">calc(var(--fs-3xl) * var(--type-scale, 1))</code></td><td>3XL-Gr&ouml;&szlig;e, skalierbar</td></tr>
+                <tr><td>Line-Height</td><td>1.2</td><td>Kompakte Zeilenh&ouml;he f&uuml;r Displaytext</td></tr>
+                <tr><td>Margin-Block-End</td><td>4rem</td><td>Gro&szlig;er unterer Abstand</td></tr>
+                <tr><td>Color</td><td><em>(erbt vom Kontext)</em></td><td>Keine eigene Farbe gesetzt</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-eyebrow">
+            <h2 class="docs__section-title">nc-eyebrow</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Text-Transform</td><td><code class="docs__token">uppercase</code></td><td>Vollst&auml;ndig in Gro&szlig;buchstaben</td></tr>
+                <tr><td>Font-Size</td><td>0.75rem (12px)</td><td>Kleines Format</td></tr>
+                <tr><td>Letter-Spacing</td><td>0.2em</td><td>Weiteres Tracking f&uuml;r Uppercase</td></tr>
+                <tr><td>Color</td><td><code class="docs__token">var(--fnd-color-text-secondary)</code></td><td>Sekund&auml;re Textfarbe</td></tr>
+                <tr><td>Margin-Block-End</td><td>0.75rem</td><td>Abstand zur n&auml;chsten Zeile</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-lead">
+            <h2 class="docs__section-title">nc-lead</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Font-Size</td><td><code class="docs__token">calc(var(--fs-lg) * var(--type-scale, 1))</code></td><td>LG-Gr&ouml;&szlig;e, skalierbar</td></tr>
+                <tr><td>Color</td><td><code class="docs__token">var(--fnd-color-text-secondary)</code></td><td>Sekund&auml;re Textfarbe</td></tr>
+                <tr><td>Max-Width</td><td>56ch</td><td>Begrenzte Lesebreite</td></tr>
+                <tr><td>Line-Height</td><td><code class="docs__token">var(--lh-body)</code></td><td>Standard Body-Zeilenh&ouml;he</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">CSS-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Klassen (nc-Namespace) =====
+
+.nc-section-title              // Gro&szlig;er Abschnittstitel
+                               // Heading-Font, 3XL, skalierbar, 4rem Abstand unten
+
+.nc-eyebrow                    // Overline / Kicker
+                               // Uppercase, Tracked, Text-Secondary, 12px
+
+.nc-lead                       // Lead-Paragraph / Einleitungstext
+                               // LG-Font, Text-Secondary, max 56ch, skalierbar</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Namespace</strong></td><td><code class="docs__token">nc-</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fs-*</code>, <code class="docs__token">--font-*</code>, <code class="docs__token">--lh-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_text-blocks.scss</code></td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine &mdash; rein textuell</td></tr>
+                <tr><td><strong>Type-Scale</strong></td><td><code class="docs__token">--type-scale</code> Custom Property (Default 1)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Empfohlenes Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.nc-section-title</code></td>
+                  <td><code class="docs__token">&lt;h2&gt;</code>, <code class="docs__token">&lt;h3&gt;</code></td>
+                  <td>Gro&szlig;er Abschnittstitel. Heading-Font, 3XL-Gr&ouml;&szlig;e, skalierbar via <code class="docs__token">--type-scale</code>.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-eyebrow</code></td>
+                  <td><code class="docs__token">&lt;p&gt;</code>, <code class="docs__token">&lt;span&gt;</code></td>
+                  <td>Overline/Kicker. Uppercase, Tracked, Sekund&auml;re Textfarbe. Typisch &uuml;ber dem Abschnittstitel.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-lead</code></td>
+                  <td><code class="docs__token">&lt;p&gt;</code></td>
+                  <td>Einleitungs-/Lead-Text. LG-Schriftgr&ouml;&szlig;e, Sekund&auml;re Farbe, max 56ch.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">Verwendete Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Klasse</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">nc-section-title</td></tr>
+                <tr><td><code class="docs__token">--font-heading</code></td><td>nc-section-title</td><td>Font-Family</td></tr>
+                <tr><td><code class="docs__token">--fs-3xl</code></td><td>nc-section-title</td><td>Basis-Font-Size (skalierbar)</td></tr>
+                <tr><td><code class="docs__token">--type-scale</code></td><td>nc-section-title, nc-lead</td><td>Skalierungsfaktor (Default 1)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">nc-eyebrow</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-secondary</code></td><td>nc-eyebrow</td><td>Textfarbe</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">nc-lead</td></tr>
+                <tr><td><code class="docs__token">--fs-lg</code></td><td>nc-lead</td><td>Basis-Font-Size (skalierbar)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-secondary</code></td><td>nc-lead</td><td>Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--lh-body</code></td><td>nc-lead</td><td>Line-Height</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Vollst&auml;ndiges Abschnitts-Pattern --&gt;
+&lt;section&gt;
+  &lt;p class="nc-eyebrow"&gt;Kicker / Overline&lt;/p&gt;
+  &lt;h2 class="nc-section-title"&gt;Abschnitts&uuml;berschrift&lt;/h2&gt;
+  &lt;p class="nc-lead"&gt;
+    Einleitender Text, der den Abschnitt vorstellt
+    und Kontext liefert.
+  &lt;/p&gt;
+&lt;/section&gt;
+
+&lt;!-- Mit Type-Scale (z.B. 85% f&uuml;r kleinere Kontexte) --&gt;
+&lt;section style="--type-scale: 0.85;"&gt;
+  &lt;p class="nc-eyebrow"&gt;Kicker&lt;/p&gt;
+  &lt;h3 class="nc-section-title"&gt;&Uuml;berschrift&lt;/h3&gt;
+  &lt;p class="nc-lead"&gt;Einleitungstext&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;!-- Eyebrow allein --&gt;
+&lt;p class="nc-eyebrow"&gt;Kategorie&lt;/p&gt;
+
+&lt;!-- Lead allein --&gt;
+&lt;p class="nc-lead"&gt;Einleitender Paragraph unter einer Headline.&lt;/p&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Text-Block-Klassen sind rein visuelle Styles &mdash; die semantische Bedeutung muss durch das HTML-Element selbst gegeben werden.
+          </p>
+
+          <!-- Heading-Hierarchie -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Heading-Hierarchie</h4>
+              <ul>
+                <li><code class="docs__token">.nc-section-title</code> soll auf einem semantisch korrekten Heading-Element stehen (<code class="docs__token">&lt;h2&gt;</code>, <code class="docs__token">&lt;h3&gt;</code> etc.)</li>
+                <li>Nie <code class="docs__token">&lt;h1&gt;</code> f&uuml;r Abschnittsk&ouml;pfe verwenden &mdash; <code class="docs__token">&lt;h1&gt;</code> ist der Seitentitel</li>
+                <li>Die visuelle Erscheinung der Klasse ist unabh&auml;ngig vom semantischen Level &mdash; das Heading-Level richtig w&auml;hlen, auch wenn das visuelle Design abweicht</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Eyebrow -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Eyebrow-Semantik</h4>
+              <ul>
+                <li><code class="docs__token">.nc-eyebrow</code> ist visuell &uuml;ber dem Titel, ist aber kein Heading</li>
+                <li>Als <code class="docs__token">&lt;p&gt;</code> implementieren &mdash; Screenreader lesen es in der DOM-Reihenfolge</li>
+                <li>Der Eyebrow-Text sollte immer sichtbar und kurz sein &mdash; kein rein dekorativer Text</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Kontrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li><code class="docs__token">--fnd-color-text-secondary</code> (Eyebrow, Lead) erf&uuml;llt WCAG AA in allen Themes</li>
+                <li>Section-Title erbt Farbe vom Kontext &mdash; sicherstellen, dass der Kontext ausreichend Kontrast bietet</li>
+                <li>Gro&szlig;er Text (&ge; 18pt / 24px) ben&ouml;tigt nur 3:1 Kontrast (WCAG AA Large)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Korrekte Heading-Hierarchie --&gt;
+&lt;main&gt;
+  &lt;h1&gt;Seitentitel&lt;/h1&gt;
+
+  &lt;section&gt;
+    &lt;p class="nc-eyebrow"&gt;Kicker&lt;/p&gt;
+    &lt;h2 class="nc-section-title"&gt;Abschnitt 1&lt;/h2&gt;
+    &lt;p class="nc-lead"&gt;Einleitungstext...&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section&gt;
+    &lt;h2 class="nc-section-title"&gt;Abschnitt 2&lt;/h2&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;!-- FALSCH: Div statt semantisches Heading --&gt;
+&lt;div class="nc-section-title"&gt;
+  Kein Heading &mdash; kein semantischer Wert
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Heading-Level &uuml;berspringen --&gt;
+&lt;h1&gt;Seite&lt;/h1&gt;
+&lt;h4 class="nc-section-title"&gt;
+  H2 und H3 wurden &uuml;bersprungen
+&lt;/h4&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

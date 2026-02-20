@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neocosmo | Button System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="nc-container">
+    <h1>Button System</h1>
+    <p class="nc-lead">Standalone-Referenzseite. Diese Seite ist nicht in der Navigation verlinkt.</p>
+
+    <!-- Zweck: Für den wichtigsten Call-to-Action auf der Seite. Nur einmal pro Screen verwenden (ausgenommen Header, Modal, Sidepanel). -->
+    <section class="section">
+      <h2>Primary Buttons</h2>
+      <p>Standard-Buttons für Haupt-CTAs.</p>
+      <div class="button-container">
+        <button class="button">Primary</button>
+        <button class="button" disabled>Primary Disabled</button>
+        <a class="button" href="#">Primary Link</a>
+      </div>
+    </section>
+
+    <!-- Zweck: Für sekundäre Aktionen nur in Kombination mit Primary (z. B. Cancel/Back). Nicht isoliert verwenden. -->
+    <section class="section">
+      <h2>Secondary Buttons</h2>
+      <p>Alternative Stile für sekundäre Aktionen.</p>
+      <div class="button-container">
+        <button class="button secondary">Secondary</button>
+      </div>
+    </section>
+
+    <!-- Zweck: Für weniger prominente, teils unabhängige Aktionen; kann allein oder mit Primary genutzt werden. -->
+    <section class="section">
+      <h2>Tertiary Buttons</h2>
+      <p>Für zusätzliche Aktionen und Sub-Tasks.</p>
+      <div class="button-container">
+        <button class="button tertiary">Tertiary</button>
+      </div>
+    </section>
+
+    <!-- Zweck: Für die am wenigsten hervorgehobenen Aktionen; oft mit Primary/Secondary kombiniert (z. B. Cancel). -->
+    <section class="section">
+      <h2>Ghost Buttons</h2>
+      <p>Minimaler Stil für die niedrigste Priorität.</p>
+      <div class="button-container">
+        <button class="button ghost">Ghost</button>
+      </div>
+    </section>
+
+    <!-- Zweck: Für potenziell destruktive Aktionen (z. B. Löschen). Drei Stile: Primary, Tertiary, Ghost. -->
+    <section class="section">
+      <h2>Danger Buttons</h2>
+      <p>Für kritische Aktionen mit Risiko.</p>
+      <div class="button-container">
+        <button class="button danger">Danger Primary</button>
+        <button class="button danger tertiary">Danger Tertiary</button>
+        <button class="button danger ghost">Danger Ghost</button>
+      </div>
+    </section>
+
+    <!-- Semantic variants -->
+    <section class="section">
+      <h2>Semantic Variants</h2>
+      <p>Für Status und Feedback-Trigger.</p>
+      <div class="button-container">
+        <button class="button success">Success</button>
+        <button class="button warning">Warning</button>
+        <button class="button error">Error</button>
+        <button class="button info">Info</button>
+        <button class="button accent">Accent</button>
+        <button class="button outline">Outline</button>
+      </div>
+    </section>
+
+    <!-- Sizes: Extra small, small, medium, large (productive/expressive), extra large, 2XL -->
+    <section class="section">
+      <h2>Sizes</h2>
+      <p>Größenvarianten für verschiedene UI-Dichten. Expressive nutzt <code>.lg.expressive</code>.</p>
+      <div class="button-container">
+        <button class="button xs">Extra small</button>
+        <button class="button sm">Small</button>
+        <button class="button md">Medium</button>
+        <button class="button lg">Large (productive)</button>
+        <button class="button lg expressive">Large (expressive)</button>
+        <button class="button xl">Extra large</button>
+        <button class="button 2xl">2XL</button>
+      </div>
+    </section>
+
+    <!-- Icon buttons -->
+    <section class="section">
+      <h2>Icon Buttons</h2>
+      <p>Für kompaktes UI und Controls.</p>
+      <div class="button-container">
+        <button class="icon-button" aria-label="Icon Button">
+          <svg class="nc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+        </button>
+        <button class="button icon-only" aria-label="Icon Only">
+          <svg class="nc-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Loading + Toggle -->
+    <section class="section">
+      <h2>Interactive States</h2>
+      <p>Loading und Toggle-Varianten für Statusanzeigen.</p>
+      <div class="button-container">
+        <button class="button loading" data-loading="true">
+          <span class="button-text">Loading</span>
+          <span class="button-spinner"></span>
+        </button>
+        <button class="button toggle" aria-pressed="true">Toggle On</button>
+        <button class="button toggle" aria-pressed="false">Toggle Off</button>
+      </div>
+    </section>
+
+    <!-- Button group -->
+    <section class="section">
+      <h2>Button Group</h2>
+      <p>Grouped Actions (z. B. Filters).</p>
+      <div class="button-group">
+        <button class="button secondary">Overview</button>
+        <button class="button secondary">Details</button>
+        <button class="button secondary">Reports</button>
+      </div>
+    </section>
+
+    <!-- Language toggle -->
+    <section class="section">
+      <h2>Language Toggle</h2>
+      <p>Button-like Toggle im Header.</p>
+      <div class="button-container">
+        <span class="nc-lang-toggle__label">Sprache</span>
+        <div class="nc-lang-toggle">
+          <button class="nc-lang-toggle__button is-active" type="button">DE</button>
+          <button class="nc-lang-toggle__button" type="button">EN</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search chips -->
+    <section class="section">
+      <h2>Search Recent Chips</h2>
+      <p>Verwendet im Suchpanel für letzte Suchbegriffe.</p>
+      <div class="nc-search__recent-list">
+        <button class="nc-search__recent-item" type="button">Social Intranet</button>
+        <button class="nc-search__recent-item" type="button">AI Integration</button>
+        <button class="nc-search__recent-item" type="button">Magazine</button>
+      </div>
+    </section>
+
+    <!-- Mobile nav buttons -->
+    <section class="section">
+      <h2>Mobile Navigation Buttons</h2>
+      <p>Buttons der Mobile-Navigation.</p>
+      <div class="button-container">
+        <button class="nc-mobile-toggle" type="button">Menü</button>
+      </div>
+      <div class="nc-mobile-links" style="max-width: 320px;">
+        <button class="nc-mobile-toggle-link" type="button"><span>Produkte</span><span class="nc-nav__icon">+</span></button>
+        <a class="nc-mobile-link" href="#">Kunden</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

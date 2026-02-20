@@ -1,0 +1,471 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Switch</h1>
+      <p class="docs__subtitle">
+        Toggle-Switch (An/Aus) mit Track und Thumb.
+        Unterst&uuml;tzt <code class="docs__token">button[role='switch']</code> und <code class="docs__token">input[type='checkbox']</code> Pattern.
+        Kanonische Klasse: <code class="docs__token">.nc-switch</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-switch-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="switch-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Switch-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Variante (Button/Input), State und Kompakt-Modus, um den Switch live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="button" selected>Button (role="switch")</option>
+                  <option value="input">Input (checkbox)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="off" selected>Off</option>
+                  <option value="on">On</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-compact" />
+                  <span class="docs-stage__label">Kompakt (--sm)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders switch here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-switch"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Both Patterns -->
+          <section class="docs__section" id="both-patterns">
+            <h2 class="docs__section-title">Beide Patterns</h2>
+            <p class="docs__section-desc">
+              Der Switch kann als <code class="docs__token">&lt;button role="switch"&gt;</code> oder als
+              <code class="docs__token">&lt;input type="checkbox"&gt;</code> implementiert werden.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Button Pattern</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-switch">
+                <button class="nc-switch__track" role="switch" aria-checked="false" aria-label="Benachrichtigungen">
+                  <span class="nc-switch__thumb"></span>
+                </button>
+                <span class="nc-switch__label">Aus</span>
+              </div>
+              <div class="nc-switch">
+                <button class="nc-switch__track" role="switch" aria-checked="true" aria-label="Benachrichtigungen">
+                  <span class="nc-switch__thumb"></span>
+                </button>
+                <span class="nc-switch__label">An</span>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Input Pattern</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <label class="nc-switch">
+                <input type="checkbox" class="nc-switch__input" role="switch" />
+                <span class="nc-switch__track">
+                  <span class="nc-switch__thumb"></span>
+                </span>
+                <span class="nc-switch__label">Aus</span>
+              </label>
+              <label class="nc-switch">
+                <input type="checkbox" class="nc-switch__input" role="switch" checked />
+                <span class="nc-switch__track">
+                  <span class="nc-switch__thumb"></span>
+                </span>
+                <span class="nc-switch__label">An</span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Sizes -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              2 Gr&ouml;&szlig;en: Default und Kompakt (<code class="docs__token">.nc-switch--sm</code>, 36x20).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div class="nc-switch">
+                  <button class="nc-switch__track" role="switch" aria-checked="true" aria-label="Default Switch">
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">Default</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Standard</div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-switch nc-switch--sm">
+                  <button class="nc-switch__track" role="switch" aria-checked="true" aria-label="Kompakt Switch">
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">Kompakt</span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM &mdash; 36x20</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- States -->
+          <section class="docs__section" id="states">
+            <h2 class="docs__section-title">States</h2>
+            <p class="docs__section-desc">
+              Off, On und Disabled in beiden Gr&ouml;&szlig;en.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-08); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div class="nc-switch">
+                  <button class="nc-switch__track" role="switch" aria-checked="false">
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">Off</span>
+                </div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-switch">
+                  <button class="nc-switch__track" role="switch" aria-checked="true">
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">On</span>
+                </div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-switch">
+                  <button class="nc-switch__track" role="switch" aria-checked="false" disabled>
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">Disabled</span>
+                </div>
+              </div>
+              <div style="text-align: center;">
+                <div class="nc-switch">
+                  <button class="nc-switch__track" role="switch" aria-checked="true" disabled>
+                    <span class="nc-switch__thumb"></span>
+                  </button>
+                  <span class="nc-switch__label">Disabled On</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (BEM-Klassen&uuml;bersicht)                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Switch BEM-Klassen (kanonisch) =====
+
+.nc-switch                     // Block (Wrapper, inline-flex)
+.nc-switch__track              // Track-Element (Hintergrund)
+.nc-switch__thumb              // Thumb (Kreis, bewegt sich)
+.nc-switch__label              // Label-Text
+.nc-switch__input              // Natives &lt;input&gt; (nur Input-Pattern, sr-only)
+
+// Gr&ouml;&szlig;en
+.nc-switch--sm                 // Kompakte Variante (36x20)
+// (Default = Standard-Gr&ouml;&szlig;e, kein Modifier)</div>
+          </section>
+
+          <section class="docs__section" id="style-classes">
+            <h2 class="docs__section-title">CSS-Klassen Detail</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-switch</code></td><td>Block</td><td>Wrapper &mdash; inline-flex, Gap zum Label, cursor: pointer.</td></tr>
+                <tr><td><code class="docs__token">.nc-switch__track</code></td><td>Element</td><td>Track-Hintergrund. Kann <code class="docs__token">&lt;button&gt;</code> oder <code class="docs__token">&lt;span&gt;</code> sein.</td></tr>
+                <tr><td><code class="docs__token">.nc-switch__thumb</code></td><td>Element</td><td>Beweglicher Kreis &mdash; translateX bei Checked-State.</td></tr>
+                <tr><td><code class="docs__token">.nc-switch__label</code></td><td>Element</td><td>Label-Text neben dem Switch.</td></tr>
+                <tr><td><code class="docs__token">.nc-switch__input</code></td><td>Element</td><td>Natives <code class="docs__token">&lt;input type="checkbox"&gt;</code> (sr-only, nur Input-Pattern).</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Abmessungen</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><em>(kein Modifier)</em></td><td>Standard</td><td>Default-Gr&ouml;&szlig;e (Token-basiert)</td></tr>
+                <tr><td><code class="docs__token">.nc-switch--sm</code></td><td>36x20 (Track), 14px (Thumb)</td><td>Kompakte Variante</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-switch</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-switch</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-switch-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_switch.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>Standard (Token-basiert, kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Fokussierbar &mdash; <code class="docs__token">&lt;button&gt;</code> oder <code class="docs__token">&lt;input&gt;</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> oder <code class="docs__token">&lt;label&gt;</code> (Wrapper)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- HTML Structure: Button Pattern -->
+          <section class="docs__section" id="api-button-pattern">
+            <h2 class="docs__section-title">HTML-Struktur: Button Pattern</h2>
+            <p class="docs__section-desc">
+              Bevorzugtes Pattern mit <code class="docs__token">&lt;button role="switch"&gt;</code>.
+              Zustand wird &uuml;ber <code class="docs__token">aria-checked</code> gesteuert.
+            </p>
+            <div class="docs__code-block">&lt;!-- Switch Off --&gt;
+&lt;div class="nc-switch [--sm]"&gt;
+  &lt;button class="nc-switch__track"
+          role="switch"
+          aria-checked="false"
+          aria-label="Benachrichtigungen"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-switch__label"&gt;Benachrichtigungen&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Switch On --&gt;
+&lt;div class="nc-switch"&gt;
+  &lt;button class="nc-switch__track"
+          role="switch"
+          aria-checked="true"
+          aria-label="Benachrichtigungen"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-switch__label"&gt;Benachrichtigungen&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Switch Disabled --&gt;
+&lt;div class="nc-switch"&gt;
+  &lt;button class="nc-switch__track"
+          role="switch"
+          aria-checked="false"
+          disabled&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-switch__label"&gt;Deaktiviert&lt;/span&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- HTML Structure: Input Pattern -->
+          <section class="docs__section" id="api-input-pattern">
+            <h2 class="docs__section-title">HTML-Struktur: Input Pattern</h2>
+            <p class="docs__section-desc">
+              Alternatives Pattern mit nativem <code class="docs__token">&lt;input type="checkbox"&gt;</code>.
+              Der Input wird per <code class="docs__token">sr-only</code> versteckt, <code class="docs__token">:checked</code> steuert den Zustand.
+            </p>
+            <div class="docs__code-block">&lt;!-- Switch mit Checkbox-Input --&gt;
+&lt;label class="nc-switch [--sm]"&gt;
+  &lt;input type="checkbox" class="nc-switch__input"
+         role="switch" /&gt;
+  &lt;span class="nc-switch__track"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-switch__label"&gt;Dark Mode&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Switch Checked --&gt;
+&lt;label class="nc-switch"&gt;
+  &lt;input type="checkbox" class="nc-switch__input"
+         role="switch" checked /&gt;
+  &lt;span class="nc-switch__track"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-switch__label"&gt;Dark Mode&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- Switch Disabled --&gt;
+&lt;label class="nc-switch"&gt;
+  &lt;input type="checkbox" class="nc-switch__input"
+         role="switch" disabled /&gt;
+  &lt;span class="nc-switch__track"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-switch__label"&gt;Deaktiviert&lt;/span&gt;
+&lt;/label&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Der Switch nutzt <code class="docs__token">role="switch"</code> und muss die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- role="switch" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>role="switch"</h4>
+              <ul>
+                <li>Sowohl das Button- als auch das Input-Pattern verwenden <code class="docs__token">role="switch"</code></li>
+                <li>Screen Reader erkennen den Switch als Toggle-Element</li>
+                <li>Der Zustand wird als &ldquo;an&rdquo; oder &ldquo;aus&rdquo; angesagt</li>
+                <li>Ohne <code class="docs__token">role="switch"</code> wird nur &ldquo;Button&rdquo; oder &ldquo;Checkbox&rdquo; angesagt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- aria-checked -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-checked</h4>
+              <ul>
+                <li>Beim Button-Pattern: <code class="docs__token">aria-checked="true"</code> oder <code class="docs__token">aria-checked="false"</code></li>
+                <li>Muss per JavaScript bei Klick umgeschaltet werden</li>
+                <li>Beim Input-Pattern: das native <code class="docs__token">checked</code>-Attribut reicht aus</li>
+                <li>Der CSS-Zustand (Thumb-Position) leitet sich aus <code class="docs__token">aria-checked</code> bzw. <code class="docs__token">:checked</code> ab</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 12h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Navigation (Space)</h4>
+              <ul>
+                <li><strong>Tab</strong> fokussiert den Switch</li>
+                <li><strong>Space</strong> schaltet den Switch um (an/aus)</li>
+                <li>Beim Button-Pattern: <strong>Enter</strong> schaltet ebenfalls um (natives Button-Verhalten)</li>
+                <li>Beim Input-Pattern: nur <strong>Space</strong> (natives Checkbox-Verhalten)</li>
+                <li><code class="docs__token">:focus-visible</code> zeigt den Focus-Ring auf dem Track</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Touch Target -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Touch Target (WCAG 2.5.8)</h4>
+              <ul>
+                <li>Der Touch-Bereich muss mindestens <strong>44x44px</strong> betragen</li>
+                <li>Das Label erweitert den klickbaren Bereich</li>
+                <li>Bei <code class="docs__token">--sm</code> auf ausreichende Touch-Gr&ouml;&szlig;e achten</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Button Pattern mit role und aria-checked --&gt;
+&lt;div class="nc-switch"&gt;
+  &lt;button class="nc-switch__track"
+          role="switch"
+          aria-checked="false"
+          aria-label="Benachrichtigungen"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;span class="nc-switch__label"&gt;Benachrichtigungen&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Input Pattern mit role="switch" --&gt;
+&lt;label class="nc-switch"&gt;
+  &lt;input type="checkbox" class="nc-switch__input"
+         role="switch" /&gt;
+  &lt;span class="nc-switch__track"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-switch__label"&gt;Dark Mode&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;!-- RICHTIG: JS Toggle f&uuml;r Button Pattern --&gt;
+&lt;script&gt;
+  button.addEventListener('click', function () {
+    var checked = this.getAttribute('aria-checked') === 'true';
+    this.setAttribute('aria-checked', String(!checked));
+  });
+&lt;/script&gt;
+
+&lt;!-- FALSCH: Kein role="switch" --&gt;
+&lt;button class="nc-switch__track"&gt;
+  &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: aria-checked fehlt --&gt;
+&lt;button class="nc-switch__track" role="switch"&gt;
+  &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Kein Label --&gt;
+&lt;div class="nc-switch"&gt;
+  &lt;button class="nc-switch__track" role="switch"
+          aria-checked="false"&gt;
+    &lt;span class="nc-switch__thumb"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;!-- Kein Label, kein aria-label --&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="switch-docs.js"></script>
+<!-- /SCRIPTS -->

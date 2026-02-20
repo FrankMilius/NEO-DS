@@ -1,0 +1,63 @@
+// ==========================================================================
+// 08-Templates: Error Page
+// ==========================================================================
+// Fehlerseiten-Layout (404, 500 etc.) mit zentriertem Inhalt.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Layout
+// ---------------------------------------------------------------------------
+
+.t-error {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - var(--nav-height));
+  padding: var(--fnd-spacing-08);
+  text-align: center;
+}
+
+.t-error__content {
+  max-width: 520px;
+}
+
+// ---------------------------------------------------------------------------
+// Error Code
+// ---------------------------------------------------------------------------
+
+.t-error__code {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: 1;
+  color: var(--fnd-color-text-low);
+  margin: 0 0 var(--fnd-spacing-04);
+}
+
+// ---------------------------------------------------------------------------
+// Message
+// ---------------------------------------------------------------------------
+
+.t-error__title {
+  @include heading('l');
+  margin: 0 0 var(--fnd-spacing-03);
+  color: var(--fnd-color-text-high);
+}
+
+.t-error__description {
+  color: var(--fnd-color-text-secondary);
+  margin: 0 0 var(--fnd-spacing-06);
+  max-width: var(--fnd-prose-max-width);
+}
+
+// ---------------------------------------------------------------------------
+// Actions
+// ---------------------------------------------------------------------------
+
+.t-error__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--fnd-spacing-03);
+  flex-wrap: wrap;
+}

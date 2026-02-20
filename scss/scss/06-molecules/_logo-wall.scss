@@ -1,0 +1,23 @@
+// ==========================================================================
+// 06-Molecules: Logo Wall
+// ==========================================================================
+// Grid of client/partner logos with pill-shaped items.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-logo-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.nc-logo-pill {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--fnd-color-border-secondary);
+  border-radius: 999px;
+  text-align: center;
+  font-size: 0.9rem;
+  background: var(--fnd-color-background-base);
+}

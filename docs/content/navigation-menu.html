@@ -1,0 +1,319 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Navigation Menu</h1>
+      <p class="docs__subtitle">
+        shadcn-inspiriertes NavigationMenu mit Viewport-Pattern, Chevron-Trigger, Callout-Bereich und Content-Animationen.
+        Kanonische Klasse: <code class="docs__token">.nc-navigation-menu</code> (BEM).
+        Alle Werte kommen aus internen <code class="docs__token">--_nav-menu-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="navigation-menu-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="NavigationMenu-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Live Demo -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Hover &uuml;ber die Trigger-Buttons, um die Dropdown-Panels mit Callout und Links zu sehen.
+            Klick auf direkte Links zeigt den aktiven Zustand.
+          </p>
+
+          <div class="docs-stage" style="overflow: visible;">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default (Two-Column)</option>
+                  <option value="simple">Simple (Links only)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="min-height: 340px; padding: 2rem; align-items: flex-start;">
+              <!-- JS renders NavigationMenu here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;nav class="nc-navigation-menu"&gt;...&lt;/nav&gt;</pre>
+          </div>
+
+          <!-- Showcase: Default mit Mega-Menu -->
+          <section class="docs__section" id="default-navigation-menu">
+            <h2 class="docs__section-title">Default Navigation Menu</h2>
+            <p class="docs__section-desc">
+              Zwei Dropdown-Trigger (Produkte, Services) mit Two-Column Callout-Layout und drei direkte Links.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); position: relative; min-height: 340px;" id="showcase-default">
+              <!-- JS renders here -->
+            </div>
+          </section>
+
+          <!-- Showcase: Simple Links Only -->
+          <section class="docs__section" id="simple-navigation-menu">
+            <h2 class="docs__section-title">Simple Navigation Menu</h2>
+            <p class="docs__section-desc">
+              Nur direkte Top-Level-Links, ohne Dropdowns. F&uuml;r einfache Navigationsstrukturen.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); position: relative; min-height: 60px;" id="showcase-simple">
+              <!-- JS renders here -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--_nav-menu-bg</code></td><td>var(--fnd-color-background-primary)</td><td>Hintergrund des Men&uuml;s</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-viewport-bg</code></td><td>var(--fnd-color-background-primary)</td><td>Viewport-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-border</code></td><td>var(--fnd-color-border-low)</td><td>Viewport-Border</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-radius</code></td><td>var(--fnd-radius-lg)</td><td>Allgemeiner Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-shadow</code></td><td>0 10px 38px ...</td><td>Viewport-Box-Shadow</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-color</code></td><td>var(--fnd-color-text-high)</td><td>Trigger-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Trigger-Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Trigger-Aktiv-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-radius</code></td><td>var(--fnd-radius-md)</td><td>Trigger-Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-font-size</code></td><td>0.9rem</td><td>Trigger-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-trigger-font-weight</code></td><td>500</td><td>Trigger-Schriftstärke</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-content-width</code></td><td>500px</td><td>Content-Panel-Breite</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-content-padding</code></td><td>1rem</td><td>Content-Panel-Padding</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-link-radius</code></td><td>var(--fnd-radius-md)</td><td>Link-Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-link-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Link-Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-link-padding</code></td><td>0.75rem</td><td>Link-Padding</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-viewport-width</code></td><td>500px</td><td>Viewport-Container-Breite</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-viewport-radius</code></td><td>var(--fnd-radius-lg)</td><td>Viewport-Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-duration</code></td><td>200ms</td><td>Animations-Dauer</td></tr>
+                <tr><td><code class="docs__token">--_nav-menu-ease</code></td><td>cubic-bezier(0.16, 1, 0.3, 1)</td><td>Easing-Kurve</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
+
+.nc-navigation-menu                              // Block (nav Root)
+.nc-navigation-menu__list                         // Element: ul menubar
+.nc-navigation-menu__item                         // Element: li menu item
+.nc-navigation-menu__trigger                      // Element: button mit Chevron
+.nc-navigation-menu__trigger-icon                 // Element: Chevron-SVG Wrapper
+.nc-navigation-menu__content                      // Element: Dropdown-Panel
+.nc-navigation-menu__content--two-col             // Modifier: Two-Column Layout
+.nc-navigation-menu__content--full                // Modifier: Full-Width
+.nc-navigation-menu__content-grid                 // Element: Grid im Content
+.nc-navigation-menu__callout                      // Element: Highlight-Bereich
+.nc-navigation-menu__callout-title                // Element: Callout-Titel
+.nc-navigation-menu__callout-desc                 // Element: Callout-Beschreibung
+.nc-navigation-menu__link                         // Element: Link im Dropdown
+.nc-navigation-menu__link--top                    // Modifier: Top-Level Link (ohne Dropdown)
+.nc-navigation-menu__link-title                   // Element: Link-Titel
+.nc-navigation-menu__link-desc                    // Element: Link-Beschreibung
+.nc-navigation-menu__viewport-wrapper             // Element: Viewport-Positioning
+.nc-navigation-menu__viewport                     // Element: Viewport-Container
+.nc-navigation-menu__indicator                    // Element: Pfeil-Indikator
+.nc-navigation-menu__indicator-arrow              // Element: Pfeil-Dreieck</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">Komponenten-Struktur</h2>
+            <p class="docs__section-desc">
+              Die NavigationMenu-Komponente folgt dem shadcn/Radix-UI Composition-Pattern.
+            </p>
+            <div class="docs__code-block">&lt;nav class="nc-navigation-menu"&gt;
+  &lt;ul class="nc-navigation-menu__list" role="menubar"&gt;
+
+    &lt;!-- Item mit Dropdown --&gt;
+    &lt;li class="nc-navigation-menu__item" role="none"&gt;
+      &lt;button class="nc-navigation-menu__trigger"
+              role="menuitem"
+              aria-haspopup="true"
+              aria-expanded="false"
+              data-state="closed"&gt;
+        &lt;span&gt;Produkte&lt;/span&gt;
+        &lt;span class="nc-navigation-menu__trigger-icon"&gt;
+          &lt;svg viewBox="0 0 12 12"&gt;
+            &lt;polyline points="2 4 6 8 10 4"/&gt;
+          &lt;/svg&gt;
+        &lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class="nc-navigation-menu__content
+                  nc-navigation-menu__content--two-col"
+           data-state="closed"
+           role="menu"&gt;
+        &lt;div class="nc-navigation-menu__content-grid"&gt;
+          &lt;a class="nc-navigation-menu__callout" href="#"&gt;
+            &lt;div class="nc-navigation-menu__callout-title"&gt;Produkte&lt;/div&gt;
+            &lt;p class="nc-navigation-menu__callout-desc"&gt;Beschreibung&lt;/p&gt;
+          &lt;/a&gt;
+          &lt;div class="nc-navigation-menu__content-grid"&gt;
+            &lt;a class="nc-navigation-menu__link" href="#" role="menuitem"&gt;
+              &lt;div class="nc-navigation-menu__link-title"&gt;Feature A&lt;/div&gt;
+              &lt;p class="nc-navigation-menu__link-desc"&gt;Beschreibung&lt;/p&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/li&gt;
+
+    &lt;!-- Direkter Link --&gt;
+    &lt;li class="nc-navigation-menu__item" role="none"&gt;
+      &lt;a class="nc-navigation-menu__link--top"
+         href="#"
+         role="menuitem"&gt;Kunden&lt;/a&gt;
+    &lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;!-- Indicator --&gt;
+  &lt;div class="nc-navigation-menu__indicator" data-state="hidden"&gt;
+    &lt;div class="nc-navigation-menu__indicator-arrow"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Viewport --&gt;
+  &lt;div class="nc-navigation-menu__viewport-wrapper"&gt;
+    &lt;div class="nc-navigation-menu__viewport" data-state="closed"&gt;
+      &lt;!-- Content wird hier dynamisch eingef&uuml;gt --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</div>
+          </section>
+
+          <section class="docs__section" id="api-data-attributes">
+            <h2 class="docs__section-title">Data Attributes</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Werte</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">data-state</code></td><td><code>open</code> | <code>closed</code></td><td>Trigger, Content, Viewport</td><td>Steuert Sichtbarkeit und Animation</td></tr>
+                <tr><td><code class="docs__token">data-state</code></td><td><code>visible</code> | <code>hidden</code></td><td>Indicator</td><td>Zeigt/versteckt den Pfeil-Indikator</td></tr>
+                <tr><td><code class="docs__token">data-motion</code></td><td><code>from-start</code> | <code>from-end</code> | <code>to-start</code> | <code>to-end</code></td><td>Content</td><td>Slide-Richtung bei Panel-Wechsel</td></tr>
+                <tr><td><code class="docs__token">data-active</code></td><td>(boolean)</td><td>Link--top</td><td>Markiert aktiven Navigationslink</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-js">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <div class="docs__code-block">// buildNavigationMenu(links, lang)
+// Erstellt ein NavigationMenu-DOM-Element aus einem Link-Array.
+//
+// Parameter:
+//   links: Array&lt;{
+//     label: string,
+//     href: string,
+//     description?: string,
+//     mega_cta_label?: string,
+//     children?: Array&lt;{ label, href, description? }&gt;
+//   }&gt;
+//   lang: 'de' | 'en'
+//
+// R&uuml;ckgabe: HTMLElement (nav.nc-navigation-menu)
+//
+// Beispiel:
+const navMenu = buildNavigationMenu([
+  {
+    label: 'Produkte',
+    href: '/products',
+    description: 'Unsere Plattform-Bausteine.',
+    children: [
+      { label: 'Intranet', href: '/intranet', description: 'News &amp; Communities' },
+      { label: 'App', href: '/app', description: 'Mobile Kommunikation' }
+    ]
+  },
+  { label: 'Kunden', href: '/customers' }
+], 'de');
+
+document.querySelector('.my-header').appendChild(navMenu);</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <section class="docs__section" id="a11y-overview">
+            <h2 class="docs__section-title">Accessibility</h2>
+
+            <h3>ARIA Roles &amp; Attributes</h3>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Rolle/Attribut</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">nav</code></td><td><code>aria-label</code></td><td>Benennt die Navigation f&uuml;r Screenreader</td></tr>
+                <tr><td><code class="docs__token">ul</code></td><td><code>role="menubar"</code></td><td>Identifiziert die Hauptmen&uuml;-Leiste</td></tr>
+                <tr><td><code class="docs__token">li</code></td><td><code>role="none"</code></td><td>Entfernt implizite listitem-Rolle</td></tr>
+                <tr><td><code class="docs__token">button</code></td><td><code>role="menuitem"</code>, <code>aria-haspopup="true"</code></td><td>Trigger mit Popup-Indikator</td></tr>
+                <tr><td><code class="docs__token">button</code></td><td><code>aria-expanded</code></td><td>Zeigt ge&ouml;ffneten/geschlossenen Zustand an</td></tr>
+                <tr><td><code class="docs__token">a</code></td><td><code>role="menuitem"</code></td><td>Links als Men&uuml;eintr&auml;ge</td></tr>
+                <tr><td><code class="docs__token">div[content]</code></td><td><code>role="menu"</code></td><td>Dropdown-Container als Men&uuml;</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Keyboard-Navigation</h3>
+            <table class="docs__table">
+              <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+              <tbody>
+                <tr><td><kbd>Tab</kbd></td><td>Fokus zwischen Trigger-Buttons und Links bewegen</td></tr>
+                <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Dropdown &ouml;ffnen/schlie&szlig;en (Trigger) oder Link aktivieren</td></tr>
+                <tr><td><kbd>Escape</kbd></td><td>Ge&ouml;ffnetes Dropdown schlie&szlig;en, Fokus zur&uuml;ck zum Trigger</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Motion &amp; Reduced Motion</h3>
+            <p class="docs__section-desc">
+              Die Komponente wird auf Screens unter 1200px ausgeblendet (<code>display: none</code>) und durch das Mobile-Panel ersetzt.
+              Animationen nutzen CSS <code>transition</code> und <code>@keyframes</code>, die via <code>prefers-reduced-motion</code>
+              deaktiviert werden k&ouml;nnen.
+            </p>
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="navigation-menu-docs.js"></script>
+<!-- /SCRIPTS -->

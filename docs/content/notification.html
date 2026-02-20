@@ -1,0 +1,604 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Notification</h1>
+      <p class="docs__subtitle">
+        Seitenbreiter Benachrichtigungs-Banner, der am oberen Rand der Seite klebt (<code class="docs__token">position: sticky</code>).
+        Wird eingesetzt f&uuml;r systemweite Hinweise, Wartungsmeldungen oder wichtige Status-Informationen.
+        Kanonische Klasse: <code class="docs__token">.notification</code>.
+        Sichtbarkeit wird &uuml;ber die Zustands-Klasse <code class="docs__token">.show</code> gesteuert.
+        Alle Farb- und Abstandswerte kommen aus Foundation-Tokens <code class="docs__token">--fnd-*</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="notification-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Notification-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme und Optionen, um den Notification-Banner live zu konfigurieren.
+            Der Banner erscheint am oberen Rand des Demo-Containers.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-show" checked />
+                  <span class="docs-stage__label">Sichtbar (.show)</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-secondary" checked />
+                  <span class="docs-stage__label">Secondary Button</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-close" checked />
+                  <span class="docs-stage__label">Close Button</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 0; overflow: hidden; min-height: 120px;">
+              <!-- JS renders notification here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="notification show" role="status" aria-live="polite"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- ========================================================== -->
+          <!-- Showcase 1: Basis                                           -->
+          <!-- ========================================================== -->
+          <section class="docs__section" id="showcase-basic">
+            <h2 class="docs__section-title">Basis</h2>
+            <p class="docs__section-desc">
+              Der Notification-Banner in seiner einfachsten Form &mdash; nur mit Text und einem Close-Button.
+              Die Klasse <code class="docs__token">.show</code> macht den Banner sichtbar.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-md); overflow: hidden; margin-block-end: var(--fnd-spacing-06);">
+              <div class="notification show" role="status" aria-live="polite">
+                <div class="notification-body">
+                  <p><strong>Wartungsfenster:</strong> Am Freitag, 21. Februar, von 22:00 bis 02:00 Uhr steht das System nicht zur Verf&uuml;gung.</p>
+                </div>
+                <a href="#" class="icon-button" aria-label="Schlie&szlig;en">
+                  <span class="icon-only" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- Showcase 2: Mit Secondary Action                            -->
+          <!-- ========================================================== -->
+          <section class="docs__section" id="showcase-action">
+            <h2 class="docs__section-title">Mit Secondary Action</h2>
+            <p class="docs__section-desc">
+              Ein zus&auml;tzlicher Link oder Button (<code class="docs__token">.secondary</code>) direkt nach dem Beschreibungstext
+              erm&ouml;glicht eine Handlungsaufforderung, z.B. &bdquo;Mehr erfahren&ldquo; oder &bdquo;Jetzt aktualisieren&ldquo;.
+              Auf Desktop erscheint er inline, auf Mobile darunter.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-md); overflow: hidden; margin-block-end: var(--fnd-spacing-06);">
+              <div class="notification show" role="status" aria-live="polite">
+                <div class="notification-body">
+                  <p><strong>Neue Version verf&uuml;gbar:</strong> Version 3.4 des Design Systems ist jetzt live.</p>
+                  <a href="#" class="secondary">Changelog lesen</a>
+                </div>
+                <a href="#" class="icon-button" aria-label="Schlie&szlig;en">
+                  <span class="icon-only" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- Showcase 3: Nur Text (kein Close)                          -->
+          <!-- ========================================================== -->
+          <section class="docs__section" id="showcase-no-close">
+            <h2 class="docs__section-title">Ohne Close-Button</h2>
+            <p class="docs__section-desc">
+              F&uuml;r Meldungen, die nicht schlie&szlig;bar sein sollen, kann der Close-Button weggelassen werden.
+              Verwendung z.B. bei kritischen Systemhinweisen.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-low); border-radius: var(--fnd-radius-md); overflow: hidden; margin-block-end: var(--fnd-spacing-06);">
+              <div class="notification show" role="alert" aria-live="assertive">
+                <div class="notification-body">
+                  <p><strong>Kritischer Systemfehler:</strong> Bitte speichern Sie Ihre Arbeit und laden Sie die Seite neu.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- Showcase 4: Versteckt (kein .show)                        -->
+          <!-- ========================================================== -->
+          <section class="docs__section" id="showcase-hidden">
+            <h2 class="docs__section-title">Versteckter Zustand</h2>
+            <p class="docs__section-desc">
+              Ohne die Klasse <code class="docs__token">.show</code> ist der Banner vollst&auml;ndig ausgeblendet
+              (<code>height: 0</code>, <code>opacity: 0</code>, <code>visibility: hidden</code>) und nimmt keinen Platz ein.
+              Er bleibt dabei im DOM und kann per JS jederzeit wieder eingeblendet werden.
+            </p>
+            <div class="docs-snippet"><pre>&lt;!-- Banner im DOM, aber nicht sichtbar --&gt;
+&lt;div class="notification" role="status" aria-live="polite"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;Dieser Banner ist verborgen.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Banner sichtbar --&gt;
+&lt;div class="notification show" role="status" aria-live="polite"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;Dieser Banner ist sichtbar.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Design Tokens</h2>
+          <p class="docs__section-desc">
+            Die Notification-Komponente verwendet ausschlie&szlig;lich Foundation-Tokens (<code class="docs__token">--fnd-*</code>)
+            direkt aus dem Semantic Color Layer &mdash; keine eigenen Component-Tokens.
+            Alle visuellen Eigenschaften passen sich automatisch an das aktive Theme an.
+          </p>
+
+          <!-- Layout Tokens -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Verwendete Foundation-Tokens</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Eigenschaft</th>
+                    <th>Foundation-Token</th>
+                    <th>Beschreibung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Z-Index</td><td><code>--fnd-z-notification</code></td><td>Stapelreihenfolge (liegt &uuml;ber normalem Inhalt, unter Modals)</td></tr>
+                  <tr><td>Background</td><td><code>--fnd-color-background-base</code></td><td>Hintergrundfarbe aus dem Basis-Farbschema</td></tr>
+                  <tr><td>Text (Body)</td><td><code>--fnd-color-text-mid</code></td><td>Mittelstarker Text f&uuml;r den Beschreibungstext</td></tr>
+                  <tr><td>Text (Strong)</td><td><code>--fnd-color-text-high</code></td><td>Stark betonter Text f&uuml;r <code>&lt;strong&gt;</code>-Elemente</td></tr>
+                  <tr><td>Border</td><td><code>--fnd-color-border-low</code></td><td>Schwache Trennlinie nach unten</td></tr>
+                  <tr><td>Padding (show)</td><td><code>--fnd-spacing-04</code></td><td>Innenabstand im sichtbaren Zustand (16px)</td></tr>
+                  <tr><td>Secondary gap (mobile)</td><td><code>--fnd-spacing-06</code></td><td>Abstand &uuml;ber dem Secondary-Link auf Mobile (24px)</td></tr>
+                  <tr><td>Secondary gap (desktop)</td><td><code>--fnd-spacing-08</code></td><td>Abstand vor dem Secondary-Link auf Desktop (32px)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Zust&auml;nde -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zust&auml;nde &amp; Sichtbarkeit</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Zustand</th>
+                    <th>Klasse</th>
+                    <th>height</th>
+                    <th>opacity</th>
+                    <th>visibility</th>
+                    <th>padding</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ausgeblendet (Standard)</td>
+                    <td><code>.notification</code></td>
+                    <td><code>0</code></td>
+                    <td><code>0</code></td>
+                    <td><code>hidden</code></td>
+                    <td><code>0</code></td>
+                  </tr>
+                  <tr>
+                    <td>Sichtbar</td>
+                    <td><code>.notification.show</code></td>
+                    <td><code>auto</code></td>
+                    <td><code>1</code></td>
+                    <td><code>visible</code></td>
+                    <td><code>var(--fnd-spacing-04)</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Geometrie -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometrie</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Eigenschaft</th>
+                    <th>Wert</th>
+                    <th>Beschreibung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>position</td><td><code>sticky !important</code></td><td>Klebt am oberen Rand beim Scrollen</td></tr>
+                  <tr><td>top</td><td><code>0</code></td><td>Direkt am oberen Viewport-Rand</td></tr>
+                  <tr><td>border-bottom</td><td><code>solid 1px var(--fnd-color-border-low)</code></td><td>Trennlinie zum Seiteninhalt</td></tr>
+                  <tr><td>display</td><td><code>flex</code></td><td>Flex-Layout f&uuml;r Body + Close-Button</td></tr>
+                  <tr><td>.notification-body width</td><td><code>calc(100% - 32px - var(--fnd-spacing-04))</code></td><td>Breite abz&uuml;glich Icon-Button und Gap</td></tr>
+                  <tr><td>.notification-body min-height</td><td><code>calc(80px - var(--fnd-spacing-04) * 2)</code></td><td>Mindestinhaltsh&ouml;he im sichtbaren Zustand</td></tr>
+                  <tr><td>Icon-Button</td><td><code>32px &times; 32px</code></td><td>Feste Gr&ouml;&szlig;e des Close-Buttons</td></tr>
+                  <tr><td>Icon-Button Padding</td><td><code>6px</code></td><td>Klickbereich-Innenabstand</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- BEM-Struktur -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Klassen&uuml;bersicht</h3>
+            <div class="docs-snippet"><pre>.notification                    // Sticky Banner-Container (default: ausgeblendet)
+  .notification.show             // Sichtbarer Zustand
+
+  .notification-body             // Inhaltsbereich (Breite 100% minus Close-Button)
+    p                            // Beschreibungstext
+      strong                     // Hervorgehobener Text (--fnd-color-text-high)
+    .secondary                   // Optionaler Action-Link (nach dem &lt;p&gt;-Element)
+
+  a.icon-button                  // Close-Button (32px, transparent)
+    .icon-only                   // Icon-Wrapper (32px, 6px padding)</pre></div>
+          </section>
+
+          <!-- Responsive -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Responsives Verhalten</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Breakpoint</th>
+                    <th>Verhalten</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Mobile (Standard)</td>
+                    <td>
+                      <code>.notification-body</code> ist ein Block-Element.
+                      <code>.secondary</code> erscheint in einer neuen Zeile mit
+                      <code>margin-block-start: var(--fnd-spacing-06)</code>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Desktop (<code>desktop-up</code>)</td>
+                    <td>
+                      <code>.notification</code> und <code>.notification-body</code> nutzen
+                      <code>align-items: center</code> und <code>flex-center</code>.
+                      <code>.secondary</code> erscheint inline mit
+                      <code>margin-inline-start: var(--fnd-spacing-08)</code>.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Komponenten-&Uuml;bersicht</h2>
+          <p class="docs__section-desc">
+            Die Notification-Komponente ist eine rein CSS-basierte Sticky-Leiste.
+            Es gibt keine eigene JavaScript-API &mdash; die Sichtbarkeit wird durch Hinzuf&uuml;gen oder Entfernen der Klasse
+            <code class="docs__token">.show</code> per JavaScript gesteuert.
+          </p>
+
+          <!-- Komponenten-Info -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Kenndaten</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <tbody>
+                  <tr><td><strong>Kanonische Klasse</strong></td><td><code>.notification</code></td></tr>
+                  <tr><td><strong>Sichtbarkeits-Klasse</strong></td><td><code>.notification.show</code></td></tr>
+                  <tr><td><strong>Token-Namespace</strong></td><td>Foundation: <code>--fnd-*</code> (keine eigenen Component-Tokens)</td></tr>
+                  <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/07-organisms/_notification.scss</code></td></tr>
+                  <tr><td><strong>Positionierung</strong></td><td><code>position: sticky; top: 0; z-index: var(--fnd-z-notification)</code></td></tr>
+                  <tr><td><strong>Standardzustand</strong></td><td>Ausgeblendet (<code>height: 0; opacity: 0; visibility: hidden</code>)</td></tr>
+                  <tr><td><strong>HTML-Element</strong></td><td><code>&lt;div&gt;</code></td></tr>
+                  <tr><td><strong>Varianten</strong></td><td>Keine &mdash; eine einheitliche Darstellung (keine Farb-Varianten)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- CSS-Klassen -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">CSS-Klassen</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Klasse</th>
+                    <th>Typ</th>
+                    <th>Beschreibung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>.notification</code></td><td>Block</td><td>Sticky Banner-Container. Standardm&auml;&szlig;ig ausgeblendet.</td></tr>
+                  <tr><td><code>.notification.show</code></td><td>State</td><td>Macht den Banner sichtbar. Setzt <code>height: auto</code>, <code>opacity: 1</code>, <code>visibility: visible</code> und Padding.</td></tr>
+                  <tr><td><code>.notification-body</code></td><td>Element</td><td>Inhaltsbereich. Nimmt den verf&uuml;gbaren Platz neben dem Close-Button ein.</td></tr>
+                  <tr><td><code>.secondary</code></td><td>Modifier</td><td>Optionaler Action-Link. Auf Mobile neue Zeile, auf Desktop inline.</td></tr>
+                  <tr><td><code>a.icon-button</code></td><td>Element</td><td>Close-Button (32&times;32px, transparenter Hintergrund).</td></tr>
+                  <tr><td><code>.icon-only</code></td><td>Kinder-Element</td><td>Icon-Wrapper im Close-Button. 32&times;32px, 6px Padding.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- JavaScript Steuerung -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">JavaScript-Steuerung</h3>
+            <p class="docs__section-desc">
+              Die Komponente hat keine eigene JS-API. Die Sichtbarkeit wird ausschlie&szlig;lich
+              &uuml;ber die Klasse <code class="docs__token">.show</code> gesteuert.
+            </p>
+            <div class="docs-snippet"><pre>// Banner einblenden
+document.querySelector('.notification').classList.add('show');
+
+// Banner ausblenden
+document.querySelector('.notification').classList.remove('show');
+
+// Banner schlie&szlig;en via Close-Button
+document.querySelector('.notification .icon-button').addEventListener('click', (e) =&gt; {
+  e.preventDefault();
+  e.currentTarget.closest('.notification').classList.remove('show');
+});</pre></div>
+          </section>
+
+          <!-- Element-Struktur -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur</h3>
+
+            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Basis (nur Text + Close)</h4>
+            <div class="docs-snippet"><pre>&lt;div class="notification show"
+     role="status"
+     aria-live="polite"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;&lt;strong&gt;Wartung:&lt;/strong&gt; Das System ist am Freitag von 22&ndash;02 Uhr offline.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;a href="#" class="icon-button" aria-label="Schlie&szlig;en"&gt;
+    &lt;span class="icon-only" aria-hidden="true"&gt;
+      &lt;svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5" stroke-linecap="round"&gt;
+        &lt;line x1="18" y1="6" x2="6" y2="18"/&gt;
+        &lt;line x1="6" y1="6" x2="18" y2="18"/&gt;
+      &lt;/svg&gt;
+    &lt;/span&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</pre></div>
+
+            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Mit Secondary Action</h4>
+            <div class="docs-snippet"><pre>&lt;div class="notification show"
+     role="status"
+     aria-live="polite"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;&lt;strong&gt;Neue Version:&lt;/strong&gt; Version 3.4 ist jetzt verf&uuml;gbar.&lt;/p&gt;
+    &lt;a href="/changelog" class="secondary"&gt;Changelog lesen&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;a href="#" class="icon-button" aria-label="Schlie&szlig;en"&gt;
+    &lt;span class="icon-only" aria-hidden="true"&gt;
+      &lt;svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5" stroke-linecap="round"&gt;
+        &lt;line x1="18" y1="6" x2="6" y2="18"/&gt;
+        &lt;line x1="6" y1="6" x2="18" y2="18"/&gt;
+      &lt;/svg&gt;
+    &lt;/span&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</pre></div>
+
+            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Kritisch (kein Close, role="alert")</h4>
+            <div class="docs-snippet"><pre>&lt;div class="notification show"
+     role="alert"
+     aria-live="assertive"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;&lt;strong&gt;Kritischer Fehler:&lt;/strong&gt; Bitte speichern Sie Ihre Arbeit und laden Sie die Seite neu.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility</h2>
+          <p class="docs__section-desc">
+            Die Notification-Komponente folgt dem
+            <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/" target="_blank">WAI-ARIA Alert Pattern</a>
+            und nutzt Live-Regions, damit Screenreader-Nutzer den Banner-Inhalt auch ohne visuelle Wahrnehmung erhalten.
+          </p>
+
+          <!-- ARIA-Rollen -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">ARIA-Rollen &amp; Attribute</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Element</th>
+                    <th>Attribut</th>
+                    <th>Beschreibung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Banner (<code>.notification</code>)</td><td><code>role="status"</code></td><td>F&uuml;r informative Meldungen (polite) &mdash; unterbricht Screenreader nicht</td></tr>
+                  <tr><td>Banner (<code>.notification</code>)</td><td><code>role="alert"</code></td><td>F&uuml;r dringende Meldungen (assertive) &mdash; unterbricht Screenreader sofort</td></tr>
+                  <tr><td>Banner (<code>.notification</code>)</td><td><code>aria-live="polite"</code></td><td>Erg&auml;nzt <code>role="status"</code> f&uuml;r maximale Browser-Kompatibilit&auml;t</td></tr>
+                  <tr><td>Banner (<code>.notification</code>)</td><td><code>aria-live="assertive"</code></td><td>Erg&auml;nzt <code>role="alert"</code> f&uuml;r kritische Meldungen</td></tr>
+                  <tr><td>Close-Button (<code>a.icon-button</code>)</td><td><code>aria-label="Schlie&szlig;en"</code></td><td>Beschriftung f&uuml;r den Icon-Only-Button</td></tr>
+                  <tr><td>Icon im Close-Button (<code>.icon-only</code>)</td><td><code>aria-hidden="true"</code></td><td>Icon ist dekorativ &mdash; <code>aria-label</code> am Button liefert den Namen</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Tastatur-Navigation -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Tastatur-Navigation</h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Taste</th>
+                    <th>Aktion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><kbd>Tab</kbd></td><td>Fokussiert den Close-Button oder den Secondary-Link im Banner</td></tr>
+                  <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Aktiviert den fokussierten Link oder Button</td></tr>
+                  <tr><td><kbd>Escape</kbd></td><td>Optional per JS: Schliesst den Banner (muss individuell implementiert werden)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- role="status" vs role="alert" -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);"><code>role="status"</code> vs. <code>role="alert"</code></h3>
+            <div style="overflow-x: auto;">
+              <table class="docs-table">
+                <thead>
+                  <tr>
+                    <th>Verwendungsfall</th>
+                    <th>Empfehlung</th>
+                    <th>Begr&uuml;ndung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Informationen, Updates, Neuigkeiten</td>
+                    <td><code>role="status"</code> + <code>aria-live="polite"</code></td>
+                    <td>Screenreader liest beim n&auml;chsten Pause-Punkt vor (nicht unterbrechend)</td>
+                  </tr>
+                  <tr>
+                    <td>Systemfehler, Datenverlust-Warnung</td>
+                    <td><code>role="alert"</code> + <code>aria-live="assertive"</code></td>
+                    <td>Screenreader unterbricht sofort und liest vor (dringlich)</td>
+                  </tr>
+                  <tr>
+                    <td>Wartungsfenster, geplante Abschaltung</td>
+                    <td><code>role="status"</code> + <code>aria-live="polite"</code></td>
+                    <td>Nicht dringend, Nutzer kann zu einem sp&auml;teren Zeitpunkt handeln</td>
+                  </tr>
+                  <tr>
+                    <td>Aktiver Systemausfall, sofortiger Handlungsbedarf</td>
+                    <td><code>role="alert"</code> + <code>aria-live="assertive"</code></td>
+                    <td>Nutzer muss sofort informiert werden, Handlung ist zeitkritisch</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Best Practices -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Best Practices</h3>
+            <ul style="padding-left: var(--fnd-spacing-05); line-height: 1.8;">
+              <li>Der Banner soll <strong>genau einmal</strong> pro Seite vorhanden sein und am Beginn des <code>&lt;body&gt;</code> stehen, damit er beim Scrollen korrekt klebt.</li>
+              <li>Verwende <code>role="status"</code> f&uuml;r <strong>informative</strong> Hinweise &mdash; <code>role="alert"</code> nur f&uuml;r <strong>kritische</strong> Meldungen.</li>
+              <li>Der Inhalt des Banners sollte <strong>kurz und handlungsorientiert</strong> sein (max. 1&ndash;2 S&auml;tze).</li>
+              <li>Verwende <strong>kein <code>role="alert"</code></strong> f&uuml;r nicht-dringende Inhalte &mdash; es unterbricht Screenreader-Nutzer unerwartet.</li>
+              <li>Der Close-Button muss immer ein <code>aria-label="Schlie&szlig;en"</code> besitzen, da er nur ein Icon enth&auml;lt.</li>
+              <li>Der Secondary-Link (<code>.secondary</code>) muss einen <strong>aussagekr&auml;ftigen Linktext</strong> haben &mdash; kein &bdquo;Hier klicken&ldquo;.</li>
+              <li>Nach dem Schlie&szlig;en des Banners sollte der Fokus <strong>nicht verloren gehen</strong> &mdash; das ausl&ouml;sende Element oder das n&auml;chste sinnvolle Element sollte fokussiert werden.</li>
+              <li>Stelle sicher, dass der Text im Banner <strong>ausreichend Kontrast</strong> zum Hintergrund hat (WCAG 1.4.3: mind. 4,5:1).</li>
+              <li>Die Komponente nutzt <code>visibility: hidden</code> im versteckten Zustand &mdash; diese Elemente werden von Screenreadern korrekt ignoriert.</li>
+            </ul>
+          </section>
+
+          <!-- Anti-Patterns -->
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Anti-Patterns</h3>
+            <div class="docs-snippet"><pre>&lt;!-- RICHTIG: Informations-Meldung mit role="status" --&gt;
+&lt;div class="notification show" role="status" aria-live="polite"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;&lt;strong&gt;Wartung:&lt;/strong&gt; Das System ist am Freitag von 22&ndash;02 Uhr offline.&lt;/p&gt;
+    &lt;a href="/wartung" class="secondary"&gt;Details anzeigen&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;a href="#" class="icon-button" aria-label="Schlie&szlig;en"&gt;
+    &lt;span class="icon-only" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: role="alert" f&uuml;r harmlose Meldung --&gt;
+&lt;div class="notification show" role="alert"&gt;
+  &lt;div class="notification-body"&gt;
+    &lt;p&gt;Neue Version verf&uuml;gbar.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Close-Button ohne aria-label --&gt;
+&lt;a href="#" class="icon-button"&gt;
+  &lt;span class="icon-only"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;!-- FALSCH: Nichtssagender Linktext --&gt;
+&lt;a href="/changelog" class="secondary"&gt;Hier klicken&lt;/a&gt;
+
+&lt;!-- FALSCH: Banner mit display:none ausblenden (statt .show entfernen) --&gt;
+&lt;div class="notification show" style="display: none;"&gt;...&lt;/div&gt;</pre></div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+    <script src="notification-docs.js"></script>
+<!-- /SCRIPTS -->

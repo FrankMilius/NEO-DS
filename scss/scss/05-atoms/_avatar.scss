@@ -1,0 +1,277 @@
+// ==========================================================================
+// 05-Atoms: Avatar
+// ==========================================================================
+// Token-basierte Avatar-Komponente mit 5 Groessen, Image/Fallback-Pattern,
+// Status-Badge, Shape-Varianten, Ring-Border und Gruppen-Layout.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-avatar-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//   Nie direkte Hex-Werte — Theme-Aenderungen fliessen automatisch durch.
+//
+// SIZES (5 Stufen):
+//   xs  →  24px    font: 10px
+//   sm  →  32px    font: 12px
+//   md  →  40px    font: 14px   — DEFAULT
+//   lg  →  48px    font: 16px
+//   xl  →  64px    font: 20px
+//
+// BEM-KLASSEN:
+//   .nc-avatar                      Block (default: md, rund)
+//   .nc-avatar__image               Bild-Element
+//   .nc-avatar__fallback            Fallback (Initialen / Icon)
+//   .nc-avatar__badge               Status-Dot
+//   .nc-avatar__badge--online       Gruen  (Success)
+//   .nc-avatar__badge--offline      Grau   (Disabled)
+//   .nc-avatar__badge--busy         Rot    (Danger)
+//   .nc-avatar__badge--away         Gelb   (Warning)
+//   .nc-avatar--xs / --sm / --lg / --xl   Groessen (md = Default)
+//   .nc-avatar--square              Quadratische Form mit Radius
+//   .nc-avatar--ring                Ring-Border zur Abgrenzung
+//   .nc-avatar-group                Gruppen-Container (ueberlappend)
+//   .nc-avatar-group__count         "+N" Zaehler-Element
+//
+// IMAGE/FALLBACK PATTERN:
+//   Fallback ist immer im DOM (z-index: 0, position: absolute).
+//   Image liegt darueber (z-index: 1). Wenn Image laedt, ueberdeckt es
+//   den Fallback automatisch. Wenn Image fehlt/bricht → Fallback sichtbar.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Avatar-Container.
+/// Setzt position, display, overflow, border-radius und Default-Size (md).
+@mixin avatar-base {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nc-avatar-radius);
+  vertical-align: middle;
+  flex-shrink: 0;
+  user-select: none;
+  transition: transform var(--nc-avatar-transition-duration) ease;
+
+  // Default size: md
+  @include avatar-size('md');
+}
+
+/// Setzt width/height/min-width/min-height/font-size pro Groesse.
+/// @param {String} $size - 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+@mixin avatar-size($size: 'md') {
+  @if $size == 'xs' {
+    width: var(--nc-avatar-size-xs);
+    height: var(--nc-avatar-size-xs);
+    min-width: var(--nc-avatar-size-xs);
+    min-height: var(--nc-avatar-size-xs);
+    font-size: var(--nc-avatar-font-size-xs);
+  } @else if $size == 'sm' {
+    width: var(--nc-avatar-size-sm);
+    height: var(--nc-avatar-size-sm);
+    min-width: var(--nc-avatar-size-sm);
+    min-height: var(--nc-avatar-size-sm);
+    font-size: var(--nc-avatar-font-size-sm);
+  } @else if $size == 'md' {
+    width: var(--nc-avatar-size-md);
+    height: var(--nc-avatar-size-md);
+    min-width: var(--nc-avatar-size-md);
+    min-height: var(--nc-avatar-size-md);
+    font-size: var(--nc-avatar-font-size-md);
+  } @else if $size == 'lg' {
+    width: var(--nc-avatar-size-lg);
+    height: var(--nc-avatar-size-lg);
+    min-width: var(--nc-avatar-size-lg);
+    min-height: var(--nc-avatar-size-lg);
+    font-size: var(--nc-avatar-font-size-lg);
+  } @else if $size == 'xl' {
+    width: var(--nc-avatar-size-xl);
+    height: var(--nc-avatar-size-xl);
+    min-width: var(--nc-avatar-size-xl);
+    min-height: var(--nc-avatar-size-xl);
+    font-size: var(--nc-avatar-font-size-xl);
+  }
+}
+
+/// Image-Element: fuellt den Container, object-fit cover.
+/// z-index 1 → liegt ueber dem Fallback.
+@mixin avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  z-index: 1;
+
+  // Safety: verstecke kaputte/leere Images
+  &:not([src]),
+  &[src=''] {
+    display: none;
+  }
+}
+
+/// Fallback-Element: absolute Fuelling, zentrierter Inhalt.
+/// z-index 0 → liegt unter dem Image (wird sichtbar wenn kein Image).
+@mixin avatar-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--nc-avatar-bg);
+  color: var(--nc-avatar-color);
+  font-weight: var(--nc-avatar-font-weight);
+  line-height: 1;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/// Badge (Status-Indikator): kleiner Dot oben rechts.
+@mixin avatar-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: var(--nc-avatar-badge-size);
+  height: var(--nc-avatar-badge-size);
+  border-radius: var(--fnd-radius-full);
+  border: var(--nc-avatar-badge-border-width) solid var(--nc-avatar-badge-border-color);
+  background-color: var(--nc-avatar-badge-offline); // Default: offline/grau
+}
+
+/// Ring: Box-Shadow Ring fuer Abgrenzung auf aehnlichen Hintergruenden.
+@mixin avatar-ring {
+  box-shadow: 0 0 0 var(--nc-avatar-ring-width) var(--nc-avatar-ring-color);
+}
+
+/// Square Shape: Override border-radius.
+@mixin avatar-square {
+  border-radius: var(--nc-avatar-radius-square);
+}
+
+/// Avatar-Group: ueberlappende Avatare mit negativem Spacing.
+@mixin avatar-group {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse; // Spaetere Avatare erscheinen "hinten"
+
+  > .nc-avatar {
+    margin-inline-start: var(--nc-avatar-group-spacing);
+    box-shadow: 0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color);
+
+    &:last-child {
+      margin-inline-start: 0; // Erster Avatar (visuell links) kein negativer Margin
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-avatar {
+  @include avatar-base;
+
+  // -- Sub-Elemente --
+
+  &__image {
+    @include avatar-image;
+  }
+
+  &__fallback {
+    @include avatar-fallback;
+
+    // SVG-Icons im Fallback skalieren
+    > svg {
+      width: 60%;
+      height: 60%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__badge {
+    @include avatar-badge;
+
+    &--online  { background-color: var(--nc-avatar-badge-online); }
+    &--offline { background-color: var(--nc-avatar-badge-offline); }
+    &--busy    { background-color: var(--nc-avatar-badge-busy); }
+    &--away    { background-color: var(--nc-avatar-badge-away); }
+  }
+
+  // -- Groessen-Modifier --
+
+  &--xs { @include avatar-size('xs'); }
+  &--sm { @include avatar-size('sm'); }
+  // md = Default (bereits in avatar-base)
+  &--lg { @include avatar-size('lg'); }
+  &--xl { @include avatar-size('xl'); }
+
+  // -- Shape-Modifier --
+
+  &--square { @include avatar-square; }
+
+  // -- Ring-Modifier --
+
+  &--ring { @include avatar-ring; }
+}
+
+// ---------------------------------------------------------------------------
+// Avatar-Group
+// ---------------------------------------------------------------------------
+
+.nc-avatar-group {
+  @include avatar-group;
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-avatar-size-md);
+    height: var(--nc-avatar-size-md);
+    min-width: var(--nc-avatar-size-md);
+    border-radius: var(--nc-avatar-radius);
+    background: var(--nc-avatar-bg);
+    color: var(--nc-avatar-color);
+    font-size: var(--nc-avatar-font-size-sm);
+    font-weight: var(--nc-avatar-font-weight);
+    margin-inline-start: var(--nc-avatar-group-spacing);
+    box-shadow: 0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color);
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  // Group-Groessen: Count-Element passt sich an Kind-Groesse an
+  &--sm > .nc-avatar { @include avatar-size('sm'); }
+  &--sm > .nc-avatar-group__count {
+    width: var(--nc-avatar-size-sm);
+    height: var(--nc-avatar-size-sm);
+    min-width: var(--nc-avatar-size-sm);
+    font-size: var(--nc-avatar-font-size-xs);
+  }
+
+  &--lg > .nc-avatar { @include avatar-size('lg'); }
+  &--lg > .nc-avatar-group__count {
+    width: var(--nc-avatar-size-lg);
+    height: var(--nc-avatar-size-lg);
+    min-width: var(--nc-avatar-size-lg);
+    font-size: var(--nc-avatar-font-size-md);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Deprecated: Legacy .nc-avatar ohne BEM-Elemente (backward-compat)
+// ---------------------------------------------------------------------------
+
+// Legacy-Pattern: .nc-avatar img (ohne __image Klasse)
+.nc-avatar > img:not([class]) {
+  @include avatar-image;
+}

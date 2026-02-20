@@ -1,0 +1,86 @@
+// ==========================================================================
+// 00-Settings: Layout
+// ==========================================================================
+// Layout-spezifische Tokens: z-index, nav-height, image-ratios
+// ==========================================================================
+
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:string';
+@use 'tokens-layout.generated' as tokens;
+
+// ---------------------------------------------------------------------------
+// Token Maps (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$z-index: tokens.$token-z-index;
+$nav-height-mobile: tokens.$token-nav-height-mobile;
+$nav-height-desktop: tokens.$token-nav-height-desktop;
+$image-ratios: tokens.$token-image-ratios;
+
+// ---------------------------------------------------------------------------
+// Getter Functions
+// ---------------------------------------------------------------------------
+
+/// Get z-index value
+@function z($layer) {
+  @if map.has-key($z-index, $layer) {
+    @return map.get($z-index, $layer);
+  }
+  @warn "Unknown z-index layer: #{$layer}";
+  @return 1;
+}
+
+/// Get image ratio
+@function image-ratio($ratio) {
+  @if map.has-key($image-ratios, $ratio) {
+    @return map.get($image-ratios, $ratio);
+  }
+  @warn "Unknown image ratio: #{$ratio}";
+  @return '1 / 1';
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+:root {
+  // Navigation
+  --nav-height: #{$nav-height-mobile};
+
+  // Z-Index Scale (as CSS Custom Properties)
+  // Basis-Skala aus design-tokens.json
+  @each $layer, $value in $z-index {
+    --fnd-z-#{$layer}: #{$value};
+  }
+
+  // Ergaenzende semantische Z-Index-Stufen
+  // (nicht in design-tokens.json, da sie aus dem Komponentenkontext stammen)
+  --fnd-z-header: 100;
+  --fnd-z-sidebar: 200;
+  --fnd-z-drawer: 300;
+  --fnd-z-notification: 400;
+  --fnd-z-toast: 500;
+  --fnd-z-skip-link: 9999;
+
+  // Content Width (Readability)
+  --fnd-content-max-width: 1472px;
+  --fnd-content-wide-max-width: 1720px;
+
+  // Image Ratios (unquote für CSS-Ausgabe)
+  @each $name, $value in $image-ratios {
+    --fnd-image-ratio-#{$name}: #{string.unquote($value)};
+  }
+
+  // Square Value Component
+  --square-value-small: 96px;
+  --square-value-big: 168px;
+  --square-translate-z: 100px;
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --nav-height: #{$nav-height-desktop};
+    --square-translate-z: 130px;
+  }
+}

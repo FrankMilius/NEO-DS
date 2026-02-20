@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modal | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Modal-Komponente mit Location-Preference, Notification und Theme-Switcher Varianten." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Modal</h1>
+      <p class="docs__subtitle">
+        Drei spezialisierte Modal-Varianten auf Basis des nativen <code class="docs__token">&lt;dialog&gt;</code>-Elements:
+        <code class="docs__token">.location-preference-modal</code> (Slide-in Panel rechts),
+        <code class="docs__token">.contextual-notification-modal</code> (Toast-ähnliches Slide-up unten) und
+        <code class="docs__token">.theme-switcher-modal</code> (Slide-in Panel rechts mit Theme-Auswahl).
+        Alle Varianten nutzen <code class="docs__token">@starting-style</code> für CSS-native Ein-/Ausblend-Animationen
+        und Body-Scroll-Lock via <code class="docs__token">body:has([open])</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="modal-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Modal-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Wähle Theme und Modal-Variante, um die verschiedenen Modal-Typen live zu testen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="location" selected>Location Preference</option>
+                  <option value="notification">Contextual Notification</option>
+                  <option value="theme-switcher">Theme Switcher</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <button class="nc-button" id="stage-open-modal">Modal öffnen</button>
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;dialog class="location-preference-modal" aria-labelledby="loc-title"&gt;
+  &lt;div class="button-container"&gt;
+    &lt;button class="close-btn" aria-label="Schließen"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;h2 class="dialog-header" id="loc-title"&gt;Standort wählen&lt;/h2&gt;
+  &lt;p class="current-location"&gt;Aktuell: &lt;span&gt;Berlin&lt;/span&gt;&lt;/p&gt;
+  &lt;input type="search" placeholder="Standort suchen &hellip;" /&gt;
+  &lt;details&gt;
+    &lt;summary&gt;
+      Region
+      &lt;span class="region-summary-icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/summary&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Berlin&lt;/li&gt;
+      &lt;li&gt;Hamburg&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/details&gt;
+&lt;/dialog&gt;</pre>
+          </div>
+
+          <!-- ============================================================ -->
+          <!-- Statische Beispiele                                          -->
+          <!-- ============================================================ -->
+
+          <!-- 1. Location Preference Modal -->
+          <section class="docs__section" id="location-preference">
+            <h2 class="docs__section-title">Location Preference Modal</h2>
+            <p class="docs__section-desc">
+              Slide-in-Panel von rechts für Standortauswahl. Auf mobilen Geräten nimmt es den gesamten Bildschirm ein.
+              Ab Desktop (1024px) wird es als seitliches Panel mit 483px Breite und Backdrop angezeigt.
+            </p>
+            <div class="docs__code-block">&lt;dialog class="location-preference-modal" aria-labelledby="loc-title"&gt;
+  &lt;!-- Fixed Header mit Schließen-Button --&gt;
+  &lt;div class="button-container"&gt;
+    &lt;button class="close-btn" aria-label="Schließen"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Dialog-Titel --&gt;
+  &lt;h2 class="dialog-header" id="loc-title"&gt;Standort wählen&lt;/h2&gt;
+
+  &lt;!-- Aktueller Standort --&gt;
+  &lt;p class="current-location"&gt;Aktuell: &lt;span&gt;Berlin&lt;/span&gt;&lt;/p&gt;
+
+  &lt;!-- Suche --&gt;
+  &lt;input type="search" placeholder="Standort suchen &hellip;" /&gt;
+
+  &lt;!-- Accordion-Region --&gt;
+  &lt;details&gt;
+    &lt;summary&gt;
+      Berlin / Brandenburg
+      &lt;span class="region-summary-icon"&gt;
+        &lt;span class="icon region-icon-expand"&gt;&hellip;&lt;/span&gt;
+        &lt;span class="icon region-icon-collapse"&gt;&hellip;&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/summary&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Berlin&lt;/li&gt;
+      &lt;li&gt;Potsdam&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/details&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Öffnen --&gt;
+&lt;script&gt;
+  document.querySelector('.location-preference-modal').showModal();
+&lt;/script&gt;</div>
+          </section>
+
+          <!-- 2. Contextual Notification Modal -->
+          <section class="docs__section" id="contextual-notification">
+            <h2 class="docs__section-title">Contextual Notification Modal</h2>
+            <p class="docs__section-desc">
+              Toast-ähnliches Panel, das von unten einschiebt (<code class="docs__token">translate: 0 100%</code> → <code class="docs__token">0 0</code>).
+              Rechts am Bildschirmrand positioniert. Enthält optionales Media-Bild, Titel, Beschreibung und Action-Links.
+              Kann mit der Modifier-Klasse <code class="docs__token">green-theme</code> in Akzentfarbe dargestellt werden.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--outline" id="demo-open-notification">Benachrichtigung anzeigen</button>
+              <button class="nc-button nc-button--outline" id="demo-open-notification-green">Green Theme</button>
+            </div>
+            <div class="docs__code-block">&lt;dialog class="contextual-notification-modal" aria-labelledby="notif-title"&gt;
+  &lt;!-- Optionales Media --&gt;
+  &lt;div class="notification-media"&gt;
+    &lt;picture&gt;
+      &lt;img src="image.jpg" alt="Vorschaubild" /&gt;
+    &lt;/picture&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Inhalt --&gt;
+  &lt;div class="notification-content"&gt;
+    &lt;div class="notification-heading"&gt;
+      &lt;h2 id="notif-title"&gt;Neue Veranstaltung&lt;/h2&gt;
+      &lt;button class="close-btn" aria-label="Schließen"&gt;
+        &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Konzert heute Abend um 20 Uhr.&lt;/p&gt;
+    &lt;div class="button-container"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+      &lt;a href="#"&gt;Mehr erfahren&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Green Theme Variante --&gt;
+&lt;dialog class="contextual-notification-modal green-theme" aria-labelledby="notif-title-2"&gt;
+  &hellip;
+&lt;/dialog&gt;</div>
+          </section>
+
+          <!-- 3. Theme Switcher Modal + FAB -->
+          <section class="docs__section" id="theme-switcher">
+            <h2 class="docs__section-title">Theme Switcher Modal</h2>
+            <p class="docs__section-desc">
+              Slide-in-Panel von rechts für die Theme-Auswahl, ausgelöst durch den <code class="docs__token">.theme-switcher-fab</code> (Floating Action Button).
+              Zeigt ein 2-spaltiges Grid mit Theme-Preview-Kacheln. Das Panel ist 400px (Desktop) bzw. 440px (Large Desktop) breit.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--outline" id="demo-open-theme-switcher">Theme Switcher öffnen</button>
+            </div>
+            <div class="docs__code-block">&lt;!-- FAB: Floating Action Button --&gt;
+&lt;button class="theme-switcher-fab" aria-label="Theme wechseln" aria-haspopup="dialog"&gt;
+  &lt;span class="theme-switcher-fab__icon"&gt;&hellip;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Modal --&gt;
+&lt;dialog class="theme-switcher-modal" aria-labelledby="ts-title"&gt;
+  &lt;!-- Header --&gt;
+  &lt;div class="theme-switcher__header"&gt;
+    &lt;h2 class="theme-switcher__title" id="ts-title"&gt;Theme wählen&lt;/h2&gt;
+    &lt;button class="theme-switcher__close" aria-label="Schließen"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Scrollbarer Inhalt --&gt;
+  &lt;div class="theme-switcher__content"&gt;
+    &lt;span class="theme-switcher__label"&gt;Darstellung&lt;/span&gt;
+    &lt;div class="theme-switcher__grid"&gt;
+
+      &lt;!-- Theme-Kachel (aktiv) --&gt;
+      &lt;button class="theme-switcher__option is-active" data-theme="neo-light-theme"&gt;
+        &lt;div class="theme-switcher__preview"&gt;
+          &lt;div class="theme-switcher__preview-header"&gt;
+            &lt;div class="theme-switcher__preview-dot"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-bar"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class="theme-switcher__preview-body"&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;span class="theme-switcher__option-label"&gt;Neo Light&lt;/span&gt;
+      &lt;/button&gt;
+
+      &lt;!-- Weitere Kacheln ... --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</div>
+          </section>
+
+          <!-- 4. JavaScript API -->
+          <section class="docs__section" id="js-api-usage">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <p class="docs__section-desc">
+              Alle Modals nutzen die native <code class="docs__token">&lt;dialog&gt;</code>-API. Das Öffnen und Schließen erfolgt ausschließlich
+              über <code class="docs__token">showModal()</code> und <code class="docs__token">close()</code>.
+            </p>
+            <div class="docs__code-block">// Öffnen (modal — mit Backdrop, Focus-Trap, aria-modal)
+const modal = document.querySelector('.location-preference-modal');
+modal.showModal();
+
+// Schließen
+modal.close();
+
+// Schließen über Close-Button
+document.querySelector('.close-btn').addEventListener('click', () => {
+  modal.close();
+});
+
+// Event: Modal wurde geschlossen
+modal.addEventListener('close', () => {
+  console.log('Modal geschlossen');
+});
+
+// Backdrop-Click schließt (contextual-notification-modal — kein Backdrop auf Mobile)
+// location-preference-modal und theme-switcher-modal haben Backdrop ab Desktop
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.close();
+});</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Foundation Token Referenz)                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <p class="docs__section-desc" style="margin-block-end: var(--fnd-spacing-06);">
+            Die Modal-Varianten verwenden keine eigenen <code class="docs__token">--nc-modal-*</code> Component-Tokens, sondern direkt Foundation-Tokens
+            (<code class="docs__token">--fnd-*</code>). Die folgende Tabelle zeigt alle eingesetzten Tokens nach Variante.
+          </p>
+
+          <!-- Gemeinsame Foundation-Tokens -->
+          <section class="docs__section" id="style-shared-tokens">
+            <h2 class="docs__section-title">Gemeinsame Foundation-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--fnd-color-background-base</code></td><td>Hintergrundfarbe aller Modals</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-secondary</code></td><td>Input-Hintergrund, Close-Button, Hover-Hintergrund auf List-Items</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-tertiary</code></td><td>Close-Button Hover-Zustand</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-transparency-mid</code></td><td>Backdrop-Überlagerung (Slide-in Panels)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-high</code></td><td>Primärtext (Titel, Listen-Items, Beschriftungen)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-mid</code></td><td>Sekundärtext (Beschreibungen, Icons, Labels)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-border-low</code></td><td>Trennlinien (Details-Accordion, Header-Trennlinie)</td></tr>
+                <tr><td><code class="docs__token">--fnd-radius-lg</code></td><td>Border-Radius für Buttons, Inputs, Media, Panels</td></tr>
+                <tr><td><code class="docs__token">--fnd-radius-sm</code></td><td>Border-Radius für Region-Summary-Icon</td></tr>
+                <tr><td><code class="docs__token">--fnd-radius-full</code></td><td>Border-Radius für Theme Switcher FAB (kreisförmig)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Location Preference Modal Tokens -->
+          <section class="docs__section" id="style-location-tokens">
+            <h2 class="docs__section-title">Location Preference Modal — Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--fnd-spacing-03</code></td><td>Padding Block (Mobile)</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-05</code></td><td>Padding Inline (Mobile), Button-Container Padding</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-06</code></td><td>Button-Container Padding Desktop</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-07</code></td><td>Gap zwischen Sections (Mobile)</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-08</code></td><td>Padding (Desktop), Gap zwischen Sections (Desktop)</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-10</code></td><td>Button-Container Höhe, Margin-Top Dialog-Header</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-450</code></td><td>Transition-Dauer (Desktop Slide-in Animation)</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Easing-Funktion (Desktop Animation)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Contextual Notification Modal Tokens -->
+          <section class="docs__section" id="style-notification-tokens">
+            <h2 class="docs__section-title">Contextual Notification Modal — Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>Innen-Padding, Gap zwischen Media und Content</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-02</code></td><td>Gap in Button-Container (Icon + Link)</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-05</code></td><td>Margin-Inline Mobile</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-06</code></td><td>Bottom-Abstand vom Bildschirmrand</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-07 – 10</code></td><td>Rechter Rand (responsive, Tablet bis Large Desktop)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-accent-green</code></td><td>Green-Theme Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-accent-secondary</code></td><td>Green-Theme Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--fnd-image-ratio-1-1</code></td><td>Seitenverhältnis des Notification-Media-Bildes</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-300</code></td><td>Transition-Dauer (Slide-up Animation)</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Easing-Funktion</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Theme Switcher Modal Tokens -->
+          <section class="docs__section" id="style-theme-switcher-tokens">
+            <h2 class="docs__section-title">Theme Switcher Modal — Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>Gap in Theme-Grid, Option-Padding</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-05</code></td><td>Header-Padding Block</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-06</code></td><td>Header-Padding Inline, Content-Padding, Content-Gap</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-border-mid</code></td><td>FAB-Border, Option-Border Hover</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-interactive-default</code></td><td>Aktive Option Border &amp; Box-Shadow (via hardcoded fallback)</td></tr>
+                <tr><td><code class="docs__token">--fnd-font-weight-medium</code></td><td>Titel-Schriftstärke</td></tr>
+                <tr><td><code class="docs__token">--fnd-font-weight-semibold</code></td><td>Label-Schriftstärke</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-200</code></td><td>FAB Hover/Focus Transition, Option Hover Transition</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-450</code></td><td>Slide-in Animation (Desktop)</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Easing-Funktion für alle Transitions</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-450</code></td><td>Backdrop Fade-in Animation</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Animation -->
+          <section class="docs__section" id="style-animation">
+            <h2 class="docs__section-title">Animation</h2>
+            <p class="docs__section-desc">
+              Alle Slide-in Modals nutzen CSS-Transitions mit <code class="docs__token">@starting-style</code>
+              für diskrete Entry-Animationen ohne JavaScript.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Variante</th><th>Richtung</th><th>Eintritt</th><th>Dauer</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.location-preference-modal</code></td>
+                  <td>Slide-in rechts</td>
+                  <td><code class="docs__token">translate: 100% 0</code> → <code class="docs__token">0 0</code>, opacity 0→1</td>
+                  <td><code class="docs__token">--fnd-motion-duration-450</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.contextual-notification-modal</code></td>
+                  <td>Slide-up unten</td>
+                  <td><code class="docs__token">translate: 0 100%</code> → <code class="docs__token">0 0</code>, opacity 0→1</td>
+                  <td><code class="docs__token">--fnd-motion-duration-300</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.theme-switcher-modal</code></td>
+                  <td>Slide-in rechts</td>
+                  <td><code class="docs__token">translate: 100% 0</code> → <code class="docs__token">0 0</code>, opacity 0→1</td>
+                  <td><code class="docs__token">--fnd-motion-duration-450</code></td>
+                </tr>
+                <tr>
+                  <td>Backdrop (Slide-in Panels)</td>
+                  <td>Fade-in</td>
+                  <td>Keyframe <code class="docs__token">animations-fade-in</code></td>
+                  <td><code class="docs__token">--fnd-motion-duration-450</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-04);">
+              Mobile: <code class="docs__token">.location-preference-modal</code> und <code class="docs__token">.theme-switcher-modal</code>
+              nehmen den gesamten Bildschirm ein (kein Slide, kein Backdrop). Die Animation ist nur ab Desktop aktiv.
+            </p>
+          </section>
+
+          <!-- Responsive Breakpoints -->
+          <section class="docs__section" id="style-responsive">
+            <h2 class="docs__section-title">Responsive Breakpoints</h2>
+            <table class="docs__table">
+              <thead><tr><th>Breakpoint</th><th>location-preference-modal</th><th>theme-switcher-modal</th></tr></thead>
+              <tbody>
+                <tr><td>Mobile (Standard)</td><td>Vollbild, kein Backdrop</td><td>Vollbild, kein Backdrop</td></tr>
+                <tr><td>Desktop (≥ 1024px)</td><td>483px Breite, Slide-in rechts, Backdrop</td><td>400px Breite, Slide-in rechts, Backdrop</td></tr>
+                <tr><td>Large Desktop</td><td>533px Breite</td><td>440px Breite</td></tr>
+                <tr><td>Full Desktop</td><td>694px Breite</td><td>440px Breite (unverändert)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BEM-Übersicht -->
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">Klassen-Übersicht</h2>
+            <div class="docs__code-block">// ===== location-preference-modal =====
+.location-preference-modal             // Block (dialog)
+.location-preference-modal .dialog-header       // Überschrift
+.location-preference-modal .current-location    // Aktueller Standort
+.location-preference-modal .button-container    // Fixed Header mit Close-Button
+.location-preference-modal .close-btn           // Schließen-Button
+.location-preference-modal details              // Accordion (native)
+.location-preference-modal details summary      // Accordion-Kopf
+.location-preference-modal .region-summary-icon // Expand/Collapse-Icon
+.location-preference-modal .region-icon-expand  // Expand-Icon (sichtbar wenn zu)
+.location-preference-modal .region-icon-collapse // Collapse-Icon (sichtbar wenn offen)
+.location-preference-modal ul > li              // Standort-Liste
+
+// ===== contextual-notification-modal =====
+.contextual-notification-modal                  // Block (dialog)
+.contextual-notification-modal.green-theme      // Modifier: Akzent-Hintergrund (grün)
+.contextual-notification-modal .notification-media      // Bild-Container
+.contextual-notification-modal .notification-content    // Text-Bereich
+.contextual-notification-modal .notification-heading    // Titel + Close-Button Zeile
+.contextual-notification-modal .close-btn               // Schließen-Button
+.contextual-notification-modal .button-container        // Action-Links
+
+// ===== dialog.green-theme =====
+dialog.green-theme                              // Green-Theme Modifier für contextual-notification-modal
+
+// ===== theme-switcher-fab =====
+.theme-switcher-fab                            // Floating Action Button
+.theme-switcher-fab__icon                      // Icon im FAB
+
+// ===== theme-switcher-modal =====
+.theme-switcher-modal                          // Block (dialog)
+.theme-switcher-modal .theme-switcher__header  // Modal-Kopfzeile
+.theme-switcher-modal .theme-switcher__title   // Modal-Titel
+.theme-switcher-modal .theme-switcher__close   // Schließen-Button
+.theme-switcher-modal .theme-switcher__content // Scrollbarer Inhalt
+.theme-switcher-modal .theme-switcher__label   // Abschnittsbeschriftung
+.theme-switcher-modal .theme-switcher__grid    // 2-spaltiges Theme-Grid
+.theme-switcher-modal .theme-switcher__option  // Theme-Kachel (button)
+.theme-switcher-modal .theme-switcher__option.is-active // Aktive Kachel
+.theme-switcher-modal .theme-switcher__preview          // Vorschau-Miniatur
+.theme-switcher-modal .theme-switcher__preview-header   // Vorschau: Header-Bereich
+.theme-switcher-modal .theme-switcher__preview-dot      // Vorschau: Farbpunkt
+.theme-switcher-modal .theme-switcher__preview-bar      // Vorschau: Balken
+.theme-switcher-modal .theme-switcher__preview-body     // Vorschau: Content-Bereich
+.theme-switcher-modal .theme-switcher__preview-line     // Vorschau: Text-Zeile
+.theme-switcher-modal .theme-switcher__option-label     // Kachel-Beschriftung</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Varianten</strong></td><td>
+                  <code class="docs__token">.location-preference-modal</code>,
+                  <code class="docs__token">.contextual-notification-modal</code>,
+                  <code class="docs__token">.theme-switcher-modal</code>
+                </td></tr>
+                <tr><td><strong>Modifier</strong></td><td><code class="docs__token">dialog.green-theme</code> (Akzent-Hintergrund)</td></tr>
+                <tr><td><strong>Begleit-Komponente</strong></td><td><code class="docs__token">.theme-switcher-fab</code> (Floating Action Button)</td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td>Direkte <code class="docs__token">--fnd-*</code> Foundation-Tokens (kein <code class="docs__token">--nc-modal-*</code>)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;dialog&gt;</code></td></tr>
+                <tr><td><strong>JS-API</strong></td><td><code class="docs__token">showModal()</code> / <code class="docs__token">close()</code></td></tr>
+                <tr><td><strong>Body-Scroll-Lock</strong></td><td>CSS-basiert via <code class="docs__token">body:has(.location-preference-modal[open])</code> und <code class="docs__token">body:has(.theme-switcher-modal[open])</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS-Klassen (BEM / Struktur) -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Location Preference Modal</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.location-preference-modal</code></td><td>Block</td><td>Dialog-Container. Nimmt auf Mobile den vollen Bildschirm, ab Desktop Slide-in-Panel.</td></tr>
+                <tr><td><code class="docs__token">.dialog-header</code></td><td>Element</td><td>Überschrift des Dialogs. Dargestellt mit Heading-M-Stil.</td></tr>
+                <tr><td><code class="docs__token">.current-location</code></td><td>Element</td><td>Zeile mit dem aktuell gewählten Standort. <code class="docs__token">span</code> darin erhält <code class="docs__token">text-high</code>-Farbe.</td></tr>
+                <tr><td><code class="docs__token">.button-container</code></td><td>Element</td><td>Fixed positionierter Header-Streifen mit Close-Button.</td></tr>
+                <tr><td><code class="docs__token">.close-btn</code></td><td>Element</td><td>Schließen-Button (all: unset). 40×40px mit Hover und Focus-Ring.</td></tr>
+                <tr><td><code class="docs__token">.region-summary-icon</code></td><td>Element</td><td>Grid-Container für Expand/Collapse-Icon innerhalb eines <code class="docs__token">details summary</code>.</td></tr>
+                <tr><td><code class="docs__token">.region-icon-expand</code></td><td>Element</td><td>Icon das sichtbar ist, wenn <code class="docs__token">details</code> geschlossen ist.</td></tr>
+                <tr><td><code class="docs__token">.region-icon-collapse</code></td><td>Element</td><td>Icon das sichtbar ist, wenn <code class="docs__token">details[open]</code>. Standard: <code class="docs__token">scaleY(0)</code>.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Contextual Notification Modal</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.contextual-notification-modal</code></td><td>Block</td><td>Dialog-Container. Fest positioniert am unteren Rand, rechts ausgerichtet.</td></tr>
+                <tr><td><code class="docs__token">dialog.green-theme</code></td><td>Modifier</td><td>Überschreibt Hintergrund auf <code class="docs__token">--fnd-color-background-accent-green</code>.</td></tr>
+                <tr><td><code class="docs__token">.notification-media</code></td><td>Element</td><td>Optionaler Bild-Container, 64×64px, quadratisch, <code class="docs__token">overflow: hidden</code>.</td></tr>
+                <tr><td><code class="docs__token">.notification-content</code></td><td>Element</td><td>Textbereich (Titel, Beschreibung, Action-Links).</td></tr>
+                <tr><td><code class="docs__token">.notification-heading</code></td><td>Element</td><td>Zeile mit Titel (<code class="docs__token">h2</code>) und Close-Button. <code class="docs__token">z-index: 3</code> über dem Hover-Overlay.</td></tr>
+                <tr><td><code class="docs__token">.close-btn</code></td><td>Element</td><td>24×24px Schließen-Button mit Hover und Focus-Ring.</td></tr>
+                <tr><td><code class="docs__token">.button-container</code></td><td>Element</td><td>Zeile mit Icon und Action-Link. Liegt über dem Hover-Overlay dank <code class="docs__token">::before</code>-Pseudo-Element.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Theme Switcher FAB &amp; Modal</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.theme-switcher-fab</code></td><td>Block</td><td>Runder Button (48×48px), fest positioniert unten-rechts. Öffnet das Theme-Switcher-Modal.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher-fab__icon</code></td><td>Element</td><td>Icon im FAB. <code class="docs__token">pointer-events: none</code>.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher-modal</code></td><td>Block</td><td>Dialog-Container. Slide-in-Panel von rechts, ab Desktop 400px breit.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__header</code></td><td>Element</td><td>Kopfzeile mit Titel und Schließen-Button. Trennlinie nach unten.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__title</code></td><td>Element</td><td>Modal-Titel. Heading-M, font-weight medium.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__close</code></td><td>Element</td><td>36×36px Schließen-Button mit Hover und Focus-Ring.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__content</code></td><td>Element</td><td>Scrollbarer Inhalt (flex: 1, overflow-y: auto).</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__label</code></td><td>Element</td><td>Beschriftung eines Abschnitts. Uppercase, letter-spacing.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__grid</code></td><td>Element</td><td>2-spaltiges Grid für Theme-Kacheln.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__option</code></td><td>Element</td><td>Button-Kachel für eine Theme-Auswahl. Border 2px, Hover und Focus-Ring.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__option.is-active</code></td><td>State</td><td>Aktive Kachel: blauer Border + Box-Shadow.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview</code></td><td>Element</td><td>Miniatur-Vorschau 16:10, zeigt Header + Content-Linien.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview-header</code></td><td>Element</td><td>Oberer Bereich der Vorschau (28% Höhe).</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview-dot</code></td><td>Element</td><td>Kreisförmiger Farbpunkt in der Vorschau-Kopfzeile.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview-bar</code></td><td>Element</td><td>Horizontaler Balken in der Vorschau-Kopfzeile.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview-body</code></td><td>Element</td><td>Unterer Bereich der Vorschau mit Text-Linien.</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__preview-line</code></td><td>Element</td><td>Simulierte Text-Zeile in der Vorschau (3 Stück, unterschiedliche Breiten).</td></tr>
+                <tr><td><code class="docs__token">.theme-switcher__option-label</code></td><td>Element</td><td>Text-Beschriftung unterhalb der Vorschau.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. JavaScript API -->
+          <section class="docs__section" id="api-js">
+            <h2 class="docs__section-title">JavaScript API</h2>
+            <table class="docs__table">
+              <thead><tr><th>Methode / Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">showModal()</code></td><td>Methode</td><td>Öffnet den Dialog modal mit Backdrop und Focus-Trap.</td></tr>
+                <tr><td><code class="docs__token">close(returnValue?)</code></td><td>Methode</td><td>Schließt den Dialog. Optionaler returnValue wird gesetzt.</td></tr>
+                <tr><td><code class="docs__token">open</code></td><td>Property</td><td>Boolean — <code class="docs__token">true</code> wenn der Dialog geöffnet ist (entspricht dem HTML-Attribut <code class="docs__token">[open]</code>).</td></tr>
+                <tr><td><code class="docs__token">returnValue</code></td><td>Property</td><td>Enthält den Wert, der beim letzten <code class="docs__token">close()</code> übergeben wurde.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Events</h3>
+            <table class="docs__table">
+              <thead><tr><th>Event</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">close</code></td><td>Wird ausgelöst wenn der Dialog geschlossen wird (close() oder ESC).</td></tr>
+                <tr><td><code class="docs__token">cancel</code></td><td>Wird ausgelöst wenn ESC gedrückt wird. <code class="docs__token">preventDefault()</code> blockiert das Schließen.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Variante 1: Location Preference Modal --&gt;
+&lt;dialog class="location-preference-modal" aria-labelledby="loc-title"&gt;
+  &lt;div class="button-container"&gt;           &lt;!-- Fixed Header --&gt;
+    &lt;button class="close-btn" aria-label="Schließen"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;h2 class="dialog-header" id="loc-title"&gt;Standort wählen&lt;/h2&gt;
+  &lt;p class="current-location"&gt;Aktuell: &lt;span&gt;Berlin&lt;/span&gt;&lt;/p&gt;
+  &lt;input type="search" placeholder="Standort suchen &hellip;" /&gt;
+  &lt;details&gt;
+    &lt;summary&gt;
+      Regionsname
+      &lt;span class="region-summary-icon"&gt;
+        &lt;span class="icon region-icon-expand"&gt;&hellip;&lt;/span&gt;
+        &lt;span class="icon region-icon-collapse"&gt;&hellip;&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/summary&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Standort A&lt;/li&gt;
+      &lt;li&gt;Standort B&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/details&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Variante 2: Contextual Notification Modal --&gt;
+&lt;dialog class="contextual-notification-modal [green-theme]" aria-labelledby="notif-title"&gt;
+  &lt;div class="notification-media"&gt;         &lt;!-- Optional --&gt;
+    &lt;picture&gt;&lt;img src="" alt="" /&gt;&lt;/picture&gt;
+  &lt;/div&gt;
+  &lt;div class="notification-content"&gt;
+    &lt;div class="notification-heading"&gt;
+      &lt;h2 id="notif-title"&gt;Titel&lt;/h2&gt;
+      &lt;button class="close-btn" aria-label="Schließen"&gt;
+        &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Beschreibungstext&lt;/p&gt;
+    &lt;div class="button-container"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+      &lt;a href="#"&gt;Mehr erfahren&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Variante 3: Theme Switcher FAB + Modal --&gt;
+&lt;button class="theme-switcher-fab" aria-label="Theme wechseln" aria-haspopup="dialog"
+        aria-controls="theme-switcher-dialog"&gt;
+  &lt;span class="theme-switcher-fab__icon"&gt;&hellip;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;dialog class="theme-switcher-modal" id="theme-switcher-dialog" aria-labelledby="ts-title"&gt;
+  &lt;div class="theme-switcher__header"&gt;
+    &lt;h2 class="theme-switcher__title" id="ts-title"&gt;Theme wählen&lt;/h2&gt;
+    &lt;button class="theme-switcher__close" aria-label="Schließen"&gt;
+      &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="theme-switcher__content"&gt;
+    &lt;span class="theme-switcher__label"&gt;Darstellung&lt;/span&gt;
+    &lt;div class="theme-switcher__grid"&gt;
+      &lt;button class="theme-switcher__option [is-active]" data-theme="neo-light-theme"&gt;
+        &lt;div class="theme-switcher__preview"&gt;
+          &lt;div class="theme-switcher__preview-header"&gt;
+            &lt;div class="theme-switcher__preview-dot"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-bar"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class="theme-switcher__preview-body"&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+            &lt;div class="theme-switcher__preview-line"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;span class="theme-switcher__option-label"&gt;Neo Light&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;!-- weitere .theme-switcher__option Kacheln --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Alle Modal-Varianten basieren auf dem nativen <code class="docs__token">&lt;dialog&gt;</code>-Element
+            und erfüllen WCAG 2.1 AA. Fokus-Trap, ESC-Close und <code class="docs__token">aria-modal</code>
+            sind nativ in <code class="docs__token">showModal()</code> integriert.
+          </p>
+
+          <!-- 1. Natives dialog -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Natives <code class="docs__token">&lt;dialog&gt;</code></h4>
+              <ul>
+                <li>Automatisch <code class="docs__token">role="dialog"</code> und <code class="docs__token">aria-modal="true"</code> bei <code class="docs__token">showModal()</code></li>
+                <li>Kein manuelles ARIA-Setup nötig — der Browser übernimmt die korrekte Semantik</li>
+                <li>Unterstützt in allen modernen Browsern (Chrome, Firefox, Safari, Edge)</li>
+                <li>Jede Variante muss zwingend <code class="docs__token">aria-labelledby</code> mit der Titel-ID verknüpfen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. aria-labelledby -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-labelledby</h4>
+              <ul>
+                <li><code class="docs__token">.location-preference-modal</code>: <code class="docs__token">aria-labelledby</code> verlinkt auf <code class="docs__token">.dialog-header</code></li>
+                <li><code class="docs__token">.contextual-notification-modal</code>: <code class="docs__token">aria-labelledby</code> verlinkt auf <code class="docs__token">h2</code> in <code class="docs__token">.notification-heading</code></li>
+                <li><code class="docs__token">.theme-switcher-modal</code>: <code class="docs__token">aria-labelledby</code> verlinkt auf <code class="docs__token">.theme-switcher__title</code></li>
+                <li>Screenreader lesen beim Öffnen automatisch den Titel vor</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. Focus-Trap -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Trap</h4>
+              <ul>
+                <li>Nativ bei <code class="docs__token">showModal()</code> — Fokus bleibt im Dialog</li>
+                <li>Tab-Navigation zykliert zwischen den interaktiven Elementen innerhalb des Modals</li>
+                <li>Elemente außerhalb des Dialogs sind nicht erreichbar (inert)</li>
+                <li>Kein JavaScript-basierter Focus-Trap nötig</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. Close-Button -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Close-Button</h4>
+              <ul>
+                <li>Alle Varianten haben einen <code class="docs__token">.close-btn</code> bzw. <code class="docs__token">.theme-switcher__close</code></li>
+                <li>Buttons verwenden <code class="docs__token">all: unset</code> — <code class="docs__token">aria-label="Schließen"</code> ist zwingend erforderlich, da kein sichtbarer Text vorhanden ist</li>
+                <li>Alle Close-Buttons haben <code class="docs__token">:focus-visible</code> mit <code class="docs__token">@include focus-ring</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5. ESC-Close -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ESC-Close</h4>
+              <ul>
+                <li>Native Tastaturunterstützung — ESC schließt das Modal</li>
+                <li>Löst das <code class="docs__token">cancel</code>-Event aus, gefolgt vom <code class="docs__token">close</code>-Event</li>
+                <li>Optional: <code class="docs__token">e.preventDefault()</code> im <code class="docs__token">cancel</code>-Event blockiert das Schließen per ESC (z.B. bei ungespeicherten Änderungen)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. Focus-Rückkehr -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Focus-Rückkehr</h4>
+              <ul>
+                <li>Fokus kehrt automatisch zum Trigger-Element zurück, das das Modal geöffnet hat</li>
+                <li>Natives Verhalten von <code class="docs__token">&lt;dialog&gt;</code> — kein manuelles Focus-Management nötig</li>
+                <li>Funktioniert sowohl bei <code class="docs__token">close()</code> als auch bei ESC</li>
+                <li>Für <code class="docs__token">.theme-switcher-fab</code>: Fokus kehrt nach Schließen automatisch zum FAB zurück</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. Body-Scroll-Lock -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Body-Scroll-Lock</h4>
+              <ul>
+                <li>CSS-basiert via <code class="docs__token">body:has(.location-preference-modal[open]) &#123; overflow: hidden; &#125;</code></li>
+                <li>Gilt ebenso für <code class="docs__token">.theme-switcher-modal</code></li>
+                <li><code class="docs__token">.contextual-notification-modal</code> hat keinen Scroll-Lock — es ist ein nicht-modales Toast-ähnliches Element</li>
+                <li>Verhindert Hintergrund-Scrollen, solange ein Vollbild- oder Panel-Modal offen ist</li>
+                <li>Kein JavaScript nötig — rein deklarativ</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 8. Theme Switcher FAB -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Theme Switcher FAB</h4>
+              <ul>
+                <li><code class="docs__token">aria-label="Theme wechseln"</code> erforderlich (kein sichtbarer Text)</li>
+                <li><code class="docs__token">aria-haspopup="dialog"</code> signalisiert Screenreadern, dass ein Dialog geöffnet wird</li>
+                <li><code class="docs__token">aria-controls</code> kann optional auf die Dialog-ID verweisen</li>
+                <li>Theme-Kacheln (<code class="docs__token">.theme-switcher__option</code>) sind <code class="docs__token">&lt;button&gt;</code>-Elemente mit lesbarem <code class="docs__token">.theme-switcher__option-label</code></li>
+                <li>Aktive Kachel sollte <code class="docs__token">aria-pressed="true"</code> erhalten, um den aktiven Zustand für Screenreader anzuzeigen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 9. Reduced Motion -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Reduced Motion</h4>
+              <ul>
+                <li>Das globale <code class="docs__token">prefers-reduced-motion</code>-Media-Query in <code class="docs__token">_animations.scss</code> deaktiviert alle <code class="docs__token">transition</code>- und <code class="docs__token">animation</code>-Eigenschaften systemweit</li>
+                <li>Bei aktiviertem Reduced Motion erscheinen alle Modals ohne Slide- oder Fade-Animation</li>
+                <li>Die <code class="docs__token">@starting-style</code>-Eintrittsanimationen werden ebenfalls unterdrückt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: aria-labelledby mit Titel-ID --&gt;
+&lt;dialog class="location-preference-modal" aria-labelledby="loc-title"&gt;
+  &lt;h2 class="dialog-header" id="loc-title"&gt;Standort wählen&lt;/h2&gt;
+  &hellip;
+&lt;/dialog&gt;
+
+&lt;!-- RICHTIG: Close-Button mit aria-label (all: unset, kein sichtbarer Text) --&gt;
+&lt;button class="close-btn" aria-label="Schließen"&gt;
+  &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: FAB mit aria-haspopup und aria-label --&gt;
+&lt;button class="theme-switcher-fab"
+        aria-label="Theme wechseln"
+        aria-haspopup="dialog"
+        aria-controls="theme-switcher-dialog"&gt;
+  &lt;span class="theme-switcher-fab__icon"&gt;&hellip;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Aktive Kachel mit aria-pressed --&gt;
+&lt;button class="theme-switcher__option is-active"
+        data-theme="neo-light-theme"
+        aria-pressed="true"&gt;
+  &hellip;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: showModal() statt show() für Focus-Trap + aria-modal --&gt;
+&lt;script&gt;
+  dialog.showModal(); // Backdrop, Focus-Trap, aria-modal=true
+&lt;/script&gt;
+
+&lt;!-- FALSCH: show() hat keinen Backdrop, keinen Focus-Trap, kein aria-modal --&gt;
+&lt;script&gt;
+  dialog.show(); // Nicht für modale Overlays verwenden!
+&lt;/script&gt;
+
+&lt;!-- FALSCH: Kein aria-label am Close-Button --&gt;
+&lt;button class="close-btn"&gt;
+  &lt;span class="icon"&gt;&hellip;&lt;/span&gt;
+  &lt;!-- Screenreader kann den Button nicht benennen --&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Kein aria-labelledby am dialog --&gt;
+&lt;dialog class="theme-switcher-modal"&gt;
+  &lt;!-- Screenreader hat keinen Dialog-Namen --&gt;
+&lt;/dialog&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

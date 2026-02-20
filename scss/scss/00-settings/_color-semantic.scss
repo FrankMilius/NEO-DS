@@ -1,0 +1,425 @@
+// ==========================================================================
+// 00-Settings: Color Semantic
+// ==========================================================================
+// Schicht 2 der Color-Architektur: Semantische Token-Maps.
+// Mappt Primitives auf bedeutungstragende Rollen (text, background, border,
+// interactive, feedback). Jedes Theme definiert eine vollständige Map.
+//
+// WCAG 2.1 KONTRAST-AUDIT (Light Base — background-base: #fff):
+//   text-primary   (#000)    auf background-base  → 21.0:1  ✓ AAA
+//   text-secondary (#666)    auf background-base  →  5.7:1  ✓ AA
+//   text-tertiary  (#8e8d8d) auf background-base  →  3.3:1  ⚠ Nur AA Large
+//     → text-tertiary ist NUR fuer grossen Text (>=18px/14px bold) oder
+//       dekorative/nicht-essentielle Inhalte geeignet!
+//   text-disabled  (#8e8d8d) identisch zu text-tertiary → 3.3:1
+//     → Disabled-Elemente sind von WCAG-Kontrast ausgenommen (1.4.3 Exception)
+//   text-link      (primary-500) auf background-base    → pruefen pro Theme
+//
+// WCAG 2.1 KONTRAST-AUDIT (Dark Base — background-base: #000):
+//   text-primary   (#fff)    auf background-base  → 21.0:1  ✓ AAA
+//   text-secondary (~#959595)auf background-base  →  7.0:1  ✓ AAA
+//   text-tertiary  (~#626262)auf background-base  →  3.4:1  ⚠ Nur AA Large
+//   text-disabled  (#7a7a7a) auf background-base  →  4.9:1  ✓ AA (WCAG-Ausnahme)
+//   text-link      (secondary-500 #009fe3) auf bg →  7.1:1  ✓ AAA
+//   text-success   (#0b9e23) auf background-base  →  5.9:1  ✓ AA
+//   text-danger    (#ef5b4e) auf background-base  →  6.3:1  ✓ AA
+//   interactive    (secondary-500 #009fe3) auf bg →  7.1:1  ✓ AAA
+//
+//   auf layer-01 (~#0c0c0c):
+//   text-primary   (#fff)    auf layer-01         → 19.6:1  ✓ AAA
+//   text-secondary (~#959595)auf layer-01         →  6.5:1  ✓ AA
+//   text-tertiary  (~#626262)auf layer-01         →  3.2:1  ✓ AA Large
+//   text-link      (#009fe3) auf layer-01         →  6.6:1  ✓ AA
+//
+//   On-Color Tokens:
+//   on-accent      (#000) auf accent-400          → 13.8:1  ✓ AAA
+//   on-success     (#fff) auf bg-success (#0d2b15)→ 15.3:1  ✓ AAA
+//   on-danger      (#fff) auf bg-danger (#3b1419) → 16.2:1  ✓ AAA
+// ==========================================================================
+
+@use 'sass:map';
+@use 'color-primitives' as prim;
+
+// ---------------------------------------------------------------------------
+// Light Base Theme (Default)
+// ---------------------------------------------------------------------------
+
+$semantic-light-base: (
+  // --- Text ---
+  'text-primary':          map.get(prim.$foundation-black, 100),      // #000
+  'text-secondary':        map.get(prim.$neutral, 700),        // #666
+  'text-tertiary':         map.get(prim.$neutral, 500),        // #8e8d8d
+  'text-inverse':          map.get(prim.$foundation-white, 100),           // #fff
+  'text-disabled':         map.get(prim.$neutral, 500),        // #8e8d8d
+  'text-on-interactive':   map.get(prim.$foundation-white, 100),           // #fff
+  'text-difference':       map.get(prim.$foundation-white, 100),           // #fff (mix-blend-mode)
+  'text-link':             map.get(prim.$primary, 500),         // Neo Blue
+  'text-link-hover':       map.get(prim.$primary, 600),
+  'text-transparency-mid': map.get(prim.$foundation-black, 70),
+  'text-transparency-low': map.get(prim.$foundation-black, 40),
+  'text-success':          map.get(prim.$system-text, success),  // #0b9e23
+  'text-danger':           map.get(prim.$system-text, danger-light), // #bf281b
+
+  // --- Background ---
+  'background-base':             map.get(prim.$foundation-white, 100),      // #fff
+  'background-secondary':        map.get(prim.$neutral, 100),    // #f5f5f5
+  'background-tertiary':         map.get(prim.$neutral, 200),    // #e5e5e5
+  'background-quaternary':       map.get(prim.$neutral, 400),    // #cbcbcb
+  'background-quinary':          map.get(prim.$neutral, 600),    // #767676
+  'background-inverse':          map.get(prim.$foundation-black, 100),   // #000
+  'background-disabled':         map.get(prim.$neutral, 200),    // #e5e5e5
+  'background-hover':            map.get(prim.$neutral, 100),    // #f5f5f5
+  'background-active':           map.get(prim.$neutral, 200),    // #e5e5e5
+  'background-overlay':          map.get(prim.$foundation-black, 80),
+  'background-accent':           map.get(prim.$accent, 500),     // #5cfe50 → korrigiert unten
+  'background-accent-secondary': #04cd24,
+  'background-transparency-mid': map.get(prim.$foundation-black, 80),
+  'background-transparency-low': map.get(prim.$foundation-black, 20),
+  'background-success':          map.get(prim.$system-bg, success), // #d5ffd1
+  'background-danger':           map.get(prim.$system-bg, danger),  // #ffdfdc
+
+  // --- Border ---
+  'border-primary':   map.get(prim.$neutral, 400),    // #cbcbcb (= bisher border-mid)
+  'border-secondary': map.get(prim.$neutral, 200),    // #e5e5e5 (= bisher border-low)
+  'border-strong':    map.get(prim.$foundation-black, 100),   // #000 (= bisher border-high)
+  'border-mid-dark':  map.get(prim.$neutral, 600),    // #767676
+  'border-inverse':   map.get(prim.$foundation-white, 100),       // #fff
+  'border-disabled':  map.get(prim.$neutral, 200),    // #e5e5e5
+  'border-success':   map.get(prim.$system-text, success),      // #0b9e23
+  'border-danger':    map.get(prim.$system-text, danger-light), // #bf281b
+
+  // --- Interactive ---
+  'interactive-default': map.get(prim.$primary, 500),
+  'interactive-hover':   map.get(prim.$primary, 600),
+  'interactive-active':  map.get(prim.$primary, 700),
+  'interactive-visited': map.get(prim.$primary, 700),
+  'interactive-focus':   map.get(prim.$primary, 500),
+
+  // --- Feedback (System) ---
+  'feedback-info':    map.get(prim.$system, info),
+  'feedback-success': map.get(prim.$system, success),
+  'feedback-warning': map.get(prim.$system, warning),
+  'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Layer (Carbon-Modell: alternierend) ---
+  // Regel: layer-01 und layer-02 alternieren fuer geschachtelte Container.
+  //   Page (background-base: white) → Card (layer-01: neutral-100) → Element (layer-02: white)
+  'layer-01':          map.get(prim.$neutral, 100),      // #f5f5f5
+  'layer-02':          map.get(prim.$foundation-white, 100),          // #fff
+  'layer-03':          map.get(prim.$neutral, 100),      // #f5f5f5
+
+  // --- On-{color} Contrast Tokens ---
+  // Garantiert lesbarer Text auf der jeweiligen Flaeche.
+  'on-surface':        map.get(prim.$foundation-black, 100),     // #000 auf weissem Hintergrund
+  'on-layer-01':       map.get(prim.$foundation-black, 100),     // #000 auf neutral-100
+  'on-layer-02':       map.get(prim.$foundation-black, 100),     // #000 auf weiss
+  'on-accent':         map.get(prim.$foundation-black, 100),     // #000 auf Lime/Gruen
+  'on-success':        map.get(prim.$foundation-black, 100),     // #000 auf Erfolgs-Hintergrund
+  'on-warning':        map.get(prim.$foundation-black, 100),     // #000 auf Warn-Hintergrund
+  'on-danger':         map.get(prim.$foundation-black, 100),     // #000 auf Danger-Hintergrund
+  'on-info':           map.get(prim.$foundation-white, 100),     // #fff auf Info-Blau
+
+  // --- Skeleton/Placeholder ---
+  'background-skeleton':         map.get(prim.$neutral, 200),   // #e5e5e5
+  'background-skeleton-element': map.get(prim.$neutral, 300),   // #d9d9d9
+
+  // --- Selection (::selection) ---
+  'selection-bg':      map.get(prim.$primary, 200),              // hellblau
+  'selection-color':   map.get(prim.$foundation-black, 100),     // #000
+
+  // --- Scrollbar ---
+  'scrollbar-track':   map.get(prim.$neutral, 100),      // #f5f5f5
+  'scrollbar-thumb':   map.get(prim.$neutral, 400)       // #cbcbcb
+) !default;
+
+// ---------------------------------------------------------------------------
+// Dark Base Theme
+// ---------------------------------------------------------------------------
+
+$semantic-dark-base: (
+  // --- Text ---
+  'text-primary':          map.get(prim.$foundation-white, 100),           // #fff
+  'text-secondary':        map.get(prim.$neutral, 400),        // #cbcbcb
+  'text-tertiary':         map.get(prim.$neutral, 600),        // #767676
+  'text-inverse':          map.get(prim.$foundation-black, 100),       // #000
+  'text-disabled':         map.get(prim.$neutral, 500),        // #8e8d8d
+  'text-on-interactive':   map.get(prim.$foundation-white, 100),           // #fff
+  'text-difference':       map.get(prim.$foundation-white, 100),           // #fff
+  'text-link':             map.get(prim.$secondary, 500),  // Neo Blue #009fe3 (7.1:1 auf #000)
+  'text-link-hover':       map.get(prim.$secondary, 400),  // aufgehellt (8.7:1 auf #000)
+  'text-transparency-mid': map.get(prim.$foundation-white, 70),
+  'text-transparency-low': map.get(prim.$foundation-white, 40),
+  'text-success':          map.get(prim.$system-text, success),  // #0b9e23
+  'text-danger':           map.get(prim.$system-text, danger-dark), // #ef5b4e
+
+  // --- Background ---
+  'background-base':             map.get(prim.$foundation-black, 100),   // #000
+  'background-secondary':        map.get(prim.$neutral, 950),    // #1d1d1d
+  'background-tertiary':         map.get(prim.$neutral, 800),    // #4d4d4d
+  'background-quaternary':       map.get(prim.$neutral, 700),    // #666
+  'background-quinary':          map.get(prim.$neutral, 300),    // #d9d9d9
+  'background-inverse':          map.get(prim.$foundation-white, 100),       // #fff
+  'background-disabled':         map.get(prim.$neutral, 900),    // #333
+  'background-hover':            map.get(prim.$neutral, 950),    // #1d1d1d
+  'background-active':           map.get(prim.$neutral, 900),    // #333
+  'background-overlay':          map.get(prim.$foundation-white, 60),
+  'background-accent':           map.get(prim.$accent, 400),     // entsaettigt gegenueber Light
+  'background-accent-secondary': map.get(prim.$accent, 500),
+  'background-transparency-mid': map.get(prim.$foundation-white, 60),
+  'background-transparency-low': map.get(prim.$foundation-white, 20),
+  'background-success':          map.get(prim.$system-bg-dark, success), // #0d2b15
+  'background-danger':           map.get(prim.$system-bg-dark, danger),  // #3b1419
+
+  // --- Border ---
+  'border-primary':   map.get(prim.$neutral, 600),    // #767676
+  'border-secondary': map.get(prim.$neutral, 900),    // #333
+  'border-strong':    map.get(prim.$foundation-white, 100),       // #fff
+  'border-mid-dark':  map.get(prim.$neutral, 400),    // #cbcbcb
+  'border-inverse':   map.get(prim.$foundation-black, 100),   // #000
+  'border-disabled':  map.get(prim.$neutral, 900),    // #333
+  'border-success':   map.get(prim.$system-text, success),
+  'border-danger':    map.get(prim.$system-text, danger-dark),
+
+  // --- Interactive ---
+  // Im Dark Mode secondary-Palette (Neo Blue #009fe3) statt primary (Darkblue #002049),
+  // da Darkblue auf dunklem Hintergrund zu wenig Kontrast hat (2.4:1 vs. 7.1:1).
+  'interactive-default': map.get(prim.$secondary, 500), // #009fe3 (7.1:1 auf #000)
+  'interactive-hover':   map.get(prim.$secondary, 400), // aufgehellt (8.7:1)
+  'interactive-active':  map.get(prim.$secondary, 300), // noch heller (10.8:1)
+  'interactive-visited': map.get(prim.$secondary, 600), // abgedunkelt, besucht
+  'interactive-focus':   map.get(prim.$secondary, 500), // gleich wie default
+
+  // --- Feedback (System) ---
+  'feedback-info':    map.get(prim.$system, info),
+  'feedback-success': map.get(prim.$system, success),
+  'feedback-warning': map.get(prim.$system, warning),
+  'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Layer (Carbon-Modell: schrittweise heller) ---
+  // Regel: Jede Ebene wird ~1 Neutral-Stufe heller fuer Tiefenwirkung.
+  //   Page (background-base: #000) → Card (layer-01: #1d1d1d) → Element (layer-02: #333)
+  'layer-01':          map.get(prim.$neutral, 950),      // #1d1d1d
+  'layer-02':          map.get(prim.$neutral, 900),      // #333
+  'layer-03':          map.get(prim.$neutral, 800),      // #4d4d4d
+
+  // --- On-{color} Contrast Tokens ---
+  'on-surface':        map.get(prim.$foundation-white, 100),      // #fff auf schwarzem Hintergrund
+  'on-layer-01':       map.get(prim.$foundation-white, 100),      // #fff auf neutral-950
+  'on-layer-02':       map.get(prim.$foundation-white, 100),      // #fff auf neutral-900
+  'on-accent':         map.get(prim.$foundation-black, 100),      // #000 auf Lime/Gruen
+  'on-success':        map.get(prim.$foundation-white, 100),      // #fff auf tiefem Gruen (#0d2b15)
+  'on-warning':        map.get(prim.$foundation-black, 100),      // #000 auf Warn-Hintergrund
+  'on-danger':         map.get(prim.$foundation-white, 100),      // #fff auf tiefem Rot (#3b1419)
+  'on-info':           map.get(prim.$foundation-white, 100),      // #fff auf Info-Blau
+
+  // --- Skeleton/Placeholder ---
+  'background-skeleton':         map.get(prim.$neutral, 900),   // #333
+  'background-skeleton-element': map.get(prim.$neutral, 800),   // #4d4d4d
+
+  // --- Selection (::selection) ---
+  'selection-bg':      map.get(prim.$primary, 700),              // dunkelblau
+  'selection-color':   map.get(prim.$foundation-white, 100),     // #fff
+
+  // --- Scrollbar ---
+  'scrollbar-track':   map.get(prim.$neutral, 950),      // #1d1d1d
+  'scrollbar-thumb':   map.get(prim.$neutral, 700)       // #666
+) !default;
+
+// ---------------------------------------------------------------------------
+// Light Secondary Theme
+// ---------------------------------------------------------------------------
+
+$semantic-light-secondary: (
+  // --- Text (identisch zu light-base) ---
+  'text-primary':          map.get(prim.$foundation-black, 100),
+  'text-secondary':        map.get(prim.$neutral, 700),
+  'text-tertiary':         map.get(prim.$neutral, 500),
+  'text-inverse':          map.get(prim.$foundation-white, 100),
+  'text-disabled':         map.get(prim.$neutral, 500),
+  'text-on-interactive':   map.get(prim.$foundation-white, 100),
+  'text-difference':       map.get(prim.$foundation-white, 100),
+  'text-link':             map.get(prim.$primary, 500),
+  'text-link-hover':       map.get(prim.$primary, 600),
+  'text-transparency-mid': map.get(prim.$foundation-black, 70),
+  'text-transparency-low': map.get(prim.$foundation-black, 40),
+  'text-success':          map.get(prim.$system-text, success),
+  'text-danger':           map.get(prim.$system-text, danger-light),
+
+  // --- Background (shifted: base = neutral-100) ---
+  'background-base':             map.get(prim.$neutral, 100),    // #f5f5f5
+  'background-secondary':        map.get(prim.$foundation-white, 100),       // #fff
+  'background-tertiary':         map.get(prim.$neutral, 300),    // #d9d9d9
+  'background-quaternary':       map.get(prim.$neutral, 400),    // #cbcbcb
+  'background-quinary':          map.get(prim.$neutral, 500),    // #8e8d8d
+  'background-inverse':          map.get(prim.$foundation-black, 100),
+  'background-disabled':         map.get(prim.$neutral, 200),
+  'background-hover':            map.get(prim.$neutral, 200),
+  'background-active':           map.get(prim.$neutral, 300),
+  'background-overlay':          map.get(prim.$foundation-black, 80),
+  'background-accent':           #5cfe50,
+  'background-accent-secondary': #04cd24,
+  'background-transparency-mid': map.get(prim.$foundation-black, 80),
+  'background-transparency-low': map.get(prim.$foundation-black, 20),
+  'background-success':          map.get(prim.$system-bg, success),
+  'background-danger':           map.get(prim.$system-bg, danger),
+
+  // --- Border ---
+  'border-primary':   map.get(prim.$neutral, 400),
+  'border-secondary': map.get(prim.$neutral, 300),    // #d9d9d9
+  'border-strong':    map.get(prim.$foundation-black, 100),
+  'border-mid-dark':  map.get(prim.$neutral, 500),    // #8e8d8d
+  'border-inverse':   map.get(prim.$foundation-white, 100),
+  'border-disabled':  map.get(prim.$neutral, 200),
+  'border-success':   map.get(prim.$system-text, success),
+  'border-danger':    map.get(prim.$system-text, danger-light),
+
+  // --- Interactive ---
+  'interactive-default': map.get(prim.$primary, 500),
+  'interactive-hover':   map.get(prim.$primary, 600),
+  'interactive-active':  map.get(prim.$primary, 700),
+  'interactive-visited': map.get(prim.$primary, 700),
+  'interactive-focus':   map.get(prim.$primary, 500),
+
+  // --- Feedback (System) ---
+  'feedback-info':    map.get(prim.$system, info),
+  'feedback-success': map.get(prim.$system, success),
+  'feedback-warning': map.get(prim.$system, warning),
+  'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Layer (Carbon-Modell: alternierend, verschoben) ---
+  // Customer Light hat base = neutral-100, daher:
+  //   Page (base: #f5f5f5) → Card (layer-01: white) → Element (layer-02: #f5f5f5)
+  'layer-01':          map.get(prim.$foundation-white, 100),          // #fff
+  'layer-02':          map.get(prim.$neutral, 100),      // #f5f5f5
+  'layer-03':          map.get(prim.$foundation-white, 100),          // #fff
+
+  // --- On-{color} Contrast Tokens ---
+  'on-surface':        map.get(prim.$foundation-black, 100),
+  'on-layer-01':       map.get(prim.$foundation-black, 100),
+  'on-layer-02':       map.get(prim.$foundation-black, 100),
+  'on-accent':         map.get(prim.$foundation-black, 100),
+  'on-success':        map.get(prim.$foundation-black, 100),
+  'on-warning':        map.get(prim.$foundation-black, 100),
+  'on-danger':         map.get(prim.$foundation-black, 100),
+  'on-info':           map.get(prim.$foundation-white, 100),
+
+  // --- Skeleton/Placeholder ---
+  'background-skeleton':         map.get(prim.$neutral, 200),
+  'background-skeleton-element': map.get(prim.$neutral, 300),
+
+  // --- Selection (::selection) ---
+  'selection-bg':      map.get(prim.$primary, 200),
+  'selection-color':   map.get(prim.$foundation-black, 100),
+
+  // --- Scrollbar ---
+  'scrollbar-track':   map.get(prim.$neutral, 200),
+  'scrollbar-thumb':   map.get(prim.$neutral, 400)
+) !default;
+
+// ---------------------------------------------------------------------------
+// Dark Secondary Theme
+// ---------------------------------------------------------------------------
+
+$semantic-dark-secondary: (
+  // --- Text ---
+  'text-primary':          map.get(prim.$foundation-white, 100),
+  'text-secondary':        map.get(prim.$neutral, 400),
+  'text-tertiary':         map.get(prim.$neutral, 600),
+  'text-inverse':          map.get(prim.$foundation-black, 100),
+  'text-disabled':         map.get(prim.$neutral, 500),
+  'text-on-interactive':   map.get(prim.$foundation-white, 100),
+  'text-difference':       map.get(prim.$foundation-white, 100),
+  'text-link':             map.get(prim.$secondary, 500),  // Neo Blue (7.1:1 auf #1d1d1d)
+  'text-link-hover':       map.get(prim.$secondary, 400),  // aufgehellt
+  'text-transparency-mid': map.get(prim.$foundation-black, 70),
+  'text-transparency-low': map.get(prim.$foundation-black, 40),
+  'text-success':          map.get(prim.$system-text, success),
+  'text-danger':           map.get(prim.$system-text, danger-dark),
+
+  // --- Background (shifted: base = neutral-950) ---
+  'background-base':             map.get(prim.$neutral, 950),    // #1d1d1d
+  'background-secondary':        map.get(prim.$neutral, 900),    // #333
+  'background-tertiary':         map.get(prim.$neutral, 800),    // #4d4d4d
+  'background-quaternary':       map.get(prim.$neutral, 700),    // #666
+  'background-quinary':          map.get(prim.$neutral, 300),    // #d9d9d9
+  'background-inverse':          map.get(prim.$foundation-white, 100),
+  'background-disabled':         map.get(prim.$neutral, 900),
+  'background-hover':            map.get(prim.$neutral, 900),
+  'background-active':           map.get(prim.$neutral, 800),
+  'background-overlay':          map.get(prim.$foundation-white, 60),
+  'background-accent':           map.get(prim.$accent, 400),     // entsaettigt gegenueber Light
+  'background-accent-secondary': map.get(prim.$accent, 500),
+  'background-transparency-mid': map.get(prim.$foundation-white, 60),
+  'background-transparency-low': map.get(prim.$foundation-white, 20),
+  'background-success':          map.get(prim.$system-bg-dark, success), // #0d2b15
+  'background-danger':           map.get(prim.$system-bg-dark, danger),  // #3b1419
+
+  // --- Border ---
+  'border-primary':   map.get(prim.$neutral, 600),
+  'border-secondary': map.get(prim.$neutral, 900),
+  'border-strong':    map.get(prim.$foundation-white, 100),
+  'border-mid-dark':  map.get(prim.$neutral, 400),
+  'border-inverse':   map.get(prim.$foundation-black, 100),
+  'border-disabled':  map.get(prim.$neutral, 900),
+  'border-success':   map.get(prim.$system-text, success),
+  'border-danger':    map.get(prim.$system-text, danger-dark),
+
+  // --- Interactive ---
+  // Im Dark Mode secondary-Palette (Neo Blue) statt primary (Darkblue) — analog zu dark-base.
+  'interactive-default': map.get(prim.$secondary, 500),
+  'interactive-hover':   map.get(prim.$secondary, 400),
+  'interactive-active':  map.get(prim.$secondary, 300),
+  'interactive-visited': map.get(prim.$secondary, 600),
+  'interactive-focus':   map.get(prim.$secondary, 500),
+
+  // --- Feedback (System) ---
+  'feedback-info':    map.get(prim.$system, info),
+  'feedback-success': map.get(prim.$system, success),
+  'feedback-warning': map.get(prim.$system, warning),
+  'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Layer (Carbon-Modell: schrittweise heller, verschoben) ---
+  // Customer Dark hat base = neutral-950, daher:
+  //   Page (base: #1d1d1d) → Card (layer-01: #333) → Element (layer-02: #4d4d4d)
+  'layer-01':          map.get(prim.$neutral, 900),      // #333
+  'layer-02':          map.get(prim.$neutral, 800),      // #4d4d4d
+  'layer-03':          map.get(prim.$neutral, 700),      // #666
+
+  // --- On-{color} Contrast Tokens ---
+  'on-surface':        map.get(prim.$foundation-white, 100),
+  'on-layer-01':       map.get(prim.$foundation-white, 100),
+  'on-layer-02':       map.get(prim.$foundation-white, 100),
+  'on-accent':         map.get(prim.$foundation-black, 100),
+  'on-success':        map.get(prim.$foundation-white, 100),      // #fff auf tiefem Gruen (#0d2b15)
+  'on-warning':        map.get(prim.$foundation-black, 100),
+  'on-danger':         map.get(prim.$foundation-white, 100),
+  'on-info':           map.get(prim.$foundation-white, 100),
+
+  // --- Skeleton/Placeholder ---
+  'background-skeleton':         map.get(prim.$neutral, 800),
+  'background-skeleton-element': map.get(prim.$neutral, 700),
+
+  // --- Selection (::selection) ---
+  'selection-bg':      map.get(prim.$primary, 700),
+  'selection-color':   map.get(prim.$foundation-white, 100),
+
+  // --- Scrollbar ---
+  'scrollbar-track':   map.get(prim.$neutral, 900),
+  'scrollbar-thumb':   map.get(prim.$neutral, 600)
+) !default;
+
+// ---------------------------------------------------------------------------
+// Getter Function
+// ---------------------------------------------------------------------------
+
+/// Holt einen semantischen Farbwert aus einer Theme-Map.
+/// @param {Map} $theme - Eine der $semantic-* Maps
+/// @param {String} $token - Token-Name (z.B. 'text-primary')
+/// @return {Color|String}
+@function semantic-color($theme, $token) {
+  @if map.has-key($theme, $token) {
+    @return map.get($theme, $token);
+  }
+  @warn "Unknown semantic color token: #{$token}";
+  @return null;
+}

@@ -1,0 +1,931 @@
+<!-- STYLES -->
+  <style>
+    /* ================================================================
+       Icons-Docs: Page-specific styles
+       ================================================================ */
+
+    /* --- Tab system (same pattern as button-docs / themes-docs) --- */
+    .docs-tabs { margin-block-end: var(--fnd-spacing-08); }
+    .docs-tabs__list {
+      display: flex;
+      gap: var(--fnd-spacing-01);
+      border-bottom: 2px solid var(--fnd-color-border-secondary);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .docs-tabs__trigger {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--fnd-color-text-secondary);
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .docs-tabs__trigger:hover { color: var(--fnd-color-text-primary); }
+    .docs-tabs__trigger[aria-selected='true'] {
+      color: var(--fnd-color-interactive-default);
+      border-bottom-color: var(--fnd-color-interactive-default);
+    }
+    .docs-tabs__panel { display: none; }
+    .docs-tabs__panel.is-active { display: block; }
+
+    /* --- Overview: Icon Size Grid --- */
+    .icons-size-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .icons-size-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-05) var(--fnd-spacing-03);
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-lg);
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .icons-size-card:hover { border-color: var(--fnd-color-border-primary); }
+    .icons-size-card--active {
+      border-color: var(--fnd-color-interactive-default);
+      box-shadow: 0 0 0 2px var(--fnd-color-interactive-default);
+    }
+    .icons-size-card__preview {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fnd-color-text-primary);
+    }
+    .icons-size-card__label {
+      font-weight: 700;
+      font-size: 0.8125rem;
+      font-family: var(--font-heading);
+    }
+    .icons-size-card__value {
+      font-size: 0.75rem;
+      color: var(--fnd-color-text-secondary);
+      font-family: var(--font-body);
+    }
+    .icons-size-card__token {
+      font-size: 0.6875rem;
+      font-family: monospace;
+      color: var(--fnd-color-text-tertiary);
+      word-break: break-all;
+    }
+    .icons-size-card__default-badge {
+      display: inline-block;
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1px 6px;
+      border-radius: var(--fnd-radius-full);
+      background: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-text-on-interactive);
+    }
+
+    /* --- Overview: Button-Icon Mapping Table --- */
+    .icons-mapping-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-block-end: var(--fnd-spacing-06);
+      font-size: 0.8125rem;
+    }
+    .icons-mapping-table th,
+    .icons-mapping-table td {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+      text-align: left;
+      vertical-align: middle;
+    }
+    .icons-mapping-table th {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--fnd-color-text-secondary);
+      background: var(--fnd-color-background-secondary);
+    }
+    .icons-mapping-table td:last-child { text-align: center; }
+    .icons-mapping-table code {
+      font-size: 0.75rem;
+      background: var(--fnd-color-background-tertiary);
+      padding: 1px 5px;
+      border-radius: var(--fnd-radius-sm);
+    }
+
+    /* --- Overview: Button-Icon Mapping Stage --- */
+    .icons-mapping-stage {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-05);
+      padding: var(--fnd-spacing-06);
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-lg);
+      margin-block-end: var(--fnd-spacing-08);
+      align-items: flex-end;
+    }
+    .icons-mapping-stage__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+    }
+    .icons-mapping-stage__label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--fnd-color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* --- Overview: Guidelines Cards --- */
+    .icons-guidelines {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .icons-guideline-card {
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-lg);
+      padding: var(--fnd-spacing-05);
+    }
+    .icons-guideline-card__title {
+      font-weight: 700;
+      font-size: 0.875rem;
+      margin-block-end: var(--fnd-spacing-02);
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+    }
+    .icons-guideline-card__text {
+      font-size: 0.8125rem;
+      color: var(--fnd-color-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --- Library: Toolbar --- */
+    .icons-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-03);
+      align-items: center;
+      margin-block-end: var(--fnd-spacing-05);
+    }
+    .icons-toolbar__search {
+      flex: 1 1 240px;
+      min-width: 180px;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-lg);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+      font-size: 0.875rem;
+      font-family: var(--font-body);
+      transition: border-color 0.2s;
+    }
+    .icons-toolbar__search:focus {
+      border-color: var(--fnd-color-interactive-focus);
+      outline: none;
+    }
+    .icons-toolbar__search::placeholder {
+      color: var(--fnd-color-text-tertiary);
+    }
+    .icons-toolbar__select {
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-lg);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+      font-size: 0.875rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+    }
+    .icons-toolbar__count {
+      font-size: 0.8125rem;
+      color: var(--fnd-color-text-secondary);
+      white-space: nowrap;
+    }
+
+    /* --- Library: Icon Grid --- */
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .icons-grid__card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-02);
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-lg);
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .icons-grid__card:hover {
+      border-color: var(--fnd-color-interactive-default);
+      box-shadow: var(--fnd-elevation-raised);
+    }
+    .icons-grid__preview {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: var(--fnd-color-text-primary);
+    }
+    .icons-grid__preview svg {
+      width: 24px;
+      height: 24px;
+    }
+    .icons-grid__name {
+      font-size: 0.6875rem;
+      font-family: monospace;
+      color: var(--fnd-color-text-primary);
+      word-break: break-all;
+      line-height: 1.3;
+    }
+    .icons-grid__category {
+      display: inline-block;
+      font-size: 0.5625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 1px 6px;
+      border-radius: var(--fnd-radius-full);
+      background: var(--fnd-color-background-tertiary);
+      color: var(--fnd-color-text-secondary);
+    }
+    .icons-grid__download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--fnd-color-text-tertiary);
+      cursor: pointer;
+      border-radius: var(--fnd-radius-sm);
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .icons-grid__download:hover {
+      background: var(--fnd-color-background-tertiary);
+      color: var(--fnd-color-interactive-default);
+    }
+    .icons-grid__download svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* --- Library: Empty State --- */
+    .icons-empty {
+      text-align: center;
+      padding: var(--fnd-spacing-10) var(--fnd-spacing-05);
+      color: var(--fnd-color-text-tertiary);
+    }
+    .icons-empty__icon {
+      font-size: 2rem;
+      margin-block-end: var(--fnd-spacing-03);
+    }
+    .icons-empty__text {
+      font-size: 0.875rem;
+    }
+
+    /* --- Docs Table (re-usable) --- */
+    .docs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-block-end: var(--fnd-spacing-06);
+      font-size: 0.8125rem;
+    }
+    .docs-table th,
+    .docs-table td {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+      text-align: left;
+      vertical-align: middle;
+    }
+    .docs-table th {
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--fnd-color-text-secondary);
+      background: var(--fnd-color-background-secondary);
+    }
+    .docs-table code {
+      font-size: 0.75rem;
+      background: var(--fnd-color-background-tertiary);
+      padding: 1px 5px;
+      border-radius: var(--fnd-radius-sm);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Icons</h1>
+      <p class="docs__subtitle">
+        Token-basierte Icon-Library mit 6 Gr&ouml;&szlig;enstufen, semantischen Farben, Touch-Target-Support und Button-Icon-Mapping.
+        Alle Werte kommen aus <code class="docs__token">--nc-icon-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="icons-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Icon-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">&Uuml;berblick</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-library" id="trigger-library">Library</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: &Uuml;berblick                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-overview" aria-labelledby="trigger-overview">
+
+          <!-- Icon Sizes -->
+          <h2 class="docs__section-title">Icon-Gr&ouml;&szlig;en</h2>
+          <p class="docs__section-desc">
+            6 Stufen von <strong>xs (16px)</strong> bis <strong>2xl (36px)</strong>.
+            Der Default ist <strong>sm (20px)</strong>, optimiert f&uuml;r Inline-Nutzung neben Body-Text.
+          </p>
+          <div class="icons-size-grid" id="icons-size-grid">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Size Token Table -->
+          <h3 class="docs__section-title" style="font-size: 1rem;">Token-Referenz: Gr&ouml;&szlig;en</h3>
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Wert</th>
+                <th>CSS-Klasse</th>
+                <th>Beschreibung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>--nc-icon-size-xs</code></td>
+                <td>16px</td>
+                <td><code>.icon--xs</code></td>
+                <td>Kompakte UIs, Badges, Tags</td>
+              </tr>
+              <tr>
+                <td><code>--nc-icon-size-sm</code></td>
+                <td>20px</td>
+                <td><code>.icon--sm</code></td>
+                <td>Default &mdash; Inline neben Body-Text</td>
+              </tr>
+              <tr>
+                <td><code>--nc-icon-size-md</code></td>
+                <td>24px</td>
+                <td><code>.icon--md</code></td>
+                <td>Navigation, Toolbars</td>
+              </tr>
+              <tr>
+                <td><code>--nc-icon-size-lg</code></td>
+                <td>28px</td>
+                <td><code>.icon--lg</code></td>
+                <td>Hervorgehobene Aktionen</td>
+              </tr>
+              <tr>
+                <td><code>--nc-icon-size-xl</code></td>
+                <td>32px</td>
+                <td><code>.icon--xl</code></td>
+                <td>Feature-Highlights, Empty States</td>
+              </tr>
+              <tr>
+                <td><code>--nc-icon-size-2xl</code></td>
+                <td>36px</td>
+                <td><code>.icon--2xl</code></td>
+                <td>Hero-Bereiche, Illustrations-Icons</td>
+              </tr>
+              <tr style="opacity: 0.6;">
+                <td><code>--nc-icon-size-2xs</code></td>
+                <td>12px</td>
+                <td><code>.icon--2xs</code></td>
+                <td><em>Deprecated</em> &mdash; Backward-Compat f&uuml;r altes xs</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Button-Icon Mapping -->
+          <h2 class="docs__section-title">Button-Icon Mapping</h2>
+          <p class="docs__section-desc">
+            Icons in Buttons werden automatisch auf eine passende Gr&ouml;&szlig;e gemappt.
+            Das Verh&auml;ltnis Icon/Font-Size liegt bei ca. <strong>1.25&times;</strong> (UX Best Practice).
+          </p>
+
+          <table class="icons-mapping-table" id="icons-mapping-table">
+            <thead>
+              <tr>
+                <th>Button</th>
+                <th>H&ouml;he</th>
+                <th>Font-Size</th>
+                <th>Icon Token</th>
+                <th>Icon Size</th>
+                <th>Ratio</th>
+                <th>Vorschau</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+
+          <!-- Mapping Stage -->
+          <h3 class="docs__section-title" style="font-size: 1rem;">Live Stage</h3>
+          <p class="docs__section-desc">
+            Alle 4 Button-Gr&ouml;&szlig;en mit dem jeweils gemappten Icon.
+          </p>
+          <div class="icons-mapping-stage" id="icons-mapping-stage">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Guidelines -->
+          <h2 class="docs__section-title">Richtlinien</h2>
+          <div class="icons-guidelines">
+            <div class="icons-guideline-card">
+              <div class="icons-guideline-card__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                Stil
+              </div>
+              <div class="icons-guideline-card__text">
+                Alle Icons sind <strong>solid</strong> und <strong>monochrom</strong>. Sie verwenden <code>currentColor</code>,
+                damit sie sich automatisch an das aktuelle Theme anpassen.
+              </div>
+            </div>
+            <div class="icons-guideline-card">
+              <div class="icons-guideline-card__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                Kontrast
+              </div>
+              <div class="icons-guideline-card__text">
+                Icons folgen denselben Kontrast-Anforderungen wie Typografie:
+                <strong>WCAG AA 4.5:1</strong> gegen den Hintergrund. Die semantischen Farb-Tokens garantieren dies automatisch.
+              </div>
+            </div>
+            <div class="icons-guideline-card">
+              <div class="icons-guideline-card__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg>
+                Touch Targets
+              </div>
+              <div class="icons-guideline-card__text">
+                Interaktive Icons ben&ouml;tigen eine Mindest-Touch-Target-Gr&ouml;&szlig;e von <strong>44&times;44px</strong>.
+                Nutze <code>.icon--interactive</code> oder f&uuml;ge Padding hinzu.
+              </div>
+            </div>
+            <div class="icons-guideline-card">
+              <div class="icons-guideline-card__title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+                Ausrichtung
+              </div>
+              <div class="icons-guideline-card__text">
+                Icons neben Text werden vertikal <strong>zentriert</strong> ausgerichtet.
+                Nutze <code>inline-flex</code> + <code>align-items: center</code> auf dem Container.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Library                                                -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-library" aria-labelledby="trigger-library">
+
+          <!-- Toolbar -->
+          <div class="icons-toolbar">
+            <input
+              class="icons-toolbar__search"
+              type="search"
+              id="icons-search"
+              placeholder="Icon suchen&hellip;"
+              autocomplete="off"
+            />
+            <select class="icons-toolbar__select" id="icons-category-filter">
+              <option value="">Alle Kategorien</option>
+              <!-- Options rendered by JS -->
+            </select>
+            <span class="icons-toolbar__count" id="icons-count"></span>
+          </div>
+
+          <!-- Icon Grid -->
+          <div class="icons-grid" id="icons-grid">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Empty State -->
+          <div class="icons-empty" id="icons-empty" style="display: none;">
+            <div class="icons-empty__icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+            <div class="icons-empty__text">Keine Icons f&uuml;r diese Suche gefunden.</div>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- CSS-Klassen -->
+          <h2 class="docs__section-title">CSS-Klassen</h2>
+          <p class="docs__section-desc">
+            Alle Icon-Klassen folgen dem Pattern <code>.icon--{modifier}</code>.
+            Die Basis-Klasse <code>.icon</code> ist immer erforderlich.
+          </p>
+
+          <table class="docs-table">
+            <thead>
+              <tr><th>Klasse</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.icon</code></td><td>Basis &mdash; <code>inline-flex</code>, zentriert, <code>flex-shrink: 0</code>, Default-Gr&ouml;&szlig;e sm (20px)</td></tr>
+              <tr><td><code>.icon--xs</code></td><td>16px &mdash; Kompakte UIs, Badges, Tags</td></tr>
+              <tr><td><code>.icon--sm</code></td><td>20px &mdash; Default, Inline neben Body-Text</td></tr>
+              <tr><td><code>.icon--md</code></td><td>24px &mdash; Navigation, Toolbars</td></tr>
+              <tr><td><code>.icon--lg</code></td><td>28px &mdash; Hervorgehobene Aktionen</td></tr>
+              <tr><td><code>.icon--xl</code></td><td>32px &mdash; Feature-Highlights, Empty States</td></tr>
+              <tr><td><code>.icon--2xl</code></td><td>36px &mdash; Hero-Bereiche, Illustrations-Icons</td></tr>
+              <tr style="opacity: 0.6;"><td><code>.icon--2xs</code></td><td>12px &mdash; <em>Deprecated</em>, Backward-Compat</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Farb-Klassen</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Klasse</th><th>Token</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.icon--primary</code></td><td><code>--nc-icon-color-default</code></td><td>Standard-Textfarbe (Default)</td></tr>
+              <tr><td><code>.icon--secondary</code></td><td><code>--nc-icon-color-secondary</code></td><td>Abgeschw&auml;cht, Labels</td></tr>
+              <tr><td><code>.icon--tertiary</code></td><td><code>--nc-icon-color-tertiary</code></td><td>Dezent, Platzhalter</td></tr>
+              <tr><td><code>.icon--inverse</code></td><td><code>--nc-icon-color-inverse</code></td><td>Invertiert (heller Text auf dunklem Grund)</td></tr>
+              <tr><td><code>.icon--disabled</code></td><td><code>--nc-icon-color-disabled</code></td><td>Deaktiviert</td></tr>
+              <tr style="opacity: 0.6;"><td><code>.icon--high</code></td><td>&mdash;</td><td><em>Deprecated</em> &rarr; <code>.icon--primary</code></td></tr>
+              <tr style="opacity: 0.6;"><td><code>.icon--mid</code></td><td>&mdash;</td><td><em>Deprecated</em> &rarr; <code>.icon--secondary</code></td></tr>
+              <tr style="opacity: 0.6;"><td><code>.icon--low</code></td><td>&mdash;</td><td><em>Deprecated</em> &rarr; <code>.icon--tertiary</code></td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Interaktive Klasse</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Klasse</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.icon--interactive</code></td><td>Min. 44&times;44px Touch-Target (WCAG 2.5.5), Hover-State, Focus-Ring. Padding wird pro Gr&ouml;&szlig;e automatisch berechnet.</td></tr>
+            </tbody>
+          </table>
+
+          <!-- Token-Referenz -->
+          <h2 class="docs__section-title">Component Tokens</h2>
+          <p class="docs__section-desc">
+            Alle Icon-Tokens werden in <code>_component-tokens.scss</code> unter <code>:root</code> registriert
+            und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+          </p>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Gr&ouml;&szlig;en-Tokens</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--nc-icon-size-xs</code></td><td>16px</td><td>Extra Small</td></tr>
+              <tr><td><code>--nc-icon-size-sm</code></td><td>20px</td><td>Small (Default)</td></tr>
+              <tr><td><code>--nc-icon-size-md</code></td><td>24px</td><td>Medium</td></tr>
+              <tr><td><code>--nc-icon-size-lg</code></td><td>28px</td><td>Large</td></tr>
+              <tr><td><code>--nc-icon-size-xl</code></td><td>32px</td><td>Extra Large</td></tr>
+              <tr><td><code>--nc-icon-size-2xl</code></td><td>36px</td><td>2X Large</td></tr>
+              <tr style="opacity: 0.6;"><td><code>--nc-icon-size-2xs</code></td><td>12px</td><td><em>Deprecated</em></td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Farb-Tokens</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Token</th><th>Foundation-Referenz</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--nc-icon-color-default</code></td><td><code>var(--fnd-color-text-primary)</code></td><td>Standard</td></tr>
+              <tr><td><code>--nc-icon-color-secondary</code></td><td><code>var(--fnd-color-text-secondary)</code></td><td>Abgeschw&auml;cht</td></tr>
+              <tr><td><code>--nc-icon-color-tertiary</code></td><td><code>var(--fnd-color-text-tertiary)</code></td><td>Dezent</td></tr>
+              <tr><td><code>--nc-icon-color-inverse</code></td><td><code>var(--fnd-color-text-inverse)</code></td><td>Invertiert</td></tr>
+              <tr><td><code>--nc-icon-color-disabled</code></td><td><code>var(--fnd-color-text-disabled)</code></td><td>Deaktiviert</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Touch-Target &amp; Button-Mapping</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--nc-icon-touch-target</code></td><td>44px</td><td>Mindest-Touch-Target (WCAG 2.5.5 / 2.5.8)</td></tr>
+              <tr><td><code>--nc-button-icon-size-xs</code></td><td>16px</td><td>Icon in XS-Button</td></tr>
+              <tr><td><code>--nc-button-icon-size-sm</code></td><td>16px</td><td>Icon in SM-Button</td></tr>
+              <tr><td><code>--nc-button-icon-size-md</code></td><td>20px</td><td>Icon in MD-Button</td></tr>
+              <tr><td><code>--nc-button-icon-size-lg</code></td><td>20px</td><td>Icon in LG-Button</td></tr>
+            </tbody>
+          </table>
+
+          <!-- Usage Patterns -->
+          <h2 class="docs__section-title">Usage Patterns</h2>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Inline Icon (Standard)</h3>
+          <pre class="docs__code"><code>&lt;span class="icon icon--sm"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/span&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Dekoratives Icon (kein Screen-Reader)</h3>
+          <pre class="docs__code"><code>&lt;span class="icon icon--md" aria-hidden="true"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/span&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Informatives Icon (mit Label)</h3>
+          <pre class="docs__code"><code>&lt;span class="icon icon--md" role="img" aria-label="Einstellungen"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/span&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Interaktives Icon (Button)</h3>
+          <pre class="docs__code"><code>&lt;button class="icon icon--md icon--interactive" aria-label="Schlie&szlig;en"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Icon in Button-Komponente</h3>
+          <pre class="docs__code"><code>&lt;button class="nc-button nc-button--primary nc-button--md"&gt;
+  &lt;span class="nc-button__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;&hellip;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-button__label"&gt;Speichern&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Token Override</h3>
+          <pre class="docs__code"><code>/* Eigene Icon-Gr&ouml;&szlig;e auf einem Scope */
+.my-widget {
+  --nc-icon-size-sm: 18px;
+  --nc-icon-color-default: var(--fnd-color-feedback-success);
+}</code></pre>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                          -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Icon Accessibility</h2>
+          <p class="docs__section-desc">
+            Icons k&ouml;nnen <strong>dekorativ</strong> oder <strong>informativ</strong> sein.
+            Die korrekte Auszeichnung entscheidet dar&uuml;ber, ob ein Screen Reader das Icon liest oder ignoriert.
+          </p>
+
+          <!-- Entscheidungsbaum -->
+          <h3 class="docs__section-title" style="font-size: 1rem;">Entscheidungsbaum</h3>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Kontext</th><th>Typ</th><th>Aktion</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Icon neben sichtbarem Text (z.B. Button mit Label)</td>
+                <td>Dekorativ</td>
+                <td><code>aria-hidden="true"</code> auf das Icon</td>
+              </tr>
+              <tr>
+                <td>Icon als alleiniger Inhalt (z.B. Icon-only Button)</td>
+                <td>Informativ</td>
+                <td><code>aria-label</code> auf den <code>&lt;button&gt;</code></td>
+              </tr>
+              <tr>
+                <td>Icon transportiert eigenst&auml;ndige Bedeutung (z.B. Status-Icon)</td>
+                <td>Informativ</td>
+                <td><code>role="img"</code> + <code>aria-label</code> auf das Icon</td>
+              </tr>
+              <tr>
+                <td>Icon ist rein &auml;sthetisch (Hintergrund-Schmuck)</td>
+                <td>Dekorativ</td>
+                <td><code>aria-hidden="true"</code> auf das Icon</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Dekorativ -->
+          <h2 class="docs__section-title">Dekorative Icons</h2>
+          <p class="docs__section-desc">
+            Dekorative Icons bieten keinen zus&auml;tzlichen Informationsgehalt.
+            Sie werden vor Screen Readern versteckt, damit sie die Sprachausgabe nicht st&ouml;ren.
+          </p>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-success); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Do:</strong> <code>aria-hidden="true"</code> auf das Icon setzen
+          </div>
+          <pre class="docs__code"><code>&lt;!-- Icon neben Text: dekorativ --&gt;
+&lt;button class="nc-button nc-button--primary"&gt;
+  &lt;span class="nc-button__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;&hellip;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-button__label"&gt;Speichern&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+          <p class="docs__section-desc">
+            <strong>Warum?</strong> Der Button-Text &bdquo;Speichern&ldquo; vermittelt die Bedeutung.
+            Das Icon wiederholt nur visuell &mdash; es w&uuml;rde im Screen Reader zu &bdquo;Diskette Speichern&ldquo; f&uuml;hren (redundant).
+          </p>
+
+          <!-- Informativ -->
+          <h2 class="docs__section-title">Informative Icons</h2>
+          <p class="docs__section-desc">
+            Wenn ein Icon die <strong>einzige</strong> Information tr&auml;gt, muss es einen
+            zugaenglichen Namen erhalten.
+          </p>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Icon-only Button</h3>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-success); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Do:</strong> <code>aria-label</code> auf den Button (nicht auf das SVG)
+          </div>
+          <pre class="docs__code"><code>&lt;button class="icon icon--md icon--interactive" aria-label="Men&uuml; &ouml;ffnen"&gt;
+  &lt;svg aria-hidden="true"&gt;&hellip;&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-danger); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Don't:</strong> Button ohne <code>aria-label</code> &mdash; Screen Reader liest &bdquo;Button&ldquo; ohne Kontext
+          </div>
+          <pre class="docs__code"><code>&lt;!-- FALSCH: kein zugaenglicher Name --&gt;
+&lt;button class="icon icon--md icon--interactive"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+
+          <h3 class="docs__section-title" style="font-size: 1rem;">Standalone Status-Icon</h3>
+          <pre class="docs__code"><code>&lt;!-- Status-Icon mit Bedeutung --&gt;
+&lt;span class="icon icon--sm" role="img" aria-label="Erfolg"&gt;
+  &lt;svg&gt;&hellip;&lt;/svg&gt;
+&lt;/span&gt;</code></pre>
+
+          <!-- Farbe nicht alleiniges Signal -->
+          <h2 class="docs__section-title">Farbe ist nie alleiniges Signal (WCAG 1.4.1)</h2>
+          <p class="docs__section-desc">
+            Icons d&uuml;rfen Farbe als <em>zus&auml;tzliches</em> Signal nutzen, aber nie als einziges.
+            Kombiniere Farbe immer mit Text, Form oder Position.
+          </p>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-success); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Do:</strong> Gr&uuml;nes Checkmark-Icon + Text &bdquo;Erfolgreich&ldquo;
+          </div>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-danger); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Don't:</strong> Nur ein rotes/gr&uuml;nes Icon ohne Kontext
+          </div>
+
+          <!-- Kontrast -->
+          <h2 class="docs__section-title">Kontrast (WCAG 1.4.11)</h2>
+          <p class="docs__section-desc">
+            Icons, die Information transportieren, m&uuml;ssen ein Kontrastverh&auml;ltnis von mindestens
+            <strong>3:1</strong> zum Hintergrund haben (Non-Text Contrast).
+            Die semantischen Farb-Tokens (<code>--nc-icon-color-*</code>) erf&uuml;llen dies automatisch
+            auf allen vier Theme-Varianten.
+          </p>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Farb-Token</th><th>Kontrast-Verh&auml;ltnis (Light)</th><th>Kontrast-Verh&auml;ltnis (Dark)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--nc-icon-color-default</code></td><td>&ge; 12:1</td><td>&ge; 12:1</td></tr>
+              <tr><td><code>--nc-icon-color-secondary</code></td><td>&ge; 4.5:1</td><td>&ge; 4.5:1</td></tr>
+              <tr><td><code>--nc-icon-color-tertiary</code></td><td>&ge; 3:1</td><td>&ge; 3:1</td></tr>
+              <tr><td><code>--nc-icon-color-disabled</code></td><td>&lt; 3:1 (beabsichtigt)</td><td>&lt; 3:1 (beabsichtigt)</td></tr>
+            </tbody>
+          </table>
+          <p class="docs__section-desc">
+            <strong>Hinweis:</strong> Deaktivierte Icons (<code>.icon--disabled</code>) fallen bewusst unter
+            die Kontrastgrenze &mdash; WCAG 1.4.3 nimmt deaktivierte Elemente explizit aus.
+          </p>
+
+          <!-- Touch Targets -->
+          <h2 class="docs__section-title">Touch Targets (WCAG 2.5.5 / 2.5.8)</h2>
+          <p class="docs__section-desc">
+            Interaktive Icons m&uuml;ssen eine Mindest-Touch-Target-Gr&ouml;&szlig;e von <strong>44&times;44px</strong>
+            haben (Level AAA: 44px, Level AA: 24px mit Spacing).
+          </p>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Methode</th><th>Wann</th><th>Beispiel</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>.icon--interactive</code></td>
+                <td>Standalone klickbares Icon</td>
+                <td>Close-Button, Menu-Toggle</td>
+              </tr>
+              <tr>
+                <td>Button mit Padding</td>
+                <td>Icon in einer Button-Komponente</td>
+                <td><code>.nc-button--icon-only</code></td>
+              </tr>
+              <tr>
+                <td><code>min-width</code> / <code>min-height</code></td>
+                <td>Custom Interactive-Wrapper</td>
+                <td>Eigener Wrapper mit 44px Mindestgr&ouml;&szlig;e</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Focus Indicator -->
+          <h2 class="docs__section-title">Focus Indicator (WCAG 2.4.7 / 2.4.11)</h2>
+          <p class="docs__section-desc">
+            Alle interaktiven Icons brauchen einen sichtbaren Focus-Ring. Die Klasse <code>.icon--interactive</code>
+            nutzt <code>:focus-visible</code> mit den Foundation-Tokens:
+          </p>
+          <pre class="docs__code"><code>/* Automatisch via .icon--interactive */
+:focus-visible {
+  outline: var(--fnd-focus-ring-width) solid var(--fnd-color-interactive-focus);
+  outline-offset: var(--fnd-focus-ring-offset);
+}</code></pre>
+          <p class="docs__section-desc">
+            Der Focus-Ring erscheint nur bei Tastatur-Navigation (<code>:focus-visible</code>),
+            nicht bei Mausklick. Das ist WCAG-konform und vermeidet visuelle St&ouml;rung.
+          </p>
+
+          <!-- Reduced Motion -->
+          <h2 class="docs__section-title">Reduced Motion (WCAG 2.3.3)</h2>
+          <p class="docs__section-desc">
+            Animierte Icons (z.B. Spinner) respektieren <code>prefers-reduced-motion</code>.
+            Die Foundation stellt dies &uuml;ber globale Keyframe-Deklarationen sicher:
+          </p>
+          <pre class="docs__code"><code>@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}</code></pre>
+
+          <!-- SVG-Anforderungen -->
+          <h2 class="docs__section-title">SVG-Anforderungen</h2>
+          <p class="docs__section-desc">
+            Alle Icons im Design System m&uuml;ssen folgende Anforderungen erf&uuml;llen:
+          </p>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Eigenschaft</th><th>Wert</th><th>Grund</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>ViewBox</td><td><code>0 0 24 24</code></td><td>Einheitliches Koordinatensystem</td></tr>
+              <tr><td>Stroke</td><td><code>currentColor</code></td><td>Theme-Anpassung via CSS <code>color</code></td></tr>
+              <tr><td>Stroke-Width</td><td><code>1.5</code></td><td>Einheitlicher Stil (Tabler Standard)</td></tr>
+              <tr><td>Fill</td><td><code>none</code></td><td>Outline-Stil (nicht gef&uuml;llt)</td></tr>
+              <tr><td>Width/Height</td><td><code>24</code></td><td>Intrinsische Gr&ouml;&szlig;e, CSS steuert Anzeige</td></tr>
+            </tbody>
+          </table>
+          <div style="background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent); border-left: 4px solid var(--fnd-color-feedback-danger); padding: var(--fnd-spacing-04); border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0; margin-block: var(--fnd-spacing-04);">
+            <strong>Don't:</strong> Hardcoded Farben (<code>stroke="#333"</code>) oder feste Gr&ouml;&szlig;en (<code>width="24"</code>) in SVGs verwenden &mdash; das bricht Theme-Support und Skalierung.
+          </div>
+
+          <!-- Checkliste -->
+          <h2 class="docs__section-title">Accessibility Checkliste</h2>
+          <table class="docs-table">
+            <thead>
+              <tr><th>Pr&uuml;fpunkt</th><th>WCAG</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Dekorative Icons haben <code>aria-hidden="true"</code></td><td>4.1.2</td><td>Pflicht</td></tr>
+              <tr><td>Informative Icons haben <code>aria-label</code> oder <code>role="img" + aria-label</code></td><td>1.1.1</td><td>Pflicht</td></tr>
+              <tr><td>Icon-only Buttons haben <code>aria-label</code></td><td>4.1.2</td><td>Pflicht</td></tr>
+              <tr><td>Farbe ist nicht das einzige Signal</td><td>1.4.1</td><td>Pflicht</td></tr>
+              <tr><td>Informative Icons haben &ge; 3:1 Kontrast</td><td>1.4.11</td><td>Pflicht</td></tr>
+              <tr><td>Interaktive Icons haben 44&times;44px Touch-Target</td><td>2.5.5</td><td>AAA</td></tr>
+              <tr><td>Focus-Ring sichtbar bei Tastatur-Navigation</td><td>2.4.7</td><td>Pflicht</td></tr>
+              <tr><td>Animierte Icons respektieren <code>prefers-reduced-motion</code></td><td>2.3.3</td><td>AAA</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="icons-docs.js"></script>
+<!-- /SCRIPTS -->

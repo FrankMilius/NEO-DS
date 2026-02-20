@@ -1,0 +1,62 @@
+// ==========================================================================
+// 06-Molecules: Slider
+// ==========================================================================
+// Horizontal scroll-snap slider with navigation controls.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-slider {
+  display: grid;
+  gap: 4rem;
+}
+
+.nc-slider.nc-slider--media {
+  padding: 0 !important;
+}
+
+.nc-slider__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(360px, 1fr);
+  gap: 4rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-block-end: 1rem;
+}
+
+.nc-slider__track.nc-slider__track--media {
+  grid-auto-columns: auto;
+}
+
+.nc-slider__track > * {
+  scroll-snap-align: start;
+}
+
+.nc-slider__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+// Testimonial section slider override
+.section--testimonial > .nc-slider {
+  padding: 0 !important;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@media (max-width: 720px) {
+  .nc-slider {
+    gap: 2rem;
+  }
+
+  .nc-slider__track {
+    grid-auto-columns: minmax(260px, 85vw);
+    gap: 1.5rem;
+    padding-block-end: 0.5rem;
+  }
+}

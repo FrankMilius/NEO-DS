@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Media Card | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Media-Card-Komponente mit Gallery-Variante und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Media Card</h1>
+      <p class="docs__subtitle">
+        Karte mit vollfll&auml;chigem Bild und Bildunterschrift f&uuml;r Medien-Galerien,
+        Artikel-Vorschauen und Feature-Highlights. Enth&auml;lt auch die gemeinsame
+        Karten-Basisklasse (<code class="docs__token">.nc-card</code>) und das
+        Galerie-Layout (<code class="docs__token">.nc-gallery</code>).
+        Kanonische Klasse: <code class="docs__token">.nc-media-card</code> (BEM).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="media-card-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Media Card-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Media Card mit Bild und Bildunterschrift in verschiedenen Themes.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <figure class="nc-media-card" style="max-width: 360px;">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=720&h=480&fit=crop" alt="Gebirgslandschaft mit Spiegelung im See" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Bergsee im Morgengrauen</p>
+                  <p class="nc-card__text">Atemberaubende Naturlandschaft mit perfekter Spiegelung der Gipfel im stillen Gebirgssee.</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;figure class="nc-media-card"&gt;
+  &lt;img src="bild.jpg" alt="Beschreibung des Bildes" /&gt;
+  &lt;figcaption class="nc-media-card__caption"&gt;
+    &lt;p class="nc-card__title"&gt;Titel&lt;/p&gt;
+    &lt;p class="nc-card__text"&gt;Beschreibung...&lt;/p&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Standard Media Card -->
+          <section class="docs__section" id="media-card-standard">
+            <h2 class="docs__section-title">Standard Media Card</h2>
+            <p class="docs__section-desc">
+              Vollbild-Bild mit Bildunterschrift darunter.
+              Das Bild nimmt die volle Breite ein, das Bild-Element wird als Block dargestellt.
+            </p>
+            <div style="display: flex; gap: var(--fnd-spacing-06); flex-wrap: wrap; margin-block-end: var(--fnd-spacing-06);">
+              <figure class="nc-media-card" style="max-width: 300px;">
+                <img src="https://images.unsplash.com/photo-1518791841217-8f162f1912da?w=600&h=400&fit=crop" alt="Katze sitzt auf einem Fensterbrett" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Fensterplatz</p>
+                  <p class="nc-card__text">Ruhiger Moment am Fensterbrett mit Blick auf die Stadt.</p>
+                </figcaption>
+              </figure>
+              <figure class="nc-media-card" style="max-width: 300px;">
+                <img src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?w=600&h=400&fit=crop" alt="Moderne Architektur mit Glas und Stahl" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Moderne Architektur</p>
+                  <p class="nc-card__text">Glas und Stahl in harmonischem Zusammenspiel.</p>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- Showcase 2: NC Card (Basisklasse) -->
+          <section class="docs__section" id="nc-card-base">
+            <h2 class="docs__section-title">NC Card &ndash; Basisklasse</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-card</code> ist die allgemeine Karten-Basisklasse
+              mit stark abgerundeten Ecken, Hintergrund und Schatten.
+              Andere Karten-Varianten (<code class="docs__token">.nc-pricing-card</code>,
+              <code class="docs__token">.nc-testimonial</code>,
+              <code class="docs__token">.nc-media-card</code>,
+              <code class="docs__token">.nc-facts-block</code>) erben diese Basisstile.
+            </p>
+            <div style="max-width: 320px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-card" style="padding: var(--fnd-spacing-06);">
+                <p class="nc-card__title">Karten-Titel</p>
+                <p class="nc-card__text">Dies ist der Inhalt einer Standard-Karte mit Hintergrund und Schatten-Elevation.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 3: Feature Highlight Karte -->
+          <section class="docs__section" id="feature-card">
+            <h2 class="docs__section-title">Feature Highlight Karte</h2>
+            <p class="docs__section-desc">
+              Spezialisierte Karten-Variante mit Bild-Bereich (16:9, oben) und Text-Bereich (unten).
+              Genutzt in <code class="docs__token">section#feature_highlights</code>.
+            </p>
+            <div style="max-width: 360px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-card" style="border-radius: var(--fnd-radius-lg); display: grid; gap: 0; overflow: hidden;">
+                <div style="background: var(--fnd-color-background-secondary); aspect-ratio: 16/9; border-radius: var(--fnd-radius-lg) var(--fnd-radius-lg) 0 0; overflow: hidden;">
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=405&fit=crop" alt="Dashboard mit Diagrammen" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+                </div>
+                <div style="min-height: 160px; display: flex; flex-direction: column; gap: 0.5rem; padding: var(--fnd-spacing-05);">
+                  <p class="nc-card__title" style="margin: 0;">Echtzeit-Analyse</p>
+                  <p class="nc-card__text" style="margin: 0;">Verfolge alle wichtigen Metriken in Echtzeit auf einem zentralen Dashboard.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 4: Galerie-Layout -->
+          <section class="docs__section" id="gallery-layout">
+            <h2 class="docs__section-title">Galerie-Layout (.nc-gallery)</h2>
+            <p class="docs__section-desc">
+              Responsives 1&ndash;3-spaltiges Grid f&uuml;r Media Cards. Bricht bei 768px auf 2 Spalten,
+              bei 1024px auf 3 Spalten auf.
+            </p>
+            <div class="nc-gallery" style="margin-block-end: var(--fnd-spacing-06);">
+              <figure class="nc-media-card">
+                <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop" alt="Teamarbeit im modernen B&uuml;ro" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Teamarbeit</p>
+                  <p class="nc-card__text">Kollaboration im modernen Arbeitsumfeld.</p>
+                </figcaption>
+              </figure>
+              <figure class="nc-media-card">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop" alt="Laptop mit Code auf dem Bildschirm" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Entwicklung</p>
+                  <p class="nc-card__text">Sauberer Code, der skaliert.</p>
+                </figcaption>
+              </figure>
+              <figure class="nc-media-card">
+                <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&h=400&fit=crop" alt="Daten-Visualisierung auf einem Monitor" />
+                <figcaption class="nc-media-card__caption">
+                  <p class="nc-card__title">Analyse</p>
+                  <p class="nc-card__text">Datengetriebene Entscheidungen.</p>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-shared-base">
+            <h2 class="docs__section-title">Gemeinsame Karten-Basis</h2>
+            <p class="docs__section-desc">
+              Diese Stile gelten f&uuml;r alle Karten-Varianten:
+              <code class="docs__token">.nc-card</code>,
+              <code class="docs__token">.nc-pricing-card</code>,
+              <code class="docs__token">.nc-testimonial</code>,
+              <code class="docs__token">.nc-media-card</code>,
+              <code class="docs__token">.nc-facts-block</code>.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">background</code></td><td>var(--fnd-color-background-base)</td><td>Karten-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-xl)</td><td>Basis-Radius (wird pro Variante &uuml;berschrieben)</td></tr>
+                <tr><td><code class="docs__token">box-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>Schatten f&uuml;r Tiefenwirkung</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-nc-card">
+            <h2 class="docs__section-title">.nc-card (Basis)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-3xl)</td><td>&Uuml;berschreibt Basis auf stark abgerundet</td></tr>
+                <tr><td><code class="docs__token">.nc-card__title font-family</code></td><td>var(--font-heading)</td><td>Heading-Schrift f&uuml;r den Kartentitel</td></tr>
+                <tr><td><code class="docs__token">.nc-card__title font-size</code></td><td>1.5rem</td><td>Titelgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">.nc-card__title font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>Medium (500)</td></tr>
+                <tr><td><code class="docs__token">.nc-card__text color</code></td><td>var(--fnd-color-text-secondary)</td><td>Sekund&auml;re Textfarbe</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-media-card">
+            <h2 class="docs__section-title">.nc-media-card (Variante)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-lg)</td><td>Kleinerer Radius als .nc-card</td></tr>
+                <tr><td><code class="docs__token">overflow</code></td><td>hidden</td><td>Bild bricht nicht aus den Ecken heraus</td></tr>
+                <tr><td><code class="docs__token">min-width</code></td><td>clamp(280px, 90vw, 100vh)</td><td>Mindestbreite, fluid</td></tr>
+                <tr><td><code class="docs__token">display</code></td><td>flex</td><td>Flexbox f&uuml;r vertikale Anordnung</td></tr>
+                <tr><td><code class="docs__token">flex-direction</code></td><td>column</td><td>Bild oben, Caption unten</td></tr>
+                <tr><td><code class="docs__token">gap</code></td><td>1rem</td><td>Abstand zwischen Bild und Caption</td></tr>
+                <tr><td><code class="docs__token">box-shadow</code></td><td>none</td><td>&Uuml;berschreibt Basis-Schatten (kein Schatten)</td></tr>
+                <tr><td><code class="docs__token">.nc-media-card img width</code></td><td>100%</td><td>Bild volle Breite</td></tr>
+                <tr><td><code class="docs__token">.nc-media-card__caption padding</code></td><td>var(--fnd-spacing-06) var(--fnd-spacing-06) 0</td><td>Innenabstand der Bildunterschrift</td></tr>
+                <tr><td><code class="docs__token">.nc-media-card__caption min-height</code></td><td>120px</td><td>Mindestl&auml;nge f&uuml;r gleichm&auml;&szlig;ige H&ouml;hen im Grid</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-gallery">
+            <h2 class="docs__section-title">.nc-gallery (Grid-Layout)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">display</code></td><td>grid</td><td>CSS Grid</td></tr>
+                <tr><td><code class="docs__token">gap</code></td><td>4rem</td><td>Gro&szlig;z&uuml;giger Abstand zwischen Karten</td></tr>
+                <tr><td><code class="docs__token">@768px: grid-template-columns</code></td><td>repeat(2, 1fr)</td><td>Ab Tablet: 2 Spalten</td></tr>
+                <tr><td><code class="docs__token">@1024px: grid-template-columns</code></td><td>repeat(3, 1fr)</td><td>Ab Desktop: 3 Spalten</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
+            <div class="docs__code-block">// ===== Gemeinsame Karten-Basis =====
+// Gilt f&uuml;r: .nc-card, .nc-pricing-card, .nc-testimonial, .nc-media-card, .nc-facts-block
+
+// ===== NC Card (allgemeine Karte) =====
+.nc-card              // Block: radius-3xl, Hintergrund, Schatten
+.nc-card__title       // Heading-Font, 1.5rem, font-weight-medium
+.nc-card__text        // text-secondary Farbe
+
+// ===== Media Card =====
+.nc-media-card        // Block: radius-lg, overflow hidden, flex column, kein Schatten
+.nc-media-card img    // 100% Breite, display block
+.nc-media-card__caption   // Padding oben/seitlich, min-height 120px, zentriert
+
+// ===== Galerie =====
+.nc-gallery           // Grid: gap 4rem, 1/2/3 Spalten responsiv</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-media-card</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-media-card</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_media-card.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;figure&gt;</code> &ndash; semantisch korrekt f&uuml;r Bild mit Caption</td></tr>
+                <tr><td><strong>Galerie-Layout</strong></td><td><code class="docs__token">.nc-gallery</code> &ndash; responsives 1&ndash;3-spaltiges Grid</td></tr>
+                <tr><td><strong>JS erforderlich</strong></td><td>Nein &ndash; rein CSS</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Karten-Varianten</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-card</code></td><td>Allgemeine Karte mit radius-3xl und Schatten</td></tr>
+                <tr><td><code class="docs__token">.nc-media-card</code></td><td>Karte mit Vollbild-Bild und Caption (kein Schatten, radius-lg)</td></tr>
+                <tr><td><code class="docs__token">.nc-gallery</code></td><td>Responsives Grid-Layout f&uuml;r mehrere Media Cards</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Karten-Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-card__title</code></td><td><code class="docs__token">&lt;p&gt;</code>, <code class="docs__token">&lt;h2&gt;</code>&ndash;<code class="docs__token">&lt;h6&gt;</code></td><td>Karten-Titel in Heading-Schrift</td></tr>
+                <tr><td><code class="docs__token">.nc-card__text</code></td><td><code class="docs__token">&lt;p&gt;</code></td><td>Begleittext in sekund&auml;rer Farbe</td></tr>
+                <tr><td><code class="docs__token">.nc-card__media</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Bild-Container (Feature Highlight Variante)</td></tr>
+                <tr><td><code class="docs__token">.nc-card__body</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Text-Bereich (Feature Highlight Variante)</td></tr>
+                <tr><td><code class="docs__token">.nc-media-card__caption</code></td><td><code class="docs__token">&lt;figcaption&gt;</code></td><td>Bildunterschrift mit Padding und Mindestl&auml;nge</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Media Card (standard) --&gt;
+&lt;figure class="nc-media-card"&gt;
+  &lt;img src="bild.jpg" alt="Beschreibung" /&gt;
+  &lt;figcaption class="nc-media-card__caption"&gt;
+    &lt;p class="nc-card__title"&gt;Titel&lt;/p&gt;
+    &lt;p class="nc-card__text"&gt;Beschreibung...&lt;/p&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- Galerie mit mehreren Media Cards --&gt;
+&lt;div class="nc-gallery"&gt;
+  &lt;figure class="nc-media-card"&gt; ... &lt;/figure&gt;
+  &lt;figure class="nc-media-card"&gt; ... &lt;/figure&gt;
+  &lt;figure class="nc-media-card"&gt; ... &lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;!-- Allgemeine NC Card --&gt;
+&lt;div class="nc-card"&gt;
+  &lt;p class="nc-card__title"&gt;Karten-Titel&lt;/p&gt;
+  &lt;p class="nc-card__text"&gt;Karten-Inhalt...&lt;/p&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Media Cards basieren auf dem semantischen HTML-Element
+            <code class="docs__token">&lt;figure&gt;</code> mit
+            <code class="docs__token">&lt;figcaption&gt;</code>, das Bild und Beschreibung
+            semantisch verkn&uuml;pft. Korrekte Alternativtexte sind Pflicht.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Semantisches HTML: &lt;figure&gt; / &lt;figcaption&gt;</h4>
+              <ul>
+                <li><code class="docs__token">&lt;figure&gt;</code> ist das korrekte Element f&uuml;r Medien mit zugeh&ouml;riger Beschriftung</li>
+                <li><code class="docs__token">&lt;figcaption&gt;</code> verkn&uuml;pft die Bildunterschrift semantisch mit dem Bild</li>
+                <li>Screenreader lesen das Bild und die Caption als zusammengeh&ouml;rende Einheit</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Alt-Text f&uuml;r Bilder (WCAG 1.1.1)</h4>
+              <ul>
+                <li>Jedes <code class="docs__token">&lt;img&gt;</code> <strong>muss</strong> ein <code class="docs__token">alt</code>-Attribut haben</li>
+                <li>Der Alt-Text soll den <em>Inhalt und Zweck</em> des Bildes beschreiben, nicht die Darstellungsform</li>
+                <li>Wenn die Caption das Bild bereits vollst&auml;ndig beschreibt, kann <code class="docs__token">alt=""</code> verwendet werden</li>
+                <li>Niemals <code class="docs__token">alt="Bild"</code> oder <code class="docs__token">alt="Foto"</code> verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Galerie-Strukturierung</h4>
+              <ul>
+                <li>Mehrere Cards in <code class="docs__token">.nc-gallery</code> k&ouml;nnen in einer <code class="docs__token">&lt;section&gt;</code> mit Heading eingefasst werden</li>
+                <li>Bei klickbaren Cards: das <code class="docs__token">&lt;figure&gt;</code>-Element nicht als <code class="docs__token">&lt;a&gt;</code> verwenden &ndash; stattdessen einen Link im Titel oder Caption platzieren</li>
+                <li>Lazy-Loading: <code class="docs__token">loading="lazy"</code> auf Bilder setzen, die unterhalb der Sichtlinie liegen</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Semantische Media Card --&gt;
+&lt;figure class="nc-media-card"&gt;
+  &lt;img src="bergsee.jpg"
+       alt="Gebirgslandschaft mit Spiegelung im stillen See"
+       width="600" height="400"
+       loading="lazy" /&gt;
+  &lt;figcaption class="nc-media-card__caption"&gt;
+    &lt;p class="nc-card__title"&gt;Bergsee im Morgengrauen&lt;/p&gt;
+    &lt;p class="nc-card__text"&gt;Atemberaubende Naturlandschaft.&lt;/p&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- RICHTIG: Wenn Caption Bild beschreibt, alt="" erlaubt --&gt;
+&lt;figure class="nc-media-card"&gt;
+  &lt;img src="chart.png" alt="" /&gt;
+  &lt;figcaption class="nc-media-card__caption"&gt;
+    &lt;p class="nc-card__title"&gt;Balkendiagramm: Ums&auml;tze Q1&ndash;Q4 2025&lt;/p&gt;
+    &lt;p class="nc-card__text"&gt;Q1: 1,2 Mio. &euro;, Q2: 1,5 Mio. &euro;, Q3: 1,8 Mio. &euro;, Q4: 2,1 Mio. &euro;&lt;/p&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- FALSCH: Fehlendes alt-Attribut --&gt;
+&lt;figure class="nc-media-card"&gt;
+  &lt;img src="bild.jpg" /&gt;
+  &lt;figcaption class="nc-media-card__caption"&gt; ... &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- FALSCH: Nicht-semantisches div statt figure --&gt;
+&lt;div class="nc-media-card"&gt;
+  &lt;img src="bild.jpg" alt="..." /&gt;
+  &lt;div class="nc-media-card__caption"&gt; ... &lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+// ==========================================================================
+// 07-Organisms: Navigation
+// ==========================================================================
+// Header, Main Navigation, Mega Menu, Search Overlay
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-header {
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--fnd-color-background-base) 90%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--fnd-color-border-low);
+  z-index: var(--fnd-z-header);
+}
+
+.nc-nav {
+  width: 100%;
+  font-size: 1.1rem;
+  //font-weight: var(--fnd-font-weight-bold);
+}
+
+.nc-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1rem;
+  margin-inline: auto;
+  box-sizing: border-box;
+  padding-inline: var(--fnd-spacing-04);
+
+  @include respond-to('sm') {
+    padding-inline: var(--fnd-spacing-06);
+  }
+
+  @include respond-to('md') {
+    padding-inline: var(--fnd-spacing-07);
+  }
+
+  @include respond-to('lg') {
+    padding-inline: var(--fnd-spacing-08);
+  }
+
+  @include respond-to('xl') {
+    padding-inline: var(--fnd-spacing-09);
+  }
+
+  @include respond-to('xxl') {
+    padding-inline: 0;
+    max-width: var(--container-max-width);
+  }
+}
+
+.nc-brand {
+  font-family: var(--font-heading);
+  text-transform: lowercase;
+  letter-spacing: 0.06em;
+  font-size: 1.5rem;
+  font-weight: var(--fnd-font-weight-bold);
+}
+
+.nc-nav__list {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nc-nav__actions {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nc-tools {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nc-search-panel {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--fnd-color-always-dark) 35%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 30;
+}
+
+.nc-header.is-search-open .nc-search-panel {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nc-search-panel__inner {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+  background: var(--fnd-color-background-base);
+  box-shadow: var(--fnd-elevation-floating);
+  width: 100vw;
+  max-width: 100vw;
+  margin: var(--nav-height) 0 0;
+  transform: translateY(-8px);
+  transition: transform 0.25s ease;
+}
+
+.nc-header.is-search-open .nc-search-panel__inner {
+  transform: translateY(0);
+}
+
+.nc-search-panel input[type='search'] {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid var(--fnd-color-border-low);
+  background: var(--fnd-color-background-base);
+  font-size: calc(var(--fs-base) * var(--type-scale, 1));
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--fnd-color-interactive-default);
+  }
+}
+
+.nc-mega {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--nav-height);
+  width: 100vw;
+  background: var(--fnd-color-background-base);
+  border-top: 1px solid var(--fnd-color-border-low);
+  border-bottom: 1px solid var(--fnd-color-border-low);
+  box-shadow: var(--fnd-elevation-floating);
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 8;
+}
+
+.nc-nav__item {
+  position: relative;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
+.nc-nav__item.is-open > .nc-mega {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nc-mega__inner {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 2rem;
+  @include container-padding;
+}
+
+.nc-mega__meta strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.nc-mega__meta p {
+  color: var(--fnd-color-text-mid);
+}
+
+.nc-mega__eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fnd-color-text-mid);
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 960px) {
+  .nc-mobile-toggle {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nc-nav__list {
+    display: flex;
+  }
+
+  .nc-nav__actions {
+    display: flex;
+  }
+
+  .nc-tools {
+    display: flex;
+  }
+
+  .nc-mobile-panel {
+    display: none !important;
+  }
+}

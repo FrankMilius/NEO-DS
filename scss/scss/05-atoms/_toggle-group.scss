@@ -1,0 +1,175 @@
+// ==========================================================================
+// 05-Atoms: Toggle Group
+// ==========================================================================
+// Gruppierte Toggle-Buttons fuer Single- oder Multi-Select.
+//
+// SEMANTIK:
+//   Single-Select (R4): role="radiogroup" + role="radio" + aria-checked
+//     → Arrow-Key Navigation (roving tabindex)
+//   Multi-Select (R3): role="group" + aria-pressed auf Items
+//     → Tab-Navigation zwischen Items
+//   R6: Icon-only Items brauchen aria-label
+//
+// GROESSEN (3 Stufen, direkt am Button-Scale):
+//   sm → 32px (= Button SM)
+//   md → 40px (= Button MD) — DEFAULT
+//   lg → 48px (= Button LG)
+//
+// KLASSEN:
+//   .nc-toggle-group (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Container Mixin
+// ---------------------------------------------------------------------------
+
+@mixin toggle-group-base {
+  display: inline-flex;
+  border-radius: var(--nc-toggle-group-radius);
+  background-color: var(--nc-toggle-group-bg);
+  border: var(--fnd-border-width-xs) solid var(--nc-toggle-group-border);
+  overflow: hidden;
+  gap: var(--nc-toggle-group-gap);
+}
+
+// ---------------------------------------------------------------------------
+// Item Mixin
+// ---------------------------------------------------------------------------
+
+@mixin toggle-group-item {
+  @include interactive-surface-base;
+
+  --_surface-bg: var(--nc-toggle-group-item-bg);
+  --_surface-color: var(--nc-toggle-group-item-color);
+  --_surface-border-color: transparent;
+  --_surface-radius: 0;
+  --_surface-transition: var(--nc-toggle-group-transition-duration);
+  --_surface-font-weight: var(--fnd-font-weight-semibold);
+  --_surface-border-width: 0;
+
+  border-radius: 0;
+  border: none;
+  border-inline-end: var(--fnd-border-width-xs) solid var(--nc-toggle-group-item-border);
+
+  // Default size: md
+  @include toggle-group-item-size('md');
+
+  &:last-child {
+    border-inline-end: none;
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-toggle-group-item-bg-hover);
+  }
+}
+
+@mixin toggle-group-item-size($size: 'md') {
+  @if $size == 'sm' {
+    min-height: var(--nc-button-height-sm);
+    padding: var(--nc-button-padding-y-sm) var(--nc-button-padding-x-sm);
+    font-size: var(--nc-button-font-size-sm);
+    gap: var(--nc-button-icon-gap-sm);
+  } @else if $size == 'md' {
+    min-height: var(--nc-button-height-md);
+    padding: var(--nc-button-padding-y-md) var(--nc-button-padding-x-md);
+    font-size: var(--nc-button-font-size-md);
+    gap: var(--nc-button-icon-gap-md);
+  } @else if $size == 'lg' {
+    min-height: var(--nc-button-height-lg);
+    padding: var(--nc-button-padding-y-lg) var(--nc-button-padding-x-lg);
+    font-size: var(--nc-button-font-size-lg);
+    gap: var(--nc-button-icon-gap-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Selected State
+// ---------------------------------------------------------------------------
+
+@mixin toggle-group-item-selected {
+  background-color: var(--nc-toggle-group-item-selected-bg);
+  color: var(--nc-toggle-group-item-selected-color);
+  border-color: var(--nc-toggle-group-item-selected-border);
+}
+
+// ---------------------------------------------------------------------------
+// Icon Element
+// ---------------------------------------------------------------------------
+
+@mixin toggle-group-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-button-icon-size-md);
+  height: var(--nc-button-icon-size-md);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-toggle-group {
+  @include toggle-group-base;
+
+  // Items
+  &__item {
+    @include toggle-group-item;
+
+    // Selected states (Radio + Toggle Pattern)
+    &[aria-pressed='true'],
+    &[aria-checked='true'] {
+      @include toggle-group-item-selected;
+    }
+
+    // Disabled
+    &:disabled,
+    &[aria-disabled='true'] {
+      background-color: var(--nc-toggle-group-item-disabled-bg);
+      color: var(--nc-toggle-group-item-disabled-color);
+      opacity: var(--nc-toggle-group-item-disabled-opacity);
+    }
+
+    // Icon Element (deep BEM: __item__icon → vereinfacht als direktes Kind)
+    > .nc-toggle-group__icon {
+      @include toggle-group-icon-element;
+    }
+  }
+
+  // Icon-Element auch direkt ansprechbar
+  &__icon {
+    @include toggle-group-icon-element;
+  }
+
+  // Size-Modifier auf Container → propagiert zu Items
+  &--sm &__item { @include toggle-group-item-size('sm'); }
+  &--lg &__item { @include toggle-group-item-size('lg'); }
+
+  // Outline-Variante
+  &--outline {
+    background-color: transparent;
+
+    .nc-toggle-group__item {
+      --_surface-bg: transparent;
+
+      &[aria-pressed='true'],
+      &[aria-checked='true'] {
+        background-color: var(--fnd-color-background-secondary);
+        color: var(--fnd-color-text-primary);
+        border-color: transparent;
+      }
+    }
+  }
+}

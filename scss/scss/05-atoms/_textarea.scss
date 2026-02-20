@@ -1,0 +1,116 @@
+// ==========================================================================
+// 05-Atoms: Textarea
+// ==========================================================================
+// Token-basierte Textarea-Komponente mit 3 Groessen, State-Varianten,
+// Autosize-Modus und Character-Counter.
+//
+// ARCHITEKTUR:
+//   Nutzt --nc-input-* Tokens (gleiche Basis wie Input) plus
+//   --nc-textarea-* spezifische Tokens.
+//
+// BEM-KLASSEN:
+//   .nc-textarea                  Block (default: md)
+//   .nc-textarea--sm / --lg       Groessen-Modifier
+//   .nc-textarea--error           Error-Zustand (roter Rand)
+//   .nc-textarea--success         Success-Zustand (gruener Rand)
+//   .nc-textarea--autosize        Auto-Height (resize: none, JS steuert)
+//   .nc-textarea--no-resize       Kein Resize erlaubt
+//   .nc-textarea__counter         Zeichenzaehler
+//   .nc-textarea-wrapper          Positionierungs-Container
+//
+// ACCESSIBILITY:
+//   :focus-visible → @include focus-ring
+//   :disabled / [aria-disabled='true'] → disabled styling
+//   [aria-invalid='true'] → error styling
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Textarea.
+/// Erbt form-control-base + setzt min-height und resize.
+@mixin textarea-base {
+  @include form-control-base;
+  @include form-control-size('md');
+  height: auto;
+  min-height: var(--nc-textarea-min-height);
+  resize: var(--nc-textarea-resize);
+  line-height: 1.5;
+}
+
+/// Autosize-Modus: JS steuert die Hoehe, resize deaktiviert.
+@mixin textarea-autosize {
+  resize: none;
+  overflow: hidden; // verhindert Scrollbar bei JS-Auto-Height
+}
+
+/// Character Counter unten rechts.
+@mixin textarea-counter {
+  display: block;
+  text-align: right;
+  font-size: var(--nc-form-hint-font-size);
+  color: var(--nc-form-hint-color);
+  margin-top: var(--nc-form-hint-gap);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-textarea {
+  @include textarea-base;
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    @include form-control-size('sm');
+    height: auto;
+    min-height: calc(var(--nc-textarea-min-height) * 0.75);
+  }
+
+  &--lg {
+    @include form-control-size('lg');
+    height: auto;
+    min-height: calc(var(--nc-textarea-min-height) * 1.5);
+  }
+
+  // -- State-Modifier --
+
+  &--error,
+  &[aria-invalid='true'] {
+    @include form-control-error;
+  }
+
+  &--success {
+    @include form-control-success;
+  }
+
+  // -- Spezial-Modifier --
+
+  &--autosize { @include textarea-autosize; }
+  &--no-resize { resize: none; }
+
+  // -- Character Counter --
+
+  &__counter {
+    @include textarea-counter;
+
+    // Wenn Limit erreicht, Farbe aendern
+    &--limit {
+      color: var(--nc-form-error-color);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Textarea Wrapper
+// ---------------------------------------------------------------------------
+
+.nc-textarea-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}

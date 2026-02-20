@@ -1,0 +1,148 @@
+// ==========================================================================
+// 05-Atoms: Select
+// ==========================================================================
+// Token-basierte Select-Komponente mit custom Arrow-Indikator,
+// 3 Groessen und State-Varianten.
+//
+// ARCHITEKTUR:
+//   Nutzt --nc-input-* Tokens (gleiche Basis wie Input) plus
+//   --nc-select-* spezifische Tokens.
+//
+// PATTERN:
+//   Natives <select> mit appearance: none und custom SVG-Arrow
+//   via background-image. Kein JS noetig fuer Basis-Funktion.
+//
+// BEM-KLASSEN:
+//   .nc-select                    Block (default: md)
+//   .nc-select--sm / --lg         Groessen-Modifier
+//   .nc-select--error             Error-Zustand (roter Rand)
+//   .nc-select--success           Success-Zustand (gruener Rand)
+//   .nc-select--multiple          Multi-Select (native, kein Arrow)
+//   .nc-select-wrapper            Wrapper fuer custom Indicator
+//   .nc-select__indicator         Custom Arrow-Icon
+//
+// ACCESSIBILITY:
+//   :focus-visible → @include focus-ring
+//   :disabled / [aria-disabled='true'] → disabled styling
+//   [aria-invalid='true'] → error styling
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer das Select-Element.
+/// Nutzt form-control-base + custom Arrow via background-image.
+@mixin select-base {
+  @include form-control-base;
+  @include form-control-size('md');
+  cursor: pointer;
+  padding-inline-end: var(--nc-select-padding-right);
+
+  // Custom Arrow via SVG Background (Chevron Down)
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--nc-input-padding-x-md) center;
+  background-size: var(--nc-select-indicator-size);
+
+  // Browser-Default Arrow entfernen
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+/// Groessen-Modifier fuer das Select-Element.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+@mixin select-size($size: 'md') {
+  @include form-control-size($size);
+
+  @if $size == 'sm' {
+    padding-inline-end: calc(var(--nc-select-padding-right) - var(--fnd-spacing-02));
+    background-position: right var(--nc-input-padding-x-sm) center;
+  } @else if $size == 'lg' {
+    background-position: right var(--nc-input-padding-x-lg) center;
+  }
+}
+
+/// Multi-Select: kein Arrow, height auto.
+@mixin select-multiple {
+  height: auto;
+  min-height: var(--nc-textarea-min-height);
+  padding-inline-end: var(--nc-input-padding-x-md);
+  background-image: none;
+  cursor: default;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-select {
+  @include select-base;
+
+  // -- Groessen-Modifier --
+
+  &--sm { @include select-size('sm'); }
+  // md = Default (bereits in select-base)
+  &--lg { @include select-size('lg'); }
+
+  // -- State-Modifier --
+
+  &--error,
+  &[aria-invalid='true'] {
+    @include form-control-error;
+  }
+
+  &--success {
+    @include form-control-success;
+  }
+
+  // -- Multi-Select --
+
+  &--multiple,
+  &[multiple] {
+    @include select-multiple;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Select Wrapper (fuer custom Indicator)
+// ---------------------------------------------------------------------------
+
+.nc-select-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  // Custom Indicator (alternativ zu background-image)
+  .nc-select__indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    inset-inline-end: var(--nc-input-padding-x-md);
+    width: var(--nc-select-indicator-size);
+    height: var(--nc-select-indicator-size);
+    color: var(--nc-select-indicator-color);
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Wenn custom Indicator, kein background-image auf Select
+  > .nc-select {
+    background-image: none;
+  }
+}

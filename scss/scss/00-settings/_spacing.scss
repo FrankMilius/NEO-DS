@@ -1,0 +1,90 @@
+// ==========================================================================
+// 00-Settings: Spacing
+// ==========================================================================
+// Spacing-Scale auf 4px-Basegrid
+// Alle Werte sind Vielfache von 4px.
+// Stufen 01-05 sind statisch, Stufen 06-13 skalieren fluid mit clamp().
+// CSS-Variable: --fnd-spacing-01 bis --fnd-spacing-13
+// ==========================================================================
+
+@use 'sass:math';
+@use 'sass:map';
+@use 'tokens-spacing.generated' as tokens;
+
+// ---------------------------------------------------------------------------
+// 4px Base Unit (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$base-unit: tokens.$token-base-unit;
+
+// ---------------------------------------------------------------------------
+// Fluid Viewport Range (shared with typography)
+// ---------------------------------------------------------------------------
+
+$fluid-vw-min: tokens.$token-fluid-vw-min;
+$fluid-vw-max: tokens.$token-fluid-vw-max;
+
+// ---------------------------------------------------------------------------
+// Spacing Scale Map (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$spacing: tokens.$token-spacing;
+
+// ---------------------------------------------------------------------------
+// Fluid Spacing Map (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$spacing-fluid: tokens.$token-spacing-fluid;
+
+// ---------------------------------------------------------------------------
+// Functions
+// ---------------------------------------------------------------------------
+
+/// Spacing Getter Function
+/// @param {String} $key - Spacing key (01-13)
+/// @return {Length} Spacing value
+@function spacing($key) {
+  @if map.has-key($spacing, $key) {
+    @return map.get($spacing, $key);
+  }
+  @warn "Unknown spacing key: #{$key}";
+  @return null;
+}
+
+/// Generate a fluid clamp() value for spacing
+/// @param {Length} $min - Minimum value in px
+/// @param {Length} $max - Maximum value in px
+/// @return {String} CSS clamp() expression
+@function fluid-spacing($min, $max) {
+  $slope: math.div(($max - $min), ($fluid-vw-max - $fluid-vw-min) * 1px);
+  $intercept: $min - $slope * $fluid-vw-min * 1px;
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100} * 1vw, #{$max});
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+:root {
+  // Base unit token
+  --fnd-base-unit: #{$base-unit};
+
+  // Static spacing (01-05)
+  @each $key, $value in $spacing {
+    @if not map.has-key($spacing-fluid, $key) {
+      --fnd-spacing-#{$key}: #{$value};
+    }
+  }
+
+  // Fluid spacing (06-13)
+  @each $key, $pair in $spacing-fluid {
+    $min: map.get($pair, min);
+    $max: map.get($pair, max);
+    --fnd-spacing-#{$key}: #{fluid-spacing($min, $max)};
+  }
+
+  // Semantic spacing tokens
+  --fnd-spacing-section: var(--fnd-spacing-12);
+  --fnd-spacing-component: var(--fnd-spacing-08);
+  --fnd-spacing-element: var(--fnd-spacing-04);
+}

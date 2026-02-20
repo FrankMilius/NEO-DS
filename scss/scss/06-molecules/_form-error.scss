@@ -1,0 +1,71 @@
+// ==========================================================================
+// 06-Molecules: Form Error
+// ==========================================================================
+// Token-basierte Validation/Error-Message fuer Formular-Felder.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-error-* Component-Tokens.
+//
+// BEM-KLASSEN:
+//   .nc-form-error               Block (Error/Validation Message)
+//   .nc-form-error__icon         Error-Icon (Ausrufezeichen)
+//   .nc-form-error__text         Error-Text
+//
+// ACCESSIBILITY:
+//   role="alert" → Screen Reader liest Fehler sofort vor
+//   aria-live="polite" → Update wird vorgelesen wenn sichtbar
+//   id="error-{name}" → referenziert via aria-describedby am Input
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Error-Message.
+@mixin form-error-base {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--fnd-spacing-01);
+  margin-top: var(--nc-form-error-gap);
+  font-size: var(--nc-form-error-font-size);
+  color: var(--nc-form-error-color);
+  line-height: 1.4;
+  font-weight: var(--nc-form-error-font-weight);
+}
+
+/// Error-Icon (z.B. Ausrufezeichen im Kreis).
+@mixin form-error-icon {
+  flex-shrink: 0;
+  width: var(--nc-form-error-icon-size);
+  height: var(--nc-form-error-icon-size);
+  margin-top: 0.1em; // Optische Ausrichtung mit Text
+  color: inherit;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form-error {
+  @include form-error-base;
+
+  &__icon {
+    @include form-error-icon;
+  }
+
+  &__text {
+    // Erbt Styles vom Block
+  }
+}

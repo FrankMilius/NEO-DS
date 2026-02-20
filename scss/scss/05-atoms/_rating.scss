@@ -1,0 +1,272 @@
+// ==========================================================================
+// 05-Atoms: Rating
+// ==========================================================================
+// Stern-Bewertungs-Komponente mit interaktivem und read-only Modus.
+// Unterstuetzt 1-5 Sterne (oder beliebige Anzahl), Half-Stars optional.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-rating-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// PATTERN:
+//   Interaktiv: Versteckte Radio-Inputs + Labels mit SVG-Sternen
+//   Readonly:   Reine visuelle Anzeige ohne Inputs
+//
+// BEM-KLASSEN:
+//   .nc-rating                    Block (inline-flex container)
+//   .nc-rating__input             <input type="radio"> (sr-only)
+//   .nc-rating__item              Einzelner Stern (Label oder Span)
+//   .nc-rating__item--active      Gefuellter/Aktiver Stern
+//   .nc-rating__item--half        Halb gefuellter Stern
+//   .nc-rating__value             Numerischer Wert (z.B. "4.5")
+//   .nc-rating__count             Anzahl Bewertungen (z.B. "(128)")
+//   .nc-rating--sm                Kleine Variante
+//   .nc-rating--lg                Grosse Variante
+//   .nc-rating--readonly          Nur-Anzeige-Modus
+//   .nc-rating--disabled          Disabled-State
+//   .nc-rating--error             Error-State
+//
+// ACCESSIBILITY:
+//   Interaktiv: role="radiogroup", aria-label auf Container
+//   Jeder Stern: <input type="radio"> + <label>
+//   Readonly: role="img", aria-label="Bewertung: 4 von 5 Sternen"
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Rating-Container.
+@mixin rating-base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nc-rating-gap);
+}
+
+/// Einzelner Stern-Item.
+/// Wird als <label> (interaktiv) oder <span> (readonly) verwendet.
+@mixin rating-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-rating-size);
+  height: var(--nc-rating-size);
+  color: var(--nc-rating-color-inactive);
+  cursor: pointer;
+  transition: color var(--nc-input-transition-duration) ease,
+    transform var(--nc-input-transition-duration) ease;
+  user-select: none;
+
+  // SVG-Icon innerhalb des Items
+  > svg,
+  > .nc-icon {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  // Reduced Motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Aktiver (gefuellter) Stern.
+@mixin rating-item-active {
+  color: var(--nc-rating-color-active);
+}
+
+/// Halb gefuellter Stern (via Clip-Path oder Gradient).
+@mixin rating-item-half {
+  position: relative;
+  color: var(--nc-rating-color-inactive);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    color: var(--nc-rating-color-active);
+    // Der Stern-SVG wird ueber das Parent vererbt
+    // Clip auf halbe Breite
+  }
+
+  // Alternative: Gradient-Clip fuer den SVG-Fill
+  > svg {
+    // Linke Haelfte aktiv, rechte Haelfte inaktiv
+    // Wird via CSS-Gradient oder JS-gesteuert
+  }
+}
+
+/// Hover-Effekte im interaktiven Modus.
+/// Sterne leuchten auf bei Hover (bis zum Cursor-Stern).
+@mixin rating-hover {
+  // Hover auf einzelnem Stern: skalieren
+  .nc-rating__item:hover {
+    transform: scale(1.15);
+    color: var(--nc-rating-hover-color);
+  }
+
+  // Sterne bis zum Hover-Stern einfaerben (via sibling selectors)
+  // NOTE: Erfordert HTML-Reihenfolge oder direction:rtl Trick
+  // In der Praxis wird dies oft via JS gesteuert
+  &:hover .nc-rating__item {
+    color: var(--nc-rating-hover-color);
+  }
+
+  &:hover .nc-rating__item:hover ~ .nc-rating__item {
+    color: var(--nc-rating-color-inactive);
+  }
+}
+
+/// Readonly-Modus: keine Interaktion.
+@mixin rating-readonly {
+  .nc-rating__item {
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+/// Disabled-Modus.
+@mixin rating-disabled {
+  opacity: var(--nc-rating-disabled-opacity);
+  pointer-events: none;
+
+  .nc-rating__item {
+    cursor: not-allowed;
+  }
+}
+
+/// Wert-Anzeige (numerisch) neben den Sternen.
+@mixin rating-value {
+  font-size: var(--nc-input-font-size-md);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--nc-input-color);
+  margin-inline-start: var(--fnd-spacing-02);
+}
+
+/// Bewertungs-Anzahl (z.B. "(128 Bewertungen)").
+@mixin rating-count {
+  font-size: var(--nc-input-font-size-sm);
+  color: var(--fnd-color-text-secondary);
+}
+
+/// Groessen-Modifier.
+/// @param {String} $size - 'sm' | 'lg'
+@mixin rating-size($size) {
+  @if $size == 'sm' {
+    .nc-rating__item {
+      width: calc(var(--nc-rating-size) * 0.75);
+      height: calc(var(--nc-rating-size) * 0.75);
+    }
+  } @else if $size == 'lg' {
+    .nc-rating__item {
+      width: calc(var(--nc-rating-size) * 1.5);
+      height: calc(var(--nc-rating-size) * 1.5);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-rating {
+  @include rating-base;
+  @include rating-hover;
+
+  // -- Hidden Radio Inputs (interaktiver Modus) --
+
+  &__input {
+    @include sr-only;
+
+    // Checked-State: Stern und alle vorherigen aktiv
+    &:checked ~ .nc-rating__item,
+    &:checked + .nc-rating__item {
+      // Via JS oder reverse-order geloest
+    }
+
+    // Focus auf Label weiterleiten
+    &:focus-visible + .nc-rating__item {
+      @include focus-ring;
+      border-radius: var(--fnd-radius-sm);
+    }
+  }
+
+  // -- Einzelner Stern --
+
+  &__item {
+    @include rating-item;
+
+    &--active {
+      @include rating-item-active;
+    }
+
+    &--half {
+      @include rating-item-half;
+    }
+  }
+
+  // -- Wert und Anzahl --
+
+  &__value {
+    @include rating-value;
+  }
+
+  &__count {
+    @include rating-count;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    @include rating-size('sm');
+  }
+
+  &--lg {
+    @include rating-size('lg');
+  }
+
+  // -- State-Modifier --
+
+  &--readonly {
+    @include rating-readonly;
+  }
+
+  &--disabled {
+    @include rating-disabled;
+  }
+
+  &--error {
+    .nc-rating__item {
+      color: var(--nc-input-border-error);
+
+      &--active {
+        color: var(--nc-input-border-error);
+      }
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-rating__item {
+      color: ButtonText;
+
+      &--active {
+        color: Highlight;
+      }
+    }
+  }
+}

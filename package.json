@@ -1,0 +1,36 @@
+{
+  "name": "website26",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "tokens": "node scripts/generate-tokens.js",
+    "tokens:validate": "node scripts/validate-tokens.js",
+    "tokens:diff": "node scripts/diff-tokens.js",
+    "tokens:golden": "cp data/design-tokens.json data/design-tokens.golden.json && echo '  ✓ Golden master updated'",
+    "tokens:pipeline": "npm run tokens:validate && npm run tokens && npm run build:css && npm run test",
+    "tokens:check": "npm run tokens:validate && npm run tokens:diff",
+    "icons": "node scripts/generate-icons-manifest.js",
+    "icons:sync": "node scripts/sync-tabler-icons.js",
+    "icons:sync-and-build": "npm run icons:sync && npm run icons",
+    "icons:watch": "node scripts/watch-icons.js",
+    "build": "npm run tokens && npm run icons:sync && npm run icons && sass scss/scss/main.scss:styles.css --style=compressed",
+    "build:css": "sass scss/scss/main.scss:styles.css --style=compressed",
+    "watch": "sass scss/scss/main.scss:styles.css --watch --poll",
+    "docs": "node scripts/docs-server.js",
+    "config:build": "cd apps/theme-configurator && npx vite build",
+    "docs:build": "node scripts/build-docs.js",
+    "docs:watch": "node scripts/build-docs.js --watch",
+    "docs:extract": "node scripts/build-docs.js --extract",
+    "docs:index": "node scripts/generate-docs-index.js",
+    "lint:tokens": "node scripts/lint-tokens.js",
+    "lint:docs-tokens": "node scripts/lint-docs-tokens.js",
+    "lint:fragments": "node scripts/_audit-fragments.js",
+    "lint:docs-scripts": "node scripts/lint-docs-scripts.js",
+    "test:build": "sass scss/scss/main.scss:styles.css --style=compressed --no-source-map",
+    "test": "npm run test:build && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts"
+  },
+  "devDependencies": {
+    "@tabler/icons": "^3.36.1",
+    "sass": "^1.69.5"
+  }
+}

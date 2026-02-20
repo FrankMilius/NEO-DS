@@ -1,0 +1,605 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Navigation</h1>
+      <p class="docs__subtitle">
+        Globale Header-Navigationsstruktur mit Sticky-Header, Mega-Menu, Suchoverlay und mobilem Panel.
+        Kanonische Klassen: <code class="docs__token">.nc-header</code>, <code class="docs__token">.nc-nav</code>, <code class="docs__token">.nc-mega</code> (BEM).
+        Farben und Abstands-Tokens kommen aus den Foundation-Tokens <code class="docs__token">--fnd-*</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="navigation-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Navigation-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Hier wird ein vollst&auml;ndiger Header mit Branding, Navigation und Such-Icon dargestellt.
+            Klicke auf die Nav-Items um das Mega-Menu zu &ouml;ffnen; das Suchoverlay &ouml;ffnet sich beim Klick auf die Lupe.
+          </p>
+
+          <div class="docs-stage" style="overflow: visible; padding: 0;">
+            <div class="docs-stage__toolbar" style="padding: var(--fnd-spacing-04);">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="with-mega" selected>Mit Mega-Menu</option>
+                  <option value="simple">Einfache Navigation</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="min-height: 80px; padding: 0; align-items: stretch; display: block; position: relative; overflow: visible;">
+              <!-- JS renders header here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;header class="nc-header"&gt;...&lt;/header&gt;</pre>
+          </div>
+
+          <!-- Showcase: Aufbau-Beschreibung -->
+          <section class="docs__section" id="showcase-structure">
+            <h2 class="docs__section-title">Struktur des Headers</h2>
+            <p class="docs__section-desc">
+              Der globale Header besteht aus vier Hauptbereichen: Branding (<code class="docs__token">.nc-brand</code>),
+              Haupt-Navigation (<code class="docs__token">.nc-nav__list</code>), Aktionsbereiche (<code class="docs__token">.nc-tools</code>)
+              und optionalem Mega-Menu (<code class="docs__token">.nc-mega</code>).
+              Auf Bildschirmen unter 1200&nbsp;px werden Listennavigation und Toolbar ausgeblendet und durch
+              <code class="docs__token">.nc-mobile-toggle</code> / <code class="docs__token">.nc-mobile-panel</code> ersetzt.
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead><tr><th>Bereich</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Header-Container</td><td><code class="docs__token">.nc-header</code></td><td>Sticky, Glassmorphism-Hintergrund, z-index header</td></tr>
+                <tr><td>Inner-Layout</td><td><code class="docs__token">.nc-nav__inner</code></td><td>Flex-Zeile, Container-Padding, max-width zentriert</td></tr>
+                <tr><td>Branding</td><td><code class="docs__token">.nc-brand</code></td><td>Logo/Wortmarke, heading-Font, lowercase</td></tr>
+                <tr><td>Nav-Liste</td><td><code class="docs__token">.nc-nav__list</code></td><td>Horizontale Link-Liste, ab 1200&nbsp;px sichtbar</td></tr>
+                <tr><td>Aktionen</td><td><code class="docs__token">.nc-nav__actions</code></td><td>CTA-Buttons, ab 1200&nbsp;px sichtbar</td></tr>
+                <tr><td>Tools</td><td><code class="docs__token">.nc-tools</code></td><td>Icon-Buttons (Suche, Profil), ab 1200&nbsp;px sichtbar</td></tr>
+                <tr><td>Mega-Menu</td><td><code class="docs__token">.nc-mega</code></td><td>Full-width Dropdown, fixed, slide-in Animation</td></tr>
+                <tr><td>Suchoverlay</td><td><code class="docs__token">.nc-search-panel</code></td><td>Fixed Overlay mit Backdrop, Slide-in</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Showcase: Mega-Menu -->
+          <section class="docs__section" id="showcase-mega">
+            <h2 class="docs__section-title">Mega-Menu</h2>
+            <p class="docs__section-desc">
+              Das Mega-Menu (<code class="docs__token">.nc-mega</code>) liegt per <code>position: fixed</code>
+              direkt unter dem Header. Es wird durch die Klasse <code class="docs__token">.is-open</code>
+              am jeweiligen <code class="docs__token">.nc-nav__item</code> sichtbar (Opacity &amp; Transform).
+              Das Inner-Grid (<code class="docs__token">.nc-mega__inner</code>) teilt sich in Meta-Bereich (links)
+              und Link-Bereich (rechts).
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-mega</code></td><td>Fixed, volle Breite, slide-in, opacity-Transition</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__inner</code></td><td>CSS-Grid (220px + 2fr), max-width zentriert, container-padding</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__meta</code></td><td>Linker Bereich mit Titel und Beschreibungstext</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__eyebrow</code></td><td>Kategoriebeschriftung (uppercase, letter-spacing)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Showcase: Suchoverlay -->
+          <section class="docs__section" id="showcase-search">
+            <h2 class="docs__section-title">Suchoverlay</h2>
+            <p class="docs__section-desc">
+              Das Suchpanel (<code class="docs__token">.nc-search-panel</code>) ist ein fixed-positioniertes Overlay
+              mit halbdurchsichtigem Backdrop (<code>color-mix()</code>) und einem Suchfeld-Container.
+              Es wird durch die Klasse <code class="docs__token">.is-search-open</code> am
+              <code class="docs__token">.nc-header</code> aktiviert.
+              Das Suchfeld hat einen <code>:focus-visible</code> Focus-Ring und nutzt
+              <code class="docs__token">--fnd-color-interactive-default</code> als Border-Farbe im Fokus.
+            </p>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-header">
+            <h2 class="docs__section-title">Header &amp; Nav Tokens</h2>
+            <p class="docs__section-desc">
+              Die Navigation verwendet keine eigenen <code class="docs__token">--nc-*</code> Component-Tokens,
+              sondern greift direkt auf Foundation-Tokens (<code class="docs__token">--fnd-*</code>) zu.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Header-Hintergrund</td>
+                  <td><code class="docs__token">color-mix(in srgb, var(--fnd-color-background-base) 90%, transparent)</code></td>
+                  <td>90&nbsp;% deckend, 10&nbsp;% transparent (Glassmorphism)</td>
+                </tr>
+                <tr>
+                  <td>Backdrop-Filter</td>
+                  <td><code>blur(12px)</code></td>
+                  <td>Unscharf-Effekt hinter dem Header</td>
+                </tr>
+                <tr>
+                  <td>Border-Bottom</td>
+                  <td><code class="docs__token">var(--fnd-color-border-low)</code></td>
+                  <td>Dezente Trennlinie zum Content</td>
+                </tr>
+                <tr>
+                  <td>Z-Index</td>
+                  <td><code class="docs__token">var(--fnd-z-header)</code></td>
+                  <td>Foundation-Z-Index f&uuml;r Header-Ebene</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (Base)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-04)</code></td>
+                  <td>Horizontales Padding ab kleinsten Breakpoint</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (sm)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-06)</code></td>
+                  <td>Ab Breakpoint sm</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (md)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-07)</code></td>
+                  <td>Ab Breakpoint md</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (lg)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-08)</code></td>
+                  <td>Ab Breakpoint lg</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (xl)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-09)</code></td>
+                  <td>Ab Breakpoint xl</td>
+                </tr>
+                <tr>
+                  <td>Inner-Padding (xxl)</td>
+                  <td><code>0 / max-width: var(--container-max-width)</code></td>
+                  <td>Zentriert mit max-width ab xxl</td>
+                </tr>
+                <tr>
+                  <td>Brand-Font</td>
+                  <td><code class="docs__token">var(--font-heading)</code></td>
+                  <td>Heading-Schriftfamilie f&uuml;r Wortmarke</td>
+                </tr>
+                <tr>
+                  <td>Brand-Gewicht</td>
+                  <td><code class="docs__token">var(--fnd-font-weight-bold)</code></td>
+                  <td>Foundation-Schriftgewicht Bold</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-mega">
+            <h2 class="docs__section-title">Mega-Menu Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Hintergrund</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
+                  <td>Basisfarbe des Seiten-Hintergrunds</td>
+                </tr>
+                <tr>
+                  <td>Border</td>
+                  <td><code class="docs__token">var(--fnd-color-border-low)</code></td>
+                  <td>Obere und untere Rahmenlinie</td>
+                </tr>
+                <tr>
+                  <td>Schatten</td>
+                  <td><code class="docs__token">var(--fnd-elevation-floating)</code></td>
+                  <td>Foundation Elevation-Token f&uuml;r schwebende Elemente</td>
+                </tr>
+                <tr>
+                  <td>Transition</td>
+                  <td><code>opacity 0.2s ease, transform 0.2s ease</code></td>
+                  <td>Einblend- und Slide-Animation</td>
+                </tr>
+                <tr>
+                  <td>Meta-Text</td>
+                  <td><code class="docs__token">var(--fnd-color-text-mid)</code></td>
+                  <td>Sekundaere Textfarbe f&uuml;r Beschreibungen</td>
+                </tr>
+                <tr>
+                  <td>Eyebrow</td>
+                  <td><code class="docs__token">var(--fnd-color-text-mid)</code></td>
+                  <td>Kategorie-Label in uppercase</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-search">
+            <h2 class="docs__section-title">Suchoverlay Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Overlay-Backdrop</td>
+                  <td><code class="docs__token">color-mix(in srgb, var(--fnd-color-always-dark) 35%, transparent)</code></td>
+                  <td>Dunkel-Overlay hinter dem Suchfeld</td>
+                </tr>
+                <tr>
+                  <td>Inner-Hintergrund</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
+                  <td>Weisser/Heller Suchfeld-Container</td>
+                </tr>
+                <tr>
+                  <td>Inner-Schatten</td>
+                  <td><code class="docs__token">var(--fnd-elevation-floating)</code></td>
+                  <td>Elevation f&uuml;r Suchfeld-Dropdown</td>
+                </tr>
+                <tr>
+                  <td>Suchfeld-Border</td>
+                  <td><code class="docs__token">var(--fnd-color-border-low)</code></td>
+                  <td>Standard-Border des Input-Felds</td>
+                </tr>
+                <tr>
+                  <td>Suchfeld-Hintergrund</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
+                  <td>Input-Background</td>
+                </tr>
+                <tr>
+                  <td>Focus-Border</td>
+                  <td><code class="docs__token">var(--fnd-color-interactive-default)</code></td>
+                  <td>Fokus-Randfarbe bei :focus-visible</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
+
+.nc-header                      // Block: Sticky-Header (position: sticky, z-index header)
+.nc-nav                         // Block: Navigations-Root
+.nc-nav__inner                  // Element: Flex-Zeile, responsive Padding, max-width
+.nc-nav__list                   // Element: Horizontale Link-Liste (ab 1200px)
+.nc-nav__actions                // Element: CTA-Button-Bereich (ab 1200px)
+.nc-nav__item                   // Element: Einzelner Navigationspunkt
+.nc-nav__item.is-open           // State: Mega-Menu dieses Items ist sichtbar
+
+.nc-brand                       // Block: Logo/Wortmarke
+
+.nc-tools                       // Block: Icon-Button-Leiste (Suche, Profil, ab 1200px)
+
+.nc-search-panel                // Block: Suchoverlay (fixed, full-screen)
+.nc-search-panel__inner         // Element: Weisser Suchfeld-Container
+.nc-header.is-search-open       // State: Suchoverlay aktiv
+
+.nc-mega                        // Block: Mega-Menu (fixed, full-width)
+.nc-mega__inner                 // Element: Zweispaltiges Grid (meta + links)
+.nc-mega__meta                  // Element: Linker Meta-Bereich
+.nc-mega__eyebrow               // Element: Kategorie-Label (uppercase)
+.nc-nav__item.is-open > .nc-mega  // State: Mega-Menu sichtbar
+
+.nc-mobile-toggle               // Block: Hamburger-Button (bis 960px)
+.nc-mobile-panel                // Block: Mobile-Navigation-Panel (bis 1200px)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klassen</strong></td><td><code class="docs__token">.nc-header</code>, <code class="docs__token">.nc-nav</code>, <code class="docs__token">.nc-mega</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td>Keine eigenen <code class="docs__token">--nc-*</code> Tokens &mdash; direkte Foundation-Token-Nutzung</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_navigation.scss</code></td></tr>
+                <tr><td><strong>Breakpoint Desktop</strong></td><td>1200px (Nav-Liste, Tools und Actions werden sichtbar)</td></tr>
+                <tr><td><strong>Breakpoint Mobile Toggle</strong></td><td>960px (Hamburger-Button verschwindet)</td></tr>
+                <tr><td><strong>HTML-Grundelement</strong></td><td><code class="docs__token">&lt;header&gt;</code> + <code class="docs__token">&lt;nav&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Header &amp; Nav</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-header</code></td><td>Block</td><td>Sticky-Header, Glassmorphism-Background, border-bottom, z-index header.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav</code></td><td>Block</td><td>Navigations-Root, volle Breite, font-size 1.1rem.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav__inner</code></td><td>Element</td><td>Flex-Zeile, justify-content space-between, responsive padding-inline, max-width ab xxl.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav__list</code></td><td>Element</td><td>Horizontale Link-Liste. <code>display: none</code> unter 1200px, <code>display: flex</code> ab 1200px.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav__actions</code></td><td>Element</td><td>CTA-Button-Bereich. Wie nav__list responsiv.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav__item</code></td><td>Element</td><td>Einzelner Navigationspunkt. Relative-Positionierung f&uuml;r Mega-Menu.</td></tr>
+                <tr><td><code class="docs__token">.nc-nav__item.is-open</code></td><td>State</td><td>Aktiviert das untergeordnete <code>.nc-mega</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-brand</code></td><td>Block</td><td>Wortmarke, Heading-Font, lowercase, letter-spacing 0.06em, font-size 1.5rem.</td></tr>
+                <tr><td><code class="docs__token">.nc-tools</code></td><td>Block</td><td>Icon-Button-Bereich. Responsiv wie nav__list.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Mega-Menu</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-mega</code></td><td>Block</td><td>Fixed-positioniert, volle Viewport-Breite, top = var(--nav-height). Standardm&auml;&szlig;ig versteckt (opacity 0, pointer-events none).</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__inner</code></td><td>Element</td><td>CSS-Grid mit 2 Spalten (minmax(220px,1fr) + 2fr), max-width zentriert, container-padding.</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__meta</code></td><td>Element</td><td>Linker Bereich. <code>strong</code> als Blockelement, <code>p</code> mit text-mid Farbe.</td></tr>
+                <tr><td><code class="docs__token">.nc-mega__eyebrow</code></td><td>Element</td><td>Kleine Kategoriebezeichnung. 0.7rem, uppercase, letter-spacing 0.18em, text-mid.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Suchoverlay</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-search-panel</code></td><td>Block</td><td>Fixed full-screen Overlay mit Backdrop. Standardm&auml;&szlig;ig opacity 0, pointer-events none.</td></tr>
+                <tr><td><code class="docs__token">.nc-search-panel__inner</code></td><td>Element</td><td>Weisser Container mit Suchfeld, Grid-Layout, box-shadow elevation-floating.</td></tr>
+                <tr><td><code class="docs__token">.nc-header.is-search-open</code></td><td>State</td><td>Macht <code>.nc-search-panel</code> sichtbar (opacity 1, pointer-events auto, translateY 0).</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Responsive / Mobile</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-mobile-toggle</code></td><td>Block</td><td>Hamburger-/Men&uuml;-Button. Wird ab 960px ausgeblendet (<code>display: none !important</code>).</td></tr>
+                <tr><td><code class="docs__token">.nc-mobile-panel</code></td><td>Block</td><td>Mobiles Navigationspanel. Wird ab 1200px ausgeblendet (<code>display: none !important</code>).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. State Attributes -->
+          <section class="docs__section" id="api-states">
+            <h2 class="docs__section-title">State-Klassen</h2>
+            <table class="docs__table">
+              <thead><tr><th>State-Klasse</th><th>Am Element</th><th>Wirkung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.is-open</code></td><td><code>.nc-nav__item</code></td><td>Aktiviert das zugeh&ouml;rige <code>.nc-mega</code> (opacity 1, transform translateY(0), pointer-events auto)</td></tr>
+                <tr><td><code class="docs__token">.is-search-open</code></td><td><code>.nc-header</code></td><td>Aktiviert das Suchoverlay <code>.nc-search-panel</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. HTML Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;header class="nc-header"&gt;
+
+  &lt;!-- Suchoverlay --&gt;
+  &lt;div class="nc-search-panel"&gt;
+    &lt;div class="nc-search-panel__inner"&gt;
+      &lt;input type="search" placeholder="Suche..." /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;nav class="nc-nav" aria-label="Hauptnavigation"&gt;
+    &lt;div class="nc-nav__inner"&gt;
+
+      &lt;!-- Branding --&gt;
+      &lt;a class="nc-brand" href="/"&gt;Markenname&lt;/a&gt;
+
+      &lt;!-- Mobile Toggle (bis 960px) --&gt;
+      &lt;button class="nc-mobile-toggle" aria-label="Navigation &ouml;ffnen"&gt;
+        &lt;svg&gt;...&lt;/svg&gt;
+      &lt;/button&gt;
+
+      &lt;!-- Desktop Nav-Liste (ab 1200px) --&gt;
+      &lt;ul class="nc-nav__list"&gt;
+        &lt;li class="nc-nav__item"&gt;
+          &lt;a href="#"&gt;Link&lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;!-- Item mit Mega-Menu --&gt;
+        &lt;li class="nc-nav__item"&gt;
+          &lt;button type="button"&gt;Produkte&lt;/button&gt;
+
+          &lt;div class="nc-mega"&gt;
+            &lt;div class="nc-mega__inner"&gt;
+              &lt;div class="nc-mega__meta"&gt;
+                &lt;span class="nc-mega__eyebrow"&gt;Kategorie&lt;/span&gt;
+                &lt;strong&gt;Produkttitel&lt;/strong&gt;
+                &lt;p&gt;Kurzbeschreibung&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;!-- Link-Bereich --&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;!-- Desktop Actions (ab 1200px) --&gt;
+      &lt;div class="nc-nav__actions"&gt;
+        &lt;button class="nc-button nc-button--primary"&gt;Kontakt&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Desktop Tools (ab 1200px) --&gt;
+      &lt;div class="nc-tools"&gt;
+        &lt;button aria-label="Suche"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/button&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/nav&gt;
+
+  &lt;!-- Mobile Panel (bis 1200px) --&gt;
+  &lt;div class="nc-mobile-panel"&gt;
+    &lt;!-- Mobile Navigationsinhalte --&gt;
+  &lt;/div&gt;
+
+&lt;/header&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Globale Navigationen m&uuml;ssen mit ARIA-Landmarks, korrekten Rollen und Keyboard-Navigation ausgestattet sein,
+            um WCAG 2.1 AA zu erf&uuml;llen.
+          </p>
+
+          <!-- Landmarks -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="4" rx="1"/><path d="M3 10h18M3 17h18"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ARIA Landmarks</h4>
+              <ul>
+                <li>Das <code class="docs__token">&lt;header&gt;</code>-Element ist automatisch eine <code>banner</code>-Landmark</li>
+                <li>Das <code class="docs__token">&lt;nav&gt;</code>-Element ist eine <code>navigation</code>-Landmark</li>
+                <li>Bei mehreren Navigationsbereichen: <code class="docs__token">aria-label="Hauptnavigation"</code> verwenden, um zu unterscheiden</li>
+                <li>Das Suchoverlay sollte <code class="docs__token">role="search"</code> oder <code class="docs__token">aria-label</code> tragen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mobile Toggle -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Mobile Toggle</h4>
+              <ul>
+                <li>Der Hamburger-Button ben&ouml;tigt <code class="docs__token">aria-label="Navigation &ouml;ffnen"</code> oder ein <code class="docs__token">.u-sr-only</code>-Label</li>
+                <li><code class="docs__token">aria-expanded="true|false"</code> zeigt den Zustand des mobilen Panels an</li>
+                <li><code class="docs__token">aria-controls="[panel-id]"</code> verkn&uuml;pft den Button mit dem Panel</li>
+                <li>Bei ge&ouml;ffnetem Panel sollte der Fokus in das Panel wandern</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Mega-Menu -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Mega-Menu</h4>
+              <ul>
+                <li>Trigger-Buttons f&uuml;r Mega-Menus ben&ouml;tigen <code class="docs__token">aria-haspopup="true"</code> und <code class="docs__token">aria-expanded</code></li>
+                <li>Das Mega-Menu-Panel sollte mit <code class="docs__token">aria-controls</code> oder verschachtelter DOM-Platzierung mit dem Trigger verbunden sein</li>
+                <li><kbd>Escape</kbd> schlie&szlig;t das ge&ouml;ffnete Mega-Menu und setzt den Fokus zur&uuml;ck</li>
+                <li>Hover-basierte &Ouml;ffnung muss auch per Tastatur erreichbar sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Suche -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Suchoverlay</h4>
+              <ul>
+                <li>Der Such-Trigger-Button braucht <code class="docs__token">aria-label="Suche &ouml;ffnen"</code></li>
+                <li>Bei &Ouml;ffnen des Overlays muss der Fokus auf das Suchfeld (<code class="docs__token">input[type="search"]</code>) verschoben werden</li>
+                <li>Das Suchfeld hat einen <code class="docs__token">:focus-visible</code> Focus-Ring via <code>@include focus-ring</code></li>
+                <li>Das Overlay (Backdrop) sollte per <kbd>Escape</kbd> schlie&szlig;bar sein, Fokus kehrt zum Trigger zur&uuml;ck</li>
+                <li>Das Overlay-Backdrop (<code class="docs__token">.nc-search-panel</code>) sollte <code class="docs__token">aria-modal="true"</code> oder Fokus-Trapping erhalten</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Nav mit aria-label --&gt;
+&lt;nav class="nc-nav" aria-label="Hauptnavigation"&gt;
+  ...
+&lt;/nav&gt;
+
+&lt;!-- RICHTIG: Mobile Toggle mit aria-expanded --&gt;
+&lt;button class="nc-mobile-toggle"
+        aria-label="Navigation &ouml;ffnen"
+        aria-expanded="false"
+        aria-controls="mobile-panel"&gt;
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Mega-Menu Trigger --&gt;
+&lt;button type="button"
+        aria-haspopup="true"
+        aria-expanded="false"&gt;
+  Produkte
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Suchfeld mit label --&gt;
+&lt;input type="search"
+       id="search-input"
+       aria-label="Suchbegriff eingeben"
+       placeholder="Suche..." /&gt;
+
+&lt;!-- FALSCH: Nav ohne label bei mehreren Navigationen --&gt;
+&lt;nav class="nc-nav"&gt;...&lt;/nav&gt;
+&lt;nav class="nc-footer-nav"&gt;...&lt;/nav&gt;
+
+&lt;!-- FALSCH: Nur Hover, kein Tastatur-Support --&gt;
+&lt;li class="nc-nav__item"&gt;
+  &lt;a href="#"&gt;Produkte&lt;/a&gt;
+  &lt;!-- Mega-Menu nur via CSS :hover erreichbar --&gt;
+&lt;/li&gt;</div>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Keyboard-Navigation</h3>
+            <table class="docs__table">
+              <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+              <tbody>
+                <tr><td><kbd>Tab</kbd></td><td>Fokus zwischen interaktiven Elementen im Header bewegen</td></tr>
+                <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Mega-Menu-Trigger &ouml;ffnen/schlie&szlig;en, Link aktivieren, Suche &ouml;ffnen</td></tr>
+                <tr><td><kbd>Escape</kbd></td><td>Ge&ouml;ffnetes Mega-Menu oder Suchoverlay schlie&szlig;en</td></tr>
+                <tr><td><kbd>Tab</kbd> (im Overlay)</td><td>Fokus bleibt innerhalb des ge&ouml;ffneten Overlays (Fokus-Trap)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Kontrast</h3>
+            <p class="docs__section-desc">
+              Der Glassmorphism-Hintergrund (<code>90&nbsp;% opacity + blur</code>) kann in seltenen F&auml;llen zu Kontrastproblemen f&uuml;hren.
+              Die Textfarbe der Navigation muss mindestens 4,5:1 gegen den tats&auml;chlichen (gerenderten) Hintergrund erreichen (WCAG 1.4.3).
+              Da <code class="docs__token">--fnd-color-background-base</code> als Basis verwendet wird, ist der Kontrast unter normalen Bedingungen gew&auml;hrleistet.
+            </p>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="navigation-docs.js"></script>
+<!-- /SCRIPTS -->

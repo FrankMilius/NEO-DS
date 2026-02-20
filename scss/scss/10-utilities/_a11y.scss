@@ -1,0 +1,103 @@
+// ==========================================================================
+// 10-Utilities: Accessibility
+// ==========================================================================
+// WCAG 2.1 Utility-Klassen
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Touch Target
+// ---------------------------------------------------------------------------
+
+/// Ensure minimum 44×44px interactive area (WCAG 2.5.8)
+.u-touch-target {
+  @include touch-target;
+}
+
+// ---------------------------------------------------------------------------
+// Focus Ring
+// ---------------------------------------------------------------------------
+
+/// Explicitly apply focus ring (e.g. for custom interactive elements)
+.u-focus-ring {
+  @include focus-visible-ring;
+}
+
+// ---------------------------------------------------------------------------
+// Skip Link
+// ---------------------------------------------------------------------------
+
+/// Skip-to-content link — offscreen by default, visible on focus
+.u-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 100;
+
+  &:focus {
+    position: fixed;
+    top: var(--fnd-spacing-04);
+    left: var(--fnd-spacing-04);
+    width: auto;
+    height: auto;
+    padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+    background-color: var(--fnd-color-background-base);
+    color: var(--fnd-color-text-high);
+    font-weight: var(--fnd-font-weight-semibold);
+    border-radius: var(--fnd-radius-sm);
+    @include focus-ring;
+    z-index: var(--fnd-z-skip-link);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+
+/// Disable all transitions and animations
+.u-reduced-motion {
+  transition: none !important;
+  animation: none !important;
+}
+
+// ---------------------------------------------------------------------------
+// Screen Reader Only
+// ---------------------------------------------------------------------------
+
+/// Visuell versteckt, aber fuer Screenreader zugaenglich.
+/// Konsolidiert .visually-hidden und @mixin sr-only.
+.u-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// ---------------------------------------------------------------------------
+// ARIA Live Regions
+// ---------------------------------------------------------------------------
+
+/// Visuell versteckter Bereich fuer dynamische Ankuendigungen.
+/// Nutzung: <div class="u-live-region" aria-live="polite" role="status">
+.u-live-region {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

@@ -1,0 +1,476 @@
+// ==========================================================================
+// 07-Organisms: Navigation Menu
+// ==========================================================================
+// shadcn-inspiriertes NavigationMenu mit Radix-UI Patterns
+//
+// Struktur:
+//   .nc-navigation-menu                 → Root (nav)
+//     .nc-navigation-menu__list         → Liste (ul)
+//       .nc-navigation-menu__item       → Eintrag (li)
+//         .nc-navigation-menu__trigger  → Button mit Chevron
+//         .nc-navigation-menu__content  → Dropdown-Inhalt
+//           .nc-navigation-menu__link   → Link im Dropdown
+//       .nc-navigation-menu__item
+//         .nc-navigation-menu__link     → Direkter Top-Level-Link
+//     .nc-navigation-menu__indicator    → Animierter Indikator
+//     .nc-navigation-menu__viewport     → Viewport-Container
+//
+// Data-Attributes:
+//   [data-state="open|closed"]  → Trigger + Content State
+//   [data-active]               → Aktiver Navigationslink
+//
+// Inspiriert von shadcn NavigationMenu / Radix NavigationMenu
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Component Tokens
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu {
+  --_nav-menu-bg: var(--fnd-color-background-primary);
+  --_nav-menu-viewport-bg: var(--fnd-color-background-primary);
+  --_nav-menu-border: var(--fnd-color-border-low);
+  --_nav-menu-radius: var(--fnd-radius-lg);
+  --_nav-menu-shadow: 0 10px 38px -10px rgba(22, 23, 24, 0.15),
+                      0 10px 20px -15px rgba(22, 23, 24, 0.1);
+
+  // Trigger
+  --_nav-menu-trigger-color: var(--fnd-color-text-high);
+  --_nav-menu-trigger-hover-bg: var(--fnd-color-background-secondary);
+  --_nav-menu-trigger-active-bg: var(--fnd-color-background-tertiary);
+  --_nav-menu-trigger-radius: var(--fnd-radius-md);
+  --_nav-menu-trigger-font-size: 0.9rem;
+  --_nav-menu-trigger-font-weight: var(--fnd-font-weight-medium);
+  --_nav-menu-trigger-padding-x: 0.75rem;
+  --_nav-menu-trigger-padding-y: 0.5rem;
+
+  // Content
+  --_nav-menu-content-width: 500px;
+  --_nav-menu-content-padding: 1rem;
+
+  // Link
+  --_nav-menu-link-radius: var(--fnd-radius-md);
+  --_nav-menu-link-hover-bg: var(--fnd-color-background-secondary);
+  --_nav-menu-link-padding: 0.75rem;
+
+  // Viewport
+  --_nav-menu-viewport-width: 500px;
+  --_nav-menu-viewport-radius: var(--fnd-radius-lg);
+
+  // Indicator
+  --_nav-menu-indicator-color: var(--fnd-color-border-low);
+
+  // Motion
+  --_nav-menu-duration: 200ms;
+  --_nav-menu-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  display: flex;
+  z-index: 10;
+}
+
+// ---------------------------------------------------------------------------
+// List
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.125rem;
+}
+
+// ---------------------------------------------------------------------------
+// Item
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__item {
+  position: relative;
+}
+
+// ---------------------------------------------------------------------------
+// Trigger (Button mit Chevron für Dropdown-Items)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: var(--_nav-menu-trigger-padding-y) var(--_nav-menu-trigger-padding-x);
+  border: none;
+  border-radius: var(--_nav-menu-trigger-radius);
+  background: transparent;
+  color: var(--_nav-menu-trigger-color);
+  font-family: inherit;
+  font-size: var(--_nav-menu-trigger-font-size);
+  font-weight: var(--_nav-menu-trigger-font-weight);
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  transition:
+    background-color var(--_nav-menu-duration) var(--_nav-menu-ease),
+    color var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &:hover {
+    background-color: var(--_nav-menu-trigger-hover-bg);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[data-state='open'] {
+    background-color: var(--_nav-menu-trigger-active-bg);
+  }
+}
+
+// Chevron-Icon im Trigger
+.nc-navigation-menu__trigger-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  [data-state='open'] > & {
+    transform: rotate(180deg);
+  }
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Direct Top-Level Link (kein Dropdown)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__link--top {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--_nav-menu-trigger-padding-y) var(--_nav-menu-trigger-padding-x);
+  border-radius: var(--_nav-menu-trigger-radius);
+  color: var(--_nav-menu-trigger-color);
+  font-size: var(--_nav-menu-trigger-font-size);
+  font-weight: var(--_nav-menu-trigger-font-weight);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--_nav-menu-duration) var(--_nav-menu-ease),
+    color var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &:hover {
+    background-color: var(--_nav-menu-trigger-hover-bg);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[data-active] {
+    background-color: var(--_nav-menu-trigger-active-bg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content (Dropdown-Panel)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__content {
+  // Im Item versteckt — dient nur als Daten-Template für den Viewport
+  .nc-navigation-menu__item > & {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  // Sichtbar nur innerhalb des Viewports
+  .nc-navigation-menu__viewport & {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    clip: auto;
+    pointer-events: auto;
+    padding: var(--_nav-menu-content-padding);
+  }
+}
+
+// Content-Layout: Two-Column für Mega-Menü
+.nc-navigation-menu__content--two-col {
+  --_nav-menu-content-width: 600px;
+
+  .nc-navigation-menu__content-grid {
+    display: grid;
+    grid-template-columns: 0.75fr 1fr;
+    gap: 0.5rem;
+  }
+}
+
+// Content-Layout: Full-Width für große Mega-Menüs
+.nc-navigation-menu__content--full {
+  --_nav-menu-content-width: 700px;
+}
+
+// ---------------------------------------------------------------------------
+// Content Inner Grid (Links-Liste)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__content-grid {
+  display: grid;
+  gap: 0.375rem;
+}
+
+// ---------------------------------------------------------------------------
+// Callout (Highlight-Bereich im Mega-Menü, linke Spalte)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__callout {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--_nav-menu-link-radius);
+  background: linear-gradient(
+    135deg,
+    var(--fnd-color-background-secondary),
+    var(--fnd-color-background-tertiary, var(--fnd-color-background-secondary))
+  );
+  text-decoration: none;
+  color: inherit;
+  transition: background-color var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.nc-navigation-menu__callout-title {
+  font-size: 1rem;
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.nc-navigation-menu__callout-desc {
+  font-size: 0.8rem;
+  color: var(--fnd-color-text-mid);
+  line-height: 1.5;
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Link (einzelner Link im Dropdown)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__link {
+  display: grid;
+  gap: 0.15rem;
+  padding: var(--_nav-menu-link-padding);
+  border-radius: var(--_nav-menu-link-radius);
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  transition: background-color var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &:hover {
+    background-color: var(--_nav-menu-link-hover-bg);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.nc-navigation-menu__link-title {
+  font-size: 0.9rem;
+  font-weight: var(--fnd-font-weight-medium);
+  line-height: 1.3;
+}
+
+.nc-navigation-menu__link-desc {
+  font-size: 0.8rem;
+  color: var(--fnd-color-text-mid);
+  line-height: 1.5;
+}
+
+// ---------------------------------------------------------------------------
+// Viewport (Container für Content-Panels)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__viewport-wrapper {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  display: flex;
+  justify-content: center;
+  perspective: 2000px;
+}
+
+.nc-navigation-menu__viewport {
+  position: relative;
+  width: var(--_nav-menu-viewport-width);
+  overflow: hidden;
+  border: 1px solid var(--_nav-menu-border);
+  border-radius: var(--_nav-menu-viewport-radius);
+  background-color: var(--_nav-menu-viewport-bg);
+  box-shadow: var(--_nav-menu-shadow);
+
+  // Sichtbarkeit
+  opacity: 0;
+  transform: translateY(-4px) scale(0.96);
+  transform-origin: top center;
+  pointer-events: none;
+  transition:
+    width var(--_nav-menu-duration) var(--_nav-menu-ease),
+    height var(--_nav-menu-duration) var(--_nav-menu-ease),
+    opacity var(--_nav-menu-duration) var(--_nav-menu-ease),
+    transform var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &[data-state='open'] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  &[data-state='closed'] {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Indicator (Pfeil-Dreieck das auf aktiven Trigger zeigt)
+// ---------------------------------------------------------------------------
+
+.nc-navigation-menu__indicator {
+  position: absolute;
+  bottom: -0.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 0.625rem;
+  overflow: hidden;
+  z-index: 1;
+
+  opacity: 0;
+  transition:
+    left var(--_nav-menu-duration) var(--_nav-menu-ease),
+    width var(--_nav-menu-duration) var(--_nav-menu-ease),
+    opacity var(--_nav-menu-duration) var(--_nav-menu-ease);
+
+  &[data-state='visible'] {
+    opacity: 1;
+  }
+}
+
+.nc-navigation-menu__indicator-arrow {
+  position: relative;
+  top: 70%;
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: var(--_nav-menu-viewport-bg);
+  border: 1px solid var(--_nav-menu-border);
+  border-bottom: none;
+  border-right: none;
+  transform: rotate(45deg);
+  border-top-left-radius: 2px;
+}
+
+// ---------------------------------------------------------------------------
+// Animations (Keyframes für Viewport Enter/Exit)
+// ---------------------------------------------------------------------------
+
+@keyframes nc-navigation-menu-enter-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes nc-navigation-menu-enter-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes nc-navigation-menu-exit-to-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+@keyframes nc-navigation-menu-exit-to-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+// Content-Animation bei Wechsel im Viewport
+.nc-navigation-menu__content[data-motion='from-start'] {
+  animation: nc-navigation-menu-enter-from-left var(--_nav-menu-duration) var(--_nav-menu-ease);
+}
+
+.nc-navigation-menu__content[data-motion='from-end'] {
+  animation: nc-navigation-menu-enter-from-right var(--_nav-menu-duration) var(--_nav-menu-ease);
+}
+
+.nc-navigation-menu__content[data-motion='to-start'] {
+  animation: nc-navigation-menu-exit-to-left var(--_nav-menu-duration) var(--_nav-menu-ease);
+}
+
+.nc-navigation-menu__content[data-motion='to-end'] {
+  animation: nc-navigation-menu-exit-to-right var(--_nav-menu-duration) var(--_nav-menu-ease);
+}
+
+// ---------------------------------------------------------------------------
+// Responsive: Hide auf kleinen Screens
+// ---------------------------------------------------------------------------
+
+@media (max-width: 1199px) {
+  .nc-navigation-menu {
+    display: none;
+  }
+}

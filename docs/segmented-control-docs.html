@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Segmented Control | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Segmented-Control-Komponente mit Live-Demo, Token-Referenz und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Segmented Control</h1>
+      <p class="docs__subtitle">
+        Single-Select Segmented Control zum Umschalten zwischen zusammengeh&ouml;rigen Ansichten oder Filtern.
+        Immer genau ein Segment ist aktiv. Kanonische Klasse: <code class="docs__token">.nc-segmented-control</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-segmented-control-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="segmented-control-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Segmented-Control-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Staging Area)                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Segment-Anzahl und Icon-Modus, um die Segmented Control live in der Staging Area zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM (32px)</option>
+                  <option value="md" selected>MD (40px)</option>
+                  <option value="lg">LG (48px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Anzahl</span>
+                <select class="docs-stage__select" id="stage-count">
+                  <option value="2" selected>2 Segmente</option>
+                  <option value="3">3 Segmente</option>
+                  <option value="4">4 Segmente</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-fullwidth" />
+                  <span class="docs-stage__label">Full-Width</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Icon-Modus</span>
+                <select class="docs-stage__select" id="stage-iconmode">
+                  <option value="text" selected>Nur Text</option>
+                  <option value="icon">Nur Icon</option>
+                  <option value="icon-text">Icon + Text</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders segmented control here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-segmented-control" role="radiogroup"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase: Basic -->
+          <section class="docs__section" id="showcase-basic">
+            <h2 class="docs__section-title">Basic (2 Segmente)</h2>
+            <p class="docs__section-desc">
+              Einfache Segmented Control mit zwei Optionen. Die erste Option ist standardm&auml;&szlig;ig ausgew&auml;hlt.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Abrechnungszeitraum">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Monatlich</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">J&auml;hrlich</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Three Segments -->
+          <section class="docs__section" id="showcase-three">
+            <h2 class="docs__section-title">Drei Segmente</h2>
+            <p class="docs__section-desc">
+              Segmented Control mit drei Optionen f&uuml;r Zeitraum-Auswahl.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Zeitraum">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Tag</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Woche</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Monat</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: All Sizes -->
+          <section class="docs__section" id="showcase-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;enstufen: SM (32px), MD (40px, Default), LG (48px).
+            </p>
+
+            <div class="docs-size-row">
+              <span class="docs-size-label">SM</span>
+              <div class="nc-segmented-control nc-segmented-control--sm" role="radiogroup" aria-label="Gr&ouml;&szlig;e SM">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+              </div>
+            </div>
+            <div class="docs-size-row">
+              <span class="docs-size-label">MD</span>
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Gr&ouml;&szlig;e MD">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+              </div>
+            </div>
+            <div class="docs-size-row">
+              <span class="docs-size-label">LG</span>
+              <div class="nc-segmented-control nc-segmented-control--lg" role="radiogroup" aria-label="Gr&ouml;&szlig;e LG">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: With Icons -->
+          <section class="docs__section" id="showcase-icons">
+            <h2 class="docs__section-title">Mit Icons</h2>
+            <p class="docs__section-desc">
+              Segmented Control mit Icon-Only-Segmenten f&uuml;r Ansichts-Wechsel (Grid / Liste / Karte).
+              Icon-Only-Segmente ben&ouml;tigen immer ein <code class="docs__token">aria-label</code>.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Ansicht">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" aria-label="Rasteransicht" tabindex="0">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                </button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" aria-label="Listenansicht" tabindex="-1">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" aria-label="Kartenansicht" tabindex="-1">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="8" rx="2"/><rect x="3" y="13" width="18" height="8" rx="2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Icon + Text -->
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon + Text</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Ansicht mit Text">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  Raster
+                </button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                  Liste
+                </button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">
+                  <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="8" rx="2"/><rect x="3" y="13" width="18" height="8" rx="2"/></svg>
+                  Karten
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Full-Width -->
+          <section class="docs__section" id="showcase-fullwidth">
+            <h2 class="docs__section-title">Full-Width</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-segmented-control--full-width</code> nimmt die Komponente die gesamte Breite ein.
+              Segmente teilen sich den verf&uuml;gbaren Platz gleichm&auml;&szlig;ig.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control nc-segmented-control--full-width" role="radiogroup" aria-label="Abrechnungszeitraum (Full-Width)">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Monatlich</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Quartalsweise</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">J&auml;hrlich</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Disabled -->
+          <section class="docs__section" id="showcase-disabled">
+            <h2 class="docs__section-title">Disabled Segmente</h2>
+            <p class="docs__section-desc">
+              Einzelne Segmente k&ouml;nnen mit <code class="docs__token">disabled</code> deaktiviert werden.
+              Ein deaktiviertes Segment kann nicht ausgew&auml;hlt werden.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-segmented-control" role="radiogroup" aria-label="Filter mit Disabled">
+                <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" tabindex="0">Aktiv</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1">Inaktiv</button>
+                <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1" disabled>Gesperrt</button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                                -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- Container Tokens -->
+          <section class="docs__section" id="style-container">
+            <h2 class="docs__section-title">Container-Tokens</h2>
+            <p class="docs__section-desc">
+              Tokens f&uuml;r den &auml;u&szlig;eren Container der Segmented Control.
+            </p>
+
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-segmented-control-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Container-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-radius</code></td><td>var(--fnd-radius-md)</td><td>Container Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-padding</code></td><td>4px</td><td>Innenabstand (Padding) des Containers</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-gap</code></td><td>2px</td><td>Abstand zwischen Segmenten</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Item Tokens -->
+          <section class="docs__section" id="style-item">
+            <h2 class="docs__section-title">Item-Tokens</h2>
+            <p class="docs__section-desc">
+              Tokens f&uuml;r die einzelnen Segmente (Items) innerhalb der Segmented Control.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Farben &amp; Zust&auml;nde</h3>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg</code></td><td>transparent</td><td>Segment-Hintergrund (inaktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg-active</code></td><td>var(--fnd-color-background-elevated)</td><td>Segment-Hintergrund (aktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>Segment-Hintergrund (hover, inaktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Textfarbe (inaktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color-active</code></td><td>var(--fnd-color-text-primary)</td><td>Textfarbe (aktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color-disabled</code></td><td>var(--fnd-color-text-disabled)</td><td>Textfarbe (disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-radius</code></td><td>var(--fnd-radius-sm)</td><td>Segment Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-shadow</code></td><td>0 1px 3px rgba(0,0,0,0.1)</td><td>Schatten des aktiven Segments</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Tokens</h3>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Padding</th><th>Font-Size</th><th>Icon-Size</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>SM</strong></td>
+                  <td>28px</td>
+                  <td>4px 12px</td>
+                  <td>12px (compact)</td>
+                  <td>14px</td>
+                </tr>
+                <tr>
+                  <td><strong>MD</strong></td>
+                  <td>36px</td>
+                  <td>8px 16px</td>
+                  <td>14px</td>
+                  <td>16px</td>
+                </tr>
+                <tr>
+                  <td><strong>LG</strong></td>
+                  <td>44px</td>
+                  <td>12px 20px</td>
+                  <td>16px (expressive)</td>
+                  <td>20px</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- SCSS + BEM -->
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS &amp; BEM-Referenz</h2>
+            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
+
+// Block
+.nc-segmented-control                    // Container (radiogroup)
+
+// Elemente
+.nc-segmented-control__item              // Einzelnes Segment (radio)
+.nc-segmented-control__icon              // Icon innerhalb eines Segments
+
+// Modifier &mdash; Item
+.nc-segmented-control__item--active      // Aktives/ausgew&auml;hltes Segment
+
+// Modifier &mdash; Container
+.nc-segmented-control--sm               // Small (32px Container)
+.nc-segmented-control--lg               // Large (48px Container)
+// (md = Default, kein Modifier)
+.nc-segmented-control--full-width        // Volle Breite
+
+// ===== SCSS Mixins =====
+@mixin segmented-control-base            // Flex-Container, Padding, Radius, Gap
+@mixin segmented-control-item            // Segment: transitions, colors, states
+@mixin segmented-control-size($size)     // H&ouml;he, Padding, Font pro Gr&ouml;&szlig;e</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-segmented-control</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-segmented-control</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-segmented-control-*</code></td></tr>
+                <tr><td><strong>Verhalten</strong></td><td>Immer Single-Select (genau 1 aktives Segment)</td></tr>
+                <tr><td><strong>Semantik</strong></td><td><code class="docs__token">role="radiogroup"</code> auf Container, <code class="docs__token">role="radio"</code> auf Items</td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 40px (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>HTML-Elemente</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container), <code class="docs__token">&lt;button&gt;</code> (Items)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-segmented-control</code></td><td>Block</td><td>Container-Element. Flexbox-Layout mit hintergrundfarbigem Pill-Container.</td></tr>
+                <tr><td><code class="docs__token">.nc-segmented-control__item</code></td><td>Element</td><td>Einzelnes Segment/Option. Clickbar, exklusive Selektion.</td></tr>
+                <tr><td><code class="docs__token">.nc-segmented-control__icon</code></td><td>Element</td><td>SVG-Icon innerhalb eines Segments. Erbt <code class="docs__token">currentColor</code>.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-segmented-control__item--active</code></td><td>Markiert das aktuell ausgew&auml;hlte Segment (elevated background + shadow)</td></tr>
+                <tr><td><code class="docs__token">.nc-segmented-control--sm</code></td><td>Small-Gr&ouml;&szlig;e (32px Container-H&ouml;he)</td></tr>
+                <tr><td><code class="docs__token">.nc-segmented-control--lg</code></td><td>Large-Gr&ouml;&szlig;e (48px Container-H&ouml;he)</td></tr>
+                <tr><td><code class="docs__token">.nc-segmented-control--full-width</code></td><td>Volle Breite, Segmente teilen sich den Platz gleichm&auml;&szlig;ig</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">role="radiogroup"</code></td>
+                  <td>Container</td>
+                  <td>Ja</td>
+                  <td>Definiert den Container als zusammengeh&ouml;rige Gruppe von Radio-Optionen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="radio"</code></td>
+                  <td>Item</td>
+                  <td>Ja</td>
+                  <td>Jedes Segment ist semantisch ein Radio-Button</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-checked</code></td>
+                  <td>Item</td>
+                  <td>Ja</td>
+                  <td><code class="docs__token">"true"</code> f&uuml;r das aktive Segment, <code class="docs__token">"false"</code> f&uuml;r alle anderen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td>Container / Item</td>
+                  <td>Bedingt</td>
+                  <td>Container: beschreibt den Zweck der Gruppe. Item: Pflicht bei Icon-Only-Segmenten.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">tabindex</code></td>
+                  <td>Item</td>
+                  <td>Ja</td>
+                  <td><code class="docs__token">"0"</code> f&uuml;r das aktive Segment, <code class="docs__token">"-1"</code> f&uuml;r alle anderen (Roving Tabindex)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">disabled</code></td>
+                  <td>Item</td>
+                  <td>Optional</td>
+                  <td>Deaktiviert ein einzelnes Segment</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-segmented-control-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-radius</code></td><td>6px</td><td>var(--fnd-radius-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-padding</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-gap</code></td><td>2px</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Items</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg-active</code></td><td>&mdash;</td><td>var(--fnd-color-background-elevated)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-bg-hover</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color-active</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-color-disabled</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-shadow</code></td><td>0 1px 3px rgba(0,0,0,0.1)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-font-weight</code></td><td>500</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-font-weight-active</code></td><td>600</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-segmented-control-height-sm</code></td><td>32px</td><td>Container-H&ouml;he SM</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-height-md</code></td><td>40px</td><td>Container-H&ouml;he MD (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-height-lg</code></td><td>48px</td><td>Container-H&ouml;he LG</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-height-sm</code></td><td>28px</td><td>Item-H&ouml;he SM</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-height-md</code></td><td>36px</td><td>Item-H&ouml;he MD</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-item-height-lg</code></td><td>44px</td><td>Item-H&ouml;he LG</td></tr>
+                <tr><td><code class="docs__token">--nc-segmented-control-transition</code></td><td>0.15s ease</td><td>Transition f&uuml;r alle State-Wechsel</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Override-Pattern</h3>
+            <div class="docs__code-block">// Component-Tokens auf beliebigem Scope &uuml;berschreiben:
+.my-toolbar {
+  --nc-segmented-control-bg: var(--fnd-color-background-tertiary);
+  --nc-segmented-control-item-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+// Beispiel: Pill-Shape Segmented Control
+.nc-card {
+  --nc-segmented-control-radius: var(--fnd-radius-full);
+  --nc-segmented-control-item-radius: var(--fnd-radius-full);
+}</div>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">segmented-control-base</code></td>
+                  <td>&mdash;</td>
+                  <td>Flex-Container, Hintergrund, Padding, Radius, Gap. Default MD.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">segmented-control-item</code></td>
+                  <td>&mdash;</td>
+                  <td>Segment-Styles: Farben, Transitions, Hover/Active/Disabled-States</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">segmented-control-size($size)</code></td>
+                  <td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'</code></td>
+                  <td>H&ouml;he, Padding, Font-Size, Icon-Size pro Gr&ouml;&szlig;e</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">segmented-control-full-width</code></td>
+                  <td>&mdash;</td>
+                  <td>Setzt width: 100% und flex: 1 auf Items</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Segmented Controls m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+            Die Komponente nutzt das <code class="docs__token">radiogroup</code>-Pattern.
+          </p>
+
+          <!-- Radiogroup Pattern -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R4: Radiogroup + Radio + aria-checked (Pflicht)</h4>
+              <ul>
+                <li>Der Container <strong>muss</strong> <code class="docs__token">role="radiogroup"</code> haben</li>
+                <li>Jedes Segment <strong>muss</strong> <code class="docs__token">role="radio"</code> haben</li>
+                <li>Genau ein Segment hat <code class="docs__token">aria-checked="true"</code>, alle anderen <code class="docs__token">aria-checked="false"</code></li>
+                <li>Der Container sollte ein <code class="docs__token">aria-label</code> besitzen, das den Zweck der Gruppe beschreibt</li>
+              </ul>
+              <div class="docs__code-block">&lt;div class="nc-segmented-control" role="radiogroup" aria-label="Ansichtsmodus"&gt;
+  &lt;button class="nc-segmented-control__item nc-segmented-control__item--active"
+          role="radio" aria-checked="true" tabindex="0"&gt;
+    Raster
+  &lt;/button&gt;
+  &lt;button class="nc-segmented-control__item"
+          role="radio" aria-checked="false" tabindex="-1"&gt;
+    Liste
+  &lt;/button&gt;
+&lt;/div&gt;</div>
+            </div>
+          </div>
+
+          <!-- Keyboard: Arrow Navigation / Roving Tabindex -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h0M10 10h0M14 10h0M18 10h0M8 14h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Arrow Key Navigation (Roving Tabindex)</h4>
+              <ul>
+                <li><code class="docs__token">Tab</code> setzt den Fokus auf das <strong>aktive</strong> Segment (das mit <code class="docs__token">tabindex="0"</code>)</li>
+                <li><code class="docs__token">ArrowRight</code> / <code class="docs__token">ArrowDown</code> bewegt den Fokus und die Selektion zum n&auml;chsten Segment</li>
+                <li><code class="docs__token">ArrowLeft</code> / <code class="docs__token">ArrowUp</code> bewegt den Fokus und die Selektion zum vorherigen Segment</li>
+                <li>Navigation ist <strong>zyklisch</strong>: nach dem letzten Segment kommt das erste</li>
+                <li>Nur das aktive Segment hat <code class="docs__token">tabindex="0"</code>, alle anderen <code class="docs__token">tabindex="-1"</code></li>
+                <li>Disabled Segmente werden bei der Pfeiltasten-Navigation &uuml;bersprungen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Single Selection -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Exklusive Selektion</h4>
+              <ul>
+                <li>Zu jedem Zeitpunkt ist <strong>genau ein</strong> Segment <code class="docs__token">aria-checked="true"</code></li>
+                <li>Wenn ein Segment ausgew&auml;hlt wird, werden alle anderen automatisch auf <code class="docs__token">aria-checked="false"</code> gesetzt</li>
+                <li>Das aktive Segment erh&auml;lt die Klasse <code class="docs__token">.nc-segmented-control__item--active</code></li>
+                <li>Es darf nie mehr als ein aktives Segment geben &mdash; und nie keines</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Icon-Only Segments -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R6: Icon-Only Segmente brauchen aria-label</h4>
+              <ul>
+                <li>Segmente die <strong>nur ein Icon</strong> und keinen sichtbaren Text enthalten, <strong>m&uuml;ssen</strong> ein <code class="docs__token">aria-label</code> haben</li>
+                <li>Das <code class="docs__token">aria-label</code> beschreibt die Aktion oder Ansicht, z.B. <code class="docs__token">aria-label="Rasteransicht"</code></li>
+                <li>SVG-Icons erben <code class="docs__token">currentColor</code> &mdash; Kontrast wird automatisch gew&auml;hrleistet</li>
+              </ul>
+              <div class="docs__code-block">&lt;!-- RICHTIG: Icon-Only Segment mit aria-label --&gt;
+&lt;button class="nc-segmented-control__item"
+        role="radio" aria-checked="false" aria-label="Listenansicht"&gt;
+  &lt;svg class="nc-segmented-control__icon"&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Icon-Only Segment ohne aria-label --&gt;
+&lt;button class="nc-segmented-control__item"
+        role="radio" aria-checked="false"&gt;
+  &lt;svg class="nc-segmented-control__icon"&gt;...&lt;/svg&gt;
+&lt;/button&gt;</div>
+            </div>
+          </div>
+
+          <!-- Visual Selection Indicator -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 13V7M12 21a2 2 0 0 0 2-2v-4l4 1V9a8 8 0 1 0-12 0v7l4-1v4a2 2 0 0 0 2 2z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Sichtbare Selektion &uuml;ber Farbe hinaus</h4>
+              <ul>
+                <li>Das aktive Segment hat einen <strong>erh&ouml;hten Hintergrund</strong> (elevated background) &mdash; nicht nur eine andere Farbe</li>
+                <li>Zus&auml;tzlich erh&auml;lt das aktive Segment einen <strong>Schatten</strong> (<code class="docs__token">box-shadow</code>), der es visuell vom Container abhebt</li>
+                <li>Das aktive Segment hat ein <strong>h&ouml;heres Font-Weight</strong> (600 vs. 500) f&uuml;r zus&auml;tzliche Unterscheidung</li>
+                <li>Diese Kombination stellt sicher, dass die Selektion <strong>nicht allein auf Farbe</strong> basiert (WCAG 1.4.1)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Segmented Control mit radiogroup-Pattern --&gt;
+&lt;div class="nc-segmented-control" role="radiogroup"
+     aria-label="Abrechnungszeitraum"&gt;
+  &lt;button class="nc-segmented-control__item nc-segmented-control__item--active"
+          role="radio" aria-checked="true" tabindex="0"&gt;
+    Monatlich
+  &lt;/button&gt;
+  &lt;button class="nc-segmented-control__item"
+          role="radio" aria-checked="false" tabindex="-1"&gt;
+    J&auml;hrlich
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Icon-Only mit aria-label --&gt;
+&lt;div class="nc-segmented-control" role="radiogroup"
+     aria-label="Ansichtsmodus"&gt;
+  &lt;button class="nc-segmented-control__item nc-segmented-control__item--active"
+          role="radio" aria-checked="true" aria-label="Rasteransicht"
+          tabindex="0"&gt;
+    &lt;svg class="nc-segmented-control__icon"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;button class="nc-segmented-control__item"
+          role="radio" aria-checked="false" aria-label="Listenansicht"
+          tabindex="-1"&gt;
+    &lt;svg class="nc-segmented-control__icon"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Ohne role="radiogroup" --&gt;
+&lt;div class="nc-segmented-control"&gt;
+  &lt;button class="nc-segmented-control__item"&gt;A&lt;/button&gt;
+  &lt;button class="nc-segmented-control__item"&gt;B&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Mehrere aria-checked="true" --&gt;
+&lt;div class="nc-segmented-control" role="radiogroup"&gt;
+  &lt;button role="radio" aria-checked="true"&gt;A&lt;/button&gt;
+  &lt;button role="radio" aria-checked="true"&gt;B&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="segmented-control-docs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+// ==========================================================================
+// 03-Elements: Body
+// ==========================================================================
+// Basis-Styles für Body
+// Migriert von: styles-new.css
+// ==========================================================================
+
+body {
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-high);
+  min-height: 100vh;
+  font-family: var(--font-body);
+  line-height: var(--lh-body);
+  // Subtiler Hintergrund-Gradient (nur Light-Mode)
+  // Dark-Mode erbt background-color via Token, kein Gradient noetig.
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--fnd-color-background-secondary) 60%, var(--fnd-color-background-base)) 0%,
+    var(--fnd-color-background-base) 38%,
+    color-mix(in srgb, var(--fnd-color-background-secondary) 40%, var(--fnd-color-background-base)) 100%
+  );
+}
+
+// Header Open State (Body-Level)
+.header-open {
+  overflow: hidden;
+}

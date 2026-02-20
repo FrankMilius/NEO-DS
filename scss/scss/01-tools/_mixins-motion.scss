@@ -1,0 +1,85 @@
+// ==========================================================================
+// 01-Tools: Motion Mixins
+// ==========================================================================
+// Transition und Animation Mixins
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Transition Mixins
+// ---------------------------------------------------------------------------
+
+/// Standard transition
+/// @param {List} $properties - Properties to transition
+/// @param {String} $duration ['300'] - Duration token
+/// @param {String} $ease ['focused'] - Easing token
+@mixin transition($properties, $duration: '300', $ease: 'focused') {
+  transition-property: #{$properties};
+  transition-duration: var(--fnd-motion-duration-#{$duration});
+  transition-timing-function: var(--fnd-motion-ease-#{$ease});
+}
+
+/// Quick transition (200ms)
+@mixin transition-quick($properties) {
+  @include transition($properties, '200', 'focused');
+}
+
+/// Slow transition (450ms)
+@mixin transition-slow($properties) {
+  @include transition($properties, '450', 'focused');
+}
+
+// ---------------------------------------------------------------------------
+// Animation Mixins
+// ---------------------------------------------------------------------------
+
+/// Apply animation with token values
+/// @param {String} $name - Animation name
+/// @param {String} $duration ['300'] - Duration token
+/// @param {String} $ease ['focused'] - Easing token
+/// @param {String} $fill [forwards] - Fill mode
+/// @param {Number} $count [1] - Iteration count (or 'infinite')
+@mixin animation(
+  $name,
+  $duration: '300',
+  $ease: 'focused',
+  $fill: forwards,
+  $count: 1
+) {
+  animation-name: #{$name};
+  animation-duration: var(--fnd-motion-duration-#{$duration});
+  animation-timing-function: var(--fnd-motion-ease-#{$ease});
+  animation-fill-mode: #{$fill};
+  animation-iteration-count: #{$count};
+  animation-delay: unset;
+  animation-direction: normal;
+}
+
+/// Animation shorthand using custom properties
+/// Reproduziert das Pattern aus dem CSS
+@mixin animation-full($name, $duration: '300', $ease: 'focused') {
+  animation: #{$name};
+  animation-duration: var(--fnd-motion-duration-#{$duration});
+  animation-timing-function: var(--fnd-motion-ease-#{$ease});
+  animation-fill-mode: forwards;
+  animation-iteration-count: unset;
+  animation-delay: unset;
+  animation-direction: normal;
+}
+
+// ---------------------------------------------------------------------------
+// Focus Ring
+// ---------------------------------------------------------------------------
+
+/// Focus ring styles — themeable via CSS Custom Properties
+/// Tokens: --fnd-focus-ring-{color|width|offset|style} (see 00-settings/_a11y.scss)
+@mixin focus-ring {
+  outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+  outline-offset: var(--fnd-focus-ring-offset);
+}
+
+/// Focus visible ring — applies focus-ring only on :focus-visible
+@mixin focus-visible-ring {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

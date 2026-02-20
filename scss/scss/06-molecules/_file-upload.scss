@@ -1,0 +1,382 @@
+// ==========================================================================
+// 06-Molecules: File Upload
+// ==========================================================================
+// Datei-Upload Komponente mit Drag-and-Drop Dropzone und Browse-Button.
+// Unterstuetzt Einzel- und Mehrfach-Upload, Dateilisten-Anzeige.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-file-upload-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-file-upload
+//     .nc-file-upload__icon       (Upload-Icon)
+//     .nc-file-upload__text       (Anweisungstext)
+//     .nc-file-upload__subtext    (Erlaubte Dateitypen/Groesse)
+//     .nc-file-upload__button     (Browse-Button, nutzt .nc-button)
+//     .nc-file-upload__input      (<input type="file">, sr-only)
+//
+//   .nc-file-upload-list
+//     .nc-file-upload-list__item
+//       .nc-file-upload-list__icon
+//       .nc-file-upload-list__name
+//       .nc-file-upload-list__size
+//       .nc-file-upload-list__remove
+//
+// TOKENS:
+//   --nc-file-upload-border         Border-Farbe
+//   --nc-file-upload-border-style   Border-Stil (dashed)
+//   --nc-file-upload-border-hover   Border bei Hover/Drag
+//   --nc-file-upload-bg             Hintergrund
+//   --nc-file-upload-bg-hover       Hintergrund bei Hover/Drag
+//   --nc-file-upload-radius         Border-Radius
+//   --nc-file-upload-padding        Innenabstand
+//   --nc-file-upload-icon-size      Icon-Groesse
+//   --nc-file-upload-icon-color     Icon-Farbe
+//
+// BEM-KLASSEN:
+//   .nc-file-upload               Block (Dropzone)
+//   .nc-file-upload__icon         Upload-Icon
+//   .nc-file-upload__text         Haupttext
+//   .nc-file-upload__subtext      Zusatzinfo
+//   .nc-file-upload__button       Browse-Button
+//   .nc-file-upload__input        Hidden file input
+//   .nc-file-upload--dragging     Drag-Over State
+//   .nc-file-upload--error        Error-State
+//   .nc-file-upload--disabled     Disabled-State
+//   .nc-file-upload--compact      Kompakte Variante (nur Button)
+//   .nc-file-upload-list          Dateiliste
+//   .nc-file-upload-list__item    Einzelner Upload-Eintrag
+//   .nc-file-upload-list__remove  Entfernen-Button
+//
+// ACCESSIBILITY:
+//   <input type="file"> bleibt im DOM (sr-only)
+//   Dropzone: role="button", tabindex="0", aria-label
+//   Dateiliste: role="list", Items mit role="listitem"
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Dropzone.
+/// Zentrierter Content, gestrichelte Border.
+@mixin file-upload-base {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--nc-file-upload-padding);
+  border: var(--nc-input-border-width) var(--nc-file-upload-border-style) var(--nc-file-upload-border);
+  border-radius: var(--nc-file-upload-radius);
+  background-color: var(--nc-file-upload-bg);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--nc-input-transition-duration) ease,
+    background-color var(--nc-input-transition-duration) ease;
+
+  &:hover:not(.nc-file-upload--disabled) {
+    border-color: var(--nc-file-upload-border-hover);
+    background-color: var(--nc-file-upload-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--nc-file-upload-border-hover);
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // Reduced Motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Upload-Icon.
+@mixin file-upload-icon {
+  width: var(--nc-file-upload-icon-size);
+  height: var(--nc-file-upload-icon-size);
+  color: var(--nc-file-upload-icon-color);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Haupttext ("Dateien hierher ziehen").
+@mixin file-upload-text {
+  font-size: var(--nc-input-font-size-md);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--nc-input-color);
+  line-height: 1.5;
+}
+
+/// Zusatztext (erlaubte Typen, max. Groesse).
+@mixin file-upload-subtext {
+  font-size: var(--nc-input-font-size-sm);
+  color: var(--fnd-color-text-secondary);
+  line-height: 1.5;
+}
+
+/// Hidden file input (sr-only).
+@mixin file-upload-input {
+  @include sr-only;
+}
+
+/// Drag-Over State: staerkere visuelle Hervorhebung.
+@mixin file-upload-dragging {
+  border-color: var(--nc-file-upload-border-hover);
+  background-color: var(--nc-file-upload-bg-hover);
+  // Erhoehter Kontrast mit 2px Border
+  border-width: 2px;
+}
+
+/// Error-State.
+@mixin file-upload-error {
+  border-color: var(--nc-input-border-error);
+
+  &:hover {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Disabled-State.
+@mixin file-upload-disabled {
+  opacity: var(--nc-input-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: var(--nc-input-disabled-bg);
+  border-color: var(--nc-input-disabled-border);
+}
+
+/// Kompakte Variante: Nur Button, keine Dropzone.
+@mixin file-upload-compact {
+  flex-direction: row;
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  border-style: solid;
+  gap: var(--fnd-spacing-03);
+
+  .nc-file-upload__icon {
+    width: var(--nc-input-icon-size);
+    height: var(--nc-input-icon-size);
+  }
+
+  .nc-file-upload__text {
+    font-size: var(--nc-input-font-size-sm);
+    font-weight: var(--fnd-font-weight-regular);
+  }
+
+  .nc-file-upload__subtext {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dateiliste (Upload-Queue / Attached Files)
+// ---------------------------------------------------------------------------
+
+/// Container fuer hochgeladene Dateien.
+@mixin file-upload-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+  margin-top: var(--fnd-spacing-03);
+  width: 100%;
+}
+
+/// Einzelner Datei-Eintrag.
+@mixin file-upload-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+  border: var(--nc-input-border-width) solid var(--fnd-color-border-secondary);
+  border-radius: var(--fnd-radius-md);
+  background-color: var(--fnd-color-background-base);
+  font-size: var(--nc-input-font-size-sm);
+  color: var(--nc-input-color);
+  line-height: 1.5;
+}
+
+/// Datei-Icon in der Liste.
+@mixin file-upload-list-icon {
+  width: var(--nc-input-icon-size);
+  height: var(--nc-input-icon-size);
+  color: var(--fnd-color-text-secondary);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/// Dateiname.
+@mixin file-upload-list-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--fnd-font-weight-medium);
+}
+
+/// Dateigroesse.
+@mixin file-upload-list-size {
+  flex-shrink: 0;
+  color: var(--fnd-color-text-secondary);
+  font-size: var(--nc-input-font-size-sm);
+}
+
+/// Entfernen-Button.
+@mixin file-upload-list-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: var(--fnd-radius-sm);
+  background-color: transparent;
+  color: var(--fnd-color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color var(--nc-input-transition-duration) ease,
+    color var(--nc-input-transition-duration) ease;
+
+  &:hover {
+    background-color: var(--fnd-color-background-tertiary);
+    color: var(--fnd-color-feedback-danger);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  > svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-file-upload {
+  @include file-upload-base;
+
+  // -- Sub-Elemente --
+
+  &__icon {
+    @include file-upload-icon;
+  }
+
+  &__text {
+    @include file-upload-text;
+  }
+
+  &__subtext {
+    @include file-upload-subtext;
+  }
+
+  &__input {
+    @include file-upload-input;
+  }
+
+  // -- State-Modifier --
+
+  &--dragging {
+    @include file-upload-dragging;
+  }
+
+  &--error {
+    @include file-upload-error;
+  }
+
+  &--disabled {
+    @include file-upload-disabled;
+  }
+
+  &--compact {
+    @include file-upload-compact;
+  }
+}
+
+// -- Dateiliste --
+
+.nc-file-upload-list {
+  @include file-upload-list;
+
+  &__item {
+    @include file-upload-list-item;
+
+    // Error auf einzelne Datei
+    &--error {
+      border-color: var(--nc-input-border-error);
+      background-color: var(--fnd-color-background-danger);
+    }
+
+    // Uploading State
+    &--uploading {
+      opacity: 0.7;
+    }
+  }
+
+  &__icon {
+    @include file-upload-list-icon;
+  }
+
+  &__name {
+    @include file-upload-list-name;
+  }
+
+  &__size {
+    @include file-upload-list-size;
+  }
+
+  &__remove {
+    @include file-upload-list-remove;
+  }
+
+  // Progress Bar innerhalb eines Items
+  &__progress {
+    width: 100%;
+    height: 3px;
+    background-color: var(--fnd-color-border-secondary);
+    border-radius: var(--fnd-radius-full);
+    overflow: hidden;
+    margin-top: var(--fnd-spacing-01);
+
+    &-bar {
+      height: 100%;
+      background-color: var(--fnd-color-interactive-default);
+      border-radius: inherit;
+      transition: width var(--nc-input-transition-duration) ease;
+    }
+  }
+}

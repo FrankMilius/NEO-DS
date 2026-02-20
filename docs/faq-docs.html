@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der FAQ-Komponente mit Live-Demo und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">FAQ</h1>
+      <p class="docs__subtitle">
+        H&auml;ufig gestellte Fragen mit ausklappbaren Antworten. Die Komponente nutzt
+        native HTML-Disclosure-Elemente (<code class="docs__token">&lt;details&gt;</code> /
+        <code class="docs__token">&lt;summary&gt;</code>) f&uuml;r vollst&auml;ndige
+        Tastatur- und Screenreader-Unterst&uuml;tzung ohne JavaScript.
+        Kanonische Klasse: <code class="docs__token">.nc-faq</code> (BEM).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="faq-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="FAQ-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            FAQ-Komponente in verschiedenen Themes. Klicke auf eine Frage, um die Antwort ein- und auszublenden.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <div class="nc-faq" style="max-width: 600px;">
+                <details class="nc-faq__item">
+                  <summary class="nc-faq__question">Was ist das NEO Design System?</summary>
+                  <p class="nc-faq__answer">Das NEO Design System ist eine Sammlung wiederverwendbarer Komponenten und Design-Token, die eine konsistente und barrierefreie Benutzeroberfl&auml;che erm&ouml;glicht.</p>
+                </details>
+                <details class="nc-faq__item" open>
+                  <summary class="nc-faq__question">Wie werden Themes gewechselt?</summary>
+                  <p class="nc-faq__answer">Themes werden &uuml;ber CSS-Klassen gesteuert. Setze <code class="docs__token">.neo-light-theme</code>, <code class="docs__token">.neo-dark-theme</code>, <code class="docs__token">.customer-light-theme</code> oder <code class="docs__token">.customer-dark-theme</code> auf das <code class="docs__token">&lt;html&gt;</code>-Element.</p>
+                </details>
+                <details class="nc-faq__item">
+                  <summary class="nc-faq__question">Werden alle Browser unterst&uuml;tzt?</summary>
+                  <p class="nc-faq__answer">Das System unterst&uuml;tzt alle modernen Browser (Chrome, Firefox, Safari, Edge) ab den jeweils letzten zwei Hauptversionen.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;div class="nc-faq"&gt;
+  &lt;details class="nc-faq__item"&gt;
+    &lt;summary class="nc-faq__question"&gt;Frage lautet?&lt;/summary&gt;
+    &lt;p class="nc-faq__answer"&gt;Die Antwort hierauf ist ...&lt;/p&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Standard -->
+          <section class="docs__section" id="faq-standard">
+            <h2 class="docs__section-title">Standard FAQ-Liste</h2>
+            <p class="docs__section-desc">
+              Mehrere Eintr&auml;ge als eigenst&auml;ndige <code class="docs__token">&lt;details&gt;</code>-Elemente.
+              Mehrere Eintr&auml;ge k&ouml;nnen gleichzeitig ge&ouml;ffnet sein.
+            </p>
+            <div class="nc-faq" style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+              <details class="nc-faq__item">
+                <summary class="nc-faq__question">Wie installiere ich die Komponenten?</summary>
+                <p class="nc-faq__answer">Die Komponenten werden &uuml;ber npm installiert. F&uuml;hre <code>npm install @neo/design-system</code> in deinem Projektverzeichnis aus.</p>
+              </details>
+              <details class="nc-faq__item">
+                <summary class="nc-faq__question">Kann ich einzelne Komponenten importieren?</summary>
+                <p class="nc-faq__answer">Ja, alle Komponenten sind einzeln importierbar. Importiere nur die SCSS-Datei der ben&ouml;tigten Komponente oder nutze Tree-Shaking im Build-Prozess.</p>
+              </details>
+              <details class="nc-faq__item">
+                <summary class="nc-faq__question">Gibt es TypeScript-Unterst&uuml;tzung?</summary>
+                <p class="nc-faq__answer">Alle JavaScript-Komponenten werden mit vollst&auml;ndigen TypeScript-Definitionen geliefert. Die Typen sind im Paket enthalten.</p>
+              </details>
+            </div>
+          </section>
+
+          <!-- Showcase 2: Einzeln ge&ouml;ffnet -->
+          <section class="docs__section" id="faq-open">
+            <h2 class="docs__section-title">Vorge&ouml;ffneter Eintrag</h2>
+            <p class="docs__section-desc">
+              Mit dem HTML-Attribut <code class="docs__token">open</code> auf
+              <code class="docs__token">&lt;details&gt;</code> wird ein Eintrag
+              standardm&auml;&szlig;ig ge&ouml;ffnet dargestellt.
+            </p>
+            <div class="nc-faq" style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+              <details class="nc-faq__item" open>
+                <summary class="nc-faq__question">Dieser Eintrag ist vorge&ouml;ffnet</summary>
+                <p class="nc-faq__answer">Durch das <code>open</code>-Attribut am <code>&lt;details&gt;</code>-Element ist dieser Eintrag beim Laden der Seite bereits sichtbar.</p>
+              </details>
+              <details class="nc-faq__item">
+                <summary class="nc-faq__question">Dieser Eintrag ist geschlossen</summary>
+                <p class="nc-faq__answer">Klicke auf die Frage, um die Antwort zu sehen.</p>
+              </details>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-container">
+            <h2 class="docs__section-title">Container-Token</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-faq</code></td><td>display</td><td>grid</td><td>Vertikale Rasterstruktur</td></tr>
+                <tr><td><code class="docs__token">.nc-faq</code></td><td>gap</td><td>0.75rem</td><td>Abstand zwischen den Eintr&auml;gen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-item">
+            <h2 class="docs__section-title">Item-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token / Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">background</code></td><td>var(--fnd-color-background-base)</td><td>Hintergrundfarbe des Eintrags</td></tr>
+                <tr><td><code class="docs__token">border</code></td><td>1px solid var(--fnd-color-border-secondary)</td><td>Rahmen um den Eintrag</td></tr>
+                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-3xl)</td><td>Stark abgerundete Ecken (Pill-Stil)</td></tr>
+                <tr><td><code class="docs__token">padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-04)</td><td>Innenabstand oben/unten &amp; links/rechts</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-typography">
+            <h2 class="docs__section-title">Typografie-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Eigenschaft</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-faq__question</code></td><td>font-weight</td><td>var(--fnd-font-weight-semibold)</td></tr>
+                <tr><td><code class="docs__token">.nc-faq__question</code></td><td>cursor</td><td>pointer</td></tr>
+                <tr><td><code class="docs__token">.nc-faq__answer</code></td><td>color</td><td>var(--fnd-color-text-secondary)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
+            <div class="docs__code-block">// ===== FAQ BEM-Klassen =====
+
+.nc-faq              // Block: Grid-Container (gap 0.75rem)
+.nc-faq__item        // Element: &lt;details&gt; - Pill-f&ouml;rmiger Eintrag
+.nc-faq__question    // Element: &lt;summary&gt; - Frage (semibold, cursor pointer)
+.nc-faq__answer      // Element: Antwort-Text (text-secondary)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-faq</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-faq</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_faq.scss</code></td></tr>
+                <tr><td><strong>HTML-Semantik</strong></td><td><code class="docs__token">&lt;details&gt;</code> / <code class="docs__token">&lt;summary&gt;</code></td></tr>
+                <tr><td><strong>JS erforderlich</strong></td><td>Nein &ndash; native Browser-Interaktion</td></tr>
+                <tr><td><strong>Mehrere gleichzeitig ge&ouml;ffnet</strong></td><td>Ja (Standard-Verhalten)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-faq</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;section&gt;</code></td><td>Container-Block. Verwaltet vertikalen Abstand zwischen Eintr&auml;gen.</td></tr>
+                <tr><td><code class="docs__token">.nc-faq__item</code></td><td><code class="docs__token">&lt;details&gt;</code></td><td>Einzelner aufklappbarer Eintrag. Pill-Form, Hintergrund, Border.</td></tr>
+                <tr><td><code class="docs__token">.nc-faq__question</code></td><td><code class="docs__token">&lt;summary&gt;</code></td><td>Klickbare Frage. Semibold, Pointer-Cursor.</td></tr>
+                <tr><td><code class="docs__token">.nc-faq__answer</code></td><td><code class="docs__token">&lt;p&gt;</code>, <code class="docs__token">&lt;div&gt;</code></td><td>Antwortinhalt. Sekund&auml;re Textfarbe.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">open</code></td>
+                  <td><code class="docs__token">.nc-faq__item</code></td>
+                  <td>Optional</td>
+                  <td>Eintrag wird beim Laden der Seite ge&ouml;ffnet angezeigt.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;div class="nc-faq"&gt;
+
+  &lt;!-- Eintrag geschlossen (Standard) --&gt;
+  &lt;details class="nc-faq__item"&gt;
+    &lt;summary class="nc-faq__question"&gt;Wie lautet die Frage?&lt;/summary&gt;
+    &lt;p class="nc-faq__answer"&gt;Hier steht die Antwort.&lt;/p&gt;
+  &lt;/details&gt;
+
+  &lt;!-- Eintrag vorge&ouml;ffnet --&gt;
+  &lt;details class="nc-faq__item" open&gt;
+    &lt;summary class="nc-faq__question"&gt;Vorge&ouml;ffnete Frage?&lt;/summary&gt;
+    &lt;p class="nc-faq__answer"&gt;Diese Antwort ist sofort sichtbar.&lt;/p&gt;
+  &lt;/details&gt;
+
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Die FAQ-Komponente basiert vollst&auml;ndig auf den nativen HTML-Elementen
+            <code class="docs__token">&lt;details&gt;</code> und <code class="docs__token">&lt;summary&gt;</code>,
+            die bereits vollst&auml;ndige Barrierefreiheit durch den Browser mitbringen.
+            Kein zus&auml;tzliches ARIA oder JavaScript notwendig.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Native &lt;details&gt; / &lt;summary&gt;-Semantik</h4>
+              <ul>
+                <li><code class="docs__token">&lt;details&gt;</code> hat nativ die Semantik eines Disclosure-Widgets</li>
+                <li><code class="docs__token">&lt;summary&gt;</code> ist automatisch fokussierbar und hat die Rolle <code class="docs__token">button</code></li>
+                <li>Der Zustand (ge&ouml;ffnet/geschlossen) wird dem Screenreader automatisch mitgeteilt</li>
+                <li>Kein <code class="docs__token">aria-expanded</code> oder <code class="docs__token">aria-controls</code> notwendig</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.001"/><path d="M10 8h.001"/><path d="M14 8h.001"/><path d="M18 8h.001"/><path d="M6 12h.001"/><path d="M10 12h.001"/><path d="M14 12h.001"/><path d="M18 12h.001"/><path d="M8 16h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Bedienung</h4>
+              <ul>
+                <li><strong>Tab:</strong> Fokus zum n&auml;chsten <code class="docs__token">&lt;summary&gt;</code> bewegen</li>
+                <li><strong>Enter / Space:</strong> Eintrag &ouml;ffnen oder schlie&szlig;en</li>
+                <li>Alle Eintr&auml;ge sind vollst&auml;ndig per Tastatur bedienbar &ndash; ohne JavaScript</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Strukturierung und Kontext</h4>
+              <ul>
+                <li>Wende eine &uuml;bergeordnete Sektion mit Heading an, wenn die FAQ im Seitenkontext steht</li>
+                <li>Beispiel: <code class="docs__token">&lt;section aria-labelledby="faq-heading"&gt;&lt;h2 id="faq-heading"&gt;H&auml;ufige Fragen&lt;/h2&gt; &lt;div class="nc-faq"&gt;...&lt;/div&gt;&lt;/section&gt;</code></li>
+                <li>Die Antwort (<code class="docs__token">.nc-faq__answer</code>) darf strukturierten Inhalt (Listen, Links) enthalten</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Nativ semantisch --&gt;
+&lt;div class="nc-faq"&gt;
+  &lt;details class="nc-faq__item"&gt;
+    &lt;summary class="nc-faq__question"&gt;Wie lautet die Frage?&lt;/summary&gt;
+    &lt;p class="nc-faq__answer"&gt;Antwort hierauf.&lt;/p&gt;
+  &lt;/details&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Mit Sections-Kontext --&gt;
+&lt;section aria-labelledby="faq-title"&gt;
+  &lt;h2 id="faq-title"&gt;H&auml;ufige Fragen&lt;/h2&gt;
+  &lt;div class="nc-faq"&gt; ... &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- FALSCH: Div statt details/summary --&gt;
+&lt;div class="nc-faq__item"&gt;
+  &lt;div class="nc-faq__question" onclick="toggle()"&gt;Frage?&lt;/div&gt;
+  &lt;div class="nc-faq__answer"&gt;Antwort.&lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+
+</body>
+</html>

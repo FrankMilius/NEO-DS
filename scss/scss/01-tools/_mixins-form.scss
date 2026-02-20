@@ -1,0 +1,221 @@
+// ==========================================================================
+// 01-Tools: Form Mixins
+// ==========================================================================
+// Wiederverwendbare Mixins fuer alle Form-Komponenten.
+// Stellt eine gemeinsame Basis fuer Input, Textarea, Select, Checkbox,
+// Radio und andere Form-Controls bereit.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-input-* / --nc-checkbox-* / --nc-radio-*
+//   Component-Tokens (registriert in 00-settings/_component-tokens.scss).
+//
+// MIXINS:
+//   form-control-base         Gemeinsame Properties aller Text-Eingabefelder
+//   form-control-size($s)     Groessen-System (sm / md / lg)
+//   form-control-error        Error-Zustand
+//   form-control-success      Success-Zustand
+//   form-control-readonly     Readonly-Zustand
+//   form-check-base           Hidden-Input Pattern fuer Checkbox/Radio
+//   form-check-size($s)       Groessen fuer Checkbox/Radio
+//   sr-only                   Screen-Reader-Only (visually hidden)
+// ==========================================================================
+
+@use 'mixins-motion' as *;
+
+// ---------------------------------------------------------------------------
+// Screen Reader Only (Visually Hidden)
+// ---------------------------------------------------------------------------
+
+/// Versteckt ein Element visuell, bleibt aber fuer Screen Reader zugaenglich.
+/// Wird fuer native <input> in Checkbox/Radio/Switch verwendet.
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Form Control Base (fuer Input, Textarea, Select)
+// ---------------------------------------------------------------------------
+
+/// Gemeinsame Properties aller Text-Eingabefelder.
+/// Setzt width, padding, border, radius, bg, color, transition,
+/// :focus-visible, :disabled, ::placeholder, [readonly].
+@mixin form-control-base {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--nc-input-color);
+  background-color: var(--nc-input-bg);
+  border: var(--nc-input-border-width) solid var(--nc-input-border);
+  border-radius: var(--nc-input-radius);
+  transition:
+    border-color var(--nc-input-transition-duration) ease,
+    background-color var(--nc-input-transition-duration) ease,
+    box-shadow var(--nc-input-transition-duration) ease;
+  appearance: none;
+
+  &::placeholder {
+    color: var(--nc-input-placeholder);
+    opacity: 1; // Firefox-Fix
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not([readonly]):not(:focus-visible) {
+    border-color: var(--nc-input-border-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--nc-input-border-focus);
+  }
+
+  // Fallback fuer Browser ohne :focus-visible
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    border-color: var(--nc-input-disabled-border);
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &[readonly] {
+    background-color: var(--nc-input-bg-readonly);
+    border-color: var(--nc-input-border-readonly);
+    cursor: default;
+  }
+
+  // Reduced Motion: global abgedeckt durch _reset.scss
+}
+
+// ---------------------------------------------------------------------------
+// Form Control Sizes
+// ---------------------------------------------------------------------------
+
+/// Setzt height, padding und font-size pro Groesse.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+@mixin form-control-size($size: 'md') {
+  @if $size == 'sm' {
+    height: var(--nc-input-height-sm);
+    padding: var(--nc-input-padding-y-sm) var(--nc-input-padding-x-sm);
+    font-size: var(--nc-input-font-size-sm);
+  } @else if $size == 'md' {
+    height: var(--nc-input-height-md);
+    padding: var(--nc-input-padding-y-md) var(--nc-input-padding-x-md);
+    font-size: var(--nc-input-font-size-md);
+  } @else if $size == 'lg' {
+    height: var(--nc-input-height-lg);
+    padding: var(--nc-input-padding-y-lg) var(--nc-input-padding-x-lg);
+    font-size: var(--nc-input-font-size-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Form Control States
+// ---------------------------------------------------------------------------
+
+/// Error-Zustand: roter Rand + roter Focus-Ring
+@mixin form-control-error {
+  border-color: var(--nc-input-border-error);
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
+    border-color: var(--nc-input-border-error);
+  }
+
+  &:focus-visible {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Success-Zustand: gruener Rand
+@mixin form-control-success {
+  border-color: var(--nc-input-border-success);
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
+    border-color: var(--nc-input-border-success);
+  }
+
+  &:focus-visible {
+    border-color: var(--nc-input-border-success);
+  }
+}
+
+/// Readonly-Zustand (separat, da auch per Mixin anwendbar)
+@mixin form-control-readonly {
+  background-color: var(--nc-input-bg-readonly);
+  border-color: var(--nc-input-border-readonly);
+  cursor: default;
+}
+
+// ---------------------------------------------------------------------------
+// Form Check Base (fuer Checkbox / Radio)
+// ---------------------------------------------------------------------------
+
+/// Gemeinsames Pattern fuer custom Checkbox/Radio:
+/// - Wrapper: inline-flex mit Label-Gap
+/// - Native Input: sr-only
+/// - Custom Control: Border, Radius, Background, Transition
+///
+/// Dieses Mixin wird auf den WRAPPER angewendet (.nc-checkbox / .nc-radio).
+@mixin form-check-base {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  cursor: pointer;
+  user-select: none;
+
+  // Wenn disabled, Cursor aendern
+  &:has(input:disabled),
+  &:has(input[aria-disabled='true']) {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/// Styling fuer das Custom Control-Element (__control).
+/// @param {String} $radius - Border-Radius (z.B. var(--nc-checkbox-radius) oder 50%)
+@mixin form-check-control($radius) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: #{$radius};
+  transition:
+    background-color var(--nc-checkbox-transition-duration) ease,
+    border-color var(--nc-checkbox-transition-duration) ease,
+    box-shadow var(--nc-checkbox-transition-duration) ease;
+
+  // Reduced Motion: global abgedeckt durch _reset.scss
+}
+
+/// Groessen-System fuer Checkbox/Radio Control.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+/// @param {String} $component - 'checkbox' | 'radio' (fuer Token-Prefix)
+@mixin form-check-size($size: 'md', $component: 'checkbox') {
+  @if $size == 'sm' {
+    width: var(--nc-#{$component}-size-sm);
+    height: var(--nc-#{$component}-size-sm);
+    min-width: var(--nc-#{$component}-size-sm);
+  } @else if $size == 'md' {
+    width: var(--nc-#{$component}-size-md);
+    height: var(--nc-#{$component}-size-md);
+    min-width: var(--nc-#{$component}-size-md);
+  } @else if $size == 'lg' {
+    width: var(--nc-#{$component}-size-lg);
+    height: var(--nc-#{$component}-size-lg);
+    min-width: var(--nc-#{$component}-size-lg);
+  }
+}

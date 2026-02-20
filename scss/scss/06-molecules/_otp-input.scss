@@ -1,0 +1,254 @@
+// ==========================================================================
+// 06-Molecules: OTP Input
+// ==========================================================================
+// PIN/Code-Eingabefeld mit einzelnen Zellen fuer Einmal-Passwort (OTP),
+// Verifizierungs-Codes, 2FA etc.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-otp-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-otp-input
+//     .nc-otp-input__cell   (Einzelnes Input-Feld, je 1 Zeichen)
+//     .nc-otp-input__cell   ...
+//     .nc-otp-input__separator (optional, z.B. Bindestrich)
+//
+// TOKENS:
+//   --nc-otp-cell-size         Groesse jeder Zelle (Breite und Hoehe)
+//   --nc-otp-cell-gap          Abstand zwischen den Zellen
+//   --nc-otp-cell-radius       Border-Radius der Zellen
+//   --nc-otp-cell-border       Border-Farbe
+//   --nc-otp-cell-border-focus Focus-Border-Farbe
+//   --nc-otp-cell-font-size    Schriftgroesse
+//   --nc-otp-cell-font-weight  Schriftgewicht
+//
+// BEM-KLASSEN:
+//   .nc-otp-input              Block (inline-flex container)
+//   .nc-otp-input__cell        Einzelne Zelle (input, maxlength=1)
+//   .nc-otp-input__separator   Trennzeichen zwischen Zellen-Gruppen
+//   .nc-otp-input--error       Error-State
+//   .nc-otp-input--success     Success-State
+//   .nc-otp-input--disabled    Disabled-State
+//   .nc-otp-input--sm          Kleine Variante
+//   .nc-otp-input--lg          Grosse Variante
+//
+// ACCESSIBILITY:
+//   Container: role="group", aria-label="Verification Code"
+//   Zellen: autocomplete="one-time-code", inputmode="numeric"
+//   Keyboard: Auto-Focus auf naechste Zelle bei Eingabe (JS-seitig)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den OTP-Container.
+@mixin otp-base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nc-otp-cell-gap);
+}
+
+/// Einzelne OTP-Zelle.
+/// Quadratisch, zentrierter Text, Monospace.
+@mixin otp-cell {
+  width: var(--nc-otp-cell-size);
+  height: var(--nc-otp-cell-size);
+  padding: 0;
+  border: var(--nc-input-border-width) solid var(--nc-otp-cell-border);
+  border-radius: var(--nc-otp-cell-radius);
+  background-color: var(--nc-input-bg);
+  color: var(--nc-input-color);
+  font-family: inherit;
+  font-size: var(--nc-otp-cell-font-size);
+  font-weight: var(--nc-otp-cell-font-weight);
+  text-align: center;
+  line-height: 1;
+  caret-color: var(--nc-input-border-focus);
+  appearance: none;
+  transition:
+    border-color var(--nc-input-transition-duration) ease,
+    box-shadow var(--nc-input-transition-duration) ease;
+
+  &::placeholder {
+    color: var(--nc-input-placeholder);
+    opacity: 1;
+  }
+
+  // Auswahl-Highlight (z.B. bei Triple-Click)
+  &::selection {
+    background-color: var(--fnd-color-interactive-default);
+    color: var(--fnd-color-text-on-interactive);
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
+    border-color: var(--nc-input-border-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--nc-otp-cell-border-focus);
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    border-color: var(--nc-input-disabled-border);
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  // Spinner entfernen (falls type="number" verwendet wird)
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  -moz-appearance: textfield;
+
+  // Reduced Motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Optionales Trennzeichen zwischen Zellen-Gruppen (z.B. Bindestrich).
+@mixin otp-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fnd-spacing-04);
+  font-size: var(--nc-otp-cell-font-size);
+  font-weight: var(--nc-otp-cell-font-weight);
+  color: var(--fnd-color-text-secondary);
+  user-select: none;
+}
+
+/// Error-State: roter Rand auf allen Zellen.
+@mixin otp-error {
+  > .nc-otp-input__cell {
+    border-color: var(--nc-input-border-error);
+
+    &:focus-visible {
+      border-color: var(--nc-input-border-error);
+    }
+  }
+}
+
+/// Success-State: gruener Rand auf allen Zellen.
+@mixin otp-success {
+  > .nc-otp-input__cell {
+    border-color: var(--nc-input-border-success);
+
+    &:focus-visible {
+      border-color: var(--nc-input-border-success);
+    }
+  }
+}
+
+/// Disabled-State: graut alle Zellen aus.
+@mixin otp-disabled {
+  > .nc-otp-input__cell {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    border-color: var(--nc-input-disabled-border);
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  > .nc-otp-input__separator {
+    opacity: var(--nc-input-disabled-opacity);
+  }
+}
+
+/// Groessen-Modifier fuer OTP-Zellen.
+/// @param {String} $size - 'sm' | 'lg'
+@mixin otp-size($size) {
+  @if $size == 'sm' {
+    > .nc-otp-input__cell {
+      width: var(--nc-input-height-md);
+      height: var(--nc-input-height-md);
+      font-size: var(--nc-input-font-size-md);
+    }
+  } @else if $size == 'lg' {
+    > .nc-otp-input__cell {
+      width: calc(var(--nc-otp-cell-size) * 1.25);
+      height: calc(var(--nc-otp-cell-size) * 1.25);
+      font-size: calc(var(--nc-otp-cell-font-size) * 1.15);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-otp-input {
+  @include otp-base;
+
+  // -- Sub-Elemente --
+
+  &__cell {
+    @include otp-cell;
+  }
+
+  &__separator {
+    @include otp-separator;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    @include otp-size('sm');
+  }
+
+  &--lg {
+    @include otp-size('lg');
+  }
+
+  // -- State-Modifier --
+
+  &--error {
+    @include otp-error;
+  }
+
+  &--success {
+    @include otp-success;
+  }
+
+  &--disabled {
+    @include otp-disabled;
+  }
+
+  // -- Filled State (visuelles Feedback bei gefuellter Zelle) --
+  // Wird via JS-Klasse auf einzelne Zellen gesetzt
+
+  &__cell--filled {
+    border-color: var(--nc-otp-cell-border-focus);
+    font-weight: var(--nc-otp-cell-font-weight);
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-otp-input__cell {
+      border: 1px solid ButtonText;
+
+      &:focus-visible {
+        border-color: Highlight;
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+      }
+    }
+  }
+}

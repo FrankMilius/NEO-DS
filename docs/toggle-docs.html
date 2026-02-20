@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toggle | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Toggle-Komponente mit Toggle Button und Toggle Group, Live-Demo, Token-Referenz und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Toggle</h1>
+      <p class="docs__subtitle">
+        Toggle Buttons und Toggle Groups f&uuml;r Single-Select und Multi-Select Interaktionen.
+        Einzelner Toggle Button via <code class="docs__token">.nc-button--toggle</code> (BEM, aria-pressed).
+        Toggle Group via <code class="docs__token">.nc-toggle-group</code> (BEM) mit
+        <code class="docs__token">.nc-toggle-group__item</code> Items.
+        Alle Werte kommen aus <code class="docs__token">--nc-toggle-group-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="toggle-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Toggle-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Staging Area)                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Komponente, Gr&ouml;&szlig;e und Optionen, um Toggle Button oder Toggle Group live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Component</span>
+                <select class="docs-stage__select" id="stage-component">
+                  <option value="toggle-button" selected>Toggle Button</option>
+                  <option value="toggle-group">Toggle Group</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM (32px)</option>
+                  <option value="md" selected>MD (40px)</option>
+                  <option value="lg">LG (48px)</option>
+                </select>
+              </div>
+              <div class="docs-stage__control" id="stage-type-wrap" style="display: none;">
+                <span class="docs-stage__label">Type</span>
+                <select class="docs-stage__select" id="stage-type">
+                  <option value="single" selected>Single-Select</option>
+                  <option value="multi">Multi-Select</option>
+                </select>
+              </div>
+              <div class="docs-stage__control" id="stage-count-wrap" style="display: none;">
+                <span class="docs-stage__label">Count</span>
+                <select class="docs-stage__select" id="stage-count">
+                  <option value="2">2 Items</option>
+                  <option value="3" selected>3 Items</option>
+                  <option value="4">4 Items</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Icon Mode</span>
+                <select class="docs-stage__select" id="stage-icon">
+                  <option value="text" selected>Text</option>
+                  <option value="icon">Icon-Only</option>
+                  <option value="icon-text">Icon + Text</option>
+                </select>
+              </div>
+              <div class="docs-stage__control" id="stage-variant-wrap" style="display: none;">
+                <span class="docs-stage__label">Variant</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default</option>
+                  <option value="outline">Outline</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders toggle here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;button class="nc-button nc-button--toggle" aria-pressed="false"&gt;Toggle&lt;/button&gt;</pre>
+          </div>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 1: Single Toggle Button                             -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="single-toggle">
+            <h2 class="docs__section-title">Single Toggle Button</h2>
+            <p class="docs__section-desc">
+              Ein einzelner Toggle Button basiert auf <code class="docs__token">.nc-button--toggle</code> (Outline-Basis)
+              und schaltet via <code class="docs__token">aria-pressed</code> zwischen aktiv und inaktiv.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-button nc-button--toggle" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Inaktiv</button>
+              <button class="nc-button nc-button--toggle" aria-pressed="true" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Aktiv</button>
+            </div>
+            <div class="docs__code-block">&lt;button class="nc-button nc-button--toggle" aria-pressed="false"&gt;
+  Toggle Label
+&lt;/button&gt;
+
+&lt;button class="nc-button nc-button--toggle" aria-pressed="true"&gt;
+  Toggle Label (Aktiv)
+&lt;/button&gt;</div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 2: Toggle Group Single-Select                       -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="group-single">
+            <h2 class="docs__section-title">Toggle Group &mdash; Single-Select</h2>
+            <p class="docs__section-desc">
+              Radiogroup-Pattern: <code class="docs__token">role="radiogroup"</code> auf dem Container,
+              <code class="docs__token">role="radio"</code> + <code class="docs__token">aria-checked</code> auf den Items.
+              Nur ein Item kann gleichzeitig selektiert sein. Arrow-Key-Navigation (Roving Tabindex).
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group" role="radiogroup" aria-label="Ansicht w&auml;hlen" id="showcase-single-2">
+                <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Links</button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Mitte</button>
+              </div>
+            </div>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group" role="radiogroup" aria-label="Darstellung" id="showcase-single-3">
+                <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Tag</button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Woche</button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Monat</button>
+              </div>
+            </div>
+            <div class="docs__code-block">&lt;div class="nc-toggle-group" role="radiogroup" aria-label="Ansicht"&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0"&gt;Tag&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1"&gt;Woche&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1"&gt;Monat&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 3: Toggle Group Multi-Select                        -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="group-multi">
+            <h2 class="docs__section-title">Toggle Group &mdash; Multi-Select</h2>
+            <p class="docs__section-desc">
+              Group-Pattern: <code class="docs__token">role="group"</code> auf dem Container,
+              <code class="docs__token">aria-pressed</code> auf den Items.
+              Mehrere Items k&ouml;nnen gleichzeitig aktiv sein. Tab-Navigation.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group" role="group" aria-label="Textformat" id="showcase-multi">
+                <button class="nc-toggle-group__item" aria-pressed="true" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Fett</button>
+                <button class="nc-toggle-group__item" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Kursiv</button>
+                <button class="nc-toggle-group__item" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Unterstrichen</button>
+                <button class="nc-toggle-group__item" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">Durchgestrichen</button>
+              </div>
+            </div>
+            <div class="docs__code-block">&lt;div class="nc-toggle-group" role="group" aria-label="Textformat"&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="true"&gt;Fett&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="false"&gt;Kursiv&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="false"&gt;Unterstrichen&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 4: Sizes Comparison                                 -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;enstufen: SM (32px), MD (40px, Default), LG (48px).
+              Gr&ouml;&szlig;en-Modifier auf dem Container: <code class="docs__token">.nc-toggle-group--sm</code> / <code class="docs__token">.nc-toggle-group--lg</code>.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px; font-weight: 600;">SM &mdash; 32px</div>
+                <div class="nc-toggle-group nc-toggle-group--sm" role="radiogroup" aria-label="Gr&ouml;&szlig;e SM">
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option C</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px; font-weight: 600;">MD &mdash; 40px (Default)</div>
+                <div class="nc-toggle-group" role="radiogroup" aria-label="Gr&ouml;&szlig;e MD">
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option C</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px; font-weight: 600;">LG &mdash; 48px</div>
+                <div class="nc-toggle-group nc-toggle-group--lg" role="radiogroup" aria-label="Gr&ouml;&szlig;e LG">
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option C</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 5: With Icons                                       -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="icons">
+            <h2 class="docs__section-title">Mit Icons</h2>
+            <p class="docs__section-desc">
+              Icons werden als <code class="docs__token">&lt;span class="nc-toggle-group__icon"&gt;</code> eingebunden.
+              Icon-Only Items ben&ouml;tigen immer ein <code class="docs__token">aria-label</code>.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Grid / List View Switcher (Icon-Only)</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group" role="radiogroup" aria-label="Ansichtsmodus">
+                <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0" aria-label="Grid-Ansicht">
+                  <span class="nc-toggle-group__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>
+                </button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1" aria-label="Listen-Ansicht">
+                  <span class="nc-toggle-group__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
+                </button>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Text Formatter (Icon + Text, Multi-Select)</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group" role="group" aria-label="Textformatierung">
+                <button class="nc-toggle-group__item" aria-pressed="true" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">
+                  <span class="nc-toggle-group__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg></span>
+                  Fett
+                </button>
+                <button class="nc-toggle-group__item" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">
+                  <span class="nc-toggle-group__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg></span>
+                  Kursiv
+                </button>
+                <button class="nc-toggle-group__item" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true' ? 'false' : 'true')">
+                  <span class="nc-toggle-group__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg></span>
+                  Unterstrichen
+                </button>
+              </div>
+            </div>
+
+            <div class="docs__code-block">&lt;!-- Icon-Only: Grid/List Switcher --&gt;
+&lt;div class="nc-toggle-group" role="radiogroup" aria-label="Ansichtsmodus"&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="true" aria-label="Grid-Ansicht"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" aria-label="Listen-Ansicht"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Icon + Text: Formatter --&gt;
+&lt;div class="nc-toggle-group" role="group" aria-label="Textformatierung"&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="true"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+    Fett
+  &lt;/button&gt;
+  ...
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 6: Outline Variant                                  -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="outline">
+            <h2 class="docs__section-title">Outline-Variante</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-toggle-group--outline</code> erh&auml;lt die Gruppe einen transparenten Hintergrund.
+              Die selektierten Items bekommen <code class="docs__token">--fnd-color-background-secondary</code>.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-toggle-group nc-toggle-group--outline" role="radiogroup" aria-label="Outline Variante">
+                <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Option A</button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option B</button>
+                <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Option C</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================================ -->
+          <!-- Showcase 7: Disabled Items                                   -->
+          <!-- ============================================================ -->
+          <section class="docs__section" id="disabled">
+            <h2 class="docs__section-title">Disabled Items</h2>
+            <p class="docs__section-desc">
+              Einzelne Items k&ouml;nnen via <code class="docs__token">disabled</code> oder
+              <code class="docs__token">aria-disabled="true"</code> deaktiviert werden.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Toggle Button Disabled</div>
+                <button class="nc-button nc-button--toggle" aria-pressed="false" disabled>Disabled</button>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Toggle Group mit disabled Item</div>
+                <div class="nc-toggle-group" role="radiogroup" aria-label="Disabled Demo">
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0">Aktiv</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1" disabled>Disabled</button>
+                  <button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1">Normal</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-group-tokens">
+            <h2 class="docs__section-title">Toggle Group Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-gap</code></td><td>0</td><td>Gap zwischen Items</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-radius</code></td><td>var(--nc-button-radius-md)</td><td>Border-Radius des Containers (6px)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-border</code></td><td>var(--fnd-color-border-primary)</td><td>Border-Farbe des Containers</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Hintergrundfarbe des Containers</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-bg</code></td><td>transparent</td><td>Item-Hintergrund (inaktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-color</code></td><td>var(--fnd-color-text-primary)</td><td>Item-Textfarbe (inaktiv)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-border</code></td><td>var(--fnd-color-border-secondary)</td><td>Trenn-Border zwischen Items</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>Hover-Hintergrund</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Selected)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-bg</code></td><td>var(--fnd-color-interactive-default)</td><td>Selektierter Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>Selektierte Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-border</code></td><td>var(--fnd-color-interactive-default)</td><td>Selektierte Border-Farbe</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-bg</code></td><td>var(--fnd-color-background-disabled)</td><td>Disabled Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-color</code></td><td>var(--fnd-color-text-disabled)</td><td>Disabled Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>0.5</td><td>Disabled Opacity</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Transition</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-button-ref">
+            <h2 class="docs__section-title">Toggle Button Token-Referenz</h2>
+            <p class="docs__section-desc">
+              Der einzelne Toggle Button (<code class="docs__token">.nc-button--toggle</code>) nutzt die existierenden
+              <code class="docs__token">--nc-button-*</code> Tokens. Basis ist die Outline-Variante.
+              Im Zustand <code class="docs__token">aria-pressed="true"</code> wird der Primary-Hintergrund
+              (<code class="docs__token">--nc-button-primary-bg</code>) angewendet.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert (aktiv)</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-button-primary-bg</code></td><td>var(--fnd-color-interactive-default)</td><td>Hintergrund bei aria-pressed=true</td></tr>
+                <tr><td><code class="docs__token">--nc-button-primary-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>Textfarbe bei aria-pressed=true</td></tr>
+                <tr><td><code class="docs__token">--nc-button-outline-border</code></td><td>var(--fnd-color-border-primary)</td><td>Border (inaktiver Zustand)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS &amp; BEM-Klassen</h2>
+            <div class="docs__code-block">// ===== Toggle Button (BEM) =====
+
+.nc-button--toggle              // Modifier auf .nc-button (Outline-Basis)
+  [aria-pressed="true"]         // Aktiver Zustand (Primary BG/Color)
+  [aria-pressed="false"]        // Inaktiver Zustand (Outline)
+
+// ===== Toggle Group (BEM) =====
+
+.nc-toggle-group                // Block (Container: inline-flex, border, radius)
+.nc-toggle-group__item          // Element (Button: interactive-surface-base)
+.nc-toggle-group__icon          // Element (Icon-Wrapper: inline-flex)
+
+// Gr&ouml;&szlig;en-Modifier
+.nc-toggle-group--sm            // SM (32px, Button-Scale)
+// (md = Default, kein Modifier)
+.nc-toggle-group--lg            // LG (48px, Button-Scale)
+
+// Varianten-Modifier
+.nc-toggle-group--outline       // Transparenter Hintergrund, subtile Selected-Farbe
+
+// Item States
+[aria-pressed="true"]           // Multi-Select: Item aktiv
+[aria-checked="true"]           // Single-Select: Item selektiert
+:disabled                       // Item deaktiviert
+[aria-disabled="true"]          // Item deaktiviert (ARIA)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Toggle Button</td></tr>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-button--toggle</code></td></tr>
+                <tr><td><strong>Basis</strong></td><td><code class="docs__token">.nc-button</code> + <code class="docs__token">.nc-button--toggle</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-button-*</code> (shared with Button)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_button.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;button&gt;</code></td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Toggle Group</td></tr>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-toggle-group</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-toggle-group</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-toggle-group-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_toggle-group.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 40px (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container) + <code class="docs__token">&lt;button&gt;</code> (Items)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toggle Button</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-button</code></td><td>Block</td><td>Button-Basis (required)</td></tr>
+                <tr><td><code class="docs__token">.nc-button--toggle</code></td><td>Modifier</td><td>Toggle-Variante. Outline-Basis, Primary-BG bei aktiv.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toggle Group &mdash; Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-toggle-group</code></td><td>Block</td><td>Container: inline-flex, border, radius, background.</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group__item</code></td><td>Element</td><td>Button-Item: interactive-surface-base, border-inline-end.</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group__icon</code></td><td>Element</td><td>Icon-Wrapper: inline-flex, SVG sizing.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toggle Group &mdash; Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-toggle-group--sm</code></td><td>SM Gr&ouml;&szlig;e (32px) auf alle Items</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--lg</code></td><td>LG Gr&ouml;&szlig;e (48px) auf alle Items</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--outline</code></td><td>Outline-Variante: transparenter Hintergrund, subtile Selected-State</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Kontext</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">aria-pressed</code></td>
+                  <td><code class="docs__token">.nc-button--toggle</code></td>
+                  <td>Toggle Button</td>
+                  <td><code class="docs__token">"true"</code> / <code class="docs__token">"false"</code> &mdash; Toggled-Zustand</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="radiogroup"</code></td>
+                  <td><code class="docs__token">.nc-toggle-group</code></td>
+                  <td>Single-Select</td>
+                  <td>Semantische Rolle f&uuml;r exklusive Auswahl</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="radio"</code></td>
+                  <td><code class="docs__token">.nc-toggle-group__item</code></td>
+                  <td>Single-Select</td>
+                  <td>Radio-Semantik pro Item</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-checked</code></td>
+                  <td><code class="docs__token">.nc-toggle-group__item</code></td>
+                  <td>Single-Select</td>
+                  <td><code class="docs__token">"true"</code> / <code class="docs__token">"false"</code> &mdash; Selektionszustand</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">tabindex</code></td>
+                  <td><code class="docs__token">.nc-toggle-group__item</code></td>
+                  <td>Single-Select</td>
+                  <td><code class="docs__token">0</code> f&uuml;r aktives Item, <code class="docs__token">-1</code> f&uuml;r inaktive (Roving Tabindex)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">role="group"</code></td>
+                  <td><code class="docs__token">.nc-toggle-group</code></td>
+                  <td>Multi-Select</td>
+                  <td>Semantische Gruppierung f&uuml;r mehrfache Auswahl</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-pressed</code></td>
+                  <td><code class="docs__token">.nc-toggle-group__item</code></td>
+                  <td>Multi-Select</td>
+                  <td><code class="docs__token">"true"</code> / <code class="docs__token">"false"</code> &mdash; Toggle-Zustand pro Item</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-toggle-group</code></td>
+                  <td>Beide</td>
+                  <td>Barrierefreier Name der Gruppe (Pflicht)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-toggle-group__item</code></td>
+                  <td>Icon-Only</td>
+                  <td>Barrierefreier Name f&uuml;r Icon-Only Items (Pflicht)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-gap</code></td><td>0</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-radius</code></td><td>6px</td><td>var(--nc-button-radius-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-bg-hover</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Selected)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-on-interactive)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-selected-border</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>0.5</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Transition</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>0.2s</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">toggle-group-base</code></td><td>&mdash;</td><td>Container: inline-flex, border-radius, background, border, overflow.</td></tr>
+                <tr><td><code class="docs__token">toggle-group-item</code></td><td>&mdash;</td><td>Item: interactive-surface-base, border-inline-end, hover.</td></tr>
+                <tr><td><code class="docs__token">toggle-group-item-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'</code></td><td>Min-height, padding, font-size, gap pro Gr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">toggle-group-item-selected</code></td><td>&mdash;</td><td>Selected-State: Background, Color, Border.</td></tr>
+                <tr><td><code class="docs__token">toggle-group-icon-element</code></td><td>&mdash;</td><td>Icon-Wrapper: inline-flex, width/height, SVG styling.</td></tr>
+                <tr><td><code class="docs__token">button-toggle</code></td><td>&mdash;</td><td>Toggle Button Mixin (in _button.scss): Outline-Basis + Primary bei aktiv.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Toggle Button (einzeln) --&gt;
+&lt;button class="nc-button nc-button--toggle [--size]" aria-pressed="false"&gt;
+  Toggle Label
+&lt;/button&gt;
+
+&lt;!-- Toggle Group: Single-Select (radiogroup) --&gt;
+&lt;div class="nc-toggle-group [--sm|--lg] [--outline]" role="radiogroup" aria-label="..."&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt; &lt;!-- optional --&gt;
+    Label
+  &lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1"&gt;
+    Label
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Toggle Group: Multi-Select (group + aria-pressed) --&gt;
+&lt;div class="nc-toggle-group [--sm|--lg] [--outline]" role="group" aria-label="..."&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="true"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt; &lt;!-- optional --&gt;
+    Label
+  &lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="false"&gt;
+    Label
+  &lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Toggle-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+            Die ARIA-Patterns unterscheiden sich f&uuml;r Single-Select und Multi-Select.
+          </p>
+
+          <!-- R3: Multi-Select uses aria-pressed -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R3: Multi-Select &mdash; aria-pressed</h4>
+              <ul>
+                <li>Multi-Select Toggle Groups verwenden <code class="docs__token">role="group"</code> auf dem Container</li>
+                <li>Jedes Item erh&auml;lt <code class="docs__token">aria-pressed="true"</code> oder <code class="docs__token">"false"</code></li>
+                <li>Mehrere Items k&ouml;nnen gleichzeitig aktiv sein</li>
+                <li>Navigation via <strong>Tab-Taste</strong> zwischen den Items</li>
+                <li>Toggle via <strong>Space</strong> oder <strong>Enter</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R4: Single-Select uses radiogroup -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R4: Single-Select &mdash; radiogroup + radio + aria-checked</h4>
+              <ul>
+                <li>Single-Select Toggle Groups verwenden <code class="docs__token">role="radiogroup"</code> auf dem Container</li>
+                <li>Jedes Item erh&auml;lt <code class="docs__token">role="radio"</code> und <code class="docs__token">aria-checked</code></li>
+                <li>Nur ein Item kann <code class="docs__token">aria-checked="true"</code> haben</li>
+                <li>Navigation via <strong>Pfeiltasten</strong> (links/rechts) &mdash; Roving Tabindex</li>
+                <li>Das aktive Item hat <code class="docs__token">tabindex="0"</code>, alle anderen <code class="docs__token">tabindex="-1"</code></li>
+                <li>Selektion erfolgt automatisch beim Navigieren (focus-follows-selection)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Arrow Key Navigation -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Arrow Key Navigation (Single-Select)</h4>
+              <ul>
+                <li><strong>ArrowRight / ArrowDown:</strong> N&auml;chstes Item fokussieren und selektieren</li>
+                <li><strong>ArrowLeft / ArrowUp:</strong> Vorheriges Item fokussieren und selektieren</li>
+                <li>Navigation ist zirkul&auml;r (vom letzten zum ersten und umgekehrt)</li>
+                <li><strong>Home:</strong> Erstes Item fokussieren und selektieren</li>
+                <li><strong>End:</strong> Letztes Item fokussieren und selektieren</li>
+                <li>Nur das fokussierte Item ist in der Tab-Reihenfolge (<code class="docs__token">tabindex="0"</code>)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tab Navigation for Multi-Select -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tab Navigation (Multi-Select)</h4>
+              <ul>
+                <li>Alle Items sind individuell per Tab erreichbar</li>
+                <li>Jedes Item kann einzeln via <strong>Space</strong> oder <strong>Enter</strong> getoggelt werden</li>
+                <li>Der Toggle-Zustand wird via <code class="docs__token">aria-pressed</code> kommuniziert</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R6: Icon-Only Items -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R6: Icon-Only Items brauchen aria-label</h4>
+              <ul>
+                <li>Icon-Only Toggle Group Items <strong>m&uuml;ssen</strong> ein <code class="docs__token">aria-label</code> haben</li>
+                <li>Das Label beschreibt die Aktion, z.B. <code class="docs__token">aria-label="Grid-Ansicht"</code></li>
+                <li>SVG-Icons innerhalb sind dekorativ und brauchen kein eigenes Label</li>
+                <li>Beispiel: <code class="docs__token">&lt;button class="nc-toggle-group__item" aria-label="Grid-Ansicht"&gt;&lt;span class="nc-toggle-group__icon"&gt;...&lt;/span&gt;&lt;/button&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Toggle Button mit aria-pressed --&gt;
+&lt;button class="nc-button nc-button--toggle" aria-pressed="false"&gt;
+  Favorit
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Single-Select Toggle Group (radiogroup) --&gt;
+&lt;div class="nc-toggle-group" role="radiogroup" aria-label="Ansicht"&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0"&gt;Tag&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1"&gt;Woche&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" tabindex="-1"&gt;Monat&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Multi-Select Toggle Group (group + aria-pressed) --&gt;
+&lt;div class="nc-toggle-group" role="group" aria-label="Formatierung"&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="true"&gt;Fett&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" aria-pressed="false"&gt;Kursiv&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Icon-Only mit aria-label --&gt;
+&lt;div class="nc-toggle-group" role="radiogroup" aria-label="Ansichtsmodus"&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="true" aria-label="Grid"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="nc-toggle-group__item" role="radio" aria-checked="false" aria-label="Liste"&gt;
+    &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Toggle Button ohne aria-pressed --&gt;
+&lt;button class="nc-button nc-button--toggle"&gt;Toggle&lt;/button&gt;
+
+&lt;!-- FALSCH: Single-Select ohne radiogroup/radio --&gt;
+&lt;div class="nc-toggle-group"&gt;
+  &lt;button class="nc-toggle-group__item"&gt;A&lt;/button&gt;
+  &lt;button class="nc-toggle-group__item"&gt;B&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Icon-Only ohne aria-label --&gt;
+&lt;button class="nc-toggle-group__item" role="radio" aria-checked="true"&gt;
+  &lt;span class="nc-toggle-group__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="toggle-docs.js"></script>
+
+</body>
+</html>

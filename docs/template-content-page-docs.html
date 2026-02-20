@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Template: Content Page | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Content-Page-Templates mit Article-Layout und Seitenstruktur." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .docs-template-preview {
+      border-radius: var(--fnd-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--fnd-color-border-low);
+      background: var(--fnd-color-background-base);
+    }
+    .docs-tpl-content {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: var(--fnd-spacing-06);
+      padding: var(--fnd-spacing-06);
+      background: var(--fnd-color-background-base);
+    }
+    .docs-tpl-content__article {
+      max-width: 100%;
+    }
+    .docs-tpl-content__title {
+      font-size: 1.75rem;
+      font-weight: var(--fnd-font-weight-bold);
+      color: var(--fnd-color-text-high);
+      margin: 0 0 var(--fnd-spacing-03);
+      line-height: 1.2;
+    }
+    .docs-tpl-content__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-03);
+      color: var(--fnd-color-text-secondary);
+      font-size: var(--fs-sm, 0.875rem);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+    .docs-tpl-content__body {
+      color: var(--fnd-color-text-high);
+      line-height: 1.65;
+      font-size: 0.9375rem;
+    }
+    .docs-tpl-content__body p { margin: 0 0 var(--fnd-spacing-03); }
+    .docs-tpl-content__body h2 {
+      font-size: 1.125rem;
+      font-weight: var(--fnd-font-weight-semibold);
+      margin: var(--fnd-spacing-05) 0 var(--fnd-spacing-02);
+      color: var(--fnd-color-text-high);
+    }
+    .docs-tpl-content__body blockquote {
+      margin: var(--fnd-spacing-04) 0;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      border-inline-start: 4px solid var(--fnd-color-interactive-default);
+      background: var(--fnd-color-layer-01);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      color: var(--fnd-color-text-secondary);
+      font-style: italic;
+    }
+    .docs-tpl-content__toc {
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-lg);
+      padding: var(--fnd-spacing-04);
+    }
+    .docs-tpl-content__toc-title {
+      font-size: var(--fs-xs, 0.75rem);
+      font-weight: var(--fnd-font-weight-semibold);
+      color: var(--fnd-color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 var(--fnd-spacing-03);
+    }
+    .docs-tpl-content__toc-link {
+      display: block;
+      padding: var(--fnd-spacing-01) 0;
+      font-size: var(--fs-sm, 0.875rem);
+      color: var(--fnd-color-text-secondary);
+    }
+    .docs-tpl-content__toc-link--active {
+      color: var(--fnd-color-interactive-default);
+      font-weight: var(--fnd-font-weight-medium);
+    }
+    .docs-layout-diagram {
+      font-family: var(--font-mono, monospace);
+      font-size: var(--fs-sm, 0.875rem);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      padding: var(--fnd-spacing-05);
+      line-height: 1.7;
+      color: var(--fnd-color-text-primary);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Template: Content Page</h1>
+      <p class="docs__subtitle">Artikel- und Blog-Layout mit optimierter Lesbarkeit. Zweiteiliges Grid: Prosa-Bereich links (begrenzt auf <code>--fnd-prose-max-width</code>), Inhaltsverzeichnis rechts (sticky). Basisklasse: <code>.t-content</code>.</p>
+
+      <!-- ============================================================= -->
+      <!-- TABS                                                          -->
+      <!-- ============================================================= -->
+      <div class="docs-tabs" id="content-page-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Content-Page-Template-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 1: BENUTZUNG                                            -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendungszweck</h2>
+          <p>Das Content-Page-Template ist f&uuml;r Langtext-Inhalte optimiert: Blogartikel, Dokumentationsseiten, Fallstudien und &auml;hnliche Formate. Der Prosa-Bereich ist auf <code>--fnd-prose-max-width</code> begrenzt f&uuml;r optimale Lesbarkeit (&approx;65 Zeichen pro Zeile). Das Inhaltsverzeichnis scrollt sticky mit und zeigt den aktiven Abschnitt hervorgehoben.</p>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Vorschau</h2>
+          <div class="docs-template-preview">
+            <div class="docs-tpl-content">
+              <article class="docs-tpl-content__article">
+                <header>
+                  <h1 class="docs-tpl-content__title">Design-Tokens: Warum sie f&uuml;r skalierbare Systeme unerlässlich sind</h1>
+                  <div class="docs-tpl-content__meta">
+                    <span>15. Februar 2026</span>
+                    <span>&bull;</span>
+                    <span>8 Min. Lesezeit</span>
+                    <span>&bull;</span>
+                    <span>Design Systems</span>
+                  </div>
+                </header>
+                <div class="docs-tpl-content__body">
+                  <p>Design-Tokens sind die atomaren Bausteine eines Design-Systems &mdash; sie definieren Farben, Abst&auml;nde und Typografie als benannte Werte statt roher Zahlen.</p>
+                  <h2>Was sind Primitives?</h2>
+                  <p>Primitive Tokens bilden die unterste Ebene der Hierarchie. Sie sind reine Werte ohne semantische Bedeutung.</p>
+                  <blockquote>
+                    "Tokens sind die gemeinsame Sprache zwischen Design und Engineering."
+                  </blockquote>
+                  <p>Semantic Tokens referenzieren Primitive und geben ihnen eine Verwendungsrolle.</p>
+                </div>
+              </article>
+              <aside>
+                <nav class="docs-tpl-content__toc" aria-label="Inhaltsverzeichnis">
+                  <p class="docs-tpl-content__toc-title">Inhalt</p>
+                  <a class="docs-tpl-content__toc-link docs-tpl-content__toc-link--active" href="#">Was sind Primitives?</a>
+                  <a class="docs-tpl-content__toc-link" href="#">Semantic Tokens</a>
+                  <a class="docs-tpl-content__toc-link" href="#">Component Tokens</a>
+                  <a class="docs-tpl-content__toc-link" href="#">Best Practices</a>
+                </nav>
+              </aside>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Wann einsetzen?</h2>
+          <table class="docs__table">
+            <thead><tr><th>Szenario</th><th>Empfehlung</th></tr></thead>
+            <tbody>
+              <tr><td>Blog-Artikel / Redaktioneller Inhalt</td><td>Prim&auml;r f&uuml;r dieses Template</td></tr>
+              <tr><td>Dokumentationsseiten</td><td>Geeignet; ToC-Sidebar besonders wertvoll bei langen Texten</td></tr>
+              <tr><td>Rechtliche Seiten (Datenschutz, AGB)</td><td>Geeignet; ToC kann entfallen</td></tr>
+              <tr><td>Kurzinhalte (unter 3 Abschnitte)</td><td>ToC-Sidebar weglassen; nur <code>.t-content__article</code> verwenden</td></tr>
+              <tr><td>Interaktive Applikations-Seiten</td><td>Stattdessen <code>.t-dashboard</code> oder <code>.t-form-page</code></td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 2: STYLE                                                -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Layout-Struktur</h2>
+          <p>Auf Desktop: 2-Spalten-Grid (<code>1fr 260px</code>). Artikel links, ToC-Sidebar rechts (sticky). Auf Mobile wird die Sidebar ausgeblendet (<code>display: none</code> unter 1199px).</p>
+
+          <div class="docs-layout-diagram">
+.t-content                       // max-width: content-max-width; margin: auto; padding: spacing-08 spacing-06
+                                   // desktop: grid 1fr 260px; gap: spacing-08; align-items: start
+  .t-content__article            // max-width: fnd-prose-max-width
+    .t-content__header           // margin-bottom: spacing-06
+      h1.t-content__title        // heading(xl); text-high; mb: spacing-04
+      .t-content__meta           // flex; flex-wrap; gap: spacing-03; text-secondary; fs-sm
+    .t-content__body             // text-high; line-height: lh-body
+      h2                         // heading(m); mt: spacing-08; mb: spacing-04
+      h3                         // heading(s); mt: spacing-06; mb: spacing-03
+      p                          // mb: spacing-04
+      ul, ol                     // mb: spacing-04; padding-inline-start: spacing-06
+      blockquote                 // border-inline-start: 4px interactive-default; bg: layer-01
+      pre                        // bg: layer-01; radius-md; overflow-x: auto
+      code                       // bg: layer-01; radius-xs
+      img                        // max-width: 100%; radius-lg
+      hr                         // border-top: border-low
+  .t-content__sidebar            // sticky; top: nav-height + spacing-06; hidden <1200px
+    .t-content__toc              // bg: layer-01; radius-lg; padding: spacing-04
+      p.t-content__toc-title     // fs-sm; semibold; secondary; uppercase
+      ul.t-content__toc-list     // flex-column; gap: spacing-01
+        a.t-content__toc-link    // fs-sm; text-secondary; hover: text-high + layer-02
+                                   // [aria-current=true]: interactive-default; font-weight-medium
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Verwendete Tokens</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+            <tbody>
+              <tr><td><code>--fnd-prose-max-width</code></td><td>Maximale Breite des Artikel-Bereichs</td></tr>
+              <tr><td><code>--fnd-content-max-width</code></td><td>Maximale Breite des Template-Containers</td></tr>
+              <tr><td><code>--fnd-color-text-high</code></td><td>Titel und Body-Text</td></tr>
+              <tr><td><code>--fnd-color-text-secondary</code></td><td>Meta-Informationen, ToC-Links (Standard)</td></tr>
+              <tr><td><code>--fnd-color-interactive-default</code></td><td>Blockquote-Border, aktiver ToC-Link</td></tr>
+              <tr><td><code>--fnd-color-layer-01</code></td><td>Blockquote-BG, Code-BG, ToC-BG</td></tr>
+              <tr><td><code>--fnd-color-layer-02</code></td><td>ToC-Link-Hover-Hintergrund</td></tr>
+              <tr><td><code>--fnd-color-border-low</code></td><td>Trennlinie (<code>hr</code>)</td></tr>
+              <tr><td><code>--fnd-font-weight-semibold</code></td><td>ToC-Titel</td></tr>
+              <tr><td><code>--fnd-font-weight-medium</code></td><td>Aktiver ToC-Link</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Responsive Breakpoints</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Breakpoint</th><th>&Auml;nderung</th></tr></thead>
+            <tbody>
+              <tr><td>Mobile (default)</td><td>Einspaltiger Fl&auml;chenfluss; kein Grid</td></tr>
+              <tr><td><code>desktop-up</code></td><td>Grid aktiv: <code>1fr 260px</code>; ToC-Sidebar erscheint</td></tr>
+              <tr><td><code>max-width: 1199px</code></td><td>ToC-Sidebar: <code>display: none</code></td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">SCSS-Datei</h2>
+          <div class="docs-snippet"><pre>scss/scss/08-templates/_content-page.scss</pre></div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 3: API                                                  -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Klassen-Referenz</h2>
+          <table class="docs__table">
+            <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td><code>.t-content</code></td><td><code>&lt;div&gt;</code></td><td>Grid-Root; <code>max-width: content-max-width</code>; auf Desktop: <code>1fr 260px</code></td></tr>
+              <tr><td><code>.t-content__article</code></td><td><code>&lt;article&gt;</code></td><td>Prosa-Container; <code>max-width: fnd-prose-max-width</code></td></tr>
+              <tr><td><code>.t-content__header</code></td><td><code>&lt;header&gt;</code></td><td>Artikel-Kopfzeile; <code>margin-bottom: spacing-06</code></td></tr>
+              <tr><td><code>.t-content__title</code></td><td><code>&lt;h1&gt;</code></td><td>Artikel-Titel; <code>heading(xl)</code>; <code>text-high</code></td></tr>
+              <tr><td><code>.t-content__meta</code></td><td><code>&lt;div&gt;</code></td><td>Meta-Zeile (Datum, Lesezeit, Kategorie); <code>flex</code>; <code>text-secondary</code></td></tr>
+              <tr><td><code>.t-content__body</code></td><td><code>&lt;div&gt;</code></td><td>Prosa-Inhaltsbereich; beinhaltet Prosa-Typografie-Stile f&uuml;r native Elemente</td></tr>
+              <tr><td><code>.t-content__sidebar</code></td><td><code>&lt;aside&gt;</code></td><td>Sticky-Sidebar; versteckt unter 1200px</td></tr>
+              <tr><td><code>.t-content__toc</code></td><td><code>&lt;nav&gt;</code></td><td>Inhaltsverzeichnis-Container; <code>layer-01</code>; <code>radius-lg</code></td></tr>
+              <tr><td><code>.t-content__toc-title</code></td><td><code>&lt;p&gt;</code></td><td>ToC-&Uuml;berschrift; Kapitälchen; <code>fs-sm</code>; <code>semibold</code></td></tr>
+              <tr><td><code>.t-content__toc-list</code></td><td><code>&lt;ul&gt;</code></td><td>ToC-Linkliste; <code>flex-column</code>; kein <code>list-style</code></td></tr>
+              <tr><td><code>.t-content__toc-link</code></td><td><code>&lt;a&gt;</code></td><td>ToC-Link; <code>[aria-current='true']</code> f&uuml;r aktiven Abschnitt</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Minimales HTML</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="t-content"&gt;
+  &lt;article class="t-content__article"&gt;
+    &lt;header class="t-content__header"&gt;
+      &lt;h1 class="t-content__title"&gt;Artikel-Titel&lt;/h1&gt;
+      &lt;div class="t-content__meta"&gt;
+        &lt;time datetime="2026-02-15"&gt;15. Februar 2026&lt;/time&gt;
+        &lt;span aria-hidden="true"&gt;&amp;bull;&lt;/span&gt;
+        &lt;span&gt;8 Min. Lesezeit&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;div class="t-content__body"&gt;
+      &lt;h2 id="section-1"&gt;Erster Abschnitt&lt;/h2&gt;
+      &lt;p&gt;Text...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/article&gt;
+
+  &lt;aside class="t-content__sidebar"&gt;
+    &lt;nav class="t-content__toc" aria-label="Inhaltsverzeichnis"&gt;
+      &lt;p class="t-content__toc-title"&gt;Inhalt&lt;/p&gt;
+      &lt;ul class="t-content__toc-list"&gt;
+        &lt;li&gt;
+          &lt;a class="t-content__toc-link" href="#section-1" aria-current="true"&gt;Erster Abschnitt&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Template-&Uuml;bersicht</h2>
+          <table class="docs__table">
+            <tbody>
+              <tr><td><strong>Template-Pr&auml;fix</strong></td><td><code>.t-content</code></td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/08-templates/_content-page.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>08-Templates</td></tr>
+              <tr><td><strong>Grid</strong></td><td><code>1fr 260px</code> (ab <code>desktop-up</code>)</td></tr>
+              <tr><td><strong>JS-Abh&auml;ngigkeit</strong></td><td>Optional: Scroll-Spy f&uuml;r <code>aria-current</code> auf ToC-Links</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 4: ACCESSIBILITY                                        -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Landmark-Struktur</h2>
+          <table class="docs__table">
+            <thead><tr><th>Element</th><th>Rolle</th><th>Anforderung</th></tr></thead>
+            <tbody>
+              <tr><td><code>&lt;article&gt;.t-content__article</code></td><td><code>article</code></td><td>Semantisch korrekt f&uuml;r eigenst&auml;ndige Inhaltseinheiten</td></tr>
+              <tr><td><code>&lt;aside&gt;.t-content__sidebar</code></td><td><code>complementary</code></td><td>ToC ist erg&auml;nzender Inhalt &mdash; korrekte Landmark-Rolle</td></tr>
+              <tr><td><code>&lt;nav&gt;.t-content__toc</code></td><td><code>navigation</code></td><td>Muss <code>aria-label="Inhaltsverzeichnis"</code> haben</td></tr>
+              <tr><td><code>.t-content__header</code></td><td><code>none</code> (innerhalb <code>article</code>)</td><td><code>&lt;header&gt;</code> innerhalb <code>&lt;article&gt;</code> ist kein <code>banner</code>-Landmark</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Heading-Hierarchie</h2>
+          <div class="docs-snippet"><pre>&lt;main&gt;
+  &lt;div class="t-content"&gt;
+    &lt;article class="t-content__article"&gt;
+      &lt;h1 class="t-content__title"&gt;Artikel-Titel&lt;/h1&gt;  &lt;!-- Einziger h1 --&gt;
+      &lt;div class="t-content__body"&gt;
+        &lt;h2 id="abschnitt-1"&gt;Hauptabschnitt&lt;/h2&gt;
+        &lt;h3&gt;Unterabschnitt&lt;/h3&gt;
+        &lt;!-- Keine Ebenen &uuml;berspringen --&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</pre></div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Inhaltsverzeichnis: Scroll-Spy</h4>
+              <ul>
+                <li>Aktiver Abschnitt wird &uuml;ber <code>aria-current="true"</code> auf dem entsprechenden ToC-Link kommuniziert.</li>
+                <li>JavaScript-Scroll-Spy muss <code>aria-current</code> dynamisch aktualisieren (nicht nur visuell).</li>
+                <li>Jede ToC-Zielsektion muss eine eindeutige <code>id</code> haben, auf die der Link verweist.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Prosa-Typografie</h4>
+              <ul>
+                <li><code>blockquote</code> verwendet neben der visuellen Markierung (farbiger Border) f&auml;rbig ge&auml;nderten Text &mdash; Status nicht nur &uuml;ber Farbe.</li>
+                <li><code>time</code>-Element mit <code>datetime</code>-Attribut f&uuml;r maschinell lesbare Datumsangaben in <code>.t-content__meta</code> verwenden.</li>
+                <li>Trennzeichen in <code>.t-content__meta</code> (z.B. &bull;) mit <code>aria-hidden="true"</code> versehen.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Pr&uuml;fliste</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Genau ein <code>&lt;h1&gt;</code> als Artikel-Titel</td><td>1.3.1</td></tr>
+              <tr><td>2</td><td>Keine Heading-Ebenen &uuml;bersprungen (h1 &rarr; h2 &rarr; h3)</td><td>1.3.1</td></tr>
+              <tr><td>3</td><td><code>&lt;nav aria-label="Inhaltsverzeichnis"&gt;</code></td><td>4.1.2</td></tr>
+              <tr><td>4</td><td>Aktiver ToC-Link: <code>aria-current="true"</code></td><td>4.1.2</td></tr>
+              <tr><td>5</td><td>Ziel-IDs in Abschnittstiteln vorhanden (<code>id="..."</code>)</td><td>2.4.1</td></tr>
+              <tr><td>6</td><td><code>&lt;time datetime="..."&gt;</code> f&uuml;r Datumsangaben</td><td>1.3.1</td></tr>
+              <tr><td>7</td><td>Bilder haben <code>alt</code>-Text oder <code>alt=""</code></td><td>1.1.1</td></tr>
+              <tr><td>8</td><td>Code-Bl&ouml;cke: <code>lang</code>-Attribut f&uuml;r Syntax-Highlighting empfohlen</td><td>3.1.2</td></tr>
+              <tr><td>9</td><td>Farbkontrast Text auf Hintergrund &ge; 4.5:1</td><td>1.4.3</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

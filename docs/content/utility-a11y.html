@@ -1,0 +1,449 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Utility &mdash; Accessibility</h1>
+      <p class="docs__subtitle">
+        WCAG 2.1-konforme Utility-Klassen f&uuml;r Barrierefreiheit.
+        Diese Klassen stellen sicher, dass Inhalte korrekt f&uuml;r Screenreader, Tastaturnutzer und
+        Nutzer mit motorischen Einschr&auml;nkungen zug&auml;nglich sind.
+        Quelldatei: <code class="docs__token">scss/10-utilities/_a11y.scss</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="a11y-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Accessibility-Utilities-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-reference" id="trigger-reference">Klassen-Referenz</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                             -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Screen Reader Only -->
+          <section class="docs__section" id="usage-sr-only">
+            <h2 class="docs__section-title">Screen Reader Only &mdash; <code class="docs__token">.u-sr-only</code></h2>
+            <p class="docs__section-desc">
+              Versteckt Inhalt visuell, h&auml;lt ihn aber f&uuml;r Screenreader zug&auml;nglich.
+              Ersetzt <code class="docs__token">.visually-hidden</code> aus der Visibility-Utility.
+              Wird f&uuml;r zus&auml;tzliche Kontextinformationen genutzt, die nur per Screenreader vermittelt werden sollen.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-04);">
+              <button class="nc-btn nc-btn--primary" aria-label="Dokument l&ouml;schen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                <span class="u-sr-only">L&ouml;schen</span>
+              </button>
+              <span style="color: var(--fnd-color-text-secondary); font-size: var(--fs-sm);">Der &ldquo;L&ouml;schen&rdquo;-Text ist visuell versteckt, aber im Screenreader lesbar.</span>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;button aria-label="Dokument l&ouml;schen"&gt;
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+  &lt;span class="u-sr-only"&gt;L&ouml;schen&lt;/span&gt;
+&lt;/button&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Live Region -->
+          <section class="docs__section" id="usage-live-region">
+            <h2 class="docs__section-title">ARIA Live Region &mdash; <code class="docs__token">.u-live-region</code></h2>
+            <p class="docs__section-desc">
+              Visuell versteckter Bereich f&uuml;r dynamische Ank&uuml;ndigungen an Screenreader.
+              Kombination mit <code class="docs__token">aria-live="polite"</code> oder <code class="docs__token">aria-live="assertive"</code> und
+              <code class="docs__token">role="status"</code> oder <code class="docs__token">role="alert"</code>.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-04);">
+              <button class="nc-btn nc-btn--secondary" id="demo-announce-btn" onclick="
+                var r = document.getElementById('demo-live-region');
+                r.textContent = '';
+                setTimeout(function(){ r.textContent = 'Formular erfolgreich gespeichert!'; }, 100);
+              ">Ank&uuml;ndigung ausl&ouml;sen</button>
+              <div class="u-live-region" id="demo-live-region" aria-live="polite" role="status"></div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="u-live-region" aria-live="polite" role="status"&gt;
+  &lt;!-- JS schreibt hier dynamisch Text rein --&gt;
+&lt;/div&gt;
+
+&lt;!-- Sofortige Ank&uuml;ndigung (Fehler, Alarm) --&gt;
+&lt;div class="u-live-region" aria-live="assertive" role="alert"&gt;&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Skip Link -->
+          <section class="docs__section" id="usage-skip-link">
+            <h2 class="docs__section-title">Skip Link &mdash; <code class="docs__token">.u-skip-link</code></h2>
+            <p class="docs__section-desc">
+              &Uuml;berspringt wiederholte Navigation und springt direkt zum Hauptinhalt.
+              Ist standardm&auml;&szlig;ig offscreen, erscheint aber sichtbar beim Fokus (Tab-Taste).
+              Muss das <strong>erste</strong> Element im <code class="docs__token">&lt;body&gt;</code> sein.
+            </p>
+            <div class="docs-snippet">
+              <pre>&lt;body&gt;
+  &lt;a class="u-skip-link" href="#main-content"&gt;Zum Hauptinhalt springen&lt;/a&gt;
+  &lt;header&gt;...Navigation...&lt;/header&gt;
+  &lt;main id="main-content"&gt;...&lt;/main&gt;
+&lt;/body&gt;</pre>
+            </div>
+            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-03);">
+              Beim Laden der Seite Tab dr&uuml;cken, um den Skip-Link sichtbar werden zu lassen.
+            </p>
+          </section>
+
+          <!-- Touch Target -->
+          <section class="docs__section" id="usage-touch-target">
+            <h2 class="docs__section-title">Touch Target &mdash; <code class="docs__token">.u-touch-target</code></h2>
+            <p class="docs__section-desc">
+              Stellt sicher, dass interaktive Elemente eine minimale Touch-Fl&auml;che von 44&times;44 px haben (WCAG 2.5.8).
+              Besonders wichtig f&uuml;r kleine Icons, die als Buttons fungieren.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-04);">
+              <button class="u-touch-target" style="background: var(--fnd-color-background-secondary); border: 1px solid var(--fnd-color-border-primary); border-radius: var(--fnd-radius-sm); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Men&uuml; &ouml;ffnen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              </button>
+              <span style="color: var(--fnd-color-text-secondary); font-size: var(--fs-sm);">Minimale Touch-Fl&auml;che 44&times;44 px, visuelle Gr&ouml;&szlig;e kann kleiner sein.</span>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;button class="u-touch-target" aria-label="Men&uuml; &ouml;ffnen"&gt;
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+&lt;/button&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Focus Ring -->
+          <section class="docs__section" id="usage-focus-ring">
+            <h2 class="docs__section-title">Focus Ring &mdash; <code class="docs__token">.u-focus-ring</code></h2>
+            <p class="docs__section-desc">
+              Wendet den systemweiten Focus-Ring-Style auf benutzerdefinierte interaktive Elemente an.
+              Ideal f&uuml;r custom-gestylte Elemente, die nicht automatisch den System-Focus-Ring erhalten.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-04);">
+              <div class="u-focus-ring" tabindex="0" style="padding: var(--fnd-spacing-02) var(--fnd-spacing-04); background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); cursor: pointer;">Tab hierher fokussieren</div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="u-focus-ring" tabindex="0" role="button"&gt;
+  Custom Interaktives Element
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Reduced Motion -->
+          <section class="docs__section" id="usage-reduced-motion">
+            <h2 class="docs__section-title">Reduced Motion &mdash; <code class="docs__token">.u-reduced-motion</code></h2>
+            <p class="docs__section-desc">
+              Deaktiviert alle Transitions und Animationen auf einem Element unabh&auml;ngig vom
+              System-<code class="docs__token">prefers-reduced-motion</code>-Setting.
+              Erg&auml;nzt die globale Media-Query-Unterst&uuml;tzung f&uuml;r programmatische &Uuml;berschreibung.
+            </p>
+            <div class="docs-snippet">
+              <pre>&lt;div class="u-reduced-motion"&gt;
+  &lt;!-- Keine Transitions oder Animationen --&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Klassen-Referenz                                      -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-reference" aria-labelledby="trigger-reference">
+
+          <section class="docs__section" id="ref-classes">
+            <h2 class="docs__section-title">Klassen-&Uuml;bersicht</h2>
+            <table class="docs__table">
+              <thead>
+                <tr>
+                  <th>Klasse</th>
+                  <th>Kategorie</th>
+                  <th>Zweck</th>
+                  <th>WCAG-Kriterium</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.u-sr-only</code></td>
+                  <td>Sichtbarkeit</td>
+                  <td>Visuell versteckt, Screenreader-sichtbar</td>
+                  <td>1.3.1 &mdash; Info und Beziehungen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.u-live-region</code></td>
+                  <td>Dynamische Inhalte</td>
+                  <td>Visuell versteckt, Ank&uuml;ndigung an Screenreader</td>
+                  <td>4.1.3 &mdash; Statusmeldungen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.u-skip-link</code></td>
+                  <td>Navigation</td>
+                  <td>Skip-to-Content, offscreen bis Fokus</td>
+                  <td>2.4.1 &mdash; Bl&ouml;cke umgehen</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.u-touch-target</code></td>
+                  <td>Zeigerf&uuml;hrung</td>
+                  <td>Min. 44&times;44 px Touch-Fl&auml;che</td>
+                  <td>2.5.8 &mdash; Zielgr&ouml;&szlig;e</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.u-focus-ring</code></td>
+                  <td>Fokus</td>
+                  <td>Systemweiter Focus-Ring auf custom Elementen</td>
+                  <td>2.4.7 &mdash; Sichtbarer Fokus</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.u-reduced-motion</code></td>
+                  <td>Bewegung</td>
+                  <td>Deaktiviert Transitions und Animationen</td>
+                  <td>2.3.3 &mdash; Animation aus Interaktionen</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="ref-bem">
+            <h2 class="docs__section-title">Klassenstruktur</h2>
+            <div class="docs__code-block">// ===== Accessibility Utility-Klassen =====
+
+.u-sr-only          // Visuell versteckt, Screenreader-sichtbar
+.u-live-region      // Visuell versteckt, f&uuml;r aria-live-Regionen
+.u-skip-link        // Skip-Navigation (offscreen bis :focus)
+.u-touch-target     // Touch-Zielfl&auml;che &ge; 44&times;44 px (WCAG 2.5.8)
+.u-focus-ring       // System-Focus-Ring auf Custom-Elementen
+.u-reduced-motion   // Deaktiviert transition + animation</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Pr&auml;fix</strong></td><td><code class="docs__token">.u-</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/10-utilities/_a11y.scss</code></td></tr>
+                <tr><td><strong>Abh&auml;ngigkeiten</strong></td><td><code class="docs__token">01-tools</code> (Mixins: <code class="docs__token">touch-target</code>, <code class="docs__token">focus-visible-ring</code>, <code class="docs__token">focus-ring</code>)</td></tr>
+                <tr><td><strong>Foundation Tokens</strong></td><td><code class="docs__token">--fnd-spacing-*</code>, <code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fnd-radius-*</code>, <code class="docs__token">--fnd-font-weight-*</code>, <code class="docs__token">--fnd-z-skip-link</code></td></tr>
+                <tr><td><strong>Component Tokens</strong></td><td>keine (reine Foundation-Token-Nutzung)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes-detail">
+            <h2 class="docs__section-title">Klassen-Spezifikation</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">.u-sr-only</h3>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">position</code></td><td>absolute !important</td></tr>
+                <tr><td><code class="docs__token">width</code></td><td>1px !important</td></tr>
+                <tr><td><code class="docs__token">height</code></td><td>1px !important</td></tr>
+                <tr><td><code class="docs__token">padding</code></td><td>0 !important</td></tr>
+                <tr><td><code class="docs__token">margin</code></td><td>-1px !important</td></tr>
+                <tr><td><code class="docs__token">overflow</code></td><td>hidden !important</td></tr>
+                <tr><td><code class="docs__token">clip</code></td><td>rect(0, 0, 0, 0) !important</td></tr>
+                <tr><td><code class="docs__token">clip-path</code></td><td>inset(50%) !important</td></tr>
+                <tr><td><code class="docs__token">white-space</code></td><td>nowrap !important</td></tr>
+                <tr><td><code class="docs__token">border</code></td><td>0 !important</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-live-region</h3>
+            <p class="docs__section-desc">Identische CSS-Regeln wie <code class="docs__token">.u-sr-only</code>. Der semantische Unterschied liegt in der HTML-Nutzung mit <code class="docs__token">aria-live</code> und <code class="docs__token">role</code>.</p>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Empfohlener Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">aria-live</code></td><td><code class="docs__token">polite</code> | <code class="docs__token">assertive</code></td><td>polite = wartet auf Pause, assertive = sofort</td></tr>
+                <tr><td><code class="docs__token">role</code></td><td><code class="docs__token">status</code> | <code class="docs__token">alert</code></td><td>status = polite, alert = assertive</td></tr>
+                <tr><td><code class="docs__token">aria-atomic</code></td><td><code class="docs__token">true</code></td><td>Gesamten Inhalt vorlesen (optional)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-skip-link</h3>
+            <table class="docs__table">
+              <thead><tr><th>Zustand</th><th>Eigenschaft</th><th>Wert / Token</th></tr></thead>
+              <tbody>
+                <tr><td>Standard</td><td><code class="docs__token">position</code></td><td>absolute</td></tr>
+                <tr><td>Standard</td><td><code class="docs__token">left</code></td><td>-9999px</td></tr>
+                <tr><td>Standard</td><td><code class="docs__token">width / height</code></td><td>1px</td></tr>
+                <tr><td>Standard</td><td><code class="docs__token">z-index</code></td><td>100</td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">position</code></td><td>fixed</td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">top / left</code></td><td><code class="docs__token">var(--fnd-spacing-04)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">padding</code></td><td><code class="docs__token">var(--fnd-spacing-03) var(--fnd-spacing-05)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">background-color</code></td><td><code class="docs__token">var(--fnd-color-background-base)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">color</code></td><td><code class="docs__token">var(--fnd-color-text-high)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">font-weight</code></td><td><code class="docs__token">var(--fnd-font-weight-semibold)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">border-radius</code></td><td><code class="docs__token">var(--fnd-radius-sm)</code></td></tr>
+                <tr><td>:focus</td><td><code class="docs__token">z-index</code></td><td><code class="docs__token">var(--fnd-z-skip-link)</code></td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-touch-target</h3>
+            <p class="docs__section-desc">Delegiert an Mixin <code class="docs__token">touch-target</code> aus <code class="docs__token">01-tools</code>. Stellt mindestens 44&times;44 px Touch-Fl&auml;che sicher (WCAG 2.5.8 &mdash; Minimum Touch Target Size).</p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-focus-ring</h3>
+            <p class="docs__section-desc">Delegiert an Mixin <code class="docs__token">focus-visible-ring</code> aus <code class="docs__token">01-tools</code>. Wendet denselben Focus-Ring an, der auf allen interaktiven Design-System-Komponenten verwendet wird.</p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-reduced-motion</h3>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">transition</code></td><td>none !important</td></tr>
+                <tr><td><code class="docs__token">animation</code></td><td>none !important</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-html-patterns">
+            <h2 class="docs__section-title">HTML-Muster</h2>
+            <div class="docs__code-block">&lt;!-- SR-only Text --&gt;
+&lt;span class="u-sr-only"&gt;Zus&auml;tzlicher Kontext f&uuml;r Screenreader&lt;/span&gt;
+
+&lt;!-- Live Region (polite) --&gt;
+&lt;div class="u-live-region" aria-live="polite" role="status" aria-atomic="true"&gt;&lt;/div&gt;
+
+&lt;!-- Live Region (assertive, Fehler) --&gt;
+&lt;div class="u-live-region" aria-live="assertive" role="alert"&gt;&lt;/div&gt;
+
+&lt;!-- Skip Link --&gt;
+&lt;a class="u-skip-link" href="#main"&gt;Zum Hauptinhalt springen&lt;/a&gt;
+
+&lt;!-- Touch Target --&gt;
+&lt;button class="u-touch-target" aria-label="Schlie&szlig;en"&gt;
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- Custom Focus Ring --&gt;
+&lt;div class="u-focus-ring" tabindex="0" role="button"&gt;...&lt;/div&gt;
+
+&lt;!-- Reduced Motion --&gt;
+&lt;div class="u-reduced-motion"&gt;...kein Transition, keine Animation...&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility-Leitfaden</h2>
+          <p class="docs__section-desc">
+            Diese Utilities sind selbst Accessibility-Werkzeuge. Die folgenden Hinweise beschreiben den korrekten Einsatz.
+          </p>
+
+          <!-- SR-only Guidance -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>.u-sr-only &mdash; Korrekte Nutzung (WCAG 1.3.1)</h4>
+              <ul>
+                <li>Verwende <code class="docs__token">.u-sr-only</code> um kontextuellen Text hinzuzuf&uuml;gen, den visuelle Nutzer durch visuellen Kontext verstehen</li>
+                <li><strong>Nicht</strong> als Ersatz f&uuml;r <code class="docs__token">aria-label</code> auf interaktiven Elementen &mdash; beides kann sinnvoll sein</li>
+                <li>Bei Icon-only-Buttons: <code class="docs__token">.u-sr-only</code>-Text oder <code class="docs__token">aria-label</code> ist Pflicht</li>
+                <li>Niemals wichtige Inhalte dauerhaft per <code class="docs__token">.u-sr-only</code> verstecken &mdash; Informationen m&uuml;ssen auch visuell pr&uuml;fbar bleiben</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Live Region Guidance -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>.u-live-region &mdash; Dynamische Ank&uuml;ndigungen (WCAG 4.1.3)</h4>
+              <ul>
+                <li><code class="docs__token">aria-live="polite"</code>: Ank&uuml;ndigung wartet bis zur n&auml;chsten Sprechpause &mdash; f&uuml;r Statusmeldungen (Speichern erfolgreich, Daten geladen)</li>
+                <li><code class="docs__token">aria-live="assertive"</code>: Unterbricht sofort &mdash; nur f&uuml;r echte Fehler oder zeitkritische Meldungen</li>
+                <li>Live-Regionen m&uuml;ssen beim Seitenaufbau <strong>leer</strong> sein; erst sp&auml;ter Text via JS einf&uuml;gen</li>
+                <li>Um erneut anzuk&uuml;ndigen: Region erst leeren, dann neuen Text setzen (kurzes Timeout)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Skip Link Guidance -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>.u-skip-link &mdash; Skip Navigation (WCAG 2.4.1)</h4>
+              <ul>
+                <li>Muss das <strong>erste fokussierbare Element</strong> auf der Seite sein</li>
+                <li><code class="docs__token">href</code> muss auf ein Element mit passender <code class="docs__token">id</code> zeigen (z.B. <code class="docs__token">&lt;main id="main-content"&gt;</code>)</li>
+                <li>Mehrere Skip-Links m&ouml;glich: Hauptinhalt, Suche, Navigation, Footer</li>
+                <li>Das Ziel-Element (<code class="docs__token">&lt;main&gt;</code>) muss <code class="docs__token">tabindex="-1"</code> haben, damit der Fokus korrekt springt (in manchen Browsern)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Touch Target Guidance -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>.u-touch-target &mdash; Zielgr&ouml;&szlig;e (WCAG 2.5.8)</h4>
+              <ul>
+                <li>Mindestens 44&times;44 px Touch-Fl&auml;che f&uuml;r alle interaktiven Elemente &mdash; wichtig auf mobilen Ger&auml;ten</li>
+                <li>Die sichtbare Gr&ouml;&szlig;e darf kleiner sein (z.B. ein 16px-Icon); die Touch-Fl&auml;che wird unsichtbar vergr&ouml;&szlig;ert</li>
+                <li>Alternative: ausreichend Abstand (Spacing) zwischen kleinen Elementen (WCAG 2.5.8 Ausnahme)</li>
+                <li>Nicht n&ouml;tig, wenn das Element bereits &ge; 44&times;44 px ist (z.B. Standard-Buttons)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus Ring Guidance -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>.u-focus-ring &mdash; Sichtbarer Fokus (WCAG 2.4.7 / 2.4.11)</h4>
+              <ul>
+                <li>Alle interaktiven Elemente <strong>m&uuml;ssen</strong> einen sichtbaren Fokus-Indikator haben</li>
+                <li><code class="docs__token">.u-focus-ring</code> verwendet <code class="docs__token">:focus-visible</code> &mdash; erscheint nur bei Tastaturnavigation, nicht bei Mausklick</li>
+                <li>Fokus-Ring niemals mit <code class="docs__token">outline: none</code> ohne Ersatz entfernen</li>
+                <li>F&uuml;r Design-System-Komponenten ist der Fokus-Ring bereits eingebaut; diese Klasse ist f&uuml;r custom Elemente</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: SR-only f&uuml;r Icon-Button --&gt;
+&lt;button aria-label="Profil &ouml;ffnen"&gt;
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+  &lt;span class="u-sr-only"&gt;Profil &ouml;ffnen&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Live Region korrekt initialisieren --&gt;
+&lt;div class="u-live-region" id="status" aria-live="polite" role="status"&gt;&lt;/div&gt;
+&lt;!-- JS: --&gt;
+statusEl.textContent = '';
+setTimeout(() =&gt; { statusEl.textContent = 'Gespeichert'; }, 50);
+
+&lt;!-- RICHTIG: Skip Link als erstes Element --&gt;
+&lt;body&gt;
+  &lt;a class="u-skip-link" href="#main"&gt;Zum Hauptinhalt&lt;/a&gt;
+  &lt;header&gt;...&lt;/header&gt;
+  &lt;main id="main" tabindex="-1"&gt;...&lt;/main&gt;
+&lt;/body&gt;
+
+&lt;!-- FALSCH: SR-only als Display-none-Ersatz --&gt;
+&lt;div class="u-sr-only"&gt;Wichtiger Inhalt, der auch sichtbar sein sollte&lt;/div&gt;
+
+&lt;!-- FALSCH: Fokus entfernen ohne Ersatz --&gt;
+&lt;button style="outline: none;"&gt;...&lt;/button&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->

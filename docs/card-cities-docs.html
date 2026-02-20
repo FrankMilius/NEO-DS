@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Cities | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Cities-Card-Variante mit Grid-Layout und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .docs-cities-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--fnd-spacing-04);
+    }
+    @media (min-width: 768px) {
+      .docs-cities-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .docs-cities-grid {
+        gap: var(--fnd-spacing-06);
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+    }
+    .docs-cities-grid li {
+      list-style: none;
+      background-color: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-lg);
+      padding: var(--fnd-spacing-04);
+      text-align: center;
+      transition: background-color var(--fnd-motion-duration-200) ease;
+    }
+    .docs-cities-grid li:hover {
+      background-color: var(--fnd-color-background-secondary);
+    }
+    .docs-cities-grid picture {
+      display: block;
+      width: 96px;
+      height: 96px;
+      margin-inline: auto;
+    }
+    .docs-cities-grid img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .docs-cities-grid .city-name {
+      font-size: var(--fnd-typography-body-m-font-size);
+      font-weight: var(--fnd-font-weight-semibold);
+      margin: var(--fnd-spacing-01) 0 var(--fnd-spacing-02);
+    }
+    .docs-cities-grid .city-country {
+      font-size: var(--fnd-typography-body-s-font-size);
+      color: var(--fnd-color-text-mid);
+      margin: 0;
+    }
+    .docs-cities-placeholder {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background-color: var(--fnd-color-background-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline: auto;
+      color: var(--fnd-color-text-mid);
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Card Cities</h1>
+      <p class="docs__subtitle">Standort-Karten zeigen Städte oder Regionen mit Bild, Name und Landesangabe. Responsives Grid von 2 bis 6 Spalten. Verwendung in Location- und Standortübersichten.</p>
+
+      <!-- ============================================================= -->
+      <!-- TABS                                                          -->
+      <!-- ============================================================= -->
+      <div class="docs-tabs" id="card-cities-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Card Cities Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 1: BENUTZUNG                                            -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p>Standort-Karten im responsiven Raster. Das Grid passt sich automatisch an die verfügbare Breite an.</p>
+
+          <!-- Staging Area -->
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: var(--fnd-spacing-08);">
+              <!-- JS renders component here -->
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code"></pre>
+          </div>
+
+          <!-- Static Examples -->
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Standard Cities Grid</h2>
+          <p>2 Spalten mobil, 4 Spalten ab Tablet, 6 Spalten ab Desktop. Rundes Stadtbild mit Name und Land.</p>
+          <div class="cards cities">
+            <ul class="docs-cities-grid" style="margin: 0; padding: 0;">
+              <li>
+                <div class="card-content">
+                  <div class="docs-cities-placeholder" aria-hidden="true">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </div>
+                  <p class="city-name">Berlin</p>
+                  <p class="city-country">Deutschland</p>
+                </div>
+              </li>
+              <li>
+                <div class="card-content">
+                  <div class="docs-cities-placeholder" aria-hidden="true">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </div>
+                  <p class="city-name">Wien</p>
+                  <p class="city-country">Österreich</p>
+                </div>
+              </li>
+              <li>
+                <div class="card-content">
+                  <div class="docs-cities-placeholder" aria-hidden="true">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </div>
+                  <p class="city-name">Zürich</p>
+                  <p class="city-country">Schweiz</p>
+                </div>
+              </li>
+              <li>
+                <div class="card-content">
+                  <div class="docs-cities-placeholder" aria-hidden="true">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  </div>
+                  <p class="city-name">München</p>
+                  <p class="city-country">Deutschland</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 2: STYLE                                                -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Design Tokens</h2>
+          <p>Die Komponente verwendet ausschließlich Foundation-Tokens. Es gibt keine eigenen Component-Tokens.</p>
+
+          <table class="docs__table docs__table--compact">
+            <thead>
+              <tr><th>Token / Eigenschaft</th><th>Wert</th><th>Kategorie</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Hintergrund</td></tr>
+              <tr><td><code class="docs__token">background-color (li)</code></td><td>var(--fnd-color-background-base)</td><td>Farbe</td></tr>
+              <tr><td><code class="docs__token">background-color:hover</code></td><td>var(--fnd-color-background-secondary)</td><td>Farbe</td></tr>
+              <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-lg)</td><td>Radius</td></tr>
+              <tr><td><code class="docs__token">padding</code></td><td>var(--fnd-spacing-04)</td><td>Spacing</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Grid</td></tr>
+              <tr><td><code class="docs__token">gap (mobil)</code></td><td>var(--fnd-spacing-04)</td><td>Spacing</td></tr>
+              <tr><td><code class="docs__token">gap (desktop)</code></td><td>var(--fnd-spacing-06)</td><td>Spacing</td></tr>
+              <tr><td><code class="docs__token">grid-template-columns (mobil)</code></td><td>repeat(2, 1fr)</td><td>Layout</td></tr>
+              <tr><td><code class="docs__token">grid-template-columns (tablet)</code></td><td>repeat(4, 1fr)</td><td>Layout</td></tr>
+              <tr><td><code class="docs__token">grid-template-columns (desktop)</code></td><td>repeat(6, minmax(0, 1fr))</td><td>Layout</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Bild</td></tr>
+              <tr><td><code class="docs__token">picture width (mobil)</code></td><td>96px</td><td>Sizing</td></tr>
+              <tr><td><code class="docs__token">picture width (desktop)</code></td><td>116px</td><td>Sizing</td></tr>
+              <tr><td><code class="docs__token">aspect-ratio</code></td><td>var(--fnd-image-ratio-1-1)</td><td>Ratio</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typografie</td></tr>
+              <tr><td><code class="docs__token">.heading (mobil)</code></td><td>paragraph('m')</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.heading (desktop)</code></td><td>paragraph('l')</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.overheadline (mobil)</code></td><td>paragraph('s')</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.overheadline (desktop)</code></td><td>paragraph('m')</td><td>Typography</td></tr>
+              <tr><td><code class="docs__token">.overheadline color</code></td><td>var(--fnd-color-text-mid)</td><td>Farbe</td></tr>
+
+              <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Button-Hover</td></tr>
+              <tr><td><code class="docs__token">.icon-only:hover bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Interaktiv</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">BEM-Klassen &Uuml;bersicht</h2>
+          <div class="docs__code-block">.cards.cities               // Block-Wrapper (ul-Container)
+.cards.cities ul             // Grid-Container
+.cards.cities li             // Einzel-Karte (hover-sensitiv)
+.cards.cities .card-content  // Innerer Inhalts-Bereich
+.cards.cities .heading       // Stadtname
+.cards.cities .overheadline  // Übergeordnete Info (Land, Region)
+.cards.cities picture        // Bild-Wrapper (1:1, 96/116px)
+.cards.cities .button-container // Optionaler Button-Bereich</div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Responsive Breakpoints</h2>
+          <table class="docs__table docs__table--compact">
+            <thead>
+              <tr><th>Breakpoint</th><th>Spalten</th><th>Gap</th><th>Bildgröße</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mobil (&lt; 768px)</td><td>2</td><td>var(--fnd-spacing-04)</td><td>96 &times; 96 px</td></tr>
+              <tr><td>Tablet (≥ 768px)</td><td>4</td><td>var(--fnd-spacing-04)</td><td>96 &times; 96 px</td></tr>
+              <tr><td>Desktop (≥ 1024px)</td><td>6</td><td>var(--fnd-spacing-06)</td><td>116 &times; 116 px</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 3: API                                                  -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Komponenten-&Uuml;bersicht</h2>
+          <table class="docs__table">
+            <tbody>
+              <tr><td><strong>Kanonische Klasse</strong></td><td><code>.cards.cities</code></td></tr>
+              <tr><td><strong>Selector-Typ</strong></td><td>Compound Class (Legacy-Migration)</td></tr>
+              <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens <code>--fnd-*</code> (keine eigenen Component-Tokens)</td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/06-molecules/_card-cities.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>06-Molecules</td></tr>
+              <tr><td><strong>Migriert von</strong></td><td><code>cards.css</code> → <code>.cards.cities</code></td></tr>
+              <tr><td><strong>Varianten</strong></td><td>1 (Standard-Grid)</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">HTML-Struktur</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="cards cities"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;div class="card-content"&gt;
+        &lt;picture&gt;
+          &lt;img src="/assets/eugene-chystiakov-BGYijR3JX-I-unsplash.jpg" alt="Luftbild von Berlin" /&gt;
+        &lt;/picture&gt;
+        &lt;p class="overheadline"&gt;Deutschland&lt;/p&gt;
+        &lt;p class="heading"&gt;Berlin&lt;/p&gt;
+        &lt;div class="button-container"&gt;
+          &lt;!-- optionale Icon-Buttons --&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/li&gt;
+    &lt;!-- weitere li-Elemente --&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Inhalts-Slots</h2>
+          <table class="docs__table">
+            <thead>
+              <tr><th>Slot / Klasse</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>picture</code></td><td><code>&lt;picture&gt;</code></td><td>Empfohlen</td><td>Stadtbild, quadratisches Seitenverhältnis (1:1)</td></tr>
+              <tr><td><code>.overheadline</code></td><td><code>&lt;p&gt;</code></td><td>Optional</td><td>Land oder Region (kleinere Schrift, gedimmte Farbe)</td></tr>
+              <tr><td><code>.heading</code></td><td><code>&lt;p&gt;</code></td><td>Ja</td><td>Stadtname (prominentere Schrift)</td></tr>
+              <tr><td><code>.button-container</code></td><td><code>&lt;div&gt;</code></td><td>Optional</td><td>Icon-Buttons (z.B. für Lesezeichen, Navigation)</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 4: ACCESSIBILITY                                        -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Semantik &amp; Struktur</h2>
+          <table class="docs__table">
+            <thead>
+              <tr><th>Element</th><th>Rolle</th><th>Hinweis</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;ul&gt;</code> / <code>&lt;li&gt;</code></td><td>Liste / Listenelement</td><td>Korrekte Listenstruktur für Screenreader</td></tr>
+              <tr><td><code>&lt;picture&gt; / &lt;img&gt;</code></td><td>Bild</td><td><code>alt</code>-Attribut muss aussagekräftigen Bildtext enthalten</td></tr>
+              <tr><td><code>.heading</code></td><td>Textinhalt</td><td>Stadtname klar lesbar, nicht nur über Bild kommuniziert</td></tr>
+              <tr><td><code>.overheadline</code></td><td>Ergänzende Info</td><td>Land / Region als visuell gedimmter Text, aber nicht versteckt</td></tr>
+            </tbody>
+          </table>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-08);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Alt-Text für Stadtbilder</h4>
+              <ul>
+                <li>Verwende aussagekräftige <code>alt</code>-Attribute: <code>alt="Skyline von Berlin bei Sonnenuntergang"</code> &mdash; nicht <code>alt="berlin.jpg"</code>.</li>
+                <li>Rein dekorative Bilder: <code>alt=""</code> und <code>aria-hidden="true"</code> auf <code>&lt;picture&gt;</code>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Navigation</h4>
+              <ul>
+                <li>Die Karte selbst ist nicht interaktiv &mdash; Hover-Effekt ist rein visuell.</li>
+                <li>Wenn Icon-Buttons vorhanden sind: Diese müssen per <kbd>Tab</kbd> erreichbar sein und ein sichtbares <code>:focus-visible</code> haben.</li>
+                <li>Icon-Buttons ohne sichtbaren Text benötigen <code>aria-label</code> oder <code>title</code>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Hover-Effekte und Reduced Motion</h4>
+              <ul>
+                <li>Der Hover-Hintergrundwechsel ist eine sanfte Farbänderung &mdash; kein abruptes Flackern.</li>
+                <li>Bei <code>prefers-reduced-motion: reduce</code> sollten Transitions deaktiviert werden.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Validierungscheckliste</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Stadtbilder haben aussagekräftigen <code>alt</code>-Text</td><td>1.1.1</td></tr>
+              <tr><td>2</td><td>Stadtname auch ohne Bild lesbar (Text vorhanden)</td><td>1.3.1</td></tr>
+              <tr><td>3</td><td>Icon-Buttons haben <code>aria-label</code></td><td>4.1.2</td></tr>
+              <tr><td>4</td><td>Icon-Button Fokus-Ring sichtbar</td><td>2.4.7</td></tr>
+              <tr><td>5</td><td>Farbkontrast <code>.overheadline</code> ≥ 4.5:1</td><td>1.4.3</td></tr>
+              <tr><td>6</td><td>Listenstruktur <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> korrekt</td><td>1.3.1</td></tr>
+              <tr><td>7</td><td><code>prefers-reduced-motion</code> berücksichtigt</td><td>2.3.3</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+<script src="card-cities-docs.js"></script>
+
+</body>
+</html>

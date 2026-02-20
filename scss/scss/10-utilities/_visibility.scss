@@ -1,0 +1,34 @@
+// ==========================================================================
+// 10-Utilities: Visibility
+// ==========================================================================
+// Utility-Klassen für Sichtbarkeit
+// ==========================================================================
+
+/// Visually hidden (accessible to screen readers)
+.visually-hidden {
+  clip-path: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/// Hidden (display: none)
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/// Block error state
+.block-error {
+  border: 3px dashed var(--fnd-color-semantic-border-danger);
+}
+
+/// Scroll blocked (für Modals)
+.scroll-blocked {
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}

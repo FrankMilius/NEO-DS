@@ -1,0 +1,588 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <h1 class="docs__title">Typography</h1>
+    <p class="docs__subtitle">
+      Einheitliches Fluid Typography System. Alle drei Kategorien &mdash;
+      Display, Heading, Paragraph &mdash; nutzen
+      <code class="docs__token">clamp()</code> für viewport-responsive Skalierung
+      zwischen 320px und 1400px.
+    </p>
+
+    <!-- ================================================================ -->
+    <!-- 1. FONT FAMILIES                                                 -->
+    <!-- ================================================================ -->
+    <!--
+      Drei Schriftfamilien:
+        --font-body:    'Manrope'       — für Fließtext, Paragraphen, UI-Elemente
+        --font-heading: 'Space Grotesk' — für Überschriften und Display-Text
+        --font-mono:    'DM Mono'       — für Code, Token-Namen, Monospace-Elemente
+
+      Alle mit umfangreichen Fallbacks. Alle per Theme überschreibbar.
+    -->
+    <section class="docs__section" id="families">
+      <h2 class="docs__section-title">Font Families</h2>
+      <p class="docs__section-desc">
+        Drei Schriftfamilien bilden die typografische Basis.
+        Body-Text nutzt Manrope f&uuml;r optimale Lesbarkeit,
+        &Uuml;berschriften nutzen Space Grotesk f&uuml;r visuelle Pr&auml;gnanz,
+        Code-Elemente nutzen DM Mono f&uuml;r klare Monospace-Darstellung.
+        Alle drei sind per Theme &uuml;berschreibbar.
+      </p>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-l-font-size); line-height: 1.15; margin-block-end: var(--fnd-spacing-04);">
+          Space Grotesk
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--font-heading</code></span>
+          <span class="docs__type-meta-item">Gewichte: 400, 500, 600, 700</span>
+          <span class="docs__type-meta-item">Verwendung: &Uuml;berschriften, Display</span>
+        </div>
+      </div>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-xl-font-size); line-height: 1.6; margin-block-end: var(--fnd-spacing-04);">
+          Manrope &mdash; Die schnelle L&ouml;sung f&uuml;r Ihre digitale Kommunikation
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--font-body</code></span>
+          <span class="docs__type-meta-item">Gewichte: 400, 500, 600, 700</span>
+          <span class="docs__type-meta-item">Verwendung: Flie&szlig;text, UI-Elemente</span>
+        </div>
+      </div>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-mono); font-size: var(--fnd-typography-paragraph-l-font-size); line-height: 1.6; margin-block-end: var(--fnd-spacing-04);">
+          DM Mono &mdash; const token = '--fnd-color-primary';
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--font-mono</code></span>
+          <span class="docs__type-meta-item">Gewichte: 300, 400, 500</span>
+          <span class="docs__type-meta-item">Verwendung: Code, Token-Namen, Monospace</span>
+        </div>
+      </div>
+
+      <div class="docs__code-block">--font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+--font-heading: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+--font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 2. FLUID SCALE (xs – 9xl)                                        -->
+    <!-- ================================================================ -->
+    <!--
+      Die Basis-Scale hat 13 Stufen (xs bis 9xl), berechnet mit einer
+      Modular Scale (Ratio 1.2) auf Basis von 14px (min) bis 18px (max).
+
+      Jede Stufe wird als CSS Custom Property --fs-{label} ausgegeben
+      und nutzt clamp() für Fluid-Skalierung.
+
+      Beispiel:
+        --fs-base: clamp(0.875rem, 0.875rem + (1.125rem - 0.875rem) * ..., 1.125rem)
+        → 14px bei 320px Viewport, 18px bei 1400px Viewport
+
+      Die drei Kategorien (Display, Heading, Paragraph) mappen
+      ihre Größen auf diese Fluid-Scale.
+    -->
+    <section class="docs__section" id="scale">
+      <h2 class="docs__section-title">Fluid Type Scale</h2>
+      <p class="docs__section-desc">
+        13 Stufen, berechnet mit Modular Scale (Ratio 1.2).
+        Resize das Browserfenster, um die Skalierung live zu sehen.
+        Alle Texte unten verwenden die <code class="docs__token">--fs-{label}</code> Tokens.
+      </p>
+
+      <div class="docs__type-scale">
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-xs</span>
+          <span style="font-size: var(--fs-xs);">9.7px &rarr; 12.5px &mdash; Kleinste Stufe</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-sm</span>
+          <span style="font-size: var(--fs-sm);">11.7px &rarr; 15px &mdash; Small Text</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-base</span>
+          <span style="font-size: var(--fs-base);">14px &rarr; 18px &mdash; Basis-Größe</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-lg</span>
+          <span style="font-size: var(--fs-lg);">16.8px &rarr; 21.6px &mdash; Large</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-xl</span>
+          <span style="font-size: var(--fs-xl);">20.2px &rarr; 25.9px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-2xl</span>
+          <span style="font-size: var(--fs-2xl);">24.2px &rarr; 31.1px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-3xl</span>
+          <span style="font-size: var(--fs-3xl);">29px &rarr; 37.3px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-4xl</span>
+          <span style="font-size: var(--fs-4xl);">34.8px &rarr; 44.8px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-5xl</span>
+          <span style="font-size: var(--fs-5xl);">41.8px &rarr; 53.7px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-6xl</span>
+          <span style="font-size: var(--fs-6xl); font-family: var(--font-heading);">50.2px &rarr; 64.5px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-7xl</span>
+          <span style="font-size: var(--fs-7xl); font-family: var(--font-heading);">60.2px &rarr; 77.4px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-8xl</span>
+          <span style="font-size: var(--fs-8xl); font-family: var(--font-heading);">72.2px &rarr; 92.9px</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">--fs-9xl</span>
+          <span style="font-size: var(--fs-9xl); font-family: var(--font-heading);">86.7px &rarr; 111.5px</span>
+        </div>
+      </div>
+
+      <div class="docs__code-block">/* Modular Scale Parameter */
+Base:  14px (min) → 18px (max)
+Ratio: 1.2
+Range: 320px – 1400px Viewport
+
+/* Formel je Stufe */
+--fs-{label}: clamp(min-rem, min-rem + (max-rem - min-rem) * fluid-bp, max-rem)
+
+/* Beispiel: --fs-lg */
+min = 14px * 1.2^1 = 16.8px → 1.05rem
+max = 18px * 1.2^1 = 21.6px → 1.35rem
+→ clamp(1.05rem, ..., 1.35rem)</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 3. DISPLAY                                                       -->
+    <!-- ================================================================ -->
+    <!--
+      Display-Text: große, plakative Texte (Helden-Bereiche, Slogans).
+      Nutzt eigene Fluid-Bereiche (nicht die Ratio-Scale), um nah am
+      bisherigen visuellen Erscheinungsbild zu bleiben.
+
+      Tokens:
+        --fnd-typography-display-{s|m|l}-font-size
+        --fnd-typography-display-{s|m|l}-line-height
+        --fnd-typography-display-{s|m|l}-letter-spacing
+
+      Line-Height: calc(font-size * 1.15)
+      Letter-Spacing: -0.02em (alle Größen)
+
+      Mixin: @include display('m');
+    -->
+    <section class="docs__section" id="display">
+      <h2 class="docs__section-title">Display</h2>
+      <p class="docs__section-desc">
+        Display-Stile für große, plakative Texte. Eigene Fluid-Bereiche,
+        die nah am ursprünglichen visuellen Erscheinungsbild bleiben.
+        Font: <code class="docs__token">--font-heading</code> (Space Grotesk).
+      </p>
+
+      <!-- Display L -->
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-display-l-font-size); line-height: var(--fnd-typography-display-l-line-height); letter-spacing: var(--fnd-typography-display-l-letter-spacing);">
+          Display L
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">display('l')</code></span>
+          <span class="docs__type-meta-item">48px &rarr; 64px</span>
+          <span class="docs__type-meta-item">LH: &times;1.15</span>
+          <span class="docs__type-meta-item">LS: -0.02em</span>
+          <span class="docs__type-meta-item">HTML: h1</span>
+        </div>
+      </div>
+
+      <!-- Display M -->
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-display-m-font-size); line-height: var(--fnd-typography-display-m-line-height); letter-spacing: var(--fnd-typography-display-m-letter-spacing);">
+          Display M
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">display('m')</code></span>
+          <span class="docs__type-meta-item">36px &rarr; 48px</span>
+          <span class="docs__type-meta-item">LH: &times;1.15</span>
+          <span class="docs__type-meta-item">LS: -0.02em</span>
+          <span class="docs__type-meta-item">HTML: h2</span>
+        </div>
+      </div>
+
+      <!-- Display S -->
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-display-s-font-size); line-height: var(--fnd-typography-display-s-line-height); letter-spacing: var(--fnd-typography-display-s-letter-spacing);">
+          Display S
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">display('s')</code></span>
+          <span class="docs__type-meta-item">24px &rarr; 32px</span>
+          <span class="docs__type-meta-item">LH: &times;1.15</span>
+          <span class="docs__type-meta-item">LS: -0.02em</span>
+          <span class="docs__type-meta-item">HTML: h3</span>
+        </div>
+      </div>
+
+      <table class="docs__table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Min (320px)</th>
+            <th>Max (1400px)</th>
+            <th>Line-Height</th>
+            <th>Letter-Spacing</th>
+            <th>Token</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>s</td>
+            <td>24px (1.5rem)</td>
+            <td>32px (2rem)</td>
+            <td>&times;1.15</td>
+            <td>-0.02em</td>
+            <td><code class="docs__token">--fnd-typography-display-s-*</code></td>
+          </tr>
+          <tr>
+            <td>m</td>
+            <td>36px (2.25rem)</td>
+            <td>48px (3rem)</td>
+            <td>&times;1.15</td>
+            <td>-0.02em</td>
+            <td><code class="docs__token">--fnd-typography-display-m-*</code></td>
+          </tr>
+          <tr>
+            <td>l</td>
+            <td>48px (3rem)</td>
+            <td>64px (4rem)</td>
+            <td>&times;1.15</td>
+            <td>-0.02em</td>
+            <td><code class="docs__token">--fnd-typography-display-l-*</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="docs__code-block">/* SCSS Mixin */
+@include display('l');
+
+/* Erzeugt: */
+font-size: var(--fnd-typography-display-l-font-size);
+line-height: var(--fnd-typography-display-l-line-height);
+letter-spacing: var(--fnd-typography-display-l-letter-spacing);
+
+/* CSS Custom Property (berechnet) */
+--fnd-typography-display-l-font-size: clamp(3rem, 2.70rem + 1.48vw, 4rem);
+--fnd-typography-display-l-line-height: calc(clamp(...) * 1.15);</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 4. HEADINGS                                                      -->
+    <!-- ================================================================ -->
+    <!--
+      Headings: für Abschnittsüberschriften innerhalb von Inhalten.
+      Gemappt auf die Fluid Ratio-Scale:
+        xxs → --fs-base    (14-18px)
+        xs  → --fs-lg      (16.8-21.6px)
+        s   → --fs-xl      (20.2-25.9px)
+        m   → --fs-2xl     (24.2-31.1px)
+        l   → --fs-3xl     (29-37.3px)
+        xl  → --fs-4xl     (34.8-44.8px)
+
+      Line-Height: calc(font-size * 1.15)
+      Font: --font-heading (Space Grotesk)
+      Mixin: @include heading('m');
+    -->
+    <section class="docs__section" id="headings">
+      <h2 class="docs__section-title">Headings</h2>
+      <p class="docs__section-desc">
+        Heading-Stile für Abschnittsüberschriften. Gemappt auf die Fluid Ratio-Scale
+        (<code class="docs__token">--fs-{label}</code>).
+        Font: <code class="docs__token">--font-heading</code> (Space Grotesk).
+      </p>
+
+      <div class="docs__type-scale">
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading xxs</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-xxs-font-size); line-height: var(--fnd-typography-heading-xxs-line-height);">Heading XXS &mdash; mapped auf --fs-base</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading xs</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-xs-font-size); line-height: var(--fnd-typography-heading-xs-line-height);">Heading XS &mdash; mapped auf --fs-lg</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading s</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-s-font-size); line-height: var(--fnd-typography-heading-s-line-height);">Heading S &mdash; mapped auf --fs-xl</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading m</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-m-font-size); line-height: var(--fnd-typography-heading-m-line-height);">Heading M &mdash; mapped auf --fs-2xl</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading l</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-l-font-size); line-height: var(--fnd-typography-heading-l-line-height);">Heading L &mdash; mapped auf --fs-3xl</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">heading xl</span>
+          <span style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-xl-font-size); line-height: var(--fnd-typography-heading-xl-line-height);">Heading XL &mdash; mapped auf --fs-4xl</span>
+        </div>
+      </div>
+
+      <table class="docs__table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Fluid Step</th>
+            <th>Min (320px)</th>
+            <th>Max (1400px)</th>
+            <th>HTML Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>xxs</td><td><code class="docs__token">--fs-base</code></td><td>14px</td><td>18px</td><td>&mdash;</td></tr>
+          <tr><td>xs</td><td><code class="docs__token">--fs-lg</code></td><td>16.8px</td><td>21.6px</td><td>&mdash;</td></tr>
+          <tr><td>s</td><td><code class="docs__token">--fs-xl</code></td><td>20.2px</td><td>25.9px</td><td>&mdash;</td></tr>
+          <tr><td>m</td><td><code class="docs__token">--fs-2xl</code></td><td>24.2px</td><td>31.1px</td><td>h6</td></tr>
+          <tr><td>l</td><td><code class="docs__token">--fs-3xl</code></td><td>29px</td><td>37.3px</td><td>h5</td></tr>
+          <tr><td>xl</td><td><code class="docs__token">--fs-4xl</code></td><td>34.8px</td><td>44.8px</td><td>h4</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs__code-block">/* SCSS Mixin */
+@include heading('m');
+
+/* CSS Custom Properties */
+--fnd-typography-heading-m-font-size: var(--fs-2xl);
+--fnd-typography-heading-m-line-height: calc(var(--fs-2xl) * 1.15);
+--fnd-typography-heading-m-letter-spacing: -0.01em;</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 5. PARAGRAPHS                                                    -->
+    <!-- ================================================================ -->
+    <!--
+      Paragraphs: für Fließtext und UI-Text.
+      Gemappt auf die Fluid Ratio-Scale:
+        s  → --fs-xs    (9.7-12.5px)
+        m  → --fs-sm    (11.7-15px)
+        l  → --fs-base  (14-18px)     ← Standard-Textgröße
+        xl → --fs-lg    (16.8-21.6px)
+
+      Line-Height: calc(font-size * 1.6)  ← Body-Line-Height
+      Font: --font-body (Manrope)
+      Mixin: @include paragraph('l');
+    -->
+    <section class="docs__section" id="paragraphs">
+      <h2 class="docs__section-title">Paragraphs</h2>
+      <p class="docs__section-desc">
+        Paragraph-Stile für Fließtext und UI-Elemente. Gemappt auf die Fluid
+        Ratio-Scale. Line-Height <code class="docs__token">&times;1.6</code> für
+        optimale Lesbarkeit.
+        Font: <code class="docs__token">--font-body</code> (Manrope).
+      </p>
+
+      <div class="docs__type-scale">
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">paragraph s</span>
+          <span style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-s-font-size); line-height: var(--fnd-typography-paragraph-s-line-height);">Kleine Hinweistexte, Captions, Labels &mdash; --fs-xs</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">paragraph m</span>
+          <span style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-m-font-size); line-height: var(--fnd-typography-paragraph-m-line-height);">Sekundärer Text, kleinere Beschreibungen &mdash; --fs-sm</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">paragraph l</span>
+          <span style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-l-font-size); line-height: var(--fnd-typography-paragraph-l-line-height);">Standard-Fließtext. Dies ist die Basisgröße für den gesamten Body-Text der Anwendung. Optimale Lesbarkeit durch Line-Height 1.6 und Fluid-Skalierung. &mdash; --fs-base</span>
+        </div>
+        <div class="docs__type-scale-row">
+          <span class="docs__type-scale-label">paragraph xl</span>
+          <span style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-xl-font-size); line-height: var(--fnd-typography-paragraph-xl-line-height);">Lead-Text, Introductions, hervorgehobene Absätze &mdash; --fs-lg</span>
+        </div>
+      </div>
+
+      <table class="docs__table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Fluid Step</th>
+            <th>Min (320px)</th>
+            <th>Max (1400px)</th>
+            <th>Line-Height</th>
+            <th>Verwendung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>s</td><td><code class="docs__token">--fs-xs</code></td><td>9.7px</td><td>12.5px</td><td>&times;1.6</td><td>Captions, Labels, Footnotes</td></tr>
+          <tr><td>m</td><td><code class="docs__token">--fs-sm</code></td><td>11.7px</td><td>15px</td><td>&times;1.6</td><td>Sekundärer Text, Meta-Info</td></tr>
+          <tr><td>l</td><td><code class="docs__token">--fs-base</code></td><td>14px</td><td>18px</td><td>&times;1.6</td><td>Standard-Fließtext</td></tr>
+          <tr><td>xl</td><td><code class="docs__token">--fs-lg</code></td><td>16.8px</td><td>21.6px</td><td>&times;1.6</td><td>Lead-Text, Intros</td></tr>
+        </tbody>
+      </table>
+
+      <div class="docs__code-block">/* SCSS Mixin */
+@include paragraph('l');
+
+/* CSS Custom Properties */
+--fnd-typography-paragraph-l-font-size: var(--fs-base);
+--fnd-typography-paragraph-l-line-height: calc(var(--fs-base) * 1.6);
+--fnd-typography-paragraph-l-letter-spacing: 0;</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 6. LINE HEIGHTS                                                  -->
+    <!-- ================================================================ -->
+    <!--
+      Drei Line-Height-Tokens:
+        --lh-tight:   1.05  — für sehr große Display-Texte
+        --lh-heading: 1.15  — für Headings und Display
+        --lh-body:    1.6   — für Paragraphs und Fließtext
+
+      Die Heading/Display Line-Heights werden als calc(font-size * 1.15)
+      berechnet, sodass sie proportional mit der Fluid-Size skalieren.
+    -->
+    <section class="docs__section" id="line-heights">
+      <h2 class="docs__section-title">Line Heights</h2>
+      <p class="docs__section-desc">
+        Drei definierte Line-Height-Stufen. Heading- und Display-Texte
+        nutzen <code class="docs__token">&times;1.15</code>, Fließtext nutzt
+        <code class="docs__token">&times;1.6</code> für optimale Lesbarkeit.
+      </p>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-display-s-font-size); line-height: 1.05; margin-block-end: var(--fnd-spacing-04); background: repeating-linear-gradient(transparent, transparent calc(1em * 1.05 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.05 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.05));">
+          Tight (1.05)<br>
+          Zweite Zeile
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--lh-tight: 1.05</code></span>
+          <span class="docs__type-meta-item">Für sehr große Display-Texte</span>
+        </div>
+      </div>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-heading); font-size: var(--fnd-typography-heading-l-font-size); line-height: 1.15; margin-block-end: var(--fnd-spacing-04); background: repeating-linear-gradient(transparent, transparent calc(1em * 1.15 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.15 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.15));">
+          Heading (1.15)<br>
+          Zweite Zeile
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--lh-heading: 1.15</code></span>
+          <span class="docs__type-meta-item">Für Headings und Display</span>
+        </div>
+      </div>
+
+      <div class="docs__type-sample">
+        <div style="font-family: var(--font-body); font-size: var(--fnd-typography-paragraph-l-font-size); line-height: 1.6; margin-block-end: var(--fnd-spacing-04); background: repeating-linear-gradient(transparent, transparent calc(1em * 1.6 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.6 - 1px), color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent) calc(1em * 1.6));">
+          Body (1.6) &mdash; Längerer Absatz<br>
+          Zweite Zeile mit mehr Zeilenabstand<br>
+          Dritte Zeile für bessere Lesbarkeit
+        </div>
+        <div class="docs__type-meta">
+          <span class="docs__type-meta-item"><code class="docs__token">--lh-body: 1.6</code></span>
+          <span class="docs__type-meta-item">Für Fließtext und Paragraphs</span>
+        </div>
+      </div>
+
+      <table class="docs__table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Wert</th>
+            <th>Kategorie</th>
+            <th>Berechnung in CSS-Vars</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="docs__token">--lh-tight</code></td>
+            <td>1.05</td>
+            <td>Große Display-Texte</td>
+            <td>&mdash;</td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">--lh-heading</code></td>
+            <td>1.15</td>
+            <td>Headings, Display</td>
+            <td><code class="docs__token">calc(var(--fs-*) * 1.15)</code></td>
+          </tr>
+          <tr>
+            <td><code class="docs__token">--lh-body</code></td>
+            <td>1.6</td>
+            <td>Paragraphs, UI-Text</td>
+            <td><code class="docs__token">calc(var(--fs-*) * 1.6)</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 7. ZUSAMMENFASSUNG: EINHEITLICHES SYSTEM                         -->
+    <!-- ================================================================ -->
+    <!--
+      Alle drei Kategorien nutzen das gleiche Fluid-System:
+        - Viewport-Range: 320px – 1400px
+        - Headings + Paragraphs: auf --fs-{label} Scale gemappt
+        - Display: eigene clamp()-Bereiche, nah am Ist-Stand
+        - Line-Heights: proportional (×1.15 oder ×1.6)
+        - Letter-Spacing: semantisch (0 für body, -0.01/-0.02em für Headings)
+
+      SCSS-Mixins als einheitliche API:
+        @include display('l')    → Font-Size + LH + LS
+        @include heading('m')    → Font-Size + LH + LS
+        @include paragraph('l')  → Font-Size + LH + LS
+    -->
+    <section class="docs__section" id="summary">
+      <h2 class="docs__section-title">Einheitliches System</h2>
+      <p class="docs__section-desc">
+        Alle drei Kategorien teilen dasselbe Fluid-Fundament. Die SCSS-Mixins
+        bilden eine konsistente API.
+      </p>
+
+      <div class="docs__code-block">/* Einheitliche API */
+@include display('l');      // → Display   L:  48px → 64px, LH ×1.15
+@include heading('m');      // → Heading   M:  24px → 31px, LH ×1.15
+@include paragraph('l');    // → Paragraph L:  14px → 18px, LH ×1.6
+
+/* Alle nutzen CSS Custom Properties */
+font-size: var(--fnd-typography-{category}-{size}-font-size);
+line-height: var(--fnd-typography-{category}-{size}-line-height);
+letter-spacing: var(--fnd-typography-{category}-{size}-letter-spacing);
+
+/* Gemeinsames Fluid-Fundament */
+Viewport Range: 320px – 1400px
+Base Scale:     Modular Scale Ratio 1.2
+Line-Heights:   Heading = ×1.15 | Body = ×1.6 | Tight = ×1.05</div>
+    </section>
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script>
+    (function() {
+      const bps = [
+        { name: 'xxl', min: 1920 },
+        { name: 'xl',  min: 1600 },
+        { name: 'lg',  min: 1200 },
+        { name: 'md',  min: 960 },
+        { name: 'sm',  min: 768 },
+        { name: 'xs',  min: 0 }
+      ];
+      const viewportInfo = document.getElementById('viewport-info');
+
+      function update() {
+        const w = window.innerWidth;
+        const active = bps.find(bp => w >= bp.min) || bps[bps.length - 1];
+        if (viewportInfo) viewportInfo.textContent = w + 'px \u2014 ' + active.name;
+      }
+
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+<!-- /SCRIPTS -->

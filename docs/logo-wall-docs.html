@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logo Wall | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Logo-Wall-Komponente mit Logo-Pill-Variante und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Logo Wall</h1>
+      <p class="docs__subtitle">
+        Rasterf&ouml;rmige Anzeige von Kunden- oder Partner-Logos in Pill-f&ouml;rmigen Containern.
+        Die Komponente passt sich automatisch an verf&uuml;gbaren Platz an
+        (<code class="docs__token">auto-fit</code>-Grid). Kanonische Klassen:
+        <code class="docs__token">.nc-logo-wall</code> (Grid-Container) und
+        <code class="docs__token">.nc-logo-pill</code> (einzelnes Logo-Element).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="logo-wall-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Logo Wall-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Logo Wall in verschiedenen Themes. Das Grid passt sich automatisch der Containerbreite an.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <div class="nc-logo-wall">
+                <div class="nc-logo-pill">Acme Corp</div>
+                <div class="nc-logo-pill">TechVentures</div>
+                <div class="nc-logo-pill">Globex</div>
+                <div class="nc-logo-pill">Initech</div>
+                <div class="nc-logo-pill">Umbrella</div>
+                <div class="nc-logo-pill">Weyland</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;div class="nc-logo-wall"&gt;
+  &lt;div class="nc-logo-pill"&gt;Acme Corp&lt;/div&gt;
+  &lt;div class="nc-logo-pill"&gt;TechVentures&lt;/div&gt;
+  &lt;div class="nc-logo-pill"&gt;Globex&lt;/div&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Mit Logos -->
+          <section class="docs__section" id="logo-wall-images">
+            <h2 class="docs__section-title">Mit SVG/Bild-Logos</h2>
+            <p class="docs__section-desc">
+              Logos k&ouml;nnen als <code class="docs__token">&lt;img&gt;</code>-Elemente
+              oder SVGs innerhalb der Pill-Container platziert werden.
+              Logos sollten auf den Hintergrund abgestimmt sein (bevorzugt einfarbig oder monochrom).
+            </p>
+            <div class="nc-logo-wall" style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+                <span>Acme Corp</span>
+              </div>
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>Globex</span>
+              </div>
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Initech</span>
+              </div>
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Umbrella</span>
+              </div>
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Weyland</span>
+              </div>
+              <div class="nc-logo-pill" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <span>Cyberdyne</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 2: Nur Text -->
+          <section class="docs__section" id="logo-wall-text">
+            <h2 class="docs__section-title">Text-Only</h2>
+            <p class="docs__section-desc">
+              F&uuml;r einfache Text-Logos oder Platzhalter-Darstellungen.
+              Das Grid bricht automatisch auf mehrere Zeilen um.
+            </p>
+            <div class="nc-logo-wall" style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-logo-pill">Alpha AG</div>
+              <div class="nc-logo-pill">Beta GmbH</div>
+              <div class="nc-logo-pill">Gamma Inc.</div>
+              <div class="nc-logo-pill">Delta Ltd.</div>
+              <div class="nc-logo-pill">Epsilon SE</div>
+              <div class="nc-logo-pill">Zeta Corp</div>
+              <div class="nc-logo-pill">Eta Partners</div>
+              <div class="nc-logo-pill">Theta Group</div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-grid">
+            <h2 class="docs__section-title">Grid-Tokens (.nc-logo-wall)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">display</code></td><td>grid</td><td>CSS Grid Layout</td></tr>
+                <tr><td><code class="docs__token">grid-template-columns</code></td><td>repeat(auto-fit, minmax(140px, 1fr))</td><td>Automatisch anpassende Spalten, mind. 140px</td></tr>
+                <tr><td><code class="docs__token">gap</code></td><td>1rem</td><td>Abstand zwischen den Pill-Elementen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-pill">
+            <h2 class="docs__section-title">Pill-Tokens (.nc-logo-pill)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">padding</code></td><td>0.75rem 1rem</td><td>Innenabstand</td></tr>
+                <tr><td><code class="docs__token">border</code></td><td>1px solid var(--fnd-color-border-secondary)</td><td>Rahmen</td></tr>
+                <tr><td><code class="docs__token">border-radius</code></td><td>999px</td><td>Vollst&auml;ndig abgerundete Pill-Form</td></tr>
+                <tr><td><code class="docs__token">text-align</code></td><td>center</td><td>Inhalt zentriert</td></tr>
+                <tr><td><code class="docs__token">font-size</code></td><td>0.9rem</td><td>Etwas kleiner als Flie&szlig;text</td></tr>
+                <tr><td><code class="docs__token">background</code></td><td>var(--fnd-color-background-base)</td><td>Hintergrundfarbe</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
+            <div class="docs__code-block">// ===== Logo Wall Klassen =====
+
+.nc-logo-wall    // Grid-Container: auto-fit, minmax(140px, 1fr), gap 1rem
+.nc-logo-pill    // Einzelnes Logo: Pill-Form, Hintergrund, Border, zentriert</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Grid-Klasse</strong></td><td><code class="docs__token">.nc-logo-wall</code></td></tr>
+                <tr><td><strong>Item-Klasse</strong></td><td><code class="docs__token">.nc-logo-pill</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_logo-wall.scss</code></td></tr>
+                <tr><td><strong>JS erforderlich</strong></td><td>Nein &ndash; rein CSS</td></tr>
+                <tr><td><strong>Responsiv</strong></td><td>Ja &ndash; <code class="docs__token">auto-fit</code> bricht automatisch um</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-logo-wall</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;ul&gt;</code></td><td>Grid-Container. Verwaltet automatisches Spalten-Layout und Abst&auml;nde.</td></tr>
+                <tr><td><code class="docs__token">.nc-logo-pill</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;li&gt;</code>, <code class="docs__token">&lt;a&gt;</code></td><td>Einzelnes Logo-Element. Pill-Form, Hintergrundfarbe, zentrierter Inhalt.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard: div-basiert --&gt;
+&lt;div class="nc-logo-wall"&gt;
+  &lt;div class="nc-logo-pill"&gt;Partner A&lt;/div&gt;
+  &lt;div class="nc-logo-pill"&gt;
+    &lt;img src="logo.svg" alt="Partner B" width="120" height="40" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Semantisch: list-basiert (f&uuml;r gleiche Elemente empfohlen) --&gt;
+&lt;ul class="nc-logo-wall" style="list-style: none; padding: 0; margin: 0;"&gt;
+  &lt;li class="nc-logo-pill"&gt;Partner A&lt;/li&gt;
+  &lt;li class="nc-logo-pill"&gt;Partner B&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Mit Link (klickbare Logos) --&gt;
+&lt;div class="nc-logo-wall"&gt;
+  &lt;a class="nc-logo-pill" href="https://example.com" target="_blank" rel="noopener"&gt;
+    &lt;img src="logo.svg" alt="Partner A" /&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Logo Walls sind in der Regel rein dekorative Inhalte.
+            Die wichtigste Anforderung ist, dass Logo-Bilder korrekte Alternativtexte tragen
+            und die Gruppe sinnvoll strukturiert ist.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Alt-Text f&uuml;r Logos</h4>
+              <ul>
+                <li>Logo-Bilder (<code class="docs__token">&lt;img&gt;</code>) <strong>m&uuml;ssen</strong> einen aussagekr&auml;ftigen <code class="docs__token">alt</code>-Text tragen</li>
+                <li>Beispiel: <code class="docs__token">alt="Acme Corp"</code> &ndash; nicht <code class="docs__token">alt="logo"</code></li>
+                <li>Rein dekorative Logos ohne weiteren Kontext k&ouml;nnen <code class="docs__token">alt=""</code> erhalten, wenn der Firmenname im sichtbaren Text steht</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Listenstruktur und Gruppierung</h4>
+              <ul>
+                <li>Verwende <code class="docs__token">&lt;ul&gt;</code>/<code class="docs__token">&lt;li&gt;</code> wenn die Logos eine semantische Liste gleichartiger Elemente darstellen</li>
+                <li>Umschlie&szlig;e die Gruppe mit einer <code class="docs__token">&lt;section&gt;</code> und einem benannten Heading, z.B. &ldquo;Unsere Partner&rdquo;</li>
+                <li>Beispiel: <code class="docs__token">&lt;section aria-labelledby="partners-heading"&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Klickbare Logos (Links)</h4>
+              <ul>
+                <li>Bei verlinkten Logos muss das <code class="docs__token">&lt;a&gt;</code>-Element einen barrierefreien Namen haben</li>
+                <li>Empfehlung: <code class="docs__token">aria-label="Zur Website von Acme Corp (neues Fenster)"</code></li>
+                <li><code class="docs__token">target="_blank"</code> immer mit <code class="docs__token">rel="noopener noreferrer"</code> kombinieren</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Semantische Liste mit Kontext --&gt;
+&lt;section aria-labelledby="partners-heading"&gt;
+  &lt;h2 id="partners-heading"&gt;Unsere Partner&lt;/h2&gt;
+  &lt;ul class="nc-logo-wall" style="list-style:none; padding:0; margin:0;"&gt;
+    &lt;li class="nc-logo-pill"&gt;
+      &lt;img src="acme.svg" alt="Acme Corp" width="120" height="40" /&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;!-- RICHTIG: Verlinktes Logo --&gt;
+&lt;a class="nc-logo-pill"
+   href="https://acme.example"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Zur Website von Acme Corp (neues Fenster)"&gt;
+  &lt;img src="acme.svg" alt="" /&gt;
+&lt;/a&gt;
+
+&lt;!-- FALSCH: Logo-Bild ohne Alt-Text --&gt;
+&lt;div class="nc-logo-pill"&gt;
+  &lt;img src="logo.png" /&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+// ==========================================================================
+// 05-Atoms: Table
+// ==========================================================================
+// Comparison / data table styling.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--fnd-color-background-base);
+  border-radius: var(--fnd-radius-3xl);
+  overflow: hidden;
+  box-shadow: var(--fnd-elevation-raised);
+}
+
+.nc-compare-table th,
+.nc-compare-table td {
+  padding: var(--fnd-spacing-04);
+  text-align: left;
+  border-block-end: 1px solid var(--fnd-color-border-secondary);
+}
+
+.nc-compare-table thead {
+  background: var(--fnd-color-background-inverse);
+  color: var(--fnd-color-text-inverse);
+}

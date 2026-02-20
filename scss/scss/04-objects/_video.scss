@@ -1,0 +1,208 @@
+// ==========================================================================
+// 04-Objects: Video
+// ==========================================================================
+// Video Wrapper und Dialog
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Video Wrap Base
+// ---------------------------------------------------------------------------
+
+.video-wrap,
+.video-wrap-autoplay {
+  position: relative;
+  overflow: clip;
+  
+  // Play Sign Overlay
+  .play-sign,
+  .open-button {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .play-sign {
+    @include flex-center;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent);
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+    }
+    
+    .icon {
+      width: 48px;
+      height: 48px;
+      z-index: 1;
+      color: color-mix(in srgb, var(--fnd-color-always-light) 70%, transparent);
+    }
+  }
+  
+  // Open/Close Buttons
+  .open-button,
+  .close-button {
+    -webkit-appearance: none;
+    border-radius: 0;
+    text-align: inherit;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    color: inherit;
+    font: inherit;
+  }
+  
+  .open-button {
+    z-index: 2;
+    
+    @include tablet-up {
+      cursor: none;
+    }
+  }
+  
+  .close-button {
+    border-radius: var(--fnd-radius-lg);
+    background: var(--fnd-color-background-secondary);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    z-index: 1;
+    top: var(--fnd-spacing-03);
+    right: var(--fnd-spacing-05);
+    
+    &:hover,
+    &:focus {
+      background: var(--fnd-color-border-state-disabled);
+    }
+    
+    @include desktop-up {
+      top: var(--fnd-spacing-04);
+      right: var(--fnd-spacing-06);
+    }
+    
+    .icon {
+      margin: 0;
+      display: flex;
+    }
+  }
+  
+  // Play Hover Text
+  .play-hover {
+    @include heading('m');
+    display: none;
+    user-select: none;
+    pointer-events: none;
+    color: var(--fnd-color-text-difference);
+    position: absolute;
+    mix-blend-mode: difference;
+    z-index: 3;
+  }
+  
+  &:has(.open-button:hover, video:hover) .play-hover {
+    @include tablet-up {
+      display: block;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Video Dialog
+// ---------------------------------------------------------------------------
+
+:root:has(dialog.video-dialog[open]) {
+  overflow: hidden;
+}
+
+.video-dialog {
+  will-change: transform, opacity, display;
+  position: fixed;
+  inset: 0;
+  background: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-high);
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100vh;
+  aspect-ratio: var(--fnd-image-ratio-16-9);
+  border: none;
+  margin: 0;
+  padding: 0;
+  transition: 
+    translate var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+    opacity var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+    display var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused) allow-discrete;
+  
+  &[open] {
+    opacity: 1;
+    display: block;
+    
+    @starting-style {
+      opacity: 0;
+      translate: 0 50px;
+    }
+  }
+  
+  &:not([open]) {
+    opacity: 0;
+    translate: 0 50px;
+  }
+  
+  &::backdrop {
+    background-color: var(--fnd-color-background-base);
+    cursor: pointer;
+  }
+  
+  .player-container {
+    height: 100%;
+  }
+  
+  .player-wrapper {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    aspect-ratio: 16 / 9;
+    max-width: calc(100% - var(--fnd-spacing-05) * 2);
+    max-height: calc(100% - var(--fnd-spacing-05) * 2);
+    border-radius: var(--fnd-radius-3xl);
+    overflow: hidden;
+    
+    @include tablet-up {
+      max-width: calc(100% - var(--fnd-spacing-07) * 2);
+    }
+    
+    @include respond-to('md') {
+      max-width: calc(100% - var(--fnd-spacing-08) * 2);
+    }
+    
+    @include desktop-up {
+      max-width: calc(100% - var(--fnd-spacing-09) * 2);
+    }
+    
+    @include large-desktop {
+      max-width: calc(100% - var(--fnd-spacing-10) * 2);
+    }
+  }
+  
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    
+    @include tablet-up {
+      cursor: none;
+    }
+  }
+}

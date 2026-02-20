@@ -1,0 +1,157 @@
+// ==========================================================================
+// 07-Organisms: Hero
+// ==========================================================================
+// Full-width hero section with content/media split layout.
+// Includes title, highlights, card, picture, and pulse variants.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Hero Base
+// ---------------------------------------------------------------------------
+
+.nc-hero {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.nc-hero__content {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  color: var(--fnd-color-text-inverse);
+}
+
+.nc-hero__content,
+.nc-hero__media {
+  margin-inline: 0;
+  width: auto;
+}
+
+// ---------------------------------------------------------------------------
+// Hero Title
+// ---------------------------------------------------------------------------
+
+.nc-hero__title {
+  font-size: var(--fs-4xl);
+  line-height: calc(var(--fs-4xl) * var(--lh-heading));
+  max-width: 18ch;
+}
+
+// ---------------------------------------------------------------------------
+// Hero Highlights
+// ---------------------------------------------------------------------------
+
+.nc-hero__highlights {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  color: var(--fnd-color-text-secondary);
+}
+
+.nc-hero__highlight::before {
+  content: '\25CF';
+  color: var(--fnd-color-background-accent-green);
+  margin-inline-end: 0.5rem;
+}
+
+// ---------------------------------------------------------------------------
+// Hero Media
+// ---------------------------------------------------------------------------
+
+.nc-hero__media {
+  display: flex;
+  justify-content: center;
+}
+
+.nc-hero__media-spacer {
+  width: 100%;
+  min-height: 1px;
+}
+
+.nc-hero__picture {
+  width: auto;
+  height: 100%;
+  border-radius: var(--fnd-radius-lg);
+  overflow: hidden;
+  background: var(--fnd-color-background-base);
+  box-shadow: var(--fnd-elevation-overlay);
+}
+
+.nc-hero__picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+// ---------------------------------------------------------------------------
+// Hero Card (dashboard mockup variant)
+// ---------------------------------------------------------------------------
+
+.nc-hero__card {
+  width: min(420px, 90vw);
+  aspect-ratio: 4 / 5;
+  border-radius: 32px;
+  background: radial-gradient(circle at top,
+    color-mix(in srgb, var(--fnd-color-always-dark) 88%, var(--fnd-color-background-base)),
+    color-mix(in srgb, var(--fnd-color-always-dark) 96%, var(--fnd-color-background-base))
+  );
+  padding: var(--fnd-spacing-06);
+  display: grid;
+  gap: 1.5rem;
+  position: relative;
+  color: var(--fnd-color-always-light);
+  box-shadow: var(--fnd-elevation-overlay);
+}
+
+.nc-hero__metric {
+  background: color-mix(in srgb, var(--fnd-color-always-light) 8%, transparent);
+  border-radius: var(--fnd-radius-3xl);
+  padding: var(--fnd-spacing-04);
+}
+
+.nc-hero__metric-value {
+  font-size: 1.8rem;
+  font-family: var(--font-heading);
+}
+
+.nc-hero__metric-label {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.nc-hero__pulse {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    var(--fnd-color-feedback-success) 0%,
+    color-mix(in srgb, var(--fnd-color-feedback-success) 20%, transparent) 70%,
+    transparent 100%
+  );
+  animation: nc-hero-pulse 3s infinite;
+}
+
+@keyframes nc-hero-pulse {
+  0%   { transform: scale(0.9);  opacity: 0.8; }
+  70%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.9);  opacity: 0.8; }
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@media (min-width: 768px) {
+  .nc-hero {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

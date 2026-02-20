@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Input Group | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Input-Group-, Stepper- und OTP-Input-Komponenten mit Live-Demo, BEM-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Input Group</h1>
+      <p class="docs__subtitle">
+        Zusammengesetzte Eingabefelder mit Prefix/Suffix-Addons, Stepper (Number +/-) und OTP-Eingabe.
+        Kanonische Klassen: <code class="docs__token">.nc-input-group</code>, <code class="docs__token">.nc-stepper</code>, <code class="docs__token">.nc-otp-input</code> (BEM).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="input-group-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Input-Group-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Komponente, Gr&ouml;&szlig;e und State, um die Komponenten live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Komponente</span>
+                <select class="docs-stage__select" id="stage-component">
+                  <option value="input-group" selected>Input Group</option>
+                  <option value="stepper">Stepper</option>
+                  <option value="otp">OTP Input</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM</option>
+                  <option value="md" selected>MD</option>
+                  <option value="lg">LG</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="error">Error</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders component here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-input-group"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Input Group Variants -->
+          <section class="docs__section" id="input-group-variants">
+            <h2 class="docs__section-title">Input Group</h2>
+            <p class="docs__section-desc">
+              Input-Felder mit Prefix- und/oder Suffix-Addons. Das <code class="docs__token">.nc-input-group</code> stellt sicher,
+              dass alle Teile nahtlos aneinander grenzen (kein doppelter Rand).
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Prepend-Text</h3>
+            <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-input-group">
+                <span class="nc-input-group__prepend">https://</span>
+                <input class="nc-input" type="text" placeholder="www.example.com" />
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Append-Button</h3>
+            <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-input-group">
+                <input class="nc-input" type="text" placeholder="Suchen..." />
+                <button class="nc-input-group__append" type="button" aria-label="Suchen">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Prepend und Append</h3>
+            <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-input-group">
+                <span class="nc-input-group__prepend">&euro;</span>
+                <input class="nc-input" type="text" placeholder="0.00" />
+                <span class="nc-input-group__append">EUR</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Stepper -->
+          <section class="docs__section" id="stepper-section">
+            <h2 class="docs__section-title">Stepper</h2>
+            <p class="docs__section-desc">
+              Numerischer Stepper mit Increment/Decrement-Buttons. Verwendet <code class="docs__token">.nc-stepper</code>.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div class="nc-stepper">
+                  <button class="nc-stepper__decrement" type="button" aria-label="Wert verringern">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                  <input class="nc-stepper__input" type="number" value="5" min="0" max="99" readonly role="spinbutton" aria-valuenow="5" aria-valuemin="0" aria-valuemax="99" aria-label="Menge" />
+                  <button class="nc-stepper__increment" type="button" aria-label="Wert erh&ouml;hen">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px; text-align: center;">Default</div>
+              </div>
+              <div>
+                <div class="nc-stepper nc-stepper--sm">
+                  <button class="nc-stepper__decrement" type="button" aria-label="Wert verringern">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                  <input class="nc-stepper__input" type="number" value="3" min="0" max="99" readonly role="spinbutton" aria-valuenow="3" aria-valuemin="0" aria-valuemax="99" aria-label="Menge" />
+                  <button class="nc-stepper__increment" type="button" aria-label="Wert erh&ouml;hen">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px; text-align: center;">SM</div>
+              </div>
+              <div>
+                <div class="nc-stepper nc-stepper--lg">
+                  <button class="nc-stepper__decrement" type="button" aria-label="Wert verringern">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                  <input class="nc-stepper__input" type="number" value="10" min="0" max="99" readonly role="spinbutton" aria-valuenow="10" aria-valuemin="0" aria-valuemax="99" aria-label="Menge" />
+                  <button class="nc-stepper__increment" type="button" aria-label="Wert erh&ouml;hen">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px; text-align: center;">LG</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- OTP Input -->
+          <section class="docs__section" id="otp-section">
+            <h2 class="docs__section-title">OTP Input</h2>
+            <p class="docs__section-desc">
+              PIN-/Code-Eingabefelder f&uuml;r Einmal-Passw&ouml;rter, 2FA und Verifizierungs-Codes.
+              Verwendet <code class="docs__token">.nc-otp-input</code>.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">4-stellig</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-otp-input" role="group" aria-label="Verifizierungscode 4-stellig">
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Ziffer 1" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 2" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 3" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 4" />
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">6-stellig mit Separator</h3>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-otp-input" role="group" aria-label="Verifizierungscode 6-stellig">
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Ziffer 1" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 2" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 3" />
+                <span class="nc-otp-input__separator" aria-hidden="true">&ndash;</span>
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 4" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 5" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Ziffer 6" />
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (BEM-Klassen)                                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- Input Group BEM -->
+          <section class="docs__section" id="style-input-group">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-input-group</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-input-group</code></td><td>Block</td><td>Flex-Row-Container f&uuml;r Input + Addons. Nahtlose Border-Logik.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group__prepend</code></td><td>Element</td><td>Prefix-Addon (links). Text, Icon oder Button.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group__append</code></td><td>Element</td><td>Suffix-Addon (rechts). Text, Icon oder Button.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group--sm</code></td><td>Modifier</td><td>Kleine Variante. Reduziertes Addon-Padding und Font-Size.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group--lg</code></td><td>Modifier</td><td>Gro&szlig;e Variante. Erh&ouml;htes Addon-Padding und Font-Size.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group--error</code></td><td>Modifier</td><td>Error-State. Roter Rand auf allen Kindern.</td></tr>
+                <tr><td><code class="docs__token">.nc-input-group--disabled</code></td><td>Modifier</td><td>Disabled-State. Ausgegraut, cursor: not-allowed.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Stepper BEM -->
+          <section class="docs__section" id="style-stepper">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-stepper</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-stepper</code></td><td>Block</td><td>Inline-Flex-Container f&uuml;r Decrement + Input + Increment.</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper__decrement</code></td><td>Element</td><td>Minus-Button (links).</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper__input</code></td><td>Element</td><td>Zahlen-Input (Mitte, zentriert, ohne Spinner).</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper__increment</code></td><td>Element</td><td>Plus-Button (rechts).</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper--sm</code></td><td>Modifier</td><td>Kleine Variante.</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper--lg</code></td><td>Modifier</td><td>Gro&szlig;e Variante.</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper--error</code></td><td>Modifier</td><td>Error-State. Roter Rand auf allen Teilen.</td></tr>
+                <tr><td><code class="docs__token">.nc-stepper--disabled</code></td><td>Modifier</td><td>Disabled-State. Graut die gesamte Gruppe aus.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- OTP BEM -->
+          <section class="docs__section" id="style-otp">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-otp-input</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-otp-input</code></td><td>Block</td><td>Inline-Flex-Container f&uuml;r OTP-Zellen.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__cell</code></td><td>Element</td><td>Einzelne Eingabezelle (maxlength=1, zentriert).</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__separator</code></td><td>Element</td><td>Trennzeichen zwischen Zellen-Gruppen (z.B. Bindestrich).</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--sm</code></td><td>Modifier</td><td>Kleine Variante. Reduzierte Zellengr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--lg</code></td><td>Modifier</td><td>Gro&szlig;e Variante. Vergr&ouml;&szlig;erte Zellen.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--error</code></td><td>Modifier</td><td>Error-State. Roter Rand auf allen Zellen.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--success</code></td><td>Modifier</td><td>Success-State. Gr&uuml;ner Rand auf allen Zellen.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--disabled</code></td><td>Modifier</td><td>Disabled-State. Graut alle Zellen aus.</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__cell--filled</code></td><td>Modifier (Element)</td><td>Visuelles Feedback bei gef&uuml;llter Zelle (via JS).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BEM Overview -->
+          <section class="docs__section" id="style-bem-overview">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Input Group (kanonisch) =====
+
+.nc-input-group                    // Block (flex row container)
+.nc-input-group__prepend           // Prefix-Addon (links)
+.nc-input-group__append            // Suffix-Addon (rechts)
+.nc-input-group--sm                // Kleine Variante
+.nc-input-group--lg                // Gro&szlig;e Variante
+.nc-input-group--error             // Error-State
+.nc-input-group--disabled          // Disabled-State
+
+// ===== Stepper =====
+
+.nc-stepper                        // Block (inline-flex)
+.nc-stepper__decrement             // Minus-Button
+.nc-stepper__input                 // Zahlen-Input
+.nc-stepper__increment             // Plus-Button
+.nc-stepper--sm                    // Klein
+.nc-stepper--lg                    // Gro&szlig;
+.nc-stepper--error                 // Error
+.nc-stepper--disabled              // Disabled
+
+// ===== OTP Input =====
+
+.nc-otp-input                      // Block (inline-flex)
+.nc-otp-input__cell                // Einzelne Zelle
+.nc-otp-input__separator           // Trennzeichen
+.nc-otp-input--sm                  // Klein
+.nc-otp-input--lg                  // Gro&szlig;
+.nc-otp-input--error               // Error
+.nc-otp-input--success             // Success
+.nc-otp-input--disabled            // Disabled
+.nc-otp-input__cell--filled        // Gef&uuml;llte Zelle</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klassen</strong></td><td><code class="docs__token">.nc-input-group</code>, <code class="docs__token">.nc-stepper</code>, <code class="docs__token">.nc-otp-input</code></td></tr>
+                <tr><td><strong>Token-Namespaces</strong></td><td><code class="docs__token">--nc-input-group-*</code>, <code class="docs__token">--nc-stepper-*</code>, <code class="docs__token">--nc-otp-*</code></td></tr>
+                <tr><td><strong>SCSS-Dateien</strong></td><td><code class="docs__token">scss/06-molecules/_input-group.scss</code>, <code class="docs__token">_stepper.scss</code>, <code class="docs__token">_otp-input.scss</code></td></tr>
+                <tr><td><strong>HTML-Elemente</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Input Group HTML -->
+          <section class="docs__section" id="api-input-group">
+            <h2 class="docs__section-title">HTML-Struktur: Input Group</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Prepend-Text</h3>
+            <div class="docs__code-block">&lt;div class="nc-input-group"&gt;
+  &lt;span class="nc-input-group__prepend"&gt;https://&lt;/span&gt;
+  &lt;input class="nc-input" type="text"
+         placeholder="www.example.com" /&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Append-Button</h3>
+            <div class="docs__code-block">&lt;div class="nc-input-group"&gt;
+  &lt;input class="nc-input" type="text"
+         placeholder="Suchen..." /&gt;
+  &lt;button class="nc-input-group__append" type="button"
+          aria-label="Suchen"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Prepend und Append</h3>
+            <div class="docs__code-block">&lt;div class="nc-input-group"&gt;
+  &lt;span class="nc-input-group__prepend"&gt;&amp;euro;&lt;/span&gt;
+  &lt;input class="nc-input" type="text" placeholder="0.00" /&gt;
+  &lt;span class="nc-input-group__append"&gt;EUR&lt;/span&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- Stepper HTML -->
+          <section class="docs__section" id="api-stepper">
+            <h2 class="docs__section-title">HTML-Struktur: Stepper</h2>
+            <div class="docs__code-block">&lt;div class="nc-stepper"&gt;
+  &lt;button class="nc-stepper__decrement" type="button"
+          aria-label="Wert verringern"&gt;
+    &lt;svg&gt;&lt;!-- minus icon --&gt;&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;input class="nc-stepper__input" type="number"
+         value="5" min="0" max="99" readonly
+         role="spinbutton"
+         aria-valuenow="5"
+         aria-valuemin="0"
+         aria-valuemax="99"
+         aria-label="Menge" /&gt;
+  &lt;button class="nc-stepper__increment" type="button"
+          aria-label="Wert erh&ouml;hen"&gt;
+    &lt;svg&gt;&lt;!-- plus icon --&gt;&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- OTP HTML -->
+          <section class="docs__section" id="api-otp">
+            <h2 class="docs__section-title">HTML-Struktur: OTP Input</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">4-stellig</h3>
+            <div class="docs__code-block">&lt;div class="nc-otp-input" role="group"
+     aria-label="Verifizierungscode"&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Ziffer 1" /&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         aria-label="Ziffer 2" /&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         aria-label="Ziffer 3" /&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         aria-label="Ziffer 4" /&gt;
+&lt;/div&gt;</div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">6-stellig mit Separator</h3>
+            <div class="docs__code-block">&lt;div class="nc-otp-input" role="group"
+     aria-label="Verifizierungscode"&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Ziffer 1" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Ziffer 2" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Ziffer 3" /&gt;
+  &lt;span class="nc-otp-input__separator" aria-hidden="true"&gt;&amp;ndash;&lt;/span&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Ziffer 4" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Ziffer 5" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Ziffer 6" /&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Input Group, Stepper und OTP Input m&uuml;ssen f&uuml;r Tastatur- und Screenreader-Nutzer vollst&auml;ndig bedienbar sein.
+          </p>
+
+          <!-- Stepper: role="spinbutton" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Stepper: role="spinbutton"</h4>
+              <ul>
+                <li>Der Stepper-Input erh&auml;lt <code class="docs__token">role="spinbutton"</code> f&uuml;r korrektes Screenreader-Verhalten</li>
+                <li>Pflicht-Attribute: <code class="docs__token">aria-valuenow</code>, <code class="docs__token">aria-valuemin</code>, <code class="docs__token">aria-valuemax</code></li>
+                <li>Ein <code class="docs__token">aria-label</code> beschreibt den Zweck des Steppers (z.B. &ldquo;Menge&rdquo;)</li>
+                <li>Die +/- Buttons erhalten <code class="docs__token">aria-label="Wert erh&ouml;hen"</code> / <code class="docs__token">"Wert verringern"</code></li>
+                <li>Keyboard: ArrowUp/ArrowDown zum &Auml;ndern des Werts (JS-seitig implementieren)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- OTP: role="group" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>OTP Input: role="group"</h4>
+              <ul>
+                <li>Der OTP-Container erh&auml;lt <code class="docs__token">role="group"</code> mit <code class="docs__token">aria-label="Verifizierungscode"</code></li>
+                <li>Jede Zelle bekommt ein eigenes <code class="docs__token">aria-label</code> (z.B. &ldquo;Ziffer 1&rdquo;, &ldquo;Ziffer 2&rdquo;)</li>
+                <li>Erste Zelle: <code class="docs__token">autocomplete="one-time-code"</code> f&uuml;r Browser-Autofill</li>
+                <li><code class="docs__token">inputmode="numeric"</code> zeigt die Zahlentastatur auf Mobilger&auml;ten</li>
+                <li>Keyboard: Auto-Focus auf n&auml;chste Zelle bei Eingabe, Backspace springt zur&uuml;ck (JS-seitig)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Input Group Addons -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Input Group: Addon-Accessibility</h4>
+              <ul>
+                <li>Rein dekorative Addons (Text-Labels wie &ldquo;https://&rdquo;) erhalten <code class="docs__token">aria-hidden="true"</code></li>
+                <li>Interaktive Addons (Buttons) brauchen <code class="docs__token">aria-label</code> wenn kein sichtbarer Text vorhanden ist</li>
+                <li>Der Input selbst beh&auml;lt volle Tastatur-Zug&auml;nglichkeit</li>
+                <li>Addons d&uuml;rfen den Tab-Flow nicht unterbrechen &mdash; nur tats&auml;chlich interaktive Elemente sollten fokussierbar sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Disabled State -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Disabled-State</h4>
+              <ul>
+                <li>Disabled-Inputs werden mit dem nativen <code class="docs__token">disabled</code>-Attribut markiert</li>
+                <li>Disabled-Buttons erhalten zus&auml;tzlich <code class="docs__token">aria-disabled="true"</code></li>
+                <li>Screenreader k&uuml;ndigen &ldquo;disabled&rdquo; automatisch an</li>
+                <li>Focus-Ring wird bei disabled-Elementen nicht angezeigt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Stepper mit vollst&auml;ndigen ARIA-Attributen --&gt;
+&lt;div class="nc-stepper"&gt;
+  &lt;button class="nc-stepper__decrement" type="button"
+          aria-label="Wert verringern"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;input class="nc-stepper__input" type="number"
+         value="5" min="0" max="99" readonly
+         role="spinbutton"
+         aria-valuenow="5"
+         aria-valuemin="0"
+         aria-valuemax="99"
+         aria-label="Menge" /&gt;
+  &lt;button class="nc-stepper__increment" type="button"
+          aria-label="Wert erh&ouml;hen"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: OTP mit role="group" --&gt;
+&lt;div class="nc-otp-input" role="group"
+     aria-label="Verifizierungscode"&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Ziffer 1" /&gt;
+  &lt;!-- ... weitere Zellen ... --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Stepper ohne ARIA --&gt;
+&lt;div class="nc-stepper"&gt;
+  &lt;button class="nc-stepper__decrement"&gt;-&lt;/button&gt;
+  &lt;input class="nc-stepper__input" type="number" value="5" /&gt;
+  &lt;button class="nc-stepper__increment"&gt;+&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: OTP ohne role="group" --&gt;
+&lt;div class="nc-otp-input"&gt;
+  &lt;input class="nc-otp-input__cell" type="text" /&gt;
+  &lt;input class="nc-otp-input__cell" type="text" /&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="input-group-docs.js"></script>
+
+</body>
+</html>

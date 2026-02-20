@@ -1,0 +1,63 @@
+// ==========================================================================
+// 01-Tools: Typography Mixins
+// ==========================================================================
+// Mixins für Typography-Patterns
+// ==========================================================================
+
+@use '../00-settings/typography' as *;
+
+// ---------------------------------------------------------------------------
+// Typography Triplet Mixin
+// ---------------------------------------------------------------------------
+
+/// Apply typography triplet (font-size, line-height, letter-spacing)
+/// @param {String} $category - display, heading, paragraph
+/// @param {String} $size - Size variant (xs, s, m, l, xl, xxs, xxl)
+@mixin typography($category, $size) {
+  font-size: var(--fnd-typography-#{$category}-#{$size}-font-size);
+  line-height: var(--fnd-typography-#{$category}-#{$size}-line-height);
+  letter-spacing: var(--fnd-typography-#{$category}-#{$size}-letter-spacing);
+}
+
+// ---------------------------------------------------------------------------
+// Convenience Shortcuts
+// ---------------------------------------------------------------------------
+
+/// Display typography
+@mixin display($size: 'm') {
+  @include typography('display', $size);
+}
+
+/// Heading typography
+@mixin heading($size: 'm') {
+  @include typography('heading', $size);
+}
+
+/// Paragraph typography
+@mixin paragraph($size: 'l') {
+  @include typography('paragraph', $size);
+}
+
+// ---------------------------------------------------------------------------
+// Font Weight (falls benötigt)
+// ---------------------------------------------------------------------------
+
+@mixin font-weight($weight) {
+  font-weight: $weight;
+}
+
+@mixin font-regular {
+  font-weight: var(--fnd-font-weight-regular);
+}
+
+@mixin font-medium {
+  font-weight: var(--fnd-font-weight-medium);
+}
+
+@mixin font-semibold {
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+@mixin font-bold {
+  font-weight: var(--fnd-font-weight-bold);
+}

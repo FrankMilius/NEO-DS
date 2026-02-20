@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Themes | Design System Docs</title>
+  <meta name="description" content="Theme-Management: Überblick, Konfiguration, Vergleich der 4 Design-System Themes." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* ================================================================
+       Themes-Docs: Page-specific styles
+       ================================================================ */
+
+    /* --- Tab system (same pattern as button-docs) --- */
+    .docs-tabs { margin-block-end: var(--fnd-spacing-08); }
+    .docs-tabs__list {
+      display: flex;
+      gap: var(--fnd-spacing-01);
+      border-bottom: 2px solid var(--fnd-color-border-secondary);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .docs-tabs__trigger {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--fnd-color-text-secondary);
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .docs-tabs__trigger:hover { color: var(--fnd-color-text-primary); }
+    .docs-tabs__trigger[aria-selected='true'] {
+      color: var(--fnd-color-interactive-default);
+      border-bottom-color: var(--fnd-color-interactive-default);
+    }
+    .docs-tabs__panel { display: none; }
+    .docs-tabs__panel.is-active { display: block; }
+
+    /* --- Theme Cards --- */
+    .themes__card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--fnd-spacing-05);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .themes__card {
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-m);
+      padding: var(--fnd-spacing-05);
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+    .themes__card:hover { border-color: var(--fnd-color-border-primary); }
+    .themes__card.is-active {
+      border-color: var(--fnd-color-interactive-default);
+      box-shadow: 0 0 0 2px var(--fnd-color-interactive-default);
+    }
+    .themes__card-preview {
+      display: flex;
+      gap: 2px;
+      height: 40px;
+      border-radius: var(--fnd-radius-s);
+      overflow: hidden;
+      margin-block-end: var(--fnd-spacing-03);
+    }
+    .themes__card-preview > div { flex: 1; }
+    .themes__card-name {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-block-end: var(--fnd-spacing-01);
+    }
+    .themes__card-badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--fnd-radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .themes__card-badge--neo {
+      background: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-text-on-interactive);
+    }
+    .themes__card-badge--customer {
+      background: var(--fnd-color-background-accent);
+      color: var(--fnd-color-always-dark);
+    }
+    .themes__card-lock {
+      font-size: 0.75rem;
+      color: var(--fnd-color-text-tertiary);
+      margin-block-start: var(--fnd-spacing-02);
+    }
+
+    /* --- Token Pyramid (Overview tab) --- */
+    .themes__pyramid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      margin-block: var(--fnd-spacing-06);
+    }
+    .themes__pyramid-layer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--fnd-radius-s);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      text-align: center;
+      color: var(--fnd-color-always-light);
+    }
+    .themes__pyramid-layer--primitives {
+      width: 60%;
+      background: var(--fnd-color-interactive-default);
+    }
+    .themes__pyramid-layer--semantic {
+      width: 75%;
+      background: var(--fnd-color-interactive-hover);
+    }
+    .themes__pyramid-layer--themes {
+      width: 90%;
+      background: var(--fnd-color-interactive-active);
+    }
+    .themes__pyramid-arrow {
+      font-size: 1.25rem;
+      color: var(--fnd-color-text-tertiary);
+    }
+
+    /* --- Config Section --- */
+    .config__section {
+      margin-block-end: var(--fnd-spacing-10);
+    }
+    .config__section-title {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 1.5rem;
+      margin-block-end: var(--fnd-spacing-02);
+      padding-block-end: var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+    }
+    .config__section-desc {
+      font-size: 1rem;
+      color: var(--fnd-color-text-secondary);
+      margin-block-end: var(--fnd-spacing-06);
+      max-width: 70ch;
+    }
+
+    /* --- Color Picker --- */
+    .config__picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-06);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .config__picker-card {
+      background: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-m);
+      padding: var(--fnd-spacing-06);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+    .config__picker-card.is-locked {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .config__picker-label {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-block-end: var(--fnd-spacing-01, 4px);
+    }
+    .config__picker-sublabel {
+      font-size: 0.75rem;
+      color: var(--fnd-color-text-tertiary);
+      margin-block-end: var(--fnd-spacing-04);
+    }
+    .config__picker-row {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      margin-block-end: var(--fnd-spacing-04);
+    }
+    .config__color-input {
+      width: 56px;
+      height: 40px;
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-s);
+      cursor: pointer;
+      padding: 0;
+      background: none;
+    }
+    .config__color-input::-webkit-color-swatch-wrapper { padding: 2px; }
+    .config__color-input::-webkit-color-swatch { border: none; border-radius: 2px; }
+    .config__hex-input {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border: 1px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-s);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+      width: 100px;
+    }
+    .config__hex-input:focus {
+      outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+      outline-offset: var(--fnd-focus-ring-offset);
+    }
+    .config__shade-preview {
+      display: flex;
+      border-radius: var(--fnd-radius-s);
+      overflow: hidden;
+      margin-block-start: var(--fnd-spacing-03);
+      height: 32px;
+    }
+    .config__shade-step { flex: 1; }
+
+    /* --- Typography Config --- */
+    .config__typo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-06);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .config__typo-card {
+      background: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-m);
+      padding: var(--fnd-spacing-06);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+    .config__typo-card.is-locked {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .config__text-input {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border: 1px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-s);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .config__text-input:focus {
+      outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+      outline-offset: var(--fnd-focus-ring-offset);
+    }
+    .config__weight-select {
+      font-size: 0.875rem;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border: 1px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-s);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+    }
+    .config__typo-preview {
+      margin-block-start: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-s);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+
+    /* --- Live Preview --- */
+    .config__preview {
+      background: var(--fnd-color-background-base);
+      border: 1px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-m);
+      padding: var(--fnd-spacing-06);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .config__preview-title {
+      font-weight: 600;
+      margin-block-end: var(--fnd-spacing-04);
+    }
+    .config__preview-row {
+      display: flex;
+      gap: var(--fnd-spacing-03);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-04);
+    }
+    .config__preview-card {
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-s);
+      padding: var(--fnd-spacing-04);
+      flex: 1;
+      min-width: 200px;
+    }
+    .config__preview-card h4 { font-size: 1rem; margin-block-end: var(--fnd-spacing-02); }
+    .config__preview-card p { font-size: 0.875rem; color: var(--fnd-color-text-secondary); }
+
+    /* --- Comparison Table --- */
+    .compare__selectors {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-06);
+      flex-wrap: wrap;
+    }
+    .compare__select {
+      font-size: 0.875rem;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+      border: 1px solid var(--fnd-color-border-primary);
+      border-radius: var(--fnd-radius-s);
+      background: var(--fnd-color-background-base);
+      color: var(--fnd-color-text-primary);
+      min-width: 180px;
+    }
+    .compare__vs {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--fnd-color-text-tertiary);
+    }
+    .compare__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+    .compare__table th,
+    .compare__table td {
+      text-align: left;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+    }
+    .compare__table th {
+      background: var(--fnd-color-background-secondary);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+    .compare__table .compare__swatch {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      border: 1px solid var(--fnd-color-border-secondary);
+      vertical-align: middle;
+      margin-inline-end: var(--fnd-spacing-02);
+    }
+    .compare__table .compare__diff {
+      background: color-mix(in srgb, var(--fnd-color-feedback-warning) 15%, transparent);
+    }
+
+    /* --- Action Buttons --- */
+    .config__actions {
+      display: flex;
+      gap: var(--fnd-spacing-03);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .config__btn {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-06);
+      border-radius: var(--fnd-radius-s);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .config__btn--primary {
+      background-color: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-text-on-interactive);
+      border-color: var(--fnd-color-interactive-default);
+    }
+    .config__btn--primary:hover { background-color: var(--fnd-color-interactive-hover); }
+    .config__btn--secondary {
+      background-color: var(--fnd-color-background-secondary);
+      color: var(--fnd-color-text-primary);
+      border-color: var(--fnd-color-border-primary);
+    }
+    .config__btn--secondary:hover { background-color: var(--fnd-color-background-tertiary); }
+    .config__btn--danger {
+      background-color: var(--fnd-color-feedback-danger);
+      color: var(--fnd-color-always-light);
+    }
+    .config__btn--danger:hover { opacity: 0.9; }
+    .config__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* --- Status Message --- */
+    .config__status {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      border-radius: var(--fnd-radius-s);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-block-end: var(--fnd-spacing-06);
+      display: none;
+    }
+    .config__status--success {
+      display: block;
+      background-color: var(--fnd-color-background-success);
+      color: var(--fnd-color-text-success);
+      border: 1px solid var(--fnd-color-border-success);
+    }
+    .config__status--error {
+      display: block;
+      background-color: var(--fnd-color-background-danger);
+      color: var(--fnd-color-text-danger);
+      border: 1px solid var(--fnd-color-border-danger);
+    }
+
+    /* --- JSON Output --- */
+    .config__json-output {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-m);
+      padding: var(--fnd-spacing-05);
+      overflow-x: auto;
+      white-space: pre;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    /* --- Overview tables --- */
+    .themes__token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .themes__token-table th,
+    .themes__token-table td {
+      text-align: left;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+    }
+    .themes__token-table th {
+      background: var(--fnd-color-background-secondary);
+      font-weight: 600;
+    }
+    .themes__token-table code {
+      font-size: 0.75rem;
+      background: var(--fnd-color-background-tertiary);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .themes__token-swatch {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      border: 1px solid var(--fnd-color-border-secondary);
+      vertical-align: middle;
+      margin-inline-end: var(--fnd-spacing-02);
+    }
+
+    /* --- Semantic Roles Accordion --- */
+    .themes__role-group { margin-block-end: var(--fnd-spacing-04); }
+    .themes__role-group-title {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--fnd-color-text-primary);
+      margin-block-end: var(--fnd-spacing-02);
+      text-transform: capitalize;
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Themes</h1>
+      <p class="docs__subtitle">
+        Verwaltung und Konfiguration der 4 Design-System Themes.
+        Neo-Themes sind schreibgesch&uuml;tzt, Customer-Themes frei konfigurierbar.
+      </p>
+
+      <!-- Status Message -->
+      <div class="config__status" id="status-msg"></div>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Theme-Dokumentation Tabs">
+          <button class="docs-tabs__trigger" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">&Uuml;berblick</button>
+          <button class="docs-tabs__trigger" role="tab" id="tab-config" aria-controls="panel-config" aria-selected="false">Konfiguration</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: &Uuml;berblick                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+
+          <!-- Was sind Themes? -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Was sind Themes?</h2>
+            <p class="docs__section-desc">
+              Das Design-System nutzt eine 3-Schichten Color-Architektur. <strong>Primitives</strong> definieren
+              die Basis-Farbpaletten (primary, secondary, accent). <strong>Semantische Tokens</strong> vergeben
+              feste Rollen (text-primary, background-base, etc.). <strong>Themes</strong> bringen beides zusammen
+              und erzeugen unterschiedliche Erscheinungsbilder f&uuml;r hell/dunkel und Neo/Customer.
+            </p>
+
+            <!-- Token-Pyramide -->
+            <div class="themes__pyramid">
+              <div class="themes__pyramid-layer themes__pyramid-layer--primitives">
+                Primitives (3 Farben &times; 9 Shades)
+              </div>
+              <div class="themes__pyramid-arrow">&darr;</div>
+              <div class="themes__pyramid-layer themes__pyramid-layer--semantic">
+                Semantische Tokens (45 Rollen in 5 Gruppen)
+              </div>
+              <div class="themes__pyramid-arrow">&darr;</div>
+              <div class="themes__pyramid-layer themes__pyramid-layer--themes">
+                Themes (4 Varianten: Neo Light/Dark, Customer Light/Dark)
+              </div>
+            </div>
+          </section>
+
+          <!-- 4 Theme-Karten -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Die 4 Themes</h2>
+            <div class="themes__card-grid" id="overview-theme-cards">
+              <!-- Neo Light -->
+              <div class="themes__card" data-theme="neo-light">
+                <div class="themes__card-preview">
+                  <div style="background:#ffffff;"></div>
+                  <div style="background:#f5f5f5;"></div>
+                  <div style="background:#009fe3;"></div>
+                  <div style="background:#002049;"></div>
+                </div>
+                <div class="themes__card-name">Neo Light</div>
+                <span class="themes__card-badge themes__card-badge--neo">Neo</span>
+                <div class="themes__card-lock">&#x1f512; Schreibgesch&uuml;tzt</div>
+              </div>
+              <!-- Neo Dark -->
+              <div class="themes__card" data-theme="neo-dark">
+                <div class="themes__card-preview">
+                  <div style="background:#000000;"></div>
+                  <div style="background:#1d1d1d;"></div>
+                  <div style="background:#009fe3;"></div>
+                  <div style="background:#37e93d;"></div>
+                </div>
+                <div class="themes__card-name">Neo Dark</div>
+                <span class="themes__card-badge themes__card-badge--neo">Neo</span>
+                <div class="themes__card-lock">&#x1f512; Schreibgesch&uuml;tzt</div>
+              </div>
+              <!-- Customer Light -->
+              <div class="themes__card" data-theme="customer-light">
+                <div class="themes__card-preview">
+                  <div style="background:#f5f5f5;"></div>
+                  <div style="background:#ffffff;"></div>
+                  <div style="background:#009fe3;"></div>
+                  <div style="background:#37e93d;"></div>
+                </div>
+                <div class="themes__card-name">Customer Light</div>
+                <span class="themes__card-badge themes__card-badge--customer">Customer</span>
+                <div class="themes__card-lock" style="color: var(--fnd-color-feedback-success);">&#x270f; Konfigurierbar</div>
+              </div>
+              <!-- Customer Dark -->
+              <div class="themes__card" data-theme="customer-dark">
+                <div class="themes__card-preview">
+                  <div style="background:#1d1d1d;"></div>
+                  <div style="background:#333333;"></div>
+                  <div style="background:#009fe3;"></div>
+                  <div style="background:#37e93d;"></div>
+                </div>
+                <div class="themes__card-name">Customer Dark</div>
+                <span class="themes__card-badge themes__card-badge--customer">Customer</span>
+                <div class="themes__card-lock" style="color: var(--fnd-color-feedback-success);">&#x270f; Konfigurierbar</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Unver&auml;nderliche Tokens -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Universelle Tokens (unver&auml;nderlich)</h2>
+            <p class="docs__section-desc">
+              Diese Tokens sind &uuml;ber alle 4 Themes identisch und d&uuml;rfen nicht ge&auml;ndert werden.
+              Sie garantieren Konsistenz f&uuml;r System-Feedback, Kontraste und typografische Grundwerte.
+            </p>
+            <table class="themes__token-table">
+              <thead>
+                <tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--fnd-color-always-light</code></td>
+                  <td><span class="themes__token-swatch" style="background:#ffffff;"></span> #ffffff</td>
+                  <td>Immer Wei&szlig; (unabh&auml;ngig vom Theme)</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-always-dark</code></td>
+                  <td><span class="themes__token-swatch" style="background:#000000;"></span> #000000</td>
+                  <td>Immer Schwarz (unabh&auml;ngig vom Theme)</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-feedback-info</code></td>
+                  <td><span class="themes__token-swatch" style="background:#4589ff;"></span> #4589ff</td>
+                  <td>System-Information</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-feedback-success</code></td>
+                  <td><span class="themes__token-swatch" style="background:#24a148;"></span> #24a148</td>
+                  <td>System-Erfolg</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-feedback-warning</code></td>
+                  <td><span class="themes__token-swatch" style="background:#d4a400;"></span> #d4a400</td>
+                  <td>System-Warnung</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-feedback-danger</code></td>
+                  <td><span class="themes__token-swatch" style="background:#fa4d56;"></span> #fa4d56</td>
+                  <td>System-Fehler/Gefahr</td>
+                </tr>
+                <tr>
+                  <td><code>--lh-tight</code></td>
+                  <td>1.05</td>
+                  <td>Enge Zeilenh&ouml;he (Display)</td>
+                </tr>
+                <tr>
+                  <td><code>--lh-heading</code></td>
+                  <td>1.15</td>
+                  <td>Zeilenh&ouml;he f&uuml;r &Uuml;berschriften</td>
+                </tr>
+                <tr>
+                  <td><code>--lh-body</code></td>
+                  <td>1.6</td>
+                  <td>Zeilenh&ouml;he f&uuml;r Flie&szlig;text</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Semantische Rollen -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Semantische Rollen (45 Tokens)</h2>
+            <p class="docs__section-desc">
+              Die Token-<strong>Namen</strong> (Rollen) sind fest definiert und beschreiben die Funktion,
+              nicht die Farbe. Ihre <strong>Werte</strong> werden automatisch aus den Primitives abgeleitet
+              und variieren je nach Theme.
+            </p>
+
+            <!-- Text Tokens -->
+            <div class="themes__role-group">
+              <h3 class="themes__role-group-title">text (13 Tokens)</h3>
+              <table class="themes__token-table">
+                <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--fnd-color-text-primary</code></td><td>Prim&auml;re Textfarbe</td></tr>
+                  <tr><td><code>--fnd-color-text-secondary</code></td><td>Sekund&auml;re Textfarbe (ged&auml;mpft)</td></tr>
+                  <tr><td><code>--fnd-color-text-tertiary</code></td><td>Terti&auml;re Textfarbe (dezent)</td></tr>
+                  <tr><td><code>--fnd-color-text-inverse</code></td><td>Invertierte Textfarbe</td></tr>
+                  <tr><td><code>--fnd-color-text-disabled</code></td><td>Deaktivierter Text</td></tr>
+                  <tr><td><code>--fnd-color-text-on-interactive</code></td><td>Text auf interaktiven Fl&auml;chen</td></tr>
+                  <tr><td><code>--fnd-color-text-difference</code></td><td>Mix-Blend-Difference Text</td></tr>
+                  <tr><td><code>--fnd-color-text-link</code></td><td>Link-Textfarbe</td></tr>
+                  <tr><td><code>--fnd-color-text-link-hover</code></td><td>Link-Hover-Farbe</td></tr>
+                  <tr><td><code>--fnd-color-text-transparency-mid</code></td><td>Halbtransparenter Text</td></tr>
+                  <tr><td><code>--fnd-color-text-transparency-low</code></td><td>Leicht transparenter Text</td></tr>
+                  <tr><td><code>--fnd-color-text-success</code></td><td>Erfolgs-Text</td></tr>
+                  <tr><td><code>--fnd-color-text-danger</code></td><td>Fehler-/Gefahren-Text</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Background Tokens -->
+            <div class="themes__role-group">
+              <h3 class="themes__role-group-title">background (16 Tokens)</h3>
+              <table class="themes__token-table">
+                <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--fnd-color-background-base</code></td><td>Basis-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-secondary</code></td><td>Sekund&auml;rer Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-tertiary</code></td><td>Terti&auml;rer Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-quaternary</code></td><td>Quart&auml;rer Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-quinary</code></td><td>Quin&auml;rer Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-inverse</code></td><td>Invertierter Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-disabled</code></td><td>Deaktivierter Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-hover</code></td><td>Hover-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-active</code></td><td>Active-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-overlay</code></td><td>Overlay-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-accent</code></td><td>Akzent-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-accent-secondary</code></td><td>Sekund&auml;rer Akzent-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-transparency-mid</code></td><td>Halbtransparenter Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-transparency-low</code></td><td>Leicht transparenter Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-success</code></td><td>Erfolgs-Hintergrund</td></tr>
+                  <tr><td><code>--fnd-color-background-danger</code></td><td>Fehler-/Gefahren-Hintergrund</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Border Tokens -->
+            <div class="themes__role-group">
+              <h3 class="themes__role-group-title">border (8 Tokens)</h3>
+              <table class="themes__token-table">
+                <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--fnd-color-border-primary</code></td><td>Prim&auml;re Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-secondary</code></td><td>Sekund&auml;re Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-strong</code></td><td>Starke Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-mid-dark</code></td><td>Mitteldunkle Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-inverse</code></td><td>Invertierte Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-disabled</code></td><td>Deaktivierte Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-success</code></td><td>Erfolgs-Randfarbe</td></tr>
+                  <tr><td><code>--fnd-color-border-danger</code></td><td>Fehler-/Gefahren-Randfarbe</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Interactive Tokens -->
+            <div class="themes__role-group">
+              <h3 class="themes__role-group-title">interactive (5 Tokens)</h3>
+              <table class="themes__token-table">
+                <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--fnd-color-interactive-default</code></td><td>Standard-Interaktionsfarbe</td></tr>
+                  <tr><td><code>--fnd-color-interactive-hover</code></td><td>Hover-Interaktionsfarbe</td></tr>
+                  <tr><td><code>--fnd-color-interactive-active</code></td><td>Active-Interaktionsfarbe</td></tr>
+                  <tr><td><code>--fnd-color-interactive-visited</code></td><td>Besuchte Links</td></tr>
+                  <tr><td><code>--fnd-color-interactive-focus</code></td><td>Focus-Interaktionsfarbe</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Feedback Tokens -->
+            <div class="themes__role-group">
+              <h3 class="themes__role-group-title">feedback (4 Tokens = universal)</h3>
+              <table class="themes__token-table">
+                <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code>--fnd-color-feedback-info</code></td><td>Information (identisch in allen Themes)</td></tr>
+                  <tr><td><code>--fnd-color-feedback-success</code></td><td>Erfolg (identisch in allen Themes)</td></tr>
+                  <tr><td><code>--fnd-color-feedback-warning</code></td><td>Warnung (identisch in allen Themes)</td></tr>
+                  <tr><td><code>--fnd-color-feedback-danger</code></td><td>Fehler/Gefahr (identisch in allen Themes)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Konfigurierbare Eigenschaften -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Konfigurierbare Eigenschaften</h2>
+            <p class="docs__section-desc">
+              Pro Theme k&ouml;nnen die folgenden Werte konfiguriert werden. Alle anderen
+              Tokens (semantische Rollen, universelle Werte) werden automatisch abgeleitet.
+            </p>
+            <table class="themes__token-table">
+              <thead>
+                <tr><th>Eigenschaft</th><th>Auswirkung</th><th>&Auml;nderbar in</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Primary Color</strong> (#hex)</td><td>Shade-Skala 100&ndash;900, interactive-*, text-link</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Secondary Color</strong> (#hex)</td><td>Shade-Skala 100&ndash;900, Sekund&auml;r-Akzente</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Accent Color</strong> (#hex)</td><td>Shade-Skala 100&ndash;900, CTA-Highlights</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Font-Family Body</strong></td><td>Alle Paragraph-Texte</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Font-Family Heading</strong></td><td>Alle &Uuml;berschriften</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Font-Weight Body</strong></td><td>Standard-Schriftgewicht</td><td>Customer Themes</td></tr>
+                <tr><td><strong>Font-Weight Heading</strong></td><td>&Uuml;berschrift-Schriftgewicht</td><td>Customer Themes</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div><!-- /panel-overview -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Konfiguration                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="panel-config" aria-labelledby="tab-config">
+
+          <!-- Theme-Auswahl -->
+          <section class="config__section" id="config-theme-select">
+            <h2 class="config__section-title">Theme ausw&auml;hlen</h2>
+            <p class="config__section-desc">
+              W&auml;hle das zu konfigurierende Theme. Neo-Themes sind schreibgesch&uuml;tzt.
+              Customer-Themes k&ouml;nnen frei angepasst werden.
+            </p>
+            <div class="themes__card-grid" id="config-theme-cards">
+              <!-- Dynamisch bef&uuml;llt via JS -->
+            </div>
+          </section>
+
+          <!-- Farb-Konfiguration -->
+          <section class="config__section" id="config-colors">
+            <h2 class="config__section-title">Farben konfigurieren</h2>
+            <p class="config__section-desc">
+              &Auml;ndere die Basis-Farbe (500) jeder Palette. Die Shade-Skala (100&ndash;900)
+              wird automatisch live neu berechnet.
+            </p>
+            <div class="config__picker-grid" id="color-pickers">
+              <!-- Primary -->
+              <div class="config__picker-card" id="picker-card-primary">
+                <div class="config__picker-label">Primary</div>
+                <div class="config__picker-sublabel">Brand-Hauptfarbe (Buttons, Links, Akzente)</div>
+                <div class="config__picker-row">
+                  <input type="color" class="config__color-input" id="picker-primary" value="#009fe3" />
+                  <input type="text" class="config__hex-input" id="hex-primary" value="#009fe3" maxlength="7" pattern="#[0-9a-fA-F]{6}" />
+                </div>
+                <div class="config__shade-preview" id="shade-primary"></div>
+              </div>
+              <!-- Secondary -->
+              <div class="config__picker-card" id="picker-card-secondary">
+                <div class="config__picker-label">Secondary</div>
+                <div class="config__picker-sublabel">Zweitfarbe (Navigation, Dark-Backgrounds)</div>
+                <div class="config__picker-row">
+                  <input type="color" class="config__color-input" id="picker-secondary" value="#002049" />
+                  <input type="text" class="config__hex-input" id="hex-secondary" value="#002049" maxlength="7" pattern="#[0-9a-fA-F]{6}" />
+                </div>
+                <div class="config__shade-preview" id="shade-secondary"></div>
+              </div>
+              <!-- Accent -->
+              <div class="config__picker-card" id="picker-card-accent">
+                <div class="config__picker-label">Accent</div>
+                <div class="config__picker-sublabel">Akzentfarbe (Highlights, CTAs, Badges)</div>
+                <div class="config__picker-row">
+                  <input type="color" class="config__color-input" id="picker-accent" value="#37e93d" />
+                  <input type="text" class="config__hex-input" id="hex-accent" value="#37e93d" maxlength="7" pattern="#[0-9a-fA-F]{6}" />
+                </div>
+                <div class="config__shade-preview" id="shade-accent"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Typography-Konfiguration -->
+          <section class="config__section" id="config-typography">
+            <h2 class="config__section-title">Typography konfigurieren</h2>
+            <p class="config__section-desc">
+              &Auml;ndere Font-Families und Schriftgewichte f&uuml;r das ausgew&auml;hlte Theme.
+            </p>
+            <div class="config__typo-grid">
+              <div class="config__typo-card" id="typo-card-body">
+                <div class="config__picker-label">Body Font</div>
+                <div class="config__picker-sublabel">Font-Family f&uuml;r Flie&szlig;text</div>
+                <input type="text" class="config__text-input" id="input-font-body" value="'Manrope', 'Helvetica Neue', Arial, sans-serif" />
+                <div style="display:flex; align-items:center; gap:var(--fnd-spacing-03); margin-block-start:var(--fnd-spacing-03);">
+                  <label style="font-size:0.75rem; font-weight:600;">Weight:</label>
+                  <select class="config__weight-select" id="select-weight-body">
+                    <option value="100">100 (Thin)</option>
+                    <option value="200">200 (Extra Light)</option>
+                    <option value="300">300 (Light)</option>
+                    <option value="400" selected>400 (Regular)</option>
+                    <option value="500">500 (Medium)</option>
+                    <option value="600">600 (Semi Bold)</option>
+                    <option value="700">700 (Bold)</option>
+                    <option value="800">800 (Extra Bold)</option>
+                    <option value="900">900 (Black)</option>
+                  </select>
+                </div>
+                <div class="config__typo-preview" id="preview-font-body">
+                  <p style="margin:0;">The quick brown fox jumps over the lazy dog. 0123456789</p>
+                </div>
+              </div>
+              <div class="config__typo-card" id="typo-card-heading">
+                <div class="config__picker-label">Heading Font</div>
+                <div class="config__picker-sublabel">Font-Family f&uuml;r &Uuml;berschriften</div>
+                <input type="text" class="config__text-input" id="input-font-heading" value="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif" />
+                <div style="display:flex; align-items:center; gap:var(--fnd-spacing-03); margin-block-start:var(--fnd-spacing-03);">
+                  <label style="font-size:0.75rem; font-weight:600;">Weight:</label>
+                  <select class="config__weight-select" id="select-weight-heading">
+                    <option value="100">100 (Thin)</option>
+                    <option value="200">200 (Extra Light)</option>
+                    <option value="300">300 (Light)</option>
+                    <option value="400" selected>400 (Regular)</option>
+                    <option value="500">500 (Medium)</option>
+                    <option value="600">600 (Semi Bold)</option>
+                    <option value="700">700 (Bold)</option>
+                    <option value="800">800 (Extra Bold)</option>
+                    <option value="900">900 (Black)</option>
+                  </select>
+                </div>
+                <div class="config__typo-preview" id="preview-font-heading">
+                  <h3 style="margin:0; font-size:1.5rem;">Heading Preview Aa Bb Cc</h3>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live Preview -->
+          <section class="config__section" id="config-preview">
+            <h2 class="config__section-title">Live Preview</h2>
+            <p class="config__section-desc">
+              Vorschau des ausgew&auml;hlten Themes mit den aktuellen Einstellungen.
+            </p>
+            <div class="config__preview" id="live-preview">
+              <div class="config__preview-title">Beispiel-Komponenten</div>
+              <div class="config__preview-row">
+                <button class="button">Primary Button</button>
+                <button class="button secondary">Secondary</button>
+                <button class="button accent">Accent</button>
+                <button class="button outline">Outline</button>
+                <button class="button ghost">Ghost</button>
+              </div>
+              <div class="config__preview-row">
+                <div class="config__preview-card">
+                  <h4>Card Title</h4>
+                  <p>Text mit <a href="#" style="color:var(--fnd-color-text-link); text-decoration:underline;">Primary Link</a> und normalem Inhalt.</p>
+                </div>
+                <div class="config__preview-card">
+                  <h4>Status-Beispiel</h4>
+                  <p>
+                    <span style="color:var(--fnd-color-feedback-success);">&#x2713; Erfolg</span> &middot;
+                    <span style="color:var(--fnd-color-feedback-warning);">&#x26a0; Warnung</span> &middot;
+                    <span style="color:var(--fnd-color-feedback-danger);">&#x2717; Fehler</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Paarweiser Vergleich -->
+          <section class="config__section" id="config-compare">
+            <h2 class="config__section-title">Paarweiser Vergleich</h2>
+            <p class="config__section-desc">
+              Vergleiche zwei Themes nebeneinander. Unterschiede werden farblich hervorgehoben.
+            </p>
+            <div class="compare__selectors">
+              <label style="font-weight:600; font-size:0.875rem;">Theme A:</label>
+              <select class="compare__select" id="compare-a">
+                <option value="neo-light">Neo Light</option>
+                <option value="neo-dark">Neo Dark</option>
+                <option value="customer-light">Customer Light</option>
+                <option value="customer-dark">Customer Dark</option>
+              </select>
+              <span class="compare__vs">vs.</span>
+              <label style="font-weight:600; font-size:0.875rem;">Theme B:</label>
+              <select class="compare__select" id="compare-b">
+                <option value="neo-light">Neo Light</option>
+                <option value="neo-dark">Neo Dark</option>
+                <option value="customer-light" selected>Customer Light</option>
+                <option value="customer-dark">Customer Dark</option>
+              </select>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="compare__table" id="compare-table">
+                <thead>
+                  <tr>
+                    <th>Eigenschaft</th>
+                    <th id="compare-th-a">Neo Light</th>
+                    <th id="compare-th-b">Customer Light</th>
+                  </tr>
+                </thead>
+                <tbody id="compare-tbody">
+                  <!-- Dynamisch bef&uuml;llt via JS -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Aktionen -->
+          <section class="config__section" id="config-actions">
+            <h2 class="config__section-title">Speichern &amp; Zur&uuml;cksetzen</h2>
+            <p class="config__section-desc">
+              <strong>Speichern</strong> schreibt die Konfiguration in
+              <code>data/themes-config.json</code>.
+              <strong>Zur&uuml;cksetzen</strong> stellt die Original-Werte wieder her.
+            </p>
+            <div class="config__actions">
+              <button class="config__btn config__btn--primary" id="btn-save">
+                &#x1f4be; Speichern
+              </button>
+              <button class="config__btn config__btn--secondary" id="btn-export">
+                &#x1f4cb; JSON kopieren
+              </button>
+              <button class="config__btn config__btn--secondary" id="btn-import">
+                &#x1f4c2; JSON importieren
+              </button>
+              <button class="config__btn config__btn--danger" id="btn-reset">
+                &#x21ba; Zur&uuml;cksetzen
+              </button>
+            </div>
+            <input type="file" id="file-import" accept=".json" style="display:none;" />
+
+            <h3 style="font-size:0.875rem; font-weight:600; margin-block-end:var(--fnd-spacing-03);">
+              Aktuelle Konfiguration (JSON)
+            </h3>
+            <div class="config__json-output" id="json-output"></div>
+          </section>
+
+        </div><!-- /panel-config -->
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="themes-docs.js"></script>
+
+</body>
+</html>

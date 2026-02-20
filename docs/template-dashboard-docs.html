@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Template: Dashboard | Design System Docs</title>
+  <meta name="description" content="Dokumentation des Dashboard-Templates mit Sidebar-Navigation und Content-Bereich." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .docs-template-preview {
+      border-radius: var(--fnd-radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .docs-tpl-dash {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      grid-template-rows: 48px 1fr;
+      grid-template-areas:
+        'sidebar header'
+        'sidebar main';
+      min-height: 440px;
+      background: var(--fnd-color-background-base);
+    }
+    .docs-tpl-dash__sidebar {
+      grid-area: sidebar;
+      background: var(--fnd-color-layer-01);
+      border-inline-end: 1px solid var(--fnd-color-border-low);
+      padding: var(--fnd-spacing-04);
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-01);
+    }
+    .docs-tpl-dash__sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-02);
+      border-radius: var(--fnd-radius-md);
+      color: var(--fnd-color-on-layer-01);
+      font-size: var(--fs-sm, 0.875rem);
+      cursor: default;
+    }
+    .docs-tpl-dash__sidebar-item--active {
+      background: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-text-on-interactive);
+      font-weight: var(--fnd-font-weight-medium);
+    }
+    .docs-tpl-dash__header {
+      grid-area: header;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-low);
+      background: var(--fnd-color-background-base);
+    }
+    .docs-tpl-dash__header-title {
+      font-weight: var(--fnd-font-weight-semibold);
+      color: var(--fnd-color-text-high);
+      font-size: var(--fs-sm, 0.875rem);
+      margin: 0;
+    }
+    .docs-tpl-dash__main {
+      grid-area: main;
+      padding: var(--fnd-spacing-04);
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-03);
+    }
+    .docs-tpl-dash__metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--fnd-spacing-03);
+    }
+    .docs-tpl-dash__metric {
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      padding: var(--fnd-spacing-03);
+      box-shadow: var(--fnd-elevation-base);
+    }
+    .docs-tpl-dash__metric-label {
+      color: var(--fnd-color-text-secondary);
+      font-size: var(--fs-xs, 0.75rem);
+      margin: 0 0 var(--fnd-spacing-01);
+    }
+    .docs-tpl-dash__metric-value {
+      font-size: 1.25rem;
+      font-weight: var(--fnd-font-weight-bold);
+      color: var(--fnd-color-on-layer-01);
+      margin: 0;
+    }
+    .docs-tpl-dash__card {
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      box-shadow: var(--fnd-elevation-base);
+    }
+    .docs-tpl-dash__card-title {
+      font-weight: var(--fnd-font-weight-semibold);
+      font-size: var(--fs-sm, 0.875rem);
+      color: var(--fnd-color-on-layer-01);
+      margin: 0 0 var(--fnd-spacing-02);
+    }
+    .docs-tpl-dash__placeholder {
+      height: 60px;
+      background: var(--fnd-color-layer-02, var(--fnd-color-background-secondary));
+      border-radius: var(--fnd-radius-sm);
+    }
+    .docs-layout-diagram {
+      font-family: var(--font-mono, monospace);
+      font-size: var(--fs-sm, 0.875rem);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      padding: var(--fnd-spacing-05);
+      line-height: 1.7;
+      color: var(--fnd-color-text-primary);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <h1 class="docs__title">Template: Dashboard</h1>
+      <p class="docs__subtitle">Applikations-Layout mit fixer Sidebar, Sticky-Header und flexiblem Hauptbereich. Metric-Cards und Content-Karten nutzen Layer-Tokens f&uuml;r verschachtelte Hintergr&uuml;nde. Basisklasse: <code>.t-dashboard</code>.</p>
+
+      <!-- ============================================================= -->
+      <!-- TABS                                                          -->
+      <!-- ============================================================= -->
+      <div class="docs-tabs" id="dashboard-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Dashboard-Template-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 1: BENUTZUNG                                            -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendungszweck</h2>
+          <p>Das Dashboard-Template ist das Haupt-Applikationslayout f&uuml;r Verwaltungs- und Analyse-Interfaces. Es kombiniert eine persistente Sidebar-Navigation mit einem sticky Header und einem scrollbaren Hauptbereich f&uuml;r KPI-Karten, Tabellen und Diagramme. Die Layer-Tokens (<code>--fnd-color-layer-01/02</code>) erzeugen hierarchisch gestaffelte Hintergr&uuml;nde, die im Dunkelmodus automatisch korrekt invertiert werden.</p>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Vorschau</h2>
+          <div class="docs-template-preview">
+            <div class="docs-tpl-dash" role="presentation">
+              <nav class="docs-tpl-dash__sidebar" aria-label="Hauptnavigation (Demo)">
+                <div class="docs-tpl-dash__sidebar-item docs-tpl-dash__sidebar-item--active" aria-current="page">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                  &Uuml;bersicht
+                </div>
+                <div class="docs-tpl-dash__sidebar-item">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                  Berichte
+                </div>
+                <div class="docs-tpl-dash__sidebar-item">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  Benutzer
+                </div>
+                <div class="docs-tpl-dash__sidebar-item">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                  Einstellungen
+                </div>
+              </nav>
+              <header class="docs-tpl-dash__header">
+                <h1 class="docs-tpl-dash__header-title">&Uuml;bersicht</h1>
+                <button class="nc-button nc-button--ghost nc-button--sm">Profil</button>
+              </header>
+              <main class="docs-tpl-dash__main">
+                <div class="docs-tpl-dash__metrics">
+                  <div class="docs-tpl-dash__metric">
+                    <p class="docs-tpl-dash__metric-label">Benutzer</p>
+                    <p class="docs-tpl-dash__metric-value">4.821</p>
+                  </div>
+                  <div class="docs-tpl-dash__metric">
+                    <p class="docs-tpl-dash__metric-label">Ums&auml;tze</p>
+                    <p class="docs-tpl-dash__metric-value">128 k&euro;</p>
+                  </div>
+                  <div class="docs-tpl-dash__metric">
+                    <p class="docs-tpl-dash__metric-label">Aufgaben</p>
+                    <p class="docs-tpl-dash__metric-value">37 / 50</p>
+                  </div>
+                </div>
+                <div class="docs-tpl-dash__card">
+                  <h2 class="docs-tpl-dash__card-title">Aktivit&auml;tsdiagramm</h2>
+                  <div class="docs-tpl-dash__placeholder" aria-label="Diagramm-Platzhalter"></div>
+                </div>
+              </main>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Wann einsetzen?</h2>
+          <table class="docs__table">
+            <thead><tr><th>Szenario</th><th>Empfehlung</th></tr></thead>
+            <tbody>
+              <tr><td>Admin-Bereich / Backoffice</td><td>Prim&auml;r f&uuml;r dieses Template</td></tr>
+              <tr><td>Analyse-Dashboard mit KPIs</td><td>Geeignet; Metric-Grid verwenden</td></tr>
+              <tr><td>Einzel-Seite ohne Sidebar-Navigation</td><td>Stattdessen <code>.t-content</code> oder <code>.t-settings</code></td></tr>
+              <tr><td>Mobile-First-Anwendung</td><td>Sidebar wird unter 1024px versteckt; separate Mobile-Nav n&ouml;tig</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 2: STYLE                                                -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <h2 class="docs__section-title">Layout-Struktur</h2>
+          <p>Das Template nutzt ein CSS-Grid mit 2 Spalten (<code>260px 1fr</code>) und 2 Reihen (<code>auto 1fr</code>). Die Sidebar spannt beide Reihen auf; Header und Main f&uuml;llen die rechte Spalte.</p>
+
+          <div class="docs-layout-diagram">
+.t-dashboard                     // grid: 260px 1fr / auto 1fr; min-height: 100vh
+  .t-dashboard__sidebar          // grid-area: sidebar; sticky; height: 100vh; overflow-y: auto
+    .t-dashboard__sidebar-nav    // flex-column; gap: spacing-01
+      a.t-dashboard__sidebar-link // flex; gap: spacing-03; hover: layer-02; [aria-current=page]: interactive-default
+  .t-dashboard__header           // grid-area: header; sticky; top: 0; z-index: fnd-z-sticky
+    h1.t-dashboard__title        // heading(m); text-high
+  .t-dashboard__main             // grid-area: main; flex-column; gap: spacing-06; max-width: content-max-width
+    .t-dashboard__metrics        // grid; auto-fit; minmax(220px, 1fr); gap: spacing-04
+      .t-dashboard__metric-card  // layer-01; radius-lg; elevation-base
+        p.t-dashboard__metric-label  // text-secondary; fs-sm
+        p.t-dashboard__metric-value  // heading(l); on-layer-01
+    .t-dashboard__card           // layer-01; radius-lg; elevation-base
+      .t-dashboard__card-header  // flex; space-between; mb: spacing-04
+        h2.t-dashboard__card-title   // heading(s); on-layer-01
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Verwendete Tokens</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+            <tbody>
+              <tr><td><code>--fnd-color-background-base</code></td><td>Root-Hintergrund und Header</td></tr>
+              <tr><td><code>--fnd-color-layer-01</code></td><td>Sidebar, Metric-Cards, Content-Cards</td></tr>
+              <tr><td><code>--fnd-color-layer-02</code></td><td>Sidebar-Link-Hover</td></tr>
+              <tr><td><code>--fnd-color-on-layer-01</code></td><td>Text auf Layer-01-Fl&auml;chen</td></tr>
+              <tr><td><code>--fnd-color-border-low</code></td><td>Sidebar-Border, Header-Border-Bottom, Card-Trennlinien</td></tr>
+              <tr><td><code>--fnd-color-interactive-default</code></td><td>Aktiver Sidebar-Link Hintergrund</td></tr>
+              <tr><td><code>--fnd-color-text-on-interactive</code></td><td>Text auf aktivem Sidebar-Link</td></tr>
+              <tr><td><code>--fnd-color-text-secondary</code></td><td>Metric-Label</td></tr>
+              <tr><td><code>--fnd-elevation-base</code></td><td>Card-Schatten</td></tr>
+              <tr><td><code>--fnd-z-sticky</code></td><td>Header z-index</td></tr>
+              <tr><td><code>--fnd-content-max-width</code></td><td>Max-Breite des Main-Bereichs</td></tr>
+              <tr><td><code>--fnd-font-weight-regular</code>, <code>--fnd-font-weight-medium</code></td><td>Sidebar-Link-Schriftschwere</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Responsive Breakpoints</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>Breakpoint</th><th>&Auml;nderung</th></tr></thead>
+            <tbody>
+              <tr><td>Desktop (default)</td><td>2-Spalten-Grid; Sidebar sichtbar</td></tr>
+              <tr><td><code>max-width: 1024px</code></td><td>1-Spalten-Grid; Sidebar ausgeblendet (<code>display: none</code>); Grid-Areas: <code>header / main</code></td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">SCSS-Datei</h2>
+          <div class="docs-snippet"><pre>scss/scss/08-templates/_dashboard.scss</pre></div>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 3: API                                                  -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <h2 class="docs__section-title">Klassen-Referenz</h2>
+          <table class="docs__table">
+            <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td><code>.t-dashboard</code></td><td><code>&lt;div&gt;</code></td><td>Grid-Root; <code>260px 1fr / auto 1fr</code>; <code>min-height: 100vh</code></td></tr>
+              <tr><td><code>.t-dashboard__sidebar</code></td><td><code>&lt;nav&gt;</code></td><td>Linke Spalte; <code>sticky</code>; <code>height: 100vh</code>; <code>layer-01</code>; auf Mobile: <code>display: none</code></td></tr>
+              <tr><td><code>.t-dashboard__sidebar-nav</code></td><td><code>&lt;ul&gt;</code> oder <code>&lt;div&gt;</code></td><td>Flex-Column-Container f&uuml;r Links</td></tr>
+              <tr><td><code>.t-dashboard__sidebar-link</code></td><td><code>&lt;a&gt;</code></td><td>Navigations-Link; <code>[aria-current='page']</code> f&uuml;r aktiven Zustand</td></tr>
+              <tr><td><code>.t-dashboard__header</code></td><td><code>&lt;header&gt;</code></td><td>Sticky-Header; <code>z-index: fnd-z-sticky</code>; <code>border-bottom</code></td></tr>
+              <tr><td><code>.t-dashboard__title</code></td><td><code>&lt;h1&gt;</code></td><td>Seitentitel im Header; <code>heading(m)</code></td></tr>
+              <tr><td><code>.t-dashboard__main</code></td><td><code>&lt;main&gt;</code></td><td>Haupt-Content-Bereich; <code>flex-column</code>; <code>max-width: content-max-width</code></td></tr>
+              <tr><td><code>.t-dashboard__metrics</code></td><td><code>&lt;div&gt;</code></td><td>Responsive Metric-Grid; <code>auto-fit minmax(220px, 1fr)</code></td></tr>
+              <tr><td><code>.t-dashboard__metric-card</code></td><td><code>&lt;div&gt;</code></td><td>KPI-Karte; <code>layer-01</code>; <code>elevation-base</code></td></tr>
+              <tr><td><code>.t-dashboard__metric-label</code></td><td><code>&lt;p&gt;</code></td><td>Kennzahl-Bezeichnung; <code>text-secondary</code>; <code>fs-sm</code></td></tr>
+              <tr><td><code>.t-dashboard__metric-value</code></td><td><code>&lt;p&gt;</code></td><td>Kennzahl-Wert; <code>heading(l)</code>; <code>on-layer-01</code></td></tr>
+              <tr><td><code>.t-dashboard__card</code></td><td><code>&lt;section&gt;</code></td><td>Inhalts-Karte; <code>layer-01</code>; <code>elevation-base</code></td></tr>
+              <tr><td><code>.t-dashboard__card-header</code></td><td><code>&lt;div&gt;</code></td><td>Karten-Kopfzeile; <code>flex space-between</code></td></tr>
+              <tr><td><code>.t-dashboard__card-title</code></td><td><code>&lt;h2&gt;</code></td><td>Karten-Titel; <code>heading(s)</code></td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Minimales HTML</h2>
+          <div class="docs-snippet">
+            <pre>&lt;div class="t-dashboard"&gt;
+  &lt;nav class="t-dashboard__sidebar" aria-label="Hauptnavigation"&gt;
+    &lt;ul class="t-dashboard__sidebar-nav"&gt;
+      &lt;li&gt;&lt;a class="t-dashboard__sidebar-link" href="/" aria-current="page"&gt;&Uuml;bersicht&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a class="t-dashboard__sidebar-link" href="/berichte"&gt;Berichte&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+
+  &lt;header class="t-dashboard__header"&gt;
+    &lt;h1 class="t-dashboard__title"&gt;&Uuml;bersicht&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;main class="t-dashboard__main" id="main-content"&gt;
+    &lt;div class="t-dashboard__metrics"&gt;
+      &lt;div class="t-dashboard__metric-card"&gt;
+        &lt;p class="t-dashboard__metric-label"&gt;Benutzer&lt;/p&gt;
+        &lt;p class="t-dashboard__metric-value"&gt;4.821&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;section class="t-dashboard__card"&gt;
+      &lt;div class="t-dashboard__card-header"&gt;
+        &lt;h2 class="t-dashboard__card-title"&gt;Aktivit&auml;t&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;!-- Diagramm oder Tabelle --&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Template-&Uuml;bersicht</h2>
+          <table class="docs__table">
+            <tbody>
+              <tr><td><strong>Template-Pr&auml;fix</strong></td><td><code>.t-dashboard</code></td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/08-templates/_dashboard.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>08-Templates</td></tr>
+              <tr><td><strong>Grid</strong></td><td><code>260px 1fr / auto 1fr</code>; Grid-Areas: sidebar, header, main</td></tr>
+              <tr><td><strong>JS-Abh&auml;ngigkeit</strong></td><td>Keine (Mobile-Nav muss separat implementiert werden)</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- =========================================================== -->
+        <!-- TAB 4: ACCESSIBILITY                                        -->
+        <!-- =========================================================== -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Landmark-Struktur</h2>
+          <table class="docs__table">
+            <thead><tr><th>Element</th><th>Rolle</th><th>Anforderung</th></tr></thead>
+            <tbody>
+              <tr><td><code>&lt;nav&gt;.t-dashboard__sidebar</code></td><td><code>navigation</code></td><td><code>aria-label="Hauptnavigation"</code> setzen (eine Seite kann mehrere <code>&lt;nav&gt;</code>-Elemente haben)</td></tr>
+              <tr><td><code>&lt;header&gt;.t-dashboard__header</code></td><td><code>banner</code></td><td>Nur ein <code>&lt;header&gt;</code> als direktes Kind von <code>&lt;body&gt;</code> oder <code>&lt;div.t-dashboard&gt;</code></td></tr>
+              <tr><td><code>&lt;main&gt;.t-dashboard__main</code></td><td><code>main</code></td><td>Muss <code>id="main-content"</code> f&uuml;r Skip-Link-Ziel haben</td></tr>
+              <tr><td><code>.t-dashboard__card</code></td><td><code>region</code> (wenn <code>&lt;section&gt;</code>)</td><td><code>aria-labelledby</code> auf <code>.t-dashboard__card-title</code> setzen</td></tr>
+            </tbody>
+          </table>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Heading-Hierarchie</h2>
+          <div class="docs-snippet"><pre>&lt;div class="t-dashboard"&gt;
+  &lt;nav ...&gt; ... &lt;/nav&gt;
+  &lt;header ...&gt;
+    &lt;h1 class="t-dashboard__title"&gt;Seitenname&lt;/h1&gt;  &lt;!-- Einziger h1 --&gt;
+  &lt;/header&gt;
+  &lt;main ...&gt;
+    &lt;section class="t-dashboard__card" aria-labelledby="card-1-title"&gt;
+      &lt;h2 class="t-dashboard__card-title" id="card-1-title"&gt;Aktivit&auml;t&lt;/h2&gt;
+      &lt;!-- h3 f&uuml;r Sub-Sektionen innerhalb der Karte --&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</pre></div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Aktiver Navigationspunkt</h4>
+              <ul>
+                <li><code>[aria-current='page']</code> auf dem aktuell aktiven <code>.t-dashboard__sidebar-link</code> setzen.</li>
+                <li>Nicht <code>aria-selected</code> verwenden &mdash; das ist f&uuml;r Tab-Panels, nicht f&uuml;r Links.</li>
+                <li>Der aktive Zustand muss zus&auml;tzlich visuell erkennbar sein (Farbe + optional Icon/Bold).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-06);">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Mobile Navigation</h4>
+              <ul>
+                <li>Die Sidebar wird unter 1024px mit <code>display: none</code> versteckt.</li>
+                <li>Die Navigation muss auf Mobile in anderer Form zug&auml;nglich sein (Hamburger-Men&uuml;, Bottom-Nav etc.).</li>
+                <li>Das versteckte Element darf nicht per Tab fokussiert werden (sichergestellt durch <code>display: none</code>).</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Pr&uuml;fliste</h2>
+          <table class="docs__table docs__table--compact">
+            <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><code>&lt;nav&gt;</code> hat <code>aria-label</code></td><td>4.1.2</td></tr>
+              <tr><td>2</td><td><code>&lt;main&gt;</code> hat <code>id="main-content"</code> f&uuml;r Skip-Link</td><td>2.4.1</td></tr>
+              <tr><td>3</td><td>Aktiver Link: <code>aria-current='page'</code></td><td>4.1.2</td></tr>
+              <tr><td>4</td><td>Genau ein <code>&lt;h1&gt;</code> pro Seite (im Header)</td><td>1.3.1</td></tr>
+              <tr><td>5</td><td>Content-Cards haben <code>aria-labelledby</code> auf <code>.t-dashboard__card-title</code></td><td>4.1.2</td></tr>
+              <tr><td>6</td><td>Fokus-Ring auf Sidebar-Links sichtbar</td><td>2.4.7</td></tr>
+              <tr><td>7</td><td>Mobile-Alternative f&uuml;r Sidebar-Navigation vorhanden</td><td>2.1.1</td></tr>
+              <tr><td>8</td><td>Farbkontrast Layer-01-Text auf Layer-01-Hintergrund &ge; 4.5:1</td><td>1.4.3</td></tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div><!-- /docs-tabs -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

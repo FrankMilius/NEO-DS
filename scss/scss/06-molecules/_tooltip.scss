@@ -1,0 +1,212 @@
+// ==========================================================================
+// 06-Molecules: Tooltip
+// ==========================================================================
+// CSS-only Tooltip-Komponente mit Positionierung und Arrow.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-tooltip-* Component-Tokens.
+//   Sichtbarkeit per CSS :hover/:focus-within — kein JS noetig fuer
+//   Grundfunktionalitaet. Optional JS fuer ESC-Dismiss.
+//
+// PATTERN:
+//   Wrapper um Trigger + Content. Content wird absolut positioniert.
+//   4 Positionen: top (Standard), bottom, left, right.
+//   Inverse Farben (dunkler Hintergrund, heller Text).
+//
+// BEM-KLASSEN:
+//   .nc-tooltip                    Block (Wrapper, inline-flex, relative)
+//   .nc-tooltip__content           Popup (absolute, z-index tooltip)
+//   .nc-tooltip__arrow             CSS-Pfeil (rotiertes Quadrat)
+//   .nc-tooltip--top               Position oben (Standard)
+//   .nc-tooltip--bottom            Position unten
+//   .nc-tooltip--left              Position links
+//   .nc-tooltip--right             Position rechts
+//
+// ACCESSIBILITY:
+//   role="tooltip" auf Content
+//   aria-describedby auf Trigger → verlinkt mit Content-ID
+//   Erscheint auf :hover UND :focus-within (Keyboard-Support)
+//   Disabled Buttons: Wrapper <span> mit tabindex="0"
+//   Tooltip-Inhalt ist ergaenzend, nie essenziell
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Tooltip-Wrapper.
+@mixin tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+/// Tooltip-Content Basis.
+@mixin tooltip-content-base {
+  position: absolute;
+  z-index: z('tooltip'); // 20
+  background-color: var(--nc-tooltip-bg);
+  color: var(--nc-tooltip-color);
+  padding: var(--nc-tooltip-padding);
+  border-radius: var(--nc-tooltip-radius);
+  box-shadow: var(--nc-tooltip-shadow);
+  font-size: var(--nc-tooltip-font-size);
+  line-height: 1.4;
+  max-width: var(--nc-tooltip-max-width);
+  width: max-content;
+  pointer-events: none;
+  white-space: normal;
+  text-align: center;
+
+  // Hidden by default
+  opacity: 0;
+  visibility: hidden;
+  @include transition(opacity visibility, '200');
+}
+
+/// Tooltip sichtbar machen.
+@mixin tooltip-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/// Position: oben (Standard).
+@mixin tooltip-position-top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/// Position: unten.
+@mixin tooltip-position-bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/// Position: links.
+@mixin tooltip-position-left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/// Position: rechts.
+@mixin tooltip-position-right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/// Arrow Basis (rotiertes Quadrat).
+@mixin tooltip-arrow-base {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--nc-tooltip-bg);
+  transform: rotate(45deg);
+}
+
+/// Arrow fuer Position top (zeigt nach unten).
+@mixin tooltip-arrow-top {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+/// Arrow fuer Position bottom (zeigt nach oben).
+@mixin tooltip-arrow-bottom {
+  top: -4px;
+  left: 50%;
+  margin-left: -4px;
+}
+
+/// Arrow fuer Position left (zeigt nach rechts).
+@mixin tooltip-arrow-left {
+  right: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+/// Arrow fuer Position right (zeigt nach links).
+@mixin tooltip-arrow-right {
+  left: -4px;
+  top: 50%;
+  margin-top: -4px;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-tooltip {
+  @include tooltip-wrapper;
+
+  // -- Content (Standard: oben) --
+
+  &__content {
+    @include tooltip-content-base;
+    @include tooltip-position-top;
+  }
+
+  // -- Arrow (Standard: oben → zeigt nach unten) --
+
+  &__arrow {
+    @include tooltip-arrow-base;
+    @include tooltip-arrow-top;
+  }
+
+  // -- Sichtbarkeit bei Hover/Focus --
+
+  &:hover > .nc-tooltip__content,
+  &:focus-within > .nc-tooltip__content {
+    @include tooltip-visible;
+  }
+
+  // -- Position: unten --
+
+  &--bottom > .nc-tooltip__content {
+    bottom: auto;
+    @include tooltip-position-bottom;
+  }
+
+  &--bottom > .nc-tooltip__content > .nc-tooltip__arrow {
+    bottom: auto;
+    @include tooltip-arrow-bottom;
+  }
+
+  // -- Position: links --
+
+  &--left > .nc-tooltip__content {
+    left: auto;
+    bottom: auto;
+    @include tooltip-position-left;
+  }
+
+  &--left > .nc-tooltip__content > .nc-tooltip__arrow {
+    left: auto;
+    bottom: auto;
+    @include tooltip-arrow-left;
+  }
+
+  // -- Position: rechts --
+
+  &--right > .nc-tooltip__content {
+    bottom: auto;
+    @include tooltip-position-right;
+  }
+
+  &--right > .nc-tooltip__content > .nc-tooltip__arrow {
+    bottom: auto;
+    @include tooltip-arrow-right;
+  }
+
+  // -- Reduced Motion --
+
+  @media (prefers-reduced-motion: reduce) {
+    .nc-tooltip__content {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Link with Arrow | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Link-with-Arrow-Komponente mit Live-Demo und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Link with Arrow</h1>
+      <p class="docs__subtitle">
+        Ein einfacher Inline-Link mit integriertem Pfeil-Icon &mdash; typisch als &ldquo;Mehr erfahren&rdquo;-Link oder als CTA am Ende von Text-Abschnitten.
+        Kanonische Klasse: <code class="docs__token">a.link-with-arrow</code>.
+        Farben kommen direkt aus Foundation-Tokens (<code class="docs__token">--fnd-color-text-high</code> / <code class="docs__token">--fnd-color-text-mid</code>).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="link-with-arrow-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Link-with-Arrow-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme und Linktext, um den Link with Arrow live zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Linktext</span>
+                <select class="docs-stage__select" id="stage-text">
+                  <option value="Mehr erfahren" selected>Mehr erfahren</option>
+                  <option value="Alle anzeigen">Alle anzeigen</option>
+                  <option value="Zum Artikel">Zum Artikel</option>
+                  <option value="Dokumentation">Dokumentation</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders link here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;a href="#" class="link-with-arrow"&gt;
+  Mehr erfahren
+  &lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"&gt;
+    &lt;path d="M5 12h14M12 5l7 7-7 7"/&gt;
+  &lt;/svg&gt;
+&lt;/a&gt;</pre>
+          </div>
+
+          <!-- Standard-Verwendung -->
+          <section class="docs__section" id="standard">
+            <h2 class="docs__section-title">Standard-Verwendung</h2>
+            <p class="docs__section-desc">
+              Der Link kombiniert Text und ein Pfeil-SVG. Das Pfeil-Icon folgt direkt nach dem Text.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <a href="#" class="link-with-arrow">
+                Mehr erfahren
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#" class="link-with-arrow">
+                Alle Produkte anzeigen
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#" class="link-with-arrow">
+                Zur Dokumentation
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </section>
+
+          <!-- Usage Examples -->
+          <section class="docs__section" id="usage-examples">
+            <h2 class="docs__section-title">Anwendungsbeispiele</h2>
+            <p class="docs__section-desc">
+              Link with Arrow in typischen Kontexten: am Ende von Text-Abschnitten und in Cards.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Am Ende eines Text-Abschnitts</h3>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <p style="color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-03);">
+                NEOCOSMO entwickelt digitale L&ouml;sungen f&uuml;r modernes Lernen und Wissensmanagement in Unternehmen.
+              </p>
+              <a href="#" class="link-with-arrow">
+                Mehr &uuml;ber uns
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">In einer Card</h3>
+            <div style="max-width: 320px; border: 1px solid var(--fnd-color-border-primary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-05); margin-block-end: var(--fnd-spacing-06);">
+              <h4 style="margin: 0 0 var(--fnd-spacing-02); font-size: var(--fnd-typography-heading-s-font-size);">Feature-Titel</h4>
+              <p style="margin: 0 0 var(--fnd-spacing-04); color: var(--fnd-color-text-secondary); font-size: var(--fnd-typography-body-s-font-size);">Kurze Beschreibung dieses Features.</p>
+              <a href="#" class="link-with-arrow">
+                Details ansehen
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Layout &amp; Geometrie</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Display</td><td><code class="docs__token">flex</code></td><td>Horizontale Anordnung von Text und Icon</td></tr>
+                <tr><td>Align-Items</td><td><code class="docs__token">center</code></td><td>Vertikale Zentrierung</td></tr>
+                <tr><td>Gap</td><td><code class="docs__token">var(--fnd-spacing-02)</code></td><td>8px Abstand zwischen Text und Pfeil</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Zustand</th><th>Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Standard</strong></td>
+                  <td><code class="docs__token">--fnd-color-text-high</code></td>
+                  <td>Hoher Kontrast &mdash; Standard-Textfarbe</td>
+                </tr>
+                <tr>
+                  <td><strong>:hover</strong></td>
+                  <td><code class="docs__token">--fnd-color-text-mid</code></td>
+                  <td>Mittlerer Kontrast beim Hover; keine Unterstreichung</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-hover">
+            <h2 class="docs__section-title">Hover-Verhalten</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Default</th><th>:hover</th></tr></thead>
+              <tbody>
+                <tr><td>Color</td><td><code class="docs__token">--fnd-color-text-high</code></td><td><code class="docs__token">--fnd-color-text-mid</code></td></tr>
+                <tr><td>Text-Decoration</td><td><em>(Standardlink)</em></td><td><code class="docs__token">none</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">CSS-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Klassen =====
+
+a.link-with-arrow              // Nur auf &lt;a&gt;-Elementen g&uuml;ltig
+                               // Flex-Layout, High-Kontrast-Text
+                               // Hover: Text-Mid, keine Unterstreichung</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">a.link-with-arrow</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-color-*</code> (direkte Foundation-Tokens)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_link-with-arrow.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;a&gt;</code> (Selektor ist element-spezifisch)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Klickbar, fokussierbar &mdash; Standard Link-Verhalten</td></tr>
+                <tr><td><strong>Varianten</strong></td><td>Keine &mdash; eine einzige Stilebene</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.link-with-arrow</code></td><td><code class="docs__token">&lt;a&gt;</code></td><td>Flex-Link mit Pfeil. Nur auf <code class="docs__token">&lt;a&gt;</code>-Elementen g&uuml;ltig (CSS-Selektor: <code class="docs__token">a.link-with-arrow</code>).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">Verwendete Foundation-Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Zustand</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--fnd-color-text-high</code></td><td>Standard</td><td>Linkfarbe</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-mid</code></td><td>:hover</td><td>Hover-Linkfarbe</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-02</code></td><td>&mdash;</td><td>Gap zwischen Text und Pfeil-Icon</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard: Text + Pfeil-SVG --&gt;
+&lt;a href="/ziel" class="link-with-arrow"&gt;
+  Linktext
+  &lt;svg width="16" height="16" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor"
+       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true"&gt;
+    &lt;path d="M5 12h14M12 5l7 7-7 7"/&gt;
+  &lt;/svg&gt;
+&lt;/a&gt;
+
+&lt;!-- Externer Link --&gt;
+&lt;a href="https://extern.example.com" class="link-with-arrow"
+   target="_blank" rel="noopener noreferrer"&gt;
+  Externe Seite
+  &lt;svg ...&gt;...&lt;/svg&gt;
+  &lt;span class="u-sr-only"&gt;(&ouml;ffnet in neuem Tab)&lt;/span&gt;
+&lt;/a&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Als interaktives <code class="docs__token">&lt;a&gt;</code>-Element gelten f&uuml;r Link with Arrow die vollen WCAG 2.1 AA-Anforderungen f&uuml;r Links.
+          </p>
+
+          <!-- Fokussierbar -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fokus &amp; Tastaturnavigation</h4>
+              <ul>
+                <li>Als <code class="docs__token">&lt;a&gt;</code>-Element ist der Link nativ im Tab-Fokus enthalten</li>
+                <li>Der Fokusring wird durch globale Link-Stile (<code class="docs__token">@include focus-ring</code>) gesetzt</li>
+                <li>Kein zus&auml;tzliches <code class="docs__token">tabindex</code> n&ouml;tig</li>
+                <li>Der Link muss ein g&uuml;ltiges <code class="docs__token">href</code>-Attribut haben</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Icon -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Pfeil-Icon</h4>
+              <ul>
+                <li>Das Pfeil-SVG ist dekorativ und muss <code class="docs__token">aria-hidden="true"</code> tragen</li>
+                <li>Der Linktext allein muss den Zweck des Links vermitteln (WCAG 2.4.6)</li>
+                <li>Kein <code class="docs__token">role</code>-Attribut am SVG n&ouml;tig</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Externe Links -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Externe Links</h4>
+              <ul>
+                <li>Bei <code class="docs__token">target="_blank"</code> immer <code class="docs__token">rel="noopener noreferrer"</code> setzen</li>
+                <li>Screenreader-Nutzer m&uuml;ssen informiert werden: <code class="docs__token">&lt;span class="u-sr-only"&gt;(&ouml;ffnet in neuem Tab)&lt;/span&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Kontrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li>Linktext muss mindestens <strong>4.5:1</strong> Kontrast zum Hintergrund haben</li>
+                <li><code class="docs__token">--fnd-color-text-high</code> erf&uuml;llt dies in allen 4 Themes</li>
+                <li>Die Hover-Farbe <code class="docs__token">--fnd-color-text-mid</code> muss ebenfalls kontrastreich bleiben</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Beschreibender Linktext --&gt;
+&lt;a href="/produkte" class="link-with-arrow"&gt;
+  Alle Produkte anzeigen
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+&lt;/a&gt;
+
+&lt;!-- RICHTIG: Externer Link mit Kontext --&gt;
+&lt;a href="https://example.com" class="link-with-arrow"
+   target="_blank" rel="noopener noreferrer"&gt;
+  Zur Herstellerwebsite
+  &lt;svg aria-hidden="true"&gt;...&lt;/svg&gt;
+  &lt;span class="u-sr-only"&gt;(&ouml;ffnet in neuem Tab)&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;!-- FALSCH: Nicht-aussagekr&auml;ftiger Linktext --&gt;
+&lt;a href="/details" class="link-with-arrow"&gt;
+  Hier klicken
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/a&gt;
+
+&lt;!-- FALSCH: Link ohne href --&gt;
+&lt;a class="link-with-arrow"&gt;Mehr erfahren&lt;/a&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

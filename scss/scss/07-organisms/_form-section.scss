@@ -1,0 +1,169 @@
+// ==========================================================================
+// 07-Organisms: Form Section
+// ==========================================================================
+// Logische Gruppierung innerhalb eines Formulars mit optionalem Titel,
+// Beschreibung und Trennlinie. Dient zur visuellen Strukturierung
+// langer Formulare in thematische Abschnitte.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-form-section
+//     .nc-form-section__header     (optional, Titel + Beschreibung)
+//       .nc-form-section__title    (Section-Heading)
+//       .nc-form-section__description (Beschreibungstext)
+//     .nc-form-section__content    (Form-Fields Container)
+//       .nc-form-field             (beliebig viele)
+//
+// TOKENS:
+//   --nc-form-section-gap      Abstand zwischen Sections
+//   --nc-form-gap              Abstand zwischen Fields innerhalb
+//   --nc-form-divider-color    Farbe der Trennlinie
+//
+// BEM-KLASSEN:
+//   .nc-form-section               Block
+//   .nc-form-section__header       Header-Bereich
+//   .nc-form-section__title        Section-Ueberschrift
+//   .nc-form-section__description  Beschreibungstext
+//   .nc-form-section__content      Content-Container fuer Fields
+//   .nc-form-section--bordered     Mit Border oben
+//   .nc-form-section--compact      Weniger Abstand
+//   .nc-form-divider               Horizontale Trennlinie
+//
+// ACCESSIBILITY:
+//   <section> oder role="group" mit aria-labelledby
+//   Titel: H2/H3 je nach Kontext
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer die Form-Section.
+/// Vertikales Layout mit Abstand zur naechsten Section.
+@mixin form-section-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-form-gap);
+
+  // Abstand zwischen aufeinanderfolgenden Sections
+  & + & {
+    margin-top: var(--nc-form-section-gap);
+  }
+}
+
+/// Header-Bereich mit Titel und Beschreibung.
+@mixin form-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+  margin-bottom: var(--fnd-spacing-02);
+}
+
+/// Section-Titel.
+@mixin form-section-title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--fnd-color-text-primary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/// Section-Beschreibung.
+@mixin form-section-description {
+  font-size: var(--nc-input-font-size-md);
+  color: var(--fnd-color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/// Content-Container fuer die Form-Fields.
+@mixin form-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-form-gap);
+}
+
+/// Bordered Variante: Trennlinie oben.
+@mixin form-section-bordered {
+  padding-top: var(--nc-form-section-gap);
+  border-top: 1px solid var(--nc-form-divider-color);
+
+  // Erste Section ohne obere Border
+  &:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+/// Kompakte Variante: Reduzierte Abstaende.
+@mixin form-section-compact {
+  gap: var(--fnd-spacing-03);
+
+  .nc-form-section__content {
+    gap: var(--fnd-spacing-03);
+  }
+
+  & + & {
+    margin-top: var(--fnd-spacing-05);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Form Divider (eigenstaendige Trennlinie)
+// ---------------------------------------------------------------------------
+
+/// Horizontale Trennlinie zwischen Formular-Abschnitten.
+@mixin form-divider {
+  width: 100%;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--nc-form-divider-color);
+  margin: var(--fnd-spacing-04) 0;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form-section {
+  @include form-section-base;
+
+  // -- Sub-Elemente --
+
+  &__header {
+    @include form-section-header;
+  }
+
+  &__title {
+    @include form-section-title;
+  }
+
+  &__description {
+    @include form-section-description;
+  }
+
+  &__content {
+    @include form-section-content;
+  }
+
+  // -- Modifier --
+
+  &--bordered {
+    @include form-section-bordered;
+  }
+
+  &--compact {
+    @include form-section-compact;
+  }
+}
+
+// -- Trennlinie --
+
+.nc-form-divider {
+  @include form-divider;
+}

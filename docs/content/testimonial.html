@@ -1,0 +1,355 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Testimonial</h1>
+      <p class="docs__subtitle">
+        Zitat-Karte mit Autoren-Avatar und Metadaten f&uuml;r Kundenstimmen und Referenzen.
+        Kanonische Klasse: <code class="docs__token">.nc-testimonial</code> (BEM).
+        Unterst&uuml;tzt Scroll-Snap f&uuml;r horizontale Slider-Layouts.
+        Alle Farben kommen aus Foundation-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="testimonial-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Testimonial-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, um die Testimonial-Karte im jeweiligen Farbschema zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <blockquote class="nc-testimonial" style="max-width: 400px;">
+                <p class="nc-testimonial__quote">
+                  &bdquo;Das Design-System hat unsere Entwicklungsgeschwindigkeit verdreifacht.
+                  Jedes Teammitglied arbeitet jetzt mit denselben Bausteinen.&ldquo;
+                </p>
+                <footer class="nc-testimonial__author">
+                  <img src="https://api.dicebear.com/9.x/initials/svg?seed=MK&backgroundColor=1a1a1a&textColor=ffffff" alt="" width="40" height="40" style="border-radius: var(--fnd-radius-full); flex-shrink: 0;" />
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Maria Koch</span>
+                    <span class="nc-testimonial__role">Head of Product, NeoCloud AG</span>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;blockquote class="nc-testimonial"&gt;
+  &lt;p class="nc-testimonial__quote"&gt;Zitat&hellip;&lt;/p&gt;
+  &lt;footer class="nc-testimonial__author"&gt;
+    &lt;img src="avatar.jpg" alt="" width="40" height="40" /&gt;
+    &lt;div class="nc-testimonial__meta"&gt;
+      &lt;span class="nc-testimonial__name"&gt;Name&lt;/span&gt;
+      &lt;span class="nc-testimonial__role"&gt;Rolle, Unternehmen&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+&lt;/blockquote&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Single -->
+          <section class="docs__section" id="single">
+            <h2 class="docs__section-title">Einzelne Testimonial-Karte</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-testimonial</code> nutzt einen sekund&auml;ren Hintergrund
+              (<code class="docs__token">--fnd-color-background-secondary</code>) und gro&szlig;en Radius
+              (<code class="docs__token">--fnd-radius-lg</code>).
+            </p>
+            <div style="max-width: 420px;">
+              <blockquote class="nc-testimonial">
+                <p class="nc-testimonial__quote">
+                  &bdquo;Die Token-Systematik macht Dark-Mode-Support zum Kinderspiel.
+                  Einmal einrichten, &uuml;berall konsistent.&ldquo;
+                </p>
+                <footer class="nc-testimonial__author">
+                  <img src="https://api.dicebear.com/9.x/initials/svg?seed=TS&backgroundColor=005f8a&textColor=ffffff" alt="" width="40" height="40" style="border-radius: var(--fnd-radius-full); flex-shrink: 0;" />
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Thomas Sauer</span>
+                    <span class="nc-testimonial__role">Senior Engineer, TechHub GmbH</span>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </section>
+
+          <!-- Showcase 2: Grid -->
+          <section class="docs__section" id="grid">
+            <h2 class="docs__section-title">Testimonial-Raster</h2>
+            <p class="docs__section-desc">
+              Mehrere Karten in einem CSS-Grid f&uuml;r Vergleichs- und &Uuml;bersichts-Layouts.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <blockquote class="nc-testimonial">
+                <p class="nc-testimonial__quote">&bdquo;Endlich ein Design-System, das auch Dark Mode ernst nimmt.&ldquo;</p>
+                <footer class="nc-testimonial__author">
+                  <img src="https://api.dicebear.com/9.x/initials/svg?seed=AL&backgroundColor=1a1a1a&textColor=ffffff" alt="" width="40" height="40" style="border-radius: var(--fnd-radius-full); flex-shrink: 0;" />
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Anna Lehmann</span>
+                    <span class="nc-testimonial__role">UX Designer, Creatix</span>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="nc-testimonial">
+                <p class="nc-testimonial__quote">&bdquo;Die Komponenten-Tokens sparen uns Stunden bei jedem Projekt.&ldquo;</p>
+                <footer class="nc-testimonial__author">
+                  <img src="https://api.dicebear.com/9.x/initials/svg?seed=BM&backgroundColor=005f8a&textColor=ffffff" alt="" width="40" height="40" style="border-radius: var(--fnd-radius-full); flex-shrink: 0;" />
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Ben Meyer</span>
+                    <span class="nc-testimonial__role">Lead Developer, DataFlow</span>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </section>
+
+          <!-- Showcase 3: Scroll Snap -->
+          <section class="docs__section" id="scroll-snap">
+            <h2 class="docs__section-title">Horizontaler Slider (Scroll Snap)</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-testimonial</code> hat <code class="docs__token">scroll-snap-align: start</code>
+              eingebaut. Im Slider-Container wirkt dies als horizontaler Scroll-Snap.
+            </p>
+            <div style="display: flex; gap: var(--fnd-spacing-04); overflow-x: auto; scroll-snap-type: x mandatory; padding-block-end: var(--fnd-spacing-03);">
+              <blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;">
+                <p class="nc-testimonial__quote">&bdquo;Slide 1: Excellente Dokumentation und klare Muster.&ldquo;</p>
+                <footer class="nc-testimonial__author">
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Pia Weber</span>
+                    <span class="nc-testimonial__role">Product Manager</span>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;">
+                <p class="nc-testimonial__quote">&bdquo;Slide 2: Schnelle Onboarding-Zeit f&uuml;r neue Entwickler.&ldquo;</p>
+                <footer class="nc-testimonial__author">
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Lars Bauer</span>
+                    <span class="nc-testimonial__role">Engineering Manager</span>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;">
+                <p class="nc-testimonial__quote">&bdquo;Slide 3: Konsistente &Auml;sthetik &uuml;ber alle Produkte hinweg.&ldquo;</p>
+                <footer class="nc-testimonial__author">
+                  <div class="nc-testimonial__meta">
+                    <span class="nc-testimonial__name">Clara Horn</span>
+                    <span class="nc-testimonial__role">Brand Lead</span>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Foundation-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Eigenschaft</th><th>Token</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-testimonial</code></td><td>background-color</td><td><code class="docs__token">var(--fnd-color-background-secondary)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial</code></td><td>border-radius</td><td><code class="docs__token">var(--fnd-radius-lg)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial</code></td><td>padding</td><td><code class="docs__token">var(--fnd-spacing-05)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial</code></td><td>gap (grid)</td><td>1.25rem (statisch)</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__quote</code></td><td>font-size</td><td><code class="docs__token">var(--fs-lg)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__quote</code></td><td>line-height</td><td>1.25 (statisch)</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__name</code></td><td>font-weight</td><td><code class="docs__token">var(--fnd-font-weight-semibold)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__role</code></td><td>font-size</td><td><code class="docs__token">var(--fs-xs)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__role</code></td><td>color</td><td><code class="docs__token">var(--fnd-color-text-secondary)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__author</code></td><td>gap</td><td>0.75rem (statisch)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-testimonial</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-testimonial</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-*</code>)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_testimonial.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;blockquote&gt;</code> (empfohlen f&uuml;r Zitate)</td></tr>
+                <tr><td><strong>Scroll-Snap</strong></td><td><code class="docs__token">scroll-snap-align: start</code> eingebaut</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-testimonial</code></td><td>Block</td><td><code class="docs__token">&lt;blockquote&gt;</code></td><td>Card-Container: grid, secondary bg, lg radius, spacing-05 padding</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__quote</code></td><td>Element</td><td><code class="docs__token">&lt;p&gt;</code></td><td>Zitat-Text: lg font-size, 1.25 line-height</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__author</code></td><td>Element</td><td><code class="docs__token">&lt;footer&gt;</code></td><td>Autoren-Zeile: flex, zentriert, 0.75rem gap</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__meta</code></td><td>Element</td><td><code class="docs__token">&lt;div&gt;</code></td><td>Name + Rolle als flex-column</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__name</code></td><td>Element</td><td><code class="docs__token">&lt;span&gt;</code></td><td>Autorname: semibold</td></tr>
+                <tr><td><code class="docs__token">.nc-testimonial__role</code></td><td>Element</td><td><code class="docs__token">&lt;span&gt;</code></td><td>Rolle/Unternehmen: xs font-size, secondary color</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;blockquote class="nc-testimonial"&gt;
+
+  &lt;!-- Zitat-Text --&gt;
+  &lt;p class="nc-testimonial__quote"&gt;
+    &bdquo;Zitat-Text hier&hellip;&ldquo;
+  &lt;/p&gt;
+
+  &lt;!-- Autoren-Bereich --&gt;
+  &lt;footer class="nc-testimonial__author"&gt;
+
+    &lt;!-- Avatar (optional) --&gt;
+    &lt;img src="avatar.jpg" alt="" width="40" height="40"
+         style="border-radius: var(--fnd-radius-full);" /&gt;
+
+    &lt;!-- Name + Rolle --&gt;
+    &lt;div class="nc-testimonial__meta"&gt;
+      &lt;span class="nc-testimonial__name"&gt;Vorname Nachname&lt;/span&gt;
+      &lt;span class="nc-testimonial__role"&gt;Rolle, Unternehmen&lt;/span&gt;
+    &lt;/div&gt;
+
+  &lt;/footer&gt;
+
+&lt;/blockquote&gt;
+
+&lt;!-- Slider-Wrapper f&uuml;r Scroll-Snap --&gt;
+&lt;div style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory;"&gt;
+  &lt;blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;"&gt;
+    &hellip;
+  &lt;/blockquote&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Testimonials sind prim&auml;r statische Zitat-Inhalte. Die korrekte semantische
+            HTML-Auszeichnung ist entscheidend f&uuml;r Screenreader-Nutzer.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Semantisches Zitat-Element</h4>
+              <ul>
+                <li><code class="docs__token">&lt;blockquote&gt;</code> ist das korrekte HTML-Element f&uuml;r Zitate</li>
+                <li>Screenreader k&ouml;nnen den Inhalt als Zitat ankk&uuml;ndigen</li>
+                <li>Alternativ: <code class="docs__token">&lt;figure&gt;</code> + <code class="docs__token">&lt;figcaption&gt;</code> f&uuml;r Zitat mit Attribution</li>
+                <li>Kein <code class="docs__token">&lt;div&gt;</code> f&uuml;r semantisch bedeutsame Zitate verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6M12 9v6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Avatar-Bilder</h4>
+              <ul>
+                <li>Autoren-Avatar-Bilder sind <strong>dekorativ</strong> &mdash; <code class="docs__token">alt=""</code> (leer) setzen</li>
+                <li>Der Name des Autors steht bereits als Text in <code class="docs__token">.nc-testimonial__name</code></li>
+                <li><code class="docs__token">width</code> und <code class="docs__token">height</code>-Attribute setzen, um Cumulative Layout Shift zu vermeiden</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Slider-Bedienung</h4>
+              <ul>
+                <li>Bei horizontalem Slider: Navigation-Buttons mit <code class="docs__token">aria-label</code> (z.B. &ldquo;Vorheriges Testimonial&rdquo;) anbieten</li>
+                <li>Der Scroll-Container sollte <code class="docs__token">role="region"</code> + <code class="docs__token">aria-label</code> erhalten</li>
+                <li>Tastatur-Navigation per Tab (Fokus auf Inhalte) muss reibungslos funktionieren</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Semantisches blockquote mit footer --&gt;
+&lt;blockquote class="nc-testimonial"&gt;
+  &lt;p class="nc-testimonial__quote"&gt;
+    &bdquo;Tolles Design-System!&ldquo;
+  &lt;/p&gt;
+  &lt;footer class="nc-testimonial__author"&gt;
+    &lt;img src="avatar.jpg" alt="" width="40" height="40" /&gt;
+    &lt;div class="nc-testimonial__meta"&gt;
+      &lt;span class="nc-testimonial__name"&gt;Max Mustermann&lt;/span&gt;
+      &lt;span class="nc-testimonial__role"&gt;CEO, MusterGmbH&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+&lt;/blockquote&gt;
+
+&lt;!-- RICHTIG: Als figure/figcaption --&gt;
+&lt;figure class="nc-testimonial"&gt;
+  &lt;p class="nc-testimonial__quote"&gt;&bdquo;Zitat&hellip;&ldquo;&lt;/p&gt;
+  &lt;figcaption class="nc-testimonial__author"&gt;
+    &lt;span class="nc-testimonial__name"&gt;Name&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- FALSCH: Avatar mit redundantem alt-Text --&gt;
+&lt;img src="avatar.jpg" alt="Foto von Max Mustermann" /&gt;
+&lt;!-- Name steht bereits daneben, alt-Text ist doppelt --&gt;
+
+&lt;!-- FALSCH: Semantisch bedeutsames Zitat als div --&gt;
+&lt;div class="nc-testimonial"&gt;&hellip;&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->

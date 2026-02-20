@@ -1,0 +1,30 @@
+// ==========================================================================
+// 06-Molecules: Metric
+// ==========================================================================
+// Key metric display with large value and label.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-metric {
+  background: var(--fnd-color-background-inverse);
+  color: var(--fnd-color-text-inverse);
+  border-radius: var(--fnd-radius-lg);
+  padding: var(--fnd-spacing-06);
+  font-size: var(--fs-lg);
+}
+
+.nc-metric__value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-6xl);
+  font-weight: var(--fnd-font-weight-black);
+  color: var(--fnd-color-background-accent-green);
+}
+
+// Override for metrics section to not use full-bleed
+section.section--metrics .nc-container > .nc-metric-grid {
+  padding-inline: 0;
+  margin-inline: 0;
+  width: 100%;
+}

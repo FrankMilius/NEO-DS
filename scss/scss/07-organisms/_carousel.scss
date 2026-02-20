@@ -1,0 +1,169 @@
+// ==========================================================================
+// 07-Organisms: Carousel
+// ==========================================================================
+// Carousel/Slider Komponente mit Navigation und Autoplay
+// Migriert von: carousel.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.carousel {
+  // Local Variables
+  --line-width: 12px;
+  --gap-between-lines: var(--fnd-spacing-02);
+  
+  padding-bottom: var(--fnd-spacing-10);
+  touch-action: pan-y;
+  
+  @include desktop-up {
+    padding-bottom: var(--fnd-spacing-12);
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Bottom Navigation Wrapper
+  // ---------------------------------------------------------------------------
+  
+  .carousel-bottom-nav-wrapper {
+    padding-top: var(--fnd-spacing-08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include container-padding;
+    
+    @include desktop-up {
+      padding-top: var(--fnd-spacing-09);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Progress Lines
+  // ---------------------------------------------------------------------------
+  
+  .carousel-line-wrapper {
+    display: flex;
+    gap: var(--gap-between-lines);
+    overflow: hidden;
+    padding: 0;
+    height: 48px;
+    max-width: 172px;
+    justify-content: flex-start;
+    align-items: center;
+    
+    @include tablet-up {
+      max-width: unset;
+    }
+  }
+  
+  .carousel-line {
+    min-width: var(--line-width);
+    width: var(--line-width);
+    height: 2px;
+    overflow: hidden;
+    display: inline-block;
+    @include transition(width min-width, '450');
+    position: relative;
+    background: var(--fnd-color-border-mid);
+    
+    &.active {
+      min-width: 112px;
+      width: 112px;
+      
+      &:not(.autoplay) {
+        background: var(--fnd-color-border-high);
+      }
+    }
+    
+    &.autoplay::before {
+      display: block;
+      content: '';
+      width: 0;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: var(--fnd-color-border-high);
+      animation: carousel-line-progress 4s var(--fnd-motion-ease-informative) forwards;
+    }
+  }
+  
+  .line-extra-fill {
+    min-width: 200px;
+    display: block;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Navigation Buttons
+  // ---------------------------------------------------------------------------
+  
+  .carousel-navigations-wrapper {
+    display: flex;
+    gap: var(--fnd-spacing-04);
+    
+    button {
+      background-color: transparent;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: var(--fnd-color-border-high);
+      
+      span.icon,
+      svg {
+        color: currentcolor;
+        min-width: 32px;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+      }
+      
+      &:disabled {
+        color: var(--fnd-color-text-state-disabled);
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Slides Wrapper
+  // ---------------------------------------------------------------------------
+  
+  .carousel-slides-wrapper {
+    overflow: hidden;
+    
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      flex-wrap: nowrap;
+      display: flex;
+      gap: var(--grid-gap);
+      @include transition(all, '300');
+      @include container-padding;
+      
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    
+    // Dynamic slide widths (1-12 columns)
+    @for $i from 1 through 12 {
+      .carousel-slide-width-#{$i} {
+        width: grid-columns($i);
+        min-width: grid-columns($i);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+@keyframes carousel-line-progress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}

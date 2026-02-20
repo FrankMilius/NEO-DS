@@ -1,0 +1,206 @@
+// ==========================================================================
+// 05-Atoms: Tag
+// ==========================================================================
+// Statisches oder interaktives Label-Element. Kann als reiner Text-Indikator,
+// als Navigation-Link oder als entfernbares Element verwendet werden.
+//
+// SEMANTIK:
+//   R5: Statischer Tag → <span>, nicht fokussierbar
+//   R1: Navigations-Tag → <a href>, immer mit --interactive Modifier
+//   R2: Entfernbarer Tag → <span> mit <button> als Remove-Element
+//   R7: Farbe nie alleiniges Signal
+//
+// GROESSEN (3 Stufen, versetzt zum Button-Scale):
+//   sm → 24px (= Button XS)
+//   md → 32px (= Button SM) — DEFAULT
+//   lg → 40px (= Button MD)
+//
+// VARIANTEN (7):
+//   default, outline, primary, success, warning, error, info
+//
+// KLASSEN:
+//   .nc-tag (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin tag-base {
+  @include static-surface-base;
+
+  --_surface-bg: var(--nc-tag-default-bg);
+  --_surface-color: var(--nc-tag-default-color);
+  --_surface-border-color: var(--nc-tag-default-border);
+  --_surface-radius: var(--nc-tag-radius);
+  --_surface-font-size: var(--nc-tag-font-size);
+  --_surface-font-weight: var(--nc-tag-font-weight);
+  --_surface-gap: var(--nc-tag-gap);
+  --_surface-border-width: var(--fnd-border-width-xs);
+
+  @include tag-size('md');
+}
+
+@mixin tag-size($size: 'md') {
+  @if $size == 'sm' {
+    min-height: var(--nc-tag-height-sm);
+    padding: 0 var(--fnd-spacing-02);
+    font-size: var(--nc-tag-font-size-sm);
+  } @else if $size == 'md' {
+    min-height: var(--nc-tag-height-md);
+    padding: var(--nc-tag-padding-y) var(--nc-tag-padding-x);
+  } @else if $size == 'lg' {
+    min-height: var(--nc-tag-height-lg);
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+    font-size: var(--nc-tag-font-size-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Modifier
+// ---------------------------------------------------------------------------
+// Fuer klickbare Tags (<a> oder <button>). Fuegt Hover/Active/Focus hinzu.
+
+@mixin tag-interactive {
+  cursor: pointer;
+  transition:
+    background-color var(--nc-tag-transition-duration) ease,
+    border-color     var(--nc-tag-transition-duration) ease,
+    color            var(--nc-tag-transition-duration) ease,
+    transform        var(--nc-tag-transition-duration) ease;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--_tag-bg-hover, var(--nc-tag-default-bg-hover));
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(0.98);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-tag-disabled-bg);
+    color: var(--nc-tag-disabled-color);
+    border-color: var(--nc-tag-disabled-border);
+    opacity: var(--nc-tag-opacity-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Varianten
+// ---------------------------------------------------------------------------
+
+@mixin tag-variant-outline {
+  --_surface-bg: var(--nc-tag-outline-bg);
+  --_surface-color: var(--nc-tag-outline-color);
+  --_surface-border-color: var(--nc-tag-outline-border);
+  --_tag-bg-hover: var(--nc-tag-outline-bg-hover);
+}
+
+@mixin tag-variant-primary {
+  --_surface-bg: var(--nc-tag-primary-bg);
+  --_surface-color: var(--nc-tag-primary-color);
+  --_surface-border-color: var(--nc-tag-primary-border);
+  --_tag-bg-hover: var(--nc-tag-primary-bg-hover);
+}
+
+@mixin tag-variant-success {
+  --_surface-bg: var(--nc-tag-success-bg);
+  --_surface-color: var(--nc-tag-success-color);
+  --_surface-border-color: var(--nc-tag-success-border);
+  --_tag-bg-hover: var(--nc-tag-success-bg-hover);
+}
+
+@mixin tag-variant-warning {
+  --_surface-bg: var(--nc-tag-warning-bg);
+  --_surface-color: var(--nc-tag-warning-color);
+  --_surface-border-color: var(--nc-tag-warning-border);
+  --_tag-bg-hover: var(--nc-tag-warning-bg-hover);
+}
+
+@mixin tag-variant-error {
+  --_surface-bg: var(--nc-tag-error-bg);
+  --_surface-color: var(--nc-tag-error-color);
+  --_surface-border-color: var(--nc-tag-error-border);
+  --_tag-bg-hover: var(--nc-tag-error-bg-hover);
+}
+
+@mixin tag-variant-info {
+  --_surface-bg: var(--nc-tag-info-bg);
+  --_surface-color: var(--nc-tag-info-color);
+  --_surface-border-color: var(--nc-tag-info-border);
+  --_tag-bg-hover: var(--nc-tag-info-bg-hover);
+}
+
+// ---------------------------------------------------------------------------
+// Elements
+// ---------------------------------------------------------------------------
+
+@mixin tag-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-tag-icon-size);
+  height: var(--nc-tag-icon-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@mixin tag-remove-button {
+  @include surface-remove-button(var(--nc-tag-remove-size));
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-tag {
+  @include tag-base;
+
+  // Elements
+  &__icon   { @include tag-icon-element; }
+  &__label  { display: inline-flex; align-items: center; }
+  &__remove { @include tag-remove-button; }
+
+  // Sizes
+  &--sm { @include tag-size('sm'); }
+  &--lg { @include tag-size('lg'); }
+
+  // Interactive Modifier (fuer <a> und klickbare Tags)
+  &--interactive { @include tag-interactive; }
+
+  // Removable Modifier (hat Dismiss-Button)
+  &--removable {
+    padding-inline-end: var(--fnd-spacing-02);
+  }
+
+  // Varianten
+  &--outline { @include tag-variant-outline; }
+  &--primary { @include tag-variant-primary; }
+  &--success { @include tag-variant-success; }
+  &--warning { @include tag-variant-warning; }
+  &--error   { @include tag-variant-error; }
+  &--info    { @include tag-variant-info; }
+
+  // Deprecated Aliases
+  &--destructive,
+  &--danger { @include tag-variant-error; }
+}

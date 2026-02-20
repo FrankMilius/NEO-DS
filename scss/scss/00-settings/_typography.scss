@@ -1,0 +1,296 @@
+// ==========================================================================
+// 00-Settings: Typography
+// ==========================================================================
+// Einheitliches Fluid Typography System für Display, Heading, Paragraph.
+// Alle Kategorien nutzen clamp() für viewport-responsive Skalierung.
+// Viewport-Range: 320px – 1400px (geteilt mit Spacing).
+// ==========================================================================
+
+@use 'sass:math';
+@use 'sass:map';
+@use 'spacing' as sp;
+@use 'tokens-typography.generated' as tokens;
+
+// ---------------------------------------------------------------------------
+// Fluid Typography Parameters (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$fluid-min-px: tokens.$token-fluid-base-min-px;
+$fluid-max-px: tokens.$token-fluid-base-max-px;
+$fluid-ratio: tokens.$token-fluid-ratio;
+$fluid-line-height-ratio: map.get(tokens.$token-line-height, 'heading');
+$fluid-line-height-body: map.get(tokens.$token-line-height, 'body');
+
+// Viewport range (single source of truth in _spacing.scss)
+$_fluid-vw-min: sp.$fluid-vw-min;
+$_fluid-vw-max: sp.$fluid-vw-max;
+
+// ---------------------------------------------------------------------------
+// Typography Scale Maps (static reference / fallback)
+// ---------------------------------------------------------------------------
+
+/// Display Typography (static reference)
+$typography-display: (
+  's': (
+    'font-size': 2rem,          // 32px
+    'line-height': 2.5rem,      // 40px
+    'letter-spacing': -0.02em
+  ),
+  'm': (
+    'font-size': 3rem,          // 48px
+    'line-height': 3.5rem,      // 56px
+    'letter-spacing': -0.02em
+  ),
+  'l': (
+    'font-size': 4rem,          // 64px
+    'line-height': 4.5rem,      // 72px
+    'letter-spacing': -0.02em
+  ),
+  'xl': (
+    'font-size': 5rem,          // 80px
+    'line-height': 5.5rem,      // 88px
+    'letter-spacing': -0.03em
+  ),
+  '2xl': (
+    'font-size': 6rem,          // 96px
+    'line-height': 6.5rem,      // 104px
+    'letter-spacing': -0.03em
+  )
+) !default;
+
+/// Heading Typography (static reference)
+$typography-heading: (
+  'xxs': (
+    'font-size': 0.875rem,      // 14px
+    'line-height': 1.125rem,    // 18px
+    'letter-spacing': 0
+  ),
+  'xs': (
+    'font-size': 1rem,          // 16px
+    'line-height': 1.375rem,    // 22px
+    'letter-spacing': 0
+  ),
+  's': (
+    'font-size': 1.25rem,       // 20px
+    'line-height': 1.625rem,    // 26px
+    'letter-spacing': -0.01em
+  ),
+  'm': (
+    'font-size': 1.5rem,        // 24px
+    'line-height': 2rem,        // 32px
+    'letter-spacing': -0.01em
+  ),
+  'l': (
+    'font-size': 2rem,          // 32px
+    'line-height': 2.5rem,      // 40px
+    'letter-spacing': -0.02em
+  ),
+  'xl': (
+    'font-size': 2.5rem,        // 40px
+    'line-height': 3rem,        // 48px
+    'letter-spacing': -0.02em
+  ),
+  '2xl': (
+    'font-size': 3rem,        // 48px
+    'line-height': 3.5rem,        // 54px
+    'letter-spacing': -0.02em
+  )
+) !default;
+
+/// Paragraph Typography (static reference)
+$typography-paragraph: (
+  's': (
+    'font-size': 0.75rem,       // 12px
+    'line-height': 1rem,        // 16px
+    'letter-spacing': 0
+  ),
+  'm': (
+    'font-size': 0.875rem,      // 14px
+    'line-height': 1.125rem,    // 18px
+    'letter-spacing': 0
+  ),
+  'l': (
+    'font-size': 1rem,          // 16px
+    'line-height': 1.375rem,    // 22px
+    'letter-spacing': 0
+  ),
+  'xl': (
+    'font-size': 1.125rem,      // 18px
+    'line-height': 1.5rem,      // 24px
+    'letter-spacing': 0
+  )
+) !default;
+
+// ---------------------------------------------------------------------------
+// Fluid Scale: Semantic Steps (ratio-based, xs to 9xl)
+// ---------------------------------------------------------------------------
+
+$semantic-steps: tokens.$token-semantic-steps;
+
+// ---------------------------------------------------------------------------
+// Fluid Mappings: Category sizes → Fluid scale
+// ---------------------------------------------------------------------------
+
+/// Heading sizes mapped onto the fluid semantic scale
+$heading-fluid-sizes: (
+  'xxs': 'base',
+  'xs': 'lg',
+  's': 'xl',
+  'm': '2xl',
+  'l': '3xl',
+  'xl': '4xl',
+  '2xl': '5xl'
+) !default;
+
+/// Paragraph sizes mapped onto the fluid semantic scale
+$paragraph-fluid-sizes: (
+  's': 'xs',
+  'm': 'sm',
+  'l': 'base',
+  'xl': 'lg'
+) !default;
+
+/// Display sizes: custom fluid ranges (min/max in rem), close to original static values
+$display-fluid-sizes: (
+  's': (min: 1.5rem, max: 2rem),       // 24px → 32px
+  'm': (min: 2.25rem, max: 3rem),      // 36px → 48px
+  'l': (min: 3rem, max: 4rem),         // 48px → 64px
+  'xl': (min: 3.5rem, max: 5rem),      // 56px → 80px
+  '2xl': (min: 4rem, max: 6rem)        // 64px → 96px
+) !default;
+
+// ---------------------------------------------------------------------------
+// Helper Functions
+// ---------------------------------------------------------------------------
+
+@function fluid-size-px($step, $min, $max, $ratio) {
+  @return (
+    'min': $min * math.pow($ratio, $step),
+    'max': $max * math.pow($ratio, $step)
+  );
+}
+
+@function px-to-rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+/// Generate a clamp() expression for fluid typography
+/// @param {Length} $min-rem - Minimum size in rem
+/// @param {Length} $max-rem - Maximum size in rem
+/// @return {String} CSS clamp() expression
+@function fluid-type-clamp($min-rem, $max-rem) {
+  // Strip units to do arithmetic, then re-apply
+  $min-val: math.div($min-rem, 1rem);
+  $max-val: math.div($max-rem, 1rem);
+  $min-px: $min-val * 16;
+  $max-px: $max-val * 16;
+  $slope: math.div(($max-px - $min-px), ($_fluid-vw-max - $_fluid-vw-min));
+  $intercept: $min-px - $slope * $_fluid-vw-min;
+  $intercept-rem: math.div($intercept, 16) * 1rem;
+  $slope-vw: $slope * 100;
+  @return clamp(#{$min-rem}, #{$intercept-rem} + #{$slope-vw}vw, #{$max-rem});
+}
+
+// ---------------------------------------------------------------------------
+// Typography Getter Functions
+// ---------------------------------------------------------------------------
+
+/// Get typography properties
+/// @param {String} $category - display, heading, paragraph
+/// @param {String} $size - Size variant
+/// @return {Map} Typography properties
+@function get-typography($category, $size) {
+  $map: null;
+
+  @if $category == 'display' {
+    $map: $typography-display;
+  } @else if $category == 'heading' {
+    $map: $typography-heading;
+  } @else if $category == 'paragraph' {
+    $map: $typography-paragraph;
+  }
+
+  @if $map and map.has-key($map, $size) {
+    @return map.get($map, $size);
+  }
+
+  @warn "Unknown typography: #{$category}-#{$size}";
+  @return null;
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+:root {
+  // --- Font families ---
+  --font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  // --- Font weight scale ---
+  --fnd-font-weight-light: 300;
+  --fnd-font-weight-regular: 400;
+  --fnd-font-weight-medium: 500;
+  --fnd-font-weight-semibold: 600;
+  --fnd-font-weight-bold: 700;
+  --fnd-font-weight-black: 900;
+
+  // --- Font weight assignments (per category) ---
+  --fnd-font-weight-heading: 400;
+  --fnd-font-weight-body: 400;
+  --fnd-font-weight-mono: 400;
+
+  // --- Text transform ---
+  --fnd-text-transform-uppercase: uppercase;
+  --fnd-text-transform-capitalize: capitalize;
+  --fnd-text-transform-none: none;
+
+  // --- Prose / Readability ---
+  --fnd-prose-max-width: 72ch;
+
+  // --- Fluid type base system (320px – 1400px) ---
+  --fluid-min-vw: #{$_fluid-vw-min};
+  --fluid-max-vw: #{$_fluid-vw-max};
+  --fluid-range: calc((var(--fluid-max-vw) - var(--fluid-min-vw)) * 1px);
+  --fluid-bp: clamp(0, calc((100vw - (var(--fluid-min-vw) * 1px)) / var(--fluid-range)), 1);
+
+  // --- Semantic sizes (xs to 9xl) mapped from ratio ---
+  @each $label, $step in $semantic-steps {
+    $sizes: fluid-size-px($step, $fluid-min-px, $fluid-max-px, $fluid-ratio);
+    $min-rem: px-to-rem(map.get($sizes, 'min'));
+    $max-rem: px-to-rem(map.get($sizes, 'max'));
+    --fs-#{$label}: clamp(#{$min-rem}, calc(#{$min-rem} + (#{$max-rem} - #{$min-rem}) * var(--fluid-bp)), #{$max-rem});
+  }
+
+  // --- Line heights ---
+  --lh-tight: 1.05;
+  --lh-heading: #{$fluid-line-height-ratio};
+  --lh-body: #{$fluid-line-height-body};
+
+  // --- Display variants (custom fluid ranges, close to original values) ---
+  @each $size, $range in $display-fluid-sizes {
+    $min: map.get($range, min);
+    $max: map.get($range, max);
+    $props: map.get($typography-display, $size);
+    --fnd-typography-display-#{$size}-font-size: #{fluid-type-clamp($min, $max)};
+    --fnd-typography-display-#{$size}-line-height: calc(#{fluid-type-clamp($min, $max)} * #{$fluid-line-height-ratio});
+    --fnd-typography-display-#{$size}-letter-spacing: #{map.get($props, 'letter-spacing')};
+  }
+
+  // --- Heading variants (mapped onto fluid semantic scale) ---
+  @each $size, $props in $typography-heading {
+    $fluid-size: map.get($heading-fluid-sizes, $size);
+    --fnd-typography-heading-#{$size}-font-size: var(--fs-#{$fluid-size});
+    --fnd-typography-heading-#{$size}-line-height: calc(var(--fs-#{$fluid-size}) * #{$fluid-line-height-ratio});
+    --fnd-typography-heading-#{$size}-letter-spacing: #{map.get($props, 'letter-spacing')};
+  }
+
+  // --- Paragraph variants (mapped onto fluid semantic scale) ---
+  @each $size, $props in $typography-paragraph {
+    $fluid-size: map.get($paragraph-fluid-sizes, $size);
+    --fnd-typography-paragraph-#{$size}-font-size: var(--fs-#{$fluid-size});
+    --fnd-typography-paragraph-#{$size}-line-height: calc(var(--fs-#{$fluid-size}) * #{$fluid-line-height-body});
+    --fnd-typography-paragraph-#{$size}-letter-spacing: #{map.get($props, 'letter-spacing')};
+  }
+}

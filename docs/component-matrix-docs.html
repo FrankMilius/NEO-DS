@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Komponenten-Matrix | Component Docs</title>
+  <meta name="description" content="Semantische Entscheidungslogik für button-artige Komponenten: Entscheidungsbaum, Vergleichsmatrix, Semantik-Regeln und Shared Architecture." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* ================================================================ */
+    /* Decision Tree Styles                                              */
+    /* ================================================================ */
+    .decision-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--fnd-spacing-06) 0;
+      max-width: 820px;
+    }
+
+    .dt-step {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+
+    .dt-question {
+      flex: 0 0 380px;
+      background: var(--fnd-color-background-secondary);
+      border: 2px solid var(--fnd-color-border-primary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      font-weight: 600;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .dt-question__number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--fnd-color-text-primary);
+      color: var(--fnd-color-background-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: var(--fnd-spacing-03);
+      flex-shrink: 0;
+    }
+
+    .dt-arrow {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .dt-arrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--fnd-color-border-primary);
+    }
+
+    .dt-arrow-label {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .dt-outcome {
+      flex: 1;
+      border-radius: 8px;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 2px solid;
+    }
+
+    .dt-outcome__element {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      margin-bottom: 2px;
+    }
+
+    .dt-outcome__label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    /* Color-coded outcomes */
+    .dt-outcome--anchor {
+      background: color-mix(in srgb, var(--fnd-color-success) 15%, transparent);
+      border-color: var(--fnd-color-success);
+      color: var(--fnd-color-on-success);
+    }
+
+    .dt-outcome--button {
+      background: color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent);
+      border-color: var(--fnd-color-interactive);
+      color: var(--fnd-color-on-accent);
+    }
+
+    .dt-outcome--toggle {
+      background: color-mix(in srgb, var(--fnd-color-accent) 15%, transparent);
+      border-color: var(--fnd-color-accent);
+      color: var(--fnd-color-on-accent);
+    }
+
+    .dt-outcome--radio {
+      background: color-mix(in srgb, var(--fnd-color-warning) 15%, transparent);
+      border-color: var(--fnd-color-warning);
+      color: var(--fnd-color-on-warning);
+    }
+
+    .dt-outcome--checkbox {
+      background: color-mix(in srgb, var(--fnd-color-danger) 15%, transparent);
+      border-color: var(--fnd-color-danger);
+      color: var(--fnd-color-on-danger);
+    }
+
+    .dt-outcome--span {
+      background: var(--fnd-color-background-secondary);
+      border-color: var(--fnd-color-border-secondary);
+      color: var(--fnd-color-text-secondary);
+    }
+
+    /* Connector between steps */
+    .dt-connector {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding-left: 190px;
+    }
+
+    .dt-connector__line {
+      width: 2px;
+      height: 28px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    .dt-connector__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-tertiary);
+      padding-left: var(--fnd-spacing-03);
+      display: flex;
+      align-items: center;
+    }
+
+    /* Sub-outcomes (for branching choices) */
+    .dt-branch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      flex: 1;
+    }
+
+    .dt-branch .dt-outcome {
+      flex: none;
+    }
+
+    /* ================================================================ */
+    /* Semantik Rule Cards                                               */
+    /* ================================================================ */
+    .rule-card {
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-06);
+      margin-bottom: var(--fnd-spacing-05);
+    }
+
+    .rule-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+
+    .rule-card__id {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 28px;
+      padding: 0 var(--fnd-spacing-02);
+      border-radius: 6px;
+      background: var(--fnd-color-text-primary);
+      color: var(--fnd-color-background-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    .rule-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fnd-color-text-primary);
+    }
+
+    .rule-card__desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--fnd-color-text-secondary);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+
+    .rule-card__examples {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--fnd-spacing-04);
+    }
+
+    @media (max-width: 640px) {
+      .rule-card__examples {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rule-card__example {
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .rule-card__example-label {
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rule-card__example--do .rule-card__example-label {
+      background: color-mix(in srgb, var(--fnd-color-success) 15%, transparent);
+      color: var(--fnd-color-success);
+    }
+
+    .rule-card__example--dont .rule-card__example-label {
+      background: color-mix(in srgb, var(--fnd-color-danger) 15%, transparent);
+      color: var(--fnd-color-danger);
+    }
+
+    .rule-card__example pre {
+      margin: 0;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      background: var(--fnd-color-background-primary);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+    }
+
+    /* ================================================================ */
+    /* Architecture Diagram                                              */
+    /* ================================================================ */
+    .arch-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-05);
+      background: var(--fnd-color-background-secondary);
+      border-radius: 8px;
+      margin-bottom: var(--fnd-spacing-06);
+    }
+
+    .arch-layer {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+    }
+
+    .arch-layer__label {
+      flex: 0 0 140px;
+      text-align: right;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fnd-color-text-tertiary);
+    }
+
+    .arch-layer__box {
+      flex: 1;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-weight: 600;
+      text-align: center;
+      border: 2px solid;
+    }
+
+    .arch-layer__box--foundation {
+      background: color-mix(in srgb, var(--fnd-color-interactive) 15%, transparent);
+      border-color: var(--fnd-color-interactive);
+      color: var(--fnd-color-on-accent);
+    }
+
+    .arch-layer__box--component {
+      background: color-mix(in srgb, var(--fnd-color-warning) 15%, transparent);
+      border-color: var(--fnd-color-warning);
+      color: var(--fnd-color-on-warning);
+    }
+
+    .arch-layer__box--surface {
+      background: color-mix(in srgb, var(--fnd-color-accent) 15%, transparent);
+      border-color: var(--fnd-color-accent);
+      color: var(--fnd-color-on-accent);
+    }
+
+    .arch-arrow-down {
+      display: flex;
+      justify-content: center;
+      padding-left: 140px;
+    }
+
+    .arch-arrow-down::before {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 20px;
+      background: var(--fnd-color-border-primary);
+    }
+
+    /* ================================================================ */
+    /* Contract table                                                    */
+    /* ================================================================ */
+    .contract-block {
+      background: var(--fnd-color-background-secondary);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: 8px;
+      padding: var(--fnd-spacing-05);
+      margin-bottom: var(--fnd-spacing-05);
+    }
+
+    .contract-block__title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: var(--fnd-spacing-03);
+    }
+
+    /* Responsive tree */
+    @media (max-width: 768px) {
+      .dt-question { flex: 0 0 240px; font-size: 0.8125rem; }
+      .dt-arrow { flex: 0 0 40px; }
+      .dt-connector { padding-left: 120px; }
+      .arch-layer__label { flex: 0 0 100px; }
+      .arch-arrow-down { padding-left: 100px; }
+    }
+
+    @media (max-width: 480px) {
+      .dt-step { flex-direction: column; gap: var(--fnd-spacing-02); }
+      .dt-question { flex: none; }
+      .dt-arrow { flex: none; transform: rotate(90deg); height: 40px; }
+      .dt-connector { padding-left: 0; justify-content: center; }
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Komponenten-Matrix</h1>
+      <p class="docs__subtitle">
+        Semantische Entscheidungslogik f&uuml;r button-artige Komponenten.
+        Dieser Guide hilft bei der Wahl des richtigen HTML-Elements, der korrekten ARIA-Rolle
+        und des passenden Surface-Mixins f&uuml;r Badge, Tag, Chip, Toggle Button, Toggle Group und Segmented Control.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="matrix-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Komponenten-Matrix Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-tree" id="trigger-tree">Entscheidungsbaum</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-matrix" id="trigger-matrix">Vergleichsmatrix</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-rules" id="trigger-rules">Semantik-Regeln</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-arch" id="trigger-arch">Shared Architecture</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Entscheidungsbaum (Decision Tree)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-tree" aria-labelledby="trigger-tree">
+
+          <h2 class="docs__section-title">Entscheidungsbaum</h2>
+          <p class="docs__section-desc">
+            Folge den Fragen von oben nach unten, um das semantisch korrekte HTML-Element
+            und die richtige ARIA-Rolle f&uuml;r deine Komponente zu bestimmen.
+          </p>
+
+          <div class="decision-tree">
+
+            <!-- Step 1 -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">1</span>
+                Soll ein Klick Navigation ausl&ouml;sen?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-outcome dt-outcome--anchor">
+                <span class="dt-outcome__element">&lt;a href&gt;</span>
+                <span class="dt-outcome__label">Clickable Tag / Link Button</span>
+              </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">2</span>
+                L&ouml;st es eine unmittelbare Aktion aus?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-outcome dt-outcome--button">
+                <span class="dt-outcome__element">&lt;button type="button"&gt;</span>
+                <span class="dt-outcome__label">Action Button</span>
+              </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">3</span>
+                Gibt es einen persistenten On/Off-Zustand?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-outcome dt-outcome--toggle">
+                <span class="dt-outcome__element">&lt;button aria-pressed&gt;</span>
+                <span class="dt-outcome__label">Toggle Button / Filter Tag</span>
+              </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">4</span>
+                Ist es eine Auswahl aus Optionen?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-branch">
+                <div class="dt-outcome dt-outcome--radio">
+                  <span class="dt-outcome__element">role="radio" Pattern</span>
+                  <span class="dt-outcome__label">Single-Select: Segmented Control / Toggle Group</span>
+                </div>
+                <div class="dt-outcome dt-outcome--checkbox">
+                  <span class="dt-outcome__element">Checkbox-Pattern</span>
+                  <span class="dt-outcome__label">Multi-Select: Chip / Toggle Group</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &darr;</span>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="dt-step">
+              <div class="dt-question">
+                <span class="dt-question__number">5</span>
+                Ist es rein informativ?
+              </div>
+              <div class="dt-arrow">
+                <span class="dt-arrow-label">Ja</span>
+              </div>
+              <div class="dt-outcome dt-outcome--span">
+                <span class="dt-outcome__element">&lt;span&gt;</span>
+                <span class="dt-outcome__label">Badge / Tag (nicht interaktiv)</span>
+              </div>
+            </div>
+
+            <!-- Final fallback -->
+            <div class="dt-connector">
+              <div class="dt-connector__line"></div>
+              <span class="dt-connector__label">Nein &rarr; Zur&uuml;ck zu Frage 1&ndash;4</span>
+            </div>
+
+          </div><!-- /.decision-tree -->
+
+          <section class="docs__section">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Legende</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); margin-top: var(--fnd-spacing-03);">
+              <span style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02); font-size: 0.8125rem;"><span style="width:14px; height:14px; border-radius:3px; background:var(--fnd-color-success); display:inline-block;"></span> <code class="docs__token">&lt;a href&gt;</code> &mdash; Navigation</span>
+              <span style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02); font-size: 0.8125rem;"><span style="width:14px; height:14px; border-radius:3px; background:var(--fnd-color-interactive); display:inline-block;"></span> <code class="docs__token">&lt;button&gt;</code> &mdash; Aktion</span>
+              <span style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02); font-size: 0.8125rem;"><span style="width:14px; height:14px; border-radius:3px; background:var(--fnd-color-accent); display:inline-block;"></span> <code class="docs__token">aria-pressed</code> &mdash; Toggle</span>
+              <span style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02); font-size: 0.8125rem;"><span style="width:14px; height:14px; border-radius:3px; background:var(--fnd-color-warning); display:inline-block;"></span> Radio-Pattern &mdash; Single-Select</span>
+              <span style="display: inline-flex; align-items: center; gap: var(--fnd-spacing-02); font-size: 0.8125rem;"><span style="width:14px; height:14px; border-radius:3px; background:var(--fnd-color-border-secondary); display:inline-block;"></span> <code class="docs__token">&lt;span&gt;</code> &mdash; Informativ</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Vergleichsmatrix (Comparison Table)                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-matrix" aria-labelledby="trigger-matrix">
+
+          <h2 class="docs__section-title">Vergleichsmatrix</h2>
+          <p class="docs__section-desc">
+            &Uuml;bersicht aller button-artigen Komponenten mit ihren Eigenschaften, HTML-Semantik,
+            ARIA-Rollen, Gr&ouml;&szlig;en und Mixin-Zuordnung.
+          </p>
+
+          <section class="docs__section" id="matrix-comparison">
+            <div style="overflow-x: auto;">
+              <table class="docs__table">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Badge</th>
+                    <th>Tag</th>
+                    <th>Chip</th>
+                    <th>Toggle Button</th>
+                    <th>Toggle Group</th>
+                    <th>Segmented Control</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Interaktiv</strong></td>
+                    <td>Nein</td>
+                    <td>Optional</td>
+                    <td>Immer</td>
+                    <td>Immer</td>
+                    <td>Immer</td>
+                    <td>Immer</td>
+                  </tr>
+                  <tr>
+                    <td><strong>HTML-Element</strong></td>
+                    <td><code class="docs__token">&lt;span&gt;</code></td>
+                    <td><code class="docs__token">&lt;span&gt;</code> / <code class="docs__token">&lt;a&gt;</code> / <code class="docs__token">&lt;button&gt;</code></td>
+                    <td><code class="docs__token">&lt;button&gt;</code></td>
+                    <td><code class="docs__token">&lt;button&gt;</code></td>
+                    <td><code class="docs__token">&lt;button&gt;</code></td>
+                    <td><code class="docs__token">&lt;button&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>ARIA</strong></td>
+                    <td>&mdash;</td>
+                    <td>&mdash; / variiert</td>
+                    <td><code class="docs__token">aria-pressed</code></td>
+                    <td><code class="docs__token">aria-pressed</code></td>
+                    <td><code class="docs__token">radio</code> / <code class="docs__token">pressed</code></td>
+                    <td><code class="docs__token">radio</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Gr&ouml;&szlig;en</strong></td>
+                    <td>sm / md</td>
+                    <td>sm / md / lg</td>
+                    <td>sm / md / lg</td>
+                    <td>xs&ndash;lg</td>
+                    <td>sm / md / lg</td>
+                    <td>sm / md / lg</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Form</strong></td>
+                    <td>Pill</td>
+                    <td>Pill</td>
+                    <td>Pill</td>
+                    <td>Button</td>
+                    <td>Flush / Grouped</td>
+                    <td>Track + Segments</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Removable</strong></td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Icon-Support</strong></td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Avatar-Support</strong></td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Shared Mixin</strong></td>
+                    <td><code class="docs__token">static-surface-base</code></td>
+                    <td><code class="docs__token">static</code> / <code class="docs__token">interactive</code></td>
+                    <td><code class="docs__token">interactive-surface-base</code></td>
+                    <td><code class="docs__token">button-base</code></td>
+                    <td><code class="docs__token">interactive-surface-base</code></td>
+                    <td><code class="docs__token">interactive-surface-base</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Focus-Ring</strong></td>
+                    <td>&mdash;</td>
+                    <td>Ja (interactive)</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Disabled-State</strong></td>
+                    <td>&mdash;</td>
+                    <td>Ja (interactive)</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Semantik-Regeln (R1-R7)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-rules" aria-labelledby="trigger-rules">
+
+          <h2 class="docs__section-title">Semantik-Regeln</h2>
+          <p class="docs__section-desc">
+            Die folgenden 7 Regeln definieren verbindliche Semantik-Entscheidungen
+            f&uuml;r alle button-artigen Komponenten im Design System.
+          </p>
+
+          <!-- R1 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R1</span>
+              <span class="rule-card__title">Navigation ist immer Anchor</span>
+            </div>
+            <p class="rule-card__desc">
+              Jede Komponente, die den Benutzer zu einer neuen URL navigiert, muss ein
+              <code class="docs__token">&lt;a href&gt;</code>-Element verwenden. Dies gilt auch dann,
+              wenn die Komponente visuell wie ein Button aussieht.
+              Links erm&ouml;glichen Rechtsklick &rarr; &bdquo;In neuem Tab &ouml;ffnen&ldquo; und sind f&uuml;r Screenreader als Navigation erkennbar.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;a href="/dashboard" class="nc-tag nc-tag--clickable"&gt;
+  Dashboard
+&lt;/a&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;button onclick="navigate('/dashboard')"
+  class="nc-tag"&gt;
+  Dashboard
+&lt;/button&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R2 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R2</span>
+              <span class="rule-card__title">Aktionen sind Buttons</span>
+            </div>
+            <p class="rule-card__desc">
+              Jede Komponente, die eine unmittelbare Aktion ausl&ouml;st (Formular absenden, Dialog &ouml;ffnen,
+              Datei hochladen), muss ein <code class="docs__token">&lt;button&gt;</code>-Element verwenden.
+              Niemals <code class="docs__token">&lt;a href="#"&gt;</code> oder <code class="docs__token">&lt;div onclick&gt;</code> f&uuml;r Aktionen verwenden.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;button type="button" class="nc-chip"
+  onclick="removeFilter()"&gt;
+  Filter entfernen
+&lt;/button&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;a href="#" class="nc-chip"
+  onclick="removeFilter(); return false;"&gt;
+  Filter entfernen
+&lt;/a&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R3 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R3</span>
+              <span class="rule-card__title">Toggle ist aria-pressed (nicht aria-selected)</span>
+            </div>
+            <p class="rule-card__desc">
+              Wenn ein einzelner Button zwischen zwei Zust&auml;nden umschaltet (On/Off),
+              muss <code class="docs__token">aria-pressed</code> verwendet werden.
+              <code class="docs__token">aria-selected</code> ist f&uuml;r Tab-Panels und Listboxen reserviert,
+              nicht f&uuml;r Toggle-Buttons.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;button class="nc-toggle"
+  aria-pressed="false"&gt;
+  Favorit
+&lt;/button&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;button class="nc-toggle"
+  aria-selected="false"&gt;
+  Favorit
+&lt;/button&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R4 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R4</span>
+              <span class="rule-card__title">Single-Select: Radio schl&auml;gt Toggle</span>
+            </div>
+            <p class="rule-card__desc">
+              Wenn genau eine Option aus einer Gruppe gew&auml;hlt werden kann (Single-Select),
+              verwende das Radio-Pattern mit <code class="docs__token">role="radiogroup"</code>
+              und <code class="docs__token">role="radio"</code>.
+              Dies erm&ouml;glicht korrekte Pfeil-Tasten-Navigation und Screenreader-Ansage
+              &bdquo;1 von 3 ausgew&auml;hlt&ldquo;.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;div role="radiogroup" aria-label="Ansicht"&gt;
+  &lt;button role="radio"
+    aria-checked="true"&gt;Liste&lt;/button&gt;
+  &lt;button role="radio"
+    aria-checked="false"&gt;Kacheln&lt;/button&gt;
+&lt;/div&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;div&gt;
+  &lt;button aria-pressed="true"&gt;
+    Liste&lt;/button&gt;
+  &lt;button aria-pressed="false"&gt;
+    Kacheln&lt;/button&gt;
+&lt;/div&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R5 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R5</span>
+              <span class="rule-card__title">Nicht interaktiv = nicht fokussierbar</span>
+            </div>
+            <p class="rule-card__desc">
+              Rein informative Elemente (Badges, statische Tags) d&uuml;rfen keinen Fokus erhalten.
+              Verwende <code class="docs__token">&lt;span&gt;</code> ohne
+              <code class="docs__token">tabindex</code>. Kein <code class="docs__token">role="button"</code>,
+              kein <code class="docs__token">onclick</code>.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;span class="nc-badge"&gt;Neu&lt;/span&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;span class="nc-badge" tabindex="0"
+  role="button"&gt;Neu&lt;/span&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R6 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R6</span>
+              <span class="rule-card__title">Icon-only braucht immer Accessible Name</span>
+            </div>
+            <p class="rule-card__desc">
+              Jeder interaktive Button ohne sichtbaren Text muss einen barrierefreien Namen erhalten.
+              Verwende <code class="docs__token">aria-label</code> auf dem Button oder
+              <code class="docs__token">aria-labelledby</code> mit einem versteckten Text-Element.
+              Gilt f&uuml;r Icon-Only Buttons, Close-Buttons und Icon-Chips.
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;button class="nc-chip nc-chip--icon-only"
+  aria-label="Filter entfernen"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;button class="nc-chip nc-chip--icon-only"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;!-- Kein Accessible Name! --&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- R7 -->
+          <div class="rule-card">
+            <div class="rule-card__header">
+              <span class="rule-card__id">R7</span>
+              <span class="rule-card__title">Farbe nie als einziges Signal</span>
+            </div>
+            <p class="rule-card__desc">
+              Zust&auml;nde (aktiv, ausgew&auml;hlt, deaktiviert) d&uuml;rfen nicht ausschlie&szlig;lich durch Farbe
+              kommuniziert werden. Verwende zus&auml;tzlich: Icon-Wechsel, Text&auml;nderung,
+              Border/Background-Kontrast oder ARIA-Attribute. Dies erf&uuml;llt WCAG 1.4.1 (Use of Color).
+            </p>
+            <div class="rule-card__examples">
+              <div class="rule-card__example rule-card__example--do">
+                <div class="rule-card__example-label">Do</div>
+                <pre>&lt;button aria-pressed="true"
+  class="nc-toggle nc-toggle--active"&gt;
+  &lt;svg&gt;&#10003;&lt;/svg&gt; Aktiv
+&lt;/button&gt;
+&lt;!-- Farbe + Icon + Text + ARIA --&gt;</pre>
+              </div>
+              <div class="rule-card__example rule-card__example--dont">
+                <div class="rule-card__example-label">Don't</div>
+                <pre>&lt;button class="nc-toggle"
+  style="background: green;"&gt;
+  Filter
+&lt;/button&gt;
+&lt;!-- Nur Farbe signalisiert Zustand --&gt;</pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Shared Architecture                                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-arch" aria-labelledby="trigger-arch">
+
+          <h2 class="docs__section-title">Shared Architecture</h2>
+          <p class="docs__section-desc">
+            Alle button-artigen Surface-Komponenten teilen eine gemeinsame Architektur
+            aus Mixins, privaten CSS Custom Properties und einer Token-Hierarchie.
+          </p>
+
+          <!-- Interactive Surface Mixins -->
+          <section class="docs__section" id="arch-mixins">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Interactive Surface Mixins</h3>
+            <p class="docs__section-desc">
+              Drei Basis-Mixins bilden das Fundament aller Surface-Komponenten.
+              Sie werden in den jeweiligen Komponent-SCSS-Dateien eingebunden.
+            </p>
+
+            <table class="docs__table">
+              <thead>
+                <tr>
+                  <th>Mixin</th>
+                  <th>Verwendung</th>
+                  <th>Beschreibung</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">static-surface-base</code></td>
+                  <td>Badge, statische Tags</td>
+                  <td>Nicht-interaktive Oberfl&auml;che: Display, Padding, Border-Radius, Typografie. Kein Focus-Ring, keine Hover/Active-States.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">interactive-surface-base</code></td>
+                  <td>Chip, Toggle Group, Segmented Control, interaktive Tags</td>
+                  <td>Interaktive Oberfl&auml;che: Erweitert <code class="docs__token">static-surface-base</code> um Focus-Ring, Hover, Active, Disabled, Cursor und Transitions.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">surface-size($size)</code></td>
+                  <td>Alle Surface-Komponenten</td>
+                  <td>Gr&ouml;&szlig;en-Variante: Setzt H&ouml;he, Padding, Font-Size, Icon-Size und Gap pro Gr&ouml;&szlig;enstufe (sm/md/lg).</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 style="margin-top: var(--fnd-spacing-05); font-size: 0.875rem;">Verwendungsbeispiel</h4>
+            <div class="docs__code-block">// Chip-Komponente
+.nc-chip {
+  @include interactive-surface-base;
+  @include surface-size('md');  // Default
+
+  &amp;--sm { @include surface-size('sm'); }
+  &amp;--lg { @include surface-size('lg'); }
+}</div>
+          </section>
+
+          <!-- Private CSS Custom Properties -->
+          <section class="docs__section" id="arch-contract">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Private CSS Custom Properties Contract</h3>
+            <p class="docs__section-desc">
+              Jedes Surface-Mixin liest seine Werte &uuml;ber private Custom Properties
+              mit dem Pr&auml;fix <code class="docs__token">--_surface-*</code>. Diese werden von
+              der jeweiligen Komponente gesetzt und dienen als interner Vertrag zwischen Mixin und Komponente.
+            </p>
+
+            <div class="contract-block">
+              <div class="contract-block__title">Geometrie</div>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="docs__token">--_surface-height</code></td><td>Length</td><td>Gesamth&ouml;he der Komponente</td></tr>
+                  <tr><td><code class="docs__token">--_surface-padding-x</code></td><td>Length</td><td>Horizontaler Innenabstand</td></tr>
+                  <tr><td><code class="docs__token">--_surface-padding-y</code></td><td>Length</td><td>Vertikaler Innenabstand</td></tr>
+                  <tr><td><code class="docs__token">--_surface-radius</code></td><td>Length</td><td>Border-Radius</td></tr>
+                  <tr><td><code class="docs__token">--_surface-gap</code></td><td>Length</td><td>Abstand zwischen Icon und Text</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="contract-block">
+              <div class="contract-block__title">Typografie</div>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="docs__token">--_surface-font-size</code></td><td>Length</td><td>Schriftgr&ouml;&szlig;e</td></tr>
+                  <tr><td><code class="docs__token">--_surface-font-weight</code></td><td>Number</td><td>Schriftgewicht</td></tr>
+                  <tr><td><code class="docs__token">--_surface-line-height</code></td><td>Number</td><td>Zeilenh&ouml;he</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="contract-block">
+              <div class="contract-block__title">Farben</div>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="docs__token">--_surface-bg</code></td><td>Color</td><td>Hintergrundfarbe (default)</td></tr>
+                  <tr><td><code class="docs__token">--_surface-bg-hover</code></td><td>Color</td><td>Hintergrundfarbe (hover)</td></tr>
+                  <tr><td><code class="docs__token">--_surface-bg-active</code></td><td>Color</td><td>Hintergrundfarbe (active/pressed)</td></tr>
+                  <tr><td><code class="docs__token">--_surface-color</code></td><td>Color</td><td>Textfarbe</td></tr>
+                  <tr><td><code class="docs__token">--_surface-border-color</code></td><td>Color</td><td>Rahmenfarbe</td></tr>
+                  <tr><td><code class="docs__token">--_surface-border-width</code></td><td>Length</td><td>Rahmenst&auml;rke</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="contract-block">
+              <div class="contract-block__title">Icons</div>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="docs__token">--_surface-icon-size</code></td><td>Length</td><td>Icon-Gr&ouml;&szlig;e (width &amp; height)</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="contract-block">
+              <div class="contract-block__title">States (nur interactive-surface-base)</div>
+              <table class="docs__table docs__table--compact">
+                <thead><tr><th>Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+                <tbody>
+                  <tr><td><code class="docs__token">--_surface-opacity-disabled</code></td><td>Number</td><td>Opacity im disabled State</td></tr>
+                  <tr><td><code class="docs__token">--_surface-transition-duration</code></td><td>Time</td><td>Transitions-Dauer</td></tr>
+                  <tr><td><code class="docs__token">--_surface-scale-active</code></td><td>Number</td><td>Scale-Faktor bei :active</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Token Hierarchy Diagram -->
+          <section class="docs__section" id="arch-hierarchy">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Token-Hierarchie</h3>
+            <p class="docs__section-desc">
+              Tokens flie&szlig;en in drei Ebenen: Foundation-Tokens definieren globale Werte,
+              Component-Tokens spezialisieren diese f&uuml;r einzelne Komponenten,
+              und Surface-Properties konsumieren sie im Mixin.
+            </p>
+
+            <div class="arch-diagram">
+              <div class="arch-layer">
+                <span class="arch-layer__label">Foundation</span>
+                <div class="arch-layer__box arch-layer__box--foundation">
+                  --fnd-spacing-* &nbsp;|&nbsp; --fnd-radius-* &nbsp;|&nbsp; --fnd-color-* &nbsp;|&nbsp; --fnd-typography-*
+                </div>
+              </div>
+              <div class="arch-arrow-down"></div>
+              <div class="arch-layer">
+                <span class="arch-layer__label">Component</span>
+                <div class="arch-layer__box arch-layer__box--component">
+                  --nc-chip-* &nbsp;|&nbsp; --nc-tag-* &nbsp;|&nbsp; --nc-toggle-* &nbsp;|&nbsp; --nc-segmented-*
+                </div>
+              </div>
+              <div class="arch-arrow-down"></div>
+              <div class="arch-layer">
+                <span class="arch-layer__label">Surface</span>
+                <div class="arch-layer__box arch-layer__box--surface">
+                  --_surface-height &nbsp;|&nbsp; --_surface-bg &nbsp;|&nbsp; --_surface-color &nbsp;|&nbsp; ...
+                </div>
+              </div>
+            </div>
+
+            <div class="docs__code-block">// Beispiel: Wie ein Chip-Token durch die Hierarchie flie&szlig;t
+
+// 1. Foundation (global)
+--fnd-spacing-03: 12px;
+--fnd-radius-full: 9999px;
+--fnd-color-background-tertiary: #f0f0f0;
+
+// 2. Component (chip-spezifisch)
+--nc-chip-padding-x-md: var(--fnd-spacing-03);    // 12px
+--nc-chip-radius: var(--fnd-radius-full);          // 9999px (Pill)
+--nc-chip-bg: var(--fnd-color-background-tertiary);
+
+// 3. Surface (privater Vertrag im Mixin)
+.nc-chip {
+  --_surface-padding-x: var(--nc-chip-padding-x-md);
+  --_surface-radius: var(--nc-chip-radius);
+  --_surface-bg: var(--nc-chip-bg);
+}</div>
+          </section>
+
+          <!-- Shared Tokens -->
+          <section class="docs__section" id="arch-tokens">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shared Tokens &uuml;ber alle Komponenten</h3>
+            <p class="docs__section-desc">
+              Diese Foundation-Tokens werden von mehreren Surface-Komponenten gemeinsam genutzt
+              und bilden die Basis f&uuml;r konsistente Proportionen und Farben.
+            </p>
+
+            <table class="docs__table">
+              <thead>
+                <tr>
+                  <th>Foundation Token</th>
+                  <th>Wert</th>
+                  <th>Verwendet von</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">--fnd-spacing-01</code></td>
+                  <td>4px</td>
+                  <td>Gap (xs), Padding-y (xs)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-spacing-02</code></td>
+                  <td>8px</td>
+                  <td>Padding-x (sm), Gap (sm/md)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-spacing-03</code></td>
+                  <td>12px</td>
+                  <td>Padding-x (md), Gap (lg)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-spacing-04</code></td>
+                  <td>16px</td>
+                  <td>Padding-x (lg)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-radius-full</code></td>
+                  <td>9999px</td>
+                  <td>Badge, Tag, Chip (Pill-Form)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-radius-sm</code></td>
+                  <td>4px</td>
+                  <td>Toggle Group, Segmented Control (innere Segmente)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-radius-md</code></td>
+                  <td>6px</td>
+                  <td>Toggle Button, Segmented Control (Track)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-background-tertiary</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Badge-bg, Tag-bg, Chip-bg (default)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-text-primary</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Label-Farbe aller Komponenten</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-text-secondary</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Icon-Farbe, Remove-Button, sekundäre Labels</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-border-secondary</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Border aller Surface-Komponenten (default)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-background-disabled</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Disabled-State Background (alle interaktiven)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-color-text-disabled</code></td>
+                  <td>Theme-abh&auml;ngig</td>
+                  <td>Disabled-State Text-Farbe (alle interaktiven)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--nc-icon-size-xs</code></td>
+                  <td>16px</td>
+                  <td>Icon-Gr&ouml;&szlig;e in sm/md Surfaces</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--nc-icon-size-sm</code></td>
+                  <td>20px</td>
+                  <td>Icon-Gr&ouml;&szlig;e in lg Surfaces</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="component-matrix-docs.js"></script>
+
+</body>
+</html>

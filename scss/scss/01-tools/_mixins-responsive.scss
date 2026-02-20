@@ -1,0 +1,160 @@
+// ==========================================================================
+// 01-Tools: Responsive Mixins
+// ==========================================================================
+// Media Query Mixins
+// ==========================================================================
+
+@use 'sass:map';
+@use '../00-settings/breakpoints' as *;
+
+// ---------------------------------------------------------------------------
+// Breakpoint Mixin
+// ---------------------------------------------------------------------------
+
+/// Respond to breakpoint (min-width)
+/// @param {String} $breakpoint - Breakpoint name (xs, sm, md, lg, xl, xxl)
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $bp-value: map.get($breakpoints, $breakpoint);
+
+    @if $bp-value == 0 {
+      @content;
+    } @else {
+      @media (min-width: #{$bp-value}) {
+        @content;
+      }
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+/// Respond to max-width
+/// @param {String} $breakpoint - Breakpoint name
+@mixin respond-to-max($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    $bp-value: map.get($breakpoints, $breakpoint);
+
+    @media (max-width: #{$bp-value - 1px}) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+/// Respond between breakpoints
+/// @param {String} $min - Min breakpoint
+/// @param {String} $max - Max breakpoint
+@mixin respond-between($min, $max) {
+  $min-value: map.get($breakpoints, $min);
+  $max-value: map.get($breakpoints, $max);
+  
+  @if $min-value and $max-value {
+    @media (min-width: #{$min-value}) and (max-width: #{$max-value - 1px}) {
+      @content;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Common Breakpoint Shortcuts
+// ---------------------------------------------------------------------------
+
+/// Mobile only (< 768px)
+@mixin mobile-only {
+  @include respond-to-max('sm') {
+    @content;
+  }
+}
+
+/// Tablet and up (>= 768px)
+@mixin tablet-up {
+  @include respond-to('sm') {
+    @content;
+  }
+}
+
+/// Desktop and up (>= 1200px)
+@mixin desktop-up {
+  @include respond-to('lg') {
+    @content;
+  }
+}
+
+/// Large desktop (>= 1600px)
+@mixin large-desktop {
+  @include respond-to('xl') {
+    @content;
+  }
+}
+
+/// Full width desktop (>= 1920px)
+@mixin full-desktop {
+  @include respond-to('xxl') {
+    @content;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+
+/// Prefers reduced motion
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// No preference for motion
+@mixin motion-ok {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accessibility Media Queries
+// ---------------------------------------------------------------------------
+
+/// Windows High Contrast Mode / Forced Colors
+@mixin forced-colors {
+  @media (forced-colors: active) {
+    @content;
+  }
+}
+
+/// User prefers more contrast
+@mixin high-contrast {
+  @media (prefers-contrast: more) {
+    @content;
+  }
+}
+
+/// User prefers reduced transparency
+@mixin reduced-transparency {
+  @media (prefers-reduced-transparency: reduce) {
+    @content;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Container Queries
+// ---------------------------------------------------------------------------
+
+/// Establish container query context
+/// @param {String} $name [layout] - Container name
+@mixin container-context($name: layout) {
+  container-type: inline-size;
+  container-name: #{$name};
+}
+
+/// Container query (min-width)
+/// @param {String} $name - Container name
+/// @param {Length} $min-width - Minimum width
+@mixin container-query($name, $min-width) {
+  @container #{$name} (min-width: #{$min-width}) {
+    @content;
+  }
+}

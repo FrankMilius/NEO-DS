@@ -1,0 +1,66 @@
+// ==========================================================================
+// 00-Settings: Radii
+// ==========================================================================
+// Border-Radius Design Tokens
+//
+// SKALA (7+2 Stufen):
+//   null = 0px   (sharp)
+//   xs   = 2px   (minimal)
+//   sm   = 4px   (subtle)
+//   md   = 6px   (default)
+//   lg   = 8px   (medium)
+//   xl   = 10px  (pronounced)
+//   2xl  = 12px  (large)
+//   3xl  = 16px  (extra large, Kompatibilität)
+//   full = 9999px (pill)
+//
+// BACKWARD COMPATIBILITY:
+//   --fnd-radius-s  → alias für --fnd-radius-sm  (4px)
+//   --fnd-radius-m  → alias für --fnd-radius-lg  (8px)
+//   --fnd-radius-l  → alias für --fnd-radius-3xl (16px)
+// ==========================================================================
+
+@use 'sass:map';
+@use 'tokens-radii.generated' as tokens;
+
+$radii: tokens.$token-radii;
+
+// Deprecated alias map (old → new key)
+$_radii-aliases: (
+  's':   'sm',
+  'm':   'lg',
+  'l':   '3xl',
+  '2xs': 'null',
+);
+
+/// Get radius value by key
+/// Supports both new keys (null, sm, md, lg...) and deprecated aliases (s, m, l, 2xs)
+@function radius($size) {
+  @if map.has-key($radii, $size) {
+    @return map.get($radii, $size);
+  }
+  @if map.has-key($_radii-aliases, $size) {
+    $new-key: map.get($_radii-aliases, $size);
+    @warn "radius('#{$size}') is deprecated. Use radius('#{$new-key}') instead.";
+    @return map.get($radii, $new-key);
+  }
+  @warn "Unknown radius: #{$size}";
+  @return 0;
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+:root {
+  // New scale
+  @each $size, $value in $radii {
+    --fnd-radius-#{$size}: #{$value};
+  }
+
+  // Backward-compatibility aliases (deprecated)
+  --fnd-radius-s: var(--fnd-radius-sm);     // 4px
+  --fnd-radius-m: var(--fnd-radius-lg);     // 8px
+  --fnd-radius-l: var(--fnd-radius-3xl);    // 16px
+  --fnd-radius-2xs: var(--fnd-radius-null); // 0px
+}

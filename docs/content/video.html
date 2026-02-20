@@ -1,0 +1,476 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Video</h1>
+      <p class="docs__subtitle">
+        Video-Wrapper und Fullscreen-Video-Dialog mit animiertem Play-Overlay und Cursor-Hover-Text.
+        Zwei Komponenten: <code class="docs__token">.video-wrap</code> / <code class="docs__token">.video-wrap-autoplay</code> als eingebetteter Wrapper
+        und <code class="docs__token">.video-dialog</code> als nativer HTML-Dialog mit CSS-Transition.
+        Alle Farben kommen aus Foundation-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="video-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Video-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, um den Video-Wrapper zu sehen. Der Dialog &ouml;ffnet sich &uuml;ber den Play-Button.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders video wrap here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="video-wrap"&gt;
+  &lt;video src="video.mp4" poster="poster.jpg"&gt;&lt;/video&gt;
+  &lt;div class="play-sign" aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;button class="open-button" aria-label="Video abspielen"
+          onclick="videoDialog.showModal()"&gt;&lt;/button&gt;
+  &lt;div class="play-hover" aria-hidden="true"&gt;Play&lt;/div&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Video Wrap -->
+          <section class="docs__section" id="video-wrap">
+            <h2 class="docs__section-title">Video Wrapper</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.video-wrap</code> ist ein relativer Container mit <code class="docs__token">overflow: clip</code>.
+              Er umh&uuml;llt das Poster-Video, das Play-Overlay und den unsichtbaren Open-Button.
+              Auf Desktop verschwindet der Cursor &uuml;ber dem Open-Button (<code class="docs__token">cursor: none</code>)
+              und stattdessen erscheint der animierte <code class="docs__token">.play-hover</code>-Text.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="video-wrap" style="background: var(--fnd-color-background-tertiary); aspect-ratio: 16/9; border-radius: var(--fnd-radius-lg);">
+                <div class="play-sign" aria-hidden="true">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <button class="open-button" aria-label="Demo-Video abspielen (nicht verf&uuml;gbar)"></button>
+                <div class="play-hover" aria-hidden="true">Play</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Video Dialog -->
+          <section class="docs__section" id="video-dialog">
+            <h2 class="docs__section-title">Video Dialog</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.video-dialog</code> ist ein nativer <code class="docs__token">&lt;dialog&gt;</code> der den gesamten Viewport f&uuml;llt.
+              Er wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und &uuml;ber den Close-Button oder die Backdrop geschlossen.
+              Die Einblend-Animation l&auml;uft &uuml;ber <code class="docs__token">@starting-style</code> mit Translate und Opacity.
+            </p>
+            <p class="docs__section-desc">
+              Das Video wird in einem zentrierten <code class="docs__token">.player-wrapper</code> mit 16:9-Seitenverh&auml;ltnis und <code class="docs__token">border-radius-3xl</code> angezeigt.
+              Der Close-Button sitzt oben rechts innerhalb des Wrappers.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <button class="button lg" onclick="document.getElementById('demo-video-dialog').showModal()">Demo-Dialog &ouml;ffnen</button>
+            </div>
+
+            <dialog id="demo-video-dialog" class="video-dialog">
+              <div class="player-container">
+                <div class="player-wrapper">
+                  <div style="width: 100%; height: 100%; background: var(--fnd-color-background-tertiary); display: flex; align-items: center; justify-content: center; color: var(--fnd-color-text-secondary);">
+                    [Video Placeholder]
+                  </div>
+                  <button class="close-button" onclick="document.getElementById('demo-video-dialog').close()" aria-label="Video schlie&szlig;en">
+                    <span class="icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </dialog>
+          </section>
+
+          <!-- Autoplay Variante -->
+          <section class="docs__section" id="autoplay">
+            <h2 class="docs__section-title">Autoplay-Variante</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.video-wrap-autoplay</code> teilt alle Basis-Styles mit <code class="docs__token">.video-wrap</code>.
+              Sie ist f&uuml;r Videos gedacht, die ohne Benutzerinteraktion (muted autoplay) laufen &mdash;
+              z.B. als Hintergrund-Loops in Hero-Sektionen.
+              Der Open-Button kann hier entfallen oder f&uuml;r andere Zwecke verwendet werden.
+            </p>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-video-wrap">
+            <h2 class="docs__section-title">Video Wrap &mdash; Layout</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Position</td><td><code class="docs__token">relative</code></td><td>Anker f&uuml;r absolute Kind-Elemente</td></tr>
+                <tr><td>Overflow</td><td><code class="docs__token">clip</code></td><td>Inhalte werden am Container geclippt</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-play-sign">
+            <h2 class="docs__section-title">Play Sign Overlay</h2>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Eigenschaft</th><th>Wert / Token</th></tr></thead>
+              <tbody>
+                <tr><td>.play-sign</td><td>Position</td><td>absolute, inset 0</td></tr>
+                <tr><td>.play-sign</td><td>Display</td><td><code class="docs__token">flex-center</code> Mixin</td></tr>
+                <tr><td>.play-sign::before</td><td>Background</td><td><code class="docs__token">color-mix(in srgb, --fnd-color-always-dark 80%, transparent)</code></td></tr>
+                <tr><td>.play-sign::before</td><td>Gr&ouml;&szlig;e</td><td>112 &times; 112px, border-radius 50%</td></tr>
+                <tr><td>.play-sign .icon</td><td>Gr&ouml;&szlig;e</td><td>48 &times; 48px</td></tr>
+                <tr><td>.play-sign .icon</td><td>Color</td><td><code class="docs__token">color-mix(in srgb, --fnd-color-always-light 70%, transparent)</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-buttons">
+            <h2 class="docs__section-title">Open- &amp; Close-Button</h2>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Eigenschaft</th><th>Wert / Token</th></tr></thead>
+              <tbody>
+                <tr><td>.open-button</td><td>Position</td><td>absolute, inset 0 (Vollfl&auml;che)</td></tr>
+                <tr><td>.open-button</td><td>Cursor (Desktop)</td><td><code class="docs__token">none</code> (ab tablet-up)</td></tr>
+                <tr><td>.open-button</td><td>Z-Index</td><td>2</td></tr>
+                <tr><td>.close-button</td><td>Position</td><td>absolute top: spacing-03/04, right: spacing-05/06</td></tr>
+                <tr><td>.close-button</td><td>Gr&ouml;&szlig;e</td><td>40 &times; 40px</td></tr>
+                <tr><td>.close-button</td><td>Background</td><td><code class="docs__token">var(--fnd-color-background-secondary)</code></td></tr>
+                <tr><td>.close-button</td><td>Border-Radius</td><td><code class="docs__token">var(--fnd-radius-lg)</code></td></tr>
+                <tr><td>.close-button :hover/:focus</td><td>Background</td><td><code class="docs__token">var(--fnd-color-border-state-disabled)</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-play-hover">
+            <h2 class="docs__section-title">Play Hover Text</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Display</td><td><code class="docs__token">none</code> (default)</td><td>Nur bei Hover auf open-button/video sichtbar</td></tr>
+                <tr><td>Display (Hover, Desktop)</td><td><code class="docs__token">block</code></td><td>Nur ab <code class="docs__token">tablet-up</code></td></tr>
+                <tr><td>Color</td><td><code class="docs__token">var(--fnd-color-text-difference)</code></td><td>Spezialfarbe f&uuml;r mix-blend-mode</td></tr>
+                <tr><td>Mix-Blend-Mode</td><td><code class="docs__token">difference</code></td><td>Invertierender Blend-Mode</td></tr>
+                <tr><td>Font-Size</td><td>Heading M Mixin</td><td>Markante Display-Schrift</td></tr>
+                <tr><td>Z-Index</td><td>3</td><td>&Uuml;ber Play-Sign und Open-Button</td></tr>
+                <tr><td>Pointer-Events</td><td><code class="docs__token">none</code></td><td>Kein Blockieren der Click-Events</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-dialog">
+            <h2 class="docs__section-title">Video Dialog</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Position</td><td><code class="docs__token">fixed</code>, inset 0</td><td>Fullscreen-Overlay</td></tr>
+                <tr><td>Background</td><td><code class="docs__token">var(--fnd-color-background-base)</code></td><td>Theme-abh&auml;ngiger Hintergrund</td></tr>
+                <tr><td>Color</td><td><code class="docs__token">var(--fnd-color-text-high)</code></td><td>Textfarbe</td></tr>
+                <tr><td>Transition</td><td>translate + opacity, 450ms focused ease</td><td>Ein-/Ausblenden via <code class="docs__token">--fnd-motion-*</code></td></tr>
+                <tr><td>@starting-style</td><td>opacity: 0, translate: 0 50px</td><td>Einblend-Startpunkt</td></tr>
+                <tr><td>::backdrop</td><td><code class="docs__token">var(--fnd-color-background-base)</code></td><td>Backdrop-Farbe, klickbar zum Schlie&szlig;en</td></tr>
+                <tr><td>.player-wrapper</td><td>max-width pro Breakpoint</td><td>spacing-05 bis spacing-10 Rand</td></tr>
+                <tr><td>.player-wrapper</td><td>border-radius</td><td><code class="docs__token">var(--fnd-radius-3xl)</code></td></tr>
+                <tr><td>video</td><td>object-fit</td><td><code class="docs__token">contain</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">CSS-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== Klassen (kein BEM-Namespace) =====
+
+// Video Wrapper
+.video-wrap                    // Standard-Wrapper (mit Play-Interaktion)
+.video-wrap-autoplay           // Autoplay-Variante (teilt .video-wrap Styles)
+
+// Kindelemente von .video-wrap / .video-wrap-autoplay
+.play-sign                     // Kreisf&ouml;rmiges Play-Overlay (dekorativ)
+.open-button                   // Vollfl&auml;chen-Button zum &Ouml;ffnen des Dialogs
+.close-button                  // Schlie&szlig;en-Button (40x40px, oben rechts)
+.play-hover                    // Cursor-Follow-Text (nur Desktop, Hover)
+
+// Dialog
+.video-dialog                  // Fullscreen-Dialog (&lt;dialog&gt; Element)
+.player-container              // Innerer Container (100% H&ouml;he)
+.player-wrapper                // Zentrierter 16:9-Rahmen mit Radius</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klassen</strong></td><td><code class="docs__token">.video-wrap</code>, <code class="docs__token">.video-wrap-autoplay</code>, <code class="docs__token">.video-dialog</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/04-objects/_video.scss</code></td></tr>
+                <tr><td><strong>ITCSS-Layer</strong></td><td>04-Objects (layout-Muster, keine Farb-Entscheidungen im Block-Scope)</td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fnd-radius-*</code>, <code class="docs__token">--fnd-spacing-*</code>, <code class="docs__token">--fnd-motion-*</code></td></tr>
+                <tr><td><strong>Dialog-Mechanismus</strong></td><td>Nativer <code class="docs__token">&lt;dialog&gt;</code> mit <code class="docs__token">showModal()</code> / <code class="docs__token">close()</code></td></tr>
+                <tr><td><strong>Animation</strong></td><td><code class="docs__token">@starting-style</code> + CSS Transition (translate + opacity)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Video Wrapper</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.video-wrap</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Standard-Wrapper mit Position relative, overflow clip. Play-Interaktion inklusive.</td></tr>
+                <tr><td><code class="docs__token">.video-wrap-autoplay</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Identische Basis-Styles. F&uuml;r muted-autoplay Hintergrund-Videos.</td></tr>
+                <tr><td><code class="docs__token">.play-sign</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Dekoratives Play-Icon mit dunklem Kreis-Hintergrund. aria-hidden.</td></tr>
+                <tr><td><code class="docs__token">.open-button</code></td><td><code class="docs__token">&lt;button&gt;</code></td><td>Vollfl&auml;chen-Click-Target. Cursor none auf Desktop.</td></tr>
+                <tr><td><code class="docs__token">.close-button</code></td><td><code class="docs__token">&lt;button&gt;</code></td><td>40x40px Schlie&szlig;en-Button oben rechts. Im Dialog verwendet.</td></tr>
+                <tr><td><code class="docs__token">.play-hover</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Cursor-Follow Hover-Text (mix-blend-mode difference). Nur Desktop, aria-hidden.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Video Dialog</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.video-dialog</code></td><td><code class="docs__token">&lt;dialog&gt;</code></td><td>Fullscreen-Dialog. fixed, inset 0. CSS-Transition beim &Ouml;ffnen/Schlie&szlig;en.</td></tr>
+                <tr><td><code class="docs__token">.player-container</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Innerer Container mit 100% H&ouml;he.</td></tr>
+                <tr><td><code class="docs__token">.player-wrapper</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Zentrierter 16:9-Wrapper mit responsivem Rand und border-radius-3xl.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">Verwendete Foundation-Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Farben</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-always-dark</code></td><td>Play-Sign Kreis-Hintergrund (80% opacity via color-mix)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-always-light</code></td><td>Play-Sign Icon-Farbe (70% opacity via color-mix)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-secondary</code></td><td>Close-Button Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-border-state-disabled</code></td><td>Close-Button Hover/Focus Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-difference</code></td><td>Play-Hover-Text (f&uuml;r mix-blend-mode)</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-background-base</code></td><td>Dialog Hintergrund + Backdrop</td></tr>
+                <tr><td><code class="docs__token">--fnd-color-text-high</code></td><td>Dialog Textfarbe</td></tr>
+                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometrie</td></tr>
+                <tr><td><code class="docs__token">--fnd-radius-lg</code></td><td>Close-Button Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--fnd-radius-3xl</code></td><td>Player-Wrapper Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--fnd-spacing-03</code> &mdash; <code class="docs__token">--fnd-spacing-10</code></td><td>Close-Button Position, Player-Wrapper Rand</td></tr>
+                <tr><td><code class="docs__token">--fnd-image-ratio-16-9</code></td><td>Dialog Aspect-Ratio</td></tr>
+                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Motion</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-duration-450</code></td><td>Dialog Transition-Dauer</td></tr>
+                <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Dialog Transition-Easing</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Element-Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Video Wrap mit Dialog-Trigger --&gt;
+&lt;div class="video-wrap"&gt;
+  &lt;video src="video.mp4" poster="poster.jpg"
+         preload="none"&gt;&lt;/video&gt;
+
+  &lt;!-- Dekoratives Play-Overlay --&gt;
+  &lt;div class="play-sign" aria-hidden="true"&gt;
+    &lt;svg class="icon" ...&gt;&lt;/svg&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Click-Target f&uuml;r Dialog --&gt;
+  &lt;button class="open-button"
+          aria-label="Video abspielen"
+          onclick="videoDialog.showModal()"&gt;
+  &lt;/button&gt;
+
+  &lt;!-- Hover-Text (Desktop) --&gt;
+  &lt;div class="play-hover" aria-hidden="true"&gt;Play&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Fullscreen Dialog --&gt;
+&lt;dialog id="videoDialog" class="video-dialog"&gt;
+  &lt;div class="player-container"&gt;
+    &lt;div class="player-wrapper"&gt;
+
+      &lt;!-- Close-Button --&gt;
+      &lt;button class="close-button"
+              onclick="videoDialog.close()"
+              aria-label="Video schlie&szlig;en"&gt;
+        &lt;span class="icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;/button&gt;
+
+      &lt;!-- Video Player --&gt;
+      &lt;video src="video.mp4" controls&gt;&lt;/video&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Autoplay Variante (Hero-Hintergrund) --&gt;
+&lt;div class="video-wrap-autoplay"&gt;
+  &lt;video src="loop.mp4" autoplay muted loop
+         playsinline aria-hidden="true"&gt;&lt;/video&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Video-Komponenten haben besondere Anforderungen an Tastaturnavigation, Screenreader-Ank&uuml;ndigungen und Bewegungsreduzierung.
+          </p>
+
+          <!-- Dialog-Fokus -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Dialog-Fokusmanagement</h4>
+              <ul>
+                <li>Nativer <code class="docs__token">&lt;dialog&gt;</code> per <code class="docs__token">showModal()</code> f&auml;ngt den Fokus korrekt (Focus Trap)</li>
+                <li>Beim Schlie&szlig;en kehrt der Fokus automatisch zum ausl&ouml;senden Element zur&uuml;ck</li>
+                <li>Der Close-Button muss gut erreichbar sein &mdash; erster Fokus-Stop nach dem &Ouml;ffnen bevorzugt</li>
+                <li>Escape-Taste schlie&szlig;t den Dialog nativ (kein JS erforderlich)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Play-Button -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Open-Button &amp; Dekorative Elemente</h4>
+              <ul>
+                <li>Der <code class="docs__token">.open-button</code> muss ein <code class="docs__token">aria-label</code> haben (&bdquo;Video abspielen&ldquo; oder spezifischer Titel)</li>
+                <li><code class="docs__token">.play-sign</code> und <code class="docs__token">.play-hover</code> sind dekorativ: <code class="docs__token">aria-hidden="true"</code></li>
+                <li>Kein <code class="docs__token">tabindex</code> auf <code class="docs__token">.play-sign</code> oder <code class="docs__token">.play-hover</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Autoplay -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Autoplay-Videos (WCAG 1.4.2, 2.2.2)</h4>
+              <ul>
+                <li>Autoplay-Videos m&uuml;ssen <code class="docs__token">muted</code> sein (keine Audio-Wiedergabe ohne Nutzerkontrolle)</li>
+                <li>Hintergrund-Loops: <code class="docs__token">aria-hidden="true"</code> am <code class="docs__token">&lt;video&gt;</code>-Element</li>
+                <li>Blinkende oder bewegte Inhalte: bei <code class="docs__token">prefers-reduced-motion: reduce</code> pausieren oder ersetzen</li>
+                <li>L&auml;nger als 5 Sekunden: Pause-Mechanismus anbieten (WCAG 2.2.2)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Untertitel -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Untertitel &amp; Audiodeskription (WCAG 1.2.2 / 1.2.3)</h4>
+              <ul>
+                <li>Alle Videos mit Sprache ben&ouml;tigen Untertitel (<code class="docs__token">&lt;track kind="captions"&gt;</code>)</li>
+                <li>F&uuml;r &uuml;berwiegend visuelle Inhalte: Audiodeskription empfohlen (WCAG AA)</li>
+                <li>Das <code class="docs__token">&lt;video&gt;</code>-Element im Dialog sollte <code class="docs__token">controls</code> haben, damit Nutzer Untertitel selbst aktivieren k&ouml;nnen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Vollst&auml;ndige Struktur --&gt;
+&lt;div class="video-wrap"&gt;
+  &lt;video poster="poster.jpg" preload="none"&gt;
+    &lt;!-- Keine autoplay, kein src hier --&gt;
+  &lt;/video&gt;
+  &lt;div class="play-sign" aria-hidden="true"&gt;...&lt;/div&gt;
+  &lt;button class="open-button"
+          aria-label="Produktvideo ansehen"
+          aria-haspopup="dialog"
+          onclick="dialog.showModal()"&gt;
+  &lt;/button&gt;
+  &lt;div class="play-hover" aria-hidden="true"&gt;Play&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;dialog class="video-dialog" id="dialog"
+        aria-label="Video-Player"&gt;
+  &lt;div class="player-container"&gt;
+    &lt;div class="player-wrapper"&gt;
+      &lt;button class="close-button"
+              aria-label="Video schlie&szlig;en"
+              onclick="dialog.close()"&gt;
+        ...
+      &lt;/button&gt;
+      &lt;video controls&gt;
+        &lt;source src="video.mp4" type="video/mp4"&gt;
+        &lt;track kind="captions" src="captions.vtt" srclang="de"&gt;
+      &lt;/video&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;!-- RICHTIG: Muted Autoplay Hero-Video --&gt;
+&lt;div class="video-wrap-autoplay" aria-hidden="true"&gt;
+  &lt;video autoplay muted loop playsinline&gt;
+    &lt;source src="hero-loop.mp4" type="video/mp4"&gt;
+  &lt;/video&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Autoplay mit Ton --&gt;
+&lt;video autoplay src="video-mit-ton.mp4"&gt;&lt;/video&gt;
+
+&lt;!-- FALSCH: Dialog-Trigger ohne Label --&gt;
+&lt;button class="open-button" onclick="..."&gt;&lt;/button&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->

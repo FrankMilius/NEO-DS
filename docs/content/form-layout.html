@@ -1,0 +1,653 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Form Layout</h1>
+      <p class="docs__subtitle">
+        Layout-Komponenten f&uuml;r Formulare: Form-Container, Fieldset, Form-Sections, Validation-Summary und Form-Actions.
+        Kanonische Klassen: <code class="docs__token">.nc-form</code>, <code class="docs__token">.nc-fieldset</code>,
+        <code class="docs__token">.nc-form-section</code>, <code class="docs__token">.nc-validation-summary</code>,
+        <code class="docs__token">.nc-form-actions</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="form-layout-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Layout-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Komponente und Layout, um die Form-Layout-Komponenten live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Komponente</span>
+                <select class="docs-stage__select" id="stage-component">
+                  <option value="form" selected>Form</option>
+                  <option value="fieldset">Fieldset</option>
+                  <option value="form-section">Form Section</option>
+                  <option value="validation-summary">Validation Summary</option>
+                  <option value="form-actions">Form Actions</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Layout</span>
+                <select class="docs-stage__select" id="stage-layout">
+                  <option value="default" selected>Default</option>
+                  <option value="inline">Inline</option>
+                  <option value="two-column">Two-Column</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders form layout here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;form class="nc-form"&gt;...&lt;/form&gt;</pre>
+          </div>
+
+          <!-- 1. Basic Form -->
+          <section class="docs__section" id="basic-form">
+            <h2 class="docs__section-title">Basic Form</h2>
+            <p class="docs__section-desc">
+              Der <code class="docs__token">.nc-form</code> Container bildet das Grundger&uuml;st
+              f&uuml;r alle Formulare. Er stapelt Form-Fields vertikal mit gleichm&auml;&szlig;igem Abstand.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <form class="nc-form">
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Vorname</span></label>
+                  <input class="nc-input" type="text" placeholder="Max" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Nachname</span></label>
+                  <input class="nc-input" type="text" placeholder="Mustermann" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">E-Mail</span></label>
+                  <input class="nc-input" type="email" placeholder="max@beispiel.de" />
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- 2. Two-Column Form -->
+          <section class="docs__section" id="two-column-form">
+            <h2 class="docs__section-title">Two-Column Form</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-form--two-column</code> werden Form-Fields in
+              einem Zwei-Spalten-Grid angeordnet. Auf kleinen Bildschirmen f&auml;llt es auf eine Spalte zur&uuml;ck.
+            </p>
+            <div style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+              <form class="nc-form nc-form--two-column">
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Vorname</span></label>
+                  <input class="nc-input" type="text" placeholder="Max" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Nachname</span></label>
+                  <input class="nc-input" type="text" placeholder="Mustermann" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">E-Mail</span></label>
+                  <input class="nc-input" type="email" placeholder="max@beispiel.de" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Telefon</span></label>
+                  <input class="nc-input" type="tel" placeholder="+49 123 456789" />
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- 3. Fieldset with Legend -->
+          <section class="docs__section" id="fieldset-example">
+            <h2 class="docs__section-title">Fieldset mit Legend</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-fieldset</code> gruppiert zusammengeh&ouml;rige Felder
+              mit einer <code class="docs__token">.nc-fieldset__legend</code> als &Uuml;berschrift.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <fieldset class="nc-fieldset">
+                <legend class="nc-fieldset__legend">Pers&ouml;nliche Daten</legend>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Vorname</span></label>
+                  <input class="nc-input" type="text" placeholder="Max" />
+                </div>
+                <div class="nc-form-field">
+                  <label class="nc-form-label"><span class="nc-form-label__text">Nachname</span></label>
+                  <input class="nc-input" type="text" placeholder="Mustermann" />
+                </div>
+              </fieldset>
+            </div>
+          </section>
+
+          <!-- 4. Form Sections with Dividers -->
+          <section class="docs__section" id="form-sections">
+            <h2 class="docs__section-title">Form Sections</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-form-section</code> unterteilt Formulare in logische
+              Abschnitte mit Header, Titel, Beschreibung und Content. Ein <code class="docs__token">.nc-form-divider</code>
+              trennt Abschnitte visuell.
+            </p>
+            <div style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+              <form class="nc-form">
+                <div class="nc-form-section">
+                  <div class="nc-form-section__header">
+                    <h3 class="nc-form-section__title">Kontoinformationen</h3>
+                    <p class="nc-form-section__description">Grundlegende Informationen zu Ihrem Konto.</p>
+                  </div>
+                  <div class="nc-form-section__content">
+                    <div class="nc-form-field">
+                      <label class="nc-form-label"><span class="nc-form-label__text">Benutzername</span></label>
+                      <input class="nc-input" type="text" placeholder="max_m" />
+                    </div>
+                    <div class="nc-form-field">
+                      <label class="nc-form-label"><span class="nc-form-label__text">E-Mail</span></label>
+                      <input class="nc-input" type="email" placeholder="max@beispiel.de" />
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="nc-form-divider" />
+
+                <div class="nc-form-section">
+                  <div class="nc-form-section__header">
+                    <h3 class="nc-form-section__title">Adresse</h3>
+                    <p class="nc-form-section__description">Ihre aktuelle Lieferadresse.</p>
+                  </div>
+                  <div class="nc-form-section__content">
+                    <div class="nc-form-field">
+                      <label class="nc-form-label"><span class="nc-form-label__text">Stra&szlig;e</span></label>
+                      <input class="nc-input" type="text" placeholder="Musterstra&szlig;e 1" />
+                    </div>
+                    <div class="nc-form-field">
+                      <label class="nc-form-label"><span class="nc-form-label__text">Stadt</span></label>
+                      <input class="nc-input" type="text" placeholder="Berlin" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- 5. Validation Summary -->
+          <section class="docs__section" id="validation-summary">
+            <h2 class="docs__section-title">Validation Summary</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-validation-summary</code> zeigt eine Zusammenfassung aller
+              Formularfehler an. Wird typischerweise oberhalb des Formulars platziert.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-validation-summary" role="alert">
+                <span class="nc-validation-summary__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </span>
+                <div>
+                  <strong class="nc-validation-summary__title">Es sind 3 Fehler aufgetreten:</strong>
+                  <ul class="nc-validation-summary__list">
+                    <li class="nc-validation-summary__item">Vorname ist ein Pflichtfeld</li>
+                    <li class="nc-validation-summary__item">E-Mail-Adresse ist ung&uuml;ltig</li>
+                    <li class="nc-validation-summary__item">Passwort muss mindestens 8 Zeichen lang sein</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 6. Form Actions -->
+          <section class="docs__section" id="form-actions">
+            <h2 class="docs__section-title">Form Actions</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-form-actions</code> positioniert Formular-Buttons.
+              Verf&uuml;gbare Ausrichtungen: Start, Center, End, Spread, Stacked.
+            </p>
+            <div style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+
+              <p style="font-size: var(--fnd-typography-body-s-font-size); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);"><strong>Start (Default)</strong></p>
+              <div class="nc-form-actions nc-form-actions--start" style="margin-block-end: var(--fnd-spacing-06);">
+                <button type="button" class="nc-btn nc-btn--primary">Speichern</button>
+                <button type="button" class="nc-btn nc-btn--secondary">Abbrechen</button>
+              </div>
+
+              <p style="font-size: var(--fnd-typography-body-s-font-size); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);"><strong>Center</strong></p>
+              <div class="nc-form-actions nc-form-actions--center" style="margin-block-end: var(--fnd-spacing-06);">
+                <button type="button" class="nc-btn nc-btn--primary">Speichern</button>
+                <button type="button" class="nc-btn nc-btn--secondary">Abbrechen</button>
+              </div>
+
+              <p style="font-size: var(--fnd-typography-body-s-font-size); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);"><strong>End</strong></p>
+              <div class="nc-form-actions nc-form-actions--end" style="margin-block-end: var(--fnd-spacing-06);">
+                <button type="button" class="nc-btn nc-btn--primary">Speichern</button>
+                <button type="button" class="nc-btn nc-btn--secondary">Abbrechen</button>
+              </div>
+
+              <p style="font-size: var(--fnd-typography-body-s-font-size); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);"><strong>Spread</strong></p>
+              <div class="nc-form-actions nc-form-actions--spread" style="margin-block-end: var(--fnd-spacing-06);">
+                <button type="button" class="nc-btn nc-btn--secondary">Abbrechen</button>
+                <button type="button" class="nc-btn nc-btn--primary">Speichern</button>
+              </div>
+
+              <p style="font-size: var(--fnd-typography-body-s-font-size); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);"><strong>Stacked</strong></p>
+              <div class="nc-form-actions nc-form-actions--stacked" style="max-width: 240px; margin-block-end: var(--fnd-spacing-06);">
+                <button type="button" class="nc-btn nc-btn--primary">Speichern</button>
+                <button type="button" class="nc-btn nc-btn--secondary">Abbrechen</button>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (BEM Classes)                                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- .nc-form -->
+          <section class="docs__section" id="style-form">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form</code></td><td>Block</td><td>Form-Container. Flex-Column-Layout mit Gap f&uuml;r vertikale Form-Fields.</td></tr>
+                <tr><td><code class="docs__token">.nc-form--inline</code></td><td>Modifier</td><td>Inline-Layout: Form-Fields nebeneinander in einer Zeile.</td></tr>
+                <tr><td><code class="docs__token">.nc-form--two-column</code></td><td>Modifier</td><td>Zwei-Spalten-Grid-Layout. Responsive Fallback auf eine Spalte.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- .nc-fieldset -->
+          <section class="docs__section" id="style-fieldset">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-fieldset</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-fieldset</code></td><td>Block</td><td>Fieldset-Container mit Border und Padding.</td></tr>
+                <tr><td><code class="docs__token">.nc-fieldset__legend</code></td><td>Element</td><td>Legend-&Uuml;berschrift des Fieldsets.</td></tr>
+                <tr><td><code class="docs__token">.nc-fieldset--borderless</code></td><td>Modifier</td><td>Fieldset ohne sichtbare Border.</td></tr>
+                <tr><td><code class="docs__token">.nc-fieldset--disabled</code></td><td>Modifier</td><td>Deaktiviertes Fieldset &mdash; alle Felder inaktiv.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- .nc-form-section -->
+          <section class="docs__section" id="style-form-section">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-section</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-section</code></td><td>Block</td><td>Logischer Formular-Abschnitt mit Header und Content.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section__header</code></td><td>Element</td><td>Header-Bereich mit Titel und Beschreibung.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section__title</code></td><td>Element</td><td>Abschnitt-&Uuml;berschrift.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section__description</code></td><td>Element</td><td>Beschreibungstext unter dem Titel.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section__content</code></td><td>Element</td><td>Inhaltsbereich f&uuml;r die Form-Fields.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section--bordered</code></td><td>Modifier</td><td>Abschnitt mit sichtbarer Border.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-section--compact</code></td><td>Modifier</td><td>Kompakter Abschnitt mit reduziertem Padding.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- .nc-form-divider -->
+          <section class="docs__section" id="style-form-divider">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-divider</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-divider</code></td><td>Block</td><td>Horizontale Trennlinie zwischen Form-Sections (<code class="docs__token">&lt;hr&gt;</code>).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- .nc-validation-summary -->
+          <section class="docs__section" id="style-validation-summary">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-validation-summary</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-validation-summary</code></td><td>Block</td><td>Fehler-Zusammenfassung mit Icon, Titel und Fehlerliste.</td></tr>
+                <tr><td><code class="docs__token">.nc-validation-summary__icon</code></td><td>Element</td><td>Fehler-Icon (links).</td></tr>
+                <tr><td><code class="docs__token">.nc-validation-summary__title</code></td><td>Element</td><td>&Uuml;berschrift der Fehler-Zusammenfassung.</td></tr>
+                <tr><td><code class="docs__token">.nc-validation-summary__list</code></td><td>Element</td><td>Liste der einzelnen Fehler (<code class="docs__token">&lt;ul&gt;</code>).</td></tr>
+                <tr><td><code class="docs__token">.nc-validation-summary__item</code></td><td>Element</td><td>Einzelner Fehlereintrag (<code class="docs__token">&lt;li&gt;</code>).</td></tr>
+                <tr><td><code class="docs__token">.nc-validation-summary--hidden</code></td><td>Modifier</td><td>Versteckt die Summary (z.B. bevor Validierung ausgel&ouml;st wird).</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- .nc-form-actions -->
+          <section class="docs__section" id="style-form-actions">
+            <h2 class="docs__section-title">BEM-Klassen: .nc-form-actions</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-form-actions</code></td><td>Block</td><td>Container f&uuml;r Formular-Buttons (Flex-Layout).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--start</code></td><td>Modifier</td><td>Buttons linksb&uuml;ndig (Default).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--center</code></td><td>Modifier</td><td>Buttons zentriert.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--end</code></td><td>Modifier</td><td>Buttons rechtsb&uuml;ndig.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--spread</code></td><td>Modifier</td><td>Buttons space-between (erster links, letzter rechts).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--sticky</code></td><td>Modifier</td><td>Sticky am unteren Rand (f&uuml;r lange Formulare).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--stacked</code></td><td>Modifier</td><td>Buttons vertikal gestapelt (Flex-Column).</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--bordered</code></td><td>Modifier</td><td>Obere Border als visuelle Trennung zum Formular.</td></tr>
+                <tr><td><code class="docs__token">.nc-form-actions--responsive</code></td><td>Modifier</td><td>Automatisch stacked auf kleinen Screens.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference (HTML Structure)                       -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klassen</strong></td><td><code class="docs__token">.nc-form</code>, <code class="docs__token">.nc-fieldset</code>, <code class="docs__token">.nc-form-section</code>, <code class="docs__token">.nc-validation-summary</code>, <code class="docs__token">.nc-form-actions</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-*</code>, <code class="docs__token">--nc-fieldset-*</code>, <code class="docs__token">--nc-form-section-*</code>, <code class="docs__token">--nc-validation-summary-*</code>, <code class="docs__token">--nc-form-actions-*</code></td></tr>
+                <tr><td><strong>HTML-Elemente</strong></td><td><code class="docs__token">&lt;form&gt;</code>, <code class="docs__token">&lt;fieldset&gt;</code>, <code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;hr&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Form Structure -->
+          <section class="docs__section" id="api-structure-form">
+            <h2 class="docs__section-title">HTML-Struktur: Form</h2>
+            <div class="docs__code-block">&lt;!-- Standard Form --&gt;
+&lt;form class="nc-form"&gt;
+  &lt;div class="nc-form-field"&gt;
+    &lt;label class="nc-form-label"&gt;
+      &lt;span class="nc-form-label__text"&gt;Vorname&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input class="nc-input" type="text" /&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-form-field"&gt;
+    &lt;label class="nc-form-label"&gt;
+      &lt;span class="nc-form-label__text"&gt;Nachname&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input class="nc-input" type="text" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;!-- Inline Form --&gt;
+&lt;form class="nc-form nc-form--inline"&gt;
+  ...
+&lt;/form&gt;
+
+&lt;!-- Two-Column Form --&gt;
+&lt;form class="nc-form nc-form--two-column"&gt;
+  ...
+&lt;/form&gt;</div>
+          </section>
+
+          <!-- Fieldset Structure -->
+          <section class="docs__section" id="api-structure-fieldset">
+            <h2 class="docs__section-title">HTML-Struktur: Fieldset</h2>
+            <div class="docs__code-block">&lt;fieldset class="nc-fieldset"&gt;
+  &lt;legend class="nc-fieldset__legend"&gt;Pers&amp;ouml;nliche Daten&lt;/legend&gt;
+  &lt;div class="nc-form-field"&gt;
+    &lt;label class="nc-form-label"&gt;
+      &lt;span class="nc-form-label__text"&gt;Vorname&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input class="nc-input" type="text" /&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-form-field"&gt;
+    &lt;label class="nc-form-label"&gt;
+      &lt;span class="nc-form-label__text"&gt;Nachname&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input class="nc-input" type="text" /&gt;
+  &lt;/div&gt;
+&lt;/fieldset&gt;
+
+&lt;!-- Borderless --&gt;
+&lt;fieldset class="nc-fieldset nc-fieldset--borderless"&gt;
+  ...
+&lt;/fieldset&gt;
+
+&lt;!-- Disabled --&gt;
+&lt;fieldset class="nc-fieldset nc-fieldset--disabled" disabled&gt;
+  ...
+&lt;/fieldset&gt;</div>
+          </section>
+
+          <!-- Form Section Structure -->
+          <section class="docs__section" id="api-structure-section">
+            <h2 class="docs__section-title">HTML-Struktur: Form Section</h2>
+            <div class="docs__code-block">&lt;form class="nc-form"&gt;
+  &lt;div class="nc-form-section"&gt;
+    &lt;div class="nc-form-section__header"&gt;
+      &lt;h3 class="nc-form-section__title"&gt;Abschnitt 1&lt;/h3&gt;
+      &lt;p class="nc-form-section__description"&gt;Beschreibung...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="nc-form-section__content"&gt;
+      &lt;!-- Form-Fields --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;hr class="nc-form-divider" /&gt;
+
+  &lt;div class="nc-form-section nc-form-section--bordered"&gt;
+    ...
+  &lt;/div&gt;
+&lt;/form&gt;</div>
+          </section>
+
+          <!-- Validation Summary Structure -->
+          <section class="docs__section" id="api-structure-validation">
+            <h2 class="docs__section-title">HTML-Struktur: Validation Summary</h2>
+            <div class="docs__code-block">&lt;div class="nc-validation-summary" role="alert"&gt;
+  &lt;span class="nc-validation-summary__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;&lt;!-- error icon --&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;div&gt;
+    &lt;strong class="nc-validation-summary__title"&gt;
+      Es sind 3 Fehler aufgetreten:
+    &lt;/strong&gt;
+    &lt;ul class="nc-validation-summary__list"&gt;
+      &lt;li class="nc-validation-summary__item"&gt;Vorname ist ein Pflichtfeld&lt;/li&gt;
+      &lt;li class="nc-validation-summary__item"&gt;E-Mail ist ung&amp;uuml;ltig&lt;/li&gt;
+      &lt;li class="nc-validation-summary__item"&gt;Passwort zu kurz&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Hidden (vor Validierung) --&gt;
+&lt;div class="nc-validation-summary nc-validation-summary--hidden"
+     role="alert"&gt;
+  ...
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- Form Actions Structure -->
+          <section class="docs__section" id="api-structure-actions">
+            <h2 class="docs__section-title">HTML-Struktur: Form Actions</h2>
+            <div class="docs__code-block">&lt;!-- Standard (Start) --&gt;
+&lt;div class="nc-form-actions"&gt;
+  &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Speichern&lt;/button&gt;
+  &lt;button type="button" class="nc-btn nc-btn--secondary"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- End-aligned --&gt;
+&lt;div class="nc-form-actions nc-form-actions--end"&gt;
+  &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Speichern&lt;/button&gt;
+  &lt;button type="button" class="nc-btn nc-btn--secondary"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Spread --&gt;
+&lt;div class="nc-form-actions nc-form-actions--spread"&gt;
+  &lt;button type="button" class="nc-btn nc-btn--secondary"&gt;Abbrechen&lt;/button&gt;
+  &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Speichern&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Stacked --&gt;
+&lt;div class="nc-form-actions nc-form-actions--stacked"&gt;
+  &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Speichern&lt;/button&gt;
+  &lt;button type="button" class="nc-btn nc-btn--secondary"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Sticky + Bordered --&gt;
+&lt;div class="nc-form-actions nc-form-actions--end nc-form-actions--sticky nc-form-actions--bordered"&gt;
+  &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Speichern&lt;/button&gt;
+  &lt;button type="button" class="nc-btn nc-btn--secondary"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Formular-Layout-Komponenten m&uuml;ssen korrekte Semantik, Fokus-Management und ARIA-Attribute bereitstellen (WCAG 2.1 AA).
+          </p>
+
+          <!-- Form Role -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Form-Semantik</h4>
+              <ul>
+                <li>Formulare <strong>immer</strong> als <code class="docs__token">&lt;form&gt;</code>-Element auszeichnen &mdash; nicht als <code class="docs__token">&lt;div&gt;</code></li>
+                <li>Jedes Formular sollte ein <code class="docs__token">aria-label</code> oder eine sichtbare &Uuml;berschrift haben</li>
+                <li>Submit-Buttons m&uuml;ssen <code class="docs__token">type="submit"</code> haben</li>
+                <li>Enter-Taste muss das Formular absenden k&ouml;nnen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Fieldset / Legend -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fieldset &amp; Legend</h4>
+              <ul>
+                <li>Zusammengeh&ouml;rige Felder mit <code class="docs__token">&lt;fieldset&gt;</code> und <code class="docs__token">&lt;legend&gt;</code> gruppieren</li>
+                <li>Die Legend wird vom Screenreader f&uuml;r jedes Feld im Fieldset vorgelesen</li>
+                <li>Besonders wichtig f&uuml;r Radio-Gruppen und Checkbox-Gruppen</li>
+                <li>Deaktivierte Fieldsets: <code class="docs__token">disabled</code>-Attribut auf <code class="docs__token">&lt;fieldset&gt;</code> setzt alle enthaltenen Felder inaktiv</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Validation Summary -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>role="alert" auf Validation Summary</h4>
+              <ul>
+                <li>Die Validation Summary muss <code class="docs__token">role="alert"</code> haben, damit Screenreader sie sofort ank&uuml;ndigen</li>
+                <li>Alternativ <code class="docs__token">aria-live="assertive"</code> verwenden</li>
+                <li>Fehler-Links sollten zu den jeweiligen Fehlerfeldern springen (<code class="docs__token">&lt;a href="#field-id"&gt;</code>)</li>
+                <li>Die Summary wird idealerweise oberhalb des Formulars platziert</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus Management -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fokus-Management</h4>
+              <ul>
+                <li>Bei Validierungsfehlern den Fokus auf die Validation Summary oder das erste Fehlerfeld setzen</li>
+                <li>Tab-Reihenfolge muss der visuellen Reihenfolge entsprechen</li>
+                <li>Sticky Form-Actions d&uuml;rfen den nat&uuml;rlichen Tab-Flow nicht unterbrechen</li>
+                <li>Deaktivierte Felder werden aus der Tab-Reihenfolge entfernt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Formular mit aria-label und Fieldset --&gt;
+&lt;form class="nc-form" aria-label="Registrierungsformular"&gt;
+  &lt;fieldset class="nc-fieldset"&gt;
+    &lt;legend class="nc-fieldset__legend"&gt;Pers&amp;ouml;nliche Daten&lt;/legend&gt;
+    &lt;div class="nc-form-field"&gt;
+      &lt;label class="nc-form-label" for="vorname"&gt;
+      &lt;span class="nc-form-label__text"&gt;Vorname&lt;/span&gt;
+    &lt;/label&gt;
+      &lt;input class="nc-input" type="text" id="vorname" /&gt;
+    &lt;/div&gt;
+  &lt;/fieldset&gt;
+  &lt;div class="nc-form-actions nc-form-actions--end"&gt;
+    &lt;button type="submit" class="nc-btn nc-btn--primary"&gt;Absenden&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;!-- RICHTIG: Validation Summary mit role="alert" --&gt;
+&lt;div class="nc-validation-summary" role="alert"&gt;
+  &lt;span class="nc-validation-summary__icon" aria-hidden="true"&gt;...&lt;/span&gt;
+  &lt;div&gt;
+    &lt;strong class="nc-validation-summary__title"&gt;2 Fehler:&lt;/strong&gt;
+    &lt;ul class="nc-validation-summary__list"&gt;
+      &lt;li class="nc-validation-summary__item"&gt;
+        &lt;a href="#vorname"&gt;Vorname ist Pflichtfeld&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Form als div ohne Semantik --&gt;
+&lt;div class="nc-form"&gt;
+  &lt;div&gt;
+    &lt;span&gt;Vorname&lt;/span&gt;
+    &lt;input type="text" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Validation Summary ohne role --&gt;
+&lt;div class="nc-validation-summary"&gt;
+  &lt;p&gt;Fehler aufgetreten&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Fieldset ohne Legend --&gt;
+&lt;fieldset class="nc-fieldset"&gt;
+  &lt;!-- Felder ohne legend --&gt;
+&lt;/fieldset&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="form-layout-docs.js"></script>
+<!-- /SCRIPTS -->

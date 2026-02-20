@@ -1,0 +1,547 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">OTP Input</h1>
+      <p class="docs__subtitle">
+        PIN- und Code-Eingabefeld mit einzelnen Zellen f&uuml;r Einmal-Passwort (OTP),
+        Verifizierungs-Codes und 2FA-Eingaben. Jede Zelle akzeptiert genau ein Zeichen.
+        Kanonische Klasse: <code class="docs__token">.nc-otp-input</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-otp-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="otp-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="OTP-Input-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                             -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Standard -->
+          <section class="docs__section" id="usage-standard">
+            <h2 class="docs__section-title">Standard OTP (6-stellig)</h2>
+            <p class="docs__section-desc">
+              Standard-OTP-Eingabe mit 6 einzelnen Zellen. Der Container hat <code class="docs__token">role="group"</code>
+              und <code class="docs__token">aria-label</code>. Jede Zelle ist ein <code class="docs__token">&lt;input&gt;</code>
+              mit <code class="docs__token">maxlength="1"</code> und <code class="docs__token">inputmode="numeric"</code>.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-04);">
+              <div class="nc-otp-input" role="group" aria-label="Verifizierungs-Code">
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Stelle 1 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 5 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 6 von 6" pattern="[0-9]*" />
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-otp-input" role="group" aria-label="Verifizierungs-Code"&gt;
+  &lt;input class="nc-otp-input__cell" type="text"
+         maxlength="1" inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Stelle 1 von 6" pattern="[0-9]*" /&gt;
+  &lt;!-- weitere Zellen --&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Mit Separator -->
+          <section class="docs__section" id="usage-separator">
+            <h2 class="docs__section-title">Mit Separator</h2>
+            <p class="docs__section-desc">
+              Optionales Trennzeichen (<code class="docs__token">.nc-otp-input__separator</code>) zwischen Zellen-Gruppen.
+              Typisch bei 6-stelligen Codes: 3+3 mit Bindestrich.
+              Der Separator ist <code class="docs__token">user-select: none</code> und nicht fokussierbar.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-04);">
+              <div class="nc-otp-input" role="group" aria-label="Verifizierungs-Code">
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3 von 6" pattern="[0-9]*" />
+                <span class="nc-otp-input__separator" aria-hidden="true">&mdash;</span>
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 5 von 6" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 6 von 6" pattern="[0-9]*" />
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-otp-input" role="group" aria-label="Verifizierungs-Code"&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 1 von 6" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 2 von 6" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 3 von 6" /&gt;
+  &lt;span class="nc-otp-input__separator" aria-hidden="true"&gt;&amp;mdash;&lt;/span&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 4 von 6" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 5 von 6" /&gt;
+  &lt;input class="nc-otp-input__cell" ... aria-label="Stelle 6 von 6" /&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Gr&ouml;&szlig;en -->
+          <section class="docs__section" id="usage-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;en: SM (kompakt, <code class="docs__token">.nc-otp-input--sm</code>),
+              Default (48px Zellgr&ouml;&szlig;e), LG (gro&szlig;, <code class="docs__token">.nc-otp-input--lg</code>, &times;1.25 = 60px).
+            </p>
+            <div style="display: grid; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-04);">
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">SM &mdash; <code class="docs__token">.nc-otp-input--sm</code></p>
+                <div class="nc-otp-input nc-otp-input--sm" role="group" aria-label="Code SM">
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" pattern="[0-9]*" />
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Default &mdash; 48px Zellgr&ouml;&szlig;e</p>
+                <div class="nc-otp-input" role="group" aria-label="Code Default">
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" pattern="[0-9]*" />
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">LG &mdash; <code class="docs__token">.nc-otp-input--lg</code></p>
+                <div class="nc-otp-input nc-otp-input--lg" role="group" aria-label="Code LG">
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" pattern="[0-9]*" />
+                </div>
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;!-- SM --&gt;
+&lt;div class="nc-otp-input nc-otp-input--sm" role="group" ...&gt;...&lt;/div&gt;
+
+&lt;!-- Default --&gt;
+&lt;div class="nc-otp-input" role="group" ...&gt;...&lt;/div&gt;
+
+&lt;!-- LG --&gt;
+&lt;div class="nc-otp-input nc-otp-input--lg" role="group" ...&gt;...&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- States -->
+          <section class="docs__section" id="usage-states">
+            <h2 class="docs__section-title">Zust&auml;nde</h2>
+            <p class="docs__section-desc">
+              Error-, Success- und Disabled-State werden als Modifier auf dem Container gesetzt.
+              Alle Zellen innerhalb des Containers erhalten den State-Style.
+            </p>
+            <div style="display: grid; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-04);">
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Error &mdash; <code class="docs__token">.nc-otp-input--error</code></p>
+                <div class="nc-otp-input nc-otp-input--error" role="group" aria-label="Code" aria-describedby="otp-error-msg">
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" value="1" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" value="2" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" value="3" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" value="X" pattern="[0-9]*" />
+                </div>
+                <p id="otp-error-msg" style="margin-block-start: var(--fnd-spacing-02); font-size: var(--fs-sm); color: var(--fnd-color-feedback-danger-dark);">Ung&uuml;ltiger Code. Bitte erneut versuchen.</p>
+              </div>
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Success &mdash; <code class="docs__token">.nc-otp-input--success</code></p>
+                <div class="nc-otp-input nc-otp-input--success" role="group" aria-label="Code">
+                  <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" value="4" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" value="2" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" value="0" pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" value="7" pattern="[0-9]*" />
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Disabled &mdash; <code class="docs__token">.nc-otp-input--disabled</code></p>
+                <div class="nc-otp-input nc-otp-input--disabled" role="group" aria-label="Code" aria-disabled="true">
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" disabled pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" disabled pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" disabled pattern="[0-9]*" />
+                  <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" disabled pattern="[0-9]*" />
+                </div>
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;!-- Error --&gt;
+&lt;div class="nc-otp-input nc-otp-input--error"
+     role="group" aria-describedby="error-msg"&gt;...&lt;/div&gt;
+&lt;p id="error-msg"&gt;Ung&uuml;ltiger Code.&lt;/p&gt;
+
+&lt;!-- Success --&gt;
+&lt;div class="nc-otp-input nc-otp-input--success" role="group"&gt;...&lt;/div&gt;
+
+&lt;!-- Disabled --&gt;
+&lt;div class="nc-otp-input nc-otp-input--disabled" role="group" aria-disabled="true"&gt;
+  &lt;input class="nc-otp-input__cell" disabled ... /&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Filled State -->
+          <section class="docs__section" id="usage-filled">
+            <h2 class="docs__section-title">Filled State &mdash; <code class="docs__token">.nc-otp-input__cell--filled</code></h2>
+            <p class="docs__section-desc">
+              Visuelles Feedback f&uuml;r gef&uuml;llte Zellen: Hervorgehobener Rahmen in Focus-Farbe.
+              Wird via JavaScript auf einzelne Zellen gesetzt, wenn diese einen Wert enthalten.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-04);">
+              <div class="nc-otp-input" role="group" aria-label="Code teilweise ausgef&uuml;llt">
+                <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" value="7" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" value="3" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" pattern="[0-9]*" />
+                <input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" pattern="[0-9]*" />
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;!-- JS setzt --filled wenn Zelle einen Wert hat --&gt;
+input.addEventListener('input', () =&gt; {
+  input.classList.toggle('nc-otp-input__cell--filled', input.value.length &gt; 0);
+});</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-component-tokens">
+            <h2 class="docs__section-title">Component Tokens (<code class="docs__token">--nc-otp-*</code>)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default-Wert</th><th>Foundation-Token</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-otp-cell-size</code></td><td>48px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-gap</code></td><td>&mdash;</td><td><code class="docs__token">var(--fnd-spacing-02)</code></td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-radius</code></td><td>&mdash;</td><td><code class="docs__token">var(--fnd-radius-lg)</code></td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-border</code></td><td>&mdash;</td><td><code class="docs__token">var(--fnd-color-border-primary)</code></td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-border-focus</code></td><td>&mdash;</td><td><code class="docs__token">var(--fnd-color-interactive-focus)</code></td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-font-size</code></td><td>&mdash;</td><td><code class="docs__token">var(--fs-lg)</code></td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-font-weight</code></td><td>&mdash;</td><td><code class="docs__token">var(--fnd-font-weight-semibold)</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-input-tokens">
+            <h2 class="docs__section-title">Geerbte Input-Tokens (<code class="docs__token">--nc-input-*</code>)</h2>
+            <p class="docs__section-desc">
+              OTP-Zellen erben mehrere Tokens vom <code class="docs__token">--nc-input-*</code>-Namespace, da sie
+              semantisch Eingabefelder sind.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Verwendet f&uuml;r</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-input-border-width</code></td><td>Rahmenbreite der Zellen</td></tr>
+                <tr><td><code class="docs__token">--nc-input-bg</code></td><td>Hintergrundfarbe der Zellen</td></tr>
+                <tr><td><code class="docs__token">--nc-input-color</code></td><td>Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-input-placeholder</code></td><td>Placeholder-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-hover</code></td><td>Rahmenfarbe bei Hover</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-focus</code></td><td>Caret-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-error</code></td><td>Rahmenfarbe im Error-State</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-success</code></td><td>Rahmenfarbe im Success-State</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-bg</code></td><td>Disabled-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-color</code></td><td>Disabled-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-border</code></td><td>Disabled-Rahmenfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-opacity</code></td><td>Disabled-Opacity (<code class="docs__token">var(--fnd-opacity-disabled)</code>)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-transition-duration</code></td><td>Transition-Dauer f&uuml;r Border und Shadow</td></tr>
+                <tr><td><code class="docs__token">--nc-input-height-md</code></td><td>Zellgr&ouml;&szlig;e im SM-Modifier</td></tr>
+                <tr><td><code class="docs__token">--nc-input-font-size-md</code></td><td>Schriftgr&ouml;&szlig;e im SM-Modifier</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Modifier</th><th>Zellgr&ouml;&szlig;e</th><th>Schriftgr&ouml;&szlig;e</th><th>Quelle</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-otp-input--sm</code></td><td><code class="docs__token">var(--nc-input-height-md)</code></td><td><code class="docs__token">var(--nc-input-font-size-md)</code></td><td><code class="docs__token">--nc-input-*</code></td></tr>
+                <tr><td>Default</td><td>48px (<code class="docs__token">--nc-otp-cell-size</code>)</td><td><code class="docs__token">var(--fs-lg)</code></td><td><code class="docs__token">--nc-otp-*</code></td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--lg</code></td><td>calc(48px &times; 1.25) = 60px</td><td>calc(font-size &times; 1.15)</td><td>berechnet</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-otp-input                    // Block (inline-flex Container)
+.nc-otp-input__cell              // Einzelne Zelle (input, maxlength=1)
+.nc-otp-input__cell--filled      // Zelle mit Inhalt (JS-State)
+.nc-otp-input__separator         // Trennzeichen zwischen Gruppen
+
+// Gr&ouml;&szlig;en-Modifier
+.nc-otp-input--sm                // Kompakt (input-height-md)
+// (default = 48px, kein Modifier)
+.nc-otp-input--lg                // Gro&szlig; (&times;1.25 = ~60px)
+
+// State-Modifier
+.nc-otp-input--error             // Roter Rahmen auf allen Zellen
+.nc-otp-input--success           // Gr&uuml;ner Rahmen auf allen Zellen
+.nc-otp-input--disabled          // Ausgegraut, pointer-events: none</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-otp-input</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-otp-input</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-otp-*</code> (+ geerbt: <code class="docs__token">--nc-input-*</code>)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_otp-input.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>HTML-Element (Block)</strong></td><td><code class="docs__token">&lt;div role="group"&gt;</code></td></tr>
+                <tr><td><strong>HTML-Element (Zelle)</strong></td><td><code class="docs__token">&lt;input type="text" maxlength="1"&gt;</code></td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Tastatureingabe, Auto-Focus via JS (n&auml;chste Zelle)</td></tr>
+                <tr><td><strong>Reduced Motion</strong></td><td>Transitions deaktiviert bei <code class="docs__token">prefers-reduced-motion: reduce</code></td></tr>
+                <tr><td><strong>High Contrast Mode</strong></td><td>Forced-Colors-Unterst&uuml;tzung mit <code class="docs__token">ButtonText</code> / <code class="docs__token">Highlight</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-otp-input</code></td><td>Block</td><td>inline-flex Container, gap via <code class="docs__token">--nc-otp-cell-gap</code></td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__cell</code></td><td>Element</td><td>Quadratische Eingabezelle, zentrierter Text, Monospace</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__cell--filled</code></td><td>Element+Modifier</td><td>Hervorgehobener Rahmen wenn Zelle Wert enth&auml;lt</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input__separator</code></td><td>Element</td><td>Visuelles Trennzeichen, aria-hidden, user-select none</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zellgr&ouml;&szlig;e</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-otp-input--sm</code></td><td><code class="docs__token">--nc-input-height-md</code></td><td>Kompakte Variante</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>48px</td><td>Default-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--lg</code></td><td>&times;1.25 (~60px)</td><td>Gro&szlig;e Variante</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Effekt</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-otp-input--error</code></td><td>roter Rahmen alle Zellen</td><td>Ung&uuml;ltiger Code</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--success</code></td><td>gr&uuml;ner Rahmen alle Zellen</td><td>Code korrekt</td></tr>
+                <tr><td><code class="docs__token">.nc-otp-input--disabled</code></td><td>ausgegraut, pointer-events: none</td><td>Eingabe nicht erlaubt</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation / Input Token</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">OTP-spezifisch</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-size</code></td><td>48px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-02)</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-lg)</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-border-focus</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-focus)</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-font-size</code></td><td>&mdash;</td><td>var(--fs-lg)</td></tr>
+                <tr><td><code class="docs__token">--nc-otp-cell-font-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geerbt von --nc-input-*</td></tr>
+                <tr><td><code class="docs__token">--nc-input-border-width</code></td><td>&mdash;</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-input-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-placeholder</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-input-disabled-opacity</code></td><td>&mdash;</td><td>var(--fnd-opacity-disabled)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">otp-base</code></td><td>&mdash;</td><td>Container: inline-flex, align-items center, gap via Token</td></tr>
+                <tr><td><code class="docs__token">otp-cell</code></td><td>&mdash;</td><td>Zelle: quadratisch, zentriert, Monospace, alle States inkl. Hover, Focus, Disabled</td></tr>
+                <tr><td><code class="docs__token">otp-separator</code></td><td>&mdash;</td><td>Trennzeichen: inline-flex, zentriert, user-select: none</td></tr>
+                <tr><td><code class="docs__token">otp-error</code></td><td>&mdash;</td><td>Error-Rahmen auf allen Kindelementen <code class="docs__token">.nc-otp-input__cell</code></td></tr>
+                <tr><td><code class="docs__token">otp-success</code></td><td>&mdash;</td><td>Success-Rahmen auf allen Kindelementen</td></tr>
+                <tr><td><code class="docs__token">otp-disabled</code></td><td>&mdash;</td><td>Graut Zellen und Separator aus, pointer-events: none</td></tr>
+                <tr><td><code class="docs__token">otp-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'lg'</code></td><td>Gr&ouml;&szlig;en-Modifier: &auml;ndert Zellgr&ouml;&szlig;e und Schriftgr&ouml;&szlig;e</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard OTP --&gt;
+&lt;div class="nc-otp-input [--size] [--state]"
+     role="group"
+     aria-label="Verifizierungs-Code"
+     [aria-describedby="error-msg"]&gt;
+
+  &lt;!-- Slot: Zelle (je 1 Zeichen) --&gt;
+  &lt;input class="nc-otp-input__cell [--filled]"
+         type="text"
+         maxlength="1"
+         inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Stelle 1 von N"
+         pattern="[0-9]*" /&gt;
+  &lt;!-- weitere Zellen... --&gt;
+
+  &lt;!-- Optional: Separator --&gt;
+  &lt;span class="nc-otp-input__separator" aria-hidden="true"&gt;&amp;mdash;&lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Fehlermeldung (bei --error) --&gt;
+&lt;p id="error-msg" role="alert"&gt;Ung&uuml;ltiger Code&lt;/p&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            OTP-Eingaben stellen besondere Anforderungen: Korrekte Gruppierung, Auto-Focus-Verhalten
+            und Ank&uuml;ndigung von Zust&auml;nden sind essenziell.
+          </p>
+
+          <!-- Gruppierung und ARIA -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Gruppierung (WCAG 1.3.1, 4.1.2)</h4>
+              <ul>
+                <li>Container muss <code class="docs__token">role="group"</code> und <code class="docs__token">aria-label="[Code-Bezeichnung]"</code> haben</li>
+                <li>Jede Zelle braucht ein eindeutiges <code class="docs__token">aria-label</code>: &ldquo;Stelle 1 von 6&rdquo;, &ldquo;Stelle 2 von 6&rdquo; etc.</li>
+                <li>Alternativ: Ein sichtbares <code class="docs__token">&lt;label&gt;</code> f&uuml;r die Gruppe mit zugeh&ouml;rigem <code class="docs__token">aria-labelledby</code></li>
+                <li>Separator-Elemente: <code class="docs__token">aria-hidden="true"</code> setzen &mdash; kein semantischer Inhalt f&uuml;r SR</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Autocomplete und inputmode -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Autocomplete &amp; Keyboard (WCAG 1.3.5)</h4>
+              <ul>
+                <li>Erste Zelle: <code class="docs__token">autocomplete="one-time-code"</code> erlaubt Browser/OS automatisches Ausf&uuml;llen des OTPs</li>
+                <li><code class="docs__token">inputmode="numeric"</code> zeigt auf mobilen Ger&auml;ten die Zahlen-Tastatur</li>
+                <li><code class="docs__token">pattern="[0-9]*"</code> zus&auml;tzliche Einschr&auml;nkung auf Ziffern (auch f&uuml;r iOS-Tastatur)</li>
+                <li>F&uuml;r alphanumerische Codes: <code class="docs__token">inputmode="text"</code>, kein Pattern</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Focus Management -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fokus-Management via JavaScript (WCAG 2.4.3)</h4>
+              <ul>
+                <li>Nach Eingabe in eine Zelle: Fokus automatisch auf n&auml;chste leere Zelle verschieben</li>
+                <li>Bei R&uuml;cktaste/Delete auf leerer Zelle: Fokus auf vorherige Zelle</li>
+                <li>Einfach-Fokus-Pattern: Kein Tab-Sprung zwischen Zellen; stattdessen Arrow-Keys oder Auto-Advance</li>
+                <li>Bei Paste des gesamten Codes: Code auf Zellen verteilen, letzter Zelle Fokus geben</li>
+                <li>Focus-Ring (<code class="docs__token">:focus-visible</code>) muss immer sichtbar sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Error und State -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fehler- und Success-States (WCAG 3.3.1)</h4>
+              <ul>
+                <li>Rahmenfarbe allein reicht nicht &mdash; immer eine textuelle Fehlermeldung bereitstellen</li>
+                <li>Fehlermeldung mit <code class="docs__token">role="alert"</code> oder <code class="docs__token">aria-live="assertive"</code> f&uuml;r sofortige Ank&uuml;ndigung</li>
+                <li><code class="docs__token">aria-describedby</code> auf dem Container auf die Fehler-ID zeigen lassen</li>
+                <li>Success: Kurze positive Ank&uuml;ndigung via <code class="docs__token">aria-live="polite"</code></li>
+                <li>Disabled-State: <code class="docs__token">disabled</code>-Attribut auf allen Zellen setzen; zus&auml;tzlich <code class="docs__token">aria-disabled="true"</code> auf dem Container</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- High Contrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>High Contrast Mode (WCAG 1.4.3)</h4>
+              <ul>
+                <li>OTP-Zellen unterst&uuml;tzen <code class="docs__token">@media (forced-colors: active)</code></li>
+                <li>Im High Contrast Mode: Rahmen wird auf <code class="docs__token">ButtonText</code> gesetzt</li>
+                <li>Fokus: <code class="docs__token">outline: 2px solid Highlight</code> zus&auml;tzlich zum Rahmen</li>
+                <li>Keine eigenen Farb-Overrides im High Contrast Mode n&ouml;tig &mdash; System-Farben &uuml;bernehmen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Vollst&auml;ndige ARIA-Annotierung --&gt;
+&lt;div class="nc-otp-input"
+     role="group"
+     aria-label="6-stelliger Verifizierungs-Code"
+     aria-describedby="otp-hint"&gt;
+  &lt;input class="nc-otp-input__cell"
+         type="text" maxlength="1"
+         inputmode="numeric"
+         autocomplete="one-time-code"
+         aria-label="Stelle 1 von 6"
+         pattern="[0-9]*" /&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;
+&lt;p id="otp-hint"&gt;Den 6-stelligen Code aus der SMS eingeben.&lt;/p&gt;
+
+&lt;!-- RICHTIG: Fehlermeldung ankuendigen --&gt;
+&lt;div class="nc-otp-input nc-otp-input--error"
+     aria-describedby="otp-error"&gt;...&lt;/div&gt;
+&lt;p id="otp-error" role="alert"&gt;Ung&uuml;ltiger Code. Noch 2 Versuche.&lt;/p&gt;
+
+&lt;!-- FALSCH: Kein ARIA auf dem Container --&gt;
+&lt;div class="nc-otp-input"&gt;
+  &lt;input class="nc-otp-input__cell" type="text" maxlength="1" /&gt;
+  &lt;!-- Fehlend: role, aria-label, aria-label auf Zellen --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Nur Farbe als Fehlerindikator --&gt;
+&lt;div class="nc-otp-input nc-otp-input--error"&gt;...&lt;/div&gt;
+&lt;!-- Keine Fehlermeldung, kein aria-describedby --&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->

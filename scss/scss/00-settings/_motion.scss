@@ -1,0 +1,77 @@
+// ==========================================================================
+// 00-Settings: Motion
+// ==========================================================================
+// Animation Tokens: Easing, Duration, Delay
+// ==========================================================================
+
+@use 'sass:map';
+@use 'tokens-motion.generated' as tokens;
+
+// ---------------------------------------------------------------------------
+// Token Maps (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$motion-ease: tokens.$token-motion-ease;
+$motion-duration: tokens.$token-motion-duration;
+$motion-duration-semantic: tokens.$token-motion-duration-semantic;
+$motion-delay: tokens.$token-motion-delay;
+
+// ---------------------------------------------------------------------------
+// Getter Functions
+// ---------------------------------------------------------------------------
+
+/// Get easing function
+@function ease($type) {
+  @if map.has-key($motion-ease, $type) {
+    @return map.get($motion-ease, $type);
+  }
+  @warn "Unknown easing: #{$type}";
+  @return ease;
+}
+
+/// Get duration
+@function duration($key) {
+  @if map.has-key($motion-duration, $key) {
+    @return map.get($motion-duration, $key);
+  }
+  @if map.has-key($motion-duration-semantic, $key) {
+    @return map.get($motion-duration-semantic, $key);
+  }
+  @warn "Unknown duration: #{$key}";
+  @return 0.3s;
+}
+
+/// Get delay
+@function delay($key) {
+  @if map.has-key($motion-delay, $key) {
+    @return map.get($motion-delay, $key);
+  }
+  @warn "Unknown delay: #{$key}";
+  @return 0s;
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output
+// ---------------------------------------------------------------------------
+
+:root {
+  // Easing
+  @each $name, $value in $motion-ease {
+    --fnd-motion-ease-#{$name}: #{$value};
+  }
+  
+  // Duration (numeric)
+  @each $key, $value in $motion-duration {
+    --fnd-motion-duration-#{$key}: #{$value};
+  }
+  
+  // Duration (semantic)
+  @each $key, $value in $motion-duration-semantic {
+    --fnd-motion-duration-#{$key}: #{$value};
+  }
+  
+  // Delay
+  @each $key, $value in $motion-delay {
+    --fnd-motion-delay-#{$key}: #{$value};
+  }
+}

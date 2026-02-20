@@ -1,0 +1,372 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Marquee</h1>
+      <p class="docs__subtitle">
+        Horizontaler Text- oder Logo-Ticker f&uuml;r kontinuierlich scrollende Inhalte.
+        Die Scrollbewegung wird per CSS-Animation oder JavaScript gesteuert.
+        Die Komponente respektiert <code class="docs__token">prefers-reduced-motion</code>.
+        Kanonische Klassen: <code class="docs__token">.nc-marquee</code> (Wrapper),
+        <code class="docs__token">.nc-marquee__track</code> (scrollende Spur),
+        <code class="docs__token">.nc-marquee__text</code> (einzelnes Element).
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="marquee-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Marquee-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Marquee-Komponente in verschiedenen Themes. Die Animation wird per CSS-Keyframe gesteuert.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="overflow: hidden;">
+              <div class="nc-marquee" aria-hidden="true">
+                <div class="nc-marquee__track" style="animation: marquee-scroll 18s linear infinite;">
+                  <span class="nc-marquee__text">Design</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Entwicklung</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Strategie</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Innovation</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Design</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Entwicklung</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Strategie</span>
+                  <span class="nc-marquee__text">&mdash;</span>
+                  <span class="nc-marquee__text">Innovation</span>
+                </div>
+              </div>
+              <style>
+                @keyframes marquee-scroll {
+                  from { transform: translateX(0); }
+                  to { transform: translateX(-50%); }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                  .nc-marquee__track { animation: none !important; }
+                }
+              </style>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;div class="nc-marquee" aria-hidden="true"&gt;
+  &lt;div class="nc-marquee__track" style="animation: marquee-scroll 18s linear infinite;"&gt;
+    &lt;span class="nc-marquee__text"&gt;Design&lt;/span&gt;
+    &lt;span class="nc-marquee__text"&gt;&amp;mdash;&lt;/span&gt;
+    &lt;span class="nc-marquee__text"&gt;Entwicklung&lt;/span&gt;
+    &lt;!-- Inhalte wiederholen f&uuml;r nahtlosen Loop --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Text-Marquee -->
+          <section class="docs__section" id="marquee-text">
+            <h2 class="docs__section-title">Text-Ticker</h2>
+            <p class="docs__section-desc">
+              Gleichf&ouml;rmig scrollender Text-Ticker. Inhalte werden verdoppelt,
+              um einen nahtlosen Loop zu erzeugen. Der Track muss mindestens die
+              doppelte Container-Breite haben.
+            </p>
+            <div class="nc-marquee" aria-hidden="true" style="padding-block: var(--fnd-spacing-04); border-block: 1px solid var(--fnd-color-border-secondary); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-marquee__track" style="animation: marquee-scroll-demo 20s linear infinite;">
+                <span class="nc-marquee__text">Qualit&auml;t</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Zuverl&auml;ssigkeit</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Effizienz</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Nachhaltigkeit</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Qualit&auml;t</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Zuverl&auml;ssigkeit</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Effizienz</span>
+                <span class="nc-marquee__text" style="opacity: 0.4; margin-inline: 1rem;">&bull;</span>
+                <span class="nc-marquee__text">Nachhaltigkeit</span>
+              </div>
+              <style>
+                @keyframes marquee-scroll-demo {
+                  from { transform: translateX(0); }
+                  to { transform: translateX(-50%); }
+                }
+              </style>
+            </div>
+          </section>
+
+          <!-- Showcase 2: Langsam / Schnell -->
+          <section class="docs__section" id="marquee-speed">
+            <h2 class="docs__section-title">Geschwindigkeit</h2>
+            <p class="docs__section-desc">
+              Die Geschwindigkeit wird &uuml;ber die <code class="docs__token">animation-duration</code>-Eigenschaft
+              gesteuert. L&auml;ngere Werte ergeben langsamere Bewegung.
+            </p>
+            <div style="display: grid; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <p style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Langsam (30s)</p>
+                <div class="nc-marquee" aria-hidden="true" style="border-block: 1px solid var(--fnd-color-border-secondary); padding-block: var(--fnd-spacing-02);">
+                  <div class="nc-marquee__track" style="animation: marquee-scroll-demo 30s linear infinite;">
+                    <span class="nc-marquee__text">A &mdash; B &mdash; C &mdash; D &mdash; A &mdash; B &mdash; C &mdash; D</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-block-end: var(--fnd-spacing-02);">Schnell (8s)</p>
+                <div class="nc-marquee" aria-hidden="true" style="border-block: 1px solid var(--fnd-color-border-secondary); padding-block: var(--fnd-spacing-02);">
+                  <div class="nc-marquee__track" style="animation: marquee-scroll-demo 8s linear infinite;">
+                    <span class="nc-marquee__text">A &mdash; B &mdash; C &mdash; D &mdash; A &mdash; B &mdash; C &mdash; D</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-wrapper">
+            <h2 class="docs__section-title">Wrapper-Eigenschaften (.nc-marquee)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">overflow</code></td><td>hidden</td><td>Schneidet den Track-Inhalt ab</td></tr>
+                <tr><td><code class="docs__token">width</code></td><td>100%</td><td>Volle Container-Breite</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-track">
+            <h2 class="docs__section-title">Track-Eigenschaften (.nc-marquee__track)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">display</code></td><td>inline-flex</td><td>Horizontale Anordnung der Elemente</td></tr>
+                <tr><td><code class="docs__token">align-items</code></td><td>center</td><td>Vertikale Zentrierung</td></tr>
+                <tr><td><code class="docs__token">gap</code></td><td>2.5rem</td><td>Abstand zwischen den Text-Elementen</td></tr>
+                <tr><td><code class="docs__token">white-space</code></td><td>nowrap</td><td>Verhindert Zeilenumbruch</td></tr>
+                <tr><td><code class="docs__token">will-change</code></td><td>transform</td><td>GPU-Optimierungshinweis f&uuml;r den Browser</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-text">
+            <h2 class="docs__section-title">Text-Eigenschaften (.nc-marquee__text)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">font-family</code></td><td>var(--font-body)</td><td>K&ouml;rper-Schriftart</td></tr>
+                <tr><td><code class="docs__token">font-size</code></td><td>clamp(0.95rem, 6vw, 1.25rem)</td><td>Fluid: 0.95rem&ndash;1.25rem je nach Viewport</td></tr>
+                <tr><td><code class="docs__token">font-weight</code></td><td>var(--fnd-font-weight-regular)</td><td>Regul&auml;res Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">letter-spacing</code></td><td>0.08em</td><td>Weiterer Zeichenabstand (Sperrsatz)</td></tr>
+                <tr><td><code class="docs__token">text-transform</code></td><td>uppercase</td><td>Gro&szlig;buchstaben-Darstellung</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
+            <div class="docs__code-block">// ===== Marquee BEM-Klassen =====
+
+.nc-marquee           // Wrapper: overflow hidden, volle Breite
+.nc-marquee__track    // Scrollende Spur: inline-flex, nowrap, will-change: transform
+.nc-marquee__text     // Einzelnes Text-/Logo-Element: uppercase, fluid font-size</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-marquee</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-marquee</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_marquee.scss</code></td></tr>
+                <tr><td><strong>Animation</strong></td><td>CSS-Keyframe oder JS &ndash; nicht in SCSS enthalten</td></tr>
+                <tr><td><strong>Loop-Technik</strong></td><td>Inhalt verdoppeln, <code class="docs__token">translateX(-50%)</code> am Track</td></tr>
+                <tr><td><strong>prefers-reduced-motion</strong></td><td>Animation auf <code class="docs__token">none</code> setzen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-marquee</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Sichtbarer Clip-Container. <code class="docs__token">overflow: hidden</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-marquee__track</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Der animierte Streifen. Breite &ge; 200% des Wrappers. Tr&auml;gt die CSS-Animation.</td></tr>
+                <tr><td><code class="docs__token">.nc-marquee__text</code></td><td><code class="docs__token">&lt;span&gt;</code>, <code class="docs__token">&lt;div&gt;</code></td><td>Einzelne Texte, Logos oder sonstige Inhalte im Ticker.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Loop-Technik: Inhalt doppelt vorhanden, Track scrollt -50% --&gt;
+&lt;div class="nc-marquee" aria-hidden="true"&gt;
+  &lt;div class="nc-marquee__track"
+       style="animation: marquee 20s linear infinite;"&gt;
+
+    &lt;!-- Original --&gt;
+    &lt;span class="nc-marquee__text"&gt;Eintrag 1&lt;/span&gt;
+    &lt;span class="nc-marquee__text"&gt;&mdash;&lt;/span&gt;
+    &lt;span class="nc-marquee__text"&gt;Eintrag 2&lt;/span&gt;
+    &lt;span class="nc-marquee__text"&gt;&mdash;&lt;/span&gt;
+
+    &lt;!-- Duplikat f&uuml;r nahtlosen Loop --&gt;
+    &lt;span class="nc-marquee__text" aria-hidden="true"&gt;Eintrag 1&lt;/span&gt;
+    &lt;span class="nc-marquee__text" aria-hidden="true"&gt;&mdash;&lt;/span&gt;
+    &lt;span class="nc-marquee__text" aria-hidden="true"&gt;Eintrag 2&lt;/span&gt;
+    &lt;span class="nc-marquee__text" aria-hidden="true"&gt;&mdash;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nc-marquee__track { animation: none !important; }
+  }
+&lt;/style&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Bewegte Inhalte stellen besondere Anforderungen an die Barrierefreiheit.
+            WCAG 2.2.2 (Pause, Stop, Hide) fordert, dass automatisch scrollende Inhalte
+            pausiert werden k&ouml;nnen.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>prefers-reduced-motion (WCAG 2.3.3)</h4>
+              <ul>
+                <li>Die Animation <strong>muss</strong> bei <code class="docs__token">prefers-reduced-motion: reduce</code> deaktiviert werden</li>
+                <li>Empfehlung: <code class="docs__token">@media (prefers-reduced-motion: reduce) &#123; .nc-marquee__track &#123; animation: none; &#125; &#125;</code></li>
+                <li>Ohne diese Einstellung kann der Ticker f&uuml;r Menschen mit vestibul&auml;ren St&ouml;rungen problematisch sein</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>aria-hidden f&uuml;r dekorativen Inhalt</h4>
+              <ul>
+                <li>Wenn der Marquee rein dekorativ ist, muss <code class="docs__token">aria-hidden="true"</code> gesetzt werden</li>
+                <li>Duplikate im Track <strong>m&uuml;ssen</strong> immer <code class="docs__token">aria-hidden="true"</code> tragen</li>
+                <li>Wenn der Inhalt informativ ist, den Volltext als <code class="docs__token">.u-sr-only</code>-Span erg&auml;nzen</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>WCAG 2.2.2: Pause, Stop, Hide</h4>
+              <ul>
+                <li>Automatisch scrollende Inhalte &uuml;ber 5 Sekunden L&auml;nge brauchen eine Pause-M&ouml;glichkeit</li>
+                <li>Empfehlung: Pause bei <code class="docs__token">:hover</code> und <code class="docs__token">:focus-within</code> via <code class="docs__token">animation-play-state: paused</code></li>
+                <li>Optionaler Pause-Button f&uuml;r vollst&auml;ndige WCAG 2.2.2 Konformit&auml;t</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Dekorativer Ticker mit aria-hidden --&gt;
+&lt;div class="nc-marquee" aria-hidden="true"&gt;
+  &lt;div class="nc-marquee__track" style="animation: marquee 20s linear infinite;"&gt;
+    &lt;span class="nc-marquee__text"&gt;Inhalt&lt;/span&gt;
+    &lt;span class="nc-marquee__text" aria-hidden="true"&gt;Inhalt&lt;/span&gt; &lt;!-- Duplikat --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Pause bei Hover/Focus --&gt;
+&lt;style&gt;
+  .nc-marquee:hover .nc-marquee__track,
+  .nc-marquee:focus-within .nc-marquee__track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nc-marquee__track { animation: none !important; }
+  }
+&lt;/style&gt;
+
+&lt;!-- FALSCH: Bewegter Inhalt ohne reduced-motion-Respekt --&gt;
+&lt;div class="nc-marquee"&gt;
+  &lt;div class="nc-marquee__track" style="animation: marquee 20s linear infinite;"&gt;
+    Inhalt
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+<!-- /SCRIPTS -->

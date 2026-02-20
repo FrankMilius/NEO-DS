@@ -1,0 +1,336 @@
+// ==========================================================================
+// 08-Templates: Home Hero
+// ==========================================================================
+// Hero Section für Homepage
+// Migriert von: home-hero.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.home-hero {
+  position: relative;
+  min-height: calc(100vh - var(--nav-height));
+  //padding-block: var(--fnd-spacing-10) 240px;
+  overflow: hidden;
+  
+  // ---------------------------------------------------------------------------
+  // Wrapper
+  // ---------------------------------------------------------------------------
+  
+  &-wrapper {
+    background: var(--fnd-color-background-base);
+    color: var(--fnd-color-text-high);
+    display: block;
+  }
+  
+  &-bottom {
+    position: relative;
+    top: 5px;
+    height: 1px;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Content Container
+  // ---------------------------------------------------------------------------
+  
+  > div:not(.fragment-wrapper) > div {
+    @include flex-column;
+    
+    h1,
+    > p:not(.world) {
+      z-index: 1;
+    }
+  }
+  
+  &.show > div:not(.fragment-wrapper) > div > p:not(.world) {
+    visibility: visible;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Heading
+  // ---------------------------------------------------------------------------
+  
+  h1 {
+    @include heading('xl');
+    --char-height: calc(var(--fnd-typography-heading-xl-line-height) * 2.25);
+    
+    color: var(--fnd-color-text-low);
+    margin: 0;
+    
+    @include tablet-up {
+      margin-inline-end: calc(var(--square-value-small) + var(--fnd-spacing-08));
+    }
+    
+    @include desktop-up {
+      margin-inline-end: calc(var(--square-value-big) + var(--fnd-spacing-11));
+      margin-block-end: -4px;
+      
+      .word-wrap {
+        line-height: 5.25rem;
+      }
+    }
+    
+    .char,
+    .header-wrapper {
+      position: relative;
+      top: -0.313rem;
+      
+      @include desktop-up {
+        top: -0.35rem;
+      }
+    }
+    
+    // Highlights Animation
+    .highlights {
+      grid-area: highlight;
+      margin-top: var(--fnd-spacing-02);
+      
+      .char {
+        transform: translateY(var(--char-height));
+      }
+      
+      .char-wrapper {
+        white-space: nowrap;
+      }
+    }
+    
+    .highlights-wrapper {
+      display: grid;
+      grid-template-areas: 'highlight';
+    }
+    
+    .highlights-out .char {
+      --char-height: calc(-1 * var(--fnd-typography-heading-xl-line-height) * 2);
+      transform: translateY(var(--char-height));
+    }
+    
+    .highlights-active.highlights-in .char {
+      transform: translateY(0);
+    }
+    
+    .highlights-reset {
+      display: none;
+    }
+    
+    + p:not(.world) {
+      margin-block-start: var(--fnd-spacing-08);
+    }
+  }
+  
+  // Visited State
+  &--visited h1 .char,
+  h1 .header-wrapper {
+    top: -0.4rem;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // White Square
+  // ---------------------------------------------------------------------------
+  
+  .white-square {
+    display: inline-block;
+    
+    @include desktop-up {
+      width: grid-columns(5);
+    }
+    
+    &::before {
+      visibility: hidden;
+      
+      @include desktop-up {
+        margin-bottom: 3px;
+      }
+    }
+  }
+  
+  &.show .white-square::before {
+    visibility: visible;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Links
+  // ---------------------------------------------------------------------------
+  
+  a {
+    display: inline-flex;
+    align-items: center;
+    
+    > span {
+      display: inline-flex;
+    }
+    
+    &::before {
+      visibility: hidden;
+    }
+  }
+  
+  &.show a::before {
+    visibility: visible;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Paragraphs
+  // ---------------------------------------------------------------------------
+  
+  p:not(.world) {
+    position: relative;
+    z-index: 1;
+    
+    &:not(.skip-button) {
+      --char-height: calc(var(--fnd-typography-paragraph-xl-font-size) * 1.5);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Character Animation
+  // ---------------------------------------------------------------------------
+  
+  .char {
+    @include transition(transform, '300');
+    transition-timing-function: ease;
+    transform: translateY(var(--char-height));
+    display: inline-block;
+  }
+  
+  &.show .char {
+    transform: translateY(0);
+  }
+  
+  .char-space {
+    visibility: hidden;
+  }
+  
+  .word-wrap {
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Button Container / Skip Button
+  // ---------------------------------------------------------------------------
+  
+  .button-container,
+  .skip-button {
+    margin-block-start: var(--fnd-spacing-08);
+    display: block;
+  }
+  
+  p.skip-button {
+    @include tablet-up {
+      position: absolute;
+      left: var(--fnd-spacing-09);
+      bottom: var(--fnd-spacing-10);
+    }
+    
+    @include full-desktop {
+      left: 0;
+    }
+    
+    &.animate {
+      animation: skip-button var(--fnd-motion-duration-1500) ease;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Fragment Wrapper
+  // ---------------------------------------------------------------------------
+  
+  .fragment-wrapper {
+    visibility: hidden;
+    position: absolute;
+    bottom: var(--fnd-spacing-06);
+    right: var(--fnd-spacing-06);
+    
+    &:has(.show) {
+      visibility: visible;
+    }
+    
+    @include desktop-up {
+      bottom: var(--fnd-spacing-10);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Emphasis
+  // ---------------------------------------------------------------------------
+  
+  em {
+    color: var(--fnd-color-text-high);
+    display: inline;
+    overflow: hidden;
+    font-style: normal;
+  }
+  
+  .header-wrapper + em {
+    margin-block-start: var(--fnd-spacing-02);
+    
+    @include desktop-up {
+      margin-block-start: var(--fnd-spacing-04);
+      padding-bottom: 4px;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // World Animation (Globe)
+  // ---------------------------------------------------------------------------
+  
+  .world {
+    transition: 
+      transform var(--fnd-motion-duration-1500) var(--fnd-motion-ease-focused),
+      opacity var(--fnd-motion-duration-1500) var(--fnd-motion-ease-focused),
+      width var(--fnd-motion-duration-1500) var(--fnd-motion-ease-focused);
+    align-self: center;
+    width: 25%;
+    opacity: 0;
+    position: absolute;
+    top: 100vh;
+    
+    img {
+      width: 100%;
+    }
+  }
+  
+  &.animate .world {
+    --animation-transform: calc(-100vh + 386px);
+    
+    transform: translateY(var(--animation-transform)) scale(var(--animation-scale, 1));
+    width: 100%;
+    opacity: 1;
+    
+    @include desktop-up {
+      --animation-transform: calc(-100vh + 380px);
+    }
+  }
+  
+  &.animate.has-paragraph .world {
+    --animation-transform: calc(-100vh + 434px);
+    
+    @include desktop-up {
+      --animation-transform: calc(-100vh + 440px);
+    }
+  }
+  
+  &.show .world {
+    transition-duration: 10ms;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Icon Buttons
+  // ---------------------------------------------------------------------------
+  
+  .icon-button,
+  .icon-only {
+    padding: 0;
+    background: transparent;
+    height: 26px;
+    width: 26px;
+    @include transition(opacity, '300');
+    transition-timing-function: ease;
+    opacity: 0;
+  }
+  
+  &.show .icon-button,
+  .icon-only {
+    opacity: 1;
+  }
+}

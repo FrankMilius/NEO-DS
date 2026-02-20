@@ -1,0 +1,157 @@
+// ==========================================================================
+// 05-Atoms: Badge
+// ==========================================================================
+// Nicht-interaktiver Status-Indikator / Zaehler / Label.
+// Verwendet static-surface-base (kein Focus, kein Hover, kein Disabled).
+//
+// SEMANTIK (R5): Badge ist NIEMALS fokussierbar.
+//   Immer <span>, kein role="button", kein tabindex.
+//   Farbe nie alleiniges Signal (R7) — immer mit Text oder Icon kombinieren.
+//
+// GROESSEN (2 Stufen):
+//   sm → 20px (kompakter Zaehler)
+//   md → 24px (Standard)
+//
+// VARIANTEN (7):
+//   default, secondary, outline, success, warning, error, info
+//
+// KLASSEN:
+//   .nc-badge (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin badge-base {
+  @include static-surface-base;
+
+  // Token-Mapping via private Surface-Properties
+  --_surface-bg: var(--nc-badge-default-bg);
+  --_surface-color: var(--nc-badge-default-color);
+  --_surface-border-color: var(--nc-badge-default-border);
+  --_surface-radius: var(--nc-badge-radius);
+  --_surface-font-size: var(--nc-badge-font-size);
+  --_surface-font-weight: var(--nc-badge-font-weight);
+  --_surface-gap: var(--nc-badge-icon-gap);
+  --_surface-border-width: var(--fnd-border-width-xs);
+
+  // Default size: md
+  @include badge-size('md');
+}
+
+@mixin badge-size($size: 'md') {
+  @if $size == 'sm' {
+    min-height: var(--nc-badge-height-sm);
+    padding: 0 var(--fnd-spacing-02);
+    font-size: var(--nc-badge-font-size-sm);
+  } @else if $size == 'md' {
+    min-height: var(--nc-badge-height-md);
+    padding: var(--nc-badge-padding-y) var(--nc-badge-padding-x);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Varianten
+// ---------------------------------------------------------------------------
+
+@mixin badge-variant-secondary {
+  --_surface-bg: var(--nc-badge-secondary-bg);
+  --_surface-color: var(--nc-badge-secondary-color);
+  --_surface-border-color: var(--nc-badge-secondary-border);
+}
+
+@mixin badge-variant-outline {
+  --_surface-bg: var(--nc-badge-outline-bg);
+  --_surface-color: var(--nc-badge-outline-color);
+  --_surface-border-color: var(--nc-badge-outline-border);
+}
+
+@mixin badge-variant-success {
+  --_surface-bg: var(--nc-badge-success-bg);
+  --_surface-color: var(--nc-badge-success-color);
+  --_surface-border-color: var(--nc-badge-success-border);
+}
+
+@mixin badge-variant-warning {
+  --_surface-bg: var(--nc-badge-warning-bg);
+  --_surface-color: var(--nc-badge-warning-color);
+  --_surface-border-color: var(--nc-badge-warning-border);
+}
+
+@mixin badge-variant-error {
+  --_surface-bg: var(--nc-badge-error-bg);
+  --_surface-color: var(--nc-badge-error-color);
+  --_surface-border-color: var(--nc-badge-error-border);
+}
+
+@mixin badge-variant-info {
+  --_surface-bg: var(--nc-badge-info-bg);
+  --_surface-color: var(--nc-badge-info-color);
+  --_surface-border-color: var(--nc-badge-info-border);
+}
+
+// ---------------------------------------------------------------------------
+// Elements
+// ---------------------------------------------------------------------------
+
+@mixin badge-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-badge-icon-size);
+  height: var(--nc-badge-icon-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@mixin badge-dot {
+  width: var(--nc-badge-dot-size);
+  height: var(--nc-badge-dot-size);
+  min-height: auto;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+  border-radius: var(--fnd-radius-full);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-badge {
+  @include badge-base;
+
+  // Elements
+  &__icon  { @include badge-icon-element; }
+  &__label { display: inline-flex; align-items: center; }
+
+  // Sizes
+  &--sm { @include badge-size('sm'); }
+
+  // Varianten
+  &--secondary { @include badge-variant-secondary; }
+  &--outline   { @include badge-variant-outline; }
+  &--success   { @include badge-variant-success; }
+  &--warning   { @include badge-variant-warning; }
+  &--error     { @include badge-variant-error; }
+  &--info      { @include badge-variant-info; }
+
+  // Deprecated Aliases
+  &--destructive,
+  &--danger { @include badge-variant-error; }
+
+  // Dot-Modus
+  &--dot { @include badge-dot; }
+}

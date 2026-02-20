@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neocosmo.com/schemas/design-tokens.schema.json",
+  "title": "NEO Design System Token Contract",
+  "description": "Unified token contract schema for the NEO Design System. Single source of truth for SCSS generation, CSS custom properties, and Theme Configurator app.",
+  "type": "object",
+  "required": ["$meta", "primitives", "semantic", "components", "foundation", "navigation"],
+  "additionalProperties": false,
+  "properties": {
+    "$meta": {
+      "type": "object",
+      "required": ["name", "version", "description", "last_updated"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "description": { "type": "string" },
+        "last_updated": { "type": "string", "format": "date" }
+      },
+      "additionalProperties": false
+    },
+
+    "primitives": {
+      "type": "object",
+      "required": ["brand", "supporting", "neutral", "foundation", "system", "system_text", "system_bg"],
+      "additionalProperties": false,
+      "properties": {
+        "brand": {
+          "type": "object",
+          "required": ["primary", "secondary", "accent"],
+          "additionalProperties": false,
+          "properties": {
+            "primary":   { "$ref": "#/$defs/BrandPalette" },
+            "secondary": { "$ref": "#/$defs/BrandPalette" },
+            "accent":    { "$ref": "#/$defs/BrandPalette" }
+          }
+        },
+        "supporting": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/BrandPalette" },
+          "minProperties": 1
+        },
+        "neutral": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        },
+        "foundation": {
+          "type": "object",
+          "required": ["black", "white"],
+          "additionalProperties": false,
+          "properties": {
+            "black": { "$ref": "#/$defs/FoundationPalette" },
+            "white": { "$ref": "#/$defs/FoundationPalette" }
+          }
+        },
+        "system": {
+          "type": "object",
+          "required": ["info", "success", "warning", "danger"],
+          "additionalProperties": false,
+          "properties": {
+            "info":    { "$ref": "#/$defs/BrandPalette" },
+            "success": { "$ref": "#/$defs/BrandPalette" },
+            "warning": { "$ref": "#/$defs/BrandPalette" },
+            "danger":  { "$ref": "#/$defs/BrandPalette" }
+          }
+        },
+        "system_text": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        },
+        "system_bg": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        },
+        "system_bg_dark": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        }
+      }
+    },
+
+    "semantic": {
+      "type": "object",
+      "required": ["groups", "defaults"],
+      "additionalProperties": false,
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SemanticGroup" }
+        },
+        "defaults": {
+          "type": "object",
+          "required": ["neo-light", "neo-dark", "customer-light", "customer-dark"],
+          "additionalProperties": false,
+          "properties": {
+            "neo-light":      { "$ref": "#/$defs/SemanticDefaults" },
+            "neo-dark":       { "$ref": "#/$defs/SemanticDefaults" },
+            "customer-light": { "$ref": "#/$defs/SemanticDefaults" },
+            "customer-dark":  { "$ref": "#/$defs/SemanticDefaults" }
+          }
+        }
+      }
+    },
+
+    "components": {
+      "type": "object",
+      "required": ["groups"],
+      "additionalProperties": false,
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ComponentGroup" }
+        }
+      }
+    },
+
+    "foundation": {
+      "type": "object",
+      "required": ["typography", "spacing", "radii", "border", "shadow", "elevation", "layout", "breakpoints", "motion", "icons", "a11y"],
+      "additionalProperties": true,
+      "properties": {
+        "typography": {
+          "type": "object",
+          "required": ["fonts", "fluid", "line_height"],
+          "properties": {
+            "fonts": {
+              "type": "object",
+              "required": ["body", "heading", "mono"],
+              "properties": {
+                "body":    { "type": "string" },
+                "heading": { "type": "string" },
+                "mono":    { "type": "string" }
+              }
+            },
+            "fluid": {
+              "type": "object",
+              "required": ["viewport_min", "viewport_max", "base_min_px", "base_max_px", "ratio"],
+              "properties": {
+                "viewport_min": { "type": "number" },
+                "viewport_max": { "type": "number" },
+                "base_min_px":  { "type": "number" },
+                "base_max_px":  { "type": "number" },
+                "ratio":        { "type": "number" }
+              }
+            },
+            "line_height": {
+              "type": "object",
+              "additionalProperties": { "type": "number" }
+            },
+            "context_scale": {
+              "type": "object",
+              "additionalProperties": { "type": "number" }
+            },
+            "semantic_steps": {
+              "type": "object",
+              "additionalProperties": { "type": "integer" }
+            },
+            "semantic_sizes_px": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "required": ["min", "max"],
+                "properties": {
+                  "min": { "type": "number" },
+                  "max": { "type": "number" }
+                }
+              }
+            },
+            "fluid_mappings": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "weights": {
+              "type": "object",
+              "additionalProperties": { "type": "integer" }
+            }
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "required": ["base_unit", "scale"],
+          "properties": {
+            "base_unit": { "type": "string" },
+            "scale": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "fluid": { "type": "object" },
+            "semantic": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "radii": {
+          "type": "object",
+          "required": ["scale"],
+          "properties": {
+            "scale": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "deprecated_aliases": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "border": {
+          "type": "object",
+          "required": ["width", "style"],
+          "properties": {
+            "width": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "width_aliases": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "width_default": { "type": "string" },
+            "style": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "shadow": {
+          "type": "object",
+          "required": ["levels"],
+          "properties": {
+            "levels": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "elevation": {
+          "type": "object",
+          "required": ["levels"],
+          "properties": {
+            "levels": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "opacity": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "z_index": {
+              "type": "object",
+              "additionalProperties": { "type": "integer" }
+            },
+            "nav_height": {
+              "type": "object",
+              "properties": {
+                "mobile":  { "type": "string" },
+                "desktop": { "type": "string" }
+              }
+            },
+            "image_ratios": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "container": {
+              "type": "object",
+              "properties": {
+                "max_width":      { "type": "string" },
+                "max_width_wide": { "type": "string" }
+              }
+            },
+            "grid": {
+              "type": "object",
+              "properties": {
+                "columns": { "type": "integer" },
+                "gap":     { "type": "string" },
+                "gap_lg":  { "type": "string" }
+              }
+            },
+            "components": { "type": "object" }
+          }
+        },
+        "breakpoints": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "integer" }
+            ]
+          }
+        },
+        "motion": {
+          "type": "object",
+          "required": ["easing", "duration"],
+          "properties": {
+            "easing": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "duration": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "duration_semantic": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "delay": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "icons": {
+          "type": "object",
+          "properties": {
+            "size": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "default_size": { "type": "string" },
+            "touch_target_min": { "type": "string" },
+            "deprecated_sizes": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "button_icon_map": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "a11y": {
+          "type": "object",
+          "properties": {
+            "focus_ring": {
+              "type": "object",
+              "properties": {
+                "width":  { "type": "string" },
+                "offset": { "type": "string" },
+                "style":  { "type": "string" }
+              }
+            },
+            "touch_target_min": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "navigation": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/NavigationNode" }
+    }
+  },
+
+  "$defs": {
+    "ColorValue": {
+      "type": "string",
+      "description": "A CSS color value (hex, rgba, CSS keyword)"
+    },
+    "BrandPalette": {
+      "type": "object",
+      "required": ["base", "label", "shades"],
+      "properties": {
+        "base":  { "$ref": "#/$defs/ColorValue" },
+        "label": { "type": "string" },
+        "shades": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "FoundationPalette": {
+      "type": "object",
+      "required": ["label", "base", "shades"],
+      "properties": {
+        "label": { "type": "string" },
+        "base":  { "$ref": "#/$defs/ColorValue" },
+        "shades": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "SemanticGroup": {
+      "type": "object",
+      "required": ["id", "label", "icon", "tokens"],
+      "properties": {
+        "id":    { "type": "string" },
+        "label": { "type": "string" },
+        "icon":  { "type": "string" },
+        "tokens": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SemanticToken" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "SemanticToken": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id":     { "type": "string" },
+        "label":  { "type": "string" },
+        "cssVar": { "type": "string" },
+        "wcag": {
+          "type": "object",
+          "properties": {
+            "role":         { "type": "string", "enum": ["text", "ui", "decorative"] },
+            "min_contrast": { "type": "number" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "SemanticDefaults": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/ColorValue" }
+    },
+    "ComponentGroup": {
+      "type": "object",
+      "required": ["id", "label", "icon", "tokens"],
+      "properties": {
+        "id":    { "type": "string" },
+        "label": { "type": "string" },
+        "icon":  { "type": "string" },
+        "tokens": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ComponentToken" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ComponentToken": {
+      "type": "object",
+      "required": ["id", "label", "type"],
+      "properties": {
+        "id":      { "type": "string" },
+        "label":   { "type": "string" },
+        "type":    { "type": "string", "enum": ["color", "size", "shadow", "font", "weight", "easing", "duration", "opacity"] },
+        "default": { "type": "string" },
+        "ref":     { "type": "string" },
+        "cssVar":  { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "NavigationNode": {
+      "type": "object",
+      "required": ["id", "label", "icon"],
+      "properties": {
+        "id":    { "type": "string" },
+        "label": { "type": "string" },
+        "icon":  { "type": "string" },
+        "section": { "type": "string" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/NavigationNode" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

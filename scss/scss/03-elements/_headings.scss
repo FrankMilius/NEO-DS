@@ -1,0 +1,41 @@
+// ==========================================================================
+// 03-Elements: Headings
+// ==========================================================================
+// Basis-Styles für h1-h6
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+h1, h2, h3, h4, h5, h6 {
+  margin-block-start: 0;
+  margin-block-end: var(--fnd-spacing-04);
+  color: var(--fnd-color-text-primary);
+  font-weight: var(--fnd-font-weight-heading, 400);
+  font-family: var(--font-heading);
+  // line-height set by heading() mixin per size — no global override
+}
+
+h1 {
+  @include heading('2xl');
+}
+
+h2 {
+  @include heading('xl');
+}
+
+h3 {
+  @include heading('l');
+}
+
+h4 {
+  @include heading('m');
+}
+
+h5 {
+  @include heading('s');
+}
+
+h6 {
+  @include heading('xs');
+}

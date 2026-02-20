@@ -1,0 +1,322 @@
+// ==========================================================================
+// 06-Molecules: TreeView
+// ==========================================================================
+// Hierarchische Baumnavigation mit Expand/Collapse, Keyboard-Navigation
+// und optionalen Icons. Inspiriert vom Carbon Design System TreeView.
+//
+// VARIANTEN (4):
+//   default            – Einfache verschachtelte Levels
+//   controlled         – Mit "Alles aufklappen"/"Alles zuklappen" Buttons
+//   with-icons         – Kontextuelle Icons (Ordner/Dokument)
+//   with-links         – Externe Links mit globe/link Icons
+//
+// BEM-KLASSEN:
+//   .nc-treeview                        Block (nav Wrapper)
+//   .nc-treeview__controls              Expand/Collapse-All Buttons
+//   .nc-treeview__list                  ul (role="tree" / role="group")
+//   .nc-treeview__item                  li (role="treeitem")
+//   .nc-treeview__node                  Interaktive Zeile (div)
+//   .nc-treeview__toggle                Chevron-Button (Expand/Collapse)
+//   .nc-treeview__icon                  Icon-Slot (optional)
+//   .nc-treeview__label                 Text-Content
+//   .nc-treeview__link                  Externer Link (ersetzt label)
+//   .nc-treeview__item--branch          Hat Kinder (expandable)
+//   .nc-treeview__item--leaf            Kein Kinder (terminal)
+//   .nc-treeview__item--selected        Ausgewählt
+//   .nc-treeview__item--disabled        Deaktiviert
+//
+// TOKENS:
+//   --nc-treeview-*  →  Component-Tokens
+//   --fnd-*          →  Foundation-Tokens (Fallback)
+//
+// ACCESSIBILITY:
+//   role="tree" auf Root-<ul>
+//   role="treeitem" auf jedem <li>
+//   role="group" auf verschachtelten <ul>
+//   aria-expanded="true/false" auf Branch-Items
+//   aria-selected="true/false" für Selection
+//   aria-disabled="true" für deaktivierte Items
+//   Keyboard: ArrowUp/Down, ArrowLeft/Right, Home/End, Enter/Space
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Block: .nc-treeview
+// ---------------------------------------------------------------------------
+
+.nc-treeview {
+  // ---- Component Tokens ----
+  --nc-treeview-indent: 24px;
+  --nc-treeview-item-height: 32px;
+  --nc-treeview-item-padding-x: var(--fnd-spacing-02);
+  --nc-treeview-icon-size: 20px;
+  --nc-treeview-icon-gap: var(--fnd-spacing-02);
+  --nc-treeview-toggle-size: 20px;
+  --nc-treeview-label-font-size: var(--fnd-typography-body-m-font-size, 0.875rem);
+  --nc-treeview-label-color: var(--fnd-color-text-primary);
+  --nc-treeview-label-font-weight: var(--fnd-font-weight-regular);
+  --nc-treeview-bg-hover: var(--fnd-color-background-secondary);
+  --nc-treeview-bg-selected: var(--fnd-color-background-tertiary);
+  --nc-treeview-border-selected: var(--fnd-color-interactive-default);
+  --nc-treeview-border-selected-width: 3px;
+  --nc-treeview-radius: var(--fnd-radius-sm);
+  --nc-treeview-transition-duration: var(--fnd-motion-duration-150, 150ms);
+  --nc-treeview-toggle-color: var(--fnd-color-text-secondary);
+  --nc-treeview-icon-color: var(--fnd-color-text-secondary);
+  --nc-treeview-disabled-opacity: var(--fnd-opacity-disabled);
+  --nc-treeview-link-color: var(--fnd-color-interactive-default);
+  --nc-treeview-link-color-hover: var(--fnd-color-interactive-hover);
+
+  // ---- Private aliases (scoped) ----
+  --_tv-indent: var(--nc-treeview-indent);
+  --_tv-item-height: var(--nc-treeview-item-height);
+  --_tv-item-px: var(--nc-treeview-item-padding-x);
+  --_tv-icon-size: var(--nc-treeview-icon-size);
+  --_tv-icon-gap: var(--nc-treeview-icon-gap);
+  --_tv-toggle-size: var(--nc-treeview-toggle-size);
+  --_tv-label-fs: var(--nc-treeview-label-font-size);
+  --_tv-label-color: var(--nc-treeview-label-color);
+  --_tv-label-fw: var(--nc-treeview-label-font-weight);
+  --_tv-bg-hover: var(--nc-treeview-bg-hover);
+  --_tv-bg-selected: var(--nc-treeview-bg-selected);
+  --_tv-border-selected: var(--nc-treeview-border-selected);
+  --_tv-border-selected-w: var(--nc-treeview-border-selected-width);
+  --_tv-radius: var(--nc-treeview-radius);
+  --_tv-duration: var(--nc-treeview-transition-duration);
+  --_tv-toggle-color: var(--nc-treeview-toggle-color);
+  --_tv-icon-color: var(--nc-treeview-icon-color);
+  --_tv-disabled-opacity: var(--nc-treeview-disabled-opacity);
+  --_tv-link-color: var(--nc-treeview-link-color);
+  --_tv-link-color-hover: var(--nc-treeview-link-color-hover);
+
+  font-size: var(--_tv-label-fs);
+  color: var(--_tv-label-color);
+}
+
+// ---------------------------------------------------------------------------
+// Controls: .nc-treeview__controls
+// ---------------------------------------------------------------------------
+
+.nc-treeview__controls {
+  display: flex;
+  gap: var(--fnd-spacing-02);
+  margin-block-end: var(--fnd-spacing-03);
+}
+
+// ---------------------------------------------------------------------------
+// List: .nc-treeview__list
+// ---------------------------------------------------------------------------
+
+.nc-treeview__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  // Nested groups: hidden when parent is collapsed
+  .nc-treeview__item:not([aria-expanded='true']) > & {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Item: .nc-treeview__item
+// ---------------------------------------------------------------------------
+// --_level is set per <li> via inline style (style="--_level: 0")
+
+.nc-treeview__item {
+  --_level: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Node: .nc-treeview__node (the interactive row)
+// ---------------------------------------------------------------------------
+
+.nc-treeview__node {
+  display: flex;
+  align-items: center;
+  gap: var(--_tv-icon-gap);
+  min-height: var(--_tv-item-height);
+  padding-inline-start: calc(
+    var(--_tv-item-px) + (var(--_level) * var(--_tv-indent))
+  );
+  padding-inline-end: var(--_tv-item-px);
+  border-radius: var(--_tv-radius);
+  border-left: var(--_tv-border-selected-w) solid transparent;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background-color var(--_tv-duration) ease,
+    border-color var(--_tv-duration) ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // Hover
+  &:hover {
+    background-color: var(--_tv-bg-hover);
+  }
+
+  // Focus
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Toggle: .nc-treeview__toggle (chevron)
+// ---------------------------------------------------------------------------
+
+.nc-treeview__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_tv-toggle-size);
+  height: var(--_tv-toggle-size);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--_tv-toggle-color);
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: var(--fnd-radius-sm, 4px);
+  transform: rotate(0deg);
+  transition: transform var(--_tv-duration) ease, color var(--_tv-duration) ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover {
+    color: var(--_tv-label-color);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Expanded: chevron rotates 90°
+  [aria-expanded='true'] > .nc-treeview__node > & {
+    transform: rotate(90deg);
+  }
+}
+
+// Leaf: toggle is invisible (keeps label alignment)
+.nc-treeview__item--leaf > .nc-treeview__node > .nc-treeview__toggle {
+  visibility: hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Icon: .nc-treeview__icon
+// ---------------------------------------------------------------------------
+
+.nc-treeview__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_tv-icon-size);
+  height: var(--_tv-icon-size);
+  flex-shrink: 0;
+  color: var(--_tv-icon-color);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Label: .nc-treeview__label
+// ---------------------------------------------------------------------------
+
+.nc-treeview__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: var(--_tv-label-fw);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ---------------------------------------------------------------------------
+// Link: .nc-treeview__link (external link variant)
+// ---------------------------------------------------------------------------
+
+.nc-treeview__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: var(--_tv-label-fw);
+  line-height: 1.4;
+  color: var(--_tv-link-color);
+  text-decoration: none;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--_tv-link-color-hover);
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: var(--fnd-radius-sm, 4px);
+  }
+
+  // External arrow icon
+  > svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --selected
+// ---------------------------------------------------------------------------
+
+.nc-treeview__item--selected > .nc-treeview__node {
+  background-color: var(--_tv-bg-selected);
+  border-left-color: var(--_tv-border-selected);
+  font-weight: var(--fnd-font-weight-medium);
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --disabled
+// ---------------------------------------------------------------------------
+
+.nc-treeview__item--disabled {
+  opacity: var(--_tv-disabled-opacity);
+  pointer-events: none;
+
+  > .nc-treeview__node {
+    cursor: not-allowed;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Body Scroll Lock (optional — when used in overlay)
+// ---------------------------------------------------------------------------
+
+body:has(.nc-treeview:focus-within) {
+  // No scroll lock needed for inline tree
+}

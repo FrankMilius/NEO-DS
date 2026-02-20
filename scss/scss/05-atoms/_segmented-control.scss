@@ -1,0 +1,157 @@
+// ==========================================================================
+// 05-Atoms: Segmented Control
+// ==========================================================================
+// Immer Single-Select. Visuell ein Track mit erhoehten Segmenten.
+//
+// SEMANTIK (R4):
+//   role="radiogroup" auf Container
+//   role="radio" + aria-checked auf Items
+//   Arrow-Key Navigation (roving tabindex)
+//   R6: Icon-only Segments brauchen aria-label
+//
+// GROESSEN (3 Stufen, direkt am Button-Scale):
+//   sm → 32px (= Button SM)
+//   md → 40px (= Button MD) — DEFAULT
+//   lg → 48px (= Button LG)
+//
+// KLASSEN:
+//   .nc-segmented-control (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Container Mixin
+// ---------------------------------------------------------------------------
+
+@mixin segmented-control-base {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--nc-segmented-bg);
+  border-radius: var(--nc-segmented-radius);
+  padding: var(--nc-segmented-padding);
+  gap: var(--nc-segmented-gap);
+}
+
+// ---------------------------------------------------------------------------
+// Item Mixin
+// ---------------------------------------------------------------------------
+
+@mixin segmented-control-item {
+  @include interactive-surface-base;
+
+  --_surface-bg: var(--nc-segmented-item-bg);
+  --_surface-color: var(--nc-segmented-item-color);
+  --_surface-border-color: transparent;
+  --_surface-radius: var(--nc-segmented-item-radius);
+  --_surface-transition: var(--nc-segmented-transition-duration);
+  --_surface-font-weight: var(--fnd-font-weight-semibold);
+  --_surface-border-width: 0;
+  --_surface-scale-active: 1; // kein Scale auf Segments
+
+  border: none;
+  flex: 0 1 auto;
+
+  // Default size: md
+  @include segmented-control-item-size('md');
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not([aria-checked='true']) {
+    background-color: var(--nc-segmented-item-bg-hover);
+    color: var(--nc-segmented-item-color-hover);
+  }
+}
+
+@mixin segmented-control-item-size($size: 'md') {
+  @if $size == 'sm' {
+    min-height: calc(var(--nc-button-height-sm) - var(--nc-segmented-padding) * 2);
+    padding: var(--nc-button-padding-y-sm) var(--nc-button-padding-x-sm);
+    font-size: var(--nc-button-font-size-sm);
+    gap: var(--nc-button-icon-gap-sm);
+  } @else if $size == 'md' {
+    min-height: calc(var(--nc-button-height-md) - var(--nc-segmented-padding) * 2);
+    padding: var(--nc-button-padding-y-md) var(--nc-button-padding-x-md);
+    font-size: var(--nc-button-font-size-md);
+    gap: var(--nc-button-icon-gap-md);
+  } @else if $size == 'lg' {
+    min-height: calc(var(--nc-button-height-lg) - var(--nc-segmented-padding) * 2);
+    padding: var(--nc-button-padding-y-lg) var(--nc-button-padding-x-lg);
+    font-size: var(--nc-button-font-size-lg);
+    gap: var(--nc-button-icon-gap-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Selected State
+// ---------------------------------------------------------------------------
+
+@mixin segmented-control-item-selected {
+  background-color: var(--nc-segmented-item-selected-bg);
+  color: var(--nc-segmented-item-selected-color);
+  box-shadow: var(--nc-segmented-item-selected-shadow);
+}
+
+// ---------------------------------------------------------------------------
+// Icon Element
+// ---------------------------------------------------------------------------
+
+@mixin segmented-control-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-button-icon-size-md);
+  height: var(--nc-button-icon-size-md);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-segmented-control {
+  @include segmented-control-base;
+
+  // Items
+  &__item {
+    @include segmented-control-item;
+
+    // Selected state
+    &[aria-checked='true'] {
+      @include segmented-control-item-selected;
+    }
+
+    // Disabled
+    &:disabled,
+    &[aria-disabled='true'] {
+      color: var(--nc-segmented-item-disabled-color);
+      opacity: var(--nc-segmented-item-disabled-opacity);
+    }
+  }
+
+  // Icon Element
+  &__icon {
+    @include segmented-control-icon-element;
+  }
+
+  // Size-Modifier auf Container → propagiert zu Items
+  &--sm &__item { @include segmented-control-item-size('sm'); }
+  &--lg &__item { @include segmented-control-item-size('lg'); }
+
+  // Full-Width-Modifier: alle Segmente gleichmaessig
+  &--full-width {
+    display: flex;
+    width: 100%;
+  }
+  &--full-width &__item {
+    flex: 1 1 0%;
+  }
+}

@@ -1,0 +1,287 @@
+// ==========================================================================
+// 06-Molecules: Stepper
+// ==========================================================================
+// Numerischer Stepper mit Increment/Decrement-Buttons.
+// Ermoeglicht praezise Zahleneingabe ueber Plus/Minus-Buttons.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-stepper-* Component-Tokens.
+//   Der enthaltene Input nutzt --nc-input-* Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-stepper
+//     .nc-stepper__decrement   (Minus-Button)
+//     .nc-stepper__input       (Number-Input, readonly)
+//     .nc-stepper__increment   (Plus-Button)
+//
+// TOKENS:
+//   --nc-stepper-button-size       Groesse der +/- Buttons
+//   --nc-stepper-button-radius     Border-Radius der Buttons
+//   --nc-stepper-button-bg         Hintergrund der Buttons
+//   --nc-stepper-button-bg-hover   Hintergrund bei Hover
+//   --nc-stepper-button-color      Icon/Text-Farbe der Buttons
+//   --nc-stepper-input-width       Breite des Zahlen-Inputs
+//
+// BEM-KLASSEN:
+//   .nc-stepper               Block (inline-flex container)
+//   .nc-stepper__decrement    Minus-Button (links)
+//   .nc-stepper__input        Zahlen-Input (Mitte)
+//   .nc-stepper__increment    Plus-Button (rechts)
+//   .nc-stepper--sm           Kleine Variante
+//   .nc-stepper--lg           Grosse Variante
+//   .nc-stepper--disabled     Disabled-State
+//   .nc-stepper--error        Error-State
+//
+// ACCESSIBILITY:
+//   Buttons mit aria-label="Decrease value" / "Increase value"
+//   Input mit role="spinbutton", aria-valuenow, aria-valuemin, aria-valuemax
+//   Keyboard: ArrowUp/ArrowDown zum Aendern (JS-seitig)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Stepper-Container.
+/// Inline-Flex-Layout, zentrierte Kinder.
+@mixin stepper-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+/// Styling fuer die Increment/Decrement-Buttons.
+/// Quadratische Buttons mit Icon-Zentrierung.
+@mixin stepper-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-stepper-button-size);
+  height: var(--nc-stepper-button-size);
+  min-width: var(--nc-stepper-button-size);
+  padding: 0;
+  border: var(--nc-input-border-width) solid var(--nc-input-border);
+  border-radius: var(--nc-stepper-button-radius);
+  background-color: var(--nc-stepper-button-bg);
+  color: var(--nc-stepper-button-color);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--nc-input-transition-duration) ease,
+    border-color var(--nc-input-transition-duration) ease;
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-stepper-button-bg-hover);
+    border-color: var(--nc-input-border-hover);
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-stepper-button-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--nc-input-border-focus);
+  }
+
+  // Fallback fuer Browser ohne :focus-visible
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Icon innerhalb des Buttons
+  > svg,
+  > .nc-icon {
+    width: calc(var(--nc-stepper-button-size) * 0.5);
+    height: calc(var(--nc-stepper-button-size) * 0.5);
+    color: inherit;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  // Reduced Motion: global abgedeckt durch _reset.scss
+}
+
+/// Styling fuer das Zahlen-Input-Feld.
+/// Zentriert, schmaler, ohne Spinner-Arrows.
+@mixin stepper-input {
+  width: var(--nc-stepper-input-width);
+  height: var(--nc-stepper-button-size);
+  padding: 0;
+  border: var(--nc-input-border-width) solid var(--nc-input-border);
+  border-radius: 0;
+  background-color: var(--nc-input-bg);
+  color: var(--nc-input-color);
+  font-family: inherit;
+  font-size: var(--nc-input-font-size-md);
+  font-weight: var(--fnd-font-weight-semibold);
+  text-align: center;
+  line-height: 1.5;
+  appearance: none;
+  // Negative Margins fuer nahtlose Borders
+  margin-inline: calc(var(--nc-input-border-width, 1px) * -1);
+
+  // Spinner-Arrows entfernen
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  // Firefox
+  -moz-appearance: textfield;
+
+  &:focus-visible {
+    @include focus-ring;
+    border-color: var(--nc-input-border-focus);
+    z-index: 1;
+    position: relative;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  &[readonly] {
+    background-color: var(--nc-input-bg-readonly);
+    border-color: var(--nc-input-border-readonly);
+    cursor: default;
+  }
+}
+
+/// Error-State: roter Rand auf allen Teilen.
+@mixin stepper-error {
+  > .nc-stepper__decrement,
+  > .nc-stepper__input,
+  > .nc-stepper__increment {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Disabled-State: graut die gesamte Gruppe aus.
+@mixin stepper-disabled {
+  > .nc-stepper__decrement,
+  > .nc-stepper__increment {
+    opacity: var(--nc-input-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--nc-input-disabled-bg);
+    border-color: var(--nc-input-disabled-border);
+  }
+
+  > .nc-stepper__input {
+    background-color: var(--nc-input-disabled-bg);
+    color: var(--nc-input-disabled-color);
+    border-color: var(--nc-input-disabled-border);
+    opacity: var(--nc-input-disabled-opacity);
+  }
+}
+
+/// Groessen-Modifier fuer den Stepper.
+/// @param {String} $size - 'sm' | 'lg'
+@mixin stepper-size($size) {
+  @if $size == 'sm' {
+    > .nc-stepper__decrement,
+    > .nc-stepper__increment {
+      width: var(--nc-input-height-sm);
+      height: var(--nc-input-height-sm);
+      min-width: var(--nc-input-height-sm);
+
+      > svg,
+      > .nc-icon {
+        width: calc(var(--nc-input-height-sm) * 0.5);
+        height: calc(var(--nc-input-height-sm) * 0.5);
+      }
+    }
+
+    > .nc-stepper__input {
+      height: var(--nc-input-height-sm);
+      font-size: var(--nc-input-font-size-sm);
+    }
+  } @else if $size == 'lg' {
+    > .nc-stepper__decrement,
+    > .nc-stepper__increment {
+      width: var(--nc-input-height-lg);
+      height: var(--nc-input-height-lg);
+      min-width: var(--nc-input-height-lg);
+
+      > svg,
+      > .nc-icon {
+        width: calc(var(--nc-input-height-lg) * 0.5);
+        height: calc(var(--nc-input-height-lg) * 0.5);
+      }
+    }
+
+    > .nc-stepper__input {
+      height: var(--nc-input-height-lg);
+      font-size: var(--nc-input-font-size-lg);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-stepper {
+  @include stepper-base;
+
+  // -- Sub-Elemente --
+
+  &__decrement {
+    @include stepper-button;
+    border-start-start-radius: var(--nc-stepper-button-radius);
+    border-end-start-radius: var(--nc-stepper-button-radius);
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  &__input {
+    @include stepper-input;
+  }
+
+  &__increment {
+    @include stepper-button;
+    border-start-end-radius: var(--nc-stepper-button-radius);
+    border-end-end-radius: var(--nc-stepper-button-radius);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    @include stepper-size('sm');
+  }
+
+  &--lg {
+    @include stepper-size('lg');
+  }
+
+  // -- State-Modifier --
+
+  &--error {
+    @include stepper-error;
+  }
+
+  &--disabled {
+    @include stepper-disabled;
+  }
+}

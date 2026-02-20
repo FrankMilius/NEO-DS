@@ -1,0 +1,38 @@
+// ==========================================================================
+// 06-Molecules: Pricing
+// ==========================================================================
+// Pricing card with featured variant and feature checklist.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-pricing-card {
+  background: var(--fnd-color-background-base);
+  border-radius: var(--fnd-radius-xl);
+  box-shadow: var(--fnd-elevation-raised);
+}
+
+.nc-pricing-card.is-featured {
+  border-color: var(--fnd-color-background-accent-green);
+  box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+}
+
+.nc-price {
+  font-size: 1.6rem;
+  font-family: var(--font-heading);
+}
+
+.nc-feature-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.nc-feature-list__item::before {
+  content: '\2714';
+  color: var(--fnd-color-background-accent-green);
+  margin-inline-end: 0.5rem;
+}

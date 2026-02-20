@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Security List | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Security-List-Komponente mit Live-Demo und Token-Referenz." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Security List</h1>
+      <p class="docs__subtitle">
+        Liste von Sicherheits- und Compliance-Features als Karten-Items f&uuml;r Trust-Sektionen
+        und Feature-&Uuml;bersichten. Kanonische Klassen:
+        <code class="docs__token">.nc-security-list</code> und
+        <code class="docs__token">.nc-security-list__item</code>.
+        Alle Farben kommen aus Foundation-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="security-list-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Security-List-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, um die Security-List im jeweiligen Farbschema zu sehen.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="width: 100%; max-width: 480px;">
+              <ul class="nc-security-list">
+                <li class="nc-security-list__item" style="display: flex; align-items: center; gap: var(--fnd-spacing-03);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>ISO 27001 zertifiziert</span>
+                </li>
+                <li class="nc-security-list__item" style="display: flex; align-items: center; gap: var(--fnd-spacing-03);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span>Ende-zu-Ende-Verschl&uuml;sselung</span>
+                </li>
+                <li class="nc-security-list__item" style="display: flex; align-items: center; gap: var(--fnd-spacing-03);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  <span>DSGVO-konform</span>
+                </li>
+                <li class="nc-security-list__item" style="display: flex; align-items: center; gap: var(--fnd-spacing-03);">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  <span>Serverstandort Deutschland</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;ul class="nc-security-list"&gt;
+  &lt;li class="nc-security-list__item"&gt;
+    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
+    &lt;span&gt;ISO 27001 zertifiziert&lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="nc-security-list__item"&gt;
+    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
+    &lt;span&gt;DSGVO-konform&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Basis -->
+          <section class="docs__section" id="basis">
+            <h2 class="docs__section-title">Basis-Liste</h2>
+            <p class="docs__section-desc">
+              Jedes <code class="docs__token">.nc-security-list__item</code> hat einen wei&szlig;en Hintergrund
+              (<code class="docs__token">--fnd-color-background-base</code>), runde Ecken
+              (<code class="docs__token">--fnd-radius-3xl</code>) und einen sekund&auml;ren Rahmen.
+            </p>
+            <ul class="nc-security-list" style="max-width: 420px;">
+              <li class="nc-security-list__item">Zwei-Faktor-Authentifizierung</li>
+              <li class="nc-security-list__item">Automatische Sicherheitsupdates</li>
+              <li class="nc-security-list__item">Penetrationstests durch Dritte</li>
+            </ul>
+          </section>
+
+          <!-- Showcase 2: With icons -->
+          <section class="docs__section" id="with-icons">
+            <h2 class="docs__section-title">Mit Icons und Beschreibungen</h2>
+            <p class="docs__section-desc">
+              Der Inhalt der Items ist frei gestaltbar. Icons, Titel und Beschreibungen lassen
+              sich flexibel kombinieren.
+            </p>
+            <ul class="nc-security-list" style="max-width: 520px;">
+              <li class="nc-security-list__item" style="display: grid; grid-template-columns: auto 1fr; gap: var(--fnd-spacing-04); align-items: start;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div>
+                  <strong style="display: block;">SOC 2 Typ II</strong>
+                  <span style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">J&auml;hrliche Audits durch unabh&auml;ngige Pr&uuml;fer</span>
+                </div>
+              </li>
+              <li class="nc-security-list__item" style="display: grid; grid-template-columns: auto 1fr; gap: var(--fnd-spacing-04); align-items: start;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fnd-color-background-accent-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <div>
+                  <strong style="display: block;">AES-256 Verschl&uuml;sselung</strong>
+                  <span style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Alle Daten im Ruhezustand und bei der &Uuml;bertragung verschl&uuml;sselt</span>
+                </div>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Showcase 3: Two columns -->
+          <section class="docs__section" id="two-columns">
+            <h2 class="docs__section-title">Zwei-Spalten-Layout</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-security-list</code> ist ein CSS-Grid. Mit
+              <code class="docs__token">grid-template-columns</code> auf dem Container
+              entsteht ein Mehrspalten-Layout.
+            </p>
+            <ul class="nc-security-list" style="max-width: 640px; grid-template-columns: repeat(2, 1fr);">
+              <li class="nc-security-list__item">ISO 27001</li>
+              <li class="nc-security-list__item">SOC 2 Typ II</li>
+              <li class="nc-security-list__item">DSGVO-konform</li>
+              <li class="nc-security-list__item">HIPAA-ready</li>
+              <li class="nc-security-list__item">PCI DSS</li>
+              <li class="nc-security-list__item">CSA STAR</li>
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Foundation-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Element</th><th>Eigenschaft</th><th>Token / Wert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-security-list</code></td><td>list-style</td><td>none</td></tr>
+                <tr><td><code class="docs__token">.nc-security-list</code></td><td>padding</td><td>0</td></tr>
+                <tr><td><code class="docs__token">.nc-security-list</code></td><td>display</td><td>grid</td></tr>
+                <tr><td><code class="docs__token">.nc-security-list</code></td><td>gap</td><td>0.75rem (statisch)</td></tr>
+                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>background</td><td><code class="docs__token">var(--fnd-color-background-base)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>border-radius</td><td><code class="docs__token">var(--fnd-radius-3xl)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>border</td><td>1px solid <code class="docs__token">var(--fnd-color-border-secondary)</code></td></tr>
+                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>padding</td><td><code class="docs__token">var(--fnd-spacing-04)</code> <code class="docs__token">var(--fnd-spacing-05)</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-security-list</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-security-list</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-*</code>)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_security-list.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;ul&gt;</code> + <code class="docs__token">&lt;li&gt;</code></td></tr>
+                <tr><td><strong>Layout</strong></td><td>CSS Grid (einspaltig, anpassbar)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Element</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-security-list</code></td><td>Block</td><td><code class="docs__token">&lt;ul&gt;</code></td><td>Grid-Container ohne list-style. Gap 0.75rem.</td></tr>
+                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>Element</td><td><code class="docs__token">&lt;li&gt;</code></td><td>Karten-Item: base bg, radius-3xl, border, spacing-04/05 padding.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">Element-Struktur</h2>
+            <div class="docs__code-block">&lt;ul class="nc-security-list"&gt;
+
+  &lt;!-- Einfaches Item --&gt;
+  &lt;li class="nc-security-list__item"&gt;
+    ISO 27001 zertifiziert
+  &lt;/li&gt;
+
+  &lt;!-- Item mit Icon + Text --&gt;
+  &lt;li class="nc-security-list__item"
+      style="display: flex; align-items: center; gap: var(--fnd-spacing-03);"&gt;
+    &lt;svg aria-hidden="true"&gt;&lt;!-- security icon --&gt;&lt;/svg&gt;
+    &lt;span&gt;Ende-zu-Ende-Verschl&uuml;sselung&lt;/span&gt;
+  &lt;/li&gt;
+
+  &lt;!-- Item mit Icon + Titel + Beschreibung --&gt;
+  &lt;li class="nc-security-list__item"
+      style="display: grid; grid-template-columns: auto 1fr; gap: var(--fnd-spacing-04);"&gt;
+    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
+    &lt;div&gt;
+      &lt;strong&gt;SOC 2 Typ II&lt;/strong&gt;
+      &lt;p&gt;J&auml;hrliche Audits durch unabh&auml;ngige Pr&uuml;fer&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;!-- Zwei-Spalten-Variante --&gt;
+&lt;ul class="nc-security-list"
+    style="grid-template-columns: repeat(2, 1fr);"&gt;
+  &hellip;
+&lt;/ul&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Die Security-Liste ist ein statisches Listen-Element. Korrekte HTML-Semantik
+            gew&auml;hrleistet die Navigierbarkeit f&uuml;r Screenreader-Nutzer.
+          </p>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Semantische Listen-Auszeichnung</h4>
+              <ul>
+                <li><code class="docs__token">&lt;ul&gt;</code> und <code class="docs__token">&lt;li&gt;</code> verwenden &mdash; niemals <code class="docs__token">&lt;div&gt;</code></li>
+                <li>Screenreader k&uuml;ndigen die Listenl&auml;nge an (z.B. &ldquo;Liste mit 4 Elementen&rdquo;)</li>
+                <li>CSS setzt <code class="docs__token">list-style: none</code> &mdash; dies entfernt in Safari die Listenrole; bei Bedarf <code class="docs__token">role="list"</code> auf <code class="docs__token">&lt;ul&gt;</code> setzen</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6M12 9v6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Dekorative Icons</h4>
+              <ul>
+                <li>Icons in den Items sind dekorativ &mdash; <code class="docs__token">aria-hidden="true"</code> setzen</li>
+                <li>Der zugeh&ouml;rige Beschreibungstext muss immer als sichtbarer Text vorhanden sein</li>
+                <li>Kein reines Icon ohne sichtbaren Text in einem List-Item verwenden</li>
+              </ul>
+            </div>
+          </div>
+
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Semantische Liste mit aria-label f&uuml;r Kontext --&gt;
+&lt;ul class="nc-security-list" role="list" aria-label="Sicherheitszertifizierungen"&gt;
+  &lt;li class="nc-security-list__item"&gt;
+    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
+    &lt;span&gt;ISO 27001 zertifiziert&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- FALSCH: Div statt ul/li --&gt;
+&lt;div class="nc-security-list"&gt;
+  &lt;div class="nc-security-list__item"&gt;ISO 27001&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Icon ohne Beschreibungstext --&gt;
+&lt;li class="nc-security-list__item"&gt;
+  &lt;svg&gt;&lt;!-- kein aria-label, kein sichtbarer Text --&gt;&lt;/svg&gt;
+&lt;/li&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Container</h1>
+      <p class="docs__subtitle">
+        Layout-Container f&uuml;r Seiteninhalte mit adaptivem, fluid-skalierendem Innenabstand.
+        Der Container zentriert Inhalte, begrenzt die maximale Breite und setzt horizontales Padding mit <code class="docs__token">clamp()</code>.
+        Implementiert als SCSS-Mixin <code class="docs__token">container-padding</code> und als Klassen
+        <code class="docs__token">.nc-container</code> / <code class="docs__token">.nc-container--wide</code>.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="container-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Container-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Visualisierung des Container-Verhaltens. Der farbige Hintergrund zeigt den Container-Bereich, der wei&szlig;e Innenbereich zeigt den nutzbaren Content-Bereich nach Padding-Abzug.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="nc-container" selected>.nc-container</option>
+                  <option value="nc-container nc-container--wide">.nc-container--wide</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-fullbleed" />
+                  <span class="docs-stage__label">Full-Bleed Kind</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders container here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-container"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- nc-container -->
+          <section class="docs__section" id="usage-nc-container">
+            <h2 class="docs__section-title">.nc-container</h2>
+            <p class="docs__section-desc">
+              Standard-Container. Fluid-Padding von <code class="docs__token">clamp(16px, 3.5vw, 48px)</code>.
+              Ab dem <code class="docs__token">xxl</code>-Breakpoint (1920px): kein Padding, stattdessen <code class="docs__token">max-width</code> mit <code class="docs__token">margin-inline: auto</code>.
+            </p>
+            <div style="background: var(--fnd-color-background-secondary); padding: var(--fnd-spacing-02); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-container" style="background: var(--fnd-color-background-base); min-height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--fnd-radius-md);">
+                <span style="color: var(--fnd-color-text-secondary); font-size: var(--fnd-typography-body-s-font-size);">Inhalt innerhalb .nc-container</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- nc-container--wide -->
+          <section class="docs__section" id="usage-nc-container-wide">
+            <h2 class="docs__section-title">.nc-container--wide</h2>
+            <p class="docs__section-desc">
+              Breiter Container mit <code class="docs__token">width: min(1440px, 94vw)</code>. Verwendet <code class="docs__token">container-padding-wide</code> f&uuml;r eine gr&ouml;&szlig;ere maximale Breite am xxl-Breakpoint.
+            </p>
+            <div style="background: var(--fnd-color-background-secondary); padding: var(--fnd-spacing-02); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-container--wide" style="background: var(--fnd-color-background-base); min-height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--fnd-radius-md);">
+                <span style="color: var(--fnd-color-text-secondary); font-size: var(--fnd-typography-body-s-font-size);">Inhalt innerhalb .nc-container--wide</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Full-Bleed Pattern -->
+          <section class="docs__section" id="usage-full-bleed">
+            <h2 class="docs__section-title">Full-Bleed Kinder</h2>
+            <p class="docs__section-desc">
+              Bestimmte Kind-Komponenten (z.B. <code class="docs__token">.nc-hero</code>, <code class="docs__token">.nc-logo-wall</code>, <code class="docs__token">.nc-gallery</code>) brechen aus dem Container-Padding aus und gehen von Rand zu Rand,
+              indem sie <code class="docs__token">margin-inline: calc(-1 * var(--container-pad))</code> und entsprechendes eigenes Padding nutzen.
+            </p>
+            <div style="background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-lg); overflow: hidden; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-container" style="background: var(--fnd-color-background-base);">
+                <div style="padding: var(--fnd-spacing-04); color: var(--fnd-color-text-secondary); font-size: var(--fnd-typography-body-s-font-size); border-bottom: 1px solid var(--fnd-color-border-secondary);">
+                  Normaler Container-Inhalt (mit Padding)
+                </div>
+                <div class="nc-hero" style="background: var(--fnd-color-background-inverse); color: var(--fnd-color-text-inverse); padding: var(--fnd-spacing-06) var(--container-pad, 0px); text-align: center; font-size: var(--fnd-typography-body-s-font-size);">
+                  .nc-hero &mdash; Full-Bleed Kind (bricht aus Padding aus, f&uuml;llt volle Breite)
+                </div>
+                <div style="padding: var(--fnd-spacing-04); color: var(--fnd-color-text-secondary); font-size: var(--fnd-typography-body-s-font-size); border-top: 1px solid var(--fnd-color-border-secondary);">
+                  Normaler Container-Inhalt (mit Padding)
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Theme-basierte Hintergr&uuml;nde -->
+          <section class="docs__section" id="usage-themes">
+            <h2 class="docs__section-title">Theme-basierte Block-Hintergr&uuml;nde</h2>
+            <p class="docs__section-desc">
+              Block-Wrapper innerhalb von <code class="docs__token">main &gt; .section</code> k&ouml;nnen durch Hilfsklassen an Kind-Bl&ouml;cken unterschiedliche Theme-Hintergr&uuml;nde erhalten.
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead><tr><th>Klasse am Kind-Block</th><th>Hintergrund des Wrappers</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.light-base-theme</code></td>
+                  <td><code class="docs__token">var(--fnd-color-always-light)</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.dark-base-theme</code></td>
+                  <td><code class="docs__token">var(--fnd-color-always-dark)</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.light-secondary-theme</code></td>
+                  <td><code class="docs__token">var(--fnd-color-background-secondary)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- no-container-pad -->
+          <section class="docs__section" id="usage-no-pad">
+            <h2 class="docs__section-title">Padding opt-out</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.no-container-pad</code> kann das Container-Padding f&uuml;r einzelne Bereiche oder ganze Sections abgeschaltet werden (z.B. f&uuml;r Hero-Bereiche direkt in der Section).
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Anwendung</th><th>Effekt</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.no-container-pad</code> am inneren <code class="docs__token">div</code></td>
+                  <td>Auf dem direkten Kind-Div des Block-Wrappers</td>
+                  <td>Setzt <code class="docs__token">padding-inline: 0</code> und <code class="docs__token">--container-pad: 0</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.no-container-pad</code> am Block-Wrapper</td>
+                  <td>Auf dem Block-Wrapper selbst (Section-Ebene)</td>
+                  <td>Alle inneren Divs (au&szlig;er <code class="docs__token">.full-width</code>) erhalten kein Padding</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.full-width</code> am inneren <code class="docs__token">div</code></td>
+                  <td>Opt-out vom Container-Max-Width</td>
+                  <td><code class="docs__token">max-width: 100%</code>, box-sizing: border-box</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-mixin">
+            <h2 class="docs__section-title">SCSS Mixin: container-padding</h2>
+            <p class="docs__section-desc">
+              Das Mixin <code class="docs__token">container-padding</code> aus <code class="docs__token">01-tools/_mixins-layout.scss</code> ist das Fundament aller Container-Klassen und wird systemweit eingesetzt.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>margin-inline</td>
+                  <td>auto</td>
+                  <td>Automatische Zentrierung im Viewport</td>
+                </tr>
+                <tr>
+                  <td>box-sizing</td>
+                  <td>border-box</td>
+                  <td>Padding in Breitenberechnung eingeschlossen</td>
+                </tr>
+                <tr>
+                  <td>padding-inline</td>
+                  <td>clamp(16px, 3.5vw, 48px)</td>
+                  <td>Fluid: min. 16px (320px VP), max. 48px (1600px VP)</td>
+                </tr>
+                <tr>
+                  <td>--container-pad</td>
+                  <td>clamp(16px, 3.5vw, 48px)</td>
+                  <td>CSS Custom Property &mdash; spiegelt das Padding f&uuml;r Full-Bleed-Berechnungen wider</td>
+                </tr>
+                <tr>
+                  <td>padding-inline (&#8805;xxl)</td>
+                  <td>0</td>
+                  <td>Ab 1920px: kein seitliches Padding</td>
+                </tr>
+                <tr>
+                  <td>max-width (&#8805;xxl)</td>
+                  <td>$container-max-width</td>
+                  <td>Ab 1920px: max. Breite aus Settings</td>
+                </tr>
+                <tr>
+                  <td>--container-pad (&#8805;xxl)</td>
+                  <td>0px</td>
+                  <td>Full-Bleed-Kinder ben&ouml;tigen dann kein negatives Margin</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-classes">
+            <h2 class="docs__section-title">Klassen-Eigenschaften</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zus&auml;tzliche Eigenschaften</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.nc-container</code></td>
+                  <td>width: 100% + @include container-padding</td>
+                  <td>Standard-Container: volle Breite mit fluid Padding</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-container--wide</code></td>
+                  <td>width: min(1440px, 94vw) + @include container-padding-wide</td>
+                  <td>Breiter Container: begrenzt auf 1440px oder 94vw</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.section--cq</code></td>
+                  <td>@include container-context(section)</td>
+                  <td>Opt-in Container-Query-Kontext f&uuml;r CSS @container</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-full-bleed">
+            <h2 class="docs__section-title">Full-Bleed Formel</h2>
+            <p class="docs__section-desc">
+              Kinder von <code class="docs__token">.nc-container</code> die aus dem Padding ausbrechen sollen, erhalten folgende Styles automatisch:
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Zweck</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>padding-inline</td>
+                  <td>var(--container-pad, 0px)</td>
+                  <td>Eigenes Padding entspricht dem Container-Padding</td>
+                </tr>
+                <tr>
+                  <td>margin-inline</td>
+                  <td>calc(-1 * var(--container-pad, 0px))</td>
+                  <td>Negatives Margin hebt das Container-Padding auf</td>
+                </tr>
+                <tr>
+                  <td>width</td>
+                  <td>calc(100% + (var(--container-pad, 0px) * 2))</td>
+                  <td>Breite wird entsprechend vergr&ouml;&szlig;ert</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-04);">
+              Betroffene Kinder: <code class="docs__token">.nc-hero</code>, <code class="docs__token">.nc-logo-wall</code>, <code class="docs__token">.nc-feature-grid</code>, <code class="docs__token">.nc-benefit-grid</code>,
+              <code class="docs__token">.nc-usecase-grid</code>, <code class="docs__token">.nc-news-grid</code>, <code class="docs__token">.nc-metric-grid</code>, <code class="docs__token">.nc-facts-grid</code>,
+              <code class="docs__token">.nc-facts-list</code>, <code class="docs__token">.nc-gallery</code>, <code class="docs__token">.nc-marquee</code>, <code class="docs__token">.nc-slider</code>,
+              <code class="docs__token">.nc-slider__track</code>, <code class="docs__token">.nc-pricing-grid</code>, <code class="docs__token">.nc-faq</code>, <code class="docs__token">.nc-cta__form</code>,
+              <code class="docs__token">.nc-footer__columns</code>.
+            </p>
+          </section>
+
+          <section class="docs__section" id="style-main">
+            <h2 class="docs__section-title">Main-Element &amp; Section-Styles</h2>
+            <table class="docs__table">
+              <thead><tr><th>Selektor</th><th>Eigenschaft</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td rowspan="1"><code class="docs__token">main</code></td>
+                  <td>background-color</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><code class="docs__token">main &gt; .section</code></td>
+                  <td>background-color</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
+                </tr>
+                <tr>
+                  <td>color</td>
+                  <td><code class="docs__token">var(--fnd-color-text-high)</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.section.light</code>, <code class="docs__token">.section.highlight</code></td>
+                  <td>background-color / padding</td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code> / 40px 0 (Legacy)</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Prim&auml;re Klasse</strong></td><td><code class="docs__token">.nc-container</code></td></tr>
+                <tr><td><strong>ITCSS-Schicht</strong></td><td>04-Objects</td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-*</code> &amp; <code class="docs__token">--container-pad</code> (intern)</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/04-objects/_container.scss</code></td></tr>
+                <tr><td><strong>Mixin-Datei</strong></td><td><code class="docs__token">scss/01-tools/_mixins-layout.scss</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td>Beliebiges Block-Element &mdash; typisch <code class="docs__token">&lt;div&gt;</code></td></tr>
+                <tr><td><strong>JavaScript</strong></td><td>Nicht ben&ouml;tigt</td></tr>
+                <tr><td><strong>Dark Mode</strong></td><td>Automatisch via semantische Tokens</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS-Klassen -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">.nc-container</code></td>
+                  <td>Block</td>
+                  <td>Standard-Container. Volle Breite mit fluid Padding. Empfohlen f&uuml;r Seiteninhalte.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.nc-container--wide</code></td>
+                  <td>Modifier</td>
+                  <td>Breiter Container. Begrenzt auf min(1440px, 94vw). Empfohlen f&uuml;r extra-breite Layouts.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.section--cq</code></td>
+                  <td>Utility / Modifier</td>
+                  <td>Aktiviert CSS Container-Query-Kontext auf einer Section (Opt-in).</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.no-container-pad</code></td>
+                  <td>Utility</td>
+                  <td>Deaktiviert Container-Padding. Verwendbar auf Block-Wrapper- oder Inner-Div-Ebene.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">.full-width</code></td>
+                  <td>Utility</td>
+                  <td>Inner div ohne max-width-Begrenzung. Setzt max-width: 100%.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">container-padding</code></td>
+                  <td>&mdash;</td>
+                  <td>Fluid container padding mit clamp(). Basis-Mixin f&uuml;r alle Container.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">container-padding-wide</code></td>
+                  <td>&mdash;</td>
+                  <td>Wie container-padding, aber mit gr&ouml;&szlig;erer max-width am xxl-Breakpoint.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">container-max-width</code></td>
+                  <td>&mdash;</td>
+                  <td>Nur max-width + margin-inline: auto, kein Padding. F&uuml;r Sonderf&auml;lle.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">container-max-width-wide</code></td>
+                  <td>&mdash;</td>
+                  <td>Wie container-max-width, mit breitem max-width. F&uuml;r Sonderf&auml;lle.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">container-context($name)</code></td>
+                  <td>$name: Bezeichner f&uuml;r @container-Regel</td>
+                  <td>Registriert ein Element als container query context (containment: inline-size).</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. HTML-Struktur -->
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Container --&gt;
+&lt;div class="nc-container"&gt;
+  &lt;p&gt;Seiteninhalt innerhalb des Containers.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Breiter Container --&gt;
+&lt;div class="nc-container nc-container--wide"&gt;
+  &lt;p&gt;Breiter Seiteninhalt.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Container mit Full-Bleed Kind --&gt;
+&lt;div class="nc-container"&gt;
+  &lt;p&gt;Normaler Inhalt mit Padding.&lt;/p&gt;
+
+  &lt;!-- .nc-hero bricht aus dem Padding aus --&gt;
+  &lt;div class="nc-hero"&gt;
+    &lt;p&gt;Full-Bleed Inhalt.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;Weiterer Inhalt mit Padding.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Container-Query Kontext --&gt;
+&lt;div class="section section--cq"&gt;
+  &lt;!-- Kinder k&ouml;nnen @container section { ... } verwenden --&gt;
+  &lt;div class="nc-container"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Padding opt-out --&gt;
+&lt;div class="section no-container-pad"&gt;
+  &lt;div&gt;
+    &lt;div&gt;Kein Padding (volle Breite)&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Container sind reine Layout-Objekte ohne eigene Semantik. Die A11y-Anforderungen ergeben sich aus dem Inhalt, nicht aus dem Container selbst.
+          </p>
+
+          <!-- Kein semantisches Gewicht -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Kein semantisches Gewicht</h4>
+              <ul>
+                <li>Container-Divs (<code class="docs__token">.nc-container</code>) sind Layout-Wrapper ohne semantischen Wert f&uuml;r Screenreader</li>
+                <li>Sie erzeugen keine ARIA-Landmarks &mdash; nutze <code class="docs__token">&lt;main&gt;</code>, <code class="docs__token">&lt;nav&gt;</code>, <code class="docs__token">&lt;section&gt;</code> etc. f&uuml;r Landmarks</li>
+                <li>Ein <code class="docs__token">&lt;div class="nc-container"&gt;</code> ist f&uuml;r assistive Technologien unsichtbar</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Landmarks -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Landmark-Struktur</h4>
+              <ul>
+                <li>Den Container in einem semantischen Landmark-Element verschachteln: <code class="docs__token">&lt;main&gt;</code>, <code class="docs__token">&lt;header&gt;</code>, <code class="docs__token">&lt;footer&gt;</code>, <code class="docs__token">&lt;section aria-label&gt;</code></li>
+                <li>Ein <code class="docs__token">&lt;section&gt;</code> erh&auml;lt erst dann Landmark-Status, wenn es ein <code class="docs__token">aria-label</code> oder <code class="docs__token">aria-labelledby</code> besitzt</li>
+                <li>Landmarks helfen Screenreader-Nutzern beim &uuml;bergeordneten Seitennavigation</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Skip-Link -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Skip-Link</h4>
+              <ul>
+                <li>Der Haupt-Inhaltsbereich (<code class="docs__token">&lt;main&gt;</code>) sollte per Skip-Link erreichbar sein (<code class="docs__token">id="main-content"</code>)</li>
+                <li>Skip-Links helfen Tastatur- und Screenreader-Nutzern, Navigations-Wiederholungen zu &uuml;berspringen (WCAG 2.4.1)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Fokusverwaltung -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fokusverwaltung bei dynamischen Inhalten</h4>
+              <ul>
+                <li>Wenn Container-Inhalte dynamisch ge&auml;ndert werden (Single-Page-Routing), sollte der Fokus manuell auf den Hauptinhalt gesetzt werden</li>
+                <li>Seiteninhaltswechsel sollten mit <code class="docs__token">aria-live</code>-Regionen oder Fokus-Management begleitet werden</li>
+                <li>Container selbst haben keinen Tabindex &mdash; niemals <code class="docs__token">tabindex="0"</code> auf reine Layout-Divs setzen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Container in semantischem Landmark --&gt;
+&lt;main id="main-content"&gt;
+  &lt;section aria-label="Produktfunktionen"&gt;
+    &lt;div class="nc-container"&gt;
+      &lt;h2&gt;Unsere Funktionen&lt;/h2&gt;
+      &lt;p&gt;Inhalt...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;!-- RICHTIG: Skip-Link vor erstem Container --&gt;
+&lt;a href="#main-content" class="u-sr-only u-skip-link"&gt;Zum Inhalt springen&lt;/a&gt;
+&lt;header&gt;...&lt;/header&gt;
+&lt;main id="main-content"&gt;
+  &lt;div class="nc-container"&gt;...&lt;/div&gt;
+&lt;/main&gt;
+
+&lt;!-- FALSCH: Container als einzige Landmark --&gt;
+&lt;div class="nc-container" role="main"&gt;
+  &lt;!-- role="main" geh&ouml;rt auf &lt;main&gt;, nicht auf den Container --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: tabindex auf Layout-Div --&gt;
+&lt;div class="nc-container" tabindex="0"&gt;
+  &lt;!-- Layout-Container sind nicht fokussierbar --&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+    <script src="container-docs.js"></script>
+<!-- /SCRIPTS -->

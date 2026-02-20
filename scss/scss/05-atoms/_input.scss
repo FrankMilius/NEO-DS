@@ -1,0 +1,202 @@
+// ==========================================================================
+// 05-Atoms: Input
+// ==========================================================================
+// Token-basierte Input-Komponente mit 3 Groessen, State-Varianten,
+// Search/Password-Spezialtypen und Icon-Support.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-input-* Component-Tokens
+//   (registriert in 00-settings/_component-tokens.scss).
+//   Nie direkte Hex-Werte — Theme-Aenderungen fliessen automatisch durch.
+//
+// SIZES (3 Stufen):
+//   sm  →  32px    font: xs
+//   md  →  40px    font: sm    — DEFAULT
+//   lg  →  48px    font: base
+//
+// BEM-KLASSEN:
+//   .nc-input                    Block (default: md)
+//   .nc-input--sm / --lg         Groessen-Modifier
+//   .nc-input--error             Error-Zustand (roter Rand)
+//   .nc-input--success           Success-Zustand (gruener Rand)
+//   .nc-input--search            Search-Typ (Icon links)
+//   .nc-input--password          Password-Typ (Reveal-Toggle rechts)
+//   .nc-input__icon              Icon-Element (Prefix/Suffix)
+//   .nc-input-wrapper            Positionierungs-Container fuer Icons
+//
+// HTML-TYPEN (alle verwenden .nc-input):
+//   text, email, url, tel, password, search, number, color
+//
+// ACCESSIBILITY:
+//   :focus-visible → @include focus-ring
+//   :disabled / [aria-disabled='true'] → disabled styling
+//   [readonly] → readonly styling
+//   [aria-invalid='true'] → error styling (ergaenzt .nc-input--error)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer das Input-Element.
+/// Nutzt form-control-base aus den shared Mixins + Default Size md.
+@mixin input-base {
+  @include form-control-base;
+  @include form-control-size('md');
+}
+
+/// Groessen-Modifier fuer das Input-Element.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+@mixin input-size($size: 'md') {
+  @include form-control-size($size);
+}
+
+/// Error-Zustand: roter Rand, bleibt bei Hover/Focus bestehen.
+@mixin input-error {
+  @include form-control-error;
+}
+
+/// Success-Zustand: gruener Rand.
+@mixin input-success {
+  @include form-control-success;
+}
+
+/// Search-Input: bekommt padding-left fuer Search-Icon.
+@mixin input-search {
+  padding-inline-start: calc(var(--nc-input-padding-x-md) + var(--nc-input-icon-size) + var(--fnd-spacing-02));
+
+  // Webkit Search-Cancel-Button entfernen (Browser-Default)
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+}
+
+/// Password-Input: bekommt padding-right fuer Reveal-Toggle.
+@mixin input-password {
+  padding-inline-end: calc(var(--nc-input-padding-x-md) + var(--nc-input-icon-size) + var(--fnd-spacing-02));
+}
+
+/// Icon-Element innerhalb eines Input-Wrappers.
+/// Positioniert als absolute Element links oder rechts.
+@mixin input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--nc-input-icon-size);
+  height: var(--nc-input-icon-size);
+  color: var(--nc-input-icon-color);
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-input {
+  @include input-base;
+
+  // -- Groessen-Modifier --
+
+  &--sm { @include input-size('sm'); }
+  // md = Default (bereits in input-base)
+  &--lg { @include input-size('lg'); }
+
+  // -- State-Modifier --
+
+  &--error,
+  &[aria-invalid='true'] {
+    @include input-error;
+  }
+
+  &--success {
+    @include input-success;
+  }
+
+  // -- Typ-Modifier --
+
+  &--search { @include input-search; }
+  &--password { @include input-password; }
+
+  // -- Icon-Element --
+
+  &__icon {
+    @include input-icon;
+
+    // Default: links positioniert
+    inset-inline-start: var(--nc-input-padding-x-md);
+
+    // Rechts positioniert (fuer Suffix)
+    &--end {
+      inset-inline-start: auto;
+      inset-inline-end: var(--nc-input-padding-x-md);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Input Wrapper (fuer Icon-Positionierung)
+// ---------------------------------------------------------------------------
+
+.nc-input-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+// ---------------------------------------------------------------------------
+// Deprecated: Legacy .input (backward-compat)
+// ---------------------------------------------------------------------------
+
+.input {
+  @include input-base;
+
+  &--sm { @include input-size('sm'); }
+  &--lg { @include input-size('lg'); }
+  &--error { @include input-error; }
+  &--success { @include input-success; }
+}
+
+// Legacy Select Wrapper (backward-compat)
+.select-wrapper {
+  position: relative;
+
+  .select-toggle {
+    @include form-control-base;
+    @include form-control-size('lg');
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+    border: none;
+    cursor: pointer;
+    background-color: var(--fnd-color-background-secondary);
+
+    &:hover {
+      background-color: var(--fnd-color-background-tertiary);
+    }
+
+    .select-toggle-text {
+      color: var(--nc-input-color);
+    }
+
+    .icon {
+      margin: 0;
+      color: var(--nc-input-icon-color);
+    }
+  }
+}

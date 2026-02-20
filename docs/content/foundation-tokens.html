@@ -1,0 +1,442 @@
+<!-- STYLES -->
+  <style>
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .token-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .token-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .token-card__value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+    }
+    .token-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+    }
+    .shadow-sample {
+      height: 48px;
+      background: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-md);
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .color-swatch {
+      width: 100%;
+      height: 40px;
+      border-radius: var(--fnd-radius-sm);
+      border: 1px solid var(--fnd-color-border-low);
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .weight-sample {
+      font-size: var(--fs-lg);
+      color: var(--fnd-color-text-high);
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-radius: var(--fnd-radius-md);
+      overflow: hidden;
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .layer-stack__item {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding-inline: var(--fnd-spacing-03);
+      font-size: var(--fs-xs);
+      font-family: var(--font-mono);
+    }
+    section {
+      margin-block-end: var(--fnd-spacing-10);
+    }
+    h2 {
+      border-bottom: 1px solid var(--fnd-color-border-low);
+      padding-bottom: var(--fnd-spacing-03);
+      margin-bottom: var(--fnd-spacing-04);
+    }
+    .donts {
+      background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-danger);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+    .dos {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-success);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs-main" style="max-width: 960px; margin: 0 auto; padding: var(--fnd-spacing-06);">
+    <h1>Foundation Tokens</h1>
+    <p>Alle Foundation-Tokens beginnen mit <code>--fnd-</code> und bilden die Basis fuer das gesamte Design System.</p>
+
+    <!-- ================================================================ -->
+    <!-- SHADOW / ELEVATION -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Shadow / Elevation</h2>
+      <p>5 Shadow-Stufen und 5 semantische Elevation-Aliases. Dark-Mode-aware.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-xs);"></div>
+          <div class="token-card__name">--fnd-shadow-xs</div>
+          <div class="token-card__desc">Subtiler Schatten (Buttons, Thumb)</div>
+          <div class="token-card__value">= --fnd-elevation-base</div>
+        </div>
+        <div class="token-card">
+          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-sm);"></div>
+          <div class="token-card__name">--fnd-shadow-sm</div>
+          <div class="token-card__desc">Leichter Schatten (Cards)</div>
+          <div class="token-card__value">= --fnd-elevation-raised</div>
+        </div>
+        <div class="token-card">
+          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-md);"></div>
+          <div class="token-card__name">--fnd-shadow-md</div>
+          <div class="token-card__desc">Mittlerer Schatten (Dropdowns)</div>
+          <div class="token-card__value">= --fnd-elevation-floating</div>
+        </div>
+        <div class="token-card">
+          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-lg);"></div>
+          <div class="token-card__name">--fnd-shadow-lg</div>
+          <div class="token-card__desc">Grosser Schatten (Overlays)</div>
+          <div class="token-card__value">= --fnd-elevation-overlay</div>
+        </div>
+        <div class="token-card">
+          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-xl);"></div>
+          <div class="token-card__name">--fnd-shadow-xl</div>
+          <div class="token-card__desc">Maximaler Schatten (Modals)</div>
+          <div class="token-card__value">= --fnd-elevation-modal</div>
+        </div>
+      </div>
+
+      <div class="dos">
+        <strong>Do:</strong> <code>box-shadow: var(--fnd-elevation-raised);</code>
+      </div>
+      <div class="donts">
+        <strong>Don't:</strong> <code>box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);</code>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- LAYER SYSTEM -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Layer System (Carbon-Modell)</h2>
+      <p>Geschachtelte Container nutzen <code>layer-01</code> bis <code>layer-03</code>.</p>
+      <p><strong>Regel Light:</strong> background-base (weiss) &rarr; layer-01 (grau) &rarr; layer-02 (weiss) &mdash; alternierend.</p>
+      <p><strong>Regel Dark:</strong> background-base (schwarz) &rarr; layer-01 (dunkelgrau) &rarr; layer-02 (grau) &mdash; aufsteigend.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="layer-stack">
+            <div class="layer-stack__item" style="background: var(--fnd-color-background-base); color: var(--fnd-color-on-surface);">
+              background-base (Page)
+            </div>
+            <div class="layer-stack__item" style="background: var(--fnd-color-layer-01); color: var(--fnd-color-on-layer-01);">
+              layer-01 (Card)
+            </div>
+            <div class="layer-stack__item" style="background: var(--fnd-color-layer-02); color: var(--fnd-color-on-layer-02);">
+              layer-02 (Element in Card)
+            </div>
+          </div>
+          <div class="token-card__name">--fnd-color-layer-01/02/03</div>
+          <div class="token-card__desc">Container-Hintergruende fuer geschachtelte Ebenen</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-color-on-surface</div>
+          <div class="token-card__desc">Textfarbe auf background-base</div>
+          <div class="token-card__name">--fnd-color-on-layer-01</div>
+          <div class="token-card__desc">Textfarbe auf layer-01</div>
+          <div class="token-card__name">--fnd-color-on-layer-02</div>
+          <div class="token-card__desc">Textfarbe auf layer-02</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- ON-COLOR TOKENS -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>On-{color} Contrast Tokens</h2>
+      <p>Garantiert lesbarer Text auf Flaechen mit semantischer Farbe.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="color-swatch" style="background: var(--fnd-color-background-accent-green);"></div>
+          <div class="token-card__name">--fnd-color-on-accent</div>
+          <div class="token-card__desc">Text auf Akzentfarbe</div>
+        </div>
+        <div class="token-card">
+          <div class="color-swatch" style="background: var(--fnd-color-feedback-success);"></div>
+          <div class="token-card__name">--fnd-color-on-success</div>
+          <div class="token-card__desc">Text auf Erfolgs-Hintergrund</div>
+        </div>
+        <div class="token-card">
+          <div class="color-swatch" style="background: var(--fnd-color-feedback-warning);"></div>
+          <div class="token-card__name">--fnd-color-on-warning</div>
+          <div class="token-card__desc">Text auf Warn-Hintergrund</div>
+        </div>
+        <div class="token-card">
+          <div class="color-swatch" style="background: var(--fnd-color-feedback-danger);"></div>
+          <div class="token-card__name">--fnd-color-on-danger</div>
+          <div class="token-card__desc">Text auf Danger-Hintergrund</div>
+        </div>
+        <div class="token-card">
+          <div class="color-swatch" style="background: var(--fnd-color-feedback-info);"></div>
+          <div class="token-card__name">--fnd-color-on-info</div>
+          <div class="token-card__desc">Text auf Info-Hintergrund</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- FONT WEIGHT -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Font Weight</h2>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-light);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-light</div>
+          <div class="token-card__value">300</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-regular);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-regular</div>
+          <div class="token-card__value">400</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-medium);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-medium</div>
+          <div class="token-card__value">500</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-semibold);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-semibold</div>
+          <div class="token-card__value">600</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-bold);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-bold</div>
+          <div class="token-card__value">700</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-black);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-black</div>
+          <div class="token-card__value">900</div>
+        </div>
+      </div>
+
+      <div class="dos">
+        <strong>Do:</strong> <code>font-weight: var(--fnd-font-weight-semibold);</code>
+      </div>
+      <div class="donts">
+        <strong>Don't:</strong> <code>font-weight: 600;</code>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- OPACITY -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Opacity</h2>
+      <p>Zustandsbasierte Transparenz-Tokens fuer konsistente Interaktions-Darstellung.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="token-card__name">--fnd-opacity-disabled</div>
+          <div class="token-card__value">0.5</div>
+          <div class="token-card__desc">Fuer deaktivierte Elemente</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-opacity-hover</div>
+          <div class="token-card__value">0.08</div>
+          <div class="token-card__desc">Hover-Overlay-Staerke</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-opacity-focus</div>
+          <div class="token-card__value">0.12</div>
+          <div class="token-card__desc">Focus-Overlay-Staerke</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-opacity-pressed</div>
+          <div class="token-card__value">0.12</div>
+          <div class="token-card__desc">Pressed/Active-Overlay</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-opacity-dragged</div>
+          <div class="token-card__value">0.16</div>
+          <div class="token-card__desc">Drag-Overlay-Staerke</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- Z-INDEX -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Z-Index</h2>
+      <p>Globale Stacking-Hierarchie. Lokale Stacking-Contexts (z-index: 1/2/3) brauchen keine Tokens.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-base</div>
+          <div class="token-card__value">1</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-dropdown</div>
+          <div class="token-card__value">2</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-sticky</div>
+          <div class="token-card__value">3</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-fixed</div>
+          <div class="token-card__value">9</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-header</div>
+          <div class="token-card__value">100</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-sidebar</div>
+          <div class="token-card__value">200</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-drawer</div>
+          <div class="token-card__value">300</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-notification</div>
+          <div class="token-card__value">400</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-toast</div>
+          <div class="token-card__value">500</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">--fnd-z-skip-link</div>
+          <div class="token-card__value">9999</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- MOTION / KEYFRAMES -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Motion / Keyframes</h2>
+      <p>Foundation-Keyframes fuer konsistente Ein-/Ausblend-Animationen. Alle respektieren <code>prefers-reduced-motion</code>.</p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="token-card__name">fnd-fade-in / fnd-fade-out</div>
+          <div class="token-card__desc">Opacity 0 &rarr; 1 / 1 &rarr; 0</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-slide-up / down / left / right</div>
+          <div class="token-card__desc">8px translate + fade</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-scale-in / fnd-scale-out</div>
+          <div class="token-card__desc">Scale 0.95 &rarr; 1 + fade</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-spin</div>
+          <div class="token-card__desc">360-Grad-Rotation (Spinner)</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-dialog-enter / exit</div>
+          <div class="token-card__desc">Scale + fade + translateY(4px)</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-dropdown-enter</div>
+          <div class="token-card__desc">Slide down + fade</div>
+        </div>
+        <div class="token-card">
+          <div class="token-card__name">fnd-toast-enter</div>
+          <div class="token-card__desc">Slide up 16px + fade</div>
+        </div>
+      </div>
+
+      <div class="dos">
+        <strong>Do:</strong> <code>animation: fnd-dialog-enter 0.2s var(--fnd-motion-ease-focused) forwards;</code>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- MIGRATION GUIDE -->
+    <!-- ================================================================ -->
+    <section>
+      <h2>Migration Guide: Legacy &rarr; Foundation</h2>
+      <p>Alte <code>--ds-*</code> Tokens werden durch <code>--fnd-*</code> ersetzt:</p>
+
+      <table style="width: 100%; border-collapse: collapse; font-size: var(--fs-sm);">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--fnd-color-border-mid);">
+            <th style="text-align: left; padding: var(--fnd-spacing-02);">Alt (deprecated)</th>
+            <th style="text-align: left; padding: var(--fnd-spacing-02);">Neu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--ds-shadow-levels-xs</code></td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--fnd-shadow-xs</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--ds-shadow-levels-sm</code></td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--fnd-shadow-sm</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>font-weight: 600</code></td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-font-weight-semibold)</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>opacity: 0.5</code> (disabled)</td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-opacity-disabled)</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>z-index: 50</code> (toast)</td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-z-toast)</code></td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>rgba(15,23,42, 0.06)</code></td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-elevation-raised)</code></td>
+          </tr>
+          <tr>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>background: #ffffff</code></td>
+            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-color-background-base)</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+<!-- /BODY -->

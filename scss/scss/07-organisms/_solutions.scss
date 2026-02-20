@@ -1,0 +1,318 @@
+// ==========================================================================
+// 07-Organisms: Solutions
+// ==========================================================================
+// Solutions Section mit Accordion und Side Content
+// Migriert von: solutions.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Solutions Container
+// ---------------------------------------------------------------------------
+
+.solutions {
+  color: var(--fnd-color-text-high);
+  
+  @include desktop-up {
+    grid-template-columns: 
+      grid-columns(6) 
+      grid-columns(1) 
+      grid-columns(5);
+    gap: var(--grid-gap);
+    display: grid;
+    row-gap: 0;
+    grid-template-areas:
+      'accordion . side'
+      'content . side';
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Typography
+  // ---------------------------------------------------------------------------
+  
+  h3 {
+    @include heading('xs');
+    color: var(--fnd-color-text-high);
+    
+    @include desktop-up {
+      margin-top: 0;
+    }
+    
+    + p {
+      color: var(--fnd-color-text-mid);
+      margin: 0;
+    }
+  }
+  
+  p + h3 {
+    margin-block-start: var(--fnd-spacing-06);
+    
+    @include desktop-up {
+      margin-block-start: var(--fnd-spacing-08);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Button & Labels
+  // ---------------------------------------------------------------------------
+  
+  .button-container {
+    padding: 0;
+    
+    @include desktop-up {
+      margin-block-start: var(--fnd-spacing-10);
+    }
+  }
+  
+  @include desktop-up {
+    .labels-container {
+      margin-block: var(--fnd-spacing-11) var(--fnd-spacing-06);
+    }
+  }
+  
+  .labels-container .label {
+    height: 40px;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Side Panels (1st and last children)
+  // ---------------------------------------------------------------------------
+  
+  > :nth-child(1),
+  > :last-child {
+    display: none;
+    
+    @include desktop-up {
+      display: grid;
+      
+      > * {
+        grid-area: 1 / 1;
+        position: relative;
+        height: 100%;
+      }
+    }
+  }
+  
+  > :nth-child(1) {
+    grid-area: side;
+  }
+  
+  > :last-child {
+    grid-area: content;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Accordion (in Solutions)
+  // ---------------------------------------------------------------------------
+  
+  .accordion {
+    grid-area: accordion;
+  }
+  
+  // Mobile: Horizontal scroll
+  @include mobile-only {
+    .accordion-item {
+      scroll-snap-align: center;
+      border: 0;
+    }
+  }
+  
+  @include desktop-up {
+    .accordion-item {
+      width: auto;
+    }
+    
+    .accordion-item-content {
+      display: none;
+    }
+  }
+  
+  .accordion-item {
+    h2 {
+      display: none;
+      
+      @include desktop-up {
+        @include paragraph('xl');
+        display: block;
+        color: var(--fnd-color-text-low);
+      }
+    }
+    
+    @include desktop-up {
+      p {
+        display: none;
+      }
+    }
+    
+    &[open] h2 {
+      color: var(--fnd-color-text-high);
+    }
+  }
+  
+  .accordion-content p {
+    margin: 0;
+    
+    &:last-child {
+      @include heading('l');
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Accordion Solutions Variant
+  // ---------------------------------------------------------------------------
+  
+  .accordion.accordion--solutions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    column-gap: var(--fnd-spacing-05);
+    scroll-snap-type: x mandatory;
+    overflow: scroll hidden;
+    scrollbar-width: none;
+    
+    @include desktop-up {
+      display: block;
+      overflow: hidden;
+    }
+    
+    .accordion-item {
+      padding-block: var(--fnd-spacing-08);
+      position: relative;
+      overflow-y: visible;
+      
+      @include desktop-up {
+        padding-block: var(--fnd-spacing-05) var(--fnd-spacing-04);
+        
+        &:first-child {
+          padding-block-start: 0;
+          border-block-start: 0;
+        }
+      }
+      
+      h2 {
+        margin: 0;
+      }
+      
+      @include desktop-up {
+        .accordion-progress {
+          bottom: -1px;
+        }
+      }
+      
+      .accordion-progress.active {
+        transition: transform 12s linear;
+      }
+    }
+    
+    .accordion-item-content p:not(.button-container) {
+      padding-block: 0 var(--fnd-spacing-06);
+      
+      @include desktop-up {
+        &:last-of-type {
+          padding-block-end: 0;
+        }
+      }
+    }
+    
+    @include mobile-only {
+      .accordion-item-summary {
+        @include heading('xxs');
+        margin-block-end: var(--fnd-spacing-06);
+      }
+    }
+    
+    .accordion-item-summary-icon {
+      display: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Solutions Wrapper
+// ---------------------------------------------------------------------------
+
+.solutions-wrapper {
+  padding-block: var(--fnd-spacing-10) 0;
+  
+  @include desktop-up {
+    padding-block: var(--fnd-spacing-12);
+  }
+  
+  // Mobile Tabs
+  > div:first-child {
+    height: 48px;
+    overflow: hidden;
+    position: relative;
+    padding: 0 !important;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 1%,
+      black var(--fnd-spacing-05),
+      black calc(100% - var(--fnd-spacing-05)),
+      transparent 99%
+    );
+    
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      position: absolute;
+      bottom: 0;
+      border-bottom: solid 1px var(--fnd-color-border-low);
+      
+      @include desktop-up {
+        display: none;
+      }
+    }
+    
+    @include desktop-up {
+      display: none;
+    }
+    
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 48px;
+      overflow: scroll hidden;
+      scrollbar-width: none;
+      position: relative;
+      
+      li {
+        padding-inline: var(--fnd-spacing-05) var(--fnd-spacing-03);
+        
+        span {
+          @include paragraph('m');
+          color: var(--fnd-color-text-high);
+          white-space: nowrap;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
+        
+        &.selected span::after {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 1px;
+          position: absolute;
+          bottom: 0;
+          border-bottom: solid 1px var(--fnd-color-border-high);
+          z-index: 1;
+          
+          @include desktop-up {
+            display: none;
+          }
+        }
+        
+        &:last-child {
+          padding-inline-end: var(--fnd-spacing-05);
+        }
+      }
+    }
+  }
+}

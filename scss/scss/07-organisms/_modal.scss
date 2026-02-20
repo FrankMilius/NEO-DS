@@ -1,0 +1,676 @@
+// ==========================================================================
+// 07-Organisms: Modal
+// ==========================================================================
+// Modal Dialoge (Location Preference, Contextual Notification)
+// Migriert von: lazy-styles.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Body Lock when Modal Open
+// ---------------------------------------------------------------------------
+
+body:has(.location-preference-modal[open]) {
+  overflow: hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Location Preference Modal
+// ---------------------------------------------------------------------------
+
+.location-preference-modal {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: none;
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+  @include flex-column;
+  gap: var(--fnd-spacing-07);
+  
+  &[open] {
+    display: flex;
+  }
+  
+  @include desktop-up {
+    z-index: 10;
+    margin-right: 0;
+    margin-top: 0;
+    width: 483px;
+    padding: var(--fnd-spacing-05) var(--fnd-spacing-08);
+    gap: var(--fnd-spacing-08);
+    transition: 
+      translate var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+      opacity var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+      display var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused) allow-discrete;
+    
+    &[open] {
+      opacity: 1;
+      
+      @starting-style {
+        opacity: 0;
+        translate: 100% 0;
+      }
+    }
+    
+    &:not([open]) {
+      opacity: 0;
+      translate: 100% 0;
+    }
+    
+    &::backdrop {
+      animation: animations-fade-in;
+      animation-duration: var(--fnd-motion-duration-450);
+      animation-timing-function: var(--fnd-motion-ease-focused);
+      animation-fill-mode: forwards;
+      background: var(--fnd-color-background-transparency-mid);
+    }
+  }
+  
+  @include large-desktop {
+    width: 533px;
+  }
+  
+  @include full-desktop {
+    width: 694px;
+  }
+  
+  // Dialog Header
+  .dialog-header {
+    @include heading('m');
+    color: var(--fnd-color-text-high);
+    margin-top: var(--fnd-spacing-10);
+  }
+  
+  // Current Location
+  .current-location {
+    @include paragraph('l');
+    color: var(--fnd-color-text-mid);
+    
+    span {
+      color: var(--fnd-color-text-high);
+    }
+  }
+  
+  // Input
+  input {
+    @include paragraph('m');
+    width: 100%;
+    padding: 10px;
+    color: var(--fnd-color-text-mid);
+    border: none;
+    border-radius: var(--fnd-radius-lg);
+    background-color: var(--fnd-color-background-secondary);
+  }
+  
+  // Button Container (Fixed Header)
+  .button-container {
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    right: 0;
+    width: inherit;
+    height: var(--fnd-spacing-10);
+    @include flex-center;
+    justify-content: flex-end;
+    background-color: var(--fnd-color-background-base);
+    padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+    
+    @include desktop-up {
+      padding: var(--fnd-spacing-05) var(--fnd-spacing-06);
+    }
+  }
+  
+  // Close Button
+  .close-btn {
+    all: unset;
+    @include flex-center;
+    border-radius: var(--fnd-radius-lg);
+    background: var(--fnd-color-background-secondary);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    
+    &:hover {
+      background: var(--fnd-color-background-tertiary);
+    }
+    
+    &:focus-visible {
+      @include focus-ring;
+    }
+    
+    .icon {
+      margin: 0;
+      display: flex;
+    }
+  }
+  
+  // Details (Accordion)
+  details {
+    @include paragraph('l');
+    @include flex-column;
+    justify-content: space-between;
+    color: var(--fnd-color-text-high);
+    padding-block: var(--fnd-spacing-05);
+    border-bottom: 1px solid var(--fnd-color-border-low);
+    
+    summary {
+      color: var(--fnd-color-text-high);
+      @include flex-between;
+      list-style: none;
+      cursor: pointer;
+      
+      &::-webkit-details-marker {
+        display: none;
+      }
+      
+      .region-summary-icon {
+        display: grid;
+        place-content: center center;
+        border-radius: var(--fnd-radius-sm);
+        background: var(--fnd-color-background-secondary);
+        color: var(--fnd-color-text-mid);
+        width: 32px;
+        height: 32px;
+        
+        > * {
+          grid-area: 1 / 1;
+        }
+        
+        .icon {
+          width: var(--fnd-spacing-04);
+          height: var(--fnd-spacing-04);
+          display: grid;
+          align-content: center;
+          @include transition(transform, '200');
+        }
+        
+        .region-icon-collapse {
+          transform: scaleY(0);
+        }
+      }
+    }
+    
+    &[open] {
+      .region-summary-icon .region-icon-collapse {
+        transform: scaleY(1);
+      }
+      
+      .region-summary-icon .region-icon-expand {
+        transform: scaleY(0);
+      }
+    }
+  }
+  
+  // Location List
+  ul {
+    padding: 0;
+    list-style-type: none;
+    
+    li {
+      @include paragraph('m');
+      cursor: pointer;
+      color: var(--fnd-color-text-high);
+      height: 48px;
+      padding-left: var(--fnd-spacing-03);
+      border-radius: var(--fnd-radius-lg);
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: var(--fnd-spacing-02);
+      
+      &:hover {
+        background-color: var(--fnd-color-background-secondary);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Contextual Notification Modal
+// ---------------------------------------------------------------------------
+
+.contextual-notification-modal {
+  position: fixed;
+  bottom: var(--fnd-spacing-06);
+  padding: var(--fnd-spacing-04);
+  background-color: var(--fnd-color-background-base);
+  gap: var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-lg);
+  border: none;
+  z-index: 2;
+  transition: 
+    translate var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused),
+    opacity var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused),
+    display var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused) allow-discrete;
+  
+  @include mobile-only {
+    margin-inline: var(--fnd-spacing-05);
+  }
+  
+  @include tablet-up {
+    margin-right: var(--fnd-spacing-07);
+  }
+  
+  @include respond-to('md') {
+    margin-right: var(--fnd-spacing-08);
+  }
+  
+  @include desktop-up {
+    margin-right: var(--fnd-spacing-09);
+  }
+  
+  @include large-desktop {
+    margin-right: var(--fnd-spacing-10);
+  }
+  
+  &:hover {
+    background-color: var(--fnd-color-background-secondary);
+  }
+  
+  &[open] {
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+    
+    @starting-style {
+      opacity: 0;
+      translate: 0 100%;
+    }
+  }
+  
+  &:not([open]) {
+    opacity: 0;
+    display: none;
+  }
+  
+  // Media
+  .notification-media {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--fnd-radius-lg);
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    picture,
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: var(--fnd-image-ratio-1-1);
+    }
+  }
+  
+  // Content
+  .notification-content {
+    width: 100%;
+    
+    h2,
+    p {
+      @include paragraph('l');
+    }
+    
+    h2 {
+      color: var(--fnd-color-text-high);
+    }
+    
+    p {
+      color: var(--fnd-color-text-mid);
+      margin: 0;
+    }
+    
+    .notification-heading {
+      @include flex-between;
+      align-items: start;
+      position: relative;
+      z-index: 3;
+      
+      .close-btn {
+        all: unset;
+        @include flex-center;
+        border-radius: var(--fnd-radius-lg);
+        background: var(--fnd-color-background-secondary);
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        
+        &:hover {
+          background: var(--fnd-color-background-tertiary);
+        }
+        
+        &:focus-visible {
+          @include focus-ring;
+        }
+        
+        .icon {
+          width: 16px;
+          height: 16px;
+          margin: 0;
+          display: flex;
+        }
+      }
+    }
+    
+    .button-container {
+      margin-top: var(--fnd-spacing-04);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--fnd-spacing-02);
+      
+      a {
+        font-size: 0.875rem;
+        line-height: 1.125rem;
+        letter-spacing: 0;
+        color: var(--fnd-color-text-high);
+        
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          inset: 0;
+        }
+        
+        @include desktop-up {
+          font-size: 1rem;
+          line-height: 1.375rem;
+          letter-spacing: 0;
+        }
+      }
+      
+      .icon {
+        color: var(--fnd-color-text-mid);
+        width: 20px;
+        height: 20px;
+        line-height: 0;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Green Theme Dialog
+// ---------------------------------------------------------------------------
+
+dialog.green-theme {
+  background-color: var(--fnd-color-background-accent-green);
+
+  &:hover {
+    background-color: var(--fnd-color-background-accent-secondary);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Theme Switcher FAB
+// ---------------------------------------------------------------------------
+
+.theme-switcher-fab {
+  position: fixed;
+  bottom: var(--fnd-spacing-06);
+  right: var(--fnd-spacing-06);
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--fnd-radius-full, 50%);
+  border: 2px solid var(--fnd-color-border-mid);
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-high);
+  cursor: pointer;
+  @include flex-center;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--fnd-color-text-high) 15%, transparent);
+  transition:
+    transform var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
+    box-shadow var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
+    background-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+  &:hover {
+    background-color: var(--fnd-color-background-secondary);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--fnd-color-text-high) 25%, transparent);
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  .theme-switcher-fab__icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Theme Switcher Modal (Slide-in Right)
+// ---------------------------------------------------------------------------
+
+.theme-switcher-modal {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: none;
+  padding: 0;
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-high);
+  @include flex-column;
+
+  &[open] {
+    display: flex;
+  }
+
+  @include desktop-up {
+    z-index: 60;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 0;
+    width: 400px;
+    max-width: 400px;
+    transition:
+      translate var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+      opacity var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused),
+      display var(--fnd-motion-duration-450) var(--fnd-motion-ease-focused) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 100% 0;
+      }
+    }
+
+    &:not([open]) {
+      opacity: 0;
+      translate: 100% 0;
+    }
+
+    &::backdrop {
+      animation: animations-fade-in;
+      animation-duration: var(--fnd-motion-duration-450);
+      animation-timing-function: var(--fnd-motion-ease-focused);
+      animation-fill-mode: forwards;
+      background: var(--fnd-color-background-transparency-mid);
+    }
+  }
+
+  @include large-desktop {
+    width: 440px;
+    max-width: 440px;
+  }
+
+  // Header
+  .theme-switcher__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fnd-spacing-05) var(--fnd-spacing-06);
+    border-bottom: 1px solid var(--fnd-color-border-low);
+    flex-shrink: 0;
+  }
+
+  .theme-switcher__title {
+    @include heading('m');
+    font-family: var(--font-heading);
+    font-weight: var(--fnd-font-weight-medium);
+    margin: 0;
+  }
+
+  .theme-switcher__close {
+    all: unset;
+    @include flex-center;
+    border-radius: var(--fnd-radius-lg);
+    background: var(--fnd-color-background-secondary);
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+      background: var(--fnd-color-background-tertiary);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      margin: 0;
+    }
+  }
+
+  // Content
+  .theme-switcher__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--fnd-spacing-06);
+    @include flex-column;
+    gap: var(--fnd-spacing-06);
+  }
+
+  .theme-switcher__label {
+    @include paragraph('m');
+    font-weight: var(--fnd-font-weight-semibold);
+    color: var(--fnd-color-text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  // Theme Options Grid
+  .theme-switcher__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--fnd-spacing-04);
+  }
+
+  .theme-switcher__option {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fnd-spacing-03);
+    padding: var(--fnd-spacing-04);
+    border-radius: var(--fnd-radius-lg);
+    border: 2px solid var(--fnd-color-border-low);
+    cursor: pointer;
+    transition:
+      border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
+      background-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
+      box-shadow var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+    &:hover {
+      border-color: var(--fnd-color-border-mid);
+      background-color: var(--fnd-color-background-secondary);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &.is-active {
+      border-color: var(--neo-color-neo-blue-500, #009fe3);
+      box-shadow: 0 0 0 1px var(--neo-color-neo-blue-500, #009fe3);
+    }
+  }
+
+  // Theme Preview Swatch
+  .theme-switcher__preview {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--fnd-radius-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  .theme-switcher__preview-header {
+    height: 28%;
+    display: flex;
+    align-items: center;
+    padding-inline: 8%;
+    gap: 4%;
+  }
+
+  .theme-switcher__preview-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .theme-switcher__preview-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    opacity: 0.5;
+  }
+
+  .theme-switcher__preview-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6%;
+    padding: 8%;
+  }
+
+  .theme-switcher__preview-line {
+    height: 5px;
+    border-radius: 2px;
+    opacity: 0.3;
+
+    &:first-child {
+      width: 60%;
+      opacity: 0.7;
+    }
+
+    &:nth-child(2) {
+      width: 85%;
+    }
+
+    &:nth-child(3) {
+      width: 45%;
+    }
+  }
+
+  .theme-switcher__option-label {
+    @include paragraph('s');
+    font-weight: var(--fnd-font-weight-medium);
+    color: var(--fnd-color-text-high);
+    text-align: center;
+  }
+}
+
+// Body scroll lock when theme switcher open
+body:has(.theme-switcher-modal[open]) {
+  overflow: hidden;
+}

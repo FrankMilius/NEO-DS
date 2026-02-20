@@ -1,0 +1,93 @@
+// ==========================================================================
+// 03-Elements: Forms
+// ==========================================================================
+// Basis-Styles fuer Formularelemente (Element-Layer Reset).
+// Alle Werte referenzieren Foundation-Tokens — keine Hardcoded-Werte.
+//
+// HINWEIS: Komponenten-spezifische Styles liegen in 05-atoms/_input.scss,
+// 05-atoms/_textarea.scss, 05-atoms/_select.scss etc.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Input, Textarea, Select
+// ---------------------------------------------------------------------------
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: var(--fnd-color-background-secondary);
+  border: var(--fnd-border-width-xs) solid var(--fnd-color-border-primary);
+  border-radius: var(--fnd-radius-sm);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  @include transition(border-color background-color box-shadow, '200');
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Fallback fuer Browser ohne :focus-visible
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: var(--fnd-color-background-disabled);
+    color: var(--fnd-color-text-disabled);
+    border-color: var(--fnd-color-border-secondary);
+    cursor: not-allowed;
+    opacity: var(--fnd-opacity-disabled);
+  }
+
+  &[aria-disabled='true'] {
+    background-color: var(--fnd-color-background-disabled);
+    color: var(--fnd-color-text-disabled);
+    border-color: var(--fnd-color-border-secondary);
+    cursor: not-allowed;
+    opacity: var(--fnd-opacity-disabled);
+    pointer-events: none;
+  }
+
+  &::placeholder {
+    color: var(--fnd-color-text-secondary); // text-secondary (5.7:1) statt text-tertiary (3.3:1) fuer WCAG AA
+  }
+
+  &[readonly] {
+    background-color: var(--fnd-color-background-secondary);
+    border-color: var(--fnd-color-border-secondary);
+    cursor: default;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Fieldset & Legend
+// ---------------------------------------------------------------------------
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  padding: 0;
+  margin-bottom: var(--fnd-spacing-04);
+  @include heading('xs');
+  color: var(--fnd-color-text-primary);
+}
+
+// ---------------------------------------------------------------------------
+// Label
+// ---------------------------------------------------------------------------
+
+label {
+  display: block;
+  margin-bottom: var(--fnd-spacing-02);
+  color: var(--fnd-color-text-secondary);
+  @include paragraph('m');
+}

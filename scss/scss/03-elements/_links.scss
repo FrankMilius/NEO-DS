@@ -1,0 +1,30 @@
+// ==========================================================================
+// 03-Elements: Links
+// ==========================================================================
+// Basis-Styles für Anchor-Elemente
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+a {
+  color: var(--fnd-color-text-high);
+  text-decoration: none;
+  @include transition(color, '200');
+  
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    border-radius: var(--fnd-radius-xs);
+  }
+  
+  // Links mit Icons
+  &:any-link:has(.icon) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+  }
+}

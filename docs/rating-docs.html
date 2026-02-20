@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rating | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Rating-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Rating</h1>
+      <p class="docs__subtitle">
+        Stern-Bewertungs-Komponente mit interaktivem und Readonly-Modus.
+        Kanonische Klasse: <code class="docs__token">.nc-rating</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-rating-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="rating-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Rating-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Modus und State, um das Rating live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM</option>
+                  <option value="md" selected>MD</option>
+                  <option value="lg">LG</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Modus</span>
+                <select class="docs-stage__select" id="stage-mode">
+                  <option value="interactive" selected>Interaktiv</option>
+                  <option value="readonly">Readonly</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="disabled">Disabled</option>
+                  <option value="error">Error</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders rating here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-rating" role="radiogroup" aria-label="Bewertung"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Interactive Example -->
+          <section class="docs__section" id="interactive-example">
+            <h2 class="docs__section-title">Interaktives Rating</h2>
+            <p class="docs__section-desc">
+              Klicke auf einen Stern, um eine Bewertung abzugeben.
+              Die Sterne werden &uuml;ber Radio-Inputs gesteuert.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-rating" role="radiogroup" aria-label="Bewertung" data-rating-interactive>
+                <label class="nc-rating__item" data-value="1">
+                  <input class="nc-rating__input" type="radio" name="rating-demo1" value="1" />
+                  <svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </label>
+                <label class="nc-rating__item" data-value="2">
+                  <input class="nc-rating__input" type="radio" name="rating-demo1" value="2" />
+                  <svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </label>
+                <label class="nc-rating__item" data-value="3">
+                  <input class="nc-rating__input" type="radio" name="rating-demo1" value="3" />
+                  <svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </label>
+                <label class="nc-rating__item" data-value="4">
+                  <input class="nc-rating__input" type="radio" name="rating-demo1" value="4" />
+                  <svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </label>
+                <label class="nc-rating__item" data-value="5">
+                  <input class="nc-rating__input" type="radio" name="rating-demo1" value="5" />
+                  <svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Readonly with Value -->
+          <section class="docs__section" id="readonly-example">
+            <h2 class="docs__section-title">Readonly mit Wert</h2>
+            <p class="docs__section-desc">
+              Im Readonly-Modus zeigt das Rating einen festen Wert an.
+              Keine Interaktion m&ouml;glich. Optionaler Z&auml;hler-Text.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-rating nc-rating--readonly" role="img" aria-label="Bewertung: 4 von 5 Sternen" data-rating-value="4">
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__value">4.0</span>
+                <span class="nc-rating__count">(128 Bewertungen)</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sizes -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;en: SM, MD (Default) und LG.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div class="nc-rating nc-rating--sm nc-rating--readonly" role="img" aria-label="3 von 5 Sternen" data-rating-value="3">
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM</div>
+              </div>
+              <div>
+                <div class="nc-rating nc-rating--readonly" role="img" aria-label="3 von 5 Sternen" data-rating-value="3">
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD (Default)</div>
+              </div>
+              <div>
+                <div class="nc-rating nc-rating--lg nc-rating--readonly" role="img" aria-label="3 von 5 Sternen" data-rating-value="3">
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                </div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- With Count Text -->
+          <section class="docs__section" id="with-count">
+            <h2 class="docs__section-title">Mit Z&auml;hler-Text</h2>
+            <p class="docs__section-desc">
+              Optionaler Text f&uuml;r Bewertungsanzahl oder Durchschnittswert neben den Sternen.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-rating nc-rating--readonly" role="img" aria-label="Bewertung: 4.5 von 5 Sternen" data-rating-value="4">
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item nc-rating__item--active"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__item"><svg class="nc-rating__star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                <span class="nc-rating__value">4.5</span>
+                <span class="nc-rating__count">(2.341 Bewertungen)</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-rating                     // Block (Container)
+.nc-rating__input              // Versteckter Radio-Input
+.nc-rating__item               // Einzelner Stern (Label oder Span)
+.nc-rating__item--active        // Aktiver (gef&uuml;llter) Stern
+.nc-rating__item--half          // Halb gef&uuml;llter Stern
+.nc-rating__value              // Numerischer Wert (z.B. "4.5")
+.nc-rating__count              // Bewertungsanzahl (z.B. "(128)")
+
+// Gr&ouml;&szlig;en
+.nc-rating--sm                 // Kleine Sterne
+// (md = Default, kein Modifier)
+.nc-rating--lg                 // Gro&szlig;e Sterne
+
+// Modi
+.nc-rating--readonly           // Nur-Lese-Modus
+
+// States
+.nc-rating--disabled           // Deaktiviert
+.nc-rating--error              // Fehlerzustand</div>
+          </section>
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sizes</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-star-size-sm</code></td><td>16px</td><td>Sterngr&ouml;&szlig;e SM</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-star-size-md</code></td><td>20px</td><td>Sterngr&ouml;&szlig;e MD (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-star-size-lg</code></td><td>28px</td><td>Sterngr&ouml;&szlig;e LG</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-gap</code></td><td>2px</td><td>Abstand zwischen den Sternen</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-color-active</code></td><td>&mdash;</td><td>Farbe aktiver (gef&uuml;llter) Sterne</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-color-inactive</code></td><td>&mdash;</td><td>Farbe inaktiver Sterne</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-color-hover</code></td><td>&mdash;</td><td>Farbe beim Hover</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-color-error</code></td><td>&mdash;</td><td>Farbe im Fehlerzustand</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-value-font-size</code></td><td>0.875rem</td><td>Schriftgr&ouml;&szlig;e des Werts</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-value-font-weight</code></td><td>600</td><td>Schriftgewicht des Werts</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-value-color</code></td><td>&mdash;</td><td>Textfarbe des Werts</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-count-font-size</code></td><td>0.75rem</td><td>Schriftgr&ouml;&szlig;e des Z&auml;hlers</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-count-color</code></td><td>&mdash;</td><td>Textfarbe des Z&auml;hlers</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">States</td></tr>
+                <tr><td><code class="docs__token">--nc-rating-disabled-opacity</code></td><td>0.5</td><td>Opacity im Disabled-Zustand</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-rating</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-rating</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-rating-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_rating.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Interaktiver Modus</strong></td><td><code class="docs__token">role="radiogroup"</code> mit Radio-Inputs</td></tr>
+                <tr><td><strong>Readonly-Modus</strong></td><td><code class="docs__token">role="img"</code> mit Span-Elementen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. HTML Structure -->
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Interaktives Rating (Radio-Inputs) --&gt;
+&lt;div class="nc-rating" role="radiogroup" aria-label="Bewertung"&gt;
+  &lt;label class="nc-rating__item"&gt;
+    &lt;input class="nc-rating__input" type="radio" name="rating" value="1" /&gt;
+    &lt;svg class="nc-rating__star" viewBox="0 0 24 24"&gt;
+      &lt;polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/&gt;
+    &lt;/svg&gt;
+  &lt;/label&gt;
+  &lt;!-- ... weitere Sterne (2-5) ... --&gt;
+&lt;/div&gt;
+
+&lt;!-- Readonly Rating (Spans) --&gt;
+&lt;div class="nc-rating nc-rating--readonly" role="img" aria-label="Bewertung: 4 von 5 Sternen"&gt;
+  &lt;span class="nc-rating__item nc-rating__item--active"&gt;
+    &lt;svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor"&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;!-- ... weitere Sterne ... --&gt;
+  &lt;span class="nc-rating__value"&gt;4.0&lt;/span&gt;
+  &lt;span class="nc-rating__count"&gt;(128 Bewertungen)&lt;/span&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <!-- 3. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-rating</code></td><td>Block</td><td>Rating-Container. Inline-Flex, Alignment.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__input</code></td><td>Element</td><td>Versteckter Radio-Input (visually hidden).</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__item</code></td><td>Element</td><td>Einzelner Stern &mdash; <code class="docs__token">&lt;label&gt;</code> (interaktiv) oder <code class="docs__token">&lt;span&gt;</code> (readonly).</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__item--active</code></td><td>Modifier</td><td>Aktiver (gef&uuml;llter, farbiger) Stern.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__item--half</code></td><td>Modifier</td><td>Halb gef&uuml;llter Stern (Readonly).</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__value</code></td><td>Element</td><td>Numerischer Durchschnittswert.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating__count</code></td><td>Element</td><td>Bewertungsanzahl-Text.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-rating--sm</code></td><td>Kleine Sterngr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating--lg</code></td><td>Gro&szlig;e Sterngr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating--readonly</code></td><td>Nur-Lese-Modus. Keine Interaktion.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating--disabled</code></td><td>Deaktivierter Zustand. Reduzierte Opacity.</td></tr>
+                <tr><td><code class="docs__token">.nc-rating--error</code></td><td>Fehlerzustand. Sterne in Fehlerfarbe.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Interaktiv --&gt;
+&lt;div class="nc-rating [--sm] [--lg] [--disabled] [--error]"
+     role="radiogroup" aria-label="Bewertung"&gt;
+
+  &lt;!-- Slot: Stern-Items (5x) --&gt;
+  &lt;label class="nc-rating__item [--active]"&gt;
+    &lt;input class="nc-rating__input" type="radio"
+           name="rating" value="1" /&gt;
+    &lt;svg class="nc-rating__star"&gt;...&lt;/svg&gt;
+  &lt;/label&gt;
+  &lt;!-- ... 4 weitere ... --&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Readonly --&gt;
+&lt;div class="nc-rating nc-rating--readonly [--sm] [--lg]"
+     role="img" aria-label="Bewertung: X von 5"&gt;
+
+  &lt;!-- Slot: Stern-Items (5x) --&gt;
+  &lt;span class="nc-rating__item [--active] [--half]"&gt;
+    &lt;svg class="nc-rating__star"&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;!-- ... 4 weitere ... --&gt;
+
+  &lt;!-- Slot: Wert (optional) --&gt;
+  &lt;span class="nc-rating__value"&gt;4.5&lt;/span&gt;
+
+  &lt;!-- Slot: Z&auml;hler (optional) --&gt;
+  &lt;span class="nc-rating__count"&gt;(128)&lt;/span&gt;
+
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Die Rating-Komponente nutzt je nach Modus unterschiedliche ARIA-Patterns.
+          </p>
+
+          <!-- Interactive: radiogroup -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Interaktiver Modus: role="radiogroup"</h4>
+              <ul>
+                <li>Der Container erh&auml;lt <code class="docs__token">role="radiogroup"</code> und <code class="docs__token">aria-label="Bewertung"</code></li>
+                <li>Jeder Stern ist ein <code class="docs__token">&lt;label&gt;</code> mit einem versteckten <code class="docs__token">&lt;input type="radio"&gt;</code></li>
+                <li>Radio-Inputs erm&ouml;glichen native Tastatur-Navigation (Pfeiltasten)</li>
+                <li>Der aktive Radio-Input bestimmt die gew&auml;hlte Bewertung</li>
+                <li>Fokus-Styling &uuml;ber <code class="docs__token">:focus-visible</code> auf den Labels</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Readonly: role="img" -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Readonly-Modus: role="img"</h4>
+              <ul>
+                <li>Der Container erh&auml;lt <code class="docs__token">role="img"</code> und ein beschreibendes <code class="docs__token">aria-label</code></li>
+                <li>Beispiel: <code class="docs__token">aria-label="Bewertung: 4 von 5 Sternen"</code></li>
+                <li>Die einzelnen Sterne sind <code class="docs__token">&lt;span&gt;</code>-Elemente &mdash; nicht fokussierbar</li>
+                <li>Der Screenreader liest den gesamten Wert als ein Element vor</li>
+                <li>Kein <code class="docs__token">tabindex</code> auf dem Container n&ouml;tig</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard Interaction -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="6" y1="16" x2="18" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Bedienung (Interaktiv)</h4>
+              <ul>
+                <li><kbd>Tab</kbd> &mdash; Fokussiert die Radiogroup</li>
+                <li><kbd>Pfeil rechts / Pfeil unten</kbd> &mdash; W&auml;hlt n&auml;chsten Stern</li>
+                <li><kbd>Pfeil links / Pfeil oben</kbd> &mdash; W&auml;hlt vorherigen Stern</li>
+                <li><kbd>Space</kbd> &mdash; Aktiviert den fokussierten Stern</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Color Not Sole Signal -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbe nie als alleiniges Signal (R7)</h4>
+              <ul>
+                <li>Die Stern-Form (gef&uuml;llt vs. Outline) ist zus&auml;tzlich zur Farbe als Signal vorhanden</li>
+                <li>Im Readonly-Modus erg&auml;nzt der numerische Wert (<code class="docs__token">.nc-rating__value</code>) die visuelle Anzeige</li>
+                <li>Fehler-State darf nicht nur &uuml;ber Farbe kommuniziert werden &mdash; zus&auml;tzliche Fehlermeldung nutzen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Interaktives Rating mit Label --&gt;
+&lt;div class="nc-rating" role="radiogroup" aria-label="Produktbewertung"&gt;
+  &lt;label class="nc-rating__item"&gt;
+    &lt;input class="nc-rating__input" type="radio"
+           name="product-rating" value="1" /&gt;
+    &lt;svg class="nc-rating__star"&gt;...&lt;/svg&gt;
+  &lt;/label&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Readonly mit beschreibendem Label --&gt;
+&lt;div class="nc-rating nc-rating--readonly"
+     role="img"
+     aria-label="Bewertung: 4.5 von 5 Sternen, 128 Bewertungen"&gt;
+  &lt;!-- Sterne ... --&gt;
+  &lt;span class="nc-rating__value"&gt;4.5&lt;/span&gt;
+  &lt;span class="nc-rating__count"&gt;(128)&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Disabled mit disabled-Attribut --&gt;
+&lt;div class="nc-rating nc-rating--disabled"
+     role="radiogroup" aria-label="Bewertung" aria-disabled="true"&gt;
+  &lt;label class="nc-rating__item"&gt;
+    &lt;input class="nc-rating__input" type="radio"
+           name="rating" value="1" disabled /&gt;
+    &lt;svg class="nc-rating__star"&gt;...&lt;/svg&gt;
+  &lt;/label&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Kein aria-label auf dem Container --&gt;
+&lt;div class="nc-rating" role="radiogroup"&gt;
+  &lt;!-- Sterne ohne Kontext --&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Readonly ohne role="img" --&gt;
+&lt;div class="nc-rating nc-rating--readonly"&gt;
+  &lt;!-- Sterne ohne Accessibility-Rolle --&gt;
+&lt;/div&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="rating-docs.js"></script>
+
+</body>
+</html>

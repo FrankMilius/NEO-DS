@@ -1,0 +1,88 @@
+// ==========================================================================
+// 06-Molecules: Card Cities
+// ==========================================================================
+// Cities/Locations Card Variante
+// Migriert von: cards.css (.cards.cities)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.cards.cities {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--fnd-spacing-04);
+    
+    @include tablet-up {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    @include respond-to('md') {
+      gap: var(--fnd-spacing-06);
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+  
+  li {
+    background-color: var(--fnd-color-background-base);
+    border-radius: var(--fnd-radius-lg);
+    padding: var(--fnd-spacing-04);
+    
+    &:hover {
+      background-color: var(--fnd-color-background-secondary);
+      
+      .button-container {
+        .icon-only,
+        .icon-button {
+          background-color: var(--fnd-color-background-tertiary);
+        }
+      }
+    }
+    
+    .card-content {
+      .heading {
+        @include paragraph('m');
+        margin-block: var(--fnd-spacing-01) var(--fnd-spacing-02);
+        
+        @include desktop-up {
+          @include paragraph('l');
+          margin-block: var(--fnd-spacing-01) var(--fnd-spacing-03);
+        }
+      }
+      
+      .overheadline {
+        @include paragraph('s');
+        margin: 0;
+        color: var(--fnd-color-text-mid);
+        
+        @include desktop-up {
+          @include paragraph('m');
+        }
+      }
+      
+      picture {
+        width: 96px;
+        height: 96px;
+        margin-inline: auto;
+        overflow: visible;
+        
+        @include desktop-up {
+          width: 116px;
+          height: 116px;
+        }
+        
+        img {
+          aspect-ratio: var(--fnd-image-ratio-1-1);
+        }
+      }
+      
+      .button-container {
+        margin-block: var(--fnd-spacing-02) 0;
+        
+        @include desktop-up {
+          margin-block-start: var(--fnd-spacing-03);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+// ==========================================================================
+// 06-Molecules: Form Field
+// ==========================================================================
+// Token-basierter Form-Field-Wrapper der alle Teile zusammenfuegt:
+// Label + Input/Textarea/Select + Hint + Error.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-field-* Component-Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-form-field
+//     .nc-form-label          (optional)
+//     .nc-form-hint           (optional, vor dem Input)
+//     .nc-input / .nc-textarea / .nc-select / .nc-checkbox / ...
+//     .nc-form-error          (optional, bei Validierungsfehler)
+//     .nc-form-hint           (optional, nach dem Input)
+//
+// BEM-KLASSEN:
+//   .nc-form-field               Block (flex column container)
+//   .nc-form-field--error        Error-State (propagiert zu Kind-Input)
+//   .nc-form-field--success      Success-State
+//   .nc-form-field--disabled     Disabled-State
+//   .nc-form-field--horizontal   Label + Input nebeneinander
+//   .nc-form-field--required     Pflichtfeld-Markierung
+//
+// ACCESSIBILITY:
+//   aria-describedby auf Input → verlinkt zu Hint/Error IDs
+//   .nc-form-field--error propagiert aria-invalid="true" visuell
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den FormField-Wrapper.
+@mixin form-field-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-form-field-gap);
+  width: 100%;
+
+  // Label im FormField soll kein margin-bottom haben (gap uebernimmt)
+  > .nc-form-label {
+    margin-bottom: 0;
+  }
+}
+
+/// Error-State: propagiert Error-Styling auf Kind-Input/Textarea/Select.
+@mixin form-field-error {
+  > .nc-input,
+  > .nc-textarea,
+  > .nc-select,
+  > .nc-input-wrapper .nc-input,
+  > .nc-textarea-wrapper .nc-textarea,
+  > .nc-select-wrapper .nc-select,
+  > .nc-input-group .nc-input {
+    border-color: var(--nc-input-border-error);
+
+    &:focus-visible {
+      border-color: var(--nc-input-border-error);
+    }
+  }
+}
+
+/// Success-State: propagiert Success-Styling auf Kind-Input.
+@mixin form-field-success {
+  > .nc-input,
+  > .nc-textarea,
+  > .nc-select,
+  > .nc-input-wrapper .nc-input,
+  > .nc-textarea-wrapper .nc-textarea,
+  > .nc-select-wrapper .nc-select,
+  > .nc-input-group .nc-input {
+    border-color: var(--nc-input-border-success);
+
+    &:focus-visible {
+      border-color: var(--nc-input-border-success);
+    }
+  }
+}
+
+/// Disabled-State: graut alles aus.
+@mixin form-field-disabled {
+  > .nc-form-label {
+    color: var(--fnd-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  > .nc-form-hint {
+    color: var(--fnd-color-text-disabled);
+  }
+}
+
+/// Horizontal-Layout: Label + Input nebeneinander (ab Tablet).
+@mixin form-field-horizontal {
+  @include respond-to('md') {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--fnd-spacing-04);
+
+    > .nc-form-label {
+      flex: 0 0 auto;
+      width: 200px;
+      margin-bottom: 0;
+      padding-top: var(--nc-input-padding-y-md); // Alignment mit Input
+    }
+
+    // Input-Bereich nimmt restlichen Platz
+    > .nc-input,
+    > .nc-textarea,
+    > .nc-select,
+    > .nc-input-wrapper,
+    > .nc-textarea-wrapper,
+    > .nc-select-wrapper,
+    > .nc-input-group {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form-field {
+  @include form-field-base;
+
+  // -- State-Modifier --
+
+  &--error { @include form-field-error; }
+  &--success { @include form-field-success; }
+  &--disabled { @include form-field-disabled; }
+
+  // -- Layout-Modifier --
+
+  &--horizontal { @include form-field-horizontal; }
+}

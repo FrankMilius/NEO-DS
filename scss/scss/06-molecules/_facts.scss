@@ -1,0 +1,29 @@
+// ==========================================================================
+// 06-Molecules: Facts
+// ==========================================================================
+// Key-value fact display (term/description pairs).
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-facts-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin-block-end: 1rem;
+}
+
+.nc-facts-list {
+  display: grid;
+  gap: 0.5rem 1rem;
+  grid-template-columns: auto 1fr;
+}
+
+.nc-facts-term {
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.nc-facts-desc {
+  margin: 0;
+  color: var(--fnd-color-text-secondary);
+}

@@ -1,0 +1,102 @@
+// ==========================================================================
+// 01-Tools: Functions
+// ==========================================================================
+// Utility Functions für SCSS
+// ==========================================================================
+
+@use 'sass:map';
+@use 'sass:math';
+@use '../00-settings/breakpoints' as bp;
+@use '../00-settings/spacing' as sp;
+
+// ---------------------------------------------------------------------------
+// Unit Conversion
+// ---------------------------------------------------------------------------
+
+/// Convert px to rem
+/// @param {Number} $px - Pixel value
+/// @param {Number} $base [16] - Base font size
+/// @return {Number} Rem value
+@function rem($px, $base: 16) {
+  @return ($px / $base) * 1rem;
+}
+
+/// Convert px to em
+/// @param {Number} $px - Pixel value
+/// @param {Number} $base [16] - Base font size
+/// @return {Number} Em value
+@function em($px, $base: 16) {
+  @return ($px / $base) * 1em;
+}
+
+// ---------------------------------------------------------------------------
+// Grid Calculations
+// ---------------------------------------------------------------------------
+
+/// Calculate grid column width
+/// Reproduziert: calc($n * (100% - var(--grid-gap) * (var(--columns) - 1)) / var(--columns) + ($n - 1) * var(--grid-gap))
+/// @param {Number} $n - Number of columns to span
+/// @return {String} CSS calc() expression
+@function grid-columns($n) {
+  @if $n < 1 or $n > 12 {
+    @warn "grid-columns() expects a value between 1 and 12, got #{$n}";
+  }
+  
+  $gap-count: $n - 1;
+  
+  @return calc(
+    #{$n} * (100% - var(--grid-gap) * (var(--columns) - 1)) / var(--columns) + 
+    #{$gap-count} * var(--grid-gap)
+  );
+}
+
+// ---------------------------------------------------------------------------
+// 4px Grid Snapping
+// ---------------------------------------------------------------------------
+
+/// Round a value to the nearest multiple of the base grid unit (4px).
+/// @param {Number} $value - Value to snap (px)
+/// @param {Number} $base [4px] - Grid base unit
+/// @return {Number} Snapped value
+@function snap-to-grid($value, $base: 4px) {
+  @return round(math.div($value, $base)) * $base;
+}
+
+// ---------------------------------------------------------------------------
+// String Helpers
+// ---------------------------------------------------------------------------
+
+/// Replace string
+/// @param {String} $string - Input string
+/// @param {String} $search - String to search
+/// @param {String} $replace [''] - Replacement
+/// @return {String} Modified string
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + 
+            $replace + 
+            str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
+
+// ---------------------------------------------------------------------------
+// Map Helpers
+// ---------------------------------------------------------------------------
+
+/// Deep map get
+/// @param {Map} $map - Source map
+/// @param {Arglist} $keys - Key path
+/// @return {*} Value at path
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    @if type-of($map) != 'map' {
+      @return null;
+    }
+    $map: map.get($map, $key);
+  }
+  @return $map;
+}

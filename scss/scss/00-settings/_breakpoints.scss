@@ -1,0 +1,41 @@
+// ==========================================================================
+// 00-Settings: Breakpoints
+// ==========================================================================
+// Responsive Breakpoints für Media Queries
+// Verwendung: @include respond-to('md') { ... }
+// ==========================================================================
+
+@use 'sass:map';
+@use 'tokens-layout.generated' as tokens;
+
+/// Breakpoint Map
+/// @type Map
+$breakpoints: (
+  'xs': 0,
+  'sm': 768px,
+  'md': 960px,
+  'lg': 1200px,
+  'xl': 1600px,
+  'xxl': 1920px
+) !default;
+
+/// Container max-width (from design-tokens.json)
+$container-max-width: tokens.$token-container-max-width;
+
+/// Wide container max-width (from design-tokens.json)
+$container-max-width-wide: tokens.$token-container-max-width-wide;
+
+/// Grid columns count (from design-tokens.json)
+$grid-columns: tokens.$token-grid-columns;
+
+/// Grid gap base value (from design-tokens.json)
+$grid-gap: tokens.$token-grid-gap;
+
+// CSS Custom Properties Output
+:root {
+  // Fluid grid gap: 12px (mobile) → 24px (desktop)
+  --grid-gap: clamp(12px, 1.5vw, 24px);
+  --columns: #{$grid-columns};
+  --container-max-width: #{$container-max-width};
+  --container-max-width-wide: #{$container-max-width-wide};
+}

@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Item | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Item-Komponente (shadcn-inspiriert) mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Item</h1>
+      <p class="docs__subtitle">
+        Vielseitige Komponente zur Darstellung von Inhalten mit Media, Titel, Beschreibung und Aktionen.
+        Kanonische Klasse: <code class="docs__token">.nc-item</code> (BEM).
+        Inspiriert von shadcn Item. Alle Werte kommen aus <code class="docs__token">--nc-item-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="item-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Item-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Live Demo -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Variante, Gr&ouml;&szlig;e und Media-Typ, um die Item-Komponente live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="default" selected>Default</option>
+                  <option value="outline">Outline</option>
+                  <option value="muted">Muted</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="default" selected>Default</option>
+                  <option value="sm">Small</option>
+                  <option value="xs">Extra-Small</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Media</span>
+                <select class="docs-stage__select" id="stage-media">
+                  <option value="icon" selected>Icon</option>
+                  <option value="avatar">Avatar</option>
+                  <option value="image">Image</option>
+                  <option value="none">None</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-actions" checked />
+                  <span class="docs-stage__label">Actions</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview docs-stage__preview--start" id="stage-preview">
+              <!-- JS renders Item here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-item"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Showcase: Default -->
+          <section class="docs__section" id="showcase-default">
+            <h2 class="docs__section-title">Default</h2>
+            <p class="docs__section-desc">
+              Transparenter Hintergrund ohne Border. Standard-Layout mit Icon, Titel, Description und Actions.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-item">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Einstellungen</div>
+                  <p class="nc-item__description">Konto- und Profil-Einstellungen verwalten.</p>
+                </div>
+                <div class="nc-item__actions">
+                  <button class="button outline" style="--nc-button-height-md: 32px; font-size: 0.75rem;">Bearbeiten</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Outline -->
+          <section class="docs__section" id="showcase-outline">
+            <h2 class="docs__section-title">Outline</h2>
+            <p class="docs__section-desc">
+              Mit sichtbarem Border f&uuml;r st&auml;rkere visuelle Abgrenzung.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-item nc-item--outline">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Max Mustermann</div>
+                  <p class="nc-item__description">max.mustermann@neocosmo.de</p>
+                </div>
+                <div class="nc-item__actions">
+                  <button class="button outline" style="--nc-button-height-md: 32px; font-size: 0.75rem;">Profil</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Muted -->
+          <section class="docs__section" id="showcase-muted">
+            <h2 class="docs__section-title">Muted</h2>
+            <p class="docs__section-desc">
+              Ged&auml;mpfter Hintergrund f&uuml;r sekund&auml;re Inhalte.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-item nc-item--muted">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Neue Nachricht</div>
+                  <p class="nc-item__description">Sie haben 3 ungelesene Nachrichten.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Sizes -->
+          <section class="docs__section" id="showcase-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              Default, Small und Extra-Small im Vergleich.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px; display: grid; gap: var(--fnd-spacing-03);">
+              <div class="nc-item nc-item--outline">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Default</div>
+                  <p class="nc-item__description">Standard-Gr&ouml;&szlig;e mit 40px Media.</p>
+                </div>
+              </div>
+              <div class="nc-item nc-item--outline nc-item--sm">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Small</div>
+                  <p class="nc-item__description">Kompakte Variante mit 32px Media.</p>
+                </div>
+              </div>
+              <div class="nc-item nc-item--outline nc-item--xs">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Extra-Small</div>
+                  <p class="nc-item__description">Minimale Variante mit 24px Media.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Item Group -->
+          <section class="docs__section" id="showcase-group">
+            <h2 class="docs__section-title">Item Group</h2>
+            <p class="docs__section-desc">
+              Gruppierte Items mit gemeinsamer Outline und Separatoren.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-item-group nc-item-group--outline">
+                <div class="nc-item">
+                  <div class="nc-item__media nc-item__media--icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                  <div class="nc-item__content">
+                    <div class="nc-item__title">Profil</div>
+                    <p class="nc-item__description">Name, Foto und Bio bearbeiten.</p>
+                  </div>
+                </div>
+                <div class="nc-item">
+                  <div class="nc-item__media nc-item__media--icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <div class="nc-item__content">
+                    <div class="nc-item__title">Sicherheit</div>
+                    <p class="nc-item__description">Passwort und 2FA verwalten.</p>
+                  </div>
+                </div>
+                <div class="nc-item">
+                  <div class="nc-item__media nc-item__media--icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  </div>
+                  <div class="nc-item__content">
+                    <div class="nc-item__title">Benachrichtigungen</div>
+                    <p class="nc-item__description">E-Mail- und Push-Benachrichtigungen konfigurieren.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase: Interactive (Link) -->
+          <section class="docs__section" id="showcase-interactive">
+            <h2 class="docs__section-title">Interactive (als Link)</h2>
+            <p class="docs__section-desc">
+              Als <code class="docs__token">&lt;a&gt;</code>-Element mit Hover-State.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <a class="nc-item nc-item--outline" href="#">
+                <div class="nc-item__media nc-item__media--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </div>
+                <div class="nc-item__content">
+                  <div class="nc-item__title">Dokumentation &ouml;ffnen</div>
+                  <p class="nc-item__description">Zur externen Dokumentation wechseln.</p>
+                </div>
+              </a>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td>Abstand zwischen Slots</td></tr>
+                <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>Horizontales Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>Vertikales Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-md)</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td>Vertikale Ausrichtung</td></tr>
+                <tr><td><code class="docs__token">--nc-item-bg</code></td><td>transparent</td><td>Hintergrundfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-item-border</code></td><td>transparent</td><td>Borderfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-item-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-item-title-font-size</code></td><td>var(--fs-sm)</td><td>Titel-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-item-title-font-weight</code></td><td>500</td><td>Titel-Schriftstärke</td></tr>
+                <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-high)</td><td>Titel-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-item-desc-font-size</code></td><td>var(--fs-xs)</td><td>Description-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-mid)</td><td>Description-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-item-media-size</code></td><td>40px</td><td>Media-Container-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-item-media-radius</code></td><td>var(--fnd-radius-md)</td><td>Media-Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-item-media-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Media-Hintergrund (Icon)</td></tr>
+                <tr><td><code class="docs__token">--nc-item-media-color</code></td><td>var(--fnd-color-text-mid)</td><td>Media-Icon-Farbe</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
+
+.nc-item                      // Block
+.nc-item--outline             // Modifier: Outline-Variante
+.nc-item--muted               // Modifier: Muted-Variante
+.nc-item--sm                  // Modifier: Small
+.nc-item--xs                  // Modifier: Extra-Small
+.nc-item--interactive         // Modifier: Hover/Focus (auto bei a/button)
+.nc-item__media               // Element: Media-Container
+.nc-item__media--icon         // Modifier: Icon (Kreis-Background)
+.nc-item__media--image        // Modifier: Bild
+.nc-item__media--avatar       // Modifier: Avatar
+.nc-item__content             // Element: Text-Wrapper
+.nc-item__title               // Element: Titel
+.nc-item__title--truncate     // Modifier: Einzeilig mit Ellipsis
+.nc-item__description         // Element: Beschreibung
+.nc-item__description--truncate // Modifier: Einzeilig mit Ellipsis
+.nc-item__actions             // Element: Aktionen-Slot
+.nc-item-group                // Standalone: Gruppierung
+.nc-item-group--outline       // Modifier: Gruppe mit Border
+.nc-item-separator            // Standalone: Trenner</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-structure">
+            <h2 class="docs__section-title">Komponenten-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Item --&gt;
+&lt;div class="nc-item"&gt;
+  &lt;div class="nc-item__media nc-item__media--icon"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-item__content"&gt;
+    &lt;div class="nc-item__title"&gt;Titel&lt;/div&gt;
+    &lt;p class="nc-item__description"&gt;Beschreibung&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-item__actions"&gt;
+    &lt;button class="button outline"&gt;Aktion&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Als Link --&gt;
+&lt;a class="nc-item nc-item--outline" href="#"&gt;
+  &lt;div class="nc-item__media nc-item__media--icon"&gt;...&lt;/div&gt;
+  &lt;div class="nc-item__content"&gt;
+    &lt;div class="nc-item__title"&gt;Klickbarer Titel&lt;/div&gt;
+    &lt;p class="nc-item__description"&gt;...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;!-- Mit Avatar --&gt;
+&lt;div class="nc-item nc-item--sm"&gt;
+  &lt;div class="nc-item__media nc-item__media--avatar"&gt;
+    &lt;span class="nc-avatar nc-avatar--sm"&gt;
+      &lt;span class="nc-avatar__fallback"&gt;MM&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-item__content"&gt;
+    &lt;div class="nc-item__title"&gt;Max Mustermann&lt;/div&gt;
+    &lt;p class="nc-item__description"&gt;max@example.com&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Item Group --&gt;
+&lt;div class="nc-item-group nc-item-group--outline"&gt;
+  &lt;div class="nc-item"&gt;...&lt;/div&gt;
+  &lt;div class="nc-item"&gt;...&lt;/div&gt;
+  &lt;div class="nc-item"&gt;...&lt;/div&gt;
+&lt;/div&gt;</div>
+          </section>
+
+          <section class="docs__section" id="api-variants">
+            <h2 class="docs__section-title">Varianten</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-item</code></td><td>Default: Transparent, kein Border</td></tr>
+                <tr><td><code class="docs__token">.nc-item--outline</code></td><td>Sichtbarer Border</td></tr>
+                <tr><td><code class="docs__token">.nc-item--muted</code></td><td>Ged&auml;mpfter Hintergrund</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Padding</th><th>Media</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>(default)</td><td>12px 16px</td><td>40px</td><td>Standard</td></tr>
+                <tr><td><code class="docs__token">.nc-item--sm</code></td><td>8px 12px</td><td>32px</td><td>Kompakt</td></tr>
+                <tr><td><code class="docs__token">.nc-item--xs</code></td><td>4px 8px</td><td>24px</td><td>Minimal</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-media">
+            <h2 class="docs__section-title">Media-Varianten</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-item__media</code></td><td>Generischer Container</td></tr>
+                <tr><td><code class="docs__token">.nc-item__media--icon</code></td><td>Kreis mit Hintergrund, Icon 50% Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">.nc-item__media--image</code></td><td>Abgerundetes Bild, object-fit cover</td></tr>
+                <tr><td><code class="docs__token">.nc-item__media--avatar</code></td><td>Wrapper f&uuml;r <code>.nc-avatar</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <section class="docs__section" id="a11y-overview">
+            <h2 class="docs__section-title">Accessibility</h2>
+
+            <h3>Semantik</h3>
+            <table class="docs__table">
+              <thead><tr><th>Anwendungsfall</th><th>Element</th><th>Hinweis</th></tr></thead>
+              <tbody>
+                <tr><td>Informativer Inhalt</td><td><code>&lt;div&gt;</code></td><td>Nicht fokussierbar, keine Rolle n&ouml;tig</td></tr>
+                <tr><td>Klickbarer Link</td><td><code>&lt;a&gt;</code></td><td>Native Fokus + Hover-State</td></tr>
+                <tr><td>Aktion</td><td><code>&lt;button&gt;</code></td><td>Focus-Ring automatisch via <code>:focus-visible</code></td></tr>
+                <tr><td>Listenelement</td><td><code>&lt;li&gt;</code> in <code>&lt;ul&gt;</code></td><td>Mit <code>.nc-item-group</code> als <code>&lt;ul&gt;</code></td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Empfehlungen</h3>
+            <ul style="padding-left: 1.5rem; line-height: 1.8;">
+              <li>Verwende <code>&lt;a&gt;</code> f&uuml;r navigierbare Items, <code>&lt;button&gt;</code> f&uuml;r Aktionen.</li>
+              <li>Bei <code>.nc-item-group</code> als <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> rendern f&uuml;r Screenreader.</li>
+              <li>Farbe nie als einziges Unterscheidungsmerkmal verwenden &mdash; immer mit Text/Icon kombinieren.</li>
+              <li>Truncated Titles mit <code>title</code>-Attribut oder <code>aria-label</code> erg&auml;nzen.</li>
+              <li>Focus-Ring wird automatisch &uuml;ber <code>:focus-visible</code> angezeigt.</li>
+            </ul>
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="item-docs.js"></script>
+
+</body>
+</html>

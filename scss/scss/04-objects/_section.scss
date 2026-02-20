@@ -1,0 +1,121 @@
+// ==========================================================================
+// 04-Objects: Section
+// ==========================================================================
+// Generic section spacing object.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Base Section
+// ---------------------------------------------------------------------------
+
+.section {
+  padding: clamp(2rem, 4rem, 6rem) 0;
+}
+
+// ---------------------------------------------------------------------------
+// Neocosmo Container
+// ---------------------------------------------------------------------------
+// Custom container with optional full-bleed children pattern.
+
+.nc-container {
+  width: 100%;
+  @include container-padding;
+}
+
+.nc-container--wide {
+  width: min(1440px, 94vw);
+  @include container-padding-wide;
+}
+
+// Full-bleed children inside nc-container
+// Children break out of the container padding to go edge-to-edge,
+// then re-apply their own padding.
+.nc-container > .nc-hero,
+.nc-container > .nc-logo-wall,
+.nc-container > .nc-feature-grid,
+.nc-container > .nc-benefit-grid,
+.nc-container > .nc-usecase-grid,
+.nc-container > .nc-news-grid,
+.nc-container > .nc-metric-grid,
+.nc-container > .nc-facts-grid,
+.nc-container > .nc-facts-list,
+.nc-container > .nc-gallery,
+.nc-container > .nc-marquee,
+.nc-container > .nc-slider,
+.nc-container > .nc-slider__track,
+.nc-container > .nc-pricing-grid,
+.nc-container > .nc-faq,
+.nc-container > .nc-cta__form,
+.nc-container > .nc-footer__columns {
+  padding-inline: var(--container-pad, 0px);
+  margin-inline: calc(-1 * var(--container-pad, 0px));
+  width: calc(100% + (var(--container-pad, 0px) * 2));
+}
+
+// ---------------------------------------------------------------------------
+// Content Grid Layouts
+// ---------------------------------------------------------------------------
+// Responsive grid objects for feature/benefit/news/gallery/pricing sections.
+
+.nc-feature-grid {
+  display: grid;
+  gap: 4rem;
+}
+
+.nc-benefit-grid,
+.nc-usecase-grid,
+.nc-news-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.nc-metric-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  padding: 0 !important;
+}
+
+.nc-facts-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.nc-pricing-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive: Grid Layouts
+// ---------------------------------------------------------------------------
+
+@media (min-width: 768px) {
+  .nc-feature-grid,
+  .nc-benefit-grid,
+  .nc-usecase-grid,
+  .nc-news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nc-facts-grid,
+  .nc-pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .nc-feature-grid,
+  .nc-benefit-grid,
+  .nc-usecase-grid,
+  .nc-news-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nc-pricing-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

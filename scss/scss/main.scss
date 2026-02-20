@@ -1,0 +1,73 @@
+// ==========================================================================
+// Main SCSS Entry Point
+// ==========================================================================
+// Vollständige SCSS-Migration nach Atomic Design Prinzipien
+// Build: Dart Sass mit @use/@forward (kein @import)
+// Migriert von: 16 CSS-Dateien (140KB)
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// 00. Settings (Design Tokens)
+// Output: CSS Custom Properties (:root)
+// ---------------------------------------------------------------------------
+@use '00-settings' as settings;
+
+// ---------------------------------------------------------------------------
+// 01. Tools (Functions & Mixins)
+// Output: None - wird in Komponenten via @use importiert
+// ---------------------------------------------------------------------------
+// Nicht direkt importieren - wird in den jeweiligen Komponenten verwendet
+
+// ---------------------------------------------------------------------------
+// 02. Generic (Reset, Fonts, Animations)
+// Output: Reset-Styles, @font-face, @keyframes
+// ---------------------------------------------------------------------------
+@use '02-generic' as generic;
+
+// ---------------------------------------------------------------------------
+// 03. Elements (Unclassed HTML Elements)
+// Output: Element-Defaults (body, headings, links, buttons, forms, media)
+// ---------------------------------------------------------------------------
+@use '03-elements' as elements;
+
+// ---------------------------------------------------------------------------
+// 04. Objects (Layout Patterns)
+// Output: Container, Grid, Video Objects
+// ---------------------------------------------------------------------------
+@use '04-objects' as objects;
+
+// ---------------------------------------------------------------------------
+// 05. Atoms (Smallest UI Units)
+// Output: Button, Icon, Label, Input, Square, Link-with-Arrow
+// ---------------------------------------------------------------------------
+@use '05-atoms' as atoms;
+
+// ---------------------------------------------------------------------------
+// 06. Molecules (Combinations of Atoms)
+// Output: Cards (all variants), Accordion, Text-Only, Square-Value
+// ---------------------------------------------------------------------------
+@use '06-molecules' as molecules;
+
+// ---------------------------------------------------------------------------
+// 07. Organisms (Complex UI Sections)
+// Output: Header, Footer, Carousel, Solutions, Question, Notification, Modal
+// ---------------------------------------------------------------------------
+@use '07-organisms' as organisms;
+
+// ---------------------------------------------------------------------------
+// 08. Templates (Page Layout Structures)
+// Output: Home-Hero, Home-Basic
+// ---------------------------------------------------------------------------
+@use '08-templates' as templates;
+
+// ---------------------------------------------------------------------------
+// 09. Pages (Page-specific Styles)
+// Output: PNF (404)
+// ---------------------------------------------------------------------------
+@use '09-pages' as pages;
+
+// ---------------------------------------------------------------------------
+// 10. Utilities (Helper Classes)
+// Output: Visibility, Spacing, Themes, Fragment
+// ---------------------------------------------------------------------------
+@use '10-utilities' as utilities;

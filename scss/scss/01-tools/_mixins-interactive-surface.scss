@@ -1,0 +1,171 @@
+@use 'mixins-motion' as *;
+
+// ==========================================================================
+// 01-Tools: Interactive Surface Mixins
+// ==========================================================================
+// Gemeinsames Fundament fuer alle button-aehnlichen Oberflaechen:
+// Badge (statisch), Tag, Chip, Toggle Group Items, Segmented Control Items.
+//
+// Zwei Einstiegspunkte:
+//   @include static-surface-base       — nicht-interaktive Elemente (Badge, statischer Tag)
+//   @include interactive-surface-base  — interaktive Elemente (Chip, Toggle, Segmented)
+//
+// Beide nutzen private CSS Custom Properties (--_surface-*) als internes
+// Vertragssystem. Jede konsumierende Komponente setzt diese Properties
+// mit eigenen Component-Tokens.
+//
+// Zusaetzlich:
+//   @include surface-size($size)       — mappt Button-Height-Tokens auf jede Surface
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Static Surface Base
+// ---------------------------------------------------------------------------
+// Fuer nicht-interaktive pill/badge/tag Oberflaechen.
+// Bietet: Display, Alignment, Typography, Shape — keine Interaction States.
+
+@mixin static-surface-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_surface-gap, var(--fnd-spacing-02));
+  position: relative;
+  border: var(--_surface-border-width, var(--fnd-border-width-xs)) solid
+          var(--_surface-border-color, transparent);
+  border-radius: var(--_surface-radius, var(--fnd-radius-full));
+  background-color: var(--_surface-bg, transparent);
+  color: var(--_surface-color, inherit);
+  font-family: inherit;
+  font-weight: var(--_surface-font-weight, 600);
+  font-size: var(--_surface-font-size, var(--fs-xs));
+  line-height: var(--_surface-line-height, 1.25);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  overflow: hidden;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Surface Base
+// ---------------------------------------------------------------------------
+// Erweitert static-surface-base um:
+// Cursor, Transition, Focus-Ring, Active-Scale, Disabled-State.
+
+@mixin interactive-surface-base {
+  @include static-surface-base;
+
+  cursor: pointer;
+  appearance: none;
+
+  transition:
+    background-color var(--_surface-transition, 0.2s) ease,
+    border-color     var(--_surface-transition, 0.2s) ease,
+    color            var(--_surface-transition, 0.2s) ease,
+    transform        var(--_surface-transition, 0.2s) ease;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(var(--_surface-scale-active, 0.98));
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--_surface-disabled-bg, var(--fnd-color-background-disabled));
+    color: var(--_surface-disabled-color, var(--fnd-color-text-disabled));
+    border-color: var(--_surface-disabled-border, var(--fnd-color-border-secondary));
+    opacity: var(--_surface-opacity-disabled, 0.5);
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Surface Size
+// ---------------------------------------------------------------------------
+// Mappt die 4-stufige Button-Height-Scale auf jede Surface-Komponente.
+// Nutzt dieselben --nc-button-height/font-size/radius/gap Tokens.
+// Ueberschreibbar per --_surface-padding-{x|y}, --_surface-radius-{size}.
+
+@mixin surface-size($size: 'md') {
+  @if $size == 'xs' {
+    min-height: var(--nc-button-height-xs);
+    padding:
+      var(--_surface-padding-y, var(--nc-button-padding-y-xs))
+      var(--_surface-padding-x, var(--nc-button-padding-x-xs));
+    font-size: var(--nc-button-font-size-xs);
+    border-radius: var(--_surface-radius, var(--nc-button-radius-xs));
+    gap: var(--_surface-gap, var(--nc-button-icon-gap-xs));
+  } @else if $size == 'sm' {
+    min-height: var(--nc-button-height-sm);
+    padding:
+      var(--_surface-padding-y, var(--nc-button-padding-y-sm))
+      var(--_surface-padding-x, var(--nc-button-padding-x-sm));
+    font-size: var(--nc-button-font-size-sm);
+    border-radius: var(--_surface-radius, var(--nc-button-radius-sm));
+    gap: var(--_surface-gap, var(--nc-button-icon-gap-sm));
+  } @else if $size == 'md' {
+    min-height: var(--nc-button-height-md);
+    padding:
+      var(--_surface-padding-y, var(--nc-button-padding-y-md))
+      var(--_surface-padding-x, var(--nc-button-padding-x-md));
+    font-size: var(--nc-button-font-size-md);
+    border-radius: var(--_surface-radius, var(--nc-button-radius-md));
+    gap: var(--_surface-gap, var(--nc-button-icon-gap-md));
+  } @else if $size == 'lg' {
+    min-height: var(--nc-button-height-lg);
+    padding:
+      var(--_surface-padding-y, var(--nc-button-padding-y-lg))
+      var(--_surface-padding-x, var(--nc-button-padding-x-lg));
+    font-size: var(--nc-button-font-size-lg);
+    border-radius: var(--_surface-radius, var(--nc-button-radius-lg));
+    gap: var(--_surface-gap, var(--nc-button-icon-gap-lg));
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Surface Remove Button
+// ---------------------------------------------------------------------------
+// Gemeinsames Pattern fuer X/Dismiss-Buttons in Tag und Chip.
+
+@mixin surface-remove-button($size: 16px) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $size;
+  height: $size;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: var(--fnd-radius-full);
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 1;
+    background-color: color-mix(in srgb, currentColor 15%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  > svg {
+    width: calc($size * 0.625);
+    height: calc($size * 0.625);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}

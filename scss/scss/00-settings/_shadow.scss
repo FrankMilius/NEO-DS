@@ -1,0 +1,146 @@
+// ==========================================================================
+// 00-Settings: Shadow & Elevation
+// ==========================================================================
+// Shadow-Tokens und semantische Elevation-Stufen.
+//
+// ARCHITEKTUR:
+//   1. Shadow Levels (xs–xl)   — Rohe Schattenwerte, theme-aware
+//   2. Elevation Levels         — Semantische Zuordnung (base–modal)
+//   3. Inset Shadows            — Fuer vertiefte/gedrueckte Zustaende
+//
+// NAMING:
+//   --fnd-shadow-{xs|sm|md|lg|xl}          Rohe Shadow-Werte
+//   --fnd-elevation-{base|raised|floating|overlay|modal}  Semantisch
+//   --fnd-shadow-inset-{sm|md}             Inset-Varianten
+//
+// BACKWARD-COMPAT:
+//   --ds-shadow-levels-{size}  →  Alias auf --fnd-shadow-{size}
+// ==========================================================================
+
+@use 'sass:map';
+@use 'tokens-shadow.generated' as tokens;
+
+// ---------------------------------------------------------------------------
+// Token Maps (from design-tokens.json)
+// ---------------------------------------------------------------------------
+
+$shadow-levels: tokens.$token-shadow-levels;
+$elevation-levels: tokens.$token-elevation-levels;
+
+// ---------------------------------------------------------------------------
+// Dark Mode Shadow Levels
+// ---------------------------------------------------------------------------
+// Im Dark Mode muessen Schatten staerker/dunkler sein, da der Hintergrund
+// bereits dunkel ist. Opacity wird erhoht fuer bessere Sichtbarkeit.
+// ---------------------------------------------------------------------------
+
+$shadow-levels-dark: (
+  'xs': '0 1px 2px rgba(0, 0, 0, 0.20)',
+  'sm': '0 4px 10px rgba(0, 0, 0, 0.28)',
+  'md': '0 10px 24px rgba(0, 0, 0, 0.36)',
+  'lg': '0 18px 40px rgba(0, 0, 0, 0.44)',
+  'xl': '0 30px 60px rgba(0, 0, 0, 0.52)',
+);
+
+// ---------------------------------------------------------------------------
+// Inset Shadow Tokens
+// ---------------------------------------------------------------------------
+
+$shadow-inset: (
+  'sm': 'inset 0 1px 2px rgba(15, 23, 42, 0.08)',
+  'md': 'inset 0 2px 4px rgba(15, 23, 42, 0.12)',
+);
+
+$shadow-inset-dark: (
+  'sm': 'inset 0 1px 2px rgba(0, 0, 0, 0.24)',
+  'md': 'inset 0 2px 4px rgba(0, 0, 0, 0.32)',
+);
+
+// ---------------------------------------------------------------------------
+// Getter Functions
+// ---------------------------------------------------------------------------
+
+/// Get shadow value by level
+/// @param {String} $level - Shadow level (xs, sm, md, lg, xl)
+/// @return {String} Shadow value
+@function shadow($level) {
+  @if map.has-key($shadow-levels, $level) {
+    @return map.get($shadow-levels, $level);
+  }
+  @warn "Unknown shadow level: #{$level}";
+  @return none;
+}
+
+/// Get elevation value by semantic name
+/// @param {String} $level - Elevation name (base, raised, floating, overlay, modal)
+/// @return {String} CSS var() reference
+@function elevation($level) {
+  @if map.has-key($elevation-levels, $level) {
+    @return map.get($elevation-levels, $level);
+  }
+  @warn "Unknown elevation level: #{$level}";
+  @return none;
+}
+
+// ---------------------------------------------------------------------------
+// CSS Custom Properties Output — Light (Default)
+// ---------------------------------------------------------------------------
+
+:root {
+  // Shadow Levels (raw)
+  @each $key, $value in $shadow-levels {
+    --fnd-shadow-#{$key}: #{$value};
+  }
+
+  // Backward-compat aliases (--ds-shadow-levels-* → --fnd-shadow-*)
+  @each $key, $_ in $shadow-levels {
+    --ds-shadow-levels-#{$key}: var(--fnd-shadow-#{$key});
+  }
+
+  // Semantic Elevation Levels
+  --fnd-elevation-base: var(--fnd-shadow-xs);
+  --fnd-elevation-raised: var(--fnd-shadow-sm);
+  --fnd-elevation-floating: var(--fnd-shadow-md);
+  --fnd-elevation-overlay: var(--fnd-shadow-lg);
+  --fnd-elevation-modal: var(--fnd-shadow-xl);
+
+  // Inset Shadows
+  @each $key, $value in $shadow-inset {
+    --fnd-shadow-inset-#{$key}: #{$value};
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dark Theme Overrides
+// ---------------------------------------------------------------------------
+
+.neo-dark-theme,
+.customer-dark-theme,
+.dark-base-theme,
+.dark-secondary-theme {
+  @each $key, $value in $shadow-levels-dark {
+    --fnd-shadow-#{$key}: #{$value};
+  }
+
+  // Inset Shadows (dark)
+  @each $key, $value in $shadow-inset-dark {
+    --fnd-shadow-inset-#{$key}: #{$value};
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Automatic Dark Mode Shadows (prefers-color-scheme)
+// ---------------------------------------------------------------------------
+// Greift wenn kein explizites data-theme gesetzt ist (gleich wie _color-themes.scss).
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @each $key, $value in $shadow-levels-dark {
+      --fnd-shadow-#{$key}: #{$value};
+    }
+
+    @each $key, $value in $shadow-inset-dark {
+      --fnd-shadow-inset-#{$key}: #{$value};
+    }
+  }
+}

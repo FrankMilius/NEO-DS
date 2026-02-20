@@ -1,0 +1,152 @@
+// ==========================================================================
+// 05-Atoms: Chip
+// ==========================================================================
+// Interaktives Filter-/Auswahl-Element. Immer ein <button> mit aria-pressed.
+//
+// SEMANTIK:
+//   R3: Toggle-State via aria-pressed="true|false" (NICHT aria-selected)
+//   R2: Chip ist immer <button> (Aktion: Filter aktivieren/deaktivieren)
+//   R7: Selected-State hat visuelle Behandlung ueber Farbe hinaus
+//       (Fill + Border + optionales Checkmark-Icon)
+//   R6: Icon-only Chip (selten) braucht aria-label
+//
+// GROESSEN (3 Stufen, versetzt zum Button-Scale):
+//   sm → 24px (= Button XS)
+//   md → 32px (= Button SM) — DEFAULT
+//   lg → 40px (= Button MD)
+//
+// KLASSEN:
+//   .nc-chip (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin chip-base {
+  @include interactive-surface-base;
+
+  --_surface-bg: var(--nc-chip-default-bg);
+  --_surface-color: var(--nc-chip-default-color);
+  --_surface-border-color: var(--nc-chip-default-border);
+  --_surface-radius: var(--nc-chip-radius);
+  --_surface-font-size: var(--nc-chip-font-size);
+  --_surface-font-weight: var(--nc-chip-font-weight);
+  --_surface-gap: var(--nc-chip-gap);
+  --_surface-transition: var(--nc-chip-transition-duration);
+  --_surface-scale-active: var(--nc-chip-scale-active);
+  --_surface-border-width: var(--fnd-border-width-xs);
+  --_surface-disabled-bg: var(--nc-chip-disabled-bg);
+  --_surface-disabled-color: var(--nc-chip-disabled-color);
+  --_surface-disabled-border: var(--nc-chip-disabled-border);
+  --_surface-opacity-disabled: var(--nc-chip-opacity-disabled);
+
+  @include chip-size('md');
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-chip-default-bg-hover);
+  }
+}
+
+@mixin chip-size($size: 'md') {
+  @if $size == 'sm' {
+    min-height: var(--nc-chip-height-sm);
+    padding: 0 var(--fnd-spacing-02);
+    font-size: var(--nc-chip-font-size-sm);
+  } @else if $size == 'md' {
+    min-height: var(--nc-chip-height-md);
+    padding: var(--nc-chip-padding-y) var(--nc-chip-padding-x);
+  } @else if $size == 'lg' {
+    min-height: var(--nc-chip-height-lg);
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+    font-size: var(--nc-chip-font-size-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Selected State
+// ---------------------------------------------------------------------------
+
+@mixin chip-selected {
+  background-color: var(--nc-chip-selected-bg);
+  color: var(--nc-chip-selected-color);
+  border-color: var(--nc-chip-selected-border);
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-chip-selected-bg-hover);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Elements
+// ---------------------------------------------------------------------------
+
+@mixin chip-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-chip-icon-size);
+  height: var(--nc-chip-icon-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@mixin chip-avatar-element {
+  width: var(--nc-chip-avatar-size);
+  height: var(--nc-chip-avatar-size);
+  border-radius: var(--fnd-radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-inline-start: calc(-1 * var(--fnd-spacing-01));
+}
+
+@mixin chip-remove-button {
+  @include surface-remove-button(var(--nc-chip-remove-size));
+  margin-inline-end: calc(-1 * var(--fnd-spacing-01));
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-chip {
+  @include chip-base;
+
+  // Elements
+  &__icon   { @include chip-icon-element; }
+  &__avatar { @include chip-avatar-element; }
+  &__label  { display: inline-flex; align-items: center; }
+  &__remove { @include chip-remove-button; }
+
+  // Sizes
+  &--sm { @include chip-size('sm'); }
+  &--lg { @include chip-size('lg'); }
+
+  // Selected State (CSS-Klasse und/oder aria-pressed)
+  &--selected,
+  &[aria-pressed='true'] {
+    @include chip-selected;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Chip Group (optionaler Container)
+// ---------------------------------------------------------------------------
+
+.nc-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+  align-items: center;
+}

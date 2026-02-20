@@ -1,0 +1,364 @@
+// ==========================================================================
+// 05-Atoms: Card
+// ==========================================================================
+// Token-basierte, semantisch korrekte Card-Komponente (Design System).
+// Inspiriert von shadcn Card. Koexistiert mit Legacy-Cards in 06-molecules.
+//
+// VARIANTEN:
+//   Informational      — <article> / <section>, nicht fokussierbar
+//   Navigational Entire — <a>, gesamte Fläche klickbar
+//   Navigational Partial — <article>, interner Link im Titel
+//   Action              — <article>, Buttons im Footer-Slot
+//   Selectable Radio    — <label> + <input type="radio">
+//   Selectable Checkbox — <label> + <input type="checkbox">
+//   Expandable          — <details> / <summary>
+//   Status              — <article>, linker Border-Indikator
+//
+// ANTI-PATTERNS (vermieden):
+//   ✗ div[onclick]
+//   ✗ role="button" auf Nicht-Buttons
+//   ✗ Verschachtelte interaktive Elemente
+//   ✗ outline: none
+//   ✗ Hardcoded Farben / !important
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins: Basis
+// ---------------------------------------------------------------------------
+
+/// Card-Basis: Container mit Background, Border, Radius, Shadow
+@mixin card-base {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--nc-card-bg);
+  color: var(--nc-card-color);
+  border: var(--nc-card-border-width) solid var(--nc-card-border);
+  border-radius: var(--nc-card-radius);
+  box-shadow: var(--nc-card-shadow);
+  overflow: hidden;
+
+  transition:
+    box-shadow var(--nc-card-transition-duration) ease,
+    border-color var(--nc-card-transition-duration) ease,
+    background-color var(--nc-card-transition-duration) ease,
+    transform var(--nc-card-transition-duration) ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Card-Header: Flex-Column für Titel + Description + Action
+@mixin card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-card-header-gap);
+  padding: var(--nc-card-header-padding);
+}
+
+/// Card-Title: Heading-Typografie
+@mixin card-title {
+  font-size: var(--nc-card-title-font-size);
+  font-weight: var(--nc-card-title-font-weight);
+  line-height: var(--nc-card-title-line-height);
+  color: var(--nc-card-title-color);
+  margin: 0;
+}
+
+/// Card-Description: Body-Typografie
+@mixin card-description {
+  font-size: var(--nc-card-description-font-size);
+  line-height: var(--nc-card-description-line-height);
+  color: var(--nc-card-description-color);
+  margin: 0;
+}
+
+/// Card-Media: Bildfläche ohne eigenen Padding
+@mixin card-media {
+  overflow: hidden;
+
+  > img,
+  > video,
+  > picture,
+  > picture > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/// Card-Content: Freier Inhaltsbereich
+@mixin card-content {
+  padding: var(--nc-card-content-padding);
+  flex: 1 1 auto;
+}
+
+/// Card-Footer: Aktionsbereich (Buttons, Links, Meta)
+@mixin card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-card-footer-gap);
+  padding: var(--nc-card-footer-padding);
+}
+
+// ---------------------------------------------------------------------------
+// Mixins: Interaktive Zustände
+// ---------------------------------------------------------------------------
+
+/// Hover + Focus + Active + Disabled für interaktive Cards
+@mixin card-interactive-states {
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--nc-card-hover-border);
+    box-shadow: var(--nc-card-shadow-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(0.99);
+  }
+}
+
+/// Disabled-State (für alle interaktiven Varianten)
+@mixin card-disabled {
+  opacity: var(--nc-card-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Mixins: Varianten
+// ---------------------------------------------------------------------------
+
+/// Navigational Entire — Root ist <a>
+@mixin card-navigational {
+  @include card-interactive-states;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover .nc-card__title {
+    color: var(--nc-card-nav-color-hover);
+  }
+}
+
+/// Selectable — Root ist <label>, Input ist sr-only
+@mixin card-selectable {
+  @include card-interactive-states;
+
+  // Hidden native input
+  > .nc-card__input {
+    @include sr-only;
+
+    // Selected State (checked)
+    &:checked ~ .nc-card__header,
+    &:checked ~ .nc-card__content,
+    &:checked ~ .nc-card__footer {
+      // Kein direkter Style — selected wird auf dem Parent über :has() gesteuert
+    }
+
+    // Focus auf Card übertragen
+    &:focus-visible ~ * {
+      // Wird durch :has(:focus-visible) auf dem Parent gehandhabt
+    }
+
+    // Disabled
+    &:disabled ~ * {
+      opacity: var(--nc-card-disabled-opacity);
+      cursor: not-allowed;
+    }
+  }
+
+  // Selected State via :has()
+  &:has(.nc-card__input:checked) {
+    border-color: var(--nc-card-selected-border);
+    border-width: var(--nc-card-selected-ring-width);
+    background-color: var(--nc-card-selected-bg);
+  }
+
+  // Focus-Visible auf Card via :has()
+  &:has(.nc-card__input:focus-visible) {
+    @include focus-ring;
+  }
+
+  // Disabled via :has()
+  &:has(.nc-card__input:disabled) {
+    @include card-disabled;
+  }
+}
+
+/// Expandable — Root ist <details>
+@mixin card-expandable {
+  // Summary als klickbarer Header
+  > .nc-card__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nc-card-header-gap);
+    padding: var(--nc-card-summary-padding);
+    font-weight: var(--nc-card-summary-font-weight);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+
+    // Remove default disclosure triangle
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+      content: '';
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      outline-offset: -2px;
+    }
+
+    &:hover {
+      background-color: var(--fnd-color-background-secondary);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // Expand/Collapse Icon
+  > .nc-card__summary > .nc-card__expand-icon {
+    width: var(--nc-card-expand-icon-size);
+    height: var(--nc-card-expand-icon-size);
+    flex-shrink: 0;
+    transition: transform var(--nc-card-transition-duration) ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // Open State
+  &[open] > .nc-card__summary > .nc-card__expand-icon {
+    transform: rotate(180deg);
+  }
+
+  // Content inside details
+  > .nc-card__content {
+    padding: var(--nc-card-details-content-padding);
+  }
+}
+
+/// Status — Linker Border-Indikator
+@mixin card-status {
+  border-left-width: var(--nc-card-status-border-width);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-card {
+  @include card-base;
+
+  // -- Elemente --
+
+  &__header {
+    @include card-header;
+  }
+
+  &__title {
+    @include card-title;
+  }
+
+  &__description {
+    @include card-description;
+  }
+
+  &__media {
+    @include card-media;
+  }
+
+  &__content {
+    @include card-content;
+  }
+
+  &__footer {
+    @include card-footer;
+  }
+
+  &__action {
+    align-self: flex-start;
+  }
+
+  // Title-Link für Navigational Partial
+  &__title-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--nc-card-nav-color-hover);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      border-radius: var(--fnd-radius-xs);
+    }
+  }
+
+  // -- Varianten-Modifier --
+
+  // Navigational (Entire Surface)
+  &--navigational {
+    @include card-navigational;
+  }
+
+  // Action Card (Footer mit Buttons)
+  &--action {
+    > .nc-card__footer {
+      justify-content: flex-end;
+    }
+  }
+
+  // Selectable (Radio / Checkbox)
+  &--selectable {
+    @include card-selectable;
+  }
+
+  // Expandable (Details/Summary)
+  &--expandable {
+    @include card-expandable;
+  }
+
+  // Status (linker Border)
+  &--status {
+    @include card-status;
+  }
+
+  &--status-success {
+    border-left-color: var(--nc-card-status-success-border);
+  }
+
+  &--status-warning {
+    border-left-color: var(--nc-card-status-warning-border);
+  }
+
+  &--status-danger {
+    border-left-color: var(--nc-card-status-danger-border);
+  }
+
+  &--status-info {
+    border-left-color: var(--nc-card-status-info-border);
+  }
+
+  // Disabled Modifier (nicht-native Varianten)
+  &--disabled {
+    @include card-disabled;
+  }
+}

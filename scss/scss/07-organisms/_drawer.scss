@@ -1,0 +1,390 @@
+// ==========================================================================
+// 07-Organisms: Drawer
+// ==========================================================================
+// shadcn-inspirierter Drawer basierend auf nativem <dialog>-Element.
+// Slide-in Panel von unten, oben, links oder rechts mit Overlay, Handle,
+// Header, scrollbarem Content und Footer.
+//
+// RICHTUNGEN (4):
+//   bottom (default)  — Slide von unten
+//   top               — Slide von oben
+//   left              — Slide von links
+//   right             — Slide von rechts
+//
+// BEM-KLASSEN:
+//   .nc-drawer                    Block (<dialog>)
+//   .nc-drawer--top               Modifier: Richtung oben
+//   .nc-drawer--right             Modifier: Richtung rechts
+//   .nc-drawer--left              Modifier: Richtung links
+//   .nc-drawer__handle            Drag-Handle (visueller Indikator)
+//   .nc-drawer__header            Header (Title + Description)
+//   .nc-drawer__title             Titel
+//   .nc-drawer__description       Beschreibung
+//   .nc-drawer__content           Scrollbarer Inhalt
+//   .nc-drawer__footer            Footer mit Buttons
+//   .nc-drawer__close             Close-Button
+//
+// ACCESSIBILITY:
+//   Natives <dialog> + showModal() liefert:
+//   role="dialog", aria-modal="true", Fokus-Trap, ESC-Close.
+//   aria-labelledby → Title, aria-describedby → Description.
+//
+// Inspiriert von shadcn Drawer / Vaul
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Component Tokens
+// ---------------------------------------------------------------------------
+
+.nc-drawer {
+  // Dimensions
+  --nc-drawer-max-width: 100%;
+  --nc-drawer-max-height: 85vh;
+  --nc-drawer-width: 100%;
+  --nc-drawer-side-width: 380px;
+
+  // Visual
+  --nc-drawer-padding: var(--fnd-spacing-06);
+  --nc-drawer-radius: var(--fnd-radius-3xl);
+  --nc-drawer-bg: var(--nc-dialog-bg, var(--fnd-color-background-base));
+  --nc-drawer-shadow: var(--fnd-elevation-floating);
+  --nc-drawer-overlay-bg: var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay));
+
+  // Header
+  --nc-drawer-title-font-size: var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size));
+  --nc-drawer-title-font-weight: var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold));
+  --nc-drawer-title-color: var(--nc-dialog-title-color, var(--fnd-color-text-primary));
+  --nc-drawer-desc-font-size: var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size));
+  --nc-drawer-desc-color: var(--nc-dialog-description-color, var(--fnd-color-text-secondary));
+
+  // Spacing
+  --nc-drawer-header-gap: var(--nc-dialog-header-gap, var(--fnd-spacing-02));
+  --nc-drawer-section-gap: var(--nc-dialog-section-gap, var(--fnd-spacing-06));
+  --nc-drawer-footer-gap: var(--nc-dialog-footer-gap, var(--fnd-spacing-03));
+
+  // Handle
+  --nc-drawer-handle-width: 48px;
+  --nc-drawer-handle-height: 4px;
+  --nc-drawer-handle-radius: var(--fnd-radius-full);
+  --nc-drawer-handle-bg: var(--fnd-color-border-mid);
+
+  // Motion
+  --nc-drawer-duration: var(--fnd-motion-duration-300);
+  --nc-drawer-ease: var(--fnd-motion-ease-focused);
+}
+
+// ---------------------------------------------------------------------------
+// Base (Bottom — Default)
+// ---------------------------------------------------------------------------
+
+.nc-drawer {
+  position: fixed;
+  border: none;
+  padding: 0;
+  background-color: var(--nc-drawer-bg);
+  color: var(--fnd-color-text-primary);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: var(--fnd-z-drawer);
+
+  // Bottom default: bottom edge
+  inset: auto 0 0 0;
+  width: var(--nc-drawer-width);
+  max-width: var(--nc-drawer-max-width);
+  max-height: var(--nc-drawer-max-height);
+  margin: 0;
+  border-radius: var(--nc-drawer-radius) var(--nc-drawer-radius) 0 0;
+  box-shadow: var(--nc-drawer-shadow);
+
+  &[open] {
+    display: flex;
+  }
+
+  // Animation: slide from bottom
+  transition:
+    opacity var(--nc-drawer-duration) var(--nc-drawer-ease),
+    translate var(--nc-drawer-duration) var(--nc-drawer-ease),
+    display var(--nc-drawer-duration) var(--nc-drawer-ease) allow-discrete;
+
+  &[open] {
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 100%;
+    }
+  }
+
+  &:not([open]) {
+    opacity: 0;
+    translate: 0 100%;
+  }
+
+  // Backdrop / Overlay
+  &::backdrop {
+    background: var(--nc-drawer-overlay-bg);
+    animation: nc-drawer-fade-in;
+    animation-duration: var(--nc-drawer-duration);
+    animation-timing-function: var(--nc-drawer-ease);
+    animation-fill-mode: forwards;
+  }
+
+  // Reduced Motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &::backdrop {
+      animation: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Direction: Top
+// ---------------------------------------------------------------------------
+
+.nc-drawer--top {
+  inset: 0 0 auto 0;
+  border-radius: 0 0 var(--nc-drawer-radius) var(--nc-drawer-radius);
+  box-shadow: var(--fnd-elevation-floating);
+
+  &[open] {
+    @starting-style {
+      translate: 0 -100%;
+    }
+  }
+
+  &:not([open]) {
+    translate: 0 -100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Direction: Right
+// ---------------------------------------------------------------------------
+
+.nc-drawer--right {
+  inset: 0 0 0 auto;
+  width: var(--nc-drawer-side-width);
+  max-width: 90vw;
+  max-height: 100vh;
+  height: 100%;
+  border-radius: var(--nc-drawer-radius) 0 0 var(--nc-drawer-radius);
+  box-shadow: var(--fnd-elevation-floating);
+
+  &[open] {
+    @starting-style {
+      translate: 100% 0;
+    }
+  }
+
+  &:not([open]) {
+    translate: 100% 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Direction: Left
+// ---------------------------------------------------------------------------
+
+.nc-drawer--left {
+  inset: 0 auto 0 0;
+  width: var(--nc-drawer-side-width);
+  max-width: 90vw;
+  max-height: 100vh;
+  height: 100%;
+  border-radius: 0 var(--nc-drawer-radius) var(--nc-drawer-radius) 0;
+  box-shadow: var(--fnd-elevation-floating);
+
+  &[open] {
+    @starting-style {
+      translate: -100% 0;
+    }
+  }
+
+  &:not([open]) {
+    translate: -100% 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Handle (Drag-Indikator, sichtbar bei bottom/top)
+// ---------------------------------------------------------------------------
+
+.nc-drawer__handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--fnd-spacing-03) 0;
+  flex-shrink: 0;
+  cursor: grab;
+
+  &::after {
+    content: '';
+    display: block;
+    width: var(--nc-drawer-handle-width);
+    height: var(--nc-drawer-handle-height);
+    border-radius: var(--nc-drawer-handle-radius);
+    background-color: var(--nc-drawer-handle-bg);
+  }
+
+  // Verstecken bei Left/Right Drawers
+  .nc-drawer--left &,
+  .nc-drawer--right & {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Header
+// ---------------------------------------------------------------------------
+
+.nc-drawer__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-drawer-header-gap);
+  padding: 0 var(--nc-drawer-padding);
+  flex-shrink: 0;
+
+  // Wenn kein Handle vorhanden, Top-Padding ergaenzen
+  .nc-drawer--left &,
+  .nc-drawer--right & {
+    padding-top: var(--nc-drawer-padding);
+  }
+}
+
+.nc-drawer__title {
+  font-size: var(--nc-drawer-title-font-size);
+  font-weight: var(--nc-drawer-title-font-weight);
+  color: var(--nc-drawer-title-color);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.nc-drawer__description {
+  font-size: var(--nc-drawer-desc-font-size);
+  color: var(--nc-drawer-desc-color);
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ---------------------------------------------------------------------------
+// Content (scrollbar)
+// ---------------------------------------------------------------------------
+
+.nc-drawer__content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--nc-drawer-section-gap) var(--nc-drawer-padding);
+  -webkit-overflow-scrolling: touch;
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+
+.nc-drawer__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-drawer-footer-gap);
+  padding: var(--nc-drawer-padding);
+  padding-top: 0;
+  flex-shrink: 0;
+
+  // Bei Side-Drawers Footer am unteren Ende pinnen
+  .nc-drawer--left &,
+  .nc-drawer--right & {
+    margin-top: auto;
+    padding-top: var(--nc-drawer-padding);
+    border-top: 1px solid var(--fnd-color-border-low);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Close Button
+// ---------------------------------------------------------------------------
+
+.nc-drawer__close {
+  position: absolute;
+  top: var(--fnd-spacing-04);
+  right: var(--fnd-spacing-04);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: var(--fnd-radius-lg);
+  background: var(--fnd-color-background-secondary);
+  color: var(--fnd-color-text-high);
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--fnd-color-background-tertiary);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  > svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  // Bei Bottom/Top Drawers verstecken (Handle genuegt)
+  .nc-drawer:not(.nc-drawer--left):not(.nc-drawer--right) & {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Backdrop Animation
+// ---------------------------------------------------------------------------
+
+@keyframes nc-drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Body Scroll Lock
+// ---------------------------------------------------------------------------
+
+body:has(.nc-drawer[open]) {
+  overflow: hidden;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive: Side-Drawers breiter auf Desktop
+// ---------------------------------------------------------------------------
+
+@media (min-width: 768px) {
+  .nc-drawer--right,
+  .nc-drawer--left {
+    --nc-drawer-side-width: 440px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nc-drawer--right,
+  .nc-drawer--left {
+    --nc-drawer-side-width: 500px;
+  }
+}

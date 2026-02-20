@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Select-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Select</h1>
+      <p class="docs__subtitle">
+        Custom-gestylete Select-Komponente mit eigenem Dropdown-Pfeil.
+        Kanonische Klasse: <code class="docs__token">.nc-select</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-select-*</code> und <code class="docs__token">--nc-input-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="select-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Select-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, State und Multiple-Modus, um das Select live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM</option>
+                  <option value="md" selected>MD</option>
+                  <option value="lg">LG</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">State</span>
+                <select class="docs-stage__select" id="stage-state">
+                  <option value="default" selected>Default</option>
+                  <option value="error">Error</option>
+                  <option value="success">Success</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-multiple" />
+                  <span class="docs-stage__label">Multiple</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders select here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;select class="nc-select"&gt;...&lt;/select&gt;</pre>
+          </div>
+
+          <!-- All Sizes -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;en: SM, MD (Default) und LG.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 320px; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <select class="nc-select nc-select--sm">
+                  <option>Small Select</option>
+                  <option>Option A</option>
+                  <option>Option B</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM</div>
+              </div>
+              <div>
+                <select class="nc-select">
+                  <option>Medium Select</option>
+                  <option>Option A</option>
+                  <option>Option B</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD &mdash; Default</div>
+              </div>
+              <div>
+                <select class="nc-select nc-select--lg">
+                  <option>Large Select</option>
+                  <option>Option A</option>
+                  <option>Option B</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- All States -->
+          <section class="docs__section" id="all-states">
+            <h2 class="docs__section-title">Alle States</h2>
+            <p class="docs__section-desc">
+              4 States: Default, Error, Success, Disabled.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 320px; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <select class="nc-select">
+                  <option>Default</option>
+                  <option>Option A</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Default</div>
+              </div>
+              <div>
+                <select class="nc-select nc-select--error">
+                  <option>Error State</option>
+                  <option>Option A</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Error</div>
+              </div>
+              <div>
+                <select class="nc-select nc-select--success">
+                  <option>Success State</option>
+                  <option>Option A</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Success</div>
+              </div>
+              <div>
+                <select class="nc-select" disabled>
+                  <option>Disabled</option>
+                  <option>Option A</option>
+                </select>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">Disabled</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Multiple Select -->
+          <section class="docs__section" id="multiple-select">
+            <h2 class="docs__section-title">Multiple Select</h2>
+            <p class="docs__section-desc">
+              Mit dem Modifier <code class="docs__token">.nc-select--multiple</code> und dem HTML-Attribut <code class="docs__token">multiple</code>
+              wird eine Mehrfachauswahl erm&ouml;glicht.
+            </p>
+            <div style="max-width: 320px; margin-block-end: var(--fnd-spacing-06);">
+              <select class="nc-select nc-select--multiple" multiple size="5">
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+                <option>Option 5</option>
+              </select>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">H&ouml;hen-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Token</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SM</strong></td><td>32px</td><td><code class="docs__token">--nc-select-height-sm</code></td></tr>
+                <tr><td><strong>MD</strong></td><td>40px</td><td><code class="docs__token">--nc-select-height-md</code></td></tr>
+                <tr><td><strong>LG</strong></td><td>48px</td><td><code class="docs__token">--nc-select-height-lg</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-select-bg</code></td><td>Hintergrundfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-select-color</code></td><td>Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-color</code></td><td>Rahmenfarbe (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-color-hover</code></td><td>Rahmenfarbe (Hover)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-color-focus</code></td><td>Rahmenfarbe (Focus)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-color-error</code></td><td>Rahmenfarbe (Error)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-color-success</code></td><td>Rahmenfarbe (Success)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-icon-color</code></td><td>Farbe des Dropdown-Pfeils</td></tr>
+                <tr><td><code class="docs__token">--nc-select-placeholder-color</code></td><td>Placeholder-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-select-disabled-bg</code></td><td>Hintergrund im Disabled-State</td></tr>
+                <tr><td><code class="docs__token">--nc-select-disabled-color</code></td><td>Textfarbe im Disabled-State</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Geometrie-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-select-padding-x</code></td><td>12px</td><td>Horizontales Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-select-padding-x-sm</code></td><td>8px</td><td>Horizontales Padding (SM)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-padding-x-lg</code></td><td>16px</td><td>Horizontales Padding (LG)</td></tr>
+                <tr><td><code class="docs__token">--nc-select-radius</code></td><td>var(--fnd-radius-md)</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-select-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-select-font-size-sm</code></td><td>0.8125rem</td><td>Schriftgr&ouml;&szlig;e SM</td></tr>
+                <tr><td><code class="docs__token">--nc-select-font-size-md</code></td><td>0.875rem</td><td>Schriftgr&ouml;&szlig;e MD</td></tr>
+                <tr><td><code class="docs__token">--nc-select-font-size-lg</code></td><td>1rem</td><td>Schriftgr&ouml;&szlig;e LG</td></tr>
+                <tr><td><code class="docs__token">--nc-select-icon-size</code></td><td>16px</td><td>Dropdown-Pfeil-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-select-focus-ring</code></td><td>0 0 0 3px</td><td>Focus-Ring (Box-Shadow)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-select                     // Block (Default: md)
+
+// Gr&ouml;&szlig;en
+.nc-select--sm                 // Small
+// (md = Default, kein Modifier)
+.nc-select--lg                 // Large
+
+// States
+.nc-select--error              // Fehler-State (roter Rahmen)
+.nc-select--success            // Erfolg-State (gr&uuml;ner Rahmen)
+
+// Modi
+.nc-select--multiple           // Multiple-Auswahl</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-select</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-select</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-select-*</code>, <code class="docs__token">--nc-input-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_select.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 40px H&ouml;he (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Nativ &mdash; fokussierbar, &ouml;ffnet natives Dropdown</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;select&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-select</code></td><td>Block</td><td>Select-Container. Default: MD (40px), custom Dropdown-Pfeil.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>H&ouml;he</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-select--sm</code></td><td>32px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>40px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-select--lg</code></td><td>48px</td><td>Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-select--error</code></td><td>Fehler</td><td>Roter Rahmen, Fehler-State</td></tr>
+                <tr><td><code class="docs__token">.nc-select--success</code></td><td>Erfolg</td><td>Gr&uuml;ner Rahmen, Erfolg-State</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modus-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-select--multiple</code></td><td>Multiple-Select-Darstellung (kein Dropdown-Pfeil, ge&auml;nderte H&ouml;he)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">disabled</code></td><td>Boolean</td><td>Deaktiviert das Select-Element</td></tr>
+                <tr><td><code class="docs__token">required</code></td><td>Boolean</td><td>Pflichtfeld-Markierung</td></tr>
+                <tr><td><code class="docs__token">multiple</code></td><td>Boolean</td><td>Erlaubt Mehrfachauswahl</td></tr>
+                <tr><td><code class="docs__token">size</code></td><td>Number</td><td>Anzahl sichtbarer Optionen (bei multiple)</td></tr>
+                <tr><td><code class="docs__token">aria-invalid</code></td><td>Boolean</td><td>Erg&auml;nzend zu <code class="docs__token">.nc-select--error</code></td></tr>
+                <tr><td><code class="docs__token">aria-describedby</code></td><td>ID-Ref</td><td>Verweis auf Fehlermeldung / Hilfetext</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Select --&gt;
+&lt;select class="nc-select [--size] [--state]"&gt;
+  &lt;option value="" disabled selected&gt;Bitte w&auml;hlen...&lt;/option&gt;
+  &lt;option value="a"&gt;Option A&lt;/option&gt;
+  &lt;option value="b"&gt;Option B&lt;/option&gt;
+  &lt;option value="c"&gt;Option C&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Select mit Optgroup --&gt;
+&lt;select class="nc-select"&gt;
+  &lt;option value="" disabled selected&gt;Bitte w&auml;hlen...&lt;/option&gt;
+  &lt;optgroup label="Gruppe 1"&gt;
+    &lt;option value="a"&gt;Option A&lt;/option&gt;
+    &lt;option value="b"&gt;Option B&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Gruppe 2"&gt;
+    &lt;option value="c"&gt;Option C&lt;/option&gt;
+    &lt;option value="d"&gt;Option D&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;
+
+&lt;!-- Multiple Select --&gt;
+&lt;select class="nc-select nc-select--multiple" multiple size="5"&gt;
+  &lt;option value="1"&gt;Option 1&lt;/option&gt;
+  &lt;option value="2"&gt;Option 2&lt;/option&gt;
+  &lt;option value="3"&gt;Option 3&lt;/option&gt;
+  &lt;option value="4"&gt;Option 4&lt;/option&gt;
+  &lt;option value="5"&gt;Option 5&lt;/option&gt;
+&lt;/select&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Select-Komponenten nutzen das native <code class="docs__token">&lt;select&gt;</code>-Element und m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Label Association -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Label-Zuordnung</h4>
+              <ul>
+                <li>Jedes Select <strong>muss</strong> ein zugeh&ouml;riges <code class="docs__token">&lt;label&gt;</code>-Element haben</li>
+                <li>Das <code class="docs__token">for</code>-Attribut des Labels muss auf die <code class="docs__token">id</code> des Selects verweisen</li>
+                <li>Alternativ kann das Select innerhalb des Labels platziert werden (implizite Zuordnung)</li>
+                <li>Kein Select ohne sichtbares Label verwenden &mdash; <code class="docs__token">aria-label</code> nur als Notl&ouml;sung</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard Navigation -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="6" y1="16" x2="18" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastaturnavigation</h4>
+              <ul>
+                <li><code class="docs__token">Tab</code> fokussiert das Select-Element</li>
+                <li><code class="docs__token">Space</code> / <code class="docs__token">Enter</code> &ouml;ffnet das Dropdown</li>
+                <li><code class="docs__token">&uarr;</code> / <code class="docs__token">&darr;</code> navigiert durch die Optionen</li>
+                <li><code class="docs__token">Escape</code> schlie&szlig;t das Dropdown</li>
+                <li>Bei <code class="docs__token">multiple</code>: <code class="docs__token">Shift + Klick</code> f&uuml;r Bereichsauswahl, <code class="docs__token">Ctrl/Cmd + Klick</code> f&uuml;r Einzeltoggle</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Error Handling -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Fehlerbehandlung</h4>
+              <ul>
+                <li>Bei <code class="docs__token">.nc-select--error</code> zus&auml;tzlich <code class="docs__token">aria-invalid="true"</code> setzen</li>
+                <li>Fehlermeldung mit <code class="docs__token">aria-describedby</code> verkn&uuml;pfen</li>
+                <li>Farbe nie als alleiniges Signal verwenden &mdash; immer einen Fehlertext bereitstellen (WCAG 1.4.1)</li>
+                <li>Bei <code class="docs__token">.nc-select--success</code> optional <code class="docs__token">aria-describedby</code> f&uuml;r Erfolgsmeldung</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Color Contrast -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbkontrast (WCAG 1.4.3)</h4>
+              <ul>
+                <li>Select-Text muss mindestens <strong>4.5:1</strong> Kontrast zum Hintergrund haben</li>
+                <li>Der Dropdown-Pfeil muss mindestens <strong>3:1</strong> Kontrast haben (UI-Komponente)</li>
+                <li>Rahmenfarben m&uuml;ssen <strong>3:1</strong> Kontrast zum Hintergrund erf&uuml;llen</li>
+                <li>Disabled-State ist von den Kontrastanforderungen ausgenommen (WCAG 1.4.3)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Select mit Label --&gt;
+&lt;label class="nc-form-label" for="country"&gt;
+  &lt;span class="nc-form-label__text"&gt;Land&lt;/span&gt;
+&lt;/label&gt;
+&lt;select class="nc-select" id="country"&gt;
+  &lt;option value="" disabled selected&gt;Bitte w&auml;hlen...&lt;/option&gt;
+  &lt;option value="de"&gt;Deutschland&lt;/option&gt;
+  &lt;option value="at"&gt;&Ouml;sterreich&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- RICHTIG: Error-State mit ARIA --&gt;
+&lt;label class="nc-form-label" for="role"&gt;
+  &lt;span class="nc-form-label__text"&gt;Rolle&lt;/span&gt;
+&lt;/label&gt;
+&lt;select class="nc-select nc-select--error" id="role"
+        aria-invalid="true" aria-describedby="role-error"&gt;
+  &lt;option value="" disabled selected&gt;Bitte w&auml;hlen...&lt;/option&gt;
+  &lt;option value="admin"&gt;Admin&lt;/option&gt;
+&lt;/select&gt;
+&lt;span id="role-error"&gt;Bitte eine Rolle ausw&auml;hlen.&lt;/span&gt;
+
+&lt;!-- RICHTIG: Multiple mit sichtbarem Label --&gt;
+&lt;label class="nc-form-label" for="tags"&gt;
+  &lt;span class="nc-form-label__text"&gt;Tags ausw&auml;hlen&lt;/span&gt;
+&lt;/label&gt;
+&lt;select class="nc-select nc-select--multiple" id="tags"
+        multiple size="4"&gt;
+  &lt;option value="a"&gt;Tag A&lt;/option&gt;
+  &lt;option value="b"&gt;Tag B&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- FALSCH: Select ohne Label --&gt;
+&lt;select class="nc-select"&gt;
+  &lt;option&gt;Auswahl&lt;/option&gt;
+&lt;/select&gt;
+&lt;!-- Kein Label, kein aria-label --&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="select-docs.js"></script>
+
+</body>
+</html>

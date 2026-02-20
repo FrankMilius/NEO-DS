@@ -1,0 +1,134 @@
+// ==========================================================================
+// 07-Organisms: Fieldset
+// ==========================================================================
+// Token-basiertes, barrierefreies Fieldset mit gestylter Legend
+// als Abschnitts-Ueberschrift innerhalb von Formularen.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-fieldset-* Component-Tokens.
+//   Die enthaltenen Form-Fields verwenden ihre eigenen Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-fieldset
+//     .nc-fieldset__legend      (<legend> als Abschnitts-Titel)
+//     .nc-form-field            (beliebig viele)
+//     .nc-checkbox-group        (optional)
+//     .nc-radio-group           (optional)
+//
+// TOKENS:
+//   --nc-fieldset-border-width    Randstaerke
+//   --nc-fieldset-border-color    Randfarbe
+//   --nc-fieldset-border-radius   Eckenradius
+//   --nc-fieldset-padding         Innenabstand
+//   --nc-fieldset-gap             Abstand zwischen Kindern
+//   --nc-fieldset-legend-color    Textfarbe der Legend
+//   --nc-fieldset-legend-size     Schriftgroesse der Legend
+//   --nc-fieldset-legend-weight   Schriftstärke der Legend
+//   --nc-fieldset-legend-padding  Seitliches Padding der Legend
+//
+// BEM-KLASSEN:
+//   .nc-fieldset                  Block (gestyltes <fieldset>)
+//   .nc-fieldset__legend          Legend als Abschnitts-Ueberschrift
+//   .nc-fieldset--borderless      Variante ohne sichtbaren Rand
+//   .nc-fieldset--disabled        Deaktiviertes Fieldset
+//
+// ACCESSIBILITY:
+//   <fieldset> + <legend> gruppiert zusammengehoerige Controls
+//   Screen Reader liest Legend als Gruppen-Label vor
+//   :disabled auf <fieldset> deaktiviert ALLE enthaltenen Controls nativ
+//   Kein aria-labelledby noetig wenn <legend> vorhanden
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer das Fieldset-Element.
+/// Setzt Border, Padding, Radius und internes Flex-Layout.
+/// Ueberschreibt die Browser-Default-Styles von <fieldset>.
+@mixin fieldset-base {
+  // Browser-Defaults zuruecksetzen
+  margin: 0;
+  min-width: 0; // Firefox overflow fix
+
+  // Visuelles Styling
+  border: var(--nc-fieldset-border-width) solid var(--nc-fieldset-border-color);
+  border-radius: var(--nc-fieldset-border-radius);
+  padding: var(--nc-fieldset-padding);
+
+  // Internes Layout: vertikaler Stack mit Gap
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-fieldset-gap);
+}
+
+/// Legend-Styling: wird als Abschnitts-Ueberschrift verwendet.
+/// Setzt Typografie und optionales Padding fuer den Abstand
+/// zur Fieldset-Border.
+@mixin fieldset-legend {
+  // Browser-Default Legend-Breite zuruecksetzen
+  float: none;
+  width: auto;
+  max-width: 100%;
+
+  // Typografie
+  font-size: var(--nc-fieldset-legend-size);
+  font-weight: var(--nc-fieldset-legend-weight);
+  color: var(--nc-fieldset-legend-color);
+  line-height: 1.3;
+
+  // Padding links/rechts fuer Abstand zur Border-Linie
+  padding-inline: var(--nc-fieldset-legend-padding);
+
+  // Kein margin-bottom noetig, gap des Parents uebernimmt
+  margin: 0;
+}
+
+/// Borderless-Variante: kein sichtbarer Rand, kein Padding.
+/// Nuetzt nur die semantische Gruppierung von <fieldset>/<legend>
+/// ohne visuelle Abgrenzung.
+@mixin fieldset-borderless {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/// Disabled-State: graut das gesamte Fieldset aus.
+/// Native <fieldset disabled> deaktiviert bereits alle enthaltenen
+/// Controls. Dieses Mixin ergaenzt den visuellen Indikator.
+@mixin fieldset-disabled {
+  opacity: var(--nc-input-disabled-opacity, 0.5);
+  cursor: not-allowed;
+
+  // Legend ebenfalls dimmen
+  > .nc-fieldset__legend {
+    color: var(--fnd-color-text-disabled);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-fieldset {
+  @include fieldset-base;
+
+  // -- Sub-Elemente --
+
+  &__legend {
+    @include fieldset-legend;
+  }
+
+  // -- Modifier --
+
+  &--borderless {
+    @include fieldset-borderless;
+  }
+
+  &--disabled,
+  &:disabled {
+    @include fieldset-disabled;
+  }
+}

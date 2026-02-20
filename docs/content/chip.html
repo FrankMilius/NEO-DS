@@ -1,0 +1,627 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Chip</h1>
+      <p class="docs__subtitle">
+        Interaktive Filter- und Auswahl-Elemente f&uuml;r Mehrfachselektion, Kategorie-Filter
+        und Tag-&auml;hnliche Eingaben. Chips sind toggle-f&auml;hige Buttons mit optionalem
+        Icon, Avatar und Remove-Action.
+        Kanonische Klasse: <code class="docs__token">.nc-chip</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-chip-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="chip-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Chip-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Inhalt und Zustand, um den Chip live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                <select class="docs-stage__select" id="stage-size">
+                  <option value="sm">SM</option>
+                  <option value="md" selected>MD</option>
+                  <option value="lg">LG</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-selected" />
+                  <span class="docs-stage__label">Selected</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-removable" />
+                  <span class="docs-stage__label">Removable</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Inhalt</span>
+                <select class="docs-stage__select" id="stage-content">
+                  <option value="text" selected>Text</option>
+                  <option value="icon-text">Icon + Text</option>
+                  <option value="avatar-text">Avatar + Text</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-disabled" />
+                  <span class="docs-stage__label">Disabled</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders chip here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;button class="nc-chip" type="button" aria-pressed="false"&gt;Filter&lt;/button&gt;</pre>
+          </div>
+
+          <!-- Showcase 1: Default vs Selected -->
+          <section class="docs__section" id="default-vs-selected">
+            <h2 class="docs__section-title">Default vs Selected</h2>
+            <p class="docs__section-desc">
+              Im Default-Zustand hat der Chip einen dezenten Hintergrund.
+              Im Selected-Zustand (<code class="docs__token">.nc-chip--selected</code>) erh&auml;lt er eine
+              prominente F&uuml;llung und einen verst&auml;rkten Border.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-chip" type="button" aria-pressed="false">Default</button>
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true">Selected</button>
+            </div>
+          </section>
+
+          <!-- Showcase 2: All Sizes -->
+          <section class="docs__section" id="all-sizes">
+            <h2 class="docs__section-title">Alle Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              3 Gr&ouml;&szlig;enstufen: SM, MD (Default), LG.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false">Small</button>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">SM</div>
+              </div>
+              <div style="text-align: center;">
+                <button class="nc-chip" type="button" aria-pressed="false">Medium</button>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">MD (Default)</div>
+              </div>
+              <div style="text-align: center;">
+                <button class="nc-chip nc-chip--lg" type="button" aria-pressed="false">Large</button>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 4px;">LG</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Showcase 3: With Icon -->
+          <section class="docs__section" id="with-icon">
+            <h2 class="docs__section-title">Mit Icon</h2>
+            <p class="docs__section-desc">
+              Ein f&uuml;hrendes Icon (<code class="docs__token">.nc-chip__icon</code>) kann den Chip visuell verst&auml;rken.
+              Im Selected-Zustand wird ein Checkmark-Icon angezeigt.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-chip" type="button" aria-pressed="false">
+                <span class="nc-chip__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/></svg></span>
+                <span class="nc-chip__label">Filter A</span>
+              </button>
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true">
+                <span class="nc-chip__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8 6.5 11 12.5 5"/></svg></span>
+                <span class="nc-chip__label">Filter B</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Showcase 4: With Avatar -->
+          <section class="docs__section" id="with-avatar">
+            <h2 class="docs__section-title">Mit Avatar</h2>
+            <p class="docs__section-desc">
+              Ein Avatar-Bild (<code class="docs__token">.nc-chip__avatar</code>) links im Chip f&uuml;r personenbezogene Filter.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-chip" type="button" aria-pressed="false">
+                <img class="nc-chip__avatar" src="https://api.dicebear.com/9.x/initials/svg?seed=FM&backgroundColor=1a1a1a&textColor=ffffff" alt="" />
+                <span class="nc-chip__label">Frank M.</span>
+              </button>
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true">
+                <img class="nc-chip__avatar" src="https://api.dicebear.com/9.x/initials/svg?seed=AK&backgroundColor=1a1a1a&textColor=ffffff" alt="" />
+                <span class="nc-chip__label">Anna K.</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Showcase 5: Removable Chips -->
+          <section class="docs__section" id="removable">
+            <h2 class="docs__section-title">Removable Chips</h2>
+            <p class="docs__section-desc">
+              Ein Remove-Button (<code class="docs__token">.nc-chip__remove</code>) erm&ouml;glicht das Entfernen des Chips.
+              Der Chip selbst bleibt ein <code class="docs__token">&lt;button&gt;</code>, das Remove ist ein separater Button.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-chip" style="display: inline-flex;">
+                <span class="nc-chip__label">Removable</span>
+                <button class="nc-chip__remove" type="button" aria-label="Entfernen"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="10" y2="10"/><line x1="10" y1="4" x2="4" y2="10"/></svg></button>
+              </span>
+              <span class="nc-chip nc-chip--selected" style="display: inline-flex;">
+                <span class="nc-chip__label">Selected</span>
+                <button class="nc-chip__remove" type="button" aria-label="Entfernen"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="10" y2="10"/><line x1="10" y1="4" x2="4" y2="10"/></svg></button>
+              </span>
+            </div>
+          </section>
+
+          <!-- Showcase 6: Chip Group -->
+          <section class="docs__section" id="chip-group">
+            <h2 class="docs__section-title">Chip-Gruppe (Filter)</h2>
+            <p class="docs__section-desc">
+              Mehrere Chips in einem <code class="docs__token">role="group"</code>-Container f&uuml;r
+              Filter-Szenarien. Mehrfachauswahl m&ouml;glich.
+            </p>
+            <div role="group" aria-label="Kategorie-Filter" style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-03); margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true">
+                <span class="nc-chip__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8 6.5 11 12.5 5"/></svg></span>
+                <span class="nc-chip__label">Alle</span>
+              </button>
+              <button class="nc-chip" type="button" aria-pressed="false">Design</button>
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true">
+                <span class="nc-chip__icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8 6.5 11 12.5 5"/></svg></span>
+                <span class="nc-chip__label">Entwicklung</span>
+              </button>
+              <button class="nc-chip" type="button" aria-pressed="false">Marketing</button>
+              <button class="nc-chip" type="button" aria-pressed="false">Vertrieb</button>
+            </div>
+          </section>
+
+          <!-- Showcase 7: Disabled -->
+          <section class="docs__section" id="disabled">
+            <h2 class="docs__section-title">Disabled</h2>
+            <p class="docs__section-desc">
+              Deaktivierte Chips sind nicht interaktiv und erhalten reduzierte Opazit&auml;t.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <button class="nc-chip" type="button" aria-pressed="false" disabled>Disabled</button>
+              <button class="nc-chip nc-chip--selected" type="button" aria-pressed="true" disabled>Disabled Selected</button>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>H&ouml;he</th><th>Padding (inline)</th><th>Font-Size</th><th>Icon-Size</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SM</strong></td><td>24px</td><td>8px</td><td>12px (0.75rem)</td><td>14px</td></tr>
+                <tr><td><strong>MD</strong></td><td>32px</td><td>12px</td><td>14px (0.875rem)</td><td>16px</td></tr>
+                <tr><td><strong>LG</strong></td><td>40px</td><td>16px</td><td>16px (1rem)</td><td>18px</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors-default">
+            <h2 class="docs__section-title">Farb-Tokens &mdash; Default</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-chip-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Hintergrund (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-color</code></td><td>var(--fnd-color-text-primary)</td><td>Textfarbe (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-border-color</code></td><td>var(--fnd-color-border-primary)</td><td>Rahmenfarbe (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>Hintergrund bei Hover</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors-selected">
+            <h2 class="docs__section-title">Farb-Tokens &mdash; Selected</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-chip-selected-bg</code></td><td>var(--fnd-color-interactive-primary)</td><td>Hintergrund (Selected)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>Textfarbe (Selected)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-border-color</code></td><td>var(--fnd-color-interactive-primary)</td><td>Rahmenfarbe (Selected)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-bg-hover</code></td><td>var(--fnd-color-interactive-primary-hover)</td><td>Hintergrund bei Hover (Selected)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-geometry">
+            <h2 class="docs__section-title">Geometrie-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-chip-radius</code></td><td>var(--fnd-radius-full)</td><td>Border-Radius (Pill-Form)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-border-width</code></td><td>1px</td><td>Border-Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-gap</code></td><td>6px</td><td>Gap zwischen Icon/Avatar/Label/Remove</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-avatar-size</code></td><td>20px</td><td>Avatar-Gr&ouml;&szlig;e im Chip</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-remove-size</code></td><td>16px</td><td>Remove-Button-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-transition-duration</code></td><td>0.15s</td><td>Transitions-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixins &amp; BEM-Klassen</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-chip                        // Block (Default: md, pill)
+.nc-chip__icon                  // F&uuml;hrendes Icon (checkmark wenn selected)
+.nc-chip__avatar                // Avatar-Bild (rund, links)
+.nc-chip__label                 // Text-Label
+.nc-chip__remove                // Remove-Button (X-Icon)
+
+// Gr&ouml;&szlig;en
+.nc-chip--sm                    // 24px H&ouml;he
+// (md = Default, kein Modifier)
+.nc-chip--lg                    // 40px H&ouml;he
+
+// Zust&auml;nde
+.nc-chip--selected              // Ausgew&auml;hlt (prominenter Hintergrund)
+
+// SCSS Mixins
+@mixin chip-base                // Display, Padding, Radius, Border, Cursor, Transition
+@mixin chip-size($size)         // Height, Padding, Font-Size pro Gr&ouml;&szlig;e
+@mixin chip-selected            // Selected-State Farben
+@mixin chip-icon                // Icon-Sizing und Alignment
+@mixin chip-avatar              // Avatar rund, geclippt, feste Gr&ouml;&szlig;e
+@mixin chip-remove              // Remove-Button Styling und Hover</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-chip</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-chip</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-chip-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_chip.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Gr&ouml;&szlig;e</strong></td><td>MD &mdash; 32px H&ouml;he (kein Modifier n&ouml;tig)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;button&gt;</code> &mdash; immer ein <code class="docs__token">&lt;button&gt;</code> mit <code class="docs__token">type="button"</code></td></tr>
+                <tr><td><strong>Toggle-State</strong></td><td><code class="docs__token">aria-pressed</code> &mdash; immer gesetzt (<code class="docs__token">"true"</code> oder <code class="docs__token">"false"</code>)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-chip</code></td><td>Block</td><td>Chip-Container. Default: MD (32px), pill-f&ouml;rmig.</td></tr>
+                <tr><td><code class="docs__token">.nc-chip__icon</code></td><td>Element</td><td>F&uuml;hrendes Icon (inline SVG). Wird bei Selected zum Checkmark.</td></tr>
+                <tr><td><code class="docs__token">.nc-chip__avatar</code></td><td>Element</td><td>Avatar-Bild (<code class="docs__token">&lt;img&gt;</code>). Rund, feste Gr&ouml;&szlig;e.</td></tr>
+                <tr><td><code class="docs__token">.nc-chip__label</code></td><td>Element</td><td>Text-Label des Chips.</td></tr>
+                <tr><td><code class="docs__token">.nc-chip__remove</code></td><td>Element</td><td>Separater Remove-Button (<code class="docs__token">&lt;button&gt;</code>) mit X-Icon.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>H&ouml;he</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-chip--sm</code></td><td>24px</td><td>Small</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>32px</td><td>Medium &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">.nc-chip--lg</code></td><td>40px</td><td>Large</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zustands-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-chip--selected</code></td><td>Ausgew&auml;hlter Zustand: prominenter Hintergrund, verst&auml;rkter Border, optional Checkmark-Icon</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Attributes -->
+          <section class="docs__section" id="api-attributes">
+            <h2 class="docs__section-title">HTML-Attribute</h2>
+            <table class="docs__table">
+              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">aria-pressed</code></td>
+                  <td><code class="docs__token">.nc-chip</code></td>
+                  <td>Ja</td>
+                  <td>Toggle-Zustand. <code class="docs__token">"true"</code> wenn selected, <code class="docs__token">"false"</code> wenn nicht.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label</code></td>
+                  <td><code class="docs__token">.nc-chip</code></td>
+                  <td>Empfohlen</td>
+                  <td>Barrierefreier Name, wenn das Label allein nicht ausreicht (z.B. nur Icon).</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">type="button"</code></td>
+                  <td><code class="docs__token">.nc-chip</code></td>
+                  <td>Ja</td>
+                  <td>Verhindert unbeabsichtigtes Form-Submit. Immer setzen.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">disabled</code></td>
+                  <td><code class="docs__token">.nc-chip</code></td>
+                  <td>Optional</td>
+                  <td>Deaktiviert den Chip. Wird auch auf <code class="docs__token">.nc-chip__remove</code> vererbt.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">aria-label="Entfernen"</code></td>
+                  <td><code class="docs__token">.nc-chip__remove</code></td>
+                  <td>Ja (wenn vorhanden)</td>
+                  <td>Barrierefreier Name f&uuml;r den Remove-Button.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sizes</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-height-sm</code></td><td>24px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-height-md</code></td><td>32px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-height-lg</code></td><td>40px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-padding-sm</code></td><td>8px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-padding-md</code></td><td>12px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-padding-lg</code></td><td>16px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-font-size-sm</code></td><td>0.75rem (12px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-font-size-md</code></td><td>0.875rem (14px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-font-size-lg</code></td><td>1rem (16px)</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-font-weight</code></td><td>500</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors &mdash; Default</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-bg-hover</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors &mdash; Selected</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-on-interactive)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-selected-bg-hover</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-primary-hover)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-radius</code></td><td>9999px</td><td>var(--fnd-radius-full)</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-gap</code></td><td>6px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-avatar-size</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-remove-size</code></td><td>16px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-chip-transition-duration</code></td><td>0.15s</td><td>&mdash;</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">chip-base</code></td><td>&mdash;</td><td>Display inline-flex, Alignment, Padding, Radius, Border, Cursor, Transition. Default MD.</td></tr>
+                <tr><td><code class="docs__token">chip-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'&nbsp;|&nbsp;'lg'</code></td><td>Height, Padding, Font-Size pro Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">chip-selected</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Selected-State</td></tr>
+                <tr><td><code class="docs__token">chip-icon</code></td><td>&mdash;</td><td>Icon-Sizing, flex-shrink 0, Alignment</td></tr>
+                <tr><td><code class="docs__token">chip-avatar</code></td><td>&mdash;</td><td>Runde Form, object-fit cover, feste Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">chip-remove</code></td><td>&mdash;</td><td>Button-Reset, Sizing, Hover-Opacity, Cursor</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;button class="nc-chip [--size] [--selected]" type="button" aria-pressed="false|true"&gt;
+
+  &lt;!-- Slot 1: Icon (optional, f&uuml;hrendes Icon / Checkmark) --&gt;
+  &lt;span class="nc-chip__icon"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+
+  &lt;!-- Slot 2: Avatar (optional, alternativ zu Icon) --&gt;
+  &lt;img class="nc-chip__avatar" src="user.jpg" alt="" /&gt;
+
+  &lt;!-- Slot 3: Label (immer vorhanden) --&gt;
+  &lt;span class="nc-chip__label"&gt;Filter-Name&lt;/span&gt;
+
+  &lt;!-- Slot 4: Remove (optional, separater Button) --&gt;
+  &lt;button class="nc-chip__remove" type="button" aria-label="Entfernen"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+
+&lt;/button&gt;
+
+&lt;!-- Chip-Gruppe --&gt;
+&lt;div role="group" aria-label="Filter-Kategorie"&gt;
+  &lt;button class="nc-chip nc-chip--selected" type="button" aria-pressed="true"&gt;Aktiv&lt;/button&gt;
+  &lt;button class="nc-chip" type="button" aria-pressed="false"&gt;Inaktiv&lt;/button&gt;
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Chip-Komponenten m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+            Chips sind interaktive Toggle-Buttons und m&uuml;ssen vollst&auml;ndig per Tastatur bedienbar sein.
+          </p>
+
+          <!-- R3: aria-pressed -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R3: Toggle-Zustand mit aria-pressed</h4>
+              <ul>
+                <li>Jeder Chip <strong>muss</strong> <code class="docs__token">aria-pressed</code> haben &mdash; <code class="docs__token">"true"</code> oder <code class="docs__token">"false"</code></li>
+                <li>Der Wert wechselt bei jedem Klick und spiegelt den visuellen Zustand wider</li>
+                <li>Screenreader lesen z.B. &ldquo;Filter A, toggle button, pressed&rdquo;</li>
+                <li>Beispiel: <code class="docs__token">&lt;button class="nc-chip nc-chip--selected" aria-pressed="true"&gt;</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R2: Always <button> -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R2: Immer &lt;button&gt;-Element</h4>
+              <ul>
+                <li>Chips <strong>m&uuml;ssen</strong> als <code class="docs__token">&lt;button&gt;</code> implementiert werden &mdash; niemals <code class="docs__token">&lt;div&gt;</code> oder <code class="docs__token">&lt;span&gt;</code></li>
+                <li><code class="docs__token">type="button"</code> immer setzen, um unbeabsichtigtes Form-Submit zu verhindern</li>
+                <li>Native Buttons bieten automatisch Fokussierbarkeit, Tastatur-Events und Screenreader-Semantik</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- R7: Selected beyond color -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>R7: Selected-Zustand &uuml;ber Farbe hinaus</h4>
+              <ul>
+                <li>Der Selected-Zustand wird <strong>nicht nur durch Farbe</strong> kommuniziert (WCAG 1.4.1)</li>
+                <li>Zus&auml;tzliche Indikatoren: verst&auml;rkter Border, ge&auml;ndertes Fill-Pattern, optionales Checkmark-Icon</li>
+                <li>Das Checkmark-Icon (<code class="docs__token">.nc-chip__icon</code>) gibt visuelles Feedback jenseits der Farbunterschiede</li>
+                <li>Farbkontrast Default vs Selected muss &ge; 3:1 sein (WCAG 1.4.11 &mdash; Non-Text Contrast)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Chip Groups -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Chip-Gruppen: role=&quot;group&quot; + aria-label</h4>
+              <ul>
+                <li>Mehrere zusammengeh&ouml;rige Chips in <code class="docs__token">role="group"</code> wrappen</li>
+                <li>Die Gruppe <strong>muss</strong> ein <code class="docs__token">aria-label</code> erhalten, das den Zweck beschreibt</li>
+                <li>Beispiel: <code class="docs__token">&lt;div role="group" aria-label="Kategorie-Filter"&gt;</code></li>
+                <li>Screenreader lesen: &ldquo;Kategorie-Filter, group&rdquo; gefolgt von den einzelnen Chips</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Keyboard -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.001"/><path d="M10 8h.001"/><path d="M14 8h.001"/><path d="M18 8h.001"/><path d="M6 12h.001"/><path d="M10 12h.001"/><path d="M14 12h.001"/><path d="M18 12h.001"/><path d="M8 16h8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Tastatur-Bedienung</h4>
+              <ul>
+                <li><strong>Tab:</strong> Fokus zwischen Chips bewegen (jeder Chip ist ein eigener Tab-Stop)</li>
+                <li><strong>Space / Enter:</strong> Chip togglen (selected / deselected)</li>
+                <li>Bei Removable Chips: Tab zum Remove-Button, Space/Enter zum Entfernen</li>
+                <li>Fokus-Ring muss deutlich sichtbar sein (WCAG 2.4.7)</li>
+                <li>Disabled Chips werden &uuml;bersprungen (<code class="docs__token">disabled</code>-Attribut entfernt aus Tab-Order)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Chip als Button mit aria-pressed --&gt;
+&lt;button class="nc-chip" type="button" aria-pressed="false"&gt;
+  Filter A
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Selected Chip mit Checkmark-Icon --&gt;
+&lt;button class="nc-chip nc-chip--selected" type="button" aria-pressed="true"&gt;
+  &lt;span class="nc-chip__icon"&gt;
+    &lt;svg&gt;&lt;!-- checkmark --&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-chip__label"&gt;Filter B&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Chip-Gruppe mit Semantik --&gt;
+&lt;div role="group" aria-label="Kategorie-Filter"&gt;
+  &lt;button class="nc-chip nc-chip--selected" type="button" aria-pressed="true"&gt;Aktiv&lt;/button&gt;
+  &lt;button class="nc-chip" type="button" aria-pressed="false"&gt;Inaktiv&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Removable Chip --&gt;
+&lt;button class="nc-chip" type="button" aria-pressed="false"&gt;
+  &lt;span class="nc-chip__label"&gt;Tag&lt;/span&gt;
+  &lt;button class="nc-chip__remove" type="button" aria-label="Tag entfernen"&gt;
+    &lt;svg&gt;&lt;!-- x icon --&gt;&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Chip als div --&gt;
+&lt;div class="nc-chip" onclick="toggle()"&gt;Filter&lt;/div&gt;
+
+&lt;!-- FALSCH: Chip ohne aria-pressed --&gt;
+&lt;button class="nc-chip" type="button"&gt;Filter&lt;/button&gt;
+
+&lt;!-- FALSCH: Selected nur durch Farbe --&gt;
+&lt;button class="nc-chip nc-chip--selected" type="button" aria-pressed="true"&gt;
+  Filter  &lt;!-- Kein Icon, kein zus&auml;tzlicher visueller Indikator --&gt;
+&lt;/button&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script src="chip-docs.js"></script>
+<!-- /SCRIPTS -->

@@ -1,0 +1,42 @@
+// ==========================================================================
+// 05-Atoms: Text Blocks
+// ==========================================================================
+// Reusable text primitives: section titles, eyebrows, lead paragraphs.
+// Extracted from _site.scss for proper ITCSS placement.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Section Title
+// ---------------------------------------------------------------------------
+
+.nc-section-title {
+  font-family: var(--font-heading);
+  font-size: calc(var(--fs-3xl) * var(--type-scale, 1));
+  line-height: 1.2;
+  margin-block-end: 4rem;
+}
+
+// ---------------------------------------------------------------------------
+// Eyebrow (Overline / Kicker)
+// ---------------------------------------------------------------------------
+
+.nc-eyebrow {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--fnd-color-text-secondary);
+  margin-block-end: 0.75rem;
+}
+
+// ---------------------------------------------------------------------------
+// Lead Paragraph
+// ---------------------------------------------------------------------------
+
+.nc-lead {
+  font-size: calc(var(--fs-lg) * var(--type-scale, 1));
+  color: var(--fnd-color-text-secondary);
+  max-width: 56ch;
+  line-height: var(--lh-body);
+}

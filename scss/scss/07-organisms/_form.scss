@@ -1,0 +1,127 @@
+// ==========================================================================
+// 07-Organisms: Form
+// ==========================================================================
+// Token-basiertes Form-Layout, das mehrere Form-Fields (.nc-form-field)
+// in einem konsistenten vertikalen, horizontalen oder Grid-Layout anordnet.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-form-* Component-Tokens.
+//   Die enthaltenen Form-Fields verwenden ihre eigenen
+//   --nc-form-field-* Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-form
+//     .nc-fieldset          (optional, fuer Abschnitte)
+//       .nc-form-field      (beliebig viele)
+//     .nc-form-field        (beliebig viele, auch ohne Fieldset)
+//     <button type="submit"> (Abschluss)
+//
+// TOKENS:
+//   --nc-form-gap           Abstand zwischen Form-Fields
+//
+// BEM-KLASSEN:
+//   .nc-form                     Block (flex column container)
+//   .nc-form--inline             Inline-Layout (alle Felder in einer Zeile)
+//   .nc-form--two-column         Responsives 2-Spalten CSS-Grid (ab md)
+//   .nc-form--disabled           Gesamtes Formular deaktiviert
+//
+// RESPONSIVE VERHALTEN:
+//   --two-column: Mobile = 1 Spalte, ab md Breakpoint = 2 Spalten (CSS Grid)
+//   --inline: Felder legen sich nebeneinander mit flex-wrap
+//
+// ACCESSIBILITY:
+//   <form> mit aria-label oder aria-labelledby
+//   :disabled Fieldsets deaktivieren alle enthaltenen Controls
+//   novalidate + Custom-Validation empfohlen
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer das Form-Element.
+/// Vertikales Flex-Layout mit konsistentem Gap zwischen allen Kindern.
+@mixin form-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-form-gap);
+  width: 100%;
+}
+
+/// Inline-Layout: Alle Felder und Buttons nebeneinander in einer Reihe.
+/// Nützlich fuer einfache Such- oder Filter-Formulare.
+/// Umbruch erfolgt automatisch bei Platzmangel (flex-wrap).
+@mixin form-inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--nc-form-gap);
+
+  // Form-Fields im Inline-Layout sollen nicht die volle Breite einnehmen
+  > .nc-form-field {
+    width: auto;
+    flex: 0 1 auto;
+  }
+
+  // Submit-Button am Ende ausrichten
+  > [type='submit'],
+  > .nc-button {
+    flex-shrink: 0;
+  }
+}
+
+/// Zwei-Spalten CSS-Grid: Ab md-Breakpoint werden Form-Fields in
+/// einem 2-Spalten-Raster angeordnet. Mobile bleibt einspaltiger Stack.
+/// Elemente koennen mit grid-column: 1 / -1 die volle Breite einnehmen.
+@mixin form-two-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--nc-form-gap);
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // Bestimmte Elemente sollen immer die volle Breite einnehmen
+  > .nc-fieldset,
+  > [type='submit'],
+  > .nc-button,
+  > .nc-form-field--full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+/// Disabled-State: deaktiviert das gesamte Formular visuell.
+/// Die nativen Controls sollten zusaetzlich per <fieldset disabled>
+/// oder individuell deaktiviert werden.
+@mixin form-disabled {
+  opacity: var(--nc-input-disabled-opacity, 0.5);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-form {
+  @include form-base;
+
+  // -- Layout-Modifier --
+
+  &--inline {
+    @include form-inline;
+  }
+
+  &--two-column {
+    @include form-two-column;
+  }
+
+  // -- State-Modifier --
+
+  &--disabled {
+    @include form-disabled;
+  }
+}

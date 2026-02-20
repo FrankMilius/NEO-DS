@@ -1,0 +1,229 @@
+// ==========================================================================
+// 05-Atoms: Switch
+// ==========================================================================
+// Token-basierte Switch/Toggle-Komponente (On/Off).
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-switch-* Component-Tokens.
+//
+// PATTERN:
+//   Basiert auf <button role="switch" aria-checked="true/false">
+//   oder <input type="checkbox"> mit custom Styling.
+//   Track + Thumb, Thumb bewegt sich per transform: translateX.
+//
+// BEM-KLASSEN:
+//   .nc-switch                    Block (Wrapper, inline-flex)
+//   .nc-switch__track             Track-Element (Hintergrund)
+//   .nc-switch__thumb             Thumb (Kreis, bewegt sich)
+//   .nc-switch__label             Label-Text
+//   .nc-switch--sm                Kompakte Variante
+//   .nc-switch--checked           Checked-State (alternativ zu aria-checked)
+//
+// ACCESSIBILITY:
+//   role="switch" → Screen Reader erkennt Toggle
+//   aria-checked="true/false" → Zustand
+//   :focus-visible → Focus-Ring auf Track
+//   Min. 44px Touch Target (WCAG 2.5.8)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Switch-Wrapper.
+@mixin switch-base {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nc-switch-label-gap);
+  cursor: pointer;
+  user-select: none;
+}
+
+/// Track: der Hintergrund des Switches.
+@mixin switch-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--nc-switch-width);
+  height: var(--nc-switch-height);
+  background-color: var(--nc-switch-bg);
+  border-radius: var(--nc-switch-radius);
+  border: none;
+  padding: 0;
+  cursor: inherit;
+  flex-shrink: 0;
+  transition:
+    background-color var(--nc-switch-transition-duration) ease;
+
+  // Focus-Ring (wenn Track als <button> oder per :focus-visible)
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Fallback
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // Hover
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-switch-bg-hover);
+  }
+
+  // Checked-State via aria-checked
+  &[aria-checked='true'] {
+    background-color: var(--nc-switch-bg-checked);
+
+    > .nc-switch__thumb {
+      // left ist bereits auf thumb-offset gesetzt, daher 2× offset abziehen
+      transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+    }
+  }
+
+  // Disabled
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: var(--nc-switch-disabled-bg);
+    opacity: var(--nc-switch-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+
+    > .nc-switch__thumb {
+      background-color: var(--nc-switch-disabled-thumb);
+    }
+  }
+
+  // Reduced Motion
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Thumb: der bewegliche Kreis.
+@mixin switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--nc-switch-thumb-offset);
+  width: var(--nc-switch-thumb-size);
+  height: var(--nc-switch-thumb-size);
+  background-color: var(--nc-switch-thumb-color);
+  border-radius: var(--nc-switch-radius);
+  transform: translateX(0) translateY(-50%);
+  transition: transform var(--nc-switch-transition-duration) ease;
+  pointer-events: none;
+  box-shadow: var(--fnd-shadow-xs);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Label-Text neben dem Switch.
+@mixin switch-label {
+  color: var(--nc-switch-label-color);
+  line-height: 1.4;
+  cursor: inherit;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-switch {
+  @include switch-base;
+
+  // -- Track --
+
+  &__track {
+    @include switch-track;
+  }
+
+  // -- Thumb --
+
+  &__thumb {
+    @include switch-thumb;
+  }
+
+  // -- Label --
+
+  &__label {
+    @include switch-label;
+  }
+
+  // -- Kompakte Variante (36x20) --
+
+  &--sm {
+    .nc-switch__track {
+      width: 36px;
+      height: 20px;
+    }
+
+    .nc-switch__thumb {
+      width: 14px;
+      height: 14px;
+    }
+
+    .nc-switch__track[aria-checked='true'] > .nc-switch__thumb {
+      transform: translateX(calc(36px - 14px - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+    }
+  }
+
+  // -- Disabled Wrapper --
+
+  &:has(.nc-switch__track:disabled),
+  &:has(.nc-switch__track[aria-disabled='true']) {
+    cursor: not-allowed;
+
+    .nc-switch__label {
+      color: var(--fnd-color-text-disabled);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Alternative: Switch basierend auf <input type="checkbox">
+// ---------------------------------------------------------------------------
+
+// Fuer den Fall, dass Switch als native Checkbox implementiert wird:
+// <label class="nc-switch">
+//   <input type="checkbox" class="nc-switch__input" role="switch">
+//   <span class="nc-switch__track">
+//     <span class="nc-switch__thumb"></span>
+//   </span>
+//   <span class="nc-switch__label">Label</span>
+// </label>
+
+.nc-switch__input {
+  @include sr-only;
+
+  &:focus-visible + .nc-switch__track {
+    @include focus-ring;
+  }
+
+  &:checked + .nc-switch__track {
+    background-color: var(--nc-switch-bg-checked);
+
+    > .nc-switch__thumb {
+      // left ist bereits auf thumb-offset gesetzt, daher 2× offset abziehen
+      transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+    }
+  }
+
+  &:disabled + .nc-switch__track {
+    background-color: var(--nc-switch-disabled-bg);
+    opacity: var(--nc-switch-disabled-opacity);
+    cursor: not-allowed;
+
+    > .nc-switch__thumb {
+      background-color: var(--nc-switch-disabled-thumb);
+    }
+  }
+
+  &:disabled ~ .nc-switch__label {
+    color: var(--fnd-color-text-disabled);
+    cursor: not-allowed;
+  }
+}

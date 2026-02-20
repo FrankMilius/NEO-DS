@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alert | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Alert-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Alert</h1>
+      <p class="docs__subtitle">
+        Feedback-Nachrichten f&uuml;r Status-Informationen, Warnungen und Fehler.
+        Alerts verwenden semantische Farben und Icons, um Benutzer &uuml;ber wichtige Zust&auml;nde zu informieren.
+        Kanonische Klasse: <code class="docs__token">.nc-alert</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-alert-*</code> Component-Tokens.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="alert-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Alert-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme, Variante und optionale Elemente, um den Alert live zu konfigurieren.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Variante</span>
+                <select class="docs-stage__select" id="stage-variant">
+                  <option value="info" selected>Info</option>
+                  <option value="success">Success</option>
+                  <option value="warning">Warning</option>
+                  <option value="danger">Danger</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-title" checked />
+                  <span class="docs-stage__label">Title</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-description" checked />
+                  <span class="docs-stage__label">Description</span>
+                </label>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-close" />
+                  <span class="docs-stage__label">Close Button</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <!-- JS renders alert here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="nc-alert nc-alert--info" role="status"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Alle Varianten -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten</h2>
+            <p class="docs__section-desc">
+              4 Varianten: Info, Success, Warning, Danger. Jede mit Icon, Titel und Beschreibung.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+
+              <!-- Info -->
+              <div class="nc-alert nc-alert--info" role="status">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Info Titel</p>
+                  <p class="nc-alert__description">Dies ist eine informative Nachricht.</p>
+                </div>
+              </div>
+
+              <!-- Success -->
+              <div class="nc-alert nc-alert--success" role="status">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Erfolg Titel</p>
+                  <p class="nc-alert__description">Die Aktion wurde erfolgreich ausgef&uuml;hrt.</p>
+                </div>
+              </div>
+
+              <!-- Warning -->
+              <div class="nc-alert nc-alert--warning" role="alert">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Warnung Titel</p>
+                  <p class="nc-alert__description">Bitte &uuml;berpr&uuml;fen Sie die Eingabe.</p>
+                </div>
+              </div>
+
+              <!-- Danger -->
+              <div class="nc-alert nc-alert--danger" role="alert">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Fehler Titel</p>
+                  <p class="nc-alert__description">Ein kritischer Fehler ist aufgetreten.</p>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Nur Beschreibung -->
+          <section class="docs__section" id="description-only">
+            <h2 class="docs__section-title">Nur Beschreibung</h2>
+            <p class="docs__section-desc">
+              Alert ohne Titel, nur mit Beschreibung (Info-Variante).
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-alert nc-alert--info" role="status">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__description">Dies ist eine informative Nachricht ohne Titel.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Mit Close-Button -->
+          <section class="docs__section" id="with-close">
+            <h2 class="docs__section-title">Mit Close-Button</h2>
+            <p class="docs__section-desc">
+              Ein optionaler Close-Button (<code class="docs__token">.nc-alert__close</code>) erm&ouml;glicht das Schlie&szlig;en des Alerts.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-alert nc-alert--success" role="status">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Gespeichert</p>
+                  <p class="nc-alert__description">Ihre &Auml;nderungen wurden erfolgreich gespeichert.</p>
+                </div>
+                <button class="nc-alert__close" aria-label="Schlie&szlig;en"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Mit Action -->
+          <section class="docs__section" id="with-action">
+            <h2 class="docs__section-title">Mit Action</h2>
+            <p class="docs__section-desc">
+              Ein Action-Bereich (<code class="docs__token">.nc-alert__action</code>) erm&ouml;glicht eingebettete Aktions-Buttons.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-alert nc-alert--warning" role="alert">
+                <span class="nc-alert__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                <div class="nc-alert__content">
+                  <p class="nc-alert__title">Sitzung l&auml;uft ab</p>
+                  <p class="nc-alert__description">Ihre Sitzung l&auml;uft in 5 Minuten ab.</p>
+                  <div class="nc-alert__action">
+                    <button class="nc-button nc-button--sm nc-button--outline">Sitzung verl&auml;ngern</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-base">
+            <h2 class="docs__section-title">Basis-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-alert-padding</code></td><td>var(--fnd-spacing-04)</td><td>Innenabstand</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-radius</code></td><td>var(--fnd-radius-lg)</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-icon-size</code></td><td>20px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-gap</code></td><td>var(--fnd-spacing-03)</td><td>Abstand Icon zu Content</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-colors">
+            <h2 class="docs__section-title">Farb-Tokens je Variante</h2>
+            <table class="docs__table">
+              <thead><tr><th>Variante</th><th>Background</th><th>Color</th><th>Border</th><th>Icon-Color</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Info</strong></td>
+                  <td><code class="docs__token">--nc-alert-info-bg</code></td>
+                  <td><code class="docs__token">--nc-alert-info-color</code></td>
+                  <td><code class="docs__token">--nc-alert-info-border</code></td>
+                  <td><code class="docs__token">--nc-alert-info-icon-color</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Success</strong></td>
+                  <td><code class="docs__token">--nc-alert-success-bg</code></td>
+                  <td><code class="docs__token">--nc-alert-success-color</code></td>
+                  <td><code class="docs__token">--nc-alert-success-border</code></td>
+                  <td><code class="docs__token">--nc-alert-success-icon-color</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Warning</strong></td>
+                  <td><code class="docs__token">--nc-alert-warning-bg</code></td>
+                  <td><code class="docs__token">--nc-alert-warning-color</code></td>
+                  <td><code class="docs__token">--nc-alert-warning-border</code></td>
+                  <td><code class="docs__token">--nc-alert-warning-icon-color</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Danger</strong></td>
+                  <td><code class="docs__token">--nc-alert-danger-bg</code></td>
+                  <td><code class="docs__token">--nc-alert-danger-color</code></td>
+                  <td><code class="docs__token">--nc-alert-danger-border</code></td>
+                  <td><code class="docs__token">--nc-alert-danger-icon-color</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-scss">
+            <h2 class="docs__section-title">SCSS Mixin-Referenz</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">alert-base</code></td><td>&mdash;</td><td>Flex container, gap, padding, border, radius. Default info.</td></tr>
+                <tr><td><code class="docs__token">alert-variant-info</code></td><td>&mdash;</td><td>Farben f&uuml;r Info-Variante</td></tr>
+                <tr><td><code class="docs__token">alert-variant-success</code></td><td>&mdash;</td><td>Farben f&uuml;r Success-Variante</td></tr>
+                <tr><td><code class="docs__token">alert-variant-warning</code></td><td>&mdash;</td><td>Farben f&uuml;r Warning-Variante</td></tr>
+                <tr><td><code class="docs__token">alert-variant-danger</code></td><td>&mdash;</td><td>Farben f&uuml;r Danger-Variante</td></tr>
+                <tr><td><code class="docs__token">alert-icon</code></td><td>&mdash;</td><td>Icon sizing, color, flex-shrink</td></tr>
+                <tr><td><code class="docs__token">alert-content</code></td><td>&mdash;</td><td>Flex 1, min-width 0</td></tr>
+                <tr><td><code class="docs__token">alert-title</code></td><td>&mdash;</td><td>Font-weight 600, margin</td></tr>
+                <tr><td><code class="docs__token">alert-description</code></td><td>&mdash;</td><td>Margin 0, opacity 0.9</td></tr>
+                <tr><td><code class="docs__token">alert-action</code></td><td>&mdash;</td><td>Margin-top spacing-03</td></tr>
+                <tr><td><code class="docs__token">alert-close</code></td><td>&mdash;</td><td>20px, hover opacity, focus-ring</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-alert                      // Block (Default: info-variante)
+.nc-alert__icon                // Icon-Element (leading SVG)
+.nc-alert__content             // Content-Wrapper (Titel + Beschreibung)
+.nc-alert__title               // Titel-Element
+.nc-alert__description         // Beschreibungs-Element
+.nc-alert__action              // Action-Bereich (optional)
+.nc-alert__close               // Close-Button (optional)
+
+// Varianten
+.nc-alert--info                // Blau (Information) &mdash; Default
+.nc-alert--success             // Gr&uuml;n (Erfolg)
+.nc-alert--warning             // Gelb (Warnung)
+.nc-alert--danger              // Rot (Fehler/Gefahr)</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-alert</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-alert</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-alert-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_alert.scss</code></td></tr>
+                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
+                <tr><td><strong>Default-Variante</strong></td><td>Info &mdash; blaue Farbgebung</td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Optional &mdash; Close-Button und Action-Buttons m&ouml;glich</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-alert</code></td><td>Block</td><td>Alert-Container. Flex-Layout, Padding, Border, Radius.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__icon</code></td><td>Element</td><td>Icon-Wrapper (leading). Enth&auml;lt inline SVG. <code class="docs__token">aria-hidden="true"</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__content</code></td><td>Element</td><td>Content-Wrapper. Enth&auml;lt Titel, Beschreibung und optional Action.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__title</code></td><td>Element</td><td>Titel-Absatz. Font-weight 600.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__description</code></td><td>Element</td><td>Beschreibungs-Absatz. Opacity 0.9.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__action</code></td><td>Element</td><td>Action-Bereich f&uuml;r eingebettete Buttons.</td></tr>
+                <tr><td><code class="docs__token">.nc-alert__close</code></td><td>Element</td><td>Close-Button. 20px, hover opacity, focus-ring.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-alert--info</code></td><td>Information</td><td>Blau &mdash; informativer Hinweis (Default)</td></tr>
+                <tr><td><code class="docs__token">.nc-alert--success</code></td><td>Erfolg</td><td>Gr&uuml;n &mdash; positiver Status</td></tr>
+                <tr><td><code class="docs__token">.nc-alert--warning</code></td><td>Warnung</td><td>Gelb &mdash; Aufmerksamkeit erforderlich</td></tr>
+                <tr><td><code class="docs__token">.nc-alert--danger</code></td><td>Fehler</td><td>Rot &mdash; kritischer Zustand</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. CSS Custom Properties -->
+          <section class="docs__section" id="api-tokens">
+            <h2 class="docs__section-title">CSS Custom Properties</h2>
+            <p class="docs__section-desc">
+              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+            </p>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-lg)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-icon-size</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-info-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-info-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-info-border</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-info-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-dark)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-success-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-success-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-success-border</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-success-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-dark)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-warning-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-warning-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-warning-border</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-warning-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-dark)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Danger Variant</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-danger-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-danger-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-dark)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-danger-border</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger)</td></tr>
+                <tr><td><code class="docs__token">--nc-alert-danger-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-dark)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 4. SCSS Mixins -->
+          <section class="docs__section" id="api-mixins">
+            <h2 class="docs__section-title">SCSS Mixins</h2>
+            <table class="docs__table">
+              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">alert-base</code></td><td>&mdash;</td><td>Flex container, gap, padding, border, radius. Default info.</td></tr>
+                <tr><td><code class="docs__token">alert-variant-info</code></td><td>&mdash;</td><td>Background, Color, Border-Color, Icon-Color f&uuml;r Info-Variante.</td></tr>
+                <tr><td><code class="docs__token">alert-variant-success</code></td><td>&mdash;</td><td>Background, Color, Border-Color, Icon-Color f&uuml;r Success-Variante.</td></tr>
+                <tr><td><code class="docs__token">alert-variant-warning</code></td><td>&mdash;</td><td>Background, Color, Border-Color, Icon-Color f&uuml;r Warning-Variante.</td></tr>
+                <tr><td><code class="docs__token">alert-variant-danger</code></td><td>&mdash;</td><td>Background, Color, Border-Color, Icon-Color f&uuml;r Danger-Variante.</td></tr>
+                <tr><td><code class="docs__token">alert-icon</code></td><td>&mdash;</td><td>Width/Height des Icons, Flex-Shrink 0, Color.</td></tr>
+                <tr><td><code class="docs__token">alert-content</code></td><td>&mdash;</td><td>Flex 1, Min-Width 0.</td></tr>
+                <tr><td><code class="docs__token">alert-title</code></td><td>&mdash;</td><td>Font-Weight 600, Margin-Bottom.</td></tr>
+                <tr><td><code class="docs__token">alert-description</code></td><td>&mdash;</td><td>Margin 0, Opacity 0.9.</td></tr>
+                <tr><td><code class="docs__token">alert-action</code></td><td>&mdash;</td><td>Margin-Top var(--fnd-spacing-03).</td></tr>
+                <tr><td><code class="docs__token">alert-close</code></td><td>&mdash;</td><td>20px Button, Hover Opacity, Focus-Ring.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 5. Slots/Elements -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;!-- Standard Alert --&gt;
+&lt;div class="nc-alert nc-alert--[variant]" role="status|alert"&gt;
+
+  &lt;!-- Slot 1: Icon (optional) --&gt;
+  &lt;span class="nc-alert__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+
+  &lt;!-- Slot 2: Content --&gt;
+  &lt;div class="nc-alert__content"&gt;
+
+    &lt;!-- Slot 2a: Titel (optional) --&gt;
+    &lt;p class="nc-alert__title"&gt;Titel&lt;/p&gt;
+
+    &lt;!-- Slot 2b: Beschreibung --&gt;
+    &lt;p class="nc-alert__description"&gt;Beschreibung&lt;/p&gt;
+
+    &lt;!-- Slot 2c: Action (optional) --&gt;
+    &lt;div class="nc-alert__action"&gt;
+      &lt;button class="nc-button nc-button--sm nc-button--outline"&gt;Aktion&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;!-- Slot 3: Close-Button (optional) --&gt;
+  &lt;button class="nc-alert__close" aria-label="Schlie&szlig;en"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Alert-Komponenten m&uuml;ssen semantisch korrekt ausgezeichnet sein und die WCAG 2.1 AA-Kriterien erf&uuml;llen.
+          </p>
+
+          <!-- Semantische Rollen -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Semantische Rollen</h4>
+              <ul>
+                <li><code class="docs__token">role="alert"</code> f&uuml;r <strong>Danger</strong> und <strong>Warning</strong> Varianten &mdash; wird sofort vom Screenreader angek&uuml;ndigt (assertive)</li>
+                <li><code class="docs__token">role="status"</code> f&uuml;r <strong>Info</strong> und <strong>Success</strong> Varianten &mdash; wird h&ouml;flich angek&uuml;ndigt (polite)</li>
+                <li>Die Rolle bestimmt die Dringlichkeit der Ank&uuml;ndigung durch assistive Technologien</li>
+                <li>Dynamisch eingef&uuml;gte Alerts mit <code class="docs__token">role="alert"</code> unterbrechen den aktuellen Lesefluss</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Farbe nie alleiniges Signal -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Farbe nie alleiniges Signal (R7)</h4>
+              <ul>
+                <li>Farbe darf <strong>nicht</strong> das einzige Mittel sein, um die Art des Alerts zu vermitteln (WCAG 1.4.1)</li>
+                <li>Jeder Alert muss ein <strong>Icon</strong> und <strong>Text</strong> zus&auml;tzlich zur Farbe enthalten</li>
+                <li>Die Icons unterscheiden sich pro Variante und vermitteln den Typ auch ohne Farbe</li>
+                <li>Beispiel: Ein Danger-Alert zeigt ein X-Icon + roten Hintergrund + Fehlertext</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Icon Handling -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Icon Handling</h4>
+              <ul>
+                <li>Alle Icons m&uuml;ssen <code class="docs__token">aria-hidden="true"</code> tragen, da der Alert-Text bereits die Information vermittelt</li>
+                <li>Icons sind rein dekorativ und dienen der visuellen Verst&auml;rkung</li>
+                <li>SVGs sollten keine zus&auml;tzlichen <code class="docs__token">role</code> oder <code class="docs__token">aria-label</code> Attribute haben</li>
+                <li>Das Icon-Element (<code class="docs__token">.nc-alert__icon</code>) wird vom Screenreader komplett &uuml;bersprungen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Close-Button -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Close-Button</h4>
+              <ul>
+                <li>Der Close-Button muss <code class="docs__token">aria-label="Schlie&szlig;en"</code> besitzen</li>
+                <li>Er muss per Tastatur fokussierbar und mit <kbd>Enter</kbd>/<kbd>Space</kbd> ausl&ouml;sbar sein</li>
+                <li>Nach dem Schlie&szlig;en sollte der Fokus auf ein sinnvolles Element verschoben werden</li>
+                <li>Das X-Icon im Button muss <strong>nicht</strong> separat beschriftet werden &mdash; das <code class="docs__token">aria-label</code> am <code class="docs__token">&lt;button&gt;</code> gen&uuml;gt</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Info-Alert mit Icon, Titel und Beschreibung --&gt;
+&lt;div class="nc-alert nc-alert--info" role="status"&gt;
+  &lt;span class="nc-alert__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;div class="nc-alert__content"&gt;
+    &lt;p class="nc-alert__title"&gt;Hinweis&lt;/p&gt;
+    &lt;p class="nc-alert__description"&gt;Neue Version verf&uuml;gbar.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Danger-Alert mit role="alert" --&gt;
+&lt;div class="nc-alert nc-alert--danger" role="alert"&gt;
+  &lt;span class="nc-alert__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;div class="nc-alert__content"&gt;
+    &lt;p class="nc-alert__title"&gt;Fehler&lt;/p&gt;
+    &lt;p class="nc-alert__description"&gt;Speichern fehlgeschlagen.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Alert mit Close-Button --&gt;
+&lt;div class="nc-alert nc-alert--success" role="status"&gt;
+  &lt;span class="nc-alert__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;div class="nc-alert__content"&gt;
+    &lt;p class="nc-alert__title"&gt;Gespeichert&lt;/p&gt;
+    &lt;p class="nc-alert__description"&gt;&Auml;nderungen gespeichert.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="nc-alert__close" aria-label="Schlie&szlig;en"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Kein Icon, nur Farbe als Signal --&gt;
+&lt;div class="nc-alert nc-alert--danger"&gt;
+  &lt;div class="nc-alert__content"&gt;
+    &lt;p class="nc-alert__description"&gt;Fehler&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- FALSCH: role="alert" bei Info-Variante --&gt;
+&lt;div class="nc-alert nc-alert--info" role="alert"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Close-Button ohne aria-label --&gt;
+&lt;button class="nc-alert__close"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;</div>
+          </section>
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="alert-docs.js"></script>
+
+</body>
+</html>

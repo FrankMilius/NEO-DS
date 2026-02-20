@@ -1,0 +1,402 @@
+// ==========================================================================
+// 07-Organisms: Footer
+// ==========================================================================
+// Site Footer
+// Migriert von: footer.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Footer Element
+// ---------------------------------------------------------------------------
+
+footer {
+  background-color: var(--fnd-color-background-base);
+  font-size: var(--body-font-size-xs);
+  
+  // Minimal Variant
+  .minimal {
+    > div {
+      display: block;
+      padding-block-start: 0;
+      
+      @include desktop-up {
+        height: 88px;
+      }
+    }
+    
+    .footer-bottom-links {
+      padding-block: var(--fnd-spacing-08);
+      
+      @include tablet-up {
+        padding-block-start: var(--fnd-spacing-04);
+      }
+      
+      @include desktop-up {
+        padding-block-start: var(--fnd-spacing-04);
+        align-items: start;
+      }
+    }
+    
+    @include desktop-up {
+      .footer-bottom-link-list {
+        padding-inline-start: 0;
+        flex-flow: row wrap;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer Main Wrapper
+// ---------------------------------------------------------------------------
+
+.footer {
+  > div {
+    padding-top: var(--fnd-spacing-10);
+    color: var(--fnd-color-text-high);
+    @include container-padding;
+    
+    @include desktop-up {
+      padding-top: var(--fnd-spacing-11);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Heading
+  // ---------------------------------------------------------------------------
+  
+  .footer-heading {
+    @include heading('m');
+    margin: 0 0 var(--fnd-spacing-01);
+    color: var(--fnd-color-text-low);
+    
+    &:first-of-type {
+      color: var(--fnd-color-text-high);
+    }
+    
+    &:last-of-type {
+      margin-bottom: var(--fnd-spacing-08);
+      
+      @include desktop-up {
+        margin-bottom: var(--fnd-spacing-09);
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Links
+  // ---------------------------------------------------------------------------
+  
+  a {
+    display: inline-flex;
+    gap: var(--fnd-spacing-02);
+    
+    &:hover {
+      text-decoration: none;
+      color: var(--fnd-color-text-mid);
+    }
+    
+    &:any-link:has(.icon) {
+      @include paragraph('l');
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Separator
+  // ---------------------------------------------------------------------------
+  
+  .footer-separator {
+    margin: var(--fnd-spacing-08) 0;
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background: var(--fnd-color-border-low);
+    
+    &.footer-separator-min {
+      margin: 0;
+    }
+    
+    @include desktop-up {
+      &.footer-separator-0 {
+        display: none;
+      }
+      
+      &.footer-separator-1 {
+        margin: var(--fnd-spacing-09) 0 var(--fnd-spacing-04);
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Column Links
+  // ---------------------------------------------------------------------------
+  
+  .footer-columns-links {
+    width: grid-columns(4);
+    
+    @include tablet-up {
+      width: grid-columns(12);
+    }
+    
+    @include desktop-up {
+      width: grid-columns(6);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Link Lists
+  // ---------------------------------------------------------------------------
+  
+  .footer-links-list,
+  .footer-links-sublist,
+  .footer-bottom-link-list {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    @include flex-column;
+    justify-content: center;
+  }
+  
+  .footer-links-list {
+    @include paragraph('m');
+    text-transform: uppercase;
+    color: var(--fnd-color-text-mid);
+    gap: var(--fnd-spacing-08);
+    
+    @include tablet-up {
+      flex-direction: row;
+      gap: var(--grid-gap);
+      
+      > li {
+        width: calc((100% - 2 * var(--grid-gap)) / 3);
+      }
+    }
+  }
+  
+  .footer-links-sublist {
+    @include paragraph('l');
+    text-transform: none;
+    padding-top: var(--fnd-spacing-04);
+    gap: var(--fnd-spacing-04);
+    
+    @include tablet-up {
+      padding-top: var(--fnd-spacing-03);
+      gap: var(--fnd-spacing-03);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Bottom Links
+  // ---------------------------------------------------------------------------
+  
+  @include desktop-up {
+    .footer-bottom-links {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .footer-bottom-link-list {
+    @include paragraph('m');
+    gap: var(--fnd-spacing-04) var(--fnd-spacing-06);
+    flex-flow: row wrap;
+    justify-content: left;
+    
+    @include desktop-up {
+      gap: var(--fnd-spacing-04);
+      justify-content: right;
+      padding-left: var(--fnd-spacing-08);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Buttons
+  // ---------------------------------------------------------------------------
+  
+  .footer-buttons-wrapper {
+    display: flex;
+    gap: var(--fnd-spacing-04);
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Language/Country Selectors
+  // ---------------------------------------------------------------------------
+  
+  .footer-language-selector,
+  .footer-country-selector {
+    @include paragraph('m');
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+    margin-bottom: var(--fnd-spacing-08);
+    display: flex;
+    gap: var(--fnd-spacing-01);
+    width: auto;
+    background: #1d1d1d;
+    border: unset;
+    color: var(--fnd-color-text-high);
+    min-height: 40px;
+    align-items: center;
+    white-space: nowrap;
+    
+    @include desktop-up {
+      margin-bottom: 0;
+    }
+    
+    .icon {
+      margin: 0;
+      color: var(--fnd-color-text-mid);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Images Section
+  // ---------------------------------------------------------------------------
+  
+  .footer-images-section {
+    overflow: hidden;
+    padding-top: var(--fnd-spacing-11);
+    @include flex-between;
+    align-items: flex-end;
+    width: 100%;
+    color: var(--fnd-color-border-low);
+    
+    .icon-logo {
+      width: auto;
+      height: auto;
+      padding-bottom: 6px;
+      padding-left: 2px;
+      
+      svg {
+        width: 90.88px;
+        height: auto;
+        
+        @include tablet-up {
+          width: 156px;
+          margin-bottom: 6px;
+        }
+        
+        @include desktop-up {
+          width: 308px;
+          margin-bottom: 0;
+        }
+      }
+    }
+    
+    .icon-brand-imagotype {
+      width: 204px;
+      height: 72px;
+      margin-top: 8px;
+      display: flex;
+      position: relative;
+      
+      @include tablet-up {
+        margin-top: 24px;
+        height: 140px;
+      }
+      
+      @include desktop-up {
+        margin-top: 26px;
+        height: 240px;
+      }
+      
+      svg {
+        width: 204px;
+        height: auto;
+        aspect-ratio: var(--fnd-image-ratio-1-1);
+        position: absolute;
+        top: 0;
+        
+        @include tablet-up {
+          width: 370px;
+          right: 0;
+          margin-right: 16px;
+        }
+        
+        @include desktop-up {
+          width: 600px;
+          right: 12px;
+          top: 34px;
+        }
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Footer Form Section
+  // ---------------------------------------------------------------------------
+  
+  @include tablet-up {
+    .footer-form-section {
+      width: grid-columns(8);
+    }
+  }
+  
+  @include desktop-up {
+    .footer-form-section {
+      width: grid-columns(5);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Select Wrapper (in Footer)
+  // ---------------------------------------------------------------------------
+  
+  .select-wrapper .select-toggle {
+    height: 48px;
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+    gap: var(--fnd-spacing-01);
+
+    .select-toggle-text {
+      color: var(--fnd-color-text-high);
+    }
+
+    .icon {
+      margin: 0;
+      color: var(--fnd-color-text-mid);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Neocosmo Marketing Footer
+// ---------------------------------------------------------------------------
+// Extracted from _site.scss — used on the marketing/landing pages.
+
+.nc-footer {
+  display: grid;
+  gap: 2rem;
+  padding-block-end: 3rem;
+}
+
+.nc-footer__columns {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.nc-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nc-footer__bottom {
+  font-size: 0.85rem;
+  color: var(--fnd-color-text-secondary);
+  border-block-start: 1px solid var(--fnd-color-border-secondary);
+  padding-block-start: 1rem;
+}
+
+@media (min-width: 768px) {
+  .nc-footer__columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

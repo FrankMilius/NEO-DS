@@ -1,0 +1,638 @@
+// ==========================================================================
+// 07-Organisms: Header
+// ==========================================================================
+// Haupt-Navigation und Header
+// Migriert von: header.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Header Base
+// ---------------------------------------------------------------------------
+
+.header {
+  position: relative;
+  z-index: var(--fnd-z-header);
+  
+  // ---------------------------------------------------------------------------
+  // Nav Wrapper
+  // ---------------------------------------------------------------------------
+  
+  .nav-wrapper {
+    background-color: var(--fnd-color-background-base);
+    width: 100%;
+    z-index: 2;
+    position: fixed;
+    color: var(--fnd-color-text-high);
+    opacity: 1;
+    transition: background-color 0.4s cubic-bezier(0, 0.81, 0.36, 0.87);
+    border-block-end: solid 1px var(--fnd-color-border-low);
+    
+    &.nav-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Conversion Button (Fixed)
+  // ---------------------------------------------------------------------------
+  
+  > .conversion {
+    position: fixed;
+    top: 24px;
+    right: 0;
+    z-index: 2;
+    
+    @include desktop-up {
+      margin-inline: var(--fnd-spacing-09);
+    }
+    
+    @include large-desktop {
+      margin-inline: var(--fnd-spacing-10);
+    }
+    
+    @include full-desktop {
+      margin-right: calc((100% - 1472px) / 2);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Nav Element
+  // ---------------------------------------------------------------------------
+  
+  nav {
+    @include heading('l');
+    @include flex-between;
+    height: var(--nav-height);
+    @include container-padding;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Main Navigation
+  // ---------------------------------------------------------------------------
+  
+  nav .main-nav {
+    @include paragraph('l');
+    @include flex-column;
+    align-items: stretch;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    
+    @include mobile-only {
+      width: 100%;
+      margin: var(--fnd-spacing-08) var(--fnd-spacing-05);
+    }
+    
+    @include desktop-up {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    // Nav Items
+    > li {
+      @include mobile-only {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        letter-spacing: -0.5px;
+        margin-bottom: var(--fnd-spacing-07);
+      }
+      
+      @include desktop-up {
+        margin-inline-end: clamp(1.25rem, -2.5rem + 5vw, 2rem);
+        border-bottom: solid 1px transparent;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      
+      &:last-child {
+        margin: 0;
+      }
+      
+      &:hover,
+      &:focus {
+        border-bottom-color: var(--fnd-color-border-high);
+      }
+      
+      .button-container {
+        margin: 0 0 0 var(--fnd-spacing-02);
+      }
+      
+      // Nested Lists
+      > ul {
+        list-style: none;
+        
+        @include mobile-only {
+          display: none;
+          padding: 0;
+          margin: var(--fnd-spacing-07) 0 var(--fnd-spacing-07) var(--fnd-spacing-07);
+        }
+        
+        ul {
+          list-style: none;
+          padding: 0;
+        }
+        
+        li {
+          margin-bottom: var(--fnd-spacing-06);
+          z-index: 1;
+          
+          @include mobile-only {
+            &:last-child {
+              margin: 0;
+            }
+          }
+          
+          a {
+            font-size: 1.125rem;
+            line-height: 1.5rem;
+            letter-spacing: 0;
+            
+            @include mobile-only {
+              display: flex;
+              width: 100%;
+            }
+          }
+        }
+      }
+      
+      // Links/Buttons
+      a:hover,
+      a:focus {
+        text-decoration: none;
+      }
+      
+      > a,
+      > button {
+        display: flex;
+        
+        @include mobile-only {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          letter-spacing: -0.5px;
+          width: 100%;
+        }
+        
+        @include desktop-up {
+          align-items: center;
+          height: 100%;
+          word-break: keep-all;
+          white-space: pre-wrap;
+          overflow-wrap: normal;
+        }
+        
+        &:hover,
+        &:focus {
+          text-decoration: none;
+        }
+        
+        &.inactive {
+          color: var(--fnd-color-text-state-disabled);
+        }
+      }
+      
+      button {
+        text-align: left;
+        display: block;
+        position: relative;
+        
+        @include desktop-up {
+          display: flex;
+        }
+      }
+    }
+  }
+  
+  // Default Content Wrapper
+  nav .default-content-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Nav Drop (Dropdown)
+  // ---------------------------------------------------------------------------
+  
+  .nav-drop {
+    button {
+      @include paragraph('l');
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--fnd-color-text-high);
+      height: auto;
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: none;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+      }
+      
+      span {
+        pointer-events: none;
+        color: var(--fnd-color-text-high);
+        
+        &:nth-child(2) {
+          display: none;
+        }
+      }
+      
+      // Expanded State
+      &[aria-expanded='true'] {
+        @include mobile-only {
+          + ul {
+            display: block;
+          }
+        }
+        
+        @include desktop-up {
+          + ul {
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+        
+        .icon-only:nth-child(1) {
+          display: none;
+        }
+        
+        .icon-only:nth-child(2) {
+          display: block;
+        }
+      }
+      
+      // Dropdown Panel (Desktop)
+      @include desktop-up {
+        + ul {
+          --columns: 12;
+          display: grid;
+          grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+          gap: var(--grid-gap);
+          @include container-padding;
+          position: fixed;
+          top: var(--nav-height);
+          right: 0;
+          left: 0;
+          min-height: 348px;
+          width: 100%;
+          visibility: hidden;
+          opacity: 0;
+          transition: 
+            opacity 0.4s cubic-bezier(0, 0.81, 0.36, 0.87),
+            visibility 0.4s cubic-bezier(0, 0.81, 0.36, 0.87);
+          margin-block: 0;
+          max-width: none;
+          margin-inline: 0;
+
+          // Full-bleed dropdown with content aligned to section container width
+          width: 100vw;
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
+
+          @media (min-width: 1920px) {
+            padding-inline: calc((100vw - var(--container-max-width)) / 2);
+          }
+        }
+      }
+    }
+    
+    // Section Headings
+    .header-section-solutions,
+    .header-section-company {
+      ul {
+        text-transform: none;
+        margin-block: var(--fnd-spacing-06);
+        
+        @include desktop-up {
+          margin-block-end: 0;
+        }
+      }
+      
+      @include desktop-up {
+        li {
+          margin-block: var(--fnd-spacing-04);
+          
+          &:last-child {
+            margin: 0;
+          }
+        }
+      }
+      
+      a {
+        @include heading('xxs');
+      }
+    }
+    
+    .header-section-company {
+      li {
+        position: relative;
+      }
+      
+      a {
+        @include paragraph('l');
+        max-width: calc(100% - 24px);
+        display: inline-block;
+        
+        @include desktop-up {
+          max-width: calc(100% - 40px);
+        }
+        
+        &:last-of-type {
+          color: var(--fnd-color-text-mid);
+        }
+      }
+      
+      .icon-only {
+        top: calc(50% - 16px);
+        
+        @include desktop-up {
+          display: block;
+          position: absolute;
+          margin: 0;
+        }
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Nav Brand
+  // ---------------------------------------------------------------------------
+  
+  .nav-brand {
+    padding-right: clamp(1rem, -21.5rem + 30vw, 5.5rem);
+    
+    a:any-link:has(.icon) .icon-logo {
+      display: inline-block;
+      height: 22px;
+      width: 88px;
+      color: var(--fnd-color-text-high);
+      box-sizing: content-box;
+      margin: 0;
+      
+      svg {
+        height: 20px;
+        
+        @include desktop-up {
+          height: 20px;
+        }
+      }
+    }
+    
+    p {
+      @include heading('xs');
+      margin: 0;
+      
+      a {
+        display: flex;
+      }
+      
+      span {
+        padding-inline-end: var(--fnd-spacing-03);
+        
+        @include desktop-up {
+          padding-inline-end: var(--fnd-spacing-04);
+        }
+      }
+      
+      &:first-child {
+        display: contents;
+      }
+      
+      &:nth-child(2) {
+        padding-inline-start: var(--fnd-spacing-03);
+        border-left: solid 1px var(--fnd-color-border-low);
+        
+        @include desktop-up {
+          padding-inline-start: var(--fnd-spacing-04);
+        }
+      }
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Nav Menu
+  // ---------------------------------------------------------------------------
+  
+  .nav-menu {
+    @include mobile-only {
+      background-color: var(--fnd-color-always-light);
+      position: fixed;
+      inset: var(--nav-height) 0 calc(56px + var(--fnd-spacing-05));
+      overflow-y: scroll;
+      visibility: hidden;
+      opacity: 0;
+      transition: 
+        opacity 0.4s cubic-bezier(0, 0.81, 0.36, 0.87),
+        visibility 0.4s cubic-bezier(0, 0.81, 0.36, 0.87);
+    }
+    
+    @include desktop-up {
+      flex-grow: 1;
+      display: block;
+      height: 100%;
+      
+      .default-content-wrapper {
+        height: 100%;
+      }
+    }
+    
+    .default-content-wrapper > ul {
+      height: 100%;
+    }
+    
+    @include desktop-up {
+      .default-content-wrapper .search-link {
+        display: none;
+      }
+    }
+    
+    &.nav-menu-no-items + .section.nav-tools .button-container:last-child {
+      display: inherit;
+    }
+  }
+  
+  // Expanded State
+  &.expanded .nav-menu {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Nav Tools
+  // ---------------------------------------------------------------------------
+  
+  .nav-tools {
+    .default-content-wrapper {
+      > p {
+        display: none;
+        
+        @include desktop-up {
+          display: block;
+        }
+        
+        &.button-container {
+          margin-left: var(--fnd-spacing-02);
+          
+          &:last-of-type {
+            margin-left: var(--fnd-spacing-07);
+          }
+        }
+        
+        &:not(.button-container) {
+          margin-left: var(--fnd-spacing-07);
+        }
+      }
+      
+      .icon-button {
+        background: var(--fnd-color-background-secondary);
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 10px;
+        height: 40px;
+        width: 40px;
+        
+        &:hover,
+        &:focus {
+          background-color: var(--fnd-color-background-tertiary);
+        }
+        
+        span {
+          overflow: hidden;
+        }
+      }
+      
+      // Hamburger Menu
+      .hamburger {
+        display: inline-block;
+        margin: 0 0 0 var(--fnd-spacing-02);
+        
+        @include desktop-up {
+          display: none;
+        }
+        
+        .icon-button {
+          background: transparent;
+          padding: 0;
+          width: 40px;
+          height: 40px;
+        }
+        
+        .icon-only {
+          &:first-child {
+            display: inline-block;
+            flex-shrink: 0;
+          }
+          
+          inset: unset;
+          background-color: transparent;
+          
+          &:last-child {
+            display: none;
+          }
+          
+          .icon {
+            margin: 0;
+            color: var(--fnd-color-text-mid);
+          }
+        }
+      }
+    }
+  }
+  
+  // Expanded State - Nav Tools
+  &.expanded .nav-tools .default-content-wrapper {
+    @include mobile-only {
+      > p.button-container:has(.icon-icon-account) {
+        display: block;
+      }
+      
+      > p.button-container:last-of-type {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: var(--fnd-color-always-light);
+        padding: 0 var(--fnd-spacing-05) var(--fnd-spacing-05);
+        margin: 0;
+      }
+    }
+    
+    .hamburger {
+      .icon-only:first-child {
+        display: none;
+      }
+      
+      .icon-only:last-child {
+        display: inline-block;
+      }
+    }
+  }
+  
+  // Header Open State
+  .header-open & .nav-tools .default-content-wrapper .hamburger .icon-only {
+    background: var(--fnd-color-background-secondary);
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Icon Only (in Header)
+  // ---------------------------------------------------------------------------
+  
+  .icon-only {
+    position: absolute;
+    right: 0;
+    top: 3px;
+    display: inline-block;
+    
+    @include desktop-up {
+      position: static;
+      margin-left: var(--fnd-spacing-02);
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Preload GIFs (Expanded State)
+  // ---------------------------------------------------------------------------
+  
+  @include desktop-up {
+    &.expanded::before {
+      content: '';
+      background-image: url('/src/assets/images/cn-h1.gif');
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Cloned CTA (Fixed)
+  // ---------------------------------------------------------------------------
+  
+  .cloned-cta {
+    position: fixed;
+    top: var(--fnd-spacing-06);
+    z-index: 3;
+    margin: 0;
+    right: var(--fnd-spacing-09);
+    
+    @media (min-width: 1200px) and (max-width: 1599px) {
+      right: var(--cta-right-offset, var(--fnd-spacing-09));
+    }
+    
+    @include large-desktop {
+      right: var(--fnd-spacing-10);
+    }
+    
+    @include full-desktop {
+      right: calc((100% - 1472px) / 2);
+    }
+  }
+}

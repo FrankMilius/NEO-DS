@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carousel | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Carousel-Komponente mit 12-Column Slide-Breiten und Live-Demo." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Carousel</h1>
+      <p class="docs__subtitle">
+        Horizontaler Slider mit Fortschrittslinien-Navigation, Vor/Zur&uuml;ck-Buttons und optionalem Autoplay.
+        Kanonische Klasse: <code class="docs__token">.carousel</code>.
+        Alle Farben kommen aus Foundation-Tokens <code class="docs__token">--fnd-*</code>.
+        Slide-Breiten werden per Grid-System (<code class="docs__token">.carousel-slide-width-{1&ndash;12}</code>) gesteuert.
+      </p>
+
+      <!-- ============================================================== -->
+      <!-- Tab Navigation                                                  -->
+      <!-- ============================================================== -->
+      <div class="docs-tabs" id="carousel-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Carousel-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Staging Area -->
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            W&auml;hle Theme und Slide-Anzahl f&uuml;r eine Vorschau des Carousels mit Fortschrittslinien und Navigationstasten.
+            Klicke die Pfeil-Buttons oder die Fortschrittslinien, um die Slides zu wechseln.
+          </p>
+
+          <div class="docs-stage">
+            <div class="docs-stage__toolbar">
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Theme</span>
+                <select class="docs-stage__select" id="stage-theme">
+                  <option value="neo-light-theme" selected>Neo Light</option>
+                  <option value="neo-dark-theme">Neo Dark</option>
+                  <option value="customer-light-theme">Customer Light</option>
+                  <option value="customer-dark-theme">Customer Dark</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <span class="docs-stage__label">Slide-Anzahl</span>
+                <select class="docs-stage__select" id="stage-slides">
+                  <option value="3" selected>3 Slides</option>
+                  <option value="4">4 Slides</option>
+                  <option value="5">5 Slides</option>
+                </select>
+              </div>
+              <div class="docs-stage__control">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="stage-autoplay" />
+                  <span class="docs-stage__label">Autoplay</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 0; display: block; overflow: hidden;">
+              <!-- JS renders carousel here -->
+            </div>
+          </div>
+
+          <!-- Code Output -->
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre id="stage-code">&lt;div class="carousel"&gt;...&lt;/div&gt;</pre>
+          </div>
+
+          <!-- Aufbau-&uuml;berblick -->
+          <section class="docs__section" id="showcase-structure">
+            <h2 class="docs__section-title">Aufbau des Carousels</h2>
+            <p class="docs__section-desc">
+              Das Carousel besteht aus drei Hauptbereichen:
+              dem Slides-Wrapper (<code class="docs__token">.carousel-slides-wrapper</code>) mit der Slide-Liste,
+              der Bottom-Navigation (<code class="docs__token">.carousel-bottom-nav-wrapper</code>) mit Fortschrittslinien und Buttons.
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead><tr><th>Bereich</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td>Carousel-Root</td><td><code class="docs__token">.carousel</code></td><td>Wrapper, touch-action pan-y, padding-bottom f&uuml;r Navigation</td></tr>
+                <tr><td>Slides-Container</td><td><code class="docs__token">.carousel-slides-wrapper</code></td><td>overflow: hidden, enth&auml;lt die scrollbare ul-Liste</td></tr>
+                <tr><td>Slide-Liste</td><td><code class="docs__token">ul</code> (im Wrapper)</td><td>Flex-Row, no-wrap, gap via --grid-gap, container-padding</td></tr>
+                <tr><td>Einzelner Slide</td><td><code class="docs__token">li.carousel-slide-width-{n}</code></td><td>Feste Breite per Grid-System (1&ndash;12 Spalten)</td></tr>
+                <tr><td>Bottom-Nav</td><td><code class="docs__token">.carousel-bottom-nav-wrapper</code></td><td>Flex-Zeile, Fortschrittslinien links, Buttons rechts</td></tr>
+                <tr><td>Fortschrittslinien</td><td><code class="docs__token">.carousel-line-wrapper</code></td><td>Overflow-hidden, max-width 172px (mobil), unbegrenzt ab Tablet</td></tr>
+                <tr><td>Einzelne Linie</td><td><code class="docs__token">.carousel-line</code></td><td>2px hohe Linie, expandiert beim aktiven Slide auf 112px Breite</td></tr>
+                <tr><td>Navigationstasten</td><td><code class="docs__token">.carousel-navigations-wrapper</code></td><td>Flex-Zeile mit Zur&uuml;ck/Vor-Buttons (32px, icon-gr&ouml;sse)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Fortschrittslinien-Varianten -->
+          <section class="docs__section" id="showcase-lines">
+            <h2 class="docs__section-title">Fortschrittslinien-Zust&auml;nde</h2>
+            <p class="docs__section-desc">
+              Jede Linie (<code class="docs__token">.carousel-line</code>) hat drei Zust&auml;nde:
+              inaktiv (schmal, <code>--fnd-color-border-mid</code>), aktiv-statisch (<code>.active</code>, breit, <code>--fnd-color-border-high</code>)
+              und aktiv-autoplay (<code>.active.autoplay</code>, animierte F&uuml;llung via <code>@keyframes carousel-line-progress</code>).
+            </p>
+            <div style="display: flex; align-items: center; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <div style="width: 12px; height: 2px; background: var(--fnd-color-border-mid); display: inline-block;"></div>
+                <span style="font-size: 0.85rem; color: var(--fnd-color-text-mid);">Inaktiv</span>
+              </div>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <div style="width: 112px; height: 2px; background: var(--fnd-color-border-high); display: inline-block;"></div>
+                <span style="font-size: 0.85rem; color: var(--fnd-color-text-mid);">Aktiv (statisch)</span>
+              </div>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <div style="width: 112px; height: 2px; background: linear-gradient(to right, var(--fnd-color-border-high) 60%, var(--fnd-color-border-mid) 60%); display: inline-block;"></div>
+                <span style="font-size: 0.85rem; color: var(--fnd-color-text-mid);">Aktiv (Autoplay, l&auml;dt)</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Slide-Breiten -->
+          <section class="docs__section" id="showcase-widths">
+            <h2 class="docs__section-title">Slide-Breiten (Grid-System)</h2>
+            <p class="docs__section-desc">
+              Die Breite jedes Slides wird durch die Klasse <code class="docs__token">.carousel-slide-width-{n}</code> bestimmt,
+              wobei n = 1&ndash;12 Rasterspalten entspricht. Die Berechnung erfolgt &uuml;ber die SCSS-Funktion
+              <code class="docs__token">grid-columns($i)</code>.
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead><tr><th>Klasse</th><th>Breite</th><th>Typischer Einsatz</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.carousel-slide-width-12</code></td><td>100&nbsp;% (12/12 Spalten)</td><td>Vollbild-Hero-Slides</td></tr>
+                <tr><td><code class="docs__token">.carousel-slide-width-6</code></td><td>50&nbsp;% (6/12 Spalten)</td><td>2 Slides nebeneinander</td></tr>
+                <tr><td><code class="docs__token">.carousel-slide-width-4</code></td><td>33,3&nbsp;% (4/12 Spalten)</td><td>3 Slides nebeneinander</td></tr>
+                <tr><td><code class="docs__token">.carousel-slide-width-3</code></td><td>25&nbsp;% (3/12 Spalten)</td><td>4 Slides nebeneinander</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Foundation-Tokens</h2>
+            <p class="docs__section-desc">
+              Das Carousel hat keine eigenen <code class="docs__token">--nc-*</code> Component-Tokens.
+              Es verwendet Foundation-Tokens und zwei lokale Custom Properties.
+            </p>
+            <table class="docs__table">
+              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Lokale Variablen (auf .carousel)</td></tr>
+                <tr>
+                  <td>Linienbreite inaktiv</td>
+                  <td><code class="docs__token">--line-width: 12px</code></td>
+                  <td>Breite einer inaktiven Fortschrittslinie</td>
+                </tr>
+                <tr>
+                  <td>Linien-Abstand</td>
+                  <td><code class="docs__token">--gap-between-lines: var(--fnd-spacing-02)</code></td>
+                  <td>L&uuml;cke zwischen den Fortschrittslinien</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Abst&auml;nde</td></tr>
+                <tr>
+                  <td>Padding-Bottom (Mobil)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-10)</code></td>
+                  <td>Unterer Abstand f&uuml;r die Bottom-Navigation</td>
+                </tr>
+                <tr>
+                  <td>Padding-Bottom (Desktop)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-12)</code></td>
+                  <td>Gr&ouml;&szlig;erer Abstand ab desktop-up Breakpoint</td>
+                </tr>
+                <tr>
+                  <td>Bottom-Nav Padding-Top (Mobil)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-08)</code></td>
+                  <td>Abstand &uuml;ber der Navigation</td>
+                </tr>
+                <tr>
+                  <td>Bottom-Nav Padding-Top (Desktop)</td>
+                  <td><code class="docs__token">var(--fnd-spacing-09)</code></td>
+                  <td>Gr&ouml;&szlig;erer Abstand ab desktop-up</td>
+                </tr>
+                <tr>
+                  <td>Navigation-Buttons Gap</td>
+                  <td><code class="docs__token">var(--fnd-spacing-04)</code></td>
+                  <td>Abstand zwischen Zur&uuml;ck- und Vor-Button</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Farben</td></tr>
+                <tr>
+                  <td>Linie inaktiv</td>
+                  <td><code class="docs__token">var(--fnd-color-border-mid)</code></td>
+                  <td>Farbe der inaktiven Fortschrittslinien</td>
+                </tr>
+                <tr>
+                  <td>Linie aktiv</td>
+                  <td><code class="docs__token">var(--fnd-color-border-high)</code></td>
+                  <td>Farbe der aktiven und der Autoplay-F&uuml;llung</td>
+                </tr>
+                <tr>
+                  <td>Button-Farbe</td>
+                  <td><code class="docs__token">var(--fnd-color-border-high)</code></td>
+                  <td>Icon-Farbe der Navigationstasten</td>
+                </tr>
+                <tr>
+                  <td>Button deaktiviert</td>
+                  <td><code class="docs__token">var(--fnd-color-text-state-disabled)</code></td>
+                  <td>Farbe des :disabled-Zustands der Buttons</td>
+                </tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Animation</td></tr>
+                <tr>
+                  <td>Linie Transition-Dauer</td>
+                  <td><code>450</code> (via <code class="docs__token">@include transition</code>)</td>
+                  <td>Breiten-&Uuml;bergang der Fortschrittslinie (450ms)</td>
+                </tr>
+                <tr>
+                  <td>Slide Transition-Dauer</td>
+                  <td><code>300</code> (via <code class="docs__token">@include transition</code>)</td>
+                  <td>Verschiebe-Animation der Slide-Liste (300ms)</td>
+                </tr>
+                <tr>
+                  <td>Autoplay-Animation</td>
+                  <td><code class="docs__token">var(--fnd-motion-ease-informative)</code></td>
+                  <td>Easing f&uuml;r die Autoplay-Fortschrittsbalken-Animation</td>
+                </tr>
+                <tr>
+                  <td>Autoplay-Dauer</td>
+                  <td><code>4s</code></td>
+                  <td>Gesamtdauer der Autoplay-Linienauff&uuml;llung</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
+
+.carousel                           // Block: Carousel-Root (touch-action: pan-y)
+.carousel-slides-wrapper            // Element: overflow:hidden Container
+.carousel-slides-wrapper ul         // Element: Flex-Row Slide-Liste
+.carousel-slide-width-{1..12}       // Modifier: Slide-Breite (1&ndash;12 Rasterspalten)
+.carousel-bottom-nav-wrapper        // Element: Flex-Zeile Linien + Buttons
+.carousel-line-wrapper              // Element: Overflow-clipping f&uuml;r Linien
+.carousel-line                      // Element: Einzelne Fortschrittslinie (2px)
+.carousel-line.active               // State: Aktiver Slide &mdash; Linie expandiert auf 112px
+.carousel-line.active.autoplay      // State: Aktiv + Autoplay &mdash; Animation statt solid
+.carousel-line.autoplay::before     // Pseudo: Animierter F&uuml;llbalken
+.line-extra-fill                    // Element: &Uuml;berf&uuml;ll-Block f&uuml;r &uuml;berz&auml;hlige Linien
+.carousel-navigations-wrapper       // Element: Button-Container
+.carousel-navigations-wrapper button // Element: Vor/Zur&uuml;ck-Button (32px)</div>
+          </section>
+
+          <section class="docs__section" id="style-keyframes">
+            <h2 class="docs__section-title">Keyframe-Animation</h2>
+            <table class="docs__table">
+              <thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">@keyframes carousel-line-progress</code></td>
+                  <td>Animiert die <code>width</code> von <code>0</code> auf <code>100%</code>.</td>
+                  <td>Auf <code>.carousel-line.autoplay::before</code> &mdash; zeigt Fortschritt des aktuellen Autoplay-Intervals</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- 1. Component Overview -->
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.carousel</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td>Keine eigenen <code class="docs__token">--nc-*</code> Tokens &mdash; Foundation-Tokens + 2 lokale Variablen</td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_carousel.scss</code></td></tr>
+                <tr><td><strong>Slide-Breiten</strong></td><td><code class="docs__token">.carousel-slide-width-{1&ndash;12}</code> via SCSS <code>@for</code>-Loop</td></tr>
+                <tr><td><strong>Touch-Support</strong></td><td><code>touch-action: pan-y</code> &mdash; vertikales Scrollen erlaubt, horizontales Swipen m&ouml;glich</td></tr>
+                <tr><td><strong>HTML-Grundelement</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 2. CSS Classes -->
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen</h2>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Struktur</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.carousel</code></td><td>Block</td><td>Root-Container. Definiert lokale Variablen, touch-action, padding-bottom.</td></tr>
+                <tr><td><code class="docs__token">.carousel-slides-wrapper</code></td><td>Element</td><td>overflow: hidden. Enth&auml;lt die scrollbare <code>ul</code>.</td></tr>
+                <tr><td><code class="docs__token">ul</code> (im Wrapper)</td><td>Element</td><td>Flex-Row, nowrap, gap: --grid-gap, container-padding, Transition on all (300ms).</td></tr>
+                <tr><td><code class="docs__token">.carousel-slide-width-{n}</code></td><td>Modifier</td><td>Slide-Breite. n = 1&ndash;12 Rasterspalten. min-width und width via <code>grid-columns($i)</code>.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Navigation</h3>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.carousel-bottom-nav-wrapper</code></td><td>Element</td><td>Flex, space-between, container-padding, padding-top responsiv.</td></tr>
+                <tr><td><code class="docs__token">.carousel-line-wrapper</code></td><td>Element</td><td>Flex, overflow: hidden, height: 48px, max-width 172px (mobil) / unset (Tablet+).</td></tr>
+                <tr><td><code class="docs__token">.carousel-line</code></td><td>Element</td><td>2px hohe Linie. Standardbreite: 12px. Transition width/min-width (450ms).</td></tr>
+                <tr><td><code class="docs__token">.carousel-line.active</code></td><td>State</td><td>Expandiert auf 112px. Farbe: <code class="docs__token">--fnd-color-border-high</code> (nicht bei Autoplay).</td></tr>
+                <tr><td><code class="docs__token">.carousel-line.active.autoplay</code></td><td>State</td><td>Aktiv + Autoplay: keine Hintergrundfarbe, stattdessen <code>::before</code>-Animation.</td></tr>
+                <tr><td><code class="docs__token">.line-extra-fill</code></td><td>Element</td><td>Dehnbarer F&uuml;llblock (min-width 200px) am Ende der Linienliste.</td></tr>
+                <tr><td><code class="docs__token">.carousel-navigations-wrapper</code></td><td>Element</td><td>Flex, gap: --fnd-spacing-04. Enth&auml;lt Zur&uuml;ck- und Vor-Button.</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Button-States</h3>
+            <table class="docs__table">
+              <thead><tr><th>State</th><th>Eigenschaft</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>:disabled</code></td><td><code class="docs__token">color: var(--fnd-color-text-state-disabled)</code></td><td>Deaktivierter Vor/Zur&uuml;ck-Button (erster/letzter Slide)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 3. HTML Struktur -->
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <div class="docs__code-block">&lt;div class="carousel"&gt;
+
+  &lt;!-- Slides --&gt;
+  &lt;div class="carousel-slides-wrapper"&gt;
+    &lt;ul&gt;
+
+      &lt;!-- Slide: Breite = 4 von 12 Spalten --&gt;
+      &lt;li class="carousel-slide-width-4"&gt;
+        &lt;!-- Beliebiger Slide-Inhalt --&gt;
+      &lt;/li&gt;
+
+      &lt;li class="carousel-slide-width-4"&gt;
+        &lt;!-- ... --&gt;
+      &lt;/li&gt;
+
+      &lt;li class="carousel-slide-width-4"&gt;
+        &lt;!-- ... --&gt;
+      &lt;/li&gt;
+
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Bottom-Navigation --&gt;
+  &lt;div class="carousel-bottom-nav-wrapper"&gt;
+
+    &lt;!-- Fortschrittslinien --&gt;
+    &lt;div class="carousel-line-wrapper" aria-hidden="true"&gt;
+      &lt;span class="carousel-line active"&gt;&lt;/span&gt;   &lt;!-- Aktiver Slide --&gt;
+      &lt;span class="carousel-line"&gt;&lt;/span&gt;           &lt;!-- Inaktiv --&gt;
+      &lt;span class="carousel-line"&gt;&lt;/span&gt;           &lt;!-- Inaktiv --&gt;
+      &lt;span class="line-extra-fill"&gt;&lt;/span&gt;         &lt;!-- F&uuml;ll-Element --&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Navigationstasten --&gt;
+    &lt;div class="carousel-navigations-wrapper"&gt;
+      &lt;button type="button" aria-label="Vorheriger Slide" disabled&gt;
+        &lt;span class="icon" aria-hidden="true"&gt;
+          &lt;svg&gt;...&lt;/svg&gt;  &lt;!-- Pfeil links --&gt;
+        &lt;/span&gt;
+      &lt;/button&gt;
+      &lt;button type="button" aria-label="N&auml;chster Slide"&gt;
+        &lt;span class="icon" aria-hidden="true"&gt;
+          &lt;svg&gt;...&lt;/svg&gt;  &lt;!-- Pfeil rechts --&gt;
+        &lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+
+&lt;!-- Autoplay-Variante: .active.autoplay an der aktiven Linie --&gt;
+&lt;span class="carousel-line active autoplay"&gt;&lt;/span&gt;</div>
+          </section>
+
+          <!-- 4. SCSS Interna -->
+          <section class="docs__section" id="api-scss">
+            <h2 class="docs__section-title">SCSS Interna</h2>
+            <table class="docs__table">
+              <thead><tr><th>SCSS-Konstrukt</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">@include desktop-up</code></td><td>Breakpoint-Mixin f&uuml;r Desktop-Padding (padding-bottom und bottom-nav)</td></tr>
+                <tr><td><code class="docs__token">@include tablet-up</code></td><td>Breakpoint-Mixin f&uuml;r Linienwrapper max-width: unset</td></tr>
+                <tr><td><code class="docs__token">@include container-padding</code></td><td>Responsive Container-Padding auf Bottom-Nav und Slide-Liste</td></tr>
+                <tr><td><code class="docs__token">@include transition(width min-width, '450')</code></td><td>Transition auf Fortschrittslinien-Breite (450ms)</td></tr>
+                <tr><td><code class="docs__token">@include transition(all, '300')</code></td><td>Transition auf der Slide-Liste (300ms f&uuml;r Scroll-Animation)</td></tr>
+                <tr><td><code class="docs__token">@for $i from 1 through 12</code></td><td>Generiert alle 12 <code>.carousel-slide-width-{n}</code>-Klassen</td></tr>
+                <tr><td><code class="docs__token">grid-columns($i)</code></td><td>SCSS-Funktion: berechnet Slide-Breite basierend auf Rasterspalten-Anzahl</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <h2 class="docs__section-title">Accessibility Referenz</h2>
+          <p class="docs__section-desc">
+            Carousels geh&ouml;ren zu den komplexesten interaktiven Komponenten aus Sicht der Barrierefreiheit.
+            Folgende Punkte m&uuml;ssen beachtet werden, um WCAG 2.1 AA zu erf&uuml;llen.
+          </p>
+
+          <!-- ARIA-Rollen -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>ARIA-Rollen und Landmark</h4>
+              <ul>
+                <li>Der Carousel-Root sollte <code class="docs__token">role="region"</code> und <code class="docs__token">aria-label="Bildkarussell"</code> (oder einen passenden Namen) erhalten</li>
+                <li>Die Slide-Liste (<code class="docs__token">ul</code>) sollte keine eigene ARIA-Rolle ben&ouml;tigen &mdash; die semantische Listen-Rolle ist ausreichend</li>
+                <li>Fortschrittslinien sind rein visuell: <code class="docs__token">aria-hidden="true"</code> auf <code>.carousel-line-wrapper</code></li>
+                <li>Der aktive Slide-Index sollte per <code class="docs__token">aria-live="polite"</code> Region oder <code class="docs__token">aria-label</code>-Update kommuniziert werden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/><line x1="16" y1="12" x2="8" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Navigationstasten</h4>
+              <ul>
+                <li>Alle Buttons m&uuml;ssen <code class="docs__token">aria-label</code> haben: <code>"Vorheriger Slide"</code> und <code>"N&auml;chster Slide"</code></li>
+                <li>SVG-Icons und <code>.icon</code>-Spans m&uuml;ssen <code class="docs__token">aria-hidden="true"</code> tragen</li>
+                <li><code>disabled</code>-Attribut beim ersten/letzten Slide korrekt setzen &mdash; verhindert unn&ouml;tige Aktivierung</li>
+                <li>Buttons m&uuml;ssen per Tastatur (<kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd>) erreichbar und aktivierbar sein</li>
+                <li>Die Mindestgr&ouml;&szlig;e von 32&times;32px entspricht der WCAG 2.5.5 Zielgr&ouml;&szlig;e (AA)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Autoplay -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="10 8 16 12 10 16"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Autoplay (WCAG 2.2.2)</h4>
+              <ul>
+                <li>Automatisch ablaufende Inhalte, die l&auml;nger als 5 Sekunden laufen, m&uuml;ssen pausierbar sein</li>
+                <li>Ein Pause-Button oder eine Pause-bei-Hover/Fokus-Logik ist Pflicht bei aktivem Autoplay</li>
+                <li><code class="docs__token">prefers-reduced-motion</code> sollte das Autoplay und die Slide-Transition deaktivieren</li>
+                <li>Die <code>carousel-line-progress</code> Animation l&auml;uft 4 Sekunden &mdash; innerhalb der WCAG-5-Sekunden-Grenze</li>
+                <li>Ein Pause-State via Klasse (z.B. <code>.is-paused</code>) sollte die Animation auf <code>animation-play-state: paused</code> setzen</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Reduced Motion -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>prefers-reduced-motion</h4>
+              <ul>
+                <li>Die globale Foundation-Regel setzt <code>animation-duration: 0.01ms</code> und <code>transition-duration: 0.01ms</code> bei <code>prefers-reduced-motion: reduce</code></li>
+                <li>Damit werden Slide-Transition und Fortschrittslinen-Animation automatisch deaktiviert</li>
+                <li>Autoplay sollte zus&auml;tzlich via JavaScript bei <code>prefers-reduced-motion: reduce</code> komplett gestoppt werden</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Best Practices -->
+          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
+            <h2 class="docs__section-title">Best Practices</h2>
+            <div class="docs__code-block">&lt;!-- RICHTIG: Carousel mit region-Landmark und aria-label --&gt;
+&lt;div class="carousel" role="region" aria-label="Referenz-Karussell" aria-roledescription="Karussell"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Fortschrittslinien aria-versteckt --&gt;
+&lt;div class="carousel-line-wrapper" aria-hidden="true"&gt;
+  &lt;span class="carousel-line active"&gt;&lt;/span&gt;
+  &lt;span class="carousel-line"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- RICHTIG: Navigationstasten mit aria-label --&gt;
+&lt;button type="button" aria-label="Vorheriger Slide"&gt;
+  &lt;span class="icon" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;button type="button" aria-label="N&auml;chster Slide"&gt;
+  &lt;span class="icon" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- RICHTIG: Live-Region f&uuml;r aktuellen Slide --&gt;
+&lt;div aria-live="polite" aria-atomic="true" class="u-sr-only"&gt;
+  Slide 2 von 4
+&lt;/div&gt;
+
+&lt;!-- FALSCH: Icon-Button ohne Beschriftung --&gt;
+&lt;button type="button"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- FALSCH: Autoplay ohne Pauselogik --&gt;
+&lt;div class="carousel"&gt;
+  &lt;!-- Slides wechseln automatisch ohne Steuerm&ouml;glichkeit --&gt;
+&lt;/div&gt;</div>
+
+            <h3 style="margin-top: var(--fnd-spacing-06);">Keyboard-Navigation</h3>
+            <table class="docs__table">
+              <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+              <tbody>
+                <tr><td><kbd>Tab</kbd></td><td>Fokus auf Zur&uuml;ck- und Vor-Button bewegen</td></tr>
+                <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Aktiven Button ausf&uuml;hren (Slide wechseln)</td></tr>
+                <tr><td><kbd>Tab</kbd> (im Slide)</td><td>Fokusierbare Inhalte innerhalb der Slides durchlaufen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+
+      </div><!-- /.docs-tabs -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="carousel-docs.js"></script>
+
+</body>
+</html>

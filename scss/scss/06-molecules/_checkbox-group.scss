@@ -1,0 +1,102 @@
+// ==========================================================================
+// 06-Molecules: Checkbox Group
+// ==========================================================================
+// Container fuer mehrere Checkboxen mit gemeinsamem Label und
+// Gruppen-Semantik (role="group", aria-labelledby).
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-group-* Component-Tokens.
+//   Die einzelnen Checkboxen innerhalb der Gruppe verwenden
+//   ihre eigenen --nc-checkbox-* Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-checkbox-group
+//     <legend> oder verbundenes Label (aria-labelledby)
+//     .nc-checkbox   (beliebig viele)
+//     .nc-form-error (optional, bei Gruppen-Validierungsfehler)
+//
+// TOKENS:
+//   --nc-group-gap              Vertikaler Abstand zwischen Optionen
+//   --nc-group-gap-horizontal   Horizontaler Abstand im Horizontal-Layout
+//
+// BEM-KLASSEN:
+//   .nc-checkbox-group                Block (flex column container)
+//   .nc-checkbox-group--horizontal    Optionen nebeneinander
+//   .nc-checkbox-group--error         Gruppen-Error-State (markiert alle)
+//   .nc-checkbox-group--disabled      Gesamte Gruppe deaktiviert
+//
+// ACCESSIBILITY:
+//   role="group" + aria-labelledby → Gruppierung fuer Screen Reader
+//   aria-describedby → verlinkt optionalen Error-Text
+//   Bei --error: visueller Hinweis auf ungueltige Auswahl
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Checkbox-Group-Container.
+/// Vertikales Flex-Layout mit konfiguriertem Gap.
+@mixin checkbox-group-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-group-gap);
+  width: 100%;
+}
+
+/// Horizontales Layout: Checkboxen werden nebeneinander angezeigt
+/// mit Umbruch bei Platzmangel (flex-wrap).
+@mixin checkbox-group-horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--nc-group-gap-horizontal);
+  align-items: flex-start;
+}
+
+/// Error-State: propagiert visuellen Fehler-Indikator auf alle
+/// enthaltenen Checkbox-Controls via Border-Color.
+@mixin checkbox-group-error {
+  > .nc-checkbox > .nc-checkbox__control,
+  > .nc-checkbox .nc-checkbox__input:not(:checked) + .nc-checkbox__control {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Disabled-State: deaktiviert die gesamte Gruppe visuell.
+/// Die einzelnen Checkboxen sollten zusaetzlich das native disabled-Attribut tragen.
+@mixin checkbox-group-disabled {
+  opacity: var(--nc-checkbox-disabled-opacity, 0.5);
+  cursor: not-allowed;
+  pointer-events: none;
+
+  > .nc-checkbox {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-checkbox-group {
+  @include checkbox-group-base;
+
+  // -- Layout-Modifier --
+
+  &--horizontal {
+    @include checkbox-group-horizontal;
+  }
+
+  // -- State-Modifier --
+
+  &--error {
+    @include checkbox-group-error;
+  }
+
+  &--disabled {
+    @include checkbox-group-disabled;
+  }
+}

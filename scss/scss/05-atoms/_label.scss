@@ -1,0 +1,64 @@
+// ==========================================================================
+// 05-Atoms: Label
+// ==========================================================================
+// Label/Tag-Komponenten
+// Migriert von: styles-new.css, cards.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Label Base
+// ---------------------------------------------------------------------------
+
+.label {
+  @include paragraph('s');
+  display: inline-flex;
+  align-items: center;
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+  border-radius: var(--fnd-radius-sm);
+  background-color: var(--fnd-color-background-secondary);
+  color: var(--fnd-color-text-mid);
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Label Variants
+// ---------------------------------------------------------------------------
+
+.label--accent {
+  background-color: var(--fnd-color-background-accent-green);
+  color: var(--fnd-color-always-dark);
+}
+
+.label--inverse {
+  background-color: var(--fnd-color-background-inverse);
+  color: var(--fnd-color-text-inverse);
+}
+
+.label--success {
+  background-color: var(--fnd-color-semantic-background-success);
+  color: var(--fnd-color-semantic-text-success);
+}
+
+.label--danger {
+  background-color: var(--fnd-color-semantic-background-danger);
+  color: var(--fnd-color-semantic-text-danger);
+}
+
+// ---------------------------------------------------------------------------
+// Labels Container
+// ---------------------------------------------------------------------------
+
+.labels-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  
+  .label {
+    height: 40px;
+  }
+}

@@ -1,0 +1,121 @@
+// ==========================================================================
+// 04-Objects: Container
+// ==========================================================================
+// Layout-Container, Sections, Wrapper
+// Migriert von: styles-new.css
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+
+main {
+  background-color: var(--fnd-color-background-base);
+  
+  > .section {
+    margin: 0;
+    background-color: var(--fnd-color-background-base);
+    color: var(--fnd-color-text-high);
+    
+    &:first-of-type {
+      margin: 0;
+    }
+    
+    // Default Content Wrapper
+    > div.default-content-wrapper {
+      @include container-padding;
+    }
+    
+    // Block Wrappers (nicht default-content-wrapper oder sidebar)
+    > div:not(:is(.default-content-wrapper, .sidebar-menu-wrapper)) {
+      // Theme-basierte Hintergründe
+      &:has(.block.light-base-theme) {
+        background-color: var(--fnd-color-always-light);
+      }
+      
+      &:has(.block.dark-base-theme) {
+        background-color: var(--fnd-color-always-dark);
+      }
+      
+      &:has(.block.light-secondary-theme) {
+        background-color: var(--fnd-color-background-secondary);
+      }
+      
+      // Inner div (nicht full-width)
+      > div:not(.full-width) {
+        @include container-padding;
+        //padding: 0;
+      }
+
+      // Utility: opt-out of container padding (use on inner div)
+      > div.no-container-pad {
+        padding-inline: 0;
+        --container-pad: 0;
+      }
+
+      // Utility: Remove container padding for scoped sections (e.g. hero)
+      &.no-container-pad {
+        > div:not(.full-width) {
+          padding-inline: 0;
+          --container-pad: 0;
+        }
+      }
+      
+      // Full-width divs
+      > div.full-width {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+  
+  // Legacy: Light/Highlight Sections
+  .section.light,
+  .section.highlight {
+    background-color: var(--fnd-color-background-base);
+    margin: 0;
+    padding: 40px 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Container Query Context (Progressive Enhancement)
+// ---------------------------------------------------------------------------
+
+/// Opt-in container query context on sections
+/// Usage: <div class="section section--cq"> to enable @container queries
+.section--cq {
+  @include container-context(section);
+}
+
+// ---------------------------------------------------------------------------
+// Default Content Wrapper - Media
+// ---------------------------------------------------------------------------
+
+.default-content-wrapper {
+  > p:has(> picture),
+  > p:has(> .video-wrap) {
+    padding-block: var(--fnd-spacing-10);
+    margin: 0;
+    
+    @include desktop-up {
+      padding-block: var(--fnd-spacing-11);
+    }
+    
+    img {
+      border-radius: var(--fnd-radius-lg);
+      aspect-ratio: var(--fnd-image-ratio-16-9);
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+  
+  > p > img {
+    border-radius: var(--fnd-radius-lg);
+    aspect-ratio: var(--fnd-image-ratio-16-9);
+    object-fit: cover;
+    width: 100%;
+  }
+}

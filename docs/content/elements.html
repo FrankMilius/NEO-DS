@@ -1,0 +1,624 @@
+<!-- STYLES -->
+  <style>
+    /* ------------------------------------------------------------------ */
+    /* Page-specific styles for the docs page only                        */
+    /* ------------------------------------------------------------------ */
+
+    .elem-section {
+      margin-block-end: var(--fnd-spacing-12);
+    }
+
+    .elem-section__title {
+      font-family: var(--font-heading);
+      font-size: var(--fnd-typography-heading-l-font-size);
+      line-height: var(--fnd-typography-heading-l-line-height);
+      font-weight: 400;
+      margin-block-end: var(--fnd-spacing-02);
+      padding-block-end: var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+    }
+
+    .elem-section__desc {
+      font-size: var(--fnd-typography-paragraph-l-font-size);
+      line-height: var(--fnd-typography-paragraph-l-line-height);
+      color: var(--fnd-color-text-secondary);
+      margin-block-end: var(--fnd-spacing-06);
+      max-width: 70ch;
+    }
+
+    /* Specimen card */
+    .specimen {
+      margin-block-end: var(--fnd-spacing-06);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-m);
+      overflow: hidden;
+    }
+
+    .specimen__label {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      background-color: var(--fnd-color-background-secondary);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--fnd-color-text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .specimen__tag {
+      font-weight: 600;
+      color: var(--fnd-color-text-primary);
+    }
+
+    .specimen__mixin {
+      background-color: var(--fnd-color-background-tertiary);
+      padding: 0.1em 0.4em;
+      border-radius: var(--fnd-radius-s);
+    }
+
+    .specimen__live {
+      margin-inline-start: auto;
+      font-size: 0.6875rem;
+      color: var(--fnd-color-text-tertiary);
+    }
+
+    .specimen__preview {
+      padding: var(--fnd-spacing-06);
+    }
+
+    .specimen__preview > *:last-child {
+      margin-block-end: 0;
+    }
+
+    /* Responsive info bar */
+    .responsive-bar {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-06);
+      background-color: var(--fnd-color-background-base);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--fnd-color-text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .responsive-bar__value {
+      font-weight: 700;
+      color: var(--fnd-color-text-primary);
+    }
+
+    .responsive-bar__bp {
+      padding: 0.15em 0.5em;
+      border-radius: var(--fnd-radius-s);
+      background-color: var(--fnd-color-background-tertiary);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .responsive-bar__bp.is-active {
+      background-color: var(--fnd-color-interactive);
+      color: var(--fnd-color-always-light);
+    }
+
+    /* Comparison grid for side-by-side */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+
+    @media (min-width: 768px) {
+      .compare-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .compare-grid .specimen {
+      margin-block-end: 0;
+    }
+
+    /* Token table */
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-block-end: var(--fnd-spacing-06);
+      font-size: var(--fnd-typography-paragraph-m-font-size);
+      line-height: var(--fnd-typography-paragraph-m-line-height);
+    }
+
+    .token-table th,
+    .token-table td {
+      text-align: left;
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+      border-bottom: 1px solid var(--fnd-color-border-secondary);
+    }
+
+    .token-table th {
+      font-weight: 600;
+      color: var(--fnd-color-text-primary);
+      background-color: var(--fnd-color-background-secondary);
+    }
+
+    .token-table td {
+      color: var(--fnd-color-text-secondary);
+    }
+
+    .token-table code {
+      font-size: 0.75rem;
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <h1 class="docs__title">HTML Elements</h1>
+    <p class="docs__subtitle">
+      Alle HTML-Tags, die von <code class="docs__token">_headings.scss</code>
+      und <code class="docs__token">_typography.scss</code> gestylt werden &mdash;
+      mit Beispieltexten und Live-Werten. Verkleinere das Browserfenster, um das
+      responsive Fluid-Verhalten zu beobachten.
+    </p>
+
+    <!-- ================================================================ -->
+    <!-- 1. HEADINGS                                                      -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="headings">
+      <h2 class="elem-section__title">Headings (h1 &ndash; h6)</h2>
+      <p class="elem-section__desc">
+        Alle Headings nutzen einheitlich den <code>heading()</code> Mixin mit
+        <code>font-family: var(--font-heading)</code> (Space Grotesk),
+        <code>font-weight: var(--fnd-font-weight-heading)</code> und
+        Fluid Typography (Minor Third Scale, Ratio 1.2).
+        Farbe: <code>--fnd-color-text-primary</code>.
+        Der <code>display()</code> Mixin ist f&uuml;r besondere Sektionen (Hero, CTA) reserviert.
+      </p>
+
+      <div class="specimen" id="spec-h1">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h1&gt;</span>
+          <span class="specimen__mixin">@include heading('2xl')</span>
+          <span class="specimen__live" data-live-size="h1"></span>
+        </div>
+        <div class="specimen__preview">
+          <h1 style="margin:0">Digitale Bildung neu gedacht</h1>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-h2">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h2&gt;</span>
+          <span class="specimen__mixin">@include heading('xl')</span>
+          <span class="specimen__live" data-live-size="h2"></span>
+        </div>
+        <div class="specimen__preview">
+          <h2 style="margin:0">Social Intranet Plattform</h2>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-h3">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h3&gt;</span>
+          <span class="specimen__mixin">@include heading('l')</span>
+          <span class="specimen__live" data-live-size="h3"></span>
+        </div>
+        <div class="specimen__preview">
+          <h3 style="margin:0">AI-gest&uuml;tzte Lernpfade</h3>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-h4">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h4&gt;</span>
+          <span class="specimen__mixin">@include heading('m')</span>
+          <span class="specimen__live" data-live-size="h4"></span>
+        </div>
+        <div class="specimen__preview">
+          <h4 style="margin:0">Wissensmanagement vereinfacht</h4>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-h5">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h5&gt;</span>
+          <span class="specimen__mixin">@include heading('s')</span>
+          <span class="specimen__live" data-live-size="h5"></span>
+        </div>
+        <div class="specimen__preview">
+          <h5 style="margin:0">Kollaboration in Echtzeit</h5>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-h6">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;h6&gt;</span>
+          <span class="specimen__mixin">@include heading('xs')</span>
+          <span class="specimen__live" data-live-size="h6"></span>
+        </div>
+        <div class="specimen__preview">
+          <h6 style="margin:0">Datenschutzkonform nach DSGVO</h6>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 2. PARAGRAPHS & BASIC TEXT                                       -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="paragraphs">
+      <h2 class="elem-section__title">Paragraphs &amp; Basic Text</h2>
+      <p class="elem-section__desc">
+        Paragraphen nutzen <code>@include paragraph('l')</code> (Fluid base-Stufe).
+        Alle Abstände verwenden logische Properties und Spacing-Tokens.
+      </p>
+
+      <div class="specimen" id="spec-p">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;p&gt;</span>
+          <span class="specimen__mixin">@include paragraph('l')</span>
+          <span class="specimen__live" data-live-size="p"></span>
+        </div>
+        <div class="specimen__preview">
+          <p>Neocosmo entwickelt digitale Plattformen, die Wissen und Zusammenarbeit in Unternehmen
+          revolutionieren. Unsere Lösungen verbinden modernes UX-Design mit leistungsstarker AI-Integration
+          und schaffen so eine nahtlose digitale Arbeitsumgebung.</p>
+          <p>Ein zweiter Absatz demonstriert den Abstand zwischen Paragraphen. Der letzte Absatz
+          in einem Container hat keinen unteren Abstand dank der <code>:last-child</code>-Regel.</p>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="specimen" id="spec-small">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;small&gt;</span>
+            <span class="specimen__mixin">@include paragraph('s')</span>
+          </div>
+          <div class="specimen__preview">
+            <p><small>Kleingedrucktes: Diese Plattform nutzt Cookies gem. unserer Datenschutzrichtlinie.</small></p>
+          </div>
+        </div>
+
+        <div class="specimen" id="spec-strong-em">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;strong&gt; &amp; &lt;em&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p><strong>Fettschrift (font-weight: 600)</strong> und <em>kursiver Text</em> in einem Absatz.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 3. BLOCKQUOTE & CITE                                             -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="blockquote">
+      <h2 class="elem-section__title">Blockquote &amp; Cite</h2>
+      <p class="elem-section__desc">
+        Blockquotes nutzen <code>border-inline-start</code> (logische Property) mit dem
+        semantischen Border-Token und Paragraph-Typografie.
+      </p>
+
+      <div class="specimen" id="spec-blockquote">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;blockquote&gt;</span>
+          <span class="specimen__mixin">@include paragraph('l')</span>
+        </div>
+        <div class="specimen__preview">
+          <blockquote>
+            Die Digitalisierung der internen Kommunikation ist kein Projekt mit Enddatum,
+            sondern ein kontinuierlicher Transformationsprozess, der gelebt werden muss.
+          </blockquote>
+          <cite>Dr. Anna Weber, Chief Digital Officer</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 4. LISTS                                                         -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="lists">
+      <h2 class="elem-section__title">Lists</h2>
+      <p class="elem-section__desc">
+        Ungeordnete, geordnete und Definitionslisten mit logischen Properties.
+        Padding nutzt <code>padding-inline-start</code> statt <code>padding-left</code>.
+      </p>
+
+      <div class="compare-grid">
+        <div class="specimen" id="spec-ul">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;ul&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <ul>
+              <li>Social Intranet mit Newsfeed</li>
+              <li>Digitale Bildungsplattform</li>
+              <li>AI-gesteuerte Inhaltsempfehlungen</li>
+              <li>Echtzeit-Collaboration Tools</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="specimen" id="spec-ol">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;ol&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <ol>
+              <li>Anforderungsanalyse durchführen</li>
+              <li>Plattform konfigurieren</li>
+              <li>Pilotgruppe einrichten</li>
+              <li>Rollout planen und umsetzen</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-dl">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;dl&gt; / &lt;dt&gt; / &lt;dd&gt;</span>
+        </div>
+        <div class="specimen__preview">
+          <dl>
+            <dt>SaaS</dt>
+            <dd>Software as a Service &mdash; cloud-basierte Bereitstellung ohne lokale Installation.</dd>
+            <dt>LMS</dt>
+            <dd>Learning Management System &mdash; zentrale Plattform zur Verwaltung von Lerninhalten.</dd>
+            <dt>SSO</dt>
+            <dd>Single Sign-On &mdash; einmaliges Anmelden für alle verbundenen Dienste.</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 5. CODE, KBD, PRE, SAMP                                         -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="code">
+      <h2 class="elem-section__title">Code &amp; Preformatted</h2>
+      <p class="elem-section__desc">
+        Monospace-Elemente teilen einen gemeinsamen Font-Stack. <code>&lt;code&gt;</code> und
+        <code>&lt;kbd&gt;</code> haben Inline-Hintergrund; <code>&lt;pre&gt;</code> ist ein Block-Element.
+      </p>
+
+      <div class="specimen" id="spec-code">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;code&gt;</span>
+        </div>
+        <div class="specimen__preview">
+          <p>Nutze <code>npm run build</code> um die Styles zu kompilieren. Die Variable
+          <code>--fnd-spacing-04</code> entspricht <code>16px</code> auf der Base-Stufe.</p>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="specimen" id="spec-kbd">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;kbd&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p>Drücke <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> für die Kommandopalette.</p>
+          </div>
+        </div>
+
+        <div class="specimen" id="spec-samp">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;samp&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p>Ausgabe: <samp>Build erfolgreich. 0 Fehler, 6 Warnungen.</samp></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="specimen" id="spec-pre">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;pre&gt;</span>
+        </div>
+        <div class="specimen__preview">
+<pre>:root {
+  --fnd-spacing-04: 16px;
+  --fnd-color-text-primary: #000000;
+  --font-heading: 'Space Grotesk', sans-serif;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 6. MARK, SUP, SUB                                                -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="inline">
+      <h2 class="elem-section__title">Inline Semantics</h2>
+      <p class="elem-section__desc">
+        Markierung, Hoch- und Tiefstellung. <code>&lt;mark&gt;</code> nutzt den
+        <code>--fnd-color-background-accent</code> Token mit Transparenz.
+      </p>
+
+      <div class="compare-grid">
+        <div class="specimen" id="spec-mark">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;mark&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p>Die <mark>AI-Integration</mark> ist das zentrale Differenzierungsmerkmal unserer Plattform.</p>
+          </div>
+        </div>
+
+        <div class="specimen" id="spec-sup-sub">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;sup&gt; &amp; &lt;sub&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p>Einsteins E=mc<sup>2</sup> und die chemische Formel H<sub>2</sub>O.</p>
+            <p>Fussnoten<sup>1</sup> und Indexwerte X<sub>n</sub> sind korrekt positioniert.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 7. FIGURE, HR, ADDRESS                                           -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="structure">
+      <h2 class="elem-section__title">Structural Elements</h2>
+
+      <div class="specimen" id="spec-figcaption">
+        <div class="specimen__label">
+          <span class="specimen__tag">&lt;figure&gt; / &lt;figcaption&gt;</span>
+          <span class="specimen__mixin">@include paragraph('s')</span>
+        </div>
+        <div class="specimen__preview">
+          <figure>
+            <div style="background: var(--fnd-color-background-tertiary); border-radius: var(--fnd-radius-m); padding: var(--fnd-spacing-08); text-align: center; color: var(--fnd-color-text-tertiary);">
+              [Bildplatzhalter &mdash; 16:9 Ratio]
+            </div>
+            <figcaption>Abb. 1: Dashboard der Neocosmo-Plattform mit AI-Insights Panel.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="specimen" id="spec-hr">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;hr&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <p>Inhalt oberhalb der Trennlinie.</p>
+            <hr>
+            <p>Inhalt unterhalb der Trennlinie.</p>
+          </div>
+        </div>
+
+        <div class="specimen" id="spec-address">
+          <div class="specimen__label">
+            <span class="specimen__tag">&lt;address&gt;</span>
+          </div>
+          <div class="specimen__preview">
+            <address>
+              Neocosmo GmbH<br>
+              Starterzentrum, Gebäude A1 1<br>
+              66123 Saarbrücken, Deutschland
+            </address>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 8. HEADING + BODY TOKEN TABLE                                    -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="tokens">
+      <h2 class="elem-section__title">Token-Mapping Referenz</h2>
+      <p class="elem-section__desc">
+        Übersicht welches HTML-Element welchen Mixin und welche CSS Custom Properties nutzt.
+      </p>
+
+      <table class="token-table" id="token-ref-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Mixin</th>
+            <th>Font-Size Token</th>
+            <th>Fluid-Stufe</th>
+            <th>Computed</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 9. FULL CONTENT FLOW                                             -->
+    <!-- ================================================================ -->
+    <section class="elem-section" id="flow">
+      <h2 class="elem-section__title">Content Flow (Gesamtbild)</h2>
+      <p class="elem-section__desc">
+        Alle Elemente kombiniert in einem natürlichen Textfluss. Ideal, um die vertikalen
+        Abstände (Spacing) und das Zusammenspiel der Typografie-Stufen zu prüfen.
+      </p>
+
+      <div class="specimen" id="spec-flow">
+        <div class="specimen__label">
+          <span class="specimen__tag">Vollständiger Content-Flow</span>
+        </div>
+        <div class="specimen__preview">
+          <h1>Neocosmo Cloud Platform</h1>
+          <p>Die zentrale Plattform für Wissensmanagement und interne Kommunikation.
+          Mit AI-gestützten Funktionen und modernem UX-Design.</p>
+
+          <h2>Produktübersicht</h2>
+          <p>Unsere Lösung besteht aus <strong>drei Kernmodulen</strong>, die nahtlos
+          zusammenarbeiten und sich individuell konfigurieren lassen.</p>
+
+          <h3>Learning Studio</h3>
+          <p>Das Learning Studio ermöglicht die Erstellung von <em>interaktiven Lernpfaden</em>
+          mit <mark>AI-gestützter Personalisierung</mark>.</p>
+
+          <blockquote>
+            Mit dem Learning Studio haben wir die Onboarding-Zeit um 40% reduziert.
+          </blockquote>
+          <cite>Maria Schmidt, HR Director</cite>
+
+          <h4>Funktionen</h4>
+          <ul>
+            <li>Drag-and-Drop Kurseditor</li>
+            <li>Automatische Quizgenerierung</li>
+            <li>Fortschrittstracking</li>
+          </ul>
+
+          <h5>Technische Anforderungen</h5>
+          <ol>
+            <li>Moderner Browser (Chrome, Firefox, Safari, Edge)</li>
+            <li>Mindestens 1024px Bildschirmbreite empfohlen</li>
+            <li>JavaScript aktiviert</li>
+          </ol>
+
+          <h6>Konfiguration</h6>
+          <dl>
+            <dt>API-Endpunkt</dt>
+            <dd>Konfigurierbar über das Admin-Panel unter Einstellungen.</dd>
+            <dt>SSO-Integration</dt>
+            <dd>SAML 2.0 und OpenID Connect werden unterstützt.</dd>
+          </dl>
+
+          <p>Zur Installation führe <code>npm install @neocosmo/platform</code> aus.
+          Die Konfiguration erfolgt in der Datei:</p>
+<pre>{
+  "api": "https://api.neocosmo.de/v3",
+  "theme": "light-base",
+  "locale": "de-DE"
+}</pre>
+
+          <p>Tastenkürzel: <kbd>Ctrl</kbd> + <kbd>K</kbd> öffnet die Kommandopalette.</p>
+
+          <figure>
+            <div style="background: var(--fnd-color-background-tertiary); border-radius: var(--fnd-radius-m); padding: var(--fnd-spacing-10); text-align: center; color: var(--fnd-color-text-tertiary);">
+              [Screenshot: Dashboard mit H<sub>2</sub>O-Analyse<sup>*</sup>]
+            </div>
+            <figcaption>Abb. 2: Das Analytics-Dashboard zeigt Nutzungsstatistiken in Echtzeit.</figcaption>
+          </figure>
+
+          <hr>
+
+          <address>
+            Neocosmo GmbH &middot; Saarbrücken &middot; info@neocosmo.de
+          </address>
+
+          <p><small>* Daten basieren auf einer internen Studie mit 500 Nutzern. Stand: 2026.</small></p>
+        </div>
+      </div>
+    </section>
+
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+    <script src="elements-docs.js"></script>
+<!-- /SCRIPTS -->

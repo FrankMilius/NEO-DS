@@ -1,0 +1,104 @@
+// ==========================================================================
+// 06-Molecules: Radio Group
+// ==========================================================================
+// Container fuer mehrere Radio-Buttons mit gemeinsamem Label und
+// Gruppen-Semantik (role="radiogroup", aria-labelledby).
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-group-* Component-Tokens.
+//   Gleiche Token-Struktur wie Checkbox-Group fuer konsistente
+//   Abstands-Konfiguration.
+//   Die einzelnen Radios verwenden ihre eigenen --nc-radio-* Tokens.
+//
+// VERSCHACHTELUNGSLOGIK:
+//   .nc-radio-group
+//     <legend> oder verbundenes Label (aria-labelledby)
+//     .nc-radio    (beliebig viele, gleicher name-Attribut)
+//     .nc-form-error (optional, bei Gruppen-Validierungsfehler)
+//
+// TOKENS:
+//   --nc-group-gap              Vertikaler Abstand zwischen Optionen
+//   --nc-group-gap-horizontal   Horizontaler Abstand im Horizontal-Layout
+//
+// BEM-KLASSEN:
+//   .nc-radio-group                Block (flex column container)
+//   .nc-radio-group--horizontal    Optionen nebeneinander
+//   .nc-radio-group--error         Gruppen-Error-State (markiert alle)
+//   .nc-radio-group--disabled      Gesamte Gruppe deaktiviert
+//
+// ACCESSIBILITY:
+//   role="radiogroup" + aria-labelledby → Gruppierung fuer Screen Reader
+//   aria-describedby → verlinkt optionalen Error-Text
+//   Tastatur-Navigation: Arrow Keys wechseln zwischen Radios
+//   Bei --error: visueller Hinweis auf ungueltige Auswahl
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Radio-Group-Container.
+/// Vertikales Flex-Layout mit konfiguriertem Gap.
+@mixin radio-group-base {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-group-gap);
+  width: 100%;
+}
+
+/// Horizontales Layout: Radios werden nebeneinander angezeigt
+/// mit Umbruch bei Platzmangel (flex-wrap).
+@mixin radio-group-horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--nc-group-gap-horizontal);
+  align-items: flex-start;
+}
+
+/// Error-State: propagiert visuellen Fehler-Indikator auf alle
+/// enthaltenen Radio-Controls via Border-Color.
+@mixin radio-group-error {
+  > .nc-radio > .nc-radio__control,
+  > .nc-radio .nc-radio__input:not(:checked) + .nc-radio__control {
+    border-color: var(--nc-input-border-error);
+  }
+}
+
+/// Disabled-State: deaktiviert die gesamte Gruppe visuell.
+/// Die einzelnen Radios sollten zusaetzlich das native disabled-Attribut tragen.
+@mixin radio-group-disabled {
+  opacity: var(--nc-radio-disabled-opacity, 0.5);
+  cursor: not-allowed;
+  pointer-events: none;
+
+  > .nc-radio {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-radio-group {
+  @include radio-group-base;
+
+  // -- Layout-Modifier --
+
+  &--horizontal {
+    @include radio-group-horizontal;
+  }
+
+  // -- State-Modifier --
+
+  &--error {
+    @include radio-group-error;
+  }
+
+  &--disabled {
+    @include radio-group-disabled;
+  }
+}

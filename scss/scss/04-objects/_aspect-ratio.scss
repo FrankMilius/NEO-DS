@@ -1,0 +1,85 @@
+// ==========================================================================
+// 04-Objects: Aspect Ratio
+// ==========================================================================
+// Layout-Primitive fuer konsistente Seitenverhaeltnisse (Image, Video, Embeds).
+// Inspiriert von shadcn AspectRatio. Nutzt native CSS aspect-ratio.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-aspect-ratio-* Component-Tokens,
+//   die auf --fnd-image-ratio-* Foundation-Tokens referenzieren.
+//
+// BEM-KLASSEN:
+//   .nc-aspect-ratio               Block (Wrapper, position: relative)
+//   .nc-aspect-ratio__content      Child-Element (absolut, fuellt Container)
+//   .nc-aspect-ratio--1-1          Square (1:1)
+//   .nc-aspect-ratio--4-3          Landscape Klassisch (4:3)
+//   .nc-aspect-ratio--3-4          Portrait Klassisch (3:4)
+//   .nc-aspect-ratio--16-9         Widescreen (16:9, Default)
+//   .nc-aspect-ratio--9-16         Vertikal / Stories (9:16)
+//   .nc-aspect-ratio--2-1          Panorama (2:1)
+//   .nc-aspect-ratio--1-2          Tall Portrait (1:2)
+//   .nc-aspect-ratio--3-2          Classic Landscape (3:2)
+//   .nc-aspect-ratio--2-3          Classic Portrait (2:3)
+//
+// CUSTOM RATIO:
+//   <div class="nc-aspect-ratio" style="--nc-aspect-ratio-ratio: 21 / 9">
+//
+// ACCESSIBILITY:
+//   Reines Layout-Primitive — keine ARIA-Attribute noetig.
+//   Semantik kommt vom Child-Element (img alt, video track).
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Wrapper: relative, overflow hidden, aspect-ratio via Token.
+@mixin aspect-ratio-base {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: var(--nc-aspect-ratio-ratio);
+}
+
+/// Child-Element: absolut positioniert, fuellt Container.
+/// object-fit: cover als Default fuer Images und Videos.
+@mixin aspect-ratio-content {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-aspect-ratio {
+  @include aspect-ratio-base;
+
+  // -- Element --
+
+  &__content {
+    @include aspect-ratio-content;
+
+    // Iframes: Default-Border entfernen
+    &[src] {
+      border: none;
+    }
+  }
+
+  // -- Modifier: Ratio-Presets --
+
+  &--1-1  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-1-1); }
+  &--4-3  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-4-3); }
+  &--3-4  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-3-4); }
+  &--16-9 { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-16-9); }
+  &--9-16 { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-9-16); }
+  &--2-1  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-2-1); }
+  &--1-2  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-1-2); }
+  &--3-2  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-3-2); }
+  &--2-3  { --nc-aspect-ratio-ratio: var(--fnd-image-ratio-2-3); }
+}
