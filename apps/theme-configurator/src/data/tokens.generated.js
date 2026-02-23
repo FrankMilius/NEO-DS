@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-02-19
+// Generated: 2026-02-23
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
