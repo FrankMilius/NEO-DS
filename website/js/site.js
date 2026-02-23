@@ -1,4 +1,4 @@
-const DATA_URL = 'data/site-data.json';
+const DATA_URL = 'website/data/site-data.json';
 const HERO_CONFIG_KEY = 'heroConfig';
 const NAV_CONFIG_KEY = 'navConfig';
 const THEME_KEY = 'appTheme';

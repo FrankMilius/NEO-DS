@@ -10,7 +10,7 @@
 //
 // Endpoints:
 //   GET  /*                → Statische Dateien aus Projekt-Root
-//   POST /api/save-theme   → Schreibt data/custom-theme.json
+//   POST /api/save-theme   → Schreibt website/data/custom-theme.json
 // ==========================================================================
 
 const http = require('http');
@@ -19,7 +19,7 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = path.resolve(__dirname, '..');
-const THEME_FILE = path.join(ROOT, 'data', 'custom-theme.json');
+const THEME_FILE = path.join(ROOT, 'website', 'data', 'custom-theme.json');
 
 // MIME-Types
 const mimeTypes = {

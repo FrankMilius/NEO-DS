@@ -14,6 +14,7 @@ const ROOT = path.resolve(__dirname, '..');
 // ── Prozess-Definitionen ──────────────────────────────────────────────
 const processes = [
   { label: 'SCSS',   color: '\x1b[36m', cmd: 'sass',  args: ['scss/scss/main.scss:styles.css', '--watch', '--poll'] },
+  { label: 'Site',   color: '\x1b[34m', cmd: 'sass',  args: ['website/scss/main.scss:website/styles.css', '--watch', '--poll'] },
   { label: 'Docs',   color: '\x1b[33m', cmd: 'node',  args: ['scripts/build-docs.js', '--watch'] },
   { label: 'Icons',  color: '\x1b[35m', cmd: 'node',  args: ['scripts/watch-icons.js'] },
   { label: 'Server', color: '\x1b[32m', cmd: 'node',  args: ['scripts/docs-server.js'] },

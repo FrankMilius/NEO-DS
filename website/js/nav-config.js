@@ -1,4 +1,4 @@
-const DATA_URL = 'data/site-data.json';
+const DATA_URL = 'website/data/site-data.json';
 const NAV_CONFIG_KEY = 'navConfig';
 
 const createEl = (tag, className, text) => {
