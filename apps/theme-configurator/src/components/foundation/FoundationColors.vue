@@ -4,6 +4,8 @@
     <div
       v-if="tooltip.visible"
       class="shade-tooltip"
+      role="tooltip"
+      aria-hidden="true"
       :style="{ top: tooltip.y + 'px', left: tooltip.x + 'px' }"
     >
       <div class="tooltip-swatch" :style="{ background: tooltip.color }"></div>
@@ -1244,7 +1246,7 @@ function getContrastLevel(tokenId) {
   margin-bottom: 24px;
   position: sticky;
   top: -24px;
-  z-index: 10;
+  z-index: var(--cfg-z-sticky);
   background: var(--cfg-bg);
   padding-top: 0;
 }
@@ -1261,7 +1263,7 @@ function getContrastLevel(tokenId) {
   font-weight: 600;
   cursor: pointer;
   position: relative;
-  transition: color 0.15s;
+  transition: color var(--fnd-motion-duration-150);
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
 }
@@ -1450,13 +1452,13 @@ function getContrastLevel(tokenId) {
   justify-content: center;
   cursor: default;
   position: relative;
-  transition: transform 0.1s, z-index 0s;
+  transition: transform var(--fnd-motion-duration-100), z-index 0s;
 }
 
 .shade-chip:hover {
   transform: scaleY(1.25);
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  z-index: var(--cfg-z-hover);
+  box-shadow: var(--cfg-shadow-md);
 }
 
 .shade-label {
@@ -1465,7 +1467,7 @@ function getContrastLevel(tokenId) {
   opacity: 0;
   color: white;
   mix-blend-mode: difference;
-  transition: opacity 0.1s;
+  transition: opacity var(--fnd-motion-duration-100);
   pointer-events: none;
 }
 
@@ -1494,8 +1496,8 @@ function getContrastLevel(tokenId) {
     -45deg,
     transparent,
     transparent 8px,
-    rgba(128, 128, 128, 0.04) 8px,
-    rgba(128, 128, 128, 0.04) 16px
+    color-mix(in srgb, var(--cfg-text-muted) 4%, transparent) 8px,
+    color-mix(in srgb, var(--cfg-text-muted) 4%, transparent) 16px
   );
 }
 
@@ -1539,7 +1541,7 @@ function getContrastLevel(tokenId) {
   color: var(--cfg-text-muted);
   cursor: pointer;
   border-radius: 8px;
-  transition: all 0.15s ease;
+  transition: all var(--fnd-motion-duration-150) ease;
   width: 100%;
 }
 
@@ -1584,7 +1586,7 @@ function getContrastLevel(tokenId) {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
 }
 
 .btn-add-confirm:disabled {
@@ -1606,7 +1608,7 @@ function getContrastLevel(tokenId) {
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all var(--fnd-motion-duration-150);
 }
 
 .btn-add-cancel:hover {
@@ -1626,14 +1628,14 @@ function getContrastLevel(tokenId) {
   background: transparent;
   color: var(--cfg-text-muted);
   cursor: pointer;
-  transition: all 0.12s;
+  transition: all var(--fnd-motion-duration-150);
   flex-shrink: 0;
 }
 
 .btn-remove:hover {
-  color: #fa4d56;
-  background: rgba(250, 77, 86, 0.08);
-  border-color: rgba(250, 77, 86, 0.2);
+  color: var(--cfg-danger);
+  background: var(--cfg-danger-subtle);
+  border-color: var(--cfg-danger-border-subtle);
 }
 
 /* Sync badge */
@@ -1650,7 +1652,7 @@ function getContrastLevel(tokenId) {
   background: #fef3c7;
   border: 1px solid #fde68a;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all var(--fnd-motion-duration-150);
 }
 
 .sync-badge:hover {
@@ -1688,7 +1690,7 @@ function getContrastLevel(tokenId) {
   border-radius: 8px;
   background: var(--cfg-surface);
   overflow: hidden;
-  transition: border-color 0.12s;
+  transition: border-color var(--fnd-motion-duration-150);
 }
 
 .semantic-token-card--active {
@@ -1707,7 +1709,7 @@ function getContrastLevel(tokenId) {
   width: 100%;
   text-align: left;
   color: inherit;
-  transition: background 0.1s;
+  transition: background var(--fnd-motion-duration-100);
 }
 
 .semantic-token-header:hover {
@@ -1747,7 +1749,7 @@ function getContrastLevel(tokenId) {
 
 .token-chevron {
   color: var(--cfg-text-muted);
-  transition: transform 0.2s;
+  transition: transform var(--fnd-motion-duration-200);
   flex-shrink: 0;
 }
 
@@ -1841,23 +1843,23 @@ function getContrastLevel(tokenId) {
   margin-right: auto;
 }
 
-.contrast-ratio-value.aaa { color: #22c55e; }
-.contrast-ratio-value.aa { color: #22c55e; }
-.contrast-ratio-value.aa-large { color: #eab308; }
-.contrast-ratio-value.fail { color: #ef4444; }
+.contrast-ratio-value.aaa { color: var(--cfg-indicator-pass); }
+.contrast-ratio-value.aa { color: var(--cfg-indicator-pass); }
+.contrast-ratio-value.aa-large { color: var(--cfg-indicator-warn); }
+.contrast-ratio-value.fail { color: var(--cfg-indicator-fail); }
 
 .wcag-mini-badge {
   font-size: 9px;
   font-weight: 700;
   padding: 1px 5px;
   border-radius: 3px;
-  background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
+  background: var(--cfg-indicator-fail-bg);
+  color: var(--cfg-indicator-fail);
 }
 
 .wcag-mini-badge.pass {
-  background: rgba(34, 197, 94, 0.12);
-  color: #22c55e;
+  background: var(--cfg-indicator-pass-bg);
+  color: var(--cfg-indicator-pass);
 }
 
 /* ── Palette group strips ── */
@@ -1897,7 +1899,7 @@ function getContrastLevel(tokenId) {
   padding: 0;
   cursor: pointer;
   position: relative;
-  transition: transform 0.1s;
+  transition: transform var(--fnd-motion-duration-100);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1905,13 +1907,13 @@ function getContrastLevel(tokenId) {
 
 .picker-swatch:hover {
   transform: scaleY(1.3);
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  z-index: var(--cfg-z-hover);
+  box-shadow: var(--cfg-shadow-md);
 }
 
 .picker-swatch--active {
   box-shadow: inset 0 0 0 2px var(--cfg-accent), 0 0 0 1px var(--cfg-accent);
-  z-index: 3;
+  z-index: calc(var(--cfg-z-hover) + 1);
   transform: scaleY(1.15);
 }
 
@@ -1929,7 +1931,7 @@ function getContrastLevel(tokenId) {
   opacity: 0;
   color: white;
   mix-blend-mode: difference;
-  transition: opacity 0.1s;
+  transition: opacity var(--fnd-motion-duration-100);
   pointer-events: none;
 }
 
@@ -1940,7 +1942,7 @@ function getContrastLevel(tokenId) {
 /* Expand transition */
 .expand-enter-active,
 .expand-leave-active {
-  transition: all 0.2s ease;
+  transition: all var(--fnd-motion-duration-200) ease;
   overflow: hidden;
 }
 
@@ -1961,19 +1963,19 @@ function getContrastLevel(tokenId) {
 /* ── Shade Chip Tooltip ── */
 .shade-tooltip {
   position: fixed;
-  z-index: 10000;
+  z-index: var(--cfg-z-tooltip);
   transform: translate(-50%, -100%);
   pointer-events: none;
   background: var(--cfg-surface, #fff);
   border: 1px solid var(--cfg-border, #e0e0e0);
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--cfg-shadow-lg);
   padding: 8px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
   white-space: nowrap;
-  animation: tooltip-in 0.12s ease;
+  animation: tooltip-in var(--fnd-motion-duration-150) ease;
 }
 
 @keyframes tooltip-in {

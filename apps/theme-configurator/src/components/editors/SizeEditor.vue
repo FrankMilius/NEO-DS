@@ -160,7 +160,7 @@ function validateInput() {
   background: var(--cfg-accent);
   cursor: pointer;
   border: 2px solid var(--cfg-surface);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: var(--cfg-shadow-sm);
 }
 
 .value-input-wrap {

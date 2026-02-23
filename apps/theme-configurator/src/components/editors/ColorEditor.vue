@@ -280,12 +280,12 @@ const contrastColor = computed(() => {
   border: 1px solid var(--cfg-border);
   cursor: pointer;
   padding: 0;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform var(--fnd-motion-duration-100), box-shadow var(--fnd-motion-duration-100);
 }
 
 .palette-swatch:hover {
   transform: scale(1.2);
-  z-index: 1;
+  z-index: var(--cfg-z-hover);
 }
 
 .palette-swatch.active {
@@ -319,10 +319,10 @@ const contrastColor = computed(() => {
   font-variant-numeric: tabular-nums;
 }
 
-.contrast-value.aaa { color: #22c55e; }
-.contrast-value.aa { color: #22c55e; }
-.contrast-value.aa-large { color: #eab308; }
-.contrast-value.fail { color: #ef4444; }
+.contrast-value.aaa { color: var(--cfg-indicator-pass); }
+.contrast-value.aa { color: var(--cfg-indicator-pass); }
+.contrast-value.aa-large { color: var(--cfg-indicator-warn); }
+.contrast-value.fail { color: var(--cfg-indicator-fail); }
 
 .contrast-badges {
   display: flex;
@@ -334,12 +334,12 @@ const contrastColor = computed(() => {
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
+  background: var(--cfg-indicator-fail-bg);
+  color: var(--cfg-indicator-fail);
 }
 
 .wcag-badge.pass {
-  background: rgba(34, 197, 94, 0.15);
-  color: #22c55e;
+  background: var(--cfg-indicator-pass-bg);
+  color: var(--cfg-indicator-pass);
 }
 </style>

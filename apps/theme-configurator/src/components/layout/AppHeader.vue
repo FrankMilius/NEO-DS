@@ -168,10 +168,10 @@
 
     <!-- ═══════════════ CREATE THEME DIALOG ═══════════════ -->
     <Transition name="modal">
-      <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
-        <div class="modal-dialog">
+      <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false" @keydown.escape="showCreateDialog = false">
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="create-dialog-title" @keydown="trapFocus">
           <div class="modal-header">
-            <h3 class="modal-title">Create New Theme</h3>
+            <h3 class="modal-title" id="create-dialog-title">Create New Theme</h3>
             <button class="modal-close" @click="showCreateDialog = false">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
@@ -214,10 +214,10 @@
 
     <!-- ═══════════════ DELETE CONFIRM DIALOG ═══════════════ -->
     <Transition name="modal">
-      <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false">
-        <div class="modal-dialog modal-sm">
+      <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false" @keydown.escape="showDeleteConfirm = false">
+        <div class="modal-dialog modal-sm" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" @keydown="trapFocus">
           <div class="modal-header">
-            <h3 class="modal-title">Delete Theme</h3>
+            <h3 class="modal-title" id="delete-dialog-title">Delete Theme</h3>
             <button class="modal-close" @click="showDeleteConfirm = false">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
@@ -279,8 +279,22 @@ function onDocumentClick(e) {
   }
 }
 
-onMounted(() => document.addEventListener('click', onDocumentClick, true))
-onUnmounted(() => document.removeEventListener('click', onDocumentClick, true))
+// Close dropdowns on Escape
+function onDocumentKeydown(e) {
+  if (e.key === 'Escape') {
+    if (dropdownOpen.value) { dropdownOpen.value = false; e.stopPropagation() }
+    if (downloadOpen.value) { downloadOpen.value = false; e.stopPropagation() }
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', onDocumentClick, true)
+  document.addEventListener('keydown', onDocumentKeydown)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onDocumentClick, true)
+  document.removeEventListener('keydown', onDocumentKeydown)
+})
 
 // ---------------------------------------------------------------------------
 // Active theme label
@@ -379,6 +393,23 @@ function formatDate(iso) {
     return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
   } catch { return '' }
 }
+
+// Focus trap for modal dialogs
+function trapFocus(e) {
+  if (e.key !== 'Tab') return
+  const dialog = e.currentTarget
+  const focusable = dialog.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+  if (focusable.length === 0) return
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
+}
 </script>
 
 <style scoped>
@@ -472,7 +503,7 @@ function formatDate(iso) {
   font-size: 11px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all var(--fnd-motion-duration-150) ease;
   white-space: nowrap;
 }
 
@@ -488,9 +519,9 @@ function formatDate(iso) {
 }
 
 .tb-btn-danger:hover:not(:disabled) {
-  color: #e53e3e;
-  background: rgba(229, 62, 62, 0.08);
-  border-color: rgba(229, 62, 62, 0.2);
+  color: var(--cfg-danger);
+  background: var(--cfg-danger-subtle);
+  border-color: var(--cfg-danger-border-subtle);
 }
 
 .tb-label {
@@ -512,7 +543,7 @@ function formatDate(iso) {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all var(--fnd-motion-duration-150) ease;
   min-width: 140px;
   max-width: 220px;
 }
@@ -532,7 +563,7 @@ function formatDate(iso) {
 
 .tb-chevron {
   flex-shrink: 0;
-  transition: transform 0.15s ease;
+  transition: transform var(--fnd-motion-duration-150) ease;
 }
 
 .tb-chevron.open {
@@ -554,8 +585,8 @@ function formatDate(iso) {
   background: var(--cfg-surface);
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
-  z-index: 200;
+  box-shadow: var(--cfg-shadow-lg);
+  z-index: var(--cfg-z-dropdown);
   padding: 4px;
   overflow: hidden;
 }
@@ -578,7 +609,7 @@ function formatDate(iso) {
   color: var(--cfg-text);
   font-size: 12px;
   cursor: pointer;
-  transition: background 0.1s;
+  transition: background var(--fnd-motion-duration-100);
   text-align: left;
 }
 
@@ -645,7 +676,7 @@ function formatDate(iso) {
 /* Dropdown transitions */
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition: opacity var(--fnd-motion-duration-150) ease, transform var(--fnd-motion-duration-150) ease;
 }
 .dropdown-enter-from,
 .dropdown-leave-to {
@@ -659,11 +690,11 @@ function formatDate(iso) {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--cfg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 500;
+  z-index: var(--cfg-z-modal);
 }
 
 .modal-dialog {
@@ -671,7 +702,7 @@ function formatDate(iso) {
   background: var(--cfg-surface);
   border: 1px solid var(--cfg-border);
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--cfg-shadow-modal);
   overflow: hidden;
 }
 
@@ -750,7 +781,7 @@ function formatDate(iso) {
   font-size: 13px;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color var(--fnd-motion-duration-150);
 }
 
 .form-input:focus {
@@ -775,7 +806,7 @@ function formatDate(iso) {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.12s ease;
+  transition: all var(--fnd-motion-duration-150) ease;
 }
 
 .modal-btn.secondary {
@@ -802,9 +833,9 @@ function formatDate(iso) {
 }
 
 .modal-btn.danger {
-  background: #e53e3e;
+  background: var(--cfg-danger);
   color: white;
-  border-color: #e53e3e;
+  border-color: var(--cfg-danger);
 }
 
 .modal-btn.danger:hover { opacity: 0.9; }
@@ -817,18 +848,18 @@ function formatDate(iso) {
 }
 
 .delete-warning strong {
-  color: #e53e3e;
+  color: var(--cfg-danger);
 }
 
 /* Modal transitions */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.15s ease;
+  transition: opacity var(--fnd-motion-duration-150) ease;
 }
 
 .modal-enter-active .modal-dialog,
 .modal-leave-active .modal-dialog {
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform var(--fnd-motion-duration-150) ease, opacity var(--fnd-motion-duration-150) ease;
 }
 
 .modal-enter-from,

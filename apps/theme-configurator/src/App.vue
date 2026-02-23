@@ -3,8 +3,12 @@
     <AppHeader />
     <div class="app-body">
       <SidebarNav />
-      <InspectorPanel />
-      <LaboratoryPanel />
+      <ErrorBoundary panelLabel="Inspector">
+        <InspectorPanel />
+      </ErrorBoundary>
+      <ErrorBoundary panelLabel="Laboratory">
+        <LaboratoryPanel />
+      </ErrorBoundary>
     </div>
     <UpdateDialog />
   </div>
@@ -19,6 +23,7 @@ import SidebarNav from './components/layout/SidebarNav.vue'
 import InspectorPanel from './components/layout/InspectorPanel.vue'
 import LaboratoryPanel from './components/laboratory/LaboratoryPanel.vue'
 import UpdateDialog from './components/components/UpdateDialog.vue'
+import ErrorBoundary from './components/layout/ErrorBoundary.vue'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()

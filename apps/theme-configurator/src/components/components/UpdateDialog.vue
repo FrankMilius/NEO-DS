@@ -1,8 +1,8 @@
 <template>
   <Teleport to="body">
     <transition name="dialog-fade">
-      <div v-if="sync.state.showDialog" class="dialog-overlay" @click.self="sync.dismissDialog">
-        <div class="dialog-panel">
+      <div v-if="sync.state.showDialog" class="dialog-overlay" @click.self="sync.dismissDialog" @keydown.escape="sync.dismissDialog">
+        <div class="dialog-panel" role="dialog" aria-modal="true" aria-labelledby="update-dialog-title" @keydown="trapFocus">
 
           <!-- Header with Pipeline Stage Indicator -->
           <div class="dialog-header">
@@ -23,7 +23,7 @@
               </svg>
             </div>
             <div class="dialog-title-group">
-              <h3 class="dialog-title">{{ dialogTitle }}</h3>
+              <h3 class="dialog-title" id="update-dialog-title">{{ dialogTitle }}</h3>
               <p class="dialog-subtitle">{{ dialogSubtitle }}</p>
             </div>
             <button class="dialog-close" @click="sync.dismissDialog" title="Close">
@@ -276,17 +276,34 @@ const dialogSubtitle = computed(() => {
   }
   return map[sync.state.stage] || ''
 })
+
+// Focus trap for dialog
+function trapFocus(e) {
+  if (e.key !== 'Tab') return
+  const dialog = e.currentTarget
+  const focusable = dialog.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
+  if (focusable.length === 0) return
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault()
+    last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault()
+    first.focus()
+  }
+}
 </script>
 
 <style scoped>
 .dialog-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: var(--cfg-z-tooltip);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--cfg-overlay);
   backdrop-filter: blur(4px);
 }
 
@@ -298,7 +315,7 @@ const dialogSubtitle = computed(() => {
   max-width: 92vw;
   max-height: 85vh;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--cfg-shadow-modal);
   display: flex;
   flex-direction: column;
 }
@@ -319,13 +336,13 @@ const dialogSubtitle = computed(() => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: all var(--fnd-motion-duration-200);
 }
 
-.icon-review { background: #e0f7fa; color: #009fe3; }
-.icon-processing { background: #eef2ff; color: #6366f1; }
-.icon-success { background: #dcfce7; color: #16a34a; }
-.icon-error { background: #fee2e2; color: #dc2626; }
+.icon-review { background: var(--cfg-accent-subtle); color: var(--cfg-accent); }
+.icon-processing { background: var(--cfg-processing-subtle); color: var(--cfg-processing); }
+.icon-success { background: var(--cfg-success-subtle); color: var(--cfg-success); }
+.icon-error { background: var(--cfg-danger-subtle); color: var(--cfg-danger); }
 
 .dialog-title-group { flex: 1; min-width: 0; }
 
@@ -354,7 +371,7 @@ const dialogSubtitle = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.12s;
+  transition: all var(--fnd-motion-duration-150);
   flex-shrink: 0;
 }
 
@@ -386,17 +403,17 @@ const dialogSubtitle = computed(() => {
   border-radius: 50%;
   border: 2px solid var(--cfg-border, #d0d0d0);
   background: var(--cfg-surface, #fff);
-  transition: all 0.2s;
+  transition: all var(--fnd-motion-duration-200);
 }
 
 .pipeline-stage.active .pipeline-dot {
-  border-color: #009fe3;
-  background: #009fe3;
+  border-color: var(--cfg-accent);
+  background: var(--cfg-accent);
 }
 
 .pipeline-stage.done .pipeline-dot {
-  border-color: #16a34a;
-  background: #16a34a;
+  border-color: var(--cfg-success);
+  background: var(--cfg-success);
 }
 
 .pipeline-label {
@@ -408,11 +425,11 @@ const dialogSubtitle = computed(() => {
 }
 
 .pipeline-stage.active .pipeline-label {
-  color: #009fe3;
+  color: var(--cfg-accent);
 }
 
 .pipeline-stage.done .pipeline-label {
-  color: #16a34a;
+  color: var(--cfg-success);
 }
 
 .pipeline-connector {
@@ -420,11 +437,11 @@ const dialogSubtitle = computed(() => {
   height: 2px;
   background: var(--cfg-border, #d0d0d0);
   margin-bottom: 16px;
-  transition: background 0.2s;
+  transition: background var(--fnd-motion-duration-200);
 }
 
 .pipeline-connector.done {
-  background: #16a34a;
+  background: var(--cfg-success);
 }
 
 /* Content */
@@ -450,7 +467,7 @@ const dialogSubtitle = computed(() => {
   width: 32px;
   height: 32px;
   border: 3px solid var(--cfg-border, #e0e0e0);
-  border-top-color: #009fe3;
+  border-top-color: var(--cfg-accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -487,10 +504,10 @@ const dialogSubtitle = computed(() => {
 .mr-count {
   font-size: 10px;
   font-weight: 600;
-  color: #009fe3;
+  color: var(--cfg-accent);
   padding: 2px 8px;
   border-radius: 4px;
-  background: #e0f7fa;
+  background: var(--cfg-accent-subtle);
 }
 
 .mr-summary {
@@ -513,7 +530,7 @@ const dialogSubtitle = computed(() => {
   gap: 10px;
   padding: 8px 10px;
   border: 1px solid var(--cfg-border, #e0e0e0);
-  border-left: 3px solid #16a34a;
+  border-left: 3px solid var(--cfg-success);
   border-radius: 8px;
   background: var(--cfg-surface-elevated, #fafafa);
 }
@@ -585,9 +602,9 @@ const dialogSubtitle = computed(() => {
   border-radius: 3px;
 }
 
-.action-modify { background: #fef3c7; color: #d97706; }
-.action-create { background: #dcfce7; color: #16a34a; }
-.action-delete { background: #fee2e2; color: #dc2626; }
+.action-modify { background: var(--cfg-warning-subtle); color: var(--cfg-warning); }
+.action-create { background: var(--cfg-success-subtle); color: var(--cfg-success); }
+.action-delete { background: var(--cfg-danger-subtle); color: var(--cfg-danger); }
 
 .diff-file-path {
   font-size: 11px;
@@ -647,19 +664,19 @@ const dialogSubtitle = computed(() => {
 }
 
 .diff-add {
-  background: rgba(22, 163, 74, 0.08);
+  background: var(--cfg-success-subtle);
 }
 
 .diff-add code {
-  color: #16a34a;
+  color: var(--cfg-success);
 }
 
 .diff-remove {
-  background: rgba(220, 38, 38, 0.08);
+  background: var(--cfg-danger-subtle);
 }
 
 .diff-remove code {
-  color: #dc2626;
+  color: var(--cfg-danger);
 }
 
 /* Result states */
@@ -685,11 +702,11 @@ const dialogSubtitle = computed(() => {
   max-width: 320px;
 }
 
-.result-success { color: #16a34a; }
-.result-success .result-title { color: #16a34a; }
+.result-success { color: var(--cfg-success); }
+.result-success .result-title { color: var(--cfg-success); }
 
-.result-error { color: #dc2626; }
-.result-error .result-title { color: #dc2626; }
+.result-error { color: var(--cfg-danger); }
+.result-error .result-title { color: var(--cfg-danger); }
 
 .result-details {
   display: flex;
@@ -703,7 +720,7 @@ const dialogSubtitle = computed(() => {
   align-items: center;
   gap: 6px;
   font-size: 11px;
-  color: #16a34a;
+  color: var(--cfg-success);
 }
 
 .result-file code {
@@ -725,7 +742,7 @@ const dialogSubtitle = computed(() => {
   height: 36px;
   border: none;
   border-radius: 8px;
-  background: #16a34a;
+  background: var(--cfg-success);
   color: #fff;
   font-size: 13px;
   font-weight: 600;
@@ -734,7 +751,7 @@ const dialogSubtitle = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
 }
 
 .btn-merge:hover:not(:disabled) {
@@ -756,7 +773,7 @@ const dialogSubtitle = computed(() => {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all var(--fnd-motion-duration-150);
 }
 
 .btn-skip:hover {
@@ -777,12 +794,12 @@ const dialogSubtitle = computed(() => {
 /* Transitions */
 .dialog-fade-enter-active,
 .dialog-fade-leave-active {
-  transition: all 0.2s ease;
+  transition: all var(--fnd-motion-duration-200) ease;
 }
 
 .dialog-fade-enter-active .dialog-panel,
 .dialog-fade-leave-active .dialog-panel {
-  transition: all 0.2s ease;
+  transition: all var(--fnd-motion-duration-200) ease;
 }
 
 .dialog-fade-enter-from,

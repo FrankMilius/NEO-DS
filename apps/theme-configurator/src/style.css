@@ -4,21 +4,57 @@
 
 /* Configurator UI tokens (own design system for the app chrome) */
 :root {
-  --cfg-bg: #f8f9fa;
-  --cfg-surface: #ffffff;
-  --cfg-surface-elevated: #f3f4f6;
-  --cfg-border: #e5e7eb;
-  --cfg-text: #111827;
-  --cfg-text-secondary: #4b5563;
-  --cfg-text-muted: #9ca3af;
-  --cfg-accent: #009fe3;
-  --cfg-accent-subtle: rgba(0, 159, 227, 0.08);
-  --cfg-danger: #ef4444;
+  /* Farb-Tokens → DS Foundation */
+  --cfg-bg: var(--fnd-color-background-secondary);
+  --cfg-surface: var(--fnd-color-background-base);
+  --cfg-surface-elevated: var(--fnd-color-layer-01);
+  --cfg-border: var(--fnd-color-border-secondary);
+  --cfg-text: var(--fnd-color-text-primary);
+  --cfg-text-secondary: var(--fnd-color-text-secondary);
+  --cfg-text-muted: var(--fnd-color-text-tertiary);
+  --cfg-accent: var(--fnd-color-interactive-default);
+  --cfg-accent-subtle: color-mix(in srgb, var(--cfg-accent) 8%, transparent);
+  --cfg-danger: var(--fnd-color-feedback-danger);
+  --cfg-success: var(--fnd-color-feedback-success);
+  --cfg-warning: var(--fnd-color-feedback-warning);
+  --cfg-danger-subtle: color-mix(in srgb, var(--cfg-danger) 8%, transparent);
+  --cfg-danger-border-subtle: color-mix(in srgb, var(--cfg-danger) 20%, transparent);
+  --cfg-success-subtle: color-mix(in srgb, var(--cfg-success) 8%, transparent);
+  --cfg-warning-subtle: color-mix(in srgb, var(--cfg-warning) 12%, transparent);
 
-  /* NEO Design System fonts */
-  --cfg-font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
-  --cfg-font-heading: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --cfg-font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Pipeline-Processing (Indigo — kein DS-Äquivalent) */
+  --cfg-processing: #6366f1;
+  --cfg-processing-subtle: color-mix(in srgb, var(--cfg-processing) 8%, transparent);
+
+  /* WCAG-Kontrast-Indikatoren (app-spezifisch) */
+  --cfg-indicator-pass: #22c55e;
+  --cfg-indicator-warn: #eab308;
+  --cfg-indicator-fail: var(--cfg-danger);
+  --cfg-indicator-pass-bg: color-mix(in srgb, var(--cfg-indicator-pass) 15%, transparent);
+  --cfg-indicator-fail-bg: color-mix(in srgb, var(--cfg-indicator-fail) 15%, transparent);
+
+  /* Overlay */
+  --cfg-overlay: color-mix(in srgb, var(--fnd-color-background-inverse) 50%, transparent);
+
+  /* Z-Index-Schichten */
+  --cfg-z-hover: 2;
+  --cfg-z-sticky: 10;
+  --cfg-z-resize: 100;
+  --cfg-z-dropdown: 200;
+  --cfg-z-modal: 500;
+  --cfg-z-tooltip: 10000;
+
+  /* Font-Tokens → DS Foundation */
+  --cfg-font-body: var(--font-body);
+  --cfg-font-heading: var(--font-heading);
+  --cfg-font-mono: var(--font-mono);
+
+  /* Shadow-Tokens → DS Foundation */
+  --cfg-shadow-sm: var(--fnd-shadow-xs);
+  --cfg-shadow-md: var(--fnd-elevation-raised);
+  --cfg-shadow-lg: var(--fnd-elevation-floating);
+  --cfg-shadow-xl: var(--fnd-elevation-overlay);
+  --cfg-shadow-modal: var(--fnd-elevation-modal);
 }
 
 /* Reset */
@@ -74,7 +110,7 @@ code, pre, .token-name {
 
 /* Selection */
 ::selection {
-  background: rgba(0, 159, 227, 0.2);
+  background: color-mix(in srgb, var(--cfg-accent) 20%, transparent);
   color: inherit;
 }
 
@@ -97,5 +133,5 @@ input, textarea, select {
 
 /* Transition defaults */
 a, button, input {
-  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  transition: color var(--fnd-motion-duration-150) ease, background var(--fnd-motion-duration-150) ease, border-color var(--fnd-motion-duration-150) ease;
 }

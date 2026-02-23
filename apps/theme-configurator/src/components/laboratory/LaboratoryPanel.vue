@@ -1204,13 +1204,13 @@ const switchOn = computed(() => ({
   width: 6px;
   height: 100%;
   cursor: col-resize;
-  z-index: 10;
-  transition: background 0.15s;
+  z-index: var(--cfg-z-sticky);
+  transition: background var(--fnd-motion-duration-150);
 }
 
 .resize-handle:hover,
 .resize-handle:active {
-  background: var(--cfg-accent, #009fe3);
+  background: var(--cfg-accent);
   opacity: 0.4;
 }
 
@@ -1250,7 +1250,7 @@ const switchOn = computed(() => ({
   font-size: 11px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--fnd-motion-duration-150) ease;
 }
 
 .toggle-btn:hover { color: var(--cfg-text); }
@@ -1258,7 +1258,7 @@ const switchOn = computed(() => ({
 .toggle-btn.active {
   background: var(--cfg-surface);
   color: var(--cfg-text);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: var(--cfg-shadow-sm);
 }
 
 .lab-viewport {
@@ -1268,7 +1268,7 @@ const switchOn = computed(() => ({
   flex-direction: column;
   gap: 20px;
   border-radius: 0;
-  transition: background 0.2s, color 0.2s;
+  transition: background var(--fnd-motion-duration-200), color var(--fnd-motion-duration-200);
   overflow-y: auto;
 }
 
@@ -1321,8 +1321,8 @@ const switchOn = computed(() => ({
   font-size: 0.75rem;
   font-weight: 600;
   text-decoration: none;
-  z-index: 100;
-  transition: top 0.15s;
+  z-index: var(--cfg-z-resize);
+  transition: top var(--fnd-motion-duration-150);
 }
 
 .mag-skip:focus {
@@ -1398,7 +1398,7 @@ const switchOn = computed(() => ({
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--fnd-motion-duration-150), color var(--fnd-motion-duration-150);
 }
 
 .mag-tab:hover { opacity: 0.9; }
@@ -1814,7 +1814,7 @@ const switchOn = computed(() => ({
   content: '▸';
   display: inline-block;
   margin-right: 6px;
-  transition: transform 0.15s;
+  transition: transform var(--fnd-motion-duration-150);
 }
 
 .mag-details[open] .mag-summary::before {
@@ -1887,7 +1887,7 @@ const switchOn = computed(() => ({
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -1902,7 +1902,7 @@ const switchOn = computed(() => ({
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
 }
 
 .mag-btn-sm:hover { opacity: 0.85; }
@@ -1914,7 +1914,7 @@ const switchOn = computed(() => ({
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
 }
 
 .mag-btn-xs:hover { opacity: 0.85; }
@@ -2001,7 +2001,7 @@ const switchOn = computed(() => ({
 .mag-progress-bar {
   height: 100%;
   border-radius: 4px;
-  transition: width 0.3s ease;
+  transition: width var(--fnd-motion-duration-300) ease;
 }
 
 /* DS token: @include paragraph('s') + mono font */
@@ -2071,7 +2071,7 @@ const switchOn = computed(() => ({
   font-size: 0.75rem;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color var(--fnd-motion-duration-150);
 }
 
 .mag-input:focus,
@@ -2140,7 +2140,7 @@ const switchOn = computed(() => ({
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--fnd-motion-duration-150);
   white-space: nowrap;
 }
 
@@ -2284,7 +2284,7 @@ const switchOn = computed(() => ({
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 1px solid rgba(128,128,128,0.15);
+  border: 1px solid color-mix(in srgb, var(--cfg-text-muted) 15%, transparent);
 }
 
 .color-row-inverse {

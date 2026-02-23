@@ -487,8 +487,8 @@ const typeSizes = [
     -45deg,
     transparent,
     transparent 8px,
-    rgba(128, 128, 128, 0.03) 8px,
-    rgba(128, 128, 128, 0.03) 16px
+    color-mix(in srgb, var(--cfg-text-muted) 3%, transparent) 8px,
+    color-mix(in srgb, var(--cfg-text-muted) 3%, transparent) 16px
   );
 }
 
@@ -692,14 +692,14 @@ const typeSizes = [
   background: transparent;
   color: var(--cfg-text-muted);
   cursor: pointer;
-  transition: all 0.12s;
+  transition: all var(--fnd-motion-duration-150);
   flex-shrink: 0;
 }
 
 .btn-remove:hover {
-  color: #fa4d56;
-  background: rgba(250, 77, 86, 0.08);
-  border-color: rgba(250, 77, 86, 0.2);
+  color: var(--cfg-danger);
+  background: var(--cfg-danger-subtle);
+  border-color: var(--cfg-danger-border-subtle);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
