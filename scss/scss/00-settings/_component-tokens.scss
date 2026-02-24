@@ -35,10 +35,10 @@
 
 :root {
   // -- Geometry (4 Größen: xs / sm / md / lg) --
-  --nc-button-height-xs: 24px;    // 1.5rem
-  --nc-button-height-sm: 32px;    // 2rem
-  --nc-button-height-md: 40px;    // 2.5rem
-  --nc-button-height-lg: 48px;    // 3rem
+  --nc-button-height-xs: var(--fnd-size-xs);    // 24px
+  --nc-button-height-sm: var(--fnd-size-sm);    // 32px
+  --nc-button-height-md: var(--fnd-size-md);    // 40px
+  --nc-button-height-lg: var(--fnd-size-lg);    // 48px
 
   --nc-button-padding-x-xs: var(--fnd-spacing-02);   // 8px
   --nc-button-padding-x-sm: var(--fnd-spacing-03);   // 12px
@@ -57,8 +57,8 @@
   --nc-button-radius-full: var(--fnd-radius-full); // 9999px Pill
 
   // -- Typography (fest, nicht fluid) --
-  --nc-button-label-compact:    0.75rem;  // 12px — für XS/SM Buttons
-  --nc-button-label-expressive: 1rem;     // 16px — für MD/LG Buttons
+  --nc-button-label-compact:    var(--fs-xs);   // 12px — für XS/SM Buttons
+  --nc-button-label-expressive: var(--fs-base); // 16px — für MD/LG Buttons
 
   --nc-button-font-size-xs: var(--nc-button-label-compact);     // 12px
   --nc-button-font-size-sm: var(--nc-button-label-compact);     // 12px
@@ -73,7 +73,7 @@
   --nc-button-font-weight: var(--fnd-font-weight-semibold);
   --nc-button-border-width-sm: var(--fnd-border-width-xs);  // 1px → XS/SM/MD
   --nc-button-border-width-lg: var(--fnd-border-width-sm);  // 2px → LG
-  --nc-button-transition-duration: 0.2s;
+  --nc-button-transition-duration: var(--fnd-motion-duration-200);
   --nc-button-scale-active: 0.98;
   --nc-button-opacity-disabled: var(--fnd-opacity-disabled);
 
@@ -252,7 +252,7 @@
   --nc-card-selected-ring-width: 2px;
 
   // -- Card: Disabled --
-  --nc-card-disabled-opacity: 0.5;
+  --nc-card-disabled-opacity: var(--fnd-opacity-disabled);
 
   // -- Card: Expandable --
   --nc-card-summary-font-weight: var(--fnd-font-weight-semibold);
@@ -272,9 +272,9 @@
   // ---------------------------------------------------------------------------
 
   // -- Geometry (3 sizes: sm / md / lg) --
-  --nc-input-height-sm: 32px;
-  --nc-input-height-md: 40px;
-  --nc-input-height-lg: 48px;
+  --nc-input-height-sm: var(--fnd-size-sm);
+  --nc-input-height-md: var(--fnd-size-md);
+  --nc-input-height-lg: var(--fnd-size-lg);
   --nc-input-height: var(--nc-input-height-md);                // Alias (backward compat)
   --nc-input-padding-x-sm: var(--fnd-spacing-03);              // 12px
   --nc-input-padding-x-md: var(--fnd-spacing-04);              // 16px
@@ -306,7 +306,7 @@
   --nc-input-disabled-bg: var(--fnd-color-background-disabled);
   --nc-input-disabled-color: var(--fnd-color-text-disabled);
   --nc-input-disabled-border: var(--fnd-color-border-secondary);
-  --nc-input-disabled-opacity: 0.5;
+  --nc-input-disabled-opacity: var(--fnd-opacity-disabled);
 
   // -- Readonly --
   --nc-input-bg-readonly: var(--fnd-color-background-secondary);
@@ -393,7 +393,7 @@
   // -- Disabled --
   --nc-checkbox-disabled-bg: var(--fnd-color-background-disabled);
   --nc-checkbox-disabled-border: var(--fnd-color-border-secondary);
-  --nc-checkbox-disabled-opacity: 0.5;
+  --nc-checkbox-disabled-opacity: var(--fnd-opacity-disabled);
 
   // -- Label --
   --nc-checkbox-label-gap: var(--fnd-spacing-03);              // 12px
@@ -428,7 +428,7 @@
   // -- Disabled --
   --nc-radio-disabled-bg: var(--fnd-color-background-disabled);
   --nc-radio-disabled-border: var(--fnd-color-border-secondary);
-  --nc-radio-disabled-opacity: 0.5;
+  --nc-radio-disabled-opacity: var(--fnd-opacity-disabled);
 
   // -- Label --
   --nc-radio-label-gap: var(--fnd-spacing-03);                 // 12px
@@ -455,7 +455,7 @@
   --nc-switch-thumb-offset: 4px;
   --nc-switch-disabled-bg: var(--fnd-color-background-disabled);
   --nc-switch-disabled-thumb: var(--fnd-color-border-secondary);
-  --nc-switch-disabled-opacity: 0.5;
+  --nc-switch-disabled-opacity: var(--fnd-opacity-disabled);
   --nc-switch-label-gap: var(--fnd-spacing-03);
   --nc-switch-label-color: var(--fnd-color-text-primary);
   --nc-switch-transition-duration: var(--fnd-motion-duration-200);
@@ -502,7 +502,7 @@
   --nc-slider-thumb-border: var(--fnd-color-interactive-default);
   --nc-slider-thumb-border-width: var(--fnd-border-width-sm);
   --nc-slider-thumb-shadow: var(--fnd-elevation-base);
-  --nc-slider-disabled-opacity: 0.5;
+  --nc-slider-disabled-opacity: var(--fnd-opacity-disabled);
 
   // ---------------------------------------------------------------------------
   // Rating Tokens
@@ -513,7 +513,7 @@
   --nc-rating-color-active: var(--fnd-color-feedback-warning);
   --nc-rating-color-inactive: var(--fnd-color-border-secondary);
   --nc-rating-hover-color: var(--fnd-color-feedback-warning);
-  --nc-rating-disabled-opacity: 0.5;
+  --nc-rating-disabled-opacity: var(--fnd-opacity-disabled);
 
   // ---------------------------------------------------------------------------
   // OTP Input Tokens
@@ -624,7 +624,7 @@
   --nc-alert-gap: var(--fnd-spacing-03);
 
   // Info
-  --nc-alert-info-bg: color-mix(in srgb, var(--fnd-color-feedback-info) 12%, transparent);
+  --nc-alert-info-bg: var(--fnd-color-background-info);
   --nc-alert-info-color: var(--fnd-color-text-primary);
   --nc-alert-info-border: var(--fnd-color-feedback-info);
   --nc-alert-info-icon-color: var(--fnd-color-feedback-info);
@@ -636,7 +636,7 @@
   --nc-alert-success-icon-color: var(--fnd-color-feedback-success);
 
   // Warning
-  --nc-alert-warning-bg: color-mix(in srgb, var(--fnd-color-feedback-warning) 12%, transparent);
+  --nc-alert-warning-bg: var(--fnd-color-background-warning);
   --nc-alert-warning-color: var(--fnd-color-text-primary);
   --nc-alert-warning-border: var(--fnd-color-feedback-warning);
   --nc-alert-warning-icon-color: var(--fnd-color-feedback-warning);
@@ -654,7 +654,7 @@
   --nc-accordion-border: var(--fnd-color-border-secondary);
   --nc-accordion-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-accordion-icon-size: 20px;
-  --nc-accordion-transition-duration: 0.2s;
+  --nc-accordion-transition-duration: var(--fnd-motion-duration-200);
 
   // ---------------------------------------------------------------------------
   // Badge Tokens
@@ -693,8 +693,8 @@
   --nc-badge-success-border: transparent;
 
   // Warning
-  --nc-badge-warning-bg: color-mix(in srgb, var(--fnd-color-feedback-warning) 15%, transparent);
-  --nc-badge-warning-color: var(--fnd-color-text-primary);
+  --nc-badge-warning-bg: var(--fnd-color-background-warning);
+  --nc-badge-warning-color: var(--fnd-color-text-warning);
   --nc-badge-warning-border: transparent;
 
   // Error
@@ -703,8 +703,8 @@
   --nc-badge-error-border: transparent;
 
   // Info
-  --nc-badge-info-bg: color-mix(in srgb, var(--fnd-color-feedback-info) 15%, transparent);
-  --nc-badge-info-color: var(--fnd-color-text-primary);
+  --nc-badge-info-bg: var(--fnd-color-background-info);
+  --nc-badge-info-color: var(--fnd-color-text-info);
   --nc-badge-info-border: transparent;
 
   // -- Icon --
@@ -719,11 +719,11 @@
   // ---------------------------------------------------------------------------
 
   // -- Sizes (5 Stufen: xs / sm / md / lg / xl) --
-  --nc-avatar-size-xs: 24px;    // 1.5rem
-  --nc-avatar-size-sm: 32px;    // 2rem
-  --nc-avatar-size-md: 40px;    // 2.5rem
-  --nc-avatar-size-lg: 48px;    // 3rem
-  --nc-avatar-size-xl: 64px;    // 4rem
+  --nc-avatar-size-xs: var(--fnd-size-xs);    // 24px
+  --nc-avatar-size-sm: var(--fnd-size-sm);    // 32px
+  --nc-avatar-size-md: var(--fnd-size-md);    // 40px
+  --nc-avatar-size-lg: var(--fnd-size-lg);    // 48px
+  --nc-avatar-size-xl: var(--fnd-size-xl);    // 64px
 
   // -- Typography (Fallback-Initialen) --
   --nc-avatar-font-size-xs: 0.625rem;   // 10px
@@ -761,7 +761,7 @@
   --nc-avatar-group-ring-color: var(--fnd-color-background-base);
 
   // -- Transition --
-  --nc-avatar-transition-duration: 0.2s;
+  --nc-avatar-transition-duration: var(--fnd-motion-duration-200);
 
   // -- Deprecated (backward-compat) --
   /// @deprecated Use --nc-avatar-size-lg instead
@@ -818,11 +818,11 @@
   --nc-tag-padding-y: var(--fnd-spacing-01);           // 4px
   --nc-tag-radius: var(--fnd-radius-full);             // pill (9999px)
   --nc-tag-font-size: var(--fs-xs);
-  --nc-tag-font-size-sm: 0.75rem;                        // 12px
-  --nc-tag-font-size-lg: 1rem;                            // 16px
+  --nc-tag-font-size-sm: var(--fs-xs);                     // 12px
+  --nc-tag-font-size-lg: var(--fs-base);                   // 16px
   --nc-tag-font-weight: var(--fnd-font-weight-semibold);
   --nc-tag-gap: var(--fnd-spacing-02);                 // 8px
-  --nc-tag-transition-duration: 0.2s;
+  --nc-tag-transition-duration: var(--fnd-motion-duration-200);
 
   // -- Default --
   --nc-tag-default-bg: var(--fnd-color-background-secondary);
@@ -849,10 +849,10 @@
   --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-dark));
 
   // -- Warning --
-  --nc-tag-warning-bg: color-mix(in srgb, var(--fnd-color-feedback-warning) 15%, transparent);
-  --nc-tag-warning-color: var(--fnd-color-text-primary);
+  --nc-tag-warning-bg: var(--fnd-color-background-warning);
+  --nc-tag-warning-color: var(--fnd-color-text-warning);
   --nc-tag-warning-border: transparent;
-  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 25%, transparent);
+  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-dark));
 
   // -- Error --
   --nc-tag-error-bg: var(--fnd-color-background-danger);
@@ -861,10 +861,10 @@
   --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-dark));
 
   // -- Info --
-  --nc-tag-info-bg: color-mix(in srgb, var(--fnd-color-feedback-info) 15%, transparent);
-  --nc-tag-info-color: var(--fnd-color-text-primary);
+  --nc-tag-info-bg: var(--fnd-color-background-info);
+  --nc-tag-info-color: var(--fnd-color-text-info);
   --nc-tag-info-border: transparent;
-  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 25%, transparent);
+  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-dark));
 
   // -- Remove-Button --
   --nc-tag-remove-size: 16px;
@@ -894,11 +894,11 @@
   --nc-chip-padding-y: var(--fnd-spacing-01);          // 4px
   --nc-chip-radius: var(--fnd-radius-full);            // pill
   --nc-chip-font-size: var(--fs-xs);
-  --nc-chip-font-size-sm: 0.75rem;                       // 12px
-  --nc-chip-font-size-lg: 1rem;                           // 16px
+  --nc-chip-font-size-sm: var(--fs-xs);                    // 12px
+  --nc-chip-font-size-lg: var(--fs-base);                  // 16px
   --nc-chip-font-weight: var(--fnd-font-weight-semibold);
   --nc-chip-gap: var(--fnd-spacing-02);                // 8px
-  --nc-chip-transition-duration: 0.2s;
+  --nc-chip-transition-duration: var(--fnd-motion-duration-200);
   --nc-chip-scale-active: 0.98;
 
   // -- Default (unselected) --
@@ -950,9 +950,9 @@
   // -- Item Disabled --
   --nc-toggle-group-item-disabled-bg: var(--fnd-color-background-disabled);
   --nc-toggle-group-item-disabled-color: var(--fnd-color-text-disabled);
-  --nc-toggle-group-item-disabled-opacity: 0.5;
+  --nc-toggle-group-item-disabled-opacity: var(--fnd-opacity-disabled);
 
-  --nc-toggle-group-transition-duration: 0.2s;
+  --nc-toggle-group-transition-duration: var(--fnd-motion-duration-200);
 
   // ---------------------------------------------------------------------------
   // Segmented Control Tokens
@@ -977,9 +977,9 @@
 
   // -- Item Disabled --
   --nc-segmented-item-disabled-color: var(--fnd-color-text-disabled);
-  --nc-segmented-item-disabled-opacity: 0.5;
+  --nc-segmented-item-disabled-opacity: var(--fnd-opacity-disabled);
 
-  --nc-segmented-transition-duration: 0.2s;
+  --nc-segmented-transition-duration: var(--fnd-motion-duration-200);
 
   // ---------------------------------------------------------------------------
   // Toast / Sonner Tokens
@@ -1000,7 +1000,7 @@
   --nc-toast-description-font-size: var(--fs-xs);
 
   // -- Animation --
-  --nc-toast-animation-duration: 0.3s;
+  --nc-toast-animation-duration: var(--fnd-motion-duration-300);
   --nc-toast-animation-easing: ease-out;
 
   // -- Progress Bar --
@@ -1022,7 +1022,7 @@
   --nc-toast-success-progress-bg: var(--fnd-color-feedback-success);
 
   // -- Warning Variant --
-  --nc-toast-warning-bg: color-mix(in srgb, var(--fnd-color-feedback-warning) 12%, transparent);
+  --nc-toast-warning-bg: var(--fnd-color-background-warning);
   --nc-toast-warning-color: var(--fnd-color-text-primary);
   --nc-toast-warning-border: var(--fnd-color-feedback-warning);
   --nc-toast-warning-icon-color: var(--fnd-color-feedback-warning);
@@ -1036,7 +1036,7 @@
   --nc-toast-error-progress-bg: var(--fnd-color-feedback-danger);
 
   // -- Info Variant --
-  --nc-toast-info-bg: color-mix(in srgb, var(--fnd-color-feedback-info) 12%, transparent);
+  --nc-toast-info-bg: var(--fnd-color-background-info);
   --nc-toast-info-color: var(--fnd-color-text-primary);
   --nc-toast-info-border: var(--fnd-color-feedback-info);
   --nc-toast-info-icon-color: var(--fnd-color-feedback-info);
@@ -1057,9 +1057,9 @@
   // ---------------------------------------------------------------------------
 
   // -- Dichte (Density): Zeilenhoehe pro Stufe --
-  --nc-dt-row-height-compact:     32px;                                    // FALLBACK size.row.sm
-  --nc-dt-row-height-default:     40px;                                    // FALLBACK size.row.md
-  --nc-dt-row-height-comfortable: 48px;                                    // FALLBACK size.row.lg
+  --nc-dt-row-height-compact:     var(--fnd-size-sm);                       // 32px — size.row.sm
+  --nc-dt-row-height-default:     var(--fnd-size-md);                       // 40px — size.row.md
+  --nc-dt-row-height-comfortable: var(--fnd-size-lg);                       // 48px — size.row.lg
   --nc-dt-row-height:             var(--nc-dt-row-height-default);         // Alias – per Modifier ueberschrieben
 
   // -- Cell Spacing (Density-abhaengig, Default-Werte) --
@@ -1072,14 +1072,14 @@
   --nc-dt-shadow:                 var(--fnd-shadow-sm);                    // ref(shadow.sm)
   --nc-dt-body-bg:                var(--fnd-color-background-base);        // ref(color.surface.default)
   --nc-dt-body-color:             var(--fnd-color-text-primary);           // ref(color.text.primary)
-  --nc-dt-body-font-size:         0.875rem;                                // 14px — ref(font.size.sm)
+  --nc-dt-body-font-size:         var(--fs-sm);                             // 14px — ref(font.size.sm)
   --nc-dt-body-font-weight:       var(--fnd-font-weight-regular);          // ref(font.weight.regular)
 
   // -- Header --
   --nc-dt-header-height:          44px;                                    // FALLBACK size.header.md
   --nc-dt-header-bg:              var(--fnd-color-background-secondary);   // ref(color.surface.muted)
   --nc-dt-header-color:           var(--fnd-color-text-secondary);         // ref(color.text.secondary)
-  --nc-dt-header-font-size:       0.875rem;                                // 14px — ref(font.size.sm)
+  --nc-dt-header-font-size:       var(--fs-sm);                             // 14px — ref(font.size.sm)
   --nc-dt-header-font-weight:     var(--fnd-font-weight-semibold);         // ref(font.weight.semibold)
   --nc-dt-header-letter-spacing:  normal;                                  // ref(font.tracking.normal)
   --nc-dt-header-border-bottom:   var(--fnd-border-width-sm) solid var(--fnd-color-border-secondary);
@@ -1104,7 +1104,7 @@
   --nc-dt-pagination-border-top:  var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
   --nc-dt-pagination-gap:         var(--fnd-spacing-03);                   // ref(space.3)
   --nc-dt-pagination-color:       var(--fnd-color-text-secondary);
-  --nc-dt-pagination-font-size:   0.875rem;
+  --nc-dt-pagination-font-size:   var(--fs-sm);
 
   // -- Sort --
   --nc-dt-sort-icon-size:         16px;                                    // FALLBACK size.icon.sm → nc-icon-size-xs
@@ -1256,9 +1256,11 @@
   --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-color-always-light));
   --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-color-always-light));
 
-  // Tag Success/Error Hover
+  // Tag Success/Error/Warning/Info Hover
   --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-light));
   --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
+  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
+  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
 }
 
 // Automatic Dark Mode (prefers-color-scheme) — gleiche Overrides
@@ -1275,5 +1277,7 @@
     --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-color-always-light));
     --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-light));
     --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
+    --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
+    --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
   }
 }
