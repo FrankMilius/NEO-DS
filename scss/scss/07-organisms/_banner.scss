@@ -1,0 +1,180 @@
+// ==========================================================================
+// 07-Organisms: Banner
+// ==========================================================================
+// Seitenweite Benachrichtigungsleiste. Unterschied zu Alert:
+//   - Alert: Inline, innerhalb des Content-Flows
+//   - Banner: Sticky/Fixed, seitenbreit, ober- oder unterhalb des Headers
+//
+// SEMANTIK:
+//   R1: role="banner" oder role="alert" (je nach Dringlichkeit)
+//   R2: Close-Button: aria-label="Banner schliessen"
+//   R3: Link/CTA innerhalb des Banners: normales <a> oder <button>
+//   R4: Wird als erstes im DOM platziert fuer Screen-Reader-Reihenfolge
+//
+// VARIANTEN:
+//   info (default) — Hauptfarbe, allgemeine Nachricht
+//   warning        — Wartungshinweis, auslaufende Frist
+//   danger         — Kritischer Fehler, Sicherheitswarnung
+//   success        — Bestaetigungsnachricht
+//
+// KLASSEN:
+//   .nc-banner (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin banner-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nc-banner-gap);
+  width: 100%;
+  padding: var(--nc-banner-padding);
+  font-size: var(--nc-banner-font-size);
+  font-weight: var(--nc-banner-font-weight);
+  z-index: var(--nc-banner-z-index);
+
+  // Default: info
+  background-color: var(--_banner-bg, var(--nc-banner-info-bg));
+  color: var(--_banner-color, var(--nc-banner-info-color));
+
+  @include banner-variant-info;
+}
+
+@mixin banner-variant-info {
+  --_banner-bg: var(--nc-banner-info-bg);
+  --_banner-color: var(--nc-banner-info-color);
+}
+
+@mixin banner-variant-warning {
+  --_banner-bg: var(--nc-banner-warning-bg);
+  --_banner-color: var(--nc-banner-warning-color);
+}
+
+@mixin banner-variant-danger {
+  --_banner-bg: var(--nc-banner-danger-bg);
+  --_banner-color: var(--nc-banner-danger-color);
+}
+
+@mixin banner-variant-success {
+  --_banner-bg: var(--nc-banner-success-bg);
+  --_banner-color: var(--nc-banner-success-color);
+}
+
+@mixin banner-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-banner-close-size);
+  height: var(--nc-banner-close-size);
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nc-banner-close-radius);
+  background: none;
+  color: inherit;
+  opacity: var(--nc-banner-close-opacity);
+  cursor: pointer;
+  @include transition-quick((opacity, background-color));
+
+  &:hover {
+    opacity: var(--nc-banner-close-opacity-hover);
+    background-color: color-mix(in srgb, currentColor 15%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+
+  > svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-banner {
+  @include banner-base;
+
+  // -- Elemente --
+
+  // Icon (optional, links)
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Content (Text + optionaler CTA)
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-banner-gap);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // CTA-Link innerhalb des Banners
+  &__link {
+    color: inherit;
+    font-weight: var(--nc-banner-link-weight);
+    text-decoration: var(--nc-banner-link-underline);
+
+    &:hover {
+      opacity: var(--fnd-opacity-prominent);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // Schliessen-Button
+  &__close {
+    @include banner-close;
+  }
+
+  // -- Varianten --
+
+  &--info    { @include banner-variant-info; }
+  &--warning { @include banner-variant-warning; }
+  &--danger  { @include banner-variant-danger; }
+  &--success { @include banner-variant-success; }
+
+  // -- Position --
+
+  &--sticky {
+    position: sticky;
+    top: 0;
+  }
+
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}

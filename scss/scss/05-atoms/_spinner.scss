@@ -1,0 +1,136 @@
+// ==========================================================================
+// 05-Atoms: Spinner
+// ==========================================================================
+// Rotierender Lade-Indikator.
+// Nutzt den fnd-spin Foundation-Keyframe.
+//
+// SEMANTIK:
+//   R1: role="status" auf dem Spinner-Container
+//   R2: .u-sr-only Kind-Element mit "Wird geladen…" (oder aria-label)
+//   R3: prefers-reduced-motion stoppt Rotation
+//
+// GROESSEN (5 Stufen):
+//   xs → 16px, sm → 20px, md → 24px (default), lg → 40px, xl → 56px
+//
+// FARB-VARIANTEN:
+//   default (interactive), inverse, success, danger
+//
+// KLASSEN:
+//   .nc-spinner (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin spinner-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    display: block;
+    border-radius: var(--fnd-radius-full);
+    border-style: solid;
+    border-color: var(--nc-spinner-track-color);
+    border-top-color: var(--nc-spinner-color);
+    animation: fnd-spin var(--nc-spinner-duration) var(--nc-spinner-ease) infinite;
+
+    // Barrierefreiheit: Reduzierte Bewegung
+    @include reduced-motion {
+      animation-duration: 2s;
+    }
+  }
+
+  @include spinner-size('md');
+}
+
+@mixin spinner-size($size: 'md') {
+  @if $size == 'xs' {
+    width: var(--nc-spinner-size-xs);
+    height: var(--nc-spinner-size-xs);
+    &::after {
+      width: var(--nc-spinner-size-xs);
+      height: var(--nc-spinner-size-xs);
+      border-width: var(--nc-spinner-border-width-xs);
+    }
+  } @else if $size == 'sm' {
+    width: var(--nc-spinner-size-sm);
+    height: var(--nc-spinner-size-sm);
+    &::after {
+      width: var(--nc-spinner-size-sm);
+      height: var(--nc-spinner-size-sm);
+      border-width: var(--nc-spinner-border-width-sm);
+    }
+  } @else if $size == 'md' {
+    width: var(--nc-spinner-size-md);
+    height: var(--nc-spinner-size-md);
+    &::after {
+      width: var(--nc-spinner-size-md);
+      height: var(--nc-spinner-size-md);
+      border-width: var(--nc-spinner-border-width-md);
+    }
+  } @else if $size == 'lg' {
+    width: var(--nc-spinner-size-lg);
+    height: var(--nc-spinner-size-lg);
+    &::after {
+      width: var(--nc-spinner-size-lg);
+      height: var(--nc-spinner-size-lg);
+      border-width: var(--nc-spinner-border-width-lg);
+    }
+  } @else if $size == 'xl' {
+    width: var(--nc-spinner-size-xl);
+    height: var(--nc-spinner-size-xl);
+    &::after {
+      width: var(--nc-spinner-size-xl);
+      height: var(--nc-spinner-size-xl);
+      border-width: var(--nc-spinner-border-width-xl);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-spinner {
+  @include spinner-base;
+
+  // Groessen
+  &--xs { @include spinner-size('xs'); }
+  &--sm { @include spinner-size('sm'); }
+  &--lg { @include spinner-size('lg'); }
+  &--xl { @include spinner-size('xl'); }
+
+  // Farb-Varianten
+  &--inverse {
+    --nc-spinner-color: var(--fnd-color-text-inverse);
+    --nc-spinner-track-color: color-mix(in srgb, var(--fnd-color-text-inverse) 25%, transparent);
+  }
+
+  &--success {
+    --nc-spinner-color: var(--fnd-color-feedback-success);
+  }
+
+  &--danger {
+    --nc-spinner-color: var(--fnd-color-feedback-danger);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Overlay-Variante (zentriert ueber Container)
+// ---------------------------------------------------------------------------
+
+.nc-spinner-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--fnd-color-background-base) 80%, transparent);
+  z-index: var(--fnd-z-base);
+}

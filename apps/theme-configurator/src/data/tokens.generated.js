@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-02-23
+// Generated: 2026-02-24
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -342,6 +342,14 @@ export const semanticTokenGroups = [
       {
         "id": "text-danger",
         "label": "Danger Text"
+      },
+      {
+        "id": "text-warning",
+        "label": "Warning Text"
+      },
+      {
+        "id": "text-info",
+        "label": "Info Text"
       }
     ]
   },
@@ -397,6 +405,14 @@ export const semanticTokenGroups = [
       {
         "id": "background-danger",
         "label": "Danger BG"
+      },
+      {
+        "id": "background-warning",
+        "label": "Warning BG"
+      },
+      {
+        "id": "background-info",
+        "label": "Info BG"
       }
     ]
   },
@@ -432,6 +448,14 @@ export const semanticTokenGroups = [
       {
         "id": "border-danger",
         "label": "Danger"
+      },
+      {
+        "id": "border-warning",
+        "label": "Warning"
+      },
+      {
+        "id": "border-info",
+        "label": "Info"
       }
     ]
   },
@@ -558,6 +582,8 @@ export const semanticDefaults = {
     "text-link-hover": "#007fb6",
     "text-success": "#0b9e23",
     "text-danger": "#bf281b",
+    "text-warning": "#8a6900",
+    "text-info": "#2b6cb0",
     "background-base": "#ffffff",
     "background-secondary": "#f5f5f5",
     "background-tertiary": "#e5e5e5",
@@ -570,6 +596,8 @@ export const semanticDefaults = {
     "background-accent-secondary": "#04cd24",
     "background-success": "#d5ffd1",
     "background-danger": "#ffdfdc",
+    "background-warning": "#fff3cc",
+    "background-info": "#dae8ff",
     "border-primary": "#cbcbcb",
     "border-secondary": "#e5e5e5",
     "border-strong": "#000000",
@@ -577,6 +605,8 @@ export const semanticDefaults = {
     "border-disabled": "#e5e5e5",
     "border-success": "#0b9e23",
     "border-danger": "#bf281b",
+    "border-warning": "#8a6900",
+    "border-info": "#2b6cb0",
     "interactive-default": "#009fe3",
     "interactive-hover": "#007fb6",
     "interactive-active": "#006088",
@@ -609,6 +639,8 @@ export const semanticDefaults = {
     "text-link-hover": "#33b2e9",
     "text-success": "#0b9e23",
     "text-danger": "#ef5b4e",
+    "text-warning": "#d4a400",
+    "text-info": "#6aa3ff",
     "background-base": "#000000",
     "background-secondary": "#1d1d1d",
     "background-tertiary": "#4d4d4d",
@@ -621,6 +653,8 @@ export const semanticDefaults = {
     "background-accent-secondary": "#37e93d",
     "background-success": "#0d2b15",
     "background-danger": "#3b1419",
+    "background-warning": "#2a2100",
+    "background-info": "#0e1b33",
     "border-primary": "#767676",
     "border-secondary": "#333333",
     "border-strong": "#ffffff",
@@ -628,6 +662,8 @@ export const semanticDefaults = {
     "border-disabled": "#333333",
     "border-success": "#0b9e23",
     "border-danger": "#ef5b4e",
+    "border-warning": "#d4a400",
+    "border-info": "#6aa3ff",
     "interactive-default": "#009fe3",
     "interactive-hover": "#33b2e9",
     "interactive-active": "#66c5ef",
@@ -660,6 +696,8 @@ export const semanticDefaults = {
     "text-link-hover": "#007fb6",
     "text-success": "#0b9e23",
     "text-danger": "#bf281b",
+    "text-warning": "#8a6900",
+    "text-info": "#2b6cb0",
     "background-base": "#f5f5f5",
     "background-secondary": "#ffffff",
     "background-tertiary": "#d9d9d9",
@@ -672,6 +710,8 @@ export const semanticDefaults = {
     "background-accent-secondary": "#04cd24",
     "background-success": "#d5ffd1",
     "background-danger": "#ffdfdc",
+    "background-warning": "#fff3cc",
+    "background-info": "#dae8ff",
     "border-primary": "#cbcbcb",
     "border-secondary": "#d9d9d9",
     "border-strong": "#000000",
@@ -679,6 +719,8 @@ export const semanticDefaults = {
     "border-disabled": "#e5e5e5",
     "border-success": "#0b9e23",
     "border-danger": "#bf281b",
+    "border-warning": "#8a6900",
+    "border-info": "#2b6cb0",
     "interactive-default": "#009fe3",
     "interactive-hover": "#007fb6",
     "interactive-active": "#006088",
@@ -711,6 +753,8 @@ export const semanticDefaults = {
     "text-link-hover": "#33b2e9",
     "text-success": "#0b9e23",
     "text-danger": "#ef5b4e",
+    "text-warning": "#d4a400",
+    "text-info": "#6aa3ff",
     "background-base": "#1d1d1d",
     "background-secondary": "#333333",
     "background-tertiary": "#4d4d4d",
@@ -723,6 +767,8 @@ export const semanticDefaults = {
     "background-accent-secondary": "#37e93d",
     "background-success": "#0d2b15",
     "background-danger": "#3b1419",
+    "background-warning": "#2a2100",
+    "background-info": "#0e1b33",
     "border-primary": "#767676",
     "border-secondary": "#333333",
     "border-strong": "#ffffff",
@@ -730,6 +776,8 @@ export const semanticDefaults = {
     "border-disabled": "#333333",
     "border-success": "#0b9e23",
     "border-danger": "#ef5b4e",
+    "border-warning": "#d4a400",
+    "border-info": "#6aa3ff",
     "interactive-default": "#009fe3",
     "interactive-hover": "#33b2e9",
     "interactive-active": "#66c5ef",

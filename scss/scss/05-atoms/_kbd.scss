@@ -1,0 +1,72 @@
+// ==========================================================================
+// 05-Atoms: Kbd
+// ==========================================================================
+// Tastatur-Shortcut-Anzeige.
+// Inline-Element fuer Keyboard-Shortcuts in Dokumentation, Tooltips, Menues.
+//
+// SEMANTIK:
+//   R1: Natives <kbd> Element verwenden
+//   R2: Verschachtelt fuer Kombinationen: <kbd><kbd>Ctrl</kbd>+<kbd>S</kbd></kbd>
+//   R3: Rein informativ — kein interaktives Element
+//
+// KLASSEN:
+//   .nc-kbd (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin kbd-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5em;
+  padding: var(--nc-kbd-padding-y) var(--nc-kbd-padding-x);
+  font-family: var(--nc-kbd-font-family);
+  font-size: var(--nc-kbd-font-size);
+  font-weight: var(--nc-kbd-font-weight);
+  line-height: var(--nc-kbd-line-height);
+  color: var(--nc-kbd-color);
+  background-color: var(--nc-kbd-bg);
+  border: var(--nc-kbd-border-width) solid var(--nc-kbd-border);
+  border-radius: var(--nc-kbd-radius);
+  box-shadow: var(--nc-kbd-shadow);
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-kbd {
+  @include kbd-base;
+
+  // Verschachteltes kbd (Kombination: Ctrl+S)
+  // Aeusseres <kbd> hat kein eigenes Styling
+  > .nc-kbd {
+    // Innere kbds behalten ihr Styling
+  }
+
+  // Separator zwischen Tasten (z.B. "+")
+  &__separator {
+    padding: 0 var(--fnd-spacing-01);
+    color: var(--nc-kbd-color);
+    font-family: var(--nc-kbd-font-family);
+    font-size: var(--nc-kbd-font-size);
+    opacity: var(--fnd-opacity-muted);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kbd Group (mehrere Shortcuts nebeneinander)
+// ---------------------------------------------------------------------------
+
+.nc-kbd-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-01);
+}

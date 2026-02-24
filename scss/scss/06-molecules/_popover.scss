@@ -1,0 +1,210 @@
+// ==========================================================================
+// 06-Molecules: Popover
+// ==========================================================================
+// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen, Aktionen).
+// Unterschied zu Tooltip:
+//   - Tooltip: rein informativ, kein Fokus, verschwindet bei Mausverlust
+//   - Popover: interaktiv, Focus-Trap, bleibt offen bis explizit geschlossen
+//
+// SEMANTIK:
+//   R1: Trigger: aria-haspopup="dialog" aria-expanded="true|false"
+//   R2: Popover: role="dialog" aria-labelledby="..."
+//   R3: Keyboard: Escape schliesst, Tab bleibt im Popover (Focus-Trap via JS)
+//   R4: Klick ausserhalb schliesst (JS-seitig)
+//
+// STRUKTUR:
+//   div.nc-popover
+//     button.nc-popover__trigger
+//     div.nc-popover__panel (role="dialog")
+//       div.nc-popover__arrow (optional)
+//       div.nc-popover__header (optional)
+//       div.nc-popover__body
+//       div.nc-popover__footer (optional)
+//
+// POSITIONEN:
+//   top, bottom (default), left, right — jeweils zentriert
+//
+// KLASSEN:
+//   .nc-popover (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin popover-panel-base {
+  position: absolute;
+  z-index: var(--nc-popover-z-index);
+  min-width: var(--nc-popover-min-width);
+  max-width: var(--nc-popover-max-width);
+  background-color: var(--nc-popover-bg);
+  border: var(--nc-popover-border-width) solid var(--nc-popover-border);
+  border-radius: var(--nc-popover-radius);
+  box-shadow: var(--nc-popover-shadow);
+
+  // Eingangsanimation
+  animation: fnd-scale-in var(--nc-popover-animation-duration)
+             var(--fnd-motion-ease-ease-out) forwards;
+
+  @include reduced-motion {
+    animation: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-popover {
+  position: relative;
+  display: inline-flex;
+
+  // Trigger — Styling wird vom nutzenden Element geerbt
+  &__trigger {
+    // Kein eigenes Styling
+  }
+
+  // Panel
+  &__panel {
+    @include popover-panel-base;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Positionen --
+
+  // Bottom (default)
+  &__panel--bottom,
+  &__panel:not([class*='--top']):not([class*='--left']):not([class*='--right']) {
+    top: calc(100% + var(--nc-popover-offset));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__panel--top {
+    bottom: calc(100% + var(--nc-popover-offset));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__panel--left {
+    right: calc(100% + var(--nc-popover-offset));
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__panel--right {
+    left: calc(100% + var(--nc-popover-offset));
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  // Alignment-Varianten (Start/End)
+  &__panel--bottom-start {
+    top: calc(100% + var(--nc-popover-offset));
+    left: 0;
+    transform: none;
+  }
+
+  &__panel--bottom-end {
+    top: calc(100% + var(--nc-popover-offset));
+    right: 0;
+    left: auto;
+    transform: none;
+  }
+
+  // -- Arrow --
+
+  &__arrow {
+    position: absolute;
+    width: var(--nc-popover-arrow-size);
+    height: var(--nc-popover-arrow-size);
+    background-color: var(--nc-popover-arrow-bg);
+    border: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+    transform: rotate(45deg);
+
+    // Default: Panel unten → Arrow oben zeigt nach oben
+    top: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    left: 50%;
+    margin-left: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    border-right: none;
+    border-bottom: none;
+  }
+
+  // Arrow wenn Panel oben → zeigt nach unten
+  &__panel--top &__arrow {
+    top: auto;
+    bottom: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    border-right: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+    border-bottom: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+    border-left: none;
+    border-top: none;
+  }
+
+  // -- Header --
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--nc-popover-header-padding);
+    border-bottom: var(--nc-popover-border-width) solid var(--nc-popover-header-border);
+    font-size: var(--nc-popover-header-font-size);
+    font-weight: var(--nc-popover-header-font-weight);
+  }
+
+  // -- Body --
+
+  &__body {
+    padding: var(--nc-popover-padding);
+  }
+
+  // -- Footer --
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--fnd-spacing-02);
+    padding: var(--nc-popover-footer-padding);
+    border-top: var(--nc-popover-border-width) solid var(--nc-popover-footer-border);
+  }
+
+  // Close-Button (im Header)
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    border-radius: var(--fnd-radius-sm);
+    background: none;
+    color: var(--fnd-color-text-secondary);
+    cursor: pointer;
+    @include transition-quick((opacity, background-color));
+
+    &:hover {
+      background-color: var(--fnd-color-background-hover);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    > svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+}

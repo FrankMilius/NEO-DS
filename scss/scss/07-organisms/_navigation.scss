@@ -17,7 +17,7 @@
 
 .nc-nav {
   width: 100%;
-  font-size: 1.1rem;
+  font-size: var(--fs-base);
   //font-weight: var(--fnd-font-weight-bold);
 }
 
@@ -57,7 +57,7 @@
   font-family: var(--font-heading);
   text-transform: lowercase;
   letter-spacing: 0.06em;
-  font-size: 1.5rem;
+  font-size: var(--fs-xl);
   font-weight: var(--fnd-font-weight-bold);
 }
 
@@ -92,8 +92,8 @@
   background: color-mix(in srgb, var(--fnd-color-always-dark) 35%, transparent);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 30;
+  @include transition-quick((opacity));
+  z-index: var(--fnd-z-tooltip);
 }
 
 .nc-header.is-search-open .nc-search-panel {
@@ -111,7 +111,7 @@
   max-width: 100vw;
   margin: var(--nav-height) 0 0;
   transform: translateY(-8px);
-  transition: transform 0.25s ease;
+  @include transition-quick((transform));
 }
 
 .nc-header.is-search-open .nc-search-panel__inner {
@@ -121,7 +121,7 @@
 .nc-search-panel input[type='search'] {
   width: 100%;
   padding: 0.9rem 1.1rem;
-  border-radius: 14px;
+  border-radius: var(--fnd-radius-lg);
   border: 1px solid var(--fnd-color-border-low);
   background: var(--fnd-color-background-base);
   font-size: calc(var(--fs-base) * var(--type-scale, 1));
@@ -145,8 +145,8 @@
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 8;
+  @include transition-quick((opacity, transform));
+  z-index: var(--fnd-z-fixed);
 }
 
 .nc-nav__item {
@@ -175,7 +175,7 @@
 
 .nc-mega__meta strong {
   display: block;
-  font-size: 1.1rem;
+  font-size: var(--fs-base);
   margin-bottom: 0.5rem;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .nc-mega__eyebrow {
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fnd-color-text-mid);

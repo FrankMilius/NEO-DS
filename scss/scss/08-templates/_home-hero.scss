@@ -38,7 +38,7 @@
     
     h1,
     > p:not(.world) {
-      z-index: 1;
+      z-index: var(--fnd-z-base);
     }
   }
   
@@ -174,8 +174,8 @@
   
   p:not(.world) {
     position: relative;
-    z-index: 1;
-    
+    z-index: var(--fnd-z-base);
+
     &:not(.skip-button) {
       --char-height: calc(var(--fnd-typography-paragraph-xl-font-size) * 1.5);
     }

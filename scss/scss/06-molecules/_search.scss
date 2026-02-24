@@ -1,0 +1,245 @@
+// ==========================================================================
+// 06-Molecules: Search
+// ==========================================================================
+// Suchfeld mit Dropdown-Ergebnisliste.
+// Baut auf nc-input--search auf, ergaenzt um Ergebnis-Panel.
+//
+// SEMANTIK:
+//   R1: <div role="combobox" aria-haspopup="listbox" aria-expanded="true|false">
+//   R2: Input: aria-autocomplete="list" aria-controls="results-id"
+//   R3: Ergebnisliste: role="listbox"
+//   R4: Ergebnis-Items: role="option" aria-selected="true|false"
+//   R5: Keyboard: Arrow Down/Up navigiert, Enter waehlt, Escape schliesst
+//
+// STRUKTUR:
+//   div.nc-search (role="combobox")
+//     div.nc-search__input-wrapper
+//       svg.nc-search__icon (aria-hidden)
+//       input.nc-search__input (nc-input)
+//       kbd.nc-search__shortcut (optional, z.B. "⌘K")
+//     div.nc-search__results (role="listbox")
+//       div.nc-search__group
+//         span.nc-search__group-label
+//         a|button.nc-search__item (role="option")
+//           span.nc-search__item-icon
+//           span.nc-search__item-label
+//
+// KLASSEN:
+//   .nc-search (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin search-results-base {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: var(--nc-search-results-z-index);
+  margin-top: var(--fnd-spacing-01);
+  max-height: var(--nc-search-results-max-height);
+  overflow-y: auto;
+  padding: var(--nc-search-results-padding);
+  background-color: var(--nc-search-results-bg);
+  border: var(--nc-search-results-border-width) solid var(--nc-search-results-border);
+  border-radius: var(--nc-search-results-radius);
+  box-shadow: var(--nc-search-results-shadow);
+
+  // Eingangsanimation
+  animation: fnd-dropdown-enter var(--nc-search-results-animation)
+             var(--fnd-motion-ease-ease-out) forwards;
+
+  @include reduced-motion {
+    animation: none;
+  }
+
+  @include hide-scrollbar;
+}
+
+@mixin search-item-base {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-search-item-gap);
+  width: 100%;
+  min-height: var(--nc-search-item-height);
+  padding: var(--nc-search-item-padding);
+  border: none;
+  border-radius: var(--nc-search-item-radius);
+  background: none;
+  color: var(--nc-search-item-color);
+  font-size: var(--nc-search-item-font-size);
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  @include transition-quick((background-color));
+
+  &:hover,
+  &[aria-selected='true'] {
+    background-color: var(--nc-search-item-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-search {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--nc-search-width);
+  max-width: var(--nc-search-max-width);
+
+  // -- Input-Wrapper (Icon + Input + Shortcut) --
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  // Such-Icon (links im Input)
+  &__icon {
+    position: absolute;
+    left: var(--fnd-spacing-03);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: var(--fnd-color-text-tertiary);
+
+    > svg {
+      width: var(--nc-search-item-icon-size);
+      height: var(--nc-search-item-icon-size);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Input (nutzt nc-input Tokens, extra padding links fuer Icon)
+  &__input {
+    width: 100%;
+    padding-inline-start: calc(var(--fnd-spacing-03) + var(--nc-search-item-icon-size) + var(--fnd-spacing-02));
+  }
+
+  // Shortcut-Hint (rechts im Input, z.B. "⌘K")
+  &__shortcut {
+    position: absolute;
+    right: var(--fnd-spacing-03);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: var(--nc-search-shortcut-color);
+    font-size: var(--nc-search-shortcut-size);
+    font-family: var(--font-mono);
+  }
+
+  // -- Ergebnis-Panel --
+
+  &__results {
+    @include search-results-base;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Ergebnis-Gruppe --
+
+  &__group + &__group {
+    border-top: var(--nc-search-results-border-width) solid var(--nc-search-results-border);
+    margin-top: var(--fnd-spacing-01);
+    padding-top: var(--fnd-spacing-01);
+  }
+
+  &__group-label {
+    display: block;
+    padding: var(--nc-search-group-label-padding);
+    font-size: var(--nc-search-group-label-size);
+    font-weight: var(--nc-search-group-label-weight);
+    color: var(--nc-search-group-label-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+
+  // -- Ergebnis-Item --
+
+  &__item {
+    @include search-item-base;
+  }
+
+  &__item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-search-item-icon-size);
+    height: var(--nc-search-item-icon-size);
+    flex-shrink: 0;
+    color: var(--nc-search-item-icon-color);
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__item-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Treffer-Highlight
+  &__highlight {
+    background-color: var(--nc-search-highlight-bg);
+    color: var(--nc-search-highlight-color);
+    padding: 0 1px;
+    border-radius: var(--fnd-radius-xs);
+  }
+
+  // -- Leerzustand --
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--fnd-spacing-06);
+    color: var(--fnd-color-text-tertiary);
+    font-size: var(--fs-sm);
+    text-align: center;
+  }
+
+  // -- Ladezustand --
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--fnd-spacing-04);
+  }
+
+  // -- Full-Width Variante --
+
+  &--full {
+    width: 100%;
+    max-width: 100%;
+  }
+}

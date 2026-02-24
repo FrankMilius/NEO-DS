@@ -1227,6 +1227,492 @@
 }
 
 // ---------------------------------------------------------------------------
+// Skeleton Tokens
+// ---------------------------------------------------------------------------
+// Lade-Platzhalter mit Shimmer-Animation.
+// Nutzt background-skeleton aus der Semantic-Color-Map.
+
+:root {
+  --nc-skeleton-bg:             var(--fnd-color-background-skeleton);
+  --nc-skeleton-shimmer:        var(--fnd-color-background-skeleton-element);
+  --nc-skeleton-radius:         var(--fnd-radius-sm);            // 4px
+  --nc-skeleton-radius-circle:  var(--fnd-radius-full);          // 9999px
+  --nc-skeleton-duration:       var(--fnd-motion-duration-1000);  // 1s
+  --nc-skeleton-ease:           var(--fnd-motion-ease-ease-in-out);
+
+  // Groessen
+  --nc-skeleton-height-xs:      var(--fnd-spacing-03);           // 12px (Text-Zeile klein)
+  --nc-skeleton-height-sm:      var(--fnd-spacing-04);           // 16px (Text-Zeile normal)
+  --nc-skeleton-height-md:      var(--fnd-spacing-06);           // 24px (Heading)
+  --nc-skeleton-height-lg:      var(--fnd-spacing-09);           // 48px (Avatar/Button)
+}
+
+// ---------------------------------------------------------------------------
+// Spinner Tokens
+// ---------------------------------------------------------------------------
+// Rotierender Lade-Indikator. Nutzt fnd-spin Keyframe.
+
+:root {
+  --nc-spinner-color:           var(--fnd-color-interactive-default);
+  --nc-spinner-track-color:     var(--fnd-color-border-secondary);
+  --nc-spinner-border-width:    var(--fnd-border-width-sm);      // 2px
+  --nc-spinner-duration:        var(--fnd-motion-duration-700);   // 700ms
+  --nc-spinner-ease:            var(--fnd-motion-ease-linear);
+
+  // Groessen
+  --nc-spinner-size-xs:         var(--fnd-spacing-04);           // 16px
+  --nc-spinner-size-sm:         var(--fnd-spacing-05);           // 20px
+  --nc-spinner-size-md:         var(--fnd-spacing-06);           // 24px
+  --nc-spinner-size-lg:         var(--fnd-spacing-08);           // 40px
+  --nc-spinner-size-xl:         var(--fnd-spacing-10);           // 56px
+
+  // Strichstaerke pro Groesse
+  --nc-spinner-border-width-xs: var(--fnd-border-width-xs);      // 1px
+  --nc-spinner-border-width-sm: var(--fnd-border-width-sm);      // 2px
+  --nc-spinner-border-width-md: var(--fnd-border-width-sm);      // 2px
+  --nc-spinner-border-width-lg: var(--fnd-border-width-md);      // 4px
+  --nc-spinner-border-width-xl: var(--fnd-border-width-md);      // 4px
+}
+
+// ---------------------------------------------------------------------------
+// Progress Tokens
+// ---------------------------------------------------------------------------
+// Fortschrittsbalken (determiniert + indeterminiert).
+
+:root {
+  --nc-progress-bg:             var(--fnd-color-background-tertiary);
+  --nc-progress-fill:           var(--fnd-color-interactive-default);
+  --nc-progress-radius:         var(--fnd-radius-full);          // Pill
+  --nc-progress-transition:     var(--fnd-motion-duration-300);
+  --nc-progress-ease:           var(--fnd-motion-ease-ease-out);
+
+  // Groessen (Balkenhoehe)
+  --nc-progress-height-xs:      2px;
+  --nc-progress-height-sm:      4px;
+  --nc-progress-height-md:      8px;
+  --nc-progress-height-lg:      12px;
+
+  // Feedback-Varianten
+  --nc-progress-fill-success:   var(--fnd-color-feedback-success);
+  --nc-progress-fill-warning:   var(--fnd-color-feedback-warning);
+  --nc-progress-fill-danger:    var(--fnd-color-feedback-danger);
+  --nc-progress-fill-info:      var(--fnd-color-feedback-info);
+
+  // Label
+  --nc-progress-label-color:    var(--fnd-color-text-secondary);
+  --nc-progress-label-size:     var(--fs-xs);
+  --nc-progress-label-weight:   var(--fnd-font-weight-medium);
+  --nc-progress-label-gap:      var(--fnd-spacing-02);           // 8px
+}
+
+// ---------------------------------------------------------------------------
+// Divider Tokens
+// ---------------------------------------------------------------------------
+// Trennlinie (horizontal/vertikal) mit optionalem Label.
+
+:root {
+  --nc-divider-color:           var(--fnd-color-border-secondary);
+  --nc-divider-width:           var(--fnd-border-width-xs);      // 1px
+  --nc-divider-style:           solid;
+  --nc-divider-spacing:         var(--fnd-spacing-04);           // 16px (margin ober-/unterhalb)
+
+  // Label (optionaler Text in der Mitte)
+  --nc-divider-label-color:     var(--fnd-color-text-tertiary);
+  --nc-divider-label-size:      var(--fs-xs);
+  --nc-divider-label-weight:    var(--fnd-font-weight-medium);
+  --nc-divider-label-gap:       var(--fnd-spacing-03);           // 12px
+  --nc-divider-label-bg:        var(--fnd-color-background-base);
+
+  // Variante: stark
+  --nc-divider-strong-color:    var(--fnd-color-border-strong);
+  --nc-divider-strong-width:    var(--fnd-border-width-sm);      // 2px
+}
+
+// ---------------------------------------------------------------------------
+// Kbd Tokens
+// ---------------------------------------------------------------------------
+// Tastatur-Shortcut-Anzeige (inline).
+
+:root {
+  --nc-kbd-bg:                  var(--fnd-color-background-secondary);
+  --nc-kbd-color:               var(--fnd-color-text-secondary);
+  --nc-kbd-border:              var(--fnd-color-border-secondary);
+  --nc-kbd-border-width:        var(--fnd-border-width-xs);      // 1px
+  --nc-kbd-radius:              var(--fnd-radius-xs);            // 2px
+  --nc-kbd-padding-x:           var(--fnd-spacing-02);           // 8px
+  --nc-kbd-padding-y:           var(--fnd-spacing-01);           // 4px
+  --nc-kbd-font-family:         var(--font-mono);
+  --nc-kbd-font-size:           var(--fs-xs);
+  --nc-kbd-font-weight:         var(--fnd-font-weight-medium);
+  --nc-kbd-line-height:         1;
+  --nc-kbd-shadow:              var(--fnd-elevation-base);
+}
+
+// ---------------------------------------------------------------------------
+// Pagination Tokens
+// ---------------------------------------------------------------------------
+// Eigenstaendige Seitennavigation (unabhaengig von DataTable).
+
+:root {
+  --nc-pagination-gap:              var(--fnd-spacing-01);           // 4px zwischen Buttons
+  --nc-pagination-padding:          var(--fnd-spacing-03) 0;         // 12px ober/unterhalb
+  --nc-pagination-color:            var(--fnd-color-text-secondary);
+  --nc-pagination-font-size:        var(--fs-sm);
+
+  // Seitenbutton (Zahl)
+  --nc-pagination-item-size:        var(--fnd-size-sm);              // 32px
+  --nc-pagination-item-radius:      var(--fnd-radius-sm);            // 4px
+  --nc-pagination-item-bg:          transparent;
+  --nc-pagination-item-bg-hover:    var(--fnd-color-background-hover);
+  --nc-pagination-item-bg-active:   var(--fnd-color-interactive-default);
+  --nc-pagination-item-color:       var(--fnd-color-text-primary);
+  --nc-pagination-item-color-active: var(--fnd-color-text-on-interactive);
+  --nc-pagination-item-font-weight: var(--fnd-font-weight-medium);
+  --nc-pagination-item-transition:  var(--fnd-motion-duration-150);
+
+  // Navigation (Prev/Next)
+  --nc-pagination-nav-color:        var(--fnd-color-interactive-default);
+  --nc-pagination-nav-color-disabled: var(--fnd-color-text-disabled);
+
+  // Ellipsis
+  --nc-pagination-ellipsis-color:   var(--fnd-color-text-tertiary);
+}
+
+// ---------------------------------------------------------------------------
+// Dropdown-Menu Tokens
+// ---------------------------------------------------------------------------
+// Generisches Action-/Kontextmenue.
+
+:root {
+  --nc-dropdown-bg:                 var(--fnd-color-background-base);
+  --nc-dropdown-border:             var(--fnd-color-border-secondary);
+  --nc-dropdown-border-width:       var(--fnd-border-width-xs);      // 1px
+  --nc-dropdown-radius:             var(--fnd-radius-lg);            // 8px
+  --nc-dropdown-shadow:             var(--fnd-elevation-floating);
+  --nc-dropdown-padding:            var(--fnd-spacing-01);           // 4px
+  --nc-dropdown-min-width:          180px;
+  --nc-dropdown-max-height:         320px;
+  --nc-dropdown-z-index:            var(--fnd-z-dropdown);
+  --nc-dropdown-animation-duration: var(--fnd-motion-duration-150);
+
+  // Item
+  --nc-dropdown-item-height:        var(--fnd-size-sm);              // 32px
+  --nc-dropdown-item-padding:       var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
+  --nc-dropdown-item-radius:        var(--fnd-radius-sm);            // 4px
+  --nc-dropdown-item-color:         var(--fnd-color-text-primary);
+  --nc-dropdown-item-bg-hover:      var(--fnd-color-background-hover);
+  --nc-dropdown-item-bg-active:     var(--fnd-color-background-active);
+  --nc-dropdown-item-color-disabled: var(--fnd-color-text-disabled);
+  --nc-dropdown-item-icon-size:     16px;
+  --nc-dropdown-item-icon-color:    var(--fnd-color-text-secondary);
+  --nc-dropdown-item-gap:           var(--fnd-spacing-02);           // 8px
+  --nc-dropdown-item-font-size:     var(--fs-sm);
+  --nc-dropdown-item-font-weight:   var(--fnd-font-weight-regular);
+  --nc-dropdown-item-transition:    var(--fnd-motion-duration-100);
+
+  // Danger Item
+  --nc-dropdown-item-danger-color:  var(--fnd-color-feedback-danger);
+  --nc-dropdown-item-danger-bg-hover: var(--fnd-color-background-danger);
+
+  // Group Label
+  --nc-dropdown-group-label-color:  var(--fnd-color-text-tertiary);
+  --nc-dropdown-group-label-size:   var(--fs-xs);
+  --nc-dropdown-group-label-weight: var(--fnd-font-weight-semibold);
+  --nc-dropdown-group-label-padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+
+  // Separator
+  --nc-dropdown-separator-color:    var(--fnd-color-border-secondary);
+  --nc-dropdown-separator-margin:   var(--fnd-spacing-01);           // 4px
+}
+
+// ---------------------------------------------------------------------------
+// Empty State Tokens
+// ---------------------------------------------------------------------------
+// Platzhalter fuer leere Listen, Suchergebnisse, Erstnutzung.
+
+:root {
+  --nc-empty-state-padding:         var(--fnd-spacing-10);           // 56px
+  --nc-empty-state-gap:             var(--fnd-spacing-04);           // 16px
+  --nc-empty-state-max-width:       400px;
+
+  // Icon
+  --nc-empty-state-icon-size:       var(--fnd-size-xl);              // 64px
+  --nc-empty-state-icon-color:      var(--fnd-color-text-tertiary);
+
+  // Text
+  --nc-empty-state-title-size:      var(--fs-lg);
+  --nc-empty-state-title-weight:    var(--fnd-font-weight-semibold);
+  --nc-empty-state-title-color:     var(--fnd-color-text-primary);
+  --nc-empty-state-desc-size:       var(--fs-sm);
+  --nc-empty-state-desc-color:      var(--fnd-color-text-secondary);
+
+  // Action
+  --nc-empty-state-action-gap:      var(--fnd-spacing-03);           // 12px
+}
+
+// ---------------------------------------------------------------------------
+// Banner Tokens
+// ---------------------------------------------------------------------------
+// Seitenweite Benachrichtigungsleiste (sticky top, dismissible).
+
+:root {
+  --nc-banner-padding:              var(--fnd-spacing-03) var(--fnd-spacing-05); // 12px 20px
+  --nc-banner-gap:                  var(--fnd-spacing-03);           // 12px
+  --nc-banner-z-index:              var(--fnd-z-notification);
+  --nc-banner-font-size:            var(--fs-sm);
+  --nc-banner-font-weight:          var(--fnd-font-weight-medium);
+
+  // Info (default)
+  --nc-banner-info-bg:              var(--fnd-color-interactive-default);
+  --nc-banner-info-color:           var(--fnd-color-text-on-interactive);
+
+  // Warning
+  --nc-banner-warning-bg:           var(--fnd-color-feedback-warning);
+  --nc-banner-warning-color:        var(--fnd-color-on-warning);
+
+  // Danger
+  --nc-banner-danger-bg:            var(--fnd-color-feedback-danger);
+  --nc-banner-danger-color:         var(--fnd-color-on-danger);
+
+  // Success
+  --nc-banner-success-bg:           var(--fnd-color-feedback-success);
+  --nc-banner-success-color:        var(--fnd-color-on-success);
+
+  // Close Button
+  --nc-banner-close-size:           20px;
+  --nc-banner-close-radius:         var(--fnd-radius-sm);
+  --nc-banner-close-opacity:        var(--fnd-opacity-medium);
+  --nc-banner-close-opacity-hover:  1;
+
+  // CTA Link
+  --nc-banner-link-weight:          var(--fnd-font-weight-bold);
+  --nc-banner-link-underline:       underline;
+}
+
+// ---------------------------------------------------------------------------
+// Status Indicator Tokens
+// ---------------------------------------------------------------------------
+// Status-Punkt (online/offline/busy/away). Standalone oder komponierbar.
+
+:root {
+  // Groessen
+  --nc-status-size-xs:              6px;
+  --nc-status-size-sm:              8px;
+  --nc-status-size-md:              12px;
+
+  // Ring (fuer Einbettung auf farbigem Hintergrund)
+  --nc-status-ring-width:           var(--fnd-border-width-sm);      // 2px
+  --nc-status-ring-color:           var(--fnd-color-background-base);
+
+  // Farben
+  --nc-status-online:               var(--fnd-color-feedback-success);
+  --nc-status-offline:              var(--fnd-color-text-disabled);
+  --nc-status-busy:                 var(--fnd-color-feedback-danger);
+  --nc-status-away:                 var(--fnd-color-feedback-warning);
+  --nc-status-neutral:              var(--fnd-color-text-tertiary);
+
+  // Pulse-Animation (fuer Live-Status)
+  --nc-status-pulse-duration:       var(--fnd-motion-duration-1000);
+  --nc-status-pulse-scale:          2;
+}
+
+// ---------------------------------------------------------------------------
+// Popover Tokens
+// ---------------------------------------------------------------------------
+// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen).
+// Baut auf Tooltip-Pattern auf, erlaubt aber Interaktion.
+
+:root {
+  --nc-popover-bg:                var(--fnd-color-background-base);
+  --nc-popover-border:            var(--fnd-color-border-secondary);
+  --nc-popover-border-width:      var(--fnd-border-width-xs);      // 1px
+  --nc-popover-radius:            var(--fnd-radius-lg);            // 8px
+  --nc-popover-shadow:            var(--fnd-elevation-floating);
+  --nc-popover-padding:           var(--fnd-spacing-04);           // 16px
+  --nc-popover-min-width:         200px;
+  --nc-popover-max-width:         360px;
+  --nc-popover-z-index:           var(--fnd-z-dropdown);
+  --nc-popover-offset:            var(--fnd-spacing-02);           // 8px Abstand zum Trigger
+  --nc-popover-animation-duration: var(--fnd-motion-duration-150);
+
+  // Arrow
+  --nc-popover-arrow-size:        8px;
+  --nc-popover-arrow-bg:          var(--fnd-color-background-base);
+  --nc-popover-arrow-border:      var(--fnd-color-border-secondary);
+
+  // Header (optionaler Titel im Popover)
+  --nc-popover-header-padding:    var(--fnd-spacing-03) var(--fnd-spacing-04);
+  --nc-popover-header-border:     var(--fnd-color-border-secondary);
+  --nc-popover-header-font-size:  var(--fs-sm);
+  --nc-popover-header-font-weight: var(--fnd-font-weight-semibold);
+
+  // Footer
+  --nc-popover-footer-padding:    var(--fnd-spacing-03) var(--fnd-spacing-04);
+  --nc-popover-footer-border:     var(--fnd-color-border-secondary);
+}
+
+// ---------------------------------------------------------------------------
+// Timeline Tokens
+// ---------------------------------------------------------------------------
+// Chronologische Darstellung (Changelog, Activity Feed, History).
+
+:root {
+  --nc-timeline-line-color:       var(--fnd-color-border-secondary);
+  --nc-timeline-line-width:       var(--fnd-border-width-sm);      // 2px
+  --nc-timeline-line-style:       solid;
+  --nc-timeline-gap:              0;
+
+  // Node (Punkt auf der Linie)
+  --nc-timeline-node-size:        12px;
+  --nc-timeline-node-bg:          var(--fnd-color-background-base);
+  --nc-timeline-node-border:      var(--fnd-color-border-primary);
+  --nc-timeline-node-border-width: var(--fnd-border-width-sm);     // 2px
+  --nc-timeline-node-radius:      var(--fnd-radius-full);
+
+  // Node-Varianten
+  --nc-timeline-node-active-bg:   var(--fnd-color-interactive-default);
+  --nc-timeline-node-active-border: var(--fnd-color-interactive-default);
+  --nc-timeline-node-success-bg:  var(--fnd-color-feedback-success);
+  --nc-timeline-node-danger-bg:   var(--fnd-color-feedback-danger);
+
+  // Node Icon (fuer groessere Nodes mit Icon)
+  --nc-timeline-node-icon-size:   var(--fnd-size-sm);              // 32px
+  --nc-timeline-node-icon-color:  var(--fnd-color-text-on-interactive);
+
+  // Content
+  --nc-timeline-content-gap:      var(--fnd-spacing-01);           // 4px
+  --nc-timeline-content-padding:  var(--fnd-spacing-04);           // 16px
+  --nc-timeline-title-size:       var(--fs-sm);
+  --nc-timeline-title-weight:     var(--fnd-font-weight-semibold);
+  --nc-timeline-title-color:      var(--fnd-color-text-primary);
+  --nc-timeline-desc-size:        var(--fs-sm);
+  --nc-timeline-desc-color:       var(--fnd-color-text-secondary);
+  --nc-timeline-time-size:        var(--fs-xs);
+  --nc-timeline-time-color:       var(--fnd-color-text-tertiary);
+  --nc-timeline-time-weight:      var(--fnd-font-weight-regular);
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar Tokens
+// ---------------------------------------------------------------------------
+// Seitennavigation fuer Dashboard/Settings. Collapsible, nested Items.
+
+:root {
+  --nc-sidebar-width:             260px;
+  --nc-sidebar-width-collapsed:   56px;
+  --nc-sidebar-bg:                var(--fnd-color-layer-01);
+  --nc-sidebar-border:            var(--fnd-color-border-secondary);
+  --nc-sidebar-border-width:      var(--fnd-border-width-xs);      // 1px
+  --nc-sidebar-padding:           var(--fnd-spacing-03);           // 12px
+  --nc-sidebar-z-index:           var(--fnd-z-sidebar);
+  --nc-sidebar-transition:        var(--fnd-motion-duration-300);
+
+  // Item
+  --nc-sidebar-item-height:       var(--fnd-size-sm);              // 32px
+  --nc-sidebar-item-padding:      var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
+  --nc-sidebar-item-radius:       var(--fnd-radius-sm);            // 4px
+  --nc-sidebar-item-gap:          var(--fnd-spacing-02);           // 8px
+  --nc-sidebar-item-color:        var(--fnd-color-text-secondary);
+  --nc-sidebar-item-color-hover:  var(--fnd-color-text-primary);
+  --nc-sidebar-item-bg-hover:     var(--fnd-color-background-hover);
+  --nc-sidebar-item-bg-active:    var(--fnd-color-background-active);
+  --nc-sidebar-item-color-active: var(--fnd-color-interactive-default);
+  --nc-sidebar-item-font-size:    var(--fs-sm);
+  --nc-sidebar-item-font-weight:  var(--fnd-font-weight-medium);
+  --nc-sidebar-item-icon-size:    20px;
+  --nc-sidebar-item-transition:   var(--fnd-motion-duration-150);
+
+  // Group
+  --nc-sidebar-group-label-color: var(--fnd-color-text-tertiary);
+  --nc-sidebar-group-label-size:  var(--fs-xs);
+  --nc-sidebar-group-label-weight: var(--fnd-font-weight-semibold);
+  --nc-sidebar-group-label-padding: var(--fnd-spacing-03) var(--fnd-spacing-03) var(--fnd-spacing-01);
+  --nc-sidebar-group-gap:         var(--fnd-spacing-01);           // 4px zwischen Items
+
+  // Nested Items
+  --nc-sidebar-nested-indent:     var(--fnd-spacing-06);           // 24px
+
+  // Badge (Zaehler an Items)
+  --nc-sidebar-badge-size:        20px;
+  --nc-sidebar-badge-font-size:   var(--fs-xs);
+  --nc-sidebar-badge-bg:          var(--fnd-color-feedback-danger);
+  --nc-sidebar-badge-color:       var(--fnd-color-on-danger);
+  --nc-sidebar-badge-radius:      var(--fnd-radius-full);
+}
+
+// ---------------------------------------------------------------------------
+// Toolbar Tokens
+// ---------------------------------------------------------------------------
+// Horizontale Action-Leiste ueber Tabellen, Editoren, Listen.
+
+:root {
+  --nc-toolbar-height:            var(--fnd-size-lg);              // 48px
+  --nc-toolbar-padding:           var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
+  --nc-toolbar-gap:               var(--fnd-spacing-02);           // 8px
+  --nc-toolbar-bg:                var(--fnd-color-background-base);
+  --nc-toolbar-border:            var(--fnd-color-border-secondary);
+  --nc-toolbar-border-width:      var(--fnd-border-width-xs);      // 1px
+  --nc-toolbar-radius:            var(--fnd-radius-lg);            // 8px
+
+  // Gruppen-Separator
+  --nc-toolbar-separator-color:   var(--fnd-color-border-secondary);
+  --nc-toolbar-separator-width:   var(--fnd-border-width-xs);      // 1px
+  --nc-toolbar-separator-margin:  var(--fnd-spacing-01);           // 4px
+
+  // Label (optionaler Text in der Toolbar)
+  --nc-toolbar-label-color:       var(--fnd-color-text-secondary);
+  --nc-toolbar-label-size:        var(--fs-sm);
+  --nc-toolbar-label-weight:      var(--fnd-font-weight-medium);
+}
+
+// ---------------------------------------------------------------------------
+// Search Tokens
+// ---------------------------------------------------------------------------
+// Suchfeld mit Dropdown-Ergebnisliste.
+
+:root {
+  --nc-search-width:              320px;
+  --nc-search-max-width:          100%;
+
+  // Ergebnisliste
+  --nc-search-results-bg:         var(--fnd-color-background-base);
+  --nc-search-results-border:     var(--fnd-color-border-secondary);
+  --nc-search-results-border-width: var(--fnd-border-width-xs);    // 1px
+  --nc-search-results-radius:     var(--fnd-radius-lg);            // 8px
+  --nc-search-results-shadow:     var(--fnd-elevation-floating);
+  --nc-search-results-max-height: 400px;
+  --nc-search-results-padding:    var(--fnd-spacing-01);           // 4px
+  --nc-search-results-z-index:    var(--fnd-z-dropdown);
+  --nc-search-results-animation:  var(--fnd-motion-duration-150);
+
+  // Ergebnis-Item
+  --nc-search-item-height:        var(--fnd-size-sm);              // 32px
+  --nc-search-item-padding:       var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
+  --nc-search-item-radius:        var(--fnd-radius-sm);            // 4px
+  --nc-search-item-color:         var(--fnd-color-text-primary);
+  --nc-search-item-bg-hover:      var(--fnd-color-background-hover);
+  --nc-search-item-icon-size:     16px;
+  --nc-search-item-icon-color:    var(--fnd-color-text-secondary);
+  --nc-search-item-gap:           var(--fnd-spacing-02);           // 8px
+  --nc-search-item-font-size:     var(--fs-sm);
+  --nc-search-item-transition:    var(--fnd-motion-duration-100);
+
+  // Highlight (Treffer-Markierung)
+  --nc-search-highlight-bg:       color-mix(in srgb, var(--fnd-color-feedback-warning) 30%, transparent);
+  --nc-search-highlight-color:    var(--fnd-color-text-primary);
+
+  // Group Header
+  --nc-search-group-label-color:  var(--fnd-color-text-tertiary);
+  --nc-search-group-label-size:   var(--fs-xs);
+  --nc-search-group-label-weight: var(--fnd-font-weight-semibold);
+  --nc-search-group-label-padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+
+  // Shortcut Hint
+  --nc-search-shortcut-color:     var(--fnd-color-text-tertiary);
+  --nc-search-shortcut-size:      var(--fs-xs);
+}
+
+// ---------------------------------------------------------------------------
 // Dark Mode: Component Token Overrides
 // ---------------------------------------------------------------------------
 // Im Dark Mode muessen Hover/Active-States aufhellen (Richtung Weiss) statt

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Search-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Search</h1>
+      <p class="docs__subtitle">
+        Suchkomponente mit Eingabefeld, Ergebnis-Panel, gruppierten Treffern und Highlight-Markierung.
+        Kanonische Klasse: <code class="docs__token">.nc-search</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-search-*</code> Component-Tokens.
+      </p>
+
+      <!-- Tab Navigation -->
+      <div class="docs-tabs" id="search-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Search-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Search Input -->
+          <section class="docs__section" id="search-input">
+            <h2 class="docs__section-title">Sucheingabe</h2>
+            <p class="docs__section-desc">
+              Das Suchfeld mit Icon. Der Basis-Zustand ohne ge&ouml;ffnetes Ergebnis-Panel.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-search">
+                <div class="nc-search__input-wrapper">
+                  <span class="nc-search__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+                  </span>
+                  <input class="nc-search__input" type="search" placeholder="Suchen..." aria-label="Suchen" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Results Panel -->
+          <section class="docs__section" id="results-panel">
+            <h2 class="docs__section-title">Ergebnis-Panel (statisch offen)</h2>
+            <p class="docs__section-desc">
+              Das Ergebnis-Panel zeigt gruppierte Treffer. Hier statisch ge&ouml;ffnet f&uuml;r Demo-Zwecke.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-search">
+                <div class="nc-search__input-wrapper">
+                  <span class="nc-search__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+                  </span>
+                  <input class="nc-search__input" type="search" value="Button" aria-label="Suchen" />
+                </div>
+                <div class="nc-search__results">
+                  <div class="nc-search__group">
+                    <div class="nc-search__group-label">Komponenten</div>
+                    <a class="nc-search__item" href="#">
+                      <span class="nc-search__item-title"><span class="nc-search__highlight">Button</span></span>
+                      <span class="nc-search__item-desc">Interaktive Schaltfl&auml;che mit verschiedenen Varianten</span>
+                    </a>
+                    <a class="nc-search__item" href="#">
+                      <span class="nc-search__item-title"><span class="nc-search__highlight">Button</span> Micro</span>
+                      <span class="nc-search__item-desc">Kompakte Schaltfl&auml;che f&uuml;r enge Bereiche</span>
+                    </a>
+                  </div>
+                  <div class="nc-search__group">
+                    <div class="nc-search__group-label">Foundation</div>
+                    <a class="nc-search__item" href="#">
+                      <span class="nc-search__item-title"><span class="nc-search__highlight">Button</span> Tokens</span>
+                      <span class="nc-search__item-desc">Component-Tokens f&uuml;r die Button-Komponente</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Highlight Example -->
+          <section class="docs__section" id="highlight">
+            <h2 class="docs__section-title">Highlight-Markierung</h2>
+            <p class="docs__section-desc">
+              Treffer werden mit <code class="docs__token">.nc-search__highlight</code> hervorgehoben.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div style="font-size: var(--fs-sm); color: var(--fnd-color-text-primary);">
+                Die <span class="nc-search__highlight">Suchkomponente</span> erm&ouml;glicht schnelles Finden von Inhalten. Der <span class="nc-search__highlight">Such</span>begriff wird farblich markiert.
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+            <div class="docs-snippet">
+              <pre>&lt;span class="nc-search__highlight"&gt;Suchbegriff&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Empty State in Results -->
+          <section class="docs__section" id="empty-results">
+            <h2 class="docs__section-title">Keine Ergebnisse</h2>
+            <p class="docs__section-desc">
+              Wenn keine Treffer gefunden werden, zeigt das Panel einen Empty State.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06); max-width: 480px;">
+              <div class="nc-search">
+                <div class="nc-search__input-wrapper">
+                  <span class="nc-search__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+                  </span>
+                  <input class="nc-search__input" type="search" value="xyzqwerty" aria-label="Suchen" />
+                </div>
+                <div class="nc-search__results">
+                  <div class="nc-search__empty">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--fnd-color-text-tertiary);"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/><line x1="7" y1="7" x2="13" y2="13"/></svg>
+                    <p class="nc-search__empty-text">Keine Ergebnisse f&uuml;r &laquo;xyzqwerty&raquo;</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Full Width -->
+          <section class="docs__section" id="full-width">
+            <h2 class="docs__section-title">Full Width</h2>
+            <p class="docs__section-desc">
+              Die <code class="docs__token">.nc-search--full</code> Variante dehnt die Suche auf die volle Breite des Containers.
+            </p>
+            <div style="border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); padding: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-search nc-search--full">
+                <div class="nc-search__input-wrapper">
+                  <span class="nc-search__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+                  </span>
+                  <input class="nc-search__input" type="search" placeholder="Dokumentation durchsuchen..." aria-label="Suchen" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Input</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-height</code></td><td>&mdash;</td><td>var(--fnd-size-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-input-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-icon-size</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-search-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Results Panel</td></tr>
+                <tr><td><code class="docs__token">--nc-search-results-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-results-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-results-shadow</code></td><td>&mdash;</td><td>var(--fnd-elevation-3)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-results-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-lg)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-results-max-height</code></td><td>400px</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Items</td></tr>
+                <tr><td><code class="docs__token">--nc-search-item-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-item-hover-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-item-title-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-item-desc-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Highlight</td></tr>
+                <tr><td><code class="docs__token">--nc-search-highlight-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-warning)</td></tr>
+                <tr><td><code class="docs__token">--nc-search-highlight-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">.nc-search                      // Block (Container)
+.nc-search__input-wrapper       // Input-Container mit Icon
+.nc-search__icon                // Such-Icon
+.nc-search__input               // Eingabefeld
+.nc-search__results             // Ergebnis-Panel
+.nc-search__group               // Ergebnis-Gruppe
+.nc-search__group-label         // Gruppen-&Uuml;berschrift
+.nc-search__item                // Einzelnes Ergebnis
+.nc-search__item-title          // Ergebnis-Titel
+.nc-search__item-desc           // Ergebnis-Beschreibung
+.nc-search__highlight           // Treffer-Hervorhebung
+.nc-search__empty               // Empty-State im Panel
+.nc-search__empty-text          // Empty-State-Text
+
+// Modifier
+.nc-search--full                // Volle Breite</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-search</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-search</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-search-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_search.scss</code></td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Ja (Eingabe, Tastatur-Navigation, Ergebnis-Klick)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-search</code></td><td>Block</td><td>Such-Container.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__input-wrapper</code></td><td>Element</td><td>Wrapper f&uuml;r Icon + Input.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__icon</code></td><td>Element</td><td>Such-Icon (SVG).</td></tr>
+                <tr><td><code class="docs__token">.nc-search__input</code></td><td>Element</td><td>Eingabefeld (type=search).</td></tr>
+                <tr><td><code class="docs__token">.nc-search__results</code></td><td>Element</td><td>Ergebnis-Dropdown.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__group</code></td><td>Element</td><td>Ergebnis-Gruppe.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__group-label</code></td><td>Element</td><td>Gruppen-Label.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__item</code></td><td>Element</td><td>Einzelnes Ergebnis (Link).</td></tr>
+                <tr><td><code class="docs__token">.nc-search__highlight</code></td><td>Element</td><td>Treffer-Markierung.</td></tr>
+                <tr><td><code class="docs__token">.nc-search__empty</code></td><td>Element</td><td>Empty-State Container.</td></tr>
+                <tr><td><code class="docs__token">.nc-search--full</code></td><td>Modifier</td><td>Volle Container-Breite.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;div class="nc-search [--full]"&gt;
+
+  &lt;!-- Slot 1: Input --&gt;
+  &lt;div class="nc-search__input-wrapper"&gt;
+    &lt;span class="nc-search__icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+    &lt;input class="nc-search__input" type="search" /&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Slot 2: Results (hidden by default, shown on input) --&gt;
+  &lt;div class="nc-search__results"&gt;
+    &lt;div class="nc-search__group"&gt;
+      &lt;div class="nc-search__group-label"&gt;Gruppe&lt;/div&gt;
+      &lt;a class="nc-search__item" href="#"&gt;
+        &lt;span class="nc-search__item-title"&gt;
+          &lt;span class="nc-search__highlight"&gt;Treffer&lt;/span&gt;
+        &lt;/span&gt;
+        &lt;span class="nc-search__item-desc"&gt;Beschreibung&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</div>
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

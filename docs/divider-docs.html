@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Divider | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Divider-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <h1 class="docs__title">Divider</h1>
+      <p class="docs__subtitle">
+        Trennlinie (horizontal/vertikal) mit optionalem Label.
+        Kanonische Klasse: <code class="docs__token">.nc-divider</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-divider-*</code> Component-Tokens.
+      </p>
+
+      <div class="docs-tabs" id="divider-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Divider-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Horizontal Variants -->
+          <section class="docs__section" id="horizontal">
+            <h2 class="docs__section-title">Horizontal</h2>
+            <p class="docs__section-desc">
+              4 Stilvarianten: Standard, Strong, Dashed, Dotted.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Default</div>
+              <hr class="nc-divider" />
+
+              <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Strong</div>
+              <hr class="nc-divider nc-divider--strong" />
+
+              <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Dashed</div>
+              <hr class="nc-divider nc-divider--dashed" />
+
+              <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Dotted</div>
+              <hr class="nc-divider nc-divider--dotted" />
+            </div>
+          </section>
+
+          <!-- Vertical -->
+          <section class="docs__section" id="vertical">
+            <h2 class="docs__section-title">Vertikal</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-divider--vertical</code> f&uuml;r Inline-Layouts, Toolbars und Flex-Container.
+            </p>
+            <div style="display: flex; align-items: center; gap: 0; height: 40px; margin-block-end: var(--fnd-spacing-06);">
+              <span style="padding: 0 var(--fnd-spacing-03);">Element A</span>
+              <hr class="nc-divider nc-divider--vertical" />
+              <span style="padding: 0 var(--fnd-spacing-03);">Element B</span>
+              <hr class="nc-divider nc-divider--vertical" />
+              <span style="padding: 0 var(--fnd-spacing-03);">Element C</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0; height: 40px; margin-block-end: var(--fnd-spacing-06);">
+              <span style="padding: 0 var(--fnd-spacing-03);">Links</span>
+              <hr class="nc-divider nc-divider--vertical nc-divider--strong" />
+              <span style="padding: 0 var(--fnd-spacing-03);">Rechts</span>
+            </div>
+          </section>
+
+          <!-- Divider with Label -->
+          <section class="docs__section" id="with-label">
+            <h2 class="docs__section-title">Divider mit Label</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-divider-label</code> zeigt Text zentriert zwischen zwei Linien.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-divider-label" role="separator"><span>oder</span></div>
+              <div class="nc-divider-label" role="separator"><span>Abschnitt 2</span></div>
+              <div class="nc-divider-label" role="separator"><span>Weiter</span></div>
+            </div>
+          </section>
+
+          <!-- Spacing Variants -->
+          <section class="docs__section" id="spacing">
+            <h2 class="docs__section-title">Spacing-Varianten</h2>
+            <p class="docs__section-desc">
+              Steuert den Abstand ober- und unterhalb des Dividers.
+            </p>
+            <div style="max-width: 480px; padding: var(--fnd-spacing-04); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);">
+              <p style="margin: 0;">Text oberhalb</p>
+              <hr class="nc-divider nc-divider--sm" />
+              <p style="margin: 0; font-size: var(--fs-xs); color: var(--fnd-color-text-secondary);">--sm (8px)</p>
+
+              <p style="margin: 0; margin-top: var(--fnd-spacing-04);">Text oberhalb</p>
+              <hr class="nc-divider" />
+              <p style="margin: 0; font-size: var(--fs-xs); color: var(--fnd-color-text-secondary);">Default (16px)</p>
+
+              <p style="margin: 0; margin-top: var(--fnd-spacing-04);">Text oberhalb</p>
+              <hr class="nc-divider nc-divider--lg" />
+              <p style="margin: 0; font-size: var(--fs-xs); color: var(--fnd-color-text-secondary);">--lg (24px)</p>
+
+              <p style="margin: 0; margin-top: var(--fnd-spacing-04);">Text oberhalb</p>
+              <hr class="nc-divider nc-divider--none" />
+              <p style="margin: 0; font-size: var(--fs-xs); color: var(--fnd-color-text-secondary);">--none (0px)</p>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-divider-color</code></td><td>var(--fnd-color-border-secondary)</td><td>Linienfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-width</code></td><td>1px</td><td>Linienbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-style</code></td><td>solid</td><td>Linienstil</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-spacing</code></td><td>16px</td><td>Margin ober-/unterhalb</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-strong-color</code></td><td>var(--fnd-color-border-strong)</td><td>Farbe der Strong-Variante</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-strong-width</code></td><td>2px</td><td>Breite der Strong-Variante</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>Label-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-label-size</code></td><td>var(--fs-xs)</td><td>Label-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-label-weight</code></td><td>medium (500)</td><td>Label-Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-label-gap</code></td><td>12px</td><td>Abstand Label zu Linien</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-divider                    // Block (Default: horizontal, solid, 1px)
+
+// Varianten
+.nc-divider--vertical          // Vertikale Trennlinie
+.nc-divider--strong            // Dickere Linie (2px)
+.nc-divider--dashed            // Gestrichelt
+.nc-divider--dotted            // Gepunktet
+
+// Spacing
+.nc-divider--sm                // 8px Margin
+.nc-divider--lg                // 24px Margin
+.nc-divider--none              // 0px Margin
+
+// Label
+.nc-divider-label              // Container mit zentriertem Text
+.nc-divider-label > span       // Label-Text</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-divider</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-divider</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">05-atoms/_divider.scss</code></td></tr>
+                <tr><td><strong>Token-Prefix</strong></td><td><code class="docs__token">--nc-divider-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;hr&gt;</code> (horizontal) oder <code class="docs__token">&lt;div&gt;</code> (Label)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-html">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;hr class="nc-divider" /&gt;
+&lt;hr class="nc-divider nc-divider--strong" /&gt;
+&lt;hr class="nc-divider nc-divider--dashed" /&gt;
+&lt;hr class="nc-divider nc-divider--dotted" /&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Vertikal</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div style="display: flex; align-items: center;"&gt;
+  &lt;span&gt;Links&lt;/span&gt;
+  &lt;hr class="nc-divider nc-divider--vertical" aria-orientation="vertical" /&gt;
+  &lt;span&gt;Rechts&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Label</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-divider-label" role="separator"&gt;
+  &lt;span&gt;oder&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </section>
+
+          <section class="docs__section" id="api-a11y">
+            <h2 class="docs__section-title">Accessibility</h2>
+            <table class="docs__table">
+              <thead><tr><th>Regel</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>R1</strong></td><td>Natives <code class="docs__token">&lt;hr&gt;</code> f&uuml;r thematische Trennung (implizites <code class="docs__token">role="separator"</code>)</td></tr>
+                <tr><td><strong>R2</strong></td><td>Vertikale Trenner: <code class="docs__token">aria-orientation="vertical"</code></td></tr>
+                <tr><td><strong>R3</strong></td><td>Label-Variante: <code class="docs__token">role="separator"</code> beibehalten</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Status-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <h1 class="docs__title">Status</h1>
+      <p class="docs__subtitle">
+        Status-Indikator-Punkt f&uuml;r Online/Offline-Zust&auml;nde, komponierbar mit Avataren und Listen.
+        Kanonische Klasse: <code class="docs__token">.nc-status</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-status-*</code> Component-Tokens.
+      </p>
+
+      <div class="docs-tabs" id="status-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Status-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- All Variants in All Sizes -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten &times; Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              5 Farb-Varianten (Online, Offline, Busy, Away, Neutral) in 3 Gr&ouml;&szlig;en (XS 6px, SM 8px, MD 12px).
+            </p>
+            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+              <thead>
+                <tr>
+                  <th>Variante</th>
+                  <th style="text-align: center;">XS (6px)</th>
+                  <th style="text-align: center;">SM (8px)</th>
+                  <th style="text-align: center;">MD (12px)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Online</strong></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--online nc-status--xs" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--online" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--online nc-status--md" aria-hidden="true"></span></td>
+                </tr>
+                <tr>
+                  <td><strong>Offline</strong></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--offline nc-status--xs" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--offline" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--offline nc-status--md" aria-hidden="true"></span></td>
+                </tr>
+                <tr>
+                  <td><strong>Busy</strong></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--busy nc-status--xs" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--busy" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--busy nc-status--md" aria-hidden="true"></span></td>
+                </tr>
+                <tr>
+                  <td><strong>Away</strong></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--away nc-status--xs" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--away" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--away nc-status--md" aria-hidden="true"></span></td>
+                </tr>
+                <tr>
+                  <td><strong>Neutral</strong></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--neutral nc-status--xs" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--neutral" aria-hidden="true"></span></td>
+                  <td style="text-align: center;"><span class="nc-status nc-status--neutral nc-status--md" aria-hidden="true"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Ring Variant -->
+          <section class="docs__section" id="ring">
+            <h2 class="docs__section-title">Ring-Variante</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-status--ring</code> f&uuml;gt einen wei&szlig;en Ring hinzu &mdash; ideal f&uuml;r die Einbettung auf farbigen Fl&auml;chen (z.B. Avatare).
+            </p>
+            <div style="display: flex; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg"><span class="nc-avatar__fallback">FM</span></div>
+                <span class="nc-status nc-status--online nc-status--md nc-status--ring" aria-hidden="true" style="position: absolute; bottom: 0; right: 0;"></span>
+              </div>
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg"><span class="nc-avatar__fallback">AK</span></div>
+                <span class="nc-status nc-status--busy nc-status--md nc-status--ring" aria-hidden="true" style="position: absolute; bottom: 0; right: 0;"></span>
+              </div>
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg"><span class="nc-avatar__fallback">JD</span></div>
+                <span class="nc-status nc-status--away nc-status--md nc-status--ring" aria-hidden="true" style="position: absolute; bottom: 0; right: 0;"></span>
+              </div>
+              <div style="position: relative; display: inline-flex;">
+                <div class="nc-avatar nc-avatar--lg"><span class="nc-avatar__fallback">MN</span></div>
+                <span class="nc-status nc-status--offline nc-status--md nc-status--ring" aria-hidden="true" style="position: absolute; bottom: 0; right: 0;"></span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Pulse Variant -->
+          <section class="docs__section" id="pulse">
+            <h2 class="docs__section-title">Pulse-Variante</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-status--pulse</code> f&uuml;gt eine pulsierende Animation hinzu f&uuml;r Live-Status (&quot;gerade aktiv&quot;).
+            </p>
+            <div style="display: flex; gap: var(--fnd-spacing-06); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <span class="nc-status nc-status--online nc-status--md nc-status--pulse" aria-hidden="true"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 12px;">Online</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-status nc-status--busy nc-status--md nc-status--pulse" aria-hidden="true"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 12px;">Busy</div>
+              </div>
+              <div style="text-align: center;">
+                <span class="nc-status nc-status--away nc-status--md nc-status--pulse" aria-hidden="true"></span>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-top: 12px;">Away</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Status Label -->
+          <section class="docs__section" id="with-label">
+            <h2 class="docs__section-title">Status mit Label</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-status-label</code> zeigt den Status-Punkt neben einem beschreibenden Text.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-status-label">
+                <span class="nc-status nc-status--online" aria-hidden="true"></span>
+                <span class="nc-status-label__text">Online</span>
+              </div>
+              <div class="nc-status-label">
+                <span class="nc-status nc-status--busy" aria-hidden="true"></span>
+                <span class="nc-status-label__text">Besch&auml;ftigt</span>
+              </div>
+              <div class="nc-status-label">
+                <span class="nc-status nc-status--away" aria-hidden="true"></span>
+                <span class="nc-status-label__text">Abwesend</span>
+              </div>
+              <div class="nc-status-label">
+                <span class="nc-status nc-status--offline" aria-hidden="true"></span>
+                <span class="nc-status-label__text">Offline</span>
+              </div>
+              <div class="nc-status-label">
+                <span class="nc-status nc-status--neutral" aria-hidden="true"></span>
+                <span class="nc-status-label__text">Unbekannt</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-status-size-xs</code></td><td>6px</td><td>Gr&ouml;&szlig;e XS</td></tr>
+                <tr><td><code class="docs__token">--nc-status-size-sm</code></td><td>8px</td><td>Gr&ouml;&szlig;e SM (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-status-size-md</code></td><td>12px</td><td>Gr&ouml;&szlig;e MD</td></tr>
+                <tr><td><code class="docs__token">--nc-status-ring-width</code></td><td>2px</td><td>Ring-Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-status-ring-color</code></td><td>var(--fnd-color-background-base)</td><td>Ring-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-status-online</code></td><td>var(--fnd-color-feedback-success)</td><td>Farbe: Online</td></tr>
+                <tr><td><code class="docs__token">--nc-status-offline</code></td><td>var(--fnd-color-text-disabled)</td><td>Farbe: Offline</td></tr>
+                <tr><td><code class="docs__token">--nc-status-busy</code></td><td>var(--fnd-color-feedback-danger)</td><td>Farbe: Busy</td></tr>
+                <tr><td><code class="docs__token">--nc-status-away</code></td><td>var(--fnd-color-feedback-warning)</td><td>Farbe: Away</td></tr>
+                <tr><td><code class="docs__token">--nc-status-neutral</code></td><td>var(--fnd-color-text-tertiary)</td><td>Farbe: Neutral</td></tr>
+                <tr><td><code class="docs__token">--nc-status-pulse-duration</code></td><td>1s</td><td>Pulse-Animations-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-status                     // Block (Default: sm, neutral)
+
+// Gr&ouml;&szlig;en
+.nc-status--xs                 // 6px
+.nc-status--md                 // 12px
+
+// Farb-Varianten
+.nc-status--online             // Gr&uuml;n
+.nc-status--offline            // Grau
+.nc-status--busy               // Rot
+.nc-status--away               // Gelb
+.nc-status--neutral            // Dunkelgrau
+
+// Modi
+.nc-status--ring               // Wei&szlig;er Ring
+.nc-status--pulse              // Pulsierende Animation
+
+// Label
+.nc-status-label               // Container mit Text
+.nc-status-label__text         // Beschreibender Text</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-status</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-status</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">05-atoms/_status.scss</code></td></tr>
+                <tr><td><strong>Token-Prefix</strong></td><td><code class="docs__token">--nc-status-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;span&gt;</code> (dekorativ)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-html">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Einfacher Status-Punkt</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;span class="nc-status nc-status--online" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;span class="u-sr-only"&gt;Online&lt;/span&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Ring (auf Avatar)</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div style="position: relative; display: inline-flex;"&gt;
+  &lt;div class="nc-avatar nc-avatar--lg"&gt;
+    &lt;span class="nc-avatar__fallback"&gt;FM&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span class="nc-status nc-status--online nc-status--md nc-status--ring"
+        aria-hidden="true"
+        style="position: absolute; bottom: 0; right: 0;"&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Status mit Label</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-status-label"&gt;
+  &lt;span class="nc-status nc-status--online" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span class="nc-status-label__text"&gt;Online&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </section>
+
+          <section class="docs__section" id="api-a11y">
+            <h2 class="docs__section-title">Accessibility</h2>
+            <table class="docs__table">
+              <thead><tr><th>Regel</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>R1</strong></td><td><code class="docs__token">aria-hidden="true"</code> (rein dekorativ)</td></tr>
+                <tr><td><strong>R2</strong></td><td>Begleitend <code class="docs__token">.u-sr-only</code> mit Statustext</td></tr>
+                <tr><td><strong>R3</strong></td><td>Farbe nie alleiniges Signal &mdash; immer mit Text kombinieren</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

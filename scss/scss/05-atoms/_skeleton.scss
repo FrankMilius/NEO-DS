@@ -1,0 +1,130 @@
+// ==========================================================================
+// 05-Atoms: Skeleton
+// ==========================================================================
+// Lade-Platzhalter mit Shimmer-Animation.
+// Ersetzt Inhalt waehrend asynchroner Daten geladen werden.
+//
+// SEMANTIK:
+//   R1: Skeleton ist dekorativ — aria-hidden="true" auf dem Container
+//   R2: Begleitend ein .u-sr-only mit "Inhalt wird geladen…"
+//   R3: prefers-reduced-motion deaktiviert Shimmer-Animation
+//
+// VARIANTEN:
+//   text    — Rechteck, volle Breite, Textzeilen-Hoehe (default)
+//   heading — Rechteck, 60% Breite, groessere Hoehe
+//   circle  — Kreis (Avatar-Platzhalter)
+//   rect    — Flaechenblock (Bild/Card-Platzhalter)
+//
+// GROESSEN (4 Stufen):
+//   xs → 12px, sm → 16px, md → 24px, lg → 48px
+//
+// KLASSEN:
+//   .nc-skeleton (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Shimmer Keyframe
+// ---------------------------------------------------------------------------
+
+@keyframes nc-skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin skeleton-base {
+  display: block;
+  background-color: var(--nc-skeleton-bg);
+  background-image: linear-gradient(
+    90deg,
+    var(--nc-skeleton-bg) 25%,
+    var(--nc-skeleton-shimmer) 50%,
+    var(--nc-skeleton-bg) 75%
+  );
+  background-size: 200% 100%;
+  animation: nc-skeleton-shimmer var(--nc-skeleton-duration) var(--nc-skeleton-ease) infinite;
+  border-radius: var(--nc-skeleton-radius);
+
+  // Kein Text, kein Inhalt sichtbar
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+
+  // Barrierefreiheit: Reduzierte Bewegung
+  @include reduced-motion {
+    animation: none;
+    background-image: none;
+  }
+}
+
+@mixin skeleton-size($size: 'sm') {
+  @if $size == 'xs' {
+    height: var(--nc-skeleton-height-xs);
+  } @else if $size == 'sm' {
+    height: var(--nc-skeleton-height-sm);
+  } @else if $size == 'md' {
+    height: var(--nc-skeleton-height-md);
+  } @else if $size == 'lg' {
+    height: var(--nc-skeleton-height-lg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-skeleton {
+  @include skeleton-base;
+  @include skeleton-size('sm');
+
+  width: 100%;
+
+  // Groessen
+  &--xs { @include skeleton-size('xs'); }
+  &--md { @include skeleton-size('md'); }
+  &--lg { @include skeleton-size('lg'); }
+
+  // Variante: Heading (breiter, groesser)
+  &--heading {
+    @include skeleton-size('md');
+    width: 60%;
+  }
+
+  // Variante: Circle (Avatar-Platzhalter)
+  &--circle {
+    width: var(--nc-skeleton-height-lg);
+    height: var(--nc-skeleton-height-lg);
+    border-radius: var(--nc-skeleton-radius-circle);
+  }
+
+  // Variante: Rect (Flaeche, z.B. Bild/Card)
+  &--rect {
+    width: 100%;
+    min-height: 8rem;
+    border-radius: var(--nc-skeleton-radius);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Skeleton Group (gestapelte Zeilen)
+// ---------------------------------------------------------------------------
+
+.nc-skeleton-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+
+  // Letzte Zeile kuerzer fuer natuerliches Aussehen
+  > .nc-skeleton:last-child:not(.nc-skeleton--circle):not(.nc-skeleton--rect) {
+    width: 80%;
+  }
+}

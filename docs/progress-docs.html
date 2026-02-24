@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Progress | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Progress-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <h1 class="docs__title">Progress</h1>
+      <p class="docs__subtitle">
+        Fortschrittsbalken f&uuml;r determinierte und indeterminierte Ladezust&auml;nde.
+        Kanonische Klasse: <code class="docs__token">.nc-progress</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-progress-*</code> Component-Tokens.
+      </p>
+
+      <div class="docs-tabs" id="progress-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Progress-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Determinate Values -->
+          <section class="docs__section" id="determinate">
+            <h2 class="docs__section-title">Determiniert</h2>
+            <p class="docs__section-desc">
+              Fortschrittsbalken bei 0%, 25%, 50%, 75% und 100%. Die Breite des Fill-Elements wird &uuml;ber Inline-Styles gesteuert.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">0%</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 0%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">25%</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 25%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">50%</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 50%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">75%</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 75%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">100%</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- All Sizes -->
+          <section class="docs__section" id="sizes">
+            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
+            <p class="docs__section-desc">
+              4 Gr&ouml;&szlig;en: XS (2px), SM (4px, Default), MD (8px), LG (12px).
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">XS &mdash; 2px</div>
+                <div class="nc-progress nc-progress--xs" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">SM &mdash; 4px (Default)</div>
+                <div class="nc-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">MD &mdash; 8px</div>
+                <div class="nc-progress nc-progress--md" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 60%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">LG &mdash; 12px</div>
+                <div class="nc-progress nc-progress--lg" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 60%;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Feedback Variants -->
+          <section class="docs__section" id="feedback">
+            <h2 class="docs__section-title">Feedback-Varianten</h2>
+            <p class="docs__section-desc">
+              Farb-Varianten f&uuml;r kontextbezogenen Fortschritt: Success, Warning, Danger, Info.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Default</div>
+                <div class="nc-progress nc-progress--md" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 70%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Success</div>
+                <div class="nc-progress nc-progress--md nc-progress--success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Warning</div>
+                <div class="nc-progress nc-progress--md nc-progress--warning" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 65%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Danger</div>
+                <div class="nc-progress nc-progress--md nc-progress--danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 25%;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-size: var(--fs-xs); color: var(--fnd-color-text-secondary); margin-bottom: 4px;">Info</div>
+                <div class="nc-progress nc-progress--md nc-progress--info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                  <div class="nc-progress__fill" style="width: 50%;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Indeterminate -->
+          <section class="docs__section" id="indeterminate">
+            <h2 class="docs__section-title">Indeterminiert</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-progress--indeterminate</code> zeigt eine endlose Slide-Animation f&uuml;r unbekannten Fortschritt.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-progress nc-progress--indeterminate" role="progressbar" aria-label="Wird geladen">
+                <div class="nc-progress__fill"></div>
+              </div>
+              <div class="nc-progress nc-progress--md nc-progress--indeterminate" role="progressbar" aria-label="Wird geladen">
+                <div class="nc-progress__fill"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Labeled Progress -->
+          <section class="docs__section" id="labeled">
+            <h2 class="docs__section-title">Progress mit Label</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-progress-labeled</code> zeigt Label und Prozentwert &uuml;ber dem Balken.
+            </p>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-progress-labeled">
+                <div class="nc-progress-labeled__header">
+                  <span class="nc-progress-labeled__label">Upload</span>
+                  <span class="nc-progress-labeled__value">73%</span>
+                </div>
+                <div class="nc-progress nc-progress--md" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="Upload-Fortschritt">
+                  <div class="nc-progress__fill" style="width: 73%;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="max-width: 480px; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-progress-labeled">
+                <div class="nc-progress-labeled__header">
+                  <span class="nc-progress-labeled__label">Speicherplatz</span>
+                  <span class="nc-progress-labeled__value">92%</span>
+                </div>
+                <div class="nc-progress nc-progress--md nc-progress--danger" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100" aria-label="Speicherplatz">
+                  <div class="nc-progress__fill" style="width: 92%;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-progress-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Hintergrund (Track)</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-fill</code></td><td>var(--fnd-color-interactive-default)</td><td>F&uuml;llfarbe (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-radius</code></td><td>9999px (Pill)</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-transition</code></td><td>300ms</td><td>Transitions-Dauer</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-ease</code></td><td>ease-out</td><td>Transitions-Easing</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-height-xs</code></td><td>2px</td><td>H&ouml;he XS</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-height-sm</code></td><td>4px</td><td>H&ouml;he SM (Default)</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-height-md</code></td><td>8px</td><td>H&ouml;he MD</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-height-lg</code></td><td>12px</td><td>H&ouml;he LG</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-fill-success</code></td><td>var(--fnd-color-feedback-success)</td><td>F&uuml;llfarbe Success</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-fill-warning</code></td><td>var(--fnd-color-feedback-warning)</td><td>F&uuml;llfarbe Warning</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-fill-danger</code></td><td>var(--fnd-color-feedback-danger)</td><td>F&uuml;llfarbe Danger</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-fill-info</code></td><td>var(--fnd-color-feedback-info)</td><td>F&uuml;llfarbe Info</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-label-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Label-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-label-size</code></td><td>var(--fs-xs)</td><td>Label-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-label-weight</code></td><td>medium (500)</td><td>Label-Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-progress-label-gap</code></td><td>8px</td><td>Abstand Label zum Balken</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-progress                   // Block (Default: sm, interactive-Farbe)
+.nc-progress__fill             // Fill-Element (innerer Balken)
+
+// Gr&ouml;&szlig;en
+.nc-progress--xs               // 2px
+.nc-progress--md               // 8px
+.nc-progress--lg               // 12px
+
+// Feedback-Varianten
+.nc-progress--success          // Gr&uuml;n
+.nc-progress--warning          // Gelb
+.nc-progress--danger           // Rot
+.nc-progress--info             // Blau
+
+// Modi
+.nc-progress--indeterminate    // Endlose Slide-Animation
+
+// Labeled Wrapper
+.nc-progress-labeled           // Container mit Label
+.nc-progress-labeled__header   // Flex-Row: Label + Wert
+.nc-progress-labeled__label    // Beschriftung
+.nc-progress-labeled__value    // Prozentwert</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-progress</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-progress</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">05-atoms/_progress.scss</code></td></tr>
+                <tr><td><strong>Token-Prefix</strong></td><td><code class="docs__token">--nc-progress-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> mit <code class="docs__token">role="progressbar"</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-html">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Determiniert</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-progress" role="progressbar"
+     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+     aria-label="Fortschritt"&gt;
+  &lt;div class="nc-progress__fill" style="width: 50%;"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Indeterminiert</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-progress nc-progress--indeterminate"
+     role="progressbar" aria-label="Wird geladen"&gt;
+  &lt;div class="nc-progress__fill"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Label</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-progress-labeled"&gt;
+  &lt;div class="nc-progress-labeled__header"&gt;
+    &lt;span class="nc-progress-labeled__label"&gt;Upload&lt;/span&gt;
+    &lt;span class="nc-progress-labeled__value"&gt;73%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-progress nc-progress--md"
+       role="progressbar" aria-valuenow="73"
+       aria-valuemin="0" aria-valuemax="100"
+       aria-label="Upload-Fortschritt"&gt;
+    &lt;div class="nc-progress__fill" style="width: 73%;"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </section>
+
+          <section class="docs__section" id="api-a11y">
+            <h2 class="docs__section-title">Accessibility</h2>
+            <table class="docs__table">
+              <thead><tr><th>Regel</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>R1</strong></td><td>Natives <code class="docs__token">&lt;progress&gt;</code> oder <code class="docs__token">role="progressbar"</code></td></tr>
+                <tr><td><strong>R2</strong></td><td><code class="docs__token">aria-valuenow</code>, <code class="docs__token">aria-valuemin="0"</code>, <code class="docs__token">aria-valuemax="100"</code></td></tr>
+                <tr><td><strong>R3</strong></td><td><code class="docs__token">aria-label</code> oder sichtbares Label</td></tr>
+                <tr><td><strong>R4</strong></td><td>Indeterminiert: kein <code class="docs__token">aria-valuenow</code> (= unbekannter Fortschritt)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

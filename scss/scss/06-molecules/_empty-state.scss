@@ -1,0 +1,109 @@
+// ==========================================================================
+// 06-Molecules: Empty State
+// ==========================================================================
+// Platzhalter-Pattern fuer leere Listen, Suchergebnisse ohne Treffer,
+// Erstnutzung (Onboarding), oder Fehlerzustaende.
+//
+// SEMANTIK:
+//   R1: Informativ, nicht interaktiv — <section> oder <div>
+//   R2: Heading hierarchisch korrekt (h2/h3 je nach Kontext)
+//   R3: Icon aria-hidden="true" (dekorativ)
+//   R4: CTA-Button folgt normalen Button-Regeln
+//
+// STRUKTUR:
+//   div.nc-empty-state
+//     div.nc-empty-state__icon (optional)
+//     h3.nc-empty-state__title
+//     p.nc-empty-state__description
+//     div.nc-empty-state__actions (optional)
+//       button.nc-button
+//
+// KLASSEN:
+//   .nc-empty-state (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin empty-state-base {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--nc-empty-state-padding);
+  gap: var(--nc-empty-state-gap);
+  max-width: var(--nc-empty-state-max-width);
+  margin-inline: auto;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-empty-state {
+  @include empty-state-base;
+
+  // Icon (grosses dekoratives Icon)
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-empty-state-icon-size);
+    height: var(--nc-empty-state-icon-size);
+    color: var(--nc-empty-state-icon-color);
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Titel
+  &__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--nc-empty-state-title-size);
+    font-weight: var(--nc-empty-state-title-weight);
+    color: var(--nc-empty-state-title-color);
+    line-height: var(--lh-heading);
+  }
+
+  // Beschreibung
+  &__description {
+    margin: 0;
+    font-size: var(--nc-empty-state-desc-size);
+    color: var(--nc-empty-state-desc-color);
+    line-height: var(--lh-body);
+    max-width: var(--fnd-prose-max-width);
+  }
+
+  // Aktionen (Button-Gruppe)
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-empty-state-action-gap);
+    margin-top: var(--fnd-spacing-02);
+  }
+
+  // Variante: Compact (weniger Padding, kleinere Elemente)
+  &--compact {
+    padding: var(--fnd-spacing-06);
+    --nc-empty-state-icon-size: var(--fnd-size-lg);  // 48px statt 64px
+    --nc-empty-state-title-size: var(--fs-base);
+    --nc-empty-state-desc-size: var(--fs-xs);
+  }
+
+  // Variante: Full-Height (fuelltContainer)
+  &--full {
+    min-height: 100%;
+  }
+}

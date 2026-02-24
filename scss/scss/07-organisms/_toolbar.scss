@@ -1,0 +1,116 @@
+// ==========================================================================
+// 07-Organisms: Toolbar
+// ==========================================================================
+// Horizontale Action-Leiste ueber Tabellen, Editoren, Listen.
+// Gruppiert Buttons, Filter, Suche und andere Steuerelemente.
+//
+// SEMANTIK:
+//   R1: <div role="toolbar" aria-label="...">
+//   R2: Keyboard: Roving tabindex (Arrow Left/Right navigiert zwischen Items)
+//   R3: Items: focussierbare Elemente (Buttons, Inputs)
+//
+// STRUKTUR:
+//   div.nc-toolbar (role="toolbar")
+//     div.nc-toolbar__group
+//       button.nc-button (etc.)
+//     div.nc-toolbar__separator
+//     div.nc-toolbar__group
+//     div.nc-toolbar__spacer
+//     div.nc-toolbar__group (--end)
+//
+// KLASSEN:
+//   .nc-toolbar (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin toolbar-base {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-toolbar-gap);
+  min-height: var(--nc-toolbar-height);
+  padding: var(--nc-toolbar-padding);
+  background-color: var(--nc-toolbar-bg);
+  flex-wrap: wrap;
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-toolbar {
+  @include toolbar-base;
+
+  // -- Variante: Bordered (mit Rahmen, z.B. ueber Tabelle) --
+  &--bordered {
+    border: var(--nc-toolbar-border-width) solid var(--nc-toolbar-border);
+    border-radius: var(--nc-toolbar-radius);
+  }
+
+  // -- Variante: Border-Bottom (z.B. unter Header) --
+  &--border-bottom {
+    border-bottom: var(--nc-toolbar-border-width) solid var(--nc-toolbar-border);
+  }
+
+  // -- Gruppe (logische Zusammenfassung) --
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-toolbar-gap);
+    flex-shrink: 0;
+  }
+
+  // Gruppe rechts ausrichten
+  &__group--end {
+    margin-inline-start: auto;
+  }
+
+  // -- Spacer (flexibler Abstand) --
+
+  &__spacer {
+    flex: 1;
+  }
+
+  // -- Separator (vertikale Trennlinie) --
+
+  &__separator {
+    width: 0;
+    align-self: stretch;
+    border-left: var(--nc-toolbar-separator-width) solid var(--nc-toolbar-separator-color);
+    margin-block: var(--nc-toolbar-separator-margin);
+  }
+
+  // -- Label (optionaler Text) --
+
+  &__label {
+    color: var(--nc-toolbar-label-color);
+    font-size: var(--nc-toolbar-label-size);
+    font-weight: var(--nc-toolbar-label-weight);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  // -- Compact-Variante (kleinere Hoehe) --
+
+  &--compact {
+    --nc-toolbar-height: var(--fnd-size-sm);   // 32px
+    --nc-toolbar-gap: var(--fnd-spacing-01);   // 4px
+    padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+  }
+
+  // -- Responsive: Wrapping auf kleinen Screens --
+
+  @include respond-to-max('sm') {
+    flex-wrap: wrap;
+
+    .nc-toolbar__group--end {
+      margin-inline-start: 0;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,366 @@
+// ==========================================================================
+// 07-Organisms: Sidebar
+// ==========================================================================
+// Seitennavigation fuer Dashboard/Settings.
+// Collapsible, verschachtelte Items, aktive Zustaende, Icons.
+//
+// SEMANTIK:
+//   R1: <nav aria-label="Seitennavigation"> als Container
+//   R2: Items als <a> (Navigation) oder <button> (Toggle Sub-Menu)
+//   R3: Aktives Item: aria-current="page"
+//   R4: Aufklappbares Sub-Menu: aria-expanded="true|false" auf Trigger
+//   R5: Collapsed-State: aria-label auf dem Toggle-Button
+//
+// STRUKTUR:
+//   nav.nc-sidebar (aria-label)
+//     div.nc-sidebar__header (Logo/Titel)
+//     div.nc-sidebar__nav
+//       div.nc-sidebar__group
+//         span.nc-sidebar__group-label
+//         a.nc-sidebar__item (--active)
+//           span.nc-sidebar__item-icon
+//           span.nc-sidebar__item-label
+//           span.nc-sidebar__item-badge
+//         div.nc-sidebar__submenu
+//           a.nc-sidebar__item (nested)
+//     div.nc-sidebar__footer
+//
+// KLASSEN:
+//   .nc-sidebar (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin sidebar-base {
+  display: flex;
+  flex-direction: column;
+  width: var(--nc-sidebar-width);
+  height: 100%;
+  background-color: var(--nc-sidebar-bg);
+  border-right: var(--nc-sidebar-border-width) solid var(--nc-sidebar-border);
+  padding: var(--nc-sidebar-padding);
+  z-index: var(--nc-sidebar-z-index);
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+  @include transition-quick((width));
+  @include hide-scrollbar;
+}
+
+@mixin sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-sidebar-item-gap);
+  width: 100%;
+  min-height: var(--nc-sidebar-item-height);
+  padding: var(--nc-sidebar-item-padding);
+  border: none;
+  border-radius: var(--nc-sidebar-item-radius);
+  background: none;
+  color: var(--nc-sidebar-item-color);
+  font-size: var(--nc-sidebar-item-font-size);
+  font-weight: var(--nc-sidebar-item-font-weight);
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  @include transition-quick((background-color, color));
+
+  &:hover {
+    background-color: var(--nc-sidebar-item-bg-hover);
+    color: var(--nc-sidebar-item-color-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+@mixin sidebar-item-active {
+  background-color: var(--nc-sidebar-item-bg-active);
+  color: var(--nc-sidebar-item-color-active);
+
+  &:hover {
+    background-color: var(--nc-sidebar-item-bg-active);
+    color: var(--nc-sidebar-item-color-active);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-sidebar {
+  @include sidebar-base;
+
+  // -- Header (Logo, Titel, Collapse-Toggle) --
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+    margin-bottom: var(--fnd-spacing-02);
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+    text-decoration: none;
+    color: var(--fnd-color-text-primary);
+    font-weight: var(--fnd-font-weight-bold);
+    font-size: var(--fs-base);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: var(--fnd-radius-sm);
+    background: none;
+    color: var(--fnd-color-text-secondary);
+    cursor: pointer;
+    @include transition-quick((background-color, color));
+
+    &:hover { background-color: var(--nc-sidebar-item-bg-hover); }
+    &:focus-visible { @include focus-ring; }
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // -- Navigation --
+
+  &__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fnd-spacing-01);
+  }
+
+  // -- Group --
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nc-sidebar-group-gap);
+
+    & + & {
+      margin-top: var(--fnd-spacing-03);
+    }
+  }
+
+  &__group-label {
+    display: block;
+    padding: var(--nc-sidebar-group-label-padding);
+    font-size: var(--nc-sidebar-group-label-size);
+    font-weight: var(--nc-sidebar-group-label-weight);
+    color: var(--nc-sidebar-group-label-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  // -- Item --
+
+  &__item {
+    @include sidebar-item;
+  }
+
+  &__item--active,
+  &__item[aria-current='page'] {
+    @include sidebar-item-active;
+  }
+
+  // Item Icon
+  &__item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-sidebar-item-icon-size);
+    height: var(--nc-sidebar-item-icon-size);
+    flex-shrink: 0;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Item Label
+  &__item-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Item Badge (Zaehler)
+  &__item-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--nc-sidebar-badge-size);
+    height: var(--nc-sidebar-badge-size);
+    padding: 0 var(--fnd-spacing-01);
+    font-size: var(--nc-sidebar-badge-font-size);
+    font-weight: var(--fnd-font-weight-bold);
+    background-color: var(--nc-sidebar-badge-bg);
+    color: var(--nc-sidebar-badge-color);
+    border-radius: var(--nc-sidebar-badge-radius);
+    line-height: 1;
+  }
+
+  // Item Chevron (fuer aufklappbare Sub-Menus)
+  // Verwendet Tabler chevron-right Icon (24x24, stroke-width 1.5)
+  // Rotiert 90° wenn aria-expanded="true"
+  &__item-chevron {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--fnd-color-text-tertiary);
+    @include transition-quick((transform, color));
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__item:hover &__item-chevron {
+    color: var(--nc-sidebar-item-color-hover);
+  }
+
+  // Chevron gedreht wenn offen
+  &__item[aria-expanded='true'] &__item-chevron {
+    transform: rotate(90deg);
+  }
+
+  // -- Submenu (verschachtelt) --
+
+  &__submenu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nc-sidebar-group-gap);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Container fuer aufgeklappte Sub-Items
+  &__submenu-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nc-sidebar-group-gap);
+    padding-left: var(--nc-sidebar-nested-indent);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Sub-Item: linksseitig eingerueckt, kein Icon
+  &__item--sub {
+    font-size: var(--nc-sidebar-item-font-size);
+    min-height: calc(var(--nc-sidebar-item-height) - 4px);
+  }
+
+  // -- Footer --
+
+  &__footer {
+    margin-top: auto;
+    padding-top: var(--fnd-spacing-03);
+    border-top: var(--nc-sidebar-border-width) solid var(--nc-sidebar-border);
+  }
+
+  // -- Collapsed State --
+
+  &--collapsed {
+    width: var(--nc-sidebar-width-collapsed);
+
+    .nc-sidebar__item-label,
+    .nc-sidebar__item-badge,
+    .nc-sidebar__item-chevron,
+    .nc-sidebar__group-label,
+    .nc-sidebar__submenu {
+      display: none;
+    }
+
+    .nc-sidebar__item {
+      justify-content: center;
+      padding: var(--fnd-spacing-02);
+    }
+
+    .nc-sidebar__logo span {
+      display: none;
+    }
+  }
+
+  // -- Mobile Overlay (unter lg Breakpoint) --
+
+  @include respond-to-max('md') {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: var(--nc-sidebar-width);
+    transform: translateX(-100%);
+    @include transition-quick((transform));
+
+    &--open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar Backdrop (Mobile Overlay)
+// ---------------------------------------------------------------------------
+
+.nc-sidebar-backdrop {
+  display: none;
+
+  @include respond-to-max('md') {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
+    z-index: calc(var(--fnd-z-sidebar) - 1);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}

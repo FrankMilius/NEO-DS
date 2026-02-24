@@ -162,7 +162,7 @@
   min-height: var(--nc-icon-touch-target);
   padding: calc((var(--nc-icon-touch-target) - var(--nc-icon-size-sm)) / 2);
   border-radius: var(--fnd-radius-sm);
-  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  @include transition-quick((background-color, color));
 
   &:hover {
     background-color: var(--fnd-color-background-secondary);

@@ -350,7 +350,7 @@
       height: var(--nc-button-spinner-size);
       border: var(--nc-button-spinner-border-width) solid currentColor;
       border-top-color: transparent;
-      border-radius: 50%;
+      border-radius: var(--fnd-radius-full);
       animation: button-spin 1s linear infinite;
     }
   }
@@ -382,7 +382,7 @@
     top: var(--nc-ripple-y, 50%);
     width: var(--nc-ripple-size, 14px);
     height: var(--nc-ripple-size, 14px);
-    border-radius: 50%;
+    border-radius: var(--fnd-radius-full);
     pointer-events: none;
     background-color: color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
     transform: translate(-50%, -50%) scale(0);
@@ -396,7 +396,7 @@
 
   > * {
     position: relative;
-    z-index: 1;
+    z-index: var(--fnd-z-base);
   }
 }
 
@@ -417,7 +417,7 @@
     background: var(--nc-button-progress-bg);
     opacity: 0;
     transition: width 240ms linear, opacity 200ms ease;
-    z-index: 2;
+    z-index: var(--fnd-z-dropdown);
   }
 
   &[data-loading='true']::before,

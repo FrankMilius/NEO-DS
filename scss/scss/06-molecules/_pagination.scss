@@ -1,0 +1,163 @@
+// ==========================================================================
+// 06-Molecules: Pagination
+// ==========================================================================
+// Eigenstaendige Seitennavigation fuer Listen, Suchergebnisse, Tabellen.
+//
+// SEMANTIK:
+//   R1: <nav aria-label="Seitennavigation"> als Container
+//   R2: Seitenzahlen als <button> (nicht <a>, da clientseitig)
+//       oder <a> mit href fuer SSR/SEO
+//   R3: Aktive Seite: aria-current="page"
+//   R4: Prev/Next disabled: aria-disabled="true"
+//   R5: Screen-Reader-Text fuer Ellipsis: .u-sr-only "Weitere Seiten"
+//
+// STRUKTUR:
+//   nav.nc-pagination
+//     button.nc-pagination__prev
+//     ol.nc-pagination__list
+//       li > button.nc-pagination__item (--active)
+//       li > span.nc-pagination__ellipsis
+//     button.nc-pagination__next
+//
+// GROESSEN (2 Stufen):
+//   sm → 28px Items, md → 32px Items (default)
+//
+// KLASSEN:
+//   .nc-pagination (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin pagination-base {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-pagination-gap);
+  padding: var(--nc-pagination-padding);
+  font-size: var(--nc-pagination-font-size);
+  color: var(--nc-pagination-color);
+}
+
+/// Einzelner Seitenbutton (Zahl oder Prev/Next).
+@mixin pagination-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--nc-pagination-item-size);
+  height: var(--nc-pagination-item-size);
+  padding: 0 var(--fnd-spacing-02);
+  border: none;
+  border-radius: var(--nc-pagination-item-radius);
+  background-color: var(--nc-pagination-item-bg);
+  color: var(--nc-pagination-item-color);
+  font-size: inherit;
+  font-weight: var(--nc-pagination-item-font-weight);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  @include transition-quick((background-color, color));
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-pagination-item-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Disabled (Prev/Next am Rand)
+  &:disabled,
+  &[aria-disabled='true'] {
+    color: var(--nc-pagination-nav-color-disabled);
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+@mixin pagination-item-active {
+  background-color: var(--nc-pagination-item-bg-active);
+  color: var(--nc-pagination-item-color-active);
+
+  &:hover {
+    background-color: var(--nc-pagination-item-bg-active);
+  }
+}
+
+@mixin pagination-nav-button {
+  @include pagination-button;
+  color: var(--nc-pagination-nav-color);
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-pagination {
+  @include pagination-base;
+
+  // Seitenliste
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-pagination-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Einzelne Seitenzahl
+  &__item {
+    @include pagination-button;
+
+    &--active,
+    &[aria-current='page'] {
+      @include pagination-item-active;
+    }
+  }
+
+  // Ellipsis (…)
+  &__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--nc-pagination-item-size);
+    height: var(--nc-pagination-item-size);
+    color: var(--nc-pagination-ellipsis-color);
+    font-weight: var(--fnd-font-weight-bold);
+    user-select: none;
+  }
+
+  // Prev/Next
+  &__prev,
+  &__next {
+    @include pagination-nav-button;
+  }
+
+  // Groesse: sm
+  &--sm {
+    --nc-pagination-item-size: 28px;
+    font-size: var(--fs-xs);
+  }
+
+  // Alignment-Varianten
+  &--center { justify-content: center; }
+  &--end    { justify-content: flex-end; }
+  &--between {
+    justify-content: space-between;
+    width: 100%;
+  }
+}

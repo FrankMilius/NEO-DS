@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sidebar | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Sidebar-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <!-- Page Header -->
+      <h1 class="docs__title">Sidebar</h1>
+      <p class="docs__subtitle">
+        Vertikale Navigationsleiste mit Gruppen, Items, Icons, Badges und optionalem Submen&uuml;.
+        Die Sidebar dient als Hauptnavigation in Applikationen und Dashboards.
+        Kanonische Klasse: <code class="docs__token">.nc-sidebar</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-sidebar-*</code> Component-Tokens.
+      </p>
+
+      <!-- Tab Navigation -->
+      <div class="docs-tabs" id="sidebar-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Sidebar-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Full Sidebar Demo -->
+          <section class="docs__section" id="default">
+            <h2 class="docs__section-title">Sidebar mit Gruppen, Items und Badges</h2>
+            <p class="docs__section-desc">
+              Vollst&auml;ndige Sidebar-Struktur in einem begrenzten Container (position: relative, 500px H&ouml;he).
+              Enth&auml;lt Gruppen-Labels, Items mit Icons, Badges, aktives Item und ein Submen&uuml;.
+            </p>
+            <div style="position: relative; height: 500px; overflow: hidden; border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);">
+              <nav class="nc-sidebar" aria-label="Applikations-Navigation" style="position: absolute; inset: 0; overflow-y: auto;">
+
+                <!-- Logo/Brand -->
+                <div class="nc-sidebar__header">
+                  <span class="nc-sidebar__brand" style="font-weight: var(--fnd-font-weight-bold); font-size: var(--fs-base); color: var(--fnd-color-text-primary);">MyApp</span>
+                </div>
+
+                <!-- Group: Allgemein -->
+                <div class="nc-sidebar__group">
+                  <span class="nc-sidebar__group-label">Allgemein</span>
+                  <a class="nc-sidebar__item nc-sidebar__item--active" href="#">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: home -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"/><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">Dashboard</span>
+                  </a>
+                  <a class="nc-sidebar__item" href="#">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: search -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">Suche</span>
+                  </a>
+                  <a class="nc-sidebar__item" href="#">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: bell -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">Benachrichtigungen</span>
+                    <span class="nc-sidebar__item-badge">3</span>
+                  </a>
+                </div>
+
+                <!-- Group: Verwaltung -->
+                <div class="nc-sidebar__group">
+                  <span class="nc-sidebar__group-label">Verwaltung</span>
+                  <a class="nc-sidebar__item" href="#">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: users -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">Benutzer</span>
+                    <span class="nc-sidebar__item-badge">12</span>
+                  </a>
+                  <button class="nc-sidebar__item nc-sidebar__item--has-submenu" aria-expanded="true" aria-controls="sidebar-demo-settings">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: settings -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.573 1.066c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.066 -2.573c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">Einstellungen</span>
+                    <span class="nc-sidebar__item-chevron" aria-hidden="true">
+                      <!-- Tabler: chevron-right (rotiert 90° bei aria-expanded="true") -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg>
+                    </span>
+                  </button>
+                  <div class="nc-sidebar__submenu-items" id="sidebar-demo-settings">
+                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                      <span class="nc-sidebar__item-label">Profil</span>
+                    </a>
+                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                      <span class="nc-sidebar__item-label">Sicherheit</span>
+                    </a>
+                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                      <span class="nc-sidebar__item-label">Integrationen</span>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Group: System -->
+                <div class="nc-sidebar__group">
+                  <span class="nc-sidebar__group-label">System</span>
+                  <a class="nc-sidebar__item" href="#">
+                    <span class="nc-sidebar__item-icon" aria-hidden="true">
+                      <!-- Tabler: info-circle -->
+                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 9h.01"/><path d="M11 12h1v4h1"/></svg>
+                    </span>
+                    <span class="nc-sidebar__item-label">&Uuml;ber</span>
+                  </a>
+                </div>
+
+              </nav>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+            <div class="docs-snippet">
+              <pre>&lt;nav class="nc-sidebar" aria-label="Navigation"&gt;
+  &lt;div class="nc-sidebar__header"&gt;
+    &lt;span class="nc-sidebar__brand"&gt;MyApp&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-sidebar__group"&gt;
+    &lt;span class="nc-sidebar__group-label"&gt;Gruppe&lt;/span&gt;
+    &lt;a class="nc-sidebar__item nc-sidebar__item--active" href="#"&gt;
+      &lt;span class="nc-sidebar__item-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="nc-sidebar__item-label"&gt;Dashboard&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class="nc-sidebar__item" href="#"&gt;
+      &lt;span class="nc-sidebar__item-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="nc-sidebar__item-label"&gt;Item&lt;/span&gt;
+      &lt;span class="nc-sidebar__item-badge"&gt;3&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-tokens">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <table class="docs__table docs__table--compact">
+              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+              <tbody>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-width</code></td><td>260px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-z-index</code></td><td>&mdash;</td><td>var(--fnd-z-sidebar)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Header</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-header-height</code></td><td>56px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-header-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-header-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Group</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-06)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-label-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-label-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-label-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-label-transform</code></td><td>uppercase</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-group-label-spacing</code></td><td>0.05em</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-height</code></td><td>&mdash;</td><td>var(--fnd-size-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-md)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-hover-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-active-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-active-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-item-active-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Badge</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-badge-size</code></td><td>20px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-badge-font-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-badge-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td><code class="docs__token">--nc-sidebar-badge-color</code></td><td>&mdash;</td><td>var(--fnd-color-on-accent)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">.nc-sidebar                     // Block (Container, nav)
+.nc-sidebar__header             // Header/Brand-Bereich
+.nc-sidebar__brand              // Brand/Logo-Text
+.nc-sidebar__group              // Navigations-Gruppe
+.nc-sidebar__group-label        // Gruppen-&Uuml;berschrift (uppercase)
+.nc-sidebar__item               // Navigations-Item (a/button)
+.nc-sidebar__item-icon          // Icon-Wrapper
+.nc-sidebar__item-label         // Item-Text
+.nc-sidebar__item-badge         // Badge/Z&auml;hler
+.nc-sidebar__item-chevron       // Submen&uuml;-Pfeil
+.nc-sidebar__submenu            // Submen&uuml;-Container
+.nc-sidebar__submenu-items      // Submen&uuml;-Items Container
+
+// Item-Modifier
+.nc-sidebar__item--active       // Aktives Item (hervorgehoben)
+.nc-sidebar__item--has-submenu  // Item mit Submen&uuml; (button statt a)
+.nc-sidebar__item--sub          // Submen&uuml;-Item (einger&uuml;ckt)</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-sidebar</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-sidebar</code></td></tr>
+                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-sidebar-*</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_sidebar.scss</code></td></tr>
+                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Ja (Navigation, Submen&uuml;s)</td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;nav&gt;</code></td></tr>
+                <tr><td><strong>ARIA</strong></td><td><code class="docs__token">aria-label</code> auf nav, <code class="docs__token">aria-expanded</code> auf Submen&uuml;-Buttons</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-classes">
+            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+            <table class="docs__table">
+              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">.nc-sidebar</code></td><td>Block</td><td>Sidebar-Container (nav-Element).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__header</code></td><td>Element</td><td>Header mit Brand/Logo.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__brand</code></td><td>Element</td><td>Brand-Text oder Logo.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__group</code></td><td>Element</td><td>Navigations-Gruppe.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__group-label</code></td><td>Element</td><td>Gruppen-Titel (uppercase).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item</code></td><td>Element</td><td>Navigations-Item.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item-icon</code></td><td>Element</td><td>Icon-Wrapper (SVG).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item-label</code></td><td>Element</td><td>Item-Text.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item-badge</code></td><td>Element</td><td>Numerischer Badge.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item-chevron</code></td><td>Element</td><td>Submen&uuml;-Pfeil.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__submenu</code></td><td>Element</td><td>Submen&uuml; Wrapper.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__submenu-items</code></td><td>Element</td><td>Submen&uuml;-Items Container.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item--active</code></td><td>Modifier</td><td>Aktives Item.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item--has-submenu</code></td><td>Modifier</td><td>Item mit Submen&uuml;.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__item--sub</code></td><td>Modifier</td><td>Submen&uuml;-Item.</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-slots">
+            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
+            <div class="docs__code-block">&lt;nav class="nc-sidebar" aria-label="Navigation"&gt;
+
+  &lt;!-- Slot 1: Header (optional) --&gt;
+  &lt;div class="nc-sidebar__header"&gt;
+    &lt;span class="nc-sidebar__brand"&gt;AppName&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Slot 2: Groups (wiederholbar) --&gt;
+  &lt;div class="nc-sidebar__group"&gt;
+    &lt;span class="nc-sidebar__group-label"&gt;Gruppe&lt;/span&gt;
+
+    &lt;!-- Standard Item --&gt;
+    &lt;a class="nc-sidebar__item [--active]" href="#"&gt;
+      &lt;span class="nc-sidebar__item-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="nc-sidebar__item-label"&gt;Label&lt;/span&gt;
+      &lt;span class="nc-sidebar__item-badge"&gt;5&lt;/span&gt;
+    &lt;/a&gt;
+
+    &lt;!-- Submen&uuml; --&gt;
+    &lt;div class="nc-sidebar__submenu"&gt;
+      &lt;button class="nc-sidebar__item nc-sidebar__item--has-submenu" aria-expanded="true"&gt;
+        &lt;span class="nc-sidebar__item-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+        &lt;span class="nc-sidebar__item-label"&gt;Einstellungen&lt;/span&gt;
+        &lt;span class="nc-sidebar__item-chevron"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;div class="nc-sidebar__submenu-items"&gt;
+        &lt;a class="nc-sidebar__item nc-sidebar__item--sub" href="#"&gt;
+          &lt;span class="nc-sidebar__item-label"&gt;Sub-Item&lt;/span&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+&lt;/nav&gt;</div>
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

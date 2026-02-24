@@ -1,0 +1,125 @@
+// ==========================================================================
+// 05-Atoms: Divider
+// ==========================================================================
+// Trennlinie (horizontal/vertikal) mit optionalem Label.
+//
+// SEMANTIK:
+//   R1: Natives <hr> fuer thematische Trennung
+//   R2: Dekorative Trenner: role="separator" (implizit bei <hr>)
+//   R3: Vertikale Trenner: role="separator" + aria-orientation="vertical"
+//   R4: Label-Variante: role="separator" beibehalten (Label ist dekorativ)
+//
+// VARIANTEN:
+//   horizontal — Standard (default)
+//   vertical   — Fuer Inline-Layouts / Toolbars
+//   with-label — Text in der Mitte (z.B. "oder", Abschnitts-Trenner)
+//   strong     — Dickere Linie fuer visuelle Betonung
+//
+// KLASSEN:
+//   .nc-divider (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin divider-base {
+  border: none;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+@mixin divider-horizontal {
+  width: 100%;
+  height: 0;
+  border-top: var(--nc-divider-width) var(--nc-divider-style) var(--nc-divider-color);
+  margin-block: var(--nc-divider-spacing);
+}
+
+@mixin divider-vertical {
+  width: 0;
+  align-self: stretch;
+  border-left: var(--nc-divider-width) var(--nc-divider-style) var(--nc-divider-color);
+  margin-inline: var(--nc-divider-spacing);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-divider {
+  @include divider-base;
+  @include divider-horizontal;
+
+  // Variante: Vertikal
+  &--vertical {
+    @include divider-vertical;
+  }
+
+  // Variante: Stark (dickere Linie)
+  &--strong {
+    border-top-color: var(--nc-divider-strong-color);
+    border-top-width: var(--nc-divider-strong-width);
+
+    &.nc-divider--vertical {
+      border-left-color: var(--nc-divider-strong-color);
+      border-left-width: var(--nc-divider-strong-width);
+    }
+  }
+
+  // Variante: Dashed
+  &--dashed {
+    border-top-style: dashed;
+
+    &.nc-divider--vertical {
+      border-left-style: dashed;
+    }
+  }
+
+  // Variante: Dotted
+  &--dotted {
+    border-top-style: dotted;
+
+    &.nc-divider--vertical {
+      border-left-style: dotted;
+    }
+  }
+
+  // Spacing-Varianten
+  &--sm { margin-block: var(--fnd-spacing-02); }
+  &--lg { margin-block: var(--fnd-spacing-06); }
+  &--none { margin-block: 0; }
+}
+
+// ---------------------------------------------------------------------------
+// Divider mit Label (z.B. "oder", "Abschnitt")
+// ---------------------------------------------------------------------------
+// HTML: <div class="nc-divider-label" role="separator"><span>oder</span></div>
+
+.nc-divider-label {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-divider-label-gap);
+  margin-block: var(--nc-divider-spacing);
+
+  // Linien links und rechts vom Label
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 0;
+    border-top: var(--nc-divider-width) var(--nc-divider-style) var(--nc-divider-color);
+  }
+
+  // Label-Text
+  > span {
+    flex-shrink: 0;
+    font-size: var(--nc-divider-label-size);
+    font-weight: var(--nc-divider-label-weight);
+    color: var(--nc-divider-label-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}

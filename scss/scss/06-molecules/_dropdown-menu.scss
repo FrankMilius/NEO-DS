@@ -1,0 +1,217 @@
+// ==========================================================================
+// 06-Molecules: Dropdown Menu
+// ==========================================================================
+// Generisches Action-/Kontextmenue. Oeffnet sich per Trigger-Button
+// und zeigt eine Liste von Aktionen.
+//
+// SEMANTIK:
+//   R1: Trigger: <button aria-haspopup="true" aria-expanded="true|false">
+//   R2: Menu: role="menu" auf dem Container
+//   R3: Items: role="menuitem" auf jedem Eintrag
+//   R4: Keyboard: Arrow Up/Down navigiert, Enter/Space aktiviert, Escape schliesst
+//   R5: Focus-Management: Erstes Item erhaelt Focus beim Oeffnen
+//
+// STRUKTUR:
+//   div.nc-dropdown
+//     button.nc-dropdown__trigger
+//     div.nc-dropdown__menu (role="menu")
+//       div.nc-dropdown__group
+//         span.nc-dropdown__group-label
+//         button.nc-dropdown__item (role="menuitem")
+//         hr.nc-dropdown__separator
+//
+// KLASSEN:
+//   .nc-dropdown (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin dropdown-menu-base {
+  position: absolute;
+  z-index: var(--nc-dropdown-z-index);
+  min-width: var(--nc-dropdown-min-width);
+  max-height: var(--nc-dropdown-max-height);
+  overflow-y: auto;
+  padding: var(--nc-dropdown-padding);
+  background-color: var(--nc-dropdown-bg);
+  border: var(--nc-dropdown-border-width) solid var(--nc-dropdown-border);
+  border-radius: var(--nc-dropdown-radius);
+  box-shadow: var(--nc-dropdown-shadow);
+
+  // Eingangsanimation
+  animation: fnd-dropdown-enter var(--nc-dropdown-animation-duration)
+             var(--fnd-motion-ease-ease-out) forwards;
+
+  @include reduced-motion {
+    animation: none;
+  }
+
+  // Scrollbar
+  @include hide-scrollbar;
+}
+
+@mixin dropdown-item-base {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-dropdown-item-gap);
+  width: 100%;
+  min-height: var(--nc-dropdown-item-height);
+  padding: var(--nc-dropdown-item-padding);
+  border: none;
+  border-radius: var(--nc-dropdown-item-radius);
+  background: none;
+  color: var(--nc-dropdown-item-color);
+  font-size: var(--nc-dropdown-item-font-size);
+  font-weight: var(--nc-dropdown-item-font-weight);
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  @include transition-quick((background-color, color));
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-dropdown-item-bg-hover);
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-dropdown-item-bg-active);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Disabled
+  &:disabled,
+  &[aria-disabled='true'] {
+    color: var(--nc-dropdown-item-color-disabled);
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-dropdown {
+  position: relative;
+  display: inline-flex;
+
+  // Trigger
+  &__trigger {
+    // Styling wird vom nutzenden Button geerbt (nc-button, nc-icon-button)
+  }
+
+  // Menu-Panel
+  &__menu {
+    @include dropdown-menu-base;
+
+    // Versteckt wenn nicht offen
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Positionierung
+  &__menu--bottom-start {
+    top: 100%;
+    left: 0;
+    margin-top: var(--fnd-spacing-01);
+  }
+
+  &__menu--bottom-end {
+    top: 100%;
+    right: 0;
+    margin-top: var(--fnd-spacing-01);
+  }
+
+  &__menu--top-start {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: var(--fnd-spacing-01);
+  }
+
+  &__menu--top-end {
+    bottom: 100%;
+    right: 0;
+    margin-bottom: var(--fnd-spacing-01);
+  }
+
+  // Menu Item
+  &__item {
+    @include dropdown-item-base;
+  }
+
+  // Danger Item (z.B. "Loeschen")
+  &__item--danger {
+    color: var(--nc-dropdown-item-danger-color);
+
+    &:hover:not(:disabled):not([aria-disabled='true']) {
+      background-color: var(--nc-dropdown-item-danger-bg-hover);
+    }
+  }
+
+  // Item Icon
+  &__item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-dropdown-item-icon-size);
+    height: var(--nc-dropdown-item-icon-size);
+    flex-shrink: 0;
+    color: var(--nc-dropdown-item-icon-color);
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // Danger-Item Icon erbt Danger-Farbe
+  &__item--danger &__item-icon {
+    color: var(--nc-dropdown-item-danger-color);
+  }
+
+  // Item Label (flex-1 fuer Shortcut-Anzeige)
+  &__item-label {
+    flex: 1;
+    min-width: 0;
+  }
+
+  // Shortcut-Anzeige (rechts im Item)
+  &__item-shortcut {
+    flex-shrink: 0;
+    font-size: var(--fs-xs);
+    color: var(--nc-dropdown-item-icon-color);
+    font-family: var(--font-mono);
+  }
+
+  // Separator
+  &__separator {
+    border: none;
+    height: 0;
+    border-top: var(--nc-dropdown-border-width) solid var(--nc-dropdown-separator-color);
+    margin: var(--nc-dropdown-separator-margin) 0;
+  }
+
+  // Group
+  &__group-label {
+    display: block;
+    padding: var(--nc-dropdown-group-label-padding);
+    font-size: var(--nc-dropdown-group-label-size);
+    font-weight: var(--nc-dropdown-group-label-weight);
+    color: var(--nc-dropdown-group-label-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+}

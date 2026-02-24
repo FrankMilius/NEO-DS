@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dropdown Menu | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Dropdown-Menu-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="neo-light-theme">
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+  <div class="docs-layout">
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+    <main class="docs">
+
+      <h1 class="docs__title">Dropdown Menu</h1>
+      <p class="docs__subtitle">
+        Generisches Action-/Kontextmen&uuml; mit Items, Icons, Separators und Gruppen.
+        Kanonische Klasse: <code class="docs__token">.nc-dropdown</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-dropdown-*</code> Component-Tokens.
+      </p>
+
+      <div class="docs-tabs" id="dropdown-tabs">
+        <div class="docs-tabs__list" role="tablist" aria-label="Dropdown-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+        </div>
+
+        <!-- TAB 1: Benutzung -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Basic Menu (static open) -->
+          <section class="docs__section" id="basic">
+            <h2 class="docs__section-title">Einfaches Men&uuml;</h2>
+            <p class="docs__section-desc">
+              Statisch ge&ouml;ffnetes Dropdown mit einfachen Text-Items.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block;">
+                <button class="nc-dropdown__item" role="menuitem">Bearbeiten</button>
+                <button class="nc-dropdown__item" role="menuitem">Duplizieren</button>
+                <button class="nc-dropdown__item" role="menuitem">Archivieren</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Items with Icons -->
+          <section class="docs__section" id="with-icons">
+            <h2 class="docs__section-title">Items mit Icons</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-dropdown__item-icon</code> f&uuml;r ein Leading-Icon in jedem Item.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block;">
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+                  <span class="nc-dropdown__item-label">Bearbeiten</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+                  <span class="nc-dropdown__item-label">Duplizieren</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg></span>
+                  <span class="nc-dropdown__item-label">Archivieren</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Danger Item -->
+          <section class="docs__section" id="danger">
+            <h2 class="docs__section-title">Danger Item</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-dropdown__item--danger</code> f&uuml;r destruktive Aktionen wie &quot;L&ouml;schen&quot;.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block;">
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+                  <span class="nc-dropdown__item-label">Bearbeiten</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+                  <span class="nc-dropdown__item-label">Duplizieren</span>
+                </button>
+                <hr class="nc-dropdown__separator" />
+                <button class="nc-dropdown__item nc-dropdown__item--danger" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+                  <span class="nc-dropdown__item-label">L&ouml;schen</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Separator & Group Labels -->
+          <section class="docs__section" id="groups">
+            <h2 class="docs__section-title">Gruppen &amp; Separatoren</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-dropdown__separator</code> und <code class="docs__token">.nc-dropdown__group-label</code> strukturieren das Men&uuml; in logische Abschnitte.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block; min-width: 220px;">
+                <span class="nc-dropdown__group-label">Navigation</span>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                  <span class="nc-dropdown__item-label">Startseite</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+                  <span class="nc-dropdown__item-label">Profil</span>
+                </button>
+                <hr class="nc-dropdown__separator" />
+                <span class="nc-dropdown__group-label">Einstellungen</span>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+                  <span class="nc-dropdown__item-label">Einstellungen</span>
+                </button>
+                <hr class="nc-dropdown__separator" />
+                <button class="nc-dropdown__item nc-dropdown__item--danger" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+                  <span class="nc-dropdown__item-label">Abmelden</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Keyboard Shortcuts -->
+          <section class="docs__section" id="shortcuts">
+            <h2 class="docs__section-title">Keyboard-Shortcuts in Items</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-dropdown__item-shortcut</code> zeigt Tastenkombinationen rechts im Item an.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block; min-width: 240px;">
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+                  <span class="nc-dropdown__item-label">Bearbeiten</span>
+                  <span class="nc-dropdown__item-shortcut">&#8984;E</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+                  <span class="nc-dropdown__item-label">Duplizieren</span>
+                  <span class="nc-dropdown__item-shortcut">&#8984;D</span>
+                </button>
+                <button class="nc-dropdown__item" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg></span>
+                  <span class="nc-dropdown__item-label">Archivieren</span>
+                  <span class="nc-dropdown__item-shortcut">&#8984;&#8679;A</span>
+                </button>
+                <hr class="nc-dropdown__separator" />
+                <button class="nc-dropdown__item nc-dropdown__item--danger" role="menuitem">
+                  <span class="nc-dropdown__item-icon"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+                  <span class="nc-dropdown__item-label">L&ouml;schen</span>
+                  <span class="nc-dropdown__item-shortcut">&#8984;&#9003;</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Disabled Items -->
+          <section class="docs__section" id="disabled">
+            <h2 class="docs__section-title">Disabled Items</h2>
+            <p class="docs__section-desc">
+              Items mit <code class="docs__token">disabled</code> oder <code class="docs__token">aria-disabled="true"</code>.
+            </p>
+            <div style="position: relative; display: inline-block; margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-dropdown__menu" role="menu" style="position: static; display: block;">
+                <button class="nc-dropdown__item" role="menuitem">Bearbeiten</button>
+                <button class="nc-dropdown__item" role="menuitem" disabled>Duplizieren</button>
+                <button class="nc-dropdown__item" role="menuitem">Archivieren</button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- TAB 2: Style -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section" id="style-container">
+            <h2 class="docs__section-title">Container-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dropdown-bg</code></td><td>var(--fnd-color-background-base)</td><td>Men&uuml;-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-border</code></td><td>var(--fnd-color-border-secondary)</td><td>Rahmenfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-radius</code></td><td>8px</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-shadow</code></td><td>var(--fnd-elevation-floating)</td><td>Box-Shadow</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-padding</code></td><td>4px</td><td>Innen-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-min-width</code></td><td>180px</td><td>Minimale Breite</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-max-height</code></td><td>320px</td><td>Maximale H&ouml;he (scrollbar)</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-z-index</code></td><td>var(--fnd-z-dropdown)</td><td>Z-Index</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-animation-duration</code></td><td>150ms</td><td>Eingangsanimations-Dauer</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-item">
+            <h2 class="docs__section-title">Item-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dropdown-item-height</code></td><td>32px</td><td>Item-Mindest-H&ouml;he</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-padding</code></td><td>8px 12px</td><td>Item-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-radius</code></td><td>4px</td><td>Item Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-color</code></td><td>var(--fnd-color-text-primary)</td><td>Item-Textfarbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>Item Hover-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-bg-active</code></td><td>var(--fnd-color-background-active)</td><td>Item Active-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-color-disabled</code></td><td>var(--fnd-color-text-disabled)</td><td>Disabled Item-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-icon-size</code></td><td>16px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-icon-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Icon-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-gap</code></td><td>8px</td><td>Abstand Icon &mdash; Label</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-font-size</code></td><td>var(--fs-sm)</td><td>Item-Schriftgr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-font-weight</code></td><td>regular (400)</td><td>Item-Schriftgewicht</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-danger">
+            <h2 class="docs__section-title">Danger-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dropdown-item-danger-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>Danger Item-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-danger-bg-hover</code></td><td>var(--fnd-color-background-danger)</td><td>Danger Hover-Hintergrund</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-group">
+            <h2 class="docs__section-title">Gruppen- &amp; Separator-Tokens</h2>
+            <table class="docs__table">
+              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>Gruppen-Label-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-size</code></td><td>var(--fs-xs)</td><td>Gruppen-Label-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-weight</code></td><td>semibold (600)</td><td>Gruppen-Label-Gewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-padding</code></td><td>8px 12px</td><td>Gruppen-Label-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-separator-color</code></td><td>var(--fnd-color-border-secondary)</td><td>Separator-Farbe</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-separator-margin</code></td><td>4px</td><td>Separator-Abstand</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="style-bem">
+            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
+            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
+
+.nc-dropdown                   // Block (Wrapper, position: relative)
+.nc-dropdown__trigger          // Trigger-Button
+.nc-dropdown__menu             // Men&uuml;-Panel (role="menu")
+.nc-dropdown__item             // Men&uuml;-Eintrag (role="menuitem")
+.nc-dropdown__item--danger     // Destruktive Aktion (rot)
+.nc-dropdown__item-icon        // Leading-Icon im Item
+.nc-dropdown__item-label       // Text im Item (flex: 1)
+.nc-dropdown__item-shortcut    // Keyboard-Shortcut (rechts)
+.nc-dropdown__separator        // Trennlinie zwischen Gruppen
+.nc-dropdown__group-label      // Gruppen-&Uuml;berschrift
+
+// Positionierung
+.nc-dropdown__menu--bottom-start  // Unterhalb links (Standard)
+.nc-dropdown__menu--bottom-end    // Unterhalb rechts
+.nc-dropdown__menu--top-start     // Oberhalb links
+.nc-dropdown__menu--top-end       // Oberhalb rechts</div>
+          </section>
+
+        </div>
+
+        <!-- TAB 3: API -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section" id="api-overview">
+            <h2 class="docs__section-title">Component Overview</h2>
+            <table class="docs__table">
+              <tbody>
+                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-dropdown</code></td></tr>
+                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-dropdown</code></td></tr>
+                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">06-molecules/_dropdown-menu.scss</code></td></tr>
+                <tr><td><strong>Token-Prefix</strong></td><td><code class="docs__token">--nc-dropdown-*</code></td></tr>
+                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> wrapper</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section" id="api-html">
+            <h2 class="docs__section-title">HTML-Struktur</h2>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Vollst&auml;ndiges Dropdown</h3>
+            <div class="docs-snippet">
+              <pre><code>&lt;div class="nc-dropdown"&gt;
+  &lt;button class="nc-dropdown__trigger nc-button"
+          aria-haspopup="true" aria-expanded="false"&gt;
+    Aktionen
+  &lt;/button&gt;
+  &lt;div class="nc-dropdown__menu nc-dropdown__menu--bottom-start"
+       role="menu" hidden&gt;
+    &lt;span class="nc-dropdown__group-label"&gt;Bearbeitung&lt;/span&gt;
+    &lt;button class="nc-dropdown__item" role="menuitem"&gt;
+      &lt;span class="nc-dropdown__item-icon"&gt;&lt;svg&gt;&hellip;&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="nc-dropdown__item-label"&gt;Bearbeiten&lt;/span&gt;
+      &lt;span class="nc-dropdown__item-shortcut"&gt;&#8984;E&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button class="nc-dropdown__item" role="menuitem"&gt;
+      &lt;span class="nc-dropdown__item-label"&gt;Duplizieren&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;hr class="nc-dropdown__separator" /&gt;
+    &lt;button class="nc-dropdown__item nc-dropdown__item--danger"
+            role="menuitem"&gt;
+      &lt;span class="nc-dropdown__item-icon"&gt;&lt;svg&gt;&hellip;&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="nc-dropdown__item-label"&gt;L&ouml;schen&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </section>
+
+          <section class="docs__section" id="api-a11y">
+            <h2 class="docs__section-title">Accessibility</h2>
+            <table class="docs__table">
+              <thead><tr><th>Regel</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>R1</strong></td><td>Trigger: <code class="docs__token">aria-haspopup="true"</code> + <code class="docs__token">aria-expanded</code></td></tr>
+                <tr><td><strong>R2</strong></td><td>Menu: <code class="docs__token">role="menu"</code></td></tr>
+                <tr><td><strong>R3</strong></td><td>Items: <code class="docs__token">role="menuitem"</code></td></tr>
+                <tr><td><strong>R4</strong></td><td>Keyboard: Arrow Up/Down navigiert, Enter/Space aktiviert, Escape schlie&szlig;t</td></tr>
+                <tr><td><strong>R5</strong></td><td>Focus-Management: Erstes Item erh&auml;lt Focus beim &Ouml;ffnen</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+</body>
+</html>

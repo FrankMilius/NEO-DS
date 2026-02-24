@@ -22,7 +22,7 @@
   .nav-wrapper {
     background-color: var(--fnd-color-background-base);
     width: 100%;
-    z-index: 2;
+    z-index: var(--fnd-z-dropdown);
     position: fixed;
     color: var(--fnd-color-text-high);
     opacity: 1;
@@ -43,8 +43,8 @@
     position: fixed;
     top: 24px;
     right: 0;
-    z-index: 2;
-    
+    z-index: var(--fnd-z-dropdown);
+
     @include desktop-up {
       margin-inline: var(--fnd-spacing-09);
     }
@@ -94,7 +94,7 @@
     // Nav Items
     > li {
       @include mobile-only {
-        font-size: 1.5rem;
+        font-size: var(--fs-xl);
         line-height: 2rem;
         letter-spacing: -0.5px;
         margin-bottom: var(--fnd-spacing-07);
@@ -138,8 +138,8 @@
         
         li {
           margin-bottom: var(--fnd-spacing-06);
-          z-index: 1;
-          
+          z-index: var(--fnd-z-base);
+
           @include mobile-only {
             &:last-child {
               margin: 0;
@@ -147,7 +147,7 @@
           }
           
           a {
-            font-size: 1.125rem;
+            font-size: var(--fs-base);
             line-height: 1.5rem;
             letter-spacing: 0;
             
@@ -170,7 +170,7 @@
         display: flex;
         
         @include mobile-only {
-          font-size: 1.5rem;
+          font-size: var(--fs-xl);
           line-height: 2rem;
           letter-spacing: -0.5px;
           width: 100%;
@@ -619,7 +619,7 @@
   .cloned-cta {
     position: fixed;
     top: var(--fnd-spacing-06);
-    z-index: 3;
+    z-index: var(--fnd-z-sticky);
     margin: 0;
     right: var(--fnd-spacing-09);
     

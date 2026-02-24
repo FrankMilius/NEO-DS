@@ -1,0 +1,122 @@
+// ==========================================================================
+// 05-Atoms: Status
+// ==========================================================================
+// Status-Indikator-Punkt. Standalone oder komponierbar mit anderen
+// Elementen (Avatar, Listeneintrag, etc.).
+//
+// SEMANTIK:
+//   R1: Rein dekorativ → aria-hidden="true" (Status wird per Text kommuniziert)
+//   R2: Begleitend .u-sr-only mit Statustext ("Online", "Abwesend")
+//   R3: Farbe nie alleiniges Signal — immer mit Text kombinieren
+//
+// VARIANTEN:
+//   online  — Gruen (Success)
+//   offline — Grau (Disabled)
+//   busy    — Rot (Danger)
+//   away    — Gelb (Warning)
+//   neutral — Dunkelgrau (Tertiary)
+//
+// GROESSEN:
+//   xs → 6px, sm → 8px (default), md → 12px
+//
+// MODI:
+//   pulse — Pulsierende Animation fuer Live-Status (z.B. "gerade aktiv")
+//   ring  — Weisser Ring (fuer Einbettung auf farbigen Flaechen)
+//
+// KLASSEN:
+//   .nc-status (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Pulse Keyframe
+// ---------------------------------------------------------------------------
+
+@keyframes nc-status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  70% {
+    box-shadow: 0 0 0 var(--nc-status-size-sm) transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin status-base {
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--_status-color, var(--nc-status-neutral));
+
+  @include status-size('sm');
+}
+
+@mixin status-size($size: 'sm') {
+  @if $size == 'xs' {
+    width: var(--nc-status-size-xs);
+    height: var(--nc-status-size-xs);
+  } @else if $size == 'sm' {
+    width: var(--nc-status-size-sm);
+    height: var(--nc-status-size-sm);
+  } @else if $size == 'md' {
+    width: var(--nc-status-size-md);
+    height: var(--nc-status-size-md);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-status {
+  @include status-base;
+
+  // -- Groessen --
+  &--xs { @include status-size('xs'); }
+  &--md { @include status-size('md'); }
+
+  // -- Farb-Varianten --
+  &--online  { --_status-color: var(--nc-status-online); }
+  &--offline { --_status-color: var(--nc-status-offline); }
+  &--busy    { --_status-color: var(--nc-status-busy); }
+  &--away    { --_status-color: var(--nc-status-away); }
+  &--neutral { --_status-color: var(--nc-status-neutral); }
+
+  // -- Ring (fuer Einbettung auf farbigem Hintergrund) --
+  &--ring {
+    box-shadow: 0 0 0 var(--nc-status-ring-width) var(--nc-status-ring-color);
+  }
+
+  // -- Pulse-Animation (Live-Status) --
+  &--pulse {
+    color: var(--_status-color, var(--nc-status-neutral));
+    animation: nc-status-pulse var(--nc-status-pulse-duration) var(--fnd-motion-ease-ease-out) infinite;
+
+    @include reduced-motion {
+      animation: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status mit Label (Text neben Punkt)
+// ---------------------------------------------------------------------------
+
+.nc-status-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+
+  &__text {
+    font-size: var(--fs-sm);
+    color: var(--fnd-color-text-secondary);
+    line-height: 1;
+  }
+}

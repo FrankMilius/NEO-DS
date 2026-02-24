@@ -4,6 +4,8 @@
 // Zusammengesetzte Navigation-Komponenten
 // ==========================================================================
 
+@use '../01-tools' as *;
+
 .nc-nav__link {
   display: inline-flex;
   align-items: center;
@@ -52,8 +54,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-size: var(--fs-base);
+  @include transition-quick((background-color, transform));
   flex: 0 0 auto;
 }
 
@@ -70,12 +72,12 @@
 }
 
 .nc-search__hint {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--fnd-color-text-mid);
 }
 
 .nc-search__section-title {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--fnd-color-text-mid);
@@ -93,7 +95,7 @@
   background: var(--fnd-color-background-base);
   border-radius: var(--fnd-radius-full);
   padding: 0.4rem 0.75rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
 }
 
@@ -104,7 +106,7 @@
   overflow: hidden;
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease;
+  @include transition-quick((opacity, transform, max-height));
 }
 
 .nc-search__results.is-open {
@@ -128,18 +130,18 @@
 }
 
 .nc-search__title {
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
 }
 
 .nc-search__snippet {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--fnd-color-text-mid);
 }
 
 .nc-search__empty {
   padding: 0.65rem 0.75rem;
   color: var(--fnd-color-text-mid);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .nc-submenu {
@@ -153,11 +155,11 @@
 .nc-submenu__link {
   display: grid;
   gap: 0.25rem;
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
 }
 
 .nc-submenu__desc {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--fnd-color-text-mid);
 }
 
@@ -207,7 +209,7 @@
   border-bottom: 1px solid var(--fnd-color-border-low);
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   cursor: pointer;
   text-align: left;
 }
@@ -223,7 +225,7 @@
 }
 
 .nc-mobile-submenu__link {
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   color: var(--fnd-color-text-mid);
 }
 
@@ -237,7 +239,7 @@
 }
 
 .nc-lang-toggle__label {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   color: var(--fnd-color-text-mid);
 }
 
@@ -246,9 +248,9 @@
   background: transparent;
   padding: 0.35rem 0.6rem;
   border-radius: var(--fnd-radius-full);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   cursor: pointer;
-  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  @include transition-quick((background-color, color, transform));
 }
 
 .nc-lang-toggle__button.is-active {

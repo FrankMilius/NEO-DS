@@ -324,8 +324,8 @@
   color: var(--fnd-color-text-high);
   cursor: pointer;
   flex-shrink: 0;
-  z-index: 1;
-  transition: background-color 0.15s ease;
+  z-index: var(--fnd-z-base);
+  @include transition-quick((background-color));
 
   &:hover {
     background: var(--fnd-color-background-tertiary);
