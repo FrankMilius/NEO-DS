@@ -11,26 +11,26 @@
 // Page Layout — 3-Spalten-Grid (Sidebar + Content + TOC)
 // ---------------------------------------------------------------------------
 // Mobile:  [Content]
-// Tablet:  [Sidebar 260px] [Content 1fr]
-// Desktop: [Sidebar 260px] [Content 1fr] [TOC 200px]
+// Tablet:  [Sidebar 200px] [Content 1fr]
+// Desktop: [Sidebar 200px] [Content 1fr] [TOC 200px]
 // ---------------------------------------------------------------------------
 
 .docs-layout {
-  --docs-header-height: 56px;
+  --docs-header-height: 48px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 
   @include respond-to('md') {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr;
     gap: 0;
     @include transition-quick((grid-template-columns));
   }
 
   @include respond-to('lg') {
-    grid-template-columns: 260px 1fr 200px;
+    grid-template-columns: 200px 1fr 200px;
   }
 
   // Sidebar collapsed
@@ -46,7 +46,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Header — Glasmorphismus, 56px
+// Header — Glasmorphismus, 48px
 // ---------------------------------------------------------------------------
 
 .docs-header {
@@ -297,7 +297,7 @@
   inset-block: 0;
   inset-inline-start: 0;
   z-index: var(--fnd-z-sidebar);
-  width: 280px;
+  width: 260px;
   max-width: 85vw;
   background-color: var(--fnd-color-background-base);
   border-inline-end: 1px solid var(--fnd-color-border-secondary);
@@ -316,7 +316,7 @@
     position: sticky;
     top: var(--docs-header-height, 56px);
     height: calc(100vh - var(--docs-header-height, 56px));
-    width: 260px;
+    width: 200px;
     max-width: none;
     transform: none;
     z-index: auto;
@@ -362,15 +362,15 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
   color: var(--fnd-color-text-high);
   font-weight: var(--fnd-font-weight-medium);
-  @include paragraph('s');
-  text-transform: none;
-  letter-spacing: normal;
+  @include paragraph('xs');
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   user-select: none;
 
@@ -407,11 +407,11 @@
 
 .docs-sidebar__link {
   display: block;
-  padding: var(--fnd-spacing-01) var(--fnd-spacing-04) var(--fnd-spacing-01) var(--fnd-spacing-06);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03) var(--fnd-spacing-01) var(--fnd-spacing-05);
   border-radius: var(--fnd-radius-sm);
   text-decoration: none;
   color: var(--fnd-color-text-mid);
-  @include paragraph('m');
+  @include paragraph('s');
   @include transition-quick((background-color, color));
 
   &:hover {
@@ -425,7 +425,7 @@
     color: var(--fnd-color-interactive-default);
     font-weight: var(--fnd-font-weight-semibold);
     border-inline-start: 2px solid var(--fnd-color-interactive-default);
-    padding-inline-start: calc(var(--fnd-spacing-06) - 2px);
+    padding-inline-start: calc(var(--fnd-spacing-05) - 2px);
   }
 }
 
@@ -439,7 +439,7 @@
 
 .docs-sidebar__subgroup-label {
   display: block;
-  padding: var(--fnd-spacing-02) var(--fnd-spacing-04) var(--fnd-spacing-02) var(--fnd-spacing-05);
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03) var(--fnd-spacing-02) var(--fnd-spacing-04);
   color: var(--fnd-color-text-low);
   font-weight: var(--fnd-font-weight-medium);
   @include paragraph('xs');
@@ -455,10 +455,10 @@
   padding: 0 0 var(--fnd-spacing-01) 0;
 
   .docs-sidebar__link {
-    padding-inline-start: var(--fnd-spacing-08);
+    padding-inline-start: var(--fnd-spacing-07);
 
     &[aria-current='page'] {
-      padding-inline-start: calc(var(--fnd-spacing-08) - 2px);
+      padding-inline-start: calc(var(--fnd-spacing-07) - 2px);
     }
   }
 }
