@@ -1747,6 +1747,16 @@
   --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
   --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
   --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
+
+  // Segmented Control — Re-Deklaration noetig, da :root-Token-Referenzen
+  // auf Semantic-Tokens am <html>-Element (light) aufloesen, nicht am <body>
+  --nc-segmented-bg: var(--fnd-color-background-secondary);
+  --nc-segmented-item-color: var(--fnd-color-text-secondary);
+  --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);
+  --nc-segmented-item-color-hover: var(--fnd-color-text-primary);
+  --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
+  --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
+  --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
 }
 
 // Automatic Dark Mode (prefers-color-scheme) — gleiche Overrides
@@ -1765,5 +1775,14 @@
     --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
     --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
     --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
+
+    // Segmented Control
+    --nc-segmented-bg: var(--fnd-color-background-secondary);
+    --nc-segmented-item-color: var(--fnd-color-text-secondary);
+    --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);
+    --nc-segmented-item-color-hover: var(--fnd-color-text-primary);
+    --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
+    --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
+    --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
   }
 }
