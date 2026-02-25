@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-02-24
+// Generated: 2026-02-25
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -1409,6 +1409,26 @@ export const foundationTokens = {
       "dragged": {
         "label": "Dragged",
         "value": 0.16
+      },
+      "muted": {
+        "label": "Muted",
+        "value": 0.6
+      },
+      "medium": {
+        "label": "Medium",
+        "value": 0.7
+      },
+      "high": {
+        "label": "High",
+        "value": 0.8
+      },
+      "prominent": {
+        "label": "Prominent",
+        "value": 0.85
+      },
+      "subtle": {
+        "label": "Subtle",
+        "value": 0.9
       }
     }
   },
