@@ -1,0 +1,246 @@
+<!-- STYLES -->
+  <style>
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .token-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .token-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .token-card__value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+    }
+    .token-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+    }
+    .dos {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-success);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <div class="docs__hero">
+        <h1 class="docs__title">Opacity, Z-Index &amp; Motion</h1>
+        <p class="docs__subtitle">
+          Foundation-Tokens fuer zustandsbasierte Transparenz, globale Stacking-Hierarchie
+          und konsistente Ein-/Ausblend-Animationen. Alle Motion-Keyframes respektieren
+          <code class="docs__token">prefers-reduced-motion</code>.
+        </p>
+      </div>
+
+      <div class="docs__body">
+
+      <!-- ================================================================ -->
+      <!-- 1. OPACITY                                                        -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="opacity">
+        <h2 class="docs__section-title">Opacity</h2>
+        <p class="docs__section-desc">
+          Zustandsbasierte Transparenz-Tokens fuer konsistente Interaktions-Darstellung.
+          Verwende immer Tokens statt hardcoded Werte.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-disabled</div>
+            <div class="token-card__value">0.5</div>
+            <div class="token-card__desc">Fuer deaktivierte Elemente</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-hover</div>
+            <div class="token-card__value">0.08</div>
+            <div class="token-card__desc">Hover-Overlay-Staerke</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-focus</div>
+            <div class="token-card__value">0.12</div>
+            <div class="token-card__desc">Focus-Overlay-Staerke</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-pressed</div>
+            <div class="token-card__value">0.12</div>
+            <div class="token-card__desc">Pressed/Active-Overlay</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-dragged</div>
+            <div class="token-card__value">0.16</div>
+            <div class="token-card__desc">Drag-Overlay-Staerke</div>
+          </div>
+        </div>
+
+        <div class="docs-snippet">
+          <pre>/* Do: Opacity-Token verwenden */
+opacity: var(--fnd-opacity-disabled);
+
+/* Don't: Hardcoded Opacity */
+opacity: 0.5;</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 2. Z-INDEX                                                        -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="z-index">
+        <h2 class="docs__section-title">Z-Index</h2>
+        <p class="docs__section-desc">
+          Globale Stacking-Hierarchie mit 10 Stufen. Lokale Stacking-Contexts
+          (z.B. <code class="docs__token">z-index: 1</code> innerhalb einer Komponente)
+          brauchen keine Foundation-Tokens.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-base</div>
+            <div class="token-card__value">1</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-dropdown</div>
+            <div class="token-card__value">2</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-sticky</div>
+            <div class="token-card__value">3</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-fixed</div>
+            <div class="token-card__value">9</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-header</div>
+            <div class="token-card__value">100</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-sidebar</div>
+            <div class="token-card__value">200</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-drawer</div>
+            <div class="token-card__value">300</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-notification</div>
+            <div class="token-card__value">400</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-toast</div>
+            <div class="token-card__value">500</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-skip-link</div>
+            <div class="token-card__value">9999</div>
+          </div>
+        </div>
+
+        <div class="docs-snippet">
+          <pre>/* Do: Z-Index Token verwenden */
+z-index: var(--fnd-z-drawer);
+
+/* Don't: Hardcoded z-index */
+z-index: 300;</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 3. MOTION / KEYFRAMES                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="motion">
+        <h2 class="docs__section-title">Motion / Keyframes</h2>
+        <p class="docs__section-desc">
+          Foundation-Keyframes fuer konsistente Ein-/Ausblend-Animationen.
+          Alle respektieren <code class="docs__token">prefers-reduced-motion</code> &mdash;
+          bei aktivierter Einstellung werden Animationen automatisch unterdrueckt.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">fnd-fade-in / fnd-fade-out</div>
+            <div class="token-card__desc">Opacity 0 &rarr; 1 / 1 &rarr; 0</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-slide-up / down / left / right</div>
+            <div class="token-card__desc">8px translate + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-scale-in / fnd-scale-out</div>
+            <div class="token-card__desc">Scale 0.95 &rarr; 1 + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-spin</div>
+            <div class="token-card__desc">360-Grad-Rotation (Spinner)</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-dialog-enter / exit</div>
+            <div class="token-card__desc">Scale + fade + translateY(4px)</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-dropdown-enter</div>
+            <div class="token-card__desc">Slide down + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-toast-enter</div>
+            <div class="token-card__desc">Slide up 16px + fade</div>
+          </div>
+        </div>
+
+        <div class="dos">
+          <strong>Do:</strong> <code>animation: fnd-dialog-enter 0.2s var(--fnd-motion-ease-focused) forwards;</code>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 4. MIGRATION                                                      -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="migration">
+        <h2 class="docs__section-title">Migration Guide</h2>
+        <p class="docs__section-desc">
+          Ersetze hardcoded Werte durch Foundation-Tokens.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Alt (deprecated)</th>
+              <th>Neu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs__token">opacity: 0.5</code> (disabled)</td>
+              <td><code class="docs__token">var(--fnd-opacity-disabled)</code></td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">z-index: 50</code> (toast)</td>
+              <td><code class="docs__token">var(--fnd-z-toast)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      </div><!-- /.docs__body -->
+
+    </main>
+<!-- /BODY -->

@@ -1,3 +1,54 @@
+<!-- STYLES -->
+  <style>
+    /* --- Font Weight Tokens (aus Foundation Tokens) --- */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .token-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .token-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .token-card__value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+    }
+    .weight-sample {
+      font-size: var(--fs-lg);
+      color: var(--fnd-color-text-high);
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .dos {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-success);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+    .donts {
+      background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-danger);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+  </style>
+<!-- /STYLES -->
+
 <!-- BODY -->
     <main class="docs">
 
@@ -561,6 +612,70 @@ letter-spacing: var(--fnd-typography-{category}-{size}-letter-spacing);
 Viewport Range: 320px – 1400px
 Base Scale:     Modular Scale Ratio 1.2
 Line-Heights:   Heading = ×1.15 | Body = ×1.6 | Tight = ×1.05</div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- 8. FONT WEIGHT TOKENS                                             -->
+    <!-- ================================================================ -->
+    <section class="docs__section" id="font-weight">
+      <h2 class="docs__section-title">Font Weight Tokens</h2>
+      <p class="docs__section-desc">
+        6 Foundation-Tokens fuer konsistente Schriftgewichte.
+        Verwende immer Tokens statt hardcoded numerischer Werte.
+      </p>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-light);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-light</div>
+          <div class="token-card__value">300</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-regular);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-regular</div>
+          <div class="token-card__value">400</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-medium);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-medium</div>
+          <div class="token-card__value">500</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-semibold);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-semibold</div>
+          <div class="token-card__value">600</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-bold);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-bold</div>
+          <div class="token-card__value">700</div>
+        </div>
+        <div class="token-card">
+          <div class="weight-sample" style="font-weight: var(--fnd-font-weight-black);">Aa</div>
+          <div class="token-card__name">--fnd-font-weight-black</div>
+          <div class="token-card__value">900</div>
+        </div>
+      </div>
+
+      <div class="dos">
+        <strong>Do:</strong> <code>font-weight: var(--fnd-font-weight-semibold);</code>
+      </div>
+      <div class="donts">
+        <strong>Don't:</strong> <code>font-weight: 600;</code>
+      </div>
+
+      <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Migration</h3>
+      <table class="docs__table">
+        <thead>
+          <tr><th>Alt (deprecated)</th><th>Neu</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="docs__token">font-weight: 600</code></td>
+            <td><code class="docs__token">var(--fnd-font-weight-semibold)</code></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
       </div>
 

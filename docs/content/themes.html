@@ -429,6 +429,56 @@
       margin-block-end: var(--fnd-spacing-02);
       text-transform: capitalize;
     }
+
+    /* --- Layer System & On-color (aus Foundation Tokens) --- */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .token-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .token-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .token-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+    }
+    .color-swatch {
+      width: 100%;
+      height: 40px;
+      border-radius: var(--fnd-radius-sm);
+      border: 1px solid var(--fnd-color-border-low);
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-radius: var(--fnd-radius-md);
+      overflow: hidden;
+      margin-bottom: var(--fnd-spacing-02);
+    }
+    .layer-stack__item {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding-inline: var(--fnd-spacing-03);
+      font-size: var(--fs-xs);
+      font-family: var(--font-mono);
+    }
   </style>
 <!-- /STYLES -->
 
@@ -599,6 +649,92 @@
                   <td><code>--lh-body</code></td>
                   <td>1.6</td>
                   <td>Zeilenh&ouml;he f&uuml;r Flie&szlig;text</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Layer System (Carbon-Modell) -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Layer System (Carbon-Modell)</h2>
+            <p class="docs__section-desc">
+              Geschachtelte Container nutzen <code class="docs__token">layer-01</code> bis
+              <code class="docs__token">layer-03</code> fuer abgestufte Hintergruende.
+            </p>
+            <p><strong>Regel Light:</strong> background-base (weiss) &rarr; layer-01 (grau) &rarr; layer-02 (weiss) &mdash; alternierend.</p>
+            <p><strong>Regel Dark:</strong> background-base (schwarz) &rarr; layer-01 (dunkelgrau) &rarr; layer-02 (grau) &mdash; aufsteigend.</p>
+
+            <div class="token-grid">
+              <div class="token-card">
+                <div class="layer-stack">
+                  <div class="layer-stack__item" style="background: var(--fnd-color-background-base); color: var(--fnd-color-on-surface);">
+                    background-base (Page)
+                  </div>
+                  <div class="layer-stack__item" style="background: var(--fnd-color-layer-01); color: var(--fnd-color-on-layer-01);">
+                    layer-01 (Card)
+                  </div>
+                  <div class="layer-stack__item" style="background: var(--fnd-color-layer-02); color: var(--fnd-color-on-layer-02);">
+                    layer-02 (Element in Card)
+                  </div>
+                </div>
+                <div class="token-card__name">--fnd-color-layer-01/02/03</div>
+                <div class="token-card__desc">Container-Hintergruende fuer geschachtelte Ebenen</div>
+              </div>
+              <div class="token-card">
+                <div class="token-card__name">--fnd-color-on-surface</div>
+                <div class="token-card__desc">Textfarbe auf background-base</div>
+                <div class="token-card__name">--fnd-color-on-layer-01</div>
+                <div class="token-card__desc">Textfarbe auf layer-01</div>
+                <div class="token-card__name">--fnd-color-on-layer-02</div>
+                <div class="token-card__desc">Textfarbe auf layer-02</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- On-{color} Contrast Tokens -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">On-{color} Contrast Tokens</h2>
+            <p class="docs__section-desc">
+              Garantiert lesbarer Text auf Flaechen mit semantischer Farbe.
+              Jede Feedback-Farbe hat ein entsprechendes <code class="docs__token">on-{color}</code> Token.
+            </p>
+
+            <div class="token-grid">
+              <div class="token-card">
+                <div class="color-swatch" style="background: var(--fnd-color-background-accent-green);"></div>
+                <div class="token-card__name">--fnd-color-on-accent</div>
+                <div class="token-card__desc">Text auf Akzentfarbe</div>
+              </div>
+              <div class="token-card">
+                <div class="color-swatch" style="background: var(--fnd-color-feedback-success);"></div>
+                <div class="token-card__name">--fnd-color-on-success</div>
+                <div class="token-card__desc">Text auf Erfolgs-Hintergrund</div>
+              </div>
+              <div class="token-card">
+                <div class="color-swatch" style="background: var(--fnd-color-feedback-warning);"></div>
+                <div class="token-card__name">--fnd-color-on-warning</div>
+                <div class="token-card__desc">Text auf Warn-Hintergrund</div>
+              </div>
+              <div class="token-card">
+                <div class="color-swatch" style="background: var(--fnd-color-feedback-danger);"></div>
+                <div class="token-card__name">--fnd-color-on-danger</div>
+                <div class="token-card__desc">Text auf Danger-Hintergrund</div>
+              </div>
+              <div class="token-card">
+                <div class="color-swatch" style="background: var(--fnd-color-feedback-info);"></div>
+                <div class="token-card__name">--fnd-color-on-info</div>
+                <div class="token-card__desc">Text auf Info-Hintergrund</div>
+              </div>
+            </div>
+
+            <table class="docs__table">
+              <thead>
+                <tr><th>Alt (deprecated)</th><th>Neu</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">background: #ffffff</code></td>
+                  <td><code class="docs__token">var(--fnd-color-background-base)</code></td>
                 </tr>
               </tbody>
             </table>

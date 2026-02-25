@@ -473,11 +473,14 @@
 // ---------------------------------------------------------------------------
 
 .docs {
-  padding-inline: clamp(16px, 3.5vw, 48px);
-  padding-block: var(--fnd-spacing-08);
+  // Padding-Steuerung als Custom Properties — Sektionen erben diese Werte
+  // und koennen sie individuell ueberschreiben.
+  --docs-padding-inline: clamp(16px, 3.5vw, 48px);
+  --docs-padding-block: var(--fnd-spacing-08);
+
+  padding: 0;
   color: var(--fnd-color-text-high);
   font-family: var(--font-body);
-
 }
 
 .docs__title {
@@ -500,14 +503,19 @@
 // ---------------------------------------------------------------------------
 
 .docs__hero {
+  padding-inline: var(--docs-padding-inline);
+  padding-block-start: var(--docs-padding-block);
   margin-block-end: var(--fnd-spacing-08);
 }
 
 .docs__tab-nav {
+  padding-inline: var(--docs-padding-inline);
   margin-block-end: var(--fnd-spacing-06);
 }
 
 .docs__body {
+  padding-inline: var(--docs-padding-inline);
+  padding-block-end: var(--docs-padding-block);
   min-width: 0; // Verhindert Grid-Overflow
 
   @include respond-to('lg') {
@@ -539,6 +547,7 @@
 
 .docs__section {
   margin-block-end: var(--fnd-spacing-9);
+  min-width: 0; // Verhindert Overflow bei breiten Kind-Elementen (Tabellen, Demos)
 }
 
 .docs__section-title {
@@ -925,6 +934,7 @@
 
 .docs-tabs {
   margin-block-end: var(--fnd-spacing-08);
+  min-width: 0; // Verhindert Grid-Overflow bei breiten Kind-Elementen
 }
 
 .docs-tabs__list {
@@ -968,6 +978,7 @@
 
 .docs-tabs__panel {
   display: none;
+  min-width: 0; // Verhindert Overflow in Grid-Kontext
 
   &.is-active {
     display: block;

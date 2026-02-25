@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opacity, Z-Index & Motion | Design System Docs</title>
+  <meta name="description" content="Foundation-Tokens für Opacity, Z-Index und Motion/Keyframes." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .token-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-02);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .token-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .token-card__value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+    }
+    .token-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+    }
+    .dos {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-success);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <div class="docs__hero">
+        <h1 class="docs__title">Opacity, Z-Index &amp; Motion</h1>
+        <p class="docs__subtitle">
+          Foundation-Tokens fuer zustandsbasierte Transparenz, globale Stacking-Hierarchie
+          und konsistente Ein-/Ausblend-Animationen. Alle Motion-Keyframes respektieren
+          <code class="docs__token">prefers-reduced-motion</code>.
+        </p>
+      </div>
+
+      <div class="docs__body">
+
+      <!-- ================================================================ -->
+      <!-- 1. OPACITY                                                        -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="opacity">
+        <h2 class="docs__section-title">Opacity</h2>
+        <p class="docs__section-desc">
+          Zustandsbasierte Transparenz-Tokens fuer konsistente Interaktions-Darstellung.
+          Verwende immer Tokens statt hardcoded Werte.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-disabled</div>
+            <div class="token-card__value">0.5</div>
+            <div class="token-card__desc">Fuer deaktivierte Elemente</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-hover</div>
+            <div class="token-card__value">0.08</div>
+            <div class="token-card__desc">Hover-Overlay-Staerke</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-focus</div>
+            <div class="token-card__value">0.12</div>
+            <div class="token-card__desc">Focus-Overlay-Staerke</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-pressed</div>
+            <div class="token-card__value">0.12</div>
+            <div class="token-card__desc">Pressed/Active-Overlay</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-opacity-dragged</div>
+            <div class="token-card__value">0.16</div>
+            <div class="token-card__desc">Drag-Overlay-Staerke</div>
+          </div>
+        </div>
+
+        <div class="docs-snippet">
+          <pre>/* Do: Opacity-Token verwenden */
+opacity: var(--fnd-opacity-disabled);
+
+/* Don't: Hardcoded Opacity */
+opacity: 0.5;</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 2. Z-INDEX                                                        -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="z-index">
+        <h2 class="docs__section-title">Z-Index</h2>
+        <p class="docs__section-desc">
+          Globale Stacking-Hierarchie mit 10 Stufen. Lokale Stacking-Contexts
+          (z.B. <code class="docs__token">z-index: 1</code> innerhalb einer Komponente)
+          brauchen keine Foundation-Tokens.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-base</div>
+            <div class="token-card__value">1</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-dropdown</div>
+            <div class="token-card__value">2</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-sticky</div>
+            <div class="token-card__value">3</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-fixed</div>
+            <div class="token-card__value">9</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-header</div>
+            <div class="token-card__value">100</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-sidebar</div>
+            <div class="token-card__value">200</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-drawer</div>
+            <div class="token-card__value">300</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-notification</div>
+            <div class="token-card__value">400</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-toast</div>
+            <div class="token-card__value">500</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">--fnd-z-skip-link</div>
+            <div class="token-card__value">9999</div>
+          </div>
+        </div>
+
+        <div class="docs-snippet">
+          <pre>/* Do: Z-Index Token verwenden */
+z-index: var(--fnd-z-drawer);
+
+/* Don't: Hardcoded z-index */
+z-index: 300;</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 3. MOTION / KEYFRAMES                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="motion">
+        <h2 class="docs__section-title">Motion / Keyframes</h2>
+        <p class="docs__section-desc">
+          Foundation-Keyframes fuer konsistente Ein-/Ausblend-Animationen.
+          Alle respektieren <code class="docs__token">prefers-reduced-motion</code> &mdash;
+          bei aktivierter Einstellung werden Animationen automatisch unterdrueckt.
+        </p>
+
+        <div class="token-grid">
+          <div class="token-card">
+            <div class="token-card__name">fnd-fade-in / fnd-fade-out</div>
+            <div class="token-card__desc">Opacity 0 &rarr; 1 / 1 &rarr; 0</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-slide-up / down / left / right</div>
+            <div class="token-card__desc">8px translate + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-scale-in / fnd-scale-out</div>
+            <div class="token-card__desc">Scale 0.95 &rarr; 1 + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-spin</div>
+            <div class="token-card__desc">360-Grad-Rotation (Spinner)</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-dialog-enter / exit</div>
+            <div class="token-card__desc">Scale + fade + translateY(4px)</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-dropdown-enter</div>
+            <div class="token-card__desc">Slide down + fade</div>
+          </div>
+          <div class="token-card">
+            <div class="token-card__name">fnd-toast-enter</div>
+            <div class="token-card__desc">Slide up 16px + fade</div>
+          </div>
+        </div>
+
+        <div class="dos">
+          <strong>Do:</strong> <code>animation: fnd-dialog-enter 0.2s var(--fnd-motion-ease-focused) forwards;</code>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 4. MIGRATION                                                      -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="migration">
+        <h2 class="docs__section-title">Migration Guide</h2>
+        <p class="docs__section-desc">
+          Ersetze hardcoded Werte durch Foundation-Tokens.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Alt (deprecated)</th>
+              <th>Neu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs__token">opacity: 0.5</code> (disabled)</td>
+              <td><code class="docs__token">var(--fnd-opacity-disabled)</code></td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">z-index: 50</code> (toast)</td>
+              <td><code class="docs__token">var(--fnd-z-toast)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      </div><!-- /.docs__body -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+
+
+</body>
+</html>
