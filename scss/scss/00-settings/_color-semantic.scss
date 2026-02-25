@@ -107,6 +107,12 @@ $semantic-light-base: (
   'feedback-warning': map.get(prim.$system, warning),
   'feedback-danger':  map.get(prim.$system, danger),
 
+  // --- Surface Elevated (Apple-inspiriert) ---
+  // Fuer Overlay-Elemente (Modal, Drawer, Toast, Dropdown).
+  // Light: identisch zu background-base (kein visueller Unterschied).
+  // Dark: angehoben gegenueber background-base fuer visuellen Lift.
+  'surface-elevated':  map.get(prim.$foundation-white, 100),      // #fff (= background-base)
+
   // --- Layer (Carbon-Modell: alternierend) ---
   // Regel: layer-01 und layer-02 alternieren fuer geschachtelte Container.
   //   Page (background-base: white) → Card (layer-01: neutral-100) → Element (layer-02: white)
@@ -207,6 +213,10 @@ $semantic-dark-base: (
   'feedback-warning': map.get(prim.$system, warning),
   'feedback-danger':  map.get(prim.$system, danger),
 
+  // --- Surface Elevated (Apple-inspiriert) ---
+  // Overlay-Elemente im Dark Mode: angehoben gegenueber #000 fuer visuellen Lift.
+  'surface-elevated':  map.get(prim.$neutral, 950),      // #1d1d1d (= layer-01)
+
   // --- Layer (Carbon-Modell: schrittweise heller) ---
   // Regel: Jede Ebene wird ~1 Neutral-Stufe heller fuer Tiefenwirkung.
   //   Page (background-base: #000) → Card (layer-01: #1d1d1d) → Element (layer-02: #333)
@@ -303,6 +313,10 @@ $semantic-light-secondary: (
   'feedback-success': map.get(prim.$system, success),
   'feedback-warning': map.get(prim.$system, warning),
   'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Surface Elevated ---
+  // Customer Light: Overlay-Elemente in Weiss (angehoben ueber neutral-100 Basis).
+  'surface-elevated':  map.get(prim.$foundation-white, 100),      // #fff
 
   // --- Layer (Carbon-Modell: alternierend, verschoben) ---
   // Customer Light hat base = neutral-100, daher:
@@ -401,6 +415,10 @@ $semantic-dark-secondary: (
   'feedback-success': map.get(prim.$system, success),
   'feedback-warning': map.get(prim.$system, warning),
   'feedback-danger':  map.get(prim.$system, danger),
+
+  // --- Surface Elevated ---
+  // Customer Dark: Overlay-Elemente angehoben ueber #1d1d1d Basis.
+  'surface-elevated':  map.get(prim.$neutral, 900),      // #333 (= layer-01)
 
   // --- Layer (Carbon-Modell: schrittweise heller, verschoben) ---
   // Customer Dark hat base = neutral-950, daher:
