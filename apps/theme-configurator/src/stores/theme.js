@@ -10,8 +10,19 @@ import {
   semanticDefaults,
   primitiveColors,
   foundationTokens,
-  componentTokenGroups
+  componentTokenGroups,
+  semanticTokenGroups
 } from '../data/tokens.js'
+
+// ---------------------------------------------------------------------------
+// Valid token ID sets (for pruning stale localStorage overrides)
+// ---------------------------------------------------------------------------
+const _validComponentTokenIds = new Set(
+  componentTokenGroups.flatMap(g => g.tokens.map(t => t.id))
+)
+const _validSemanticTokenIds = new Set(
+  semanticTokenGroups.flatMap(g => g.tokens.map(t => t.id))
+)
 
 // ---------------------------------------------------------------------------
 // Deep-clone helper
@@ -609,6 +620,41 @@ function exportAsJSON() {
 }
 
 // ---------------------------------------------------------------------------
+// Save to Server (full theme format)
+// ---------------------------------------------------------------------------
+
+async function saveToServer() {
+  const themeSet = state.activeThemeSet
+  const payload = {
+    meta: {
+      name: state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme'),
+      version: state.version,
+      generated: new Date().toISOString(),
+      generator: 'NEO Theme Configurator'
+    },
+    theme: currentThemeId.value,
+    primitives: toRaw(state.primitiveOverrides[themeSet]),
+    semantic: {
+      [themeSet + '-light']: toRaw(state.themes[themeSet].light),
+      [themeSet + '-dark']: toRaw(state.themes[themeSet].dark)
+    },
+    components: toRaw(state.componentOverrides[themeSet]),
+    foundation: toRaw(state.foundationOverrides[themeSet])
+  }
+
+  const res = await fetch('/api/save-theme', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  const data = await res.json()
+  if (data.status !== 'ok') {
+    throw new Error(data.message || 'Server save failed')
+  }
+  return data
+}
+
+// ---------------------------------------------------------------------------
 // Persist to localStorage
 // ---------------------------------------------------------------------------
 
@@ -686,6 +732,20 @@ function loadFromStorage() {
   }
   // Also load the saved themes catalogue
   loadSavedThemesList()
+
+  // ---------------------------------------------------------------------------
+  // Prune stale component overrides (tokens removed during token hygiene)
+  // ---------------------------------------------------------------------------
+  for (const themeSet of ['neo', 'customer']) {
+    const overrides = state.componentOverrides[themeSet]
+    if (!overrides) continue
+    for (const key of Object.keys(overrides)) {
+      if (!_validComponentTokenIds.has(key)) {
+        console.warn('[Theme Store] Pruning stale component override:', key)
+        delete overrides[key]
+      }
+    }
+  }
 
   // ---------------------------------------------------------------------------
   // Migrate legacy custom fonts from isolated localStorage keys into store state
@@ -774,6 +834,7 @@ export function useThemeStore() {
     exportAsCSSVars,
     exportAsJSON,
     // Persistence
+    saveToServer,
     loadFromStorage,
     saveToStorage
   }

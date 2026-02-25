@@ -54,23 +54,60 @@ const server = http.createServer((req, res) => {
   }
 
   // ---- POST /api/save-theme ----
+  // Accepts full theme format: primitives + theme (required),
+  // semantic, components, foundation (optional).
   if (req.method === 'POST' && req.url === '/api/save-theme') {
     let body = '';
     req.on('data', chunk => { body += chunk.toString(); });
     req.on('end', () => {
       try {
-        // Validate JSON
         const json = JSON.parse(body);
+
+        // Required fields (backward-compatible)
         if (!json.primitives || !json.theme) {
           throw new Error('Invalid theme JSON: missing primitives or theme');
         }
 
-        // Validate hex colors
+        // Validate primitive hex colors
+        const HEX_RE = /^#[0-9a-fA-F]{6}$/;
         ['primary', 'secondary', 'accent'].forEach(key => {
-          if (json.primitives[key] && !/^#[0-9a-fA-F]{6}$/.test(json.primitives[key])) {
-            throw new Error('Invalid hex color for ' + key + ': ' + json.primitives[key]);
+          if (json.primitives[key] && !HEX_RE.test(json.primitives[key])) {
+            throw new Error('Invalid hex color for primitives.' + key + ': ' + json.primitives[key]);
           }
         });
+
+        // Validate optional semantic overrides (hex colors per theme variant)
+        if (json.semantic) {
+          for (const [variant, tokens] of Object.entries(json.semantic)) {
+            if (typeof tokens !== 'object' || tokens === null) {
+              throw new Error('semantic.' + variant + ' must be an object');
+            }
+            for (const [id, val] of Object.entries(tokens)) {
+              if (typeof val === 'string' && val.startsWith('#') && !HEX_RE.test(val)) {
+                throw new Error('Invalid hex in semantic.' + variant + '.' + id + ': ' + val);
+              }
+            }
+          }
+        }
+
+        // Validate optional component overrides
+        if (json.components) {
+          if (typeof json.components !== 'object' || json.components === null) {
+            throw new Error('components must be an object');
+          }
+          for (const [id, val] of Object.entries(json.components)) {
+            if (typeof val === 'string' && val.startsWith('#') && !HEX_RE.test(val)) {
+              throw new Error('Invalid hex in components.' + id + ': ' + val);
+            }
+          }
+        }
+
+        // Validate optional foundation overrides
+        if (json.foundation) {
+          if (typeof json.foundation !== 'object' || json.foundation === null) {
+            throw new Error('foundation must be an object');
+          }
+        }
 
         // Write file
         fs.writeFileSync(THEME_FILE, JSON.stringify(json, null, 2) + '\n', 'utf8');
