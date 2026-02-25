@@ -287,7 +287,7 @@
           </p>
 
           <div class="docs-stage">
-            <div class="docs-stage__toolbar">
+                        <div class="docs-stage__toolbar">
               <div class="docs-stage__controls">
 
                 <!-- Theme — Segmented Control mit farbigen Dots -->
@@ -312,7 +312,6 @@
                   </button>
                 </div>
 
-                <!-- Variante — nc-select (10+ Optionen mit optgroups) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Variante</span>
                   <select class="nc-select nc-select--sm"
@@ -342,7 +341,6 @@
                   </select>
                 </div>
 
-                <!-- Größe — Segmented Control (4 Optionen) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
                   <div class="nc-segmented-control nc-segmented-control--sm"
@@ -359,24 +357,22 @@
                   </div>
                 </div>
 
-                <!-- Icon — Segmented Control (4 Optionen) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Icon</span>
                   <div class="nc-segmented-control nc-segmented-control--sm"
-                       role="radiogroup" aria-label="Icon-Modus"
+                       role="radiogroup" aria-label="Icon"
                        data-stage-control="segmented" data-stage-target="stage-icon" data-default="none">
                     <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
-                            data-value="none">Kein</button>
+                            data-value="none">Kein Icon</button>
                     <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
-                            data-value="leading">Links</button>
+                            data-value="leading">Icon links</button>
                     <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
-                            data-value="trailing">Rechts</button>
+                            data-value="trailing">Icon rechts</button>
                     <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
-                            data-value="only">Only</button>
+                            data-value="only">Icon-Only</button>
                   </div>
                 </div>
 
-                <!-- Disabled — nc-switch (Boolean) -->
                 <label class="nc-switch nc-switch--sm"
                        data-stage-control="switch" data-stage-target="stage-disabled">
                   <input type="checkbox" class="nc-switch__input" role="switch" />
@@ -404,7 +400,7 @@
                 </button>
               </div>
 
-              <!-- Hidden Inputs — Backward-Kompatibilität für button-docs.js -->
+              <!-- Hidden Inputs — Backward-Kompatibilität -->
               <select class="docs-stage__hidden" id="stage-theme">
                 <option value="neo-light-theme" selected>Neo Light</option>
                 <option value="neo-dark-theme">Neo Dark</option>
@@ -436,10 +432,10 @@
                 </optgroup>
               </select>
               <select class="docs-stage__hidden" id="stage-size">
-                <option value="xs">XS</option>
-                <option value="sm">SM</option>
-                <option value="md" selected>MD</option>
-                <option value="lg">LG</option>
+                <option value="xs">XS (24px)</option>
+                <option value="sm">SM (32px)</option>
+                <option value="md" selected>MD (40px)</option>
+                <option value="lg">LG (48px)</option>
               </select>
               <select class="docs-stage__hidden" id="stage-icon">
                 <option value="none" selected>Kein Icon</option>

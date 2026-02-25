@@ -82,46 +82,123 @@
           </p>
 
           <div class="docs-stage">
-            <div class="docs-stage__toolbar">
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Theme</span>
-                <select class="docs-stage__select" id="stage-theme">
-                  <option value="neo-light-theme" selected>Neo Light</option>
-                  <option value="neo-dark-theme">Neo Dark</option>
-                  <option value="customer-light-theme">Customer Light</option>
-                  <option value="customer-dark-theme">Customer Dark</option>
-                </select>
-              </div>
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
-                <select class="docs-stage__select" id="stage-size">
-                  <option value="sm">SM (32px)</option>
-                  <option value="md" selected>MD (40px)</option>
-                  <option value="lg">LG (48px)</option>
-                </select>
-              </div>
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Anzahl</span>
-                <select class="docs-stage__select" id="stage-count">
-                  <option value="2" selected>2 Segmente</option>
-                  <option value="3">3 Segmente</option>
-                  <option value="4">4 Segmente</option>
-                </select>
-              </div>
-              <div class="docs-stage__control">
-                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                  <input type="checkbox" id="stage-fullwidth" />
-                  <span class="docs-stage__label">Full-Width</span>
+                        <div class="docs-stage__toolbar">
+              <div class="docs-stage__controls">
+
+                <!-- Theme — Segmented Control mit farbigen Dots -->
+                <div class="nc-segmented-control nc-segmented-control--sm"
+                     role="radiogroup" aria-label="Theme"
+                     data-stage-control="segmented" data-stage-target="stage-theme" data-default="neo-light-theme">
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                          data-value="neo-light-theme" aria-label="Neo Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="neo-dark-theme" aria-label="Neo Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-light-theme" aria-label="Customer Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-dark-theme" aria-label="Customer Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                  </button>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Größe"
+                       data-stage-control="segmented" data-stage-target="stage-size" data-default="md">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="sm">SM</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="md">MD</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="lg">LG</button>
+                  </div>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Anzahl</span>
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Anzahl"
+                       data-stage-control="segmented" data-stage-target="stage-count" data-default="2">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="2">2 Segmente</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="3">3 Segmente</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="4">4 Segmente</button>
+                  </div>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Icon-Modus</span>
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Icon-Modus"
+                       data-stage-control="segmented" data-stage-target="stage-iconmode" data-default="text">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="text">Nur Text</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="icon">Nur Icon</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="icon-text">Icon + Text</button>
+                  </div>
+                </div>
+
+                <label class="nc-switch nc-switch--sm"
+                       data-stage-control="switch" data-stage-target="stage-fullwidth">
+                  <input type="checkbox" class="nc-switch__input" role="switch" />
+                  <span class="nc-switch__track"><span class="nc-switch__thumb"></span></span>
+                  <span class="nc-switch__label">Full-Width</span>
                 </label>
+
               </div>
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Icon-Modus</span>
-                <select class="docs-stage__select" id="stage-iconmode">
-                  <option value="text" selected>Nur Text</option>
-                  <option value="icon">Nur Icon</option>
-                  <option value="icon-text">Icon + Text</option>
-                </select>
+
+              <!-- Action-Buttons -->
+              <div class="docs-stage__actions">
+                <button class="docs-stage__action-btn" data-stage-action="copy"
+                        aria-label="HTML kopieren" title="HTML kopieren">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button class="docs-stage__action-btn" data-stage-action="reset"
+                        aria-label="Zurücksetzen" title="Zurücksetzen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                </button>
               </div>
+
+              <!-- Hidden Inputs — Backward-Kompatibilität -->
+              <select class="docs-stage__hidden" id="stage-theme">
+                <option value="neo-light-theme" selected>Neo Light</option>
+                <option value="neo-dark-theme">Neo Dark</option>
+                <option value="customer-light-theme">Customer Light</option>
+                <option value="customer-dark-theme">Customer Dark</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-size">
+                <option value="sm">SM (32px)</option>
+                <option value="md" selected>MD (40px)</option>
+                <option value="lg">LG (48px)</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-count">
+                <option value="2" selected>2 Segmente</option>
+                <option value="3">3 Segmente</option>
+                <option value="4">4 Segmente</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-iconmode">
+                <option value="text" selected>Nur Text</option>
+                <option value="icon">Nur Icon</option>
+                <option value="icon-text">Icon + Text</option>
+              </select>
+              <input type="checkbox" class="docs-stage__hidden" id="stage-fullwidth" />
             </div>
 
             <div class="docs-stage__preview" id="stage-preview">
@@ -727,6 +804,7 @@
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
   <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
   <script src="segmented-control-docs.js"></script>
 
 </body>

@@ -83,34 +83,101 @@
           </p>
 
           <div class="docs-stage">
-            <div class="docs-stage__toolbar">
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Theme</span>
-                <select class="docs-stage__select" id="stage-theme">
-                  <option value="neo-light-theme" selected>Neo Light</option>
-                  <option value="neo-dark-theme">Neo Dark</option>
-                  <option value="customer-light-theme">Customer Light</option>
-                  <option value="customer-dark-theme">Customer Dark</option>
-                </select>
+                        <div class="docs-stage__toolbar">
+              <div class="docs-stage__controls">
+
+                <!-- Theme — Segmented Control mit farbigen Dots -->
+                <div class="nc-segmented-control nc-segmented-control--sm"
+                     role="radiogroup" aria-label="Theme"
+                     data-stage-control="segmented" data-stage-target="stage-theme" data-default="neo-light-theme">
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                          data-value="neo-light-theme" aria-label="Neo Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="neo-dark-theme" aria-label="Neo Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-light-theme" aria-label="Customer Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-dark-theme" aria-label="Customer Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                  </button>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Komponente</span>
+                  <div class="nc-chip-group"
+                       data-stage-control="chips" data-stage-target="stage-component" data-default="form">
+                    <button class="nc-chip nc-chip--sm nc-chip--selected" type="button" aria-pressed="true"
+                            data-value="form">Form</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="fieldset">Fieldset</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="form-section">Form Section</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="validation-summary">Validation Summary</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="form-actions">Form Actions</button>
+                  </div>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Layout</span>
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Layout"
+                       data-stage-control="segmented" data-stage-target="stage-layout" data-default="default">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="default">Default</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="inline">Inline</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="two-column">Two-Column</button>
+                  </div>
+                </div>
+
               </div>
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Komponente</span>
-                <select class="docs-stage__select" id="stage-component">
-                  <option value="form" selected>Form</option>
-                  <option value="fieldset">Fieldset</option>
-                  <option value="form-section">Form Section</option>
-                  <option value="validation-summary">Validation Summary</option>
-                  <option value="form-actions">Form Actions</option>
-                </select>
+
+              <!-- Action-Buttons -->
+              <div class="docs-stage__actions">
+                <button class="docs-stage__action-btn" data-stage-action="copy"
+                        aria-label="HTML kopieren" title="HTML kopieren">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button class="docs-stage__action-btn" data-stage-action="reset"
+                        aria-label="Zurücksetzen" title="Zurücksetzen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                </button>
               </div>
-              <div class="docs-stage__control">
-                <span class="docs-stage__label">Layout</span>
-                <select class="docs-stage__select" id="stage-layout">
-                  <option value="default" selected>Default</option>
-                  <option value="inline">Inline</option>
-                  <option value="two-column">Two-Column</option>
-                </select>
-              </div>
+
+              <!-- Hidden Inputs — Backward-Kompatibilität -->
+              <select class="docs-stage__hidden" id="stage-theme">
+                <option value="neo-light-theme" selected>Neo Light</option>
+                <option value="neo-dark-theme">Neo Dark</option>
+                <option value="customer-light-theme">Customer Light</option>
+                <option value="customer-dark-theme">Customer Dark</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-component">
+                <option value="form" selected>Form</option>
+                <option value="fieldset">Fieldset</option>
+                <option value="form-section">Form Section</option>
+                <option value="validation-summary">Validation Summary</option>
+                <option value="form-actions">Form Actions</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-layout">
+                <option value="default" selected>Default</option>
+                <option value="inline">Inline</option>
+                <option value="two-column">Two-Column</option>
+              </select>
             </div>
 
             <div class="docs-stage__preview" id="stage-preview">
@@ -712,6 +779,7 @@
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
   <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
   <script src="form-layout-docs.js"></script>
 
 </body>

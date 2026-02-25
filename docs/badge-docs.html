@@ -83,7 +83,7 @@
           </p>
 
           <div class="docs-stage">
-            <div class="docs-stage__toolbar">
+                        <div class="docs-stage__toolbar">
               <div class="docs-stage__controls">
 
                 <!-- Theme — Segmented Control mit farbigen Dots -->
@@ -108,7 +108,6 @@
                   </button>
                 </div>
 
-                <!-- Größe — Segmented Control (2 Optionen) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Gr&ouml;&szlig;e</span>
                   <div class="nc-segmented-control nc-segmented-control--sm"
@@ -121,7 +120,6 @@
                   </div>
                 </div>
 
-                <!-- Variante — Chip Group (7 Optionen) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Variante</span>
                   <div class="nc-chip-group"
@@ -143,20 +141,18 @@
                   </div>
                 </div>
 
-                <!-- Icon — Segmented Control (2 Optionen) -->
                 <div class="docs-stage__control">
                   <span class="docs-stage__label">Icon</span>
                   <div class="nc-segmented-control nc-segmented-control--sm"
                        role="radiogroup" aria-label="Icon"
                        data-stage-control="segmented" data-stage-target="stage-icon" data-default="none">
                     <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
-                            data-value="none">Kein</button>
+                            data-value="none">Kein Icon</button>
                     <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
-                            data-value="leading">Leading</button>
+                            data-value="leading">Leading Icon</button>
                   </div>
                 </div>
 
-                <!-- Dot Mode — Switch (Boolean) -->
                 <label class="nc-switch nc-switch--sm"
                        data-stage-control="switch" data-stage-target="stage-dot">
                   <input type="checkbox" class="nc-switch__input" role="switch" />
@@ -184,7 +180,7 @@
                 </button>
               </div>
 
-              <!-- Hidden Inputs — Backward-Kompatibilität für badge-docs.js -->
+              <!-- Hidden Inputs — Backward-Kompatibilität -->
               <select class="docs-stage__hidden" id="stage-theme">
                 <option value="neo-light-theme" selected>Neo Light</option>
                 <option value="neo-dark-theme">Neo Dark</option>
@@ -192,8 +188,8 @@
                 <option value="customer-dark-theme">Customer Dark</option>
               </select>
               <select class="docs-stage__hidden" id="stage-size">
-                <option value="sm">SM</option>
-                <option value="md" selected>MD</option>
+                <option value="sm">SM (20px)</option>
+                <option value="md" selected>MD (24px)</option>
               </select>
               <select class="docs-stage__hidden" id="stage-variant">
                 <option value="default" selected>Default</option>
