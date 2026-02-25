@@ -74,13 +74,13 @@
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   cursor: pointer;
   flex-shrink: 0;
 
   &:hover {
-    background-color: color-mix(in srgb, var(--fnd-color-text-high) 8%, transparent);
-    color: var(--fnd-color-text-high);
+    background-color: color-mix(in srgb, var(--fnd-color-text-primary) 8%, transparent);
+    color: var(--fnd-color-text-primary);
   }
 
   &:focus-visible {
@@ -112,14 +112,14 @@
   font-family: var(--font-heading);
   @include paragraph('l');
   font-weight: var(--fnd-font-weight-medium);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   white-space: nowrap;
   flex-shrink: 0;
   user-select: none;
   text-decoration: none;
 
   &:hover {
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 }
 
@@ -142,13 +142,13 @@
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   cursor: pointer;
   flex-shrink: 0;
 
   &:hover {
-    background-color: color-mix(in srgb, var(--fnd-color-text-high) 8%, transparent);
-    color: var(--fnd-color-text-high);
+    background-color: color-mix(in srgb, var(--fnd-color-text-primary) 8%, transparent);
+    color: var(--fnd-color-text-primary);
   }
 
   &:focus-visible {
@@ -189,12 +189,12 @@
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   cursor: pointer;
   flex-shrink: 0;
 
   &:hover {
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 
   &:focus-visible {
@@ -213,7 +213,7 @@
 .docs-header__theme-icon {
   width: 16px;
   height: 16px;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   flex-shrink: 0;
   display: inline-flex;
 
@@ -256,7 +256,7 @@
   }
 
   &[aria-checked='true'] {
-    background-color: var(--fnd-color-text-mid);
+    background-color: var(--fnd-color-text-secondary);
 
     > .docs-header__theme-thumb {
       transform: translateX(calc(var(--_track-w) - var(--_thumb-size) - 2 * var(--_thumb-offset))) translateY(-50%);
@@ -334,7 +334,7 @@
   position: fixed;
   inset: 0;
   z-index: calc(var(--fnd-z-sidebar) - 1);
-  background-color: color-mix(in srgb, var(--fnd-color-text-high) 40%, transparent);
+  background-color: color-mix(in srgb, var(--fnd-color-text-primary) 40%, transparent);
   opacity: 0;
   @include transition-quick((opacity));
 
@@ -361,7 +361,7 @@
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   font-weight: var(--fnd-font-weight-medium);
   @include paragraph('s');
   text-transform: uppercase;
@@ -418,19 +418,19 @@
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03) var(--fnd-spacing-01) var(--fnd-spacing-03);
   border-radius: var(--fnd-radius-sm);
   text-decoration: none;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   @include paragraph('m');
   @include transition-quick((background-color, color));
 
   &:hover {
     background-color: color-mix(in srgb, var(--fnd-color-interactive-default) 4%, transparent);
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 
   // Active Link: Grüner Background-Tint (Accent)
   &[aria-current='page'] {
     background-color: color-mix(in srgb, var(--fnd-color-background-accent) 25%, transparent);
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
     font-weight: var(--fnd-font-weight-semibold);
   }
 }
@@ -446,7 +446,7 @@
 .docs-sidebar__subgroup-label {
   display: block;
   padding: var(--fnd-spacing-02) var(--fnd-spacing-02) var(--fnd-spacing-02) var(--fnd-spacing-03);
-  color: var(--fnd-color-text-low);
+  color: var(--fnd-color-text-tertiary);
   font-weight: var(--fnd-font-weight-semibold);
   @include paragraph('s');
   letter-spacing: 0.04em;
@@ -479,7 +479,7 @@
   --docs-padding-block: var(--fnd-spacing-08);
 
   padding: 0;
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   font-family: var(--font-body);
 }
 
@@ -493,7 +493,7 @@
 
 .docs__subtitle {
   @include paragraph('xl');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   margin-block-end: 0;
   max-width: var(--fnd-prose-max-width);
 }
@@ -562,7 +562,7 @@
 
 .docs__section-desc {
   @include paragraph('l');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   margin-block-end: var(--fnd-spacing-08);
   max-width: var(--fnd-prose-max-width);
 }
@@ -578,7 +578,7 @@
   background-color: var(--fnd-color-layer-01);
   padding: 0.125em 0.4em;
   border-radius: var(--fnd-radius-sm);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
 }
 
 .docs__code-block {
@@ -613,7 +613,7 @@
   text-align: center;
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-medium);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   min-height: 48px;
   display: flex;
   align-items: center;
@@ -635,7 +635,7 @@
   padding: var(--fnd-spacing-06);
   text-align: center;
   @include paragraph('m');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 .docs__grid-demo--gutters {
@@ -646,7 +646,7 @@
 
 // Container demo
 .docs__container-demo {
-  border: 2px solid var(--fnd-color-border-mid);
+  border: 2px solid var(--fnd-color-border-primary);
   border-radius: var(--fnd-radius-lg);
   margin-block-end: var(--fnd-spacing-06);
   position: relative;
@@ -665,7 +665,7 @@
   padding: var(--fnd-spacing-06);
   text-align: center;
   @include paragraph('m');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 // Padding demo
@@ -682,7 +682,7 @@
   padding: var(--fnd-spacing-04);
   text-align: center;
   @include paragraph('m');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 // ---------------------------------------------------------------------------
@@ -710,7 +710,7 @@
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-semibold);
   background-color: var(--fnd-color-background-tertiary);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   @include transition-quick((background-color, color));
 
   &.is-active {
@@ -745,7 +745,7 @@
   font-family: var(--font-mono);
   @include paragraph('s');
   font-weight: var(--fnd-font-weight-medium);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
 }
 
 .docs__spacing-bar {
@@ -762,7 +762,7 @@
 
 .docs__spacing-value {
   @include paragraph('xs');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 // ---------------------------------------------------------------------------
@@ -785,7 +785,7 @@
 
 .docs__type-meta-item {
   @include paragraph('xs');
-  color: var(--fnd-color-text-low);
+  color: var(--fnd-color-text-tertiary);
 }
 
 .docs__type-scale {
@@ -801,7 +801,7 @@
   align-items: baseline;
   gap: var(--fnd-spacing-04);
   padding: var(--fnd-spacing-03) 0;
-  border-bottom: 1px solid var(--fnd-color-border-low);
+  border-bottom: 1px solid var(--fnd-color-border-secondary);
 
   @include tablet-up {
     grid-template-columns: 120px 1fr;
@@ -812,7 +812,7 @@
   font-family: var(--font-mono);
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-medium);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   white-space: nowrap;
 }
 
@@ -821,7 +821,7 @@
   position: fixed;
   bottom: var(--fnd-spacing-04);
   right: var(--fnd-spacing-04);
-  background-color: var(--fnd-color-text-high);
+  background-color: var(--fnd-color-text-primary);
   color: var(--fnd-color-text-inverse);
   padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
   border-radius: var(--fnd-radius-sm);
@@ -845,19 +845,19 @@
 
 .docs__semantic-block {
   background-color: var(--fnd-color-layer-01);
-  border: 1px solid var(--fnd-color-border-low);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-lg);
   padding: var(--fnd-spacing-06);
   text-align: center;
   @include paragraph('m');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 .docs__semantic-spacer {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--fnd-color-text-low);
+  color: var(--fnd-color-text-tertiary);
   @include paragraph('xs');
   font-family: var(--font-mono);
   position: relative;
@@ -868,7 +868,7 @@
     position: absolute;
     left: 50%;
     width: 1px;
-    background-color: var(--fnd-color-border-mid);
+    background-color: var(--fnd-color-border-primary);
   }
 
   &::before {
@@ -894,7 +894,7 @@
 .docs-tabs__list {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--fnd-color-border-low);
+  border-bottom: 2px solid var(--fnd-color-border-secondary);
   margin-block-end: var(--fnd-spacing-06);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -907,7 +907,7 @@
   border-bottom: 2px solid transparent;
   margin-block-end: -2px;
   background: none;
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   font-family: var(--font-body);
   font-weight: var(--fnd-font-weight-medium);
   @include paragraph('m');
@@ -916,7 +916,7 @@
   @include transition-quick((color, border-color));
 
   &:hover {
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 
   &:focus-visible {
@@ -991,16 +991,16 @@
   justify-content: center;
   gap: var(--fnd-spacing-01);
   padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
-  border: 1px solid var(--fnd-color-border-low);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-sm);
   background: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   cursor: pointer;
   @include paragraph('xs');
   @include transition-quick((color, background-color, border-color));
 
   &:hover {
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
     background: var(--fnd-color-background-secondary);
   }
 
@@ -1030,7 +1030,7 @@
 .docs-stage__label {
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -1039,10 +1039,10 @@
 // Legacy Select (Backward-Kompatibilität für nicht-migrierte Seiten)
 .docs-stage__select {
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
-  border: 1px solid var(--fnd-color-border-low);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-sm);
   background-color: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   @include paragraph('s');
   cursor: pointer;
 
@@ -1057,7 +1057,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  border: 1.5px solid var(--fnd-color-border-low);
+  border: 1.5px solid var(--fnd-color-border-secondary);
   flex-shrink: 0;
 
   &--neo-light     { background-color: #ffffff; }
@@ -1078,7 +1078,7 @@
 .docs-stage__toolbar .nc-switch--sm .nc-switch__label {
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -1134,7 +1134,7 @@
   font-family: var(--font-mono);
   @include paragraph('xs');
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
 }
 
 // ---------------------------------------------------------------------------
@@ -1164,10 +1164,10 @@
   top: var(--fnd-spacing-03);
   right: var(--fnd-spacing-03);
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
-  border: 1px solid var(--fnd-color-border-low);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-sm);
   background-color: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   @include paragraph('xs');
   cursor: pointer;
   opacity: 0;
@@ -1178,8 +1178,8 @@
   }
 
   &:hover {
-    color: var(--fnd-color-text-high);
-    border-color: var(--fnd-color-border-mid);
+    color: var(--fnd-color-text-primary);
+    border-color: var(--fnd-color-border-primary);
   }
 
   &:focus-visible {
@@ -1217,13 +1217,13 @@
     margin: 0 0 var(--fnd-spacing-02) 0;
     font-weight: var(--fnd-font-weight-semibold);
     @include paragraph('m');
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 
   p, ul {
     margin: 0;
     @include paragraph('m');
-    color: var(--fnd-color-text-mid);
+    color: var(--fnd-color-text-secondary);
   }
 
   ul {
@@ -1249,7 +1249,7 @@
   max-height: 400px;
   overflow-y: auto;
   background-color: var(--fnd-color-background-base);
-  border: 1px solid var(--fnd-color-border-low);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-lg);
   box-shadow: var(--fnd-elevation-floating);
   z-index: var(--fnd-z-dropdown);
@@ -1263,7 +1263,7 @@
   gap: var(--fnd-spacing-03);
   padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
   text-decoration: none;
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   @include transition-quick((background-color));
 
   &:hover,
@@ -1272,7 +1272,7 @@
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--fnd-color-border-low);
+    border-bottom: 1px solid var(--fnd-color-border-secondary);
   }
 }
 
@@ -1283,13 +1283,13 @@
 
 .docs-search-results__section {
   @include paragraph('xs');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   white-space: nowrap;
 }
 
 .docs-search-results__empty {
   padding: var(--fnd-spacing-04);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   text-align: center;
   @include paragraph('m');
 }
@@ -1339,8 +1339,8 @@
   }
 
   &--secondary {
-    background: color-mix(in srgb, var(--fnd-color-text-mid) 8%, var(--fnd-color-background-base));
-    border-color: var(--fnd-color-text-mid);
+    background: color-mix(in srgb, var(--fnd-color-text-secondary) 8%, var(--fnd-color-background-base));
+    border-color: var(--fnd-color-text-secondary);
   }
 }
 
@@ -1394,7 +1394,7 @@
 .docs-toc__title {
   @include paragraph('s');
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--fnd-color-text-low);
+  color: var(--fnd-color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-block-end: var(--fnd-spacing-03);
@@ -1414,13 +1414,13 @@
   display: block;
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
   @include paragraph('m');
-  color: var(--fnd-color-text-low);
+  color: var(--fnd-color-text-tertiary);
   text-decoration: none;
   border-inline-start: 2px solid transparent;
   @include transition-quick((color, border-color));
 
   &:hover {
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
   }
 
   &.is-active {
@@ -1446,13 +1446,13 @@
   font-family: var(--font-heading);
   font-weight: var(--fnd-font-weight-light);
   letter-spacing: -0.02em;
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   margin: 0 0 var(--fnd-spacing-04);
 }
 
 .docs-landing__hero-desc {
   @include paragraph('xl');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   max-width: 640px;
   margin: 0 auto var(--fnd-spacing-06);
 }
@@ -1492,7 +1492,7 @@
 
   &:hover {
     box-shadow: var(--fnd-elevation-raised);
-    border-color: var(--fnd-color-border-mid);
+    border-color: var(--fnd-color-border-primary);
   }
 
   &:focus-visible {
@@ -1508,7 +1508,7 @@
 
 .docs-landing__card-desc {
   @include paragraph('m');
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   margin: 0;
 }
 
@@ -1523,7 +1523,7 @@
 .docs-landing__footer {
   padding: var(--fnd-spacing-05) var(--fnd-spacing-08);
   border-top: 1px solid var(--fnd-color-border-secondary);
-  color: var(--fnd-color-text-mid);
+  color: var(--fnd-color-text-secondary);
   @include paragraph('s');
   display: flex;
   justify-content: space-between;

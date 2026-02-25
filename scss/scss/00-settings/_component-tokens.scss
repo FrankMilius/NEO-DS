@@ -146,13 +146,6 @@
   --nc-button-error-color: var(--fnd-color-always-light);
   --nc-button-error-border: var(--fnd-color-feedback-danger);
 
-  // -- Deprecated aliases (backward-compat) --
-  --nc-button-destructive-bg: var(--nc-button-error-bg);
-  --nc-button-destructive-bg-hover: var(--nc-button-error-bg-hover);
-  --nc-button-destructive-bg-active: var(--nc-button-error-bg-active);
-  --nc-button-destructive-color: var(--nc-button-error-color);
-  --nc-button-destructive-border: var(--nc-button-error-border);
-
   // -- Disabled State --
   --nc-button-disabled-bg: var(--fnd-color-background-disabled);
   --nc-button-disabled-color: var(--fnd-color-text-disabled);
@@ -275,15 +268,12 @@
   --nc-input-height-sm: var(--fnd-size-sm);
   --nc-input-height-md: var(--fnd-size-md);
   --nc-input-height-lg: var(--fnd-size-lg);
-  --nc-input-height: var(--nc-input-height-md);                // Alias (backward compat)
   --nc-input-padding-x-sm: var(--fnd-spacing-03);              // 12px
   --nc-input-padding-x-md: var(--fnd-spacing-04);              // 16px
   --nc-input-padding-x-lg: var(--fnd-spacing-05);              // 20px
-  --nc-input-padding-x: var(--nc-input-padding-x-md);          // Alias
   --nc-input-padding-y-sm: var(--fnd-spacing-01);              // 4px
   --nc-input-padding-y-md: var(--fnd-spacing-02);              // 8px
   --nc-input-padding-y-lg: var(--fnd-spacing-03);              // 12px
-  --nc-input-padding-y: var(--nc-input-padding-y-md);          // Alias
   --nc-input-font-size-sm: var(--fs-xs);
   --nc-input-font-size-md: var(--fs-base);
   --nc-input-font-size-lg: var(--fs-base);
@@ -387,7 +377,6 @@
   --nc-checkbox-border-hover: var(--fnd-color-interactive-hover);
   --nc-checkbox-bg-checked: var(--fnd-color-interactive-default);
   --nc-checkbox-border-checked: var(--fnd-color-interactive-default);
-  --nc-checkbox-checkmark-color: var(--fnd-color-text-on-interactive);
   --nc-checkbox-bg-indeterminate: var(--fnd-color-interactive-default);
 
   // -- Disabled --
@@ -411,9 +400,6 @@
   // ---------------------------------------------------------------------------
 
   // -- Geometry --
-  --nc-radio-size-sm: 16px;
-  --nc-radio-size-md: 20px;
-  --nc-radio-size-lg: 24px;
   --nc-radio-border-width: var(--fnd-border-width-sm);         // 2px
 
   // -- Colors --
@@ -474,7 +460,6 @@
   --nc-input-group-addon-bg: var(--fnd-color-background-secondary);
   --nc-input-group-addon-color: var(--fnd-color-text-secondary);
   --nc-input-group-addon-border: var(--fnd-color-border-primary);
-  --nc-input-group-addon-padding: var(--fnd-spacing-03);
   --nc-input-group-addon-padding-x: var(--fnd-spacing-03);
   --nc-input-group-addon-font-size: var(--nc-input-font-size-md);
 
@@ -608,10 +593,9 @@
   --nc-tabs-trigger-font-weight: var(--fnd-font-weight-medium);
   --nc-tabs-trigger-font-weight-active: var(--fnd-font-weight-semibold);
   --nc-tabs-trigger-disabled-opacity: var(--fnd-opacity-disabled);
-  --nc-tabs-line-border-color: var(--fnd-color-border-low);
+  --nc-tabs-line-border-color: var(--fnd-color-border-secondary);
   --nc-tabs-line-indicator-color: var(--fnd-color-interactive-default);
   --nc-tabs-contained-bg: var(--fnd-color-background-secondary);
-  --nc-tabs-content-padding: var(--fnd-spacing-06);
 
   // ---------------------------------------------------------------------------
   // Alert Tokens
@@ -797,12 +781,9 @@
   // Toast/Notification Tokens
   // ---------------------------------------------------------------------------
 
-  --nc-toast-max-width: 420px;
   --nc-toast-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-toast-radius: var(--fnd-radius-lg);
-  --nc-toast-bg: var(--fnd-color-background-base);
   --nc-toast-shadow: var(--fnd-elevation-floating);
-  --nc-toast-border: var(--fnd-color-border-secondary);
 
   // ---------------------------------------------------------------------------
   // Tag Tokens
@@ -872,7 +853,6 @@
 
   // -- Icon --
   --nc-tag-icon-size: 14px;
-  --nc-tag-icon-gap: var(--fnd-spacing-01);            // 4px
 
   // -- Disabled --
   --nc-tag-disabled-bg: var(--fnd-color-background-disabled);
@@ -915,7 +895,6 @@
 
   // -- Remove --
   --nc-chip-remove-size: 16px;
-  --nc-chip-remove-hover-bg: color-mix(in srgb, currentColor 15%, transparent);
 
   // -- Icon / Avatar --
   --nc-chip-icon-size: 16px;
@@ -1069,7 +1048,6 @@
   // -- Container --
   --nc-dt-radius:                 var(--fnd-radius-lg);                    // 8px — ref(radius.lg)
   --nc-dt-border:                 var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
-  --nc-dt-shadow:                 var(--fnd-shadow-sm);                    // ref(shadow.sm)
   --nc-dt-body-bg:                var(--fnd-color-background-base);        // ref(color.surface.default)
   --nc-dt-body-color:             var(--fnd-color-text-primary);           // ref(color.text.primary)
   --nc-dt-body-font-size:         var(--fs-sm);                             // 14px — ref(font.size.sm)
@@ -1113,7 +1091,6 @@
   --nc-dt-sort-hit-area:          var(--nc-icon-touch-target);             // 44px — ref(size.hitTarget.md)
 
   // -- Selection (Checkbox-Spalte) --
-  --nc-dt-checkbox-size:          var(--nc-checkbox-size-md);              // 20px — ref(size.control.md)
   --nc-dt-checkbox-column-width:  52px;
   --nc-dt-checkbox-padding-x:     var(--fnd-spacing-03);                   // ref(space.3)
 
@@ -1122,12 +1099,10 @@
   --nc-dt-expand-column-width:    52px;
   --nc-dt-expand-panel-bg:        var(--fnd-color-layer-01);
   --nc-dt-expand-panel-padding:   var(--fnd-spacing-04) var(--fnd-spacing-06);
-  --nc-dt-expand-indent:          var(--fnd-spacing-06);                   // ref(space.6)
 
   // -- Row Actions --
   --nc-dt-action-column-width:    52px;
   --nc-dt-action-icon-size:       var(--nc-icon-size-sm);                  // 20px — ref(size.icon.md)
-  --nc-dt-action-gap:             var(--fnd-spacing-02);                   // ref(space.2)
 
   // -- Batch Actions Bar --
   --nc-dt-batch-bg:               var(--fnd-color-background-inverse);     // ref(color.surface.inverse)
@@ -1138,15 +1113,12 @@
 
   // -- Search --
   --nc-dt-search-min-width:       240px;                                   // FALLBACK size.input.lg
-  --nc-dt-search-icon-size:       var(--nc-icon-size-xs);                  // 16px — ref(size.icon.sm)
 
   // -- Rows-Per-Page Select --
   --nc-dt-select-width:           120px;                                   // FALLBACK size.select.md
   --nc-dt-page-select-width:      72px;                                    // Breite des Seiten-Jump-Selects
 
   // -- Column Constraints --
-  --nc-dt-column-min-width:       80px;                                    // FALLBACK size.column.min
-  --nc-dt-column-max-width:       400px;                                   // FALLBACK size.column.max
 
   // -- States: Empty --
   --nc-dt-empty-icon-size:        32px;                                    // FALLBACK size.icon.lg → nc-icon-size-xl
@@ -1154,7 +1126,6 @@
   --nc-dt-empty-body-color:       var(--fnd-color-text-secondary);
 
   // -- States: Loading (Skeleton) --
-  --nc-dt-skeleton-row-height:    var(--nc-dt-row-height-default);
   --nc-dt-skeleton-bg:            var(--fnd-color-background-secondary);
   --nc-dt-skeleton-radius:        var(--fnd-radius-md);                    // ref(radius.md)
   --nc-dt-skeleton-shimmer:       var(--fnd-color-background-tertiary);
@@ -1167,9 +1138,6 @@
   --nc-dt-scroll-shadow-size:     24px;
 
   // -- Focus --
-  --nc-dt-focus-color:            var(--fnd-color-interactive-focus);      // ref(color.focus)
-  --nc-dt-focus-width:            var(--fnd-border-width-sm);              // 2px — ref(border.width.2)
-  --nc-dt-focus-offset:           var(--fnd-spacing-01);                   // 4px — ref(space.1)
 
   // -- Transition --
   --nc-dt-transition-duration:    var(--fnd-motion-duration-200);
@@ -1255,7 +1223,6 @@
 :root {
   --nc-spinner-color:           var(--fnd-color-interactive-default);
   --nc-spinner-track-color:     var(--fnd-color-border-secondary);
-  --nc-spinner-border-width:    var(--fnd-border-width-sm);      // 2px
   --nc-spinner-duration:        var(--fnd-motion-duration-700);   // 700ms
   --nc-spinner-ease:            var(--fnd-motion-ease-linear);
 
@@ -1321,7 +1288,6 @@
   --nc-divider-label-size:      var(--fs-xs);
   --nc-divider-label-weight:    var(--fnd-font-weight-medium);
   --nc-divider-label-gap:       var(--fnd-spacing-03);           // 12px
-  --nc-divider-label-bg:        var(--fnd-color-background-base);
 
   // Variante: stark
   --nc-divider-strong-color:    var(--fnd-color-border-strong);
@@ -1368,7 +1334,6 @@
   --nc-pagination-item-color:       var(--fnd-color-text-primary);
   --nc-pagination-item-color-active: var(--fnd-color-text-on-interactive);
   --nc-pagination-item-font-weight: var(--fnd-font-weight-medium);
-  --nc-pagination-item-transition:  var(--fnd-motion-duration-150);
 
   // Navigation (Prev/Next)
   --nc-pagination-nav-color:        var(--fnd-color-interactive-default);
@@ -1408,7 +1373,6 @@
   --nc-dropdown-item-gap:           var(--fnd-spacing-02);           // 8px
   --nc-dropdown-item-font-size:     var(--fs-sm);
   --nc-dropdown-item-font-weight:   var(--fnd-font-weight-regular);
-  --nc-dropdown-item-transition:    var(--fnd-motion-duration-100);
 
   // Danger Item
   --nc-dropdown-item-danger-color:  var(--fnd-color-feedback-danger);
@@ -1513,7 +1477,6 @@
 
   // Pulse-Animation (fuer Live-Status)
   --nc-status-pulse-duration:       var(--fnd-motion-duration-1000);
-  --nc-status-pulse-scale:          2;
 }
 
 // ---------------------------------------------------------------------------
@@ -1559,7 +1522,6 @@
 :root {
   --nc-timeline-line-color:       var(--fnd-color-border-secondary);
   --nc-timeline-line-width:       var(--fnd-border-width-sm);      // 2px
-  --nc-timeline-line-style:       solid;
   --nc-timeline-gap:              0;
 
   // Node (Punkt auf der Linie)
@@ -1605,7 +1567,6 @@
   --nc-sidebar-border-width:      var(--fnd-border-width-xs);      // 1px
   --nc-sidebar-padding:           var(--fnd-spacing-03);           // 12px
   --nc-sidebar-z-index:           var(--fnd-z-sidebar);
-  --nc-sidebar-transition:        var(--fnd-motion-duration-300);
 
   // Item
   --nc-sidebar-item-height:       var(--fnd-size-sm);              // 32px
@@ -1620,7 +1581,6 @@
   --nc-sidebar-item-font-size:    var(--fs-sm);
   --nc-sidebar-item-font-weight:  var(--fnd-font-weight-medium);
   --nc-sidebar-item-icon-size:    20px;
-  --nc-sidebar-item-transition:   var(--fnd-motion-duration-150);
 
   // Group
   --nc-sidebar-group-label-color: var(--fnd-color-text-tertiary);
@@ -1695,7 +1655,6 @@
   --nc-search-item-icon-color:    var(--fnd-color-text-secondary);
   --nc-search-item-gap:           var(--fnd-spacing-02);           // 8px
   --nc-search-item-font-size:     var(--fs-sm);
-  --nc-search-item-transition:    var(--fnd-motion-duration-100);
 
   // Highlight (Treffer-Markierung)
   --nc-search-highlight-bg:       color-mix(in srgb, var(--fnd-color-feedback-warning) 30%, transparent);

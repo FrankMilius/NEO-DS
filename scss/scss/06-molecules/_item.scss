@@ -62,10 +62,10 @@
   --nc-item-title-font-size: var(--fs-sm);
   --nc-item-title-font-weight: var(--fnd-font-weight-medium);
   --nc-item-title-line-height: 1.4;
-  --nc-item-title-color: var(--fnd-color-text-high);
+  --nc-item-title-color: var(--fnd-color-text-primary);
   --nc-item-desc-font-size: var(--fs-xs);
   --nc-item-desc-line-height: 1.5;
-  --nc-item-desc-color: var(--fnd-color-text-mid);
+  --nc-item-desc-color: var(--fnd-color-text-secondary);
 
   // Colors
   --nc-item-bg: transparent;
@@ -77,7 +77,7 @@
   --nc-item-media-size: 40px;
   --nc-item-media-radius: var(--fnd-radius-md);
   --nc-item-media-bg: var(--fnd-color-background-secondary);
-  --nc-item-media-color: var(--fnd-color-text-mid);
+  --nc-item-media-color: var(--fnd-color-text-secondary);
 
   // Transition
   --nc-item-transition: 0.15s ease;
@@ -131,7 +131,7 @@ button.nc-item,
 // ---------------------------------------------------------------------------
 
 .nc-item--outline {
-  --nc-item-border: var(--fnd-color-border-low);
+  --nc-item-border: var(--fnd-color-border-secondary);
 
   &:hover,
   a#{&}:hover,
@@ -281,14 +281,14 @@ button.nc-item,
 
 // Zusammenhaengende Gruppe mit Outline-Border
 .nc-item-group--outline {
-  border: var(--fnd-border-width-xs) solid var(--fnd-color-border-low);
+  border: var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-lg);
   overflow: hidden;
 
   > .nc-item {
     border-radius: 0;
     border: none;
-    border-bottom: var(--fnd-border-width-xs) solid var(--fnd-color-border-low);
+    border-bottom: var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
 
     &:last-child {
       border-bottom: none;
@@ -303,6 +303,6 @@ button.nc-item,
 .nc-item-separator {
   height: 0;
   border: none;
-  border-top: var(--fnd-border-width-xs) solid var(--fnd-color-border-low);
+  border-top: var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
   margin: 0;
 }

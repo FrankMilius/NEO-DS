@@ -62,14 +62,14 @@
     display: inline-block;
     @include transition(width min-width, '450');
     position: relative;
-    background: var(--fnd-color-border-mid);
+    background: var(--fnd-color-border-primary);
     
     &.active {
       min-width: 112px;
       width: 112px;
       
       &:not(.autoplay) {
-        background: var(--fnd-color-border-high);
+        background: var(--fnd-color-border-strong);
       }
     }
     
@@ -80,7 +80,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      background: var(--fnd-color-border-high);
+      background: var(--fnd-color-border-strong);
       animation: carousel-line-progress 4s var(--fnd-motion-ease-informative) forwards;
     }
   }
@@ -106,7 +106,7 @@
       align-items: center;
       justify-content: center;
       padding: 0;
-      color: var(--fnd-color-border-high);
+      color: var(--fnd-color-border-strong);
       
       span.icon,
       svg {
@@ -118,7 +118,7 @@
       }
       
       &:disabled {
-        color: var(--fnd-color-text-state-disabled);
+        color: var(--fnd-color-text-disabled);
       }
     }
   }

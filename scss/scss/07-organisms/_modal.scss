@@ -81,17 +81,17 @@ body:has(.location-preference-modal[open]) {
   // Dialog Header
   .dialog-header {
     @include heading('m');
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
     margin-top: var(--fnd-spacing-10);
   }
   
   // Current Location
   .current-location {
     @include paragraph('l');
-    color: var(--fnd-color-text-mid);
+    color: var(--fnd-color-text-secondary);
     
     span {
-      color: var(--fnd-color-text-high);
+      color: var(--fnd-color-text-primary);
     }
   }
   
@@ -100,7 +100,7 @@ body:has(.location-preference-modal[open]) {
     @include paragraph('m');
     width: 100%;
     padding: 10px;
-    color: var(--fnd-color-text-mid);
+    color: var(--fnd-color-text-secondary);
     border: none;
     border-radius: var(--fnd-radius-lg);
     background-color: var(--fnd-color-background-secondary);
@@ -153,12 +153,12 @@ body:has(.location-preference-modal[open]) {
     @include paragraph('l');
     @include flex-column;
     justify-content: space-between;
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
     padding-block: var(--fnd-spacing-05);
-    border-bottom: 1px solid var(--fnd-color-border-low);
+    border-bottom: 1px solid var(--fnd-color-border-secondary);
     
     summary {
-      color: var(--fnd-color-text-high);
+      color: var(--fnd-color-text-primary);
       @include flex-between;
       list-style: none;
       cursor: pointer;
@@ -172,7 +172,7 @@ body:has(.location-preference-modal[open]) {
         place-content: center center;
         border-radius: var(--fnd-radius-sm);
         background: var(--fnd-color-background-secondary);
-        color: var(--fnd-color-text-mid);
+        color: var(--fnd-color-text-secondary);
         width: 32px;
         height: 32px;
         
@@ -213,7 +213,7 @@ body:has(.location-preference-modal[open]) {
     li {
       @include paragraph('m');
       cursor: pointer;
-      color: var(--fnd-color-text-high);
+      color: var(--fnd-color-text-primary);
       height: 48px;
       padding-left: var(--fnd-spacing-03);
       border-radius: var(--fnd-radius-lg);
@@ -314,11 +314,11 @@ body:has(.location-preference-modal[open]) {
     }
     
     h2 {
-      color: var(--fnd-color-text-high);
+      color: var(--fnd-color-text-primary);
     }
     
     p {
-      color: var(--fnd-color-text-mid);
+      color: var(--fnd-color-text-secondary);
       margin: 0;
     }
     
@@ -365,7 +365,7 @@ body:has(.location-preference-modal[open]) {
         font-size: var(--fs-sm);
         line-height: 1.125rem;
         letter-spacing: 0;
-        color: var(--fnd-color-text-high);
+        color: var(--fnd-color-text-primary);
         
         &::before {
           content: '';
@@ -382,7 +382,7 @@ body:has(.location-preference-modal[open]) {
       }
       
       .icon {
-        color: var(--fnd-color-text-mid);
+        color: var(--fnd-color-text-secondary);
         width: 20px;
         height: 20px;
         line-height: 0;
@@ -396,7 +396,7 @@ body:has(.location-preference-modal[open]) {
 // ---------------------------------------------------------------------------
 
 dialog.green-theme {
-  background-color: var(--fnd-color-background-accent-green);
+  background-color: var(--fnd-color-background-accent);
 
   &:hover {
     background-color: var(--fnd-color-background-accent-secondary);
@@ -415,9 +415,9 @@ dialog.green-theme {
   width: 48px;
   height: 48px;
   border-radius: var(--fnd-radius-full, 50%);
-  border: 2px solid var(--fnd-color-border-mid);
+  border: 2px solid var(--fnd-color-border-primary);
   background-color: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   cursor: pointer;
   @include flex-center;
   box-shadow: var(--fnd-elevation-floating);
@@ -458,7 +458,7 @@ dialog.green-theme {
   border: none;
   padding: 0;
   background-color: var(--fnd-color-surface-elevated);
-  color: var(--fnd-color-text-high);
+  color: var(--fnd-color-text-primary);
   @include flex-column;
 
   &[open] {
@@ -512,7 +512,7 @@ dialog.green-theme {
     align-items: center;
     justify-content: space-between;
     padding: var(--fnd-spacing-05) var(--fnd-spacing-06);
-    border-bottom: 1px solid var(--fnd-color-border-low);
+    border-bottom: 1px solid var(--fnd-color-border-secondary);
     flex-shrink: 0;
   }
 
@@ -561,7 +561,7 @@ dialog.green-theme {
   .theme-switcher__label {
     @include paragraph('m');
     font-weight: var(--fnd-font-weight-semibold);
-    color: var(--fnd-color-text-mid);
+    color: var(--fnd-color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -581,7 +581,7 @@ dialog.green-theme {
     gap: var(--fnd-spacing-03);
     padding: var(--fnd-spacing-04);
     border-radius: var(--fnd-radius-lg);
-    border: 2px solid var(--fnd-color-border-low);
+    border: 2px solid var(--fnd-color-border-secondary);
     cursor: pointer;
     transition:
       border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
@@ -589,7 +589,7 @@ dialog.green-theme {
       box-shadow var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
 
     &:hover {
-      border-color: var(--fnd-color-border-mid);
+      border-color: var(--fnd-color-border-primary);
       background-color: var(--fnd-color-background-secondary);
     }
 
@@ -665,7 +665,7 @@ dialog.green-theme {
   .theme-switcher__option-label {
     @include paragraph('s');
     font-weight: var(--fnd-font-weight-medium);
-    color: var(--fnd-color-text-high);
+    color: var(--fnd-color-text-primary);
     text-align: center;
   }
 }

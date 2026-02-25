@@ -13,8 +13,6 @@
 //   --fnd-elevation-{base|raised|floating|overlay|modal}  Semantisch
 //   --fnd-shadow-inset-{sm|md}             Inset-Varianten
 //
-// BACKWARD-COMPAT:
-//   --ds-shadow-levels-{size}  →  Alias auf --fnd-shadow-{size}
 // ==========================================================================
 
 @use 'sass:map';
@@ -90,11 +88,6 @@ $shadow-inset-dark: (
   // Shadow Levels (raw)
   @each $key, $value in $shadow-levels {
     --fnd-shadow-#{$key}: #{$value};
-  }
-
-  // Backward-compat aliases (--ds-shadow-levels-* → --fnd-shadow-*)
-  @each $key, $_ in $shadow-levels {
-    --ds-shadow-levels-#{$key}: var(--fnd-shadow-#{$key});
   }
 
   // Semantic Elevation Levels

@@ -427,7 +427,7 @@ const generateCss = () => {
   const flat = flatten(flatSource);
   const cssLines = [':root {'];
   flat.forEach(({ key, value }) => {
-    cssLines.push(`  --ds-${key}: ${value};`);
+    cssLines.push(`  --fnd-${key}: ${value};`);
   });
   cssLines.push('}');
   fs.writeFileSync(outCss, cssLines.join('\n') + '\n', 'utf8');
