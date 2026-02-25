@@ -986,10 +986,18 @@
 }
 
 // ---------------------------------------------------------------------------
-// Staging Area — Mehr Raum
+// Staging Area — DS-Komponenten Toolbar
 // ---------------------------------------------------------------------------
 
 .docs-stage {
+  // Komponent-Tokens
+  --nc-stage-toolbar-bg: var(--fnd-color-layer-01);
+  --nc-stage-toolbar-border: var(--fnd-color-border-secondary);
+  --nc-stage-toolbar-padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  --nc-stage-toolbar-gap: var(--fnd-spacing-03);
+  --nc-stage-preview-padding: var(--fnd-spacing-10);
+  --nc-stage-preview-min-height: 200px;
+
   border: 1px solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-3xl);
   overflow: hidden;
@@ -999,11 +1007,64 @@
 .docs-stage__toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--fnd-spacing-04);
-  padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
-  background-color: var(--fnd-color-layer-01);
-  border-bottom: 1px solid var(--fnd-color-border-secondary);
+  gap: var(--nc-stage-toolbar-gap);
+  padding: var(--nc-stage-toolbar-padding);
+  background-color: var(--nc-stage-toolbar-bg);
+  border-bottom: 1px solid var(--nc-stage-toolbar-border);
   align-items: center;
+}
+
+// Links: Komponentenspezifische Controls (flex-wrap)
+.docs-stage__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nc-stage-toolbar-gap);
+}
+
+// Rechts: Action-Buttons (Copy HTML, Reset, Fullscreen)
+.docs-stage__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  margin-inline-start: auto;
+}
+
+.docs-stage__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fnd-spacing-01);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+  border: 1px solid var(--fnd-color-border-low);
+  border-radius: var(--fnd-radius-sm);
+  background: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-mid);
+  cursor: pointer;
+  @include paragraph('xs');
+  @include transition-quick((color, background-color, border-color));
+
+  &:hover {
+    color: var(--fnd-color-text-high);
+    background: var(--fnd-color-background-secondary);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+}
+
+// Action-Button Feedback (kopiert-Zustand)
+.docs-stage__action-btn--copied {
+  color: var(--fnd-color-feedback-success-text);
+  border-color: var(--fnd-color-feedback-success-border);
 }
 
 .docs-stage__control {
@@ -1021,6 +1082,7 @@
   white-space: nowrap;
 }
 
+// Legacy Select (Backward-Kompatibilität für nicht-migrierte Seiten)
 .docs-stage__select {
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
   border: 1px solid var(--fnd-color-border-low);
@@ -1035,12 +1097,63 @@
   }
 }
 
+// Theme-Dots im Segmented Control
+.docs-stage__theme-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--fnd-color-border-low);
+  flex-shrink: 0;
+
+  &--neo-light     { background-color: #ffffff; }
+  &--neo-dark      { background-color: #121212; }
+  &--customer-light { background-color: #e8f4fd; }
+  &--customer-dark  { background-color: #0a1a2e; }
+}
+
+// Toolbar-interne Segmented Controls: kompakter
+.docs-stage__toolbar .nc-segmented-control--sm {
+  .nc-segmented-control__item {
+    padding-inline: var(--fnd-spacing-02);
+    gap: var(--fnd-spacing-01);
+  }
+}
+
+// Toolbar-interne Switches: Label-Stil anpassen
+.docs-stage__toolbar .nc-switch--sm .nc-switch__label {
+  @include paragraph('xs');
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--fnd-color-text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+// Toolbar-interne nc-select: klein halten
+.docs-stage__toolbar .nc-select--sm {
+  @include paragraph('s');
+  max-width: 200px;
+}
+
+// Hidden Inputs für Backward-Kompatibilität
+.docs-stage__hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .docs-stage__preview {
-  padding: var(--fnd-spacing-10);
+  padding: var(--nc-stage-preview-padding);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: var(--nc-stage-preview-min-height);
   gap: var(--fnd-spacing-04);
   flex-wrap: wrap;
   @include transition-quick((background-color, color));
