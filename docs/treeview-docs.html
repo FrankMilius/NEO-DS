@@ -246,7 +246,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
           <!-- Layout Tokens -->
           <section class="docs__section" id="style-layout-tokens">
             <h2 class="docs__section-title">Layout-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--nc-treeview-indent</code></td><td>24px</td><td>Einr&uuml;ckung pro Level</td></tr>
@@ -258,12 +259,15 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><code class="docs__token">--nc-treeview-radius</code></td><td>var(--fnd-radius-sm)</td><td>Border-Radius der Node-Zeile (4px)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- Typography Tokens -->
           <section class="docs__section" id="style-typography-tokens">
             <h2 class="docs__section-title">Typography-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--nc-treeview-label-font-size</code></td><td>body-m (0.875rem)</td><td>Label-Schriftgr&ouml;&szlig;e</td></tr>
@@ -271,12 +275,15 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><code class="docs__token">--nc-treeview-label-font-weight</code></td><td>400</td><td>Label-Gewicht</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- Color & Interaction Tokens -->
           <section class="docs__section" id="style-color-tokens">
             <h2 class="docs__section-title">Farbe &amp; Interaktion</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--nc-treeview-bg-hover</code></td><td>background-secondary</td><td>Hover-Hintergrund</td></tr>
@@ -291,6 +298,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><code class="docs__token">--nc-treeview-transition-duration</code></td><td>150ms</td><td>Animations-Dauer</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- BEM-Klassen&uuml;bersicht -->
@@ -326,7 +335,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
             <p class="docs__section-desc">
               States werden &uuml;ber ARIA-Attribute und CSS-Klassen gesteuert &mdash; kein <code class="docs__token">data-state</code>.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>State</th><th>Mechanismus</th><th>CSS-Selektor</th></tr></thead>
               <tbody>
                 <tr><td>Expanded</td><td><code class="docs__token">aria-expanded="true"</code></td><td><code class="docs__token">[aria-expanded='true']</code></td></tr>
@@ -337,6 +347,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td>Focus</td><td>CSS <code class="docs__token">:focus-visible</code></td><td>Focus-Ring Mixin</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
         </div>
@@ -349,7 +361,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
           <!-- Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-treeview</code></td></tr>
                 <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-treeview</code></td></tr>
@@ -360,6 +373,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><strong>Keyboard</strong></td><td>Arrow-Keys, Home/End, Enter/Space</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- CSS-Klassen -->
@@ -367,7 +382,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
             <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-treeview</code></td><td>Block</td><td>Nav-Wrapper f&uuml;r den gesamten Baum.</td></tr>
@@ -381,9 +397,12 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><code class="docs__token">.nc-treeview__link</code></td><td>Element</td><td>Externer Link (ersetzt Label bei Link-Variante).</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modifier</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-treeview__item--branch</code></td><td>Node hat Kinder (expandable). Zeigt Chevron an.</td></tr>
@@ -392,6 +411,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                 <tr><td><code class="docs__token">.nc-treeview__item--disabled</code></td><td>Deaktivierter Node (opacity + pointer-events: none).</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- Slots / Element-Struktur -->
@@ -506,7 +527,8 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
             <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
             <div class="docs-a11y-block__content">
               <h4>Keyboard-Navigation (WAI-ARIA TreeView Pattern)</h4>
-              <table class="docs__table" style="margin-block-start: var(--fnd-spacing-03);">
+              <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="margin-block-start: var(--fnd-spacing-03);">
+                <table class="nc-data-table__table">
                 <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
                 <tbody>
                   <tr><td><kbd>&darr;</kbd> ArrowDown</td><td>N&auml;chster sichtbarer Node</td></tr>
@@ -518,6 +540,7 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
                   <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Node aktivieren (Expand/Collapse oder Select)</td></tr>
                 </tbody>
               </table>
+            </div>
             </div>
           </div>
 

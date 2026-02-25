@@ -217,7 +217,8 @@
 
           <section class="docs__section" id="style-layout">
             <h2 class="docs__section-title">Layout-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-feature-accordeon display</code></td><td>grid</td><td>Zweispaltiges CSS-Grid</td></tr>
@@ -226,11 +227,13 @@
                 <tr><td><code class="docs__token">.nc-feature-accordeon__right max-height</code></td><td>min(72vh, 920px)</td><td>Scrollbarer Bereich begrenzt</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-typography">
             <h2 class="docs__section-title">Typografie-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-feature-accordeon__title</code></td><td>clamp(2rem, 3.4vw, 3.2rem), var(--font-heading)</td><td>Fluid Heading, max 16ch</td></tr>
@@ -241,11 +244,13 @@
                 <tr><td><code class="docs__token">.nc-feature-accordeon__item-summary::after font-weight</code></td><td>var(--fnd-font-weight-light)</td><td>Leichtes Gewicht f&uuml;r +/- Zeichen</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-colors">
             <h2 class="docs__section-title">Farb-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse / Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-feature-accordeon__lead color</code></td><td>var(--fnd-color-text-secondary)</td><td>Lead-Text</td></tr>
@@ -257,17 +262,20 @@
                 <tr><td><code class="docs__token">.nc-feature-accordeon__item-body color</code></td><td>var(--fnd-color-text-primary)</td><td>Body-Text</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-responsive">
             <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Breakpoint</th><th>Verhalten</th></tr></thead>
               <tbody>
                 <tr><td>&le; 720px</td><td>Grid wird einspaltig; <code class="docs__token">.nc-feature-accordeon__right</code> scrolbegrenzung wird aufgehoben</td></tr>
                 <tr><td>&gt; 720px</td><td>Zweispaltiges Grid; rechte Spalte gescrollt auf max-height min(72vh, 920px)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -280,7 +288,8 @@
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-feature-accordeon</code></td></tr>
                 <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-feature-accordeon</code></td></tr>
@@ -291,6 +300,7 @@
                 <tr><td><strong>Scrollverhalten</strong></td><td>Rechte Spalte: <code class="docs__token">overflow-y: auto</code> mit max-height</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -298,7 +308,8 @@
             <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-feature-accordeon</code></td><td>Block</td><td>Zweispaltiger Grid-Container.</td></tr>
@@ -319,15 +330,18 @@
                 <tr><td><code class="docs__token">.nc-feature-accordeon__item-list-entry</code></td><td>Element</td><td>Listeneintrag. margin: 0.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zustands-Klassen</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Angewendet auf</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.is-active</code></td><td><code class="docs__token">.nc-feature-accordeon__link</code></td><td>Aktiver Navigations-Link. Prim&auml;re Textfarbe + font-weight: bold.</td></tr>
                 <tr><td><code class="docs__token">open</code> (HTML-Attribut)</td><td><code class="docs__token">.nc-feature-accordeon__item</code> (<code class="docs__token">&lt;details&gt;</code>)</td><td>Ge&ouml;ffnetes Accordion-Item. Summary-Indikator wechselt zu &minus;.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. Element-Struktur -->

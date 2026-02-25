@@ -686,57 +686,11 @@
 }
 
 // ---------------------------------------------------------------------------
-// Tabellen — Minimalistisch
+// Tabellen — migriert zu .nc-data-table--static (07-organisms/_data-table.scss)
 // ---------------------------------------------------------------------------
-
-.docs__table {
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border-collapse: collapse;
+// Spacing unter Tabellen-Wrapper in Docs-Kontext
+.docs .nc-data-table {
   margin-block-end: var(--fnd-spacing-06);
-  @include paragraph('s');
-
-  // Ab Tablet: normales Tabellen-Layout
-  @include respond-to('sm') {
-    display: table;
-    width: 100%;
-    overflow-x: visible;
-  }
-
-  th, td {
-    text-align: left;
-    padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
-    border-bottom: 1px solid var(--fnd-color-border-low);
-  }
-
-  th {
-    font-weight: var(--fnd-font-weight-semibold);
-    color: var(--fnd-color-text-mid);
-    @include paragraph('xs');
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    background-color: transparent;
-  }
-
-  td {
-    color: var(--fnd-color-text-high);
-  }
-
-  // Zebra-Striping
-  tbody tr:nth-child(even) td {
-    background-color: var(--fnd-color-layer-01);
-  }
-
-  .docs__token {
-    @include paragraph('xs');
-  }
-}
-
-.docs__table--compact {
-  td, th {
-    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
-  }
 }
 
 // ---------------------------------------------------------------------------

@@ -390,7 +390,8 @@
           <h2 class="docs__section-title">Component Tokens</h2>
           <p>Alle <code>--nc-card-*</code> Tokens. Die ersten 7 sind bestehend, die weiteren 29 sind neu.</p>
 
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead>
               <tr><th>Token</th><th>Default</th><th>Kategorie</th></tr>
             </thead>
@@ -446,9 +447,11 @@
               <tr><td><code class="docs__token">--nc-card-status-info-border</code></td><td>var(--fnd-color-feedback-info)</td><td>Status</td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">SCSS Mixin-Referenz</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Mixin</th><th>Beschreibung</th></tr></thead>
             <tbody>
               <tr><td><code class="docs__token">card-base</code></td><td>Basis-Container (flex-column, bg, border, radius, shadow, transition)</td></tr>
@@ -466,6 +469,7 @@
               <tr><td><code class="docs__token">card-status</code></td><td>Linker Border-Indikator</td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">BEM-Klassen &Uuml;bersicht</h2>
           <div class="docs__code-block">.nc-card                        // Block (Basis-Container)
@@ -494,7 +498,8 @@
 .nc-card--disabled              // Disabled-State</div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">State Matrix</h2>
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead>
               <tr><th>Variante</th><th>hover</th><th>focus</th><th>active</th><th>disabled</th><th>selected</th><th>open</th></tr>
             </thead>
@@ -508,6 +513,7 @@
               <tr><td>Status</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
             </tbody>
           </table>
+        </div>
 
         </div>
 
@@ -517,7 +523,8 @@
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
           <h2 class="docs__section-title">Komponenten-&Uuml;bersicht</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <tbody>
               <tr><td><strong>Kanonische Klasse</strong></td><td><code>.nc-card</code></td></tr>
               <tr><td><strong>BEM Block</strong></td><td><code>nc-card</code></td></tr>
@@ -529,6 +536,7 @@
               <tr><td><strong>Tokens (neu)</strong></td><td>29</td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Semantisches HTML pro Variante</h2>
 
@@ -634,7 +642,8 @@
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
           <h2 class="docs__section-title">Semantische Varianten</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead>
               <tr><th>Variante</th><th>Root-Element</th><th>Interaktiv</th><th>ARIA</th></tr>
             </thead>
@@ -649,6 +658,7 @@
               <tr><td>Status</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>Status via Inhalt, nicht nur Farbe</td></tr>
             </tbody>
           </table>
+        </div>
 
           <div class="docs-a11y-block" style="margin-top: var(--fnd-spacing-08);">
             <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -700,7 +710,8 @@
           </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Anti-Patterns</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th style="width: 50%;">&#10007; Falsch</th><th>&#10003; Richtig</th></tr></thead>
             <tbody>
               <tr>
@@ -725,9 +736,11 @@
               </tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Validierungscheckliste</h2>
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th><th>Variante</th></tr></thead>
             <tbody>
               <tr><td>1</td><td>Kein <code>div[onclick]</code> oder <code>role="button"</code> auf Nicht-Buttons</td><td>4.1.2</td><td>Alle</td></tr>
@@ -744,6 +757,7 @@
               <tr><td>12</td><td>Heading-Hierarchy (h2&rarr;h3&rarr;h4)</td><td>1.3.1</td><td>Info, Action, Status</td></tr>
             </tbody>
           </table>
+        </div>
 
         </div>
 

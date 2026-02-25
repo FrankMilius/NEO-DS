@@ -200,7 +200,8 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
               Die JS-Logik setzt CSS-Klassen und <code class="docs__token">--rotate</code>-Custom-Property
               f&uuml;r die Rotation. Die vier Zust&auml;nde entsprechen den vier W&uuml;rfelseiten.
             </p>
-            <table class="docs__table" style="max-width: 560px;">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="max-width: 560px;">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse auf <code class="docs__token">.square-block</code></th><th>Sichtbare Faces</th><th>Verhalten</th></tr></thead>
               <tbody>
                 <tr><td><em>(kein Modifier)</em></td><td>Face 1 + 4</td><td>Startposition (Face 1 vorne)</td></tr>
@@ -209,6 +210,7 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><code class="docs__token">.rotate-thrice</code></td><td>Face 3 + 4</td><td>3. Rotation (270&deg;)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -220,7 +222,8 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
 
           <section class="docs__section" id="style-tokens">
             <h2 class="docs__section-title">Foundation-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Element / Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>W&uuml;rfelfl&auml;che background</td><td><code class="docs__token">var(--fnd-color-background-inverse)</code></td><td>Dunkler Hintergrund der Standard-Fl&auml;chen</td></tr>
@@ -236,11 +239,14 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td>Char-Animation transition</td><td><code class="docs__token">var(--fnd-motion-duration-300)</code></td><td>Zeichen-Animation (translateY 50px &rarr; 0)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <section class="docs__section" id="style-css-vars">
             <h2 class="docs__section-title">Layout-Custom-Properties</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Variable</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--square-value-small</code></td><td>W&uuml;rfelgr&ouml;&szlig;e (Mobile). Im globalen Scope definieren.</td></tr>
@@ -250,6 +256,8 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><code class="docs__token">--animation-scale</code></td><td>Skalierungsfaktor f&uuml;r die <code class="docs__token">.scale</code>-Klasse.</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
         </div>
@@ -261,7 +269,8 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
 
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.square-value-wrapper</code></td></tr>
                 <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-*</code>) + Layout-Vars (<code class="docs__token">--square-*</code>)</td></tr>
@@ -271,13 +280,16 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><strong>Rotationsachse vertikal</strong></td><td>Y-Achse (via Modifier-Klassen)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <section class="docs__section" id="api-classes">
             <h2 class="docs__section-title">CSS-Klassen</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block-Hierarchie</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.square-value-wrapper</code></td><td>Outer wrapper: min-height, Green-Theme-Logik, Vertical-Modifier-Aufl&ouml;sung</td></tr>
@@ -286,9 +298,12 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><code class="docs__token">.square-block</code></td><td>Innen-Container mit Rotations-CSS-Property (<code class="docs__token">--rotate</code>)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Theme- und Layout-Modifier</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Platzierung</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.green-theme</code></td><td>Kind von <code class="docs__token">.square-value-wrapper</code></td><td>Fl&auml;chen ohne Bild erhalten gr&uuml;nen Hintergrund</td></tr>
@@ -297,9 +312,12 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><code class="docs__token">.desktop-vertical</code></td><td>Kind von <code class="docs__token">.square-value-wrapper</code></td><td>Y-Achsen-Rotation ab Desktop</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zustands-Klassen (auf <code class="docs__token">.square-block</code>)</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.rotate-once</code></td><td>1. Rotation (Face 1+2 sichtbar)</td></tr>
@@ -311,6 +329,8 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
                 <tr><td><code class="docs__token">.scale</code></td><td>Skalierung via <code class="docs__token">--animation-scale</code> (10ms transition)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <section class="docs__section" id="api-structure">

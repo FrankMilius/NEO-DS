@@ -202,7 +202,8 @@
 
           <section class="docs__section" id="style-layout">
             <h2 class="docs__section-title">Layout-Eigenschaften</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-video display</code></td><td>grid</td><td>Zweispaltiges CSS-Grid</td></tr>
@@ -212,11 +213,13 @@
                 <tr><td><code class="docs__token">.nc-video__content gap</code></td><td>2rem</td><td>Abstand zwischen Content-Elementen</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-media">
             <h2 class="docs__section-title">Media-Container</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-video__media aspect-ratio</code></td><td>16 / 9</td><td>16:9-Seitenverh&auml;ltnis</td></tr>
@@ -225,11 +228,13 @@
                 <tr><td><code class="docs__token">.nc-video__media video/img box-shadow</code></td><td>var(--fnd-elevation-overlay)</td><td>Schatten auf dem Medium</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-overlay">
             <h2 class="docs__section-title">Play-Overlay</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-video__overlay background</code></td><td>linear-gradient(color-mix mit var(--fnd-color-always-dark))</td><td>Verlaufender dunkler Schleier</td></tr>
@@ -241,28 +246,33 @@
                 <tr><td><code class="docs__token">.nc-video__media.is-playing .nc-video__overlay opacity</code></td><td>0, pointer-events: none</td><td>Overlay ausblendet bei Wiedergabe</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-typography">
             <h2 class="docs__section-title">Typografie &amp; Farben</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-video__title</code></td><td>clamp(1.8rem, 3vw, 2.6rem), var(--fnd-color-always-light)</td><td>Fluid-&Uuml;berschrift, helle Farbe</td></tr>
                 <tr><td><code class="docs__token">.nc-video__text</code></td><td>var(--fnd-color-always-light)</td><td>Helle Flie&szlig;text-Farbe</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-responsive">
             <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Breakpoint</th><th>Verhalten</th></tr></thead>
               <tbody>
                 <tr><td>&le; 900px</td><td>Grid wird einspaltig: Video und Content stapeln vertikal</td></tr>
                 <tr><td>&gt; 900px</td><td>Zweispaltiges Grid: Video links, Content rechts</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -275,7 +285,8 @@
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-video</code></td></tr>
                 <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-video</code></td></tr>
@@ -286,12 +297,14 @@
                 <tr><td><strong>Overlay</strong></td><td>CSS-Only Play-Button, JS setzt <code class="docs__token">.is-playing</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
           <section class="docs__section" id="api-classes">
             <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-video</code></td><td>Block</td><td>Haupt-Container. 2-spaltiges CSS-Grid, zentriert, fluid Breite.</td></tr>
@@ -303,14 +316,17 @@
                 <tr><td><code class="docs__token">.nc-video__overlay-icon</code></td><td>Element</td><td>Kreisf&ouml;rmiges Play-Icon (72px). CSS-Dreieck via ::before.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zustands-Klassen</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Angewendet auf</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.is-playing</code></td><td><code class="docs__token">.nc-video__media</code></td><td>Overlay wird auf opacity: 0 und pointer-events: none gesetzt.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. Element-Struktur -->

@@ -314,7 +314,8 @@
               Es gibt keine dedizierten <code class="docs__token">--nc-header-*</code> Component-Tokens &mdash;
               alle Werte werden direkt aus dem Foundation-Layer bezogen.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token</th><th>Anwendung</th></tr></thead>
               <tbody>
                 <tr>
@@ -369,11 +370,13 @@
                 </tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-spacing">
             <h2 class="docs__section-title">Spacing &amp; Z-Index Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token</th><th>Anwendung</th></tr></thead>
               <tbody>
                 <tr>
@@ -433,11 +436,13 @@
                 </tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-transitions">
             <h2 class="docs__section-title">Transitions</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Selektor</th><th>Eigenschaft</th><th>Dauer / Easing</th></tr></thead>
               <tbody>
                 <tr>
@@ -457,6 +462,7 @@
                 </tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-bem-overview">
@@ -502,7 +508,8 @@ nav                            // Semantisches nav-Element (flex-between, contai
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.header</code></td></tr>
                 <tr><td><strong>Typ</strong></td><td>Organism &mdash; seitenweiter, fixierter Header</td></tr>
@@ -516,6 +523,7 @@ nav                            // Semantisches nav-Element (flex-between, contai
                 <tr><td><strong>Maximale Container-Breite</strong></td><td><code class="docs__token">--container-max-width</code> (1472px, f&uuml;r Full-Bleed Dropdown Padding)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -523,7 +531,8 @@ nav                            // Semantisches nav-Element (flex-between, contai
             <h2 class="docs__section-title">CSS-Klassen (vollst&auml;ndig)</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; strukturelle Elemente</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.header</code></td><td><code class="docs__token">&lt;header&gt;</code></td><td>Haupt-Block. <code class="docs__token">position: relative</code>, <code class="docs__token">z-index: var(--fnd-z-header)</code>.</td></tr>
@@ -541,9 +550,11 @@ nav                            // Semantisches nav-Element (flex-between, contai
                 <tr><td><code class="docs__token">.hamburger</code></td><td><code class="docs__token">&lt;span&gt;</code></td><td>Hamburger-Button-Wrapper (nur auf Mobile sichtbar).</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Anwendung</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.header.expanded</code></td><td><code class="docs__token">.header</code></td><td>Mobile-Menu ge&ouml;ffnet. Macht <code class="docs__token">.nav-menu</code> sichtbar, fixiert CTA unten.</td></tr>
@@ -554,15 +565,18 @@ nav                            // Semantisches nav-Element (flex-between, contai
                 <tr><td><code class="docs__token">.header-open</code></td><td><code class="docs__token">&lt;body&gt;</code> / Container</td><td>Outer-State. Ver&auml;ndert Hamburger-Icon-Hintergrund via CSS-Selektor.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dropdown-Sektions-Klassen</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.header-section-solutions</code></td><td>Dropdown-Sektion f&uuml;r L&ouml;sungs-Links. Links verwenden <code class="docs__token">heading('xxs')</code>-Typografie.</td></tr>
                 <tr><td><code class="docs__token">.header-section-company</code></td><td>Dropdown-Sektion f&uuml;r Unternehmens-Links. Sekund&auml;re Links in <code class="docs__token">--fnd-color-text-mid</code>. Hat absolute <code class="docs__token">.icon-only</code> Positionierung.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. CSS Custom Properties (Extern) -->
@@ -571,7 +585,8 @@ nav                            // Semantisches nav-Element (flex-between, contai
             <p class="docs__section-desc">
               Diese Variablen m&uuml;ssen au&szlig;erhalb des Header-SCSS gesetzt werden (z.B. in einem globalen <code class="docs__token">:root</code>-Block).
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Variable</th><th>Verwendung</th><th>Beispielwert</th></tr></thead>
               <tbody>
                 <tr>
@@ -596,12 +611,14 @@ nav                            // Semantisches nav-Element (flex-between, contai
                 </tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 4. SCSS Mixins -->
           <section class="docs__section" id="api-mixins">
             <h2 class="docs__section-title">SCSS Mixins</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Mixin</th><th>Anwendung</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">desktop-up</code></td><td>Breakpoint</td><td>Styles ab Desktop-Breite aufw&auml;rts</td></tr>
@@ -617,6 +634,7 @@ nav                            // Semantisches nav-Element (flex-between, contai
                 <tr><td><code class="docs__token">container-padding</code></td><td>Layout</td><td>Horizontales Innenpadding an nav und Dropdown-Panels</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 5. Element-Struktur -->

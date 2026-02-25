@@ -179,18 +179,21 @@
 
           <section class="docs__section" id="style-video-wrap">
             <h2 class="docs__section-title">Video Wrap &mdash; Layout</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Position</td><td><code class="docs__token">relative</code></td><td>Anker f&uuml;r absolute Kind-Elemente</td></tr>
                 <tr><td>Overflow</td><td><code class="docs__token">clip</code></td><td>Inhalte werden am Container geclippt</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-play-sign">
             <h2 class="docs__section-title">Play Sign Overlay</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Element</th><th>Eigenschaft</th><th>Wert / Token</th></tr></thead>
               <tbody>
                 <tr><td>.play-sign</td><td>Position</td><td>absolute, inset 0</td></tr>
@@ -201,11 +204,13 @@
                 <tr><td>.play-sign .icon</td><td>Color</td><td><code class="docs__token">color-mix(in srgb, --fnd-color-always-light 70%, transparent)</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-buttons">
             <h2 class="docs__section-title">Open- &amp; Close-Button</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Element</th><th>Eigenschaft</th><th>Wert / Token</th></tr></thead>
               <tbody>
                 <tr><td>.open-button</td><td>Position</td><td>absolute, inset 0 (Vollfl&auml;che)</td></tr>
@@ -218,11 +223,13 @@
                 <tr><td>.close-button :hover/:focus</td><td>Background</td><td><code class="docs__token">var(--fnd-color-border-state-disabled)</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-play-hover">
             <h2 class="docs__section-title">Play Hover Text</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Display</td><td><code class="docs__token">none</code> (default)</td><td>Nur bei Hover auf open-button/video sichtbar</td></tr>
@@ -234,11 +241,13 @@
                 <tr><td>Pointer-Events</td><td><code class="docs__token">none</code></td><td>Kein Blockieren der Click-Events</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-dialog">
             <h2 class="docs__section-title">Video Dialog</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Position</td><td><code class="docs__token">fixed</code>, inset 0</td><td>Fullscreen-Overlay</td></tr>
@@ -252,6 +261,7 @@
                 <tr><td>video</td><td>object-fit</td><td><code class="docs__token">contain</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-bem">
@@ -284,7 +294,8 @@
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klassen</strong></td><td><code class="docs__token">.video-wrap</code>, <code class="docs__token">.video-wrap-autoplay</code>, <code class="docs__token">.video-dialog</code></td></tr>
                 <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/04-objects/_video.scss</code></td></tr>
@@ -294,6 +305,7 @@
                 <tr><td><strong>Animation</strong></td><td><code class="docs__token">@starting-style</code> + CSS Transition (translate + opacity)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -301,7 +313,8 @@
             <h2 class="docs__section-title">CSS-Klassen</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Video Wrapper</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.video-wrap</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Standard-Wrapper mit Position relative, overflow clip. Play-Interaktion inklusive.</td></tr>
@@ -312,9 +325,11 @@
                 <tr><td><code class="docs__token">.play-hover</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Cursor-Follow Hover-Text (mix-blend-mode difference). Nur Desktop, aria-hidden.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Video Dialog</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.video-dialog</code></td><td><code class="docs__token">&lt;dialog&gt;</code></td><td>Fullscreen-Dialog. fixed, inset 0. CSS-Transition beim &Ouml;ffnen/Schlie&szlig;en.</td></tr>
@@ -322,12 +337,14 @@
                 <tr><td><code class="docs__token">.player-wrapper</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Zentrierter 16:9-Wrapper mit responsivem Rand und border-radius-3xl.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. CSS Custom Properties -->
           <section class="docs__section" id="api-tokens">
             <h2 class="docs__section-title">Verwendete Foundation-Tokens</h2>
-            <table class="docs__table docs__table--compact">
+            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Farben</td></tr>
@@ -348,6 +365,7 @@
                 <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Dialog Transition-Easing</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 4. Element-Struktur -->

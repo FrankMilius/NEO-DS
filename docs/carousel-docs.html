@@ -184,7 +184,8 @@
               dem Slides-Wrapper (<code class="docs__token">.carousel-slides-wrapper</code>) mit der Slide-Liste,
               der Bottom-Navigation (<code class="docs__token">.carousel-bottom-nav-wrapper</code>) mit Fortschrittslinien und Buttons.
             </p>
-            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="margin-block-end: var(--fnd-spacing-06);">
+              <table class="nc-data-table__table">
               <thead><tr><th>Bereich</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Carousel-Root</td><td><code class="docs__token">.carousel</code></td><td>Wrapper, touch-action pan-y, padding-bottom f&uuml;r Navigation</td></tr>
@@ -197,6 +198,7 @@
                 <tr><td>Navigationstasten</td><td><code class="docs__token">.carousel-navigations-wrapper</code></td><td>Flex-Zeile mit Zur&uuml;ck/Vor-Buttons (32px, icon-gr&ouml;sse)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- Fortschrittslinien-Varianten -->
@@ -231,7 +233,8 @@
               wobei n = 1&ndash;12 Rasterspalten entspricht. Die Berechnung erfolgt &uuml;ber die SCSS-Funktion
               <code class="docs__token">grid-columns($i)</code>.
             </p>
-            <table class="docs__table" style="margin-block-end: var(--fnd-spacing-06);">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="margin-block-end: var(--fnd-spacing-06);">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Breite</th><th>Typischer Einsatz</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.carousel-slide-width-12</code></td><td>100&nbsp;% (12/12 Spalten)</td><td>Vollbild-Hero-Slides</td></tr>
@@ -240,6 +243,7 @@
                 <tr><td><code class="docs__token">.carousel-slide-width-3</code></td><td>25&nbsp;% (3/12 Spalten)</td><td>4 Slides nebeneinander</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -255,7 +259,8 @@
               Das Carousel hat keine eigenen <code class="docs__token">--nc-*</code> Component-Tokens.
               Es verwendet Foundation-Tokens und zwei lokale Custom Properties.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Lokale Variablen (auf .carousel)</td></tr>
@@ -339,6 +344,8 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <section class="docs__section" id="style-bem">
@@ -362,7 +369,8 @@
 
           <section class="docs__section" id="style-keyframes">
             <h2 class="docs__section-title">Keyframe-Animation</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr>
@@ -372,6 +380,8 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
         </div>
@@ -384,7 +394,8 @@
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.carousel</code></td></tr>
                 <tr><td><strong>Token-Namespace</strong></td><td>Keine eigenen <code class="docs__token">--nc-*</code> Tokens &mdash; Foundation-Tokens + 2 lokale Variablen</td></tr>
@@ -394,6 +405,8 @@
                 <tr><td><strong>HTML-Grundelement</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -401,7 +414,8 @@
             <h2 class="docs__section-title">CSS-Klassen</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Struktur</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.carousel</code></td><td>Block</td><td>Root-Container. Definiert lokale Variablen, touch-action, padding-bottom.</td></tr>
@@ -410,9 +424,12 @@
                 <tr><td><code class="docs__token">.carousel-slide-width-{n}</code></td><td>Modifier</td><td>Slide-Breite. n = 1&ndash;12 Rasterspalten. min-width und width via <code>grid-columns($i)</code>.</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Navigation</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.carousel-bottom-nav-wrapper</code></td><td>Element</td><td>Flex, space-between, container-padding, padding-top responsiv.</td></tr>
@@ -424,14 +441,19 @@
                 <tr><td><code class="docs__token">.carousel-navigations-wrapper</code></td><td>Element</td><td>Flex, gap: --fnd-spacing-04. Enth&auml;lt Zur&uuml;ck- und Vor-Button.</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-top: var(--fnd-spacing-06);">Button-States</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>State</th><th>Eigenschaft</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code>:disabled</code></td><td><code class="docs__token">color: var(--fnd-color-text-state-disabled)</code></td><td>Deaktivierter Vor/Zur&uuml;ck-Button (erster/letzter Slide)</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
           <!-- 3. HTML Struktur -->
@@ -496,7 +518,8 @@
           <!-- 4. SCSS Interna -->
           <section class="docs__section" id="api-scss">
             <h2 class="docs__section-title">SCSS Interna</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>SCSS-Konstrukt</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">@include desktop-up</code></td><td>Breakpoint-Mixin f&uuml;r Desktop-Padding (padding-bottom und bottom-nav)</td></tr>
@@ -508,6 +531,8 @@
                 <tr><td><code class="docs__token">grid-columns($i)</code></td><td>SCSS-Funktion: berechnet Slide-Breite basierend auf Rasterspalten-Anzahl</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
         </div>
@@ -618,7 +643,8 @@
 &lt;/div&gt;</div>
 
             <h3 style="margin-top: var(--fnd-spacing-06);">Keyboard-Navigation</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
               <tbody>
                 <tr><td><kbd>Tab</kbd></td><td>Fokus auf Zur&uuml;ck- und Vor-Button bewegen</td></tr>
@@ -626,6 +652,8 @@
                 <tr><td><kbd>Tab</kbd> (im Slide)</td><td>Fokusierbare Inhalte innerhalb der Slides durchlaufen</td></tr>
               </tbody>
             </table>
+          </div>
+          </div>
           </section>
 
         </div>

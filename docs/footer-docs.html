@@ -322,7 +322,8 @@
               Der Footer verwendet ausschlie&szlig;lich Foundation-Tokens (<code class="docs__token">--fnd-*</code>).
               Es existieren keine eigenen <code class="docs__token">--nc-footer-*</code> Component-Tokens.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Hintergrundfarbe</td><td><code class="docs__token">--fnd-color-background-base</code></td><td>Basis-Hintergrund des gesamten Footers</td></tr>
@@ -335,11 +336,13 @@
                 <tr><td>Marketing-Trennlinie</td><td><code class="docs__token">--fnd-color-border-secondary</code></td><td><code class="docs__token">.nc-footer__bottom</code> border-block-start</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-spacing-tokens">
             <h2 class="docs__section-title">Abstands-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Element</th><th>Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Oberer Innenabstand (Mobil)</td><td><code class="docs__token">--fnd-spacing-10</code></td><td>padding-top des .footer-Wrappers</td></tr>
@@ -366,6 +369,7 @@
                 <tr><td>Minimal: bottom-links padding-block-start (Tablet+)</td><td><code class="docs__token">--fnd-spacing-04</code></td><td>Reduzierter padding-block-start ab Tablet</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-bem">
@@ -408,7 +412,8 @@ footer                          // Natives Element &mdash; setzt background-colo
 
           <section class="docs__section" id="style-responsive">
             <h2 class="docs__section-title">Responsive Verhalten</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Breakpoint</th><th>Verhalten</th></tr></thead>
               <tbody>
                 <tr><td><strong>Mobil (default)</strong></td><td>Alle Bereiche stapeln sich vertikal. Links-Listen als flex-column.</td></tr>
@@ -417,6 +422,7 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td><strong>Marketing-Footer</strong></td><td>Ab 768px: <code class="docs__token">.nc-footer__columns</code> wechselt zu 3 gleichbreiten Grid-Spalten.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -429,7 +435,8 @@ footer                          // Natives Element &mdash; setzt background-colo
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;footer&gt;</code></td></tr>
                 <tr><td><strong>Haupt-Klasse</strong></td><td><code class="docs__token">.footer</code> (auf innerem <code class="docs__token">&lt;div&gt;</code>)</td></tr>
@@ -441,6 +448,7 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td><strong>Kategorie</strong></td><td>Organismus (07-organisms)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -448,7 +456,8 @@ footer                          // Natives Element &mdash; setzt background-colo
             <h2 class="docs__section-title">CSS-Klassen</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Site Footer</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">footer</code> (Element)</td><td>Natives HTML</td><td>Basis-Styling: background-color, font-size-xs.</td></tr>
@@ -471,9 +480,11 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td><code class="docs__token">.footer-form-section</code></td><td>Element</td><td>Formular-Bereich. 8 Spalten Tablet, 5 Spalten Desktop.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Marketing Footer (.nc-footer)</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-footer</code></td><td>Block</td><td>Grid-Container. gap: 2rem, padding-block-end: 3rem.</td></tr>
@@ -482,6 +493,7 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td><code class="docs__token">.nc-footer__bottom</code></td><td>Element</td><td>Metazeile. font-size 0.85rem, text-secondary, Trennlinie oben.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. Slots / Element-Struktur -->
@@ -595,7 +607,8 @@ footer                          // Natives Element &mdash; setzt background-colo
               Im Footer kann ein <code class="docs__token">.select-wrapper</code> anstelle der nativen Button-Selektoren eingesetzt werden.
               Das Footer-SCSS &uuml;berschreibt dabei spezifische Toggle-Eigenschaften.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>H&ouml;he des Toggles</td><td>48px</td><td>Feste H&ouml;he des <code class="docs__token">.select-toggle</code> im Footer</td></tr>
@@ -605,6 +618,7 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td>Icon-Farbe</td><td><code class="docs__token">--fnd-color-text-mid</code></td><td><code class="docs__token">.icon</code> im Toggle</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -747,7 +761,8 @@ footer                          // Natives Element &mdash; setzt background-colo
           <!-- WCAG-Checkliste -->
           <section class="docs__section" id="a11y-wcag" style="margin-block-start: var(--fnd-spacing-08);">
             <h2 class="docs__section-title">WCAG 2.1 AA-Checkliste</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Kriterium</th><th>Anforderung</th><th>Umsetzung</th></tr></thead>
               <tbody>
                 <tr><td>1.3.1 Info and Relationships</td><td>Navigationsstruktur semantisch korrekt</td><td><code class="docs__token">&lt;footer&gt;</code> + <code class="docs__token">&lt;nav aria-label&gt;</code> + <code class="docs__token">&lt;ul&gt;</code></td></tr>
@@ -759,6 +774,7 @@ footer                          // Natives Element &mdash; setzt background-colo
                 <tr><td>4.1.2 Name, Role, Value</td><td>Interaktive Elemente korrekt beschriftet</td><td><code class="docs__token">aria-label</code> auf Selektor-Buttons, <code class="docs__token">aria-expanded</code> bei Dropdowns</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>

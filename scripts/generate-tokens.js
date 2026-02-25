@@ -568,7 +568,7 @@ generateBorder();
 generateShadow();
 generateColors();
 generateIcons();
-generateLegacy();
+// generateLegacy() entfernt — monolithische Map wird nicht mehr konsumiert
 generateCss();
 generateThemeApp();
 

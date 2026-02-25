@@ -226,7 +226,8 @@
 
           <section class="docs__section" id="style-layout">
             <h2 class="docs__section-title">Layout-Eigenschaften</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">display</code></td><td>grid</td><td>CSS-Grid-Container</td></tr>
@@ -236,11 +237,13 @@
                 <tr><td><code class="docs__token">color</code></td><td>var(--fnd-color-always-light)</td><td>Textfarbe (f&uuml;r dunklen Hintergrund)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-columns">
             <h2 class="docs__section-title">Spalten-Klassen</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>min-width</th><th>flex-basis</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-cta__left</code></td><td>260px</td><td>40%</td><td>Teaser-Spalte mit Titel und Lead-Text</td></tr>
@@ -248,11 +251,13 @@
                 <tr><td><code class="docs__token">.nc-cta__right</code></td><td>280px</td><td>45%</td><td>Demo-Anfrage-Spalte</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-form">
             <h2 class="docs__section-title">Formular-Layout</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-cta__form display</code></td><td>grid</td><td>Grid-Layout f&uuml;r Formularzeile</td></tr>
@@ -261,22 +266,26 @@
                 <tr><td><code class="docs__token">.nc-cta__note opacity</code></td><td>0.8</td><td>Ged&auml;mpfte Hilfstext-Darstellung</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-typography">
             <h2 class="docs__section-title">Typografie-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Token</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-demo-cta__title</code></td><td>var(--fnd-font-weight-semibold)</td><td>Hervorgehobener Titel</td></tr>
                 <tr><td><code class="docs__token">.nc-section-title</code>, <code class="docs__token">.nc-lead</code></td><td>var(--fnd-color-always-light)</td><td>Override f&uuml;r helle Textfarbe auf dunklem BG</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <section class="docs__section" id="style-responsive">
             <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Breakpoint</th><th>Verhalten</th></tr></thead>
               <tbody>
                 <tr><td>&lt; 768px</td><td>Formular: einspaltig (Input + Button untereinander)</td></tr>
@@ -284,6 +293,7 @@
                 <tr><td>Grid-Spalten</td><td>Beim Unterschreiten der min-width (260px/280px) brechen Spalten nat&uuml;rlich um</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
         </div>
@@ -296,7 +306,8 @@
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-cta</code></td></tr>
                 <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-cta</code></td></tr>
@@ -307,6 +318,7 @@
                 <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> oder <code class="docs__token">&lt;section&gt;</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS Classes -->
@@ -314,7 +326,8 @@
             <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-cta</code></td><td>Block</td><td>Haupt-Container. 3-spaltiges Grid, fluid Padding und Gap.</td></tr>
@@ -325,9 +338,11 @@
                 <tr><td><code class="docs__token">.nc-cta__note</code></td><td>Element</td><td>Hilfstext unter dem Formular. Opacity 0.8.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sub-Komponenten</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.nc-newsletter-cta</code></td><td>Block</td><td>Newsletter-Bereich. Grid, 0.75rem Gap.</td></tr>
@@ -336,6 +351,7 @@
                 <tr><td><code class="docs__token">.nc-demo-cta__form</code></td><td>Element</td><td>Formular-Container. Grid, 0.75rem Gap.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. Element-Struktur -->

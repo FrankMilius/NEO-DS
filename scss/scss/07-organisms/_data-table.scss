@@ -927,6 +927,40 @@
   &--error {
     border-color: var(--nc-dt-error-border);
   }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Static (Referenz-Tabellen ohne interaktive Features)
+  // -----------------------------------------------------------------------
+  // Descendant-Selektoren statt BEM-Klassen auf th/td/tr,
+  // damit einfaches <table> HTML ohne Klassen-Bloat funktioniert.
+
+  &--static {
+    .nc-data-table__table {
+      th {
+        @include dt-header-cell;
+        text-transform: uppercase;
+      }
+
+      td {
+        @include dt-body-cell;
+        white-space: normal;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+    }
+
+    // Kein Row-Hover bei statischen Tabellen
+    .nc-data-table__table tbody tr:hover {
+      background-color: transparent;
+    }
+
+    // Zebra-Striping via Descendant (kein BEM __row noetig)
+    &.nc-data-table--striped .nc-data-table__table tbody tr:nth-child(even) td {
+      background-color: var(--nc-dt-row-bg-stripe);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

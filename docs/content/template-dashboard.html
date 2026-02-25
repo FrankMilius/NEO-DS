@@ -190,7 +190,8 @@
           </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Wann einsetzen?</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Szenario</th><th>Empfehlung</th></tr></thead>
             <tbody>
               <tr><td>Admin-Bereich / Backoffice</td><td>Prim&auml;r f&uuml;r dieses Template</td></tr>
@@ -199,6 +200,7 @@
               <tr><td>Mobile-First-Anwendung</td><td>Sidebar wird unter 1024px versteckt; separate Mobile-Nav n&ouml;tig</td></tr>
             </tbody>
           </table>
+        </div>
 
         </div>
 
@@ -228,7 +230,8 @@
           </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Verwendete Tokens</h2>
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
             <tbody>
               <tr><td><code>--fnd-color-background-base</code></td><td>Root-Hintergrund und Header</td></tr>
@@ -245,15 +248,18 @@
               <tr><td><code>--fnd-font-weight-regular</code>, <code>--fnd-font-weight-medium</code></td><td>Sidebar-Link-Schriftschwere</td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Responsive Breakpoints</h2>
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Breakpoint</th><th>&Auml;nderung</th></tr></thead>
             <tbody>
               <tr><td>Desktop (default)</td><td>2-Spalten-Grid; Sidebar sichtbar</td></tr>
               <tr><td><code>max-width: 1024px</code></td><td>1-Spalten-Grid; Sidebar ausgeblendet (<code>display: none</code>); Grid-Areas: <code>header / main</code></td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">SCSS-Datei</h2>
           <div class="docs-snippet"><pre>scss/scss/08-templates/_dashboard.scss</pre></div>
@@ -266,7 +272,8 @@
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
           <h2 class="docs__section-title">Klassen-Referenz</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
             <tbody>
               <tr><td><code>.t-dashboard</code></td><td><code>&lt;div&gt;</code></td><td>Grid-Root; <code>260px 1fr / auto 1fr</code>; <code>min-height: 100vh</code></td></tr>
@@ -285,6 +292,7 @@
               <tr><td><code>.t-dashboard__card-title</code></td><td><code>&lt;h2&gt;</code></td><td>Karten-Titel; <code>heading(s)</code></td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Minimales HTML</h2>
           <div class="docs-snippet">
@@ -318,7 +326,8 @@
           </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Template-&Uuml;bersicht</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <tbody>
               <tr><td><strong>Template-Pr&auml;fix</strong></td><td><code>.t-dashboard</code></td></tr>
               <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/08-templates/_dashboard.scss</code></td></tr>
@@ -327,6 +336,7 @@
               <tr><td><strong>JS-Abh&auml;ngigkeit</strong></td><td>Keine (Mobile-Nav muss separat implementiert werden)</td></tr>
             </tbody>
           </table>
+        </div>
 
         </div>
 
@@ -336,7 +346,8 @@
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
           <h2 class="docs__section-title">Landmark-Struktur</h2>
-          <table class="docs__table">
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>Element</th><th>Rolle</th><th>Anforderung</th></tr></thead>
             <tbody>
               <tr><td><code>&lt;nav&gt;.t-dashboard__sidebar</code></td><td><code>navigation</code></td><td><code>aria-label="Hauptnavigation"</code> setzen (eine Seite kann mehrere <code>&lt;nav&gt;</code>-Elemente haben)</td></tr>
@@ -345,6 +356,7 @@
               <tr><td><code>.t-dashboard__card</code></td><td><code>region</code> (wenn <code>&lt;section&gt;</code>)</td><td><code>aria-labelledby</code> auf <code>.t-dashboard__card-title</code> setzen</td></tr>
             </tbody>
           </table>
+        </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Heading-Hierarchie</h2>
           <div class="docs-snippet"><pre>&lt;div class="t-dashboard"&gt;
@@ -385,7 +397,8 @@
           </div>
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-08);">Pr&uuml;fliste</h2>
-          <table class="docs__table docs__table--compact">
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
             <thead><tr><th>#</th><th>Kriterium</th><th>WCAG</th></tr></thead>
             <tbody>
               <tr><td>1</td><td><code>&lt;nav&gt;</code> hat <code>aria-label</code></td><td>4.1.2</td></tr>
@@ -398,6 +411,7 @@
               <tr><td>8</td><td>Farbkontrast Layer-01-Text auf Layer-01-Hintergrund &ge; 4.5:1</td><td>1.4.3</td></tr>
             </tbody>
           </table>
+        </div>
 
         </div>
 

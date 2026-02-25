@@ -378,7 +378,8 @@ modal.addEventListener('click', (e) => {
           <!-- Gemeinsame Foundation-Tokens -->
           <section class="docs__section" id="style-shared-tokens">
             <h2 class="docs__section-title">Gemeinsame Foundation-Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--fnd-color-background-base</code></td><td>Hintergrundfarbe aller Modals</td></tr>
@@ -393,12 +394,14 @@ modal.addEventListener('click', (e) => {
                 <tr><td><code class="docs__token">--fnd-radius-full</code></td><td>Border-Radius für Theme Switcher FAB (kreisförmig)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- Location Preference Modal Tokens -->
           <section class="docs__section" id="style-location-tokens">
             <h2 class="docs__section-title">Location Preference Modal — Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--fnd-spacing-03</code></td><td>Padding Block (Mobile)</td></tr>
@@ -411,12 +414,14 @@ modal.addEventListener('click', (e) => {
                 <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Easing-Funktion (Desktop Animation)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- Contextual Notification Modal Tokens -->
           <section class="docs__section" id="style-notification-tokens">
             <h2 class="docs__section-title">Contextual Notification Modal — Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>Innen-Padding, Gap zwischen Media und Content</td></tr>
@@ -431,12 +436,14 @@ modal.addEventListener('click', (e) => {
                 <tr><td><code class="docs__token">--fnd-motion-ease-focused</code></td><td>Easing-Funktion</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- Theme Switcher Modal Tokens -->
           <section class="docs__section" id="style-theme-switcher-tokens">
             <h2 class="docs__section-title">Theme Switcher Modal — Tokens</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>Gap in Theme-Grid, Option-Padding</td></tr>
@@ -452,6 +459,7 @@ modal.addEventListener('click', (e) => {
                 <tr><td><code class="docs__token">--fnd-motion-duration-450</code></td><td>Backdrop Fade-in Animation</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- Animation -->
@@ -461,7 +469,8 @@ modal.addEventListener('click', (e) => {
               Alle Slide-in Modals nutzen CSS-Transitions mit <code class="docs__token">@starting-style</code>
               für diskrete Entry-Animationen ohne JavaScript.
             </p>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Variante</th><th>Richtung</th><th>Eintritt</th><th>Dauer</th></tr></thead>
               <tbody>
                 <tr>
@@ -490,6 +499,7 @@ modal.addEventListener('click', (e) => {
                 </tr>
               </tbody>
             </table>
+          </div>
             <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-04);">
               Mobile: <code class="docs__token">.location-preference-modal</code> und <code class="docs__token">.theme-switcher-modal</code>
               nehmen den gesamten Bildschirm ein (kein Slide, kein Backdrop). Die Animation ist nur ab Desktop aktiv.
@@ -499,7 +509,8 @@ modal.addEventListener('click', (e) => {
           <!-- Responsive Breakpoints -->
           <section class="docs__section" id="style-responsive">
             <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Breakpoint</th><th>location-preference-modal</th><th>theme-switcher-modal</th></tr></thead>
               <tbody>
                 <tr><td>Mobile (Standard)</td><td>Vollbild, kein Backdrop</td><td>Vollbild, kein Backdrop</td></tr>
@@ -508,6 +519,7 @@ modal.addEventListener('click', (e) => {
                 <tr><td>Full Desktop</td><td>694px Breite</td><td>440px Breite (unverändert)</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- BEM-Übersicht -->
@@ -571,7 +583,8 @@ dialog.green-theme                              // Green-Theme Modifier für con
           <!-- 1. Component Overview -->
           <section class="docs__section" id="api-overview">
             <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <tbody>
                 <tr><td><strong>Varianten</strong></td><td>
                   <code class="docs__token">.location-preference-modal</code>,
@@ -586,6 +599,7 @@ dialog.green-theme                              // Green-Theme Modifier für con
                 <tr><td><strong>Body-Scroll-Lock</strong></td><td>CSS-basiert via <code class="docs__token">body:has(.location-preference-modal[open])</code> und <code class="docs__token">body:has(.theme-switcher-modal[open])</code></td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 2. CSS-Klassen (BEM / Struktur) -->
@@ -593,7 +607,8 @@ dialog.green-theme                              // Green-Theme Modifier für con
             <h2 class="docs__section-title">CSS-Klassen</h2>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Location Preference Modal</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.location-preference-modal</code></td><td>Block</td><td>Dialog-Container. Nimmt auf Mobile den vollen Bildschirm, ab Desktop Slide-in-Panel.</td></tr>
@@ -606,9 +621,11 @@ dialog.green-theme                              // Green-Theme Modifier für con
                 <tr><td><code class="docs__token">.region-icon-collapse</code></td><td>Element</td><td>Icon das sichtbar ist, wenn <code class="docs__token">details[open]</code>. Standard: <code class="docs__token">scaleY(0)</code>.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Contextual Notification Modal</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.contextual-notification-modal</code></td><td>Block</td><td>Dialog-Container. Fest positioniert am unteren Rand, rechts ausgerichtet.</td></tr>
@@ -620,9 +637,11 @@ dialog.green-theme                              // Green-Theme Modifier für con
                 <tr><td><code class="docs__token">.button-container</code></td><td>Element</td><td>Zeile mit Icon und Action-Link. Liegt über dem Hover-Overlay dank <code class="docs__token">::before</code>-Pseudo-Element.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Theme Switcher FAB &amp; Modal</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">.theme-switcher-fab</code></td><td>Block</td><td>Runder Button (48×48px), fest positioniert unten-rechts. Öffnet das Theme-Switcher-Modal.</td></tr>
@@ -645,12 +664,14 @@ dialog.green-theme                              // Green-Theme Modifier für con
                 <tr><td><code class="docs__token">.theme-switcher__option-label</code></td><td>Element</td><td>Text-Beschriftung unterhalb der Vorschau.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 3. JavaScript API -->
           <section class="docs__section" id="api-js">
             <h2 class="docs__section-title">JavaScript API</h2>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Methode / Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">showModal()</code></td><td>Methode</td><td>Öffnet den Dialog modal mit Backdrop und Focus-Trap.</td></tr>
@@ -659,15 +680,18 @@ dialog.green-theme                              // Green-Theme Modifier für con
                 <tr><td><code class="docs__token">returnValue</code></td><td>Property</td><td>Enthält den Wert, der beim letzten <code class="docs__token">close()</code> übergeben wurde.</td></tr>
               </tbody>
             </table>
+          </div>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Events</h3>
-            <table class="docs__table">
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
               <thead><tr><th>Event</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">close</code></td><td>Wird ausgelöst wenn der Dialog geschlossen wird (close() oder ESC).</td></tr>
                 <tr><td><code class="docs__token">cancel</code></td><td>Wird ausgelöst wenn ESC gedrückt wird. <code class="docs__token">preventDefault()</code> blockiert das Schließen.</td></tr>
               </tbody>
             </table>
+          </div>
           </section>
 
           <!-- 4. Element-Struktur -->
