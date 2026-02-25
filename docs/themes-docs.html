@@ -11,34 +11,7 @@
        Themes-Docs: Page-specific styles
        ================================================================ */
 
-    /* --- Tab system (same pattern as button-docs) --- */
-    .docs-tabs { margin-block-end: var(--fnd-spacing-08); }
-    .docs-tabs__list {
-      display: flex;
-      gap: var(--fnd-spacing-01);
-      border-bottom: 2px solid var(--fnd-color-border-secondary);
-      margin-block-end: var(--fnd-spacing-06);
-    }
-    .docs-tabs__trigger {
-      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--fnd-color-text-secondary);
-      cursor: pointer;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-    .docs-tabs__trigger:hover { color: var(--fnd-color-text-primary); }
-    .docs-tabs__trigger[aria-selected='true'] {
-      color: var(--fnd-color-interactive-default);
-      border-bottom-color: var(--fnd-color-interactive-default);
-    }
-    .docs-tabs__panel { display: none; }
-    .docs-tabs__panel.is-active { display: block; }
+    /* Tab-Styles kommen aus _docs.scss — hier nicht duplizieren */
 
     /* --- Theme Cards --- */
     .themes__card-grid {
@@ -505,23 +478,27 @@
     <!-- Content Area -->
     <main class="docs">
 
-      <h1 class="docs__title">Themes</h1>
-      <p class="docs__subtitle">
+
+            <div class="docs__hero">
+        <h1 class="docs__title">Themes</h1>
+        <p class="docs__subtitle">
         Verwaltung und Konfiguration der 4 Design-System Themes.
         Neo-Themes sind schreibgesch&uuml;tzt, Customer-Themes frei konfigurierbar.
       </p>
+      </div>
 
-      <!-- Status Message -->
-      <div class="config__status" id="status-msg"></div>
-
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Theme-Dokumentation Tabs">
           <button class="docs-tabs__trigger" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">&Uuml;berblick</button>
           <button class="docs-tabs__trigger" role="tab" id="tab-config" aria-controls="panel-config" aria-selected="false">Konfiguration</button>
         </div>
+      </div>
+
+      <div class="docs__body">
+    <!-- Status Message -->
+      <div class="config__status" id="status-msg"></div>
+
+      <div class="docs-tabs">
 
         <!-- ============================================================ -->
         <!-- TAB 1: &Uuml;berblick                                        -->
@@ -1016,6 +993,7 @@
 
         </div><!-- /panel-config -->
       </div><!-- /.docs-tabs -->
+      </div>
 
     </main>
 
@@ -1029,6 +1007,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script src="themes-docs.js"></script>
 
 </body>

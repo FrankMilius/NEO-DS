@@ -48,26 +48,29 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">File Upload</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">File Upload</h1>
+        <p class="docs__subtitle">
         Datei-Upload mit Drag-and-Drop Dropzone, Browse-Button und Dateiliste.
         Kanonische Klasse: <code class="docs__token">.nc-file-upload</code> (BEM).
         Alle Werte kommen aus <code class="docs__token">--nc-file-upload-*</code> Component-Tokens.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="file-upload-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="File-Upload-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="file-upload-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -489,8 +492,12 @@
           </section>
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 
   </div><!-- /.docs-layout -->
@@ -503,6 +510,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script src="file-upload-docs.js"></script>
 
 </body>

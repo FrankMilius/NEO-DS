@@ -387,26 +387,29 @@
 <!-- BODY -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Komponenten-Matrix</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Komponenten-Matrix</h1>
+        <p class="docs__subtitle">
         Semantische Entscheidungslogik f&uuml;r button-artige Komponenten.
         Dieser Guide hilft bei der Wahl des richtigen HTML-Elements, der korrekten ARIA-Rolle
         und des passenden Surface-Mixins f&uuml;r Badge, Tag, Chip, Toggle Button, Toggle Group und Segmented Control.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="matrix-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Komponenten-Matrix Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-tree" id="trigger-tree">Entscheidungsbaum</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-matrix" id="trigger-matrix">Vergleichsmatrix</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-rules" id="trigger-rules">Semantik-Regeln</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-arch" id="trigger-arch">Shared Architecture</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="matrix-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Entscheidungsbaum (Decision Tree)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-tree" aria-labelledby="trigger-tree">
@@ -1179,8 +1182,12 @@
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 <!-- /BODY -->
 

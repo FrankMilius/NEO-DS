@@ -1,0 +1,354 @@
+<!-- STYLES -->
+  <style>
+    .shadow-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--fnd-spacing-06);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .shadow-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-03);
+    }
+    .shadow-card__sample {
+      height: 80px;
+      background: var(--fnd-color-background-base);
+      border-radius: var(--fnd-radius-lg);
+      border: 1px solid var(--fnd-color-border-low);
+    }
+    .shadow-card__name {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-interactive-default);
+    }
+    .shadow-card__value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-mid);
+    }
+    .shadow-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-mid);
+    }
+    .elevation-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--fnd-spacing-02);
+      margin-block-end: var(--fnd-spacing-06);
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+    }
+    .elevation-map__header {
+      font-weight: var(--fnd-font-weight-semibold);
+      color: var(--fnd-color-text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: var(--fs-xs);
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-bottom: 2px solid var(--fnd-color-border-mid);
+    }
+    .elevation-map__cell {
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-bottom: 1px solid var(--fnd-color-border-low);
+      color: var(--fnd-color-text-high);
+    }
+    .inset-sample {
+      height: 48px;
+      background: var(--fnd-color-layer-01);
+      border-radius: var(--fnd-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-mid);
+    }
+    .dark-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-06);
+    }
+    .dark-compare__panel {
+      padding: var(--fnd-spacing-06);
+      border-radius: var(--fnd-radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-04);
+      align-items: center;
+    }
+    .dark-compare__label {
+      font-size: var(--fs-xs);
+      font-weight: var(--fnd-font-weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dark-compare__card {
+      width: 100%;
+      max-width: 200px;
+      height: 64px;
+      border-radius: var(--fnd-radius-lg);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <div class="docs__hero">
+        <h1 class="docs__title">Shadow &amp; Elevation</h1>
+        <p class="docs__subtitle">
+          5 Shadow-Stufen und 5 semantische Elevation-Aliases bilden das Tiefensystem.
+          Alle Werte sind Dark-Mode-aware &mdash; im dunklen Theme werden Schatten automatisch
+          verstaerkt fuer bessere Sichtbarkeit auf dunklen Hintergruenden.
+        </p>
+      </div>
+
+      <div class="docs__body">
+
+      <!-- ================================================================ -->
+      <!-- 1. SHADOW LEVELS                                                  -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="shadow-levels">
+        <h2 class="docs__section-title">Shadow Levels</h2>
+        <p class="docs__section-desc">
+          5 abgestufte Schatten von <code class="docs__token">--fnd-shadow-xs</code> bis
+          <code class="docs__token">--fnd-shadow-xl</code>. Jede Stufe erhoht Offset, Blur
+          und Spread progressiv.
+        </p>
+
+        <div class="shadow-demo">
+          <div class="shadow-card">
+            <div class="shadow-card__sample" style="box-shadow: var(--fnd-shadow-xs);"></div>
+            <div class="shadow-card__name">--fnd-shadow-xs</div>
+            <div class="shadow-card__desc">Subtiler Schatten fuer Buttons, Thumb-Elemente</div>
+            <div class="shadow-card__value">0 1px 2px rgba(15, 23, 42, 0.06)</div>
+          </div>
+          <div class="shadow-card">
+            <div class="shadow-card__sample" style="box-shadow: var(--fnd-shadow-sm);"></div>
+            <div class="shadow-card__name">--fnd-shadow-sm</div>
+            <div class="shadow-card__desc">Leichter Schatten fuer Cards, Panels</div>
+            <div class="shadow-card__value">0 4px 10px rgba(15, 23, 42, 0.08)</div>
+          </div>
+          <div class="shadow-card">
+            <div class="shadow-card__sample" style="box-shadow: var(--fnd-shadow-md);"></div>
+            <div class="shadow-card__name">--fnd-shadow-md</div>
+            <div class="shadow-card__desc">Mittlerer Schatten fuer Dropdowns, Popovers</div>
+            <div class="shadow-card__value">0 10px 24px rgba(15, 23, 42, 0.12)</div>
+          </div>
+          <div class="shadow-card">
+            <div class="shadow-card__sample" style="box-shadow: var(--fnd-shadow-lg);"></div>
+            <div class="shadow-card__name">--fnd-shadow-lg</div>
+            <div class="shadow-card__desc">Grosser Schatten fuer Overlays, Drawer</div>
+            <div class="shadow-card__value">0 18px 40px rgba(15, 23, 42, 0.16)</div>
+          </div>
+          <div class="shadow-card">
+            <div class="shadow-card__sample" style="box-shadow: var(--fnd-shadow-xl);"></div>
+            <div class="shadow-card__name">--fnd-shadow-xl</div>
+            <div class="shadow-card__desc">Maximaler Schatten fuer Modals</div>
+            <div class="shadow-card__value">0 30px 60px rgba(15, 23, 42, 0.20)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 2. SEMANTIC ELEVATION                                             -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="elevation">
+        <h2 class="docs__section-title">Semantic Elevation</h2>
+        <p class="docs__section-desc">
+          5 semantische Elevation-Stufen mappen auf die Shadow-Levels.
+          Verwende <strong>immer</strong> die Elevation-Tokens in Komponenten &mdash;
+          die Shadow-Levels sind die darunterliegende Implementierung.
+        </p>
+
+        <div class="elevation-map">
+          <div class="elevation-map__header">Elevation Token</div>
+          <div class="elevation-map__header">Shadow Level</div>
+          <div class="elevation-map__header">Verwendung</div>
+
+          <div class="elevation-map__cell">--fnd-elevation-base</div>
+          <div class="elevation-map__cell">--fnd-shadow-xs</div>
+          <div class="elevation-map__cell">Buttons, Thumb, Grundzustand</div>
+
+          <div class="elevation-map__cell">--fnd-elevation-raised</div>
+          <div class="elevation-map__cell">--fnd-shadow-sm</div>
+          <div class="elevation-map__cell">Cards, Panels, Hover-Zustand</div>
+
+          <div class="elevation-map__cell">--fnd-elevation-floating</div>
+          <div class="elevation-map__cell">--fnd-shadow-md</div>
+          <div class="elevation-map__cell">Dropdowns, Popovers, Tooltips</div>
+
+          <div class="elevation-map__cell">--fnd-elevation-overlay</div>
+          <div class="elevation-map__cell">--fnd-shadow-lg</div>
+          <div class="elevation-map__cell">Drawer, Sidebar-Overlays</div>
+
+          <div class="elevation-map__cell">--fnd-elevation-modal</div>
+          <div class="elevation-map__cell">--fnd-shadow-xl</div>
+          <div class="elevation-map__cell">Modale Dialoge</div>
+        </div>
+
+        <div class="docs-snippet">
+          <pre>/* Do: Semantische Elevation verwenden */
+box-shadow: var(--fnd-elevation-raised);
+
+/* Don't: Hardcoded rgba() Shadows */
+box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 3. INSET SHADOWS                                                  -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="inset">
+        <h2 class="docs__section-title">Inset Shadows</h2>
+        <p class="docs__section-desc">
+          Fuer vertiefte oder gedrueckte Zustaende (z.B. aktive Inputs, eingedrueckte Buttons).
+          2 Stufen verfuegbar.
+        </p>
+
+        <div class="shadow-demo">
+          <div class="shadow-card">
+            <div class="inset-sample" style="box-shadow: var(--fnd-shadow-inset-sm);">inset-sm</div>
+            <div class="shadow-card__name">--fnd-shadow-inset-sm</div>
+            <div class="shadow-card__desc">Leichte Vertiefung (Inputs, Toggle-Tracks)</div>
+            <div class="shadow-card__value">inset 0 1px 2px rgba(15, 23, 42, 0.08)</div>
+          </div>
+          <div class="shadow-card">
+            <div class="inset-sample" style="box-shadow: var(--fnd-shadow-inset-md);">inset-md</div>
+            <div class="shadow-card__name">--fnd-shadow-inset-md</div>
+            <div class="shadow-card__desc">Staerkere Vertiefung (Active-Buttons, Well-Container)</div>
+            <div class="shadow-card__value">inset 0 2px 4px rgba(15, 23, 42, 0.12)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 4. DARK MODE                                                      -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="dark-mode">
+        <h2 class="docs__section-title">Dark Mode Behaviour</h2>
+        <p class="docs__section-desc">
+          Im Dark Mode werden alle Shadow-Werte automatisch verstaerkt &mdash;
+          hoehere Opacity-Werte kompensieren den dunklen Hintergrund.
+          Die Elevation-Tokens aendern sich nicht, nur die darunterliegenden Shadow-Werte.
+        </p>
+
+        <div class="dark-compare">
+          <div class="dark-compare__panel neo-light-theme" style="background: var(--fnd-color-background-base); color: var(--fnd-color-text-high);">
+            <span class="dark-compare__label">Light Mode</span>
+            <div class="dark-compare__card" style="background: var(--fnd-color-background-base); box-shadow: var(--fnd-elevation-raised); border: 1px solid var(--fnd-color-border-low);"></div>
+            <span style="font-family: var(--font-mono); font-size: var(--fs-xs);">rgba(15, 23, 42, 0.08)</span>
+          </div>
+          <div class="dark-compare__panel neo-dark-theme" style="background: var(--fnd-color-background-base); color: var(--fnd-color-text-high);">
+            <span class="dark-compare__label">Dark Mode</span>
+            <div class="dark-compare__card" style="background: var(--fnd-color-background-base); box-shadow: var(--fnd-elevation-raised); border: 1px solid var(--fnd-color-border-low);"></div>
+            <span style="font-family: var(--font-mono); font-size: var(--fs-xs);">rgba(0, 0, 0, 0.28)</span>
+          </div>
+        </div>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Light Opacity</th>
+              <th>Dark Opacity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>xs</td><td>0.06</td><td>0.20</td></tr>
+            <tr><td>sm</td><td>0.08</td><td>0.28</td></tr>
+            <tr><td>md</td><td>0.12</td><td>0.36</td></tr>
+            <tr><td>lg</td><td>0.16</td><td>0.44</td></tr>
+            <tr><td>xl</td><td>0.20</td><td>0.52</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 5. SCSS ARCHITECTURE                                              -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="architecture">
+        <h2 class="docs__section-title">SCSS Architecture</h2>
+        <p class="docs__section-desc">
+          Die Shadow-Tokens werden aus <code class="docs__token">design-tokens.json</code> generiert
+          und in <code class="docs__token">_shadow.scss</code> als CSS Custom Properties ausgegeben.
+        </p>
+
+        <div class="docs-snippet">
+          <pre>// Datei: scss/scss/00-settings/_shadow.scss
+
+// Token-Quellen
+$shadow-levels: tokens.$token-shadow-levels;     // aus design-tokens.json
+$shadow-levels-dark: ( ... );                     // manuell definiert
+$shadow-inset: ( ... );                           // manuell definiert
+
+// CSS Custom Properties Output
+:root {
+  --fnd-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --fnd-shadow-sm: 0 4px 10px rgba(15, 23, 42, 0.08);
+  // ...
+
+  --fnd-elevation-base: var(--fnd-shadow-xs);
+  --fnd-elevation-raised: var(--fnd-shadow-sm);
+  // ...
+}
+
+// Dark Theme Override
+.neo-dark-theme, .customer-dark-theme {
+  --fnd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.20);
+  // ...
+}
+
+// Auto Dark Mode (prefers-color-scheme)
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --fnd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.20);
+    // ...
+  }
+}</pre>
+        </div>
+      </section>
+
+      <!-- ================================================================ -->
+      <!-- 6. MIGRATION                                                      -->
+      <!-- ================================================================ -->
+      <section class="docs__section" id="migration">
+        <h2 class="docs__section-title">Migration Guide</h2>
+        <p class="docs__section-desc">
+          Ersetze alle hardcoded <code>rgba()</code>-Schatten und Legacy-Tokens durch Foundation-Tokens.
+        </p>
+
+        <table class="docs__table">
+          <thead>
+            <tr>
+              <th>Alt (deprecated)</th>
+              <th>Neu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs__token">--ds-shadow-levels-xs</code></td>
+              <td><code class="docs__token">--fnd-shadow-xs</code></td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">--ds-shadow-levels-sm</code></td>
+              <td><code class="docs__token">--fnd-shadow-sm</code></td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08)</code></td>
+              <td><code class="docs__token">box-shadow: var(--fnd-elevation-raised)</code></td>
+            </tr>
+            <tr>
+              <td><code class="docs__token">box-shadow: 0 10px 24px rgba(…)</code></td>
+              <td><code class="docs__token">box-shadow: var(--fnd-elevation-floating)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      </div><!-- /.docs__body -->
+
+    </main>
+<!-- /BODY -->

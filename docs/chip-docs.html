@@ -48,28 +48,31 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Chip</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Chip</h1>
+        <p class="docs__subtitle">
         Interaktive Filter- und Auswahl-Elemente f&uuml;r Mehrfachselektion, Kategorie-Filter
         und Tag-&auml;hnliche Eingaben. Chips sind toggle-f&auml;hige Buttons mit optionalem
         Icon, Avatar und Remove-Action.
         Kanonische Klasse: <code class="docs__token">.nc-chip</code> (BEM).
         Alle Werte kommen aus <code class="docs__token">--nc-chip-*</code> Component-Tokens.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="chip-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Chip-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="chip-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -664,8 +667,12 @@
           </section>
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 
   </div><!-- /.docs-layout -->
@@ -678,6 +685,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script src="chip-docs.js"></script>
 
 </body>

@@ -181,17 +181,21 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Mobile Sidebar Toggle -->
       <!-- Page Header -->
-      <h1 class="docs__title">Border</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Border</h1>
+        <p class="docs__subtitle">
         6-stufige Border-Width-Skala von <code class="docs__token">0px</code> (null) bis
         <code class="docs__token">8px</code> (xl/bold) plus 3 Border-Styles.
         Alle Tokens sind als CSS Custom Properties <code class="docs__token">--fnd-border-width-{size}</code>
         und <code class="docs__token">--fnd-border-style-{name}</code> verf&uuml;gbar.
       </p>
+      </div>
 
-      <!-- ================================================================ -->
+      <div class="docs__body">
+    <!-- ================================================================ -->
       <!-- 1. BORDER-WIDTH SCALE                                            -->
       <!-- ================================================================ -->
       <section class="docs__section" id="width-scale">
@@ -702,6 +706,7 @@
 .modern { border-width: var(--fnd-border-width-xs); }  /* = 1px */
 .modern { border-width: var(--fnd-border-width-md); }  /* = 4px */</div>
       </section>
+      </div>
 
     </main>
 
@@ -715,6 +720,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script>
     // Viewport indicator
     (function() {

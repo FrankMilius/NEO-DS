@@ -12,12 +12,16 @@
   // 1. Tab Navigation (für alle .docs-tabs Instanzen auf der Seite)
   // -----------------------------------------------------------------------
 
-  document.querySelectorAll('.docs-tabs').forEach(function (tabContainer) {
-    var tabList = tabContainer.querySelector('.docs-tabs__list');
-    if (!tabList) return;
-
+  // Tab-List liegt in .docs__tab-nav, Panels in .docs-tabs (innerhalb .docs__body)
+  document.querySelectorAll('.docs-tabs__list[role="tablist"]').forEach(function (tabList) {
     var triggers = tabList.querySelectorAll('.docs-tabs__trigger');
-    var panels = tabContainer.querySelectorAll('.docs-tabs__panel');
+    // Panels werden per aria-controls ID aufgeloest (decoupled von Container)
+    var panels = [];
+    triggers.forEach(function (t) {
+      var panelId = t.getAttribute('aria-controls');
+      var panel = panelId ? document.getElementById(panelId) : null;
+      if (panel) panels.push(panel);
+    });
 
     function activateTab(trigger) {
       triggers.forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
@@ -27,6 +31,11 @@
       var panelId = trigger.getAttribute('aria-controls');
       var panel = document.getElementById(panelId);
       if (panel) panel.classList.add('is-active');
+
+      // TOC ueber Tab-Wechsel informieren
+      document.dispatchEvent(new CustomEvent('docs-tab-change', {
+        detail: { panelId: panelId }
+      }));
     }
 
     triggers.forEach(function (trigger) {

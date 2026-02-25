@@ -39,21 +39,27 @@
     <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
     <main class="docs">
 
-      <h1 class="docs__title">Dropdown Menu</h1>
-      <p class="docs__subtitle">
+
+            <div class="docs__hero">
+        <h1 class="docs__title">Dropdown Menu</h1>
+        <p class="docs__subtitle">
         Generisches Action-/Kontextmen&uuml; mit Items, Icons, Separators und Gruppen.
         Kanonische Klasse: <code class="docs__token">.nc-dropdown</code> (BEM).
         Alle Werte kommen aus <code class="docs__token">--nc-dropdown-*</code> Component-Tokens.
       </p>
+      </div>
 
-      <div class="docs-tabs" id="dropdown-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Dropdown-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
         </div>
+      </div>
 
-        <!-- TAB 1: Benutzung -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="dropdown-tabs">
+<!-- TAB 1: Benutzung -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
 
           <!-- Basic Menu (static open) -->
@@ -358,7 +364,11 @@
 
         </div>
       </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
   </div>
   <script src="docs-sidebar-loader.js"></script>

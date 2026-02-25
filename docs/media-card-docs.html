@@ -48,28 +48,31 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Media Card</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Media Card</h1>
+        <p class="docs__subtitle">
         Karte mit vollfll&auml;chigem Bild und Bildunterschrift f&uuml;r Medien-Galerien,
         Artikel-Vorschauen und Feature-Highlights. Enth&auml;lt auch die gemeinsame
         Karten-Basisklasse (<code class="docs__token">.nc-card</code>) und das
         Galerie-Layout (<code class="docs__token">.nc-gallery</code>).
         Kanonische Klasse: <code class="docs__token">.nc-media-card</code> (BEM).
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="media-card-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Media Card-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="media-card-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -464,8 +467,12 @@
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 
   </div><!-- /.docs-layout -->
@@ -478,6 +485,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script>
     // Theme switcher for stage
     const themeSelect = document.getElementById('stage-theme');

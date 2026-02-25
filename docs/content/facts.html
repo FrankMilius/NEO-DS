@@ -1,9 +1,11 @@
 <!-- BODY -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Facts</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Facts</h1>
+        <p class="docs__subtitle">
         Schl&uuml;ssel-Wert-Paare f&uuml;r die kompakte Darstellung strukturierter Fakten,
         Produktmerkmale oder technischer Spezifikationen. Die Komponente nutzt ein
         Definition-List-Raster mit Bezeichnung und Beschreibung.
@@ -11,19 +13,20 @@
         <code class="docs__token">.nc-facts-term</code>,
         <code class="docs__token">.nc-facts-desc</code>.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="facts-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Facts-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="facts-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -291,8 +294,12 @@
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 <!-- /BODY -->
 

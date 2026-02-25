@@ -39,21 +39,27 @@
     <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
     <main class="docs">
 
-      <h1 class="docs__title">Pagination</h1>
-      <p class="docs__subtitle">
+
+            <div class="docs__hero">
+        <h1 class="docs__title">Pagination</h1>
+        <p class="docs__subtitle">
         Seitennavigation f&uuml;r Listen, Suchergebnisse und Tabellen.
         Kanonische Klasse: <code class="docs__token">.nc-pagination</code> (BEM).
         Alle Werte kommen aus <code class="docs__token">--nc-pagination-*</code> Component-Tokens.
       </p>
+      </div>
 
-      <div class="docs-tabs" id="pagination-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Pagination-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
         </div>
+      </div>
 
-        <!-- TAB 1: Benutzung -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="pagination-tabs">
+<!-- TAB 1: Benutzung -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
 
           <!-- Full Pagination -->
@@ -329,7 +335,11 @@
 
         </div>
       </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
   </div>
   <script src="docs-sidebar-loader.js"></script>

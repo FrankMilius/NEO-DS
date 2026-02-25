@@ -48,27 +48,30 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Text Blocks</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Text Blocks</h1>
+        <p class="docs__subtitle">
         Wiederverwendbare Text-Primitive f&uuml;r Section-Titles, Eyebrows und Lead-Paragraphen.
         Drei Klassen: <code class="docs__token">.nc-section-title</code>, <code class="docs__token">.nc-eyebrow</code>, <code class="docs__token">.nc-lead</code>.
         Alle Farben und Abst&auml;nde kommen aus Foundation-Tokens.
         Typischerweise verwendet in Hero-Sektionen, Abschnittsk&ouml;pfen und Marketing-Layouts.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="text-blocks-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Text-Blocks-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="text-blocks-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -402,8 +405,12 @@
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 
   </div><!-- /.docs-layout -->
@@ -416,6 +423,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
 
 
 </body>

@@ -384,25 +384,28 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Icons</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Icons</h1>
+        <p class="docs__subtitle">
         Token-basierte Icon-Library mit 6 Gr&ouml;&szlig;enstufen, semantischen Farben, Touch-Target-Support und Button-Icon-Mapping.
         Alle Werte kommen aus <code class="docs__token">--nc-icon-*</code> Component-Tokens.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="icons-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Icon-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">&Uuml;berblick</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-library" id="trigger-library">Library</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="icons-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: &Uuml;berblick                                        -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-overview" aria-labelledby="trigger-overview">
@@ -964,8 +967,12 @@
 
         </div>
 
-      </div><!-- /docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+<!-- /docs-tabs -->
 
+    
     </main>
 
   </div><!-- /.docs-layout -->
@@ -978,6 +985,7 @@
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script src="icons-docs.js"></script>
 
 </body>

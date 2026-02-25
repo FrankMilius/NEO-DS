@@ -1,28 +1,31 @@
 <!-- BODY -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Header</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Header</h1>
+        <p class="docs__subtitle">
         Haupt-Navigation des globalen Seitenrahmens &mdash; fixiert, theme-sensitiv und vollst&auml;ndig responsiv.
         Der Header beinhaltet die Markenidentit&auml;t (Nav Brand), die Haupt-Navigation mit optionalen Dropdown-Panels
         (Nav Drop), Utility-Aktionen (Nav Tools) sowie eine separate Conversion-CTA.
         Kanonische Klasse: <code class="docs__token">.header</code>.
         Alle Farbwerte kommen aus <code class="docs__token">--fnd-color-*</code> Foundation-Tokens.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="header-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Header-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="header-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -755,7 +758,11 @@ nav                            // Semantisches nav-Element (flex-between, contai
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 <!-- /BODY -->

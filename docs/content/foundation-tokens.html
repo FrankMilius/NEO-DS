@@ -30,12 +30,6 @@
       font-size: var(--fs-sm);
       color: var(--fnd-color-text-secondary);
     }
-    .shadow-sample {
-      height: 48px;
-      background: var(--fnd-color-background-base);
-      border-radius: var(--fnd-radius-md);
-      margin-bottom: var(--fnd-spacing-02);
-    }
     .color-swatch {
       width: 100%;
       height: 40px;
@@ -93,54 +87,6 @@
     <main class="docs-main" style="max-width: 960px; margin: 0 auto; padding: var(--fnd-spacing-06);">
     <h1>Foundation Tokens</h1>
     <p>Alle Foundation-Tokens beginnen mit <code>--fnd-</code> und bilden die Basis fuer das gesamte Design System.</p>
-
-    <!-- ================================================================ -->
-    <!-- SHADOW / ELEVATION -->
-    <!-- ================================================================ -->
-    <section>
-      <h2>Shadow / Elevation</h2>
-      <p>5 Shadow-Stufen und 5 semantische Elevation-Aliases. Dark-Mode-aware.</p>
-
-      <div class="token-grid">
-        <div class="token-card">
-          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-xs);"></div>
-          <div class="token-card__name">--fnd-shadow-xs</div>
-          <div class="token-card__desc">Subtiler Schatten (Buttons, Thumb)</div>
-          <div class="token-card__value">= --fnd-elevation-base</div>
-        </div>
-        <div class="token-card">
-          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-sm);"></div>
-          <div class="token-card__name">--fnd-shadow-sm</div>
-          <div class="token-card__desc">Leichter Schatten (Cards)</div>
-          <div class="token-card__value">= --fnd-elevation-raised</div>
-        </div>
-        <div class="token-card">
-          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-md);"></div>
-          <div class="token-card__name">--fnd-shadow-md</div>
-          <div class="token-card__desc">Mittlerer Schatten (Dropdowns)</div>
-          <div class="token-card__value">= --fnd-elevation-floating</div>
-        </div>
-        <div class="token-card">
-          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-lg);"></div>
-          <div class="token-card__name">--fnd-shadow-lg</div>
-          <div class="token-card__desc">Grosser Schatten (Overlays)</div>
-          <div class="token-card__value">= --fnd-elevation-overlay</div>
-        </div>
-        <div class="token-card">
-          <div class="shadow-sample" style="box-shadow: var(--fnd-shadow-xl);"></div>
-          <div class="token-card__name">--fnd-shadow-xl</div>
-          <div class="token-card__desc">Maximaler Schatten (Modals)</div>
-          <div class="token-card__value">= --fnd-elevation-modal</div>
-        </div>
-      </div>
-
-      <div class="dos">
-        <strong>Do:</strong> <code>box-shadow: var(--fnd-elevation-raised);</code>
-      </div>
-      <div class="donts">
-        <strong>Don't:</strong> <code>box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);</code>
-      </div>
-    </section>
 
     <!-- ================================================================ -->
     <!-- LAYER SYSTEM -->
@@ -407,14 +353,6 @@
         </thead>
         <tbody>
           <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--ds-shadow-levels-xs</code></td>
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--fnd-shadow-xs</code></td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--ds-shadow-levels-sm</code></td>
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>--fnd-shadow-sm</code></td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
             <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>font-weight: 600</code></td>
             <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-font-weight-semibold)</code></td>
           </tr>
@@ -425,10 +363,6 @@
           <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
             <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>z-index: 50</code> (toast)</td>
             <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-z-toast)</code></td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--fnd-color-border-low);">
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>rgba(15,23,42, 0.06)</code></td>
-            <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>var(--fnd-elevation-raised)</code></td>
           </tr>
           <tr>
             <td style="padding: var(--fnd-spacing-02); font-family: var(--font-mono);"><code>background: #ffffff</code></td>

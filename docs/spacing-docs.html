@@ -48,15 +48,19 @@
     <!-- Content Area -->
     <main class="docs">
 
+
       <!-- Mobile Sidebar Toggle -->
       <!-- Page Header -->
-      <h1 class="docs__title">Fluid Spacing</h1>
-    <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Fluid Spacing</h1>
+        <p class="docs__subtitle">
       13-stufige Spacing-Scale auf dem 4px-Basegrid. Stufen 01&ndash;05 sind statisch,
       Stufen 06&ndash;13 skalieren fluid mit <code class="docs__token">clamp()</code>
       zwischen 320px und 1400px Viewport-Breite.
     </p>
+      </div>
 
+      <div class="docs__body">
     <!-- ================================================================ -->
     <!-- 1. BASE UNIT                                                     -->
     <!-- ================================================================ -->
@@ -455,6 +459,7 @@ intercept = 48 - 0.0148 * 320 = 43.26px
   @return clamp(#{$min}, #{$intercept} + #{$slope} * 1vw, #{$max});
 }</div>
     </section>
+      </div>
 
     </main>
 
@@ -468,6 +473,7 @@ intercept = 48 - 0.0148 * 320 = 43.26px
   <script src="docs-search.js"></script>
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
   <script>
     (function() {
       const bps = [

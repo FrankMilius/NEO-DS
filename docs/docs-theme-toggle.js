@@ -36,6 +36,14 @@
     document.body.classList.remove(LIGHT_CLASS, DARK_CLASS);
     document.body.classList.add(dark ? DARK_CLASS : LIGHT_CLASS);
     toggle.setAttribute('aria-checked', String(dark));
+
+    // data-theme auf <html> setzen für Konsistenz mit Haupt-Site
+    // und Opt-out von prefers-color-scheme Auto-Switching
+    if (dark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
   }
 
   function saveState(dark) {

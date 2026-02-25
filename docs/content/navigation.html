@@ -1,26 +1,29 @@
 <!-- BODY -->
     <main class="docs">
 
+
       <!-- Page Header -->
-      <h1 class="docs__title">Navigation</h1>
-      <p class="docs__subtitle">
+            <div class="docs__hero">
+        <h1 class="docs__title">Navigation</h1>
+        <p class="docs__subtitle">
         Globale Header-Navigationsstruktur mit Sticky-Header, Mega-Menu, Suchoverlay und mobilem Panel.
         Kanonische Klassen: <code class="docs__token">.nc-header</code>, <code class="docs__token">.nc-nav</code>, <code class="docs__token">.nc-mega</code> (BEM).
         Farben und Abstands-Tokens kommen aus den Foundation-Tokens <code class="docs__token">--fnd-*</code>.
       </p>
+      </div>
 
-      <!-- ============================================================== -->
-      <!-- Tab Navigation                                                  -->
-      <!-- ============================================================== -->
-      <div class="docs-tabs" id="navigation-tabs">
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Navigation-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- ============================================================ -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="navigation-tabs">
+<!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -595,8 +598,12 @@
 
         </div>
 
-      </div><!-- /.docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
 
+
+    
     </main>
 <!-- /BODY -->
 

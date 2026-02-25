@@ -101,21 +101,24 @@
 <!-- BODY -->
     <main class="docs">
 
-      <h1 class="docs__title">Card Team</h1>
-      <p class="docs__subtitle">Team-Mitglieder-Karten zeigen Portrait-Foto, Name, Funktion und optionale Social-Links. Responsives Grid von 2 bis 4 Spalten (Compact: bis 6 Spalten). Bild-Zoom bei Hover.</p>
 
-      <!-- ============================================================= -->
-      <!-- TABS                                                          -->
-      <!-- ============================================================= -->
-      <div class="docs-tabs" id="card-team-tabs">
+            <div class="docs__hero">
+        <h1 class="docs__title">Card Team</h1>
+        <p class="docs__subtitle">Team-Mitglieder-Karten zeigen Portrait-Foto, Name, Funktion und optionale Social-Links. Responsives Grid von 2 bis 4 Spalten (Compact: bis 6 Spalten). Bild-Zoom bei Hover.</p>
+      </div>
+
+      <div class="docs__tab-nav">
         <div class="docs-tabs__list" role="tablist" aria-label="Card Team Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true"  aria-controls="tab-usage"  id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style"  id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api"    id="trigger-api">API</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y"   id="trigger-a11y">Accessibility</button>
         </div>
+      </div>
 
-        <!-- =========================================================== -->
+      <div class="docs__body">
+        <div class="docs-tabs" id="card-team-tabs">
+<!-- =========================================================== -->
         <!-- TAB 1: BENUTZUNG                                            -->
         <!-- =========================================================== -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
@@ -461,7 +464,11 @@
 
         </div>
 
-      </div><!-- /docs-tabs -->
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+<!-- /docs-tabs -->
+    
     </main>
 <!-- /BODY -->
 

@@ -3,6 +3,8 @@
 // ==========================================================================
 // Scannt h2.docs__section-title Elemente und generiert eine sticky Navigation.
 // IntersectionObserver highlighted die aktive Section.
+// Tab-aware: Wenn .docs-tabs__list existiert, zeigt die TOC nur Headings
+// des aktiven Tab-Panels an.
 // Nur sichtbar ab lg Breakpoint (via CSS).
 // ==========================================================================
 
@@ -11,11 +13,14 @@
 
   var HEADER_HEIGHT = 56;
   var SELECTOR = 'h2.docs__section-title';
-  var LG_BREAKPOINT = 1200;
 
   function initTOC() {
     var headings = document.querySelectorAll(SELECTOR);
-    if (headings.length < 2) return; // Kein TOC bei 0-1 Sections
+    if (headings.length < 2) return;
+
+    // Pruefen ob Tab-Navigation existiert
+    var tabList = document.querySelector('.docs-tabs__list[role="tablist"]');
+    var hasTabs = !!tabList;
 
     // IDs sicherstellen
     headings.forEach(function (h, i) {
@@ -41,6 +46,14 @@
       var li = document.createElement('li');
       li.className = 'docs-toc__item';
 
+      // Panel-Zuordnung: Heading innerhalb eines Tab-Panels?
+      if (hasTabs) {
+        var panel = h.closest('.docs-tabs__panel');
+        if (panel && panel.id) {
+          li.setAttribute('data-panel', panel.id);
+        }
+      }
+
       var a = document.createElement('a');
       a.className = 'docs-toc__link';
       a.href = '#' + h.id;
@@ -51,29 +64,86 @@
 
     nav.appendChild(list);
 
-    // Einfuegen: nach <main class="docs"> als Sibling
-    var main = document.querySelector('main.docs');
-    if (main && main.parentNode) {
-      main.parentNode.insertBefore(nav, main.nextSibling);
+    // Einfuegen: in .docs__body (Sub-Grid: Content | TOC)
+    var body = document.querySelector('.docs__body');
+    if (body) {
+      body.appendChild(nav);
+    } else {
+      var main = document.querySelector('main.docs');
+      if (main && main.parentNode) {
+        main.parentNode.insertBefore(nav, main.nextSibling);
+      }
     }
 
-    // IntersectionObserver fuer Active-State
+    // --- IntersectionObserver ---
     var links = nav.querySelectorAll('.docs-toc__link');
+    var observer = null;
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          links.forEach(function (l) { l.classList.remove('is-active'); });
-          var active = nav.querySelector('a[href="#' + entry.target.id + '"]');
-          if (active) active.classList.add('is-active');
+    function createObserver(visibleHeadings) {
+      if (observer) observer.disconnect();
+
+      observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            links.forEach(function (l) { l.classList.remove('is-active'); });
+            var active = nav.querySelector('a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('is-active');
+          }
+        });
+      }, {
+        rootMargin: '-' + (HEADER_HEIGHT + 32) + 'px 0px -60% 0px',
+        threshold: 0
+      });
+
+      visibleHeadings.forEach(function (h) { observer.observe(h); });
+    }
+
+    // --- Tab-Filterung ---
+    function updateForPanel(panelId) {
+      var items = list.querySelectorAll('.docs-toc__item');
+      var visibleHeadings = [];
+
+      items.forEach(function (li) {
+        var itemPanel = li.getAttribute('data-panel');
+        // Anzeigen wenn: kein Panel-Attribut (ausserhalb Tabs) oder passendes Panel
+        if (!itemPanel || itemPanel === panelId) {
+          li.style.display = '';
+        } else {
+          li.style.display = 'none';
         }
       });
-    }, {
-      rootMargin: '-' + (HEADER_HEIGHT + 32) + 'px 0px -60% 0px',
-      threshold: 0
-    });
 
-    headings.forEach(function (h) { observer.observe(h); });
+      // Nur sichtbare Headings beobachten
+      headings.forEach(function (h) {
+        var panel = h.closest('.docs-tabs__panel');
+        if (!panel || (panel.id === panelId)) {
+          visibleHeadings.push(h);
+        }
+      });
+
+      // Active-State zuruecksetzen
+      links.forEach(function (l) { l.classList.remove('is-active'); });
+
+      createObserver(visibleHeadings);
+    }
+
+    if (hasTabs) {
+      // Initiales Panel ermitteln (das mit .is-active)
+      var activePanel = document.querySelector('.docs-tabs__panel.is-active');
+      if (activePanel) {
+        updateForPanel(activePanel.id);
+      }
+
+      // Auf Tab-Wechsel reagieren
+      document.addEventListener('docs-tab-change', function (e) {
+        if (e.detail && e.detail.panelId) {
+          updateForPanel(e.detail.panelId);
+        }
+      });
+    } else {
+      // Keine Tabs: alle Headings beobachten
+      createObserver(Array.prototype.slice.call(headings));
+    }
   }
 
   if (document.readyState === 'loading') {

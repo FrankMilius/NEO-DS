@@ -159,19 +159,23 @@
 <!-- BODY -->
     <main class="docs">
 
-      <h1 class="docs__title">HTML Elements</h1>
-    <p class="docs__subtitle">
+
+            <div class="docs__hero">
+        <h1 class="docs__title">HTML Elements</h1>
+        <p class="docs__subtitle">
       Alle HTML-Tags, die von <code class="docs__token">_headings.scss</code>
       und <code class="docs__token">_typography.scss</code> gestylt werden &mdash;
       mit Beispieltexten und Live-Werten. Verkleinere das Browserfenster, um das
       responsive Fluid-Verhalten zu beobachten.
     </p>
+      </div>
 
+      <div class="docs__body">
     <!-- ================================================================ -->
     <!-- 1. HEADINGS                                                      -->
     <!-- ================================================================ -->
     <section class="elem-section" id="headings">
-      <h2 class="elem-section__title">Headings (h1 &ndash; h6)</h2>
+      <h2 class="docs__section-title elem-section__title">Headings (h1 &ndash; h6)</h2>
       <p class="elem-section__desc">
         Alle Headings nutzen einheitlich den <code>heading()</code> Mixin mit
         <code>font-family: var(--font-heading)</code> (Space Grotesk),
@@ -252,7 +256,7 @@
     <!-- 2. PARAGRAPHS & BASIC TEXT                                       -->
     <!-- ================================================================ -->
     <section class="elem-section" id="paragraphs">
-      <h2 class="elem-section__title">Paragraphs &amp; Basic Text</h2>
+      <h2 class="docs__section-title elem-section__title">Paragraphs &amp; Basic Text</h2>
       <p class="elem-section__desc">
         Paragraphen nutzen <code>@include paragraph('l')</code> (Fluid base-Stufe).
         Alle Abstände verwenden logische Properties und Spacing-Tokens.
@@ -299,7 +303,7 @@
     <!-- 3. BLOCKQUOTE & CITE                                             -->
     <!-- ================================================================ -->
     <section class="elem-section" id="blockquote">
-      <h2 class="elem-section__title">Blockquote &amp; Cite</h2>
+      <h2 class="docs__section-title elem-section__title">Blockquote &amp; Cite</h2>
       <p class="elem-section__desc">
         Blockquotes nutzen <code>border-inline-start</code> (logische Property) mit dem
         semantischen Border-Token und Paragraph-Typografie.
@@ -324,7 +328,7 @@
     <!-- 4. LISTS                                                         -->
     <!-- ================================================================ -->
     <section class="elem-section" id="lists">
-      <h2 class="elem-section__title">Lists</h2>
+      <h2 class="docs__section-title elem-section__title">Lists</h2>
       <p class="elem-section__desc">
         Ungeordnete, geordnete und Definitionslisten mit logischen Properties.
         Padding nutzt <code>padding-inline-start</code> statt <code>padding-left</code>.
@@ -381,7 +385,7 @@
     <!-- 5. CODE, KBD, PRE, SAMP                                         -->
     <!-- ================================================================ -->
     <section class="elem-section" id="code">
-      <h2 class="elem-section__title">Code &amp; Preformatted</h2>
+      <h2 class="docs__section-title elem-section__title">Code &amp; Preformatted</h2>
       <p class="elem-section__desc">
         Monospace-Elemente teilen einen gemeinsamen Font-Stack. <code>&lt;code&gt;</code> und
         <code>&lt;kbd&gt;</code> haben Inline-Hintergrund; <code>&lt;pre&gt;</code> ist ein Block-Element.
@@ -435,7 +439,7 @@
     <!-- 6. MARK, SUP, SUB                                                -->
     <!-- ================================================================ -->
     <section class="elem-section" id="inline">
-      <h2 class="elem-section__title">Inline Semantics</h2>
+      <h2 class="docs__section-title elem-section__title">Inline Semantics</h2>
       <p class="elem-section__desc">
         Markierung, Hoch- und Tiefstellung. <code>&lt;mark&gt;</code> nutzt den
         <code>--fnd-color-background-accent</code> Token mit Transparenz.
@@ -467,7 +471,7 @@
     <!-- 7. FIGURE, HR, ADDRESS                                           -->
     <!-- ================================================================ -->
     <section class="elem-section" id="structure">
-      <h2 class="elem-section__title">Structural Elements</h2>
+      <h2 class="docs__section-title elem-section__title">Structural Elements</h2>
 
       <div class="specimen" id="spec-figcaption">
         <div class="specimen__label">
@@ -515,7 +519,7 @@
     <!-- 8. HEADING + BODY TOKEN TABLE                                    -->
     <!-- ================================================================ -->
     <section class="elem-section" id="tokens">
-      <h2 class="elem-section__title">Token-Mapping Referenz</h2>
+      <h2 class="docs__section-title elem-section__title">Token-Mapping Referenz</h2>
       <p class="elem-section__desc">
         Übersicht welches HTML-Element welchen Mixin und welche CSS Custom Properties nutzt.
       </p>
@@ -538,7 +542,7 @@
     <!-- 9. FULL CONTENT FLOW                                             -->
     <!-- ================================================================ -->
     <section class="elem-section" id="flow">
-      <h2 class="elem-section__title">Content Flow (Gesamtbild)</h2>
+      <h2 class="docs__section-title elem-section__title">Content Flow (Gesamtbild)</h2>
       <p class="elem-section__desc">
         Alle Elemente kombiniert in einem natürlichen Textfluss. Ideal, um die vertikalen
         Abstände (Spacing) und das Zusammenspiel der Typografie-Stufen zu prüfen.
@@ -615,6 +619,7 @@
         </div>
       </div>
     </section>
+      </div>
 
     </main>
 <!-- /BODY -->
