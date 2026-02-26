@@ -23,19 +23,38 @@
             <path d="m9 18 6-6-6-6"/>
           </svg>
           <span class="nav-group-label">{{ group.label }}</span>
-          <span class="nav-group-count">{{ group.children.length }}</span>
+          <span class="nav-group-count">{{ getItemCount(group) }}</span>
         </button>
 
         <div v-if="expandedGroups.has(group.id)" class="nav-children">
-          <button
-            v-for="child in group.children"
-            :key="child.id"
-            :class="['nav-item', { active: store.state.activeSection === child.section }]"
-            @click="handleSelect(child)"
-          >
-            <span class="nav-item-dot" :class="{ modified: isModified(child) }"></span>
-            <span class="nav-item-label">{{ child.label }}</span>
-          </button>
+          <template v-for="child in group.children" :key="child.id">
+            <!-- Subgroup -->
+            <div v-if="child.isSubgroup" class="nav-subgroup">
+              <span class="nav-subgroup-label">{{ child.label }}</span>
+              <div class="nav-subgroup-children">
+                <button
+                  v-for="item in child.children"
+                  :key="item.id"
+                  :class="['nav-item', { active: store.state.activeSection === item.section, 'no-tokens': !hasTokens(item) }]"
+                  @click="handleSelect(item)"
+                >
+                  <span class="nav-item-dot" :class="{ modified: isModified(item) }" v-if="hasTokens(item)"></span>
+                  <span class="nav-item-dot empty" v-else></span>
+                  <span class="nav-item-label">{{ item.label }}</span>
+                </button>
+              </div>
+            </div>
+            <!-- Flat item -->
+            <button
+              v-else
+              :class="['nav-item', { active: store.state.activeSection === child.section, 'no-tokens': !hasTokens(child) }]"
+              @click="handleSelect(child)"
+            >
+              <span class="nav-item-dot" :class="{ modified: isModified(child) }" v-if="hasTokens(child)"></span>
+              <span class="nav-item-dot empty" v-else></span>
+              <span class="nav-item-label">{{ child.label }}</span>
+            </button>
+          </template>
         </div>
       </div>
     </nav>
@@ -61,23 +80,73 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
-import { navigationTree } from '../../data/tokens.js'
+import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
 
 const store = useThemeStore()
 const searchQuery = ref('')
 const expandedGroups = ref(new Set(['foundation', 'components']))
 
+// Build a set of component IDs that have tokens defined
+const _componentIdsWithTokens = new Set(
+  componentTokenGroups.map(g => g.id)
+)
+
+/**
+ * Count all leaf items in a group (including inside subgroups)
+ */
+function getItemCount(group) {
+  let count = 0
+  for (const child of group.children) {
+    if (child.isSubgroup) {
+      count += child.children.length
+    } else {
+      count++
+    }
+  }
+  return count
+}
+
+/**
+ * Check if a nav item has tokens defined in componentTokenGroups
+ */
+function hasTokens(item) {
+  if (!item.section) return false
+  // Foundation items always "have tokens" (they have editors)
+  if (item.section.startsWith('foundation-')) return true
+  // Component items: check against componentTokenGroups
+  if (item.section.startsWith('component-')) {
+    const componentId = item.section.replace('component-', '')
+    return _componentIdsWithTokens.has(componentId)
+  }
+  // Templates, utilities, guides — show as available if they have a section
+  return true
+}
+
 const filteredTree = computed(() => {
   if (!searchQuery.value.trim()) return navigationTree
   const q = searchQuery.value.toLowerCase()
+
   return navigationTree
-    .map(group => ({
-      ...group,
-      children: group.children.filter(child =>
-        child.label.toLowerCase().includes(q)
-      )
-    }))
-    .filter(group => group.children.length > 0)
+    .map(group => {
+      const filteredChildren = group.children
+        .map(child => {
+          if (child.isSubgroup) {
+            // Filter subgroup children
+            const filteredSubChildren = child.children.filter(item =>
+              item.label.toLowerCase().includes(q)
+            )
+            if (filteredSubChildren.length === 0) return null
+            return { ...child, children: filteredSubChildren }
+          }
+          // Flat child
+          return child.label.toLowerCase().includes(q) ? child : null
+        })
+        .filter(Boolean)
+
+      if (filteredChildren.length === 0) return null
+      return { ...group, children: filteredChildren }
+    })
+    .filter(Boolean)
 })
 
 function toggleGroup(id) {
@@ -229,6 +298,25 @@ function handleExportJSON() {
   padding: 2px 0 6px 12px;
 }
 
+/* Subgroup styling */
+.nav-subgroup {
+  margin-top: 4px;
+}
+
+.nav-subgroup-label {
+  display: block;
+  padding: 4px 10px 2px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--cfg-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.nav-subgroup-children {
+  padding-left: 4px;
+}
+
 .nav-item {
   display: flex;
   align-items: center;
@@ -257,6 +345,15 @@ function handleExportJSON() {
   font-weight: 600;
 }
 
+/* Items without tokens */
+.nav-item.no-tokens {
+  opacity: 0.55;
+}
+
+.nav-item.no-tokens:hover {
+  opacity: 0.8;
+}
+
 .nav-item-dot {
   width: 6px;
   height: 6px;
@@ -269,8 +366,18 @@ function handleExportJSON() {
   background: var(--cfg-accent);
 }
 
+.nav-item-dot.empty {
+  background: transparent;
+  border: 1px dashed var(--cfg-border);
+}
+
 .nav-item.active .nav-item-dot {
   background: var(--cfg-accent);
+}
+
+.nav-item.active .nav-item-dot.empty {
+  background: transparent;
+  border-color: var(--cfg-accent);
 }
 
 .sidebar-footer {

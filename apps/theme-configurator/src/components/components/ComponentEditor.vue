@@ -11,8 +11,9 @@
         <div
           v-for="token in tokens"
           :key="token.id"
-          :class="['token-row', { selected: selectedId === token.id }]"
+          :class="['token-row', { selected: selectedId === token.id, readonly: token.readonly }]"
           @click="selectToken(token)"
+          :title="token.readonly ? 'Dieses Token ist schreibgeschützt — es folgt dem semantischen Token.' : ''"
         >
           <div class="token-left">
             <!-- Color swatch for color tokens -->
@@ -32,7 +33,13 @@
           </div>
 
           <div class="token-info">
-            <span class="token-label">{{ token.label }}</span>
+            <span class="token-label">
+              {{ token.label }}
+              <!-- Lock icon for readonly tokens -->
+              <svg v-if="token.readonly" class="lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
             <code class="token-name">--{{ token.id }}</code>
           </div>
 
@@ -49,7 +56,7 @@
 
     <!-- Inline Editor -->
     <transition name="slide">
-      <div v-if="selectedToken" class="inline-editor">
+      <div v-if="selectedToken && !selectedToken.readonly" class="inline-editor">
         <template v-if="selectedToken.type === 'color'">
           <ColorEditor
             :modelValue="getTokenValue(selectedToken)"
@@ -78,6 +85,19 @@
             />
           </div>
         </template>
+      </div>
+    </transition>
+
+    <!-- Readonly notice when a readonly token is selected -->
+    <transition name="slide">
+      <div v-if="selectedToken && selectedToken.readonly" class="readonly-notice">
+        <svg class="readonly-notice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <div>
+          <strong>Schreibgeschützt</strong>
+          <p>Dieses Token referenziert <code>--fnd-color-{{ selectedToken.ref }}</code> und wird über die semantische Ebene (L2) gesteuert.</p>
+        </div>
       </div>
     </transition>
   </div>
@@ -178,6 +198,27 @@ function updateToken(token, value) {
   background: var(--cfg-accent-subtle);
 }
 
+/* Readonly token row */
+.token-row.readonly {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.token-row.readonly:hover {
+  opacity: 0.8;
+}
+
+.token-row.readonly.selected {
+  border-color: var(--cfg-border);
+  background: var(--cfg-surface-elevated);
+}
+
+.lock-icon {
+  vertical-align: middle;
+  margin-left: 3px;
+  color: var(--cfg-text-muted);
+}
+
 .token-left { flex-shrink: 0; width: 36px; }
 
 .token-swatch {
@@ -261,6 +302,41 @@ function updateToken(token, value) {
   background: var(--cfg-surface);
   border: 1px solid var(--cfg-border);
   border-radius: 12px;
+}
+
+.readonly-notice {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--cfg-surface-elevated);
+  border: 1px solid var(--cfg-border);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--cfg-text-muted);
+}
+
+.readonly-notice strong {
+  display: block;
+  font-size: 12px;
+  color: var(--cfg-text);
+  margin-bottom: 2px;
+}
+
+.readonly-notice p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.readonly-notice code {
+  font-size: 10px;
+  background: var(--cfg-surface);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.readonly-notice-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .generic-editor { display: flex; flex-direction: column; gap: 8px; }

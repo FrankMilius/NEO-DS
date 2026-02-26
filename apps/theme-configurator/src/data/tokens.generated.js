@@ -857,19 +857,22 @@ export const componentTokenGroups = [
         "id": "nc-button-primary-bg",
         "label": "Primary BG",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "readonly": true
       },
       {
         "id": "nc-button-primary-bg-hover",
         "label": "Primary BG Hover",
         "type": "color",
-        "ref": "interactive-hover"
+        "ref": "interactive-hover",
+        "readonly": true
       },
       {
         "id": "nc-button-primary-color",
         "label": "Primary Text",
         "type": "color",
-        "ref": "text-on-interactive"
+        "ref": "text-on-interactive",
+        "readonly": true
       },
       {
         "id": "nc-button-secondary-bg",
@@ -881,13 +884,15 @@ export const componentTokenGroups = [
         "id": "nc-button-secondary-color",
         "label": "Secondary Text",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "readonly": true
       },
       {
         "id": "nc-button-secondary-border",
         "label": "Secondary Border",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "readonly": true
       },
       {
         "id": "nc-button-ghost-bg",
@@ -899,13 +904,15 @@ export const componentTokenGroups = [
         "id": "nc-button-ghost-color",
         "label": "Ghost Text",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "readonly": true
       },
       {
         "id": "nc-button-error-bg",
         "label": "Error BG",
         "type": "color",
-        "ref": "feedback-danger"
+        "ref": "feedback-danger",
+        "readonly": true
       },
       {
         "id": "nc-button-error-color",
@@ -948,43 +955,50 @@ export const componentTokenGroups = [
         "id": "nc-input-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-base"
+        "ref": "background-base",
+        "readonly": true
       },
       {
         "id": "nc-input-color",
         "label": "Text Color",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "readonly": true
       },
       {
         "id": "nc-input-border",
         "label": "Border Color",
         "type": "color",
-        "ref": "border-primary"
+        "ref": "border-primary",
+        "readonly": true
       },
       {
         "id": "nc-input-placeholder",
         "label": "Placeholder",
         "type": "color",
-        "ref": "text-tertiary"
+        "ref": "text-tertiary",
+        "readonly": true
       },
       {
         "id": "nc-input-border-hover",
         "label": "Border Hover",
         "type": "color",
-        "ref": "border-strong"
+        "ref": "border-strong",
+        "readonly": true
       },
       {
         "id": "nc-input-border-focus",
         "label": "Border Focus",
         "type": "color",
-        "ref": "interactive-focus"
+        "ref": "interactive-focus",
+        "readonly": true
       },
       {
         "id": "nc-input-border-error",
         "label": "Border Error",
         "type": "color",
-        "ref": "border-danger"
+        "ref": "border-danger",
+        "readonly": true
       }
     ]
   },
@@ -1015,37 +1029,43 @@ export const componentTokenGroups = [
         "id": "nc-badge-default-bg",
         "label": "Default BG",
         "type": "color",
-        "ref": "background-secondary"
+        "ref": "background-secondary",
+        "readonly": true
       },
       {
         "id": "nc-badge-default-color",
         "label": "Default Text",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "readonly": true
       },
       {
         "id": "nc-badge-success-bg",
         "label": "Success BG",
         "type": "color",
-        "ref": "background-success"
+        "ref": "background-success",
+        "readonly": true
       },
       {
         "id": "nc-badge-success-color",
         "label": "Success Text",
         "type": "color",
-        "ref": "text-success"
+        "ref": "text-success",
+        "readonly": true
       },
       {
         "id": "nc-badge-error-bg",
         "label": "Error BG",
         "type": "color",
-        "ref": "background-danger"
+        "ref": "background-danger",
+        "readonly": true
       },
       {
         "id": "nc-badge-error-color",
         "label": "Error Text",
         "type": "color",
-        "ref": "text-danger"
+        "ref": "text-danger",
+        "readonly": true
       },
       {
         "id": "nc-badge-info-bg",
@@ -1070,19 +1090,22 @@ export const componentTokenGroups = [
         "id": "nc-card-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-base"
+        "ref": "background-base",
+        "readonly": true
       },
       {
         "id": "nc-card-color",
         "label": "Text Color",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "readonly": true
       },
       {
         "id": "nc-card-border",
         "label": "Border",
         "type": "color",
-        "ref": "border-secondary"
+        "ref": "border-secondary",
+        "readonly": true
       },
       {
         "id": "nc-card-radius",
@@ -1107,7 +1130,8 @@ export const componentTokenGroups = [
         "id": "nc-dialog-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-base"
+        "ref": "background-base",
+        "readonly": true
       },
       {
         "id": "nc-dialog-radius",
@@ -1144,19 +1168,22 @@ export const componentTokenGroups = [
         "id": "nc-switch-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-secondary"
+        "ref": "background-secondary",
+        "readonly": true
       },
       {
         "id": "nc-switch-bg-checked",
         "label": "BG Checked",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "readonly": true
       },
       {
         "id": "nc-switch-thumb-color",
         "label": "Thumb Color",
         "type": "color",
-        "ref": "background-base"
+        "ref": "background-base",
+        "readonly": true
       }
     ]
   },
@@ -1169,13 +1196,15 @@ export const componentTokenGroups = [
         "id": "nc-tooltip-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-inverse"
+        "ref": "background-inverse",
+        "readonly": true
       },
       {
         "id": "nc-tooltip-color",
         "label": "Text Color",
         "type": "color",
-        "ref": "text-inverse"
+        "ref": "text-inverse",
+        "readonly": true
       },
       {
         "id": "nc-tooltip-radius",
@@ -1212,13 +1241,15 @@ export const componentTokenGroups = [
         "id": "nc-avatar-bg",
         "label": "Background",
         "type": "color",
-        "ref": "background-tertiary"
+        "ref": "background-tertiary",
+        "readonly": true
       },
       {
         "id": "nc-avatar-color",
         "label": "Text Color",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "readonly": true
       }
     ]
   }
@@ -1532,28 +1563,16 @@ export const navigationTree = [
     "icon": "building-arch",
     "children": [
       {
+        "id": "grid",
+        "label": "Grid",
+        "icon": "layout-grid",
+        "section": "foundation-grid"
+      },
+      {
         "id": "colors",
-        "label": "Colors",
+        "label": "Color",
         "icon": "palette",
         "section": "foundation-colors"
-      },
-      {
-        "id": "surfaces",
-        "label": "Surfaces",
-        "icon": "stack-2",
-        "section": "foundation-surfaces"
-      },
-      {
-        "id": "radius",
-        "label": "Radius",
-        "icon": "border-radius",
-        "section": "foundation-radius"
-      },
-      {
-        "id": "shadows",
-        "label": "Shadows",
-        "icon": "shadow",
-        "section": "foundation-shadows"
       },
       {
         "id": "spacing",
@@ -1568,96 +1587,599 @@ export const navigationTree = [
         "section": "foundation-typography"
       },
       {
-        "id": "opacity",
-        "label": "Opacity",
-        "icon": "eye",
-        "section": "foundation-opacity"
+        "id": "radius",
+        "label": "Radii",
+        "icon": "border-radius",
+        "section": "foundation-radius"
       },
       {
-        "id": "motion",
-        "label": "Motion",
-        "icon": "ripple",
-        "section": "foundation-motion"
+        "id": "border",
+        "label": "Border",
+        "icon": "border-style-2",
+        "section": "foundation-border"
+      },
+      {
+        "id": "elements",
+        "label": "Elements",
+        "icon": "components",
+        "section": "foundation-elements"
+      },
+      {
+        "id": "icons",
+        "label": "Icons",
+        "icon": "icons",
+        "section": "foundation-icons"
+      },
+      {
+        "id": "themes",
+        "label": "Themes",
+        "icon": "color-swatch",
+        "section": "foundation-themes"
+      },
+      {
+        "id": "shadows",
+        "label": "Shadow & Elevation",
+        "icon": "shadow",
+        "section": "foundation-shadows"
+      },
+      {
+        "id": "opacity-zindex-motion",
+        "label": "Opacity, Z-Index & Motion",
+        "icon": "eye",
+        "section": "foundation-opacity"
       }
     ]
   },
   {
     "id": "components",
-    "label": "Components",
+    "label": "Komponenten",
     "icon": "components",
     "children": [
       {
-        "id": "button",
-        "label": "Buttons",
-        "icon": "rectangle",
-        "section": "component-button"
+        "id": "layout",
+        "label": "Layout",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "aspect-ratio",
+            "label": "Aspect Ratio",
+            "icon": "aspect-ratio",
+            "section": "component-aspect-ratio"
+          },
+          {
+            "id": "container",
+            "label": "Container",
+            "icon": "box",
+            "section": "component-container"
+          },
+          {
+            "id": "section",
+            "label": "Section",
+            "icon": "section",
+            "section": "component-section"
+          }
+        ]
       },
       {
-        "id": "input",
-        "label": "Inputs",
-        "icon": "forms",
-        "section": "component-input"
+        "id": "actions",
+        "label": "Actions",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "button",
+            "label": "Buttons",
+            "icon": "rectangle",
+            "section": "component-button"
+          },
+          {
+            "id": "button-micro",
+            "label": "Button Micro",
+            "icon": "square",
+            "section": "component-button-micro"
+          }
+        ]
       },
       {
-        "id": "badge",
-        "label": "Badges",
-        "icon": "badge",
-        "section": "component-badge"
+        "id": "form-inputs",
+        "label": "Form Inputs",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "input",
+            "label": "Inputs",
+            "icon": "forms",
+            "section": "component-input"
+          },
+          {
+            "id": "textarea",
+            "label": "Textarea",
+            "icon": "text-resize",
+            "section": "component-textarea"
+          },
+          {
+            "id": "select",
+            "label": "Select",
+            "icon": "select",
+            "section": "component-select"
+          },
+          {
+            "id": "checkbox",
+            "label": "Checkboxes",
+            "icon": "checkbox",
+            "section": "component-checkbox"
+          },
+          {
+            "id": "radio",
+            "label": "Radio",
+            "icon": "circle-dot",
+            "section": "component-radio"
+          },
+          {
+            "id": "switch",
+            "label": "Switch",
+            "icon": "toggle-right",
+            "section": "component-switch"
+          },
+          {
+            "id": "slider",
+            "label": "Slider",
+            "icon": "adjustments-horizontal",
+            "section": "component-slider"
+          },
+          {
+            "id": "rating",
+            "label": "Rating",
+            "icon": "star",
+            "section": "component-rating"
+          },
+          {
+            "id": "file-upload",
+            "label": "File Upload",
+            "icon": "upload",
+            "section": "component-file-upload"
+          }
+        ]
       },
       {
-        "id": "card",
-        "label": "Cards",
-        "icon": "id",
-        "section": "component-card"
+        "id": "form-structure",
+        "label": "Form Structure",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "form-field",
+            "label": "Form Field",
+            "icon": "input-search",
+            "section": "component-form-field"
+          },
+          {
+            "id": "input-group",
+            "label": "Input Group",
+            "icon": "layout-list",
+            "section": "component-input-group"
+          },
+          {
+            "id": "form-layout",
+            "label": "Form Layout",
+            "icon": "layout",
+            "section": "component-form-layout"
+          },
+          {
+            "id": "label",
+            "label": "Label",
+            "icon": "tag",
+            "section": "component-label"
+          }
+        ]
       },
       {
-        "id": "switch",
-        "label": "Switch",
-        "icon": "toggle-right",
-        "section": "component-switch"
+        "id": "loading-progress",
+        "label": "Loading & Progress",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "skeleton",
+            "label": "Skeleton",
+            "icon": "layout-board",
+            "section": "component-skeleton"
+          },
+          {
+            "id": "spinner",
+            "label": "Spinner",
+            "icon": "loader",
+            "section": "component-spinner"
+          },
+          {
+            "id": "progress",
+            "label": "Progress",
+            "icon": "progress",
+            "section": "component-progress"
+          }
+        ]
       },
       {
-        "id": "avatar",
-        "label": "Avatar",
-        "icon": "user-circle",
-        "section": "component-avatar"
+        "id": "data-display",
+        "label": "Data Display",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "avatar",
+            "label": "Avatar",
+            "icon": "user-circle",
+            "section": "component-avatar"
+          },
+          {
+            "id": "badge",
+            "label": "Badge",
+            "icon": "badge",
+            "section": "component-badge"
+          },
+          {
+            "id": "status",
+            "label": "Status",
+            "icon": "point",
+            "section": "component-status"
+          },
+          {
+            "id": "card",
+            "label": "Card",
+            "icon": "id",
+            "section": "component-card"
+          },
+          {
+            "id": "card-cities",
+            "label": "Card Cities",
+            "icon": "building",
+            "section": "component-card-cities"
+          },
+          {
+            "id": "card-events",
+            "label": "Card Events",
+            "icon": "calendar-event",
+            "section": "component-card-events"
+          },
+          {
+            "id": "card-insights",
+            "label": "Card Insights",
+            "icon": "bulb",
+            "section": "component-card-insights"
+          },
+          {
+            "id": "card-links",
+            "label": "Card Links",
+            "icon": "link",
+            "section": "component-card-links"
+          },
+          {
+            "id": "card-stories",
+            "label": "Card Stories",
+            "icon": "book",
+            "section": "component-card-stories"
+          },
+          {
+            "id": "card-team",
+            "label": "Card Team",
+            "icon": "users",
+            "section": "component-card-team"
+          },
+          {
+            "id": "card-testimonials",
+            "label": "Card Testimonials",
+            "icon": "quote",
+            "section": "component-card-testimonials"
+          },
+          {
+            "id": "item",
+            "label": "Item",
+            "icon": "list",
+            "section": "component-item"
+          },
+          {
+            "id": "tag",
+            "label": "Tag",
+            "icon": "tag",
+            "section": "component-tag"
+          },
+          {
+            "id": "chip",
+            "label": "Chip",
+            "icon": "badge",
+            "section": "component-chip"
+          },
+          {
+            "id": "table",
+            "label": "Table",
+            "icon": "table",
+            "section": "component-table"
+          },
+          {
+            "id": "data-table",
+            "label": "Data Table",
+            "icon": "table",
+            "section": "component-data-table"
+          },
+          {
+            "id": "metric",
+            "label": "Metric",
+            "icon": "chart-bar",
+            "section": "component-metric"
+          },
+          {
+            "id": "timeline",
+            "label": "Timeline",
+            "icon": "git-branch",
+            "section": "component-timeline"
+          },
+          {
+            "id": "empty-state",
+            "label": "Empty State",
+            "icon": "mood-empty",
+            "section": "component-empty-state"
+          }
+        ]
       },
       {
-        "id": "dialog",
-        "label": "Dialog",
-        "icon": "layout-bottombar",
-        "section": "component-dialog"
+        "id": "typography-layout",
+        "label": "Typography & Layout",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "divider",
+            "label": "Divider",
+            "icon": "separator-horizontal",
+            "section": "component-divider"
+          },
+          {
+            "id": "kbd",
+            "label": "Kbd",
+            "icon": "keyboard",
+            "section": "component-kbd"
+          }
+        ]
       },
       {
-        "id": "tooltip",
-        "label": "Tooltip",
-        "icon": "message",
-        "section": "component-tooltip"
-      }
-    ]
-  },
-  {
-    "id": "modules",
-    "label": "Modules",
-    "icon": "layout",
-    "children": [
-      {
-        "id": "header",
-        "label": "Header",
-        "icon": "layout-navbar",
-        "section": "module-header"
+        "id": "controls",
+        "label": "Controls",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "toggle",
+            "label": "Toggle",
+            "icon": "toggle-left",
+            "section": "component-toggle"
+          },
+          {
+            "id": "segmented-control",
+            "label": "Segmented Control",
+            "icon": "layout-columns",
+            "section": "component-segmented-control"
+          },
+          {
+            "id": "accordion",
+            "label": "Accordion",
+            "icon": "layout-rows",
+            "section": "component-accordion"
+          }
+        ]
       },
       {
-        "id": "sidebar",
-        "label": "Sidebar",
-        "icon": "layout-sidebar-left",
-        "section": "module-sidebar"
+        "id": "navigation",
+        "label": "Navigation",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "breadcrumb",
+            "label": "Breadcrumb",
+            "icon": "arrows-right",
+            "section": "component-breadcrumb"
+          },
+          {
+            "id": "navigation-menu",
+            "label": "Navigation Menu",
+            "icon": "menu-2",
+            "section": "component-navigation-menu"
+          },
+          {
+            "id": "nav",
+            "label": "Navigation",
+            "icon": "compass",
+            "section": "component-navigation"
+          },
+          {
+            "id": "treeview",
+            "label": "TreeView",
+            "icon": "list-tree",
+            "section": "component-treeview"
+          },
+          {
+            "id": "tabs",
+            "label": "Tabs",
+            "icon": "folder",
+            "section": "component-tabs"
+          },
+          {
+            "id": "pagination",
+            "label": "Pagination",
+            "icon": "dots",
+            "section": "component-pagination"
+          },
+          {
+            "id": "sidebar",
+            "label": "Sidebar",
+            "icon": "layout-sidebar-left",
+            "section": "component-sidebar"
+          }
+        ]
       },
       {
-        "id": "card-group",
-        "label": "Card Groups",
-        "icon": "layout-grid",
-        "section": "module-card-group"
+        "id": "feedback",
+        "label": "Feedback",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "alert",
+            "label": "Alert",
+            "icon": "alert-circle",
+            "section": "component-alert"
+          },
+          {
+            "id": "alert-dialog",
+            "label": "Alert Dialog",
+            "icon": "alert-triangle",
+            "section": "component-alert-dialog"
+          },
+          {
+            "id": "modal",
+            "label": "Modal",
+            "icon": "layout-bottombar",
+            "section": "component-modal"
+          },
+          {
+            "id": "drawer",
+            "label": "Drawer",
+            "icon": "layout-sidebar-right",
+            "section": "component-drawer"
+          },
+          {
+            "id": "notification",
+            "label": "Notification",
+            "icon": "bell",
+            "section": "component-notification"
+          },
+          {
+            "id": "tooltip",
+            "label": "Tooltip",
+            "icon": "message",
+            "section": "component-tooltip"
+          },
+          {
+            "id": "toast",
+            "label": "Toast",
+            "icon": "message-2",
+            "section": "component-toast"
+          },
+          {
+            "id": "banner",
+            "label": "Banner",
+            "icon": "flag",
+            "section": "component-banner"
+          },
+          {
+            "id": "popover",
+            "label": "Popover",
+            "icon": "message-circle",
+            "section": "component-popover"
+          },
+          {
+            "id": "dropdown-menu",
+            "label": "Dropdown Menu",
+            "icon": "menu",
+            "section": "component-dropdown-menu"
+          }
+        ]
+      },
+      {
+        "id": "search-toolbar",
+        "label": "Search & Toolbar",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "search",
+            "label": "Search",
+            "icon": "search",
+            "section": "component-search"
+          },
+          {
+            "id": "toolbar",
+            "label": "Toolbar",
+            "icon": "tools",
+            "section": "component-toolbar"
+          }
+        ]
+      },
+      {
+        "id": "content",
+        "label": "Content",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "hero",
+            "label": "Hero",
+            "icon": "photo",
+            "section": "component-hero"
+          },
+          {
+            "id": "header",
+            "label": "Header",
+            "icon": "layout-navbar",
+            "section": "component-header"
+          },
+          {
+            "id": "footer",
+            "label": "Footer",
+            "icon": "layout-bottombar-collapse",
+            "section": "component-footer"
+          },
+          {
+            "id": "carousel",
+            "label": "Carousel",
+            "icon": "carousel-horizontal",
+            "section": "component-carousel"
+          },
+          {
+            "id": "cta",
+            "label": "CTA",
+            "icon": "click",
+            "section": "component-cta"
+          },
+          {
+            "id": "faq",
+            "label": "FAQ",
+            "icon": "help",
+            "section": "component-faq"
+          },
+          {
+            "id": "facts",
+            "label": "Facts",
+            "icon": "chart-infographic",
+            "section": "component-facts"
+          },
+          {
+            "id": "testimonial",
+            "label": "Testimonial",
+            "icon": "quote",
+            "section": "component-testimonial"
+          },
+          {
+            "id": "pricing",
+            "label": "Pricing",
+            "icon": "currency-dollar",
+            "section": "component-pricing"
+          },
+          {
+            "id": "logo-wall",
+            "label": "Logo Wall",
+            "icon": "brand-abstract",
+            "section": "component-logo-wall"
+          },
+          {
+            "id": "marquee",
+            "label": "Marquee",
+            "icon": "marquee",
+            "section": "component-marquee"
+          },
+          {
+            "id": "video",
+            "label": "Video",
+            "icon": "player-play",
+            "section": "component-video"
+          },
+          {
+            "id": "video-section",
+            "label": "Video Section",
+            "icon": "video",
+            "section": "component-video-section"
+          }
+        ]
       }
     ]
   },
@@ -1667,10 +2189,16 @@ export const navigationTree = [
     "icon": "template",
     "children": [
       {
-        "id": "hero",
-        "label": "Hero",
+        "id": "home-hero",
+        "label": "Home Hero",
         "icon": "photo",
-        "section": "template-hero"
+        "section": "template-home-hero"
+      },
+      {
+        "id": "home-basic",
+        "label": "Home Basic",
+        "icon": "home",
+        "section": "template-home-basic"
       },
       {
         "id": "dashboard",
@@ -1701,6 +2229,38 @@ export const navigationTree = [
         "label": "Error Page",
         "icon": "alert-triangle",
         "section": "template-error"
+      }
+    ]
+  },
+  {
+    "id": "utilities",
+    "label": "Utilities",
+    "icon": "tool",
+    "children": [
+      {
+        "id": "accessibility",
+        "label": "Accessibility",
+        "icon": "accessible",
+        "section": "utility-accessibility"
+      },
+      {
+        "id": "visibility",
+        "label": "Visibility",
+        "icon": "eye",
+        "section": "utility-visibility"
+      }
+    ]
+  },
+  {
+    "id": "guides",
+    "label": "Guides",
+    "icon": "book",
+    "children": [
+      {
+        "id": "component-matrix",
+        "label": "Komponenten-Matrix",
+        "icon": "table",
+        "section": "guide-component-matrix"
       }
     ]
   }

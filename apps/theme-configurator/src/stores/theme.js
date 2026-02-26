@@ -20,6 +20,9 @@ import {
 const _validComponentTokenIds = new Set(
   componentTokenGroups.flatMap(g => g.tokens.map(t => t.id))
 )
+const _readonlyTokenIds = new Set(
+  componentTokenGroups.flatMap(g => g.tokens.filter(t => t.readonly).map(t => t.id))
+)
 const _validSemanticTokenIds = new Set(
   semanticTokenGroups.flatMap(g => g.tokens.map(t => t.id))
 )
@@ -221,6 +224,10 @@ function updateFoundationToken(category, key, value) {
 }
 
 function updateComponentToken(tokenId, value) {
+  if (_readonlyTokenIds.has(tokenId)) {
+    console.warn('[Theme Store] Token is readonly, ignoring update:', tokenId)
+    return
+  }
   pushHistory()
   state.componentOverrides[state.activeThemeSet][tokenId] = value
 }
@@ -742,6 +749,9 @@ function loadFromStorage() {
     for (const key of Object.keys(overrides)) {
       if (!_validComponentTokenIds.has(key)) {
         console.warn('[Theme Store] Pruning stale component override:', key)
+        delete overrides[key]
+      } else if (_readonlyTokenIds.has(key)) {
+        console.warn('[Theme Store] Pruning readonly component override:', key)
         delete overrides[key]
       }
     }
