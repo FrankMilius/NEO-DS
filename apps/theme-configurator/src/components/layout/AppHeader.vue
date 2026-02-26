@@ -151,7 +151,28 @@
 
       <div class="toolbar-divider"></div>
 
-      <!-- 5) Delete Theme (disabled for NEO default — cannot be deleted) -->
+      <!-- 5) Merge / Styleguide Sync -->
+      <div class="toolbar-group">
+        <button
+          class="tb-btn tb-btn-merge"
+          :class="{ 'has-pending': sync.hasPendingUpdates.value }"
+          @click="handleMerge"
+          :disabled="!sync.hasPendingUpdates.value"
+          :title="sync.hasPendingUpdates.value
+            ? `${sync.pendingCount.value} pending merge request(s)`
+            : 'No pending merge requests'"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
+          </svg>
+          <span class="tb-label">Merge</span>
+          <span v-if="sync.hasPendingUpdates.value" class="merge-badge">{{ sync.pendingCount.value }}</span>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- 6) Delete Theme (disabled for NEO default — cannot be deleted) -->
       <div class="toolbar-group">
         <button
           class="tb-btn tb-btn-danger"
@@ -243,8 +264,10 @@
 <script setup>
 import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 
 const store = useThemeStore()
+const sync = useStyleguideSync()
 
 // ---------------------------------------------------------------------------
 // Refs
@@ -382,6 +405,20 @@ function handleDownloadCSS() {
 function handleDownloadJSON() {
   store.downloadThemeJSON()
   downloadOpen.value = false
+}
+
+// ---------------------------------------------------------------------------
+// Merge / Styleguide Sync
+// ---------------------------------------------------------------------------
+function handleMerge() {
+  if (!sync.hasPendingUpdates.value) return
+  // Load custom palettes from localStorage (same source as FoundationColors)
+  let customPalettes = []
+  try {
+    const raw = localStorage.getItem('neo-cfg-custom-palettes')
+    customPalettes = raw ? JSON.parse(raw) : []
+  } catch { /* ignore */ }
+  sync.startPipeline(customPalettes, { trigger: 'toolbar' }, store)
 }
 
 // ---------------------------------------------------------------------------
@@ -527,6 +564,32 @@ function trapFocus(e) {
 .tb-label {
   font-size: 11px;
   font-weight: 500;
+}
+
+/* ---- Merge Button ---- */
+.tb-btn-merge.has-pending {
+  color: var(--cfg-accent);
+}
+
+.tb-btn-merge.has-pending:hover {
+  background: var(--cfg-accent-subtle);
+  border-color: var(--cfg-accent);
+}
+
+.merge-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--cfg-accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---- Dropdown Button ---- */
