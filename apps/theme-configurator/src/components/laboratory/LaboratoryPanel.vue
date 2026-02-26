@@ -284,6 +284,460 @@
       </template>
 
       <!-- ═══════════════════════════════════════════════════════════════
+           COLORS ARENA — Specimens + Token Detail
+           ═══════════════════════════════════════════════════════════════ -->
+      <template v-else-if="isColorsSection">
+
+        <!-- Section Header -->
+        <div class="arena-header">
+          <h4 class="arena-title" v-if="!selectedSemanticToken">Live Vorschau — Alle Komponenten</h4>
+          <h4 class="arena-title" v-else>{{ selectedSemanticToken.label }} — Verwendung</h4>
+          <span class="arena-mode-labels">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+            Light
+            <span style="margin: 0 4px; opacity: .35">|</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
+            Dark
+          </span>
+        </div>
+
+        <!-- ── ÜBERSICHT (kein Token selektiert) ── -->
+        <template v-if="!selectedSemanticToken">
+          <div class="arena-specimens-grid">
+
+            <!-- 1 · Buttons -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('buttons') }]">
+              <span class="arena-specimen__label">Buttons</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">Primary</button>
+                  <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tLight['interactive-default'], borderColor: tLight['interactive-default'] }">Secondary</button>
+                  <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tLight['text-primary'] }">Ghost</button>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">Primary</button>
+                  <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tDark['interactive-default'], borderColor: tDark['interactive-default'] }">Secondary</button>
+                  <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tDark['text-primary'] }">Ghost</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 · Input -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('input') }]">
+              <span class="arena-specimen__label">Input</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <span class="arena-spec-input-label" :style="{ color: tLight['text-primary'] }">Label</span>
+                  <div class="arena-spec-input" :style="{ background: tLight['background-base'], borderColor: tLight['border-primary'], color: tLight['text-tertiary'] }">Placeholder…</div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <span class="arena-spec-input-label" :style="{ color: tDark['text-primary'] }">Label</span>
+                  <div class="arena-spec-input" :style="{ background: tDark['background-base'], borderColor: tDark['border-primary'], color: tDark['text-tertiary'] }">Placeholder…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 · Card -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
+              <span class="arena-specimen__label">Card</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-card" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                    <span class="arena-spec-card__title" :style="{ color: tLight['text-primary'] }">Titel</span>
+                    <span class="arena-spec-card__desc" :style="{ color: tLight['text-secondary'] }">Beschreibungstext der Karte</span>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-card" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                    <span class="arena-spec-card__title" :style="{ color: tDark['text-primary'] }">Titel</span>
+                    <span class="arena-spec-card__desc" :style="{ color: tDark['text-secondary'] }">Beschreibungstext der Karte</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 · Badges -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('badges') }]">
+              <span class="arena-specimen__label">Badges</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-badge-row">
+                    <span class="arena-spec-badge" :style="{ background: tLight['background-success'], color: tLight['text-success'] }">Erfolg</span>
+                    <span class="arena-spec-badge" :style="{ background: tLight['background-danger'], color: tLight['text-danger'] }">Fehler</span>
+                    <span class="arena-spec-badge" :style="{ background: tLight['background-warning'], color: tLight['text-warning'] }">Warnung</span>
+                    <span class="arena-spec-badge" :style="{ background: tLight['background-info'], color: tLight['text-info'] }">Info</span>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-badge-row">
+                    <span class="arena-spec-badge" :style="{ background: tDark['background-success'], color: tDark['text-success'] }">Erfolg</span>
+                    <span class="arena-spec-badge" :style="{ background: tDark['background-danger'], color: tDark['text-danger'] }">Fehler</span>
+                    <span class="arena-spec-badge" :style="{ background: tDark['background-warning'], color: tDark['text-warning'] }">Warnung</span>
+                    <span class="arena-spec-badge" :style="{ background: tDark['background-info'], color: tDark['text-info'] }">Info</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 · Alerts -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('alert') }]">
+              <span class="arena-specimen__label">Alerts</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-alert" :style="{ background: tLight['background-success'], borderColor: tLight['border-success'], color: tLight['feedback-success'] }">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
+                  </div>
+                  <div class="arena-spec-alert" :style="{ background: tLight['background-danger'], borderColor: tLight['border-danger'], color: tLight['feedback-danger'] }">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-alert" :style="{ background: tDark['background-success'], borderColor: tDark['border-success'], color: tDark['feedback-success'] }">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
+                  </div>
+                  <div class="arena-spec-alert" :style="{ background: tDark['background-danger'], borderColor: tDark['border-danger'], color: tDark['feedback-danger'] }">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6 · Toggle -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('toggle') }]">
+              <span class="arena-specimen__label">Toggle</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-toggle-row">
+                    <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tLight['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
+                    <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tLight['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-toggle-row">
+                    <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tDark['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
+                    <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tDark['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7 · Navigation / Links -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('navigation') }]">
+              <span class="arena-specimen__label">Navigation</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-link-list">
+                    <a class="arena-spec-link" :style="{ color: tLight['text-link'] }">Standard-Link</a>
+                    <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tLight['text-link-hover'] }">Hover-Link</a>
+                    <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tLight['interactive-visited'] || tLight['text-link'] }">Visited-Link</a>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-link-list">
+                    <a class="arena-spec-link" :style="{ color: tDark['text-link'] }">Standard-Link</a>
+                    <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tDark['text-link-hover'] }">Hover-Link</a>
+                    <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tDark['interactive-visited'] || tDark['text-link'] }">Visited-Link</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8 · Text Block -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('textblock') }]">
+              <span class="arena-specimen__label">Text-Block</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-text">
+                    <span class="arena-spec-text__heading" :style="{ color: tLight['text-primary'] }">Überschrift</span>
+                    <span class="arena-spec-text__body" :style="{ color: tLight['text-secondary'] }">Fließtext und Beschreibung</span>
+                    <span class="arena-spec-text__muted" :style="{ color: tLight['text-tertiary'] }">Ergänzender Hinweis</span>
+                    <span class="arena-spec-text__disabled" :style="{ color: tLight['text-disabled'] }">Deaktiviert</span>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-text">
+                    <span class="arena-spec-text__heading" :style="{ color: tDark['text-primary'] }">Überschrift</span>
+                    <span class="arena-spec-text__body" :style="{ color: tDark['text-secondary'] }">Fließtext und Beschreibung</span>
+                    <span class="arena-spec-text__muted" :style="{ color: tDark['text-tertiary'] }">Ergänzender Hinweis</span>
+                    <span class="arena-spec-text__disabled" :style="{ color: tDark['text-disabled'] }">Deaktiviert</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9 · Table Row -->
+            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('tablerow') }]">
+              <span class="arena-specimen__label">Table Row</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-spec-table">
+                    <div class="arena-spec-table__header" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                      <span :style="{ color: tLight['text-primary'] }">Spalte A</span>
+                      <span :style="{ color: tLight['text-primary'] }">Spalte B</span>
+                    </div>
+                    <div class="arena-spec-table__row" :style="{ background: tLight['layer-02'], borderColor: tLight['border-secondary'] }">
+                      <span :style="{ color: tLight['text-primary'] }">Wert 1</span>
+                      <span :style="{ color: tLight['text-secondary'] }">Detail</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-spec-table">
+                    <div class="arena-spec-table__header" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                      <span :style="{ color: tDark['text-primary'] }">Spalte A</span>
+                      <span :style="{ color: tDark['text-primary'] }">Spalte B</span>
+                    </div>
+                    <div class="arena-spec-table__row" :style="{ background: tDark['layer-02'], borderColor: tDark['border-secondary'] }">
+                      <span :style="{ color: tDark['text-primary'] }">Wert 1</span>
+                      <span :style="{ color: tDark['text-secondary'] }">Detail</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </template>
+
+        <!-- ── TOKEN-DETAIL (Token selektiert) ── -->
+        <template v-else>
+
+          <!-- Hero Dual Swatch -->
+          <div class="arena-token-hero">
+            <div class="arena-dual-swatch-large">
+              <div class="arena-swatch-half" :style="{ background: tLight[selectedSemanticToken.id] }">
+                <span class="arena-swatch-hex" :style="{ color: contrastColor(tLight[selectedSemanticToken.id]) }">{{ tLight[selectedSemanticToken.id] }}</span>
+                <span class="arena-swatch-mode" :style="{ color: contrastColor(tLight[selectedSemanticToken.id]) }">Light</span>
+              </div>
+              <div class="arena-swatch-half" :style="{ background: tDark[selectedSemanticToken.id] }">
+                <span class="arena-swatch-hex" :style="{ color: contrastColor(tDark[selectedSemanticToken.id]) }">{{ tDark[selectedSemanticToken.id] }}</span>
+                <span class="arena-swatch-mode" :style="{ color: contrastColor(tDark[selectedSemanticToken.id]) }">Dark</span>
+              </div>
+            </div>
+            <div class="arena-token-meta">
+              <code class="arena-token-name">--fnd-color-{{ selectedSemanticToken.id }}</code>
+              <span v-if="selectedSemanticToken.description" class="arena-token-desc">{{ selectedSemanticToken.description }}</span>
+            </div>
+          </div>
+
+          <!-- Affected Specimens -->
+          <template v-if="activeSpecimens.length">
+            <h5 class="arena-sub-heading">Betroffene Komponenten</h5>
+            <div class="arena-specimens-grid">
+              <!-- Re-use same specimen blocks, but only for affected ones -->
+
+              <div v-if="activeSpecimens.includes('buttons')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('buttons') }]">
+                <span class="arena-specimen__label">Buttons</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">Primary</button>
+                    <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tLight['interactive-default'], borderColor: tLight['interactive-default'] }">Secondary</button>
+                    <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tLight['text-primary'] }">Ghost</button>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">Primary</button>
+                    <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tDark['interactive-default'], borderColor: tDark['interactive-default'] }">Secondary</button>
+                    <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tDark['text-primary'] }">Ghost</button>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('input')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('input') }]">
+                <span class="arena-specimen__label">Input</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <span class="arena-spec-input-label" :style="{ color: tLight['text-primary'] }">Label</span>
+                    <div class="arena-spec-input" :style="{ background: tLight['background-base'], borderColor: tLight['border-primary'], color: tLight['text-tertiary'] }">Placeholder…</div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <span class="arena-spec-input-label" :style="{ color: tDark['text-primary'] }">Label</span>
+                    <div class="arena-spec-input" :style="{ background: tDark['background-base'], borderColor: tDark['border-primary'], color: tDark['text-tertiary'] }">Placeholder…</div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('card')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
+                <span class="arena-specimen__label">Card</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-card" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                      <span class="arena-spec-card__title" :style="{ color: tLight['text-primary'] }">Titel</span>
+                      <span class="arena-spec-card__desc" :style="{ color: tLight['text-secondary'] }">Beschreibungstext der Karte</span>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-card" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                      <span class="arena-spec-card__title" :style="{ color: tDark['text-primary'] }">Titel</span>
+                      <span class="arena-spec-card__desc" :style="{ color: tDark['text-secondary'] }">Beschreibungstext der Karte</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('badges')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('badges') }]">
+                <span class="arena-specimen__label">Badges</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-badge-row">
+                      <span class="arena-spec-badge" :style="{ background: tLight['background-success'], color: tLight['text-success'] }">Erfolg</span>
+                      <span class="arena-spec-badge" :style="{ background: tLight['background-danger'], color: tLight['text-danger'] }">Fehler</span>
+                      <span class="arena-spec-badge" :style="{ background: tLight['background-warning'], color: tLight['text-warning'] }">Warnung</span>
+                      <span class="arena-spec-badge" :style="{ background: tLight['background-info'], color: tLight['text-info'] }">Info</span>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-badge-row">
+                      <span class="arena-spec-badge" :style="{ background: tDark['background-success'], color: tDark['text-success'] }">Erfolg</span>
+                      <span class="arena-spec-badge" :style="{ background: tDark['background-danger'], color: tDark['text-danger'] }">Fehler</span>
+                      <span class="arena-spec-badge" :style="{ background: tDark['background-warning'], color: tDark['text-warning'] }">Warnung</span>
+                      <span class="arena-spec-badge" :style="{ background: tDark['background-info'], color: tDark['text-info'] }">Info</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('alert')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('alert') }]">
+                <span class="arena-specimen__label">Alerts</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-alert" :style="{ background: tLight['background-success'], borderColor: tLight['border-success'], color: tLight['feedback-success'] }">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
+                    </div>
+                    <div class="arena-spec-alert" :style="{ background: tLight['background-danger'], borderColor: tLight['border-danger'], color: tLight['feedback-danger'] }">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-alert" :style="{ background: tDark['background-success'], borderColor: tDark['border-success'], color: tDark['feedback-success'] }">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
+                    </div>
+                    <div class="arena-spec-alert" :style="{ background: tDark['background-danger'], borderColor: tDark['border-danger'], color: tDark['feedback-danger'] }">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('toggle')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('toggle') }]">
+                <span class="arena-specimen__label">Toggle</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-toggle-row">
+                      <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tLight['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
+                      <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tLight['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-toggle-row">
+                      <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tDark['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
+                      <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tDark['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('navigation')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('navigation') }]">
+                <span class="arena-specimen__label">Navigation</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-link-list">
+                      <a class="arena-spec-link" :style="{ color: tLight['text-link'] }">Standard-Link</a>
+                      <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tLight['text-link-hover'] }">Hover-Link</a>
+                      <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tLight['interactive-visited'] || tLight['text-link'] }">Visited-Link</a>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-link-list">
+                      <a class="arena-spec-link" :style="{ color: tDark['text-link'] }">Standard-Link</a>
+                      <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tDark['text-link-hover'] }">Hover-Link</a>
+                      <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tDark['interactive-visited'] || tDark['text-link'] }">Visited-Link</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('textblock')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('textblock') }]">
+                <span class="arena-specimen__label">Text-Block</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-text">
+                      <span class="arena-spec-text__heading" :style="{ color: tLight['text-primary'] }">Überschrift</span>
+                      <span class="arena-spec-text__body" :style="{ color: tLight['text-secondary'] }">Fließtext und Beschreibung</span>
+                      <span class="arena-spec-text__muted" :style="{ color: tLight['text-tertiary'] }">Ergänzender Hinweis</span>
+                      <span class="arena-spec-text__disabled" :style="{ color: tLight['text-disabled'] }">Deaktiviert</span>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-text">
+                      <span class="arena-spec-text__heading" :style="{ color: tDark['text-primary'] }">Überschrift</span>
+                      <span class="arena-spec-text__body" :style="{ color: tDark['text-secondary'] }">Fließtext und Beschreibung</span>
+                      <span class="arena-spec-text__muted" :style="{ color: tDark['text-tertiary'] }">Ergänzender Hinweis</span>
+                      <span class="arena-spec-text__disabled" :style="{ color: tDark['text-disabled'] }">Deaktiviert</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="activeSpecimens.includes('tablerow')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('tablerow') }]">
+                <span class="arena-specimen__label">Table Row</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-table">
+                      <div class="arena-spec-table__header" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Spalte A</span>
+                        <span :style="{ color: tLight['text-primary'] }">Spalte B</span>
+                      </div>
+                      <div class="arena-spec-table__row" :style="{ background: tLight['layer-02'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Wert 1</span>
+                        <span :style="{ color: tLight['text-secondary'] }">Detail</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-table">
+                      <div class="arena-spec-table__header" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Spalte A</span>
+                        <span :style="{ color: tDark['text-primary'] }">Spalte B</span>
+                      </div>
+                      <div class="arena-spec-table__row" :style="{ background: tDark['layer-02'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Wert 1</span>
+                        <span :style="{ color: tDark['text-secondary'] }">Detail</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </template>
+
+          <!-- Empty State -->
+          <p v-if="!activeSpecimens.length" class="arena-empty">
+            Dieses Token wird nicht direkt in den Specimen-Vorschauen verwendet.
+          </p>
+
+          <!-- Component Dependencies -->
+          <div v-if="semanticToComponents[selectedSemanticToken.id]?.length" class="arena-component-deps">
+            <h5 class="arena-sub-heading">Abhängige Komponenten-Tokens</h5>
+            <div class="arena-dep-chips">
+              <span v-for="dep in semanticToComponents[selectedSemanticToken.id]" :key="dep.tokenId" class="arena-dep-chip">
+                {{ dep.component }} → {{ dep.label }}
+              </span>
+            </div>
+          </div>
+
+        </template>
+
+      </template>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           COMPONENT ARENA — Generische Komponenten-Vorschau
+           ═══════════════════════════════════════════════════════════════ -->
+      <template v-else-if="isComponentSection">
+        <ComponentArena :componentId="activeComponentId" />
+      </template>
+
+      <!-- ═══════════════════════════════════════════════════════════════
            DEFAULT ARENA — Theme Preview Magazine (Magazin-Stil)
            ═══════════════════════════════════════════════════════════════ -->
       <template v-else>
@@ -867,9 +1321,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
-import { foundationTokens } from '../../data/tokens.js'
+import { foundationTokens, componentTokenGroups } from '../../data/tokens.js'
+import ComponentArena from './ComponentArena.vue'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
@@ -880,6 +1335,107 @@ const typoTokens = foundationTokens.typography.tokens
 const isTypographySection = computed(() => {
   return store.state.activeSection === 'foundation-typography'
 })
+
+// ---------------------------------------------------------------------------
+// Colors Arena — Specimens + Token Detail
+// ---------------------------------------------------------------------------
+const isColorsSection = computed(() => store.state.activeSection === 'foundation-colors')
+const isComponentSection = computed(() => store.state.activeSection.startsWith('component-'))
+const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
+const selectedSemanticToken = computed(() => store.state.selectedToken)
+const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
+const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
+
+const SPECIMEN_TOKENS = {
+  buttons:    ['interactive-default', 'text-on-interactive', 'text-primary'],
+  input:      ['background-base', 'border-primary', 'text-primary', 'text-tertiary'],
+  card:       ['layer-01', 'border-secondary', 'text-primary', 'text-secondary'],
+  badges:     ['background-success', 'background-danger', 'background-warning', 'background-info',
+               'text-success', 'text-danger', 'text-warning', 'text-info'],
+  alert:      ['feedback-success', 'feedback-danger', 'background-success', 'background-danger',
+               'border-success', 'border-danger'],
+  toggle:     ['interactive-default', 'background-tertiary'],
+  navigation: ['text-link', 'text-link-hover', 'interactive-visited'],
+  textblock:  ['text-primary', 'text-secondary', 'text-tertiary', 'text-disabled'],
+  tablerow:   ['layer-01', 'layer-02', 'border-secondary', 'text-primary', 'text-secondary']
+}
+
+const tokenToSpecimens = computed(() => {
+  const map = {}
+  for (const [specId, tokens] of Object.entries(SPECIMEN_TOKENS)) {
+    for (const tok of tokens) {
+      if (!map[tok]) map[tok] = []
+      if (!map[tok].includes(specId)) map[tok].push(specId)
+    }
+  }
+  return map
+})
+
+const activeSpecimens = computed(() => {
+  if (!selectedSemanticToken.value) return Object.keys(SPECIMEN_TOKENS)
+  const id = selectedSemanticToken.value.id
+  return tokenToSpecimens.value[id] || []
+})
+
+const semanticToComponents = computed(() => {
+  const map = {}
+  for (const group of componentTokenGroups) {
+    for (const token of group.tokens) {
+      if (token.ref) {
+        if (!map[token.ref]) map[token.ref] = []
+        map[token.ref].push({ component: group.label, tokenId: token.id, label: token.label })
+      }
+    }
+  }
+  return map
+})
+
+const highlightedSpecimens = ref(new Set())
+
+function triggerPulse(ids) {
+  for (const id of ids) highlightedSpecimens.value.add(id)
+  highlightedSpecimens.value = new Set(highlightedSpecimens.value)
+  setTimeout(() => {
+    for (const id of ids) highlightedSpecimens.value.delete(id)
+    highlightedSpecimens.value = new Set(highlightedSpecimens.value)
+  }, 900)
+}
+
+let prevColorSnapshot = null
+watch(
+  () => JSON.stringify(store.state.themes[store.state.activeThemeSet]),
+  (next, prev) => {
+    if (!prev || !isColorsSection.value) { prevColorSnapshot = next; return }
+    try {
+      const oldObj = JSON.parse(prev)
+      const newObj = JSON.parse(next)
+      const changed = []
+      for (const mode of ['light', 'dark']) {
+        for (const key of Object.keys(newObj[mode] || {})) {
+          if (oldObj[mode]?.[key] !== newObj[mode]?.[key]) changed.push(key)
+        }
+      }
+      if (changed.length > 0 && changed.length <= 5) {
+        const affected = new Set()
+        for (const tokenId of changed) {
+          const specs = tokenToSpecimens.value[tokenId]
+          if (specs) specs.forEach(s => affected.add(s))
+        }
+        if (affected.size > 0) triggerPulse(affected)
+      }
+    } catch {}
+    prevColorSnapshot = next
+  }
+)
+
+function contrastColor(hex) {
+  if (!hex || hex.length < 7) return '#000'
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+  return lum > 0.55 ? '#000000' : '#ffffff'
+}
 
 // ---------------------------------------------------------------------------
 // Font families from store (reactive to edits)
@@ -2559,5 +3115,370 @@ const switchOn = computed(() => ({
 .form-error {
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COLORS ARENA — Specimens + Token Detail
+   ═══════════════════════════════════════════════════════════════════ */
+
+.arena-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.arena-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+  color: inherit;
+}
+
+.arena-mode-labels {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  opacity: .6;
+}
+
+.arena-mode-labels svg { opacity: .7; }
+
+.arena-sub-heading {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 16px 0 8px;
+  opacity: .6;
+}
+
+/* ── Specimens Grid ── */
+.arena-specimens-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.arena-specimen {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  transition: border-color .2s ease;
+}
+
+.arena-specimen__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  opacity: .5;
+  padding: 0 0 4px 3px;
+}
+
+.arena-specimen__pair {
+  display: flex;
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.arena-specimen__panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.arena-specimen__panel--light {
+  border-right: 1px solid rgba(128,128,128,.15);
+}
+
+/* ── Pulse ── */
+.arena-specimen--pulse {
+  border-color: var(--cfg-accent, #3b82f6);
+  animation: arena-specimen-pulse .9s ease-out;
+}
+
+@keyframes arena-specimen-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(59,130,246,.45); }
+  40%  { box-shadow: 0 0 0 5px rgba(59,130,246,.18); }
+  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+}
+
+/* ── Arena: Buttons ── */
+.arena-spec-btn {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: default;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+/* ── Arena: Input ── */
+.arena-spec-input-label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.arena-spec-input {
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1px solid;
+  border-radius: 6px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* ── Arena: Card ── */
+.arena-spec-card {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arena-spec-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.arena-spec-card__desc {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* ── Arena: Badges ── */
+.arena-spec-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.arena-spec-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* ── Arena: Alerts ── */
+.arena-spec-alert {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  line-height: 1.3;
+}
+
+.arena-spec-alert svg { flex-shrink: 0; }
+
+/* ── Arena: Toggle ── */
+.arena-spec-toggle-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.arena-spec-toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  position: relative;
+  cursor: default;
+}
+
+.arena-spec-toggle__knob {
+  position: absolute;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left .15s ease;
+}
+
+.arena-spec-toggle--on .arena-spec-toggle__knob { left: 21px; }
+.arena-spec-toggle--off .arena-spec-toggle__knob { left: 3px; }
+
+/* ── Arena: Navigation / Links ── */
+.arena-spec-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.arena-spec-link {
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: default;
+}
+
+.arena-spec-link--hover { opacity: .85; }
+.arena-spec-link--visited { font-style: italic; }
+
+/* ── Arena: Text-Block ── */
+.arena-spec-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arena-spec-text__heading {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.arena-spec-text__body {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.arena-spec-text__muted {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.arena-spec-text__disabled {
+  font-size: 12px;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* ── Arena: Table Row ── */
+.arena-spec-table {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.arena-spec-table__header,
+.arena-spec-table__row {
+  display: flex;
+  gap: 12px;
+  padding: 6px 10px;
+  border-bottom: 1px solid;
+}
+
+.arena-spec-table__header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.arena-spec-table__row {
+  font-size: 13px;
+  border-bottom: none;
+}
+
+.arena-spec-table__header span,
+.arena-spec-table__row span {
+  flex: 1;
+}
+
+/* ── Token Detail Hero ── */
+.arena-token-hero {
+  margin-bottom: 8px;
+}
+
+.arena-dual-swatch-large {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 80px;
+}
+
+.arena-swatch-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+
+.arena-swatch-hex {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+}
+
+.arena-swatch-mode {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  opacity: .7;
+}
+
+.arena-token-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.arena-token-name {
+  font-size: 12px;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  opacity: .7;
+}
+
+.arena-token-desc {
+  font-size: 12px;
+  opacity: .5;
+}
+
+/* ── Component Dependencies ── */
+.arena-component-deps {
+  margin-top: 8px;
+}
+
+.arena-dep-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.arena-dep-chip {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--cfg-surface-elevated, #f0f0f0);
+  color: var(--cfg-text-muted, #888);
+  white-space: nowrap;
+}
+
+/* ── Empty State ── */
+.arena-empty {
+  font-size: 12px;
+  opacity: .5;
+  text-align: center;
+  padding: 24px 0;
+  margin: 0;
 }
 </style>

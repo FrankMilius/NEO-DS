@@ -975,8 +975,127 @@ dialog.green-theme                              // Green-Theme Modifier für con
       </div>
 
 
-    
+
     </main>
+
+    <!-- ============================================================ -->
+    <!-- Dialog-Elemente (werden per JS geöffnet/geschlossen)         -->
+    <!-- ============================================================ -->
+
+    <!-- Staging: Location Preference Modal -->
+    <dialog class="location-preference-modal" id="stage-modal-location" aria-labelledby="stage-loc-title">
+      <div class="button-container">
+        <button class="close-btn" aria-label="Schließen" data-modal-close>
+          <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <h2 class="dialog-header" id="stage-loc-title">Standort wählen</h2>
+      <p class="current-location">Aktuell: <span>Berlin</span></p>
+      <input type="search" placeholder="Standort suchen …" />
+      <details>
+        <summary>Berlin / Brandenburg
+          <span class="region-summary-icon">
+            <span class="icon region-icon-expand"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            <span class="icon region-icon-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></span>
+          </span>
+        </summary>
+        <ul>
+          <li>Berlin</li>
+          <li>Potsdam</li>
+          <li>Cottbus</li>
+        </ul>
+      </details>
+      <details>
+        <summary>Hamburg
+          <span class="region-summary-icon">
+            <span class="icon region-icon-expand"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            <span class="icon region-icon-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></span>
+          </span>
+        </summary>
+        <ul>
+          <li>Hamburg</li>
+        </ul>
+      </details>
+    </dialog>
+
+    <!-- Staging: Contextual Notification Modal -->
+    <dialog class="contextual-notification-modal" id="stage-modal-notification" aria-labelledby="stage-notif-title">
+      <div class="notification-media">
+        <picture>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' fill='%23e0e0e0'%3E%3Crect width='200' height='120'/%3E%3C/svg%3E" alt="Vorschaubild" />
+        </picture>
+      </div>
+      <div class="notification-content">
+        <div class="notification-heading">
+          <h2 id="stage-notif-title">Neue Veranstaltung</h2>
+          <button class="close-btn" aria-label="Schließen" data-modal-close>
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+          </button>
+        </div>
+        <p>Konzert heute Abend um 20 Uhr im Admiralspalast.</p>
+        <div class="button-container">
+          <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14l11 -11"/><path d="M21 3l-6.5 18a.55 .55 0 0 1-1 0l-3.5-7l-7-3.5a.55 .55 0 0 1 0-1l18-6.5"/></svg></span>
+          <a href="#">Mehr erfahren</a>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Demo: Contextual Notification (Green Theme) -->
+    <dialog class="contextual-notification-modal green-theme" id="demo-modal-notification-green" aria-labelledby="demo-notif-green-title">
+      <div class="notification-content">
+        <div class="notification-heading">
+          <h2 id="demo-notif-green-title">Erfolgreich gespeichert</h2>
+          <button class="close-btn" aria-label="Schließen" data-modal-close>
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+          </button>
+        </div>
+        <p>Deine Änderungen wurden übernommen.</p>
+      </div>
+    </dialog>
+
+    <!-- Staging: Theme Switcher Modal -->
+    <dialog class="theme-switcher-modal" id="stage-modal-theme-switcher" aria-labelledby="stage-ts-title">
+      <div class="theme-switcher__header">
+        <h2 class="theme-switcher__title" id="stage-ts-title">Theme wählen</h2>
+        <button class="theme-switcher__close" aria-label="Schließen" data-modal-close>
+          <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <div class="theme-switcher__content">
+        <span class="theme-switcher__label">Darstellung</span>
+        <div class="theme-switcher__grid">
+          <button class="theme-switcher__option is-active" data-theme="neo-light-theme">
+            <div class="theme-switcher__preview">
+              <div class="theme-switcher__preview-header">
+                <div class="theme-switcher__preview-dot"></div>
+                <div class="theme-switcher__preview-bar"></div>
+              </div>
+              <div class="theme-switcher__preview-body">
+                <div class="theme-switcher__preview-line"></div>
+                <div class="theme-switcher__preview-line"></div>
+                <div class="theme-switcher__preview-line"></div>
+              </div>
+            </div>
+            <span class="theme-switcher__option-label">Neo Light</span>
+          </button>
+          <button class="theme-switcher__option" data-theme="neo-dark-theme">
+            <div class="theme-switcher__preview" style="background: var(--fnd-color-always-dark);">
+              <div class="theme-switcher__preview-header" style="background: color-mix(in srgb, var(--fnd-color-always-light) 10%, var(--fnd-color-always-dark));">
+                <div class="theme-switcher__preview-dot"></div>
+                <div class="theme-switcher__preview-bar" style="background: color-mix(in srgb, var(--fnd-color-always-light) 15%, var(--fnd-color-always-dark));"></div>
+              </div>
+              <div class="theme-switcher__preview-body">
+                <div class="theme-switcher__preview-line" style="background: color-mix(in srgb, var(--fnd-color-always-light) 15%, var(--fnd-color-always-dark));"></div>
+                <div class="theme-switcher__preview-line" style="background: color-mix(in srgb, var(--fnd-color-always-light) 15%, var(--fnd-color-always-dark));"></div>
+                <div class="theme-switcher__preview-line" style="background: color-mix(in srgb, var(--fnd-color-always-light) 15%, var(--fnd-color-always-dark));"></div>
+              </div>
+            </div>
+            <span class="theme-switcher__option-label">Neo Dark</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+
 
   </div><!-- /.docs-layout -->
 

@@ -600,8 +600,8 @@
               <!-- Neo Dark -->
               <div class="themes__card" data-theme="neo-dark">
                 <div class="themes__card-preview">
-                  <div style="background:#000000;"></div>
-                  <div style="background:#1d1d1d;"></div>
+                  <div style="background:#0f0f0f;"></div>
+                  <div style="background:#1a1a1a;"></div>
                   <div style="background:#009fe3;"></div>
                   <div style="background:#37e93d;"></div>
                 </div>
@@ -705,7 +705,7 @@
               <code class="docs__token">layer-03</code> fuer abgestufte Hintergruende.
             </p>
             <p><strong>Regel Light:</strong> background-base (weiss) &rarr; layer-01 (grau) &rarr; layer-02 (weiss) &mdash; alternierend.</p>
-            <p><strong>Regel Dark:</strong> background-base (schwarz) &rarr; layer-01 (dunkelgrau) &rarr; layer-02 (grau) &mdash; aufsteigend.</p>
+            <p><strong>Regel Dark:</strong> background-base (#0f0f0f) &rarr; layer-01 (#1a1a1a) &rarr; layer-02 (#252525) &rarr; layer-03 (#303030) &mdash; aufsteigend ("Lifted Dark").</p>
 
             <div class="token-grid">
               <div class="token-card">
@@ -783,6 +783,122 @@
               </tbody>
             </table>
           </div>
+          </section>
+
+          <!-- Interaktions-Stati -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Interaktions-Stati (State Tokens)</h2>
+            <p class="docs__section-desc">
+              Interaktive Elemente (Buttons, Tags, Chips) ben&ouml;tigen Zustands-Varianten
+              f&uuml;r <strong>hover</strong> und <strong>active</strong>. Das Design System
+              erzeugt diese automatisch per <code>color-mix()</code> &mdash; die Mischrichtung
+              kehrt sich im Dark Mode automatisch um.
+            </p>
+
+            <h3 class="themes__role-group-title">Foundation-Token: <code>--fnd-state-mix-target</code></h3>
+            <p class="docs__section-desc">
+              Dieser Token steuert die Richtung der Zustandsfarben-Mischung:
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="margin-block-end: var(--fnd-spacing-600);">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr><th>Theme-Kontext</th><th>Wert</th><th>Effekt</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Light (neo-light, customer-light)</td>
+                    <td><code>var(--fnd-color-always-dark)</code></td>
+                    <td>Hover/Active dunkeln ab</td>
+                  </tr>
+                  <tr>
+                    <td>Dark (neo-dark, customer-dark)</td>
+                    <td><code>var(--fnd-color-always-light)</code></td>
+                    <td>Hover/Active hellen auf</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 class="themes__role-group-title">Zwei Kategorien: bold &amp; subtle</h3>
+            <p class="docs__section-desc">
+              Die Intensit&auml;t der Zustands&auml;nderung h&auml;ngt von der
+              Fl&auml;chenart ab. Das Sass-Mixin <code>state-colors()</code> unterst&uuml;tzt
+              zwei Kategorien:
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped" style="margin-block-end: var(--fnd-spacing-600);">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr><th>Kategorie</th><th>Hover</th><th>Active</th><th>Einsatz</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>bold</code></td>
+                    <td>15% Mix (85% Basis)</td>
+                    <td>25% Mix (75% Basis)</td>
+                    <td>Gef&uuml;llte farbige Fl&auml;chen (Buttons, Tags mit solidem Hintergrund)</td>
+                  </tr>
+                  <tr>
+                    <td><code>subtle</code></td>
+                    <td>8% Mix (92% Basis)</td>
+                    <td>15% Mix (85% Basis)</td>
+                    <td>Transparente/kontrastarme Fl&auml;chen (Ghost, Chips, Tabellenzeilen)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 class="themes__role-group-title">Sass-Mixin Verwendung</h3>
+<pre class="docs__code"><code>// Erzeugt 3 Tokens: base, base-hover, base-active
+@include state.state-colors(
+  --nc-button-success-bg,
+  var(--fnd-color-feedback-success)
+);
+// &rarr; --nc-button-success-bg:        var(--fnd-color-feedback-success);
+// &rarr; --nc-button-success-bg-hover:  color-mix(in srgb, ... 85%, var(--fnd-state-mix-target));
+// &rarr; --nc-button-success-bg-active: color-mix(in srgb, ... 75%, var(--fnd-state-mix-target));
+
+// Nur Hover-Token (z.B. fuer Tags)
+@include state.state-hover(
+  --nc-tag-info-bg,
+  var(--fnd-color-background-info),
+  $category: 'bold'
+);
+
+// Subtle-Kategorie fuer dezente Flaechen
+@include state.state-colors(
+  --nc-chip-bg,
+  var(--fnd-color-background-secondary),
+  $category: 'subtle'
+);</code></pre>
+
+            <h3 class="themes__role-group-title">Live-Demo: Automatische Richtungsumkehr</h3>
+            <p class="docs__section-desc">
+              Die Swatches zeigen <code>color-mix()</code> mit <code>--fnd-state-mix-target</code>.
+              Beim Theme-Wechsel kehrt sich die Mischrichtung automatisch um &mdash;
+              kein manueller Dark-Mode-Override n&ouml;tig.
+            </p>
+            <div class="docs__swatch-row" style="display: flex; gap: var(--fnd-spacing-400); flex-wrap: wrap; margin-block-end: var(--fnd-spacing-600);">
+              <div style="text-align: center;">
+                <div style="width: 80px; height: 80px; border-radius: var(--fnd-radius-md); background: var(--fnd-color-feedback-success);"></div>
+                <small>Base</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 80px; height: 80px; border-radius: var(--fnd-radius-md); background: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-state-mix-target));"></div>
+                <small>Hover (bold)</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 80px; height: 80px; border-radius: var(--fnd-radius-md); background: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-state-mix-target));"></div>
+                <small>Active (bold)</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 80px; height: 80px; border-radius: var(--fnd-radius-md); background: color-mix(in srgb, var(--fnd-color-feedback-success) 92%, var(--fnd-state-mix-target));"></div>
+                <small>Hover (subtle)</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 80px; height: 80px; border-radius: var(--fnd-radius-md); background: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-state-mix-target));"></div>
+                <small>Active (subtle)</small>
+              </div>
+            </div>
           </section>
 
           <!-- Semantische Rollen -->

@@ -177,6 +177,21 @@ $coral:       fn.generate-shade-scale($_coral-base) !default;
 $_mustard-base:        #FFCE1B !default;
 $mustard:     fn.generate-shade-scale($_mustard-base) !default;
 
+$_sage-base:           #8F9779 !default;
+$sage:        fn.generate-shade-scale($_sage-base) !default;
+
+$_warm-taupe-base:     #C2B5A8 !default;
+$warm-taupe:  fn.generate-shade-scale($_warm-taupe-base) !default;
+
+$_pearl-white-base:    #F5F5F5 !default;
+$pearl-white: fn.generate-shade-scale($_pearl-white-base) !default;
+
+$_old-gold-base:       #CFB53B !default;
+$old-gold:    fn.generate-shade-scale($_old-gold-base) !default;
+
+$_dark-orange-base:    #FF8C00 !default;
+$dark-orange: fn.generate-shade-scale($_dark-orange-base) !default;
+
 // ---------------------------------------------------------------------------
 // CSS Custom Properties Output: Primitives
 // ---------------------------------------------------------------------------
@@ -258,6 +273,26 @@ $mustard:     fn.generate-shade-scale($_mustard-base) !default;
 
   @each $step, $color in $mustard {
     --fnd-primitive-mustard-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $sage {
+    --fnd-primitive-sage-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $warm-taupe {
+    --fnd-primitive-warm-taupe-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $pearl-white {
+    --fnd-primitive-pearl-white-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $old-gold {
+    --fnd-primitive-old-gold-#{$step}: #{$color};
+  }
+
+  @each $step, $color in $dark-orange {
+    --fnd-primitive-dark-orange-#{$step}: #{$color};
   }
 
   // --- System Colors (single values, backward-compat) ---

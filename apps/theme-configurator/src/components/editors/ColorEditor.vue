@@ -1,70 +1,82 @@
 <template>
   <div class="color-editor">
-    <div class="editor-header">
-      <h3 class="editor-title">{{ title }}</h3>
-      <span v-if="tokenId" class="token-name">--fnd-color-{{ tokenId }}</span>
+    <!-- ── Current Color + HEX Input ── -->
+    <div class="picker-current">
+      <div class="picker-preview" :style="{ background: modelValue }">
+        <span class="picker-preview-label" :style="{ color: contrastColor }">Aa</span>
+      </div>
+      <div class="picker-info">
+        <span v-if="tokenId" class="picker-token-name">--{{ tokenId }}</span>
+        <span class="picker-hex">{{ modelValue }}</span>
+        <div v-if="primitiveRef" class="picker-ref">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+          </svg>
+          {{ primitiveRef }}
+        </div>
+      </div>
     </div>
 
-    <div class="editor-body">
-      <div class="color-preview-row">
-        <div
-          class="color-preview"
-          :style="{ background: modelValue }"
-          @click="focusInput"
-        >
-          <span class="preview-label" :style="{ color: contrastColor }">Aa</span>
-        </div>
-        <div class="color-inputs">
-          <div class="input-group">
-            <label class="input-label">HEX</label>
-            <input
-              ref="hexInput"
-              type="text"
-              class="color-text-input"
-              :value="modelValue"
-              @input="handleHexInput"
-              @blur="validateHex"
-              maxlength="9"
-            />
-          </div>
-          <div class="input-group">
-            <label class="input-label">Picker</label>
-            <input
-              type="color"
-              class="native-picker"
-              :value="normalizeHex(modelValue)"
-              @input="$emit('update:modelValue', $event.target.value)"
-            />
-          </div>
-        </div>
+    <!-- ── HEX Input + Pipette ── -->
+    <div class="hex-row">
+      <label class="input-label">HEX</label>
+      <div class="hex-input-wrap">
+        <input
+          ref="hexInput"
+          type="text"
+          class="color-text-input"
+          :value="modelValue"
+          @input="handleHexInput"
+          @blur="validateHex"
+          maxlength="9"
+        />
+        <button class="pipette-btn" @click="openPicker" title="Color Picker öffnen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 7l6 6" /><path d="M4 16l11.7 -11.7a1 1 0 0 1 1.4 0l2.6 2.6a1 1 0 0 1 0 1.4l-11.7 11.7h-4v-4z" />
+          </svg>
+        </button>
+        <input
+          ref="nativePicker"
+          type="color"
+          class="native-picker-hidden"
+          :value="normalizeHex(modelValue)"
+          @input="$emit('update:modelValue', $event.target.value)"
+        />
       </div>
+    </div>
 
-      <div v-if="showPalette" class="palette-section">
-        <label class="input-label">Palette</label>
-        <div class="palette-grid">
+    <!-- ── WCAG Contrast (wenn contrastTarget gesetzt) ── -->
+    <div v-if="contrastTarget" class="picker-contrast">
+      <span class="contrast-ratio-label">Contrast</span>
+      <span :class="['contrast-ratio-value', contrastLevel]">
+        {{ contrastRatio }}:1
+      </span>
+      <span :class="['wcag-mini-badge', { pass: contrastRatio >= 4.5 }]">AA</span>
+      <span :class="['wcag-mini-badge', { pass: contrastRatio >= 7 }]">AAA</span>
+    </div>
+
+    <!-- ── Token Palettes (primitive-picker Stil) ── -->
+    <div v-if="tokenPalettes.length" class="picker-palettes">
+      <div
+        v-for="group in tokenPalettes"
+        :key="group.id"
+        class="picker-palette-group"
+      >
+        <span class="picker-palette-label">{{ group.label }}</span>
+        <div class="picker-palette-strip">
           <button
-            v-for="color in paletteColors"
-            :key="color"
-            class="palette-swatch"
-            :class="{ active: modelValue === color }"
-            :style="{ background: color }"
-            @click="$emit('update:modelValue', color)"
-            :title="color"
-          ></button>
-        </div>
-      </div>
-
-      <div v-if="contrastTarget" class="contrast-info">
-        <div class="contrast-row">
-          <span class="contrast-label">Contrast Ratio</span>
-          <span :class="['contrast-value', contrastLevel]">
-            {{ contrastRatio }}:1
-          </span>
-        </div>
-        <div class="contrast-badges">
-          <span :class="['wcag-badge', { pass: contrastRatio >= 4.5 }]">AA</span>
-          <span :class="['wcag-badge', { pass: contrastRatio >= 7 }]">AAA</span>
-          <span :class="['wcag-badge', { pass: contrastRatio >= 3 }]">AA Large</span>
+            v-for="shade in group.shades"
+            :key="shade.token"
+            :class="['picker-swatch', {
+              'picker-swatch--active': modelValue === shade.color,
+              'picker-swatch--white': group.id === 'white'
+            }]"
+            :style="{ background: shade.color }"
+            :title="`${shade.token}\n${shade.color}`"
+            @click="selectSwatch(shade)"
+          >
+            <span class="picker-swatch-step">{{ shade.step }}</span>
+          </button>
         </div>
       </div>
     </div>
@@ -78,26 +90,28 @@ const props = defineProps({
   modelValue: { type: String, default: '#000000' },
   title: { type: String, default: 'Color' },
   tokenId: { type: String, default: '' },
-  showPalette: { type: Boolean, default: true },
-  contrastTarget: { type: String, default: '' },
-  paletteColors: {
-    type: Array,
-    default: () => [
-      '#000000', '#1d1d1d', '#333333', '#4d4d4d', '#666666', '#767676',
-      '#8e8d8d', '#cbcbcb', '#d9d9d9', '#e5e5e5', '#f5f5f5', '#ffffff',
-      '#002049', '#009fe3', '#37e93d', '#5cfe50', '#04cd24',
-      '#4589ff', '#24a148', '#d4a400', '#fa4d56',
-      '#bf281b', '#0b9e23', '#ef5b4e',
-      '#d5ffd1', '#ffdfdc', '#0d2b15', '#3b1419'
-    ]
-  }
+  tokenPalettes: { type: Array, default: () => [] },
+  contrastTarget: { type: String, default: '' }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'select-primitive'])
 const hexInput = ref(null)
+const nativePicker = ref(null)
 
-function focusInput() {
-  hexInput.value?.focus()
+// Reverse-lookup: welches Primitive-Token passt zum aktuellen Wert?
+const primitiveRef = computed(() => {
+  if (!props.tokenPalettes.length || !props.modelValue) return null
+  const normalized = props.modelValue.toLowerCase()
+  for (const group of props.tokenPalettes) {
+    for (const shade of group.shades) {
+      if (shade.color.toLowerCase() === normalized) return shade.token
+    }
+  }
+  return null
+})
+
+function openPicker() {
+  nativePicker.value?.click()
 }
 
 function normalizeHex(val) {
@@ -119,9 +133,15 @@ function validateHex() {
   // No-op, keep current value if invalid
 }
 
+function selectSwatch(shade) {
+  emit('update:modelValue', shade.color)
+  emit('select-primitive', shade)
+}
+
 // Contrast calculation
 function hexToRgb(hex) {
   if (!hex || hex === 'transparent') return { r: 0, g: 0, b: 0 }
+  if (!hex.startsWith('#')) return { r: 0, g: 0, b: 0 }
   const h = hex.replace('#', '')
   return {
     r: parseInt(h.substr(0, 2), 16) / 255,
@@ -166,62 +186,61 @@ const contrastColor = computed(() => {
   gap: 12px;
 }
 
-.editor-header {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.editor-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--cfg-text);
-  margin: 0;
-}
-
-.token-name {
-  font-size: 11px;
-  font-family: monospace;
-  color: var(--cfg-text-muted);
-}
-
-.editor-body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.color-preview-row {
+/* ── Current Color Preview ── */
+.picker-current {
   display: flex;
   gap: 12px;
-  align-items: stretch;
+  align-items: center;
 }
 
-.color-preview {
-  width: 72px;
-  height: 72px;
-  border-radius: 10px;
+.picker-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
   border: 1px solid var(--cfg-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   flex-shrink: 0;
 }
 
-.preview-label {
-  font-size: 20px;
+.picker-preview-label {
+  font-size: 16px;
   font-weight: 700;
 }
 
-.color-inputs {
+.picker-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex: 1;
+  gap: 2px;
+  min-width: 0;
 }
 
-.input-group {
+.picker-token-name {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  color: var(--cfg-text);
+}
+
+.picker-hex {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--cfg-text-muted);
+}
+
+.picker-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--cfg-accent);
+  margin-top: 1px;
+}
+
+/* ── HEX Input + Pipette ── */
+.hex-row {
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -235,7 +254,15 @@ const contrastColor = computed(() => {
   color: var(--cfg-text-muted);
 }
 
+.hex-input-wrap {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  position: relative;
+}
+
 .color-text-input {
+  flex: 1;
   height: 28px;
   padding: 0 8px;
   border: 1px solid var(--cfg-border);
@@ -251,95 +278,154 @@ const contrastColor = computed(() => {
   border-color: var(--cfg-accent);
 }
 
-.native-picker {
-  width: 100%;
+.pipette-btn {
+  width: 28px;
   height: 28px;
   border: 1px solid var(--cfg-border);
   border-radius: 4px;
-  cursor: pointer;
-  padding: 2px;
   background: var(--cfg-surface-elevated);
-}
-
-.palette-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.palette-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.palette-swatch {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  border: 1px solid var(--cfg-border);
+  color: var(--cfg-text-muted);
   cursor: pointer;
-  padding: 0;
-  transition: transform var(--fnd-motion-duration-100), box-shadow var(--fnd-motion-duration-100);
-}
-
-.palette-swatch:hover {
-  transform: scale(1.2);
-  z-index: var(--cfg-z-hover);
-}
-
-.palette-swatch.active {
-  box-shadow: 0 0 0 2px var(--cfg-accent);
-}
-
-.contrast-info {
-  padding: 10px;
-  border-radius: 8px;
-  background: var(--cfg-surface-elevated);
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.contrast-row {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.1s, border-color 0.1s;
 }
 
-.contrast-label {
-  font-size: 11px;
+.pipette-btn:hover {
+  color: var(--cfg-accent);
+  border-color: var(--cfg-accent);
+}
+
+.native-picker-hidden {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── WCAG Contrast Mini-Bar ── */
+.picker-contrast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--cfg-surface);
+  border-radius: 6px;
+  border: 1px solid var(--cfg-border);
+}
+
+.contrast-ratio-label {
+  font-size: 10px;
   color: var(--cfg-text-muted);
   font-weight: 500;
 }
 
-.contrast-value {
-  font-size: 14px;
+.contrast-ratio-value {
+  font-size: 12px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  margin-right: auto;
 }
 
-.contrast-value.aaa { color: var(--cfg-indicator-pass); }
-.contrast-value.aa { color: var(--cfg-indicator-pass); }
-.contrast-value.aa-large { color: var(--cfg-indicator-warn); }
-.contrast-value.fail { color: var(--cfg-indicator-fail); }
+.contrast-ratio-value.aaa { color: var(--cfg-indicator-pass); }
+.contrast-ratio-value.aa { color: var(--cfg-indicator-pass); }
+.contrast-ratio-value.aa-large { color: var(--cfg-indicator-warn); }
+.contrast-ratio-value.fail { color: var(--cfg-indicator-fail); }
 
-.contrast-badges {
-  display: flex;
-  gap: 6px;
-}
-
-.wcag-badge {
-  font-size: 10px;
+.wcag-mini-badge {
+  font-size: 9px;
   font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
   background: var(--cfg-indicator-fail-bg);
   color: var(--cfg-indicator-fail);
 }
 
-.wcag-badge.pass {
+.wcag-mini-badge.pass {
   background: var(--cfg-indicator-pass-bg);
   color: var(--cfg-indicator-pass);
+}
+
+/* ── Palette Groups (primitive-picker Stil) ── */
+.picker-palettes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.picker-palette-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.picker-palette-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--cfg-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.picker-palette-strip {
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.picker-swatch {
+  flex: 1;
+  height: 28px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--fnd-motion-duration-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.picker-swatch:hover {
+  transform: scaleY(1.3);
+  z-index: 2;
+  box-shadow: var(--cfg-shadow-md);
+}
+
+.picker-swatch--active {
+  box-shadow: inset 0 0 0 2px var(--cfg-accent), 0 0 0 1px var(--cfg-accent);
+  z-index: 3;
+  transform: scaleY(1.15);
+}
+
+.picker-swatch--white {
+  box-shadow: inset 0 0 0 1px var(--cfg-border);
+}
+
+.picker-swatch--white.picker-swatch--active {
+  box-shadow: inset 0 0 0 2px var(--cfg-accent), 0 0 0 1px var(--cfg-accent);
+}
+
+.picker-swatch-step {
+  font-size: 6px;
+  font-weight: 700;
+  opacity: 0;
+  color: white;
+  mix-blend-mode: difference;
+  transition: opacity var(--fnd-motion-duration-100);
+  pointer-events: none;
+}
+
+.picker-swatch:hover .picker-swatch-step {
+  opacity: 1;
 }
 </style>

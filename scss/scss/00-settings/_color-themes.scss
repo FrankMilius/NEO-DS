@@ -45,6 +45,7 @@
 // Default Theme (Neo Light) auf :root
 :root {
   color-scheme: light;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
   @include generate-theme-vars(sem.$semantic-light-base);
 }
 
@@ -54,21 +55,25 @@
 
 .neo-light-theme {
   color-scheme: light;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
   @include generate-theme-vars(sem.$semantic-light-base);
 }
 
 .neo-dark-theme {
   color-scheme: dark;
+  --fnd-state-mix-target: var(--fnd-color-always-light);
   @include generate-theme-vars(sem.$semantic-dark-base);
 }
 
 .customer-light-theme {
   color-scheme: light;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
   @include generate-theme-vars(sem.$semantic-light-secondary);
 }
 
 .customer-dark-theme {
   color-scheme: dark;
+  --fnd-state-mix-target: var(--fnd-color-always-light);
   @include generate-theme-vars(sem.$semantic-dark-secondary);
 }
 
@@ -82,6 +87,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
+    --fnd-state-mix-target: var(--fnd-color-always-light);
     @include generate-theme-vars(sem.$semantic-dark-base);
   }
 }
@@ -112,23 +118,27 @@
 /// @deprecated Use .neo-light-theme instead
 .light-base-theme {
   color-scheme: light;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
   @include generate-theme-vars(sem.$semantic-light-base);
 }
 
 /// @deprecated Use .neo-dark-theme instead
 .dark-base-theme {
   color-scheme: dark;
+  --fnd-state-mix-target: var(--fnd-color-always-light);
   @include generate-theme-vars(sem.$semantic-dark-base);
 }
 
 /// @deprecated Use .customer-light-theme instead
 .light-secondary-theme {
   color-scheme: light;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
   @include generate-theme-vars(sem.$semantic-light-secondary);
 }
 
 /// @deprecated Use .customer-dark-theme instead
 .dark-secondary-theme {
   color-scheme: dark;
+  --fnd-state-mix-target: var(--fnd-color-always-light);
   @include generate-theme-vars(sem.$semantic-dark-secondary);
 }

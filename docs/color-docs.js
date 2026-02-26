@@ -43,7 +43,12 @@
     cyan:       ['--fnd-primitive-cyan-', steps10],
     burgundy:   ['--fnd-primitive-burgundy-', steps10],
     coral:       ['--fnd-primitive-coral-', steps10],
-    mustard:     ['--fnd-primitive-mustard-', steps10]
+    mustard:     ['--fnd-primitive-mustard-', steps10],
+    sage:        ['--fnd-primitive-sage-', steps10],
+    warm-taupe:  ['--fnd-primitive-warm-taupe-', steps10],
+    pearl-white: ['--fnd-primitive-pearl-white-', steps10],
+    old-gold:    ['--fnd-primitive-old-gold-', steps10],
+    dark-orange: ['--fnd-primitive-dark-orange-', steps10]
   };
 
   function renderScales() {

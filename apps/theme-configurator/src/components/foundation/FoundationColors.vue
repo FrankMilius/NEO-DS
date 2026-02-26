@@ -531,11 +531,28 @@
               class="semantic-token-header"
               @click="toggleSemanticToken(token)"
             >
-              <div class="token-swatch" :style="{ background: getSemanticValue(token.id) }"></div>
+              <!-- Dual-Theme Swatch: Light + Dark nebeneinander -->
+              <div class="dual-swatch" :class="{ 'dual-swatch--same': isDualSame(token.id) }">
+                <div
+                  class="dual-swatch__half dual-swatch__half--light"
+                  :style="{ background: getLightValue(token.id) }"
+                  :title="getResolvedChain(token.id, 'light')"
+                ></div>
+                <div
+                  class="dual-swatch__half dual-swatch__half--dark"
+                  :style="{ background: getDarkValue(token.id) }"
+                  :title="getResolvedChain(token.id, 'dark')"
+                ></div>
+                <span v-if="!isDualSame(token.id)" class="dual-swatch__diff" title="Light ≠ Dark">!</span>
+              </div>
               <div class="token-meta">
                 <span class="token-label">{{ token.label }}</span>
                 <span class="token-value">{{ getSemanticDisplayValue(token.id) }}</span>
+                <span v-if="token.description" class="token-hint">{{ token.description }}</span>
               </div>
+              <span v-if="getUsedByCount(token.id)" class="used-by-badge" :title="getUsedByTooltip(token.id)">
+                {{ getUsedByCount(token.id) }} Komponenten
+              </span>
               <svg
                 class="token-chevron"
                 :class="{ 'token-chevron--open': selectedTokenId === token.id }"
@@ -546,60 +563,18 @@
               </svg>
             </button>
 
-            <!-- Expanded: Primitive Color Picker -->
+            <!-- Expanded: Color Editor -->
             <transition name="expand">
               <div v-if="selectedTokenId === token.id" class="primitive-picker">
-                <div class="picker-current">
-                  <div class="picker-preview" :style="{ background: getSemanticValue(token.id) }">
-                    <span class="picker-preview-label" :style="{ color: getContrastColor(getSemanticValue(token.id)) }">Aa</span>
-                  </div>
-                  <div class="picker-info">
-                    <span class="picker-token-name">--fnd-color-{{ token.id }}</span>
-                    <span class="picker-hex">{{ getSemanticValue(token.id) }}</span>
-                    <div v-if="getSemanticRef(token.id)" class="picker-ref">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
-                      </svg>
-                      {{ getSemanticRef(token.id) }}
-                    </div>
-                  </div>
-                </div>
-
-                <!-- WCAG Contrast info -->
-                <div v-if="getContrastTarget(token.id)" class="picker-contrast">
-                  <span class="contrast-ratio-label">Contrast</span>
-                  <span :class="['contrast-ratio-value', getContrastLevel(token.id)]">
-                    {{ getContrastRatio(token.id) }}:1
-                  </span>
-                  <span :class="['wcag-mini-badge', { pass: getContrastRatio(token.id) >= 4.5 }]">AA</span>
-                  <span :class="['wcag-mini-badge', { pass: getContrastRatio(token.id) >= 7 }]">AAA</span>
-                </div>
-
-                <!-- Palette Groups: only defined primitives -->
-                <div class="picker-palettes">
-                  <div
-                    v-for="pg in availablePrimitiveGroups"
-                    :key="pg.id"
-                    class="picker-palette-group"
-                  >
-                    <span class="picker-palette-label">{{ pg.label }}</span>
-                    <div class="picker-palette-strip">
-                      <button
-                        v-for="shade in pg.shades"
-                        :key="shade.token"
-                        :class="['picker-swatch', {
-                          'picker-swatch--active': getSemanticValue(token.id) === shade.color,
-                          'picker-swatch--white': pg.id === 'white'
-                        }]"
-                        :style="{ background: shade.color }"
-                        :title="`${shade.token}\n${shade.color}`"
-                        @click="assignPrimitiveToSemantic(token.id, shade)"
-                      >
-                        <span class="picker-swatch-step">{{ shade.step }}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ColorEditor
+                  :modelValue="getSemanticValue(token.id)"
+                  @update:modelValue="assignHexToSemantic(token.id, $event)"
+                  @select-primitive="assignPrimitiveToSemantic(token.id, $event)"
+                  :title="token.label"
+                  :tokenId="'fnd-color-' + token.id"
+                  :tokenPalettes="availablePrimitiveGroups"
+                  :contrastTarget="getContrastTarget(token.id)"
+                />
               </div>
             </transition>
           </div>
@@ -614,10 +589,17 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
-import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes } from '../../data/tokens.js'
+import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
+import ColorEditor from '../editors/ColorEditor.vue'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
+
+// ---------------------------------------------------------------------------
+// Dual-Swatch helpers: Light + Dark values for token cards
+// ---------------------------------------------------------------------------
+const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
+const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
 
 // ---------------------------------------------------------------------------
 // Active Tab State
@@ -1171,17 +1153,43 @@ function getSemanticRef(tokenId) {
   return primitiveColorMap.value[normalized] || null
 }
 
+// ---------------------------------------------------------------------------
+// Stufe 3: Dual-Theme Swatch helpers
+// ---------------------------------------------------------------------------
+function getLightValue(tokenId) {
+  return tLight.value[tokenId] || '#000000'
+}
+function getDarkValue(tokenId) {
+  return tDark.value[tokenId] || '#000000'
+}
+function isDualSame(tokenId) {
+  return getLightValue(tokenId).toLowerCase() === getDarkValue(tokenId).toLowerCase()
+}
+function getResolvedChain(tokenId, mode) {
+  const hex = mode === 'dark' ? getDarkValue(tokenId) : getLightValue(tokenId)
+  const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
+  const primitiveRef = primitiveColorMap.value[normalized]
+  if (primitiveRef) {
+    return `--fnd-color-${tokenId} → ${primitiveRef} → ${hex}`
+  }
+  return `--fnd-color-${tokenId} → ${hex}`
+}
+
 function toggleSemanticToken(token) {
   if (selectedToken.value?.id === token.id) {
     selectedToken.value = null
   } else {
     selectedToken.value = token
   }
-  store.selectToken(token)
+  store.selectToken(selectedToken.value)
 }
 
 function assignPrimitiveToSemantic(tokenId, shade) {
   store.updateSemanticToken(tokenId, shade.color)
+}
+
+function assignHexToSemantic(tokenId, hex) {
+  store.updateSemanticToken(tokenId, hex)
 }
 
 // Contrast helpers
@@ -1194,10 +1202,6 @@ function relativeLuminance(hex) {
     parseInt(h.substr(4, 2), 16) / 255
   ].map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4))
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-
-function getContrastColor(hex) {
-  return relativeLuminance(hex) > 0.179 ? '#000000' : '#ffffff'
 }
 
 function getContrastTarget(tokenId) {
@@ -1226,6 +1230,34 @@ function getContrastLevel(tokenId) {
   if (ratio >= 4.5) return 'aa'
   if (ratio >= 3) return 'aa-large'
   return 'fail'
+}
+
+// ---------------------------------------------------------------------------
+// Reverse-Mapping: Semantic → Component Tokens (Used-By)
+// ---------------------------------------------------------------------------
+const semanticToComponents = computed(() => {
+  const map = {}
+  for (const group of componentTokenGroups) {
+    for (const token of group.tokens) {
+      if (token.ref) {
+        if (!map[token.ref]) map[token.ref] = []
+        map[token.ref].push({ component: group.label, tokenId: token.id, label: token.label })
+      }
+    }
+  }
+  return map
+})
+
+function getUsedBy(semanticId) {
+  return semanticToComponents.value[semanticId] || []
+}
+
+function getUsedByCount(semanticId) {
+  return getUsedBy(semanticId).length
+}
+
+function getUsedByTooltip(semanticId) {
+  return getUsedBy(semanticId).map(d => `${d.component}: ${d.label}`).join(', ')
 }
 </script>
 
@@ -1716,6 +1748,48 @@ function getContrastLevel(tokenId) {
   background: var(--cfg-surface-elevated);
 }
 
+/* ── Dual-Theme Swatch (Light + Dark nebeneinander) ── */
+.dual-swatch {
+  position: relative;
+  display: flex;
+  width: 32px;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--cfg-border);
+  flex-shrink: 0;
+}
+
+.dual-swatch__half {
+  flex: 1;
+}
+
+.dual-swatch__half--light {
+  border-right: 1px solid rgba(128, 128, 128, .2);
+}
+
+.dual-swatch__diff {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 12px;
+  text-align: center;
+  border: 1.5px solid var(--cfg-surface, #fff);
+  pointer-events: none;
+}
+
+.dual-swatch--same .dual-swatch__diff {
+  display: none;
+}
+
+/* Legacy single swatch (fallback for non-semantic usage) */
 .token-swatch {
   width: 28px;
   height: 28px;
@@ -1747,6 +1821,25 @@ function getContrastLevel(tokenId) {
   white-space: nowrap;
 }
 
+.token-hint {
+  font-size: 10px;
+  color: var(--cfg-text-muted);
+  line-height: 1.3;
+  margin-top: 2px;
+  white-space: normal;
+}
+
+.used-by-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .token-chevron {
   color: var(--cfg-text-muted);
   transition: transform var(--fnd-motion-duration-200);
@@ -1767,177 +1860,6 @@ function getContrastLevel(tokenId) {
   gap: 12px;
 }
 
-.picker-current {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.picker-preview {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px solid var(--cfg-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.picker-preview-label {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.picker-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.picker-token-name {
-  font-size: 11px;
-  font-weight: 600;
-  font-family: 'DM Mono', monospace;
-  color: var(--cfg-text);
-}
-
-.picker-hex {
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--cfg-text-muted);
-}
-
-.picker-ref {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  font-family: 'DM Mono', monospace;
-  color: var(--cfg-accent);
-  margin-top: 1px;
-}
-
-/* WCAG Contrast mini-bar */
-.picker-contrast {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: var(--cfg-surface);
-  border-radius: 6px;
-  border: 1px solid var(--cfg-border);
-}
-
-.contrast-ratio-label {
-  font-size: 10px;
-  color: var(--cfg-text-muted);
-  font-weight: 500;
-}
-
-.contrast-ratio-value {
-  font-size: 12px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  margin-right: auto;
-}
-
-.contrast-ratio-value.aaa { color: var(--cfg-indicator-pass); }
-.contrast-ratio-value.aa { color: var(--cfg-indicator-pass); }
-.contrast-ratio-value.aa-large { color: var(--cfg-indicator-warn); }
-.contrast-ratio-value.fail { color: var(--cfg-indicator-fail); }
-
-.wcag-mini-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 3px;
-  background: var(--cfg-indicator-fail-bg);
-  color: var(--cfg-indicator-fail);
-}
-
-.wcag-mini-badge.pass {
-  background: var(--cfg-indicator-pass-bg);
-  color: var(--cfg-indicator-pass);
-}
-
-/* ── Palette group strips ── */
-.picker-palettes {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 360px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.picker-palette-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.picker-palette-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--cfg-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.picker-palette-strip {
-  display: flex;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.picker-swatch {
-  flex: 1;
-  height: 28px;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  position: relative;
-  transition: transform var(--fnd-motion-duration-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.picker-swatch:hover {
-  transform: scaleY(1.3);
-  z-index: var(--cfg-z-hover);
-  box-shadow: var(--cfg-shadow-md);
-}
-
-.picker-swatch--active {
-  box-shadow: inset 0 0 0 2px var(--cfg-accent), 0 0 0 1px var(--cfg-accent);
-  z-index: calc(var(--cfg-z-hover) + 1);
-  transform: scaleY(1.15);
-}
-
-.picker-swatch--white {
-  box-shadow: inset 0 0 0 1px var(--cfg-border);
-}
-
-.picker-swatch--white.picker-swatch--active {
-  box-shadow: inset 0 0 0 2px var(--cfg-accent), 0 0 0 1px var(--cfg-accent);
-}
-
-.picker-swatch-step {
-  font-size: 6px;
-  font-weight: 700;
-  opacity: 0;
-  color: white;
-  mix-blend-mode: difference;
-  transition: opacity var(--fnd-motion-duration-100);
-  pointer-events: none;
-}
-
-.picker-swatch:hover .picker-swatch-step {
-  opacity: 1;
-}
 
 /* Expand transition */
 .expand-enter-active,
@@ -2015,4 +1937,5 @@ function getContrastLevel(tokenId) {
   font-family: 'DM Mono', monospace;
   color: var(--cfg-text-muted, #888);
 }
+
 </style>

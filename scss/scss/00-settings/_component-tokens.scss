@@ -114,35 +114,35 @@
   // -- Accent Variant --
   --nc-button-accent-bg: var(--fnd-color-background-accent);
   --nc-button-accent-bg-hover: var(--fnd-color-background-accent-secondary);
-  --nc-button-accent-bg-active: color-mix(in srgb, var(--fnd-color-background-accent-secondary) 80%, var(--fnd-color-always-dark));
+  --nc-button-accent-bg-active: color-mix(in srgb, var(--fnd-color-background-accent-secondary) 80%, var(--fnd-state-mix-target));
   --nc-button-accent-color: var(--fnd-color-always-dark);
   --nc-button-accent-border: transparent;
 
   // -- Success Variant --
   --nc-button-success-bg: var(--fnd-color-feedback-success);
-  --nc-button-success-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-color-always-dark));
-  --nc-button-success-bg-active: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-color-always-dark));
+  --nc-button-success-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-state-mix-target));
+  --nc-button-success-bg-active: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-state-mix-target));
   --nc-button-success-color: var(--fnd-color-always-light);
   --nc-button-success-border: transparent;
 
   // -- Warning Variant --
   --nc-button-warning-bg: var(--fnd-color-feedback-warning);
-  --nc-button-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 85%, var(--fnd-color-always-dark));
-  --nc-button-warning-bg-active: color-mix(in srgb, var(--fnd-color-feedback-warning) 75%, var(--fnd-color-always-dark));
+  --nc-button-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 85%, var(--fnd-state-mix-target));
+  --nc-button-warning-bg-active: color-mix(in srgb, var(--fnd-color-feedback-warning) 75%, var(--fnd-state-mix-target));
   --nc-button-warning-color: var(--fnd-color-always-dark);
   --nc-button-warning-border: transparent;
 
   // -- Info Variant --
   --nc-button-info-bg: var(--fnd-color-feedback-info);
-  --nc-button-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 85%, var(--fnd-color-always-dark));
-  --nc-button-info-bg-active: color-mix(in srgb, var(--fnd-color-feedback-info) 75%, var(--fnd-color-always-dark));
+  --nc-button-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 85%, var(--fnd-state-mix-target));
+  --nc-button-info-bg-active: color-mix(in srgb, var(--fnd-color-feedback-info) 75%, var(--fnd-state-mix-target));
   --nc-button-info-color: var(--fnd-color-always-light);
   --nc-button-info-border: transparent;
 
   // -- Error Variant (canonical, formerly "destructive") --
   --nc-button-error-bg: var(--fnd-color-feedback-danger);
-  --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-color-always-dark));
-  --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-color-always-dark));
+  --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-state-mix-target));
+  --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-state-mix-target));
   --nc-button-error-color: var(--fnd-color-always-light);
   --nc-button-error-border: var(--fnd-color-feedback-danger);
 
@@ -827,25 +827,25 @@
   --nc-tag-success-bg: var(--fnd-color-background-success);
   --nc-tag-success-color: var(--fnd-color-text-success);
   --nc-tag-success-border: transparent;
-  --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-dark));
+  --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target));
 
   // -- Warning --
   --nc-tag-warning-bg: var(--fnd-color-background-warning);
   --nc-tag-warning-color: var(--fnd-color-text-warning);
   --nc-tag-warning-border: transparent;
-  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-dark));
+  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target));
 
   // -- Error --
   --nc-tag-error-bg: var(--fnd-color-background-danger);
   --nc-tag-error-color: var(--fnd-color-text-danger);
   --nc-tag-error-border: transparent;
-  --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-dark));
+  --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target));
 
   // -- Info --
   --nc-tag-info-bg: var(--fnd-color-background-info);
   --nc-tag-info-color: var(--fnd-color-text-info);
   --nc-tag-info-border: transparent;
-  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-dark));
+  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target));
 
   // -- Remove-Button --
   --nc-tag-remove-size: 16px;
@@ -1674,41 +1674,16 @@
 // ---------------------------------------------------------------------------
 // Dark Mode: Component Token Overrides
 // ---------------------------------------------------------------------------
-// Im Dark Mode muessen Hover/Active-States aufhellen (Richtung Weiss) statt
-// abdunkeln (Richtung Schwarz). Diese Overrides ersetzen die color-mix()-Calls
-// aus dem :root-Block mit aufhellenden Alternativen.
+// color-mix()-State-Tokens (Buttons, Tags) werden automatisch ueber
+// --fnd-state-mix-target umgekehrt — KEIN manueller Override mehr noetig.
+//
+// Segmented Control muss re-deklariert werden, weil :root-Token-Referenzen
+// auf Semantic-Tokens am <html>-Element (light) aufloesen, nicht am Theme-Element.
 
 .neo-dark-theme,
 .customer-dark-theme,
 .dark-base-theme,
 .dark-secondary-theme {
-  // Button Accent
-  --nc-button-accent-bg-active: color-mix(in srgb, var(--fnd-color-background-accent-secondary) 80%, var(--fnd-color-always-light));
-
-  // Button Success
-  --nc-button-success-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-color-always-light));
-  --nc-button-success-bg-active: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-color-always-light));
-
-  // Button Warning
-  --nc-button-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 85%, var(--fnd-color-always-light));
-  --nc-button-warning-bg-active: color-mix(in srgb, var(--fnd-color-feedback-warning) 75%, var(--fnd-color-always-light));
-
-  // Button Info
-  --nc-button-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 85%, var(--fnd-color-always-light));
-  --nc-button-info-bg-active: color-mix(in srgb, var(--fnd-color-feedback-info) 75%, var(--fnd-color-always-light));
-
-  // Button Error
-  --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-color-always-light));
-  --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-color-always-light));
-
-  // Tag Success/Error/Warning/Info Hover
-  --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-light));
-  --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
-  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
-  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
-
-  // Segmented Control — Re-Deklaration noetig, da :root-Token-Referenzen
-  // auf Semantic-Tokens am <html>-Element (light) aufloesen, nicht am <body>
   --nc-segmented-bg: var(--fnd-color-background-secondary);
   --nc-segmented-item-color: var(--fnd-color-text-secondary);
   --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);
@@ -1718,24 +1693,8 @@
   --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
 }
 
-// Automatic Dark Mode (prefers-color-scheme) — gleiche Overrides
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --nc-button-accent-bg-active: color-mix(in srgb, var(--fnd-color-background-accent-secondary) 80%, var(--fnd-color-always-light));
-    --nc-button-success-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-color-always-light));
-    --nc-button-success-bg-active: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-color-always-light));
-    --nc-button-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 85%, var(--fnd-color-always-light));
-    --nc-button-warning-bg-active: color-mix(in srgb, var(--fnd-color-feedback-warning) 75%, var(--fnd-color-always-light));
-    --nc-button-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 85%, var(--fnd-color-always-light));
-    --nc-button-info-bg-active: color-mix(in srgb, var(--fnd-color-feedback-info) 75%, var(--fnd-color-always-light));
-    --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-color-always-light));
-    --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-color-always-light));
-    --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-color-always-light));
-    --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-color-always-light));
-    --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-color-always-light));
-    --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-color-always-light));
-
-    // Segmented Control
     --nc-segmented-bg: var(--fnd-color-background-secondary);
     --nc-segmented-item-color: var(--fnd-color-text-secondary);
     --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);

@@ -1,0 +1,80 @@
+// ==========================================================================
+// 00-Settings: State Interaction Mixins
+// ==========================================================================
+// Erzeugt hover/active State-Tokens fuer Component-Tokens mit color-mix().
+// Nutzt --fnd-state-mix-target fuer automatische Richtungsumkehr (Dark Mode).
+//
+// KONZEPT:
+//   Light Mode: --fnd-state-mix-target = always-dark  → hover/active dunkler
+//   Dark Mode:  --fnd-state-mix-target = always-light → hover/active heller
+//   Dadurch braucht kein Dark-Mode-Override fuer State-Tokens geschrieben werden.
+//
+// KATEGORIEN:
+//   'bold'   — Gefuellte farbige Flaechen (Buttons, Tags mit solidem Hintergrund)
+//              hover: 15% Mix, active: 25% Mix (bewaehrte Werte)
+//   'subtle' — Transparente/kontrastarme Flaechen (Ghost, Chips, Tabellenzeilen)
+//              hover: 8% Mix, active: 15% Mix
+//
+// VERWENDUNG:
+//   @include state.state-colors(--nc-button-success-bg, var(--fnd-color-feedback-success));
+//   → Erzeugt:
+//     --nc-button-success-bg: var(--fnd-color-feedback-success);
+//     --nc-button-success-bg-hover:  color-mix(in srgb, ... 85%, var(--fnd-state-mix-target));
+//     --nc-button-success-bg-active: color-mix(in srgb, ... 75%, var(--fnd-state-mix-target));
+//
+//   @include state.state-hover(--nc-tag-info-bg, var(--fnd-color-background-info));
+//   → Erzeugt nur den Hover-Token.
+// ==========================================================================
+
+@use 'sass:map';
+
+// ---------------------------------------------------------------------------
+// Kategorie-Abstufungen
+// ---------------------------------------------------------------------------
+// Wert = Prozent der Basisfarbe die erhalten bleibt.
+// Rest wird mit --fnd-state-mix-target gemischt.
+
+$state-categories: (
+  'bold': (
+    'hover':  85,   // 15% Abdunkelung/Aufhellung
+    'active': 75,   // 25% Abdunkelung/Aufhellung
+  ),
+  'subtle': (
+    'hover':  92,   // 8% Overlay
+    'active': 85,   // 15% Overlay
+  ),
+) !default;
+
+// ---------------------------------------------------------------------------
+// state-colors — Erzeugt Base + Hover + Active Tokens
+// ---------------------------------------------------------------------------
+/// @param {String} $prefix — CSS Custom Property Name (z.B. --nc-button-success-bg)
+/// @param {String} $base — Foundation-Token-Referenz (z.B. var(--fnd-color-feedback-success))
+/// @param {String} $category ['bold'] — Interaktions-Kategorie ('bold' oder 'subtle')
+/// @param {Boolean} $include-base [true] — Ob der Base-Token mit ausgegeben wird
+
+@mixin state-colors($prefix, $base, $category: 'bold', $include-base: true) {
+  $steps: map.get($state-categories, $category);
+  $hover-keep:  map.get($steps, 'hover');
+  $active-keep: map.get($steps, 'active');
+
+  @if $include-base {
+    #{$prefix}: #{$base};
+  }
+  #{$prefix}-hover:  color-mix(in srgb, #{$base} #{$hover-keep}#{'%'}, var(--fnd-state-mix-target));
+  #{$prefix}-active: color-mix(in srgb, #{$base} #{$active-keep}#{'%'}, var(--fnd-state-mix-target));
+}
+
+// ---------------------------------------------------------------------------
+// state-hover — Erzeugt nur den Hover-Token
+// ---------------------------------------------------------------------------
+/// Kurzform fuer Komponenten die keinen Active-State brauchen (z.B. Tags).
+/// @param {String} $prefix — CSS Custom Property Name
+/// @param {String} $base — Foundation-Token-Referenz
+/// @param {String} $category ['bold'] — Interaktions-Kategorie
+
+@mixin state-hover($prefix, $base, $category: 'bold') {
+  $steps: map.get($state-categories, $category);
+  $hover-keep: map.get($steps, 'hover');
+  #{$prefix}-hover: color-mix(in srgb, #{$base} #{$hover-keep}#{'%'}, var(--fnd-state-mix-target));
+}

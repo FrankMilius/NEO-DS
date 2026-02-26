@@ -75,7 +75,7 @@
       cssClass: 'neo-dark-theme',
       type: 'base',
       locked: true,
-      preview: ['#000000', '#1d1d1d', '#009fe3', '#37e93d']
+      preview: ['#0f0f0f', '#1a1a1a', '#009fe3', '#37e93d']
     },
     'customer-light': {
       label: 'Customer Light',
@@ -89,7 +89,7 @@
       cssClass: 'customer-dark-theme',
       type: 'customer',
       locked: false,
-      preview: ['#1d1d1d', '#333333', '#009fe3', '#37e93d']
+      preview: ['#1a1a1a', '#252525', '#009fe3', '#37e93d']
     }
   };
 
