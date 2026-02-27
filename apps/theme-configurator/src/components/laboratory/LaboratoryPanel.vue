@@ -376,20 +376,68 @@
               </div>
             </div>
 
-            <!-- 3 · Card -->
+            <!-- 3 · Card (Preview, Summary, Action, Status) — konsumiert --fnd-color-* Token-Overrides -->
             <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
               <span class="arena-specimen__label">Card</span>
               <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-card" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
-                    <span class="arena-spec-card__title" :style="{ color: tLight['text-primary'] }">Titel</span>
-                    <span class="arena-spec-card__desc" :style="{ color: tLight['text-secondary'] }">Beschreibungstext der Karte</span>
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="cardPanelTokens(tLight)">
+                  <div class="arena-spec-card-grid">
+                    <!-- Preview -->
+                    <div class="arena-spec-card">
+                      <div class="arena-spec-card__media"></div>
+                      <span class="arena-spec-card__kicker">Insights</span>
+                      <span class="arena-spec-card__title">Preview Card</span>
+                      <span class="arena-spec-card__desc">Kicker, Titel, Text</span>
+                    </div>
+                    <!-- Summary -->
+                    <div class="arena-spec-card arena-spec-card--summary">
+                      <div class="arena-spec-card__avatar"></div>
+                      <span class="arena-spec-card__title">Anna M.</span>
+                      <span class="arena-spec-card__desc">Developer</span>
+                    </div>
+                    <!-- Action -->
+                    <div class="arena-spec-card">
+                      <span class="arena-spec-card__title">Action Card</span>
+                      <span class="arena-spec-card__desc">Footer mit Buttons</span>
+                      <div class="arena-spec-card__footer">
+                        <span class="arena-spec-card__btn">OK</span>
+                      </div>
+                    </div>
+                    <!-- Status -->
+                    <div class="arena-spec-card arena-spec-card--status">
+                      <span class="arena-spec-card__title">Status</span>
+                      <span class="arena-spec-card__desc">Linker Indikator</span>
+                    </div>
                   </div>
                 </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-card" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
-                    <span class="arena-spec-card__title" :style="{ color: tDark['text-primary'] }">Titel</span>
-                    <span class="arena-spec-card__desc" :style="{ color: tDark['text-secondary'] }">Beschreibungstext der Karte</span>
+                <div class="arena-specimen__panel" :style="cardPanelTokens(tDark)">
+                  <div class="arena-spec-card-grid">
+                    <!-- Preview -->
+                    <div class="arena-spec-card">
+                      <div class="arena-spec-card__media"></div>
+                      <span class="arena-spec-card__kicker">Insights</span>
+                      <span class="arena-spec-card__title">Preview Card</span>
+                      <span class="arena-spec-card__desc">Kicker, Titel, Text</span>
+                    </div>
+                    <!-- Summary -->
+                    <div class="arena-spec-card arena-spec-card--summary">
+                      <div class="arena-spec-card__avatar"></div>
+                      <span class="arena-spec-card__title">Anna M.</span>
+                      <span class="arena-spec-card__desc">Developer</span>
+                    </div>
+                    <!-- Action -->
+                    <div class="arena-spec-card">
+                      <span class="arena-spec-card__title">Action Card</span>
+                      <span class="arena-spec-card__desc">Footer mit Buttons</span>
+                      <div class="arena-spec-card__footer">
+                        <span class="arena-spec-card__btn">OK</span>
+                      </div>
+                    </div>
+                    <!-- Status -->
+                    <div class="arena-spec-card arena-spec-card--status">
+                      <span class="arena-spec-card__title">Status</span>
+                      <span class="arena-spec-card__desc">Linker Indikator</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -598,16 +646,30 @@
               <div v-if="activeSpecimens.includes('card')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
                 <span class="arena-specimen__label">Card</span>
                 <div class="arena-specimen__pair">
-                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                    <div class="arena-spec-card" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
-                      <span class="arena-spec-card__title" :style="{ color: tLight['text-primary'] }">Titel</span>
-                      <span class="arena-spec-card__desc" :style="{ color: tLight['text-secondary'] }">Beschreibungstext der Karte</span>
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="cardPanelTokens(tLight)">
+                    <div class="arena-spec-card-grid">
+                      <div class="arena-spec-card">
+                        <div class="arena-spec-card__media"></div>
+                        <span class="arena-spec-card__title">Preview</span>
+                        <span class="arena-spec-card__desc">Mit Media-Slot</span>
+                      </div>
+                      <div class="arena-spec-card arena-spec-card--status">
+                        <span class="arena-spec-card__title">Status</span>
+                        <span class="arena-spec-card__desc">Indikator</span>
+                      </div>
                     </div>
                   </div>
-                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                    <div class="arena-spec-card" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
-                      <span class="arena-spec-card__title" :style="{ color: tDark['text-primary'] }">Titel</span>
-                      <span class="arena-spec-card__desc" :style="{ color: tDark['text-secondary'] }">Beschreibungstext der Karte</span>
+                  <div class="arena-specimen__panel" :style="cardPanelTokens(tDark)">
+                    <div class="arena-spec-card-grid">
+                      <div class="arena-spec-card">
+                        <div class="arena-spec-card__media"></div>
+                        <span class="arena-spec-card__title">Preview</span>
+                        <span class="arena-spec-card__desc">Mit Media-Slot</span>
+                      </div>
+                      <div class="arena-spec-card arena-spec-card--status">
+                        <span class="arena-spec-card__title">Status</span>
+                        <span class="arena-spec-card__desc">Indikator</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1422,7 +1484,7 @@ const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dar
 const SPECIMEN_TOKENS = {
   buttons:    ['interactive-default', 'text-on-interactive', 'text-primary'],
   input:      ['background-base', 'border-primary', 'text-primary', 'text-tertiary'],
-  card:       ['layer-01', 'border-secondary', 'text-primary', 'text-secondary'],
+  card:       ['layer-01', 'border-secondary', 'text-primary', 'text-secondary', 'text-tertiary', 'background-secondary', 'interactive-default', 'text-on-interactive', 'feedback-success'],
   badges:     ['background-success', 'background-danger', 'background-warning', 'background-info',
                'text-success', 'text-danger', 'text-warning', 'text-info'],
   alert:      ['feedback-success', 'feedback-danger', 'background-success', 'background-danger',
@@ -1433,6 +1495,25 @@ const SPECIMEN_TOKENS = {
   tablerow:   ['layer-01', 'layer-02', 'border-secondary', 'text-primary', 'text-secondary'],
   codesnippet:['layer-01', 'border-secondary', 'text-primary', 'text-secondary', 'text-tertiary',
                'background-base', 'background-secondary']
+}
+
+// Token-Override-Styles für Card-Arena-Panel
+// Setzt --fnd-color-* CSS Custom Properties, damit .arena-spec-card
+// die Token-Werte aus dem aktiven Theme konsumiert (statt Inline-Styles)
+function cardPanelTokens(t) {
+  return {
+    background: t['background-base'],
+    '--fnd-color-background-base': t['background-base'],
+    '--fnd-color-layer-01': t['layer-01'],
+    '--fnd-color-text-primary': t['text-primary'],
+    '--fnd-color-text-secondary': t['text-secondary'],
+    '--fnd-color-text-tertiary': t['text-tertiary'],
+    '--fnd-color-border-secondary': t['border-secondary'],
+    '--fnd-color-background-secondary': t['background-secondary'],
+    '--fnd-color-interactive-default': t['interactive-default'],
+    '--fnd-color-text-on-interactive': t['text-on-interactive'],
+    '--fnd-color-feedback-success': t['feedback-success']
+  }
 }
 
 const tokenToSpecimens = computed(() => {
@@ -3454,9 +3535,10 @@ const switchOn = computed(() => ({
   white-space: nowrap;
 }
 
-/* ── Arena: Card ── */
+/* ── Arena: Card — konsumiert --fnd-color-* Token-Overrides vom Panel ── */
 .arena-spec-card {
-  border: 1px solid;
+  background: var(--fnd-color-layer-01);
+  border: 1px solid var(--fnd-color-border-secondary);
   border-radius: 8px;
   padding: 10px 12px;
   display: flex;
@@ -3468,11 +3550,67 @@ const switchOn = computed(() => ({
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
+  color: var(--fnd-color-text-primary);
 }
 
 .arena-spec-card__desc {
   font-size: 12px;
   line-height: 1.3;
+  color: var(--fnd-color-text-secondary);
+}
+
+.arena-spec-card__kicker {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fnd-color-text-tertiary);
+}
+
+.arena-spec-card__media {
+  height: 48px;
+  border-radius: 4px 4px 0 0;
+  margin: -10px -12px 6px;
+  background: var(--fnd-color-background-secondary);
+}
+
+.arena-spec-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--fnd-color-background-secondary);
+}
+
+.arena-spec-card--summary {
+  text-align: center;
+  align-items: center;
+}
+
+.arena-spec-card__footer {
+  border-top: 1px solid var(--fnd-color-border-secondary);
+  margin-top: 4px;
+  padding-top: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+.arena-spec-card__btn {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  background: var(--fnd-color-interactive-default);
+  color: var(--fnd-color-text-on-interactive);
+}
+
+.arena-spec-card--status {
+  border-left: 3px solid var(--fnd-color-feedback-success);
+  border-radius: 0 8px 8px 0;
+}
+
+.arena-spec-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 }
 
 /* ── Arena: Badges ── */

@@ -1,240 +1,489 @@
 // ==========================================================================
-// 06-Molecules: Cards Base
+// 06-Molecules: Card
 // ==========================================================================
-// Basis-Styles für alle Card-Varianten
-// Migriert von: cards.css (Base-Teil)
+// Einheitliches, token-getriebenes Card-System mit BEM-Struktur.
+// 3-Slot-Anatomie: __media, __content, __footer
+// 5 Typ-Modifier: --preview, --summary, --action, --selectable, --status
+// Zusätzlich: --expandable, --horizontal, --skeleton, --disabled
 // ==========================================================================
 
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// Cards Base
+// Base Card
 // ---------------------------------------------------------------------------
+// Grundstruktur: flex column, token-getriebene Oberfläche
 
-.cards {
-  --card-transition: var(--fnd-motion-duration-200) ease 0s;
-  
-  color: var(--fnd-color-text-primary);
-  
-  // List Reset
-  > ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  // ---------------------------------------------------------------------------
-  // Card Content
-  // ---------------------------------------------------------------------------
-  
-  .card-content {
-    position: relative;
-    height: 100%;
-    
-    // Hover effects
-    &:hover {
-      picture:not(.pulse) img,
-      .icon[class*='logo'] {
-        transform: scale(1.1);
-      }
-      
-      a {
-        text-decoration: none;
+.nc-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--nc-card-bg);
+  color: var(--nc-card-color);
+  border: var(--nc-card-border-width) solid var(--nc-card-border);
+  border-radius: var(--nc-card-radius);
+  box-shadow: var(--nc-card-shadow);
+  overflow: hidden;
+  position: relative;
+  @include transition-quick((box-shadow, border-color, background-color, transform));
 
-        &::before {
-          display: block;
-          content: '';
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
-      }
-    }
+  // ---------------------------------------------------------------------------
+  // 3-Slot-Anatomie
+  // ---------------------------------------------------------------------------
 
-    a:focus-visible {
-      @include focus-ring;
-    }
-  }
-  
-  // ---------------------------------------------------------------------------
-  // Icons
-  // ---------------------------------------------------------------------------
-  
-  .icon {
-    @include transition(transform, '200');
-  }
-  
-  // ---------------------------------------------------------------------------
-  // Pictures / Images
-  // ---------------------------------------------------------------------------
-  
-  picture {
+  // Media Slot — Bild/Video (optional)
+  &__media {
     display: block;
-    border-radius: var(--fnd-radius-sm);
-    position: relative;
     overflow: hidden;
     aspect-ratio: var(--fnd-media-ratio-3-2);
-    
-    img {
+    flex-shrink: 0;
+
+    img,
+    video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
-      @include transition(transform, '200');
-      
-      &.pulse {
-        @include animation(animations-pulse, '1000', 'focused', forwards, infinite);
-        
-        @include desktop-up {
-          animation: unset;
-        }
-      }
+      display: block;
+      @include transition-quick((transform));
     }
   }
-  
-  // ---------------------------------------------------------------------------
-  // Typography
-  // ---------------------------------------------------------------------------
-  
-  .heading {
-    color: var(--fnd-color-text-primary);
-  }
-  
-  p {
-    color: var(--fnd-color-text-secondary);
-  }
-  
-  // ---------------------------------------------------------------------------
-  // Button Container
-  // ---------------------------------------------------------------------------
-  
-  .button-container {
-    margin-top: var(--fnd-spacing-06);
-    
-    @include desktop-up {
-      margin-top: var(--fnd-spacing-07);
-    }
-  }
-  
-  // ---------------------------------------------------------------------------
-  // Labels Container
-  // ---------------------------------------------------------------------------
-  
-  .labels-container {
-    padding-left: 0;
-  }
-}
 
-// ---------------------------------------------------------------------------
-// Grid Layout
-// ---------------------------------------------------------------------------
-
-.grid {
-  padding-bottom: var(--fnd-spacing-10);
-  
-  @include tablet-up {
-    padding-bottom: var(--fnd-spacing-12);
-  }
-  
-  > ul {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: var(--fnd-spacing-08);
-    overflow: hidden;
-    
-    @include tablet-up {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--fnd-spacing-09) var(--fnd-spacing-07);
-    }
-  }
-  
-  // Animation States
-  .cards-in-viewport .card-grid-item {
-    @include transition(opacity transform, '300');
-    transition-timing-function: var(--fnd-motion-ease-focused);
-    transition-duration: 0.3s, 0.5s;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .card-grid-item,
-  .card-grid-item.card-grid-item-hidden {
-    opacity: 0;
-    transform: translateY(200px);
-  }
-  
-  // Load More
-  .card-grid-load-more-wrapper {
-    @include paragraph('l');
+  // Content Slot — Freitext, Titel, Beschreibung
+  &__content {
     display: flex;
-    justify-content: center;
-    margin-top: var(--fnd-spacing-10);
-    
-    @include tablet-up {
-      margin-top: var(--fnd-spacing-12);
-    }
-    
-    .card-grid-load-more {
-      display: flex;
-      gap: var(--fnd-spacing-02);
-      color: var(--fnd-color-text-primary);
-      background: transparent;
-      padding: 0;
-      margin: 0;
-      height: auto;
-      
-      .icon {
-        margin: 0;
-      }
-    }
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--nc-card-content-padding);
+    gap: var(--nc-card-header-gap);
   }
-  
-  // No Results
-  .grid-no-results {
-    padding-top: var(--fnd-spacing-12);
-    
-    hr {
-      border-top: solid 1px var(--fnd-color-border-secondary);
-      margin: 0;
-      width: 100%;
-      height: 1px;
-    }
-    
-    p {
-      @include heading('m');
-      color: var(--fnd-color-text-primary);
-      padding-top: var(--fnd-spacing-06);
-      margin: 0;
-      
-      @include tablet-up {
-        padding-top: var(--fnd-spacing-09);
-        max-width: 50%;
-      }
-    }
+
+  // Footer Slot — Aktionen, Meta (immer am unteren Rand)
+  &__footer {
+    padding: var(--nc-card-footer-padding);
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--nc-card-footer-gap);
   }
-  
-  // Results Number
-  .results-number-wrapper {
-    @include paragraph('l');
+
+  // ---------------------------------------------------------------------------
+  // Convenience-Elemente (frei komponierbar innerhalb der Slots)
+  // ---------------------------------------------------------------------------
+
+  // Kicker — Eyebrow/Badge-Text
+  &__kicker {
+    @include paragraph('s');
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--fnd-color-text-secondary);
-    padding: var(--fnd-spacing-04) 0 var(--fnd-spacing-06);
-    
-    @include tablet-up {
-      padding: var(--fnd-spacing-07) 0 var(--fnd-spacing-05);
+  }
+
+  // Titel — Hauptüberschrift
+  &__title {
+    font-size: var(--nc-card-title-font-size);
+    font-weight: var(--nc-card-title-font-weight);
+    color: var(--nc-card-title-color);
+    line-height: var(--nc-card-title-line-height);
+    margin: 0;
+  }
+
+  // Titel-Link — Stretched Link innerhalb des Titels
+  &__title-link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    &:hover {
+      color: var(--nc-card-nav-color-hover);
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::after {
+        @include focus-ring-inset;
+      }
+    }
+  }
+
+  // Beschreibung — Fließtext
+  &__description {
+    font-size: var(--nc-card-description-font-size);
+    color: var(--nc-card-description-color);
+    line-height: var(--nc-card-description-line-height);
+    margin: 0;
+  }
+
+  // Meta — Metadaten-Zeile
+  &__meta {
+    @include paragraph('s');
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-03);
+    color: var(--fnd-color-text-tertiary);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Interaktionsmodell 1: Whole-Card Click (navigational)
+  // ---------------------------------------------------------------------------
+
+  &--navigational {
+    text-decoration: none;
+    color: var(--nc-card-color);
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: var(--nc-card-shadow-hover);
+      border-color: var(--nc-card-hover-border);
+
+      .nc-card__media img,
+      .nc-card__media video {
+        transform: scale(1.03);
+      }
+    }
+
+    &:focus-visible {
+      @include focus-ring-inset;
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Interaktionsmodell 2: Footer-Buttons über Title-Link
+  // ---------------------------------------------------------------------------
+  // Title-Link hat ::after { inset: 0 }, Footer-Buttons per z-index darüber
+
+  &__footer-action {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ---------------------------------------------------------------------------
+  // States
+  // ---------------------------------------------------------------------------
+
+  // Disabled
+  &--disabled,
+  &[aria-disabled='true'] {
+    opacity: var(--nc-card-disabled-opacity);
+    pointer-events: none;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Horizontal Layout
+  // ---------------------------------------------------------------------------
+
+  &--horizontal {
+    @include respond-to('md') {
+      flex-direction: row;
+
+      .nc-card__media {
+        width: 40%;
+        aspect-ratio: auto;
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Skeleton State
+  // ---------------------------------------------------------------------------
+  // CSS-only Skeleton — nutzt Skeleton-Tokens direkt (keine Mixin-Abhängigkeit
+  // auf 05-atoms, da ITCSS-Layer-Ordnung das verhindert)
+
+  &--skeleton {
+    pointer-events: none;
+
+    .nc-card__media,
+    .nc-card__title,
+    .nc-card__description,
+    .nc-card__meta,
+    .nc-card__kicker {
+      background-color: var(--nc-skeleton-bg);
+      background-image: linear-gradient(
+        90deg,
+        var(--nc-skeleton-bg) 25%,
+        var(--nc-skeleton-shimmer) 50%,
+        var(--nc-skeleton-bg) 75%
+      );
+      background-size: 200% 100%;
+      animation: nc-skeleton-shimmer var(--nc-skeleton-duration) var(--nc-skeleton-ease) infinite;
+      color: transparent;
+      border-radius: var(--nc-skeleton-radius);
+      border: none;
+    }
+
+    .nc-card__media {
+      border-radius: 0;
+    }
+
+    .nc-card__title {
+      height: 1.3em;
+      width: 70%;
+    }
+
+    .nc-card__description {
+      height: 3em;
+      width: 100%;
+    }
+
+    .nc-card__meta {
+      height: 1em;
+      width: 40%;
+    }
+
+    .nc-card__kicker {
+      height: 0.8em;
+      width: 30%;
+    }
+  }
+}
+
+// ==========================================================================
+// Typ-Modifier
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Preview (← insights, stories, events)
+// ---------------------------------------------------------------------------
+// Media 3:2, Title line-clamp(2), Desc line-clamp(3), kompaktere Typo
+
+.nc-card--preview {
+  .nc-card__media {
+    aspect-ratio: var(--nc-card-preview-media-ratio);
+  }
+
+  .nc-card__title {
+    font-size: var(--nc-card-preview-title-size);
+    @include line-clamp(2);
+  }
+
+  .nc-card__description {
+    @include line-clamp(3);
+  }
+
+  // Sub-Modifier: Featured — horizontal ab md, größerer Titel
+  &.nc-card--featured {
+    @include respond-to('md') {
+      flex-direction: row;
+
+      .nc-card__media {
+        width: 50%;
+        aspect-ratio: auto;
+      }
+
+      .nc-card__title {
+        @include heading('m');
+        @include line-clamp(2);
+      }
     }
   }
 }
 
 // ---------------------------------------------------------------------------
-// Partner Card Modal
+// Summary (← cities, team, testimonials)
 // ---------------------------------------------------------------------------
+// Zentriert, Media als Avatar (rund), kompakt
 
-.partner-card-modal-content {
+.nc-card--summary {
+  text-align: center;
+  align-items: center;
+
+  .nc-card__media {
+    width: var(--nc-card-summary-avatar-size);
+    height: var(--nc-card-summary-avatar-size);
+    aspect-ratio: 1 / 1;
+    border-radius: var(--nc-card-summary-avatar-radius);
+    margin: var(--nc-card-content-padding) auto 0;
+    flex-shrink: 0;
+  }
+
+  .nc-card__content {
+    align-items: center;
+  }
+
+  // Sub-Modifier: Quadratisches Media statt rund
+  &.nc-card--square-media {
+    .nc-card__media {
+      border-radius: var(--fnd-radius-sm);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Action (← links, events-CTA)
+// ---------------------------------------------------------------------------
+// Footer mit Top-Border, Hover Background-Shift, Icon steuerbar
+
+.nc-card--action {
+  .nc-card__footer {
+    border-top: var(--nc-card-border-width) solid var(--nc-card-border);
+    padding-top: var(--fnd-spacing-04);
+  }
+
+  .nc-card__icon {
+    width: var(--nc-card-action-icon-size);
+    height: var(--nc-card-action-icon-size);
+    flex-shrink: 0;
+    color: var(--fnd-color-interactive-default);
+  }
+
+  &:hover,
+  &.nc-card--navigational:hover {
+    background: var(--fnd-color-background-secondary);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Selectable (radio/checkbox Auswahl)
+// ---------------------------------------------------------------------------
+// Container: <label>, Input: sr-only, :has(:checked) → selektierter Zustand
+
+.nc-card--selectable {
+  cursor: pointer;
+
+  .nc-card__input {
+    @include sr-only;
+  }
+
+  &:hover {
+    border-color: var(--nc-card-hover-border);
+  }
+
+  // Selektierter Zustand
+  &:has(.nc-card__input:checked) {
+    border-color: var(--nc-card-selected-border);
+    background: var(--nc-card-selected-bg);
+    box-shadow: 0 0 0 var(--nc-card-selected-ring-width) var(--nc-card-selected-border);
+  }
+
+  // Focus vom Input auf die Card übertragen
+  &:has(.nc-card__input:focus-visible) {
+    @include focus-ring-inset;
+  }
+
+  // Disabled
+  &:has(.nc-card__input:disabled) {
+    opacity: var(--nc-card-disabled-opacity);
+    pointer-events: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status (Linker Rand-Indikator)
+// ---------------------------------------------------------------------------
+// border-left als Statusanzeige, 4 Farben
+
+.nc-card--status {
+  border-left-width: var(--nc-card-status-border-width);
+  border-radius: 0 var(--nc-card-radius) var(--nc-card-radius) 0;
+
+  &-success {
+    border-left-color: var(--nc-card-status-success-border);
+  }
+
+  &-warning {
+    border-left-color: var(--nc-card-status-warning-border);
+  }
+
+  &-danger {
+    border-left-color: var(--nc-card-status-danger-border);
+  }
+
+  &-info {
+    border-left-color: var(--nc-card-status-info-border);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Expandable (details/summary)
+// ---------------------------------------------------------------------------
+// Container: <details>, Summary: __summary mit Expand-Icon
+
+.nc-card--expandable {
+  // Summary als Header
+  .nc-card__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--nc-card-summary-padding);
+    font-weight: var(--nc-card-summary-font-weight);
+    cursor: pointer;
+    list-style: none;
+    @include transition-quick((background-color));
+
+    // Standardmäßiges marker entfernen
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+      content: '';
+    }
+
+    &:hover {
+      background: var(--fnd-color-background-secondary);
+    }
+
+    &:focus-visible {
+      @include focus-ring-inset;
+    }
+  }
+
+  // Expand-Icon
+  .nc-card__expand-icon {
+    width: var(--nc-card-expand-icon-size);
+    height: var(--nc-card-expand-icon-size);
+    flex-shrink: 0;
+    @include transition-quick((transform));
+  }
+
+  // Geöffneter Zustand
+  &[open] {
+    .nc-card__expand-icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Content innerhalb von details — Padding nur geöffnet
+  .nc-card__details-content {
+    padding: var(--nc-card-details-content-padding);
+  }
+}
+
+// ==========================================================================
+// Card Grid
+// ==========================================================================
+// Responsive Grid-Layout für Card-Collections. Ersetzt Legacy .cards > ul.
+
+.nc-card-grid {
   display: grid;
-  gap: var(--fnd-spacing-08);
-  max-width: 652px;
-  margin-left: auto;
-  margin-right: auto;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--fnd-spacing-06);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  // Compact — für Cities, Team (kleinere Cards)
+  &--compact {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--fnd-spacing-04);
+  }
+
+  // Pair — für Stories, Featured (breitere Cards)
+  &--pair {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  // Links — für Quick Links (schmale Cards)
+  &--links {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

@@ -64,7 +64,7 @@
 
             <div class="docs__hero">
         <h1 class="docs__title">Card</h1>
-        <p class="docs__subtitle">Karten enthalten zugeordnete Elemente und Inhalte &mdash; Bilder, Headlines, Tags, Buttons oder Listen. Semantisch korrekt in 8 Varianten.</p>
+        <p class="docs__subtitle">Karten enthalten zugeordnete Elemente und Inhalte &mdash; Bilder, Headlines, Tags, Buttons oder Listen. Token-getrieben mit 3-Slot-Anatomie (Media, Content, Footer), 8 Basis-Typen und 10 Rezept-Varianten.</p>
       </div>
 
       <div class="docs__tab-nav">
@@ -133,6 +133,26 @@
                             data-value="expandable">Expandable</button>
                     <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
                             data-value="status">Status Card</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="event-preview">Event Preview</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="story-featured">Story Featured</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="team-member">Team Member</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="city-location">City / Location</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="quick-link">Quick Link</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="testimonial-quote">Testimonial</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="pricing-tier">Pricing Tier</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="dashboard-metric">Dashboard Metric</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="media-gallery">Media Gallery</button>
+                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
+                            data-value="skeleton">Skeleton</button>
                   </div>
                 </div>
 
@@ -186,6 +206,16 @@
                 <option value="selectable-checkbox">Selectable (Checkbox)</option>
                 <option value="expandable">Expandable</option>
                 <option value="status">Status Card</option>
+                <option value="event-preview">Event Preview</option>
+                <option value="story-featured">Story Featured</option>
+                <option value="team-member">Team Member</option>
+                <option value="city-location">City / Location</option>
+                <option value="quick-link">Quick Link</option>
+                <option value="testimonial-quote">Testimonial</option>
+                <option value="pricing-tier">Pricing Tier</option>
+                <option value="dashboard-metric">Dashboard Metric</option>
+                <option value="media-gallery">Media Gallery</option>
+                <option value="skeleton">Skeleton</option>
               </select>
               <input type="checkbox" class="docs-stage__hidden" id="stage-media" />
               <input type="checkbox" class="docs-stage__hidden" id="stage-disabled" />
@@ -208,7 +238,7 @@
           <p>Einfache Darstellung von Inhalten. Nicht fokussierbar, nicht klickbar.</p>
           <div class="docs-card-grid">
             <article class="nc-card">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Projektstatus</h3>
                 <p class="nc-card__description">Aktuelle Informationen zum Sprint</p>
               </div>
@@ -220,7 +250,7 @@
               <div class="nc-card__media" style="height: 180px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
                 <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
               </div>
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Mit Media-Slot</h3>
                 <p class="nc-card__description">Bilder, Videos oder Platzhalter im Media-Bereich</p>
               </div>
@@ -233,13 +263,13 @@
           <p><strong>Entire:</strong> Die gesamte Kartenfläche ist ein Link. <strong>Partial:</strong> Nur der Titel ist verlinkt.</p>
           <div class="docs-card-grid">
             <a href="#" class="nc-card nc-card--navigational" onclick="event.preventDefault();">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Gesamte Fläche</h3>
                 <p class="nc-card__description">Klick auf die gesamte Card navigiert zum Ziel</p>
               </div>
             </a>
             <article class="nc-card">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">
                   <a href="#" class="nc-card__title-link" onclick="event.preventDefault();">Partieller Link</a>
                 </h3>
@@ -257,7 +287,7 @@
           <p>Buttons im Footer-Slot. Die Kartenfläche selbst ist nicht klickbar.</p>
           <div class="docs-card-grid">
             <article class="nc-card nc-card--action">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Benutzer einladen</h3>
                 <p class="nc-card__description">Sende eine Einladung per E-Mail an neue Teammitglieder.</p>
               </div>
@@ -275,21 +305,21 @@
           <div class="docs-card-grid docs-card-grid--narrow">
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="radio" name="demo-plan" value="basic" checked />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">Basic</span>
                 <span class="nc-card__description">5 GB &bull; 1 User</span>
               </div>
             </label>
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="radio" name="demo-plan" value="pro" />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">Pro</span>
                 <span class="nc-card__description">50 GB &bull; 10 Users</span>
               </div>
             </label>
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="radio" name="demo-plan" value="enterprise" />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">Enterprise</span>
                 <span class="nc-card__description">Unlimited</span>
               </div>
@@ -303,21 +333,21 @@
           <div class="docs-card-grid docs-card-grid--narrow">
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="checkbox" name="demo-features" value="analytics" checked />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">Analytics</span>
                 <span class="nc-card__description">Detaillierte Auswertungen</span>
               </div>
             </label>
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="checkbox" name="demo-features" value="export" />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">Export</span>
                 <span class="nc-card__description">CSV &amp; PDF</span>
               </div>
             </label>
             <label class="nc-card nc-card--selectable">
               <input class="nc-card__input" type="checkbox" name="demo-features" value="api" />
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <span class="nc-card__title">API-Zugang</span>
                 <span class="nc-card__description">REST &amp; GraphQL</span>
               </div>
@@ -355,30 +385,358 @@
           <p>Linker Border als visueller Indikator. Status wird zusätzlich über Inhalt kommuniziert (nicht nur Farbe).</p>
           <div class="docs-card-grid">
             <article class="nc-card nc-card--status nc-card--status-success">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Deployment erfolgreich</h3>
                 <p class="nc-card__description">Version 2.4.1 wurde deployt</p>
               </div>
             </article>
             <article class="nc-card nc-card--status nc-card--status-warning">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Speicher fast voll</h3>
                 <p class="nc-card__description">87% belegt &mdash; Upgrade empfohlen</p>
               </div>
             </article>
             <article class="nc-card nc-card--status nc-card--status-danger">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Build fehlgeschlagen</h3>
                 <p class="nc-card__description">3 Fehler in test-suite.js</p>
               </div>
             </article>
             <article class="nc-card nc-card--status nc-card--status-info">
-              <div class="nc-card__header">
+              <div class="nc-card__content">
                 <h3 class="nc-card__title">Wartungsfenster</h3>
                 <p class="nc-card__description">Samstag, 22:00&ndash;02:00 Uhr</p>
               </div>
             </article>
           </div>
+
+          <!-- ======== RECIPE VARIANTS ======== -->
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Event Preview</h2>
+          <p>Event-Teaser mit Bild, Kategorie-Kicker, Titel, Beschreibung und Datum-Meta. Kombiniert <code>--preview</code> + <code>--navigational</code>.</p>
+          <div class="nc-card-grid">
+            <a href="#" class="nc-card nc-card--preview nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="height: 180px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Webinar</span>
+                <h3 class="nc-card__title">Cloud Migration Best Practices</h3>
+                <p class="nc-card__description">Erfahren Sie, wie Sie Ihre Infrastruktur sicher in die Cloud migrieren.</p>
+                <span class="nc-card__meta">15. M&auml;rz 2026 &middot; 14:00 Uhr</span>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--preview nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="height: 180px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Konferenz</span>
+                <h3 class="nc-card__title">Digital Workplace Summit 2026</h3>
+                <p class="nc-card__description">Zwei Tage voller Vortr&auml;ge zu modernen Arbeitspl&auml;tzen.</p>
+                <span class="nc-card__meta">22.&ndash;23. April 2026 &middot; Berlin</span>
+              </div>
+            </a>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Story Featured</h2>
+          <p>Hervorgehobene Erfolgsgeschichte. Ab <code>md</code> horizontal mit 50% Media. Kombiniert <code>--preview</code> + <code>--featured</code> + <code>--navigational</code>.</p>
+          <a href="#" class="nc-card nc-card--preview nc-card--featured nc-card--navigational" onclick="event.preventDefault();">
+            <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center; min-height: 200px;">
+              <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <div class="nc-card__content">
+              <span class="nc-card__kicker">Customer Success</span>
+              <h3 class="nc-card__title">Festo modernisiert WeNet und PeopleNet</h3>
+              <p class="nc-card__description">Mit PIIPE Workplace setzt Festo neue Ma&szlig;st&auml;be f&uuml;r die interne Kommunikation und vernetzt Tausende Mitarbeitende weltweit.</p>
+            </div>
+          </a>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Team Member</h2>
+          <p>Personenkarte mit rundem Avatar, Name und Rolle. Verwendet <code>--summary</code> (zentriert, runder Avatar).</p>
+          <div class="nc-card-grid nc-card-grid--compact" style="max-width: 600px;">
+            <article class="nc-card nc-card--summary">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Anna M&uuml;ller</h3>
+                <p class="nc-card__description">Lead Developer</p>
+              </div>
+            </article>
+            <article class="nc-card nc-card--summary">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Tom Schmidt</h3>
+                <p class="nc-card__description">UX Designer</p>
+              </div>
+            </article>
+            <article class="nc-card nc-card--summary">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Lisa Weber</h3>
+                <p class="nc-card__description">Product Manager</p>
+              </div>
+            </article>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">City / Location</h2>
+          <p>Standortkarte. Wie Team Member, aber klickbar (<code>--navigational</code>).</p>
+          <div class="nc-card-grid nc-card-grid--compact" style="max-width: 600px;">
+            <a href="#" class="nc-card nc-card--summary nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Berlin</h3>
+                <p class="nc-card__description">42 Mitarbeitende</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--summary nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">M&uuml;nchen</h3>
+                <p class="nc-card__description">28 Mitarbeitende</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--summary nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M2 21a10 10 0 0 1 20 0"/></svg>
+              </div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Hamburg</h3>
+                <p class="nc-card__description">15 Mitarbeitende</p>
+              </div>
+            </a>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Quick Link</h2>
+          <p>Schnellzugriff mit Icon. Kombiniert <code>--action</code> + <code>--navigational</code>.</p>
+          <div class="nc-card-grid nc-card-grid--links" style="max-width: 600px;">
+            <a href="#" class="nc-card nc-card--action nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__content">
+                <svg class="nc-card__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/></svg>
+                <h3 class="nc-card__title">Feature</h3>
+                <p class="nc-card__description">Kurze Beschreibung</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--action nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__content">
+                <svg class="nc-card__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                <h3 class="nc-card__title">Support</h3>
+                <p class="nc-card__description">Hilfe erhalten</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--action nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__content">
+                <svg class="nc-card__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <h3 class="nc-card__title">Kontakt</h3>
+                <p class="nc-card__description">Schreib uns</p>
+              </div>
+            </a>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Testimonial / Quote</h2>
+          <p>Zitat mit Autor-Metadaten. Nutzt nur Base-Card ohne Modifier.</p>
+          <div class="docs-card-grid" style="max-width: 500px;">
+            <article class="nc-card">
+              <div class="nc-card__content">
+                <p class="nc-card__description">&bdquo;Mit PIIPE Workplace haben wir unsere interne Kommunikation revolutioniert.&ldquo;</p>
+                <span class="nc-card__meta">Anna M&uuml;ller &middot; CTO, Festo SE</span>
+              </div>
+            </article>
+            <article class="nc-card">
+              <div class="nc-card__content">
+                <p class="nc-card__description">&bdquo;Die Plattform hat unsere Produktivit&auml;t um 30% gesteigert.&ldquo;</p>
+                <span class="nc-card__meta">Tom Schmidt &middot; VP Engineering, SAP</span>
+              </div>
+            </article>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Pricing Tier</h2>
+          <p>Preisplan als <code>--selectable</code> Card. Kicker + Titel + Beschreibung + Footer-Preis.</p>
+          <div class="docs-card-grid docs-card-grid--narrow">
+            <label class="nc-card nc-card--selectable">
+              <input class="nc-card__input" type="radio" name="demo-pricing" value="starter" />
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Starter</span>
+                <span class="nc-card__title">Basic</span>
+                <span class="nc-card__description">5 GB, E-Mail Support</span>
+              </div>
+              <div class="nc-card__footer">
+                <span class="nc-card__meta">&euro; 9 / Monat</span>
+              </div>
+            </label>
+            <label class="nc-card nc-card--selectable">
+              <input class="nc-card__input" type="radio" name="demo-pricing" value="pro" checked />
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Empfohlen</span>
+                <span class="nc-card__title">Pro</span>
+                <span class="nc-card__description">50 GB, Priority Support</span>
+              </div>
+              <div class="nc-card__footer">
+                <span class="nc-card__meta">&euro; 29 / Monat</span>
+              </div>
+            </label>
+            <label class="nc-card nc-card--selectable">
+              <input class="nc-card__input" type="radio" name="demo-pricing" value="enterprise" />
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Enterprise</span>
+                <span class="nc-card__title">Business</span>
+                <span class="nc-card__description">Unlimited, SLA 99.9%</span>
+              </div>
+              <div class="nc-card__footer">
+                <span class="nc-card__meta">Auf Anfrage</span>
+              </div>
+            </label>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Dashboard Metric</h2>
+          <p>KPI-Anzeige mit <code>--status</code> Indikator. Kicker = Label, Titel = Wert, Meta = Trend.</p>
+          <div class="docs-card-grid">
+            <article class="nc-card nc-card--status nc-card--status-success">
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Umsatz Q1</span>
+                <h3 class="nc-card__title">&euro; 1.2M</h3>
+                <span class="nc-card__meta">&uarr; 12% vs. Vorjahr</span>
+              </div>
+            </article>
+            <article class="nc-card nc-card--status nc-card--status-warning">
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Speicher</span>
+                <h3 class="nc-card__title">87%</h3>
+                <span class="nc-card__meta">Grenzwert: 90%</span>
+              </div>
+            </article>
+            <article class="nc-card nc-card--status nc-card--status-info">
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">Aktive Nutzer</span>
+                <h3 class="nc-card__title">2.841</h3>
+                <span class="nc-card__meta">&uarr; 5% diese Woche</span>
+              </div>
+            </article>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Media Gallery</h2>
+          <p>Reine Bildkarte ohne Text. Nur Media-Slot, klickbar (<code>--navigational</code>).</p>
+          <div class="nc-card-grid" style="max-width: 600px;">
+            <a href="#" class="nc-card nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="height: 160px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="height: 160px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media" style="height: 160px; background: var(--fnd-color-background-secondary); display: flex; align-items: center; justify-content: center;">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+            </a>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Skeleton</h2>
+          <p>CSS-only Ladeanimation. Shimmer auf allen Convenience-Elementen. Kein JavaScript n&ouml;tig.</p>
+          <div class="nc-card-grid" style="max-width: 600px;">
+            <article class="nc-card nc-card--skeleton">
+              <div class="nc-card__media"></div>
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">&nbsp;</span>
+                <h3 class="nc-card__title">&nbsp;</h3>
+                <p class="nc-card__description">&nbsp;</p>
+                <span class="nc-card__meta">&nbsp;</span>
+              </div>
+            </article>
+            <article class="nc-card nc-card--skeleton">
+              <div class="nc-card__media"></div>
+              <div class="nc-card__content">
+                <span class="nc-card__kicker">&nbsp;</span>
+                <h3 class="nc-card__title">&nbsp;</h3>
+                <p class="nc-card__description">&nbsp;</p>
+                <span class="nc-card__meta">&nbsp;</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- ======== ANATOMIE ======== -->
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
+          <h2 class="docs__section-title">Anatomie</h2>
+          <p>Jede Card besteht aus 3 optionalen Slots und bis zu 11 Convenience-Elementen.</p>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">3-Slot-Struktur</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
+            <thead><tr><th>Slot</th><th>Element</th><th>Optional</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td>Media</td><td><code>.nc-card__media</code></td><td>Ja</td><td>Bild, Video oder Platzhalter. Standard aspect-ratio 3:2.</td></tr>
+              <tr><td>Content</td><td><code>.nc-card__content</code></td><td>Nein</td><td>Freier Inhaltsbereich. <code>flex-grow: 1</code>, Padding via Token.</td></tr>
+              <tr><td>Footer</td><td><code>.nc-card__footer</code></td><td>Ja</td><td>Aktionen, Meta. <code>margin-top: auto</code>, immer am unteren Rand.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Convenience-Elemente</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
+            <thead><tr><th>Element</th><th>Klasse</th><th>Slot</th><th>Beschreibung</th></tr></thead>
+            <tbody>
+              <tr><td>Kicker</td><td><code>.nc-card__kicker</code></td><td>Content</td><td>Eyebrow/Badge-Text (uppercase, xs, secondary)</td></tr>
+              <tr><td>Title</td><td><code>.nc-card__title</code></td><td>Content</td><td>Haupt&uuml;berschrift, konsumiert <code>--nc-card-title-*</code></td></tr>
+              <tr><td>Title Link</td><td><code>.nc-card__title-link</code></td><td>Content</td><td>Stretched Link im Titel, <code>::after { inset: 0 }</code></td></tr>
+              <tr><td>Description</td><td><code>.nc-card__description</code></td><td>Content</td><td>Flie&szlig;text, konsumiert <code>--nc-card-description-*</code></td></tr>
+              <tr><td>Meta</td><td><code>.nc-card__meta</code></td><td>Content</td><td>Metadaten-Zeile (flex row, tertiary, xs)</td></tr>
+              <tr><td>Icon</td><td><code>.nc-card__icon</code></td><td>Content</td><td>Icon, Gr&ouml;&szlig;e via <code>--nc-card-action-icon-size</code></td></tr>
+              <tr><td>Input</td><td><code>.nc-card__input</code></td><td>Content</td><td>Hidden Input (radio/checkbox) f&uuml;r Selectable</td></tr>
+              <tr><td>Footer Action</td><td><code>.nc-card__footer-action</code></td><td>Footer</td><td>Button im Footer, <code>z-index: 1</code> &uuml;ber title-link</td></tr>
+              <tr><td>Summary</td><td><code>.nc-card__summary</code></td><td>&mdash;</td><td>Summary-Element f&uuml;r Expandable (details/summary)</td></tr>
+              <tr><td>Expand Icon</td><td><code>.nc-card__expand-icon</code></td><td>&mdash;</td><td>Chevron-Icon, rotiert bei <code>[open]</code></td></tr>
+              <tr><td>Details Content</td><td><code>.nc-card__details-content</code></td><td>&mdash;</td><td>Content innerhalb von <code>&lt;details&gt;</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Card Grid</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+            <table class="nc-data-table__table">
+            <thead><tr><th>Klasse</th><th>Min-Width</th><th>Gap</th><th>Einsatz</th></tr></thead>
+            <tbody>
+              <tr><td><code>.nc-card-grid</code></td><td>280px</td><td>spacing-06</td><td>Standard (3 Spalten Desktop)</td></tr>
+              <tr><td><code>.nc-card-grid--compact</code></td><td>160px</td><td>spacing-04</td><td>Cities, Team (6 Spalten Desktop)</td></tr>
+              <tr><td><code>.nc-card-grid--pair</code></td><td>320px</td><td>spacing-06</td><td>Stories, Featured (2 Spalten Desktop)</td></tr>
+              <tr><td><code>.nc-card-grid--links</code></td><td>200px</td><td>spacing-06</td><td>Quick Links (4 Spalten Desktop)</td></tr>
+            </tbody>
+          </table>
+        </div>
 
         </div>
 
@@ -473,7 +831,7 @@
 
           <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">BEM-Klassen &Uuml;bersicht</h2>
           <div class="docs__code-block">.nc-card                        // Block (Basis-Container)
-.nc-card__header                // Header-Slot
+.nc-card__content                // Header-Slot
 .nc-card__title                 // Titel (h2/h3/h4 oder span)
 .nc-card__description           // Beschreibung (p oder span)
 .nc-card__action                // Header-Action (z.B. Icon-Button)
@@ -504,13 +862,27 @@
               <tr><th>Variante</th><th>hover</th><th>focus</th><th>active</th><th>disabled</th><th>selected</th><th>open</th></tr>
             </thead>
             <tbody>
-              <tr><td>Informational</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-              <tr><td>Nav Entire</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-              <tr><td>Nav Partial</td><td>Link</td><td>Link</td><td>Link</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-              <tr><td>Action</td><td>&mdash;</td><td>Buttons</td><td>Buttons</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-              <tr><td>Selectable</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td></tr>
-              <tr><td>Expandable</td><td>Summary</td><td>Summary</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td></tr>
+              <tr><td colspan="7" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Basis-Typen</td></tr>
+              <tr><td>Informational</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Nav Entire</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Nav Partial</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Action</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Selectable (Radio)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td></tr>
+              <tr><td>Selectable (Checkbox)</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td></tr>
+              <tr><td>Expandable</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td></tr>
               <tr><td>Status</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td colspan="7" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Rezepte (Kompositionen)</td></tr>
+              <tr><td>Event Preview</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Story Featured</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Team Member</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>City / Location</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Quick Link</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Testimonial / Quote</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Pricing Tier</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td></tr>
+              <tr><td>Dashboard Metric</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td>Media Gallery</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+              <tr><td colspan="7" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Zust&auml;nde</td></tr>
+              <tr><td>Skeleton</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
             </tbody>
           </table>
         </div>
@@ -529,11 +901,12 @@
               <tr><td><strong>Kanonische Klasse</strong></td><td><code>.nc-card</code></td></tr>
               <tr><td><strong>BEM Block</strong></td><td><code>nc-card</code></td></tr>
               <tr><td><strong>Token-Namespace</strong></td><td><code>--nc-card-*</code></td></tr>
-              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/05-atoms/_card.scss</code></td></tr>
-              <tr><td><strong>ITCSS-Layer</strong></td><td>05-Atoms</td></tr>
-              <tr><td><strong>Varianten</strong></td><td>8 (Informational, Nav Entire/Partial, Action, Select Radio/Checkbox, Expandable, Status)</td></tr>
-              <tr><td><strong>Tokens (bestehend)</strong></td><td>7</td></tr>
-              <tr><td><strong>Tokens (neu)</strong></td><td>29</td></tr>
+              <tr><td><strong>SCSS-Datei</strong></td><td><code>scss/scss/06-molecules/_card.scss</code></td></tr>
+              <tr><td><strong>ITCSS-Layer</strong></td><td>06-Molecules</td></tr>
+              <tr><td><strong>Basis-Typen</strong></td><td>8 (Informational, Nav Entire/Partial, Action, Selectable Radio/Checkbox, Expandable, Status)</td></tr>
+              <tr><td><strong>Rezepte</strong></td><td>10 (Event Preview, Story Featured, Team Member, City/Location, Quick Link, Testimonial, Pricing, Dashboard Metric, Media Gallery, Skeleton)</td></tr>
+              <tr><td><strong>Tokens</strong></td><td>41 (10 Gruppen: Basis, Spacing, Typography, Interactive, Selectable, Expandable, Status, Preview, Summary, Action)</td></tr>
+              <tr><td><strong>Recipes JSON</strong></td><td><code>data/card-recipes.json</code> (Single Source of Truth)</td></tr>
             </tbody>
           </table>
         </div>
@@ -543,7 +916,7 @@
           <h3 style="margin-top: var(--fnd-spacing-06);">Informational</h3>
           <div class="docs-snippet">
             <pre>&lt;article class="nc-card"&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;h3 class="nc-card__title"&gt;Titel&lt;/h3&gt;
     &lt;p class="nc-card__description"&gt;Beschreibung&lt;/p&gt;
   &lt;/div&gt;
@@ -556,7 +929,7 @@
           <h3 style="margin-top: var(--fnd-spacing-06);">Navigational Entire</h3>
           <div class="docs-snippet">
             <pre>&lt;a href="/ziel" class="nc-card nc-card--navigational"&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;h3 class="nc-card__title"&gt;Link-Titel&lt;/h3&gt;
     &lt;p class="nc-card__description"&gt;Beschreibung&lt;/p&gt;
   &lt;/div&gt;
@@ -566,7 +939,7 @@
           <h3 style="margin-top: var(--fnd-spacing-06);">Navigational Partial</h3>
           <div class="docs-snippet">
             <pre>&lt;article class="nc-card"&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;h3 class="nc-card__title"&gt;
       &lt;a href="/ziel" class="nc-card__title-link"&gt;Titel&lt;/a&gt;
     &lt;/h3&gt;
@@ -578,7 +951,7 @@
           <h3 style="margin-top: var(--fnd-spacing-06);">Action</h3>
           <div class="docs-snippet">
             <pre>&lt;article class="nc-card nc-card--action"&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;h3 class="nc-card__title"&gt;Aufgabe&lt;/h3&gt;
     &lt;p class="nc-card__description"&gt;Beschreibung&lt;/p&gt;
   &lt;/div&gt;
@@ -593,7 +966,7 @@
           <div class="docs-snippet">
             <pre>&lt;label class="nc-card nc-card--selectable"&gt;
   &lt;input class="nc-card__input" type="radio" name="plan" value="basic" /&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;span class="nc-card__title"&gt;Basic Plan&lt;/span&gt;
     &lt;span class="nc-card__description"&gt;F&uuml;r Einzelpersonen&lt;/span&gt;
   &lt;/div&gt;
@@ -604,7 +977,7 @@
           <div class="docs-snippet">
             <pre>&lt;label class="nc-card nc-card--selectable"&gt;
   &lt;input class="nc-card__input" type="checkbox" name="features" value="analytics" /&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;span class="nc-card__title"&gt;Analytics&lt;/span&gt;
     &lt;span class="nc-card__description"&gt;Detaillierte Auswertungen&lt;/span&gt;
   &lt;/div&gt;
@@ -627,9 +1000,93 @@
           <h3 style="margin-top: var(--fnd-spacing-06);">Status</h3>
           <div class="docs-snippet">
             <pre>&lt;article class="nc-card nc-card--status nc-card--status-success"&gt;
-  &lt;div class="nc-card__header"&gt;
+  &lt;div class="nc-card__content"&gt;
     &lt;h3 class="nc-card__title"&gt;Deployment erfolgreich&lt;/h3&gt;
     &lt;p class="nc-card__description"&gt;Alle Tests bestanden&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: var(--fnd-spacing-10);">Rezept-Varianten (Kompositionen)</h2>
+          <p>Rezepte kombinieren Basis-Typen zu konkreten Anwendungsf&auml;llen. Kein zus&auml;tzliches CSS n&ouml;tig.</p>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Event Preview</h3>
+          <div class="docs-snippet">
+            <pre>&lt;a href="/event" class="nc-card nc-card--preview nc-card--navigational"&gt;
+  &lt;div class="nc-card__media"&gt;
+    &lt;img src="event.jpg" alt="Event-Bild" /&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;span class="nc-card__kicker"&gt;Webinar&lt;/span&gt;
+    &lt;h3 class="nc-card__title"&gt;Cloud Migration Best Practices&lt;/h3&gt;
+    &lt;p class="nc-card__description"&gt;Beschreibung...&lt;/p&gt;
+    &lt;span class="nc-card__meta"&gt;15. M&auml;rz 2026 &middot; 14:00 Uhr&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/a&gt;</pre>
+          </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Story Featured</h3>
+          <div class="docs-snippet">
+            <pre>&lt;a href="/story" class="nc-card nc-card--preview nc-card--featured nc-card--navigational"&gt;
+  &lt;div class="nc-card__media"&gt;
+    &lt;img src="story.jpg" alt="Story" /&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;span class="nc-card__kicker"&gt;Customer Success&lt;/span&gt;
+    &lt;h3 class="nc-card__title"&gt;Festo modernisiert WeNet&lt;/h3&gt;
+    &lt;p class="nc-card__description"&gt;Beschreibung...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;</pre>
+          </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Team Member (Summary)</h3>
+          <div class="docs-snippet">
+            <pre>&lt;article class="nc-card nc-card--summary"&gt;
+  &lt;div class="nc-card__media"&gt;
+    &lt;img src="avatar.jpg" alt="Name" /&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;h3 class="nc-card__title"&gt;Anna M&uuml;ller&lt;/h3&gt;
+    &lt;p class="nc-card__description"&gt;Lead Developer&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</pre>
+          </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Quick Link</h3>
+          <div class="docs-snippet">
+            <pre>&lt;a href="/feature" class="nc-card nc-card--action nc-card--navigational"&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;svg class="nc-card__icon" width="48" height="48" ...&gt;...&lt;/svg&gt;
+    &lt;h3 class="nc-card__title"&gt;Feature&lt;/h3&gt;
+    &lt;p class="nc-card__description"&gt;Kurze Beschreibung&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;</pre>
+          </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Pricing Tier</h3>
+          <div class="docs-snippet">
+            <pre>&lt;label class="nc-card nc-card--selectable"&gt;
+  &lt;input class="nc-card__input" type="radio" name="pricing" value="pro" /&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;span class="nc-card__kicker"&gt;Empfohlen&lt;/span&gt;
+    &lt;span class="nc-card__title"&gt;Pro&lt;/span&gt;
+    &lt;span class="nc-card__description"&gt;50 GB, Priority Support&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-card__footer"&gt;
+    &lt;span class="nc-card__meta"&gt;&euro; 29 / Monat&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/label&gt;</pre>
+          </div>
+
+          <h3 style="margin-top: var(--fnd-spacing-06);">Skeleton</h3>
+          <div class="docs-snippet">
+            <pre>&lt;article class="nc-card nc-card--skeleton"&gt;
+  &lt;div class="nc-card__media"&gt;&lt;/div&gt;
+  &lt;div class="nc-card__content"&gt;
+    &lt;span class="nc-card__kicker"&gt;&amp;nbsp;&lt;/span&gt;
+    &lt;h3 class="nc-card__title"&gt;&amp;nbsp;&lt;/h3&gt;
+    &lt;p class="nc-card__description"&gt;&amp;nbsp;&lt;/p&gt;
+    &lt;span class="nc-card__meta"&gt;&amp;nbsp;&lt;/span&gt;
   &lt;/div&gt;
 &lt;/article&gt;</pre>
           </div>
@@ -656,6 +1113,17 @@
               <tr><td>Selectable (Checkbox)</td><td><code>&lt;label&gt;</code></td><td>Ja (Input)</td><td>Nativ via <code>&lt;input type="checkbox"&gt;</code></td></tr>
               <tr><td>Expandable</td><td><code>&lt;details&gt;</code></td><td>Ja (Summary)</td><td>Nativ via <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code></td></tr>
               <tr><td>Status</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>Status via Inhalt, nicht nur Farbe</td></tr>
+              <tr><td colspan="4" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Rezepte</td></tr>
+              <tr><td>Event Preview</td><td><code>&lt;a href&gt;</code></td><td>Ja (Link)</td><td>preview + navigational</td></tr>
+              <tr><td>Story Featured</td><td><code>&lt;a href&gt;</code></td><td>Ja (Link)</td><td>preview + featured + navigational</td></tr>
+              <tr><td>Team Member</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>summary (informativ)</td></tr>
+              <tr><td>City / Location</td><td><code>&lt;a href&gt;</code></td><td>Ja (Link)</td><td>summary + navigational</td></tr>
+              <tr><td>Quick Link</td><td><code>&lt;a href&gt;</code></td><td>Ja (Link)</td><td>action + navigational</td></tr>
+              <tr><td>Testimonial</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>Basis (informativ)</td></tr>
+              <tr><td>Pricing Tier</td><td><code>&lt;label&gt;</code></td><td>Ja (Input)</td><td>Nativ via <code>&lt;input type="radio"&gt;</code></td></tr>
+              <tr><td>Dashboard Metric</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>status (informativ)</td></tr>
+              <tr><td>Media Gallery</td><td><code>&lt;a href&gt;</code></td><td>Ja (Link)</td><td>navigational (nur Media)</td></tr>
+              <tr><td>Skeleton</td><td><code>&lt;article&gt;</code></td><td>Nein</td><td>Platzhalter, nicht interaktiv</td></tr>
             </tbody>
           </table>
         </div>
