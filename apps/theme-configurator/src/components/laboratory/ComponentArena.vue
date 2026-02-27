@@ -37,7 +37,8 @@
                   v-for="size in arenaConfig.sizes"
                   :key="size"
                   class="arena-btn"
-                  :style="buildStyle(tokensLight, variant.id, size)"
+                  :style="iStyle(tokensLight, variant.id, size, bk('l', variant.id, size))"
+                  v-on="iEvents(bk('l', variant.id, size))"
                 >{{ variant.label }} {{ size.toUpperCase() }}</button>
               </div>
             </div>
@@ -48,7 +49,8 @@
                   v-for="size in arenaConfig.sizes"
                   :key="size"
                   class="arena-btn"
-                  :style="buildStyle(tokensDark, variant.id, size)"
+                  :style="iStyle(tokensDark, variant.id, size, bk('d', variant.id, size))"
+                  v-on="iEvents(bk('d', variant.id, size))"
                 >{{ variant.label }} {{ size.toUpperCase() }}</button>
               </div>
             </div>
@@ -56,7 +58,7 @@
         </div>
       </template>
 
-      <!-- States Section -->
+      <!-- States Section (statisch — zeigt alle States nebeneinander) -->
       <div class="arena-category-divider">
         <span class="arena-category-label">States</span>
       </div>
@@ -99,7 +101,8 @@
                 <button
                   v-for="size in arenaConfig.sizes" :key="size"
                   class="arena-btn"
-                  :style="{ ...buildStyle(tokensLight, 'primary', size), gap: tokensLight['nc-button-gap'] || '8px' }"
+                  :style="{ ...iStyle(tokensLight, 'primary', size, bk('l', 'wi', size)), gap: tokensLight['nc-button-gap'] || '8px' }"
+                  v-on="iEvents(bk('l', 'wi', size))"
                 ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Label</button>
               </div>
             </div>
@@ -108,7 +111,8 @@
                 <button
                   v-for="size in arenaConfig.sizes" :key="size"
                   class="arena-btn"
-                  :style="{ ...buildStyle(tokensDark, 'primary', size), gap: tokensDark['nc-button-gap'] || '8px' }"
+                  :style="{ ...iStyle(tokensDark, 'primary', size, bk('d', 'wi', size)), gap: tokensDark['nc-button-gap'] || '8px' }"
+                  v-on="iEvents(bk('d', 'wi', size))"
                 ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Label</button>
               </div>
             </div>
@@ -125,7 +129,8 @@
                   <button
                     v-for="size in arenaConfig.sizes" :key="size"
                     class="arena-btn"
-                    :style="iconOnlyStyle(tokensLight, vid, size)"
+                    :style="iIconOnlyStyle(tokensLight, vid, size, bk('l', 'io-' + vid, size))"
+                    v-on="iEvents(bk('l', 'io-' + vid, size))"
                   ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
                 </template>
               </div>
@@ -136,7 +141,8 @@
                   <button
                     v-for="size in arenaConfig.sizes" :key="size"
                     class="arena-btn"
-                    :style="iconOnlyStyle(tokensDark, vid, size)"
+                    :style="iIconOnlyStyle(tokensDark, vid, size, bk('d', 'io-' + vid, size))"
+                    v-on="iEvents(bk('d', 'io-' + vid, size))"
                   ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
                 </template>
               </div>
@@ -175,16 +181,22 @@
           <div class="arena-specimen__pair">
             <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
               <div class="arena-btn-group">
-                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'first')">Left</button>
-                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'middle')">Center</button>
-                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'last')">Right</button>
+                <button
+                  v-for="(pos, i) in ['first', 'middle', 'last']" :key="pos"
+                  class="arena-btn"
+                  :style="iGroupBtnStyle(tokensLight, 'outline', 'md', pos, bk('l', 'grp', pos))"
+                  v-on="iEvents(bk('l', 'grp', pos))"
+                >{{ ['Left', 'Center', 'Right'][i] }}</button>
               </div>
             </div>
             <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
               <div class="arena-btn-group">
-                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'first')">Left</button>
-                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'middle')">Center</button>
-                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'last')">Right</button>
+                <button
+                  v-for="(pos, i) in ['first', 'middle', 'last']" :key="pos"
+                  class="arena-btn"
+                  :style="iGroupBtnStyle(tokensDark, 'outline', 'md', pos, bk('d', 'grp', pos))"
+                  v-on="iEvents(bk('d', 'grp', pos))"
+                >{{ ['Left', 'Center', 'Right'][i] }}</button>
               </div>
             </div>
           </div>
@@ -196,14 +208,26 @@
           <div class="arena-specimen__pair">
             <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
               <div class="arena-btn-row">
-                <button class="arena-btn" :style="buildStyle(tokensLight, 'outline', 'md')" aria-pressed="false">Unpressed</button>
-                <button class="arena-btn" :style="togglePressedStyle(tokensLight, 'md')" aria-pressed="true">Pressed</button>
+                <button class="arena-btn"
+                  :style="iStyle(tokensLight, 'outline', 'md', bk('l', 'tgl', 'off'))"
+                  v-on="iEvents(bk('l', 'tgl', 'off'))"
+                  aria-pressed="false">Unpressed</button>
+                <button class="arena-btn"
+                  :style="iTogglePressedStyle(tokensLight, 'md', bk('l', 'tgl', 'on'))"
+                  v-on="iEvents(bk('l', 'tgl', 'on'))"
+                  aria-pressed="true">Pressed</button>
               </div>
             </div>
             <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
               <div class="arena-btn-row">
-                <button class="arena-btn" :style="buildStyle(tokensDark, 'outline', 'md')" aria-pressed="false">Unpressed</button>
-                <button class="arena-btn" :style="togglePressedStyle(tokensDark, 'md')" aria-pressed="true">Pressed</button>
+                <button class="arena-btn"
+                  :style="iStyle(tokensDark, 'outline', 'md', bk('d', 'tgl', 'off'))"
+                  v-on="iEvents(bk('d', 'tgl', 'off'))"
+                  aria-pressed="false">Unpressed</button>
+                <button class="arena-btn"
+                  :style="iTogglePressedStyle(tokensDark, 'md', bk('d', 'tgl', 'on'))"
+                  v-on="iEvents(bk('d', 'tgl', 'on'))"
+                  aria-pressed="true">Pressed</button>
               </div>
             </div>
           </div>
@@ -217,7 +241,9 @@
               <div class="arena-btn-row">
                 <a v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid"
                    class="arena-btn"
-                   :style="{ ...buildStyle(tokensLight, vid, 'md'), textDecoration: 'none' }"
+                   :style="{ ...iStyle(tokensLight, vid, 'md', bk('l', 'lnk', vid)), textDecoration: 'none' }"
+                   v-on="iEvents(bk('l', 'lnk', vid))"
+                   tabindex="0"
                 >{{ vid.charAt(0).toUpperCase() + vid.slice(1) }} Link</a>
               </div>
             </div>
@@ -225,7 +251,9 @@
               <div class="arena-btn-row">
                 <a v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid"
                    class="arena-btn"
-                   :style="{ ...buildStyle(tokensDark, vid, 'md'), textDecoration: 'none' }"
+                   :style="{ ...iStyle(tokensDark, vid, 'md', bk('d', 'lnk', vid)), textDecoration: 'none' }"
+                   v-on="iEvents(bk('d', 'lnk', vid))"
+                   tabindex="0"
                 >{{ vid.charAt(0).toUpperCase() + vid.slice(1) }} Link</a>
               </div>
             </div>
@@ -245,7 +273,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, reactive, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 
@@ -306,6 +334,36 @@ const variantCategories = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
+// Interactive State Tracking
+// ---------------------------------------------------------------------------
+const btnStates = reactive({})
+
+function bk(theme, variant, size) {
+  return `${theme}-${variant}-${size}`
+}
+
+function getState(key) {
+  return btnStates[key] || null
+}
+
+function iEvents(key) {
+  return {
+    mouseenter() { btnStates[key] = { ...btnStates[key], hover: true } },
+    mouseleave() { btnStates[key] = { ...btnStates[key], hover: false, active: false } },
+    mousedown() { btnStates[key] = { ...btnStates[key], active: true } },
+    mouseup() { btnStates[key] = { ...btnStates[key], active: false } },
+    focus() { btnStates[key] = { ...btnStates[key], focus: true } },
+    blur() { btnStates[key] = { ...btnStates[key], focus: false } }
+  }
+}
+
+// Focus ring style (matches @include focus-ring from the design system)
+const FOCUS_RING = {
+  outline: '2px solid currentColor',
+  outlineOffset: '3px'
+}
+
+// ---------------------------------------------------------------------------
 // Inline Style Builders
 // ---------------------------------------------------------------------------
 function resolvePattern(tokens, pattern, variant, size) {
@@ -326,8 +384,26 @@ function buildStyle(tokens, variantId, sizeId) {
     paddingBlock: resolvePattern(tokens, p.paddingY, variantId, sizeId),
     fontWeight: tokens['nc-button-font-weight'] || '600',
     borderWidth: sizeId === 'lg' ? '2px' : '1px',
-    borderStyle: 'solid'
+    borderStyle: 'solid',
+    transition: 'background 0.15s ease, box-shadow 0.15s ease, outline-color 0.15s ease'
   }
+}
+
+// Interactive style — applies hover/active/focus based on tracked state
+function iStyle(tokens, variantId, sizeId, btnKey) {
+  const base = buildStyle(tokens, variantId, sizeId)
+  const s = getState(btnKey)
+  if (!s || !arenaConfig.value) return base
+  const p = arenaConfig.value.tokenPattern
+  if (s.active) {
+    base.background = resolvePattern(tokens, p.backgroundActive, variantId, sizeId) || base.background
+  } else if (s.hover) {
+    base.background = resolvePattern(tokens, p.backgroundHover, variantId, sizeId) || base.background
+  }
+  if (s.focus) {
+    Object.assign(base, FOCUS_RING)
+  }
+  return base
 }
 
 function hoverStyle(tokens, variantId, sizeId) {
@@ -383,6 +459,16 @@ function iconOnlyStyle(tokens, variantId, sizeId) {
   return base
 }
 
+function iIconOnlyStyle(tokens, variantId, sizeId, btnKey) {
+  const base = iStyle(tokens, variantId, sizeId, btnKey)
+  const h = base.minHeight || '40px'
+  base.width = h
+  base.minWidth = h
+  base.paddingInline = '0'
+  base.paddingBlock = '0'
+  return base
+}
+
 function loadingStyle(tokens, variantId, sizeId) {
   const base = buildStyle(tokens, variantId, sizeId)
   base.position = 'relative'
@@ -411,6 +497,22 @@ function togglePressedStyle(tokens, sizeId) {
   return base
 }
 
+function iTogglePressedStyle(tokens, sizeId, btnKey) {
+  const base = togglePressedStyle(tokens, sizeId)
+  const s = getState(btnKey)
+  if (!s || !arenaConfig.value) return base
+  const p = arenaConfig.value.tokenPattern
+  if (s.active) {
+    base.background = resolvePattern(tokens, p.backgroundActive, 'primary', sizeId) || base.background
+  } else if (s.hover) {
+    base.background = resolvePattern(tokens, p.backgroundHover, 'primary', sizeId) || base.background
+  }
+  if (s.focus) {
+    Object.assign(base, FOCUS_RING)
+  }
+  return base
+}
+
 function groupBtnStyle(tokens, variantId, sizeId, position) {
   const base = buildStyle(tokens, variantId, sizeId)
   const r = base.borderRadius || '4px'
@@ -422,6 +524,25 @@ function groupBtnStyle(tokens, variantId, sizeId, position) {
     base.marginRight = '-1px'
   } else {
     base.borderRadius = `0 ${r} ${r} 0`
+  }
+  return base
+}
+
+function iGroupBtnStyle(tokens, variantId, sizeId, position, btnKey) {
+  const base = iStyle(tokens, variantId, sizeId, btnKey)
+  const r = tokens[arenaConfig.value?.tokenPattern?.radius?.replace('{size}', sizeId)] || '4px'
+  if (position === 'first') {
+    base.borderRadius = `${r} 0 0 ${r}`
+    base.marginRight = '-1px'
+  } else if (position === 'middle') {
+    base.borderRadius = '0'
+    base.marginRight = '-1px'
+  } else {
+    base.borderRadius = `0 ${r} ${r} 0`
+  }
+  if (getState(btnKey)?.hover || getState(btnKey)?.active) {
+    base.zIndex = '1'
+    base.position = 'relative'
   }
   return base
 }
@@ -571,7 +692,7 @@ watch(
   align-items: center;
   justify-content: center;
   font-family: inherit;
-  cursor: default;
+  cursor: pointer;
   line-height: 1.25;
   white-space: nowrap;
   outline: none;
