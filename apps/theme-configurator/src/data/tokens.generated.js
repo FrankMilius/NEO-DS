@@ -1020,6 +1020,28 @@ export const componentTokenGroups = [
           "nc-button-disabled-color",
           "nc-button-disabled-border"
         ]
+      },
+      {
+        "id": "icon-button",
+        "label": "Icon Button",
+        "category": "patterns",
+        "tokenIds": [
+          "nc-icon-button-size",
+          "nc-icon-button-padding",
+          "nc-icon-button-radius",
+          "nc-icon-button-bg",
+          "nc-icon-button-bg-hover",
+          "nc-icon-button-color"
+        ]
+      },
+      {
+        "id": "spinner",
+        "label": "Spinner / Loading",
+        "category": "patterns",
+        "tokenIds": [
+          "nc-button-spinner-size",
+          "nc-button-spinner-border-width"
+        ]
       }
     ],
     "arenaConfig": {
@@ -1094,6 +1116,38 @@ export const componentTokenGroups = [
         "hover",
         "active",
         "disabled"
+      ],
+      "specimens": [
+        {
+          "id": "with-icon",
+          "label": "With Icon",
+          "renderType": "button-with-icon"
+        },
+        {
+          "id": "icon-only",
+          "label": "Icon Only",
+          "renderType": "button-icon-only"
+        },
+        {
+          "id": "loading",
+          "label": "Loading",
+          "renderType": "button-loading"
+        },
+        {
+          "id": "group",
+          "label": "Button Group",
+          "renderType": "button-group"
+        },
+        {
+          "id": "toggle",
+          "label": "Toggle",
+          "renderType": "button-toggle"
+        },
+        {
+          "id": "link",
+          "label": "Link as Button",
+          "renderType": "button-link"
+        }
       ]
     },
     "tokens": [
@@ -1173,7 +1227,7 @@ export const componentTokenGroups = [
         "id": "nc-button-radius-xs",
         "label": "Radius XS",
         "type": "size",
-        "default": "4px"
+        "default": "2px"
       },
       {
         "id": "nc-button-radius-sm",
@@ -1185,13 +1239,13 @@ export const componentTokenGroups = [
         "id": "nc-button-radius-md",
         "label": "Radius MD",
         "type": "size",
-        "default": "4px"
+        "default": "6px"
       },
       {
         "id": "nc-button-radius-lg",
         "label": "Radius LG",
         "type": "size",
-        "default": "4px"
+        "default": "8px"
       },
       {
         "id": "nc-button-radius-full",
@@ -1568,6 +1622,57 @@ export const componentTokenGroups = [
         "type": "color",
         "ref": "border-secondary",
         "readonly": true
+      },
+      {
+        "id": "nc-icon-button-size",
+        "label": "Icon Button Size",
+        "type": "size",
+        "default": "48px"
+      },
+      {
+        "id": "nc-icon-button-padding",
+        "label": "Icon Button Padding",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-icon-button-radius",
+        "label": "Icon Button Radius",
+        "type": "size",
+        "default": "4px"
+      },
+      {
+        "id": "nc-icon-button-bg",
+        "label": "Icon Button BG",
+        "type": "color",
+        "ref": "background-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-icon-button-bg-hover",
+        "label": "Icon Button BG Hover",
+        "type": "color",
+        "ref": "background-tertiary",
+        "readonly": true
+      },
+      {
+        "id": "nc-icon-button-color",
+        "label": "Icon Button Color",
+        "type": "color",
+        "ref": "text-primary",
+        "readonly": true
+      },
+      {
+        "id": "nc-button-spinner-size",
+        "label": "Spinner Size",
+        "type": "size",
+        "default": "20px"
+      },
+      {
+        "id": "nc-button-spinner-border-width",
+        "label": "Spinner Border Width",
+        "type": "size",
+        "default": "2px"
       }
     ]
   },

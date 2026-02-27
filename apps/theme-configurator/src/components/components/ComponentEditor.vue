@@ -242,7 +242,8 @@ const CATEGORY_LABELS = {
   main: 'Main Variants',
   supporting: 'Supporting',
   system: 'System',
-  state: 'States'
+  state: 'States',
+  patterns: 'Patterns'
 }
 
 function categoryLabel(cat) { return CATEGORY_LABELS[cat] || cat }

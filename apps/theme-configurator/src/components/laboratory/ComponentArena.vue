@@ -82,6 +82,158 @@
         </div>
       </div>
 
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- Patterns Section — 6 Specimens                                -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <template v-if="specimens.length">
+        <div class="arena-category-divider">
+          <span class="arena-category-label">Patterns</span>
+        </div>
+
+        <!-- With Icon -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('with-icon') }]">
+          <span class="arena-specimen__label">With Icon</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-row">
+                <button
+                  v-for="size in arenaConfig.sizes" :key="size"
+                  class="arena-btn"
+                  :style="{ ...buildStyle(tokensLight, 'primary', size), gap: tokensLight['nc-button-gap'] || '8px' }"
+                ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Label</button>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-row">
+                <button
+                  v-for="size in arenaConfig.sizes" :key="size"
+                  class="arena-btn"
+                  :style="{ ...buildStyle(tokensDark, 'primary', size), gap: tokensDark['nc-button-gap'] || '8px' }"
+                ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Label</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Icon Only -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('icon-only') }]">
+          <span class="arena-specimen__label">Icon Only</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-row">
+                <template v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid">
+                  <button
+                    v-for="size in arenaConfig.sizes" :key="size"
+                    class="arena-btn"
+                    :style="iconOnlyStyle(tokensLight, vid, size)"
+                  ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+                </template>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-row">
+                <template v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid">
+                  <button
+                    v-for="size in arenaConfig.sizes" :key="size"
+                    class="arena-btn"
+                    :style="iconOnlyStyle(tokensDark, vid, size)"
+                  ><svg class="arena-btn__icon" :style="{ width: iconSize(size), height: iconSize(size) }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('loading') }]">
+          <span class="arena-specimen__label">Loading</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-row">
+                <button
+                  v-for="vid in ['primary', 'secondary']" :key="vid"
+                  class="arena-btn"
+                  :style="loadingStyle(tokensLight, vid, 'md')"
+                ><span style="opacity: 0">Loading</span><span class="arena-btn__spinner" :style="spinnerStyle(tokensLight, vid)"></span></button>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-row">
+                <button
+                  v-for="vid in ['primary', 'secondary']" :key="vid"
+                  class="arena-btn"
+                  :style="loadingStyle(tokensDark, vid, 'md')"
+                ><span style="opacity: 0">Loading</span><span class="arena-btn__spinner" :style="spinnerStyle(tokensDark, vid)"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button Group -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('group') }]">
+          <span class="arena-specimen__label">Button Group</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-group">
+                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'first')">Left</button>
+                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'middle')">Center</button>
+                <button class="arena-btn" :style="groupBtnStyle(tokensLight, 'outline', 'md', 'last')">Right</button>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-group">
+                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'first')">Left</button>
+                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'middle')">Center</button>
+                <button class="arena-btn" :style="groupBtnStyle(tokensDark, 'outline', 'md', 'last')">Right</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('toggle') }]">
+          <span class="arena-specimen__label">Toggle</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-row">
+                <button class="arena-btn" :style="buildStyle(tokensLight, 'outline', 'md')" aria-pressed="false">Unpressed</button>
+                <button class="arena-btn" :style="togglePressedStyle(tokensLight, 'md')" aria-pressed="true">Pressed</button>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-row">
+                <button class="arena-btn" :style="buildStyle(tokensDark, 'outline', 'md')" aria-pressed="false">Unpressed</button>
+                <button class="arena-btn" :style="togglePressedStyle(tokensDark, 'md')" aria-pressed="true">Pressed</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Link as Button -->
+        <div :class="['arena-specimen', { 'arena-specimen--pulse': pulsingVariants.has('link') }]">
+          <span class="arena-specimen__label">Link as Button</span>
+          <div class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+              <div class="arena-btn-row">
+                <a v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid"
+                   class="arena-btn"
+                   :style="{ ...buildStyle(tokensLight, vid, 'md'), textDecoration: 'none' }"
+                >{{ vid.charAt(0).toUpperCase() + vid.slice(1) }} Link</a>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+              <div class="arena-btn-row">
+                <a v-for="vid in ['primary', 'secondary', 'ghost']" :key="vid"
+                   class="arena-btn"
+                   :style="{ ...buildStyle(tokensDark, vid, 'md'), textDecoration: 'none' }"
+                >{{ vid.charAt(0).toUpperCase() + vid.slice(1) }} Link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </template>
+
     </template>
 
     <!-- Placeholder -->
@@ -108,6 +260,8 @@ const componentData = computed(() => {
 })
 
 const arenaConfig = computed(() => componentData.value?.arenaConfig || null)
+
+const specimens = computed(() => arenaConfig.value?.specimens || [])
 
 const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
 const tDark = computed(() => store.state.themes[store.state.activeThemeSet].dark)
@@ -211,6 +365,68 @@ function disabledStyle(tokens) {
 }
 
 // ---------------------------------------------------------------------------
+// Pattern Specimen Helpers
+// ---------------------------------------------------------------------------
+const ICON_SIZES = { xs: '14px', sm: '16px', md: '18px', lg: '20px' }
+
+function iconSize(sizeId) {
+  return ICON_SIZES[sizeId] || '18px'
+}
+
+function iconOnlyStyle(tokens, variantId, sizeId) {
+  const base = buildStyle(tokens, variantId, sizeId)
+  const h = base.minHeight || '40px'
+  base.width = h
+  base.minWidth = h
+  base.paddingInline = '0'
+  base.paddingBlock = '0'
+  return base
+}
+
+function loadingStyle(tokens, variantId, sizeId) {
+  const base = buildStyle(tokens, variantId, sizeId)
+  base.position = 'relative'
+  base.pointerEvents = 'none'
+  return base
+}
+
+function spinnerStyle(tokens, variantId) {
+  if (!arenaConfig.value) return {}
+  const p = arenaConfig.value.tokenPattern
+  return {
+    width: tokens['nc-button-spinner-size'] || '20px',
+    height: tokens['nc-button-spinner-size'] || '20px',
+    borderWidth: tokens['nc-button-spinner-border-width'] || '2px',
+    borderColor: resolvePattern(tokens, p.color, variantId, 'md') || 'currentColor'
+  }
+}
+
+function togglePressedStyle(tokens, sizeId) {
+  if (!arenaConfig.value) return {}
+  const base = buildStyle(tokens, 'outline', sizeId)
+  const p = arenaConfig.value.tokenPattern
+  base.background = resolvePattern(tokens, p.background, 'primary', sizeId)
+  base.color = resolvePattern(tokens, p.color, 'primary', sizeId)
+  base.borderColor = resolvePattern(tokens, p.background, 'primary', sizeId)
+  return base
+}
+
+function groupBtnStyle(tokens, variantId, sizeId, position) {
+  const base = buildStyle(tokens, variantId, sizeId)
+  const r = base.borderRadius || '4px'
+  if (position === 'first') {
+    base.borderRadius = `${r} 0 0 ${r}`
+    base.marginRight = '-1px'
+  } else if (position === 'middle') {
+    base.borderRadius = '0'
+    base.marginRight = '-1px'
+  } else {
+    base.borderRadius = `0 ${r} ${r} 0`
+  }
+  return base
+}
+
+// ---------------------------------------------------------------------------
 // Pulse bei Token-Aenderungen
 // ---------------------------------------------------------------------------
 const pulsingVariants = ref(new Set())
@@ -238,6 +454,12 @@ watch(
             if (key.includes(`-${v.id}-`)) { changed.add(v.id); break }
           }
         }
+      }
+      // Pulse fuer Pattern-Specimens
+      for (const key of Object.keys(newObj)) {
+        if (oldObj[key] === newObj[key]) continue
+        if (key.startsWith('nc-icon-button-')) changed.add('icon-only')
+        if (key.startsWith('nc-button-spinner-')) changed.add('loading')
       }
       if (changed.size > 0) triggerPulse(changed)
     } catch {}
@@ -359,6 +581,34 @@ watch(
 
 .arena-btn--disabled {
   cursor: not-allowed;
+}
+
+/* Pattern: Icon */
+.arena-btn__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* Pattern: Spinner */
+.arena-btn__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border-style: solid;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: arena-spin 0.6s linear infinite;
+}
+
+@keyframes arena-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Pattern: Button Group */
+.arena-btn-group {
+  display: inline-flex;
 }
 
 .arena-placeholder {
