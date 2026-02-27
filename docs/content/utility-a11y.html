@@ -133,6 +133,74 @@
   Custom Interaktives Element
 &lt;/div&gt;</pre>
             </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Focus Ring Tokens</h3>
+            <p class="docs__section-desc">
+              Der Focus-Ring wird ueber Foundation-Tokens gesteuert. Zwei Positionierungsmodi:
+              <strong>Offset</strong> (aussen, Default) und <strong>Inset</strong> (innen, fuer overflow-hidden Elemente).
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">--fnd-focus-ring-color</code></td>
+                  <td><code class="docs__token">var(--fnd-color-text-primary)</code></td>
+                  <td>Farbe der Outline (Theme-aware)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-focus-ring-width</code></td>
+                  <td>2px</td>
+                  <td>Breite der Outline</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-focus-ring-style</code></td>
+                  <td>solid</td>
+                  <td>CSS outline-style</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-focus-offset</code></td>
+                  <td>2px</td>
+                  <td>Abstand nach aussen (Default fuer <code>focus-ring</code>)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">--fnd-focus-inset</code></td>
+                  <td>2px</td>
+                  <td>Abstand nach innen (fuer <code>focus-ring-inset</code>)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">Mixins: Offset vs. Inset</h3>
+            <p class="docs__section-desc">
+              <strong>Default (Offset):</strong> Die Outline sitzt <em>ausserhalb</em> des Elements &mdash; Standard fuer die meisten interaktiven Elemente.
+              <strong>Inset:</strong> Die Outline sitzt <em>innerhalb</em> des Elements &mdash; fuer Elemente mit <code>overflow: hidden</code>,
+              grosse <code>border-radius</code>-Kanten, Karten, Tabellen-Zellen oder Fullwidth-Buttons.
+            </p>
+            <div class="docs-snippet">
+              <pre>// SCSS Mixins
+
+// Default: Outline aussen (offset)
+@include focus-ring;             // In :focus-visible verwenden
+@include focus-visible-ring;     // Wrapper: wendet focus-ring auf :focus-visible an
+
+// Inset: Outline innen
+@include focus-ring-inset;       // In :focus-visible verwenden
+@include focus-visible-ring-inset; // Wrapper: wendet focus-ring-inset auf :focus-visible an
+
+// Beispiel: Karte mit overflow:hidden
+.my-card {
+  overflow: hidden;
+  border-radius: var(--fnd-radius-md);
+
+  &amp;:focus-visible {
+    @include focus-ring-inset;   // Outline bleibt innerhalb des border-radius
+  }
+}</pre>
+            </div>
           </section>
 
           <!-- Reduced Motion -->
@@ -238,7 +306,7 @@
                 <tr><td><strong>Pr&auml;fix</strong></td><td><code class="docs__token">.u-</code></td></tr>
                 <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/10-utilities/_a11y.scss</code></td></tr>
                 <tr><td><strong>Abh&auml;ngigkeiten</strong></td><td><code class="docs__token">01-tools</code> (Mixins: <code class="docs__token">touch-target</code>, <code class="docs__token">focus-visible-ring</code>, <code class="docs__token">focus-ring</code>)</td></tr>
-                <tr><td><strong>Foundation Tokens</strong></td><td><code class="docs__token">--fnd-spacing-*</code>, <code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fnd-radius-*</code>, <code class="docs__token">--fnd-font-weight-*</code>, <code class="docs__token">--fnd-z-skip-link</code></td></tr>
+                <tr><td><strong>Foundation Tokens</strong></td><td><code class="docs__token">--fnd-spacing-*</code>, <code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fnd-radius-*</code>, <code class="docs__token">--fnd-font-weight-*</code>, <code class="docs__token">--fnd-z-skip-link</code>, <code class="docs__token">--fnd-focus-offset</code>, <code class="docs__token">--fnd-focus-inset</code></td></tr>
                 <tr><td><strong>Component Tokens</strong></td><td>keine (reine Foundation-Token-Nutzung)</td></tr>
               </tbody>
             </table>
@@ -305,7 +373,8 @@
             <p class="docs__section-desc">Delegiert an Mixin <code class="docs__token">touch-target</code> aus <code class="docs__token">01-tools</code>. Stellt mindestens 44&times;44 px Touch-Fl&auml;che sicher (WCAG 2.5.8 &mdash; Minimum Touch Target Size).</p>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-focus-ring</h3>
-            <p class="docs__section-desc">Delegiert an Mixin <code class="docs__token">focus-visible-ring</code> aus <code class="docs__token">01-tools</code>. Wendet denselben Focus-Ring an, der auf allen interaktiven Design-System-Komponenten verwendet wird.</p>
+            <p class="docs__section-desc">Delegiert an Mixin <code class="docs__token">focus-visible-ring</code> aus <code class="docs__token">01-tools</code>. Wendet denselben Focus-Ring an, der auf allen interaktiven Design-System-Komponenten verwendet wird. Verwendet <code class="docs__token">--fnd-focus-offset</code> (2px aussen).</p>
+            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-02);">Fuer Inset-Variante steht das Mixin <code class="docs__token">focus-ring-inset</code> / <code class="docs__token">focus-visible-ring-inset</code> zur Verfuegung. Es nutzt <code class="docs__token">--fnd-focus-inset</code> (2px innen) und ist ideal fuer Elemente mit <code class="docs__token">overflow: hidden</code> oder grossen Border-Radien.</p>
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size); margin-block-start: var(--fnd-spacing-06);">.u-reduced-motion</h3>
             <div class="nc-data-table nc-data-table--static nc-data-table--striped">

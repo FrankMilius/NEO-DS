@@ -46,6 +46,11 @@
       <FoundationGeneric category="focus" />
     </template>
 
+    <!-- Foundation: Media Ratios -->
+    <template v-else-if="activeSection === 'foundation-media'">
+      <FoundationGeneric category="media" />
+    </template>
+
     <!-- Foundation: Elements -->
     <template v-else-if="activeSection === 'foundation-elements'">
       <ElementsOverview />
@@ -117,7 +122,8 @@ const sectionMeta = {
   'foundation-spacing': { title: 'Spacing', desc: 'Spacing scale based on 4px base unit. Steps 06+ are fluid.' },
   'foundation-typography': { title: 'Typography', desc: 'Font families, weight scale, and size system.' },
   'foundation-border': { title: 'Border', desc: 'Border-Width-Skala und Border-Styles.' },
-  'foundation-focus': { title: 'Focus Ring', desc: 'Focus-Ring-Tokens: Farbe, Breite, Offset und Style.' },
+  'foundation-focus': { title: 'Focus Ring', desc: 'Focus-Ring-Tokens: Farbe, Breite, Offset (aussen), Inset (innen) und Style.' },
+  'foundation-media': { title: 'Media Ratios', desc: 'Seitenverhaeltnisse fuer Bilder, Videos und Embeds: 1:1, 4:3, 16:9, Auto und weitere.' },
   'foundation-elements': { title: 'Elements', desc: 'HTML-Element-Defaults: Body, Headings, Links, Buttons, Forms.' },
   'foundation-themes': { title: 'Themes', desc: '4-Theme-System: Neo Light/Dark + Customer Light/Dark.' },
   'foundation-opacity': { title: 'Opacity, Z-Index & Motion', desc: 'Opacity-Werte, Z-Index-Schichten und Motion-Tokens.' },

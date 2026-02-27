@@ -1,7 +1,7 @@
 // ==========================================================================
 // 00-Settings: Layout
 // ==========================================================================
-// Layout-spezifische Tokens: z-index, nav-height, image-ratios
+// Layout-spezifische Tokens: z-index, nav-height, media-ratios
 // ==========================================================================
 
 @use 'sass:map';
@@ -16,7 +16,7 @@
 $z-index: tokens.$token-z-index;
 $nav-height-mobile: tokens.$token-nav-height-mobile;
 $nav-height-desktop: tokens.$token-nav-height-desktop;
-$image-ratios: tokens.$token-image-ratios;
+$media-ratios: tokens.$token-media-ratios;
 
 // ---------------------------------------------------------------------------
 // Getter Functions
@@ -31,12 +31,12 @@ $image-ratios: tokens.$token-image-ratios;
   @return 1;
 }
 
-/// Get image ratio
-@function image-ratio($ratio) {
-  @if map.has-key($image-ratios, $ratio) {
-    @return map.get($image-ratios, $ratio);
+/// Get media ratio
+@function media-ratio($ratio) {
+  @if map.has-key($media-ratios, $ratio) {
+    @return map.get($media-ratios, $ratio);
   }
-  @warn "Unknown image ratio: #{$ratio}";
+  @warn "Unknown media ratio: #{$ratio}";
   @return '1 / 1';
 }
 
@@ -67,9 +67,9 @@ $image-ratios: tokens.$token-image-ratios;
   --fnd-content-max-width: 1200px;
   --fnd-content-wide-max-width: 1440px;
 
-  // Image Ratios (unquote für CSS-Ausgabe)
-  @each $name, $value in $image-ratios {
-    --fnd-image-ratio-#{$name}: #{string.unquote($value)};
+  // Media Ratios (unquote fuer CSS-Ausgabe)
+  @each $name, $value in $media-ratios {
+    --fnd-media-ratio-#{$name}: #{string.unquote($value)};
   }
 
   // Square Value Component

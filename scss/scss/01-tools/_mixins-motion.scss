@@ -71,15 +71,32 @@
 // ---------------------------------------------------------------------------
 
 /// Focus ring styles — themeable via CSS Custom Properties
-/// Tokens: --fnd-focus-ring-{color|width|offset|style} (see 00-settings/_a11y.scss)
+/// Tokens: --fnd-focus-ring-{color|width|style}, --fnd-focus-offset (see 00-settings/_a11y.scss)
+/// Default: Outline aussen (offset) — fuer die meisten interaktiven Elemente.
 @mixin focus-ring {
   outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
-  outline-offset: var(--fnd-focus-ring-offset);
+  outline-offset: var(--fnd-focus-offset);
+}
+
+/// Focus ring inset — Outline nach innen versetzt
+/// Fuer Elemente mit abgeschnittenen Ueberlaeufen (overflow: hidden, border-radius-Kanten,
+/// Karten, Tabellen-Zellen, Fullwidth-Buttons).
+/// Token: --fnd-focus-inset (default 2px)
+@mixin focus-ring-inset {
+  outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+  outline-offset: calc(-1 * var(--fnd-focus-inset));
 }
 
 /// Focus visible ring — applies focus-ring only on :focus-visible
 @mixin focus-visible-ring {
   &:focus-visible {
     @include focus-ring;
+  }
+}
+
+/// Focus visible ring inset — applies focus-ring-inset only on :focus-visible
+@mixin focus-visible-ring-inset {
+  &:focus-visible {
+    @include focus-ring-inset;
   }
 }

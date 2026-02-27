@@ -56,7 +56,7 @@
         Layout-Primitive f&uuml;r konsistente Seitenverh&auml;ltnisse bei Bildern, Videos und beliebigen Inhalten.
         Der Wrapper erzwingt ein festes Ratio &mdash; der Inhalt f&uuml;llt den Container via <code class="docs__token">object-fit: cover</code>.
         Kanonische Klasse: <code class="docs__token">.nc-aspect-ratio</code> (BEM).
-        Alle Werte kommen aus <code class="docs__token">--nc-aspect-ratio-*</code> Component-Tokens und <code class="docs__token">--fnd-image-ratio-*</code> Foundation-Tokens.
+        Alle Werte kommen aus <code class="docs__token">--nc-aspect-ratio-*</code> Component-Tokens und <code class="docs__token">--fnd-media-ratio-*</code> Foundation-Tokens.
       </p>
       </div>
 
@@ -330,7 +330,7 @@
               <tbody>
                 <tr>
                   <td><code class="docs__token">--nc-aspect-ratio-ratio</code></td>
-                  <td><code class="docs__token">var(--fnd-image-ratio-16-9)</code></td>
+                  <td><code class="docs__token">var(--fnd-media-ratio-16-9)</code></td>
                   <td>Aktives Seitenverh&auml;ltnis (dynamisch). Wird durch Modifier oder Inline-Style gesetzt.</td>
                 </tr>
               </tbody>
@@ -344,15 +344,16 @@
               <table class="nc-data-table__table">
               <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
-                <tr><td><code class="docs__token">--fnd-image-ratio-1-1</code></td><td>1 / 1</td><td>Quadrat</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-4-3</code></td><td>4 / 3</td><td>Klassisches Foto-Format</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-3-4</code></td><td>3 / 4</td><td>Portrait-Foto</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-16-9</code></td><td>16 / 9</td><td>Widescreen (Standard)</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-9-16</code></td><td>9 / 16</td><td>Hochformat / Story</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-2-1</code></td><td>2 / 1</td><td>Panorama</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-1-2</code></td><td>1 / 2</td><td>Hohes Hochformat</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-3-2</code></td><td>3 / 2</td><td>Klassisches Kleinbild</td></tr>
-                <tr><td><code class="docs__token">--fnd-image-ratio-2-3</code></td><td>2 / 3</td><td>Portrait-Kleinbild</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-auto</code></td><td>auto</td><td>Intrinsisches Seitenverh&auml;ltnis (kein Ratio erzwungen)</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-1-1</code></td><td>1 / 1</td><td>Quadrat</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-4-3</code></td><td>4 / 3</td><td>Klassisches Foto-Format</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-3-4</code></td><td>3 / 4</td><td>Portrait-Foto</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-16-9</code></td><td>16 / 9</td><td>Widescreen (Standard)</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-9-16</code></td><td>9 / 16</td><td>Hochformat / Story</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-2-1</code></td><td>2 / 1</td><td>Panorama</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-1-2</code></td><td>1 / 2</td><td>Hohes Hochformat</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-3-2</code></td><td>3 / 2</td><td>Klassisches Kleinbild</td></tr>
+                <tr><td><code class="docs__token">--fnd-media-ratio-2-3</code></td><td>2 / 3</td><td>Portrait-Kleinbild</td></tr>
               </tbody>
             </table>
           </div>
@@ -408,7 +409,7 @@
                 <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-aspect-ratio-*</code></td></tr>
                 <tr><td><strong>Layer</strong></td><td>Layout</td></tr>
                 <tr><td><strong>Import (SCSS)</strong></td><td><code class="docs__token">@use 'scss/05-atoms/aspect-ratio';</code></td></tr>
-                <tr><td><strong>Default-Ratio</strong></td><td>16 / 9 &mdash; <code class="docs__token">var(--fnd-image-ratio-16-9)</code></td></tr>
+                <tr><td><strong>Default-Ratio</strong></td><td>16 / 9 &mdash; <code class="docs__token">var(--fnd-media-ratio-16-9)</code></td></tr>
               </tbody>
             </table>
           </div>
@@ -462,7 +463,7 @@
               <tbody>
                 <tr>
                   <td><code class="docs__token">--nc-aspect-ratio-ratio</code></td>
-                  <td><code class="docs__token">var(--fnd-image-ratio-16-9)</code></td>
+                  <td><code class="docs__token">var(--fnd-media-ratio-16-9)</code></td>
                   <td>Aktives Seitenverh&auml;ltnis. Wird auf <code class="docs__token">aspect-ratio</code> angewendet.</td>
                 </tr>
               </tbody>

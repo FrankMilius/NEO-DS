@@ -2918,14 +2918,68 @@ export const foundationTokens = {
         "type": "size"
       },
       "offset": {
-        "label": "Ring Offset",
-        "value": "3px",
+        "label": "Offset (aussen)",
+        "value": "2px",
         "type": "size",
-        "description": "Positiv = außen, 0 = Kante, Negativ = innen (Inset)"
+        "css_property": "--fnd-focus-offset",
+        "description": "Abstand der Outline nach aussen (Default)"
+      },
+      "inset": {
+        "label": "Inset (innen)",
+        "value": "2px",
+        "type": "size",
+        "css_property": "--fnd-focus-inset",
+        "description": "Abstand der Outline nach innen (fuer overflow-hidden Elemente)"
       },
       "style": {
         "label": "Ring Style",
         "value": "solid"
+      }
+    }
+  },
+  "media": {
+    "label": "Media Ratios",
+    "icon": "aspect-ratio",
+    "tokens": {
+      "auto": {
+        "label": "Auto (intrinsisch)",
+        "value": "auto"
+      },
+      "1-1": {
+        "label": "1:1 (Quadrat)",
+        "value": "1 / 1"
+      },
+      "3-2": {
+        "label": "3:2 (Landscape)",
+        "value": "3 / 2"
+      },
+      "2-3": {
+        "label": "2:3 (Portrait)",
+        "value": "2 / 3"
+      },
+      "4-3": {
+        "label": "4:3 (Klassisch)",
+        "value": "4 / 3"
+      },
+      "3-4": {
+        "label": "3:4 (Portrait-Foto)",
+        "value": "3 / 4"
+      },
+      "16-9": {
+        "label": "16:9 (Widescreen)",
+        "value": "16 / 9"
+      },
+      "9-16": {
+        "label": "9:16 (Stories)",
+        "value": "9 / 16"
+      },
+      "2-1": {
+        "label": "2:1 (Panorama)",
+        "value": "2 / 1"
+      },
+      "1-2": {
+        "label": "1:2 (Tall)",
+        "value": "1 / 2"
       }
     }
   },
@@ -3127,6 +3181,12 @@ export const navigationTree = [
         "label": "Focus Ring",
         "icon": "focus-2",
         "section": "foundation-focus"
+      },
+      {
+        "id": "media",
+        "label": "Media Ratios",
+        "icon": "aspect-ratio",
+        "section": "foundation-media"
       },
       {
         "id": "elements",

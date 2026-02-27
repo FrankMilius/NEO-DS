@@ -10,10 +10,19 @@
 // ---------------------------------------------------------------------------
 
 :root {
+  // Focus-Ring Darstellung
   --fnd-focus-ring-color: var(--fnd-color-text-primary);
   --fnd-focus-ring-width: 2px;
-  --fnd-focus-ring-offset: 3px;
   --fnd-focus-ring-style: solid;
+
+  // Focus-Ring Positionierung
+  // --fnd-focus-offset: Abstand nach aussen (Default fuer focus-ring)
+  // --fnd-focus-inset:  Abstand nach innen  (fuer focus-ring-inset)
+  --fnd-focus-offset: 2px;
+  --fnd-focus-inset: 2px;
+
+  // Abgeleiteter Token (Rueckwaertskompatibilitaet)
+  --fnd-focus-ring-offset: var(--fnd-focus-offset);
 
   // Touch-Target Minimum (WCAG 2.5.8 Target Size)
   --fnd-touch-target-min: 44px;

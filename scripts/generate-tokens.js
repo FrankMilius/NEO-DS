@@ -213,8 +213,8 @@ const generateLayout = () => {
   out += `$token-nav-height-mobile: ${layout.nav_height.mobile};\n`;
   out += `$token-nav-height-desktop: ${layout.nav_height.desktop};\n\n`;
 
-  out += `$token-image-ratios: (\n`;
-  for (const [key, val] of Object.entries(layout.image_ratios)) {
+  out += `$token-media-ratios: (\n`;
+  for (const [key, val] of Object.entries(layout.media_ratios)) {
     out += `  '${key}': '${val}',\n`;
   }
   out += `);\n\n`;

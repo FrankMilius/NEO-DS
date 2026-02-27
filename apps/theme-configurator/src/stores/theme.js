@@ -104,6 +104,12 @@ const state = reactive({
     customer: []
   },
 
+  // Focus Ring Mode: 'offset' (aussen, Default) oder 'inset' (innen)
+  focusRingMode: {
+    neo: 'offset',
+    customer: 'offset'
+  },
+
   // Undo history
   history: [],
   historyIndex: -1,
@@ -172,6 +178,10 @@ const currentCustomFonts = computed(() => {
   return state.customFonts[state.activeThemeSet]
 })
 
+const currentFocusRingMode = computed(() => {
+  return state.focusRingMode[state.activeThemeSet]
+})
+
 const isDirty = computed(() => {
   // Check if customer theme differs from neo defaults
   if (state.activeThemeSet === 'customer') {
@@ -219,6 +229,11 @@ function updateSemanticToken(tokenId, value) {
   }
 }
 
+function setFocusRingMode(mode) {
+  pushHistory()
+  state.focusRingMode[state.activeThemeSet] = mode
+}
+
 function updateFoundationToken(category, key, value) {
   pushHistory()
   state.foundationOverrides[state.activeThemeSet][category][key] = value
@@ -251,6 +266,7 @@ function resetToDefaults() {
     accent: primitiveColors.accent.base
   }
   state.customFonts[themeSet] = []
+  state.focusRingMode[themeSet] = 'offset'
 }
 
 // ---------------------------------------------------------------------------
@@ -263,7 +279,8 @@ function pushHistory() {
     foundationOverrides: state.foundationOverrides,
     componentOverrides: state.componentOverrides,
     primitiveOverrides: state.primitiveOverrides,
-    customFonts: state.customFonts
+    customFonts: state.customFonts,
+    focusRingMode: state.focusRingMode
   })
   state.history = state.history.slice(0, state.historyIndex + 1)
   state.history.push(snapshot)
@@ -284,6 +301,7 @@ function undo() {
     Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
     Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
+    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
   }
 }
 
@@ -296,6 +314,7 @@ function redo() {
     Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
     Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
+    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
   }
 }
 
@@ -314,6 +333,7 @@ function getThemeSnapshot() {
     componentOverrides: state.componentOverrides,
     primitiveOverrides: state.primitiveOverrides,
     customFonts: state.customFonts,
+    focusRingMode: state.focusRingMode,
     activeThemeSet: state.activeThemeSet
   })
 }
@@ -419,6 +439,7 @@ function loadTheme(themeId) {
     if (snapshot.componentOverrides) Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
     if (snapshot.primitiveOverrides) Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
+    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
     if (snapshot.activeThemeSet) state.activeThemeSet = snapshot.activeThemeSet
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
@@ -504,6 +525,7 @@ async function loadNeoDefaults() {
           state.primitiveOverrides = deepClone(d.primitiveOverrides)
         }
         state.customFonts = { neo: [], customer: [] }
+        state.focusRingMode = { neo: 'offset', customer: 'offset' }
         state.activeThemeSet = 'neo'
         state.currentThemeMeta = null
         state.version = d._meta?.version || '1.0.0'
@@ -528,6 +550,7 @@ async function loadNeoDefaults() {
     customer: { primary: primitiveColors.primary.base, secondary: primitiveColors.secondary.base, accent: primitiveColors.accent.base }
   }
   state.customFonts = { neo: [], customer: [] }
+  state.focusRingMode = { neo: 'offset', customer: 'offset' }
   state.currentThemeMeta = null
   state.version = '1.0.0'
   console.log('[RESET] Loaded NEO defaults from in-memory tokens.js')
@@ -594,6 +617,15 @@ function exportAsCSSVars() {
   }
   lines.push('}\n')
 
+  // Focus Ring Mode Override
+  const focusMode = state.focusRingMode[themeSet]
+  if (focusMode === 'inset') {
+    lines.push(`/* Focus Ring: Inset-Modus (Outline nach innen) */`)
+    lines.push(`:root {`)
+    lines.push(`  --fnd-focus-ring-offset: calc(-1 * var(--fnd-focus-inset));`)
+    lines.push('}\n')
+  }
+
   // Component overrides
   const overrides = state.componentOverrides[themeSet]
   if (Object.keys(overrides).length > 0) {
@@ -623,7 +655,8 @@ function exportAsJSON() {
       dark: state.themes[themeSet].dark
     },
     foundation: state.foundationOverrides[themeSet],
-    components: state.componentOverrides[themeSet]
+    components: state.componentOverrides[themeSet],
+    focusRingMode: state.focusRingMode[themeSet]
   }, null, 2)
 }
 
@@ -681,6 +714,7 @@ function saveToStorage() {
       componentOverrides: toRaw(state.componentOverrides),
       primitiveOverrides: toRaw(state.primitiveOverrides),
       customFonts: toRaw(state.customFonts),
+      focusRingMode: toRaw(state.focusRingMode),
       currentThemeMeta: toRaw(state.currentThemeMeta)
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
@@ -704,6 +738,7 @@ function saveToStorage() {
           componentOverrides: JSON.parse(JSON.stringify(toRaw(state.componentOverrides))),
           primitiveOverrides: JSON.parse(JSON.stringify(toRaw(state.primitiveOverrides))),
           customFonts: JSON.parse(JSON.stringify(toRaw(state.customFonts))),
+          focusRingMode: JSON.parse(JSON.stringify(toRaw(state.focusRingMode))),
           activeThemeSet: state.activeThemeSet,
           meta: JSON.parse(JSON.stringify(toRaw(meta)))
         }
@@ -731,6 +766,7 @@ function loadFromStorage() {
       if (data.componentOverrides) Object.assign(state.componentOverrides, data.componentOverrides)
       if (data.primitiveOverrides) Object.assign(state.primitiveOverrides, data.primitiveOverrides)
       if (data.customFonts) Object.assign(state.customFonts, data.customFonts)
+      if (data.focusRingMode) Object.assign(state.focusRingMode, data.focusRingMode)
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
       if (data.previewMode) state.previewMode = data.previewMode
       if (data.currentThemeMeta) state.currentThemeMeta = data.currentThemeMeta
@@ -799,7 +835,7 @@ function loadFromStorage() {
 
 // Auto-save on changes
 watch(
-  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts],
+  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode],
   () => saveToStorage(),
   { deep: true }
 )
@@ -819,6 +855,7 @@ export function useThemeStore() {
     currentComponentOverrides,
     currentPrimitives,
     currentCustomFonts,
+    currentFocusRingMode,
     isDirty,
     isNeoDefault,
     // Actions
@@ -830,6 +867,7 @@ export function useThemeStore() {
     updateFoundationToken,
     updateComponentToken,
     updatePrimitive,
+    setFocusRingMode,
     resetToDefaults,
     undo,
     redo,
