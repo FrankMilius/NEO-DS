@@ -790,6 +790,18 @@
       <!-- ═══════════════════════════════════════════════════════════════
            COMPONENT ARENA — Generische Komponenten-Vorschau
            ═══════════════════════════════════════════════════════════════ -->
+      <template v-else-if="isComponentSection && activeComponentId === 'avatar'">
+        <AvatarArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'badge'">
+        <BadgeArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'status'">
+        <StatusArena />
+      </template>
+
       <template v-else-if="isComponentSection">
         <ComponentArena :componentId="activeComponentId" />
       </template>
@@ -1383,6 +1395,9 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, componentTokenGroups } from '../../data/tokens.js'
 import ComponentArena from './ComponentArena.vue'
+import AvatarArena from './AvatarArena.vue'
+import BadgeArena from './BadgeArena.vue'
+import StatusArena from './StatusArena.vue'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
