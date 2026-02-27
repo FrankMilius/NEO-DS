@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-02-26
+// Generated: 2026-02-27
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -1185,13 +1185,13 @@ export const componentTokenGroups = [
         "id": "nc-button-radius-md",
         "label": "Radius MD",
         "type": "size",
-        "default": "6px"
+        "default": "4px"
       },
       {
         "id": "nc-button-radius-lg",
         "label": "Radius LG",
         "type": "size",
-        "default": "8px"
+        "default": "4px"
       },
       {
         "id": "nc-button-radius-full",
@@ -1922,7 +1922,7 @@ export const foundationTokens = {
         "value": "2px"
       },
       "sm": {
-        "label": "SM",
+        "label": "SM (Default)",
         "value": "4px"
       },
       "md": {

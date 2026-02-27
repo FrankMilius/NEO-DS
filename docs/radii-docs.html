@@ -186,10 +186,10 @@
             <span class="radii-card__value">2px</span>
             <span class="radii-card__token">--fnd-radius-xs</span>
           </div>
-          <!-- sm -->
+          <!-- sm (default) -->
           <div class="radii-card">
             <div class="radii-card__sample" style="border-radius: var(--fnd-radius-sm);"></div>
-            <span class="radii-card__label">sm</span>
+            <span class="radii-card__label">sm <span class="docs__badge">default</span></span>
             <span class="radii-card__value">4px</span>
             <span class="radii-card__token">--fnd-radius-sm</span>
           </div>
@@ -274,11 +274,11 @@
               <td>Minimale Rundung (Badges, Tags, kleine Elemente)</td>
             </tr>
             <tr>
-              <td><strong>sm</strong></td>
+              <td><strong>sm (Default)</strong></td>
               <td><code class="docs__token">--fnd-radius-sm</code></td>
               <td><code class="docs__token">radius('sm')</code></td>
               <td>4px</td>
-              <td>Subtile Rundung (Code-Bl&ouml;cke, Labels, Tooltips)</td>
+              <td>Standard-Rundung &mdash; Default f&uuml;r alle Komponenten</td>
             </tr>
             <tr>
               <td><strong>md</strong></td>
@@ -352,12 +352,12 @@
           <div class="radii-button-map__item">
             <span class="radii-button-map__size-label">MD (40px)</span>
             <button class="button md" style="align-self: flex-start;">Button MD</button>
-            <span class="radii-button-map__meta">--nc-button-radius-md &rarr; 6px</span>
+            <span class="radii-button-map__meta">--nc-button-radius-md &rarr; 4px</span>
           </div>
           <div class="radii-button-map__item">
             <span class="radii-button-map__size-label">LG (48px)</span>
             <button class="button lg" style="align-self: flex-start;">Button LG</button>
-            <span class="radii-button-map__meta">--nc-button-radius-lg &rarr; 8px</span>
+            <span class="radii-button-map__meta">--nc-button-radius-lg &rarr; 4px</span>
           </div>
           <div class="radii-button-map__item">
             <span class="radii-button-map__size-label">XL (64px)</span>
@@ -401,15 +401,15 @@
               <td><strong>MD</strong></td>
               <td>40px</td>
               <td><code class="docs__token">--nc-button-radius-md</code></td>
-              <td><code class="docs__token">--fnd-radius-md</code></td>
-              <td>6px</td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
             </tr>
             <tr>
               <td><strong>LG</strong></td>
               <td>48px</td>
               <td><code class="docs__token">--nc-button-radius-lg</code></td>
-              <td><code class="docs__token">--fnd-radius-lg</code></td>
-              <td>8px</td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
             </tr>
             <tr>
               <td><strong>XL</strong></td>
@@ -473,8 +473,8 @@
             <tr>
               <td><strong>Input</strong></td>
               <td><code class="docs__token">--nc-input-radius</code></td>
-              <td><code class="docs__token">--fnd-radius-lg</code></td>
-              <td>8px</td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
             </tr>
             <tr>
               <td><strong>Dialog/Modal</strong></td>
@@ -485,8 +485,8 @@
             <tr>
               <td><strong>Alert</strong></td>
               <td><code class="docs__token">--nc-alert-radius</code></td>
-              <td><code class="docs__token">--fnd-radius-lg</code></td>
-              <td>8px</td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
             </tr>
             <tr>
               <td><strong>Badge</strong></td>
@@ -503,8 +503,8 @@
             <tr>
               <td><strong>Toast</strong></td>
               <td><code class="docs__token">--nc-toast-radius</code></td>
-              <td><code class="docs__token">--fnd-radius-lg</code></td>
-              <td>8px</td>
+              <td><code class="docs__token">--fnd-radius-sm</code></td>
+              <td>4px</td>
             </tr>
           </tbody>
         </table>
@@ -570,7 +570,7 @@
         <h3 style="margin-block-end: var(--fnd-spacing-03);">CSS Custom Properties</h3>
         <div class="docs__code-block">/* Radius-Token als CSS Custom Property */
 .card {
-  border-radius: var(--fnd-radius-lg);    /* 8px */
+  border-radius: var(--fnd-radius-sm);    /* 4px (default) */
 }
 
 .modal {
@@ -583,7 +583,7 @@
 
 /* Button-Radius &uuml;ber Component-Token */
 .custom-button {
-  border-radius: var(--nc-button-radius-md);  /* 6px */
+  border-radius: var(--nc-button-radius-md);  /* 4px */
 }</div>
 
         <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">SCSS-Getter</h3>
@@ -591,11 +591,11 @@
 
 // SCSS-Funktion radius() liefert den px-Wert
 .element {
-  border-radius: radius('lg');    // 8px
+  border-radius: radius('sm');    // 4px (default)
 }
 
 // F&uuml;r Mixins, die einen Radius-Wert ben&ouml;tigen
-$my-radius: radius('md');         // 6px</div>
+$my-radius: radius('sm');         // 4px</div>
       </section>
 
       <!-- ================================================================ -->

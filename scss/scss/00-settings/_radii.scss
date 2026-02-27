@@ -6,8 +6,8 @@
 // SKALA (7+2 Stufen):
 //   null = 0px   (sharp)
 //   xs   = 2px   (minimal)
-//   sm   = 4px   (subtle)
-//   md   = 6px   (default)
+//   sm   = 4px   (default)
+//   md   = 6px   (medium-small)
 //   lg   = 8px   (medium)
 //   xl   = 10px  (pronounced)
 //   2xl  = 12px  (large)
@@ -57,6 +57,9 @@ $_radii-aliases: (
   @each $size, $value in $radii {
     --fnd-radius-#{$size}: #{$value};
   }
+
+  // Default alias
+  --fnd-radius-default: var(--fnd-radius-sm); // 4px
 
   // Backward-compatibility aliases (deprecated)
   --fnd-radius-s: var(--fnd-radius-sm);     // 4px
