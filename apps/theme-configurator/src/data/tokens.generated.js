@@ -2198,6 +2198,236 @@ export const foundationTokens = {
         "type": "duration"
       }
     }
+  },
+  "border": {
+    "label": "Border",
+    "icon": "border-style-2",
+    "tokens": {
+      "width-null": {
+        "label": "None",
+        "value": "0px",
+        "type": "width"
+      },
+      "width-xs": {
+        "label": "XS (Hairline)",
+        "value": "1px",
+        "type": "width"
+      },
+      "width-sm": {
+        "label": "SM (Default)",
+        "value": "1.5px",
+        "type": "width"
+      },
+      "width-md": {
+        "label": "MD",
+        "value": "2px",
+        "type": "width"
+      },
+      "width-lg": {
+        "label": "LG",
+        "value": "3px",
+        "type": "width"
+      },
+      "width-xl": {
+        "label": "XL",
+        "value": "4px",
+        "type": "width"
+      },
+      "style-solid": {
+        "label": "Solid",
+        "value": "solid",
+        "type": "style"
+      },
+      "style-dashed": {
+        "label": "Dashed",
+        "value": "dashed",
+        "type": "style"
+      },
+      "style-dotted": {
+        "label": "Dotted",
+        "value": "dotted",
+        "type": "style"
+      }
+    }
+  },
+  "zindex": {
+    "label": "Z-Index",
+    "icon": "stack-3",
+    "tokens": {
+      "base": {
+        "label": "Base",
+        "value": 1
+      },
+      "dropdown": {
+        "label": "Dropdown",
+        "value": 2
+      },
+      "sticky": {
+        "label": "Sticky",
+        "value": 3
+      },
+      "fixed": {
+        "label": "Fixed",
+        "value": 9
+      },
+      "modal-backdrop": {
+        "label": "Modal Backdrop",
+        "value": 10
+      },
+      "modal": {
+        "label": "Modal",
+        "value": 11
+      },
+      "tooltip": {
+        "label": "Tooltip",
+        "value": 20
+      }
+    }
+  },
+  "elements": {
+    "label": "Elements",
+    "icon": "components",
+    "groups": [
+      {
+        "label": "Body",
+        "items": [
+          {
+            "property": "font-family",
+            "value": "var(--fnd-font-family-body)"
+          },
+          {
+            "property": "font-size",
+            "value": "var(--fs-base)"
+          },
+          {
+            "property": "line-height",
+            "value": "1.6"
+          },
+          {
+            "property": "color",
+            "value": "var(--fnd-color-text-primary)"
+          },
+          {
+            "property": "background",
+            "value": "var(--fnd-color-background-base)"
+          }
+        ]
+      },
+      {
+        "label": "Headings",
+        "items": [
+          {
+            "property": "font-family",
+            "value": "var(--fnd-font-family-heading)"
+          },
+          {
+            "property": "font-weight",
+            "value": "var(--fnd-font-weight-bold)"
+          },
+          {
+            "property": "color",
+            "value": "var(--fnd-color-text-primary)"
+          },
+          {
+            "property": "line-height",
+            "value": "1.2"
+          }
+        ]
+      },
+      {
+        "label": "Links",
+        "items": [
+          {
+            "property": "color",
+            "value": "var(--fnd-color-interactive-default)"
+          },
+          {
+            "property": "text-decoration",
+            "value": "underline"
+          },
+          {
+            "property": "hover:color",
+            "value": "var(--fnd-color-interactive-hover)"
+          }
+        ]
+      },
+      {
+        "label": "Buttons",
+        "items": [
+          {
+            "property": "font-family",
+            "value": "inherit"
+          },
+          {
+            "property": "font-weight",
+            "value": "var(--fnd-font-weight-semibold)"
+          },
+          {
+            "property": "cursor",
+            "value": "pointer"
+          },
+          {
+            "property": "border",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "label": "Forms",
+        "items": [
+          {
+            "property": "font-family",
+            "value": "inherit"
+          },
+          {
+            "property": "font-size",
+            "value": "inherit"
+          },
+          {
+            "property": "color",
+            "value": "inherit"
+          }
+        ]
+      }
+    ]
+  },
+  "themes": {
+    "label": "Themes",
+    "icon": "color-swatch",
+    "themeList": [
+      {
+        "id": "neo-light-theme",
+        "label": "Neo Light",
+        "role": "Primary (Default)",
+        "colorScheme": "light",
+        "mixTarget": "always-dark",
+        "desc": "Standard-Theme für helle Umgebungen. Basis aller anderen Themes."
+      },
+      {
+        "id": "neo-dark-theme",
+        "label": "Neo Dark",
+        "role": "Primary Dark",
+        "colorScheme": "dark",
+        "mixTarget": "always-light",
+        "desc": "Dunkles Gegenstück zu Neo Light. Aktiviert per prefers-color-scheme oder data-theme."
+      },
+      {
+        "id": "customer-light-theme",
+        "label": "Customer Light",
+        "role": "Secondary",
+        "colorScheme": "light",
+        "mixTarget": "always-dark",
+        "desc": "Kundenspezifisches helles Theme mit angepasster Farbpalette."
+      },
+      {
+        "id": "customer-dark-theme",
+        "label": "Customer Dark",
+        "role": "Secondary Dark",
+        "colorScheme": "dark",
+        "mixTarget": "always-light",
+        "desc": "Kundenspezifisches dunkles Theme. Hover/Active-States mixen Richtung always-light."
+      }
+    ]
   }
 }
 

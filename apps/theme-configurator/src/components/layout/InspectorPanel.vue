@@ -36,12 +36,29 @@
       <TypographyEditor />
     </template>
 
-    <!-- Foundation: Opacity -->
-    <template v-else-if="activeSection === 'foundation-opacity'">
-      <FoundationGeneric category="opacity" />
+    <!-- Foundation: Border -->
+    <template v-else-if="activeSection === 'foundation-border'">
+      <BorderEditor />
     </template>
 
-    <!-- Foundation: Motion -->
+    <!-- Foundation: Elements -->
+    <template v-else-if="activeSection === 'foundation-elements'">
+      <ElementsOverview />
+    </template>
+
+    <!-- Foundation: Themes -->
+    <template v-else-if="activeSection === 'foundation-themes'">
+      <ThemesOverview />
+    </template>
+
+    <!-- Foundation: Opacity, Z-Index & Motion -->
+    <template v-else-if="activeSection === 'foundation-opacity'">
+      <FoundationGeneric category="opacity" sectionLabel="Opacity" />
+      <FoundationGeneric category="zindex" sectionLabel="Z-Index" />
+      <FoundationGeneric category="motion" sectionLabel="Motion" />
+    </template>
+
+    <!-- Foundation: Motion (fallback) -->
     <template v-else-if="activeSection === 'foundation-motion'">
       <FoundationGeneric category="motion" />
     </template>
@@ -77,6 +94,9 @@ import SurfaceEditor from '../foundation/SurfaceEditor.vue'
 import ShadowEditor from '../foundation/ShadowEditor.vue'
 import TypographyEditor from '../foundation/TypographyEditor.vue'
 import FoundationGeneric from '../foundation/FoundationGeneric.vue'
+import BorderEditor from '../foundation/BorderEditor.vue'
+import ElementsOverview from '../foundation/ElementsOverview.vue'
+import ThemesOverview from '../foundation/ThemesOverview.vue'
 import ComponentEditor from '../components/ComponentEditor.vue'
 import ModulePlaceholder from '../templates/ModulePlaceholder.vue'
 import TemplatePlaceholder from '../templates/TemplatePlaceholder.vue'
@@ -91,7 +111,10 @@ const sectionMeta = {
   'foundation-shadows': { title: 'Shadows & Elevation', desc: 'Box shadow levels and semantic elevation mapping.' },
   'foundation-spacing': { title: 'Spacing', desc: 'Spacing scale based on 4px base unit. Steps 06+ are fluid.' },
   'foundation-typography': { title: 'Typography', desc: 'Font families, weight scale, and size system.' },
-  'foundation-opacity': { title: 'Opacity', desc: 'Opacity values for interactive states.' },
+  'foundation-border': { title: 'Border', desc: 'Border-Width-Skala und Border-Styles.' },
+  'foundation-elements': { title: 'Elements', desc: 'HTML-Element-Defaults: Body, Headings, Links, Buttons, Forms.' },
+  'foundation-themes': { title: 'Themes', desc: '4-Theme-System: Neo Light/Dark + Customer Light/Dark.' },
+  'foundation-opacity': { title: 'Opacity, Z-Index & Motion', desc: 'Opacity-Werte, Z-Index-Schichten und Motion-Tokens.' },
   'foundation-motion': { title: 'Motion', desc: 'Easing curves and duration tokens.' },
   'component-button': { title: 'Buttons', desc: 'Button geometry, colors, and variant tokens.' },
   'component-input': { title: 'Inputs', desc: 'Input field geometry, colors, and state tokens.' },

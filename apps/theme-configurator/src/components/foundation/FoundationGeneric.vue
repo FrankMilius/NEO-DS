@@ -1,5 +1,6 @@
 <template>
   <div class="foundation-generic">
+    <h3 v-if="sectionLabel" class="sub-heading">{{ sectionLabel }}</h3>
     <div class="token-list">
       <div
         v-for="(token, key) in tokens"
@@ -8,7 +9,7 @@
       >
         <div class="token-info">
           <span class="token-label">{{ token.label }}</span>
-          <code class="token-name">--fnd-{{ category }}-{{ key }}</code>
+          <code class="token-name">{{ tokenName(key) }}</code>
         </div>
         <div class="token-preview">
           <!-- Radius preview -->
@@ -17,7 +18,13 @@
           <div v-else-if="category === 'spacing'" class="preview-spacing" :style="{ width: currentValue(key) }"></div>
           <!-- Opacity preview -->
           <div v-else-if="category === 'opacity'" class="preview-opacity" :style="{ opacity: currentValue(key) }"></div>
-          <!-- Motion preview -->
+          <!-- Z-Index preview -->
+          <div v-else-if="category === 'zindex'" class="preview-zindex">
+            <div class="zindex-stack">
+              <div class="zindex-layer" :style="{ width: zindexWidth(token.value) + '%' }"></div>
+            </div>
+          </div>
+          <!-- Motion / fallback -->
           <div v-else class="preview-value-text">{{ currentValue(key) }}</div>
         </div>
         <div class="token-value-display">
@@ -34,7 +41,8 @@ import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
 
 const props = defineProps({
-  category: { type: String, required: true }
+  category: { type: String, required: true },
+  sectionLabel: { type: String, default: '' }
 })
 
 const store = useThemeStore()
@@ -43,13 +51,25 @@ const tokens = computed(() => {
   return foundationTokens[props.category]?.tokens || {}
 })
 
+function tokenName(key) {
+  if (props.category === 'zindex') return `--fnd-z-${key}`
+  return `--fnd-${props.category}-${key}`
+}
+
 function currentValue(key) {
   return store.currentFoundation.value[props.category]?.[key] ?? tokens.value[key]?.value ?? ''
+}
+
+function zindexWidth(value) {
+  // Scale z-index values to a visual width (max 20 → 100%)
+  return Math.min(100, (Number(value) / 20) * 100)
 }
 </script>
 
 <style scoped>
 .foundation-generic { display: flex; flex-direction: column; gap: 16px; }
+
+.sub-heading { font-size: 15px; font-weight: 700; color: var(--cfg-text); margin: 0; }
 
 .token-list { display: flex; flex-direction: column; gap: 2px; }
 
@@ -105,6 +125,28 @@ function currentValue(key) {
   background: var(--cfg-accent);
   border-radius: 8px;
   transition: opacity 0.2s;
+}
+
+.preview-zindex {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.zindex-stack {
+  width: 100%;
+  height: 12px;
+  background: var(--cfg-surface-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.zindex-layer {
+  height: 100%;
+  background: var(--cfg-accent);
+  opacity: 0.6;
+  border-radius: 2px;
+  transition: width 0.2s;
 }
 
 .preview-value-text {

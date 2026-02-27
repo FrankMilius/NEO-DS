@@ -126,6 +126,7 @@ function getDefaultFoundation() {
   const result = {}
   for (const [category, data] of Object.entries(foundationTokens)) {
     result[category] = {}
+    if (!data.tokens) continue
     for (const [key, token] of Object.entries(data.tokens)) {
       result[category][key] = token.value
     }
