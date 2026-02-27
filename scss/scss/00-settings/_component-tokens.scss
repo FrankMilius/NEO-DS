@@ -1672,6 +1672,102 @@
 }
 
 // ---------------------------------------------------------------------------
+// Code Snippet Tokens
+// ---------------------------------------------------------------------------
+// Dreifach-Variante Code-Anzeige (inline, single-line, multi-line).
+// Syntax-Highlighting via Prism.js mit theme-aware Token-Farben.
+
+:root {
+  // Typografie
+  --nc-cs-font-family:         var(--font-mono);
+  --nc-cs-font-size:           var(--fs-sm);
+  --nc-cs-line-height:         1.6;
+  --nc-cs-font-weight:         var(--fnd-font-weight-regular);
+  --nc-cs-tab-size:            2;
+
+  // Surface (Block-Varianten: single + multi)
+  --nc-cs-bg:                  var(--fnd-color-layer-01);
+  --nc-cs-color:               var(--fnd-color-text-primary);
+  --nc-cs-border:              var(--fnd-color-border-secondary);
+  --nc-cs-border-width:        var(--fnd-border-width-xs);       // 1px
+  --nc-cs-radius:              var(--fnd-radius-lg);             // 8px
+  --nc-cs-padding:             var(--fnd-spacing-05);            // 20px
+  --nc-cs-padding-inline:      var(--fnd-spacing-05);            // 20px
+
+  // Inline-Variante
+  --nc-cs-inline-bg:           var(--fnd-color-background-secondary);
+  --nc-cs-inline-color:        var(--fnd-color-text-primary);
+  --nc-cs-inline-radius:       var(--fnd-radius-xs);             // 2px
+  --nc-cs-inline-padding-x:    var(--fnd-spacing-02);            // 8px
+  --nc-cs-inline-padding-y:    2px;
+  --nc-cs-inline-font-size:    0.875em;
+
+  // Copy Button
+  --nc-cs-copy-size:           var(--fnd-size-sm);               // 32px
+  --nc-cs-copy-bg:             var(--fnd-color-background-base);
+  --nc-cs-copy-bg-hover:       var(--fnd-color-background-secondary);
+  --nc-cs-copy-color:          var(--fnd-color-text-secondary);
+  --nc-cs-copy-color-hover:    var(--fnd-color-text-primary);
+  --nc-cs-copy-border:         var(--fnd-color-border-secondary);
+  --nc-cs-copy-radius:         var(--fnd-radius-sm);             // 4px
+  --nc-cs-copy-icon-size:      16px;
+
+  // Show More/Less (Multi-Line)
+  --nc-cs-multi-max-height:    240px;                            // ~15 Zeilen
+  --nc-cs-show-more-bg:        var(--fnd-color-layer-01);
+  --nc-cs-show-more-color:     var(--fnd-color-interactive-default);
+  --nc-cs-show-more-font-size: var(--fs-sm);
+  --nc-cs-show-more-height:    var(--fnd-size-sm);               // 32px
+
+  // Syntax-Highlighting (Prism Token-Gruppen)
+  // Light: -600 Shades fuer Kontrast auf layer-01 (#f5f5f5)
+  --nc-cs-syntax-comment:      var(--fnd-color-text-tertiary);
+  --nc-cs-syntax-keyword:      #8b5cf6;                          // violet-500
+  --nc-cs-syntax-string:       #059669;                          // emerald-600
+  --nc-cs-syntax-number:       #d97706;                          // amber-600
+  --nc-cs-syntax-function:     #2563eb;                          // blue-600
+  --nc-cs-syntax-operator:     var(--fnd-color-text-secondary);
+  --nc-cs-syntax-class:        #0891b2;                          // cyan-600
+  --nc-cs-syntax-property:     #dc2626;                          // red-600
+  --nc-cs-syntax-tag:          #dc2626;                          // red-600
+  --nc-cs-syntax-attr-name:    #d97706;                          // amber-600
+  --nc-cs-syntax-attr-value:   #059669;                          // emerald-600
+  --nc-cs-syntax-selector:     #8b5cf6;                          // violet-500
+  --nc-cs-syntax-punctuation:  var(--fnd-color-text-tertiary);
+}
+
+// ---------------------------------------------------------------------------
+// Shell Tokens
+// ---------------------------------------------------------------------------
+// Universelles Layout-System: Linkbar, Sidebars, Footerbar, Content.
+// Verbrauch in 08-templates/_shell.scss.
+
+:root {
+  // -- Linkbar --
+  --nc-shell-linkbar-height: 32px;
+  --nc-shell-linkbar-bg: var(--fnd-color-layer-01);
+  --nc-shell-linkbar-color: var(--fnd-color-text-secondary);
+  --nc-shell-linkbar-border: var(--fnd-color-border-secondary);
+
+  // -- Sidebars --
+  --nc-shell-sidebar-left-width: 260px;
+  --nc-shell-sidebar-right-width: 260px;
+  --nc-shell-sidebar-bg: var(--fnd-color-layer-01);
+  --nc-shell-sidebar-border: var(--fnd-color-border-secondary);
+
+  // -- Footerbar --
+  --nc-shell-footerbar-height: 36px;
+  --nc-shell-footerbar-bg: var(--fnd-color-layer-01);
+  --nc-shell-footerbar-color: var(--fnd-color-text-secondary);
+  --nc-shell-footerbar-border: var(--fnd-color-border-secondary);
+
+  // -- Content --
+  --nc-shell-content-max-width: var(--fnd-content-max-width);   // 1200px
+  --nc-shell-content-narrow: 720px;
+  --nc-shell-content-padding: var(--fnd-spacing-06);             // 24px
+}
+
+// ---------------------------------------------------------------------------
 // Dark Mode: Component Token Overrides
 // ---------------------------------------------------------------------------
 // color-mix()-State-Tokens (Buttons, Tags) werden automatisch ueber
@@ -1691,6 +1787,23 @@
   --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
   --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
   --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
+
+  // Code Snippet: Syntax-Farben fuer dunklen Hintergrund (-400 Shades)
+  --nc-cs-syntax-keyword:      #a78bfa;                          // violet-400
+  --nc-cs-syntax-string:       #34d399;                          // emerald-400
+  --nc-cs-syntax-number:       #fbbf24;                          // amber-400
+  --nc-cs-syntax-function:     #60a5fa;                          // blue-400
+  --nc-cs-syntax-class:        #22d3ee;                          // cyan-400
+  --nc-cs-syntax-property:     #f87171;                          // red-400
+  --nc-cs-syntax-tag:          #f87171;                          // red-400
+  --nc-cs-syntax-attr-name:    #fbbf24;                          // amber-400
+  --nc-cs-syntax-attr-value:   #34d399;                          // emerald-400
+  --nc-cs-syntax-selector:     #a78bfa;                          // violet-400
+
+  // Shell: Surface Elevated fuer Linkbar, Sidebars, Footerbar
+  --nc-shell-linkbar-bg: var(--fnd-color-surface-elevated);
+  --nc-shell-sidebar-bg: var(--fnd-color-surface-elevated);
+  --nc-shell-footerbar-bg: var(--fnd-color-surface-elevated);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1702,5 +1815,22 @@
     --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
     --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
     --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
+
+    // Code Snippet: Syntax-Farben fuer dunklen Hintergrund (-400 Shades)
+    --nc-cs-syntax-keyword:    #a78bfa;                          // violet-400
+    --nc-cs-syntax-string:     #34d399;                          // emerald-400
+    --nc-cs-syntax-number:     #fbbf24;                          // amber-400
+    --nc-cs-syntax-function:   #60a5fa;                          // blue-400
+    --nc-cs-syntax-class:      #22d3ee;                          // cyan-400
+    --nc-cs-syntax-property:   #f87171;                          // red-400
+    --nc-cs-syntax-tag:        #f87171;                          // red-400
+    --nc-cs-syntax-attr-name:  #fbbf24;                          // amber-400
+    --nc-cs-syntax-attr-value: #34d399;                          // emerald-400
+    --nc-cs-syntax-selector:   #a78bfa;                          // violet-400
+
+    // Shell: Surface Elevated fuer Linkbar, Sidebars, Footerbar
+    --nc-shell-linkbar-bg: var(--fnd-color-surface-elevated);
+    --nc-shell-sidebar-bg: var(--fnd-color-surface-elevated);
+    --nc-shell-footerbar-bg: var(--fnd-color-surface-elevated);
   }
 }

@@ -1,0 +1,354 @@
+// ==========================================================================
+// 08-Templates: Content Templates
+// ==========================================================================
+// Wiederverwendbare Inhalts-Layouts fuer den .nc-shell__content-body.
+// Jedes Template definiert ein spezifisches Grid/Flow-Pattern fuer
+// gaengige Seitentypen. Kombinierbar mit Shell-Presets.
+//
+// BEM: .ct-{name}  (ct = Content Template)
+//
+// TEMPLATES:
+//   ct-dashboard-overview — Auto-fit Grid fuer Metrik-Karten
+//   ct-article            — Prosa-Layout mit optionaler TOC-Sidebar
+//   ct-card-grid          — Auto-fill Karten-Grid
+//   ct-form               — Zentriertes Formular-Layout
+//   ct-split              — 2-Spalten-Layout (50/50 oder 60/40)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// ct-dashboard-overview — Metrik-Karten + Content-Cards
+// ---------------------------------------------------------------------------
+// Verwendung: Dashboard-Startseiten mit KPI-Karten und darunter
+// liegenden Detail-Cards.
+//
+// HTML:
+//   <div class="ct-dashboard-overview">
+//     <div class="ct-dashboard-overview__metrics">
+//       <div class="ct-dashboard-overview__metric">...</div>
+//     </div>
+//     <div class="ct-dashboard-overview__cards">
+//       <div class="ct-dashboard-overview__card">...</div>
+//     </div>
+//   </div>
+// ---------------------------------------------------------------------------
+
+.ct-dashboard-overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-06);
+}
+
+.ct-dashboard-overview__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--fnd-spacing-04);
+}
+
+.ct-dashboard-overview__metric {
+  background: var(--fnd-color-layer-01);
+  border-radius: var(--fnd-radius-sm);
+  padding: var(--fnd-spacing-05);
+  box-shadow: var(--fnd-elevation-base);
+}
+
+.ct-dashboard-overview__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--fnd-spacing-04);
+}
+
+.ct-dashboard-overview__card {
+  background: var(--fnd-color-layer-01);
+  border-radius: var(--fnd-radius-sm);
+  padding: var(--fnd-spacing-06);
+  box-shadow: var(--fnd-elevation-base);
+}
+
+// ---------------------------------------------------------------------------
+// ct-article — Prosa-optimiertes Layout
+// ---------------------------------------------------------------------------
+// Verwendung: Blog-Posts, Artikel, Dokumentationsseiten.
+// Optional mit Inhaltsverzeichnis-Sidebar (ab lg).
+//
+// HTML:
+//   <div class="ct-article">
+//     <article class="ct-article__prose">
+//       <h1>...</h1>
+//       <p>...</p>
+//     </article>
+//     <aside class="ct-article__toc">...</aside>  <!-- optional -->
+//   </div>
+// ---------------------------------------------------------------------------
+
+.ct-article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-06);
+
+  @include respond-to('lg') {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    align-items: start;
+  }
+}
+
+// Ohne TOC: Artikel allein (volle Breite, Prose-Begrenzung)
+.ct-article--no-toc {
+  display: block;
+}
+
+.ct-article__prose {
+  max-width: var(--fnd-prose-max-width);
+  color: var(--fnd-color-text-primary);
+  line-height: var(--lh-body);
+
+  // Grundlegende Prose-Typografie
+  h2 {
+    @include heading('m');
+    margin: var(--fnd-spacing-08) 0 var(--fnd-spacing-04);
+  }
+
+  h3 {
+    @include heading('s');
+    margin: var(--fnd-spacing-06) 0 var(--fnd-spacing-03);
+  }
+
+  p {
+    margin: 0 0 var(--fnd-spacing-04);
+  }
+
+  ul,
+  ol {
+    margin: 0 0 var(--fnd-spacing-04);
+    padding-inline-start: var(--fnd-spacing-06);
+  }
+
+  li {
+    margin-block-end: var(--fnd-spacing-02);
+  }
+
+  blockquote {
+    margin: var(--fnd-spacing-06) 0;
+    padding: var(--fnd-spacing-04) var(--fnd-spacing-06);
+    border-inline-start: 4px solid var(--fnd-color-interactive-default);
+    background: var(--fnd-color-layer-01);
+    border-radius: 0 var(--fnd-radius-sm) var(--fnd-radius-sm) 0;
+    color: var(--fnd-color-text-secondary);
+    font-style: italic;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--fnd-radius-sm);
+    margin: var(--fnd-spacing-04) 0;
+  }
+
+  hr {
+    border: none;
+    border-block-start: 1px solid var(--fnd-color-border-secondary);
+    margin: var(--fnd-spacing-08) 0;
+  }
+}
+
+.ct-article__toc {
+  @include respond-to('lg') {
+    position: sticky;
+    inset-block-start: calc(var(--nav-height) + var(--fnd-spacing-06));
+  }
+
+  @include respond-to-max('lg') {
+    display: none; // TOC nur auf Desktop sichtbar
+  }
+}
+
+// ---------------------------------------------------------------------------
+// ct-card-grid — Auto-fill Karten-Raster
+// ---------------------------------------------------------------------------
+// Verwendung: Produkt-Uebersichten, Galerie-Seiten, Feature-Listen.
+// Karten füllen sich automatisch in das Grid ein.
+//
+// HTML:
+//   <div class="ct-card-grid">
+//     <div class="ct-card-grid__item">...</div>
+//     <div class="ct-card-grid__item">...</div>
+//   </div>
+//
+// Modifier:
+//   --sm: Kleinere Karten (min 200px)
+//   --lg: Groessere Karten (min 360px)
+// ---------------------------------------------------------------------------
+
+.ct-card-grid {
+  --ct-card-grid-min: 280px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--ct-card-grid-min), 100%), 1fr));
+  gap: var(--fnd-spacing-04);
+}
+
+.ct-card-grid--sm {
+  --ct-card-grid-min: 200px;
+}
+
+.ct-card-grid--lg {
+  --ct-card-grid-min: 360px;
+}
+
+.ct-card-grid__item {
+  min-width: 0; // Grid-Blowout verhindern
+}
+
+// ---------------------------------------------------------------------------
+// ct-form — Zentriertes Formular-Layout
+// ---------------------------------------------------------------------------
+// Verwendung: Registrierung, Login, Kontaktformular, Checkout-Schritte.
+// Zentriert, schmal (720px), mit optionalem Header und Aktionsleiste.
+//
+// HTML:
+//   <div class="ct-form">
+//     <div class="ct-form__header">
+//       <h1 class="ct-form__title">...</h1>
+//       <p class="ct-form__description">...</p>
+//     </div>
+//     <form class="ct-form__body">
+//       <section class="ct-form__section">...</section>
+//       <div class="ct-form__actions">...</div>
+//     </form>
+//   </div>
+// ---------------------------------------------------------------------------
+
+.ct-form {
+  max-width: var(--nc-shell-content-narrow, 720px);
+  margin-inline: auto;
+}
+
+.ct-form__header {
+  text-align: center;
+  margin-block-end: var(--fnd-spacing-08);
+}
+
+.ct-form__title {
+  @include heading('l');
+  margin: 0 0 var(--fnd-spacing-03);
+  color: var(--fnd-color-text-primary);
+}
+
+.ct-form__description {
+  color: var(--fnd-color-text-secondary);
+  max-width: var(--fnd-prose-max-width);
+  margin-inline: auto;
+}
+
+.ct-form__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-06);
+}
+
+.ct-form__section {
+  background: var(--fnd-color-layer-01);
+  border-radius: var(--fnd-radius-sm);
+  padding: var(--fnd-spacing-06);
+  box-shadow: var(--fnd-elevation-base);
+}
+
+.ct-form__section-title {
+  @include heading('s');
+  margin: 0 0 var(--fnd-spacing-04);
+  color: var(--fnd-color-on-layer-01);
+}
+
+.ct-form__section-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);
+}
+
+// Formular-Zeile (nebeneinander ab Tablet)
+.ct-form__row {
+  display: grid;
+  gap: var(--fnd-spacing-04);
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ct-form__row--3 {
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ct-form__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block-start: var(--fnd-spacing-04);
+  border-block-start: 1px solid var(--fnd-color-border-secondary);
+}
+
+.ct-form__actions-end {
+  display: flex;
+  gap: var(--fnd-spacing-03);
+  margin-inline-start: auto;
+}
+
+// ---------------------------------------------------------------------------
+// ct-split — 2-Spalten-Layout
+// ---------------------------------------------------------------------------
+// Verwendung: Feature-Beschreibungen, Media + Text, Split-Screens.
+// Mobile: gestapelt. Desktop: nebeneinander.
+//
+// HTML:
+//   <div class="ct-split">
+//     <div class="ct-split__primary">...</div>
+//     <div class="ct-split__secondary">...</div>
+//   </div>
+//
+// Modifier:
+//   --reverse:   Reihenfolge umkehren (Desktop)
+//   --60-40:     60/40-Aufteilung statt 50/50
+//   --align-center: Vertikal zentriert
+// ---------------------------------------------------------------------------
+
+.ct-split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-06);
+
+  @include respond-to('lg') {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.ct-split--reverse {
+  @include respond-to('lg') {
+    direction: rtl; // Spalten tauschen
+
+    > * {
+      direction: ltr; // Inhalt bleibt LTR
+    }
+  }
+}
+
+.ct-split--60-40 {
+  @include respond-to('lg') {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.ct-split--align-center {
+  @include respond-to('lg') {
+    align-items: center;
+  }
+}
+
+.ct-split__primary,
+.ct-split__secondary {
+  min-width: 0; // Grid-Blowout verhindern
+}

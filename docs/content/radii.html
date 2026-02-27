@@ -282,7 +282,6 @@
           </tbody>
         </table>
       </div>
-      </div>
       </section>
 
       <!-- ================================================================ -->
@@ -392,7 +391,6 @@
           </tbody>
         </table>
       </div>
-      </div>
       </section>
 
       <!-- ================================================================ -->
@@ -466,7 +464,6 @@
           </tbody>
         </table>
       </div>
-      </div>
       </section>
 
       <!-- ================================================================ -->
@@ -525,7 +522,12 @@
         <h2 class="docs__section-title">Code-Beispiele</h2>
 
         <h3 style="margin-block-end: var(--fnd-spacing-03);">CSS Custom Properties</h3>
-        <div class="docs__code-block">/* Radius-Token als CSS Custom Property */
+        <div class="nc-code-snippet nc-code-snippet--multi">
+          <div class="nc-code-snippet__header">
+            <span class="nc-code-snippet__lang">CSS</span>
+            <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+          </div>
+          <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">/* Radius-Token als CSS Custom Property */
 .card {
   border-radius: var(--fnd-radius-lg);    /* 8px */
 }
@@ -535,24 +537,31 @@
 }
 
 .badge {
-  border-radius: var(--fnd-radius-full);  /* 9999px &rarr; Pill */
+  border-radius: var(--fnd-radius-full);  /* 9999px → Pill */
 }
 
-/* Button-Radius &uuml;ber Component-Token */
+/* Button-Radius über Component-Token */
 .custom-button {
   border-radius: var(--nc-button-radius-md);  /* 6px */
-}</div>
+}</code></pre>
+        </div>
 
         <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">SCSS-Getter</h3>
-        <div class="docs__code-block">@use '../00-settings' as *;
+        <div class="nc-code-snippet nc-code-snippet--multi">
+          <div class="nc-code-snippet__header">
+            <span class="nc-code-snippet__lang">SCSS</span>
+            <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+          </div>
+          <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-scss">@use '../00-settings' as *;
 
 // SCSS-Funktion radius() liefert den px-Wert
 .element {
   border-radius: radius('lg');    // 8px
 }
 
-// F&uuml;r Mixins, die einen Radius-Wert ben&ouml;tigen
-$my-radius: radius('md');         // 6px</div>
+// Für Mixins, die einen Radius-Wert benötigen
+$my-radius: radius('md');         // 6px</code></pre>
+        </div>
       </section>
 
       <!-- ================================================================ -->
@@ -605,7 +614,12 @@ $my-radius: radius('md');         // 6px</div>
         </table>
       </div>
 
-        <div class="docs__code-block">/* Im CSS: Aliases funktionieren weiterhin */
+        <div class="nc-code-snippet nc-code-snippet--multi">
+          <div class="nc-code-snippet__header">
+            <span class="nc-code-snippet__lang">CSS</span>
+            <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+          </div>
+          <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">/* Im CSS: Aliases funktionieren weiterhin */
 :root {
   --fnd-radius-s: var(--fnd-radius-sm);     /* 4px */
   --fnd-radius-m: var(--fnd-radius-lg);     /* 8px */
@@ -613,11 +627,12 @@ $my-radius: radius('md');         // 6px</div>
   --fnd-radius-2xs: var(--fnd-radius-null); /* 0px */
 }
 
-/* Alter Code funktioniert ohne &Auml;nderung: */
+/* Alter Code funktioniert ohne Änderung: */
 .legacy-card { border-radius: var(--fnd-radius-m); } /* = 8px */
 
 /* Neuer Code verwendet neue Token: */
-.new-card { border-radius: var(--fnd-radius-lg); }   /* = 8px */</div>
+.new-card { border-radius: var(--fnd-radius-lg); }   /* = 8px */</code></pre>
+        </div>
       </section>
 
       <!-- ================================================================ -->
@@ -670,6 +685,16 @@ $my-radius: radius('md');         // 6px</div>
 <!-- /BODY -->
 
 <!-- SCRIPTS -->
+  <!-- Prism.js Syntax-Highlighting -->
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="../node_modules/prismjs/prism.js"></script>
+  <script src="../node_modules/prismjs/components/prism-css.min.js"></script>
+  <script src="../node_modules/prismjs/components/prism-scss.min.js"></script>
+
+  <!-- Code Snippet Controller -->
+  <script src="../js/code-snippet.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function() { setupCodeSnippets(); });</script>
+
   <script>
     // Viewport indicator
     (function() {

@@ -38,9 +38,13 @@
   color: var(--fnd-color-text-primary);
   list-style: none;
   cursor: pointer;
-  
+
   &::-webkit-details-marker {
     display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
   }
 }
 

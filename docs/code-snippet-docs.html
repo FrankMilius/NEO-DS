@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Code Snippet | Component Docs</title>
+  <meta name="description" content="Code-Anzeige mit farbigem Syntax-Highlighting in drei Varianten: Inline, Single-Line und Multi-Line. Prism.js Integration mit theme-aware Farben." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Code Snippet</h1>
+        <p class="docs__subtitle">
+          Code-Anzeige mit farbigem Syntax-Highlighting in drei Varianten:
+          <strong>Inline</strong>, <strong>Single-Line</strong> und <strong>Multi-Line</strong>.
+          Kanonische Klasse: <code class="docs__token">.nc-code-snippet</code> (BEM).
+          Alle Werte kommen aus <code class="docs__token">--nc-cs-*</code> Component-Tokens.
+          Syntax-Highlighting via <strong>Prism.js</strong> mit theme-aware Farben.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Code-Snippet-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="code-snippet-tabs">
+
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <!-- Inline Variante -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Inline</h2>
+            <p class="docs__section-desc">
+              F&uuml;r kurze Code-Referenzen im Flie&szlig;text. Kein Copy-Button.
+              Nutzt <code class="docs__token">.nc-code-snippet--inline</code>.
+            </p>
+
+            <div class="docs-stage">
+              <div class="docs-stage__toolbar">
+                <div class="docs-stage__controls">
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Theme"
+                       data-stage-control="segmented" data-stage-target="stage-theme" data-default="neo-light-theme">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="neo-light-theme" aria-label="Neo Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="neo-dark-theme" aria-label="Neo Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-light-theme" aria-label="Customer Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-dark-theme" aria-label="Customer Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-stage__preview" id="cs-inline-preview">
+                <p style="max-width: 600px; line-height: 1.6;">
+                  Verwende <code class="nc-code-snippet nc-code-snippet--inline">var(--fnd-color-text-primary)</code>
+                  f&uuml;r die prim&auml;re Textfarbe. Der Befehl
+                  <code class="nc-code-snippet nc-code-snippet--inline">npm run build:css</code>
+                  kompiliert die SCSS-Dateien. Nutze die Funktion
+                  <code class="nc-code-snippet nc-code-snippet--inline">setupCodeSnippets()</code>
+                  f&uuml;r Auto-Initialisierung.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Single-Line Variante -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Single-Line</h2>
+            <p class="docs__section-desc">
+              F&uuml;r einzelne Befehle oder kurze Codezeilen. Horizontaler Scroll bei &Uuml;berl&auml;nge.
+              Nutzt <code class="docs__token">.nc-code-snippet--single</code>.
+            </p>
+
+            <div class="docs-stage">
+              <div class="docs-stage__toolbar">
+                <div class="docs-stage__controls">
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Theme"
+                       data-stage-control="segmented" data-stage-target="stage-theme-single" data-default="neo-light-theme">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="neo-light-theme" aria-label="Neo Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="neo-dark-theme" aria-label="Neo Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-light-theme" aria-label="Customer Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-dark-theme" aria-label="Customer Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-stage__preview docs-stage__preview--start" id="cs-single-preview" style="flex-direction: column; gap: var(--fnd-spacing-04); align-items: stretch;">
+
+                <!-- Bash -->
+                <div class="nc-code-snippet nc-code-snippet--single">
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-bash">npm install --save-dev prismjs && npm run build:css</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="nc-code-snippet nc-code-snippet--single">
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-javascript">const theme = document.documentElement.getAttribute('data-theme') || 'neo-light-theme';</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                </div>
+
+                <!-- CSS -->
+                <div class="nc-code-snippet nc-code-snippet--single">
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">background-color: var(--fnd-color-layer-01);</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <!-- Multi-Line Variante -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Multi-Line</h2>
+            <p class="docs__section-desc">
+              F&uuml;r l&auml;ngere Code-Bl&ouml;cke mit optionalem Sprach-Label und Show More/Less.
+              Nutzt <code class="docs__token">.nc-code-snippet--multi</code>.
+            </p>
+
+            <div class="docs-stage">
+              <div class="docs-stage__toolbar">
+                <div class="docs-stage__controls">
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Theme"
+                       data-stage-control="segmented" data-stage-target="stage-theme-multi" data-default="neo-light-theme">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="neo-light-theme" aria-label="Neo Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="neo-dark-theme" aria-label="Neo Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-light-theme" aria-label="Customer Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-dark-theme" aria-label="Customer Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-stage__preview docs-stage__preview--start" id="cs-multi-preview" style="flex-direction: column; gap: var(--fnd-spacing-06); align-items: stretch;">
+
+                <!-- JavaScript Beispiel -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">JavaScript</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-javascript">/**
+ * Code Snippet – Vanilla JS Controller
+ * Syntax-Highlighting, Copy-to-Clipboard, Show More/Less.
+ */
+const setupCodeSnippet = (container) => {
+  const ac = new AbortController();
+  const signal = ac.signal;
+  const codeEl = container.querySelector('.nc-code-snippet__code');
+  const copyBtn = container.querySelector('.nc-code-snippet__copy');
+
+  // Prism Highlighting
+  if (codeEl &amp;&amp; typeof Prism !== 'undefined') {
+    Prism.highlightElement(codeEl);
+  }
+
+  // Copy to Clipboard
+  if (copyBtn &amp;&amp; codeEl) {
+    copyBtn.addEventListener('click', async () => {
+      const text = codeEl.textContent;
+      await navigator.clipboard.writeText(text);
+      copyBtn.classList.add('nc-code-snippet__copy--success');
+      setTimeout(() => {
+        copyBtn.classList.remove('nc-code-snippet__copy--success');
+      }, 2000);
+    }, { signal });
+  }
+
+  return { destroy: () => ac.abort() };
+};</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- HTML Beispiel -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">HTML</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;div class="nc-code-snippet nc-code-snippet--multi"&gt;
+  &lt;span class="nc-code-snippet__label"&gt;JavaScript&lt;/span&gt;
+  &lt;pre class="nc-code-snippet__pre"&gt;
+    &lt;code class="nc-code-snippet__code language-javascript"&gt;
+      const x = 42;
+    &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;button class="nc-code-snippet__copy"
+          type="button"
+          aria-label="Code kopieren"&gt;&lt;/button&gt;
+  &lt;button class="nc-code-snippet__show-more"
+          type="button"
+          aria-expanded="false"&gt;
+    &lt;span class="nc-code-snippet__show-more-label"&gt;
+      Mehr anzeigen
+    &lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- SCSS Beispiel -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">SCSS</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-scss">.nc-code-snippet--single {
+  .nc-code-snippet__pre {
+    white-space: pre;
+    overflow-y: hidden;
+    padding-right: calc(
+      var(--nc-cs-copy-size) +
+      var(--fnd-spacing-05) +
+      var(--nc-cs-padding-inline)
+    );
+  }
+}
+
+.nc-code-snippet__copy {
+  position: absolute;
+  top: var(--fnd-spacing-03);
+  right: var(--fnd-spacing-03);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-cs-copy-size);
+  height: var(--nc-cs-copy-size);
+  @include transition-quick((opacity, background-color));
+}</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- CSS Beispiel (kurz, kein Show More) -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">CSS</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">:root {
+  --nc-cs-bg: var(--fnd-color-layer-01);
+  --nc-cs-color: var(--fnd-color-text-primary);
+  --nc-cs-radius: var(--fnd-radius-lg);
+}</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <!-- Weitere Sprachen -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Weitere Sprachen</h2>
+            <p class="docs__section-desc">
+              Unterst&uuml;tzt werden: HTML, CSS, SCSS, JavaScript, TypeScript, JSON, Bash, Markdown, PHP, Python, Java, SQL, YAML.
+            </p>
+
+            <div class="docs-stage">
+              <div class="docs-stage__toolbar">
+                <div class="docs-stage__controls">
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Theme"
+                       data-stage-control="segmented" data-stage-target="stage-theme-lang" data-default="neo-light-theme">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="neo-light-theme" aria-label="Neo Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="neo-dark-theme" aria-label="Neo Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-light-theme" aria-label="Customer Light">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                    </button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="customer-dark-theme" aria-label="Customer Dark">
+                      <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="docs-stage__preview docs-stage__preview--start" id="cs-lang-preview" style="flex-direction: column; gap: var(--fnd-spacing-06); align-items: stretch;">
+
+                <!-- Python -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">Python</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-python">class TokenGenerator:
+    """Generiert Design-Tokens aus einer JSON-Konfiguration."""
+
+    def __init__(self, config_path: str):
+        self.config = self._load_config(config_path)
+        self.tokens = {}
+
+    def generate(self) -> dict:
+        for category, values in self.config.items():
+            self.tokens[category] = {
+                f"--fnd-{category}-{k}": v
+                for k, v in values.items()
+            }
+        return self.tokens
+
+    @staticmethod
+    def _load_config(path: str) -> dict:
+        with open(path, 'r') as f:
+            return json.load(f)</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- JSON -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">JSON</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-json">{
+  "color": {
+    "primary": {
+      "100": "#e3f2fd",
+      "500": "#003d6a",
+      "900": "#001d33"
+    },
+    "feedback": {
+      "success": "#198038",
+      "danger": "#da1e28"
+    }
+  }
+}</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- SQL -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">SQL</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-sql">SELECT
+    t.name       AS token_name,
+    t.value      AS token_value,
+    c.category   AS category
+FROM design_tokens t
+JOIN categories c ON t.category_id = c.id
+WHERE c.category IN ('color', 'spacing', 'typography')
+ORDER BY c.category, t.name;</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+                <!-- YAML -->
+                <div class="nc-code-snippet nc-code-snippet--multi">
+                  <span class="nc-code-snippet__label">YAML</span>
+                  <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-yaml">design-system:
+  name: NEO
+  version: 1.0.0
+  themes:
+    - neo-light
+    - neo-dark
+    - customer-light
+    - customer-dark
+  tokens:
+    color:
+      primary: "#003d6a"
+      secondary: "#009fe3"
+    spacing:
+      base: 4px
+      scale: [4, 8, 12, 16, 20, 24, 32, 40, 48, 56]</code></pre>
+                  <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+                  <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                    <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </section>
+        </div>
+
+<!-- ============================================================ -->
+        <!-- TAB 2: Style                                                  -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">Component Tokens</h2>
+            <p class="docs__section-desc">
+              Alle <code class="docs__token">--nc-cs-*</code> Tokens sind in
+              <code class="docs__token">_component-tokens.scss</code> im <code>:root</code>-Block registriert.
+            </p>
+
+            <h3 class="themes__role-group-title">Typografie</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Token</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-cs-font-family</code></td><td>var(--font-mono)</td></tr>
+                <tr><td><code>--nc-cs-font-size</code></td><td>var(--fs-sm)</td></tr>
+                <tr><td><code>--nc-cs-line-height</code></td><td>1.6</td></tr>
+                <tr><td><code>--nc-cs-font-weight</code></td><td>var(--fnd-font-weight-regular)</td></tr>
+                <tr><td><code>--nc-cs-tab-size</code></td><td>2</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="themes__role-group-title">Surface (Block)</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Token</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-cs-bg</code></td><td>var(--fnd-color-layer-01)</td></tr>
+                <tr><td><code>--nc-cs-color</code></td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code>--nc-cs-border</code></td><td>var(--fnd-color-border-secondary)</td></tr>
+                <tr><td><code>--nc-cs-radius</code></td><td>var(--fnd-radius-lg) / 8px</td></tr>
+                <tr><td><code>--nc-cs-padding</code></td><td>var(--fnd-spacing-05) / 20px</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="themes__role-group-title">Inline-Variante</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Token</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-cs-inline-bg</code></td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code>--nc-cs-inline-color</code></td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code>--nc-cs-inline-radius</code></td><td>var(--fnd-radius-xs) / 2px</td></tr>
+                <tr><td><code>--nc-cs-inline-padding-x</code></td><td>var(--fnd-spacing-02) / 8px</td></tr>
+                <tr><td><code>--nc-cs-inline-font-size</code></td><td>0.875em</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="themes__role-group-title">Syntax-Highlighting</h3>
+            <p class="docs__section-desc">
+              Syntax-Farben wechseln automatisch zwischen Light (-600 Shades) und Dark (-400 Shades).
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-03); margin-block-end: var(--fnd-spacing-06);">
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-keyword);"></div>
+                <small>keyword</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-string);"></div>
+                <small>string</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-number);"></div>
+                <small>number</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-function);"></div>
+                <small>function</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-class);"></div>
+                <small>class</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-property);"></div>
+                <small>property</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-tag);"></div>
+                <small>tag</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-attr-name);"></div>
+                <small>attr-name</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-attr-value);"></div>
+                <small>attr-value</small>
+              </div>
+              <div style="text-align: center;">
+                <div style="width: 48px; height: 48px; border-radius: var(--fnd-radius-sm); background: var(--nc-cs-syntax-selector);"></div>
+                <small>selector</small>
+              </div>
+            </div>
+            <table class="themes__token-table">
+              <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-cs-syntax-keyword</code></td><td>#8b5cf6 (violet-500)</td><td>#a78bfa (violet-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-string</code></td><td>#059669 (emerald-600)</td><td>#34d399 (emerald-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-number</code></td><td>#d97706 (amber-600)</td><td>#fbbf24 (amber-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-function</code></td><td>#2563eb (blue-600)</td><td>#60a5fa (blue-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-class</code></td><td>#0891b2 (cyan-600)</td><td>#22d3ee (cyan-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-property</code></td><td>#dc2626 (red-600)</td><td>#f87171 (red-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-tag</code></td><td>#dc2626 (red-600)</td><td>#f87171 (red-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-attr-name</code></td><td>#d97706 (amber-600)</td><td>#fbbf24 (amber-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-attr-value</code></td><td>#059669 (emerald-600)</td><td>#34d399 (emerald-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-selector</code></td><td>#8b5cf6 (violet-500)</td><td>#a78bfa (violet-400)</td></tr>
+                <tr><td><code>--nc-cs-syntax-comment</code></td><td colspan="2">var(--fnd-color-text-tertiary)</td></tr>
+                <tr><td><code>--nc-cs-syntax-operator</code></td><td colspan="2">var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code>--nc-cs-syntax-punctuation</code></td><td colspan="2">var(--fnd-color-text-tertiary)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">BEM-Struktur</h2>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">.nc-code-snippet                     /* Block */
+.nc-code-snippet--inline             /* Modifier: Inline */
+.nc-code-snippet--single             /* Modifier: Single-Line */
+.nc-code-snippet--multi              /* Modifier: Multi-Line */
+.nc-code-snippet--expanded           /* State: ausgeklappt */
+
+.nc-code-snippet__pre                /* Element: pre Wrapper */
+.nc-code-snippet__code               /* Element: code (Prism Target) */
+.nc-code-snippet__copy               /* Element: Copy-Button */
+.nc-code-snippet__copy--success      /* State: Kopiert */
+.nc-code-snippet__show-more          /* Element: Mehr/Weniger */
+.nc-code-snippet__show-more-label    /* Element: Button-Text */
+.nc-code-snippet__label              /* Element: Sprach-Label */</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+          </section>
+        </div>
+
+<!-- ============================================================ -->
+        <!-- TAB 3: API                                                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">HTML-Markup</h2>
+
+            <h3 class="themes__role-group-title">Inline</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;code class="nc-code-snippet nc-code-snippet--inline"&gt;const x = 42;&lt;/code&gt;</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+
+            <h3 class="themes__role-group-title">Single-Line</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;div class="nc-code-snippet nc-code-snippet--single"&gt;
+  &lt;pre class="nc-code-snippet__pre"&gt;
+    &lt;code class="nc-code-snippet__code language-bash"&gt;npm install prismjs&lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;button class="nc-code-snippet__copy"
+          type="button"
+          aria-label="Code kopieren"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+
+            <h3 class="themes__role-group-title">Multi-Line</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;div class="nc-code-snippet nc-code-snippet--multi"&gt;
+  &lt;span class="nc-code-snippet__label"&gt;JavaScript&lt;/span&gt;
+  &lt;pre class="nc-code-snippet__pre"&gt;
+    &lt;code class="nc-code-snippet__code language-javascript"&gt;
+      // Dein Code hier...
+    &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;button class="nc-code-snippet__copy"
+          type="button"
+          aria-label="Code kopieren"&gt;&lt;/button&gt;
+  &lt;button class="nc-code-snippet__show-more"
+          type="button"
+          aria-expanded="false"&gt;
+    &lt;span class="nc-code-snippet__show-more-label"&gt;
+      Mehr anzeigen
+    &lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">JavaScript API</h2>
+
+            <h3 class="themes__role-group-title">Einzelne Instanz</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-javascript">// Einzelnes Element initialisieren
+const cs = setupCodeSnippet(document.querySelector('.nc-code-snippet'));
+
+// Aufraeumen
+cs.destroy();</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+
+            <h3 class="themes__role-group-title">Auto-Init</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-javascript">// Alle Block-Snippets auf der Seite initialisieren
+// (Inline-Snippets brauchen kein JS)
+setupCodeSnippets();</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+
+            <h3 class="themes__role-group-title">Prism.js Einbindung</h3>
+            <div class="nc-code-snippet nc-code-snippet--multi">
+              <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;!-- Prism Core + Sprachen (data-manual verhindert Auto-Highlighting) --&gt;
+&lt;script src="node_modules/prismjs/prism.js" data-manual&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-scss.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-typescript.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-json.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-bash.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-python.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-java.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-sql.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-yaml.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-markdown.min.js"&gt;&lt;/script&gt;
+&lt;script src="node_modules/prismjs/components/prism-php.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Code Snippet JS --&gt;
+&lt;script src="js/code-snippet.js"&gt;&lt;/script&gt;
+&lt;script&gt;setupCodeSnippets();&lt;/script&gt;</code></pre>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+              <button class="nc-code-snippet__show-more" type="button" aria-expanded="false">
+                <span class="nc-code-snippet__show-more-label">Mehr anzeigen</span>
+              </button>
+            </div>
+
+            <h3 class="themes__role-group-title">Sprach-Klassen</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Sprache</th><th>CSS-Klasse</th><th>Prism-Komponente</th></tr></thead>
+              <tbody>
+                <tr><td>HTML / XML</td><td><code>language-markup</code></td><td>Core</td></tr>
+                <tr><td>CSS</td><td><code>language-css</code></td><td>Core</td></tr>
+                <tr><td>JavaScript</td><td><code>language-javascript</code></td><td>Core</td></tr>
+                <tr><td>SCSS</td><td><code>language-scss</code></td><td>prism-scss</td></tr>
+                <tr><td>TypeScript</td><td><code>language-typescript</code></td><td>prism-typescript</td></tr>
+                <tr><td>JSON</td><td><code>language-json</code></td><td>prism-json</td></tr>
+                <tr><td>Bash</td><td><code>language-bash</code></td><td>prism-bash</td></tr>
+                <tr><td>Python</td><td><code>language-python</code></td><td>prism-python</td></tr>
+                <tr><td>Java</td><td><code>language-java</code></td><td>prism-java</td></tr>
+                <tr><td>SQL</td><td><code>language-sql</code></td><td>prism-sql</td></tr>
+                <tr><td>YAML</td><td><code>language-yaml</code></td><td>prism-yaml</td></tr>
+                <tr><td>Markdown</td><td><code>language-markdown</code></td><td>prism-markdown</td></tr>
+                <tr><td>PHP</td><td><code>language-php</code></td><td>prism-php</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+<!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                          -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">Accessibility</h2>
+
+            <h3 class="themes__role-group-title">ARIA-Attribute</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Element</th><th>Attribut</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Copy-Button</td>
+                  <td><code>aria-label</code></td>
+                  <td>&bdquo;Code kopieren&ldquo; &rarr; &bdquo;Kopiert!&ldquo; (2s) &rarr; zur&uuml;ck</td>
+                </tr>
+                <tr>
+                  <td>Show-More-Button</td>
+                  <td><code>aria-expanded</code></td>
+                  <td>&bdquo;false&ldquo; / &bdquo;true&ldquo; (toggles)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="themes__role-group-title">Tastatur-Navigation</h3>
+            <table class="themes__token-table">
+              <thead><tr><th>Taste</th><th>Aktion</th></tr></thead>
+              <tbody>
+                <tr><td><code>Tab</code></td><td>Fokussiert Copy-Button, dann Show-More-Button</td></tr>
+                <tr><td><code>Enter</code> / <code>Space</code></td><td>Aktiviert den fokussierten Button</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="themes__role-group-title">Farb-Kontrast</h3>
+            <p class="docs__section-desc">
+              Alle Syntax-Farben erf&uuml;llen WCAG AA (4.5:1) gegen den jeweiligen
+              <code class="docs__token">--nc-cs-bg</code> Hintergrund.
+              Light-Themes verwenden ges&auml;ttigte -600 Shades,
+              Dark-Themes hellere -400 Shades.
+            </p>
+
+            <h3 class="themes__role-group-title">Graceful Degradation</h3>
+            <p class="docs__section-desc">
+              Ohne Prism.js wird der Code unstyled aber vollst&auml;ndig lesbar angezeigt.
+              Ohne JavaScript funktioniert der Code-Block als statisches
+              <code class="docs__token">&lt;pre&gt;&lt;code&gt;</code> Element &mdash;
+              Copy und Show-More sind progressive Enhancements.
+            </p>
+          </section>
+        </div>
+
+        </div><!-- /docs-tabs -->
+      </div><!-- /docs__body -->
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+<script src="../node_modules/prismjs/prism.js" data-manual></script>
+<script src="../node_modules/prismjs/components/prism-scss.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-typescript.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-json.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-bash.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-python.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-java.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-sql.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-yaml.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-markdown.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-markup-templating.min.js"></script>
+<script src="../node_modules/prismjs/components/prism-php.min.js"></script>
+<script src="../js/code-snippet.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    setupCodeSnippets();
+  });
+</script>
+
+</body>
+</html>

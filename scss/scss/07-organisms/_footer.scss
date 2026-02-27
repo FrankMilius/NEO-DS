@@ -95,12 +95,16 @@ footer {
   a {
     display: inline-flex;
     gap: var(--fnd-spacing-02);
-    
+
     &:hover {
       text-decoration: none;
       color: var(--fnd-color-text-secondary);
     }
-    
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
     &:any-link:has(.icon) {
       @include paragraph('l');
     }

@@ -1,0 +1,1182 @@
+<!-- STYLES -->
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Shell & Scaffolding</h1>
+        <p class="docs__subtitle">
+          Universelles Layout-System mit <strong>Linkbar</strong>, <strong>Navigation</strong>,
+          <strong>konfigurierbaren Sidebars</strong>, <strong>Content-Bereich</strong> und
+          <strong>Footerbar</strong>. Aktiviert via <code class="docs__token">data-layout</code>-Attribut
+          auf <code>&lt;body&gt;</code>.
+          Alle Werte kommen aus <code class="docs__token">--nc-shell-*</code> Component-Tokens.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Shell-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">Uebersicht</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-presets" id="trigger-presets">Presets</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-tokens" id="trigger-tokens">Tokens</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-config" id="trigger-config">Konfiguration</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-migration" id="trigger-migration">Migration</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-content-templates" id="trigger-content-templates">Content Templates</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="shell-tabs">
+
+<!-- ============================================================ -->
+        <!-- TAB 1: Uebersicht                                            -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel is-active" id="tab-overview" role="tabpanel" aria-labelledby="trigger-overview">
+
+          <h2>Architektur</h2>
+          <p>
+            Die Shell definiert ein <strong>CSS Grid mit Named Areas</strong> fuer die aeussere Seitenstruktur.
+            Layout-Varianten werden ueber <code>data-layout</code>-Presets auf <code>&lt;body&gt;</code> gesteuert.
+            Kein JavaScript fuer die Grundfunktion noetig.
+          </p>
+
+          <h3>Zonen-Modell</h3>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">Shell-Zonen (schematisch)</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>+-----------------------------------------------------+
+|  .nc-shell__linkbar    (optional, 32px, sticky-top)  |
++-----------------------------------------------------+
+|  .nc-shell__navbar     (sticky-top, z-index: header) |
++-----------+-----------------------------+-----------+
+|           |                             |           |
+|  sidebar  |  .nc-shell__main            |  sidebar  |
+|  -left    |  +- content-header -------+ |  -right   |
+|           |  |  content-body          | |           |
+|  sticky   |  |  (left|center|full)    | |  sticky   |
+|  scroll   |  |                        | |  scroll   |
+|           |  +- content-footer -------+ |           |
+|           |                             |           |
++-----------+-----------------------------+-----------+
+|  .nc-shell__footerbar  (sticky-bottom, 3 Zonen)     |
++-----------------------------------------------------+</code></pre>
+          </div>
+
+          <h3>HTML-Grundgeruest</h3>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="dashboard"&gt;
+  &lt;div class="nc-shell"&gt;
+
+    &lt;div class="nc-shell__linkbar"&gt;
+      &lt;div class="nc-shell__linkbar-left"&gt;
+        &lt;a href="#"&gt;Placeholder Link&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="nc-shell__linkbar-right"&gt;
+        &lt;a href="#" aria-label="LinkedIn"&gt;&lt;!-- icon --&gt;&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;header class="nc-shell__navbar"&gt;
+      &lt;!-- Bestehende .header / nav Inhalte --&gt;
+    &lt;/header&gt;
+
+    &lt;div class="nc-shell__stage"&gt;
+      &lt;aside class="nc-shell__sidebar-left"&gt;
+        &lt;!-- Sidebar-Navigation --&gt;
+      &lt;/aside&gt;
+
+      &lt;main class="nc-shell__main"&gt;
+        &lt;div class="nc-shell__content-header"&gt;
+          Seitentitel / Breadcrumbs
+        &lt;/div&gt;
+        &lt;div class="nc-shell__content-body nc-shell__content-body--center"&gt;
+          &lt;!-- Seiteninhalt --&gt;
+        &lt;/div&gt;
+        &lt;div class="nc-shell__content-footer"&gt;
+          Paginierung / Meta
+        &lt;/div&gt;
+      &lt;/main&gt;
+
+      &lt;aside class="nc-shell__sidebar-right"&gt;
+        &lt;!-- TOC, Related Content --&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+
+    &lt;footer class="nc-shell__footerbar"&gt;
+      &lt;div class="nc-shell__footerbar-left"&gt;Build: 2.1.0&lt;/div&gt;
+      &lt;div class="nc-shell__footerbar-center"&gt;&lt;/div&gt;
+      &lt;div class="nc-shell__footerbar-right"&gt;Letzte Aenderung: 2026-02-27&lt;/div&gt;
+    &lt;/footer&gt;
+
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+
+          <h3>Content-Alignment</h3>
+          <p>Der <code>.nc-shell__content-body</code> unterstuetzt drei Ausrichtungsmodi:</p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Modifier</th><th>Verhalten</th><th>Max-Width</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--left</code></td>
+                  <td>Linksbuendig, begrenzte Breite</td>
+                  <td><code>var(--nc-shell-content-max-width)</code> (1200px)</td>
+                </tr>
+                <tr>
+                  <td><code>--center</code></td>
+                  <td>Zentriert, begrenzte Breite</td>
+                  <td><code>var(--nc-shell-content-max-width)</code> (1200px)</td>
+                </tr>
+                <tr>
+                  <td><em>(default / --full)</em></td>
+                  <td>Volle verfuegbare Breite</td>
+                  <td>keine Begrenzung</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>RTL-Unterstuetzung</h3>
+          <p>
+            Alle Positionierungen verwenden <strong>CSS Logical Properties</strong>
+            (<code>inset-inline-start</code>, <code>margin-inline</code>, <code>border-inline-end</code>).
+            Bei <code>dir="rtl"</code> auf <code>&lt;html&gt;</code> spiegelt das Layout automatisch —
+            kein zusaetzlicher Code noetig.
+          </p>
+
+        </section>
+
+<!-- ============================================================ -->
+        <!-- TAB 2: Presets                                                -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel" id="tab-presets" role="tabpanel" aria-labelledby="trigger-presets">
+
+          <h2>Layout-Presets</h2>
+          <p>
+            Presets werden via <code>data-layout="..."</code> auf <code>&lt;body&gt;</code> aktiviert.
+            Jedes Preset steuert Sichtbarkeit und Dimensionen der Shell-Zonen.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Preset</th>
+                  <th>Linkbar</th>
+                  <th>Sidebar L</th>
+                  <th>Sidebar R</th>
+                  <th>Footerbar</th>
+                  <th>Content</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>dashboard</code></td>
+                  <td>hidden</td>
+                  <td>260px</td>
+                  <td>hidden</td>
+                  <td>visible</td>
+                  <td>full</td>
+                </tr>
+                <tr>
+                  <td><code>content-page</code></td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>visible</td>
+                  <td>center (1200px)</td>
+                </tr>
+                <tr>
+                  <td><code>docs</code></td>
+                  <td>hidden</td>
+                  <td>240px</td>
+                  <td>200px</td>
+                  <td>visible</td>
+                  <td>left</td>
+                </tr>
+                <tr>
+                  <td><code>landing</code></td>
+                  <td>visible (32px)</td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>visible</td>
+                  <td>full</td>
+                </tr>
+                <tr>
+                  <td><code>focused</code></td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>hidden</td>
+                  <td>center (720px)</td>
+                </tr>
+                <tr>
+                  <td><code>settings</code></td>
+                  <td>hidden</td>
+                  <td>220px</td>
+                  <td>hidden</td>
+                  <td>visible</td>
+                  <td>left (960px)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Preset: Dashboard</h3>
+          <p>
+            Linke Sidebar (260px) fuer Navigation zwischen Dashboard-Bereichen.
+            Content ueber volle Breite. Footerbar fuer Status-Info. Kein Linkbar.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="dashboard"&gt;</code></pre>
+          </div>
+
+          <h3>Preset: Content Page</h3>
+          <p>
+            Zentrierter Content (max 1200px), keine Sidebars. Ideal fuer Artikel,
+            Blog-Posts und redaktionelle Inhalte.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="content-page"&gt;</code></pre>
+          </div>
+
+          <h3>Preset: Docs</h3>
+          <p>
+            Dokumentations-Layout: Linke Sidebar (240px) fuer Seitennavigation,
+            rechte Sidebar (200px) fuer Table of Contents. Content dazwischen.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="docs"&gt;</code></pre>
+          </div>
+
+          <h3>Preset: Landing</h3>
+          <p>
+            Einziges Preset mit sichtbarer Linkbar (32px, Social-Links).
+            Volle Breite, keine Sidebars. Fuer Marketing-Seiten und Startseiten.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="landing"&gt;</code></pre>
+          </div>
+
+          <h3>Preset: Focused</h3>
+          <p>
+            Minimales Layout: kein Linkbar, keine Sidebars, kein Footerbar.
+            Content auf 720px zentriert. Fuer Formulare, Login, Error-Seiten.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="focused"&gt;</code></pre>
+          </div>
+
+          <h3>Preset: Settings</h3>
+          <p>
+            Einstellungsseiten: Linke Sidebar (220px) fuer Kategorien-Navigation.
+            Content begrenzt auf 960px.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="language-html">&lt;body data-layout="settings"&gt;</code></pre>
+          </div>
+
+        </section>
+
+<!-- ============================================================ -->
+        <!-- TAB 3: Tokens                                                 -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel" id="tab-tokens" role="tabpanel" aria-labelledby="trigger-tokens">
+
+          <h2>Component Tokens</h2>
+          <p>
+            Alle Shell-Tokens werden in <code>:root</code> registriert
+            (<code>_component-tokens.scss</code>) und koennen per Scope ueberschrieben werden.
+          </p>
+
+          <h3>Linkbar</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Token</th><th>Default (Light)</th><th>Dark Override</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--nc-shell-linkbar-height</code></td>
+                  <td>32px</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-linkbar-bg</code></td>
+                  <td><code>var(--fnd-color-layer-01)</code></td>
+                  <td><code>var(--fnd-color-surface-elevated)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-linkbar-color</code></td>
+                  <td><code>var(--fnd-color-text-secondary)</code></td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-linkbar-border</code></td>
+                  <td><code>var(--fnd-color-border-secondary)</code></td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Sidebars</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Token</th><th>Default (Light)</th><th>Dark Override</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--nc-shell-sidebar-left-width</code></td>
+                  <td>260px</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-sidebar-right-width</code></td>
+                  <td>260px</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-sidebar-bg</code></td>
+                  <td><code>var(--fnd-color-layer-01)</code></td>
+                  <td><code>var(--fnd-color-surface-elevated)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-sidebar-border</code></td>
+                  <td><code>var(--fnd-color-border-secondary)</code></td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Footerbar</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Token</th><th>Default (Light)</th><th>Dark Override</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--nc-shell-footerbar-height</code></td>
+                  <td>36px</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-footerbar-bg</code></td>
+                  <td><code>var(--fnd-color-layer-01)</code></td>
+                  <td><code>var(--fnd-color-surface-elevated)</code></td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-footerbar-color</code></td>
+                  <td><code>var(--fnd-color-text-secondary)</code></td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-footerbar-border</code></td>
+                  <td><code>var(--fnd-color-border-secondary)</code></td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Content</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Token</th><th>Default</th><th>Verwendung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>--nc-shell-content-max-width</code></td>
+                  <td>1200px</td>
+                  <td>Maximale Breite fuer <code>--left</code> und <code>--center</code></td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-content-narrow</code></td>
+                  <td>720px</td>
+                  <td>Focused-Preset (Formulare, Login)</td>
+                </tr>
+                <tr>
+                  <td><code>--nc-shell-content-padding</code></td>
+                  <td>24px (<code>var(--fnd-spacing-06)</code>)</td>
+                  <td>Innen-Abstand des Content-Bereichs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+<!-- ============================================================ -->
+        <!-- TAB 4: Konfiguration                                          -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel" id="tab-config" role="tabpanel" aria-labelledby="trigger-config">
+
+          <h2>JSON-Konfiguration</h2>
+          <p>
+            Linkbar und Footerbar werden ueber JSON-Dateien im <code>data/</code>-Verzeichnis konfiguriert.
+            Die JSON-Dateien werden in Phase 2 (Sidebar-Toggle + JS) per <code>fetch()</code> geladen
+            und in die Shell gerendert.
+          </p>
+
+          <h3>shell-linkbar.json</h3>
+          <p>Konfiguriert die Linkbar-Inhalte (Links und Icon-Links).</p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">JSON</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>{
+  "$meta": {
+    "description": "Shell Linkbar-Konfiguration",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "id": "placeholder-link",
+      "type": "link",
+      "label": "Placeholder Link",
+      "href": "#",
+      "position": "left"
+    },
+    {
+      "id": "placeholder-icon",
+      "type": "icon-link",
+      "icon": "brand-linkedin",
+      "href": "#",
+      "label": "LinkedIn",
+      "target": "_blank",
+      "position": "right"
+    }
+  ]
+}</code></pre>
+          </div>
+
+          <h3>shell-footerbar.json</h3>
+          <p>Konfiguriert die Footerbar mit 3 Zonen (left, center, right).</p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">JSON</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>{
+  "$meta": {
+    "description": "Shell Footerbar-Konfiguration",
+    "version": "1.0.0"
+  },
+  "zones": {
+    "left":   [{ "id": "build-version", "type": "text", "template": "Build: {{version}}" }],
+    "center": [],
+    "right":  [{ "id": "last-changed", "type": "text", "template": "Letzte Aenderung: {{date}}" }]
+  }
+}</code></pre>
+          </div>
+
+          <!-- ------------------------------------------------------------ -->
+          <!-- JavaScript API (Phase 2) -->
+          <!-- ------------------------------------------------------------ -->
+
+          <h3>JavaScript API</h3>
+          <p>
+            <code>js/shell.js</code> steuert Sidebar-Toggle, Off-Canvas-Drawer und JSON-Rendering.
+          </p>
+
+          <h4>Initialisierung</h4>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">JS</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>// Einzelne Shell initialisieren
+const shell = setupShell(document.querySelector('.nc-shell'));
+
+// Alle Shells auf der Seite
+setupShells();
+
+// Mit Optionen (JSON-Pfade ueberschreiben)
+const shell = setupShell(el, {
+  linkbarUrl: '/api/linkbar.json',
+  footerbarUrl: '/api/footerbar.json'
+});</code></pre>
+          </div>
+
+          <h4>API-Methoden</h4>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Methode</th><th>Beschreibung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>toggleSidebar(side)</code></td>
+                  <td>Sidebar umschalten. <code>side</code>: <code>'left'</code> oder <code>'right'</code>. Desktop: Collapse/Expand. Mobile: Off-Canvas-Drawer.</td>
+                </tr>
+                <tr>
+                  <td><code>openDrawer(side)</code></td>
+                  <td>Off-Canvas-Drawer oeffnen (Mobile). Schliesst ggf. den anderen Drawer.</td>
+                </tr>
+                <tr>
+                  <td><code>closeDrawer(side)</code></td>
+                  <td>Off-Canvas-Drawer schliessen. Focus zurueck auf Toggle-Button.</td>
+                </tr>
+                <tr>
+                  <td><code>closeAllDrawers()</code></td>
+                  <td>Alle offenen Drawer schliessen.</td>
+                </tr>
+                <tr>
+                  <td><code>destroy()</code></td>
+                  <td>Alle Event-Listener entfernen, Overlay entfernen, Body-Scroll freigeben.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Toggle-Buttons</h4>
+          <p>
+            Toggle-Buttons werden ueber das <code>data-shell-toggle</code>-Attribut im Navbar platziert.
+            Die Icons wechseln automatisch zwischen Collapse und Expand.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;!-- Im Navbar --&gt;
+&lt;button data-shell-toggle="sidebar-left" type="button"&gt;
+  &lt;!-- Icon wird automatisch injiziert --&gt;
+&lt;/button&gt;
+
+&lt;button data-shell-toggle="sidebar-right" type="button"&gt;
+  &lt;!-- Icon wird automatisch injiziert --&gt;
+&lt;/button&gt;</code></pre>
+          </div>
+
+          <h4>Off-Canvas (Mobile)</h4>
+          <p>
+            Unter dem <code>lg</code>-Breakpoint (1024px) oeffnen Sidebars als Off-Canvas-Drawer mit Overlay.
+            Per <code>data-sidebar-mobile</code>-Attribut kann das Verhalten pro Sidebar konfiguriert werden:
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Wert</th><th>Verhalten</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>drawer</code> (Default)</td>
+                  <td>Sidebar faehrt als Drawer von der Seite herein. Overlay-Backdrop, ESC schliesst.</td>
+                </tr>
+                <tr>
+                  <td><code>hidden</code></td>
+                  <td>Sidebar wird auf Mobile komplett ausgeblendet (kein Drawer).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;aside class="nc-shell__sidebar-left" data-sidebar-mobile="drawer"&gt;
+  ...
+&lt;/aside&gt;
+
+&lt;aside class="nc-shell__sidebar-right" data-sidebar-mobile="hidden"&gt;
+  ...
+&lt;/aside&gt;</code></pre>
+          </div>
+
+          <h4>Data-Attribute</h4>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Attribut</th><th>Element</th><th>Beschreibung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>data-shell-toggle</code></td>
+                  <td>Button</td>
+                  <td><code>"sidebar-left"</code> oder <code>"sidebar-right"</code> — Toggle-Button fuer Sidebar</td>
+                </tr>
+                <tr>
+                  <td><code>data-sidebar-mobile</code></td>
+                  <td>Sidebar</td>
+                  <td><code>"drawer"</code> (Default) oder <code>"hidden"</code> — Mobiles Verhalten</td>
+                </tr>
+                <tr>
+                  <td><code>data-shell-linkbar</code></td>
+                  <td>.nc-shell</td>
+                  <td>URL zur Linkbar-JSON-Datei (Default: <code>data/shell-linkbar.json</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>data-shell-footerbar</code></td>
+                  <td>.nc-shell</td>
+                  <td>URL zur Footerbar-JSON-Datei (Default: <code>data/shell-footerbar.json</code>)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>CSS-Klassen (durch JS gesetzt)</h4>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Klasse</th><th>Beschreibung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.nc-shell--sidebar-left-collapsed</code></td>
+                  <td>Linke Sidebar eingeklappt (Desktop)</td>
+                </tr>
+                <tr>
+                  <td><code>.nc-shell--sidebar-right-collapsed</code></td>
+                  <td>Rechte Sidebar eingeklappt (Desktop)</td>
+                </tr>
+                <tr>
+                  <td><code>.nc-shell--sidebar-left-drawer-open</code></td>
+                  <td>Linker Off-Canvas-Drawer geoeffnet (Mobile)</td>
+                </tr>
+                <tr>
+                  <td><code>.nc-shell--sidebar-right-drawer-open</code></td>
+                  <td>Rechter Off-Canvas-Drawer geoeffnet (Mobile)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ------------------------------------------------------------ -->
+          <!-- Naechste Schritte -->
+          <!-- ------------------------------------------------------------ -->
+
+          <h3>Naechste Schritte</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Phase</th><th>Inhalt</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Phase 1</td>
+                  <td>Shell-Grid + Presets (CSS-only)</td>
+                  <td>Fertig</td>
+                </tr>
+                <tr>
+                  <td>Phase 2</td>
+                  <td>Sidebar-Toggle + Off-Canvas + JSON-Rendering (JS)</td>
+                  <td>Fertig</td>
+                </tr>
+                <tr>
+                  <td>Phase 3</td>
+                  <td>Migration bestehender .t-* Templates</td>
+                  <td>Fertig</td>
+                </tr>
+                <tr>
+                  <td>Phase 4</td>
+                  <td>Content-Templates (ct-article, ct-card-grid, ...)</td>
+                  <td>Fertig</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: Migration                                              -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel" id="tab-migration" role="tabpanel" aria-labelledby="trigger-migration">
+
+          <h2>Template-Migration</h2>
+          <p>
+            Die bisherigen <code>.t-*</code> Templates werden schrittweise durch das Shell-System mit
+            <code>data-layout</code>-Presets ersetzt. Die alten Template-Dateien bleiben erhalten,
+            bis die HTML-Migration vollstaendig abgeschlossen ist.
+          </p>
+
+          <h3>Mapping: Alt → Neu</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Alte Klasse</th>
+                  <th>Shell-Preset</th>
+                  <th>SCSS-Datei</th>
+                  <th>Aufwand</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.t-dashboard</code></td>
+                  <td><code>data-layout="dashboard"</code></td>
+                  <td><code>_dashboard.scss</code></td>
+                  <td>Mittel</td>
+                </tr>
+                <tr>
+                  <td><code>.t-content</code></td>
+                  <td><code>data-layout="content-page"</code></td>
+                  <td><code>_content-page.scss</code></td>
+                  <td>Niedrig</td>
+                </tr>
+                <tr>
+                  <td><code>.t-settings</code></td>
+                  <td><code>data-layout="settings"</code></td>
+                  <td><code>_settings-page.scss</code></td>
+                  <td>Niedrig</td>
+                </tr>
+                <tr>
+                  <td><code>.t-form-page</code></td>
+                  <td><code>data-layout="focused"</code></td>
+                  <td><code>_form-page.scss</code></td>
+                  <td>Niedrig</td>
+                </tr>
+                <tr>
+                  <td><code>.t-error</code></td>
+                  <td><code>data-layout="focused"</code></td>
+                  <td><code>_error-page.scss</code></td>
+                  <td>Niedrig</td>
+                </tr>
+                <tr>
+                  <td><code>.home-hero</code></td>
+                  <td><code>data-layout="landing"</code></td>
+                  <td><code>_home-hero.scss</code></td>
+                  <td>Hoch</td>
+                </tr>
+                <tr>
+                  <td><code>.home-basic</code></td>
+                  <td><code>data-layout="landing"</code></td>
+                  <td><code>_home-basic.scss</code></td>
+                  <td>Mittel</td>
+                </tr>
+                <tr>
+                  <td><code>.docs-layout</code></td>
+                  <td><code>data-layout="docs"</code></td>
+                  <td><code>09-pages/_docs.scss</code></td>
+                  <td>Hoch</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Migrationsanleitung</h3>
+          <p>Fuer jedes Template sind drei Schritte noetig:</p>
+          <ol>
+            <li><strong>Aeusseres Layout ersetzen:</strong> <code>data-layout="..."</code> auf <code>&lt;body&gt;</code> setzen und <code>.nc-shell</code> Markup verwenden.</li>
+            <li><strong>Content in Shell-Zonen einsetzen:</strong> Inhalte in <code>.nc-shell__main</code> / <code>.nc-shell__sidebar-left</code> etc. verschieben.</li>
+            <li><strong>Component-Styles behalten:</strong> Innere Klassen wie <code>.t-dashboard__metric-card</code> oder <code>.t-error__code</code> bleiben unveraendert.</li>
+          </ol>
+
+          <h4>Beispiel: .t-settings → data-layout="settings"</h4>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">Vorher (alt)</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;body&gt;
+  &lt;header class="nc-header"&gt;...&lt;/header&gt;
+  &lt;div class="t-settings"&gt;
+    &lt;nav class="t-settings__nav"&gt;...&lt;/nav&gt;
+    &lt;div class="t-settings__content"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">Nachher (neu)</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;body data-layout="settings"&gt;
+  &lt;div class="nc-shell"&gt;
+    &lt;header class="nc-shell__navbar"&gt;
+      &lt;!-- nc-header Inhalte --&gt;
+    &lt;/header&gt;
+    &lt;div class="nc-shell__stage"&gt;
+      &lt;aside class="nc-shell__sidebar-left"&gt;
+        &lt;nav class="t-settings__nav"&gt;...&lt;/nav&gt;
+      &lt;/aside&gt;
+      &lt;main class="nc-shell__main"&gt;
+        &lt;div class="nc-shell__content-body"&gt;
+          &lt;div class="t-settings__content"&gt;...&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+    &lt;footer class="nc-shell__footerbar"&gt;
+      &lt;div class="nc-shell__footerbar-left"&gt;&lt;/div&gt;
+      &lt;div class="nc-shell__footerbar-center"&gt;&lt;/div&gt;
+      &lt;div class="nc-shell__footerbar-right"&gt;&lt;/div&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+  &lt;script src="js/shell.js"&gt;&lt;/script&gt;
+  &lt;script&gt;setupShells();&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+
+          <h3>Was bleibt erhalten</h3>
+          <p>
+            Die Shell uebernimmt nur die <strong>aeussere Seitenstruktur</strong> (Grid, Sidebars, Sticky-Verhalten).
+            Alle <strong>inneren Component-Styles</strong> der Templates bleiben unveraendert:
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Template</th><th>Erhaltene Styles</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.t-dashboard</code></td>
+                  <td><code>__sidebar-link</code>, <code>__metric-card</code>, <code>__card</code>, <code>__card-header</code></td>
+                </tr>
+                <tr>
+                  <td><code>.t-content</code></td>
+                  <td><code>__body</code> (Prose-Styles), <code>__toc</code>, <code>__toc-link</code>, <code>__meta</code></td>
+                </tr>
+                <tr>
+                  <td><code>.t-settings</code></td>
+                  <td><code>__nav-link</code>, <code>__section</code>, <code>__row</code>, <code>__row-label</code></td>
+                </tr>
+                <tr>
+                  <td><code>.t-form-page</code></td>
+                  <td><code>__section</code>, <code>__row</code>, <code>__actions</code></td>
+                </tr>
+                <tr>
+                  <td><code>.t-error</code></td>
+                  <td><code>__code</code>, <code>__title</code>, <code>__description</code>, <code>__actions</code></td>
+                </tr>
+                <tr>
+                  <td><code>.home-hero</code></td>
+                  <td>Komplett (Char-Animation, World-Globe, Highlights)</td>
+                </tr>
+                <tr>
+                  <td><code>.home-basic</code></td>
+                  <td><code>-title</code>, <code>-media</code>, <code>-body</code>, <code>-link</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Was entfaellt</h3>
+          <p>
+            Nach der Migration koennen folgende Layout-Selektoren aus den alten Templates entfernt werden:
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Template</th><th>Entfallende Selektoren</th><th>Ersetzt durch</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.t-dashboard</code></td>
+                  <td>Root-Grid, <code>__sidebar</code> (Layout), <code>__header</code> (Grid-Area)</td>
+                  <td>Shell-Grid + <code>.nc-shell__sidebar-left</code></td>
+                </tr>
+                <tr>
+                  <td><code>.t-content</code></td>
+                  <td>Root-Grid (<code>max-width</code>, <code>grid-template-columns</code>)</td>
+                  <td>Shell <code>content-page</code> Preset</td>
+                </tr>
+                <tr>
+                  <td><code>.t-settings</code></td>
+                  <td>Root-Grid (<code>grid-template-columns: 220px 1fr</code>)</td>
+                  <td>Shell <code>settings</code> Preset</td>
+                </tr>
+                <tr>
+                  <td><code>.t-form-page</code></td>
+                  <td><code>max-width: 720px; margin-inline: auto</code></td>
+                  <td>Shell <code>focused</code> Preset (<code>--nc-shell-content-narrow</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>.t-error</code></td>
+                  <td><code>display: grid; place-items: center; min-height</code></td>
+                  <td>Shell <code>focused</code> Preset</td>
+                </tr>
+                <tr>
+                  <td><code>.docs-layout</code></td>
+                  <td>Root-Grid, Sidebar-Columns, <code>max-width: 1600px</code></td>
+                  <td>Shell <code>docs</code> Preset + <code>_template.html</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- TAB 6: Content Templates                                     -->
+        <!-- ============================================================ -->
+        <section class="docs-tabs__panel" id="tab-content-templates" role="tabpanel" aria-labelledby="trigger-content-templates">
+
+          <h2>Content Templates</h2>
+          <p>
+            Wiederverwendbare Inhalts-Layouts fuer den <code>.nc-shell__content-body</code>.
+            Jedes Template definiert ein spezifisches Grid/Flow-Pattern fuer gaengige Seitentypen.
+            Kombinierbar mit allen Shell-Presets.
+          </p>
+          <p>
+            <strong>BEM-Praefix:</strong> <code>.ct-{name}</code> (ct = Content Template)
+          </p>
+
+          <h3>Uebersicht</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Template</th><th>Verwendung</th><th>Layout-Typ</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.ct-dashboard-overview</code></td>
+                  <td>Dashboard-Startseiten mit KPI-Karten und Detail-Cards</td>
+                  <td>Flex + auto-fit Grid</td>
+                </tr>
+                <tr>
+                  <td><code>.ct-article</code></td>
+                  <td>Blog-Posts, Artikel, Dokumentationsseiten</td>
+                  <td>Prose + optionale TOC-Sidebar</td>
+                </tr>
+                <tr>
+                  <td><code>.ct-card-grid</code></td>
+                  <td>Produkt-Uebersichten, Galerie-Seiten, Feature-Listen</td>
+                  <td>auto-fill Grid (responsive)</td>
+                </tr>
+                <tr>
+                  <td><code>.ct-form</code></td>
+                  <td>Registrierung, Login, Kontaktformular, Checkout</td>
+                  <td>Zentriert, max 720px</td>
+                </tr>
+                <tr>
+                  <td><code>.ct-split</code></td>
+                  <td>Feature-Beschreibungen, Media + Text, Split-Screens</td>
+                  <td>2-Spalten (50/50 oder 60/40)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ct-dashboard-overview -->
+          <h3>ct-dashboard-overview</h3>
+          <p>
+            Auto-fit Grid fuer Metrik-Karten (min 200px) und darunter liegende Detail-Cards (min 320px).
+            Ideal fuer Dashboard-Startseiten mit KPI-Uebersicht.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-dashboard-overview"&gt;
+  &lt;div class="ct-dashboard-overview__metrics"&gt;
+    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 1&lt;/div&gt;
+    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 2&lt;/div&gt;
+    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 3&lt;/div&gt;
+    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 4&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ct-dashboard-overview__cards"&gt;
+    &lt;div class="ct-dashboard-overview__card"&gt;Detail-Card 1&lt;/div&gt;
+    &lt;div class="ct-dashboard-overview__card"&gt;Detail-Card 2&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- ct-article -->
+          <h3>ct-article</h3>
+          <p>
+            Prosa-optimiertes Layout mit maximaler Lesebreite und optionaler Inhaltsverzeichnis-Sidebar (ab <code>lg</code>).
+            Enthalt integrierte Typografie fuer <code>h2</code>, <code>h3</code>, <code>p</code>, <code>ul/ol</code>,
+            <code>blockquote</code>, <code>img</code> und <code>hr</code>.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-article"&gt;
+  &lt;article class="ct-article__prose"&gt;
+    &lt;h2&gt;Ueberschrift&lt;/h2&gt;
+    &lt;p&gt;Absatztext...&lt;/p&gt;
+    &lt;blockquote&gt;Zitat...&lt;/blockquote&gt;
+  &lt;/article&gt;
+  &lt;aside class="ct-article__toc"&gt;
+    &lt;!-- Inhaltsverzeichnis (optional, ab lg sichtbar) --&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;
+
+&lt;!-- Ohne TOC --&gt;
+&lt;div class="ct-article ct-article--no-toc"&gt;
+  &lt;article class="ct-article__prose"&gt;...&lt;/article&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- ct-card-grid -->
+          <h3>ct-card-grid</h3>
+          <p>
+            Responsives auto-fill Karten-Raster mit konfigurierbarer Mindestbreite.
+            Drei Groessen-Varianten ueber Modifier.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Modifier</th><th>Min-Breite</th><th>Verwendung</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><em>(default)</em></td>
+                  <td>280px</td>
+                  <td>Standard-Karten</td>
+                </tr>
+                <tr>
+                  <td><code>--sm</code></td>
+                  <td>200px</td>
+                  <td>Kompakte Karten, Icon-Grids</td>
+                </tr>
+                <tr>
+                  <td><code>--lg</code></td>
+                  <td>360px</td>
+                  <td>Grosse Karten mit Medien</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-card-grid ct-card-grid--sm"&gt;
+  &lt;div class="ct-card-grid__item"&gt;Karte 1&lt;/div&gt;
+  &lt;div class="ct-card-grid__item"&gt;Karte 2&lt;/div&gt;
+  &lt;div class="ct-card-grid__item"&gt;Karte 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- ct-form -->
+          <h3>ct-form</h3>
+          <p>
+            Zentriertes Formular-Layout (max 720px) mit optionalem Header, Sektions-Karten und Aktionsleiste.
+            Zeilen-Grid (2 oder 3 Spalten ab Tablet).
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-form"&gt;
+  &lt;div class="ct-form__header"&gt;
+    &lt;h1 class="ct-form__title"&gt;Registrierung&lt;/h1&gt;
+    &lt;p class="ct-form__description"&gt;Erstellen Sie Ihr Konto.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;form class="ct-form__body"&gt;
+    &lt;section class="ct-form__section"&gt;
+      &lt;h2 class="ct-form__section-title"&gt;Persoenliche Daten&lt;/h2&gt;
+      &lt;div class="ct-form__section-fields"&gt;
+        &lt;div class="ct-form__row"&gt;
+          &lt;!-- 2 Felder nebeneinander ab Tablet --&gt;
+        &lt;/div&gt;
+        &lt;div class="ct-form__row ct-form__row--3"&gt;
+          &lt;!-- 3 Felder nebeneinander ab Tablet --&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+    &lt;div class="ct-form__actions"&gt;
+      &lt;a href="#"&gt;Abbrechen&lt;/a&gt;
+      &lt;div class="ct-form__actions-end"&gt;
+        &lt;button type="submit"&gt;Speichern&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- ct-split -->
+          <h3>ct-split</h3>
+          <p>
+            2-Spalten-Layout: Mobile gestapelt, ab <code>lg</code> nebeneinander.
+            Drei Modifier fuer Varianten.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr><th>Modifier</th><th>Verhalten</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><em>(default)</em></td>
+                  <td>50/50-Aufteilung</td>
+                </tr>
+                <tr>
+                  <td><code>--60-40</code></td>
+                  <td>60/40-Aufteilung (3fr / 2fr)</td>
+                </tr>
+                <tr>
+                  <td><code>--reverse</code></td>
+                  <td>Spaltenreihenfolge umkehren (Desktop)</td>
+                </tr>
+                <tr>
+                  <td><code>--align-center</code></td>
+                  <td>Vertikal zentriert statt top-aligned</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-split ct-split--60-40 ct-split--align-center"&gt;
+  &lt;div class="ct-split__primary"&gt;
+    &lt;h2&gt;Feature-Titel&lt;/h2&gt;
+    &lt;p&gt;Beschreibungstext...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="ct-split__secondary"&gt;
+    &lt;img src="feature.png" alt="Feature-Bild"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <h3>Kombination mit Shell-Presets</h3>
+          <p>
+            Content Templates werden innerhalb von <code>.nc-shell__content-body</code> verwendet
+            und passen sich automatisch an die verfuegbare Breite des jeweiligen Shell-Presets an:
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">HTML — Dashboard mit ct-dashboard-overview</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>&lt;body data-layout="dashboard"&gt;
+  &lt;div class="nc-shell"&gt;
+    &lt;!-- ... navbar, sidebar ... --&gt;
+    &lt;main class="nc-shell__main"&gt;
+      &lt;div class="nc-shell__content-body"&gt;
+        &lt;div class="ct-dashboard-overview"&gt;
+          &lt;div class="ct-dashboard-overview__metrics"&gt;...&lt;/div&gt;
+          &lt;div class="ct-dashboard-overview__cards"&gt;...&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+
+        </section>
+
+        </div><!-- .docs-tabs -->
+      </div><!-- .docs__body -->
+    </main>
+<!-- /BODY -->

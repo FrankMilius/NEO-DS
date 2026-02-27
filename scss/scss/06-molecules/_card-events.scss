@@ -19,11 +19,16 @@
     
     &:hover {
       background-color: var(--fnd-color-background-tertiary);
-      
+
       a.button:any-link,
       button {
         background-color: var(--fnd-color-background-transparency-mid);
       }
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      @include focus-ring;
     }
   }
   

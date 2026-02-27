@@ -41,6 +41,11 @@
       <BorderEditor />
     </template>
 
+    <!-- Foundation: Focus Ring -->
+    <template v-else-if="activeSection === 'foundation-focus'">
+      <FoundationGeneric category="focus" />
+    </template>
+
     <!-- Foundation: Elements -->
     <template v-else-if="activeSection === 'foundation-elements'">
       <ElementsOverview />
@@ -112,6 +117,7 @@ const sectionMeta = {
   'foundation-spacing': { title: 'Spacing', desc: 'Spacing scale based on 4px base unit. Steps 06+ are fluid.' },
   'foundation-typography': { title: 'Typography', desc: 'Font families, weight scale, and size system.' },
   'foundation-border': { title: 'Border', desc: 'Border-Width-Skala und Border-Styles.' },
+  'foundation-focus': { title: 'Focus Ring', desc: 'Focus-Ring-Tokens: Farbe, Breite, Offset und Style.' },
   'foundation-elements': { title: 'Elements', desc: 'HTML-Element-Defaults: Body, Headings, Links, Buttons, Forms.' },
   'foundation-themes': { title: 'Themes', desc: '4-Theme-System: Neo Light/Dark + Customer Light/Dark.' },
   'foundation-opacity': { title: 'Opacity, Z-Index & Motion', desc: 'Opacity-Werte, Z-Index-Schichten und Motion-Tokens.' },
@@ -122,6 +128,8 @@ const sectionMeta = {
   'component-card': { title: 'Cards', desc: 'Card container tokens and states.' },
   'component-switch': { title: 'Switch', desc: 'Toggle switch geometry and color tokens.' },
   'component-avatar': { title: 'Avatar', desc: 'Avatar size scale and color tokens.' },
+  'component-code-snippet': { title: 'Code Snippet', desc: 'Inline and block code display with syntax highlighting tokens.' },
+  'component-shell': { title: 'Shell', desc: 'Shell-Layout: Linkbar, Sidebars, Footerbar und Content-Bereich.' },
   'component-dialog': { title: 'Dialog', desc: 'Modal dialog tokens.' },
   'component-tooltip': { title: 'Tooltip', desc: 'Tooltip appearance tokens.' },
   'module-header': { title: 'Header Module', desc: 'Navigation header layout and tokens.' },

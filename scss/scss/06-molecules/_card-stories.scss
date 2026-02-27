@@ -25,14 +25,18 @@
     
     &:hover {
       background-color: var(--fnd-color-background-tertiary);
-      
+
       .card-content picture img {
         transform: scale(1.05);
       }
-      
+
       .button-container a {
         color: var(--fnd-color-text-secondary);
       }
+    }
+
+    a:focus-visible {
+      @include focus-ring;
     }
   }
   

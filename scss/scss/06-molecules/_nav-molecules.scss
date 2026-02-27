@@ -124,9 +124,13 @@
 }
 
 .nc-search__result:hover,
-.nc-search__result:focus {
+.nc-search__result:focus-visible {
   background: var(--fnd-color-background-secondary);
   text-decoration: none;
+}
+
+.nc-search__result:focus-visible {
+  @include focus-ring;
 }
 
 .nc-search__title {

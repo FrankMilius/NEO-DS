@@ -83,8 +83,12 @@
     background: transparent;
     
     &:hover,
-    &:focus {
+    &:focus-visible {
       background: transparent !important;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
     }
     
     .icon {

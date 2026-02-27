@@ -2006,6 +2006,520 @@ export const componentTokenGroups = [
         "readonly": true
       }
     ]
+  },
+  {
+    "id": "code-snippet",
+    "label": "Code Snippet",
+    "icon": "code",
+    "subgroups": [
+      {
+        "id": "layout",
+        "label": "Layout",
+        "tokenIds": [
+          "nc-cs-bg",
+          "nc-cs-color",
+          "nc-cs-border",
+          "nc-cs-border-width",
+          "nc-cs-radius",
+          "nc-cs-padding",
+          "nc-cs-padding-inline"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typography",
+        "tokenIds": [
+          "nc-cs-font-family",
+          "nc-cs-font-size",
+          "nc-cs-line-height",
+          "nc-cs-font-weight",
+          "nc-cs-tab-size"
+        ]
+      },
+      {
+        "id": "inline",
+        "label": "Inline Variant",
+        "tokenIds": [
+          "nc-cs-inline-bg",
+          "nc-cs-inline-color",
+          "nc-cs-inline-radius",
+          "nc-cs-inline-padding-x",
+          "nc-cs-inline-padding-y",
+          "nc-cs-inline-font-size"
+        ]
+      },
+      {
+        "id": "copy-button",
+        "label": "Copy Button",
+        "tokenIds": [
+          "nc-cs-copy-size",
+          "nc-cs-copy-bg",
+          "nc-cs-copy-bg-hover",
+          "nc-cs-copy-color",
+          "nc-cs-copy-color-hover",
+          "nc-cs-copy-border",
+          "nc-cs-copy-radius",
+          "nc-cs-copy-icon-size"
+        ]
+      },
+      {
+        "id": "show-more",
+        "label": "Show More",
+        "tokenIds": [
+          "nc-cs-multi-max-height",
+          "nc-cs-show-more-bg",
+          "nc-cs-show-more-color",
+          "nc-cs-show-more-font-size",
+          "nc-cs-show-more-height"
+        ]
+      },
+      {
+        "id": "syntax",
+        "label": "Syntax Highlighting",
+        "tokenIds": [
+          "nc-cs-syntax-comment",
+          "nc-cs-syntax-keyword",
+          "nc-cs-syntax-string",
+          "nc-cs-syntax-number",
+          "nc-cs-syntax-function",
+          "nc-cs-syntax-operator",
+          "nc-cs-syntax-class",
+          "nc-cs-syntax-property",
+          "nc-cs-syntax-tag",
+          "nc-cs-syntax-attr-name",
+          "nc-cs-syntax-attr-value",
+          "nc-cs-syntax-selector",
+          "nc-cs-syntax-punctuation"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-cs-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "layer-01",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-primary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-border",
+        "label": "Border Color",
+        "type": "color",
+        "ref": "border-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-border-width",
+        "label": "Border Width",
+        "type": "size",
+        "default": "1px"
+      },
+      {
+        "id": "nc-cs-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-cs-padding",
+        "label": "Padding Block",
+        "type": "size",
+        "default": "20px"
+      },
+      {
+        "id": "nc-cs-padding-inline",
+        "label": "Padding Inline",
+        "type": "size",
+        "default": "20px"
+      },
+      {
+        "id": "nc-cs-font-family",
+        "label": "Font Family",
+        "type": "generic",
+        "default": "var(--font-mono)"
+      },
+      {
+        "id": "nc-cs-font-size",
+        "label": "Font Size",
+        "type": "size",
+        "default": "0.875rem"
+      },
+      {
+        "id": "nc-cs-line-height",
+        "label": "Line Height",
+        "type": "generic",
+        "default": "1.6"
+      },
+      {
+        "id": "nc-cs-font-weight",
+        "label": "Font Weight",
+        "type": "generic",
+        "default": "var(--fnd-font-weight-regular)"
+      },
+      {
+        "id": "nc-cs-tab-size",
+        "label": "Tab Size",
+        "type": "generic",
+        "default": "2"
+      },
+      {
+        "id": "nc-cs-inline-bg",
+        "label": "Inline BG",
+        "type": "color",
+        "ref": "background-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-inline-color",
+        "label": "Inline Text",
+        "type": "color",
+        "ref": "text-primary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-inline-radius",
+        "label": "Inline Radius",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-cs-inline-padding-x",
+        "label": "Inline Padding X",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-cs-inline-padding-y",
+        "label": "Inline Padding Y",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-cs-inline-font-size",
+        "label": "Inline Font Size",
+        "type": "size",
+        "default": "0.875em"
+      },
+      {
+        "id": "nc-cs-copy-size",
+        "label": "Copy Button Size",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-cs-copy-bg",
+        "label": "Copy BG",
+        "type": "color",
+        "ref": "background-base",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-copy-bg-hover",
+        "label": "Copy BG Hover",
+        "type": "color",
+        "ref": "background-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-copy-color",
+        "label": "Copy Icon",
+        "type": "color",
+        "ref": "text-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-copy-color-hover",
+        "label": "Copy Icon Hover",
+        "type": "color",
+        "ref": "text-primary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-copy-border",
+        "label": "Copy Border",
+        "type": "color",
+        "ref": "border-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-copy-radius",
+        "label": "Copy Radius",
+        "type": "size",
+        "default": "4px"
+      },
+      {
+        "id": "nc-cs-copy-icon-size",
+        "label": "Copy Icon Size",
+        "type": "size",
+        "default": "16px"
+      },
+      {
+        "id": "nc-cs-multi-max-height",
+        "label": "Max Height",
+        "type": "size",
+        "default": "240px"
+      },
+      {
+        "id": "nc-cs-show-more-bg",
+        "label": "Show More BG",
+        "type": "color",
+        "ref": "layer-01",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-show-more-color",
+        "label": "Show More Color",
+        "type": "color",
+        "ref": "interactive-default",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-show-more-font-size",
+        "label": "Show More Font",
+        "type": "size",
+        "default": "0.875rem"
+      },
+      {
+        "id": "nc-cs-show-more-height",
+        "label": "Show More Height",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-cs-syntax-comment",
+        "label": "Comment",
+        "type": "color",
+        "ref": "text-tertiary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-syntax-keyword",
+        "label": "Keyword",
+        "type": "color",
+        "default": "#8b5cf6"
+      },
+      {
+        "id": "nc-cs-syntax-string",
+        "label": "String",
+        "type": "color",
+        "default": "#059669"
+      },
+      {
+        "id": "nc-cs-syntax-number",
+        "label": "Number",
+        "type": "color",
+        "default": "#d97706"
+      },
+      {
+        "id": "nc-cs-syntax-function",
+        "label": "Function",
+        "type": "color",
+        "default": "#2563eb"
+      },
+      {
+        "id": "nc-cs-syntax-operator",
+        "label": "Operator",
+        "type": "color",
+        "ref": "text-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-cs-syntax-class",
+        "label": "Class",
+        "type": "color",
+        "default": "#0891b2"
+      },
+      {
+        "id": "nc-cs-syntax-property",
+        "label": "Property",
+        "type": "color",
+        "default": "#dc2626"
+      },
+      {
+        "id": "nc-cs-syntax-tag",
+        "label": "Tag",
+        "type": "color",
+        "default": "#dc2626"
+      },
+      {
+        "id": "nc-cs-syntax-attr-name",
+        "label": "Attr Name",
+        "type": "color",
+        "default": "#d97706"
+      },
+      {
+        "id": "nc-cs-syntax-attr-value",
+        "label": "Attr Value",
+        "type": "color",
+        "default": "#059669"
+      },
+      {
+        "id": "nc-cs-syntax-selector",
+        "label": "Selector",
+        "type": "color",
+        "default": "#8b5cf6"
+      },
+      {
+        "id": "nc-cs-syntax-punctuation",
+        "label": "Punctuation",
+        "type": "color",
+        "ref": "text-tertiary",
+        "readonly": true
+      }
+    ]
+  },
+  {
+    "id": "shell",
+    "label": "Shell",
+    "icon": "layout",
+    "subgroups": [
+      {
+        "id": "linkbar",
+        "label": "Linkbar",
+        "tokenIds": [
+          "nc-shell-linkbar-height",
+          "nc-shell-linkbar-bg",
+          "nc-shell-linkbar-color",
+          "nc-shell-linkbar-border"
+        ]
+      },
+      {
+        "id": "sidebars",
+        "label": "Sidebars",
+        "tokenIds": [
+          "nc-shell-sidebar-left-width",
+          "nc-shell-sidebar-right-width",
+          "nc-shell-sidebar-bg",
+          "nc-shell-sidebar-border"
+        ]
+      },
+      {
+        "id": "footerbar",
+        "label": "Footerbar",
+        "tokenIds": [
+          "nc-shell-footerbar-height",
+          "nc-shell-footerbar-bg",
+          "nc-shell-footerbar-color",
+          "nc-shell-footerbar-border"
+        ]
+      },
+      {
+        "id": "content",
+        "label": "Content Area",
+        "tokenIds": [
+          "nc-shell-content-max-width",
+          "nc-shell-content-narrow",
+          "nc-shell-content-padding"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-shell-linkbar-height",
+        "label": "Linkbar Height",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-shell-linkbar-bg",
+        "label": "Linkbar BG",
+        "type": "color",
+        "ref": "layer-01",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-linkbar-color",
+        "label": "Linkbar Color",
+        "type": "color",
+        "ref": "text-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-linkbar-border",
+        "label": "Linkbar Border",
+        "type": "color",
+        "ref": "border-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-sidebar-left-width",
+        "label": "Sidebar Left Width",
+        "type": "size",
+        "default": "260px"
+      },
+      {
+        "id": "nc-shell-sidebar-right-width",
+        "label": "Sidebar Right Width",
+        "type": "size",
+        "default": "260px"
+      },
+      {
+        "id": "nc-shell-sidebar-bg",
+        "label": "Sidebar BG",
+        "type": "color",
+        "ref": "layer-01",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-sidebar-border",
+        "label": "Sidebar Border",
+        "type": "color",
+        "ref": "border-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-footerbar-height",
+        "label": "Footerbar Height",
+        "type": "size",
+        "default": "36px"
+      },
+      {
+        "id": "nc-shell-footerbar-bg",
+        "label": "Footerbar BG",
+        "type": "color",
+        "ref": "layer-01",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-footerbar-color",
+        "label": "Footerbar Color",
+        "type": "color",
+        "ref": "text-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-footerbar-border",
+        "label": "Footerbar Border",
+        "type": "color",
+        "ref": "border-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-shell-content-max-width",
+        "label": "Content Max Width",
+        "type": "size",
+        "default": "1200px"
+      },
+      {
+        "id": "nc-shell-content-narrow",
+        "label": "Content Narrow",
+        "type": "size",
+        "default": "720px"
+      },
+      {
+        "id": "nc-shell-content-padding",
+        "label": "Content Padding",
+        "type": "size",
+        "default": "24px"
+      }
+    ]
   }
 ]
 
@@ -2389,6 +2903,32 @@ export const foundationTokens = {
       }
     }
   },
+  "focus": {
+    "label": "Focus Ring",
+    "icon": "focus-2",
+    "tokens": {
+      "color": {
+        "label": "Ring Color",
+        "value": "var(--fnd-color-text-primary)",
+        "type": "color"
+      },
+      "width": {
+        "label": "Ring Width",
+        "value": "2px",
+        "type": "size"
+      },
+      "offset": {
+        "label": "Ring Offset",
+        "value": "3px",
+        "type": "size",
+        "description": "Positiv = außen, 0 = Kante, Negativ = innen (Inset)"
+      },
+      "style": {
+        "label": "Ring Style",
+        "value": "solid"
+      }
+    }
+  },
   "elements": {
     "label": "Elements",
     "icon": "components",
@@ -2583,6 +3123,12 @@ export const navigationTree = [
         "section": "foundation-border"
       },
       {
+        "id": "focus",
+        "label": "Focus Ring",
+        "icon": "focus-2",
+        "section": "foundation-focus"
+      },
+      {
         "id": "elements",
         "label": "Elements",
         "icon": "components",
@@ -2641,6 +3187,12 @@ export const navigationTree = [
             "label": "Section",
             "icon": "section",
             "section": "component-section"
+          },
+          {
+            "id": "shell",
+            "label": "Shell",
+            "icon": "layout",
+            "section": "component-shell"
           }
         ]
       },
@@ -2868,6 +3420,12 @@ export const navigationTree = [
             "label": "Chip",
             "icon": "badge",
             "section": "component-chip"
+          },
+          {
+            "id": "code-snippet",
+            "label": "Code Snippet",
+            "icon": "code",
+            "section": "component-code-snippet"
           },
           {
             "id": "table",

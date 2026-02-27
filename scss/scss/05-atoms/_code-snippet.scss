@@ -1,0 +1,374 @@
+// ==========================================================================
+// 05-Atoms: Code Snippet
+// ==========================================================================
+// Dreifach-Variante Code-Anzeige mit farbigem Syntax-Highlighting.
+// Varianten: inline, single-line, multi-line.
+// Syntax-Highlighting via Prism.js mit theme-aware Token-Farben.
+//
+// SEMANTIK:
+//   R1: Inline  → <code class="nc-code-snippet nc-code-snippet--inline">
+//   R2: Single  → <div class="nc-code-snippet nc-code-snippet--single"><pre><code>
+//   R3: Multi   → <div class="nc-code-snippet nc-code-snippet--multi"><pre><code>
+//   R4: Copy-Button erhaelt aria-label="Code kopieren"
+//   R5: Show-More-Button erhaelt aria-expanded
+//
+// KLASSEN:
+//   .nc-code-snippet (kanonisch, BEM)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Inline-Variante
+// ---------------------------------------------------------------------------
+// Fuer kurze Code-Referenzen im Fliesstext. Kein Copy-Button.
+
+.nc-code-snippet--inline {
+  display: inline;
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--nc-cs-inline-font-size);
+  font-weight: var(--nc-cs-font-weight);
+  line-height: inherit;
+  color: var(--nc-cs-inline-color);
+  background-color: var(--nc-cs-inline-bg);
+  padding: var(--nc-cs-inline-padding-y) var(--nc-cs-inline-padding-x);
+  border-radius: var(--nc-cs-inline-radius);
+  word-break: break-word;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+// ---------------------------------------------------------------------------
+// Block-Varianten (shared): single-line + multi-line
+// ---------------------------------------------------------------------------
+
+.nc-code-snippet--single,
+.nc-code-snippet--multi {
+  position: relative;
+  background-color: var(--nc-cs-bg);
+  border: var(--nc-cs-border-width) solid var(--nc-cs-border);
+  border-radius: var(--nc-cs-radius);
+  @include transition-quick((background-color, border-color));
+}
+
+// <pre> innerhalb der Block-Varianten
+.nc-code-snippet__pre {
+  margin: 0;
+  padding: var(--nc-cs-padding) var(--nc-cs-padding-inline);
+  overflow-x: auto;
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--nc-cs-font-size);
+  font-weight: var(--nc-cs-font-weight);
+  line-height: var(--nc-cs-line-height);
+  color: var(--nc-cs-color);
+  tab-size: var(--nc-cs-tab-size);
+  -moz-tab-size: var(--nc-cs-tab-size);
+  white-space: pre;
+
+  // Scrollbar dezent
+  scrollbar-width: thin;
+  scrollbar-color: var(--fnd-color-scrollbar-thumb) transparent;
+}
+
+// <code> — Reset browser defaults
+.nc-code-snippet__code {
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  padding: 0;
+  border: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Single-Line Variante
+// ---------------------------------------------------------------------------
+// Horizontaler Scroll bei langem Code. Kein Zeilenumbruch.
+
+.nc-code-snippet--single {
+  .nc-code-snippet__pre {
+    white-space: pre;
+    overflow-y: hidden;
+    padding-right: calc(var(--nc-cs-copy-size) + var(--fnd-spacing-05) + var(--nc-cs-padding-inline));
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Multi-Line Variante
+// ---------------------------------------------------------------------------
+// Collapsible mit max-height, Gradient-Fade und Show-More-Button.
+
+.nc-code-snippet--multi {
+  .nc-code-snippet__pre {
+    white-space: pre;
+    position: relative;
+  }
+
+  // Collapsed: max-height begrenzt, Gradient-Fade am unteren Rand
+  &:not(.nc-code-snippet--expanded) .nc-code-snippet__pre {
+    max-height: var(--nc-cs-multi-max-height);
+    overflow: hidden;
+  }
+
+  // Gradient-Fade (nur wenn collapsed UND Show-More sichtbar)
+  &:not(.nc-code-snippet--expanded) .nc-code-snippet__pre::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--nc-cs-bg));
+    pointer-events: none;
+    border-radius: 0 0 var(--nc-cs-radius) var(--nc-cs-radius);
+  }
+
+  // Expanded: keine Begrenzung
+  &.nc-code-snippet--expanded .nc-code-snippet__pre {
+    max-height: none;
+    overflow: auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Copy Button
+// ---------------------------------------------------------------------------
+// Absolut positioniert oben rechts. Zeigt sich bei Hover/Focus.
+
+.nc-code-snippet__copy {
+  position: absolute;
+  top: var(--fnd-spacing-03);
+  right: var(--fnd-spacing-03);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-cs-copy-size);
+  height: var(--nc-cs-copy-size);
+  padding: 0;
+  border: var(--nc-cs-border-width) solid var(--nc-cs-copy-border);
+  border-radius: var(--nc-cs-copy-radius);
+  background-color: var(--nc-cs-copy-bg);
+  color: var(--nc-cs-copy-color);
+  cursor: pointer;
+  opacity: 0;
+  z-index: 1;
+  @include transition-quick((opacity, background-color, color, border-color));
+
+  // Sichtbar bei Container-Hover oder Focus-Within
+  .nc-code-snippet--single:hover &,
+  .nc-code-snippet--multi:hover &,
+  .nc-code-snippet--single:focus-within &,
+  .nc-code-snippet--multi:focus-within & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background-color: var(--nc-cs-copy-bg-hover);
+    color: var(--nc-cs-copy-color-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+}
+
+// Icon Sizing
+.nc-code-snippet__copy-icon {
+  width: var(--nc-cs-copy-icon-size);
+  height: var(--nc-cs-copy-icon-size);
+  flex-shrink: 0;
+}
+
+// Dual-Icon: Default zeigt Copy, Success zeigt Check
+.nc-code-snippet__copy-icon--check {
+  display: none;
+}
+
+.nc-code-snippet__copy--success {
+  opacity: 1;
+  color: var(--fnd-color-feedback-success);
+
+  .nc-code-snippet__copy-icon--copy {
+    display: none;
+  }
+
+  .nc-code-snippet__copy-icon--check {
+    display: block;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Show More / Less Button
+// ---------------------------------------------------------------------------
+// Volle Breite am unteren Rand des Multi-Line Snippets.
+
+.nc-code-snippet__show-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--nc-cs-show-more-height);
+  padding: 0;
+  border: 0;
+  border-top: var(--nc-cs-border-width) solid var(--nc-cs-border);
+  border-radius: 0 0 var(--nc-cs-radius) var(--nc-cs-radius);
+  background-color: var(--nc-cs-show-more-bg);
+  color: var(--nc-cs-show-more-color);
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--nc-cs-show-more-font-size);
+  cursor: pointer;
+  @include transition-quick((background-color, color));
+
+  &:hover {
+    background-color: var(--fnd-color-background-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sprach-Label (optional)
+// ---------------------------------------------------------------------------
+// Badge-artiges Element oben links im Block-Snippet.
+
+.nc-code-snippet__label {
+  position: absolute;
+  top: var(--fnd-spacing-03);
+  left: var(--fnd-spacing-03);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--fs-xs);
+  font-weight: var(--fnd-font-weight-medium);
+  line-height: 1;
+  color: var(--fnd-color-text-tertiary);
+  background-color: var(--nc-cs-bg);
+  border-radius: var(--fnd-radius-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 1;
+}
+
+// ---------------------------------------------------------------------------
+// Prism.js Syntax-Highlighting Theme
+// ---------------------------------------------------------------------------
+// Scoped auf .nc-code-snippet, damit kein Konflikt mit globalem Prism-Theme.
+// Jeder .token-Typ wird auf --nc-cs-syntax-* Component-Tokens gemappt.
+// Theme-Switch (Light ↔ Dark) erfolgt automatisch ueber Token-Overrides.
+
+.nc-code-snippet {
+  // Kommentare
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: var(--nc-cs-syntax-comment);
+    font-style: italic;
+  }
+
+  // Schluesselwoerter
+  .token.keyword,
+  .token.control,
+  .token.directive,
+  .token.unit,
+  .token.important,
+  .token.atrule {
+    color: var(--nc-cs-syntax-keyword);
+  }
+
+  // Strings
+  .token.string,
+  .token.char,
+  .token.template-string,
+  .token.url,
+  .token.regex {
+    color: var(--nc-cs-syntax-string);
+  }
+
+  // Zahlen / Booleans
+  .token.number,
+  .token.boolean {
+    color: var(--nc-cs-syntax-number);
+  }
+
+  // Funktionen
+  .token.function,
+  .token.method {
+    color: var(--nc-cs-syntax-function);
+  }
+
+  // Operatoren
+  .token.operator,
+  .token.arrow {
+    color: var(--nc-cs-syntax-operator);
+  }
+
+  // Klassen / Typen
+  .token.class-name,
+  .token.builtin,
+  .token.maybe-class-name {
+    color: var(--nc-cs-syntax-class);
+  }
+
+  // Properties / Konstanten
+  .token.property,
+  .token.constant,
+  .token.symbol {
+    color: var(--nc-cs-syntax-property);
+  }
+
+  // HTML Tags
+  .token.tag {
+    color: var(--nc-cs-syntax-tag);
+  }
+
+  // Attribut-Namen
+  .token.attr-name {
+    color: var(--nc-cs-syntax-attr-name);
+  }
+
+  // Attribut-Werte
+  .token.attr-value {
+    color: var(--nc-cs-syntax-attr-value);
+  }
+
+  // CSS Selektoren
+  .token.selector {
+    color: var(--nc-cs-syntax-selector);
+  }
+
+  // Interpunktion
+  .token.punctuation {
+    color: var(--nc-cs-syntax-punctuation);
+  }
+
+  // Variable
+  .token.variable {
+    color: var(--nc-cs-syntax-property);
+  }
+
+  // Inserted / Deleted (Diff)
+  .token.inserted {
+    color: var(--nc-cs-syntax-string);
+  }
+
+  .token.deleted {
+    color: var(--nc-cs-syntax-property);
+  }
+
+  // Namespace (gedaempft)
+  .token.namespace {
+    opacity: 0.7;
+  }
+
+  // Bold / Italic Token-Modifier
+  .token.bold {
+    font-weight: var(--fnd-font-weight-bold);
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+}

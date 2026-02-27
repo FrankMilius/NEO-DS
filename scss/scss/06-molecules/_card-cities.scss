@@ -30,7 +30,7 @@
     
     &:hover {
       background-color: var(--fnd-color-background-secondary);
-      
+
       .button-container {
         .icon-only,
         .icon-button {
@@ -38,7 +38,11 @@
         }
       }
     }
-    
+
+    button:focus-visible {
+      @include focus-ring;
+    }
+
     .card-content {
       .heading {
         @include paragraph('m');

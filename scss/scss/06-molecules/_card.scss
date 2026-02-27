@@ -40,7 +40,7 @@
       
       a {
         text-decoration: none;
-        
+
         &::before {
           display: block;
           content: '';
@@ -51,6 +51,10 @@
           left: 0;
         }
       }
+    }
+
+    a:focus-visible {
+      @include focus-ring;
     }
   }
   

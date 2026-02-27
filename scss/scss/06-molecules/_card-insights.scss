@@ -64,6 +64,10 @@
     &:hover a {
       color: var(--fnd-color-text-secondary);
     }
+
+    a:focus-visible {
+      @include focus-ring;
+    }
     
     // Logo Images
     picture:has(img[src*='/logo-'][src$='.svg']) {

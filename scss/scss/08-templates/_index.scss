@@ -1,9 +1,30 @@
 // ==========================================================================
 // 08-Templates: Index
 // ==========================================================================
-// Barrel-Export für Template-Komponenten
+// Barrel-Export fuer Template-Komponenten.
+//
+// MIGRATION: Die bisherigen .t-* Templates werden schrittweise durch das
+// Shell-System (_shell.scss) mit data-layout-Presets ersetzt.
+// Siehe _shell.scss fuer Architektur und Preset-Uebersicht.
+//
+// Mapping:
+//   .t-dashboard   → data-layout="dashboard"
+//   .t-content     → data-layout="content-page"
+//   .t-form-page   → data-layout="focused"
+//   .t-settings    → data-layout="settings"
+//   .t-error       → data-layout="focused"
+//   .home-hero     → data-layout="landing"
+//   .home-basic    → data-layout="landing"
+//   .docs-layout   → data-layout="docs"  (in 09-pages/_docs.scss)
 // ==========================================================================
 
+// Shell & Scaffolding System (neu, ersetzt sukzessive die .t-* Templates)
+@forward 'shell';
+
+// Content Templates (ct-* Patterns fuer den .nc-shell__content-body)
+@forward 'content-templates';
+
+// Legacy Templates (deprecated — bleiben bis HTML-Migration abgeschlossen)
 @forward 'home-hero';
 @forward 'home-basic';
 @forward 'dashboard';

@@ -1,35 +1,74 @@
 <template>
-  <aside class="laboratory-panel" :style="{ width: panelWidth + 'px', minWidth: panelWidth + 'px' }">
+  <aside class="laboratory-panel" :class="{ 'laboratory-panel--fullscreen': isFullscreen }" :style="isFullscreen ? {} : { width: panelWidth + 'px', minWidth: panelWidth + 'px' }">
     <!-- Resize handle -->
     <div class="resize-handle" @mousedown="startResize"></div>
 
     <div class="lab-header">
-      <h3 class="lab-title">Theme Arena</h3>
-      <div class="theme-toggle" role="radiogroup" aria-label="Theme mode">
-        <button
-          :class="['toggle-btn', { active: store.state.previewMode === 'light' }]"
-          @click="store.setPreviewMode('light')"
-          aria-label="Light mode"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
-          </svg>
-          Light
-        </button>
-        <button
-          :class="['toggle-btn', { active: store.state.previewMode === 'dark' }]"
-          @click="store.setPreviewMode('dark')"
-          aria-label="Dark mode"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-          </svg>
-          Dark
-        </button>
+      <div class="lab-header__row">
+        <h3 class="lab-title">Theme Arena</h3>
+        <div class="lab-header__controls">
+
+          <!-- Breakpoint Segmented Control -->
+          <div class="bp-toggle" role="radiogroup" aria-label="Vorschau-Breite">
+            <button
+              :class="['toggle-btn', 'toggle-btn--bp', { active: activeBreakpoint === null }]"
+              @click="activeBreakpoint = null"
+              title="Responsive (fluid)"
+              aria-label="Responsive"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M5 12l4 -4"/><path d="M5 12l4 4"/><path d="M19 12l-4 -4"/><path d="M19 12l-4 4"/></svg>
+            </button>
+            <button
+              v-for="bp in BREAKPOINTS"
+              :key="bp.key"
+              :class="['toggle-btn', 'toggle-btn--bp', { active: activeBreakpoint === bp.key }]"
+              @click="activeBreakpoint = bp.key"
+              :title="`${bp.label}: ${bp.width}px`"
+              :aria-label="`${bp.label} — ${bp.width}px`"
+            >{{ bp.label }}</button>
+          </div>
+
+          <!-- Light/Dark Toggle -->
+          <div class="theme-toggle" role="radiogroup" aria-label="Theme mode">
+            <button
+              :class="['toggle-btn', { active: store.state.previewMode === 'light' }]"
+              @click="store.setPreviewMode('light')"
+              aria-label="Light mode"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
+              </svg>
+              Light
+            </button>
+            <button
+              :class="['toggle-btn', { active: store.state.previewMode === 'dark' }]"
+              @click="store.setPreviewMode('dark')"
+              aria-label="Dark mode"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+              Dark
+            </button>
+          </div>
+
+          <!-- Fullscreen Button -->
+          <button
+            class="lab-icon-btn"
+            @click="toggleFullscreen"
+            :aria-label="isFullscreen ? 'Vollbild verlassen' : 'Vollbild'"
+            :title="isFullscreen ? 'Vollbild verlassen (ESC)' : 'Vollbild'"
+          >
+            <svg v-if="!isFullscreen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v-4h4"/><path d="M4 4l5 5"/><path d="M20 8v-4h-4"/><path d="M20 4l-5 5"/><path d="M4 16v4h4"/><path d="M4 20l5 -5"/><path d="M20 16v4h-4"/><path d="M20 20l-5 -5"/></svg>
+            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4"/><path d="M3 3l6 6"/><path d="M19 9h-4v-4"/><path d="M21 3l-6 6"/><path d="M5 15h4v4"/><path d="M3 21l6 -6"/><path d="M19 15h-4v4"/><path d="M21 21l-6 -6"/></svg>
+          </button>
+
+        </div>
       </div>
     </div>
 
     <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
+      <div class="lab-viewport-inner" :class="{ 'lab-viewport-inner--constrained': activeBreakpoint !== null }">
 
       <!-- ═══════════════════════════════════════════════════════════════
            TYPOGRAPHY SHOWCASE (when editing Typography section)
@@ -708,6 +747,24 @@
                 </div>
               </div>
 
+              <div v-if="activeSpecimens.includes('codesnippet')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('codesnippet') }]">
+                <span class="arena-specimen__label">Code Snippet</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-spec-code" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                      <span :style="{ color: tLight['text-tertiary'] }">// comment</span>
+                      <span><span :style="{ color: tLight['text-secondary'] }">const</span> <span :style="{ color: tLight['text-primary'] }">x</span> <span :style="{ color: tLight['text-secondary'] }">=</span> <span :style="{ color: tLight['text-primary'] }">42</span><span :style="{ color: tLight['text-tertiary'] }">;</span></span>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-spec-code" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                      <span :style="{ color: tDark['text-tertiary'] }">// comment</span>
+                      <span><span :style="{ color: tDark['text-secondary'] }">const</span> <span :style="{ color: tDark['text-primary'] }">x</span> <span :style="{ color: tDark['text-secondary'] }">=</span> <span :style="{ color: tDark['text-primary'] }">42</span><span :style="{ color: tDark['text-tertiary'] }">;</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </template>
 
@@ -1316,6 +1373,7 @@
 
       </template>
 
+      </div><!-- /.lab-viewport-inner -->
     </div>
   </aside>
 </template>
@@ -1357,7 +1415,9 @@ const SPECIMEN_TOKENS = {
   toggle:     ['interactive-default', 'background-tertiary'],
   navigation: ['text-link', 'text-link-hover', 'interactive-visited'],
   textblock:  ['text-primary', 'text-secondary', 'text-tertiary', 'text-disabled'],
-  tablerow:   ['layer-01', 'layer-02', 'border-secondary', 'text-primary', 'text-secondary']
+  tablerow:   ['layer-01', 'layer-02', 'border-secondary', 'text-primary', 'text-secondary'],
+  codesnippet:['layer-01', 'border-secondary', 'text-primary', 'text-secondary', 'text-tertiary',
+               'background-base', 'background-secondary']
 }
 
 const tokenToSpecimens = computed(() => {
@@ -1633,7 +1693,37 @@ function onWindowResize() {
 }
 
 onMounted(() => window.addEventListener('resize', onWindowResize))
-onUnmounted(() => window.removeEventListener('resize', onWindowResize))
+onUnmounted(() => {
+  window.removeEventListener('resize', onWindowResize)
+  document.removeEventListener('keydown', onEscKey)
+})
+
+// ---------------------------------------------------------------------------
+// Fullscreen & Breakpoint Steuerung
+// ---------------------------------------------------------------------------
+const isFullscreen = ref(false)
+const activeBreakpoint = ref(null) // null = fluid, string = breakpoint key
+
+const BREAKPOINTS = [
+  { key: 'sm',  label: 'SM',  width: 768 },
+  { key: 'md',  label: 'MD',  width: 960 },
+  { key: 'lg',  label: 'LG',  width: 1200 },
+  { key: 'xl',  label: 'XL',  width: 1600 },
+  { key: 'xxl', label: 'XXL', width: 1920 },
+]
+
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value
+}
+
+function onEscKey(e) {
+  if (e.key === 'Escape') isFullscreen.value = false
+}
+
+watch(isFullscreen, (val) => {
+  if (val) document.addEventListener('keydown', onEscKey)
+  else document.removeEventListener('keydown', onEscKey)
+})
 
 // ---------------------------------------------------------------------------
 // Theme tokens — reads directly from store (reactive to theme/mode changes)
@@ -1642,12 +1732,23 @@ const t = computed(() => {
   return store.state.themes[store.state.activeThemeSet][store.state.previewMode]
 })
 
-const viewportStyle = computed(() => ({
-  background: t.value['background-base'],
-  color: t.value['text-primary']
-}))
+const viewportStyle = computed(() => {
+  const base = {
+    background: t.value['background-base'],
+    color: t.value['text-primary']
+  }
+  if (activeBreakpoint.value !== null) {
+    const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
+    if (bp) base['--bp-max-width'] = bp.width + 'px'
+  }
+  return base
+})
 
-const viewportClass = computed(() => store.state.previewMode === 'dark' ? 'dark-mode' : 'light-mode')
+const viewportClass = computed(() => {
+  const classes = [store.state.previewMode === 'dark' ? 'dark-mode' : 'light-mode']
+  if (activeBreakpoint.value !== null) classes.push('lab-viewport--constrained')
+  return classes
+})
 
 // Button styles (typography showcase)
 const btnPrimary = computed(() => ({
@@ -1752,6 +1853,26 @@ const switchOn = computed(() => ({
   flex-shrink: 0;
 }
 
+/* ── Vollbild-Modus ── */
+.laboratory-panel--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--cfg-z-modal);
+  width: 100vw !important;
+  min-width: 0 !important;
+  border-left: none;
+  animation: fs-enter var(--fnd-motion-duration-200) ease;
+}
+
+@keyframes fs-enter {
+  from { opacity: 0.85; transform: scale(0.995); }
+  to   { opacity: 1;    transform: scale(1); }
+}
+
+.laboratory-panel--fullscreen .resize-handle {
+  display: none;
+}
+
 /* Resize drag handle on the left edge */
 .resize-handle {
   position: absolute;
@@ -1770,13 +1891,29 @@ const switchOn = computed(() => ({
   opacity: 0.4;
 }
 
+/* ── Lab Header ── */
 .lab-header {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--cfg-border);
+  flex-shrink: 0;
+}
+
+.lab-header__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--cfg-border);
-  flex-shrink: 0;
+  padding: 10px 16px;
+  gap: 8px;
+  min-height: 44px;
+}
+
+.lab-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .lab-title {
@@ -1784,8 +1921,19 @@ const switchOn = computed(() => ({
   font-weight: 700;
   color: var(--cfg-text);
   margin: 0;
+  white-space: nowrap;
 }
 
+/* ── Breakpoint Segmented Control ── */
+.bp-toggle {
+  display: flex;
+  border-radius: 8px;
+  background: var(--cfg-surface-elevated);
+  padding: 2px;
+  gap: 2px;
+}
+
+/* ── Light/Dark Toggle ── */
 .theme-toggle {
   display: flex;
   border-radius: 8px;
@@ -1794,6 +1942,7 @@ const switchOn = computed(() => ({
   gap: 2px;
 }
 
+/* ── Shared Toggle Button ── */
 .toggle-btn {
   display: flex;
   align-items: center;
@@ -1817,15 +1966,63 @@ const switchOn = computed(() => ({
   box-shadow: var(--cfg-shadow-sm);
 }
 
+.toggle-btn--bp {
+  padding: 4px 7px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Fullscreen Icon Button ── */
+.lab-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cfg-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--fnd-motion-duration-150) ease, color var(--fnd-motion-duration-150) ease;
+}
+
+.lab-icon-btn:hover {
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+}
+
+.lab-icon-btn:focus-visible {
+  outline: 2px solid var(--cfg-accent);
+  outline-offset: 2px;
+}
+
+/* ── Lab Viewport ── */
 .lab-viewport {
   flex: 1;
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   border-radius: 0;
   transition: background var(--fnd-motion-duration-200), color var(--fnd-motion-duration-200);
   overflow-y: auto;
+}
+
+/* ── Viewport Inner Wrapper ── */
+.lab-viewport-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.lab-viewport-inner--constrained {
+  max-width: var(--bp-max-width, 100%);
+  width: 100%;
+  margin-inline: auto;
+  box-shadow:
+    -1px 0 0 var(--cfg-border),
+     1px 0 0 var(--cfg-border);
 }
 
 .preview-section {
@@ -3397,6 +3594,20 @@ const switchOn = computed(() => ({
 .arena-spec-table__header span,
 .arena-spec-table__row span {
   flex: 1;
+}
+
+/* ── Arena: Code Snippet ── */
+.arena-spec-code {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre;
 }
 
 /* ── Token Detail Hero ── */

@@ -83,8 +83,12 @@
     right: var(--fnd-spacing-05);
     
     &:hover,
-    &:focus {
+    &:focus-visible {
       background: var(--fnd-color-border-disabled);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
     }
     
     @include desktop-up {
