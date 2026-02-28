@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "3.0.0",
+  "component": "button",
+  "version": "1.0.0",
+
+  "anatomy": {
+    "slots": [
+      { "name": "icon", "element": ".nc-button__icon", "optional": true },
+      { "name": "label", "element": ".nc-button__label", "optional": false },
+      { "name": "spinner", "element": ".nc-button__spinner", "optional": true }
+    ],
+    "modes": [
+      { "name": "icon-only", "modifier": "--icon-only", "description": "Nur Icon, kein Label. Quadratische Flaeche." },
+      { "name": "loading", "modifier": "--loading", "description": "Lade-Zustand mit Spinner-Overlay, deaktiviert Interaktion." },
+      { "name": "toggle", "description": "Outline-Basis mit aria-pressed fuer An/Aus-Zustand." },
+      { "name": "group", "description": "Mehrere Buttons als zusammenhaengende Gruppe." }
+    ]
+  },
+
+  "a11y": {
+    "role": "button",
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "focus-ring mixin, :focus-visible",
+    "note": "Buttons muessen immer ein zugaengliches Label haben — entweder sichtbarer Text oder aria-label fuer Icon-Only."
+  },
+
+  "constraints": {
+    "label": {
+      "minChars": 1,
+      "note": "Button-Labels sollten kurz und handlungsorientiert sein (z.B. 'Speichern', 'Abbrechen')."
+    },
+    "iconOnly": {
+      "ariaLabel": "required",
+      "note": "Icon-Only Buttons benoetigen immer ein aria-label fuer Screenreader."
+    }
+  },
+
+  "baseClasses": ["nc-button"],
+  "baseTokenGroups": ["geometry", "typography", "spacing"],
+
+  "variantAxes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante / Semantik des Buttons",
+      "values": {
+        "primary":   { "modifier": null,                       "tokenGroups": ["variant-primary"] },
+        "secondary": { "modifier": "nc-button--secondary",     "tokenGroups": ["variant-secondary"] },
+        "accent":    { "modifier": "nc-button--accent",        "tokenGroups": ["variant-accent"] },
+        "outline":   { "modifier": "nc-button--outline",       "tokenGroups": ["variant-outline"] },
+        "ghost":     { "modifier": "nc-button--ghost",         "tokenGroups": ["variant-ghost"] },
+        "success":   { "modifier": "nc-button--success",       "tokenGroups": ["variant-success"] },
+        "warning":   { "modifier": "nc-button--warning",       "tokenGroups": ["variant-warning"] },
+        "error":     { "modifier": "nc-button--error",         "tokenGroups": ["variant-error"] },
+        "info":      { "modifier": "nc-button--info",          "tokenGroups": ["variant-info"] }
+      }
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung des Buttons",
+      "values": {
+        "xs": { "modifier": "nc-button--xs", "tokenGroups": ["size-scale"] },
+        "sm": { "modifier": "nc-button--sm", "tokenGroups": ["size-scale"] },
+        "md": { "modifier": null,            "tokenGroups": [] },
+        "lg": { "modifier": "nc-button--lg", "tokenGroups": ["size-scale"] }
+      }
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Render-Muster / Slot-Konfiguration",
+      "values": {
+        "standard":  { "modifier": null, "tokenGroups": [] },
+        "with-icon": { "modifier": null, "tokenGroups": ["icon-sizing"], "slotConfig": { "icon": true } },
+        "icon-only": { "modifier": "nc-button--icon-only", "tokenGroups": ["icon-sizing"], "slotConfig": { "icon": true, "hideLabel": true }, "renderHint": "icon-only" },
+        "loading":   { "modifier": "nc-button--loading", "tokenGroups": ["spinner"], "slotConfig": { "spinner": true }, "renderHint": "loading" }
+      }
+    }
+  },
+
+  "tokenGroups": {
+    "geometry": {
+      "label": "Geometry",
+      "tokens": ["nc-button-height-xs", "nc-button-height-sm", "nc-button-height-md", "nc-button-height-lg",
+                  "nc-button-padding-x-xs", "nc-button-padding-x-sm", "nc-button-padding-x-md", "nc-button-padding-x-lg",
+                  "nc-button-padding-y-xs", "nc-button-padding-y-sm", "nc-button-padding-y-md", "nc-button-padding-y-lg",
+                  "nc-button-radius-xs", "nc-button-radius-sm", "nc-button-radius-md", "nc-button-radius-lg", "nc-button-radius-full"]
+    },
+    "typography": {
+      "label": "Typography",
+      "tokens": ["nc-button-font-size-xs", "nc-button-font-size-sm", "nc-button-font-size-md", "nc-button-font-size-lg",
+                  "nc-button-font-weight", "nc-button-line-height",
+                  "nc-button-label-compact", "nc-button-label-expressive"]
+    },
+    "spacing": {
+      "label": "Spacing & General",
+      "tokens": ["nc-button-gap", "nc-button-min-width", "nc-button-border-width-sm", "nc-button-border-width-lg",
+                  "nc-button-transition-duration", "nc-button-scale-active", "nc-button-opacity-disabled"]
+    },
+    "icon-sizing": {
+      "label": "Icon Sizing",
+      "tokens": ["nc-button-icon-gap-xs", "nc-button-icon-gap-sm", "nc-button-icon-gap-md", "nc-button-icon-gap-lg",
+                  "nc-button-icon-size-xs", "nc-button-icon-size-sm", "nc-button-icon-size-md", "nc-button-icon-size-lg"]
+    },
+    "size-scale": {
+      "label": "Size Scale",
+      "tokens": ["nc-button-height-xs", "nc-button-height-sm", "nc-button-height-md", "nc-button-height-lg",
+                  "nc-button-padding-x-xs", "nc-button-padding-x-sm", "nc-button-padding-x-md", "nc-button-padding-x-lg",
+                  "nc-button-font-size-xs", "nc-button-font-size-sm", "nc-button-font-size-md", "nc-button-font-size-lg"]
+    },
+    "variant-primary": {
+      "label": "Primary",
+      "tokens": ["nc-button-primary-bg", "nc-button-primary-bg-hover", "nc-button-primary-bg-active",
+                  "nc-button-primary-color", "nc-button-primary-border"]
+    },
+    "variant-secondary": {
+      "label": "Secondary",
+      "tokens": ["nc-button-secondary-bg", "nc-button-secondary-bg-hover", "nc-button-secondary-bg-active",
+                  "nc-button-secondary-color", "nc-button-secondary-border"]
+    },
+    "variant-outline": {
+      "label": "Outline",
+      "tokens": ["nc-button-outline-bg", "nc-button-outline-bg-hover", "nc-button-outline-bg-active",
+                  "nc-button-outline-color", "nc-button-outline-border"]
+    },
+    "variant-ghost": {
+      "label": "Ghost",
+      "tokens": ["nc-button-ghost-bg", "nc-button-ghost-bg-hover", "nc-button-ghost-bg-active",
+                  "nc-button-ghost-color", "nc-button-ghost-border"]
+    },
+    "variant-accent": {
+      "label": "Accent",
+      "tokens": ["nc-button-accent-bg", "nc-button-accent-bg-hover", "nc-button-accent-bg-active",
+                  "nc-button-accent-color", "nc-button-accent-border"]
+    },
+    "variant-success": {
+      "label": "Success",
+      "tokens": ["nc-button-success-bg", "nc-button-success-bg-hover", "nc-button-success-bg-active",
+                  "nc-button-success-color", "nc-button-success-border"]
+    },
+    "variant-warning": {
+      "label": "Warning",
+      "tokens": ["nc-button-warning-bg", "nc-button-warning-bg-hover", "nc-button-warning-bg-active",
+                  "nc-button-warning-color", "nc-button-warning-border"]
+    },
+    "variant-error": {
+      "label": "Error",
+      "tokens": ["nc-button-error-bg", "nc-button-error-bg-hover", "nc-button-error-bg-active",
+                  "nc-button-error-color", "nc-button-error-border"]
+    },
+    "variant-info": {
+      "label": "Info",
+      "tokens": ["nc-button-info-bg", "nc-button-info-bg-hover", "nc-button-info-bg-active",
+                  "nc-button-info-color", "nc-button-info-border"]
+    },
+    "disabled": {
+      "label": "Disabled",
+      "tokens": ["nc-button-disabled-bg", "nc-button-disabled-color", "nc-button-disabled-border",
+                  "nc-button-opacity-disabled"]
+    },
+    "spinner": {
+      "label": "Spinner / Loading",
+      "tokens": ["nc-button-spinner-size", "nc-button-spinner-border-width"]
+    }
+  },
+
+  "recipes": "derived",
+
+  "specimens": [
+    {
+      "id": "all-variants",
+      "label": "All Variants — MD",
+      "description": "Alle 9 Varianten in Standardgroesse",
+      "matrix": { "variant": "*", "size": ["md"], "pattern": ["standard"] },
+      "layout": "row",
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Jede Variante muss 4.5:1 Kontrast zwischen Label und Hintergrund einhalten."
+      }
+    },
+    {
+      "id": "size-scale",
+      "label": "Size Scale — XS / SM / MD / LG",
+      "description": "Primary-Variante in allen 4 Groessen",
+      "matrix": { "variant": ["primary"], "size": "*", "pattern": ["standard"] },
+      "focusTokenGroups": ["geometry", "typography", "size-scale"],
+      "layout": "row",
+      "render": { "label": "{size}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "XS (12px) und SM (12px) muessen trotz kompakter Schrift Mindestkontrast einhalten."
+      }
+    },
+    {
+      "id": "with-icon",
+      "label": "With Icon",
+      "description": "Alle Varianten mit Leading-Icon",
+      "matrix": { "variant": "*", "size": ["md"], "pattern": ["with-icon"] },
+      "layout": "row",
+      "render": { "label": "{variant}", "icon": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Icon ist dekorativ (aria-hidden='true'). Label traegt die Bedeutung."
+      }
+    },
+    {
+      "id": "icon-only",
+      "label": "Icon Only",
+      "description": "Primary, Secondary, Ghost — alle Groessen",
+      "matrix": { "variant": ["primary", "secondary", "ghost"], "size": "*", "pattern": ["icon-only"] },
+      "focusTokenGroups": ["geometry", "icon-sizing"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant", "colAxis": "size" },
+      "render": { "icon": "default" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Icon-Only Buttons benoetigen immer aria-label. Quadratische Flaeche fuer einfaches Treffen."
+      }
+    },
+    {
+      "id": "loading",
+      "label": "Loading",
+      "description": "Primary und Secondary im Lade-Zustand",
+      "matrix": { "variant": ["primary", "secondary"], "size": ["md"], "pattern": ["loading"] },
+      "focusTokenGroups": ["spinner", "variant-primary", "variant-secondary"],
+      "layout": "row",
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "note": "Loading-Buttons muessen aria-busy='true' und aria-disabled='true' haben."
+      }
+    },
+    {
+      "id": "button-group",
+      "label": "Button Group",
+      "description": "Outline-Buttons als zusammenhaengende Gruppe",
+      "matrix": { "variant": ["outline"], "size": ["md"], "pattern": ["standard"] },
+      "focusTokenGroups": ["variant-outline", "geometry"],
+      "layout": "composition",
+      "render": { "compositionType": "button-group", "groupLabels": ["Left", "Center", "Right"] },
+      "a11y": {
+        "roleSuggestion": "role=\"group\" aria-label=\"Aktionen\"",
+        "note": "Button-Group benoetigt role='group' mit aria-label. Mittlere Buttons haben keinen Radius."
+      }
+    },
+    {
+      "id": "toggle",
+      "label": "Toggle",
+      "description": "Outline-Basis mit aria-pressed An/Aus-Zustand",
+      "matrix": { "variant": ["outline"], "size": ["md"], "pattern": ["with-icon"] },
+      "focusTokenGroups": ["variant-outline", "variant-primary"],
+      "layout": "row",
+      "render": { "compositionType": "toggle", "toggleLabels": ["Bold", "Italic", "Underline"] },
+      "a11y": {
+        "roleSuggestion": "aria-pressed=\"true|false\"",
+        "note": "Toggle-Buttons muessen aria-pressed verwenden. Aktiver Zustand wechselt zu Primary-Farben."
+      }
+    },
+    {
+      "id": "link-as-button",
+      "label": "Link as Button",
+      "description": "Primary, Secondary, Ghost als <a>-Elemente",
+      "matrix": { "variant": ["primary", "secondary", "ghost"], "size": ["md"], "pattern": ["standard"] },
+      "focusTokenGroups": ["variant-primary", "variant-secondary", "variant-ghost"],
+      "layout": "row",
+      "render": { "compositionType": "link", "label": "{variant}" },
+      "a11y": {
+        "roleSuggestion": "role=\"button\" (wenn keine Navigation)",
+        "note": "Links als Buttons gestylt benoetigen role='button' wenn sie keine Navigation ausloesen."
+      }
+    }
+  ]
+}

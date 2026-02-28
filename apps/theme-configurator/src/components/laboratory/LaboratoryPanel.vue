@@ -782,6 +782,10 @@
         <CardArena />
       </template>
 
+      <template v-else-if="isComponentSection && activeComponentId === 'button'">
+        <ButtonArena />
+      </template>
+
       <template v-else-if="isComponentSection">
         <ComponentArena :componentId="activeComponentId" />
       </template>
@@ -1379,6 +1383,7 @@ import AvatarArena from './AvatarArena.vue'
 import BadgeArena from './BadgeArena.vue'
 import StatusArena from './StatusArena.vue'
 import CardArena from './CardArena.vue'
+import ButtonArena from './ButtonArena.vue'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
