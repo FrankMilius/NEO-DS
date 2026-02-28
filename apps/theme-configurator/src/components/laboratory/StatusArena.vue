@@ -4,7 +4,7 @@
     <!-- Header -->
     <div class="arena-header">
       <h4 class="arena-title">Status Arena</h4>
-      <span class="arena-mode-labels">
+      <span v-if="isSplit" class="arena-mode-labels">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         Light
         <span style="margin: 0 4px; opacity: .35">|</span>
@@ -21,8 +21,8 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">5 Varianten &times; 3 Groessen (xs / sm / md)</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-status-matrix">
             <div v-for="v in variants" :key="v.id" class="arena-status-matrix-row">
               <span class="arena-status-matrix-label">{{ v.label }}</span>
@@ -39,6 +39,16 @@
           </div>
         </div>
       </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-status-matrix">
+            <div v-for="v in variants" :key="v.id" class="arena-status-matrix-row">
+              <span class="arena-status-matrix-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">{{ v.label }}</span>
+              <span v-for="s in sizes" :key="s.id" class="arena-status-dot" :style="dotStyle(activeTokens, v.id, s.id)"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -49,8 +59,8 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Weisser Ring fuer farbige Hintergruende</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-ring-stage" :style="{ background: tLight['layer-01'] || '#f5f5f5' }">
             <div v-for="v in variants" :key="v.id" class="arena-status-labeled">
               <span class="arena-status-dot" :style="{ ...dotStyle(tokensLight, v.id, 'md'), ...ringStyle(tokensLight) }"></span>
@@ -67,6 +77,16 @@
           </div>
         </div>
       </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-ring-stage" :style="{ background: activeTheme['layer-01'] || (arenaMode === 'dark' ? '#1d1d1d' : '#f5f5f5') }">
+            <div v-for="v in variants" :key="v.id" class="arena-status-labeled">
+              <span class="arena-status-dot" :style="{ ...dotStyle(activeTokens, v.id, 'md'), ...ringStyle(activeTokens) }"></span>
+              <span class="arena-status-dot-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">{{ v.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -77,8 +97,8 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Live-Status mit pulsierendem Ring</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-status-row">
             <div v-for="v in pulseVariants" :key="v.id" class="arena-status-labeled">
               <span
@@ -101,6 +121,19 @@
           </div>
         </div>
       </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-status-row">
+            <div v-for="v in pulseVariants" :key="v.id" class="arena-status-labeled">
+              <span
+                class="arena-status-dot arena-status--pulse"
+                :style="{ ...dotStyle(activeTokens, v.id, 'md'), color: activeTokens[`nc-status-${v.id}`], '--arena-pulse-duration': activeTokens['nc-status-pulse-duration'] }"
+              ></span>
+              <span class="arena-status-dot-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">{{ v.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -111,8 +144,8 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Punkt + Text nebeneinander</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-status-label-group">
             <div v-for="v in variants" :key="v.id" class="arena-status-label-row">
               <span class="arena-status-dot" :style="dotStyle(tokensLight, v.id, 'sm')"></span>
@@ -129,6 +162,16 @@
           </div>
         </div>
       </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-status-label-group">
+            <div v-for="v in variants" :key="v.id" class="arena-status-label-row">
+              <span class="arena-status-dot" :style="dotStyle(activeTokens, v.id, 'sm')"></span>
+              <span class="arena-status-label-text" :style="{ color: activeTheme['text-secondary'] }">{{ v.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -139,8 +182,8 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Komposition mit Avatar-Komponente</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-status-row">
             <div v-for="(cfg, i) in avatarStatuses" :key="i" class="arena-status-labeled">
               <div class="arena-avatar" style="width: 48px; height: 48px; min-width: 48px; border-radius: 9999px; position: relative; display: inline-flex;">
@@ -165,6 +208,22 @@
                 ></span>
               </div>
               <span class="arena-status-dot-label" :style="{ color: tDark['text-secondary'] }">{{ cfg.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-status-row">
+            <div v-for="(cfg, i) in avatarStatuses" :key="i" class="arena-status-labeled">
+              <div class="arena-avatar" style="width: 48px; height: 48px; min-width: 48px; border-radius: 9999px; position: relative; display: inline-flex;">
+                <img class="arena-avatar__image" :src="photos[i]" alt="" style="border-radius: 9999px;" />
+                <span
+                  class="arena-avatar__status"
+                  :style="{ ...dotStyle(activeTokens, cfg.id, 'sm'), ...ringStyle(activeTokens), position: 'absolute', bottom: '0', right: '0', zIndex: 2 }"
+                ></span>
+              </div>
+              <span class="arena-status-dot-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">{{ cfg.label }}</span>
             </div>
           </div>
         </div>
@@ -241,6 +300,23 @@ function resolveAll(semanticMap) {
 
 const tokensLight = computed(() => resolveAll(tLight.value))
 const tokensDark = computed(() => resolveAll(tDark.value))
+
+// ---------------------------------------------------------------------------
+// 3-Mode Support (light / dark / split)
+// ---------------------------------------------------------------------------
+const arenaMode = computed(() => store.state.previewMode)
+const isSplit = computed(() => arenaMode.value === 'split')
+const activeTokens = computed(() =>
+  arenaMode.value === 'dark' ? tokensDark.value : tokensLight.value
+)
+const activeTheme = computed(() =>
+  arenaMode.value === 'dark' ? tDark.value : tLight.value
+)
+const activeBg = computed(() =>
+  arenaMode.value === 'dark'
+    ? tDark.value['background-base']
+    : tLight.value['background-secondary']
+)
 
 // ---------------------------------------------------------------------------
 // Data
@@ -369,6 +445,8 @@ function ringStyle(tokens) {
   letter-spacing: 0.04em;
   padding: 6px 12px;
   opacity: 0.55;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -380,8 +458,17 @@ function ringStyle(tokens) {
   padding: 16px;
 }
 
+.arena-specimen__single {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .arena-specimen__panel--light {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.arena-specimen__panel--full {
+  /* Volle Breite im Single-Modus */
 }
 
 /* Status Matrix (Variants × Sizes) */

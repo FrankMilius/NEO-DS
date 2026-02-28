@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "3.0.0",
+  "component": "badge",
+  "version": "2.0.0",
+
+  "anatomy": {
+    "slots": [
+      { "name": "icon", "element": ".nc-badge__icon", "optional": true },
+      { "name": "label", "element": ".nc-badge__label", "optional": false }
+    ],
+    "modes": [
+      { "name": "dot", "modifier": "--dot", "description": "Slot-loses Dot-Display, zeigt nur Farbe ohne Text." },
+      { "name": "counter", "description": "Numerischer Inhalt mit min-width fuer gleichmaessige Kreise." }
+    ]
+  },
+
+  "a11y": {
+    "role": "status",
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "doNotRelyOnColorOnly": true,
+    "note": "Badge ist nicht interaktiv. Farbe nie als einziges Signal verwenden — immer mit Text oder Icon kombinieren."
+  },
+
+  "constraints": {
+    "label": {
+      "maxChars": 20,
+      "truncation": "ellipsis",
+      "note": "Labels ueber 20 Zeichen werden mit text-overflow: ellipsis abgeschnitten. Kurze, praegnante Labels bevorzugen."
+    },
+    "counter": {
+      "maxValue": 99,
+      "overflowLabel": "99+",
+      "note": "Numerische Werte ueber 99 werden als '99+' dargestellt. Aria-label muss den echten Wert enthalten."
+    }
+  },
+
+  "baseClasses": ["nc-badge"],
+  "baseTokenGroups": ["core-geometry", "core-typography"],
+
+  "variantAxes": {
+    "tone": {
+      "label": "Tone",
+      "description": "Farb-Semantik der Badge",
+      "values": {
+        "default":   { "modifier": null,                  "tokenGroups": ["tone-default"] },
+        "secondary": { "modifier": "nc-badge--secondary", "tokenGroups": ["tone-secondary"] },
+        "success":   { "modifier": "nc-badge--success",   "tokenGroups": ["tone-success"] },
+        "warning":   { "modifier": "nc-badge--warning",   "tokenGroups": ["tone-warning"] },
+        "error":     { "modifier": "nc-badge--error",     "tokenGroups": ["tone-error"] },
+        "info":      { "modifier": "nc-badge--info",      "tokenGroups": ["tone-info"] }
+      }
+    },
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Visuelle Gewichtung",
+      "values": {
+        "solid":   { "modifier": null,                "tokenGroups": [] },
+        "outline": { "modifier": "nc-badge--outline", "tokenGroups": ["emphasis-outline"] },
+        "soft":    { "modifier": "nc-badge--soft",    "tokenGroups": ["emphasis-soft"] }
+      }
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung",
+      "values": {
+        "sm": { "modifier": "nc-badge--sm", "tokenGroups": [] },
+        "md": { "modifier": null,           "tokenGroups": [] }
+      }
+    },
+    "decorator": {
+      "label": "Decorator",
+      "description": "Zusaetzliche visuelle Elemente",
+      "values": {
+        "none":    { "modifier": null,            "tokenGroups": [] },
+        "icon":    { "modifier": null,            "tokenGroups": ["core-extras"], "slotConfig": { "icon": true } },
+        "dot":     { "modifier": "nc-badge--dot", "tokenGroups": ["core-extras"], "excludeAxes": ["size"] },
+        "counter": { "modifier": null,            "tokenGroups": ["core-extras"], "renderHint": "counter" }
+      }
+    }
+  },
+
+  "recipes": "derived",
+
+  "specimens": [
+    {
+      "id": "variants",
+      "label": "All Variants — MD",
+      "description": "Alle Tone-Varianten in Standardgroesse",
+      "matrix": { "tone": "*", "emphasis": ["solid"], "size": ["md"], "decorator": ["none"] },
+      "layout": "row",
+      "render": { "label": "{tone}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "doNotRelyOnColorOnly": true,
+        "note": "Jede Farbvariante muss zusaetzlich durch Text unterscheidbar sein."
+      }
+    },
+    {
+      "id": "sizes",
+      "label": "Size Scale — SM / MD",
+      "description": "Jede Variante in SM und MD",
+      "matrix": { "tone": "*", "emphasis": ["solid"], "size": "*", "decorator": ["none"] },
+      "focusTokenGroups": ["core-geometry", "core-typography"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "tone", "colAxis": "size" },
+      "render": { "label": "{tone}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "SM-Variante (11px) muss Mindestkontrast einhalten. font-size unter 14px erfordert 4.5:1."
+      }
+    },
+    {
+      "id": "with-icon",
+      "label": "With Icon",
+      "description": "Leading-Icon je nach Variante",
+      "matrix": { "tone": "*", "emphasis": ["solid"], "size": ["md"], "decorator": ["icon"] },
+      "layout": "row",
+      "render": { "label": "{tone}", "icon": "{tone}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Icon ist dekorativ (aria-hidden='true'). Label traegt die Bedeutung."
+      }
+    },
+    {
+      "id": "dot-mode",
+      "label": "Dot Mode",
+      "description": "Status-Kreise pro Variante",
+      "matrix": { "tone": "*", "emphasis": ["solid"], "decorator": ["dot"] },
+      "focusTokenGroups": ["core-extras", "tone-default", "tone-success", "tone-error", "tone-info", "tone-warning"],
+      "layout": "row",
+      "render": { "label": "{tone}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "doNotRelyOnColorOnly": true,
+        "roleSuggestion": "role=\"status\" aria-label=\"Online\"",
+        "note": "Dot-Mode benoetigt immer ein begleitendes Text-Label oder aria-label. Dot allein ist nicht zugaenglich — Farbe ist nie der einzige Indikator."
+      }
+    },
+    {
+      "id": "counters",
+      "label": "Counter Badges",
+      "description": "Notification Counts — Default und Error",
+      "matrix": { "tone": ["default", "error"], "emphasis": ["solid"], "size": ["sm"], "decorator": ["counter"] },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "tone" },
+      "render": { "counterValues": ["1", "9", "99", "99+"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "roleSuggestion": "aria-label=\"{n} Benachrichtigungen\"",
+        "note": "Visuell '99+', aber aria-label muss den echten Wert enthalten (z.B. aria-label='142 Benachrichtigungen'). Counter ohne Kontext-Element (z.B. Icon-Button) ist nicht zugaenglich."
+      }
+    },
+    {
+      "id": "on-avatar",
+      "label": "Badge on Avatar",
+      "description": "Integration mit Avatar-Komponente",
+      "composes": ["avatar"],
+      "matrix": { "tone": ["success", "error", "info"], "emphasis": ["solid"], "size": ["sm"], "decorator": ["counter"] },
+      "layout": "row",
+      "render": { "compositionType": "avatar-badge", "counterValues": ["3", "99+", "New"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "roleSuggestion": "aria-label=\"{name}, {n} Benachrichtigungen\"",
+        "note": "Badge-Inhalt muss im aria-label des umschliessenden Avatar-Elements enthalten sein. Nicht als eigenstaendiges interaktives Element verwenden."
+      }
+    }
+  ]
+}

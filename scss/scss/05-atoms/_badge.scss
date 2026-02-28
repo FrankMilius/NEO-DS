@@ -12,8 +12,9 @@
 //   sm → 20px (kompakter Zaehler)
 //   md → 24px (Standard)
 //
-// VARIANTEN (7):
-//   default, secondary, outline, success, warning, error, info
+// VARIANTEN (7 Tones + 3 Emphases):
+//   Tones: default, secondary, success, warning, error, info
+//   Emphases: solid (default), outline, soft
 //
 // KLASSEN:
 //   .nc-badge (kanonisch, BEM)
@@ -94,6 +95,18 @@
 }
 
 // ---------------------------------------------------------------------------
+// Emphasis
+// ---------------------------------------------------------------------------
+
+/// Soft Emphasis — reduziert die Hintergrund-Deckkraft des aktiven Tons
+/// auf 40 %. Funktioniert kombiniert mit jeder Tone-Variante:
+///   .nc-badge.nc-badge--success.nc-badge--soft
+@mixin badge-emphasis-soft {
+  background-color: color-mix(in srgb, var(--_surface-bg) 40%, transparent);
+  --_surface-border-color: transparent;
+}
+
+// ---------------------------------------------------------------------------
 // Elements
 // ---------------------------------------------------------------------------
 
@@ -135,18 +148,25 @@
 
   // Elements
   &__icon  { @include badge-icon-element; }
-  &__label { display: inline-flex; align-items: center; }
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: var(--nc-badge-label-max-width);
+  }
 
   // Sizes
   &--sm { @include badge-size('sm'); }
 
-  // Varianten
+  // Tone-Varianten
   &--secondary { @include badge-variant-secondary; }
-  &--outline   { @include badge-variant-outline; }
   &--success   { @include badge-variant-success; }
   &--warning   { @include badge-variant-warning; }
   &--error     { @include badge-variant-error; }
   &--info      { @include badge-variant-info; }
+
+  // Emphasis-Varianten
+  &--outline   { @include badge-variant-outline; }
+  &--soft      { @include badge-emphasis-soft; }
 
   // Deprecated Aliases
   &--destructive,

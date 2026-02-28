@@ -56,6 +56,10 @@ const state = reactive({
   // Selected token for inspector
   selectedToken: null,
 
+  // Arena specimen selection (ephemeral, not persisted)
+  // { componentId, specimenId, tokenGroups } or null
+  arenaSelection: null,
+
   // Version tag
   version: '1.0.0',
 
@@ -145,7 +149,8 @@ function getDefaultFoundation() {
 // ---------------------------------------------------------------------------
 
 const currentThemeKey = computed(() => {
-  return `${state.activeThemeSet}-${state.previewMode}`
+  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
+  return `${state.activeThemeSet}-${mode}`
 })
 
 const currentThemeId = computed(() => {
@@ -159,7 +164,9 @@ const currentThemeId = computed(() => {
 })
 
 const currentSemanticTokens = computed(() => {
-  return state.themes[state.activeThemeSet][state.previewMode]
+  // In split mode, default to light for editors that need a single map
+  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
+  return state.themes[state.activeThemeSet][mode]
 })
 
 const currentFoundation = computed(() => {
@@ -214,10 +221,19 @@ function setPreviewMode(mode) {
 
 function setActiveSection(sectionId) {
   state.activeSection = sectionId
+  state.arenaSelection = null
 }
 
 function selectToken(token) {
   state.selectedToken = token
+}
+
+function setArenaSelection(componentId, specimenId, tokenGroups) {
+  state.arenaSelection = { componentId, specimenId, tokenGroups }
+}
+
+function clearArenaSelection() {
+  state.arenaSelection = null
 }
 
 function updateSemanticToken(tokenId, value) {
@@ -715,7 +731,8 @@ function saveToStorage() {
       primitiveOverrides: toRaw(state.primitiveOverrides),
       customFonts: toRaw(state.customFonts),
       focusRingMode: toRaw(state.focusRingMode),
-      currentThemeMeta: toRaw(state.currentThemeMeta)
+      currentThemeMeta: toRaw(state.currentThemeMeta),
+      activeSection: state.activeSection
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   } catch (e) {
@@ -770,6 +787,7 @@ function loadFromStorage() {
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
       if (data.previewMode) state.previewMode = data.previewMode
       if (data.currentThemeMeta) state.currentThemeMeta = data.currentThemeMeta
+      if (data.activeSection) state.activeSection = data.activeSection
     }
   } catch (e) {
     console.warn('Failed to load theme state:', e)
@@ -840,6 +858,9 @@ watch(
   { deep: true }
 )
 
+// Aktive Sektion separat speichern (leichtgewichtig, kein deep watch noetig)
+watch(() => state.activeSection, () => saveToStorage())
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -863,6 +884,8 @@ export function useThemeStore() {
     setPreviewMode,
     setActiveSection,
     selectToken,
+    setArenaSelection,
+    clearArenaSelection,
     updateSemanticToken,
     updateFoundationToken,
     updateComponentToken,

@@ -155,10 +155,13 @@ const sectionDesc = computed(() => sectionMeta[activeSection.value]?.desc || '')
 
 <style scoped>
 .inspector-panel {
-  flex: 1;
+  width: 360px;
+  min-width: 360px;
+  flex-shrink: 0;
   padding: 24px;
   overflow-y: auto;
   background: var(--cfg-bg);
+  border-left: 1px solid var(--cfg-border);
 }
 
 .section-header {

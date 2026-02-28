@@ -665,6 +665,8 @@ watch(
   letter-spacing: 0.04em;
   padding: 6px 12px;
   opacity: 0.55;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {

@@ -79,7 +79,7 @@
           <!-- Staging Area -->
           <h2 class="docs__section-title">Live Demo</h2>
           <p class="docs__section-desc">
-            W&auml;hle Theme, Gr&ouml;&szlig;e, Variante, Icon und Dot-Modus, um das Badge live zu konfigurieren.
+            W&auml;hle Theme, Gr&ouml;&szlig;e, Tone, Emphasis, Icon und Dot-Modus, um das Badge live zu konfigurieren.
           </p>
 
           <div class="docs-stage">
@@ -121,15 +121,13 @@
                 </div>
 
                 <div class="docs-stage__control">
-                  <span class="docs-stage__label">Variante</span>
+                  <span class="docs-stage__label">Tone</span>
                   <div class="nc-chip-group"
                        data-stage-control="chips" data-stage-target="stage-variant" data-default="default">
                     <button class="nc-chip nc-chip--sm nc-chip--selected" type="button" aria-pressed="true"
                             data-value="default">Default</button>
                     <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
                             data-value="secondary">Secondary</button>
-                    <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
-                            data-value="outline">Outline</button>
                     <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
                             data-value="success">Success</button>
                     <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
@@ -138,6 +136,20 @@
                             data-value="error">Error</button>
                     <button class="nc-chip nc-chip--sm" type="button" aria-pressed="false"
                             data-value="info">Info</button>
+                  </div>
+                </div>
+
+                <div class="docs-stage__control">
+                  <span class="docs-stage__label">Emphasis</span>
+                  <div class="nc-segmented-control nc-segmented-control--sm"
+                       role="radiogroup" aria-label="Emphasis"
+                       data-stage-control="segmented" data-stage-target="stage-emphasis" data-default="solid">
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                            data-value="solid">Solid</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="outline">Outline</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="soft">Soft</button>
                   </div>
                 </div>
 
@@ -194,11 +206,15 @@
               <select class="docs-stage__hidden" id="stage-variant">
                 <option value="default" selected>Default</option>
                 <option value="secondary">Secondary</option>
-                <option value="outline">Outline</option>
                 <option value="success">Success</option>
                 <option value="warning">Warning</option>
                 <option value="error">Error</option>
                 <option value="info">Info</option>
+              </select>
+              <select class="docs-stage__hidden" id="stage-emphasis">
+                <option value="solid" selected>Solid</option>
+                <option value="outline">Outline</option>
+                <option value="soft">Soft</option>
               </select>
               <select class="docs-stage__hidden" id="stage-icon">
                 <option value="none" selected>Kein Icon</option>
@@ -220,19 +236,70 @@
 
           <!-- All Variants -->
           <section class="docs__section" id="all-variants">
-            <h2 class="docs__section-title">Alle Varianten</h2>
+            <h2 class="docs__section-title">Alle Tone-Varianten</h2>
             <p class="docs__section-desc">
-              7 Varianten: Default, Secondary, Outline, Success, Warning, Error, Info.
-              Default-Gr&ouml;&szlig;e ist MD (24px H&ouml;he).
+              6 Tones: Default, Secondary, Success, Warning, Error, Info.
+              Default-Gr&ouml;&szlig;e ist MD (24px H&ouml;he), Default-Emphasis ist Solid.
             </p>
             <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
               <span class="nc-badge">Default</span>
               <span class="nc-badge nc-badge--secondary">Secondary</span>
-              <span class="nc-badge nc-badge--outline">Outline</span>
               <span class="nc-badge nc-badge--success">Success</span>
               <span class="nc-badge nc-badge--warning">Warning</span>
               <span class="nc-badge nc-badge--error">Error</span>
               <span class="nc-badge nc-badge--info">Info</span>
+            </div>
+          </section>
+
+          <!-- Emphasis -->
+          <section class="docs__section" id="emphasis">
+            <h2 class="docs__section-title">Emphasis-Varianten</h2>
+            <p class="docs__section-desc">
+              3 Emphasis-Stufen: Solid (Default), Outline und Soft.
+              Emphasis-Modifier k&ouml;nnen mit jeder Tone-Variante kombiniert werden.
+            </p>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Solid (Default)</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge">Default</span>
+              <span class="nc-badge nc-badge--success">Success</span>
+              <span class="nc-badge nc-badge--error">Error</span>
+              <span class="nc-badge nc-badge--info">Info</span>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Outline</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge nc-badge--outline">Default</span>
+              <span class="nc-badge nc-badge--success nc-badge--outline">Success</span>
+              <span class="nc-badge nc-badge--error nc-badge--outline">Error</span>
+              <span class="nc-badge nc-badge--info nc-badge--outline">Info</span>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Soft</h3>
+            <p class="docs__section-desc">
+              Reduziert die Hintergrund-Deckkraft auf 40 % via <code class="docs__token">color-mix()</code>.
+              Kein eigener Token &mdash; funktioniert mit jedem Ton.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge nc-badge--soft">Default</span>
+              <span class="nc-badge nc-badge--success nc-badge--soft">Success</span>
+              <span class="nc-badge nc-badge--warning nc-badge--soft">Warning</span>
+              <span class="nc-badge nc-badge--error nc-badge--soft">Error</span>
+              <span class="nc-badge nc-badge--info nc-badge--soft">Info</span>
+            </div>
+          </section>
+
+          <!-- Truncation -->
+          <section class="docs__section" id="truncation">
+            <h2 class="docs__section-title">Truncation</h2>
+            <p class="docs__section-desc">
+              Labels &uuml;ber <code class="docs__token">--nc-badge-label-max-width</code> (Default: 20ch)
+              werden mit <code>text-overflow: ellipsis</code> abgeschnitten.
+              Verwende <code class="docs__token">.nc-badge__label</code> um den Text zu wrappen.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--fnd-spacing-04); align-items: center; margin-block-end: var(--fnd-spacing-06);">
+              <span class="nc-badge"><span class="nc-badge__label">Kurzer Text</span></span>
+              <span class="nc-badge nc-badge--info"><span class="nc-badge__label">Sehr langer Badge-Text der abgeschnitten wird</span></span>
             </div>
           </section>
 
@@ -385,53 +452,59 @@
           </section>
 
           <section class="docs__section" id="style-colors">
-            <h2 class="docs__section-title">Farb-Tokens je Variante</h2>
+            <h2 class="docs__section-title">Farb-Tokens je Tone</h2>
             <div class="nc-data-table nc-data-table--static nc-data-table--striped">
               <table class="nc-data-table__table">
-              <thead><tr><th>Variante</th><th>Background</th><th>Color</th><th>Border</th></tr></thead>
+              <thead><tr><th>Tone</th><th>Background</th><th>Color</th><th>Border</th></tr></thead>
               <tbody>
                 <tr>
                   <td><strong>Default</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-default</code></td>
-                  <td><code class="docs__token">--nc-badge-color-default</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-default</code></td>
+                  <td><code class="docs__token">--nc-badge-default-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-default-color</code></td>
+                  <td><code class="docs__token">--nc-badge-default-border</code></td>
                 </tr>
                 <tr>
                   <td><strong>Secondary</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-secondary</code></td>
-                  <td><code class="docs__token">--nc-badge-color-secondary</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-secondary</code></td>
-                </tr>
-                <tr>
-                  <td><strong>Outline</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-outline</code></td>
-                  <td><code class="docs__token">--nc-badge-color-outline</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-outline</code></td>
+                  <td><code class="docs__token">--nc-badge-secondary-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-secondary-color</code></td>
+                  <td><code class="docs__token">--nc-badge-secondary-border</code></td>
                 </tr>
                 <tr>
                   <td><strong>Success</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-success</code></td>
-                  <td><code class="docs__token">--nc-badge-color-success</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-success</code></td>
+                  <td><code class="docs__token">--nc-badge-success-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-success-color</code></td>
+                  <td><code class="docs__token">--nc-badge-success-border</code></td>
                 </tr>
                 <tr>
                   <td><strong>Warning</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-warning</code></td>
-                  <td><code class="docs__token">--nc-badge-color-warning</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-warning</code></td>
+                  <td><code class="docs__token">--nc-badge-warning-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-warning-color</code></td>
+                  <td><code class="docs__token">--nc-badge-warning-border</code></td>
                 </tr>
                 <tr>
                   <td><strong>Error</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-error</code></td>
-                  <td><code class="docs__token">--nc-badge-color-error</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-error</code></td>
+                  <td><code class="docs__token">--nc-badge-error-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-error-color</code></td>
+                  <td><code class="docs__token">--nc-badge-error-border</code></td>
                 </tr>
                 <tr>
                   <td><strong>Info</strong></td>
-                  <td><code class="docs__token">--nc-badge-bg-info</code></td>
-                  <td><code class="docs__token">--nc-badge-color-info</code></td>
-                  <td><code class="docs__token">--nc-badge-border-color-info</code></td>
+                  <td><code class="docs__token">--nc-badge-info-bg</code></td>
+                  <td><code class="docs__token">--nc-badge-info-color</code></td>
+                  <td><code class="docs__token">--nc-badge-info-border</code></td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Emphasis-Tokens</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Emphasis</th><th>Token</th><th>Wirkung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Solid</strong></td><td><em>(Default &mdash; kein Modifier)</em></td><td>Volle Hintergrundfarbe des aktiven Tons</td></tr>
+                <tr><td><strong>Outline</strong></td><td><code class="docs__token">--nc-badge-outline-bg</code>, <code class="docs__token">--nc-badge-outline-color</code>, <code class="docs__token">--nc-badge-outline-border</code></td><td>Transparenter Hintergrund, sichtbarer Rahmen</td></tr>
+                <tr><td><strong>Soft</strong></td><td><em>Kein eigener Token &mdash; <code>color-mix()</code></em></td><td>Reduziert Hintergrund-Deckkraft des aktiven Tons auf 40 %</td></tr>
               </tbody>
             </table>
           </div>
@@ -454,6 +527,7 @@
                 <tr><td><code class="docs__token">--nc-badge-icon-size</code></td><td>12px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
                 <tr><td><code class="docs__token">--nc-badge-icon-gap</code></td><td>4px</td><td>Abstand Icon &mdash; Text</td></tr>
                 <tr><td><code class="docs__token">--nc-badge-dot-size</code></td><td>8px</td><td>Dot-Badge-Gr&ouml;&szlig;e</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-label-max-width</code></td><td>20ch</td><td>Max-Breite f&uuml;r Truncation (<code>.nc-badge__label</code>)</td></tr>
               </tbody>
             </table>
           </div>
@@ -467,13 +541,13 @@
               <tbody>
                 <tr><td><code class="docs__token">badge-base</code></td><td>&mdash;</td><td>Display, Alignment, Radius, Font-Weight, Line-Height, Border-Width. Default MD.</td></tr>
                 <tr><td><code class="docs__token">badge-size($size)</code></td><td><code class="docs__token">$size: 'sm'&nbsp;|&nbsp;'md'</code></td><td>Height, Padding-X, Font-Size pro Gr&ouml;&szlig;e.</td></tr>
-                <tr><td><code class="docs__token">badge-default</code></td><td>&mdash;</td><td>Farben f&uuml;r Default-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-secondary</code></td><td>&mdash;</td><td>Farben f&uuml;r Secondary-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-outline</code></td><td>&mdash;</td><td>Farben f&uuml;r Outline-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-success</code></td><td>&mdash;</td><td>Farben f&uuml;r Success-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-warning</code></td><td>&mdash;</td><td>Farben f&uuml;r Warning-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-error</code></td><td>&mdash;</td><td>Farben f&uuml;r Error-Variante.</td></tr>
-                <tr><td><code class="docs__token">badge-info</code></td><td>&mdash;</td><td>Farben f&uuml;r Info-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-secondary</code></td><td>&mdash;</td><td>Farben f&uuml;r Secondary-Tone.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-success</code></td><td>&mdash;</td><td>Farben f&uuml;r Success-Tone.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-warning</code></td><td>&mdash;</td><td>Farben f&uuml;r Warning-Tone.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-error</code></td><td>&mdash;</td><td>Farben f&uuml;r Error-Tone.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-info</code></td><td>&mdash;</td><td>Farben f&uuml;r Info-Tone.</td></tr>
+                <tr><td><code class="docs__token">badge-variant-outline</code></td><td>&mdash;</td><td>Outline-Emphasis: transparenter BG, Rahmen.</td></tr>
+                <tr><td><code class="docs__token">badge-emphasis-soft</code></td><td>&mdash;</td><td>Soft-Emphasis: 40 % BG-Deckkraft via <code>color-mix()</code>.</td></tr>
                 <tr><td><code class="docs__token">badge-icon-element</code></td><td>&mdash;</td><td>Icon-Sizing, Flex-Shrink, Vertical-Alignment.</td></tr>
                 <tr><td><code class="docs__token">badge-dot</code></td><td>&mdash;</td><td>Dot-Modus: Width/Height, Padding 0, kein Text.</td></tr>
               </tbody>
@@ -485,20 +559,24 @@
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
             <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
 
-.nc-badge                      // Block (Default: md, default-variante)
+.nc-badge                      // Block (Default: md, solid, default-tone)
 .nc-badge__icon                // Icon-Element (leading SVG)
+.nc-badge__label               // Text-Wrapper (erm&ouml;glicht Truncation)
 
 // Gr&ouml;&szlig;en
 .nc-badge--sm                  // 20px H&ouml;he
 // (md = Default, kein Modifier)
 
-// Varianten
+// Tone-Varianten
 .nc-badge--secondary           // Ged&auml;mpfte Hintergrund-/Textfarbe
-.nc-badge--outline             // Transparenter Hintergrund, Rahmen
 .nc-badge--success             // Gr&uuml;n (Erfolg)
 .nc-badge--warning             // Gelb (Warnung)
 .nc-badge--error               // Rot (Fehler)
 .nc-badge--info                // Blau (Information)
+
+// Emphasis-Varianten
+.nc-badge--outline             // Transparenter Hintergrund, Rahmen
+.nc-badge--soft                // Reduzierte Hintergrund-Deckkraft (40 %)
 
 // Modi
 .nc-badge--dot                 // Dot-Modus (kleiner Punkt, kein Text)</div>
@@ -541,6 +619,7 @@
               <tbody>
                 <tr><td><code class="docs__token">.nc-badge</code></td><td>Block</td><td>Badge-Container. Default: MD (24px), default-Variante, Pill-Form.</td></tr>
                 <tr><td><code class="docs__token">.nc-badge__icon</code></td><td>Element</td><td>Icon-Wrapper (leading). Enth&auml;lt inline SVG.</td></tr>
+                <tr><td><code class="docs__token">.nc-badge__label</code></td><td>Element</td><td>Text-Wrapper. Erm&ouml;glicht Truncation via <code>max-width</code> + <code>text-overflow: ellipsis</code>.</td></tr>
               </tbody>
             </table>
           </div>
@@ -556,18 +635,29 @@
             </table>
           </div>
 
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Modifier</h3>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Tone-Modifier</h3>
             <div class="nc-data-table nc-data-table--static nc-data-table--striped">
               <table class="nc-data-table__table">
               <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><em>(kein Modifier)</em></td><td>Default</td><td>Standard-Badge mit neutraler Farbe</td></tr>
                 <tr><td><code class="docs__token">.nc-badge--secondary</code></td><td>Secondary</td><td>Ged&auml;mpftes, dezentes Badge</td></tr>
-                <tr><td><code class="docs__token">.nc-badge--outline</code></td><td>Outline</td><td>Transparenter Hintergrund, sichtbarer Rahmen</td></tr>
                 <tr><td><code class="docs__token">.nc-badge--success</code></td><td>Erfolg</td><td>Gr&uuml;n &mdash; positiver Status</td></tr>
                 <tr><td><code class="docs__token">.nc-badge--warning</code></td><td>Warnung</td><td>Gelb &mdash; Aufmerksamkeit erforderlich</td></tr>
                 <tr><td><code class="docs__token">.nc-badge--error</code></td><td>Fehler</td><td>Rot &mdash; kritischer Zustand</td></tr>
                 <tr><td><code class="docs__token">.nc-badge--info</code></td><td>Information</td><td>Blau &mdash; informativer Hinweis</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Emphasis-Modifier</h3>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead><tr><th>Klasse</th><th>Zweck</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><em>(kein Modifier)</em></td><td>Solid</td><td>Voller Hintergrund (Default)</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--outline</code></td><td>Outline</td><td>Transparenter Hintergrund, sichtbarer Rahmen</td></tr>
+                <tr><td><code class="docs__token">.nc-badge--soft</code></td><td>Soft</td><td>40 % Hintergrund-Deckkraft via <code>color-mix()</code></td></tr>
               </tbody>
             </table>
           </div>
@@ -610,34 +700,36 @@
                 <tr><td><code class="docs__token">--nc-badge-icon-size</code></td><td>12px</td><td>&mdash;</td></tr>
                 <tr><td><code class="docs__token">--nc-badge-icon-gap</code></td><td>4px</td><td>&mdash;</td></tr>
                 <tr><td><code class="docs__token">--nc-badge-dot-size</code></td><td>8px</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Default Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-default</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-default</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-default</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Secondary Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-secondary</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-secondary</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-secondary</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Outline Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-outline</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-outline</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-outline</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-success</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-success</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-dark)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-success</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-warning</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-warning</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-warning-dark)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-warning</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Error Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-error</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-error</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-dark)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-error</code></td><td>transparent</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-bg-info</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-color-info</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-info-dark)</td></tr>
-                <tr><td><code class="docs__token">--nc-badge-border-color-info</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Truncation</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-label-max-width</code></td><td>20ch</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Default Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-default-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-default-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-default-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Secondary Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-secondary-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-secondary-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-secondary-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Outline Emphasis</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-outline-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-outline-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-outline-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-success-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-success)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-success-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-success)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-success-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-warning-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-warning)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-warning-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-warning)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-warning-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Error Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-error-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-danger)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-error-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-danger)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-error-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Tone</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-info-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-info)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-info-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-info)</td></tr>
+                <tr><td><code class="docs__token">--nc-badge-info-border</code></td><td>transparent</td><td>&mdash;</td></tr>
               </tbody>
             </table>
           </div>
@@ -659,6 +751,7 @@
                 <tr><td><code class="docs__token">badge-warning</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Warning-Variante.</td></tr>
                 <tr><td><code class="docs__token">badge-error</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Error-Variante.</td></tr>
                 <tr><td><code class="docs__token">badge-info</code></td><td>&mdash;</td><td>Background, Color, Border-Color f&uuml;r Info-Variante.</td></tr>
+                <tr><td><code class="docs__token">badge-emphasis-soft</code></td><td>&mdash;</td><td>Soft-Emphasis: <code>color-mix()</code> reduziert BG-Deckkraft auf 40 %.</td></tr>
                 <tr><td><code class="docs__token">badge-icon-element</code></td><td>&mdash;</td><td>Width/Height des Icons, Flex-Shrink 0, Display Inline-Flex.</td></tr>
                 <tr><td><code class="docs__token">badge-dot</code></td><td>&mdash;</td><td>Dot-Modus: feste Width/Height, Padding 0, Border-Radius 50%, kein Text-Inhalt.</td></tr>
               </tbody>
@@ -670,25 +763,30 @@
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
             <div class="docs__code-block">&lt;!-- Standard Badge --&gt;
-&lt;span class="nc-badge [--size] [--variant]"&gt;
+&lt;span class="nc-badge [--tone] [--emphasis] [--size]"&gt;
   Label
 &lt;/span&gt;
 
 &lt;!-- Badge mit Leading Icon --&gt;
-&lt;span class="nc-badge [--size] [--variant]"&gt;
-
-  &lt;!-- Slot 1: Icon (optional, vor dem Text) --&gt;
-  &lt;span class="nc-badge__icon"&gt;
+&lt;span class="nc-badge [--tone] [--emphasis] [--size]"&gt;
+  &lt;span class="nc-badge__icon" aria-hidden="true"&gt;
     &lt;svg&gt;...&lt;/svg&gt;
   &lt;/span&gt;
-
-  &lt;!-- Slot 2: Text-Inhalt --&gt;
   Label
-
 &lt;/span&gt;
 
+&lt;!-- Badge mit Truncation (__label Wrapper) --&gt;
+&lt;span class="nc-badge [--tone]"&gt;
+  &lt;span class="nc-badge__label"&gt;Langer Text wird abgeschnitten&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- Counter Badge (99+ Overflow) --&gt;
+&lt;span class="nc-badge nc-badge--error nc-badge--sm"
+      aria-label="142 Benachrichtigungen"&gt;99+&lt;/span&gt;
+
 &lt;!-- Dot Badge (kein Text) --&gt;
-&lt;span class="nc-badge nc-badge--dot [--variant]"&gt;&lt;/span&gt;</div>
+&lt;span class="nc-badge nc-badge--dot [--tone]"
+      role="status" aria-label="Online"&gt;&lt;/span&gt;</div>
           </section>
 
         </div>
@@ -759,6 +857,33 @@
             </div>
           </div>
 
+          <!-- Counter A11y -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Counter Badges (99+ Overflow)</h4>
+              <ul>
+                <li>Numerische Werte &uuml;ber 99 werden visuell als <strong>&ldquo;99+&rdquo;</strong> dargestellt</li>
+                <li>Das <code class="docs__token">aria-label</code> muss den <strong>echten Wert</strong> enthalten: <code>aria-label="142 Benachrichtigungen"</code></li>
+                <li>Counter-Badges ohne Kontext-Element (z.B. Icon-Button) sind nicht zug&auml;nglich</li>
+                <li>Der umgebende Button/Link muss den Z&auml;hler in seinem <code class="docs__token">aria-label</code> beinhalten</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Dot-Mode A11y -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Dot-Mode: <code>role=&quot;status&quot;</code></h4>
+              <ul>
+                <li>Dot-Badges sollten <code class="docs__token">role="status"</code> und ein <code class="docs__token">aria-label</code> erhalten</li>
+                <li>Beispiel: <code>&lt;span class="nc-badge nc-badge--dot nc-badge--success" role="status" aria-label="Online"&gt;&lt;/span&gt;</code></li>
+                <li>Dot allein ist nicht zug&auml;nglich &mdash; Farbe ist nie der einzige Indikator</li>
+              </ul>
+            </div>
+          </div>
+
           <!-- Best Practices -->
           <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
             <h2 class="docs__section-title">Best Practices</h2>
@@ -773,20 +898,26 @@
   Erledigt
 &lt;/span&gt;
 
-&lt;!-- RICHTIG: Dot-Badge mit Kontext --&gt;
-&lt;div aria-label="Status: Online"&gt;
-  &lt;span class="nc-badge nc-badge--dot nc-badge--success"&gt;
-    &lt;span class="sr-only"&gt;Online&lt;/span&gt;
-  &lt;/span&gt;
-&lt;/div&gt;
+&lt;!-- RICHTIG: Soft-Emphasis kombiniert mit Tone --&gt;
+&lt;span class="nc-badge nc-badge--success nc-badge--soft"&gt;Beta&lt;/span&gt;
 
-&lt;!-- RICHTIG: Benachrichtigungsz&auml;hler --&gt;
+&lt;!-- RICHTIG: Dot-Badge mit role=status --&gt;
+&lt;span class="nc-badge nc-badge--dot nc-badge--success"
+      role="status" aria-label="Online"&gt;&lt;/span&gt;
+
+&lt;!-- RICHTIG: Counter Badge mit echtem Wert --&gt;
 &lt;div style="position: relative; display: inline-flex;"&gt;
-  &lt;button aria-label="Nachrichten, 5 ungelesen"&gt;
+  &lt;button aria-label="Nachrichten, 142 ungelesen"&gt;
     &lt;svg&gt;...&lt;/svg&gt;
   &lt;/button&gt;
-  &lt;span class="nc-badge nc-badge--error nc-badge--sm" aria-hidden="true"&gt;5&lt;/span&gt;
+  &lt;span class="nc-badge nc-badge--error nc-badge--sm"
+        aria-hidden="true"&gt;99+&lt;/span&gt;
 &lt;/div&gt;
+
+&lt;!-- RICHTIG: Label mit Truncation --&gt;
+&lt;span class="nc-badge nc-badge--info"&gt;
+  &lt;span class="nc-badge__label"&gt;Langer Text der abgeschnitten wird&lt;/span&gt;
+&lt;/span&gt;
 
 &lt;!-- FALSCH: Badge als Button missbraucht --&gt;
 &lt;span class="nc-badge" role="button" tabindex="0" onclick="..."&gt;

@@ -1,7 +1,5 @@
 <template>
-  <aside class="laboratory-panel" :class="{ 'laboratory-panel--fullscreen': isFullscreen }" :style="isFullscreen ? {} : { width: panelWidth + 'px', minWidth: panelWidth + 'px' }">
-    <!-- Resize handle -->
-    <div class="resize-handle" @mousedown="startResize"></div>
+  <aside class="laboratory-panel" :class="{ 'laboratory-panel--fullscreen': isFullscreen }">
 
     <div class="lab-header">
       <div class="lab-header__row">
@@ -10,14 +8,6 @@
 
           <!-- Breakpoint Segmented Control -->
           <div class="bp-toggle" role="radiogroup" aria-label="Vorschau-Breite">
-            <button
-              :class="['toggle-btn', 'toggle-btn--bp', { active: activeBreakpoint === null }]"
-              @click="activeBreakpoint = null"
-              title="Responsive (fluid)"
-              aria-label="Responsive"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M5 12l4 -4"/><path d="M5 12l4 4"/><path d="M19 12l-4 -4"/><path d="M19 12l-4 4"/></svg>
-            </button>
             <button
               v-for="bp in BREAKPOINTS"
               :key="bp.key"
@@ -28,7 +18,21 @@
             >{{ bp.label }}</button>
           </div>
 
-          <!-- Light/Dark Toggle -->
+          <!-- Fullscreen Button -->
+          <button
+            class="lab-icon-btn"
+            @click="toggleFullscreen"
+            :aria-label="isFullscreen ? 'Vollbild verlassen' : 'Vollbild'"
+            :title="isFullscreen ? 'Vollbild verlassen (ESC)' : 'Vollbild'"
+          >
+            <svg v-if="!isFullscreen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v-4h4"/><path d="M4 4l5 5"/><path d="M20 8v-4h-4"/><path d="M20 4l-5 5"/><path d="M4 16v4h4"/><path d="M4 20l5 -5"/><path d="M20 16v4h-4"/><path d="M20 20l-5 -5"/></svg>
+            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4"/><path d="M3 3l6 6"/><path d="M19 9h-4v-4"/><path d="M21 3l-6 6"/><path d="M5 15h4v4"/><path d="M3 21l6 -6"/><path d="M19 15h-4v4"/><path d="M21 21l-6 -6"/></svg>
+          </button>
+
+          <!-- Spacer vor Theme Toggle -->
+          <div class="lab-header__spacer"></div>
+
+          <!-- Light / Dark / Split Toggle -->
           <div class="theme-toggle" role="radiogroup" aria-label="Theme mode">
             <button
               :class="['toggle-btn', { active: store.state.previewMode === 'light' }]"
@@ -50,25 +54,34 @@
               </svg>
               Dark
             </button>
+            <button
+              :class="['toggle-btn', { active: store.state.previewMode === 'split' }]"
+              @click="store.setPreviewMode('split')"
+              aria-label="Split view"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
+              </svg>
+              Split
+            </button>
           </div>
-
-          <!-- Fullscreen Button -->
-          <button
-            class="lab-icon-btn"
-            @click="toggleFullscreen"
-            :aria-label="isFullscreen ? 'Vollbild verlassen' : 'Vollbild'"
-            :title="isFullscreen ? 'Vollbild verlassen (ESC)' : 'Vollbild'"
-          >
-            <svg v-if="!isFullscreen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v-4h4"/><path d="M4 4l5 5"/><path d="M20 8v-4h-4"/><path d="M20 4l-5 5"/><path d="M4 16v4h4"/><path d="M4 20l5 -5"/><path d="M20 16v4h-4"/><path d="M20 20l-5 -5"/></svg>
-            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4"/><path d="M3 3l6 6"/><path d="M19 9h-4v-4"/><path d="M21 3l-6 6"/><path d="M5 15h4v4"/><path d="M3 21l6 -6"/><path d="M19 15h-4v4"/><path d="M21 21l-6 -6"/></svg>
-          </button>
 
         </div>
       </div>
     </div>
 
     <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
-      <div class="lab-viewport-inner" :class="{ 'lab-viewport-inner--constrained': activeBreakpoint !== null }">
+
+      <!-- Breakpoint Ruler / Divider -->
+      <div v-if="activeBreakpoint" class="bp-ruler">
+        <div class="bp-ruler__line"></div>
+        <span class="bp-ruler__label">
+          <strong>{{ currentBpLabel }}</strong>, {{ currentBpWidth }}px
+        </span>
+        <div class="bp-ruler__line"></div>
+      </div>
+
+      <div class="lab-viewport-inner">
 
       <!-- ═══════════════════════════════════════════════════════════════
            TYPOGRAPHY SHOWCASE (when editing Typography section)
@@ -376,73 +389,6 @@
               </div>
             </div>
 
-            <!-- 3 · Card (Preview, Summary, Action, Status) — konsumiert --fnd-color-* Token-Overrides -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
-              <span class="arena-specimen__label">Card</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="cardPanelTokens(tLight)">
-                  <div class="arena-spec-card-grid">
-                    <!-- Preview -->
-                    <div class="arena-spec-card">
-                      <div class="arena-spec-card__media"></div>
-                      <span class="arena-spec-card__kicker">Insights</span>
-                      <span class="arena-spec-card__title">Preview Card</span>
-                      <span class="arena-spec-card__desc">Kicker, Titel, Text</span>
-                    </div>
-                    <!-- Summary -->
-                    <div class="arena-spec-card arena-spec-card--summary">
-                      <div class="arena-spec-card__avatar"></div>
-                      <span class="arena-spec-card__title">Anna M.</span>
-                      <span class="arena-spec-card__desc">Developer</span>
-                    </div>
-                    <!-- Action -->
-                    <div class="arena-spec-card">
-                      <span class="arena-spec-card__title">Action Card</span>
-                      <span class="arena-spec-card__desc">Footer mit Buttons</span>
-                      <div class="arena-spec-card__footer">
-                        <span class="arena-spec-card__btn">OK</span>
-                      </div>
-                    </div>
-                    <!-- Status -->
-                    <div class="arena-spec-card arena-spec-card--status">
-                      <span class="arena-spec-card__title">Status</span>
-                      <span class="arena-spec-card__desc">Linker Indikator</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="cardPanelTokens(tDark)">
-                  <div class="arena-spec-card-grid">
-                    <!-- Preview -->
-                    <div class="arena-spec-card">
-                      <div class="arena-spec-card__media"></div>
-                      <span class="arena-spec-card__kicker">Insights</span>
-                      <span class="arena-spec-card__title">Preview Card</span>
-                      <span class="arena-spec-card__desc">Kicker, Titel, Text</span>
-                    </div>
-                    <!-- Summary -->
-                    <div class="arena-spec-card arena-spec-card--summary">
-                      <div class="arena-spec-card__avatar"></div>
-                      <span class="arena-spec-card__title">Anna M.</span>
-                      <span class="arena-spec-card__desc">Developer</span>
-                    </div>
-                    <!-- Action -->
-                    <div class="arena-spec-card">
-                      <span class="arena-spec-card__title">Action Card</span>
-                      <span class="arena-spec-card__desc">Footer mit Buttons</span>
-                      <div class="arena-spec-card__footer">
-                        <span class="arena-spec-card__btn">OK</span>
-                      </div>
-                    </div>
-                    <!-- Status -->
-                    <div class="arena-spec-card arena-spec-card--status">
-                      <span class="arena-spec-card__title">Status</span>
-                      <span class="arena-spec-card__desc">Linker Indikator</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- 4 · Badges -->
             <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('badges') }]">
               <span class="arena-specimen__label">Badges</span>
@@ -643,38 +589,6 @@
                 </div>
               </div>
 
-              <div v-if="activeSpecimens.includes('card')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('card') }]">
-                <span class="arena-specimen__label">Card</span>
-                <div class="arena-specimen__pair">
-                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="cardPanelTokens(tLight)">
-                    <div class="arena-spec-card-grid">
-                      <div class="arena-spec-card">
-                        <div class="arena-spec-card__media"></div>
-                        <span class="arena-spec-card__title">Preview</span>
-                        <span class="arena-spec-card__desc">Mit Media-Slot</span>
-                      </div>
-                      <div class="arena-spec-card arena-spec-card--status">
-                        <span class="arena-spec-card__title">Status</span>
-                        <span class="arena-spec-card__desc">Indikator</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="arena-specimen__panel" :style="cardPanelTokens(tDark)">
-                    <div class="arena-spec-card-grid">
-                      <div class="arena-spec-card">
-                        <div class="arena-spec-card__media"></div>
-                        <span class="arena-spec-card__title">Preview</span>
-                        <span class="arena-spec-card__desc">Mit Media-Slot</span>
-                      </div>
-                      <div class="arena-spec-card arena-spec-card--status">
-                        <span class="arena-spec-card__title">Status</span>
-                        <span class="arena-spec-card__desc">Indikator</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div v-if="activeSpecimens.includes('badges')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('badges') }]">
                 <span class="arena-specimen__label">Badges</span>
                 <div class="arena-specimen__pair">
@@ -862,6 +776,10 @@
 
       <template v-else-if="isComponentSection && activeComponentId === 'status'">
         <StatusArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'card'">
+        <CardArena />
       </template>
 
       <template v-else-if="isComponentSection">
@@ -1460,6 +1378,7 @@ import ComponentArena from './ComponentArena.vue'
 import AvatarArena from './AvatarArena.vue'
 import BadgeArena from './BadgeArena.vue'
 import StatusArena from './StatusArena.vue'
+import CardArena from './CardArena.vue'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
@@ -1484,7 +1403,7 @@ const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dar
 const SPECIMEN_TOKENS = {
   buttons:    ['interactive-default', 'text-on-interactive', 'text-primary'],
   input:      ['background-base', 'border-primary', 'text-primary', 'text-tertiary'],
-  card:       ['layer-01', 'border-secondary', 'text-primary', 'text-secondary', 'text-tertiary', 'background-secondary', 'interactive-default', 'text-on-interactive', 'feedback-success'],
+  card:       ['layer-01', 'border-secondary', 'text-primary', 'text-secondary', 'text-tertiary'],
   badges:     ['background-success', 'background-danger', 'background-warning', 'background-info',
                'text-success', 'text-danger', 'text-warning', 'text-info'],
   alert:      ['feedback-success', 'feedback-danger', 'background-success', 'background-danger',
@@ -1497,24 +1416,6 @@ const SPECIMEN_TOKENS = {
                'background-base', 'background-secondary']
 }
 
-// Token-Override-Styles für Card-Arena-Panel
-// Setzt --fnd-color-* CSS Custom Properties, damit .arena-spec-card
-// die Token-Werte aus dem aktiven Theme konsumiert (statt Inline-Styles)
-function cardPanelTokens(t) {
-  return {
-    background: t['background-base'],
-    '--fnd-color-background-base': t['background-base'],
-    '--fnd-color-layer-01': t['layer-01'],
-    '--fnd-color-text-primary': t['text-primary'],
-    '--fnd-color-text-secondary': t['text-secondary'],
-    '--fnd-color-text-tertiary': t['text-tertiary'],
-    '--fnd-color-border-secondary': t['border-secondary'],
-    '--fnd-color-background-secondary': t['background-secondary'],
-    '--fnd-color-interactive-default': t['interactive-default'],
-    '--fnd-color-text-on-interactive': t['text-on-interactive'],
-    '--fnd-color-feedback-success': t['feedback-success']
-  }
-}
 
 const tokenToSpecimens = computed(() => {
   const map = {}
@@ -1726,71 +1627,8 @@ const typeSizes = [
 ]
 
 // ---------------------------------------------------------------------------
-// Horizontal Resize
-// ---------------------------------------------------------------------------
-const MIN_WIDTH = 260
-const MAX_WIDTH_RATIO = 0.6 // Max 60% of viewport
-const DEFAULT_RATIO = 0.4   // Default 40% of viewport
-
-const panelWidth = ref(Math.round(window.innerWidth * DEFAULT_RATIO))
-
-// Restore persisted width
-onMounted(() => {
-  try {
-    const saved = localStorage.getItem('neo-cfg-arena-width')
-    if (saved) {
-      const w = parseInt(saved, 10)
-      if (w >= MIN_WIDTH && w <= window.innerWidth * MAX_WIDTH_RATIO) {
-        panelWidth.value = w
-      }
-    }
-  } catch {}
-})
-
-let resizing = false
-let startX = 0
-let startWidth = 0
-
-function startResize(e) {
-  resizing = true
-  startX = e.clientX
-  startWidth = panelWidth.value
-  document.body.style.cursor = 'col-resize'
-  document.body.style.userSelect = 'none'
-  document.addEventListener('mousemove', onResize)
-  document.addEventListener('mouseup', stopResize)
-}
-
-function onResize(e) {
-  if (!resizing) return
-  // Panel is on the right, so dragging LEFT increases width
-  const delta = startX - e.clientX
-  const maxW = Math.round(window.innerWidth * MAX_WIDTH_RATIO)
-  const newWidth = Math.min(maxW, Math.max(MIN_WIDTH, startWidth + delta))
-  panelWidth.value = newWidth
-}
-
-function stopResize() {
-  resizing = false
-  document.body.style.cursor = ''
-  document.body.style.userSelect = ''
-  document.removeEventListener('mousemove', onResize)
-  document.removeEventListener('mouseup', stopResize)
-  // Persist
-  try {
-    localStorage.setItem('neo-cfg-arena-width', String(panelWidth.value))
-  } catch {}
-}
-
-// Respond to window resize
-function onWindowResize() {
-  const maxW = Math.round(window.innerWidth * MAX_WIDTH_RATIO)
-  if (panelWidth.value > maxW) panelWidth.value = maxW
-}
-
-onMounted(() => window.addEventListener('resize', onWindowResize))
+// (Resize handle removed — Arena now fills available space via flex: 1)
 onUnmounted(() => {
-  window.removeEventListener('resize', onWindowResize)
   document.removeEventListener('keydown', onEscKey)
 })
 
@@ -1798,9 +1636,15 @@ onUnmounted(() => {
 // Fullscreen & Breakpoint Steuerung
 // ---------------------------------------------------------------------------
 const isFullscreen = ref(false)
-const activeBreakpoint = ref(null) // null = fluid, string = breakpoint key
+const activeBreakpoint = ref('lg') // Default: LG breakpoint
+
+// Bei Arena-Wechsel Breakpoint auf LG zuruecksetzen
+watch(() => store.state.activeSection, () => {
+  activeBreakpoint.value = 'lg'
+})
 
 const BREAKPOINTS = [
+  { key: 'xs',  label: 'XS',  width: 480 },
   { key: 'sm',  label: 'SM',  width: 768 },
   { key: 'md',  label: 'MD',  width: 960 },
   { key: 'lg',  label: 'LG',  width: 1200 },
@@ -1829,10 +1673,18 @@ const t = computed(() => {
 })
 
 const viewportStyle = computed(() => {
-  const base = {
-    background: t.value['background-base'],
-    color: t.value['text-primary']
+  const mode = store.state.previewMode
+  let base
+  if (mode === 'split') {
+    // Split: neutral background, arenas steuern eigene BGs
+    base = { background: 'var(--cfg-bg)', color: 'var(--cfg-text)' }
+  } else if (mode === 'dark') {
+    base = { background: tDark.value['background-base'], color: tDark.value['text-primary'] }
+  } else {
+    base = { background: tLight.value['background-secondary'], color: tLight.value['text-primary'] }
   }
+  // Label-Hintergrund: nur im Light-Theme
+  base['--arena-label-bg'] = (mode === 'light' || mode === 'split') ? '#555555' : 'transparent'
   if (activeBreakpoint.value !== null) {
     const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
     if (bp) base['--bp-max-width'] = bp.width + 'px'
@@ -1841,9 +1693,20 @@ const viewportStyle = computed(() => {
 })
 
 const viewportClass = computed(() => {
-  const classes = [store.state.previewMode === 'dark' ? 'dark-mode' : 'light-mode']
+  const mode = store.state.previewMode
+  const classes = [mode === 'dark' ? 'dark-mode' : mode === 'split' ? 'split-mode' : 'light-mode']
   if (activeBreakpoint.value !== null) classes.push('lab-viewport--constrained')
   return classes
+})
+
+// Breakpoint Ruler — zeigt aktuellen BP-Name + Pixel-Breite
+const currentBpLabel = computed(() => {
+  const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
+  return bp ? bp.label : ''
+})
+const currentBpWidth = computed(() => {
+  const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
+  return bp ? bp.width : 0
 })
 
 // Button styles (typography showcase)
@@ -1943,10 +1806,10 @@ const switchOn = computed(() => ({
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
   background: var(--cfg-surface);
-  border-left: 1px solid var(--cfg-border);
   overflow-y: auto;
-  flex-shrink: 0;
 }
 
 /* ── Vollbild-Modus ── */
@@ -1956,35 +1819,13 @@ const switchOn = computed(() => ({
   z-index: var(--cfg-z-modal);
   width: 100vw !important;
   min-width: 0 !important;
-  border-left: none;
+  border: none;
   animation: fs-enter var(--fnd-motion-duration-200) ease;
 }
 
 @keyframes fs-enter {
   from { opacity: 0.85; transform: scale(0.995); }
   to   { opacity: 1;    transform: scale(1); }
-}
-
-.laboratory-panel--fullscreen .resize-handle {
-  display: none;
-}
-
-/* Resize drag handle on the left edge */
-.resize-handle {
-  position: absolute;
-  top: 0;
-  left: -3px;
-  width: 6px;
-  height: 100%;
-  cursor: col-resize;
-  z-index: var(--cfg-z-sticky);
-  transition: background var(--fnd-motion-duration-150);
-}
-
-.resize-handle:hover,
-.resize-handle:active {
-  background: var(--cfg-accent);
-  opacity: 0.4;
 }
 
 /* ── Lab Header ── */
@@ -2010,6 +1851,11 @@ const switchOn = computed(() => ({
   gap: 6px;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.lab-header__spacer {
+  width: 8px;
+  flex-shrink: 0;
 }
 
 .lab-title {
@@ -2119,6 +1965,37 @@ const switchOn = computed(() => ({
   box-shadow:
     -1px 0 0 var(--cfg-border),
      1px 0 0 var(--cfg-border);
+}
+
+/* ── Breakpoint Ruler ── */
+.bp-ruler {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--bp-max-width, 100%);
+  margin-inline: auto;
+  width: 100%;
+  padding: 0 0 4px;
+}
+
+.bp-ruler__line {
+  flex: 1;
+  height: 1px;
+  background: var(--cfg-border);
+}
+
+.bp-ruler__label {
+  font-size: 10px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--cfg-text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.bp-ruler__label strong {
+  font-weight: 700;
+  color: var(--cfg-text);
 }
 
 .preview-section {
@@ -3468,7 +3345,9 @@ const switchOn = computed(() => ({
   text-transform: uppercase;
   letter-spacing: .03em;
   opacity: .5;
-  padding: 0 0 4px 3px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -3533,84 +3412,6 @@ const switchOn = computed(() => ({
   border-radius: 6px;
   line-height: 1.4;
   white-space: nowrap;
-}
-
-/* ── Arena: Card — konsumiert --fnd-color-* Token-Overrides vom Panel ── */
-.arena-spec-card {
-  background: var(--fnd-color-layer-01);
-  border: 1px solid var(--fnd-color-border-secondary);
-  border-radius: 8px;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.arena-spec-card__title {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--fnd-color-text-primary);
-}
-
-.arena-spec-card__desc {
-  font-size: 12px;
-  line-height: 1.3;
-  color: var(--fnd-color-text-secondary);
-}
-
-.arena-spec-card__kicker {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--fnd-color-text-tertiary);
-}
-
-.arena-spec-card__media {
-  height: 48px;
-  border-radius: 4px 4px 0 0;
-  margin: -10px -12px 6px;
-  background: var(--fnd-color-background-secondary);
-}
-
-.arena-spec-card__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--fnd-color-background-secondary);
-}
-
-.arena-spec-card--summary {
-  text-align: center;
-  align-items: center;
-}
-
-.arena-spec-card__footer {
-  border-top: 1px solid var(--fnd-color-border-secondary);
-  margin-top: 4px;
-  padding-top: 6px;
-  display: flex;
-  gap: 4px;
-}
-
-.arena-spec-card__btn {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  background: var(--fnd-color-interactive-default);
-  color: var(--fnd-color-text-on-interactive);
-}
-
-.arena-spec-card--status {
-  border-left: 3px solid var(--fnd-color-feedback-success);
-  border-radius: 0 8px 8px 0;
-}
-
-.arena-spec-card-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
 }
 
 /* ── Arena: Badges ── */

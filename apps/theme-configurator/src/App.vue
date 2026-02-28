@@ -3,11 +3,11 @@
     <AppHeader />
     <div class="app-body">
       <SidebarNav />
-      <ErrorBoundary panelLabel="Inspector">
-        <InspectorPanel />
-      </ErrorBoundary>
       <ErrorBoundary panelLabel="Laboratory">
         <LaboratoryPanel />
+      </ErrorBoundary>
+      <ErrorBoundary panelLabel="Inspector">
+        <InspectorPanel />
       </ErrorBoundary>
     </div>
     <UpdateDialog />

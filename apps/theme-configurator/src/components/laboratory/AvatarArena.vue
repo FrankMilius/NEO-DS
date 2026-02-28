@@ -4,7 +4,7 @@
     <!-- Header -->
     <div class="arena-header">
       <h4 class="arena-title">Avatar Arena</h4>
-      <span class="arena-mode-labels">
+      <span v-if="isSplit" class="arena-mode-labels">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         Light
         <span style="margin: 0 4px; opacity: .35">|</span>
@@ -21,8 +21,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">XS – XL mit Foto</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-row">
             <div v-for="(s, i) in sizes" :key="s" class="arena-avatar" :style="avatarStyle(tokensLight, s)">
               <img class="arena-avatar__image" :src="photos[i]" alt="" :style="imageClipStyle(tokensLight)" />
@@ -37,6 +38,16 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-row">
+            <div v-for="(s, i) in sizes" :key="s" class="arena-avatar" :style="avatarStyle(activeTokens, s)">
+              <img class="arena-avatar__image" :src="photos[i]" alt="" :style="imageClipStyle(activeTokens)" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -47,8 +58,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">XS – XL nur Initialen</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-row">
             <div v-for="(s, i) in sizes" :key="s" class="arena-avatar" :style="avatarStyle(tokensLight, s)">
               <span class="arena-avatar__fallback" :style="fallbackStyle(tokensLight, s)">{{ initials[i] }}</span>
@@ -63,6 +75,16 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-row">
+            <div v-for="(s, i) in sizes" :key="s" class="arena-avatar" :style="avatarStyle(activeTokens, s)">
+              <span class="arena-avatar__fallback" :style="fallbackStyle(activeTokens, s)">{{ initials[i] }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -73,8 +95,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Online · Offline · Busy · Away</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-row">
             <div v-for="(badge, i) in badges" :key="badge.id" class="arena-avatar-labeled">
               <div class="arena-avatar" :style="avatarStyle(tokensLight, 'lg')">
@@ -97,6 +120,20 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-row">
+            <div v-for="(badge, i) in badges" :key="badge.id" class="arena-avatar-labeled">
+              <div class="arena-avatar" :style="avatarStyle(activeTokens, 'lg')">
+                <img class="arena-avatar__image" :src="photos[i]" alt="" :style="imageClipStyle(activeTokens)" />
+                <span class="arena-avatar__badge" :style="badgeStyle(activeTokens, badge.id)"></span>
+              </div>
+              <span class="arena-avatar-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">{{ badge.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -107,8 +144,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Rund (default) vs. Quadratisch</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-row">
             <div class="arena-avatar-labeled">
               <div class="arena-avatar" :style="avatarStyle(tokensLight, 'lg')">
@@ -141,6 +179,25 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-row">
+            <div class="arena-avatar-labeled">
+              <div class="arena-avatar" :style="avatarStyle(activeTokens, 'lg')">
+                <img class="arena-avatar__image" :src="photos[0]" alt="" :style="imageClipStyle(activeTokens)" />
+              </div>
+              <span class="arena-avatar-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">Round</span>
+            </div>
+            <div class="arena-avatar-labeled">
+              <div class="arena-avatar" :style="avatarStyle(activeTokens, 'lg', true)">
+                <img class="arena-avatar__image" :src="photos[1]" alt="" :style="imageClipStyle(activeTokens, true)" />
+              </div>
+              <span class="arena-avatar-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">Square</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -151,8 +208,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Ohne Ring vs. Mit Ring (auf Layer-01 Flaeche)</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-ring-stage" :style="{ background: tLight['layer-01'] || '#f5f5f5' }">
             <div class="arena-avatar-labeled">
               <div class="arena-avatar" :style="avatarStyle(tokensLight, 'lg')">
@@ -185,6 +243,25 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-ring-stage" :style="{ background: activeTheme['layer-01'] || (arenaMode === 'dark' ? '#1a1a1a' : '#f5f5f5') }">
+            <div class="arena-avatar-labeled">
+              <div class="arena-avatar" :style="avatarStyle(activeTokens, 'lg')">
+                <img class="arena-avatar__image" :src="photos[4]" alt="" :style="imageClipStyle(activeTokens)" />
+              </div>
+              <span class="arena-avatar-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">Default</span>
+            </div>
+            <div class="arena-avatar-labeled">
+              <div class="arena-avatar" :style="{ ...avatarStyle(activeTokens, 'lg'), ...ringStyle(activeTokens) }">
+                <img class="arena-avatar__image" :src="photos[4]" alt="" :style="imageClipStyle(activeTokens)" />
+              </div>
+              <span class="arena-avatar-label" :style="arenaMode === 'dark' ? { color: activeTheme['text-secondary'] } : {}">Ring</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -195,8 +272,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">Gruppe mit Overlap + Count</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-group">
             <div class="arena-avatar-group__count" :style="groupCountStyle(tokensLight, 'md')">+3</div>
             <div v-for="i in 4" :key="i" class="arena-avatar" :style="{ ...avatarStyle(tokensLight, 'md'), ...groupItemRing(tokensLight) }">
@@ -213,6 +291,17 @@
           </div>
         </div>
       </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-group">
+            <div class="arena-avatar-group__count" :style="groupCountStyle(activeTokens, 'md')">+3</div>
+            <div v-for="i in 4" :key="i" class="arena-avatar" :style="{ ...avatarStyle(activeTokens, 'md'), ...groupItemRing(activeTokens) }">
+              <img class="arena-avatar__image" :src="photos[i - 1]" alt="" :style="imageClipStyle(activeTokens)" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -223,8 +312,9 @@
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">SM · MD · LG mit User-Icon</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+      <!-- Split -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
           <div class="arena-avatar-row">
             <div v-for="s in ['sm', 'md', 'lg']" :key="s" class="arena-avatar" :style="avatarStyle(tokensLight, s)">
               <span class="arena-avatar__fallback" :style="fallbackStyle(tokensLight, s)">
@@ -239,6 +329,20 @@
           <div class="arena-avatar-row">
             <div v-for="s in ['sm', 'md', 'lg']" :key="s" class="arena-avatar" :style="avatarStyle(tokensDark, s)">
               <span class="arena-avatar__fallback" :style="fallbackStyle(tokensDark, s)">
+                <svg :width="iconSize(s)" :height="iconSize(s)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Single -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <div class="arena-avatar-row">
+            <div v-for="s in ['sm', 'md', 'lg']" :key="s" class="arena-avatar" :style="avatarStyle(activeTokens, s)">
+              <span class="arena-avatar__fallback" :style="fallbackStyle(activeTokens, s)">
                 <svg :width="iconSize(s)" :height="iconSize(s)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
                 </svg>
@@ -331,6 +435,23 @@ function resolveAll(semanticMap) {
 
 const tokensLight = computed(() => resolveAll(tLight.value))
 const tokensDark = computed(() => resolveAll(tDark.value))
+
+// ---------------------------------------------------------------------------
+// 3-Mode Support (light / dark / split)
+// ---------------------------------------------------------------------------
+const arenaMode = computed(() => store.state.previewMode)
+const isSplit = computed(() => arenaMode.value === 'split')
+const activeTokens = computed(() =>
+  arenaMode.value === 'dark' ? tokensDark.value : tokensLight.value
+)
+const activeTheme = computed(() =>
+  arenaMode.value === 'dark' ? tDark.value : tLight.value
+)
+const activeBg = computed(() =>
+  arenaMode.value === 'dark'
+    ? tDark.value['background-base']
+    : tLight.value['background-secondary']
+)
 
 // ---------------------------------------------------------------------------
 // Data — Echte Avatar-Fotos aus assets/avatars/
@@ -510,6 +631,8 @@ function iconSize(size) {
   letter-spacing: 0.04em;
   padding: 6px 12px;
   opacity: 0.55;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -521,8 +644,17 @@ function iconSize(size) {
   padding: 16px;
 }
 
+.arena-specimen__single {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .arena-specimen__panel--light {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.arena-specimen__panel--full {
+  /* Volle Breite im Single-Modus */
 }
 
 /* Avatar Rows */

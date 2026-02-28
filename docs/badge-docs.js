@@ -2,7 +2,7 @@
 // Badge Docs — Tab Navigation + Staging Area Controller
 // ==========================================================================
 // Tabs: Benutzung | Style | API | Accessibility
-// Staging Area: Theme, Size, Variant, Icon, Dot Mode
+// Staging Area: Theme, Size, Tone, Emphasis, Icon, Dot Mode
 // ==========================================================================
 
 (function () {
@@ -60,13 +60,14 @@
   // 2. Staging Area
   // -----------------------------------------------------------------------
 
-  var themeSelect   = document.getElementById('stage-theme');
-  var sizeSelect    = document.getElementById('stage-size');
-  var variantSelect = document.getElementById('stage-variant');
-  var iconSelect    = document.getElementById('stage-icon');
-  var dotChk        = document.getElementById('stage-dot');
-  var preview       = document.getElementById('stage-preview');
-  var codeOutput    = document.getElementById('stage-code');
+  var themeSelect    = document.getElementById('stage-theme');
+  var sizeSelect     = document.getElementById('stage-size');
+  var variantSelect  = document.getElementById('stage-variant');
+  var emphasisSelect = document.getElementById('stage-emphasis');
+  var iconSelect     = document.getElementById('stage-icon');
+  var dotChk         = document.getElementById('stage-dot');
+  var preview        = document.getElementById('stage-preview');
+  var codeOutput     = document.getElementById('stage-code');
 
   if (!preview) return;
 
@@ -82,11 +83,12 @@
   }
 
   function updateStage() {
-    var theme   = themeSelect.value;
-    var size    = sizeSelect.value;
-    var variant = variantSelect.value;
-    var icon    = iconSelect.value;
-    var dot     = dotChk.checked;
+    var theme    = themeSelect.value;
+    var size     = sizeSelect.value;
+    var variant  = variantSelect.value;
+    var emphasis = emphasisSelect ? emphasisSelect.value : 'solid';
+    var icon     = iconSelect.value;
+    var dot      = dotChk.checked;
 
     // Apply theme to preview area
     var themes = ['neo-light-theme', 'neo-dark-theme', 'customer-light-theme', 'customer-dark-theme'];
@@ -106,9 +108,14 @@
       classes.push('nc-badge--dot');
     }
 
-    // Variant modifier (default = no modifier)
+    // Tone modifier (default = no modifier)
     if (variant !== 'default') {
       classes.push('nc-badge--' + variant);
+    }
+
+    // Emphasis modifier (solid = no modifier)
+    if (emphasis !== 'solid') {
+      classes.push('nc-badge--' + emphasis);
     }
 
     var classStr = classes.join(' ');
@@ -153,6 +160,7 @@
   themeSelect.addEventListener('change', updateStage);
   sizeSelect.addEventListener('change', updateStage);
   variantSelect.addEventListener('change', updateStage);
+  if (emphasisSelect) emphasisSelect.addEventListener('change', updateStage);
   iconSelect.addEventListener('change', updateStage);
   dotChk.addEventListener('change', updateStage);
 

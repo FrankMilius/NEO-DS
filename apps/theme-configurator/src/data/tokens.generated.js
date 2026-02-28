@@ -1762,12 +1762,6 @@ export const componentTokenGroups = [
     "icon": "badge",
     "tokens": [
       {
-        "id": "nc-badge-radius",
-        "label": "Radius",
-        "type": "size",
-        "default": "9999px"
-      },
-      {
         "id": "nc-badge-height-sm",
         "label": "Height SM",
         "type": "size",
@@ -1778,6 +1772,72 @@ export const componentTokenGroups = [
         "label": "Height MD",
         "type": "size",
         "default": "24px"
+      },
+      {
+        "id": "nc-badge-radius",
+        "label": "Radius",
+        "type": "size",
+        "default": "9999px"
+      },
+      {
+        "id": "nc-badge-padding-x-sm",
+        "label": "Padding X SM",
+        "type": "size",
+        "default": "6px"
+      },
+      {
+        "id": "nc-badge-padding-x-md",
+        "label": "Padding X MD",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-badge-gap",
+        "label": "Gap",
+        "type": "size",
+        "default": "4px"
+      },
+      {
+        "id": "nc-badge-font-size-sm",
+        "label": "Font Size SM",
+        "type": "size",
+        "default": "11px"
+      },
+      {
+        "id": "nc-badge-font-size-md",
+        "label": "Font Size MD",
+        "type": "size",
+        "default": "12px"
+      },
+      {
+        "id": "nc-badge-font-weight",
+        "label": "Font Weight",
+        "type": "size",
+        "default": "600"
+      },
+      {
+        "id": "nc-badge-letter-spacing",
+        "label": "Letter Spacing",
+        "type": "size",
+        "default": "0.01em"
+      },
+      {
+        "id": "nc-badge-line-height",
+        "label": "Line Height",
+        "type": "size",
+        "default": "1"
+      },
+      {
+        "id": "nc-badge-border-width",
+        "label": "Border Width",
+        "type": "size",
+        "default": "0"
+      },
+      {
+        "id": "nc-badge-border-color",
+        "label": "Border Color",
+        "type": "color",
+        "default": "transparent"
       },
       {
         "id": "nc-badge-default-bg",
@@ -1828,10 +1888,133 @@ export const componentTokenGroups = [
         "default": "rgba(69, 137, 255, 0.15)"
       },
       {
+        "id": "nc-badge-info-color",
+        "label": "Info Text",
+        "type": "color",
+        "ref": "text-info",
+        "readonly": true
+      },
+      {
         "id": "nc-badge-warning-bg",
         "label": "Warning BG",
         "type": "color",
         "default": "rgba(212, 164, 0, 0.15)"
+      },
+      {
+        "id": "nc-badge-warning-color",
+        "label": "Warning Text",
+        "type": "color",
+        "ref": "text-warning",
+        "readonly": true
+      },
+      {
+        "id": "nc-badge-dot-size",
+        "label": "Dot Size",
+        "type": "size",
+        "default": "6px"
+      },
+      {
+        "id": "nc-badge-dot-radius",
+        "label": "Dot Radius",
+        "type": "size",
+        "default": "50%"
+      },
+      {
+        "id": "nc-badge-icon-size",
+        "label": "Icon Size",
+        "type": "size",
+        "default": "14px"
+      }
+    ],
+    "subgroups": [
+      {
+        "id": "core-geometry",
+        "label": "Geometry",
+        "category": "core",
+        "tokenIds": [
+          "nc-badge-height-sm",
+          "nc-badge-height-md",
+          "nc-badge-radius",
+          "nc-badge-padding-x-sm",
+          "nc-badge-padding-x-md",
+          "nc-badge-gap"
+        ]
+      },
+      {
+        "id": "core-typography",
+        "label": "Typography",
+        "category": "core",
+        "tokenIds": [
+          "nc-badge-font-size-sm",
+          "nc-badge-font-size-md",
+          "nc-badge-font-weight",
+          "nc-badge-letter-spacing",
+          "nc-badge-line-height"
+        ]
+      },
+      {
+        "id": "core-extras",
+        "label": "Extras",
+        "category": "core",
+        "tokenIds": [
+          "nc-badge-dot-size",
+          "nc-badge-dot-radius",
+          "nc-badge-icon-size"
+        ]
+      },
+      {
+        "id": "tone-default",
+        "label": "Default",
+        "category": "tone",
+        "tokenIds": [
+          "nc-badge-default-bg",
+          "nc-badge-default-color"
+        ]
+      },
+      {
+        "id": "tone-success",
+        "label": "Success",
+        "category": "tone",
+        "tokenIds": [
+          "nc-badge-success-bg",
+          "nc-badge-success-color"
+        ]
+      },
+      {
+        "id": "tone-error",
+        "label": "Error",
+        "category": "tone",
+        "tokenIds": [
+          "nc-badge-error-bg",
+          "nc-badge-error-color"
+        ]
+      },
+      {
+        "id": "tone-info",
+        "label": "Info",
+        "category": "tone",
+        "tokenIds": [
+          "nc-badge-info-bg",
+          "nc-badge-info-color"
+        ]
+      },
+      {
+        "id": "tone-warning",
+        "label": "Warning",
+        "category": "tone",
+        "tokenIds": [
+          "nc-badge-warning-bg",
+          "nc-badge-warning-color"
+        ]
+      },
+      {
+        "id": "emphasis-outline",
+        "label": "Outline",
+        "category": "emphasis",
+        "tokenIds": [
+          "nc-badge-border-width",
+          "nc-badge-border-color"
+        ]
       }
     ]
   },
@@ -1918,11 +2101,115 @@ export const componentTokenGroups = [
     "id": "card",
     "label": "Card",
     "icon": "id",
+    "subgroups": [
+      {
+        "id": "basis",
+        "label": "Basis",
+        "tokenIds": [
+          "nc-card-bg",
+          "nc-card-color",
+          "nc-card-border",
+          "nc-card-radius",
+          "nc-card-padding",
+          "nc-card-shadow",
+          "nc-card-shadow-hover",
+          "nc-card-border-width",
+          "nc-card-disabled-opacity"
+        ]
+      },
+      {
+        "id": "spacing",
+        "label": "Abstände",
+        "tokenIds": [
+          "nc-card-header-padding",
+          "nc-card-header-gap",
+          "nc-card-content-padding",
+          "nc-card-footer-padding",
+          "nc-card-footer-gap"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-card-title-font-size",
+          "nc-card-title-font-weight",
+          "nc-card-title-color",
+          "nc-card-title-line-height",
+          "nc-card-description-font-size",
+          "nc-card-description-color",
+          "nc-card-description-line-height"
+        ]
+      },
+      {
+        "id": "interactive",
+        "label": "Interaktiv",
+        "tokenIds": [
+          "nc-card-transition-duration",
+          "nc-card-hover-border",
+          "nc-card-nav-color-hover"
+        ]
+      },
+      {
+        "id": "selectable",
+        "label": "Auswählbar",
+        "tokenIds": [
+          "nc-card-selected-border",
+          "nc-card-selected-bg",
+          "nc-card-selected-ring-width"
+        ]
+      },
+      {
+        "id": "expandable",
+        "label": "Aufklappbar",
+        "tokenIds": [
+          "nc-card-summary-font-weight",
+          "nc-card-summary-padding",
+          "nc-card-details-content-padding",
+          "nc-card-expand-icon-size"
+        ]
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "tokenIds": [
+          "nc-card-status-border-width",
+          "nc-card-status-success-border",
+          "nc-card-status-warning-border",
+          "nc-card-status-danger-border",
+          "nc-card-status-info-border"
+        ]
+      },
+      {
+        "id": "preview",
+        "label": "Preview",
+        "tokenIds": [
+          "nc-card-preview-media-ratio",
+          "nc-card-preview-title-size"
+        ]
+      },
+      {
+        "id": "summary",
+        "label": "Summary",
+        "tokenIds": [
+          "nc-card-summary-avatar-size",
+          "nc-card-summary-avatar-radius"
+        ]
+      },
+      {
+        "id": "action",
+        "label": "Aktion",
+        "tokenIds": [
+          "nc-card-action-icon-size"
+        ]
+      }
+    ],
     "tokens": [
       {
         "id": "nc-card-bg",
         "label": "Background",
         "type": "color",
+        "group": "basis",
         "ref": "background-base",
         "readonly": true
       },
@@ -1930,13 +2217,15 @@ export const componentTokenGroups = [
         "id": "nc-card-color",
         "label": "Text Color",
         "type": "color",
+        "group": "basis",
         "ref": "text-primary",
         "readonly": true
       },
       {
         "id": "nc-card-border",
-        "label": "Border",
+        "label": "Border Color",
         "type": "color",
+        "group": "basis",
         "ref": "border-secondary",
         "readonly": true
       },
@@ -1944,13 +2233,297 @@ export const componentTokenGroups = [
         "id": "nc-card-radius",
         "label": "Radius",
         "type": "size",
+        "group": "basis",
         "default": "16px"
       },
       {
+        "id": "nc-card-padding",
+        "label": "Padding",
+        "type": "spacing",
+        "group": "basis",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
         "id": "nc-card-shadow",
-        "label": "Shadow Level",
+        "label": "Shadow",
         "type": "shadow",
+        "group": "basis",
         "default": "xs"
+      },
+      {
+        "id": "nc-card-shadow-hover",
+        "label": "Shadow (Hover)",
+        "type": "shadow",
+        "group": "basis",
+        "ref": "elevation-raised",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-border-width",
+        "label": "Border Width",
+        "type": "size",
+        "group": "basis",
+        "ref": "border-width-xs",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-disabled-opacity",
+        "label": "Disabled Opacity",
+        "type": "opacity",
+        "group": "basis",
+        "ref": "opacity-disabled",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-header-padding",
+        "label": "Header Padding",
+        "type": "spacing",
+        "group": "spacing",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-header-gap",
+        "label": "Header Gap",
+        "type": "spacing",
+        "group": "spacing",
+        "ref": "spacing-02",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-content-padding",
+        "label": "Content Padding",
+        "type": "spacing",
+        "group": "spacing",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-footer-padding",
+        "label": "Footer Padding",
+        "type": "spacing",
+        "group": "spacing",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-footer-gap",
+        "label": "Footer Gap",
+        "type": "spacing",
+        "group": "spacing",
+        "ref": "spacing-03",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-title-font-size",
+        "label": "Title Font Size",
+        "type": "size",
+        "group": "typography",
+        "ref": "heading-m-font-size",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-title-font-weight",
+        "label": "Title Font Weight",
+        "type": "fontWeight",
+        "group": "typography",
+        "ref": "font-weight-semibold",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-title-color",
+        "label": "Title Color",
+        "type": "color",
+        "group": "typography",
+        "ref": "text-primary",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-title-line-height",
+        "label": "Title Line Height",
+        "type": "number",
+        "group": "typography",
+        "default": "1.3"
+      },
+      {
+        "id": "nc-card-description-font-size",
+        "label": "Description Font Size",
+        "type": "size",
+        "group": "typography",
+        "ref": "body-m-font-size",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-description-color",
+        "label": "Description Color",
+        "type": "color",
+        "group": "typography",
+        "ref": "text-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-description-line-height",
+        "label": "Description Line Height",
+        "type": "number",
+        "group": "typography",
+        "default": "1.5"
+      },
+      {
+        "id": "nc-card-transition-duration",
+        "label": "Transition Duration",
+        "type": "duration",
+        "group": "interactive",
+        "ref": "motion-duration-200",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-hover-border",
+        "label": "Hover Border Color",
+        "type": "color",
+        "group": "interactive",
+        "ref": "border-strong",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-nav-color-hover",
+        "label": "Nav Link Hover Color",
+        "type": "color",
+        "group": "interactive",
+        "ref": "interactive-hover",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-selected-border",
+        "label": "Selected Border",
+        "type": "color",
+        "group": "selectable",
+        "ref": "interactive-default",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-selected-bg",
+        "label": "Selected Background",
+        "type": "color",
+        "group": "selectable",
+        "ref": "background-accent-secondary",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-selected-ring-width",
+        "label": "Selected Ring Width",
+        "type": "size",
+        "group": "selectable",
+        "default": "2px"
+      },
+      {
+        "id": "nc-card-summary-font-weight",
+        "label": "Summary Font Weight",
+        "type": "fontWeight",
+        "group": "expandable",
+        "ref": "font-weight-semibold",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-summary-padding",
+        "label": "Summary Padding",
+        "type": "spacing",
+        "group": "expandable",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-details-content-padding",
+        "label": "Details Content Padding",
+        "type": "spacing",
+        "group": "expandable",
+        "ref": "spacing-06",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-expand-icon-size",
+        "label": "Expand Icon Size",
+        "type": "size",
+        "group": "expandable",
+        "default": "20px"
+      },
+      {
+        "id": "nc-card-status-border-width",
+        "label": "Status Border Width",
+        "type": "size",
+        "group": "status",
+        "ref": "border-width-sm",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-status-success-border",
+        "label": "Status Success",
+        "type": "color",
+        "group": "status",
+        "ref": "feedback-success",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-status-warning-border",
+        "label": "Status Warning",
+        "type": "color",
+        "group": "status",
+        "ref": "feedback-warning",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-status-danger-border",
+        "label": "Status Danger",
+        "type": "color",
+        "group": "status",
+        "ref": "feedback-danger",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-status-info-border",
+        "label": "Status Info",
+        "type": "color",
+        "group": "status",
+        "ref": "feedback-info",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-preview-media-ratio",
+        "label": "Preview Media Ratio",
+        "type": "ratio",
+        "group": "preview",
+        "ref": "media-ratio-3-2",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-preview-title-size",
+        "label": "Preview Title Size",
+        "type": "size",
+        "group": "preview",
+        "ref": "heading-xs-font-size",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-summary-avatar-size",
+        "label": "Summary Avatar Size",
+        "type": "size",
+        "group": "summary",
+        "default": "96px"
+      },
+      {
+        "id": "nc-card-summary-avatar-radius",
+        "label": "Summary Avatar Radius",
+        "type": "size",
+        "group": "summary",
+        "ref": "radius-full",
+        "readonly": true
+      },
+      {
+        "id": "nc-card-action-icon-size",
+        "label": "Action Icon Size",
+        "type": "size",
+        "group": "action",
+        "default": "48px"
       }
     ]
   },
@@ -3499,48 +4072,6 @@ export const navigationTree = [
             "label": "Card",
             "icon": "id",
             "section": "component-card"
-          },
-          {
-            "id": "card-cities",
-            "label": "Card Cities",
-            "icon": "building",
-            "section": "component-card-cities"
-          },
-          {
-            "id": "card-events",
-            "label": "Card Events",
-            "icon": "calendar-event",
-            "section": "component-card-events"
-          },
-          {
-            "id": "card-insights",
-            "label": "Card Insights",
-            "icon": "bulb",
-            "section": "component-card-insights"
-          },
-          {
-            "id": "card-links",
-            "label": "Card Links",
-            "icon": "link",
-            "section": "component-card-links"
-          },
-          {
-            "id": "card-stories",
-            "label": "Card Stories",
-            "icon": "book",
-            "section": "component-card-stories"
-          },
-          {
-            "id": "card-team",
-            "label": "Card Team",
-            "icon": "users",
-            "section": "component-card-team"
-          },
-          {
-            "id": "card-testimonials",
-            "label": "Card Testimonials",
-            "icon": "quote",
-            "section": "component-card-testimonials"
           },
           {
             "id": "item",

@@ -78,13 +78,85 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
 
+const SIDEBAR_STORAGE_KEY = 'neo-cfg-sidebar'
+
 const store = useThemeStore()
 const searchQuery = ref('')
-const expandedGroups = ref(new Set(['foundation', 'components']))
+
+// Expanded Groups aus localStorage wiederherstellen
+const expandedGroups = ref(loadExpandedGroups())
+
+function loadExpandedGroups() {
+  try {
+    const raw = localStorage.getItem(SIDEBAR_STORAGE_KEY)
+    if (raw) {
+      const data = JSON.parse(raw)
+      if (data.expandedGroups) return new Set(data.expandedGroups)
+    }
+  } catch {}
+  return new Set(['foundation', 'components'])
+}
+
+function saveSidebarState() {
+  try {
+    const navTree = document.querySelector('.nav-tree')
+    const data = {
+      expandedGroups: [...expandedGroups.value],
+      scrollTop: navTree ? navTree.scrollTop : 0
+    }
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, JSON.stringify(data))
+  } catch {}
+}
+
+// Sicherstellen, dass die Gruppe der aktiven Sektion geoeffnet ist
+function ensureActiveSectionGroupExpanded() {
+  const section = store.state.activeSection
+  for (const group of navigationTree) {
+    const found = group.children.some(child => {
+      if (child.isSubgroup) return child.children.some(item => item.section === section)
+      return child.section === section
+    })
+    if (found && !expandedGroups.value.has(group.id)) {
+      expandedGroups.value.add(group.id)
+      expandedGroups.value = new Set(expandedGroups.value)
+    }
+  }
+}
+
+// Scroll-Position wiederherstellen + aktives Item sichtbar machen
+onMounted(async () => {
+  ensureActiveSectionGroupExpanded()
+  await nextTick()
+  const navTree = document.querySelector('.nav-tree')
+  if (!navTree) return
+
+  try {
+    const raw = localStorage.getItem(SIDEBAR_STORAGE_KEY)
+    if (raw) {
+      const data = JSON.parse(raw)
+      if (typeof data.scrollTop === 'number') {
+        navTree.scrollTop = data.scrollTop
+      }
+    }
+  } catch {}
+
+  // Aktives Item in den sichtbaren Bereich scrollen
+  await nextTick()
+  const activeItem = navTree.querySelector('.nav-item.active')
+  if (activeItem) {
+    activeItem.scrollIntoView({ block: 'nearest' })
+  }
+})
+
+// Sidebar-State bei Aenderungen speichern
+watch(expandedGroups, () => saveSidebarState(), { deep: true })
+watch(() => store.state.activeSection, () => {
+  nextTick(() => saveSidebarState())
+})
 
 // Build a set of component IDs that have tokens defined
 const _componentIdsWithTokens = new Set(

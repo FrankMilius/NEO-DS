@@ -4,7 +4,7 @@
     <!-- Header -->
     <div class="arena-header">
       <h4 class="arena-title">Badge Arena</h4>
-      <span class="arena-mode-labels">
+      <span v-if="isSplit" class="arena-mode-labels">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         Light
         <span style="margin: 0 4px; opacity: .35">|</span>
@@ -13,213 +13,69 @@
       </span>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 1: Alle Varianten (MD)                                 -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">All Variants — MD</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">7 Farbvarianten in Standardgröße</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div class="arena-badge-row">
-            <span v-for="v in variants" :key="v.id" class="arena-badge" :style="badgeStyle(tokensLight, v.id, 'md')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-          </div>
-        </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div class="arena-badge-row">
-            <span v-for="v in variants" :key="v.id" class="arena-badge" :style="badgeStyle(tokensDark, v.id, 'md')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-          </div>
-        </div>
-      </div>
+    <!-- Recipe Chips — generated from tone axis -->
+    <div class="arena-recipe-chips">
+      <button
+        v-for="(_, toneId) in recipeData.variantAxes.tone.values"
+        :key="toneId"
+        :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === toneId }]"
+        @click="activeRecipeId = toneId"
+      >
+        {{ capitalize(toneId) }}
+      </button>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 2: Size Scale                                          -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">Size Scale — SM / MD</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">Jede Variante in SM und MD</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div v-for="v in variants" :key="v.id" class="arena-badge-size-row">
-            <span class="arena-badge" :style="badgeStyle(tokensLight, v.id, 'sm')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-            <span class="arena-badge" :style="badgeStyle(tokensLight, v.id, 'md')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-          </div>
-        </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div v-for="v in variants" :key="v.id" class="arena-badge-size-row">
-            <span class="arena-badge" :style="badgeStyle(tokensDark, v.id, 'sm')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-            <span class="arena-badge" :style="badgeStyle(tokensDark, v.id, 'md')">
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-          </div>
-        </div>
+    <!-- Specimens — generic matrix renderer -->
+    <template v-for="specimen in recipeData.specimens" :key="specimen.id">
+      <div class="arena-category-divider">
+        <span class="arena-category-label">{{ specimen.label }}</span>
       </div>
-    </div>
+      <div
+        :class="['arena-specimen', { 'arena-specimen--selected': isSpecimenSelected(specimen.id) }]"
+        @click="selectSpecimen(specimen)"
+      >
+        <span class="arena-specimen__label">{{ specimen.description }}</span>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 3: With Icon                                           -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">With Icon</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">Leading-Icon je nach Variante</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div class="arena-badge-row">
-            <span v-for="v in variants" :key="v.id" class="arena-badge" :style="badgeStyle(tokensLight, v.id, 'md')">
-              <span class="arena-badge__icon" :style="iconStyle(tokensLight)" v-html="variantIcon(v.id)"></span>
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
+        <!-- Split mode: light + dark panels -->
+        <div v-if="isSplit" class="arena-specimen__pair">
+          <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
+            <SpecimenContent :specimen="specimen" :tokens="tokensLight" :theme="tLight" mode="light" />
+          </div>
+          <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+            <SpecimenContent :specimen="specimen" :tokens="tokensDark" :theme="tDark" mode="dark" />
           </div>
         </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div class="arena-badge-row">
-            <span v-for="v in variants" :key="v.id" class="arena-badge" :style="badgeStyle(tokensDark, v.id, 'md')">
-              <span class="arena-badge__icon" :style="iconStyle(tokensDark)" v-html="variantIcon(v.id)"></span>
-              <span class="arena-badge__label">{{ v.label }}</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 4: Dot Mode                                            -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">Dot Mode</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">8px Status-Kreise pro Variante</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div class="arena-badge-row">
-            <div v-for="v in variants" :key="v.id" class="arena-badge-labeled">
-              <span class="arena-badge-dot" :style="dotStyle(tokensLight, v.id)"></span>
-              <span class="arena-badge-dot-label">{{ v.label }}</span>
-            </div>
+        <!-- Single mode -->
+        <div v-else class="arena-specimen__single">
+          <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+            <SpecimenContent :specimen="specimen" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
           </div>
         </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div class="arena-badge-row">
-            <div v-for="v in variants" :key="v.id" class="arena-badge-labeled">
-              <span class="arena-badge-dot" :style="dotStyle(tokensDark, v.id)"></span>
-              <span class="arena-badge-dot-label" :style="{ color: tDark['text-secondary'] }">{{ v.label }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 5: Counter Badges                                      -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">Counter Badges</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">Notification Counts — Default und Error</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div class="arena-badge-counter-group">
-            <div class="arena-badge-counter-row">
-              <span class="arena-badge-counter-label">Default</span>
-              <span v-for="n in counters" :key="n" class="arena-badge" :style="badgeStyle(tokensLight, 'default', 'sm')">
-                <span class="arena-badge__label">{{ n }}</span>
-              </span>
-            </div>
-            <div class="arena-badge-counter-row">
-              <span class="arena-badge-counter-label">Error</span>
-              <span v-for="n in counters" :key="n" class="arena-badge" :style="badgeStyle(tokensLight, 'error', 'sm')">
-                <span class="arena-badge__label">{{ n }}</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div class="arena-badge-counter-group">
-            <div class="arena-badge-counter-row">
-              <span class="arena-badge-counter-label" :style="{ color: tDark['text-secondary'] }">Default</span>
-              <span v-for="n in counters" :key="n" class="arena-badge" :style="badgeStyle(tokensDark, 'default', 'sm')">
-                <span class="arena-badge__label">{{ n }}</span>
-              </span>
-            </div>
-            <div class="arena-badge-counter-row">
-              <span class="arena-badge-counter-label" :style="{ color: tDark['text-secondary'] }">Error</span>
-              <span v-for="n in counters" :key="n" class="arena-badge" :style="badgeStyle(tokensDark, 'error', 'sm')">
-                <span class="arena-badge__label">{{ n }}</span>
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Sektion 6: Badge on Avatar                                     -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">Badge on Avatar</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">Integration mit Avatar-Komponente</span>
-      <div class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-          <div class="arena-badge-row">
-            <div v-for="(cfg, i) in avatarBadges" :key="i" class="arena-avatar-with-badge">
-              <div class="arena-avatar" :style="avatarBaseStyle(tokensLight)">
-                <img class="arena-avatar__image" :src="photos[i]" alt="" :style="{ borderRadius: '9999px' }" />
-                <span class="arena-avatar__badge-slot" :style="avatarBadgeSlotStyle()">
-                  <span class="arena-badge" :style="badgeStyle(tokensLight, cfg.variant, 'sm')">
-                    <span class="arena-badge__label">{{ cfg.text }}</span>
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-          <div class="arena-badge-row">
-            <div v-for="(cfg, i) in avatarBadges" :key="i" class="arena-avatar-with-badge">
-              <div class="arena-avatar" :style="avatarBaseStyle(tokensDark)">
-                <img class="arena-avatar__image" :src="photos[i]" alt="" :style="{ borderRadius: '9999px' }" />
-                <span class="arena-avatar__badge-slot" :style="avatarBadgeSlotStyle()">
-                  <span class="arena-badge" :style="badgeStyle(tokensDark, cfg.variant, 'sm')">
-                    <span class="arena-badge__label">{{ cfg.text }}</span>
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </template>
 
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, h, defineComponent } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups } from '../../data/tokens.js'
+import { expandMatrix, specimenTokenGroups, groupCellsByAxis } from '../../utils/recipe-utils.js'
+import recipeData from '../../../../../data/badge-recipe.json'
 
 const store = useThemeStore()
+
+// ---------------------------------------------------------------------------
+// Recipe Data
+// ---------------------------------------------------------------------------
+const activeRecipeId = ref('default')
+
+function capitalize(s) {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''
+}
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -313,33 +169,48 @@ const tokensLight = computed(() => resolveAll(tLight.value))
 const tokensDark = computed(() => resolveAll(tDark.value))
 
 // ---------------------------------------------------------------------------
-// Data
+// 3-Mode Support (light / dark / split)
 // ---------------------------------------------------------------------------
-const variants = [
-  { id: 'default',   label: 'Default' },
-  { id: 'secondary', label: 'Secondary' },
-  { id: 'outline',   label: 'Outline' },
-  { id: 'success',   label: 'Success' },
-  { id: 'warning',   label: 'Warning' },
-  { id: 'error',     label: 'Error' },
-  { id: 'info',      label: 'Info' }
-]
+const arenaMode = computed(() => store.state.previewMode)
+const isSplit = computed(() => arenaMode.value === 'split')
+const activeTokens = computed(() =>
+  arenaMode.value === 'dark' ? tokensDark.value : tokensLight.value
+)
+const activeTheme = computed(() =>
+  arenaMode.value === 'dark' ? tDark.value : tLight.value
+)
+const activeBg = computed(() =>
+  arenaMode.value === 'dark'
+    ? tDark.value['background-base']
+    : tLight.value['background-secondary']
+)
 
-const counters = ['1', '9', '99', '99+']
+// ---------------------------------------------------------------------------
+// Specimen Selection — tokenGroups computed from axes
+// ---------------------------------------------------------------------------
+function selectSpecimen(specimen) {
+  const groups = specimenTokenGroups(specimen, recipeData.variantAxes, recipeData.baseTokenGroups)
+  store.setArenaSelection('badge', specimen.id, groups)
+}
 
-const avatarBadges = [
-  { variant: 'success', text: '3' },
-  { variant: 'error',   text: '99+' },
-  { variant: 'info',    text: 'New' }
-]
+function isSpecimenSelected(specimenId) {
+  const sel = store.state.arenaSelection
+  return sel && sel.componentId === 'badge' && sel.specimenId === specimenId
+}
 
-// Vite base path fuer public/ Assets
-const base = import.meta.env.BASE_URL
-const photos = [
-  `${base}avatars/females/avatar-female-1.png`,
-  `${base}avatars/males/avatar-male-5.png`,
-  `${base}avatars/females/avatar-female-4.png`
-]
+// ---------------------------------------------------------------------------
+// Matrix Expansion
+// ---------------------------------------------------------------------------
+function expandedCells(specimen) {
+  return expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+}
+
+function groupedCells(specimen) {
+  const cells = expandedCells(specimen)
+  const rowAxis = specimen.layoutConfig?.rowAxis
+  if (!rowAxis) return [{ key: '_', label: '', cells }]
+  return groupCellsByAxis(cells, rowAxis)
+}
 
 // ---------------------------------------------------------------------------
 // Icons pro Variante (Tabler-artige SVGs, 24x24 viewBox)
@@ -354,38 +225,59 @@ const ICONS = {
   info:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/></svg>'
 }
 
-function variantIcon(variantId) {
-  return ICONS[variantId] || ICONS.default
-}
+// Vite base path fuer public/ Assets
+const base = import.meta.env.BASE_URL
+const photos = [
+  `${base}avatars/females/avatar-female-1.png`,
+  `${base}avatars/males/avatar-male-5.png`,
+  `${base}avatars/females/avatar-female-4.png`
+]
 
 // ---------------------------------------------------------------------------
 // Style Builders
 // ---------------------------------------------------------------------------
 
-function badgeStyle(tokens, variant, size) {
-  const isOutline = variant === 'outline'
-  const h = size === 'sm' ? tokens['nc-badge-height-sm'] : tokens['nc-badge-height-md']
+function badgeStyleForCell(tokens, cell) {
+  const tone = cell.axisValues.tone || 'default'
+  const emphasis = cell.axisValues.emphasis || 'solid'
+  const size = cell.axisValues.size || 'md'
+  const ht = size === 'sm' ? tokens['nc-badge-height-sm'] : tokens['nc-badge-height-md']
   const fs = size === 'sm' ? tokens['nc-badge-font-size-sm'] : tokens['nc-badge-font-size']
   const px = size === 'sm' ? '6px' : tokens['nc-badge-padding-x']
   const py = size === 'sm' ? '0' : tokens['nc-badge-padding-y']
+
+  // Resolve tone colors
+  let bg = tokens[`nc-badge-${tone}-bg`] || tokens['nc-badge-default-bg']
+  let color = tokens[`nc-badge-${tone}-color`] || tokens['nc-badge-default-color']
+  let borderColor = tokens[`nc-badge-${tone}-border`] || 'transparent'
+
+  // Emphasis overrides
+  if (emphasis === 'outline') {
+    bg = tokens['nc-badge-outline-bg'] || 'transparent'
+    color = tokens['nc-badge-outline-color'] || tokens['nc-badge-default-color']
+    borderColor = tokens['nc-badge-outline-border'] || tokens['nc-badge-default-border'] || '#ccc'
+  } else if (emphasis === 'soft') {
+    bg = `color-mix(in srgb, ${bg} 40%, transparent)`
+    borderColor = 'transparent'
+  }
 
   return {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: tokens['nc-badge-icon-gap'],
-    minHeight: h,
+    minHeight: ht,
     padding: `${py} ${px}`,
     borderRadius: tokens['nc-badge-radius'],
     fontSize: fs,
     fontWeight: tokens['nc-badge-font-weight'],
     lineHeight: '1',
     whiteSpace: 'nowrap',
-    background: tokens[`nc-badge-${variant}-bg`] || (isOutline ? 'transparent' : tokens['nc-badge-default-bg']),
-    color: tokens[`nc-badge-${variant}-color`] || tokens['nc-badge-default-color'],
+    background: bg,
+    color: color,
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: tokens[`nc-badge-${variant}-border`] || 'transparent'
+    borderColor: borderColor
   }
 }
 
@@ -432,6 +324,138 @@ function avatarBadgeSlotStyle() {
     zIndex: '2'
   }
 }
+
+// ---------------------------------------------------------------------------
+// SpecimenContent — inline render component for each specimen
+// ---------------------------------------------------------------------------
+const SpecimenContent = defineComponent({
+  props: {
+    specimen: { type: Object, required: true },
+    tokens: { type: Object, required: true },
+    theme: { type: Object, required: true },
+    mode: { type: String, default: 'light' }
+  },
+  setup(props) {
+    return () => {
+      const { specimen, tokens, theme, mode } = props
+      const isDark = mode === 'dark'
+      const render = specimen.render || {}
+      const isComposition = render.compositionType === 'avatar-badge'
+
+      // Dot-mode specimen: special rendering
+      if (specimen.matrix?.decorator?.[0] === 'dot' || (Array.isArray(specimen.matrix?.decorator) && specimen.matrix.decorator.includes('dot'))) {
+        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+        return h('div', { class: 'arena-badge-row' },
+          cells.map(cell => {
+            const tone = cell.axisValues.tone || 'default'
+            return h('div', { key: cell.id, class: 'arena-badge-labeled' }, [
+              h('span', { class: 'arena-badge-dot', style: dotStyle(tokens, tone) }),
+              h('span', {
+                class: 'arena-badge-dot-label',
+                style: isDark ? { color: theme['text-secondary'] } : {}
+              }, capitalize(tone))
+            ])
+          })
+        )
+      }
+
+      // Counter specimen (non-composition)
+      if (render.counterValues && !isComposition) {
+        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+        const rows = groupCellsByAxis(cells, specimen.layoutConfig?.rowAxis || 'tone')
+        return h('div', { class: 'arena-badge-counter-group' },
+          rows.map(row => {
+            const representativeCell = row.cells[0]
+            return h('div', { key: row.key, class: 'arena-badge-counter-row' }, [
+              h('span', {
+                class: 'arena-badge-counter-label',
+                style: isDark ? { color: theme['text-secondary'] } : {}
+              }, row.label),
+              ...render.counterValues.map(val =>
+                h('span', {
+                  key: val,
+                  class: 'arena-badge',
+                  style: badgeStyleForCell(tokens, representativeCell)
+                }, [
+                  h('span', { class: 'arena-badge__label' }, val)
+                ])
+              )
+            ])
+          })
+        )
+      }
+
+      // Avatar-badge composition
+      if (isComposition) {
+        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+        return h('div', { class: 'arena-badge-row' },
+          cells.map((cell, i) => {
+            const counterVal = render.counterValues?.[i] || ''
+            return h('div', { key: cell.id, class: 'arena-avatar-with-badge' }, [
+              h('div', { class: 'arena-avatar', style: avatarBaseStyle() }, [
+                h('img', {
+                  class: 'arena-avatar__image',
+                  src: photos[i % photos.length],
+                  alt: '',
+                  style: { borderRadius: '9999px' }
+                }),
+                h('span', { class: 'arena-avatar__badge-slot', style: avatarBadgeSlotStyle() }, [
+                  h('span', {
+                    class: 'arena-badge',
+                    style: badgeStyleForCell(tokens, cell)
+                  }, [
+                    h('span', { class: 'arena-badge__label' }, counterVal)
+                  ])
+                ])
+              ])
+            ])
+          })
+        )
+      }
+
+      // Standard rendering: row or grid
+      const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+
+      if (specimen.layout === 'grid' && specimen.layoutConfig?.rowAxis) {
+        const rows = groupCellsByAxis(cells, specimen.layoutConfig.rowAxis)
+        return h('div', { class: 'arena-badge-grid' },
+          rows.map(row =>
+            h('div', { key: row.key, class: 'arena-badge-size-row' },
+              row.cells.map(cell => renderBadgeCell(cell, tokens, render))
+            )
+          )
+        )
+      }
+
+      // Row layout (default)
+      return h('div', { class: 'arena-badge-row' },
+        cells.map(cell => renderBadgeCell(cell, tokens, render))
+      )
+    }
+  }
+})
+
+function renderBadgeCell(cell, tokens, render) {
+  const tone = cell.axisValues.tone || 'default'
+  const label = capitalize(tone)
+  const hasIcon = cell.slotConfig?.icon
+
+  const children = []
+  if (hasIcon) {
+    children.push(h('span', {
+      class: 'arena-badge__icon',
+      style: iconStyle(tokens),
+      innerHTML: ICONS[tone] || ICONS.default
+    }))
+  }
+  children.push(h('span', { class: 'arena-badge__label' }, label))
+
+  return h('span', {
+    key: cell.id,
+    class: 'arena-badge',
+    style: badgeStyleForCell(tokens, cell)
+  }, children)
+}
 </script>
 
 <style scoped>
@@ -463,6 +487,40 @@ function avatarBadgeSlotStyle() {
   opacity: 0.6;
 }
 
+/* Recipe Chips */
+.arena-recipe-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.arena-recipe-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.arena-recipe-chip:hover {
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+}
+
+.arena-recipe-chip--active {
+  background: var(--cfg-accent-subtle);
+  color: var(--cfg-accent);
+  border-color: var(--cfg-accent);
+  font-weight: 600;
+}
+
 .arena-category-divider {
   display: flex;
   align-items: center;
@@ -491,6 +549,17 @@ function avatarBadgeSlotStyle() {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.arena-specimen:hover {
+  border-color: color-mix(in srgb, var(--cfg-accent) 40%, transparent);
+}
+
+.arena-specimen--selected {
+  border-color: var(--cfg-accent);
+  box-shadow: 0 0 0 1px var(--cfg-accent), 0 0 8px color-mix(in srgb, var(--cfg-accent) 20%, transparent);
 }
 
 .arena-specimen__label {
@@ -501,6 +570,8 @@ function avatarBadgeSlotStyle() {
   letter-spacing: 0.04em;
   padding: 6px 12px;
   opacity: 0.55;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -512,8 +583,17 @@ function avatarBadgeSlotStyle() {
   padding: 16px;
 }
 
+.arena-specimen__single {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .arena-specimen__panel--light {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.arena-specimen__panel--full {
+  /* Volle Breite im Single-Modus */
 }
 
 /* Badge Rows */
@@ -534,6 +614,12 @@ function avatarBadgeSlotStyle() {
 
 .arena-badge-size-row:last-child {
   margin-bottom: 0;
+}
+
+/* Badge Grid */
+.arena-badge-grid {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Badge Base — rein inline-styled, nur layout-Reset hier */
