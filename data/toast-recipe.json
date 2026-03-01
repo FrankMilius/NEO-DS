@@ -1,0 +1,182 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "toast",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["feedback", "notification", "interactive"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/toast-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-toast" },
+    "slots": [
+      { "name": "icon", "element": ".nc-toast__icon", "optional": true },
+      { "name": "content", "element": ".nc-toast__content", "optional": false },
+      { "name": "title", "element": ".nc-toast__title", "optional": false },
+      { "name": "description", "element": ".nc-toast__description", "optional": true },
+      { "name": "action", "element": ".nc-toast__action", "optional": true },
+      { "name": "close", "element": ".nc-toast__close", "optional": true },
+      { "name": "progress", "element": ".nc-toast__progress", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Toast: flex-row, Icon + Content + Action + Close. Border, Shadow, radius.",
+      "Toaster (.nc-toaster): fixed Container, 6 Positionen, flex-column, gestapelt.",
+      "Varianten: default, success, warning, error, info — Farben via Private Props.",
+      "Animation: Slide-in/out je nach Position. Reduced Motion: opacity only.",
+      "Progress: absolut unten, countdown per JS duration.",
+      "Close: 20px Button, opacity-disabled im Ruhezustand."
+    ]
+  },
+  "axes": {
+    "severity": {
+      "label": "Severity",
+      "description": "Semantische Variante — default, success, warning, error, info",
+      "values": {
+        "default": { "modifier": "nc-toast--default", "tokenGroups": ["severity-default"], "renderHint": "toast-default" },
+        "success": { "modifier": "nc-toast--success", "tokenGroups": ["severity-success"], "renderHint": "toast-success" },
+        "warning": { "modifier": "nc-toast--warning", "tokenGroups": ["severity-warning"], "renderHint": "toast-warning" },
+        "error":   { "modifier": "nc-toast--error",   "tokenGroups": ["severity-error"],   "renderHint": "toast-error" },
+        "info":    { "modifier": "nc-toast--info",     "tokenGroups": ["severity-info"],    "renderHint": "toast-info" }
+      }
+    },
+    "position": {
+      "label": "Position",
+      "description": "Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right",
+      "values": {
+        "top-right":      { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-right" },
+        "top-left":       { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-left" },
+        "top-center":     { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-center" },
+        "bottom-right":   { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-right" },
+        "bottom-left":    { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-left" },
+        "bottom-center":  { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-center" }
+      }
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsoptionen — basic (nur Titel), with-description, with-action, with-progress",
+      "values": {
+        "basic":            { "modifier": null, "tokenGroups": [], "renderHint": "toast-basic" },
+        "with-description": { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true }, "renderHint": "toast-description" },
+        "with-action":      { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true, "action": true }, "renderHint": "toast-action" },
+        "with-progress":    { "modifier": null, "tokenGroups": [], "slotConfig": { "progress": true }, "renderHint": "toast-progress" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "entering", "leaving"],
+    "precedence": ["leaving", "entering", "default"],
+    "rules": [
+      { "state": "entering", "unless": ["leaving"], "note": "Entering: Slide-in Animation je nach Position." },
+      { "state": "leaving", "unless": [], "note": "Leaving: Slide-out Animation. Toast wird nach Animation entfernt." }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "role='status' (polite). Toaster: aria-live='polite'. Close: aria-label='Schliessen'. ESC schliesst neuesten Toast. Farbe nie alleiniges Signal — immer mit Icon + Text."
+    },
+    "overrides": [
+      { "when": { "axes": { "severity": ["error", "warning"] } }, "suggest": ["role-alert"], "note": "Error/Warning: role='alert' statt role='status' fuer dringende Meldungen." }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["role-status", "aria-live"], "notes": ["Toast: role='status'. Toaster-Container: aria-live='polite'."] }
+    ],
+    "copy": {
+      "title": { "maxChars": 60, "note": "Kurz und praegnant: 'Gespeichert', 'Fehler beim Senden', 'Aenderungen uebernommen'." },
+      "description": { "maxChars": 120, "note": "Optionale Details zur Aktion." }
+    }
+  },
+  "styling": {
+    "baseClasses": ["nc-toast"],
+    "baseTokenGroups": ["container", "animation"],
+    "tokenGroups": {
+      "container": {
+        "label": "Container",
+        "tokens": ["nc-toast-z-index", "nc-toast-offset", "nc-toast-gap", "nc-toast-width", "nc-toast-padding", "nc-toast-radius", "nc-toast-border-width", "nc-toast-shadow", "nc-toast-item-gap", "nc-toast-icon-size", "nc-toast-font-size", "nc-toast-description-font-size", "nc-toast-progress-height", "nc-toast-auto-dismiss-duration"]
+      },
+      "animation": {
+        "label": "Animation",
+        "tokens": ["nc-toast-animation-duration", "nc-toast-animation-easing"]
+      },
+      "severity-default": {
+        "label": "Default Severity",
+        "tokens": ["nc-toast-default-bg", "nc-toast-default-color", "nc-toast-default-border", "nc-toast-default-icon-color", "nc-toast-default-progress-bg"]
+      },
+      "severity-success": {
+        "label": "Success Severity",
+        "tokens": ["nc-toast-success-bg", "nc-toast-success-color", "nc-toast-success-border", "nc-toast-success-icon-color", "nc-toast-success-progress-bg"]
+      },
+      "severity-warning": {
+        "label": "Warning Severity",
+        "tokens": ["nc-toast-warning-bg", "nc-toast-warning-color", "nc-toast-warning-border", "nc-toast-warning-icon-color", "nc-toast-warning-progress-bg"]
+      },
+      "severity-error": {
+        "label": "Error Severity",
+        "tokens": ["nc-toast-error-bg", "nc-toast-error-color", "nc-toast-error-border", "nc-toast-error-icon-color", "nc-toast-error-progress-bg"]
+      },
+      "severity-info": {
+        "label": "Info Severity",
+        "tokens": ["nc-toast-info-bg", "nc-toast-info-color", "nc-toast-info-border", "nc-toast-info-icon-color", "nc-toast-info-progress-bg"]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.severity.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "severity-variants", "label": "Severity Variants",
+      "description": "Default, Success, Warning, Error, Info",
+      "matrix": { "axes": { "severity": "*", "position": ["top-right"], "content": ["with-description"] }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "severity" }, "render": { "label": "{severity}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Jede Variante: Icon + Text + Farbe. Farbe nie alleiniges Signal." }
+    },
+    {
+      "id": "content-variants", "label": "Content Variants",
+      "description": "Basic, With Description, With Action, With Progress",
+      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Action-Button: eigene Keyboard-Accessibility. Progress: rein visuell." }
+    },
+    {
+      "id": "with-action", "label": "Toast with Action",
+      "description": "Toast mit Action-Button und Close",
+      "matrix": { "axes": { "severity": ["success"], "position": ["top-right"], "content": ["with-action"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "toast-action", "label": "action" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Action-Button: Tab-erreichbar. Close: aria-label='Schliessen'." }
+    },
+    {
+      "id": "with-progress", "label": "Toast with Progress",
+      "description": "Auto-Dismiss Toast mit Fortschrittsbalken",
+      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": ["with-progress"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "toast-progress", "label": "progress" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Progress: rein visuell. Auto-Dismiss Dauer konfigurierbar." }
+    },
+    {
+      "id": "stacked", "label": "Stacked Toasts",
+      "description": "Mehrere Toasts gestapelt im Toaster",
+      "matrix": { "axes": { "severity": ["success", "error", "default"], "position": ["top-right"], "content": ["with-description"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "toast-stacked", "label": "stacked" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Toaster: aria-live='polite'. Neue Toasts werden angekuendigt. ESC schliesst neuesten." }
+    },
+    {
+      "id": "error-alert", "label": "Error Alert Toast",
+      "description": "Dringender Error-Toast mit role='alert'",
+      "matrix": { "axes": { "severity": ["error"], "position": ["top-center"], "content": ["with-action"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "toast-error-alert", "label": "error-alert" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "role='alert': sofortige Ankuendigung. Error-Icon + Text + Farbe." }
+    }
+  ]
+}

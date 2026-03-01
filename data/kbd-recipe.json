@@ -1,0 +1,205 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "kbd",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["static", "typography", "keyboard"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/kbd-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-kbd" },
+    "slots": [
+      { "name": "separator", "element": ".nc-kbd__separator", "optional": true }
+    ],
+    "convenience": [
+      { "name": "group", "element": ".nc-kbd-group", "optional": true, "description": "Inline-Flex-Container fuer mehrere Shortcuts nebeneinander mit gap" }
+    ],
+    "domNotes": [
+      "Kbd ist ein natives <kbd class='nc-kbd'> Element — semantisch korrekt fuer Tastatur-Eingaben.",
+      "Verschachtelt fuer Kombinationen: <kbd class='nc-kbd-group'><kbd class='nc-kbd'>Ctrl</kbd><span class='nc-kbd__separator'>+</span><kbd class='nc-kbd'>S</kbd></kbd>.",
+      "__separator ist ein <span> zwischen den Tasten (z.B. '+', 'dann').",
+      "Rein informativ — kein interaktives Element.",
+      "min-width: 1.5em sorgt fuer quadratisches Aussehen bei einzelnen Zeichen.",
+      "box-shadow via elevation-base erzeugt subtilen 3D-Effekt (Tasten-Look)."
+    ]
+  },
+
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Darstellungs-Variante — single (einzelne Taste, Standard), combination (Tastenkombination mit Separator)",
+      "values": {
+        "single":      { "modifier": null, "tokenGroups": [], "renderHint": "kbd-single" },
+        "combination": { "modifier": null, "tokenGroups": [], "renderHint": "kbd-combination", "slotConfig": { "separator": true } }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "rules": [],
+    "interactive": false
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Natives <kbd> Element — inhaerent semantisch. Screen Reader kuendigt 'keyboard input' an. Rein informativ, keine Interaktion."
+    },
+    "overrides": []
+  },
+
+  "constraints": {
+    "rules": [],
+    "copy": {
+      "key": {
+        "maxChars": 12,
+        "note": "Taste soll kurz sein (z.B. 'Ctrl', 'Shift', 'Enter', 'Esc'). Modifikatoren als eigene <kbd>."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-kbd"],
+    "baseTokenGroups": ["core-colors", "core-geometry", "core-typography"],
+
+    "tokenGroups": {
+      "core-colors": {
+        "label": "Colors",
+        "tokens": [
+          "nc-kbd-bg",
+          "nc-kbd-color",
+          "nc-kbd-border"
+        ]
+      },
+      "core-geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-kbd-border-width",
+          "nc-kbd-radius",
+          "nc-kbd-padding-x",
+          "nc-kbd-padding-y",
+          "nc-kbd-shadow"
+        ]
+      },
+      "core-typography": {
+        "label": "Typography",
+        "tokens": [
+          "nc-kbd-font-family",
+          "nc-kbd-font-size",
+          "nc-kbd-font-weight",
+          "nc-kbd-line-height"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "single-key",
+      "label": "Single Key",
+      "description": "Einzelne Taste in verschiedenen Laengen",
+      "matrix": {
+        "axes": { "variant": ["single"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "single" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Text muss 4.5:1 Kontrast gegen den Kbd-Hintergrund haben. min-width sorgt fuer quadratisches Aussehen."
+      }
+    },
+    {
+      "id": "key-combination",
+      "label": "Key Combination",
+      "description": "Tastenkombination mit Separator (z.B. Ctrl+S, Cmd+Shift+P)",
+      "composes": ["separator", "group"],
+      "matrix": {
+        "axes": { "variant": ["combination"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "kbd-combination", "label": "combination" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Verschachtelte <kbd> Elemente. Separator hat reduzierte Opacity. Screen Reader liest jede Taste einzeln."
+      }
+    },
+    {
+      "id": "in-context",
+      "label": "Kbd in Fliesstext",
+      "description": "Kbd eingebettet in einen Textabsatz",
+      "composes": ["paragraph"],
+      "matrix": {
+        "axes": { "variant": ["single"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "kbd-in-paragraph", "label": "inline" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Kbd muss vom umgebenden Text unterscheidbar sein (Border, BG, Mono-Font). vertical-align: baseline haelt die Zeilenhoehe."
+      }
+    },
+    {
+      "id": "in-tooltip",
+      "label": "Kbd in Tooltip",
+      "description": "Shortcut-Anzeige innerhalb eines Tooltips",
+      "composes": ["tooltip"],
+      "matrix": {
+        "axes": { "variant": ["combination"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "kbd-in-tooltip", "label": "tooltip" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Kbd in Tooltip braucht ausreichend Kontrast gegen den Tooltip-Hintergrund (dark). Shadow ggf. nicht sichtbar."
+      }
+    },
+    {
+      "id": "modifier-keys",
+      "label": "Modifier Keys",
+      "description": "Gaengige Modifikator-Tasten (Ctrl, Shift, Alt, Cmd, Enter, Esc, Tab)",
+      "matrix": {
+        "axes": { "variant": ["single"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "modifiers" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Laengere Tasten-Labels (Shift, Enter) skalieren horizontal. min-width greift nur bei kurzen Labels."
+      }
+    }
+  ]
+}

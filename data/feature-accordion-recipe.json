@@ -1,0 +1,73 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "feature-accordion",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "interactive", "content"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/feature-accordion-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-feature-accordeon" },
+    "slots": [
+      { "name": "left", "element": ".nc-feature-accordeon__left", "optional": false },
+      { "name": "title", "element": ".nc-feature-accordeon__title", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "2-Spalten Grid: nav-links (left) + expandable chapters (right).",
+      "Left: grid, align-content start, gap 1.5rem. Title: heading font, clamp 2-3.2rem, max-width 16ch.",
+      "Gap: clamp(2rem, 4vw, 4.5rem). Columns: minmax(260px, 0.95fr) + minmax(320px, 1fr)."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "feature-accordion-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "open"],
+    "precedence": ["open", "default"],
+    "rules": [
+      { "state": "open", "condition": "Chapter expandiert" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Accordion-Items: aria-expanded. Navigation-Links: fokussierbar, aria-current. Keyboard: Enter/Space toggle."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-feature-accordeon"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Feature Accordion",
+      "description": "2-Spalten Layout mit Nav-Links und expandierbaren Chapters",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "feature-accordion" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-expanded, keyboard-navigierbar." }
+    }
+  ]
+}

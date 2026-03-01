@@ -1,0 +1,78 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "navigation-menu",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "interactive", "dropdown"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-menu-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-navigation-menu" },
+    "slots": [
+      { "name": "list", "element": ".nc-navigation-menu__list", "optional": false },
+      { "name": "item", "element": ".nc-navigation-menu__item", "optional": false },
+      { "name": "trigger", "element": ".nc-navigation-menu__trigger", "optional": true },
+      { "name": "content", "element": ".nc-navigation-menu__content", "optional": true },
+      { "name": "link", "element": ".nc-navigation-menu__link", "optional": true },
+      { "name": "indicator", "element": ".nc-navigation-menu__indicator", "optional": true },
+      { "name": "viewport", "element": ".nc-navigation-menu__viewport", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Radix-UI Pattern: nav > ul > li > trigger/content.",
+      "Data-Attributes: [data-state=open|closed] auf Trigger/Content, [data-active] auf Links.",
+      "Viewport: animierter Container fuer Dropdown-Inhalte. Indicator: animierter Unterstrich."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "navigation-menu-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "hover", "focus", "open"],
+    "precedence": ["open", "focus", "hover", "default"],
+    "rules": [
+      { "state": "open", "condition": "[data-state=open] auf Trigger" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "nav mit aria-label. Trigger: aria-expanded, aria-haspopup. Keyboard: Arrow-Keys, Escape, Tab. Focus-Ring auf allen interaktiven Elementen."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-navigation-menu"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Navigation Menu",
+      "description": "Radix-inspiriertes Dropdown-Navigationsmenue",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "navigation-menu" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-expanded, keyboard-navigation, focus-ring." }
+    }
+  ]
+}

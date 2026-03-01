@@ -1,0 +1,81 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "drawer",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["overlay", "interactive", "dialog"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/drawer-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-drawer" },
+    "slots": [
+      { "name": "handle", "element": ".nc-drawer__handle", "optional": true },
+      { "name": "header", "element": ".nc-drawer__header", "optional": true },
+      { "name": "title", "element": ".nc-drawer__title", "optional": true },
+      { "name": "description", "element": ".nc-drawer__description", "optional": true },
+      { "name": "content", "element": ".nc-drawer__content", "optional": false },
+      { "name": "footer", "element": ".nc-drawer__footer", "optional": true },
+      { "name": "close", "element": ".nc-drawer__close", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Natives <dialog> mit showModal(). Slide-in von 4 Richtungen.",
+      "Modifiers: --top, --right, --left (default: bottom).",
+      "Handle: visueller Drag-Indikator. Content: scrollbar."
+    ]
+  },
+  "axes": {
+    "direction": {
+      "label": "Direction",
+      "description": "Slide-Richtung — bottom, top, left, right",
+      "values": {
+        "bottom": { "modifier": null,               "tokenGroups": [], "renderHint": "drawer-bottom" },
+        "top":    { "modifier": "nc-drawer--top",    "tokenGroups": [], "renderHint": "drawer-top" },
+        "left":   { "modifier": "nc-drawer--left",   "tokenGroups": [], "renderHint": "drawer-left" },
+        "right":  { "modifier": "nc-drawer--right",  "tokenGroups": [], "renderHint": "drawer-right" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "open"],
+    "precedence": ["open", "default"],
+    "rules": [
+      { "state": "open", "condition": "[open] Attribut via showModal()" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Natives <dialog>: role=dialog, aria-modal=true, Fokus-Trap, ESC-Close. aria-labelledby → Title, aria-describedby → Description."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-drawer"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.direction.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "direction-comparison", "label": "Directions",
+      "description": "Bottom, Top, Left, Right",
+      "matrix": { "axes": { "direction": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "direction" }, "render": { "label": "{direction}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Fokus-Trap, ESC-Close, aria-labelledby." }
+    }
+  ]
+}

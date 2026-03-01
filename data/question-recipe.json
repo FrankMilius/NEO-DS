@@ -1,0 +1,69 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "question",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "animation", "marquee"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/question-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".question" },
+    "slots": [
+      { "name": "text-row", "element": ".question-text-row", "optional": false },
+      { "name": "text", "element": ".question-text", "optional": false },
+      { "name": "text-container", "element": ".question-text-container", "optional": true },
+      { "name": "action-section", "element": ".question-action-section", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).",
+      "Geschwindigkeit: --px-per-sec (80 mobile, 160 desktop). Icon-Separatoren zwischen Texten.",
+      "Action-Section: Buttons + Paragraphs. with-text Variante: side-by-side Layout ab Tablet."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, with-text",
+      "values": {
+        "default":   { "modifier": null,        "tokenGroups": [], "renderHint": "question-default" },
+        "with-text": { "modifier": "with-text",  "tokenGroups": [], "renderHint": "question-with-text" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Marquee-Animation: prefers-reduced-motion stoppen. Icons dekorativ. Buttons im Action-Bereich: fokussierbar."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["question"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "variant-comparison", "label": "Question Variants",
+      "description": "Default vs With-Text",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Reduced Motion: Marquee stoppen." }
+    }
+  ]
+}

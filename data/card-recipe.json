@@ -1,0 +1,498 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "card",
+    "version": "2.0.0",
+    "status": "stable",
+    "tags": ["container", "surface", "interactive", "layout"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/card-docs"
+    },
+    "migratedFrom": "card-recipes.json (v1.0.0)"
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-card" },
+    "slots": [
+      { "name": "media",   "element": ".nc-card__media",   "optional": true,  "description": "Bild, Video oder Platzhalter. Standard aspect-ratio 3:2." },
+      { "name": "content", "element": ".nc-card__content", "optional": false, "description": "Freier Inhaltsbereich, flex-grow: 1, Padding via Token." },
+      { "name": "footer",  "element": ".nc-card__footer",  "optional": true,  "description": "Aktionen, Meta. margin-top: auto, immer am unteren Rand." }
+    ],
+    "convenience": [
+      { "name": "kicker",         "element": ".nc-card__kicker",         "slot": "content", "description": "Eyebrow/Badge-Text (uppercase, xs, secondary)" },
+      { "name": "title",          "element": ".nc-card__title",          "slot": "content", "description": "Hauptueberschrift, konsumiert --nc-card-title-* Tokens" },
+      { "name": "title-link",     "element": ".nc-card__title-link",     "slot": "content", "description": "Stretched Link im Titel, ::after { inset: 0 }" },
+      { "name": "description",    "element": ".nc-card__description",    "slot": "content", "description": "Fliesstext, konsumiert --nc-card-description-* Tokens" },
+      { "name": "meta",           "element": ".nc-card__meta",           "slot": "content", "description": "Metadaten-Zeile (flex row, tertiary, xs)" },
+      { "name": "icon",           "element": ".nc-card__icon",           "slot": "content", "description": "Icon, Groesse via --nc-card-action-icon-size" },
+      { "name": "input",          "element": ".nc-card__input",          "slot": "content", "description": "Hidden input (radio/checkbox) fuer Selectable (sr-only)" },
+      { "name": "footer-action",  "element": ".nc-card__footer-action",  "slot": "footer",  "description": "Button im Footer, z-index: 1 ueber title-link" },
+      { "name": "summary",        "element": ".nc-card__summary",        "slot": null,      "description": "Summary-Element fuer Expandable (details/summary)" },
+      { "name": "expand-icon",    "element": ".nc-card__expand-icon",    "slot": null,      "description": "Chevron-Icon, rotiert bei [open]" },
+      { "name": "details-content","element": ".nc-card__details-content","slot": null,      "description": "Content innerhalb von details" }
+    ],
+    "domNotes": [
+      "Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entire), <label> (selectable), <details> (expandable).",
+      "Title-Link (navigational-partial): ::after { position: absolute; inset: 0 } fuer Stretched Link.",
+      "Selectable: Hidden <input> (sr-only), :has(:checked) fuer Selected-State.",
+      "Footer-Actions haben z-index: 1 ueber dem Stretched Title-Link.",
+      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig."
+    ]
+  },
+
+  "axes": {
+    "behavior": {
+      "label": "Behavior",
+      "description": "Interaktionsmodell der Card",
+      "values": {
+        "static": {
+          "modifier": null,
+          "tokenGroups": [],
+          "elementHint": "article"
+        },
+        "navigational": {
+          "modifier": "nc-card--navigational",
+          "tokenGroups": ["interactive"],
+          "elementHint": "a",
+          "renderHint": "navigational"
+        },
+        "selectable": {
+          "modifier": "nc-card--selectable",
+          "tokenGroups": ["selectable"],
+          "elementHint": "label",
+          "renderHint": "selectable"
+        },
+        "expandable": {
+          "modifier": "nc-card--expandable",
+          "tokenGroups": ["expandable"],
+          "elementHint": "details",
+          "renderHint": "expandable"
+        },
+        "action": {
+          "modifier": "nc-card--action",
+          "tokenGroups": ["action"]
+        }
+      }
+    },
+
+    "pattern": {
+      "label": "Pattern",
+      "description": "Visuelles Layout-Muster der Card",
+      "values": {
+        "standard": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "preview": {
+          "modifier": "nc-card--preview",
+          "tokenGroups": ["preview"],
+          "slotConfig": { "media": true }
+        },
+        "featured": {
+          "modifier": "nc-card--preview nc-card--featured",
+          "tokenGroups": ["preview"],
+          "slotConfig": { "media": true },
+          "renderHint": "featured"
+        },
+        "summary": {
+          "modifier": "nc-card--summary",
+          "tokenGroups": ["summary"],
+          "slotConfig": { "media": true }
+        },
+        "status": {
+          "modifier": "nc-card--status",
+          "tokenGroups": ["status"]
+        },
+        "horizontal": {
+          "modifier": "nc-card--horizontal",
+          "tokenGroups": [],
+          "slotConfig": { "media": true },
+          "renderHint": "horizontal"
+        }
+      }
+    },
+
+    "statusLevel": {
+      "label": "Status Level",
+      "description": "Farbe des Status-Indikators (nur fuer pattern: status)",
+      "values": {
+        "none":    { "modifier": null, "tokenGroups": [] },
+        "success": { "modifier": "nc-card--status-success", "tokenGroups": ["status"] },
+        "warning": { "modifier": "nc-card--status-warning", "tokenGroups": ["status"] },
+        "danger":  { "modifier": "nc-card--status-danger",  "tokenGroups": ["status"] },
+        "info":    { "modifier": "nc-card--status-info",     "tokenGroups": ["status"] }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "hover", "focus-visible", "active", "disabled", "selected", "open", "skeleton"],
+    "precedence": ["skeleton", "disabled", "selected", "open", "active", "focus-visible", "hover", "default"],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "onlyWhen": { "axes": { "behavior": ["navigational", "selectable", "expandable", "action"] } },
+        "effects": ["shadowElevate", "borderHighlight"]
+      },
+      {
+        "state": "focus-visible",
+        "onlyWhen": { "axes": { "behavior": ["navigational", "selectable", "expandable"] } },
+        "effects": ["focusRingInset"]
+      },
+      {
+        "state": "active",
+        "onlyWhen": { "axes": { "behavior": ["navigational", "selectable"] } },
+        "effects": ["scaleDown"]
+      },
+      {
+        "state": "disabled",
+        "onlyWhen": { "axes": { "behavior": ["navigational", "selectable", "action"] } },
+        "attributes": { "aria-disabled": "true" },
+        "effects": ["blockInteraction"]
+      },
+      {
+        "state": "selected",
+        "onlyWhen": { "axes": { "behavior": ["selectable"] } },
+        "tokenGroups": ["selectable"],
+        "effects": ["selectedRing"]
+      },
+      {
+        "state": "open",
+        "onlyWhen": { "axes": { "behavior": ["expandable"] } },
+        "effects": ["expandIconRotate"]
+      },
+      {
+        "state": "skeleton",
+        "attributes": { "aria-hidden": "true" },
+        "effects": ["shimmerAnimation"]
+      }
+    ]
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "semanticStructure"],
+      "note": "Cards sind Container — interaktives Verhalten haengt vom Behavior-Typ ab."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "behavior": ["navigational"] } },
+        "require": ["href"],
+        "note": "Navigational Cards muessen ein gueltiges href-Attribut haben. Bei partial-Navigation: title-link traegt den Link."
+      },
+      {
+        "when": { "axes": { "behavior": ["selectable"] } },
+        "require": ["name", "value"],
+        "note": "Selectable Cards benoetigen name und value auf dem Hidden Input. :has(:checked) steuert den Selected-State."
+      },
+      {
+        "when": { "axes": { "behavior": ["expandable"] } },
+        "suggest": ["aria-expanded"],
+        "note": "details/summary bietet native Expansion. Falls custom JS: aria-expanded erforderlich."
+      },
+      {
+        "when": { "axes": { "pattern": ["status"] } },
+        "require": ["aria-label"],
+        "note": "Status-Indikator (Farbe) darf nicht das einzige Signal sein. Textuelle Begleitung oder aria-label noetig."
+      }
+    ],
+    "constraints": [
+      { "when": { "axes": { "behavior": ["navigational"] } }, "require": ["href"], "notes": ["Link-Card ohne href ist nicht navigierbar."] },
+      { "when": { "axes": { "behavior": ["selectable"] } }, "require": ["name", "value"], "notes": ["Selectable-Card benoetigt name + value."] },
+      { "when": { "states": ["skeleton"] }, "effects": ["blockInteraction"], "notes": ["Skeleton-Cards sind nicht interaktiv."] }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": { "axes": { "behavior": ["navigational"] } }, "require": ["href"], "notes": ["Navigational Cards muessen ein Ziel haben."] },
+      { "when": { "axes": { "behavior": ["selectable"] } }, "require": ["name", "value"], "notes": ["Selectable Cards benoetigen name + value."] },
+      { "when": { "axes": { "pattern": ["status"], "statusLevel": ["none"] } }, "severity": "warn", "notes": ["Status-Pattern ohne statusLevel hat keinen visuellen Indikator."] }
+    ],
+    "copy": {
+      "title": {
+        "maxChars": 60,
+        "truncation": "line-clamp(2)",
+        "note": "Preview-Pattern: Title wird nach 2 Zeilen abgeschnitten."
+      },
+      "description": {
+        "maxChars": 120,
+        "truncation": "line-clamp(3)",
+        "note": "Preview-Pattern: Description wird nach 3 Zeilen abgeschnitten."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-card"],
+    "baseTokenGroups": ["basis", "spacing", "typography"],
+
+    "tokenGroups": {
+      "basis": {
+        "label": "Basis",
+        "tokens": [
+          "nc-card-bg", "nc-card-color", "nc-card-border", "nc-card-radius",
+          "nc-card-padding", "nc-card-shadow", "nc-card-shadow-hover",
+          "nc-card-border-width", "nc-card-disabled-opacity"
+        ]
+      },
+      "spacing": {
+        "label": "Spacing",
+        "tokens": [
+          "nc-card-header-padding", "nc-card-header-gap",
+          "nc-card-content-padding",
+          "nc-card-footer-padding", "nc-card-footer-gap"
+        ]
+      },
+      "typography": {
+        "label": "Typography",
+        "tokens": [
+          "nc-card-title-font-size", "nc-card-title-font-weight",
+          "nc-card-title-color", "nc-card-title-line-height",
+          "nc-card-description-font-size", "nc-card-description-color",
+          "nc-card-description-line-height"
+        ]
+      },
+      "interactive": {
+        "label": "Interactive",
+        "tokens": [
+          "nc-card-transition-duration", "nc-card-hover-border",
+          "nc-card-nav-color-hover"
+        ]
+      },
+      "selectable": {
+        "label": "Selectable",
+        "tokens": [
+          "nc-card-selected-border", "nc-card-selected-bg",
+          "nc-card-selected-ring-width"
+        ]
+      },
+      "expandable": {
+        "label": "Expandable",
+        "tokens": [
+          "nc-card-summary-font-weight", "nc-card-summary-padding",
+          "nc-card-details-content-padding", "nc-card-expand-icon-size"
+        ]
+      },
+      "status": {
+        "label": "Status",
+        "tokens": [
+          "nc-card-status-border-width",
+          "nc-card-status-success-border", "nc-card-status-warning-border",
+          "nc-card-status-danger-border", "nc-card-status-info-border"
+        ]
+      },
+      "preview": {
+        "label": "Preview",
+        "tokens": [
+          "nc-card-preview-media-ratio", "nc-card-preview-title-size"
+        ]
+      },
+      "summary": {
+        "label": "Summary",
+        "tokens": [
+          "nc-card-summary-avatar-size", "nc-card-summary-avatar-radius"
+        ]
+      },
+      "action": {
+        "label": "Action",
+        "tokens": [
+          "nc-card-action-icon-size"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions", "renderModel"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.behavior.values.*.modifier",
+        "axes.pattern.values.*.modifier",
+        "axes.statusLevel.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "informational",
+      "label": "Informational Cards",
+      "description": "Statische Inhalts-Cards ohne Interaktion",
+      "matrix": {
+        "axes": { "behavior": ["static"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "Informational", "slots": ["content"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Nicht fokussierbar, nicht klickbar. Nur informativer Container."
+      }
+    },
+    {
+      "id": "navigational",
+      "label": "Navigational Cards",
+      "description": "Klickbare Link-Cards (entire und partial)",
+      "matrix": {
+        "axes": { "behavior": ["navigational"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["default", "hover", "focus-visible"]
+      },
+      "focusTokenGroups": ["basis", "interactive"],
+      "layout": "row",
+      "render": {
+        "label": "Navigational",
+        "compositionType": "navigational",
+        "variants": ["entire", "partial"]
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Entire: gesamte Flaeche ist <a>. Partial: title-link mit stretched ::after."
+      }
+    },
+    {
+      "id": "selectable",
+      "label": "Selectable Cards",
+      "description": "Radio- und Checkbox-Selection via hidden input",
+      "matrix": {
+        "axes": { "behavior": ["selectable"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["default", "hover", "selected"]
+      },
+      "focusTokenGroups": ["basis", "selectable"],
+      "layout": "row",
+      "render": {
+        "label": "Selectable",
+        "compositionType": "selectable",
+        "variants": ["radio", "checkbox"]
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ":has(:checked) steuert den Selected-State. Input ist sr-only."
+      }
+    },
+    {
+      "id": "expandable",
+      "label": "Expandable Card",
+      "description": "Aufklappbare Card via details/summary",
+      "matrix": {
+        "axes": { "behavior": ["expandable"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["default", "open"]
+      },
+      "focusTokenGroups": ["basis", "expandable"],
+      "layout": "row",
+      "render": { "label": "Expandable", "compositionType": "expandable" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Native details/summary. Expand-Icon rotiert bei [open]."
+      }
+    },
+    {
+      "id": "action",
+      "label": "Action Card",
+      "description": "Card mit Footer-Bereich fuer Aktionen",
+      "matrix": {
+        "axes": { "behavior": ["action"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["default", "hover"]
+      },
+      "focusTokenGroups": ["basis", "action"],
+      "layout": "row",
+      "render": { "label": "Action", "slots": ["content", "footer"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Footer-Actions muessen einzeln fokussierbar sein."
+      }
+    },
+    {
+      "id": "status-levels",
+      "label": "Status Cards",
+      "description": "Alle 4 Status-Level als linker Rand-Indikator",
+      "matrix": {
+        "axes": { "behavior": ["static"], "pattern": ["status"], "statusLevel": ["success", "warning", "danger", "info"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["basis", "status"],
+      "layout": "row",
+      "render": { "label": "{statusLevel}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Farbe des Status-Indikators darf nicht das einzige Signal sein."
+      }
+    },
+    {
+      "id": "preview-patterns",
+      "label": "Preview Cards",
+      "description": "Media-fokussierte Cards fuer Events, Stories",
+      "matrix": {
+        "axes": { "behavior": ["navigational"], "pattern": ["preview", "featured"], "statusLevel": ["none"] },
+        "states": ["default", "hover"]
+      },
+      "focusTokenGroups": ["basis", "interactive", "preview"],
+      "layout": "row",
+      "render": { "label": "{pattern}", "slots": ["media", "content"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Preview: Media 3:2, Title line-clamp(2). Featured: horizontal ab md."
+      }
+    },
+    {
+      "id": "summary-patterns",
+      "label": "Summary Cards",
+      "description": "Personenkarten und Standorte mit rundem Avatar",
+      "matrix": {
+        "axes": { "behavior": ["static", "navigational"], "pattern": ["summary"], "statusLevel": ["none"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["basis", "summary"],
+      "layout": "row",
+      "render": { "label": "{behavior}", "slots": ["media", "content"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Summary-Cards: zentriertes Layout mit rundem Avatar."
+      }
+    },
+    {
+      "id": "disabled-states",
+      "label": "Disabled States",
+      "description": "Navigational und Selectable im Disabled-State",
+      "matrix": {
+        "axes": { "behavior": ["navigational", "selectable"], "pattern": ["standard"], "statusLevel": ["none"] },
+        "states": ["disabled"]
+      },
+      "layout": "row",
+      "render": { "label": "{behavior}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Disabled: opacity via Token, pointer-events: none, aria-disabled='true'."
+      }
+    },
+    {
+      "id": "skeleton",
+      "label": "Skeleton Loading",
+      "description": "CSS-only Shimmer-Animation auf allen Convenience-Elementen",
+      "matrix": {
+        "axes": { "behavior": ["static"], "pattern": ["standard", "preview"], "statusLevel": ["none"] },
+        "states": ["skeleton"]
+      },
+      "layout": "row",
+      "render": { "label": "Skeleton", "compositionType": "skeleton" },
+      "a11y": {
+        "note": "Skeleton-Cards muessen aria-hidden='true' haben. Nicht als interaktiv behandeln."
+      }
+    }
+  ]
+}

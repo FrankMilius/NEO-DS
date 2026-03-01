@@ -1,0 +1,66 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "text-blocks",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["typography", "display", "content"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/text-blocks-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-section-title" },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead (.nc-lead).",
+      "Section-Title: font-heading, fs-3xl, margin-bottom 4rem.",
+      "Eyebrow: uppercase, fs-xs, letter-spacing 0.2em, text-secondary.",
+      "Lead: fs-lg, text-secondary, max-width 56ch."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Text-Block-Typ — section-title, eyebrow, lead",
+      "values": {
+        "section-title": { "modifier": null, "tokenGroups": [], "renderHint": "text-section-title" },
+        "eyebrow":       { "modifier": null, "tokenGroups": [], "renderHint": "text-eyebrow" },
+        "lead":          { "modifier": null, "tokenGroups": [], "renderHint": "text-lead" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Semantisches HTML: Section-Title als H2/H3, Eyebrow als span/p, Lead als p."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-section-title"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "all-variants", "label": "Text Block Variants",
+      "description": "Section Title, Eyebrow, Lead",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alle Varianten: Text 4.5:1 gegen Hintergrund." }
+    }
+  ]
+}

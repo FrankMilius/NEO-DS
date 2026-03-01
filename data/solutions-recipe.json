@@ -1,0 +1,76 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "solutions",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "interactive"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/solutions-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".solutions" },
+    "slots": [
+      { "name": "accordion", "element": ".accordion--solutions", "optional": false },
+      { "name": "side-panel", "element": ".solutions > :nth-child(1)", "optional": true },
+      { "name": "content-panel", "element": ".solutions > :last-child", "optional": true },
+      { "name": "wrapper", "element": ".solutions-wrapper", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Desktop: 3-Spalten Grid (6+1+5) mit grid-areas accordion/side/content.",
+      "Mobile: Horizontal-Scroll Accordion mit scroll-snap, Tabs oben.",
+      "Accordion-Items: Details/Summary, progress-bar Animation (12s linear).",
+      "Side/Content Panels: nur Desktop sichtbar, grid-area overlay."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "solutions-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "open"],
+    "precedence": ["open", "default"],
+    "rules": [
+      { "state": "open", "condition": "Accordion-Item [open]" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Accordion: details/summary nativ. Mobile Tabs: scroll-snap, selected-Indicator. Progress-Animation: reduced-motion."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["solutions"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Solutions Section",
+      "description": "Accordion mit Side-Content und Tabs",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "solutions" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Accordion nativ. Progress: reduced-motion." }
+    }
+  ]
+}

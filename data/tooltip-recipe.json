@@ -1,0 +1,207 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "tooltip",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["overlay", "informational", "hover"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/tooltip-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-tooltip" },
+    "slots": [
+      { "name": "content", "element": ".nc-tooltip__content", "optional": false },
+      { "name": "arrow",   "element": ".nc-tooltip__arrow",   "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Wrapper um Trigger + Content. Content wird absolut positioniert.",
+      "role='tooltip' auf Content. aria-describedby auf Trigger → verlinkt mit Content-ID.",
+      "Erscheint auf :hover UND :focus-within (Keyboard-Support, kein JS noetig).",
+      "Tooltip-Inhalt ist ergaenzend, nie essenziell — kein interaktiver Inhalt erlaubt.",
+      "Disabled Trigger: Wrapper <span tabindex='0'> fuer Fokussierbarkeit.",
+      "Arrow ist rein dekorativ — rotiertes CSS-Quadrat, kein DOM-Bedarf fuer a11y."
+    ]
+  },
+
+  "axes": {
+    "position": {
+      "label": "Position",
+      "description": "Positionierung relativ zum Trigger — top (Standard), bottom, left, right",
+      "values": {
+        "top":    { "modifier": null,                    "tokenGroups": [] },
+        "bottom": { "modifier": "nc-tooltip--bottom",    "tokenGroups": [] },
+        "left":   { "modifier": "nc-tooltip--left",      "tokenGroups": [] },
+        "right":  { "modifier": "nc-tooltip--right",     "tokenGroups": [] }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "visible"],
+    "precedence": ["visible", "default"],
+    "rules": [
+      { "state": "visible", "note": "Sichtbar bei :hover oder :focus-within auf dem Wrapper. CSS-gesteuert, kein JS noetig." }
+    ],
+    "interactive": false
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "Tooltip ist nicht interaktiv. role='tooltip' auf Content, aria-describedby auf Trigger. Muss per Keyboard erreichbar sein (:focus-within)."
+    },
+    "overrides": [
+      {
+        "when": { "states": ["visible"] },
+        "suggest": ["esc-dismiss"],
+        "note": "Sichtbare Tooltips sollten per ESC schliessbar sein (WCAG 1.4.13 Content on Hover or Focus)."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["aria-describedby"], "notes": ["Trigger braucht aria-describedby das auf die Tooltip-Content-ID verweist."] },
+      { "when": {}, "require": ["role-tooltip"], "notes": ["Content braucht role='tooltip'."] }
+    ],
+    "copy": {
+      "content": {
+        "maxChars": 80,
+        "note": "Tooltip-Text soll kurz und praegnant sein. Fuer laengere Inhalte Popover verwenden."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-tooltip"],
+    "baseTokenGroups": ["core-appearance", "core-typography"],
+
+    "tokenGroups": {
+      "core-appearance": {
+        "label": "Appearance",
+        "tokens": [
+          "nc-tooltip-bg",
+          "nc-tooltip-color",
+          "nc-tooltip-padding",
+          "nc-tooltip-radius",
+          "nc-tooltip-shadow"
+        ]
+      },
+      "core-typography": {
+        "label": "Typography",
+        "tokens": [
+          "nc-tooltip-font-size",
+          "nc-tooltip-max-width"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.position.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "all-positions",
+      "label": "All Positions",
+      "description": "Tooltip in allen 4 Positionen",
+      "matrix": {
+        "axes": { "position": "*" },
+        "states": ["visible"]
+      },
+      "layout": "row",
+      "render": { "label": "{position}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverse Farben (heller Text auf dunklem Hintergrund) muessen 4.5:1 Kontrast einhalten."
+      }
+    },
+    {
+      "id": "default-hidden",
+      "label": "Hidden State",
+      "description": "Tooltip im versteckten Standardzustand",
+      "matrix": {
+        "axes": { "position": ["top"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "hidden (default)" },
+      "a11y": {
+        "note": "Im versteckten Zustand ist Tooltip per visibility:hidden und opacity:0 unsichtbar — korrekt fuer Screen Reader."
+      }
+    },
+    {
+      "id": "with-arrow",
+      "label": "Arrow Variants",
+      "description": "Tooltip mit Pfeil in allen Positionen",
+      "composes": ["arrow"],
+      "matrix": {
+        "axes": { "position": "*" },
+        "states": ["visible"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "position" },
+      "render": { "compositionType": "tooltip-arrow", "label": "{position}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Arrow ist rein dekorativ — gleiche Hintergrundfarbe wie Content."
+      }
+    },
+    {
+      "id": "long-content",
+      "label": "Long Content",
+      "description": "Tooltip mit laengerem Text — max-width Verhalten",
+      "matrix": {
+        "axes": { "position": ["top", "bottom"] },
+        "states": ["visible"]
+      },
+      "focusTokenGroups": ["core-typography"],
+      "layout": "row",
+      "render": { "label": "{position}", "contentHint": "long-text" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Text bricht bei max-width um. Zeilenhoehe 1.4 muss Lesbarkeit sicherstellen."
+      }
+    },
+    {
+      "id": "on-disabled-trigger",
+      "label": "Disabled Trigger",
+      "description": "Tooltip auf deaktiviertem Button — Wrapper-Pattern",
+      "composes": ["button"],
+      "matrix": {
+        "axes": { "position": ["top"] },
+        "states": ["visible"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "tooltip-disabled-trigger", "label": "disabled trigger" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Disabled Buttons brauchen Wrapper <span tabindex='0'> damit Tooltip per Keyboard erreichbar bleibt."
+      }
+    }
+  ]
+}

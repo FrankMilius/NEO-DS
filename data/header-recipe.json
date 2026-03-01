@@ -1,0 +1,72 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "header",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "layout", "interactive"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/header-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".header" },
+    "slots": [
+      { "name": "nav-wrapper", "element": ".nav-wrapper", "optional": false },
+      { "name": "conversion", "element": ".conversion", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Relative positioned, z-index header. Nav-Wrapper: fixed, background-base, border-bottom.",
+      "nav-hidden: opacity 0, pointer-events none. Conversion: fixed Button, right 0, z-index dropdown."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "header-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "hidden"],
+    "precedence": ["hidden", "default"],
+    "rules": [
+      { "state": "hidden", "condition": ".nav-hidden auf nav-wrapper" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Header: role banner. Nav: role navigation, aria-label. Conversion-Button: fokussierbar, focus-ring."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["header"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Header",
+      "description": "Fixed Header mit Navigation und Conversion-Button",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "header" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "role banner, nav aria-label, skip-link." }
+    }
+  ]
+}

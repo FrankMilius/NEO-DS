@@ -1,0 +1,294 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "sidebar",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "layout", "interactive"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/sidebar-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-sidebar" },
+    "slots": [
+      { "name": "header", "element": ".nc-sidebar__header", "optional": true },
+      { "name": "logo", "element": ".nc-sidebar__logo", "optional": true },
+      { "name": "toggle", "element": ".nc-sidebar__toggle", "optional": true },
+      { "name": "nav", "element": ".nc-sidebar__nav", "optional": false },
+      { "name": "group", "element": ".nc-sidebar__group", "optional": true },
+      { "name": "group-label", "element": ".nc-sidebar__group-label", "optional": true },
+      { "name": "item", "element": ".nc-sidebar__item", "optional": false },
+      { "name": "item-icon", "element": ".nc-sidebar__item-icon", "optional": true },
+      { "name": "item-label", "element": ".nc-sidebar__item-label", "optional": false },
+      { "name": "item-badge", "element": ".nc-sidebar__item-badge", "optional": true },
+      { "name": "item-chevron", "element": ".nc-sidebar__item-chevron", "optional": true },
+      { "name": "submenu", "element": ".nc-sidebar__submenu", "optional": true },
+      { "name": "footer", "element": ".nc-sidebar__footer", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Root: <nav aria-label='Seitennavigation'>. Flex-column, volle Hoehe, border-right.",
+      "Header: Logo + Collapse-Toggle. Logo: <a> mit Icon + Text.",
+      "Toggle: 24px Button, steuert Collapsed-State (JS).",
+      "Nav: flex-column, flex:1, enthaelt Groups mit Items.",
+      "Group: flex-column mit gap. Group-Label: uppercase, letter-spacing, user-select:none.",
+      "Item: <a> fuer Navigation, <button> fuer Sub-Menu-Toggle. Flex-row mit Icon + Label + Badge + Chevron.",
+      "Item--active / aria-current='page': active-BG + active-Color (interactive-default).",
+      "Badge: Zaehler (z.B. ungelesene Nachrichten), danger-BG, radius-full.",
+      "Chevron: 16px, rotiert 90° bei aria-expanded='true'.",
+      "Submenu: verschachtelte Items, padding-left: nested-indent. hidden-Attribut.",
+      "Footer: margin-top:auto, border-top. Wird ans Ende gedrueckt.",
+      "Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels hidden, Items zentriert.",
+      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter."
+    ]
+  },
+
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — expanded (voll ausgeklappt), collapsed (nur Icons)",
+      "values": {
+        "expanded":  { "modifier": null,                         "tokenGroups": [], "renderHint": "sidebar-expanded" },
+        "collapsed": { "modifier": "nc-sidebar--collapsed",      "tokenGroups": [], "renderHint": "sidebar-collapsed" }
+      }
+    },
+
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — flat (nur Items), grouped (Items in Gruppen), nested (Items mit Sub-Menus), with-badges (Items mit Zaehler-Badges), full (Header + Groups + Nested + Badges + Footer)",
+      "values": {
+        "flat":        { "modifier": null, "tokenGroups": [], "renderHint": "sidebar-flat" },
+        "grouped":     { "modifier": null, "tokenGroups": [], "slotConfig": { "group": true, "group-label": true }, "renderHint": "sidebar-grouped" },
+        "nested":      { "modifier": null, "tokenGroups": [], "slotConfig": { "item-chevron": true, "submenu": true }, "renderHint": "sidebar-nested" },
+        "with-badges": { "modifier": null, "tokenGroups": [], "slotConfig": { "item-badge": true }, "renderHint": "sidebar-badges" },
+        "full":        { "modifier": null, "tokenGroups": [], "slotConfig": { "header": true, "logo": true, "toggle": true, "group": true, "group-label": true, "item-badge": true, "item-chevron": true, "submenu": true, "footer": true }, "renderHint": "sidebar-full" }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "hover", "active", "focus"],
+    "precedence": ["focus", "active", "hover", "default"],
+    "rules": [
+      { "state": "hover", "unless": ["active"],  "note": "Hover: bg-hover + color-hover auf dem Item." },
+      { "state": "active", "unless": [],          "note": "Active: bg-active + color-active (interactive-default). Via --active Modifier oder aria-current='page'." },
+      { "state": "focus", "unless": [],            "note": "Focus: focus-ring via :focus-visible auf dem Item." }
+    ],
+    "interactive": true
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "Root: <nav aria-label='Seitennavigation'>. Items: <a> oder <button>. Aktives Item: aria-current='page'. Sub-Menu-Trigger: aria-expanded='true|false'. Collapsed-Toggle: aria-label='Navigation einklappen/ausklappen'. Mobile: Backdrop schliesst Sidebar (Escape + Klick)."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "variant": ["collapsed"] } },
+        "suggest": ["aria-label"],
+        "note": "Collapsed: Items zeigen nur Icons — aria-label oder title auf jedem Item fuer Screen Reader."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["nav-landmark", "aria-label"], "notes": ["<nav> Element mit aria-label fuer Screen Reader Landmark."] },
+      { "when": {}, "require": ["aria-current-page"], "notes": ["Aktive Seite: aria-current='page' auf dem aktiven Item."] }
+    ],
+    "copy": {
+      "ariaLabel": {
+        "maxChars": 40,
+        "note": "aria-label: 'Seitennavigation', 'Hauptnavigation', 'Dashboard-Navigation'."
+      },
+      "groupLabel": {
+        "maxChars": 30,
+        "note": "Group-Label: Kurz (z.B. 'Allgemein', 'Einstellungen', 'Administration')."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-sidebar"],
+    "baseTokenGroups": ["container", "item", "group", "nested", "badge"],
+
+    "tokenGroups": {
+      "container": {
+        "label": "Container",
+        "tokens": [
+          "nc-sidebar-width",
+          "nc-sidebar-width-collapsed",
+          "nc-sidebar-bg",
+          "nc-sidebar-border",
+          "nc-sidebar-border-width",
+          "nc-sidebar-padding",
+          "nc-sidebar-z-index"
+        ]
+      },
+      "item": {
+        "label": "Item",
+        "tokens": [
+          "nc-sidebar-item-height",
+          "nc-sidebar-item-padding",
+          "nc-sidebar-item-radius",
+          "nc-sidebar-item-gap",
+          "nc-sidebar-item-color",
+          "nc-sidebar-item-color-hover",
+          "nc-sidebar-item-bg-hover",
+          "nc-sidebar-item-bg-active",
+          "nc-sidebar-item-color-active",
+          "nc-sidebar-item-font-size",
+          "nc-sidebar-item-font-weight",
+          "nc-sidebar-item-icon-size"
+        ]
+      },
+      "group": {
+        "label": "Group",
+        "tokens": [
+          "nc-sidebar-group-label-color",
+          "nc-sidebar-group-label-size",
+          "nc-sidebar-group-label-weight",
+          "nc-sidebar-group-label-padding",
+          "nc-sidebar-group-gap"
+        ]
+      },
+      "nested": {
+        "label": "Nested",
+        "tokens": [
+          "nc-sidebar-nested-indent"
+        ]
+      },
+      "badge": {
+        "label": "Badge",
+        "tokens": [
+          "nc-sidebar-badge-size",
+          "nc-sidebar-badge-font-size",
+          "nc-sidebar-badge-bg",
+          "nc-sidebar-badge-color",
+          "nc-sidebar-badge-radius"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier",
+        "axes.content.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Default Sidebar",
+      "description": "Expanded Sidebar mit flacher Item-Liste und aktivem Item",
+      "matrix": {
+        "axes": { "variant": ["expanded"], "content": ["flat"] },
+        "states": ["default", "hover", "active", "focus"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "sidebar-default", "label": "default" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Item-Color 4.5:1 gegen sidebar-bg. Active-Color (interactive) 4.5:1 gegen bg-active. Focus-Ring sichtbar."
+      }
+    },
+    {
+      "id": "variant-comparison",
+      "label": "Expanded vs Collapsed",
+      "description": "Expanded (260px, Labels sichtbar) vs Collapsed (56px, nur Icons)",
+      "matrix": {
+        "axes": { "variant": "*", "content": ["grouped"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant" },
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Collapsed: Items nur Icons — aria-label auf jedem Item. Toggle: aria-label='Navigation einklappen'."
+      }
+    },
+    {
+      "id": "content-variants",
+      "label": "Content Variants",
+      "description": "Flat, Grouped, Nested, With Badges, Full",
+      "matrix": {
+        "axes": { "variant": ["expanded"], "content": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "content" },
+      "render": { "label": "{content}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Group-Label nicht fokussierbar. Sub-Menu: aria-expanded. Badge: aria-label enthaelt Zaehler. Chevron dekorativ."
+      }
+    },
+    {
+      "id": "nested-submenu",
+      "label": "Nested Submenu",
+      "description": "Sidebar mit aufklappbaren Sub-Menus und Chevron-Rotation",
+      "matrix": {
+        "axes": { "variant": ["expanded"], "content": ["nested"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "sidebar-nested", "label": "nested" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Trigger: <button aria-expanded>. Sub-Items: eingerueckt via nested-indent. hidden-Attribut auf geschlossenen Sub-Menus."
+      }
+    },
+    {
+      "id": "full-sidebar",
+      "label": "Full Sidebar",
+      "description": "Komplette Sidebar: Header (Logo + Toggle), Gruppen, Badges, Sub-Menus, Footer",
+      "matrix": {
+        "axes": { "variant": ["expanded"], "content": ["full"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "sidebar-full", "label": "full" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Logo: <a> mit accessible name. Footer: margin-top:auto am unteren Rand. Alle Items via Tab erreichbar."
+      }
+    },
+    {
+      "id": "mobile-overlay",
+      "label": "Mobile Overlay",
+      "description": "Mobile-Ansicht: fixed Sidebar mit Backdrop-Overlay",
+      "matrix": {
+        "axes": { "variant": ["expanded"], "content": ["grouped"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "sidebar-mobile", "label": "mobile" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Mobile: fixed + z-index:sidebar. Backdrop schliesst via Klick/Escape. Focus-Trap in offener Sidebar. aria-hidden auf Content dahinter."
+      }
+    }
+  ]
+}

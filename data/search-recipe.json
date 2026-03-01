@@ -1,0 +1,312 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "search",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["interactive", "form", "navigation"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/search-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-search" },
+    "slots": [
+      { "name": "input-wrapper", "element": ".nc-search__input-wrapper", "optional": false },
+      { "name": "icon", "element": ".nc-search__icon", "optional": false },
+      { "name": "input", "element": ".nc-search__input", "optional": false },
+      { "name": "shortcut", "element": ".nc-search__shortcut", "optional": true },
+      { "name": "results", "element": ".nc-search__results", "optional": false },
+      { "name": "group", "element": ".nc-search__group", "optional": true },
+      { "name": "group-label", "element": ".nc-search__group-label", "optional": true },
+      { "name": "item", "element": ".nc-search__item", "optional": false },
+      { "name": "item-icon", "element": ".nc-search__item-icon", "optional": true },
+      { "name": "item-label", "element": ".nc-search__item-label", "optional": false },
+      { "name": "highlight", "element": ".nc-search__highlight", "optional": true },
+      { "name": "empty", "element": ".nc-search__empty", "optional": true },
+      { "name": "loading", "element": ".nc-search__loading", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Root: role='combobox', aria-haspopup='listbox', aria-expanded='true|false'.",
+      "Input-Wrapper: relative Container mit Such-Icon (links), Input (Mitte), Shortcut-Hint (rechts).",
+      "Such-Icon: absolute positioniert, pointer-events:none, dekorativ (aria-hidden).",
+      "Input: nutzt nc-input Tokens, extra padding-start fuer Icon. aria-autocomplete='list', aria-controls.",
+      "Shortcut-Hint: optionales Kbd-Element (z.B. Cmd+K), absolute rechts, dekorativ.",
+      "Results: position:absolute, role='listbox'. Versteckt via [hidden]. Animation: fnd-dropdown-enter.",
+      "Item: role='option', aria-selected='true|false'. Hover und aria-selected bekommen bg-hover.",
+      "Highlight: <mark> Element mit Warning-30% Background fuer Treffer-Hervorhebung.",
+      "Empty-State: Zentrierter Text wenn keine Treffer.",
+      "Loading-State: Zentrierter Spinner waehrend der Suche.",
+      "Full-Width Variante: --full Modifier fuer 100% Breite.",
+      "Groups: Trennung via border-top, Group-Label uppercase mit letter-spacing."
+    ]
+  },
+
+  "axes": {
+    "width": {
+      "label": "Width",
+      "description": "Breite — default (320px), full (100%)",
+      "values": {
+        "default": { "modifier": null,               "tokenGroups": [], "renderHint": "search-default" },
+        "full":    { "modifier": "nc-search--full",   "tokenGroups": [], "renderHint": "search-full" }
+      }
+    },
+
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — plain (einfache Liste), with-icons (Items mit Icons), grouped (Gruppen mit Label), with-shortcut (Input mit Shortcut-Hint)",
+      "values": {
+        "plain":         { "modifier": null, "tokenGroups": [], "renderHint": "search-plain" },
+        "with-icons":    { "modifier": null, "tokenGroups": [], "slotConfig": { "item-icon": true }, "renderHint": "search-with-icons" },
+        "grouped":       { "modifier": null, "tokenGroups": [], "slotConfig": { "group": true, "group-label": true }, "renderHint": "search-grouped" },
+        "with-shortcut": { "modifier": null, "tokenGroups": [], "slotConfig": { "shortcut": true }, "renderHint": "search-with-shortcut" }
+      }
+    },
+
+    "resultsState": {
+      "label": "Results State",
+      "description": "Zustand der Ergebnisliste — results (Treffer), empty (keine Treffer), loading (wird geladen), closed (geschlossen)",
+      "values": {
+        "results": { "modifier": null, "tokenGroups": [], "renderHint": "search-results" },
+        "empty":   { "modifier": null, "tokenGroups": [], "slotConfig": { "empty": true }, "renderHint": "search-empty" },
+        "loading": { "modifier": null, "tokenGroups": [], "slotConfig": { "loading": true }, "renderHint": "search-loading" },
+        "closed":  { "modifier": null, "tokenGroups": [], "renderHint": "search-closed" }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "hover", "focus"],
+    "precedence": ["focus", "hover", "default"],
+    "rules": [
+      { "state": "hover", "unless": ["focus"],  "note": "Hover: bg-hover auf dem Ergebnis-Item." },
+      { "state": "focus", "unless": [],          "note": "Focus: focus-ring auf dem Input oder dem aktiven Item. aria-selected='true' auf dem navigierten Item." }
+    ],
+    "interactive": true
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "Root: role='combobox', aria-haspopup='listbox', aria-expanded. Input: aria-autocomplete='list', aria-controls zeigt auf Results-ID. Results: role='listbox'. Items: role='option', aria-selected. Keyboard: ArrowDown/Up navigiert Items, Enter waehlt, Escape schliesst Results. Such-Icon: aria-hidden='true'."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "resultsState": ["empty"] } },
+        "suggest": ["aria-live"],
+        "note": "Empty-State: 'Keine Ergebnisse' via aria-live='polite' ankuendigen."
+      },
+      {
+        "when": { "axes": { "resultsState": ["loading"] } },
+        "suggest": ["aria-busy"],
+        "note": "Loading-State: aria-busy='true' auf dem Results-Container waehrend der Suche."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["role-combobox", "aria-haspopup"], "notes": ["Root braucht role='combobox' und aria-haspopup='listbox'."] },
+      { "when": {}, "require": ["aria-autocomplete", "aria-controls"], "notes": ["Input: aria-autocomplete='list' und aria-controls zeigt auf Results-ID."] },
+      { "when": {}, "require": ["role-listbox", "role-option"], "notes": ["Results: role='listbox'. Items: role='option'."] }
+    ],
+    "copy": {
+      "placeholder": {
+        "maxChars": 40,
+        "note": "Placeholder beschreibt den Suchkontext (z.B. 'Suche...', 'Seiten durchsuchen')."
+      },
+      "emptyMessage": {
+        "maxChars": 80,
+        "note": "Leerzustands-Text (z.B. 'Keine Ergebnisse fuer Ihre Suche')."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-search"],
+    "baseTokenGroups": ["input-area", "results-panel", "item", "highlight", "group", "shortcut"],
+
+    "tokenGroups": {
+      "input-area": {
+        "label": "Input Area",
+        "tokens": [
+          "nc-search-width",
+          "nc-search-max-width"
+        ]
+      },
+      "results-panel": {
+        "label": "Results Panel",
+        "tokens": [
+          "nc-search-results-bg",
+          "nc-search-results-border",
+          "nc-search-results-border-width",
+          "nc-search-results-radius",
+          "nc-search-results-shadow",
+          "nc-search-results-max-height",
+          "nc-search-results-padding",
+          "nc-search-results-z-index",
+          "nc-search-results-animation"
+        ]
+      },
+      "item": {
+        "label": "Item",
+        "tokens": [
+          "nc-search-item-height",
+          "nc-search-item-padding",
+          "nc-search-item-radius",
+          "nc-search-item-color",
+          "nc-search-item-bg-hover",
+          "nc-search-item-icon-size",
+          "nc-search-item-icon-color",
+          "nc-search-item-gap",
+          "nc-search-item-font-size"
+        ]
+      },
+      "highlight": {
+        "label": "Highlight",
+        "tokens": [
+          "nc-search-highlight-bg",
+          "nc-search-highlight-color"
+        ]
+      },
+      "group": {
+        "label": "Group Label",
+        "tokens": [
+          "nc-search-group-label-color",
+          "nc-search-group-label-size",
+          "nc-search-group-label-weight",
+          "nc-search-group-label-padding"
+        ]
+      },
+      "shortcut": {
+        "label": "Shortcut",
+        "tokens": [
+          "nc-search-shortcut-color",
+          "nc-search-shortcut-size"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.width.values.*.modifier",
+        "axes.content.values.*.modifier",
+        "axes.resultsState.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Default Search",
+      "description": "Standard-Suchfeld mit einfacher Ergebnisliste",
+      "matrix": {
+        "axes": { "width": ["default"], "content": ["plain"], "resultsState": ["results"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "search-simple", "label": "default" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Item-Text 4.5:1 gegen Results-BG. Highlight-BG darf Text-Kontrast nicht brechen."
+      }
+    },
+    {
+      "id": "content-variants",
+      "label": "Content Variants",
+      "description": "Plain, With Icons, Grouped, With Shortcut im Vergleich",
+      "matrix": {
+        "axes": { "width": ["default"], "content": "*", "resultsState": ["results"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "content" },
+      "render": { "label": "{content}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Icons dekorativ (aria-hidden). Group-Label nicht fokussierbar. Shortcut rein visuell."
+      }
+    },
+    {
+      "id": "results-states",
+      "label": "Results States",
+      "description": "Results, Empty, Loading, Closed — alle Zustaende der Ergebnisliste",
+      "matrix": {
+        "axes": { "width": ["default"], "content": ["plain"], "resultsState": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "resultsState" },
+      "render": { "label": "{resultsState}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Empty: aria-live='polite'. Loading: aria-busy='true'. Closed: aria-expanded='false'."
+      }
+    },
+    {
+      "id": "with-highlight",
+      "label": "With Highlight",
+      "description": "Suchergebnisse mit hervorgehobenen Treffern (<mark>-Element)",
+      "matrix": {
+        "axes": { "width": ["default"], "content": ["with-icons"], "resultsState": ["results"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "search-highlight", "label": "highlight" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Highlight-BG (warning 30%) darf Text-Kontrast nicht unter 4.5:1 druecken. <mark> semantisch korrekt."
+      }
+    },
+    {
+      "id": "full-width",
+      "label": "Full Width",
+      "description": "Suchfeld in voller Breite (--full Modifier)",
+      "matrix": {
+        "axes": { "width": ["full"], "content": ["with-shortcut"], "resultsState": ["results"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "search-full-width", "label": "full-width" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Gleiche A11y-Anforderungen wie Default. Shortcut-Hint dekorativ."
+      }
+    },
+    {
+      "id": "grouped-results",
+      "label": "Grouped Results",
+      "description": "Ergebnisse in Gruppen mit Label und Trennlinie",
+      "matrix": {
+        "axes": { "width": ["default"], "content": ["grouped"], "resultsState": ["results"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "search-grouped", "label": "grouped" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Group-Label nicht fokussierbar, rein visuell. Group-Separator dekorativ. Items in allen Gruppen via ArrowDown/Up navigierbar."
+      }
+    }
+  ]
+}

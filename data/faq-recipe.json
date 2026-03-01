@@ -1,0 +1,74 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "faq",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["content", "interactive", "accordion"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/faq-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-faq" },
+    "slots": [
+      { "name": "item", "element": ".nc-faq__item", "optional": false },
+      { "name": "question", "element": ".nc-faq__question", "optional": false },
+      { "name": "answer", "element": ".nc-faq__answer", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.",
+      "Question: semibold, cursor:pointer. Answer: text-secondary.",
+      "Aufklappbar via <details>/<summary> oder JS."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "faq-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "open"],
+    "precedence": ["open", "default"],
+    "rules": [
+      { "state": "open", "unless": [], "note": "Open: Answer sichtbar." }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "FAQ via <details>/<summary> oder aria-expanded. Keyboard: Enter/Space oeffnet."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-faq"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "FAQ List",
+      "description": "FAQ-Liste mit aufklappbaren Fragen",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "faq" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Question: semibold 4.5:1. Answer: text-secondary 4.5:1." }
+    }
+  ]
+}

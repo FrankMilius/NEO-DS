@@ -1,0 +1,72 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "hero",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "hero"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/hero-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-hero" },
+    "slots": [
+      { "name": "content", "element": ".nc-hero__content", "optional": false },
+      { "name": "title", "element": ".nc-hero__title", "optional": false },
+      { "name": "highlights", "element": ".nc-hero__highlights", "optional": true },
+      { "name": "media", "element": ".nc-hero__media", "optional": true },
+      { "name": "picture", "element": ".nc-hero__picture", "optional": true },
+      { "name": "card", "element": ".nc-hero__card", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Grid: 2-Spalten ab 768px. Content: text-inverse, gap 1rem.",
+      "Title: fs-4xl, max-width 18ch. Highlights: Bullet-Liste mit accent-Punkt.",
+      "Card-Variante: radial-gradient dark BG, radius-3xl, Metric + Pulse-Animation.",
+      "Picture-Variante: radius-sm, elevation-overlay."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — picture, card",
+      "values": {
+        "picture": { "modifier": null, "tokenGroups": [], "renderHint": "hero-picture" },
+        "card":    { "modifier": null, "tokenGroups": [], "renderHint": "hero-card" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA large text (3:1)",
+      "assertions": [],
+      "note": "Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: text-secondary Kontrast pruefen. Pulse-Animation: reduced-motion."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-hero"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "variant-comparison", "label": "Hero Variants",
+      "description": "Picture vs Card",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA large text (3:1)", "note": "Card: Pulse reduced-motion. Picture: alt-Text." }
+    }
+  ]
+}

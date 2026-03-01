@@ -1,0 +1,70 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "navigation",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "interactive", "layout"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-nav" },
+    "slots": [
+      { "name": "inner", "element": ".nc-nav__inner", "optional": false },
+      { "name": "header", "element": ".nc-header", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "nc-header: sticky top, backdrop-filter blur(12px), background-base 90% opacity, border-bottom.",
+      "nc-nav: full-width, font-size base. Inner: flex, space-between, align-items center, gap 1.5rem."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "navigation-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "rules": [],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "nav-Element mit aria-label. Keyboard-navigierbar. Skip-Link empfohlen."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-nav"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Navigation",
+      "description": "Sticky Header mit Navigation",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "navigation" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "nav aria-label, keyboard-navigierbar." }
+    }
+  ]
+}

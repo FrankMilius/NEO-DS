@@ -1,0 +1,240 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "accordion",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["interactive", "disclosure", "content"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/accordion-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-accordion" },
+    "slots": [
+      { "name": "item", "element": ".nc-accordion__item", "optional": false },
+      { "name": "trigger", "element": ".nc-accordion__trigger", "optional": false },
+      { "name": "icon", "element": ".nc-accordion__icon", "optional": true },
+      { "name": "content", "element": ".nc-accordion__content", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Kann als natives <details>/<summary> oder als ARIA-Pattern (role='region') implementiert werden.",
+      "Legacy: .accordion-item / .accordion-item-summary / .accordion-item-content (non-BEM, migriert von solutions.css).",
+      "BEM-Ziel: .nc-accordion > .nc-accordion__item > .nc-accordion__trigger + .nc-accordion__content.",
+      "Trigger versteckt den nativen details-marker via list-style:none und ::-webkit-details-marker.",
+      "Icon rotiert bei open-State (scaleY-Transition auf Expand/Collapse-Icons).",
+      "Content hat overflow-y: clip und Padding-Top auf :first-child.",
+      "Benachbarte Items: border-top: none via + Selektor (vermeidet Doppel-Border).",
+      "Progress-Leiste (.accordion-progress): optional, Desktop-only, scaleX-Animation.",
+      "prefers-reduced-motion: Transitions werden deaktiviert."
+    ]
+  },
+
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visueller Stil — default (Border-getrennt, Standard), flush (kein aeusserer Rahmen, nur Trennlinien)",
+      "values": {
+        "default": { "modifier": null,                       "tokenGroups": [],  "renderHint": "accordion-bordered" },
+        "flush":   { "modifier": "nc-accordion--flush",       "tokenGroups": [],  "renderHint": "accordion-flush" }
+      }
+    },
+
+    "behavior": {
+      "label": "Behavior",
+      "description": "Oeffnungs-Verhalten — multiple (mehrere gleichzeitig offen, Standard), single (nur eines offen, auto-close)",
+      "values": {
+        "multiple": { "modifier": null,                          "tokenGroups": [],  "renderHint": "accordion-multi",   "elementHint": "details" },
+        "single":   { "modifier": null,                          "tokenGroups": [],  "renderHint": "accordion-single",  "elementHint": "details-name" }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "open", "hover", "focus", "disabled"],
+    "precedence": ["disabled", "focus", "open", "hover", "default"],
+    "rules": [
+      { "state": "hover", "unless": ["disabled"],  "note": "Hover auf dem Trigger — visuelles Feedback" },
+      { "state": "open", "unless": ["disabled"],   "note": "Item ist geoeffnet — Content sichtbar, Icon rotiert" },
+      { "state": "focus", "unless": ["disabled"],  "note": "Focus-Ring auf dem Trigger via :focus-visible" },
+      { "state": "disabled", "unless": [],         "note": "Item kann nicht geoeffnet/geschlossen werden" }
+    ],
+    "interactive": true
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "Natives <details>/<summary> ist inhaerent accessible. Alternativ: button + aria-expanded + aria-controls. Trigger ist per Tab erreichbar, Enter/Space toggelt."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "behavior": ["single"] } },
+        "suggest": [],
+        "note": "Single-Mode: HTML5 details[name] Attribut (gleicher Name = exclusiv). Oder JS mit aria-expanded Steuerung."
+      },
+      {
+        "when": { "states": ["disabled"] },
+        "suggest": ["aria-disabled"],
+        "note": "Disabled Items: aria-disabled='true' auf dem Trigger. Pointer-events: none."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["accessible-name"], "notes": ["Trigger braucht sichtbaren Text oder aria-label."] }
+    ],
+    "copy": {
+      "trigger": {
+        "maxChars": 80,
+        "note": "Trigger-Text soll die Frage oder das Thema klar beschreiben."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-accordion"],
+    "baseTokenGroups": ["core-geometry", "animation"],
+
+    "tokenGroups": {
+      "core-geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-accordion-border",
+          "nc-accordion-padding",
+          "nc-accordion-icon-size"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "tokens": [
+          "nc-accordion-transition-duration"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier",
+        "axes.behavior.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "all-states",
+      "label": "All States",
+      "description": "Accordion-Item in allen Zustaenden",
+      "matrix": {
+        "axes": { "variant": ["default"], "behavior": ["multiple"] },
+        "states": ["default", "open", "hover", "focus", "disabled"]
+      },
+      "layout": "row",
+      "render": { "label": "{state}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Open-State: Icon rotiert, Content wird sichtbar. Focus: sichtbarer Ring auf dem Trigger. Disabled: reduzierte Opacity, nicht klickbar."
+      }
+    },
+    {
+      "id": "default-vs-flush",
+      "label": "Default vs Flush",
+      "description": "Bordered (Standard) vs Flush (nur Trennlinien)",
+      "matrix": {
+        "axes": { "variant": "*", "behavior": ["multiple"] },
+        "states": ["default", "open"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant" },
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Beide Varianten muessen klar die Item-Grenzen zeigen. Border-Farbe muss 3:1 Kontrast gegen BG haben."
+      }
+    },
+    {
+      "id": "single-vs-multiple",
+      "label": "Single vs Multiple",
+      "description": "Multiple (beliebig viele offen) vs Single (nur eines offen)",
+      "matrix": {
+        "axes": { "variant": ["default"], "behavior": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "behavior" },
+      "render": { "label": "{behavior}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Single: Oeffnen eines Items schliesst das vorherige. Via HTML5 details[name] oder JS. Kein visueller Unterschied im geschlossenen Zustand."
+      }
+    },
+    {
+      "id": "with-icon",
+      "label": "With Toggle Icon",
+      "description": "Trigger mit Expand/Collapse-Icon (Plus/Minus oder Chevron)",
+      "composes": ["icon"],
+      "matrix": {
+        "axes": { "variant": ["default"], "behavior": ["multiple"] },
+        "states": ["default", "open"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "accordion-with-icon", "label": "{state}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Icon ist rein dekorativ (aria-hidden='true'). Rotations-Transition respektiert prefers-reduced-motion. Icon-Farbe muss 3:1 Kontrast haben."
+      }
+    },
+    {
+      "id": "multi-items",
+      "label": "Multiple Items Stacked",
+      "description": "3-5 Items untereinander — typischer Anwendungsfall (FAQ)",
+      "matrix": {
+        "axes": { "variant": ["default"], "behavior": ["multiple"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "accordion-stacked", "label": "stacked" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Benachbarte Items teilen sich die Border (+ Selektor entfernt Doppel-Border). Tab-Navigation geht durch alle Trigger."
+      }
+    },
+    {
+      "id": "nested-content",
+      "label": "Rich Content",
+      "description": "Accordion mit komplexem Inhalt (Text, Liste, Button)",
+      "composes": ["content"],
+      "matrix": {
+        "axes": { "variant": ["default"], "behavior": ["multiple"] },
+        "states": ["open"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "accordion-rich-content", "label": "rich" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Content-Bereich kann interaktive Elemente enthalten (Links, Buttons). Diese muessen per Tab erreichbar sein wenn das Item offen ist."
+      }
+    }
+  ]
+}

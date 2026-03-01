@@ -1,0 +1,63 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "logo-wall",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "branding"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/logo-wall-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-logo-wall" },
+    "slots": [
+      { "name": "pill", "element": ".nc-logo-pill", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Auto-fit Grid (min 140px). Items: Pill-Shape (radius-full), border, text zentriert."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "logo-wall-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Logos: alt-Text auf <img> oder aria-label auf Pill-Element."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-logo-wall"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Logo Wall",
+      "description": "Grid mit Logo-Pills",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "logo-wall" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Logos mit alt-Text oder aria-label." }
+    }
+  ]
+}

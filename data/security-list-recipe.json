@@ -1,0 +1,66 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "security-list",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "trust"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/security-list-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-security-list" },
+    "slots": [
+      { "name": "item", "element": ".nc-security-list__item", "optional": false },
+      { "name": "icon", "element": ".nc-security-list__icon", "optional": true },
+      { "name": "text", "element": ".nc-security-list__text", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Grid-Layout mit gap. Items: flex, align-items center, border-bottom.",
+      "Icon: accent-Farbe. Text: font-size base."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "security-list-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Liste mit Sicherheits-Features. Icon dekorativ (aria-hidden). Text muss lesbar sein."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-security-list"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Security List",
+      "description": "Liste mit Sicherheits-Features und Icons",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "security-list" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Icons dekorativ, Text kontrastreich." }
+    }
+  ]
+}

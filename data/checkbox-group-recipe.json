@@ -1,0 +1,87 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "checkbox-group",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["form", "interactive", "grouping"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/checkbox-group-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-checkbox-group" },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Flex-Column Container fuer mehrere .nc-checkbox Elemente.",
+      "Gap via --nc-group-gap. Horizontal: flex-row, flex-wrap, --nc-group-gap-horizontal.",
+      "Error: propagiert border-error auf alle Checkbox-Controls.",
+      "Disabled: opacity + pointer-events:none auf gesamte Gruppe."
+    ]
+  },
+  "axes": {
+    "layout": {
+      "label": "Layout",
+      "description": "Layout — vertical (Standard), horizontal (nebeneinander)",
+      "values": {
+        "vertical":   { "modifier": null,                              "tokenGroups": [], "renderHint": "checkbox-group-vertical" },
+        "horizontal": { "modifier": "nc-checkbox-group--horizontal",   "tokenGroups": [], "renderHint": "checkbox-group-horizontal" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "error", "disabled"],
+    "precedence": ["disabled", "error", "default"],
+    "rules": [
+      { "state": "error", "unless": ["disabled"], "note": "Error: border-error auf allen Checkbox-Controls. aria-describedby auf Error-Text." },
+      { "state": "disabled", "unless": [], "note": "Disabled: opacity-disabled, pointer-events:none. Checkboxen zusaetzlich nativ disabled." }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "role='group' + aria-labelledby auf Legend/Label. Einzelne Checkboxen haben eigene A11y."
+    },
+    "overrides": [
+      { "when": { "states": ["error"] }, "suggest": ["aria-describedby"], "note": "Error: aria-describedby auf Gruppen-Error-Text." }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["role-group", "aria-labelledby"], "notes": ["role='group' + aria-labelledby auf Legend oder Label."] }
+    ],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": ["nc-checkbox-group"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.layout.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "layout-variants", "label": "Layout Variants",
+      "description": "Vertical vs Horizontal",
+      "matrix": { "axes": { "layout": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "layout" }, "render": { "label": "{layout}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Beide Layouts: role='group'. Horizontal: wrap bei Platzmangel." }
+    },
+    {
+      "id": "states", "label": "States",
+      "description": "Default, Error, Disabled",
+      "matrix": { "axes": { "layout": ["vertical"] }, "states": ["default", "error", "disabled"] },
+      "layout": "row", "render": { "label": "{state}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Error: border-error sichtbar. Disabled: opacity-disabled." }
+    }
+  ]
+}

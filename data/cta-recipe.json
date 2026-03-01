@@ -1,0 +1,69 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "cta",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "conversion"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/cta-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-cta" },
+    "slots": [
+      { "name": "left", "element": ".nc-cta__left", "optional": false },
+      { "name": "mid", "element": ".nc-cta__mid", "optional": true },
+      { "name": "right", "element": ".nc-cta__right", "optional": true },
+      { "name": "form", "element": ".nc-cta__form", "optional": true },
+      { "name": "note", "element": ".nc-cta__note", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.",
+      "Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.",
+      "Responsive: Form wird 2fr+1fr ab 768px."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "cta-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "always-light Text auf dunklem Hintergrund: Kontrast pruefen. Forms: labels, autocomplete."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-cta"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "CTA Section",
+      "description": "Call-to-Action mit Newsletter und Demo",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "cta" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Heller Text auf dunklem BG kontrastreich." }
+    }
+  ]
+}

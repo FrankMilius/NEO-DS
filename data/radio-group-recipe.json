@@ -1,0 +1,88 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "radio-group",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["form", "interactive", "grouping"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/radio-group-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-radio-group" },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Flex-Column Container fuer mehrere .nc-radio Elemente.",
+      "Gap via --nc-group-gap. Horizontal: flex-row, flex-wrap, --nc-group-gap-horizontal.",
+      "Error: propagiert border-error auf alle Radio-Controls.",
+      "Disabled: opacity + pointer-events:none auf gesamte Gruppe.",
+      "Tastatur: Arrow Keys wechseln zwischen Radios."
+    ]
+  },
+  "axes": {
+    "layout": {
+      "label": "Layout",
+      "description": "Layout — vertical (Standard), horizontal (nebeneinander)",
+      "values": {
+        "vertical":   { "modifier": null,                           "tokenGroups": [], "renderHint": "radio-group-vertical" },
+        "horizontal": { "modifier": "nc-radio-group--horizontal",   "tokenGroups": [], "renderHint": "radio-group-horizontal" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "error", "disabled"],
+    "precedence": ["disabled", "error", "default"],
+    "rules": [
+      { "state": "error", "unless": ["disabled"], "note": "Error: border-error auf allen Radio-Controls." },
+      { "state": "disabled", "unless": [], "note": "Disabled: opacity-disabled, pointer-events:none." }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "role='radiogroup' + aria-labelledby. Arrow Keys Navigation. Einzelne Radios haben eigene A11y."
+    },
+    "overrides": [
+      { "when": { "states": ["error"] }, "suggest": ["aria-describedby"], "note": "Error: aria-describedby auf Gruppen-Error-Text." }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["role-radiogroup", "aria-labelledby"], "notes": ["role='radiogroup' + aria-labelledby auf Legend oder Label."] }
+    ],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": ["nc-radio-group"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.layout.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "layout-variants", "label": "Layout Variants",
+      "description": "Vertical vs Horizontal",
+      "matrix": { "axes": { "layout": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "layout" }, "render": { "label": "{layout}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Beide Layouts: role='radiogroup'. Arrow Keys Navigation." }
+    },
+    {
+      "id": "states", "label": "States",
+      "description": "Default, Error, Disabled",
+      "matrix": { "axes": { "layout": ["vertical"] }, "states": ["default", "error", "disabled"] },
+      "layout": "row", "render": { "label": "{state}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Error: border-error. Disabled: opacity-disabled." }
+    }
+  ]
+}

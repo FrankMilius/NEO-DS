@@ -1,0 +1,295 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "banner",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["feedback", "notification", "layout"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/banner-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-banner" },
+    "slots": [
+      { "name": "icon", "element": ".nc-banner__icon", "optional": true },
+      { "name": "content", "element": ".nc-banner__content", "optional": false },
+      { "name": "link", "element": ".nc-banner__link", "optional": true },
+      { "name": "close", "element": ".nc-banner__close", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.",
+      "Root: flex-Layout, zentriert, volle Breite. Farbe via private Custom Props --_banner-bg/--_banner-color.",
+      "Icon: 16px SVG, dekorativ (aria-hidden), optional links.",
+      "Content: flex-wrap, zentriert. Text + optionaler CTA-Link.",
+      "Link: erbt Farbe, bold + underline. Hover: opacity-prominent.",
+      "Close-Button: 20px, opacity medium → 1 bei Hover. BG via color-mix(currentColor 15%).",
+      "Varianten setzen --_banner-bg und --_banner-color auf die jeweiligen Feedback-Farben.",
+      "Position: --sticky (sticky top:0) oder --fixed (fixed top:0 left:0 right:0).",
+      "z-index: notification-Ebene fuer Sichtbarkeit ueber anderem Content."
+    ]
+  },
+
+  "axes": {
+    "severity": {
+      "label": "Severity",
+      "description": "Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)",
+      "values": {
+        "info":    { "modifier": null,                     "tokenGroups": [], "renderHint": "banner-info" },
+        "warning": { "modifier": "nc-banner--warning",     "tokenGroups": [], "renderHint": "banner-warning" },
+        "danger":  { "modifier": "nc-banner--danger",      "tokenGroups": [], "renderHint": "banner-danger" },
+        "success": { "modifier": "nc-banner--success",     "tokenGroups": [], "renderHint": "banner-success" }
+      }
+    },
+
+    "position": {
+      "label": "Position",
+      "description": "Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)",
+      "values": {
+        "static": { "modifier": null,                     "tokenGroups": [], "renderHint": "banner-static" },
+        "sticky": { "modifier": "nc-banner--sticky",      "tokenGroups": [], "renderHint": "banner-sticky" },
+        "fixed":  { "modifier": "nc-banner--fixed",        "tokenGroups": [], "renderHint": "banner-fixed" }
+      }
+    },
+
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — text-only (nur Text), with-icon (Icon + Text), with-link (Text + CTA-Link), with-close (Text + Schliessen-Button), full (Icon + Text + Link + Close)",
+      "values": {
+        "text-only":  { "modifier": null, "tokenGroups": [], "renderHint": "banner-text-only" },
+        "with-icon":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "banner-with-icon" },
+        "with-link":  { "modifier": null, "tokenGroups": [], "slotConfig": { "link": true }, "renderHint": "banner-with-link" },
+        "with-close": { "modifier": null, "tokenGroups": [], "slotConfig": { "close": true }, "renderHint": "banner-with-close" },
+        "full":       { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true, "link": true, "close": true }, "renderHint": "banner-full" }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "rules": [],
+    "interactive": false
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName"],
+      "note": "role='banner' fuer allgemeine Hinweise, role='alert' fuer dringende Meldungen (danger). Close-Button: aria-label='Banner schliessen'. Link: normales <a> oder <button>. Wird als erstes im DOM platziert fuer korrekte Screen-Reader-Reihenfolge."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "severity": ["danger"] } },
+        "suggest": ["role-alert"],
+        "note": "Danger: role='alert' fuer sofortige Screen-Reader-Ankuendigung. Oder aria-live='assertive'."
+      },
+      {
+        "when": { "axes": { "severity": ["warning"] } },
+        "suggest": ["role-alert"],
+        "note": "Warning: role='alert' oder aria-live='polite' je nach Dringlichkeit."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["role-banner-or-alert"], "notes": ["Banner braucht role='banner' (allgemein) oder role='alert' (dringend)."] },
+      { "when": {}, "require": ["close-aria-label"], "notes": ["Close-Button: aria-label='Banner schliessen' fuer Screen Reader."] }
+    ],
+    "copy": {
+      "text": {
+        "maxChars": 120,
+        "note": "Banner-Text: Kurz, klar, einzeilig. Soll sofort verstaendlich sein."
+      },
+      "linkLabel": {
+        "maxChars": 30,
+        "note": "CTA-Link: Kurze Aktion (z.B. 'Mehr erfahren', 'Jetzt aktualisieren')."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-banner"],
+    "baseTokenGroups": ["base", "severity-info", "severity-warning", "severity-danger", "severity-success", "close", "link"],
+
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-banner-padding",
+          "nc-banner-gap",
+          "nc-banner-z-index",
+          "nc-banner-font-size",
+          "nc-banner-font-weight"
+        ]
+      },
+      "severity-info": {
+        "label": "Info",
+        "tokens": [
+          "nc-banner-info-bg",
+          "nc-banner-info-color"
+        ]
+      },
+      "severity-warning": {
+        "label": "Warning",
+        "tokens": [
+          "nc-banner-warning-bg",
+          "nc-banner-warning-color"
+        ]
+      },
+      "severity-danger": {
+        "label": "Danger",
+        "tokens": [
+          "nc-banner-danger-bg",
+          "nc-banner-danger-color"
+        ]
+      },
+      "severity-success": {
+        "label": "Success",
+        "tokens": [
+          "nc-banner-success-bg",
+          "nc-banner-success-color"
+        ]
+      },
+      "close": {
+        "label": "Close Button",
+        "tokens": [
+          "nc-banner-close-size",
+          "nc-banner-close-radius",
+          "nc-banner-close-opacity",
+          "nc-banner-close-opacity-hover"
+        ]
+      },
+      "link": {
+        "label": "Link",
+        "tokens": [
+          "nc-banner-link-weight",
+          "nc-banner-link-underline"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.severity.values.*.modifier",
+        "axes.position.values.*.modifier",
+        "axes.content.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "severity-variants",
+      "label": "Severity Variants",
+      "description": "Info, Warning, Danger, Success im Vergleich",
+      "matrix": {
+        "axes": { "severity": "*", "position": ["static"], "content": ["with-close"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "severity" },
+      "render": { "label": "{severity}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Text-on-Color muss 4.5:1 Kontrast gegen Severity-BG haben. Info: on-interactive vs interactive-default. Danger: on-danger vs feedback-danger."
+      }
+    },
+    {
+      "id": "content-variants",
+      "label": "Content Variants",
+      "description": "Text-Only, With Icon, With Link, With Close, Full",
+      "matrix": {
+        "axes": { "severity": ["info"], "position": ["static"], "content": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "content" },
+      "render": { "label": "{content}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Icon dekorativ (aria-hidden). Link: Standard-<a>-Semantik. Close: aria-label='Banner schliessen'."
+      }
+    },
+    {
+      "id": "position-variants",
+      "label": "Position Variants",
+      "description": "Static, Sticky, Fixed — Positionierung des Banners",
+      "matrix": {
+        "axes": { "severity": ["info"], "position": "*", "content": ["full"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "position" },
+      "render": { "label": "{position}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Fixed: z-index notification. Banner darf keinen Content verdecken ohne Dismiss-Moeglichkeit."
+      }
+    },
+    {
+      "id": "danger-alert",
+      "label": "Danger Alert Banner",
+      "description": "Kritisches Banner mit role='alert' fuer sofortige Ankuendigung",
+      "matrix": {
+        "axes": { "severity": ["danger"], "position": ["fixed"], "content": ["full"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "banner-danger-alert", "label": "danger-alert" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "role='alert' fuer sofortige Screen-Reader-Ankuendigung. on-danger muss 4.5:1 gegen danger-bg."
+      }
+    },
+    {
+      "id": "with-cta",
+      "label": "With CTA Link",
+      "description": "Banner mit eingebettetem Call-to-Action Link",
+      "matrix": {
+        "axes": { "severity": ["info"], "position": ["sticky"], "content": ["with-link"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "banner-cta", "label": "with-cta" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Link erbt Farbe — underline + bold fuer visuelle Unterscheidung. Focus-Ring auf dem Link."
+      }
+    },
+    {
+      "id": "dismissible",
+      "label": "Dismissible Banner",
+      "description": "Banner mit Close-Button — kann vom Nutzer geschlossen werden",
+      "matrix": {
+        "axes": { "severity": ["warning"], "position": ["static"], "content": ["with-close"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "banner-dismissible", "label": "dismissible" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Close-Button: aria-label='Banner schliessen'. Focus-Ring sichtbar. Opacity-Wechsel bei Hover reicht nicht als alleiniges Signal."
+      }
+    }
+  ]
+}

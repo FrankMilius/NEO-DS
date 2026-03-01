@@ -1,0 +1,64 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "metric",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "data", "content"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/metric-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-metric" },
+    "slots": [
+      { "name": "value", "element": ".nc-metric__value", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Inverse Block: background-inverse, text-inverse, radius-sm, padding.",
+      "Value: font-heading, fs-6xl, font-weight-black, accent-Farbe."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "metric-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA large text (3:1)",
+      "assertions": [],
+      "note": "Value: grosse Schrift (fs-6xl) — large text Kontrast genuegt. Accent gegen inverse BG."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-metric"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Metric",
+      "description": "Kennzahl mit grossem Wert auf inversem Hintergrund",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "metric" },
+      "a11y": { "contrastTarget": "WCAG AA large text (3:1)", "note": "Value: accent gegen inverse BG. Label: text-inverse gegen inverse BG." }
+    }
+  ]
+}

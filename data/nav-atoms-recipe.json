@@ -1,0 +1,66 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "nav-atoms",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "display", "primitive"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/nav-atoms-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-nav__icon" },
+    "slots": [
+      { "name": "icon", "element": ".nc-nav__icon", "optional": false },
+      { "name": "label", "element": ".nc-nav__label", "optional": false }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Basis-Bausteine fuer Navigation: Icon (24px, inline-flex) und Label (display:block).",
+      "Werden in Nav-Molecules und Organisms zusammengesetzt."
+    ]
+  },
+  "axes": {
+    "element": {
+      "label": "Element",
+      "description": "Nav-Element — icon, label",
+      "values": {
+        "icon": { "modifier": null, "tokenGroups": [], "renderHint": "nav-icon" },
+        "label": { "modifier": null, "tokenGroups": [], "renderHint": "nav-label" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Primitive Bausteine — A11y wird von den zusammensetzenden Komponenten gehandhabt."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-nav__icon"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Nav Atoms",
+      "description": "Icon + Label Bausteine",
+      "matrix": { "axes": { "element": "*" }, "states": ["default"] },
+      "layout": "row", "render": { "label": "nav-atoms" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Primitive — keine eigenen A11y-Anforderungen." }
+    }
+  ]
+}

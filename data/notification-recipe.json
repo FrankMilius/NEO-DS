@@ -1,0 +1,74 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "notification",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["feedback", "interactive", "banner"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/notification-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".notification" },
+    "slots": [
+      { "name": "body", "element": ".notification-body", "optional": false },
+      { "name": "close", "element": ".icon-button", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Sticky top, z-index notification. Initial: height 0, opacity 0, visibility hidden.",
+      ".show: padding-04, visibility visible, height auto, opacity 1.",
+      "Body: min-height 80px. Close: 32×32 icon-button, focus-ring.",
+      "Strong: text-primary. Secondary CTA: margin-top (mobile), margin-inline-start (desktop)."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "notification-default" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "visible"],
+    "precedence": ["visible", "default"],
+    "rules": [
+      { "state": "visible", "condition": ".show Klasse aktiv" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Close-Button: aria-label. role=banner oder alert. Text-secondary auf background-base Kontrast."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["notification"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Notification Banner",
+      "description": "Sticky-Top Notification mit Close-Button",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "notification" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Close: aria-label. Banner: dismissible." }
+    }
+  ]
+}

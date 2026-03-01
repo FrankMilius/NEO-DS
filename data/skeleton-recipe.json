@@ -1,0 +1,241 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "skeleton",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["static", "loading", "placeholder"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/skeleton-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-skeleton" },
+    "slots": [],
+    "convenience": [
+      { "name": "group", "element": ".nc-skeleton-group", "optional": true, "description": "Flex-Column-Container fuer gestapelte Skeleton-Zeilen mit gap. Letzte Zeile automatisch 80% Breite." }
+    ],
+    "domNotes": [
+      "Skeleton ist ein <div class='nc-skeleton'> mit aria-hidden='true'.",
+      "Begleitend ein .u-sr-only Element mit 'Inhalt wird geladen...' fuer Screen Reader.",
+      "Shimmer-Animation via linear-gradient + @keyframes nc-skeleton-shimmer.",
+      "prefers-reduced-motion deaktiviert Shimmer — nur statischer Hintergrund.",
+      "Skeleton-Group (.nc-skeleton-group) stapelt Zeilen vertikal. Letzte Zeile automatisch kuerzer (80%).",
+      "Varianten: --text (default), --heading (60% Breite, md Hoehe), --circle (Kreis), --rect (Flaeche)."
+    ]
+  },
+
+  "axes": {
+    "shape": {
+      "label": "Shape",
+      "description": "Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)",
+      "values": {
+        "text":    { "modifier": null,                    "tokenGroups": [],                "renderHint": "skeleton-text" },
+        "heading": { "modifier": "nc-skeleton--heading",  "tokenGroups": [],                "renderHint": "skeleton-heading" },
+        "circle":  { "modifier": "nc-skeleton--circle",   "tokenGroups": ["shape-circle"],  "renderHint": "skeleton-circle" },
+        "rect":    { "modifier": "nc-skeleton--rect",     "tokenGroups": [],                "renderHint": "skeleton-rect" }
+      }
+    },
+
+    "size": {
+      "label": "Size",
+      "description": "Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)",
+      "values": {
+        "xs": { "modifier": "nc-skeleton--xs", "tokenGroups": [] },
+        "sm": { "modifier": null,              "tokenGroups": [] },
+        "md": { "modifier": "nc-skeleton--md", "tokenGroups": [] },
+        "lg": { "modifier": "nc-skeleton--lg", "tokenGroups": [] }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "rules": [],
+    "interactive": false
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA non-text (3:1)",
+      "assertions": [],
+      "note": "Skeleton ist rein dekorativ — aria-hidden='true'. Screen Reader erhaelt Information ueber begleitendes .u-sr-only Element ('Inhalt wird geladen...')."
+    },
+    "overrides": [
+      {
+        "when": {},
+        "require": ["aria-hidden"],
+        "note": "Skeleton-Container braucht aria-hidden='true'. Ladehinweis ueber separates .u-sr-only oder aria-live Region."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["aria-hidden"], "notes": ["Skeleton braucht aria-hidden='true'. Begleitend .u-sr-only mit Ladehinweis."] }
+    ],
+    "copy": {}
+  },
+
+  "styling": {
+    "baseClasses": ["nc-skeleton"],
+    "baseTokenGroups": ["core-appearance", "core-animation"],
+
+    "tokenGroups": {
+      "core-appearance": {
+        "label": "Appearance",
+        "tokens": [
+          "nc-skeleton-bg",
+          "nc-skeleton-shimmer",
+          "nc-skeleton-radius"
+        ]
+      },
+      "core-animation": {
+        "label": "Animation",
+        "tokens": [
+          "nc-skeleton-duration",
+          "nc-skeleton-ease"
+        ]
+      },
+      "core-sizing": {
+        "label": "Sizing",
+        "tokens": [
+          "nc-skeleton-height-xs",
+          "nc-skeleton-height-sm",
+          "nc-skeleton-height-md",
+          "nc-skeleton-height-lg"
+        ]
+      },
+      "shape-circle": {
+        "label": "Circle",
+        "tokens": [
+          "nc-skeleton-radius-circle"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.shape.values.*.modifier",
+        "axes.size.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "all-shapes",
+      "label": "All Shapes",
+      "description": "Alle Form-Varianten im Vergleich",
+      "matrix": {
+        "axes": { "shape": "*", "size": ["sm"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "{shape}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Skeleton-BG muss sich vom Seiten-Hintergrund unterscheiden. Shimmer dient nur als Ladeanzeige."
+      }
+    },
+    {
+      "id": "size-scale",
+      "label": "Size Scale — XS / SM / MD / LG",
+      "description": "Alle 4 Hoehen-Stufen fuer Text-Skeletons",
+      "matrix": {
+        "axes": { "shape": ["text"], "size": "*" },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["core-sizing"],
+      "layout": "row",
+      "render": { "label": "{size}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Groessen orientieren sich an Typography-Stufen (xs=12px caption, sm=16px body, md=24px heading, lg=48px display)."
+      }
+    },
+    {
+      "id": "text-group",
+      "label": "Skeleton Group (Text Block)",
+      "description": "Gestapelte Textzeilen — simuliert einen Absatz",
+      "composes": ["group"],
+      "matrix": {
+        "axes": { "shape": ["text"], "size": ["sm"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "skeleton-text-group", "label": "group" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Gruppe braucht ein aria-hidden='true' auf dem Container und ein .u-sr-only mit 'Inhalt wird geladen...'."
+      }
+    },
+    {
+      "id": "card-placeholder",
+      "label": "Card Placeholder",
+      "description": "Skeleton als Card-Platzhalter (Rect + Heading + Text-Zeilen)",
+      "composes": ["group", "rect"],
+      "matrix": {
+        "axes": { "shape": ["rect"], "size": ["sm"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "skeleton-card", "label": "card" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Card-Skeleton zeigt realistisches Layout. Sollte die gleiche Hoehe wie die echte Card haben."
+      }
+    },
+    {
+      "id": "avatar-placeholder",
+      "label": "Avatar + Text Placeholder",
+      "description": "Circle-Skeleton neben Text-Zeilen — simuliert User-Info",
+      "composes": ["circle"],
+      "matrix": {
+        "axes": { "shape": ["circle"], "size": ["lg"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["shape-circle"],
+      "layout": "row",
+      "render": { "compositionType": "skeleton-avatar-text", "label": "avatar" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Circle-Skeleton nutzt radius-full (9999px). Groesse entspricht Avatar-LG (48px)."
+      }
+    },
+    {
+      "id": "reduced-motion",
+      "label": "Reduced Motion",
+      "description": "Shimmer-Animation deaktiviert bei prefers-reduced-motion",
+      "matrix": {
+        "axes": { "shape": ["text"], "size": ["sm"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["core-animation"],
+      "layout": "row",
+      "render": { "label": "reduced-motion", "motionVariants": ["default", "reduced"] },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Bei prefers-reduced-motion: nur statischer BG, keine Animation. Skeleton bleibt als Platzhalter erkennbar."
+      }
+    }
+  ]
+}

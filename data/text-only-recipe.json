@@ -1,0 +1,67 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "text-only",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "text"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/text-only-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-text-only" },
+    "slots": [
+      { "name": "title", "element": ".nc-text-only__title", "optional": true },
+      { "name": "text", "element": ".nc-text-only__text", "optional": false },
+      { "name": "scroll-text", "element": ".nc-text-only__scroll-text", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Container: max-width, padding. Title: heading-Stil.",
+      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, scroll",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "text-only-default" },
+        "scroll":  { "modifier": "has-scroll", "tokenGroups": [], "renderHint": "text-only-scroll" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Text lesbar. Scroll-Animation: prefers-reduced-motion respektieren, Animation deaktivieren."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-text-only"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "variant-comparison", "label": "Text-Only Variants",
+      "description": "Default vs Scroll-Animation",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Scroll-Variante: reduced-motion beachten." }
+    }
+  ]
+}

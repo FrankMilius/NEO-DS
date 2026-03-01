@@ -1,0 +1,68 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "testimonial",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "content", "social-proof"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/testimonial-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-testimonial" },
+    "slots": [
+      { "name": "quote", "element": ".nc-testimonial__quote", "optional": false },
+      { "name": "author", "element": ".nc-testimonial__author", "optional": false },
+      { "name": "meta", "element": ".nc-testimonial__meta", "optional": true },
+      { "name": "name", "element": ".nc-testimonial__name", "optional": false },
+      { "name": "role", "element": ".nc-testimonial__role", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap-align.",
+      "Quote: fs-lg, line-height 1.25. Author: flex, gap 0.75rem. Name: semibold. Role: fs-xs, text-secondary."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "testimonial-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Zitat und Autor muessen lesbar sein. Role-Text (text-secondary) muss 4.5:1 Kontrast auf background-secondary haben."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["nc-testimonial"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Testimonial",
+      "description": "Zitat-Karte mit Autor und Rolle",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "testimonial" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Quote und Author kontrastreich auf secondary BG." }
+    }
+  ]
+}

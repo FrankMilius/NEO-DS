@@ -1,0 +1,67 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "label",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["display", "tag", "decorative"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/label-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".label" },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Inline-flex Element mit Padding, Radius, Hintergrundfarbe.",
+      "Varianten: default (secondary), accent (gruen), inverse, success, danger.",
+      "Container: .labels-container (flex-wrap, gap)."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Farbvariante — default, accent, inverse, success, danger",
+      "values": {
+        "default": { "modifier": null,              "tokenGroups": [], "renderHint": "label-default" },
+        "accent":  { "modifier": "label--accent",   "tokenGroups": [], "renderHint": "label-accent" },
+        "inverse": { "modifier": "label--inverse",  "tokenGroups": [], "renderHint": "label-inverse" },
+        "success": { "modifier": "label--success",  "tokenGroups": [], "renderHint": "label-success" },
+        "danger":  { "modifier": "label--danger",   "tokenGroups": [], "renderHint": "label-danger" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Rein dekoratives Label/Tag. Farbe nie alleiniges Signal."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["label"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "variant-comparison", "label": "Variant Comparison",
+      "description": "Default, Accent, Inverse, Success, Danger",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Text 4.5:1 gegen Hintergrundfarbe jeder Variante." }
+    }
+  ]
+}

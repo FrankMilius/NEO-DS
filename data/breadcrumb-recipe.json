@@ -1,0 +1,237 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "breadcrumb",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["interactive", "navigation", "wayfinding"],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/breadcrumb-docs"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-breadcrumb" },
+    "slots": [
+      { "name": "list", "element": ".nc-breadcrumb__list", "optional": false },
+      { "name": "item", "element": ".nc-breadcrumb__item", "optional": false },
+      { "name": "link", "element": ".nc-breadcrumb__link", "optional": false },
+      { "name": "page", "element": ".nc-breadcrumb__page", "optional": true },
+      { "name": "separator", "element": ".nc-breadcrumb__separator", "optional": true },
+      { "name": "ellipsis", "element": ".nc-breadcrumb__ellipsis", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.",
+      "Liste ist <ol class='nc-breadcrumb__list'> — geordnete Semantik fuer den Pfad.",
+      "Items sind <li class='nc-breadcrumb__item'> mit <a class='nc-breadcrumb__link'> oder <span class='nc-breadcrumb__page'>.",
+      "Letzes Item: <span class='nc-breadcrumb__page' aria-current='page'> — nicht klickbar, font-weight medium.",
+      "Separator: <span class='nc-breadcrumb__separator' aria-hidden='true'> mit Chevron-SVG oder '/'.",
+      "Ellipsis: <button class='nc-breadcrumb__ellipsis' aria-label='Weitere Seiten anzeigen'> fuer abgekuerzte Pfade.",
+      "Liste nutzt flex-wrap — bricht bei langen Pfaden um.",
+      "Links: hover zeigt underline + primary-Farbe, :focus-visible mit focus-ring."
+    ]
+  },
+
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Darstellung — full (alle Items sichtbar, Standard), truncated (mittlere Items via Ellipsis-Button abgekuerzt)",
+      "values": {
+        "full":      { "modifier": null, "tokenGroups": [],                                          "renderHint": "breadcrumb-full" },
+        "truncated": { "modifier": null, "tokenGroups": [], "slotConfig": { "ellipsis": true },      "renderHint": "breadcrumb-truncated" }
+      }
+    },
+
+    "separator": {
+      "label": "Separator",
+      "description": "Trennzeichen — chevron (SVG Chevron-Right, Standard), slash (Text '/')",
+      "values": {
+        "chevron": { "modifier": null, "tokenGroups": [], "renderHint": "breadcrumb-chevron" },
+        "slash":   { "modifier": null, "tokenGroups": [], "renderHint": "breadcrumb-slash" }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default", "hover", "focus"],
+    "precedence": ["focus", "hover", "default"],
+    "rules": [
+      { "state": "hover", "unless": [],  "note": "Hover auf Links: underline + primary-Farbe. Nicht auf __page (aktuelle Seite)." },
+      { "state": "focus", "unless": [],  "note": "Focus-Ring auf Links und Ellipsis-Button via :focus-visible." }
+    ],
+    "interactive": true
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "<nav aria-label='Breadcrumb'> auf Wrapper. <ol> fuer geordnete Semantik. aria-current='page' auf aktuellem Item. Separatoren sind aria-hidden='true'."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "variant": ["truncated"] } },
+        "require": ["aria-label"],
+        "note": "Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen' oder aequivalent."
+      }
+    ]
+  },
+
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["nav-landmark", "aria-label", "aria-current-page"], "notes": ["<nav aria-label='Breadcrumb'>. Letztes Item braucht aria-current='page'."] },
+      { "when": { "axes": { "variant": ["truncated"] } }, "require": ["aria-label"], "notes": ["Ellipsis-Button braucht aria-label."] }
+    ],
+    "copy": {
+      "label": {
+        "maxChars": 40,
+        "note": "Breadcrumb-Labels sollen kurz sein — idealerweise Seiten-Titel oder Abkuerzungen."
+      }
+    }
+  },
+
+  "styling": {
+    "baseClasses": ["nc-breadcrumb"],
+    "baseTokenGroups": ["core-geometry", "core-colors"],
+
+    "tokenGroups": {
+      "core-geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-breadcrumb-gap",
+          "nc-breadcrumb-font-size",
+          "nc-breadcrumb-separator-size"
+        ]
+      },
+      "core-colors": {
+        "label": "Colors",
+        "tokens": [
+          "nc-breadcrumb-color",
+          "nc-breadcrumb-color-current",
+          "nc-breadcrumb-color-hover",
+          "nc-breadcrumb-separator-color"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes", "states", "styling.tokenGroups"],
+      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier",
+        "axes.separator.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "default-full",
+      "label": "Full Path — Chevron",
+      "description": "Vollstaendiger Breadcrumb-Pfad mit Chevron-Separatoren",
+      "matrix": {
+        "axes": { "variant": ["full"], "separator": ["chevron"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "full" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Link-Farbe (secondary) muss 4.5:1 Kontrast haben. Current-Page (primary) ist visuell hervorgehoben via font-weight. Separatoren sind aria-hidden."
+      }
+    },
+    {
+      "id": "separator-types",
+      "label": "Chevron vs Slash",
+      "description": "Vergleich beider Separator-Typen",
+      "matrix": {
+        "axes": { "variant": ["full"], "separator": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "separator" },
+      "render": { "label": "{separator}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Separatoren muessen als Trenner erkennbar sein. SVG-Chevron: 3:1 Non-Text-Kontrast. Slash: 4.5:1 Text-Kontrast."
+      }
+    },
+    {
+      "id": "truncated",
+      "label": "Truncated Path",
+      "description": "Abgekuerzter Pfad mit Ellipsis-Button",
+      "composes": ["ellipsis"],
+      "matrix": {
+        "axes": { "variant": ["truncated"], "separator": ["chevron"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "breadcrumb-truncated", "label": "truncated" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ellipsis-Button: aria-label='Weitere Seiten anzeigen'. Hover zeigt background-secondary. Focus braucht sichtbaren Ring."
+      }
+    },
+    {
+      "id": "interactive-states",
+      "label": "Link States",
+      "description": "Links in Default, Hover und Focus",
+      "matrix": {
+        "axes": { "variant": ["full"], "separator": ["chevron"] },
+        "states": ["default", "hover", "focus"]
+      },
+      "focusTokenGroups": ["core-colors"],
+      "layout": "row",
+      "render": { "label": "{state}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Hover: underline + primary-Farbe. Focus: sichtbarer Ring (focus-ring Mixin). Alle Zustaende muessen unterscheidbar sein."
+      }
+    },
+    {
+      "id": "long-path",
+      "label": "Long Path — Wrapping",
+      "description": "Langer Pfad der auf mehrere Zeilen umbricht",
+      "matrix": {
+        "axes": { "variant": ["full"], "separator": ["chevron"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "breadcrumb-long", "label": "wrapping" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "flex-wrap sorgt fuer sauberen Umbruch. Gap bleibt konstant. Kein Abschneiden — alle Items bleiben lesbar."
+      }
+    },
+    {
+      "id": "single-level",
+      "label": "Single Level",
+      "description": "Minimaler Breadcrumb mit nur Home + aktueller Seite",
+      "matrix": {
+        "axes": { "variant": ["full"], "separator": ["chevron"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "breadcrumb-minimal", "label": "minimal" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Minimal-Form: Home-Link + Separator + Current-Page. Auch bei nur 2 Items ist die <ol>-Struktur korrekt."
+      }
+    }
+  ]
+}

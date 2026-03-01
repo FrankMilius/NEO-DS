@@ -1,0 +1,68 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "table",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["data", "display", "comparison"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/table-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".nc-compare-table" },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Einfache Vergleichstabelle mit inverser Header-Zeile.",
+      "Volle Breite, border-collapse, elevation-raised Shadow.",
+      "Header: inverse BG + Color. Zellen: spacing-04 Padding."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": { "modifier": null, "tokenGroups": [], "renderHint": "compare-table-default" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName"],
+      "note": "<table> mit <caption> oder aria-label. Semantisches <thead>/<tbody>."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["caption-or-aria-label"], "notes": ["<table> braucht <caption> oder aria-label."] }
+    ],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": ["nc-compare-table"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default", "label": "Compare Table",
+      "description": "Vergleichstabelle mit inverser Kopfzeile",
+      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "label": "compare-table" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Header: inverse Farben 4.5:1. Body: text-primary gegen background-base." }
+    }
+  ]
+}

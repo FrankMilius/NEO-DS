@@ -1,0 +1,72 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "footer",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "layout", "content"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/footer-docs" }
+  },
+  "anatomy": {
+    "root": { "element": ".footer" },
+    "slots": [
+      { "name": "heading", "element": ".footer-heading", "optional": true },
+      { "name": "links-list", "element": ".footer-links-list", "optional": true },
+      { "name": "bottom-links", "element": ".footer-bottom-links", "optional": true },
+      { "name": "separator", "element": ".footer-separator", "optional": true },
+      { "name": "images-section", "element": ".footer-images-section", "optional": true },
+      { "name": "language-selector", "element": ".footer-language-selector", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Desktop: flex-wrap, space-between. Link-Listen: uppercase, 3-Spalten ab Tablet.",
+      "Separator: 1px border-secondary. Bottom-Links: flex-wrap row, justify right (desktop).",
+      "Minimal-Variante: kompakter, ohne columns. Language/Country-Selector: background-secondary, min-height 40px.",
+      "nc-footer: BEM-Variante fuer Marketing-Pages, grid gap 2rem, 3-Spalten ab 768px."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — full, minimal",
+      "values": {
+        "full":    { "modifier": null,      "tokenGroups": [], "renderHint": "footer-full" },
+        "minimal": { "modifier": "minimal", "tokenGroups": [], "renderHint": "footer-minimal" }
+      }
+    }
+  },
+  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Footer-Element: role contentinfo. Links: focus-ring. text-secondary und text-tertiary Kontrast auf background-base pruefen."
+    },
+    "overrides": []
+  },
+  "constraints": { "rules": [], "copy": {} },
+  "styling": {
+    "baseClasses": ["footer"],
+    "baseTokenGroups": [],
+    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups"]
+    }
+  },
+  "specimens": [
+    {
+      "id": "variant-comparison", "label": "Footer Variants",
+      "description": "Full vs Minimal",
+      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Links: focus-ring. Text-Kontraste pruefen." }
+    }
+  ]
+}
