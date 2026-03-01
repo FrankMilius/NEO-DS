@@ -47,6 +47,11 @@ function syncThemeConfigHtml() {
 export default defineConfig({
   plugins: [vue(), syncThemeConfigHtml()],
   base: '/config/theme-configurator/',
+  resolve: {
+    alias: {
+      'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js')
+    }
+  },
   build: {
     outDir: '../../config/theme-configurator',
     emptyOutDir: true

@@ -34,10 +34,12 @@
   --_surface-color: var(--nc-badge-default-color);
   --_surface-border-color: var(--nc-badge-default-border);
   --_surface-radius: var(--nc-badge-radius);
-  --_surface-font-size: var(--nc-badge-font-size);
+  --_surface-font-size: var(--nc-badge-font-size-md);
   --_surface-font-weight: var(--nc-badge-font-weight);
-  --_surface-gap: var(--nc-badge-icon-gap);
-  --_surface-border-width: var(--fnd-border-width-xs);
+  --_surface-gap: var(--nc-badge-gap);
+  --_surface-border-width: var(--nc-badge-border-width);
+  letter-spacing: var(--nc-badge-letter-spacing);
+  line-height: var(--nc-badge-line-height);
 
   // Default size: md
   @include badge-size('md');
@@ -46,11 +48,11 @@
 @mixin badge-size($size: 'md') {
   @if $size == 'sm' {
     min-height: var(--nc-badge-height-sm);
-    padding: 0 var(--fnd-spacing-02);
+    padding: 0 var(--nc-badge-padding-x-sm);
     font-size: var(--nc-badge-font-size-sm);
   } @else if $size == 'md' {
     min-height: var(--nc-badge-height-md);
-    padding: var(--nc-badge-padding-y) var(--nc-badge-padding-x);
+    padding: var(--nc-badge-padding-y) var(--nc-badge-padding-x-md);
   }
 }
 
@@ -136,7 +138,7 @@
   padding: 0;
   font-size: 0;
   line-height: 0;
-  border-radius: var(--fnd-radius-full);
+  border-radius: var(--nc-badge-dot-radius);
 }
 
 // ---------------------------------------------------------------------------

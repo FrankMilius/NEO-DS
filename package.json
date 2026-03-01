@@ -28,8 +28,10 @@
     "lint:docs-tokens": "node scripts/lint-docs-tokens.js",
     "lint:fragments": "node scripts/_audit-fragments.js",
     "lint:docs-scripts": "node scripts/lint-docs-scripts.js",
+    "lint:recipes": "node scripts/lint-recipes.mjs",
+    "lint:recipes:strict": "node scripts/lint-recipes.mjs --strict",
     "test:build": "sass scss/scss/main.scss:styles.css --style=compressed --no-source-map",
-    "test": "npm run test:build && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts",
+    "test": "npm run test:build && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts && npm run lint:recipes",
     "dev": "node scripts/dev.js"
   },
   "devDependencies": {

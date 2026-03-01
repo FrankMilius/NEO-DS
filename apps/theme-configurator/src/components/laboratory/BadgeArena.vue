@@ -16,7 +16,7 @@
     <!-- Recipe Chips — generated from tone axis -->
     <div class="arena-recipe-chips">
       <button
-        v-for="(_, toneId) in recipeData.variantAxes.tone.values"
+        v-for="(_, toneId) in recipeData.axes.tone.values"
         :key="toneId"
         :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === toneId }]"
         @click="activeRecipeId = toneId"
@@ -25,8 +25,8 @@
       </button>
     </div>
 
-    <!-- Specimens — generic matrix renderer -->
-    <template v-for="specimen in recipeData.specimens" :key="specimen.id">
+    <!-- Specimens — generic matrix renderer (negative specimens sind QA-only) -->
+    <template v-for="specimen in recipeData.specimens.filter(s => s.type !== 'negative')" :key="specimen.id">
       <div class="arena-category-divider">
         <span class="arena-category-label">{{ specimen.label }}</span>
       </div>
@@ -63,8 +63,10 @@
 import { ref, computed, h, defineComponent } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups } from '../../data/tokens.js'
-import { expandMatrix, specimenTokenGroups, groupCellsByAxis } from '../../utils/recipe-utils.js'
-import recipeData from '../../../../../data/badge-recipe.json'
+import { loadRecipe, expandSpecimenMatrix, specimenTokenGroups, groupCellsByAxis, capitalize } from 'recipe-sdk'
+import recipeRaw from '../../../../../data/badge-recipe.json'
+
+const recipeData = loadRecipe(recipeRaw)
 
 const store = useThemeStore()
 
@@ -72,10 +74,6 @@ const store = useThemeStore()
 // Recipe Data
 // ---------------------------------------------------------------------------
 const activeRecipeId = ref('default')
-
-function capitalize(s) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''
-}
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -88,12 +86,17 @@ const tLight = computed(() => store.state.themes[store.state.activeThemeSet].lig
 const tDark = computed(() => store.state.themes[store.state.activeThemeSet].dark)
 
 const TOKEN_DEFAULTS = {
-  'nc-badge-padding-x':        '8px',
+  'nc-badge-padding-x-sm':     '6px',
+  'nc-badge-padding-x-md':     '8px',
   'nc-badge-padding-y':        '2px',
   'nc-badge-radius':           '9999px',
-  'nc-badge-font-size':        '0.75rem',
   'nc-badge-font-size-sm':     '0.6875rem',
+  'nc-badge-font-size-md':     '0.75rem',
   'nc-badge-font-weight':      '600',
+  'nc-badge-letter-spacing':   '0.01em',
+  'nc-badge-line-height':      '1',
+  'nc-badge-border-width':     '0',
+  'nc-badge-border-color':     'transparent',
   'nc-badge-height-sm':        '20px',
   'nc-badge-height-md':        '24px',
   'nc-badge-default-bg':       '#e8e8e8',
@@ -118,8 +121,10 @@ const TOKEN_DEFAULTS = {
   'nc-badge-info-color':       '#1565c0',
   'nc-badge-info-border':      'transparent',
   'nc-badge-icon-size':        '12px',
-  'nc-badge-icon-gap':         '4px',
-  'nc-badge-dot-size':         '8px'
+  'nc-badge-gap':              '4px',
+  'nc-badge-dot-size':         '8px',
+  'nc-badge-dot-radius':       '9999px',
+  'nc-badge-label-max-width':  '20ch'
 }
 
 const TOKEN_REFS = {
@@ -189,7 +194,7 @@ const activeBg = computed(() =>
 // Specimen Selection — tokenGroups computed from axes
 // ---------------------------------------------------------------------------
 function selectSpecimen(specimen) {
-  const groups = specimenTokenGroups(specimen, recipeData.variantAxes, recipeData.baseTokenGroups)
+  const groups = specimenTokenGroups(specimen, recipeData.axes, recipeData.styling.baseTokenGroups, recipeData.states?.rules)
   store.setArenaSelection('badge', specimen.id, groups)
 }
 
@@ -202,7 +207,7 @@ function isSpecimenSelected(specimenId) {
 // Matrix Expansion
 // ---------------------------------------------------------------------------
 function expandedCells(specimen) {
-  return expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+  return expandSpecimenMatrix(specimen, recipeData)
 }
 
 function groupedCells(specimen) {
@@ -242,8 +247,8 @@ function badgeStyleForCell(tokens, cell) {
   const emphasis = cell.axisValues.emphasis || 'solid'
   const size = cell.axisValues.size || 'md'
   const ht = size === 'sm' ? tokens['nc-badge-height-sm'] : tokens['nc-badge-height-md']
-  const fs = size === 'sm' ? tokens['nc-badge-font-size-sm'] : tokens['nc-badge-font-size']
-  const px = size === 'sm' ? '6px' : tokens['nc-badge-padding-x']
+  const fs = size === 'sm' ? tokens['nc-badge-font-size-sm'] : tokens['nc-badge-font-size-md']
+  const px = size === 'sm' ? tokens['nc-badge-padding-x-sm'] : tokens['nc-badge-padding-x-md']
   const py = size === 'sm' ? '0' : tokens['nc-badge-padding-y']
 
   // Resolve tone colors
@@ -265,17 +270,18 @@ function badgeStyleForCell(tokens, cell) {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: tokens['nc-badge-icon-gap'],
+    gap: tokens['nc-badge-gap'],
     minHeight: ht,
     padding: `${py} ${px}`,
     borderRadius: tokens['nc-badge-radius'],
     fontSize: fs,
     fontWeight: tokens['nc-badge-font-weight'],
-    lineHeight: '1',
+    letterSpacing: tokens['nc-badge-letter-spacing'],
+    lineHeight: tokens['nc-badge-line-height'],
     whiteSpace: 'nowrap',
     background: bg,
     color: color,
-    borderWidth: '1px',
+    borderWidth: tokens['nc-badge-border-width'] || '0',
     borderStyle: 'solid',
     borderColor: borderColor
   }
@@ -285,7 +291,7 @@ function dotStyle(tokens, variant) {
   return {
     width: tokens['nc-badge-dot-size'],
     height: tokens['nc-badge-dot-size'],
-    borderRadius: '9999px',
+    borderRadius: tokens['nc-badge-dot-radius'] || '9999px',
     background: tokens[`nc-badge-${variant}-bg`] || tokens['nc-badge-default-bg'],
     flexShrink: '0'
   }
@@ -343,8 +349,9 @@ const SpecimenContent = defineComponent({
       const isComposition = render.compositionType === 'avatar-badge'
 
       // Dot-mode specimen: special rendering
-      if (specimen.matrix?.decorator?.[0] === 'dot' || (Array.isArray(specimen.matrix?.decorator) && specimen.matrix.decorator.includes('dot'))) {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+      const matrixAxes = specimen.matrix?.axes || specimen.matrix || {}
+      if (matrixAxes.decorator?.[0] === 'dot' || (Array.isArray(matrixAxes.decorator) && matrixAxes.decorator.includes('dot'))) {
+        const cells = expandSpecimenMatrix(specimen, recipeData)
         return h('div', { class: 'arena-badge-row' },
           cells.map(cell => {
             const tone = cell.axisValues.tone || 'default'
@@ -361,7 +368,7 @@ const SpecimenContent = defineComponent({
 
       // Counter specimen (non-composition)
       if (render.counterValues && !isComposition) {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+        const cells = expandSpecimenMatrix(specimen, recipeData)
         const rows = groupCellsByAxis(cells, specimen.layoutConfig?.rowAxis || 'tone')
         return h('div', { class: 'arena-badge-counter-group' },
           rows.map(row => {
@@ -387,7 +394,7 @@ const SpecimenContent = defineComponent({
 
       // Avatar-badge composition
       if (isComposition) {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+        const cells = expandSpecimenMatrix(specimen, recipeData)
         return h('div', { class: 'arena-badge-row' },
           cells.map((cell, i) => {
             const counterVal = render.counterValues?.[i] || ''
@@ -414,7 +421,7 @@ const SpecimenContent = defineComponent({
       }
 
       // Standard rendering: row or grid
-      const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+      const cells = expandSpecimenMatrix(specimen, recipeData)
 
       if (specimen.layout === 'grid' && specimen.layoutConfig?.rowAxis) {
         const rows = groupCellsByAxis(cells, specimen.layoutConfig.rowAxis)

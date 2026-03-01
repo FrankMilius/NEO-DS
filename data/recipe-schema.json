@@ -1,0 +1,501 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neo.design/schemas/recipe/v3.1.0",
+  "title": "NEO Recipe Canonical Form v3.1.0",
+  "description": "Schema fuer Komponenten-Recipes im NEO Design System. Strict Core, Open Extensions: Kernfelder sind typsicher validiert, zusaetzliche Felder (x-*) sind erlaubt fuer Evolution.",
+  "type": "object",
+
+  "required": ["meta", "anatomy", "axes", "states", "a11y", "styling", "recipes", "specimens"],
+  "additionalProperties": true,
+
+  "properties": {
+
+    "meta": {
+      "type": "object",
+      "required": ["schemaVersion", "component", "version", "status", "tags"],
+      "additionalProperties": true,
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "pattern": "^3\\.1\\.",
+          "description": "Schema-Version. Muss mit 3.1. beginnen."
+        },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Komponenten-ID in kebab-case."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+",
+          "description": "Semver der Recipe-Datei."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "stable", "deprecated"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+
+    "anatomy": {
+      "type": "object",
+      "required": ["root", "slots"],
+      "additionalProperties": true,
+      "properties": {
+        "root": {
+          "type": "object",
+          "required": ["element"],
+          "additionalProperties": true,
+          "properties": {
+            "element": { "type": "string", "pattern": "^\\." }
+          }
+        },
+        "slots": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slot" }
+        },
+        "domNotes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "api": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional. HTML-Element-Mapping und Attribute. Relevant fuer interaktive Komponenten.",
+      "properties": {
+        "elements": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "element": { "type": "string" },
+              "attributes": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/apiAttribute" }
+        }
+      }
+    },
+
+    "axes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/axis" },
+      "description": "Variationsachsen. Jeder Key ist eine Achsen-ID."
+    },
+
+    "states": {
+      "type": "object",
+      "required": ["supported", "precedence", "rules"],
+      "additionalProperties": true,
+      "properties": {
+        "supported": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Alle unterstuetzten States. Mindestens ['default']."
+        },
+        "precedence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Auswertungsreihenfolge. Muss alle supported States enthalten."
+        },
+        "interactive": {
+          "type": "boolean",
+          "description": "Convenience-Flag: true fuer Buttons, false fuer Badges."
+        },
+        "rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/stateRule" }
+        }
+      }
+    },
+
+    "a11y": {
+      "type": "object",
+      "required": ["base"],
+      "additionalProperties": true,
+      "properties": {
+        "base": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "interactive": { "type": "boolean" },
+            "contrastTarget": { "type": "string" },
+            "focusIndicator": { "type": "string" },
+            "assertions": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "note": { "type": "string" }
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/a11yOverride" }
+        }
+      }
+    },
+
+    "constraints": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/constraintRule" }
+        },
+        "copy": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+
+    "styling": {
+      "type": "object",
+      "required": ["baseClasses", "baseTokenGroups", "tokenGroups"],
+      "additionalProperties": true,
+      "properties": {
+        "baseClasses": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "CSS-Klassen fuer jede Instanz."
+        },
+        "baseTokenGroups": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Token-Gruppen fuer jede Instanz. Muessen in tokenGroups existieren."
+        },
+        "tokenGroups": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/tokenGroup" },
+          "description": "Benannte Token-Gruppen. Keys = Group-IDs."
+        }
+      }
+    },
+
+    "recipes": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": true,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["derived", "static"],
+          "description": "derived = aus Achsen berechnet, static = handgeschrieben."
+        },
+        "derive": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "resolution": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "specimens": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/specimen" },
+      "minItems": 1,
+      "description": "Matrix-basierte Testmuster."
+    }
+  },
+
+  "$defs": {
+
+    "slot": {
+      "type": "object",
+      "required": ["name", "element"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "element": { "type": "string", "pattern": "^\\." },
+        "optional": { "type": "boolean" },
+        "description": { "type": "string" }
+      }
+    },
+
+    "apiAttribute": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "appliesTo": { "type": "array", "items": { "type": "string" } },
+        "type": { "type": "string" }
+      }
+    },
+
+    "axis": {
+      "type": "object",
+      "required": ["label", "values"],
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "values": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/axisValue" }
+        }
+      }
+    },
+
+    "axisValue": {
+      "type": "object",
+      "required": ["modifier"],
+      "additionalProperties": true,
+      "properties": {
+        "modifier": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-z]" },
+            { "type": "null" }
+          ],
+          "description": "CSS-Modifier-Klasse oder null fuer Default."
+        },
+        "tokenGroups": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Token-Gruppen die dieser Wert aktiviert."
+        },
+        "slotConfig": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        },
+        "excludeAxes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Achsen-IDs die dieser Wert ausschliesst."
+        },
+        "renderHint": {
+          "type": "string",
+          "description": "Hint fuer Konsumenten, welches Render-Template zu verwenden (z.B. 'button-group', 'toggle', 'link')."
+        },
+        "elementHint": {
+          "type": "string",
+          "description": "HTML-Element das statt des Standard-Elements gerendert werden soll (z.B. 'a', 'label')."
+        },
+        "templateId": {
+          "type": "string",
+          "description": "ID eines registrierten Templates fuer Framework-spezifisches Rendering."
+        },
+        "wrapper": {
+          "type": "object",
+          "description": "Container-Element das die Zellen dieser Composition umschliesst.",
+          "required": ["element"],
+          "additionalProperties": false,
+          "properties": {
+            "element": {
+              "type": "string",
+              "description": "HTML-Element fuer den Wrapper (z.B. 'div', 'fieldset', 'nav')."
+            },
+            "className": {
+              "type": "string",
+              "description": "CSS-Klasse(n) fuer den Wrapper (z.B. 'nc-button-group')."
+            },
+            "attributes": {
+              "type": "object",
+              "additionalProperties": { "type": "string" },
+              "description": "Zusaetzliche HTML-Attribute (z.B. { \"role\": \"group\", \"aria-label\": \"Actions\" })."
+            }
+          }
+        }
+      }
+    },
+
+    "stateRule": {
+      "type": "object",
+      "required": ["state"],
+      "additionalProperties": true,
+      "properties": {
+        "state": { "type": "string" },
+        "effects": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "slotConfig": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        },
+        "tokenGroups": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "onlyWhen": { "$ref": "#/$defs/condition" }
+      }
+    },
+
+    "a11yOverride": {
+      "type": "object",
+      "required": ["when"],
+      "additionalProperties": true,
+      "properties": {
+        "when": { "$ref": "#/$defs/condition" },
+        "require": { "type": "array", "items": { "type": "string" } },
+        "suggest": { "type": "array", "items": { "type": "string" } },
+        "contrastTarget": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+
+    "constraintRule": {
+      "type": "object",
+      "required": ["when"],
+      "additionalProperties": true,
+      "properties": {
+        "when": { "$ref": "#/$defs/condition" },
+        "require": { "type": "array", "items": { "type": "string" } },
+        "suggest": { "type": "array", "items": { "type": "string" } },
+        "effects": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "condition": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Bedingung: { axes: { axisId: [values] } } und/oder { states: [stateNames] }",
+      "properties": {
+        "axes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "tokenGroup": {
+      "type": "object",
+      "required": ["label", "tokens"],
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string" },
+        "tokens": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "specimen": {
+      "type": "object",
+      "required": ["id", "label", "matrix", "layout"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "matrix": {
+          "type": "object",
+          "required": ["axes"],
+          "additionalProperties": true,
+          "properties": {
+            "axes": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "oneOf": [
+                  { "const": "*" },
+                  { "type": "array", "items": { "type": "string" } }
+                ]
+              }
+            },
+            "states": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "array", "items": { "type": "string" }, "minItems": 2, "description": "Multi-State-Kombination, z.B. [\"disabled\",\"loading\"]" }
+                ]
+              }
+            }
+          }
+        },
+        "focusTokenGroups": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "layout": {
+          "type": "string",
+          "enum": ["row", "grid", "composition"]
+        },
+        "layoutConfig": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "rowAxis": { "type": "string" },
+            "colAxis": { "type": "string" }
+          }
+        },
+        "render": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "composes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "a11y": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "type": {
+          "type": "string",
+          "enum": ["positive", "negative"],
+          "default": "positive",
+          "description": "positive = normales Specimen, negative = QA-Regressionstest (muss erwartete Verletzungen triggern)"
+        },
+        "expected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["ruleId"],
+            "additionalProperties": false,
+            "properties": {
+              "ruleId": { "type": "string", "description": "ID der erwarteten Regel-Verletzung" },
+              "severity": { "type": "string", "enum": ["warn", "error"] },
+              "messageContains": { "type": "string", "description": "Substring der erwarteten Fehlermeldung" }
+            }
+          },
+          "description": "Nur fuer type=negative: erwartete Verletzungen die dieser Specimen triggern muss."
+        }
+      }
+    }
+  }
+}

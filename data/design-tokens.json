@@ -854,7 +854,8 @@
               "nc-button-height-xs", "nc-button-height-sm", "nc-button-height-md", "nc-button-height-lg",
               "nc-button-padding-x-xs", "nc-button-padding-x-sm", "nc-button-padding-x-md", "nc-button-padding-x-lg",
               "nc-button-padding-y-xs", "nc-button-padding-y-sm", "nc-button-padding-y-md", "nc-button-padding-y-lg",
-              "nc-button-radius-xs", "nc-button-radius-sm", "nc-button-radius-md", "nc-button-radius-lg", "nc-button-radius-full"
+              "nc-button-radius-xs", "nc-button-radius-sm", "nc-button-radius-md", "nc-button-radius-lg", "nc-button-radius-full",
+              "nc-button-border-width-sm", "nc-button-border-width-lg"
             ]
           },
           {
@@ -862,8 +863,24 @@
             "label": "Typography",
             "tokenIds": [
               "nc-button-font-size-xs", "nc-button-font-size-sm", "nc-button-font-size-md", "nc-button-font-size-lg",
-              "nc-button-line-height", "nc-button-font-weight", "nc-button-gap", "nc-button-min-width"
+              "nc-button-line-height", "nc-button-font-weight", "nc-button-gap", "nc-button-min-width",
+              "nc-button-label-compact", "nc-button-label-expressive"
             ]
+          },
+          {
+            "id": "icon-sizing",
+            "label": "Icon Sizing",
+            "category": "patterns",
+            "tokenIds": [
+              "nc-button-icon-size-xs", "nc-button-icon-size-sm", "nc-button-icon-size-md", "nc-button-icon-size-lg",
+              "nc-button-icon-gap-xs", "nc-button-icon-gap-sm", "nc-button-icon-gap-md", "nc-button-icon-gap-lg"
+            ]
+          },
+          {
+            "id": "interaction",
+            "label": "Interaction",
+            "category": "state",
+            "tokenIds": ["nc-button-transition-duration", "nc-button-scale-active", "nc-button-opacity-disabled"]
           },
           { "id": "primary",   "label": "Primary",   "category": "main",       "tokenIds": ["nc-button-primary-bg", "nc-button-primary-bg-hover", "nc-button-primary-bg-active", "nc-button-primary-color", "nc-button-primary-border"] },
           { "id": "secondary", "label": "Secondary", "category": "main",       "tokenIds": ["nc-button-secondary-bg", "nc-button-secondary-bg-hover", "nc-button-secondary-bg-active", "nc-button-secondary-color", "nc-button-secondary-border"] },
@@ -940,6 +957,21 @@
           { "id": "nc-button-font-weight", "label": "Font Weight", "type": "generic", "default": "600" },
           { "id": "nc-button-gap", "label": "Icon Gap", "type": "size", "default": "8px" },
           { "id": "nc-button-min-width", "label": "Min Width", "type": "size", "default": "64px" },
+          { "id": "nc-button-label-compact", "label": "Label Compact (XS/SM)", "type": "size", "default": "12px" },
+          { "id": "nc-button-label-expressive", "label": "Label Expressive (MD/LG)", "type": "size", "default": "16px" },
+          { "id": "nc-button-border-width-sm", "label": "Border Width SM", "type": "size", "default": "1px" },
+          { "id": "nc-button-border-width-lg", "label": "Border Width LG", "type": "size", "default": "2px" },
+          { "id": "nc-button-transition-duration", "label": "Transition Duration", "type": "generic", "default": "200ms" },
+          { "id": "nc-button-scale-active", "label": "Scale Active", "type": "generic", "default": "0.98" },
+          { "id": "nc-button-opacity-disabled", "label": "Opacity Disabled", "type": "generic", "default": "0.5" },
+          { "id": "nc-button-icon-gap-xs", "label": "Icon Gap XS", "type": "size", "default": "4px" },
+          { "id": "nc-button-icon-gap-sm", "label": "Icon Gap SM", "type": "size", "default": "8px" },
+          { "id": "nc-button-icon-gap-md", "label": "Icon Gap MD", "type": "size", "default": "8px" },
+          { "id": "nc-button-icon-gap-lg", "label": "Icon Gap LG", "type": "size", "default": "12px" },
+          { "id": "nc-button-icon-size-xs", "label": "Icon Size XS", "type": "size", "default": "16px" },
+          { "id": "nc-button-icon-size-sm", "label": "Icon Size SM", "type": "size", "default": "16px" },
+          { "id": "nc-button-icon-size-md", "label": "Icon Size MD", "type": "size", "default": "20px" },
+          { "id": "nc-button-icon-size-lg", "label": "Icon Size LG", "type": "size", "default": "20px" },
 
           { "id": "nc-button-primary-bg", "label": "Primary BG", "type": "color", "ref": "interactive-default", "readonly": true },
           { "id": "nc-button-primary-bg-hover", "label": "Primary BG Hover", "type": "color", "ref": "interactive-hover", "readonly": true },
@@ -1099,6 +1131,7 @@
           { "id": "nc-badge-radius", "label": "Radius", "type": "size", "default": "9999px" },
           { "id": "nc-badge-padding-x-sm", "label": "Padding X SM", "type": "size", "default": "6px" },
           { "id": "nc-badge-padding-x-md", "label": "Padding X MD", "type": "size", "default": "8px" },
+          { "id": "nc-badge-padding-y", "label": "Padding Y", "type": "size", "default": "2px" },
           { "id": "nc-badge-gap", "label": "Gap", "type": "size", "default": "4px" },
           { "id": "nc-badge-font-size-sm", "label": "Font Size SM", "type": "size", "default": "11px" },
           { "id": "nc-badge-font-size-md", "label": "Font Size MD", "type": "size", "default": "12px" },
@@ -1120,21 +1153,30 @@
           { "id": "nc-badge-info-color", "label": "Info Text", "type": "color", "ref": "text-info", "readonly": true },
           { "id": "nc-badge-warning-bg", "label": "Warning BG", "type": "color", "default": "rgba(212, 164, 0, 0.15)" },
           { "id": "nc-badge-warning-color", "label": "Warning Text", "type": "color", "ref": "text-warning", "readonly": true },
+          { "id": "nc-badge-default-border", "label": "Default Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-secondary-border", "label": "Secondary Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-success-border", "label": "Success Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-warning-border", "label": "Warning Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-error-border", "label": "Error Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-info-border", "label": "Info Border", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-outline-bg", "label": "Outline BG", "type": "color", "default": "transparent" },
+          { "id": "nc-badge-outline-color", "label": "Outline Text", "type": "color", "ref": "text-primary", "readonly": true },
+          { "id": "nc-badge-outline-border", "label": "Outline Border", "type": "color", "ref": "border-primary", "readonly": true },
           { "id": "nc-badge-dot-size", "label": "Dot Size", "type": "size", "default": "6px" },
           { "id": "nc-badge-dot-radius", "label": "Dot Radius", "type": "size", "default": "50%" },
           { "id": "nc-badge-icon-size", "label": "Icon Size", "type": "size", "default": "14px" }
         ],
         "subgroups": [
-          { "id": "core-geometry", "label": "Geometry", "category": "core", "tokenIds": ["nc-badge-height-sm", "nc-badge-height-md", "nc-badge-radius", "nc-badge-padding-x-sm", "nc-badge-padding-x-md", "nc-badge-gap"] },
+          { "id": "core-geometry", "label": "Geometry", "category": "core", "tokenIds": ["nc-badge-height-sm", "nc-badge-height-md", "nc-badge-radius", "nc-badge-padding-x-sm", "nc-badge-padding-x-md", "nc-badge-padding-y", "nc-badge-gap"] },
           { "id": "core-typography", "label": "Typography", "category": "core", "tokenIds": ["nc-badge-font-size-sm", "nc-badge-font-size-md", "nc-badge-font-weight", "nc-badge-letter-spacing", "nc-badge-line-height", "nc-badge-label-max-width"] },
           { "id": "core-extras", "label": "Extras", "category": "core", "tokenIds": ["nc-badge-dot-size", "nc-badge-dot-radius", "nc-badge-icon-size"] },
-          { "id": "tone-default", "label": "Default", "category": "tone", "tokenIds": ["nc-badge-default-bg", "nc-badge-default-color"] },
-          { "id": "tone-secondary", "label": "Secondary", "category": "tone", "tokenIds": ["nc-badge-secondary-bg", "nc-badge-secondary-color"] },
-          { "id": "tone-success", "label": "Success", "category": "tone", "tokenIds": ["nc-badge-success-bg", "nc-badge-success-color"] },
-          { "id": "tone-error", "label": "Error", "category": "tone", "tokenIds": ["nc-badge-error-bg", "nc-badge-error-color"] },
-          { "id": "tone-info", "label": "Info", "category": "tone", "tokenIds": ["nc-badge-info-bg", "nc-badge-info-color"] },
-          { "id": "tone-warning", "label": "Warning", "category": "tone", "tokenIds": ["nc-badge-warning-bg", "nc-badge-warning-color"] },
-          { "id": "emphasis-outline", "label": "Outline", "category": "emphasis", "tokenIds": ["nc-badge-border-width", "nc-badge-border-color"] },
+          { "id": "tone-default", "label": "Default", "category": "tone", "tokenIds": ["nc-badge-default-bg", "nc-badge-default-color", "nc-badge-default-border"] },
+          { "id": "tone-secondary", "label": "Secondary", "category": "tone", "tokenIds": ["nc-badge-secondary-bg", "nc-badge-secondary-color", "nc-badge-secondary-border"] },
+          { "id": "tone-success", "label": "Success", "category": "tone", "tokenIds": ["nc-badge-success-bg", "nc-badge-success-color", "nc-badge-success-border"] },
+          { "id": "tone-error", "label": "Error", "category": "tone", "tokenIds": ["nc-badge-error-bg", "nc-badge-error-color", "nc-badge-error-border"] },
+          { "id": "tone-info", "label": "Info", "category": "tone", "tokenIds": ["nc-badge-info-bg", "nc-badge-info-color", "nc-badge-info-border"] },
+          { "id": "tone-warning", "label": "Warning", "category": "tone", "tokenIds": ["nc-badge-warning-bg", "nc-badge-warning-color", "nc-badge-warning-border"] },
+          { "id": "emphasis-outline", "label": "Outline", "category": "emphasis", "tokenIds": ["nc-badge-outline-bg", "nc-badge-outline-color", "nc-badge-outline-border", "nc-badge-border-width"] },
           { "id": "emphasis-soft", "label": "Soft", "category": "emphasis", "tokenIds": [] }
         ]
       },

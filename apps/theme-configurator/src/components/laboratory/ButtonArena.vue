@@ -16,7 +16,7 @@
     <!-- Recipe Chips — generated from variant axis -->
     <div class="arena-recipe-chips">
       <button
-        v-for="(_, variantId) in recipeData.variantAxes.variant.values"
+        v-for="(_, variantId) in recipeData.axes.variant.values"
         :key="variantId"
         :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === variantId }]"
         @click="activeRecipeId = variantId"
@@ -25,8 +25,8 @@
       </button>
     </div>
 
-    <!-- Specimens — generic matrix renderer -->
-    <template v-for="specimen in recipeData.specimens" :key="specimen.id">
+    <!-- Specimens — generic matrix renderer (negative specimens sind QA-only) -->
+    <template v-for="specimen in recipeData.specimens.filter(s => s.type !== 'negative')" :key="specimen.id">
       <div class="arena-category-divider">
         <span class="arena-category-label">{{ specimen.label }}</span>
       </div>
@@ -63,19 +63,16 @@
 import { ref, computed, h, defineComponent } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups } from '../../data/tokens.js'
-import { expandMatrix, specimenTokenGroups, groupCellsByAxis } from '../../utils/recipe-utils.js'
-import recipeData from '../../../../../data/button-recipe.json'
+import { loadRecipe, expandSpecimenMatrix, applyStateRules, specimenTokenGroups, groupCellsByAxis, renderModel, capitalize } from 'recipe-sdk'
+import recipeRaw from '../../../../../data/button-recipe.json'
 
 const store = useThemeStore()
 
 // ---------------------------------------------------------------------------
 // Recipe Data
 // ---------------------------------------------------------------------------
+const recipeData = loadRecipe(recipeRaw)
 const activeRecipeId = ref('primary')
-
-function capitalize(s) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''
-}
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -272,7 +269,7 @@ const activeBg = computed(() =>
 // Specimen Selection — tokenGroups computed from axes
 // ---------------------------------------------------------------------------
 function selectSpecimen(specimen) {
-  const groups = specimenTokenGroups(specimen, recipeData.variantAxes, recipeData.baseTokenGroups)
+  const groups = specimenTokenGroups(specimen, recipeData.axes, recipeData.styling.baseTokenGroups, recipeData.states?.rules)
   store.setArenaSelection('button', specimen.id, groups)
 }
 
@@ -285,7 +282,7 @@ function isSpecimenSelected(specimenId) {
 // Matrix Expansion
 // ---------------------------------------------------------------------------
 function expandedCells(specimen) {
-  return expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+  return expandSpecimenMatrix(specimen, recipeData)
 }
 
 function groupedCells(specimen) {
@@ -412,13 +409,22 @@ const SpecimenContent = defineComponent({
       const { specimen, tokens, theme, mode } = props
       const isDark = mode === 'dark'
       const render = specimen.render || {}
+      const cells = expandSpecimenMatrix(specimen, recipeData)
+
+      // Resolve composition from first cell's axis values via renderModel
+      const model = cells.length > 0 ? renderModel(cells[0], recipeData) : {}
+      const hint = model.renderHint
+      const wrapper = model.wrapper
 
       // --- Button Group composition ---
-      if (render.compositionType === 'button-group') {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+      if (hint === 'button-group') {
         const cell = cells[0]
         const labels = render.groupLabels || ['Left', 'Center', 'Right']
-        return h('div', { class: 'arena-button-group', role: 'group' },
+        const wrapperAttrs = {
+          class: wrapper?.className || 'arena-button-group',
+          ...(wrapper?.attributes || { role: 'group' })
+        }
+        return h(wrapper?.element || 'div', wrapperAttrs,
           labels.map((label, i) => {
             const style = { ...buttonStyleForCell(tokens, cell) }
             // Remove inner border-radius for middle buttons
@@ -443,11 +449,14 @@ const SpecimenContent = defineComponent({
       }
 
       // --- Toggle composition ---
-      if (render.compositionType === 'toggle') {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+      if (hint === 'toggle') {
         const cell = cells[0]
         const labels = render.toggleLabels || ['Bold', 'Italic', 'Underline']
-        return h('div', { class: 'arena-button-row' },
+        const wrapperAttrs = {
+          class: wrapper?.className || 'arena-button-row',
+          ...(wrapper?.attributes || {})
+        }
+        return h(wrapper?.element || 'div', wrapperAttrs,
           labels.map((label, i) => {
             const pressed = i === 0 // First toggle is "pressed"
             const baseStyle = buttonStyleForCell(tokens, cell)
@@ -476,14 +485,13 @@ const SpecimenContent = defineComponent({
         )
       }
 
-      // --- Link as Button composition ---
-      if (render.compositionType === 'link') {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
+      // --- Link as Button composition (elementHint: 'a') ---
+      if (hint === 'link' || model.elementHint === 'a') {
         return h('div', { class: 'arena-button-row' },
           cells.map(cell => {
             const variant = cell.axisValues.variant || 'primary'
             const style = buttonStyleForCell(tokens, cell)
-            return h('a', {
+            return h(model.elementHint || 'a', {
               key: cell.id,
               class: 'arena-button',
               style,
@@ -497,40 +505,8 @@ const SpecimenContent = defineComponent({
         )
       }
 
-      // --- Loading specimen ---
-      if (specimen.id === 'loading') {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
-        return h('div', { class: 'arena-button-row' },
-          cells.map(cell => {
-            const variant = cell.axisValues.variant || 'primary'
-            const style = { ...buttonStyleForCell(tokens, cell), position: 'relative' }
-            return h('button', {
-              key: cell.id,
-              class: 'arena-button arena-button--loading',
-              style,
-              disabled: true,
-              'aria-busy': 'true'
-            }, [
-              // Invisible label to maintain width
-              h('span', { class: 'arena-button__label', style: { visibility: 'hidden' } }, capitalize(variant)),
-              // Spinner overlay
-              h('span', { class: 'arena-button__spinner', style: {
-                position: 'absolute',
-                inset: '0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}, [
-                h('span', { style: spinnerStyle(tokens, cell) })
-              ])
-            ])
-          })
-        )
-      }
-
       // --- Icon-Only grid ---
       if (specimen.layout === 'grid' && specimen.layoutConfig?.rowAxis) {
-        const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
         const rows = groupCellsByAxis(cells, specimen.layoutConfig.rowAxis)
         return h('div', { class: 'arena-button-grid' },
           rows.map(row =>
@@ -546,7 +522,6 @@ const SpecimenContent = defineComponent({
       }
 
       // --- Standard row layout ---
-      const cells = expandMatrix(specimen, recipeData.variantAxes, recipeData.baseClasses)
       return h('div', { class: 'arena-button-row' },
         cells.map(cell => renderButtonCell(cell, tokens, render))
       )
@@ -560,6 +535,8 @@ function renderButtonCell(cell, tokens, render) {
   const pattern = cell.axisValues.pattern || 'standard'
   const isIconOnly = pattern === 'icon-only'
   const hasIcon = cell.slotConfig?.icon
+  const isLoading = cell.resolvedState?.active?.includes('loading')
+  const stateAttrs = cell.resolvedState?.attributes || {}
   const label = render.label === '{variant}' ? capitalize(variant)
               : render.label === '{size}' ? size.toUpperCase()
               : capitalize(variant)
@@ -576,16 +553,30 @@ function renderButtonCell(cell, tokens, render) {
     }))
   }
 
-  // Label (hidden for icon-only)
+  // Label (hidden in loading state to maintain width)
   if (!isIconOnly) {
-    children.push(h('span', { class: 'arena-button__label' }, label))
+    const labelStyle = isLoading ? { visibility: 'hidden' } : {}
+    children.push(h('span', { class: 'arena-button__label', style: labelStyle }, label))
   }
+
+  // Spinner overlay for loading state (driven by resolvedState.slotConfig.spinner)
+  if (isLoading && cell.resolvedState?.slotConfig?.spinner) {
+    children.push(h('span', { class: 'arena-button__spinner', style: {
+      position: 'absolute', inset: '0',
+      display: 'flex', alignItems: 'center', justifyContent: 'center'
+    }}, [h('span', { style: spinnerStyle(tokens, cell) })]))
+  }
+
+  const btnStyle = { ...buttonStyleForCell(tokens, cell) }
+  if (isLoading) btnStyle.position = 'relative'
 
   return h('button', {
     key: cell.id,
-    class: 'arena-button',
-    style: buttonStyleForCell(tokens, cell),
-    ...(isIconOnly ? { 'aria-label': capitalize(variant) } : {})
+    class: ['arena-button', isLoading ? 'arena-button--loading' : ''].filter(Boolean).join(' '),
+    style: btnStyle,
+    ...(isIconOnly ? { 'aria-label': capitalize(variant) } : {}),
+    ...(stateAttrs['aria-busy'] ? { 'aria-busy': 'true' } : {}),
+    ...(stateAttrs['disabled?'] || stateAttrs['aria-disabled'] ? { disabled: true } : {})
   }, children)
 }
 </script>
