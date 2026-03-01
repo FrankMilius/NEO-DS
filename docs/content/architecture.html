@@ -1,0 +1,593 @@
+<!-- STYLES -->
+<style>
+/* Architektur-Guide — Scoped Styles */
+
+.arch-layer-stack {
+  display: grid;
+  gap: var(--fnd-spacing-02);
+  margin-block: var(--fnd-spacing-06);
+}
+
+.arch-layer {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: var(--fnd-spacing-03);
+  align-items: center;
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  background: var(--fnd-color-layer-01);
+  border-left: 3px solid var(--fnd-color-border-primary);
+  font-size: var(--fs-sm);
+}
+
+.arch-layer__num {
+  font-family: var(--font-mono);
+  font-weight: var(--fnd-font-weight-bold);
+  color: var(--fnd-color-text-tertiary);
+  text-align: right;
+}
+
+.arch-layer__name {
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.arch-layer__desc {
+  color: var(--fnd-color-text-secondary);
+  grid-column: 2;
+}
+
+.arch-layer--settings   { border-left-color: var(--fnd-color-interactive-default); }
+.arch-layer--tools      { border-left-color: var(--fnd-color-interactive-default); }
+.arch-layer--generic    { border-left-color: var(--fnd-color-feedback-info); }
+.arch-layer--elements   { border-left-color: var(--fnd-color-feedback-info); }
+.arch-layer--objects    { border-left-color: var(--fnd-color-feedback-success); }
+.arch-layer--atoms      { border-left-color: var(--fnd-color-feedback-success); }
+.arch-layer--molecules  { border-left-color: var(--fnd-color-feedback-warning); }
+.arch-layer--organisms  { border-left-color: var(--fnd-color-feedback-warning); }
+.arch-layer--templates  { border-left-color: var(--fnd-color-feedback-danger); }
+.arch-layer--pages      { border-left-color: var(--fnd-color-feedback-danger); }
+.arch-layer--utilities  { border-left-color: var(--fnd-color-text-tertiary); }
+
+/* Token-Kaskade */
+.arch-cascade {
+  display: grid;
+  gap: var(--fnd-spacing-04);
+  margin-block: var(--fnd-spacing-06);
+}
+
+.arch-cascade__level {
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+  border-radius: var(--fnd-radius-sm);
+  border: 1px solid var(--fnd-color-border-secondary);
+}
+
+.arch-cascade__level--prim { background: color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent); }
+.arch-cascade__level--sem  { background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent); }
+.arch-cascade__level--comp { background: color-mix(in srgb, var(--fnd-color-feedback-warning) 8%, transparent); }
+
+.arch-cascade__label {
+  font-weight: var(--fnd-font-weight-semibold);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-block-end: var(--fnd-spacing-02);
+}
+
+.arch-cascade__example {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--fnd-color-text-secondary);
+}
+
+.arch-cascade__arrow {
+  text-align: center;
+  color: var(--fnd-color-text-tertiary);
+  font-size: var(--fs-lg);
+}
+
+/* Pipeline-Diagramm */
+.arch-pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--fnd-spacing-03);
+  margin-block: var(--fnd-spacing-06);
+}
+
+.arch-pipeline__step {
+  padding: var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  background: var(--fnd-color-layer-01);
+  border: 1px solid var(--fnd-color-border-secondary);
+  text-align: center;
+}
+
+.arch-pipeline__step-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-tertiary);
+  display: block;
+  margin-block-end: var(--fnd-spacing-01);
+}
+
+.arch-pipeline__step-title {
+  font-weight: var(--fnd-font-weight-semibold);
+  font-size: var(--fs-sm);
+}
+
+.arch-pipeline__step-desc {
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-secondary);
+  margin-block-start: var(--fnd-spacing-02);
+}
+
+/* Recipe-Sektionen */
+.arch-recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--fnd-spacing-03);
+  margin-block: var(--fnd-spacing-06);
+}
+
+.arch-recipe-card {
+  padding: var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  background: var(--fnd-color-layer-01);
+  border: 1px solid var(--fnd-color-border-secondary);
+}
+
+.arch-recipe-card__title {
+  font-weight: var(--fnd-font-weight-semibold);
+  font-size: var(--fs-sm);
+  margin-block-end: var(--fnd-spacing-01);
+}
+
+.arch-recipe-card__desc {
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-secondary);
+}
+
+.arch-recipe-card__num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-tertiary);
+}
+</style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+<main class="docs__main" id="docs-content">
+  <div class="docs__header">
+    <h1 class="docs__title">Architektur des Design Systems</h1>
+    <p class="docs__subtitle">
+      Ueberblick ueber die Schichten des NEO Design Systems:
+      Vom Atomic Design ueber Design Tokens bis zum Recipe-System und SDK.
+    </p>
+  </div>
+
+  <div class="docs__body">
+
+    <!-- ================================================================== -->
+    <!-- Section 1: ITCSS Layer-Architektur -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="itcss">ITCSS Layer-Architektur</h2>
+    <p class="docs__section-desc">
+      Das NEO Design System verwendet <strong>ITCSS</strong> (Inverted Triangle CSS)
+      kombiniert mit <strong>Atomic Design</strong>. Jede Schicht hat eine klare
+      Verantwortung und erhoehte Spezifitaet — von abstrakten Settings bis zu konkreten Utilities.
+    </p>
+
+    <div class="arch-layer-stack">
+      <div class="arch-layer arch-layer--settings">
+        <span class="arch-layer__num">00</span>
+        <div>
+          <span class="arch-layer__name">Settings</span>
+          <div class="arch-layer__desc">Design Tokens, Color Maps, Component Tokens — nur Konfiguration, kein CSS-Output</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--tools">
+        <span class="arch-layer__num">01</span>
+        <div>
+          <span class="arch-layer__name">Tools</span>
+          <div class="arch-layer__desc">Funktionen (<code>rem()</code>, <code>em()</code>) und Mixins — kein CSS-Output</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--generic">
+        <span class="arch-layer__num">02</span>
+        <div>
+          <span class="arch-layer__name">Generic</span>
+          <div class="arch-layer__desc">Reset, Fonts, Keyframe-Animationen — globale Basis-Styles</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--elements">
+        <span class="arch-layer__num">03</span>
+        <div>
+          <span class="arch-layer__name">Elements</span>
+          <div class="arch-layer__desc">HTML-Element-Defaults: body, headings, links, Formulare</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--objects">
+        <span class="arch-layer__num">04</span>
+        <div>
+          <span class="arch-layer__name">Objects</span>
+          <div class="arch-layer__desc">Layout-Patterns: Container, Grid, Video-Wrapper</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--atoms">
+        <span class="arch-layer__num">05</span>
+        <div>
+          <span class="arch-layer__name">Atoms</span>
+          <div class="arch-layer__desc">Kleinste Komponenten: Button, Icon, Input, Badge, Chip, Switch</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--molecules">
+        <span class="arch-layer__num">06</span>
+        <div>
+          <span class="arch-layer__name">Molecules</span>
+          <div class="arch-layer__desc">Kombinationen: Card, Accordion, Breadcrumb, Tabs, Tooltip</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--organisms">
+        <span class="arch-layer__num">07</span>
+        <div>
+          <span class="arch-layer__name">Organisms</span>
+          <div class="arch-layer__desc">Komplexe Sektionen: Header, Footer, Modal, DataTable, Hero</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--templates">
+        <span class="arch-layer__num">08</span>
+        <div>
+          <span class="arch-layer__name">Templates</span>
+          <div class="arch-layer__desc">Seitenlayouts: <code>.t-dashboard</code>, <code>.t-content-page</code></div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--pages">
+        <span class="arch-layer__num">09</span>
+        <div>
+          <span class="arch-layer__name">Pages</span>
+          <div class="arch-layer__desc">Seitenspezifische Styles (Docs, Landing)</div>
+        </div>
+      </div>
+      <div class="arch-layer arch-layer--utilities">
+        <span class="arch-layer__num">10</span>
+        <div>
+          <span class="arch-layer__name">Utilities</span>
+          <div class="arch-layer__desc">Hilfsklassen: <code>.u-sr-only</code>, Sichtbarkeit, Spacing</div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Entry Point: <code>scss/scss/main.scss</code> — verwendet <code>@use/@forward</code>
+      (moderne Sass-Module). Der Build-Befehl <code>npm run build:css</code> kompiliert
+      alle Layer zu einer einzigen <code>styles.css</code>.
+    </p>
+
+    <!-- ================================================================== -->
+    <!-- Section 2: 3-Schichten Token-System -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="tokens">3-Schichten Token-System</h2>
+    <p class="docs__section-desc">
+      Design Tokens bilden die Grundlage fuer konsistentes Styling. Das NEO System
+      verwendet drei aufeinander aufbauende Schichten — von rohen Farbwerten
+      bis zu komponentenspezifischen Variablen.
+    </p>
+
+    <div class="arch-cascade">
+      <div class="arch-cascade__level arch-cascade__level--prim">
+        <div class="arch-cascade__label">1. Primitives</div>
+        <div class="arch-cascade__example">
+          --fnd-color-primary-500: #00b259;<br>
+          --fnd-color-secondary-500: #009fe3;<br>
+          --fnd-spacing-04: 1rem;
+        </div>
+      </div>
+
+      <div class="arch-cascade__arrow">↓</div>
+
+      <div class="arch-cascade__level arch-cascade__level--sem">
+        <div class="arch-cascade__label">2. Semantic</div>
+        <div class="arch-cascade__example">
+          --fnd-color-interactive-default: var(--fnd-color-primary-500);<br>
+          --fnd-color-text-primary: var(--fnd-color-neutral-900);<br>
+          --fnd-color-background-base: var(--fnd-color-always-light);
+        </div>
+      </div>
+
+      <div class="arch-cascade__arrow">↓</div>
+
+      <div class="arch-cascade__level arch-cascade__level--comp">
+        <div class="arch-cascade__label">3. Component</div>
+        <div class="arch-cascade__example">
+          --nc-button-bg: var(--fnd-color-interactive-default);<br>
+          --nc-button-color: var(--fnd-color-on-accent);<br>
+          --nc-button-radius: var(--fnd-radius-sm);
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Komponenten referenzieren <strong>immer</strong> ihre eigenen Component-Tokens
+      (<code>var(--nc-button-bg)</code>), nie direkt Primitives oder Semantics.
+      Dadurch koennen einzelne Komponenten per Scope-Override
+      individuell angepasst werden, ohne das Gesamtsystem zu beeinflussen.
+    </p>
+
+    <h3>Praefixe</h3>
+    <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+      <table class="nc-data-table__table">
+        <thead><tr><th>Praefix</th><th>Schicht</th><th>Beispiel</th></tr></thead>
+        <tbody>
+          <tr><td><code>--fnd-*</code></td><td>Foundation (Primitives + Semantic)</td><td><code>--fnd-color-primary-500</code></td></tr>
+          <tr><td><code>--nc-*</code></td><td>Component</td><td><code>--nc-button-bg</code></td></tr>
+          <tr><td><code>--fs-*</code></td><td>Fluid Type Scale</td><td><code>--fs-lg</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- Section 3: Theme-System -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="themes">Theme-System</h2>
+    <p class="docs__section-desc">
+      Vier Themes werden ueber CSS-Klassen auf dem Root-Element aktiviert.
+      Der Auto-Switch reagiert auf <code>prefers-color-scheme</code>,
+      kann aber per <code>data-theme</code> Attribut ueberschrieben werden.
+    </p>
+
+    <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+      <table class="nc-data-table__table">
+        <thead><tr><th>Theme-Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+        <tbody>
+          <tr><td><code>.neo-light-theme</code></td><td>Neo Light (Default)</td><td>Standard-Theme, heller Hintergrund</td></tr>
+          <tr><td><code>.neo-dark-theme</code></td><td>Neo Dark</td><td>Dunkler Hintergrund, angepasste Kontraste</td></tr>
+          <tr><td><code>.customer-light-theme</code></td><td>Customer Light</td><td>Sekundaere Marke, heller Hintergrund</td></tr>
+          <tr><td><code>.customer-dark-theme</code></td><td>Customer Dark</td><td>Sekundaere Marke, dunkler Hintergrund</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Semantische Token-Maps werden in <code>_color-semantic.scss</code> definiert,
+      die Theme-Klassen und der Auto-Switch in <code>_color-themes.scss</code>.
+      Dark-Mode Component-Overrides befinden sich im Dark-Block von <code>_component-tokens.scss</code>.
+    </p>
+
+    <!-- ================================================================== -->
+    <!-- Section 4: Recipe-System v3.1 -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="recipes">Recipe-System v3.1</h2>
+    <p class="docs__section-desc">
+      Jede Komponente hat ein <strong>Recipe</strong> — eine maschinenlesbare JSON-Datei,
+      die alle Varianten, States, Accessibility-Regeln und Token-Zuweisungen kanonisch beschreibt.
+      Aktuell existieren <strong>89 Recipe-Dateien</strong> im System.
+    </p>
+
+    <h3>Die 9 kanonischen Sektionen</h3>
+
+    <div class="arch-recipe-grid">
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">1</div>
+        <div class="arch-recipe-card__title">meta</div>
+        <div class="arch-recipe-card__desc">Schema-Version, Komponentenname, Status (stable/draft/deprecated), Tags, Links</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">2</div>
+        <div class="arch-recipe-card__title">anatomy</div>
+        <div class="arch-recipe-card__desc">Root-Element, benannte Slots, DOM-Hinweise fuer die Implementierung</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">3</div>
+        <div class="arch-recipe-card__title">axes</div>
+        <div class="arch-recipe-card__desc">Variationsdimensionen: tone, size, emphasis, pattern — jede Achse ist unabhaengig kombinierbar</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">4</div>
+        <div class="arch-recipe-card__title">states</div>
+        <div class="arch-recipe-card__desc">Unterstuetzte States (hover, active, disabled, loading), Prioritaet, Regeln</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">5</div>
+        <div class="arch-recipe-card__title">a11y</div>
+        <div class="arch-recipe-card__desc">Accessibility: Kontrast-Ziele, Assertions, bedingte Overrides pro Achsenwert</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">6</div>
+        <div class="arch-recipe-card__title">constraints</div>
+        <div class="arch-recipe-card__desc">Business Rules: Zeichenlimits, verbotene Kombinationen, Pflichtfelder</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">7</div>
+        <div class="arch-recipe-card__title">styling</div>
+        <div class="arch-recipe-card__desc">Basis-Klassen, Token Groups mit konkreten CSS Custom Properties</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">8</div>
+        <div class="arch-recipe-card__title">recipes</div>
+        <div class="arch-recipe-card__desc">Ableitungsregeln: wie Achsen, States und Tokens zu finalen Specs kombiniert werden</div>
+      </div>
+      <div class="arch-recipe-card">
+        <div class="arch-recipe-card__num">9</div>
+        <div class="arch-recipe-card__title">specimens</div>
+        <div class="arch-recipe-card__desc">Test-Matrizen: vordefinierte Kombinationen fuer visuelle Regression und Dokumentation</div>
+      </div>
+    </div>
+
+    <h3>Achsen als Variationsdimensionen</h3>
+    <p>
+      Achsen (<code>axes</code>) sind das Kernkonzept des Recipe-Systems. Jede Achse beschreibt
+      eine unabhaengige Variationsdimension einer Komponente. Ein Button hat z.B.:
+    </p>
+    <ul>
+      <li><strong>tone</strong> — Farb-Semantik: default, success, danger, warning, info</li>
+      <li><strong>size</strong> — Groesse: xs, sm, md, lg</li>
+      <li><strong>emphasis</strong> — Visuelle Staerke: solid, outline, ghost, link</li>
+      <li><strong>pattern</strong> — Inhaltsmuster: standard, with-icon, icon-only</li>
+    </ul>
+    <p>
+      Jeder Achsenwert definiert eine <strong>Modifier-Klasse</strong>
+      (z.B. <code>.nc-button--success</code>) und optionale <strong>Token Groups</strong>,
+      die spezifische CSS Custom Properties aktivieren.
+    </p>
+
+    <h3>Specimens als Test-Matrizen</h3>
+    <p>
+      Specimens definieren vorgefertigte Kombinations-Matrizen, z.B.
+      "Alle Tones × Alle Emphases bei Groesse MD". Das Recipe-SDK expandiert
+      diese Definitionen automatisch zu einzelnen Zellen fuer Rendering und Testing.
+    </p>
+
+    <h3>Beispiel: Badge Recipe (Auszug)</h3>
+    <pre class="docs__code-block"><code>{
+  "meta": { "component": "badge", "schemaVersion": "3.1.0", "status": "stable" },
+  "anatomy": { "root": { "element": ".nc-badge" }, "slots": [...] },
+  "axes": {
+    "tone": {
+      "values": {
+        "default": { "modifier": null, "tokenGroups": ["tone-default"] },
+        "success": { "modifier": "nc-badge--success", "tokenGroups": ["tone-success"] }
+      }
+    },
+    "size": {
+      "values": {
+        "sm": { "modifier": "nc-badge--sm" },
+        "md": { "modifier": null }
+      }
+    }
+  },
+  "styling": {
+    "baseClasses": ["nc-badge"],
+    "tokenGroups": {
+      "tone-default": { "tokens": ["nc-badge-default-bg", "nc-badge-default-color"] },
+      "tone-success": { "tokens": ["nc-badge-success-bg", "nc-badge-success-color"] }
+    }
+  },
+  "specimens": [
+    { "id": "emphasis-grid", "matrix": { "axes": { "tone": "*", "emphasis": "*" } } }
+  ]
+}</code></pre>
+
+    <!-- ================================================================== -->
+    <!-- Section 5: Recipe SDK Pipeline -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="sdk">Recipe SDK Pipeline</h2>
+    <p class="docs__section-desc">
+      Das <strong>Recipe SDK</strong> (<code>packages/recipe-sdk/</code>) ist ein
+      Pure-ESM-Paket, das Recipe-JSON-Dateien laedt, normalisiert und expandiert.
+      Es wird vom Theme Configurator, der CI-Validierung und den Docs verwendet.
+    </p>
+
+    <div class="arch-pipeline">
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">1</span>
+        <div class="arch-pipeline__step-title">loadRecipe()</div>
+        <div class="arch-pipeline__step-desc">JSON laden, v3.0/v3.1 normalisieren, kanonische Struktur erzeugen</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">2</span>
+        <div class="arch-pipeline__step-title">expandSpecimenMatrix()</div>
+        <div class="arch-pipeline__step-desc">Matrix-Definition → einzelne Zellen mit Achsenwerten expandieren</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">3</span>
+        <div class="arch-pipeline__step-title">resolveClassList()</div>
+        <div class="arch-pipeline__step-desc">Pro Zelle: CSS-Klassen aus baseClasses + Modifier-Klassen ableiten</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">4</span>
+        <div class="arch-pipeline__step-title">resolveTokenGroups()</div>
+        <div class="arch-pipeline__step-desc">Pro Zelle: aktive Token Groups und CSS Custom Properties bestimmen</div>
+      </div>
+    </div>
+
+    <h3>Consumers</h3>
+    <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+      <table class="nc-data-table__table">
+        <thead><tr><th>Consumer</th><th>SDK-Funktion</th><th>Zweck</th></tr></thead>
+        <tbody>
+          <tr><td>Theme Configurator</td><td><code>loadRecipe, expandSpecimenMatrix</code></td><td>Interaktive Komponenten-Vorschau mit allen Varianten</td></tr>
+          <tr><td>CI Validation</td><td><code>validateRecipe, validateTokenCoverage</code></td><td>Schema + semantische Pruefung + Token-Abdeckung</td></tr>
+          <tr><td>Docs Rezept-Tab</td><td>Inline (fetch + render)</td><td>Automatische Recipe-Dokumentation pro Komponente</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- Section 6: Gesamtbild -->
+    <!-- ================================================================== -->
+
+    <h2 class="docs__section-title" id="gesamtbild">Gesamtbild: Vom Token zur Komponente</h2>
+    <p class="docs__section-desc">
+      Alle Schichten des Systems greifen ineinander.
+      Von der Token-Definition bis zum fertigen Theme Configurator gibt es eine
+      durchgaengige, maschinenlesbare Pipeline.
+    </p>
+
+    <div class="arch-pipeline">
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">Quelle</span>
+        <div class="arch-pipeline__step-title">design-tokens.json</div>
+        <div class="arch-pipeline__step-desc">Zentrale Token-Registry mit Primitives, Semantic, Component Tokens</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">Build</span>
+        <div class="arch-pipeline__step-title">generate-tokens.js</div>
+        <div class="arch-pipeline__step-desc">Erzeugt _tokens-*.generated.scss + design-tokens.css + JS</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">SCSS</span>
+        <div class="arch-pipeline__step-title">main.scss → styles.css</div>
+        <div class="arch-pipeline__step-desc">11 ITCSS-Layer, generierte + handgeschriebene Dateien</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">Recipe</span>
+        <div class="arch-pipeline__step-title">*-recipe.json</div>
+        <div class="arch-pipeline__step-desc">89 Recipes: Varianten, States, A11y, Tokens → kanonische Spec</div>
+      </div>
+      <div class="arch-pipeline__step">
+        <span class="arch-pipeline__step-num">SDK</span>
+        <div class="arch-pipeline__step-title">recipe-sdk</div>
+        <div class="arch-pipeline__step-desc">Load, Expand, Resolve → Theme Configurator + Docs + CI</div>
+      </div>
+    </div>
+
+    <h3>Build-Befehle</h3>
+    <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+      <table class="nc-data-table__table">
+        <thead><tr><th>Befehl</th><th>Beschreibung</th></tr></thead>
+        <tbody>
+          <tr><td><code>npm run build</code></td><td>Full Build: Tokens + Icons + CSS</td></tr>
+          <tr><td><code>npm run build:css</code></td><td>SCSS → styles.css (Dart Sass)</td></tr>
+          <tr><td><code>npm run tokens:pipeline</code></td><td>Validate → Generate → Build → Test</td></tr>
+          <tr><td><code>npm run lint:recipes</code></td><td>Recipe-Validierung (Schema + Semantik)</td></tr>
+          <tr><td><code>npm test</code></td><td>Build + Token-Lint + Docs-Lint + Recipe-Lint</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Dateisystem-Uebersicht</h3>
+    <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+      <table class="nc-data-table__table">
+        <thead><tr><th>Pfad</th><th>Inhalt</th></tr></thead>
+        <tbody>
+          <tr><td><code>scss/scss/00-settings/</code></td><td>Token-Definitionen, Theme-Maps, Component-Tokens</td></tr>
+          <tr><td><code>scss/scss/01-tools/</code></td><td>Mixins & Funktionen</td></tr>
+          <tr><td><code>scss/scss/05-atoms/</code></td><td>Button, Badge, Input, Icon, etc.</td></tr>
+          <tr><td><code>scss/scss/06-molecules/</code></td><td>Card, Accordion, Tabs, Tooltip, etc.</td></tr>
+          <tr><td><code>scss/scss/07-organisms/</code></td><td>Header, Footer, Modal, DataTable, etc.</td></tr>
+          <tr><td><code>data/design-tokens.json</code></td><td>Zentrale Token-Registry</td></tr>
+          <tr><td><code>data/*-recipe.json</code></td><td>89 Recipe-Dateien (v3.1)</td></tr>
+          <tr><td><code>data/recipe-schema.json</code></td><td>JSON Schema fuer Validierung</td></tr>
+          <tr><td><code>packages/recipe-sdk/</code></td><td>Recipe SDK (ESM)</td></tr>
+          <tr><td><code>scripts/lint-recipes.mjs</code></td><td>CI Recipe-Linter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
+<!-- /BODY -->

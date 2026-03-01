@@ -1,0 +1,263 @@
+<!-- STYLES -->
+<style>
+/* Recipe-Status Dashboard — Scoped Styles */
+
+.recipe-dash__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--fnd-spacing-03);
+  margin-block: var(--fnd-spacing-06);
+}
+
+.recipe-dash__card {
+  padding: var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  background: var(--fnd-color-layer-01);
+  border: 1px solid var(--fnd-color-border-secondary);
+  text-align: center;
+}
+
+.recipe-dash__card-value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fnd-font-weight-bold);
+  color: var(--fnd-color-text-primary);
+  display: block;
+}
+
+.recipe-dash__card-label {
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.recipe-dash__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+  margin-block-end: var(--fnd-spacing-06);
+}
+
+.recipe-dash__filter-btn {
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  border: 1px solid var(--fnd-color-border-primary);
+  border-radius: var(--fnd-radius-sm);
+  background: transparent;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  color: var(--fnd-color-text-primary);
+}
+
+.recipe-dash__filter-btn.is-active {
+  background: var(--fnd-color-interactive-default);
+  color: var(--fnd-color-on-accent);
+  border-color: var(--fnd-color-interactive-default);
+}
+
+.recipe-dash__filter-btn:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-default);
+  outline-offset: 2px;
+}
+
+.recipe-dash__table-wrap {
+  overflow-x: auto;
+}
+
+.recipe-dash__axes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.recipe-dash__axis-tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  background: var(--fnd-color-layer-01);
+  padding: 1px 4px;
+  border-radius: var(--fnd-radius-sm);
+  border: 1px solid var(--fnd-color-border-secondary);
+}
+
+#recipe-table tr[data-has-tokens="true"] td:nth-child(6) {
+  color: var(--fnd-color-feedback-success);
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+#recipe-table tr[data-has-tokens="false"] td:nth-child(6) {
+  color: var(--fnd-color-text-tertiary);
+}
+</style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+<main class="docs__main" id="docs-content">
+  <div class="docs__header">
+    <h1 class="docs__title">Recipe-Status Dashboard</h1>
+    <p class="docs__subtitle">
+      Uebersicht aller <span id="dash-total">—</span> Recipe-Dateien mit Status,
+      Achsen, Specimens und Token-Coverage.
+    </p>
+  </div>
+
+  <div class="docs__body">
+
+    <!-- Summary Cards -->
+    <div class="recipe-dash__summary" id="dash-summary"></div>
+
+    <!-- Filter -->
+    <div class="recipe-dash__filter" id="dash-filter"></div>
+
+    <!-- Table -->
+    <div class="recipe-dash__table-wrap">
+      <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+        <table class="nc-data-table__table" id="recipe-table">
+          <thead>
+            <tr>
+              <th>Komponente</th>
+              <th>Status</th>
+              <th>Achsen</th>
+              <th>Specimens</th>
+              <th>Token Groups</th>
+              <th>Tokens</th>
+              <th>Interaktiv</th>
+              <th>Docs</th>
+            </tr>
+          </thead>
+          <tbody id="recipe-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+<script>
+(function () {
+  'use strict';
+
+  fetch('../data/recipe-manifest.json')
+    .then(function (r) { return r.json(); })
+    .then(function (manifest) {
+      renderDashboard(manifest);
+    })
+    .catch(function (err) {
+      document.getElementById('recipe-tbody').innerHTML =
+        '<tr><td colspan="8">Manifest konnte nicht geladen werden. Bitte <code>node scripts/build-recipe-manifest.js</code> ausfuehren.</td></tr>';
+    });
+
+  function renderDashboard(manifest) {
+    // Total
+    document.getElementById('dash-total').textContent = manifest.length;
+
+    // Summary Cards
+    var withTokens = manifest.filter(function (m) { return m.hasTokens; }).length;
+    var leanCount = manifest.length - withTokens;
+    var interactive = manifest.filter(function (m) { return m.interactive; }).length;
+    var totalTokens = manifest.reduce(function (sum, m) { return sum + m.tokenCount; }, 0);
+    var totalSpecimens = manifest.reduce(function (sum, m) { return sum + m.specimensCount; }, 0);
+
+    document.getElementById('dash-summary').innerHTML =
+      card(manifest.length, 'Recipes') +
+      card(withTokens, 'Mit Tokens') +
+      card(leanCount, 'Lean') +
+      card(interactive, 'Interaktiv') +
+      card(totalTokens, 'Tokens gesamt') +
+      card(totalSpecimens, 'Specimens');
+
+    // Filter Buttons
+    var allTags = {};
+    manifest.forEach(function (m) {
+      (m.tags || []).forEach(function (t) { allTags[t] = (allTags[t] || 0) + 1; });
+    });
+
+    var filterHtml = '<button class="recipe-dash__filter-btn is-active" data-filter="all">Alle (' + manifest.length + ')</button>';
+    filterHtml += '<button class="recipe-dash__filter-btn" data-filter="tokens">Mit Tokens (' + withTokens + ')</button>';
+    filterHtml += '<button class="recipe-dash__filter-btn" data-filter="lean">Lean (' + leanCount + ')</button>';
+
+    // Top-Tags
+    var sortedTags = Object.keys(allTags).sort(function (a, b) { return allTags[b] - allTags[a]; });
+    sortedTags.slice(0, 8).forEach(function (tag) {
+      filterHtml += '<button class="recipe-dash__filter-btn" data-filter="tag:' + tag + '">' + tag + ' (' + allTags[tag] + ')</button>';
+    });
+
+    var filterContainer = document.getElementById('dash-filter');
+    filterContainer.innerHTML = filterHtml;
+
+    // Render Table
+    renderTable(manifest);
+
+    // Filter Logic
+    filterContainer.addEventListener('click', function (e) {
+      var btn = e.target.closest('.recipe-dash__filter-btn');
+      if (!btn) return;
+
+      filterContainer.querySelectorAll('.recipe-dash__filter-btn').forEach(function (b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
+
+      var filter = btn.getAttribute('data-filter');
+      var filtered = manifest;
+
+      if (filter === 'tokens') {
+        filtered = manifest.filter(function (m) { return m.hasTokens; });
+      } else if (filter === 'lean') {
+        filtered = manifest.filter(function (m) { return !m.hasTokens; });
+      } else if (filter.indexOf('tag:') === 0) {
+        var tag = filter.slice(4);
+        filtered = manifest.filter(function (m) { return m.tags.indexOf(tag) !== -1; });
+      }
+
+      renderTable(filtered);
+    });
+  }
+
+  function renderTable(items) {
+    var tbody = document.getElementById('recipe-tbody');
+    var html = '';
+
+    items.forEach(function (m) {
+      var statusBadge = '<span class="nc-badge nc-badge--sm ' +
+        (m.status === 'stable' ? 'nc-badge--success' : m.status === 'draft' ? 'nc-badge--warning' : 'nc-badge--danger') +
+        '">' + m.status + '</span>';
+
+      var axesHtml = '';
+      Object.keys(m.axes).forEach(function (key) {
+        axesHtml += '<span class="recipe-dash__axis-tag" title="' + m.axes[key].values.join(', ') + '">' + key + ' (' + m.axes[key].values.length + ')</span> ';
+      });
+
+      var docsLink = m.docsLink
+        ? '<a href=".' + m.docsLink + '.html">' + m.component + '</a>'
+        : m.component;
+
+      html += '<tr data-has-tokens="' + m.hasTokens + '">';
+      html += '<td><strong>' + capitalize(m.component) + '</strong></td>';
+      html += '<td>' + statusBadge + '</td>';
+      html += '<td><div class="recipe-dash__axes">' + axesHtml + '</div></td>';
+      html += '<td>' + m.specimensCount + '</td>';
+      html += '<td>' + m.tokenGroupsCount + '</td>';
+      html += '<td>' + m.tokenCount + '</td>';
+      html += '<td>' + (m.interactive ? 'Ja' : '—') + '</td>';
+      html += '<td>' + docsLink + '</td>';
+      html += '</tr>';
+    });
+
+    tbody.innerHTML = html;
+  }
+
+  function card(value, label) {
+    return '<div class="recipe-dash__card">' +
+      '<span class="recipe-dash__card-value">' + value + '</span>' +
+      '<span class="recipe-dash__card-label">' + label + '</span>' +
+      '</div>';
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+})();
+</script>
+<!-- /SCRIPTS -->

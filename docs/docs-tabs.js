@@ -13,19 +13,26 @@
   // -----------------------------------------------------------------------
 
   // Tab-List liegt in .docs__tab-nav, Panels in .docs-tabs (innerhalb .docs__body)
+  // Event-Delegation: unterstuetzt auch dynamisch hinzugefuegte Tabs (z.B. Rezept-Tab)
   document.querySelectorAll('.docs-tabs__list[role="tablist"]').forEach(function (tabList) {
-    var triggers = tabList.querySelectorAll('.docs-tabs__trigger');
-    // Panels werden per aria-controls ID aufgeloest (decoupled von Container)
-    var panels = [];
-    triggers.forEach(function (t) {
-      var panelId = t.getAttribute('aria-controls');
-      var panel = panelId ? document.getElementById(panelId) : null;
-      if (panel) panels.push(panel);
-    });
+
+    function getAllTriggers() {
+      return tabList.querySelectorAll('.docs-tabs__trigger');
+    }
+
+    function getAllPanels() {
+      var panels = [];
+      getAllTriggers().forEach(function (t) {
+        var panelId = t.getAttribute('aria-controls');
+        var panel = panelId ? document.getElementById(panelId) : null;
+        if (panel) panels.push(panel);
+      });
+      return panels;
+    }
 
     function activateTab(trigger) {
-      triggers.forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
-      panels.forEach(function (p) { p.classList.remove('is-active'); });
+      getAllTriggers().forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+      getAllPanels().forEach(function (p) { p.classList.remove('is-active'); });
 
       trigger.setAttribute('aria-selected', 'true');
       var panelId = trigger.getAttribute('aria-controls');
@@ -38,31 +45,37 @@
       }));
     }
 
-    triggers.forEach(function (trigger) {
-      trigger.addEventListener('click', function () {
-        activateTab(trigger);
-      });
+    // Click-Delegation auf Tablist
+    tabList.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.docs-tabs__trigger');
+      if (!trigger || !tabList.contains(trigger)) return;
+      activateTab(trigger);
+    });
 
-      trigger.addEventListener('keydown', function (e) {
-        var index = Array.prototype.indexOf.call(triggers, trigger);
-        var nextIndex = -1;
+    // Keyboard-Delegation auf Tablist
+    tabList.addEventListener('keydown', function (e) {
+      var trigger = e.target.closest('.docs-tabs__trigger');
+      if (!trigger) return;
 
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          nextIndex = (index + 1) % triggers.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          nextIndex = (index - 1 + triggers.length) % triggers.length;
-        } else if (e.key === 'Home') {
-          nextIndex = 0;
-        } else if (e.key === 'End') {
-          nextIndex = triggers.length - 1;
-        }
+      var allTriggers = getAllTriggers();
+      var index = Array.prototype.indexOf.call(allTriggers, trigger);
+      var nextIndex = -1;
 
-        if (nextIndex >= 0) {
-          e.preventDefault();
-          triggers[nextIndex].focus();
-          activateTab(triggers[nextIndex]);
-        }
-      });
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        nextIndex = (index + 1) % allTriggers.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        nextIndex = (index - 1 + allTriggers.length) % allTriggers.length;
+      } else if (e.key === 'Home') {
+        nextIndex = 0;
+      } else if (e.key === 'End') {
+        nextIndex = allTriggers.length - 1;
+      }
+
+      if (nextIndex >= 0) {
+        e.preventDefault();
+        allTriggers[nextIndex].focus();
+        activateTab(allTriggers[nextIndex]);
+      }
     });
   });
 

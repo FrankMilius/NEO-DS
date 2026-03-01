@@ -1531,3 +1531,206 @@
   flex-wrap: wrap;
   gap: var(--fnd-spacing-03);
 }
+
+// ---------------------------------------------------------------------------
+// Recipe Tab — Dynamisch injizierter Rezept-Tab
+// ---------------------------------------------------------------------------
+
+.docs-recipe__meta {
+  margin-block-end: var(--fnd-spacing-08);
+}
+
+.docs-recipe__meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  margin-block-start: var(--fnd-spacing-03);
+}
+
+.docs-recipe__version,
+.docs-recipe__schema {
+  @include paragraph('s');
+  color: var(--fnd-color-text-tertiary);
+}
+
+.docs-recipe__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+  margin-block-start: var(--fnd-spacing-03);
+}
+
+.docs-recipe__section {
+  margin-block-end: var(--fnd-spacing-08);
+
+  h4 {
+    @include paragraph('l');
+    font-weight: var(--fnd-font-weight-semibold);
+    margin-block: var(--fnd-spacing-04) var(--fnd-spacing-02);
+  }
+}
+
+.docs-recipe__root {
+  margin-block-end: var(--fnd-spacing-04);
+}
+
+.docs-recipe__desc {
+  @include paragraph('m');
+  color: var(--fnd-color-text-secondary);
+  margin-block-end: var(--fnd-spacing-04);
+  max-width: var(--fnd-prose-max-width);
+}
+
+.docs-recipe__axis {
+  margin-block-end: var(--fnd-spacing-06);
+}
+
+.docs-recipe__axis-desc {
+  @include paragraph('s');
+  color: var(--fnd-color-text-secondary);
+  margin-block-end: var(--fnd-spacing-03);
+}
+
+.docs-recipe__none {
+  color: var(--fnd-color-text-tertiary);
+}
+
+.docs-recipe__states-list {
+  @include paragraph('m');
+  margin-block-end: var(--fnd-spacing-03);
+
+  code {
+    font-family: var(--font-mono);
+    @include paragraph('s');
+    background-color: var(--fnd-color-layer-01);
+    padding: 0.125em 0.4em;
+    border-radius: var(--fnd-radius-sm);
+  }
+}
+
+.docs-recipe__token-group {
+  margin-block-end: var(--fnd-spacing-03);
+  border: 1px solid var(--fnd-color-border-secondary);
+  border-radius: var(--fnd-radius-sm);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+
+  summary {
+    cursor: pointer;
+    @include paragraph('m');
+  }
+}
+
+.docs-recipe__token-list {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--fnd-spacing-03);
+  display: grid;
+  gap: var(--fnd-spacing-01);
+
+  li {
+    @include paragraph('s');
+
+    code {
+      font-family: var(--font-mono);
+    }
+  }
+}
+
+.docs-recipe__empty {
+  @include paragraph('m');
+  color: var(--fnd-color-text-tertiary);
+  font-style: italic;
+}
+
+.docs-recipe__note {
+  @include paragraph('s');
+  color: var(--fnd-color-text-secondary);
+  background-color: var(--fnd-color-layer-01);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  margin-block-start: var(--fnd-spacing-03);
+}
+
+.docs-recipe__a11y-base {
+  margin-block-end: var(--fnd-spacing-06);
+}
+
+.docs-recipe__source {
+  margin-block-start: var(--fnd-spacing-08);
+  padding-block-start: var(--fnd-spacing-04);
+  border-top: 1px solid var(--fnd-color-border-secondary);
+}
+
+.docs-recipe__json-link {
+  @include paragraph('s');
+  color: var(--fnd-color-interactive-default);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.docs-recipe__dom-notes {
+  margin-block-start: var(--fnd-spacing-04);
+
+  ul {
+    padding-inline-start: var(--fnd-spacing-05);
+    @include paragraph('s');
+    color: var(--fnd-color-text-secondary);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Recipe Tab: Verwandte Komponenten (Cross-Links)
+// ---------------------------------------------------------------------------
+
+.docs-recipe__related {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--fnd-spacing-03);
+}
+
+.docs-recipe__related-item {
+  display: grid;
+  gap: var(--fnd-spacing-01);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  border-radius: var(--fnd-radius-sm);
+  border: 1px solid var(--fnd-color-border-secondary);
+  text-decoration: none;
+  color: var(--fnd-color-text-primary);
+  @include paragraph('s');
+
+  &:hover {
+    background: var(--fnd-color-layer-01);
+    border-color: var(--fnd-color-interactive-default);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.docs-recipe__related-tags {
+  font-size: var(--fs-xs);
+  color: var(--fnd-color-text-tertiary);
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar Recipe-Indikator (dynamisch injiziert)
+// ---------------------------------------------------------------------------
+
+.docs-sidebar__recipe-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--fnd-radius-full);
+  margin-inline-start: var(--fnd-spacing-02);
+  background: var(--fnd-color-feedback-success);
+  vertical-align: middle;
+
+  &[data-status="draft"] {
+    background: var(--fnd-color-feedback-warning);
+  }
+
+  &[data-status="deprecated"] {
+    background: var(--fnd-color-feedback-danger);
+  }
+}
