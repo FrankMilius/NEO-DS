@@ -45,15 +45,15 @@
       "label": "Variant",
       "description": "Visuelle Variante / Semantik des Buttons",
       "values": {
-        "primary": { "modifier": null, "tokenGroups": ["intent-primary"] },
-        "secondary": { "modifier": "nc-button--secondary", "tokenGroups": ["intent-secondary"] },
-        "accent": { "modifier": "nc-button--accent", "tokenGroups": ["intent-accent"] },
-        "outline": { "modifier": "nc-button--outline", "tokenGroups": ["intent-outline"] },
-        "ghost": { "modifier": "nc-button--ghost", "tokenGroups": ["intent-ghost"] },
-        "success": { "modifier": "nc-button--success", "tokenGroups": ["intent-success"] },
-        "warning": { "modifier": "nc-button--warning", "tokenGroups": ["intent-warning"] },
-        "error": { "modifier": "nc-button--error", "tokenGroups": ["intent-error"] },
-        "info": { "modifier": "nc-button--info", "tokenGroups": ["intent-info"] }
+        "primary": { "modifier": null, "tokenGroups": ["primary"] },
+        "secondary": { "modifier": "nc-button--secondary", "tokenGroups": ["secondary"] },
+        "accent": { "modifier": "nc-button--accent", "tokenGroups": ["accent"] },
+        "outline": { "modifier": "nc-button--outline", "tokenGroups": ["outline"] },
+        "ghost": { "modifier": "nc-button--ghost", "tokenGroups": ["ghost"] },
+        "success": { "modifier": "nc-button--success", "tokenGroups": ["success"] },
+        "warning": { "modifier": "nc-button--warning", "tokenGroups": ["warning"] },
+        "error": { "modifier": "nc-button--error", "tokenGroups": ["error"] },
+        "info": { "modifier": "nc-button--info", "tokenGroups": ["info"] }
       }
     },
 
@@ -87,9 +87,10 @@
       "label": "Composition",
       "description": "Kompositions-/Verwendungsform",
       "values": {
-        "single": { "modifier": null },
+        "single": { "modifier": null, "tokenGroups": [] },
         "group": {
           "modifier": null,
+          "tokenGroups": [],
           "renderHint": "button-group",
           "wrapper": {
             "element": "div",
@@ -99,6 +100,7 @@
         },
         "toggle": {
           "modifier": null,
+          "tokenGroups": [],
           "renderHint": "toggle",
           "wrapper": {
             "element": "div",
@@ -106,7 +108,7 @@
             "attributes": { "role": "group", "aria-label": "Formatierung" }
           }
         },
-        "link": { "modifier": null, "elementHint": "a", "renderHint": "link" }
+        "link": { "modifier": null, "tokenGroups": [], "elementHint": "a", "renderHint": "link" }
       }
     }
   },
@@ -126,7 +128,7 @@
         "state": "disabled",
         "effects": ["blockInteraction"],
         "attributes": { "disabled?": true, "aria-disabled": true },
-        "tokenGroups": ["state-disabled"]
+        "tokenGroups": ["disabled"]
       },
       {
         "state": "pressed",
@@ -184,10 +186,10 @@
 
   "styling": {
     "baseClasses": ["nc-button"],
-    "baseTokenGroups": ["core-geometry", "core-typography", "core-spacing"],
+    "baseTokenGroups": ["geometry", "typography", "interaction"],
 
     "tokenGroups": {
-      "core-geometry": {
+      "geometry": {
         "label": "Geometry",
         "tokens": [
           "nc-button-height-xs",
@@ -206,31 +208,31 @@
           "nc-button-radius-sm",
           "nc-button-radius-md",
           "nc-button-radius-lg",
-          "nc-button-radius-full"
+          "nc-button-radius-full",
+          "nc-button-border-width-sm",
+          "nc-button-border-width-lg"
         ]
       },
 
-      "core-typography": {
+      "typography": {
         "label": "Typography",
         "tokens": [
           "nc-button-font-size-xs",
           "nc-button-font-size-sm",
           "nc-button-font-size-md",
           "nc-button-font-size-lg",
-          "nc-button-font-weight",
           "nc-button-line-height",
+          "nc-button-font-weight",
+          "nc-button-gap",
+          "nc-button-min-width",
           "nc-button-label-compact",
           "nc-button-label-expressive"
         ]
       },
 
-      "core-spacing": {
-        "label": "Spacing & General",
+      "interaction": {
+        "label": "Interaction",
         "tokens": [
-          "nc-button-gap",
-          "nc-button-min-width",
-          "nc-button-border-width-sm",
-          "nc-button-border-width-lg",
           "nc-button-transition-duration",
           "nc-button-scale-active",
           "nc-button-opacity-disabled"
@@ -269,7 +271,7 @@
         ]
       },
 
-      "intent-primary": {
+      "primary": {
         "label": "Primary",
         "tokens": [
           "nc-button-primary-bg",
@@ -280,7 +282,7 @@
         ]
       },
 
-      "intent-secondary": {
+      "secondary": {
         "label": "Secondary",
         "tokens": [
           "nc-button-secondary-bg",
@@ -291,7 +293,7 @@
         ]
       },
 
-      "intent-outline": {
+      "outline": {
         "label": "Outline",
         "tokens": [
           "nc-button-outline-bg",
@@ -302,7 +304,7 @@
         ]
       },
 
-      "intent-ghost": {
+      "ghost": {
         "label": "Ghost",
         "tokens": [
           "nc-button-ghost-bg",
@@ -313,7 +315,7 @@
         ]
       },
 
-      "intent-accent": {
+      "accent": {
         "label": "Accent",
         "tokens": [
           "nc-button-accent-bg",
@@ -324,7 +326,7 @@
         ]
       },
 
-      "intent-success": {
+      "success": {
         "label": "Success",
         "tokens": [
           "nc-button-success-bg",
@@ -335,7 +337,7 @@
         ]
       },
 
-      "intent-warning": {
+      "warning": {
         "label": "Warning",
         "tokens": [
           "nc-button-warning-bg",
@@ -346,7 +348,7 @@
         ]
       },
 
-      "intent-error": {
+      "error": {
         "label": "Error",
         "tokens": [
           "nc-button-error-bg",
@@ -357,7 +359,7 @@
         ]
       },
 
-      "intent-info": {
+      "info": {
         "label": "Info",
         "tokens": [
           "nc-button-info-bg",
@@ -368,13 +370,25 @@
         ]
       },
 
-      "state-disabled": {
+      "disabled": {
         "label": "Disabled",
         "tokens": [
           "nc-button-disabled-bg",
           "nc-button-disabled-color",
           "nc-button-disabled-border",
           "nc-button-opacity-disabled"
+        ]
+      },
+
+      "icon-button": {
+        "label": "Icon Button",
+        "tokens": [
+          "nc-icon-button-size",
+          "nc-icon-button-padding",
+          "nc-icon-button-radius",
+          "nc-icon-button-bg",
+          "nc-icon-button-bg-hover",
+          "nc-icon-button-color"
         ]
       },
 
@@ -430,7 +444,7 @@
         "axes": { "variant": ["primary"], "size": "*", "pattern": ["standard"], "composition": ["single"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["core-geometry", "core-typography", "size-scale"],
+      "focusTokenGroups": ["geometry", "typography", "size-scale"],
       "layout": "row",
       "render": { "label": "{size}" },
       "a11y": {
@@ -461,7 +475,7 @@
         "axes": { "variant": ["primary", "secondary", "ghost"], "size": "*", "pattern": ["icon-only"], "composition": ["single"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["core-geometry", "icon-sizing"],
+      "focusTokenGroups": ["geometry", "icon-sizing"],
       "layout": "grid",
       "layoutConfig": { "rowAxis": "variant", "colAxis": "size" },
       "render": { "icon": "default" },
@@ -478,7 +492,7 @@
         "axes": { "variant": ["primary", "secondary"], "size": ["md"], "pattern": ["standard"], "composition": ["single"] },
         "states": ["loading"]
       },
-      "focusTokenGroups": ["spinner", "intent-primary", "intent-secondary"],
+      "focusTokenGroups": ["spinner", "primary", "secondary"],
       "layout": "row",
       "render": { "label": "{variant}", "state": "loading" },
       "a11y": {
@@ -493,7 +507,7 @@
         "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["standard"], "composition": ["group"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["intent-outline", "core-geometry"],
+      "focusTokenGroups": ["outline", "geometry"],
       "layout": "composition",
       "render": { "compositionType": "button-group", "groupLabels": ["Left", "Center", "Right"] },
       "a11y": {
@@ -509,7 +523,7 @@
         "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["with-icon"], "composition": ["toggle"] },
         "states": ["pressed"]
       },
-      "focusTokenGroups": ["intent-outline", "intent-primary"],
+      "focusTokenGroups": ["outline", "primary"],
       "layout": "row",
       "render": { "compositionType": "toggle", "toggleLabels": ["Bold", "Italic", "Underline"] },
       "a11y": {
@@ -525,7 +539,7 @@
         "axes": { "variant": ["primary", "secondary", "ghost"], "size": ["md"], "pattern": ["standard"], "composition": ["link"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["intent-primary", "intent-secondary", "intent-ghost"],
+      "focusTokenGroups": ["primary", "secondary", "ghost"],
       "layout": "row",
       "render": { "compositionType": "link", "label": "{variant}" },
       "a11y": {
