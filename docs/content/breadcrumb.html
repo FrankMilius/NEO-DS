@@ -85,6 +85,12 @@
                             data-value="chevron">Chevron</button>
                     <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
                             data-value="slash">Slash</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="dot">Dot</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="square">Square</button>
+                    <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                            data-value="custom">Custom</button>
                   </div>
                 </div>
 
@@ -131,6 +137,9 @@
               <select class="docs-stage__hidden" id="stage-separator">
                 <option value="chevron" selected>Chevron</option>
                 <option value="slash">Slash</option>
+                <option value="dot">Dot</option>
+                <option value="square">Square</option>
+                <option value="custom">Custom</option>
               </select>
               <input type="checkbox" class="docs-stage__hidden" id="stage-ellipsis" />
             </div>
@@ -212,6 +221,77 @@
             </div>
           </section>
 
+          <!-- Showcase: Truncated mit Dropdown -->
+          <section class="docs__section" id="truncated-dropdown">
+            <h2 class="docs__section-title">Truncated mit Dropdown</h2>
+            <p class="docs__section-desc">
+              Klick auf den Ellipsis-Button &ouml;ffnet ein Dropdown mit den versteckten Zwischenebenen.
+              Opt-In via <code class="docs__token">data-breadcrumb-truncated</code> +
+              <code class="docs__token">data-breadcrumb-hidden-items</code> auf dem
+              <code class="docs__token">&lt;nav&gt;</code>-Element.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <nav class="nc-breadcrumb" aria-label="Breadcrumb"
+                   data-breadcrumb-truncated
+                   data-breadcrumb-hidden-items='[{"label":"Dashboard","href":"#"},{"label":"Einstellungen","href":"#"},{"label":"Benutzer","href":"#"}]'>
+                <ol class="nc-breadcrumb__list">
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Home</a>
+                    <span class="nc-breadcrumb__separator" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                    </button>
+                    <span class="nc-breadcrumb__separator" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Verwaltung</a>
+                    <span class="nc-breadcrumb__separator" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <span class="nc-breadcrumb__page" aria-current="page">Profil</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+            <div class="docs__code-block">&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"
+     data-breadcrumb-truncated
+     data-breadcrumb-hidden-items='[
+       {"label":"Dashboard","href":"/dashboard"},
+       {"label":"Einstellungen","href":"/settings"},
+       {"label":"Benutzer","href":"/users"}
+     ]'&gt;
+  &lt;ol class="nc-breadcrumb__list"&gt;
+    &lt;li class="nc-breadcrumb__item"&gt;
+      &lt;a class="nc-breadcrumb__link" href="/"&gt;Home&lt;/a&gt;
+      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="nc-breadcrumb__item"&gt;
+      &lt;button class="nc-breadcrumb__ellipsis"
+              aria-label="Versteckte Seiten anzeigen"&gt;
+        &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;!-- Dropdown wird von js/breadcrumb.js dynamisch erzeugt --&gt;
+      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="nc-breadcrumb__item"&gt;
+      &lt;a class="nc-breadcrumb__link" href="/admin"&gt;Verwaltung&lt;/a&gt;
+      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="nc-breadcrumb__item"&gt;
+      &lt;span class="nc-breadcrumb__page" aria-current="page"&gt;Profil&lt;/span&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</div>
+          </section>
+
           <!-- Showcase: Slash-Separator -->
           <section class="docs__section" id="slash-separator">
             <h2 class="docs__section-title">Slash-Separator</h2>
@@ -235,6 +315,95 @@
                 </ol>
               </nav>
             </div>
+          </section>
+
+          <!-- Showcase: Dot-Separator -->
+          <section class="docs__section" id="dot-separator">
+            <h2 class="docs__section-title">Dot-Separator</h2>
+            <p class="docs__section-desc">
+              Separator als gefuellter Punkt (4&times;4 px). Modifier: <code class="docs__token">nc-breadcrumb__separator--dot</code>.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <nav class="nc-breadcrumb" aria-label="Breadcrumb">
+                <ol class="nc-breadcrumb__list">
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Home</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--dot" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Produkte</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--dot" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <span class="nc-breadcrumb__page" aria-current="page">Aktuelle Seite</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </section>
+
+          <!-- Showcase: Square-Separator -->
+          <section class="docs__section" id="square-separator">
+            <h2 class="docs__section-title">Square-Separator</h2>
+            <p class="docs__section-desc">
+              Separator als gefuelltes Quadrat (4&times;4 px). Modifier: <code class="docs__token">nc-breadcrumb__separator--square</code>.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <nav class="nc-breadcrumb" aria-label="Breadcrumb">
+                <ol class="nc-breadcrumb__list">
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Home</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--square" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Produkte</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--square" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <span class="nc-breadcrumb__page" aria-current="page">Aktuelle Seite</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </section>
+
+          <!-- Showcase: Custom-Separator -->
+          <section class="docs__section" id="custom-separator">
+            <h2 class="docs__section-title">Custom-Separator</h2>
+            <p class="docs__section-desc">
+              Benutzerdefinierter Separator via <code class="docs__token">--nc-breadcrumb-separator-custom</code>.
+              Modifier: <code class="docs__token">nc-breadcrumb__separator--custom</code>.
+              Hier mit <code class="docs__token">'&raquo;'</code> als Beispiel.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <nav class="nc-breadcrumb" aria-label="Breadcrumb" style="--nc-breadcrumb-separator-custom: '&raquo;'">
+                <ol class="nc-breadcrumb__list">
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Home</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--custom" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <a class="nc-breadcrumb__link" href="#">Produkte</a>
+                    <span class="nc-breadcrumb__separator nc-breadcrumb__separator--custom" aria-hidden="true"></span>
+                  </li>
+                  <li class="nc-breadcrumb__item">
+                    <span class="nc-breadcrumb__page" aria-current="page">Aktuelle Seite</span>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+            <div class="docs__code-block">&lt;!-- Custom-Separator: Token auf Scope setzen --&gt;
+&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"
+     style="--nc-breadcrumb-separator-custom: '&amp;raquo;'"&gt;
+  &lt;ol class="nc-breadcrumb__list"&gt;
+    &lt;li class="nc-breadcrumb__item"&gt;
+      &lt;a class="nc-breadcrumb__link" href="#"&gt;Home&lt;/a&gt;
+      &lt;span class="nc-breadcrumb__separator nc-breadcrumb__separator--custom"
+            aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/li&gt;
+    ...
+  &lt;/ol&gt;
+&lt;/nav&gt;</div>
           </section>
 
           <!-- Showcase: Langer Pfad -->
@@ -314,8 +483,14 @@
                 <tr><td><code class="docs__token">breadcrumb-item</code></td><td>li inline-flex</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-link</code></td><td>a with hover underline</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-page</code></td><td>current page span</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator</code></td><td>chevron/slash</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator</code></td><td>chevron/slash (base)</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--dot</code></td><td>dot variant (4px circle)</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--square</code></td><td>square variant (4px box)</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--custom</code></td><td>custom content via CSS var</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-ellipsis</code></td><td>truncation button</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-ellipsis-wrap</code></td><td>position context for dropdown</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-dropdown</code></td><td>dropdown menu (hidden items)</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-dropdown-item</code></td><td>single dropdown link</td></tr>
               </tbody>
             </table>
           </div>
@@ -331,7 +506,13 @@
 .nc-breadcrumb__link            // Element: a-Link mit Hover-Underline
 .nc-breadcrumb__page            // Element: span f&uuml;r aktuelle Seite
 .nc-breadcrumb__separator       // Element: Chevron oder Slash
+.nc-breadcrumb__separator--dot     // Modifier: Punkt-Separator
+.nc-breadcrumb__separator--square  // Modifier: Quadrat-Separator
+.nc-breadcrumb__separator--custom  // Modifier: Custom via CSS Property
 .nc-breadcrumb__ellipsis        // Element: Ellipsis-Button (&hellip;)
+.nc-breadcrumb__ellipsis-wrap   // Element: Position-Context (relative)
+.nc-breadcrumb__dropdown        // Element: Dropdown-Liste (role="menu")
+.nc-breadcrumb__dropdown-item   // Element: Dropdown-Link (role="menuitem")
 
 // ===== SCSS Mixins =====
 
@@ -341,7 +522,13 @@
 @mixin breadcrumb-link          // a color, hover underline
 @mixin breadcrumb-page          // current page color, font-weight
 @mixin breadcrumb-separator     // separator color, size, aria-hidden
-@mixin breadcrumb-ellipsis      // button reset, hover background</div>
+@mixin breadcrumb-separator--dot    // dot: 4px circle via ::before
+@mixin breadcrumb-separator--square // square: 4px box via ::before
+@mixin breadcrumb-separator--custom // custom: content via CSS var
+@mixin breadcrumb-ellipsis      // button reset, hover background
+@mixin breadcrumb-ellipsis-wrap // position: relative context
+@mixin breadcrumb-dropdown      // dropdown menu, absolute, elevation
+@mixin breadcrumb-dropdown-item // link item, hover bg, focus-ring</div>
           </section>
 
         </div>
@@ -383,8 +570,14 @@
                 <tr><td><code class="docs__token">.nc-breadcrumb__item</code></td><td>Element</td><td>Einzelnes Listenelement (<code class="docs__token">&lt;li&gt;</code>) mit inline-flex.</td></tr>
                 <tr><td><code class="docs__token">.nc-breadcrumb__link</code></td><td>Element</td><td>Anker-Link zu einer &uuml;bergeordneten Seite.</td></tr>
                 <tr><td><code class="docs__token">.nc-breadcrumb__page</code></td><td>Element</td><td>Span f&uuml;r die aktuelle Seite (nicht klickbar).</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__separator</code></td><td>Element</td><td>Visueller Trenner (Chevron-SVG oder Slash-Text).</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__separator</code></td><td>Element</td><td>Visueller Trenner (Basis-Klasse).</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__separator--dot</code></td><td>Modifier</td><td>Gefuellter Punkt (4&times;4 px, border-radius 50%).</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__separator--square</code></td><td>Modifier</td><td>Gefuelltes Quadrat (4&times;4 px).</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__separator--custom</code></td><td>Modifier</td><td>Benutzerdefiniert via <code class="docs__token">--nc-breadcrumb-separator-custom</code>.</td></tr>
                 <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis</code></td><td>Element</td><td>Button zum Einblenden ausgeblendeter Zwischenebenen.</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis-wrap</code></td><td>Element</td><td>Position-Context (<code class="docs__token">position: relative</code>) f&uuml;r Ellipsis + Dropdown.</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__dropdown</code></td><td>Element</td><td>Dropdown-Liste (<code class="docs__token">&lt;ul role="menu"&gt;</code>) mit versteckten Ebenen. Sichtbar via <code class="docs__token">.is-open</code>.</td></tr>
+                <tr><td><code class="docs__token">.nc-breadcrumb__dropdown-item</code></td><td>Element</td><td>Einzelner Link (<code class="docs__token">&lt;a role="menuitem"&gt;</code>) im Dropdown.</td></tr>
               </tbody>
             </table>
           </div>
@@ -411,6 +604,9 @@
                 <tr><td><code class="docs__token">--nc-breadcrumb-separator-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Separator</td></tr>
                 <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-breadcrumb-separator-custom</code></td><td>'&middot;'</td><td>&mdash;</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dropdown</td></tr>
+                <tr><td><code class="docs__token">--nc-breadcrumb-dropdown-min-width</code></td><td>160px</td><td>&mdash;</td></tr>
               </tbody>
             </table>
           </div>
@@ -429,13 +625,48 @@
                 <tr><td><code class="docs__token">breadcrumb-link</code></td><td>&mdash;</td><td>a: color, text-decoration none, hover underline, hover color.</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-page</code></td><td>&mdash;</td><td>span: color-current, font-weight, nicht klickbar.</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-separator</code></td><td>&mdash;</td><td>Separator: color, size, flex-shrink 0, aria-hidden.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--dot</code></td><td>&mdash;</td><td>Punkt-Variante: 4px Kreis via ::before.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--square</code></td><td>&mdash;</td><td>Quadrat-Variante: 4px Box via ::before.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-separator--custom</code></td><td>&mdash;</td><td>Custom-Variante: content aus --nc-breadcrumb-separator-custom.</td></tr>
                 <tr><td><code class="docs__token">breadcrumb-ellipsis</code></td><td>&mdash;</td><td>Button: appearance reset, cursor pointer, hover background.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-ellipsis-wrap</code></td><td>&mdash;</td><td>Position-Context (relative) f&uuml;r Dropdown.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-dropdown</code></td><td>&mdash;</td><td>Dropdown-Liste: absolut positioniert, elevation, animation.</td></tr>
+                <tr><td><code class="docs__token">breadcrumb-dropdown-item</code></td><td>&mdash;</td><td>Link-Item: hover background, focus-ring, min-height.</td></tr>
               </tbody>
             </table>
           </div>
           </section>
 
-          <!-- 5. Slots/Element-Struktur -->
+          <!-- 5. Data-Attribute -->
+          <section class="docs__section" id="api-data-attributes">
+            <h2 class="docs__section-title">Data-Attribute (Truncation-Dropdown)</h2>
+            <p class="docs__section-desc">
+              Das Dropdown-Feature ist optional und wird &uuml;ber Data-Attribute auf dem <code class="docs__token">&lt;nav&gt;</code> aktiviert.
+              Ohne <code class="docs__token">js/breadcrumb.js</code> bleibt der Ellipsis-Button sichtbar, tut aber nichts (Progressive Enhancement).
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead><tr><th>Attribut</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">data-breadcrumb-truncated</code></td>
+                  <td>Boolean (Pr&auml;senz)</td>
+                  <td>Aktiviert das Dropdown-Feature f&uuml;r diese Breadcrumb-Instanz.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">data-breadcrumb-hidden-items</code></td>
+                  <td>JSON-Array</td>
+                  <td>
+                    Liste der versteckten Ebenen. Format:
+                    <code class="docs__token">[{"label":"...","href":"..."}]</code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </section>
+
+          <!-- 6. Slots/Element-Struktur -->
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
             <div class="docs__code-block">&lt;!-- Basis-Breadcrumb --&gt;
@@ -564,6 +795,22 @@
             </div>
           </div>
 
+          <!-- Dropdown-Verhalten -->
+          <div class="docs-a11y-block">
+            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="docs-a11y-block__content">
+              <h4>Dropdown-Verhalten (Truncation)</h4>
+              <ul>
+                <li>Der Ellipsis-Button braucht <code class="docs__token">aria-haspopup="true"</code> und <code class="docs__token">aria-expanded="true|false"</code></li>
+                <li>Das Dropdown ist ein <code class="docs__token">&lt;ul role="menu"&gt;</code>, Items sind <code class="docs__token">&lt;a role="menuitem"&gt;</code></li>
+                <li><strong>Keyboard:</strong> <code class="docs__token">Enter</code>/<code class="docs__token">Space</code> &ouml;ffnet Dropdown, <code class="docs__token">ArrowDown</code>/<code class="docs__token">ArrowUp</code> navigiert, <code class="docs__token">Escape</code> schlie&szlig;t</li>
+                <li><strong>Focus-Trap:</strong> Beim &Ouml;ffnen fokussiert das erste Item. <code class="docs__token">Escape</code> gibt den Focus zum Ellipsis zur&uuml;ck</li>
+                <li><strong>Click-Outside:</strong> Klick au&szlig;erhalb schlie&szlig;t das Dropdown automatisch</li>
+                <li>Das Feature ist <strong>Progressive Enhancement</strong> &mdash; ohne <code class="docs__token">js/breadcrumb.js</code> bleibt der Button ohne Funktion</li>
+              </ul>
+            </div>
+          </div>
+
           <!-- Best Practices -->
           <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
             <h2 class="docs__section-title">Best Practices</h2>
@@ -613,5 +860,6 @@
 <!-- /BODY -->
 
 <!-- SCRIPTS -->
+  <script src="../js/breadcrumb.js"></script>
   <script src="breadcrumb-docs.js"></script>
 <!-- /SCRIPTS -->

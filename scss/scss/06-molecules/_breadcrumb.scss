@@ -18,8 +18,14 @@
 //   .nc-breadcrumb__item           <li> (inline-flex, align-center)
 //   .nc-breadcrumb__link           <a> (hover: underline + color)
 //   .nc-breadcrumb__page           <span> aktuelle Seite (font-weight 500)
-//   .nc-breadcrumb__separator      Chevron-SVG oder / (aria-hidden)
+//   .nc-breadcrumb__separator      Chevron, Slash, Dot, Square oder Custom (aria-hidden)
+//   .nc-breadcrumb__separator--dot  Gefuellter Punkt (4px Kreis)
+//   .nc-breadcrumb__separator--square  Gefuelltes Quadrat (4px)
+//   .nc-breadcrumb__separator--custom  Benutzerdefiniert via --nc-breadcrumb-separator-custom
 //   .nc-breadcrumb__ellipsis       Truncation-Button (24x24, hover bg)
+//   .nc-breadcrumb__ellipsis-wrap  Position-Context fuer Dropdown
+//   .nc-breadcrumb__dropdown       Dropdown-Liste (hidden, .is-open zeigt)
+//   .nc-breadcrumb__dropdown-item  Link-Item im Dropdown
 //
 // ACCESSIBILITY:
 //   <nav aria-label="Breadcrumb"> auf Wrapper
@@ -83,7 +89,7 @@
   font-weight: var(--fnd-font-weight-medium);
 }
 
-/// Separator (Chevron-SVG oder /).
+/// Separator (Chevron, Slash, Dot, Square oder Custom).
 @mixin breadcrumb-separator {
   display: inline-flex;
   align-items: center;
@@ -99,6 +105,36 @@
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+}
+
+/// Separator-Variante: gefuellter Punkt.
+@mixin breadcrumb-separator--dot {
+  &::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--fnd-radius-full);
+    background: currentColor;
+  }
+}
+
+/// Separator-Variante: gefuelltes Quadrat.
+@mixin breadcrumb-separator--square {
+  &::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+  }
+}
+
+/// Separator-Variante: benutzerdefinierter Inhalt via CSS Custom Property.
+@mixin breadcrumb-separator--custom {
+  &::before {
+    content: var(--nc-breadcrumb-separator-custom, '·');
   }
 }
 
@@ -133,6 +169,60 @@
   }
 }
 
+/// Position-Context fuer Ellipsis + Dropdown.
+@mixin breadcrumb-ellipsis-wrap {
+  position: relative;
+}
+
+/// Dropdown fuer ausgeblendete Breadcrumb-Ebenen.
+/// Nutzt bestehende --nc-dropdown-* Tokens fuer visuelle Konsistenz.
+@mixin breadcrumb-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--nc-dropdown-z-index);
+  min-width: var(--nc-breadcrumb-dropdown-min-width);
+  padding: var(--nc-dropdown-padding);
+  margin: var(--fnd-spacing-01) 0 0;
+  background: var(--nc-dropdown-bg);
+  border: var(--nc-dropdown-border-width) solid var(--nc-dropdown-border);
+  border-radius: var(--nc-dropdown-radius);
+  box-shadow: var(--nc-dropdown-shadow);
+  list-style: none;
+  animation: fnd-dropdown-enter var(--nc-dropdown-animation-duration) ease-out;
+
+  &.is-open {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/// Einzelner Link im Breadcrumb-Dropdown.
+@mixin breadcrumb-dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--nc-dropdown-item-height);
+  padding: var(--nc-dropdown-item-padding);
+  border-radius: var(--nc-dropdown-item-radius);
+  color: var(--nc-dropdown-item-color);
+  font-size: var(--nc-dropdown-item-font-size);
+  text-decoration: none;
+  @include transition((background-color, color), '150');
+
+  &:hover {
+    background: var(--nc-dropdown-item-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -158,9 +248,33 @@
 
   &__separator {
     @include breadcrumb-separator;
+
+    &--dot {
+      @include breadcrumb-separator--dot;
+    }
+
+    &--square {
+      @include breadcrumb-separator--square;
+    }
+
+    &--custom {
+      @include breadcrumb-separator--custom;
+    }
   }
 
   &__ellipsis {
     @include breadcrumb-ellipsis;
+  }
+
+  &__ellipsis-wrap {
+    @include breadcrumb-ellipsis-wrap;
+  }
+
+  &__dropdown {
+    @include breadcrumb-dropdown;
+  }
+
+  &__dropdown-item {
+    @include breadcrumb-dropdown-item;
   }
 }

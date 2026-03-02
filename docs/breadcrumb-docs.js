@@ -97,12 +97,30 @@
     // Determine separator HTML
     var sepHtml;
     var sepCode;
-    if (separator === 'chevron') {
-      sepHtml = '<span class="nc-breadcrumb__separator" aria-hidden="true">' + chevronSvg + '</span>';
-      sepCode = '      <span class="nc-breadcrumb__separator" aria-hidden="true">\n        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>\n      </span>';
-    } else {
-      sepHtml = '<span class="nc-breadcrumb__separator" aria-hidden="true">/</span>';
-      sepCode = '      <span class="nc-breadcrumb__separator" aria-hidden="true">/</span>';
+    switch (separator) {
+      case 'chevron':
+        sepHtml = '<span class="nc-breadcrumb__separator" aria-hidden="true">' + chevronSvg + '</span>';
+        sepCode = '      <span class="nc-breadcrumb__separator" aria-hidden="true">\n        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>\n      </span>';
+        break;
+      case 'slash':
+        sepHtml = '<span class="nc-breadcrumb__separator" aria-hidden="true">/</span>';
+        sepCode = '      <span class="nc-breadcrumb__separator" aria-hidden="true">/</span>';
+        break;
+      case 'dot':
+        sepHtml = '<span class="nc-breadcrumb__separator nc-breadcrumb__separator--dot" aria-hidden="true"></span>';
+        sepCode = '      <span class="nc-breadcrumb__separator nc-breadcrumb__separator--dot" aria-hidden="true"></span>';
+        break;
+      case 'square':
+        sepHtml = '<span class="nc-breadcrumb__separator nc-breadcrumb__separator--square" aria-hidden="true"></span>';
+        sepCode = '      <span class="nc-breadcrumb__separator nc-breadcrumb__separator--square" aria-hidden="true"></span>';
+        break;
+      case 'custom':
+        sepHtml = '<span class="nc-breadcrumb__separator nc-breadcrumb__separator--custom" aria-hidden="true"></span>';
+        sepCode = '      <span class="nc-breadcrumb__separator nc-breadcrumb__separator--custom" aria-hidden="true"></span>';
+        break;
+      default:
+        sepHtml = '<span class="nc-breadcrumb__separator" aria-hidden="true">' + chevronSvg + '</span>';
+        sepCode = '      <span class="nc-breadcrumb__separator" aria-hidden="true">...</span>';
     }
 
     // Get the items to display (slice from pageNames)
@@ -112,14 +130,31 @@
     var html = '';
     var code = '';
 
-    html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">';
+    if (ellipsis && itemCount > 2) {
+      var preHiddenItems = [];
+      for (var p = 1; p < itemCount - 2; p++) {
+        preHiddenItems.push({ label: items[p], href: '#' });
+      }
+      var hiddenJson = JSON.stringify(preHiddenItems);
+      html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb" data-breadcrumb-truncated data-breadcrumb-hidden-items=\'' + hiddenJson + '\'>';
+      code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb"\n';
+      code += '     data-breadcrumb-truncated\n';
+      code += '     data-breadcrumb-hidden-items=\'' + hiddenJson + '\'>\n';
+    } else {
+      html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">';
+      code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">\n';
+    }
     html += '<ol class="nc-breadcrumb__list">';
-
-    code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">\n';
     code += '  <ol class="nc-breadcrumb__list">\n';
 
     if (ellipsis && itemCount > 2) {
       // Ellipsis mode: Home -> ellipsis -> last 2 items
+      // Versteckte Items ermitteln (alle zwischen erstem und letzten 2)
+      var hiddenItems = [];
+      for (var h = 1; h < items.length - 2; h++) {
+        hiddenItems.push({ label: items[h], href: '#' });
+      }
+
       // First item (Home)
       html += '<li class="nc-breadcrumb__item">';
       html += '<a class="nc-breadcrumb__link" href="#">' + items[0] + '</a>';
@@ -133,7 +168,7 @@
 
       // Ellipsis button
       html += '<li class="nc-breadcrumb__item">';
-      html += '<button class="nc-breadcrumb__ellipsis" aria-label="Weitere Seiten anzeigen">' + ellipsisSvg + '</button>';
+      html += '<button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen">' + ellipsisSvg + '</button>';
       html += sepHtml;
       html += '</li>';
 
@@ -199,6 +234,11 @@
 
     preview.innerHTML = html;
     codeOutput.textContent = code;
+
+    // Breadcrumb-Dropdown JS re-initialisieren (falls geladen)
+    if (ellipsis && itemCount > 2 && typeof window.initBreadcrumbDropdowns === 'function') {
+      window.initBreadcrumbDropdowns(preview);
+    }
   }
 
   // -----------------------------------------------------------------------

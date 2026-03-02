@@ -21,7 +21,10 @@
       { "name": "link", "element": ".nc-breadcrumb__link", "optional": false },
       { "name": "page", "element": ".nc-breadcrumb__page", "optional": true },
       { "name": "separator", "element": ".nc-breadcrumb__separator", "optional": true },
-      { "name": "ellipsis", "element": ".nc-breadcrumb__ellipsis", "optional": true }
+      { "name": "ellipsis", "element": ".nc-breadcrumb__ellipsis", "optional": true },
+      { "name": "ellipsis-wrap", "element": ".nc-breadcrumb__ellipsis-wrap", "optional": true },
+      { "name": "dropdown", "element": ".nc-breadcrumb__dropdown", "optional": true },
+      { "name": "dropdown-item", "element": ".nc-breadcrumb__dropdown-item", "optional": true }
     ],
     "convenience": [],
     "domNotes": [
@@ -31,6 +34,10 @@
       "Letzes Item: <span class='nc-breadcrumb__page' aria-current='page'> — nicht klickbar, font-weight medium.",
       "Separator: <span class='nc-breadcrumb__separator' aria-hidden='true'> mit Chevron-SVG oder '/'.",
       "Ellipsis: <button class='nc-breadcrumb__ellipsis' aria-label='Weitere Seiten anzeigen'> fuer abgekuerzte Pfade.",
+      "Ellipsis-Wrap: <li class='nc-breadcrumb__ellipsis-wrap'> ist Position-Context fuer Dropdown.",
+      "Dropdown: <ul class='nc-breadcrumb__dropdown' role='menu'> zeigt versteckte Ebenen bei Klick.",
+      "Dropdown-Item: <a class='nc-breadcrumb__dropdown-item' role='menuitem'> — einzelner Link.",
+      "Opt-In: data-breadcrumb-truncated + data-breadcrumb-hidden-items auf <nav> aktiviert JS-Verhalten.",
       "Liste nutzt flex-wrap — bricht bei langen Pfaden um.",
       "Links: hover zeigt underline + primary-Farbe, :focus-visible mit focus-ring."
     ]
@@ -48,20 +55,24 @@
 
     "separator": {
       "label": "Separator",
-      "description": "Trennzeichen — chevron (SVG Chevron-Right, Standard), slash (Text '/')",
+      "description": "Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token konfigurierbar)",
       "values": {
-        "chevron": { "modifier": null, "tokenGroups": [], "renderHint": "breadcrumb-chevron" },
-        "slash":   { "modifier": null, "tokenGroups": [], "renderHint": "breadcrumb-slash" }
+        "chevron": { "modifier": null,                            "tokenGroups": [], "renderHint": "breadcrumb-chevron" },
+        "slash":   { "modifier": null,                            "tokenGroups": [], "renderHint": "breadcrumb-slash" },
+        "dot":     { "modifier": "nc-breadcrumb__separator--dot",    "tokenGroups": [], "renderHint": "breadcrumb-dot" },
+        "square":  { "modifier": "nc-breadcrumb__separator--square", "tokenGroups": [], "renderHint": "breadcrumb-square" },
+        "custom":  { "modifier": "nc-breadcrumb__separator--custom", "tokenGroups": ["core-geometry"], "renderHint": "breadcrumb-custom" }
       }
     }
   },
 
   "states": {
-    "supported": ["default", "hover", "focus"],
-    "precedence": ["focus", "hover", "default"],
+    "supported": ["default", "hover", "focus", "open"],
+    "precedence": ["open", "focus", "hover", "default"],
     "rules": [
       { "state": "hover", "unless": [],  "note": "Hover auf Links: underline + primary-Farbe. Nicht auf __page (aktuelle Seite)." },
-      { "state": "focus", "unless": [],  "note": "Focus-Ring auf Links und Ellipsis-Button via :focus-visible." }
+      { "state": "focus", "unless": [],  "note": "Focus-Ring auf Links und Ellipsis-Button via :focus-visible." },
+      { "state": "open",  "unless": [],  "note": "aria-expanded=true auf Ellipsis-Button, Dropdown (.is-open) sichtbar mit versteckten Ebenen." }
     ],
     "interactive": true
   },
@@ -76,8 +87,13 @@
     "overrides": [
       {
         "when": { "axes": { "variant": ["truncated"] } },
-        "require": ["aria-label"],
-        "note": "Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen' oder aequivalent."
+        "require": ["aria-label", "aria-haspopup", "aria-expanded"],
+        "note": "Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen', aria-haspopup='true', aria-expanded='true|false'."
+      },
+      {
+        "when": { "axes": { "variant": ["truncated"] }, "states": ["open"] },
+        "require": ["role-menu", "role-menuitem", "keyboard-navigation"],
+        "note": "Dropdown: role='menu', Items: role='menuitem'. Keyboard: ArrowDown/Up navigiert, Escape schliesst, Tab verlässt Dropdown."
       }
     ]
   },
@@ -105,7 +121,8 @@
         "tokens": [
           "nc-breadcrumb-gap",
           "nc-breadcrumb-font-size",
-          "nc-breadcrumb-separator-size"
+          "nc-breadcrumb-separator-size",
+          "nc-breadcrumb-separator-custom"
         ]
       },
       "core-colors": {
@@ -115,6 +132,12 @@
           "nc-breadcrumb-color-current",
           "nc-breadcrumb-color-hover",
           "nc-breadcrumb-separator-color"
+        ]
+      },
+      "dropdown": {
+        "label": "Dropdown",
+        "tokens": [
+          "nc-breadcrumb-dropdown-min-width"
         ]
       }
     }
@@ -157,8 +180,8 @@
     },
     {
       "id": "separator-types",
-      "label": "Chevron vs Slash",
-      "description": "Vergleich beider Separator-Typen",
+      "label": "Separator-Varianten",
+      "description": "Vergleich aller 5 Separator-Typen: Chevron, Slash, Dot, Square, Custom",
       "matrix": {
         "axes": { "variant": ["full"], "separator": "*" },
         "states": ["default"]
@@ -168,7 +191,7 @@
       "render": { "label": "{separator}" },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Separatoren muessen als Trenner erkennbar sein. SVG-Chevron: 3:1 Non-Text-Kontrast. Slash: 4.5:1 Text-Kontrast."
+        "note": "Separatoren muessen als Trenner erkennbar sein. SVG-Chevron: 3:1 Non-Text-Kontrast. Text/Pseudo-Elemente: 4.5:1 Text-Kontrast."
       }
     },
     {
@@ -185,6 +208,22 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Ellipsis-Button: aria-label='Weitere Seiten anzeigen'. Hover zeigt background-secondary. Focus braucht sichtbaren Ring."
+      }
+    },
+    {
+      "id": "truncated-dropdown",
+      "label": "Truncated — Dropdown Open",
+      "description": "Ellipsis-Button geklickt, Dropdown zeigt versteckte Ebenen als klickbare Links",
+      "composes": ["ellipsis", "dropdown", "dropdown-item"],
+      "matrix": {
+        "axes": { "variant": ["truncated"], "separator": ["chevron"] },
+        "states": ["open"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "breadcrumb-truncated-dropdown", "label": "dropdown open" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ellipsis: aria-expanded='true', aria-haspopup='true'. Dropdown: role='menu'. Items: role='menuitem'. Keyboard: ArrowDown/Up, Escape, Tab."
       }
     },
     {
