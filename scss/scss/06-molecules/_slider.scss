@@ -9,7 +9,7 @@
 
 .nc-slider {
   display: grid;
-  gap: 4rem;
+  gap: var(--fnd-spacing-10);
 }
 
 .nc-slider.nc-slider--media {
@@ -20,7 +20,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(360px, 1fr);
-  gap: 4rem;
+  gap: var(--fnd-spacing-10);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-block-end: 1rem;
@@ -37,7 +37,7 @@
 .nc-slider__controls {
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: var(--fnd-spacing-02);
 }
 
 // Testimonial section slider override
@@ -51,12 +51,12 @@
 
 @media (max-width: 720px) {
   .nc-slider {
-    gap: 2rem;
+    gap: var(--fnd-spacing-07);
   }
 
   .nc-slider__track {
     grid-auto-columns: minmax(260px, 85vw);
-    gap: 1.5rem;
+    gap: var(--fnd-spacing-06);
     padding-block-end: 0.5rem;
   }
 }
