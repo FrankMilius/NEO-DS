@@ -305,6 +305,15 @@
       </template>
 
       </div><!-- /ce-locked wrapper -->
+
+      <!-- Custom Variants Section -->
+      <VariantCreator
+        v-if="hasRecipeData && hasVariantAxes"
+        :componentId="componentId"
+        :componentLabel="componentLabel"
+        :recipe="recipe"
+        :isLocked="isLocked"
+      />
     </section>
 
   </div>
@@ -319,6 +328,7 @@ import ColorEditor from '../editors/ColorEditor.vue'
 import SizeEditor from '../editors/SizeEditor.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import ComponentLockToggle from './ComponentLockToggle.vue'
+import VariantCreator from './VariantCreator.vue'
 
 const props = defineProps({
   componentId: { type: String, required: true }
@@ -340,6 +350,14 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 // Component Lock State
 // ---------------------------------------------------------------------------
 const isLocked = computed(() => store.isComponentLocked(props.componentId))
+
+// Check if recipe has axes that support variant creation
+const hasVariantAxes = computed(() => {
+  if (!recipe.value?.axes) return false
+  return Object.values(recipe.value.axes).some(axis =>
+    Object.values(axis.values).some(v => v.tokenGroups?.length > 0)
+  )
+})
 
 // ---------------------------------------------------------------------------
 // 3-Mode Support (light / dark / split)
