@@ -2,6 +2,31 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Overview
+
+This project is primarily HTML, JavaScript, and JSON with SCSS styling. The design system uses Foundation tokens (`--fnd-*`) and semantic tokens. When editing SCSS files, preserve the token architecture.
+
+## Core Rules
+
+- When I interrupt you or stop a tool use, immediately ask what I want instead. Do NOT restart the same approach — assume I want a different direction.
+
+## Code Editing Rules
+
+- Always read files before editing them. Never batch-edit multiple files without reading each one first.
+
+## Workflow Preferences
+
+- When I give a numbered plan or say "implement phase X", go straight to implementation. Do NOT re-analyze, re-plan, or verify previous phases unless I explicitly ask.
+
+## Git Operations
+
+- Before committing to git, run `git status` and only stage files relevant to the current task. Exclude unrelated files like manifests, screenshots, or config files unless explicitly asked.
+- When a session is getting long or complex, proactively commit working changes before starting the next task. Don't let multiple uncommitted features pile up.
+
+## Dev Server
+
+- Before starting a dev server, check if the port is already in use with `lsof -i :3000` (or the relevant port) and handle it automatically.
+
 ## Build & Development Commands
 
 ```bash
