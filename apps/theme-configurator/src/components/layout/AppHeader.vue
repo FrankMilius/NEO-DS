@@ -154,6 +154,16 @@
                   <span class="dd-item-meta">Full token snapshot</span>
                 </div>
               </button>
+              <div class="dd-divider"></div>
+              <button class="dd-item" @click="handleDownloadDrupal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                </svg>
+                <div class="dd-item-text">
+                  <span class="dd-item-name">Export for Drupal</span>
+                  <span class="dd-item-meta">CSS + settings JSON bundle</span>
+                </div>
+              </button>
             </div>
           </Transition>
         </div>
@@ -436,6 +446,11 @@ function handleDownloadCSS() {
 
 function handleDownloadJSON() {
   store.downloadThemeJSON()
+  downloadOpen.value = false
+}
+
+function handleDownloadDrupal() {
+  store.downloadDrupalExport()
   downloadOpen.value = false
 }
 
