@@ -88,6 +88,16 @@
 
       <div class="toolbar-divider"></div>
 
+      <!-- 2b) Branch Manager -->
+      <div class="toolbar-group">
+        <BranchManager
+          @merge="handleBranchMerge"
+          @release="showReleaseDialog = true"
+        />
+      </div>
+
+      <div class="toolbar-divider"></div>
+
       <!-- 3) Undo -->
       <div class="toolbar-group">
         <button
@@ -258,6 +268,23 @@
         </div>
       </div>
     </Transition>
+
+    <!-- ═══════════════ MERGE DIALOG ═══════════════ -->
+    <MergeDialog
+      :visible="showMergeDialog"
+      :branchName="mergeBranchName"
+      :autoMerged="mergeAutoMerged"
+      :conflicts="mergeConflicts"
+      @close="showMergeDialog = false"
+      @merge="confirmBranchMerge"
+    />
+
+    <!-- ═══════════════ RELEASE DIALOG ═══════════════ -->
+    <ReleaseDialog
+      :visible="showReleaseDialog"
+      @close="showReleaseDialog = false"
+      @publish="confirmPublishRelease"
+    />
   </header>
 </template>
 
@@ -265,9 +292,14 @@
 import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
+import { useBranchStore } from '../../stores/branches.js'
+import BranchManager from '../workflow/BranchManager.vue'
+import MergeDialog from '../workflow/MergeDialog.vue'
+import ReleaseDialog from '../workflow/ReleaseDialog.vue'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
+const branchStore = useBranchStore()
 
 // ---------------------------------------------------------------------------
 // Refs
@@ -429,6 +461,162 @@ function formatDate(iso) {
   try {
     return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
   } catch { return '' }
+}
+
+// ---------------------------------------------------------------------------
+// Branch Merge
+// ---------------------------------------------------------------------------
+const showMergeDialog = ref(false)
+const mergeBranchId = ref(null)
+const mergeBranchName = ref('')
+const mergeAutoMerged = ref({})
+const mergeConflicts = ref([])
+
+function getMainSnapshot() {
+  return JSON.parse(JSON.stringify({
+    themes: store.state.themes,
+    foundationOverrides: store.state.foundationOverrides,
+    componentOverrides: store.state.componentOverrides,
+    primitiveOverrides: store.state.primitiveOverrides,
+    customFonts: store.state.customFonts,
+    focusRingMode: store.state.focusRingMode,
+    componentLocks: store.state.componentLocks,
+    componentVersions: store.state.componentVersions,
+    activeThemeSet: store.state.activeThemeSet
+  }))
+}
+
+function handleBranchMerge(branchId) {
+  const branch = branchStore.state.branches[branchId]
+  if (!branch) return
+
+  // First switch to main if not already there
+  if (branchStore.state.activeBranchId) {
+    branchStore.switchBranch(null, getMainSnapshot, (snapshot) => {
+      if (snapshot.themes) Object.assign(store.state.themes, snapshot.themes)
+      if (snapshot.foundationOverrides) Object.assign(store.state.foundationOverrides, snapshot.foundationOverrides)
+      if (snapshot.componentOverrides) Object.assign(store.state.componentOverrides, snapshot.componentOverrides)
+      if (snapshot.primitiveOverrides) Object.assign(store.state.primitiveOverrides, snapshot.primitiveOverrides)
+      if (snapshot.customFonts) Object.assign(store.state.customFonts, snapshot.customFonts)
+      if (snapshot.focusRingMode) Object.assign(store.state.focusRingMode, snapshot.focusRingMode)
+      if (snapshot.componentLocks) Object.assign(store.state.componentLocks, snapshot.componentLocks)
+      if (snapshot.componentVersions) Object.assign(store.state.componentVersions, snapshot.componentVersions)
+    })
+  }
+
+  // Compute merge
+  const { autoMerged, conflicts } = branchStore.computeMerge(branchId, getMainSnapshot)
+
+  mergeBranchId.value = branchId
+  mergeBranchName.value = branch.name
+  mergeAutoMerged.value = autoMerged
+  mergeConflicts.value = conflicts
+  showMergeDialog.value = true
+}
+
+function confirmBranchMerge(mergeResult) {
+  const { autoMerged, resolvedConflicts } = mergeResult
+
+  // Apply auto-merged changes
+  applyMergedChanges(autoMerged)
+
+  // Apply resolved conflicts
+  for (const conflict of resolvedConflicts) {
+    applyResolvedConflict(conflict)
+  }
+
+  // Delete merged branch
+  branchStore.applyMergeResult(mergeBranchId.value, mergeResult, () => {})
+
+  showMergeDialog.value = false
+}
+
+function applyMergedChanges(autoMerged) {
+  // Apply component overrides
+  if (autoMerged.componentOverrides) {
+    for (const [ts, overrides] of Object.entries(autoMerged.componentOverrides)) {
+      for (const [key, val] of Object.entries(overrides)) {
+        if (val === undefined) {
+          delete store.state.componentOverrides[ts][key]
+        } else {
+          store.state.componentOverrides[ts][key] = val
+        }
+      }
+    }
+  }
+
+  // Apply foundation overrides
+  if (autoMerged.foundationOverrides) {
+    for (const [ts, cats] of Object.entries(autoMerged.foundationOverrides)) {
+      for (const [cat, vals] of Object.entries(cats)) {
+        if (!store.state.foundationOverrides[ts][cat]) store.state.foundationOverrides[ts][cat] = {}
+        for (const [key, val] of Object.entries(vals)) {
+          store.state.foundationOverrides[ts][cat][key] = val
+        }
+      }
+    }
+  }
+
+  // Apply semantic token changes
+  if (autoMerged.themes) {
+    for (const [ts, modes] of Object.entries(autoMerged.themes)) {
+      for (const [mode, tokens] of Object.entries(modes)) {
+        for (const [key, val] of Object.entries(tokens)) {
+          store.state.themes[ts][mode][key] = val
+        }
+      }
+    }
+  }
+
+  // Apply locks / versions
+  if (autoMerged.componentLocks) {
+    for (const [ts, vals] of Object.entries(autoMerged.componentLocks)) {
+      for (const [key, val] of Object.entries(vals)) {
+        store.state.componentLocks[ts][key] = val
+      }
+    }
+  }
+  if (autoMerged.componentVersions) {
+    for (const [ts, vals] of Object.entries(autoMerged.componentVersions)) {
+      for (const [key, val] of Object.entries(vals)) {
+        store.state.componentVersions[ts][key] = val
+      }
+    }
+  }
+}
+
+function applyResolvedConflict(conflict) {
+  const { layer, themeSet, key, resolvedValue } = conflict
+
+  if (layer === 'componentOverrides') {
+    if (resolvedValue === undefined) {
+      delete store.state.componentOverrides[themeSet][key]
+    } else {
+      store.state.componentOverrides[themeSet][key] = resolvedValue
+    }
+  } else if (layer === 'foundationOverrides') {
+    const [cat, k] = key.split('.')
+    if (!store.state.foundationOverrides[themeSet][cat]) store.state.foundationOverrides[themeSet][cat] = {}
+    store.state.foundationOverrides[themeSet][cat][k] = resolvedValue
+  } else if (layer === 'themes') {
+    const [mode, k] = key.split('.')
+    store.state.themes[themeSet][mode][k] = resolvedValue
+  } else if (layer === 'componentLocks') {
+    store.state.componentLocks[themeSet][key] = resolvedValue
+  } else if (layer === 'componentVersions') {
+    store.state.componentVersions[themeSet][key] = resolvedValue
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Publish Release
+// ---------------------------------------------------------------------------
+const showReleaseDialog = ref(false)
+
+function confirmPublishRelease({ version, notes }) {
+  branchStore.publishRelease(version, notes, getMainSnapshot)
+  store.state.version = version
+  showReleaseDialog.value = false
 }
 
 // Focus trap for modal dialogs
