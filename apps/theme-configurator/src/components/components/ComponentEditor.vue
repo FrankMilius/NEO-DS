@@ -6,10 +6,20 @@
         {{ componentLabel }} Tokens
         <span v-if="recipeVersion" class="recipe-version-badge" :title="`Recipe v${recipeVersion}`">{{ recipeVersion }}</span>
       </h3>
+      <ComponentLockToggle :componentId="componentId" :componentLabel="componentLabel" />
+
       <p class="sub-desc">
         Component-level tokens reference semantic (L2) tokens. Override here for theme-specific customization.
         <template v-if="hasRecipeData"> Grouping from recipe.</template>
       </p>
+
+      <!-- Locked Overlay Notice -->
+      <div v-if="isLocked" class="locked-notice">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <span>This component is locked. Unlock to edit tokens.</span>
+      </div>
 
       <!-- Context Bar: zeigt aktives Specimen an -->
       <div v-if="arenaSelection && arenaSelection.componentId === componentId" class="context-bar">
@@ -19,6 +29,9 @@
         <span class="context-label">Filtered: <strong>{{ arenaSelection.specimenId }}</strong></span>
         <button class="context-reset" @click="store.clearArenaSelection()">Show All</button>
       </div>
+
+      <!-- Token Content (dimmed when locked) -->
+      <div :class="{ 'ce-locked': isLocked }">
 
       <!-- ═══════════════════════════════════════════════════════════════ -->
       <!-- Split-Modus: Tabellarische Light/Dark Gegenueberstellung       -->
@@ -290,6 +303,8 @@
           </template>
         </div>
       </template>
+
+      </div><!-- /ce-locked wrapper -->
     </section>
 
   </div>
@@ -303,6 +318,7 @@ import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 import SizeEditor from '../editors/SizeEditor.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
+import ComponentLockToggle from './ComponentLockToggle.vue'
 
 const props = defineProps({
   componentId: { type: String, required: true }
@@ -319,6 +335,11 @@ const { recipe, loading: recipeLoading } = useRecipeLoader(toRef(props, 'compone
 
 const hasRecipeData = computed(() => !!recipe.value?.styling?.tokenGroups)
 const recipeVersion = computed(() => recipe.value?.meta?.version || null)
+
+// ---------------------------------------------------------------------------
+// Component Lock State
+// ---------------------------------------------------------------------------
+const isLocked = computed(() => store.isComponentLocked(props.componentId))
 
 // ---------------------------------------------------------------------------
 // 3-Mode Support (light / dark / split)
@@ -1017,6 +1038,27 @@ function getContrastTarget(token) {
 .context-reset:hover {
   background: var(--cfg-accent);
   color: white;
+}
+
+/* Locked Notice */
+.locked-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #d97706;
+  font-weight: 500;
+}
+
+/* Dim token list when locked */
+.ce-locked {
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
 }
 
 .slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }

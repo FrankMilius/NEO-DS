@@ -111,6 +111,18 @@ const state = reactive({
     customer: 'offset'
   },
 
+  // Component Locks — gesperrte Komponenten koennen nicht editiert werden
+  componentLocks: {
+    neo: {},       // { 'button': true, 'badge': true }
+    customer: {}
+  },
+
+  // Component Versions — semantische Versionierung pro Komponente
+  componentVersions: {
+    neo: {},       // { 'button': '1.2.0', 'badge': '1.0.0' }
+    customer: {}
+  },
+
   // Undo history
   history: [],
   historyIndex: -1,
@@ -253,13 +265,101 @@ function updateFoundationToken(category, key, value) {
 }
 
 function updateComponentToken(tokenId, value) {
+  // Guard: check if the component owning this token is locked
+  const componentId = extractComponentId(tokenId)
+  if (componentId && isComponentLocked(componentId)) {
+    console.warn(`[Theme Store] Cannot update token "${tokenId}": component "${componentId}" is locked.`)
+    return false
+  }
   pushHistory()
   state.componentOverrides[state.activeThemeSet][tokenId] = value
+  return true
 }
 
 function resetComponentToken(tokenId) {
+  const componentId = extractComponentId(tokenId)
+  if (componentId && isComponentLocked(componentId)) {
+    console.warn(`[Theme Store] Cannot reset token "${tokenId}": component "${componentId}" is locked.`)
+    return false
+  }
   pushHistory()
   delete state.componentOverrides[state.activeThemeSet][tokenId]
+  return true
+}
+
+// ---------------------------------------------------------------------------
+// Component Lock + Versioning
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract component ID from a token ID (e.g. "nc-button-primary-bg" → "button").
+ * Handles multi-segment component names like "link-with-arrow", "data-table", etc.
+ */
+function extractComponentId(tokenId) {
+  if (!tokenId.startsWith('nc-')) return null
+  const withoutPrefix = tokenId.slice(3) // remove "nc-"
+  // Match against known component IDs from componentTokenGroups
+  const knownIds = componentTokenGroups.map(g => g.id)
+  // Sort by length descending so longer matches win (e.g. "link-with-arrow" before "link")
+  const sorted = knownIds.sort((a, b) => b.length - a.length)
+  for (const id of sorted) {
+    if (withoutPrefix === id || withoutPrefix.startsWith(id + '-')) {
+      return id
+    }
+  }
+  return null
+}
+
+/**
+ * Check if a component is locked (read-only).
+ */
+function isComponentLocked(componentId) {
+  return !!state.componentLocks[state.activeThemeSet][componentId]
+}
+
+/**
+ * Lock a component — prevents token editing.
+ * If no version exists yet, initializes to '1.0.0'.
+ */
+function lockComponent(componentId) {
+  state.componentLocks[state.activeThemeSet][componentId] = true
+  if (!state.componentVersions[state.activeThemeSet][componentId]) {
+    state.componentVersions[state.activeThemeSet][componentId] = '1.0.0'
+  }
+}
+
+/**
+ * Unlock a component for editing. Optionally bump version.
+ * @param {string} componentId
+ * @param {'patch'|'minor'|'major'|null} bumpType — null = no bump
+ */
+function unlockComponent(componentId, bumpType = null) {
+  state.componentLocks[state.activeThemeSet][componentId] = false
+  if (bumpType) {
+    bumpComponentVersion(componentId, bumpType)
+  }
+}
+
+/**
+ * Bump a component's semantic version.
+ * @param {string} componentId
+ * @param {'patch'|'minor'|'major'} type
+ */
+function bumpComponentVersion(componentId, type) {
+  const current = state.componentVersions[state.activeThemeSet][componentId] || '1.0.0'
+  const [major, minor, patch] = current.split('.').map(Number)
+  let next
+  if (type === 'major') next = `${major + 1}.0.0`
+  else if (type === 'minor') next = `${major}.${minor + 1}.0`
+  else next = `${major}.${minor}.${patch + 1}`
+  state.componentVersions[state.activeThemeSet][componentId] = next
+}
+
+/**
+ * Get a component's current version string.
+ */
+function getComponentVersion(componentId) {
+  return state.componentVersions[state.activeThemeSet][componentId] || null
 }
 
 function updatePrimitive(palette, color) {
@@ -281,6 +381,8 @@ function resetToDefaults() {
   }
   state.customFonts[themeSet] = []
   state.focusRingMode[themeSet] = 'offset'
+  state.componentLocks[themeSet] = {}
+  state.componentVersions[themeSet] = {}
 }
 
 // ---------------------------------------------------------------------------
@@ -294,7 +396,9 @@ function pushHistory() {
     componentOverrides: state.componentOverrides,
     primitiveOverrides: state.primitiveOverrides,
     customFonts: state.customFonts,
-    focusRingMode: state.focusRingMode
+    focusRingMode: state.focusRingMode,
+    componentLocks: state.componentLocks,
+    componentVersions: state.componentVersions
   })
   state.history = state.history.slice(0, state.historyIndex + 1)
   state.history.push(snapshot)
@@ -316,6 +420,8 @@ function undo() {
     Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
     if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
+    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
+    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
   }
 }
 
@@ -329,6 +435,8 @@ function redo() {
     Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
     if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
+    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
+    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
   }
 }
 
@@ -348,6 +456,8 @@ function getThemeSnapshot() {
     primitiveOverrides: state.primitiveOverrides,
     customFonts: state.customFonts,
     focusRingMode: state.focusRingMode,
+    componentLocks: state.componentLocks,
+    componentVersions: state.componentVersions,
     activeThemeSet: state.activeThemeSet
   })
 }
@@ -454,6 +564,8 @@ function loadTheme(themeId) {
     if (snapshot.primitiveOverrides) Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
     if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
     if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
+    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
+    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
     if (snapshot.activeThemeSet) state.activeThemeSet = snapshot.activeThemeSet
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
@@ -540,6 +652,8 @@ async function loadNeoDefaults() {
         }
         state.customFonts = { neo: [], customer: [] }
         state.focusRingMode = { neo: 'offset', customer: 'offset' }
+        state.componentLocks = { neo: {}, customer: {} }
+        state.componentVersions = { neo: {}, customer: {} }
         state.activeThemeSet = 'neo'
         state.currentThemeMeta = null
         state.version = d._meta?.version || '1.0.0'
@@ -565,6 +679,8 @@ async function loadNeoDefaults() {
   }
   state.customFonts = { neo: [], customer: [] }
   state.focusRingMode = { neo: 'offset', customer: 'offset' }
+  state.componentLocks = { neo: {}, customer: {} }
+  state.componentVersions = { neo: {}, customer: {} }
   state.currentThemeMeta = null
   state.version = '1.0.0'
   console.log('[RESET] Loaded NEO defaults from in-memory tokens.js')
@@ -729,6 +845,8 @@ function saveToStorage() {
       primitiveOverrides: toRaw(state.primitiveOverrides),
       customFonts: toRaw(state.customFonts),
       focusRingMode: toRaw(state.focusRingMode),
+      componentLocks: toRaw(state.componentLocks),
+      componentVersions: toRaw(state.componentVersions),
       currentThemeMeta: toRaw(state.currentThemeMeta),
       activeSection: state.activeSection
     }
@@ -754,6 +872,8 @@ function saveToStorage() {
           primitiveOverrides: JSON.parse(JSON.stringify(toRaw(state.primitiveOverrides))),
           customFonts: JSON.parse(JSON.stringify(toRaw(state.customFonts))),
           focusRingMode: JSON.parse(JSON.stringify(toRaw(state.focusRingMode))),
+          componentLocks: JSON.parse(JSON.stringify(toRaw(state.componentLocks))),
+          componentVersions: JSON.parse(JSON.stringify(toRaw(state.componentVersions))),
           activeThemeSet: state.activeThemeSet,
           meta: JSON.parse(JSON.stringify(toRaw(meta)))
         }
@@ -782,6 +902,8 @@ function loadFromStorage() {
       if (data.primitiveOverrides) Object.assign(state.primitiveOverrides, data.primitiveOverrides)
       if (data.customFonts) Object.assign(state.customFonts, data.customFonts)
       if (data.focusRingMode) Object.assign(state.focusRingMode, data.focusRingMode)
+      if (data.componentLocks) Object.assign(state.componentLocks, data.componentLocks)
+      if (data.componentVersions) Object.assign(state.componentVersions, data.componentVersions)
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
       if (data.previewMode) state.previewMode = data.previewMode
       if (data.currentThemeMeta) state.currentThemeMeta = data.currentThemeMeta
@@ -848,7 +970,7 @@ function loadFromStorage() {
 
 // Auto-save on changes
 watch(
-  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode],
+  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode, state.componentLocks, state.componentVersions],
   () => saveToStorage(),
   { deep: true }
 )
@@ -885,6 +1007,13 @@ export function useThemeStore() {
     updateFoundationToken,
     updateComponentToken,
     resetComponentToken,
+    // Component Lock + Versioning
+    isComponentLocked,
+    lockComponent,
+    unlockComponent,
+    bumpComponentVersion,
+    getComponentVersion,
+    extractComponentId,
     updatePrimitive,
     setFocusRingMode,
     resetToDefaults,

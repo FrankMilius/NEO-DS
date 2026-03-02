@@ -41,6 +41,10 @@
                   <span class="nav-item-dot" :class="{ modified: isModified(item) }" v-if="hasTokens(item)"></span>
                   <span class="nav-item-dot empty" v-else></span>
                   <span class="nav-item-label">{{ item.label }}</span>
+                  <svg v-if="isItemLocked(item)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <span v-if="getItemVersion(item)" class="nav-version-badge">{{ getItemVersion(item) }}</span>
                 </button>
               </div>
             </div>
@@ -53,6 +57,10 @@
               <span class="nav-item-dot" :class="{ modified: isModified(child) }" v-if="hasTokens(child)"></span>
               <span class="nav-item-dot empty" v-else></span>
               <span class="nav-item-label">{{ child.label }}</span>
+              <svg v-if="isItemLocked(child)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span v-if="getItemVersion(child)" class="nav-version-badge">{{ getItemVersion(child) }}</span>
             </button>
           </template>
         </div>
@@ -244,6 +252,24 @@ function isModified(child) {
     return Object.keys(overrides).some(k => k.startsWith(`nc-${componentId}`))
   }
   return false
+}
+
+/**
+ * Check if a nav item's component is locked
+ */
+function isItemLocked(item) {
+  if (!item.section?.startsWith('component-')) return false
+  const componentId = item.section.replace('component-', '')
+  return store.isComponentLocked(componentId)
+}
+
+/**
+ * Get the version string for a nav item's component
+ */
+function getItemVersion(item) {
+  if (!item.section?.startsWith('component-')) return null
+  const componentId = item.section.replace('component-', '')
+  return store.getComponentVersion(componentId)
 }
 
 function handleReset() {
@@ -450,6 +476,24 @@ function handleExportJSON() {
 .nav-item.active .nav-item-dot.empty {
   background: transparent;
   border-color: var(--cfg-accent);
+}
+
+/* Lock + Version indicators */
+.nav-lock-icon {
+  flex-shrink: 0;
+  color: #d97706;
+  margin-left: auto;
+}
+
+.nav-version-badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: monospace;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text-muted);
 }
 
 .sidebar-footer {
