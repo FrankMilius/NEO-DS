@@ -85,6 +85,11 @@
 
     // Inhalt rendern
     renderRecipeContent(panel, recipe);
+
+    // TOC ueber neue Headings informieren
+    document.dispatchEvent(new CustomEvent('docs-recipe-ready', {
+      detail: { panelId: 'tab-recipe' }
+    }));
   }
 
   // -----------------------------------------------------------------------
@@ -139,6 +144,14 @@
     html += '</div>';
 
     container.innerHTML = html;
+
+    // IDs fuer alle Section-Headings setzen (fuer TOC-Verlinkung)
+    var recipeHeadings = container.querySelectorAll('.docs__section-title');
+    recipeHeadings.forEach(function (h, i) {
+      if (!h.id) {
+        h.id = 'recipe-section-' + (i + 1);
+      }
+    });
 
     // Verwandte Komponenten nachladen (async)
     loadRelatedComponents(container, recipe);

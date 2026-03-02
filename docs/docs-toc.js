@@ -113,8 +113,9 @@
         }
       });
 
-      // Nur sichtbare Headings beobachten
-      headings.forEach(function (h) {
+      // Nur sichtbare Headings beobachten (inkl. dynamisch hinzugefuegte)
+      var allHeadings = document.querySelectorAll(SELECTOR + ', .docs-tabs__panel h3.docs__section-title');
+      allHeadings.forEach(function (h) {
         var panel = h.closest('.docs-tabs__panel');
         if (!panel || (panel.id === panelId)) {
           visibleHeadings.push(h);
@@ -126,6 +127,50 @@
 
       createObserver(visibleHeadings);
     }
+
+    // --- Dynamisch injizierte Headings hinzufuegen (z.B. Recipe-Tab) ---
+    function addHeadingsFromPanel(panelId) {
+      var panel = document.getElementById(panelId);
+      if (!panel) return;
+
+      // h2 und h3 mit docs__section-title im Panel scannen
+      var newHeadings = panel.querySelectorAll('h2.docs__section-title, h3.docs__section-title');
+      if (!newHeadings.length) return;
+
+      newHeadings.forEach(function (h) {
+        // Duplikat-Pruefung
+        if (nav.querySelector('a[href="#' + h.id + '"]')) return;
+
+        var li = document.createElement('li');
+        li.className = 'docs-toc__item';
+        if (h.tagName === 'H3') {
+          li.classList.add('docs-toc__item--sub');
+        }
+        li.setAttribute('data-panel', panelId);
+
+        var a = document.createElement('a');
+        a.className = 'docs-toc__link';
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+
+      // Links-Liste aktualisieren
+      links = nav.querySelectorAll('.docs-toc__link');
+    }
+
+    // Auf Recipe-Tab-Injection reagieren
+    document.addEventListener('docs-recipe-ready', function (e) {
+      if (e.detail && e.detail.panelId) {
+        addHeadingsFromPanel(e.detail.panelId);
+        // Aktives Panel erneut filtern
+        var activePanel = document.querySelector('.docs-tabs__panel.is-active');
+        if (activePanel) {
+          updateForPanel(activePanel.id);
+        }
+      }
+    });
 
     if (hasTabs) {
       // Initiales Panel ermitteln (das mit .is-active)
