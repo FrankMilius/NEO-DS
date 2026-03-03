@@ -15,29 +15,30 @@
 /// Container padding — fluid with clamp()
 /// Scales from 16px (320px viewport) to 48px (1600px viewport).
 /// At xxl (1920px) switches to centered max-width with no padding.
+/// Referenziert --nc-container-* Tokens fuer Overridability.
 @mixin container-padding {
   margin-inline: auto;
   box-sizing: border-box;
-  padding-inline: clamp(16px, 3.5vw, 48px);
-  --container-pad: clamp(16px, 3.5vw, 48px);
+  padding-inline: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
+  --container-pad: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
 
   @media (min-width: map.get($breakpoints, 'xxl')) {
-    padding-inline: 0;
-    max-width: $container-max-width;
-    --container-pad: 0px;
+    padding-inline: var(--nc-container-padding-inline-xxl, 0px);
+    max-width: var(--nc-container-max-width, #{$container-max-width});
+    --container-pad: var(--nc-container-padding-inline-xxl, 0px);
   }
 }
 
 /// Container with max-width only (no padding)
 @mixin container-max-width {
   margin-inline: auto;
-  max-width: $container-max-width;
+  max-width: var(--nc-container-max-width, #{$container-max-width});
 }
 
 /// Wide container with max-width only (no padding)
 @mixin container-max-width-wide {
   margin-inline: auto;
-  max-width: $container-max-width-wide;
+  max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
 }
 
 /// Container padding with wide max-width at XXL
@@ -45,7 +46,7 @@
   @include container-padding;
 
   @media (min-width: map.get($breakpoints, 'xxl')) {
-    max-width: $container-max-width-wide; // override standard container-padding max-width
+    max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
   }
 }
 
@@ -84,11 +85,12 @@
 // ---------------------------------------------------------------------------
 
 /// 12-column grid container
+/// Referenziert --nc-grid-* Tokens fuer Overridability.
 @mixin grid-container {
-  --columns: 12;
+  --columns: var(--nc-grid-columns, 12);
   display: grid;
   grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-  gap: var(--grid-gap);
+  gap: var(--nc-grid-gap, var(--grid-gap));
 }
 
 /// Grid span columns

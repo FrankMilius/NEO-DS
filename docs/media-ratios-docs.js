@@ -1,5 +1,5 @@
 // ==========================================================================
-// Aspect Ratio Docs — Tab Navigation + Staging Area Controller
+// Media Ratios Docs — Tab Navigation + Staging Area Controller
 // ==========================================================================
 // Tabs: Benutzung | Style | API | Accessibility
 // Staging Area: Theme, Ratio, Content
@@ -90,7 +90,7 @@
                 + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><rect width="1600" height="900" fill="#e5e5e5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="48" fill="#999">')
                 + ratio
                 + encodeURIComponent('</text></svg>')
-                + '" alt="Aspect Ratio Demo" />';
+                + '" alt="Media Ratios Demo" />';
       innerCode = '<img class="nc-aspect-ratio__content"\n'
                 + '       src="image.jpg" alt="Beschreibung" />';
     } else if (content === 'video') {

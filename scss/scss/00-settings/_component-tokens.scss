@@ -1831,6 +1831,40 @@
   --nc-shell-footerbar-bg: var(--fnd-color-surface-elevated);
 }
 
+// ---------------------------------------------------------------------------
+// Container Tokens
+// ---------------------------------------------------------------------------
+
+:root {
+  --nc-container-max-width: 1200px;
+  --nc-container-max-width-wide: 1440px;
+  --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
+  --nc-container-padding-inline-xxl: 0px;
+}
+
+// ---------------------------------------------------------------------------
+// Grid Tokens
+// ---------------------------------------------------------------------------
+
+:root {
+  --nc-grid-columns: 12;
+  --nc-grid-gap: clamp(12px, 1.5vw, 24px);
+  --nc-grid-gap-sm: var(--fnd-spacing-04);
+  --nc-grid-gap-lg: var(--fnd-spacing-08);
+}
+
+// ---------------------------------------------------------------------------
+// Section Tokens
+// ---------------------------------------------------------------------------
+
+:root {
+  --nc-section-padding-block: clamp(2rem, 4vw, 6rem);
+  --nc-section-padding-block-sm: var(--fnd-spacing-08);
+  --nc-section-padding-block-lg: var(--fnd-spacing-13);
+  --nc-section-bg: var(--fnd-color-background-base);
+  --nc-section-color: var(--fnd-color-text-primary);
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --nc-segmented-bg: var(--fnd-color-background-secondary);

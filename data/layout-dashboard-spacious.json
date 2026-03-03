@@ -1,0 +1,29 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-dashboard-spacious",
+    "label": "Dashboard Spacious",
+    "description": "Entspanntes Dashboard-Layout mit mehr Abstand. Fuer Uebersichtsseiten und Reporting-Dashboards.",
+    "extends": "layout-dashboard",
+    "tags": ["dashboard", "spacious", "overview"],
+    "templateClass": ".t-dashboard-spacious"
+  },
+  "container": {
+    "ref": "container.full",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-lg)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.component",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.default",
+    "overrides": {}
+  }
+}

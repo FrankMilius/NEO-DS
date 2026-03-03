@@ -1,0 +1,443 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">System Overview</h1>
+        <p class="docs__subtitle">
+          Das NEO Design System ist ein token-basiertes, framework-unabh&auml;ngiges Designsystem
+          auf Basis von SCSS/CSS und Vanilla&nbsp;JS. Es verbindet Atomic Design mit ITCSS,
+          ein 3-Schichten-Token-Modell mit Recipe-gesteuerter Komponentendefinition und
+          einem 4-Themes-System f&uuml;r Brand- und Dark-Mode-Switching.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="System Overview Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">&Uuml;berblick</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-tokens" id="trigger-tokens">Token-Architektur</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-recipes" id="trigger-recipes">Recipe-Modell</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-theming" id="trigger-theming">Theming &amp; Responsive</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="system-overview-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: &Uuml;berblick                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-overview" aria-labelledby="trigger-overview">
+
+          <!-- System-Steckbrief -->
+          <h2 class="docs__section-title">System-Steckbrief</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <tbody>
+                <tr><td><strong>Name</strong></td><td>NEO Design System</td></tr>
+                <tr><td><strong>Version</strong></td><td>2.x (aktive Entwicklung)</td></tr>
+                <tr><td><strong>Zweck</strong></td><td>Einheitliche UI-Grundlage f&uuml;r alle Web-Produkte &mdash; von Marketing-Seiten bis Dashboards</td></tr>
+                <tr><td><strong>Stack</strong></td><td>SCSS/CSS + Vanilla JS &mdash; kein Framework-Lock-in (React, Vue, Angular k&ouml;nnen konsumieren)</td></tr>
+                <tr><td><strong>Build</strong></td><td>Dart Sass + Plain Node.js Scripts &mdash; nur 2 npm-Dependencies (<code>sass</code>, <code>@tabler/icons</code>)</td></tr>
+                <tr><td><strong>Methodik</strong></td><td>Atomic Design (Atoms &rarr; Templates) + ITCSS (Settings &rarr; Utilities)</td></tr>
+                <tr><td><strong>Entry Point</strong></td><td><code>scss/scss/main.scss</code> &rarr; <code>styles.css</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Architektur-Diagramm -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Schichten-Architektur (ITCSS + Atomic Design)</h2>
+          <p class="docs__section-desc">
+            Jede Schicht baut auf der darunter liegenden auf. CSS-Spezifit&auml;t steigt von unten nach oben.
+            Detaillierte Beschreibung: <a href="architecture-docs.html">Architecture</a>.
+          </p>
+          <div class="nc-data-table nc-data-table--static" style="max-width: 700px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474;  <strong>Templates (08)</strong>  &mdash; Page-level compositions       &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Organisms (07)</strong>  &mdash; Header, Footer, Modal, etc.   &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Molecules (06)</strong>  &mdash; Card, Accordion, Breadcrumb    &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Atoms (05)</strong>      &mdash; Button, Icon, Input, Badge     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Objects (04)</strong>    &mdash; Container, Grid, Section        &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Elements (03)</strong>   &mdash; HTML defaults (body, h1-h6)     &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Generic (02)</strong>    &mdash; Reset, Fonts, Animations         &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Tools (01)</strong>      &mdash; Mixins, Functions                &#9474;
+&#9500;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9508;
+&#9474;  <strong>Settings (00)</strong>   &mdash; Design Tokens, Color, Typography &#9474;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</pre>
+          </div>
+
+          <!-- Kernprinzipien -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Kernprinzipien</h2>
+          <ul style="line-height: 1.8;">
+            <li><strong>Token-First:</strong> Keine hardcodierten Werte in Komponenten &mdash; alle visuellen Eigenschaften laufen &uuml;ber CSS Custom Properties (<code>--fnd-*</code>, <code>--nc-*</code>).</li>
+            <li><strong>Komposition &uuml;ber Vererbung:</strong> Layouts und Komponenten werden aus kleinen, wiederverwendbaren Primitiven zusammengesetzt, nicht durch tiefe Klassen-Hierarchien.</li>
+            <li><strong>Recipe-Driven:</strong> Jede Komponente wird durch eine strukturierte JSON-Spezifikation (Recipe) definiert &mdash; Anatomie, Achsen, States, A11y und Styling sind maschinenlesbar.</li>
+            <li><strong>Theme-Agnostic:</strong> Komponenten referenzieren semantische Tokens, nicht Farb-Primitives. Theming geschieht durch Austausch der semantischen Schicht.</li>
+            <li><strong>Framework-Unabh&auml;ngig:</strong> Reines CSS/SCSS + Vanilla JS. Jedes Framework kann die Klassen und Tokens konsumieren.</li>
+          </ul>
+
+          <!-- Statistiken -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">System in Zahlen</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Kategorie</th><th>Anzahl</th><th>Details</th></tr></thead>
+              <tbody>
+                <tr><td>Komponenten-Recipes</td><td>92</td><td>Atoms, Molecules, Organisms &mdash; jeweils als JSON-Spezifikation</td></tr>
+                <tr><td>Foundation-Token-Kategorien</td><td>13</td><td>Color, Typography, Spacing, Shadow, Radii, Opacity, Z-Index, Motion, etc.</td></tr>
+                <tr><td>Themes</td><td>4</td><td>neo-light, neo-dark, customer-light, customer-dark</td></tr>
+                <tr><td>Templates</td><td>7</td><td>home-hero, home-basic, dashboard, content-page, form-page, settings-page, error-page</td></tr>
+                <tr><td>Layout-Primitive</td><td>4</td><td>Spacing, Grid, Container, Section</td></tr>
+                <tr><td>ITCSS-Schichten</td><td>11</td><td>00-settings bis 10-utilities</td></tr>
+                <tr><td>Icons</td><td>5266</td><td>Tabler Icons, 53 Kategorien, 24px Standard</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Navigationshinweise -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Weiterf&uuml;hrende Seiten</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Seite</th><th>Inhalt</th></tr></thead>
+              <tbody>
+                <tr><td><a href="architecture-docs.html">Architecture</a></td><td>ITCSS-Schichten im Detail, Recipe System v3.1, SDK Pipeline</td></tr>
+                <tr><td><a href="layout-architecture-docs.html">Layout Architecture</a></td><td>Layout Composition System: Spacing, Grid, Container, Section</td></tr>
+                <tr><td><a href="colors-docs.html">Colors</a></td><td>Farbpaletten, semantische Zuordnungen, Dark Mode</td></tr>
+                <tr><td><a href="typography-docs.html">Typography</a></td><td>Fluid Type Scale, Font Weights, Prose</td></tr>
+                <tr><td><a href="spacing-docs.html">Spacing</a></td><td>13-Stufen-Skala, semantische Rollen</td></tr>
+                <tr><td><a href="icons-docs.html">Icons</a></td><td>5266 Tabler Icons, Kategorien, Gr&ouml;ssen</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Token-Architektur                                      -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-tokens" aria-labelledby="trigger-tokens" hidden>
+
+          <h2 class="docs__section-title">3-Schichten-Token-Modell</h2>
+          <p class="docs__section-desc">
+            Alle visuellen Werte werden &uuml;ber CSS Custom Properties gesteuert.
+            Das System nutzt drei aufeinander aufbauende Schichten &mdash; von rohen Werten
+            &uuml;ber kontextbezogene Aliase bis zu komponentenspezifischen Tokens.
+          </p>
+
+          <!-- Token-Pyramide -->
+          <div class="nc-data-table nc-data-table--static" style="max-width: 660px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+                    &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+                    &#9474;  <strong>3. Component Tokens</strong>  &#9474;
+                    &#9474;  --nc-button-bg         &#9474;
+                    &#9474;  --nc-card-border       &#9474;
+                    &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+               &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+               &#9474;  <strong>2. Semantic Tokens</strong>               &#9474;
+               &#9474;  --fnd-color-text-primary          &#9474;
+               &#9474;  --fnd-color-interactive-default    &#9474;
+               &#9474;  --fnd-color-feedback-success        &#9474;
+               &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+          &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+          &#9474;  <strong>1. Primitive Tokens</strong>                          &#9474;
+          &#9474;  --fnd-color-primary-500   (#009fe3)          &#9474;
+          &#9474;  --fnd-color-neutral-900   (#1a1a1a)          &#9474;
+          &#9474;  --fnd-color-success-600   (#16a34a)          &#9474;
+          &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</pre>
+          </div>
+
+          <!-- Referenzierungskette -->
+          <h3 style="margin-top: 2rem;">Referenzierungskette</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.8; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;"><strong>Komponente</strong>              <strong>Component Token</strong>                 <strong>Semantic Token</strong>                   <strong>Primitive</strong>
+.nc-button { bg }   &rarr;  var(--nc-button-bg)          &rarr;  var(--fnd-color-interactive-default) &rarr;  var(--fnd-color-primary-500)
+.nc-card   { border}&rarr;  var(--nc-card-border-color)  &rarr;  var(--fnd-color-border-primary)       &rarr;  var(--fnd-color-neutral-200)
+.nc-badge  { color } &rarr;  var(--nc-badge-color)        &rarr;  var(--fnd-color-text-inverse)         &rarr;  var(--fnd-color-neutral-50)</pre>
+
+          <!-- Namenskonventionen -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Namenskonventionen</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Pr&auml;fix</th><th>Scope</th><th>Beispiel</th><th>Registriert in</th></tr></thead>
+              <tbody>
+                <tr><td><code>--fnd-*</code></td><td>Foundation (Primitives + Semantic)</td><td><code>--fnd-color-text-primary</code></td><td><code>_color-themes.scss</code>, <code>_tokens-*.generated.scss</code></td></tr>
+                <tr><td><code>--nc-*</code></td><td>Component Tokens</td><td><code>--nc-button-bg</code></td><td><code>_component-tokens.scss</code></td></tr>
+                <tr><td><code>--fs-*</code></td><td>Fluid Type Scale</td><td><code>--fs-lg</code></td><td><code>_typography.scss</code></td></tr>
+                <tr><td><code>.nc-*</code></td><td>BEM Komponenten-Klassen</td><td><code>.nc-button--primary</code></td><td>Jeweilige SCSS-Datei</td></tr>
+                <tr><td><code>.t-*</code></td><td>Template-Klassen</td><td><code>.t-dashboard</code></td><td><code>08-templates/</code></td></tr>
+                <tr><td><code>.u-*</code></td><td>Utility-Klassen</td><td><code>.u-sr-only</code></td><td><code>10-utilities/</code></td></tr>
+                <tr><td><code>.o-*</code></td><td>Object-Klassen</td><td><code>.o-grid</code></td><td><code>04-objects/</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Token Pipeline -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Token-Pipeline</h2>
+          <p class="docs__section-desc">
+            Design Tokens werden in einer zentralen JSON-Datei gepflegt und automatisch
+            in SCSS-Variablen, CSS Custom Properties und JS-Konstanten transformiert.
+          </p>
+          <div class="nc-data-table nc-data-table--static" style="max-width: 700px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;      &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474;  data/                  &#9474;      &#9474;  scripts/               &#9474;
+&#9474;  design-tokens.json     &#9474; &rarr;&rarr;&rarr; &#9474;  generate-tokens.js     &#9474;
+&#9474;  (Single Source of      &#9474;      &#9474;  (Transformer)          &#9474;
+&#9474;   Truth)                &#9474;      &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;           &#9474;
+                                      &#9474;
+            &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9524;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+            &#9474;                                    &#9474;
+   &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;  &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;  &#9484;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+   &#9474;  _tokens-*       &#9474;  &#9474;  design-     &#9474;  &#9474;  design-        &#9474;
+   &#9474;  .generated.scss &#9474;  &#9474;  tokens.css  &#9474;  &#9474;  tokens.js      &#9474;
+   &#9474;  (SCSS Maps)     &#9474;  &#9474;  (CSS Vars)  &#9474;  &#9474;  (JS Export)    &#9474;
+   &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;  &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+            &#9474;
+            &#9660;
+   &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+   &#9474;  styles.css      &#9474;
+   &#9474;  (Final Output)  &#9474;
+   &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</pre>
+          </div>
+
+          <!-- Foundation-Token-Kategorien -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Foundation-Token-Kategorien</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Kategorie</th><th>Pr&auml;fix</th><th>Docs-Seite</th></tr></thead>
+              <tbody>
+                <tr><td>Colors</td><td><code>--fnd-color-*</code></td><td><a href="colors-docs.html">Colors</a></td></tr>
+                <tr><td>Typography</td><td><code>--fnd-font-*</code>, <code>--fs-*</code></td><td><a href="typography-docs.html">Typography</a></td></tr>
+                <tr><td>Spacing</td><td><code>--fnd-spacing-*</code></td><td><a href="spacing-docs.html">Spacing</a></td></tr>
+                <tr><td>Radii</td><td><code>--fnd-radius-*</code></td><td><a href="radii-docs.html">Radii</a></td></tr>
+                <tr><td>Shadow / Elevation</td><td><code>--fnd-shadow-*</code>, <code>--fnd-elevation-*</code></td><td><a href="shadows-docs.html">Shadows</a></td></tr>
+                <tr><td>Opacity</td><td><code>--fnd-opacity-*</code></td><td><a href="opacity-docs.html">Opacity</a></td></tr>
+                <tr><td>Z-Index</td><td><code>--fnd-z-*</code></td><td><a href="z-index-docs.html">Z-Index</a></td></tr>
+                <tr><td>Motion / Animation</td><td><code>@keyframes fnd-*</code></td><td><a href="motion-docs.html">Motion</a></td></tr>
+                <tr><td>Size Scale</td><td><code>--fnd-size-*</code></td><td><a href="sizes-docs.html">Sizes</a></td></tr>
+                <tr><td>Breakpoints</td><td><code>respond-to($bp)</code></td><td><a href="breakpoints-docs.html">Breakpoints</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Recipe-Modell                                          -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-recipes" aria-labelledby="trigger-recipes" hidden>
+
+          <h2 class="docs__section-title">Was ist ein Recipe?</h2>
+          <p class="docs__section-desc">
+            Ein <strong>Recipe</strong> ist eine strukturierte JSON-Spezifikation f&uuml;r eine Komponente.
+            Es beschreibt nicht nur das Aussehen, sondern auch Anatomie, Interaktionszust&auml;nde,
+            Barrierefreiheits-Anforderungen und verf&uuml;gbare Varianten. Recipes sind die
+            <em>Single Source of Truth</em> f&uuml;r Komponenten &mdash; sowohl f&uuml;r die Dokumentation
+            als auch f&uuml;r den Theme Configurator.
+          </p>
+
+          <!-- 9 kanonische Sektionen -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Die 9 kanonischen Sektionen</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>#</th><th>Sektion</th><th>Zweck</th><th>Beispiel</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td><code>meta</code></td><td>Identifikation: ID, Label, Kategorie, Status</td><td><code>"id": "button", "category": "atoms"</code></td></tr>
+                <tr><td>2</td><td><code>anatomy</code></td><td>DOM-Struktur: Elemente und BEM-Klassen</td><td><code>["root", "icon", "label"]</code></td></tr>
+                <tr><td>3</td><td><code>axes</code></td><td>Varianten-Achsen: Gr&ouml;sse, Variante, Form</td><td><code>"variant": ["primary", "secondary", "ghost"]</code></td></tr>
+                <tr><td>4</td><td><code>states</code></td><td>Interaktionszust&auml;nde: hover, active, disabled, focus</td><td><code>["default", "hover", "active", "disabled"]</code></td></tr>
+                <tr><td>5</td><td><code>a11y</code></td><td>Barrierefreiheit: ARIA-Attribute, Kontrast, Focus</td><td><code>"role": "button", "focusRing": true</code></td></tr>
+                <tr><td>6</td><td><code>styling</code></td><td>Token-Mappings: Welche <code>--nc-*</code> Tokens auf welche CSS-Properties</td><td><code>"--nc-button-bg": "background-color"</code></td></tr>
+                <tr><td>7</td><td><code>recipes</code></td><td>Konkrete Auspr&auml;gungen: Token-Werte pro Achsen-Kombination</td><td><code>"primary-md": { "--nc-button-bg": "..." }</code></td></tr>
+                <tr><td>8</td><td><code>specimens</code></td><td>Vorschau-Konfigurationen f&uuml;r den Theme Configurator</td><td><code>"default": { "label": "Senden", "icon": "arrow-right" }</code></td></tr>
+                <tr><td>9</td><td><code>links</code></td><td>Externe Referenzen: Figma, Docs, Storybook</td><td><code>"figma": "https://...", "docs": "button-docs.html"</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Beispiel-Struktur -->
+          <h3 style="margin-top: 2rem;">Recipe-Struktur (vereinfacht)</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">{
+  "meta":      { "id": "button", "label": "Button", "category": "atoms" },
+  "anatomy":   ["root", "icon", "label"],
+  "axes":      { "variant": ["primary","secondary","ghost"], "size": ["sm","md","lg"] },
+  "states":    ["default", "hover", "active", "focus", "disabled"],
+  "a11y":      { "role": "button", "focusRing": true, "minContrast": 4.5 },
+  "styling":   { "--nc-button-bg": "background-color", "--nc-button-color": "color" },
+  "recipes":   { "primary-md": { "--nc-button-bg": "var(--fnd-color-interactive-default)" } },
+  "specimens": { "default": { "label": "Senden" } },
+  "links":     { "docs": "button-docs.html" }
+}</pre>
+
+          <!-- Recipe &harr; Theme Configurator -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Recipe &harr; Theme Configurator</h2>
+          <p class="docs__section-desc">
+            Der Theme Configurator l&auml;dt Recipes &uuml;ber das SDK und rendert sie
+            als interaktive Specimens in der Arena. &Auml;nderungen an Token-Werten
+            werden live auf die Specimens angewendet.
+          </p>
+          <div class="nc-data-table nc-data-table--static" style="max-width: 660px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+Recipe JSON                Theme Configurator
+&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;     &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9474;  meta           &#9474;     &#9474;  Sidebar (Inspector)    &#9474;
+&#9474;  anatomy        &#9474; &rarr;&rarr;&rarr; &#9474;  &mdash; Token-Editoren       &#9474;
+&#9474;  axes           &#9474;     &#9474;  &mdash; Achsen-Toggles       &#9474;
+&#9474;  specimens      &#9474;     &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+&#9474;  styling        &#9474;
+&#9474;  recipes        &#9474; &rarr;&rarr;&rarr; &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;     &#9474;  Arena (Live-Vorschau)  &#9474;
+                         &#9474;  &mdash; Gerenderte Specimens &#9474;
+                         &#9474;  &mdash; State-Simulation     &#9474;
+                         &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</pre>
+          </div>
+
+          <!-- Recipe Lifecycle -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Recipe Lifecycle</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Phase</th><th>Tool</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><strong>1. Author</strong></td><td>JSON-Editor</td><td>Recipe-JSON wird erstellt oder aktualisiert</td></tr>
+                <tr><td><strong>2. Validate</strong></td><td><code>lint-recipes.mjs</code></td><td>Schema-Validierung: Pflichtfelder, Token-Referenzen, Achsen-Konsistenz</td></tr>
+                <tr><td><strong>3. Load</strong></td><td>Recipe SDK</td><td><code>useRecipeLoader</code> l&auml;dt und merged Recipe-Daten</td></tr>
+                <tr><td><strong>4. Render</strong></td><td>Arena (Theme Configurator)</td><td>Specimens werden als Live-HTML gerendert, Tokens als CSS Vars injected</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="margin-top: 2rem;">
+            Detaillierte Dokumentation des Recipe-Systems: <a href="architecture-docs.html">Architecture &rarr; Recipe System v3.1</a>
+          </p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Theming &amp; Responsive                               -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-theming" aria-labelledby="trigger-theming" hidden>
+
+          <h2 class="docs__section-title">4-Themes-System</h2>
+          <p class="docs__section-desc">
+            Das Design System unterst&uuml;tzt vier Themes &mdash; zwei Marken (NEO, Customer) jeweils
+            in Light und Dark. Themes werden &uuml;ber die semantische Token-Schicht umgeschaltet,
+            sodass Komponenten keine Theme-spezifische Logik ben&ouml;tigen.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Theme-Klasse</th><th>Marke</th><th>Modus</th><th>Aktivierung</th></tr></thead>
+              <tbody>
+                <tr><td><code>.neo-light-theme</code></td><td>NEO (Prim&auml;r)</td><td>Light</td><td>Default</td></tr>
+                <tr><td><code>.neo-dark-theme</code></td><td>NEO (Prim&auml;r)</td><td>Dark</td><td><code>data-theme="neo-dark-theme"</code> oder <code>prefers-color-scheme: dark</code></td></tr>
+                <tr><td><code>.customer-light-theme</code></td><td>Customer (Sekund&auml;r)</td><td>Light</td><td><code>data-theme="customer-light-theme"</code></td></tr>
+                <tr><td><code>.customer-dark-theme</code></td><td>Customer (Sekund&auml;r)</td><td>Dark</td><td><code>data-theme="customer-dark-theme"</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Wie Theming funktioniert -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Wie Theming funktioniert</h2>
+          <div class="nc-data-table nc-data-table--static" style="max-width: 660px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+<strong>1. Automatisch</strong> (System-Pr&auml;ferenz)
+   @media (prefers-color-scheme: dark) {
+     :root { /* Dark-Semantic-Tokens */ }
+   }
+
+<strong>2. Manuell</strong> (data-theme Attribut)
+   &lt;html data-theme="neo-dark-theme"&gt;
+   &rarr; &Uuml;berschreibt prefers-color-scheme
+
+<strong>3. Scoped</strong> (Section-Level)
+   &lt;section class="neo-dark-theme"&gt;
+   &rarr; Lokaler Dark-Mode f&uuml;r eine Sektion</pre>
+          </div>
+
+          <!-- Semantic Maps -->
+          <h3 style="margin-top: 2rem;">Semantische Maps (4 St&uuml;ck)</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Sass-Map</th><th>Theme</th><th>Datei</th></tr></thead>
+              <tbody>
+                <tr><td><code>$semantic-light-base</code></td><td>NEO Light</td><td><code>_color-semantic.scss</code></td></tr>
+                <tr><td><code>$semantic-dark-base</code></td><td>NEO Dark</td><td><code>_color-semantic.scss</code></td></tr>
+                <tr><td><code>$semantic-light-secondary</code></td><td>Customer Light</td><td><code>_color-semantic.scss</code></td></tr>
+                <tr><td><code>$semantic-dark-secondary</code></td><td>Customer Dark</td><td><code>_color-semantic.scss</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Brand Injection -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Brand Injection</h2>
+          <p class="docs__section-desc">
+            Die Customer-Themes werden &uuml;ber Sass-Variablen mit eigenen Markenfarben gespeist.
+            Der Build generiert daraus automatisch die passenden Primitives und Semantic Tokens.
+          </p>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">// _color-primitives.scss
+$brand-source: "customer";               // "neo" oder "customer"
+$customer-primary-base: #e4002b;          // Marken-Prim&auml;rfarbe
+$customer-secondary-base: #003366;        // Marken-Sekund&auml;rfarbe
+
+// Generiert automatisch:
+// --fnd-color-primary-100 ... --fnd-color-primary-950  (Customer-Palette)
+// --fnd-color-secondary-100 ... --fnd-color-secondary-950</pre>
+
+          <!-- Responsive System -->
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Responsive System</h2>
+
+          <h3>6 Breakpoints</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Name</th><th>Token</th><th>Wert</th><th>Typischer Einsatz</th></tr></thead>
+              <tbody>
+                <tr><td>xs</td><td><code>$bp-xs</code></td><td>0</td><td>Mobile (Default)</td></tr>
+                <tr><td>sm</td><td><code>$bp-sm</code></td><td>576px</td><td>Kleine Tablets</td></tr>
+                <tr><td>md</td><td><code>$bp-md</code></td><td>768px</td><td>Tablets</td></tr>
+                <tr><td>lg</td><td><code>$bp-lg</code></td><td>1024px</td><td>Desktop</td></tr>
+                <tr><td>xl</td><td><code>$bp-xl</code></td><td>1280px</td><td>Grosser Desktop</td></tr>
+                <tr><td>xxl</td><td><code>$bp-xxl</code></td><td>1920px</td><td>Ultra-Wide</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: 2rem;">Fluid Tokens via <code>clamp()</code></h3>
+          <p style="line-height: 1.8;">
+            Statt fixer Breakpoint-Spr&uuml;nge nutzt das System <code>clamp()</code> f&uuml;r fliessende
+            &Uuml;berg&auml;nge. Dies gilt f&uuml;r:
+          </p>
+          <ul style="line-height: 1.8;">
+            <li><strong>Typography:</strong> <code>--fs-base: clamp(0.875rem, 0.8rem + 0.25vw, 1.125rem)</code> &mdash; skaliert von 14px bis 18px</li>
+            <li><strong>Spacing:</strong> Stufen 06&ndash;13 nutzen <code>clamp()</code> f&uuml;r fluid Spacing</li>
+            <li><strong>Container Padding:</strong> <code>clamp(16px, 3.5vw, 48px)</code></li>
+            <li><strong>Grid Gap:</strong> <code>clamp(12px, 1.5vw, 24px)</code></li>
+          </ul>
+
+          <h3 style="margin-top: 2rem;"><code>respond-to()</code> Mixin</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">// Verwendung
+.nc-card {
+  flex-direction: column;
+
+  @include respond-to(md) {
+    flex-direction: row;    // Ab 768px: horizontal
+  }
+
+  @include respond-to(lg) {
+    gap: var(--fnd-spacing-08);  // Ab 1024px: gr&ouml;sserer Gap
+  }
+}</pre>
+
+          <p style="margin-top: 2rem;">
+            Detaillierte Theming-Dokumentation: <a href="colors-docs.html">Colors</a> |
+            Layout-Details: <a href="layout-architecture-docs.html">Layout Architecture</a>
+          </p>
+        </div>
+
+        </div> <!-- /docs-tabs -->
+      </div> <!-- /docs__body -->
+
+    </main>
+<!-- /BODY -->

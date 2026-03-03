@@ -32,10 +32,10 @@ $grid-columns: tokens.$token-grid-columns;
 $grid-gap: tokens.$token-grid-gap;
 
 // CSS Custom Properties Output
+// Legacy-Aliase verweisen auf die neuen Component-Tokens (--nc-grid-*, --nc-container-*)
 :root {
-  // Fluid grid gap: 12px (mobile) → 24px (desktop)
-  --grid-gap: clamp(12px, 1.5vw, 24px);
-  --columns: #{$grid-columns};
-  --container-max-width: #{$container-max-width};
-  --container-max-width-wide: #{$container-max-width-wide};
+  --grid-gap: var(--nc-grid-gap);
+  --columns: var(--nc-grid-columns);
+  --container-max-width: var(--nc-container-max-width);
+  --container-max-width-wide: var(--nc-container-max-width-wide);
 }

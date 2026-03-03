@@ -1,0 +1,29 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-marketing-compact",
+    "label": "Marketing Compact",
+    "description": "Marketing-Layout mit reduziertem vertikalen Abstand. Fuer kuerzere Sektionen zwischen Hero-Bereichen.",
+    "extends": "layout-marketing",
+    "tags": ["marketing", "compact"],
+    "templateClass": ".t-marketing-compact"
+  },
+  "container": {
+    "ref": "container.wide",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-lg)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.section",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.default",
+    "overrides": {}
+  }
+}

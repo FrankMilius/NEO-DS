@@ -1,0 +1,29 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-dashboard-sidebar",
+    "label": "Dashboard with Sidebar",
+    "description": "Dashboard-Layout mit Sidebar-Navigation. Sidebar nimmt 3 von 12 Spalten ein, Content 9.",
+    "extends": "layout-dashboard",
+    "tags": ["dashboard", "sidebar", "navigation"],
+    "templateClass": ".t-dashboard-sidebar"
+  },
+  "container": {
+    "ref": "container.full",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-sm)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.element",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.compact",
+    "overrides": {}
+  }
+}

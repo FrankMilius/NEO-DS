@@ -12,7 +12,32 @@
 // ---------------------------------------------------------------------------
 
 .section {
-  padding: clamp(2rem, 4rem, 6rem) 0;
+  padding: var(--nc-section-padding-block) 0;
+  background-color: var(--nc-section-bg);
+  color: var(--nc-section-color);
+}
+
+.section--compact {
+  --nc-section-padding-block: var(--nc-section-padding-block-sm);
+}
+
+.section--spacious {
+  --nc-section-padding-block: var(--nc-section-padding-block-lg);
+}
+
+// -- Oberflaechen-Varianten --
+
+.section--elevated {
+  --nc-section-bg: var(--fnd-color-surface-elevated);
+}
+
+.section--muted {
+  --nc-section-bg: var(--fnd-color-background-secondary);
+}
+
+.section--accent {
+  --nc-section-bg: var(--fnd-color-interactive-default);
+  --nc-section-color: var(--fnd-color-on-accent);
 }
 
 // ---------------------------------------------------------------------------
@@ -22,12 +47,33 @@
 
 .nc-container {
   width: 100%;
-  @include container-padding;
+  margin-inline: auto;
+  box-sizing: border-box;
+  padding-inline: var(--nc-container-padding-inline);
+  --container-pad: var(--nc-container-padding-inline);
+
+  @include respond-to('xxl') {
+    padding-inline: var(--nc-container-padding-inline-xxl);
+    max-width: var(--nc-container-max-width);
+    --container-pad: var(--nc-container-padding-inline-xxl);
+  }
 }
 
 .nc-container--wide {
-  width: min(1440px, 94vw);
-  @include container-padding-wide;
+  --nc-container-max-width: var(--nc-container-max-width-wide);
+
+  @include respond-to('xxl') {
+    max-width: var(--nc-container-max-width-wide);
+  }
+}
+
+.nc-container--narrow {
+  --nc-container-max-width: 768px;
+}
+
+.nc-container--full {
+  --nc-container-max-width: 100%;
+  max-width: 100%;
 }
 
 // Full-bleed children inside nc-container

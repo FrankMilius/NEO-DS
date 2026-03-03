@@ -1,0 +1,167 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "grid",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["layout", "object", "grid"],
+    "links": {
+      "docs": "/docs/grid-docs.html"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".o-grid" },
+    "slots": [
+      { "name": "column", "element": ".o-col-*", "optional": false, "description": "Grid-Spalte mit konfigurierter Breite (1-12)." }
+    ],
+    "domNotes": [
+      "12-Spalten-Grid basierend auf CSS Grid.",
+      "Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).",
+      "Mobile: Grid reduziert auf 4 Spalten, Spans >4 werden full-width.",
+      "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop)."
+    ]
+  },
+
+  "axes": {
+    "gap": {
+      "label": "Gap",
+      "description": "Abstand zwischen Grid-Spalten.",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Standard-Gap: fluid clamp(12px, 1.5vw, 24px)."
+        },
+        "sm": {
+          "modifier": "o-grid--gap-sm",
+          "tokenGroups": ["geometry", "gap-variants"],
+          "description": "Kleiner Gap: var(--fnd-spacing-04) = 16px."
+        },
+        "lg": {
+          "modifier": "o-grid--gap-lg",
+          "tokenGroups": ["geometry", "gap-variants"],
+          "description": "Grosser Gap: var(--fnd-spacing-08) = 32px."
+        }
+      }
+    },
+    "layout": {
+      "label": "Layout-Modus",
+      "description": "Grid-Template-Strategie.",
+      "values": {
+        "fixed": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Festes 12-Spalten-Grid mit expliziten Spans."
+        },
+        "auto-fit": {
+          "modifier": "o-grid--auto-fit",
+          "tokenGroups": [],
+          "description": "Content-driven Spalten via auto-fit. Keine Breakpoints noetig."
+        }
+      }
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Vertikale Ausrichtung der Grid-Items.",
+      "values": {
+        "start": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Items am oberen Rand ausgerichtet (Standard)."
+        },
+        "center": {
+          "modifier": "o-grid--center",
+          "tokenGroups": [],
+          "description": "Items vertikal zentriert."
+        },
+        "end": {
+          "modifier": "o-grid--end",
+          "tokenGroups": [],
+          "description": "Items am unteren Rand ausgerichtet."
+        }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "interactive": false,
+    "rules": []
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "assertions": [
+        "Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.",
+        "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt."
+      ]
+    },
+    "overrides": []
+  },
+
+  "styling": {
+    "baseClasses": ["o-grid"],
+    "baseTokenGroups": ["geometry"],
+    "tokenGroups": {
+      "geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-grid-columns",
+          "nc-grid-gap"
+        ]
+      },
+      "gap-variants": {
+        "label": "Gap-Varianten",
+        "tokens": [
+          "nc-grid-gap-sm",
+          "nc-grid-gap-lg"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes"],
+      "output": ["classList", "tokenGroups"]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "gap-variants",
+      "label": "Gap-Varianten",
+      "description": "Alle Gap-Groessen im Vergleich.",
+      "matrix": {
+        "axes": { "gap": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "layout-modes",
+      "label": "Layout-Modi",
+      "description": "Fixed vs. Auto-fit Grid.",
+      "matrix": {
+        "axes": { "layout": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "alignment",
+      "label": "Alignment",
+      "description": "Vertikale Ausrichtungs-Varianten.",
+      "matrix": {
+        "axes": { "alignment": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    }
+  ]
+}

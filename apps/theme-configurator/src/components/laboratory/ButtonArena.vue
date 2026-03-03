@@ -1,18 +1,6 @@
 <template>
   <div class="component-arena">
 
-    <!-- Header -->
-    <div class="arena-header">
-      <h4 class="arena-title">Button Arena</h4>
-      <span v-if="isSplit" class="arena-mode-labels">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-        Light
-        <span style="margin: 0 4px; opacity: .35">|</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
-        Dark
-      </span>
-    </div>
-
     <!-- Recipe Chips — generated from variant axis -->
     <div class="arena-recipe-chips">
       <button
@@ -587,27 +575,6 @@ function renderButtonCell(cell, tokens, render) {
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-}
-
-.arena-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.arena-title {
-  font-size: 15px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.arena-mode-labels {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  opacity: 0.6;
 }
 
 /* Recipe Chips */

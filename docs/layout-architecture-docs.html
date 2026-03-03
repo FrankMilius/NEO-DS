@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Layout Architecture | Foundation Docs</title>
+  <meta name="description" content="Layout Composition System: Section, Container, Grid, Spacing als Composition Graph. LayoutSpec, Presets, extends und Derivation." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Layout Architecture</h1>
+        <p class="docs__subtitle">
+          Das NEO Layout Composition System verbindet vier Primitive &mdash; <strong>Spacing</strong>, <strong>Grid</strong>,
+          <strong>Container</strong> und <strong>Section</strong> &mdash; zu einem kompositionsbasierten Layoutsystem.
+          Section fungiert als Orchestrator und referenziert die drei anderen Primitive &uuml;ber Presets.
+          Layouts k&ouml;nnen per <code class="docs__token">extends</code> + <code class="docs__token">overrides</code> abgeleitet werden.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Layout Architecture Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">&Uuml;bersicht</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-primitives" id="trigger-primitives">Primitive</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-composition" id="trigger-composition">Komposition</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-derivation" id="trigger-derivation">Ableitung</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="layout-arch-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: &Uuml;bersicht                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-overview" aria-labelledby="trigger-overview">
+
+          <h2 class="docs__section-title">Composition Graph</h2>
+          <p class="docs__section-desc">
+            Die vier Layout-Primitive bilden einen gerichteten Kompositions-Graphen.
+            Jedes Primitiv hat eine klare Verantwortung und referenziert nur Primitive auf tieferen Ebenen.
+          </p>
+
+          <!-- ASCII Diagram -->
+          <div class="nc-data-table nc-data-table--static" style="max-width: 640px;">
+            <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; margin: 0; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">
+┌─────────────────────────────────────────┐
+│  <strong>Section</strong>  (Orchestrator)                  │
+│  padding-block · bg · color              │
+│                                          │
+│  ┌─────────────────────────────────────┐ │
+│  │  <strong>Container</strong>  (Breiten-Begrenzung)       │ │
+│  │  max-width · padding-inline         │ │
+│  │                                     │ │
+│  │  ┌─────────────────────────────────┐│ │
+│  │  │  <strong>Grid</strong>  (Spalten-System)           ││ │
+│  │  │  columns · gap · alignment      ││ │
+│  │  │                                 ││ │
+│  │  │  ┌───┐ ┌───┐ ┌───┐ ┌───┐ ...  ││ │
+│  │  │  │ 1 │ │ 2 │ │ 3 │ │...│      ││ │
+│  │  │  └───┘ └───┘ └───┘ └───┘      ││ │
+│  │  └─────────────────────────────────┘│ │
+│  └─────────────────────────────────────┘ │
+│                                          │
+│  <strong>Spacing</strong>  (Foundation-Skala, &uuml;berall)     │
+│  --fnd-spacing-01 ... --fnd-spacing-13   │
+└─────────────────────────────────────────┘</pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Schichten-Architektur</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Schicht</th><th>Primitiv</th><th>CSS-Klasse</th><th>Token-Pr&auml;fix</th><th>Verantwortung</th></tr></thead>
+              <tbody>
+                <tr><td>1 (Foundation)</td><td>Spacing</td><td>&mdash;</td><td><code>--fnd-spacing-*</code></td><td>13-Stufen-Skala auf 4px-Basegrid, semantische Rollen</td></tr>
+                <tr><td>2 (Object)</td><td>Grid</td><td><code>.o-grid</code></td><td><code>--nc-grid-*</code></td><td>12-Spalten-System, Gaps, Alignment</td></tr>
+                <tr><td>3 (Object)</td><td>Container</td><td><code>.nc-container</code></td><td><code>--nc-container-*</code></td><td>Horizontale Begrenzung, Zentrierung, Fluid Padding</td></tr>
+                <tr><td>4 (Object)</td><td>Section</td><td><code>.section</code></td><td><code>--nc-section-*</code></td><td>Vertikaler Rhythmus, Hintergrund, Orchestrierung</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Prinzipien</h2>
+          <ul style="line-height: 1.8;">
+            <li><strong>Policy over Mechanism:</strong> Section sagt <em>was</em> (compact, spacious, wide), nicht <em>wie</em> (Pixel-Werte).</li>
+            <li><strong>Tokens-First:</strong> Alle Layout-Werte sind als CSS Custom Properties konfigurierbar.</li>
+            <li><strong>Komposition &uuml;ber Vererbung:</strong> Layouts werden aus Primitiv-Presets zusammengesetzt, nicht durch Klassen-Kaskade.</li>
+            <li><strong>Ableitung per <code>extends</code>:</strong> Neue Layouts erben alle Werte eines Basis-Layouts und &uuml;berschreiben nur Abweichungen.</li>
+          </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Primitive                                              -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-primitives" aria-labelledby="trigger-primitives" hidden>
+
+          <h2 class="docs__section-title">Spacing</h2>
+          <p class="docs__section-desc">
+            Foundation-Schicht. 13-Stufen-Skala auf 4px-Basegrid (4px&ndash;160px).
+            Stufen 01&ndash;05 statisch, Stufen 06&ndash;13 fluid mit <code>clamp()</code>.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Semantische Rolle</th><th>Token</th><th>Skala-Stufe</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td>Section</td><td><code>--fnd-spacing-section</code></td><td>12</td><td>96&ndash;128px (fluid)</td></tr>
+                <tr><td>Component</td><td><code>--fnd-spacing-component</code></td><td>08</td><td>32&ndash;48px (fluid)</td></tr>
+                <tr><td>Element</td><td><code>--fnd-spacing-element</code></td><td>04</td><td>16px</td></tr>
+                <tr><td>Gutter</td><td><code>--fnd-spacing-gutter</code></td><td>04</td><td>16px</td></tr>
+                <tr><td>Inline</td><td><code>--fnd-spacing-inline</code></td><td>03</td><td>12px</td></tr>
+                <tr><td>Stack</td><td><code>--fnd-spacing-stack</code></td><td>04</td><td>16px</td></tr>
+                <tr><td>Inset</td><td><code>--fnd-spacing-inset</code></td><td>04</td><td>16px</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Grid</h2>
+          <p class="docs__section-desc">
+            12-Spalten-Raster auf CSS Grid. Fluid Gap skaliert von 12px (mobile) bis 24px (desktop).
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-grid-columns</code></td><td>12</td><td>Spaltenanzahl (Mobile: 4)</td></tr>
+                <tr><td><code>--nc-grid-gap</code></td><td>clamp(12px, 1.5vw, 24px)</td><td>Fluid Grid-Gap</td></tr>
+                <tr><td><code>--nc-grid-gap-sm</code></td><td>var(--fnd-spacing-04)</td><td>Kleiner Gap (16px)</td></tr>
+                <tr><td><code>--nc-grid-gap-lg</code></td><td>var(--fnd-spacing-08)</td><td>Grosser Gap (32px)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Container</h2>
+          <p class="docs__section-desc">
+            Horizontale Begrenzung und Zentrierung. Fluid Padding skaliert von 16px bis 48px,
+            ab XXL (1920px) zentriert mit max-width.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-container-max-width</code></td><td>1200px</td><td>Standard max-width</td></tr>
+                <tr><td><code>--nc-container-max-width-wide</code></td><td>1440px</td><td>Wide Container</td></tr>
+                <tr><td><code>--nc-container-padding-inline</code></td><td>clamp(16px, 3.5vw, 48px)</td><td>Fluid Padding</td></tr>
+                <tr><td><code>--nc-container-padding-inline-xxl</code></td><td>0px</td><td>Padding ab XXL-Breakpoint</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Section</h2>
+          <p class="docs__section-desc">
+            Orchestrator: Setzt vertikalen Rhythmus, Hintergrund und Textfarbe.
+            Enth&auml;lt Container, der wiederum Grid enth&auml;lt.
+          </p>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr><td><code>--nc-section-padding-block</code></td><td>clamp(2rem, 4vw, 6rem)</td><td>Standard Section-Padding</td></tr>
+                <tr><td><code>--nc-section-padding-block-sm</code></td><td>var(--fnd-spacing-08)</td><td>Kompakt (32px)</td></tr>
+                <tr><td><code>--nc-section-padding-block-lg</code></td><td>var(--fnd-spacing-13)</td><td>Grossz&uuml;gig (160px)</td></tr>
+                <tr><td><code>--nc-section-bg</code></td><td>var(--fnd-color-background-base)</td><td>Hintergrundfarbe</td></tr>
+                <tr><td><code>--nc-section-color</code></td><td>var(--fnd-color-text-primary)</td><td>Textfarbe</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: 2rem;">Section-Modifikatoren</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Klasse</th><th>Wirkung</th></tr></thead>
+              <tbody>
+                <tr><td><code>.section--compact</code></td><td>Reduziertes Padding (--nc-section-padding-block-sm)</td></tr>
+                <tr><td><code>.section--spacious</code></td><td>Grossz&uuml;giges Padding (--nc-section-padding-block-lg)</td></tr>
+                <tr><td><code>.section--elevated</code></td><td>Erh&ouml;hte Oberfl&auml;che (surface-elevated)</td></tr>
+                <tr><td><code>.section--muted</code></td><td>Ged&auml;mpfter Hintergrund (background-secondary)</td></tr>
+                <tr><td><code>.section--accent</code></td><td>Akzent-Hintergrund (interactive-default + on-accent)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Komposition                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-composition" aria-labelledby="trigger-composition" hidden>
+
+          <h2 class="docs__section-title">LayoutSpec</h2>
+          <p class="docs__section-desc">
+            Ein <strong>LayoutSpec</strong> verbindet die vier Primitive zu einem wiederverwendbaren Layout.
+            Jedes Primitiv wird per <code>ref</code> auf ein Preset gemappt, optionale <code>overrides</code>
+            &uuml;berschreiben einzelne Token-Werte.
+          </p>
+
+          <h3>Struktur</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">{
+  "meta": { "id": "layout-marketing", "label": "Marketing", "templateClass": ".t-marketing" },
+  "container": { "ref": "container.wide" },
+  "grid":      { "ref": "grid.default", "overrides": { "--nc-grid-gap": "var(--nc-grid-gap-lg)" } },
+  "spacing":   { "ref": "spacing.section" },
+  "section":   { "ref": "section.spacious" }
+}</pre>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Verf&uuml;gbare Presets</h2>
+
+          <h3>Container Presets</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Ref</th><th>Max Width</th><th>Klassen</th></tr></thead>
+              <tbody>
+                <tr><td><code>container.standard</code></td><td>1200px</td><td><code>.nc-container</code></td></tr>
+                <tr><td><code>container.wide</code></td><td>1440px</td><td><code>.nc-container .nc-container--wide</code></td></tr>
+                <tr><td><code>container.narrow</code></td><td>768px</td><td><code>.nc-container .nc-container--narrow</code></td></tr>
+                <tr><td><code>container.full</code></td><td>100%</td><td><code>.nc-container .nc-container--full</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: 2rem;">Grid Presets</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Ref</th><th>Gap</th><th>Klassen</th></tr></thead>
+              <tbody>
+                <tr><td><code>grid.default</code></td><td>clamp(12px, 1.5vw, 24px)</td><td><code>.o-grid</code></td></tr>
+                <tr><td><code>grid.sm-gap</code></td><td>var(--fnd-spacing-04)</td><td><code>.o-grid .o-grid--gap-sm</code></td></tr>
+                <tr><td><code>grid.lg-gap</code></td><td>var(--fnd-spacing-08)</td><td><code>.o-grid .o-grid--gap-lg</code></td></tr>
+                <tr><td><code>grid.auto-fit</code></td><td>clamp(12px, 1.5vw, 24px)</td><td><code>.o-grid .o-grid--auto-fit</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: 2rem;">Section Presets</h3>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Ref</th><th>Padding Block</th><th>Klassen</th></tr></thead>
+              <tbody>
+                <tr><td><code>section.default</code></td><td>clamp(2rem, 4vw, 6rem)</td><td><code>.section</code></td></tr>
+                <tr><td><code>section.compact</code></td><td>var(--fnd-spacing-08)</td><td><code>.section .section--compact</code></td></tr>
+                <tr><td><code>section.spacious</code></td><td>var(--fnd-spacing-13)</td><td><code>.section .section--spacious</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">5 Basis-Layouts</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Layout</th><th>Container</th><th>Grid Gap</th><th>Section</th><th>Einsatz</th></tr></thead>
+              <tbody>
+                <tr><td><code>layout-marketing</code></td><td>wide (1440px)</td><td>lg</td><td>spacious</td><td>Landing Pages, Hero</td></tr>
+                <tr><td><code>layout-docs</code></td><td>standard (1200px)</td><td>default</td><td>default</td><td>Dokumentation</td></tr>
+                <tr><td><code>layout-dashboard</code></td><td>full (100%)</td><td>sm</td><td>compact</td><td>Admin, Dashboard</td></tr>
+                <tr><td><code>layout-form</code></td><td>narrow (768px)</td><td>default</td><td>default</td><td>Formulare, Settings</td></tr>
+                <tr><td><code>layout-content</code></td><td>standard (1200px)</td><td>default</td><td>default</td><td>Blog, Artikel</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 style="margin-top: 2rem;">HTML-Struktur</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">&lt;!-- Layout: Marketing --&gt;
+&lt;div class="section section--spacious"&gt;
+  &lt;div class="nc-container nc-container--wide"&gt;
+    &lt;div class="o-grid o-grid--gap-lg"&gt;
+      &lt;div class="o-col-6"&gt;...&lt;/div&gt;
+      &lt;div class="o-col-6"&gt;...&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Layout: Dashboard --&gt;
+&lt;div class="section section--compact"&gt;
+  &lt;div class="nc-container nc-container--full"&gt;
+    &lt;div class="o-grid o-grid--gap-sm"&gt;
+      &lt;div class="o-col-3"&gt;Sidebar&lt;/div&gt;
+      &lt;div class="o-col-9"&gt;Content&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Ableitung                                              -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-derivation" aria-labelledby="trigger-derivation" hidden>
+
+          <h2 class="docs__section-title">Layouts ableiten mit extends</h2>
+          <p class="docs__section-desc">
+            Neue Layouts werden von bestehenden Basis-Layouts abgeleitet.
+            Das <code>extends</code>-Feld in <code>meta</code> referenziert ein Basis-Layout.
+            Alle Werte des Basis-Layouts werden &uuml;bernommen &mdash; nur Abweichungen m&uuml;ssen angegeben werden.
+          </p>
+
+          <h3>Beispiel: Wide Docs Layout</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">{
+  "meta": {
+    "id": "layout-docs-wide",
+    "label": "Documentation Wide",
+    "extends": "layout-docs",           // &larr; erbt alles von layout-docs
+    "templateClass": ".t-docs-wide"
+  },
+  "container": { "ref": "container.wide" },  // &larr; &Auml;nderung: wide statt standard
+  "grid":      { "ref": "grid.default" },    // geerbt
+  "spacing":   { "ref": "spacing.component" }, // geerbt
+  "section":   { "ref": "section.default" }   // geerbt
+}</pre>
+
+          <h3 style="margin-top: 2rem;">Aufl&ouml;sungskette</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm);">layout-docs-wide
+  &rarr; extends: layout-docs
+    &rarr; container: container.standard  &larr; &uuml;berschrieben mit container.wide
+    &rarr; grid: grid.default             &larr; geerbt
+    &rarr; section: section.default       &larr; geerbt
+
+Ergebnis:
+  classList: ["section", "nc-container", "nc-container--wide", "o-grid", "t-docs-wide"]
+  tokens: { "--nc-container-max-width": "1440px", "--nc-grid-gap": "clamp(12px,1.5vw,24px)", ... }</pre>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">10 Abgeleitete Layouts</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Layout</th><th>Basis</th><th>&Auml;nderung</th><th>Einsatz</th></tr></thead>
+              <tbody>
+                <tr><td><code>layout-marketing-compact</code></td><td>marketing</td><td>Section &rarr; default</td><td>K&uuml;rzere Marketing-Sektionen</td></tr>
+                <tr><td><code>layout-marketing-dark</code></td><td>marketing</td><td>Section-BG &rarr; elevated</td><td>Dunkler Hero</td></tr>
+                <tr><td><code>layout-docs-wide</code></td><td>docs</td><td>Container &rarr; wide</td><td>Breite Doku mit Tabellen</td></tr>
+                <tr><td><code>layout-docs-narrow</code></td><td>docs</td><td>Container &rarr; narrow</td><td>Fokussiertes Lesen</td></tr>
+                <tr><td><code>layout-dashboard-spacious</code></td><td>dashboard</td><td>Section &rarr; default, Gap &rarr; lg</td><td>&Uuml;bersichts-Dashboard</td></tr>
+                <tr><td><code>layout-dashboard-sidebar</code></td><td>dashboard</td><td>(Sidebar-Pattern)</td><td>Dashboard mit Sidebar</td></tr>
+                <tr><td><code>layout-form-compact</code></td><td>form</td><td>Section &rarr; compact</td><td>Inline-Formulare</td></tr>
+                <tr><td><code>layout-form-wide</code></td><td>form</td><td>Container &rarr; standard</td><td>Mehrspaltige Formulare</td></tr>
+                <tr><td><code>layout-content-magazine</code></td><td>content</td><td>Container &rarr; wide, Gap &rarr; lg</td><td>Magazin-Stil</td></tr>
+                <tr><td><code>layout-content-landing</code></td><td>content</td><td>Section &rarr; spacious</td><td>Landing-Pages</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Eigenes Layout erstellen</h2>
+          <ol style="line-height: 1.8;">
+            <li>W&auml;hle ein Basis-Layout: <code>layout-docs</code>, <code>layout-marketing</code>, etc.</li>
+            <li>Erstelle eine JSON-Datei in <code>data/layout-{name}.json</code></li>
+            <li>Setze <code>meta.extends</code> auf die Basis-Layout-ID</li>
+            <li>&Uuml;berschreibe nur die Primitive die sich &auml;ndern sollen</li>
+            <li>Optional: <code>overrides</code> f&uuml;r einzelne Token-Werte</li>
+            <li>Registriere das Layout in <code>useRecipeLoader.js</code> (Theme Configurator)</li>
+          </ol>
+
+          <h3 style="margin-top: 2rem;">SDK-Nutzung (JavaScript)</h3>
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto;">import { loadLayoutSpec, resolveLayoutExtends, layoutSpecToTokens }
+  from 'recipe-sdk'
+
+// 1. Extends-Kette aufl&ouml;sen
+const registry = { 'layout-docs': docsSpec, 'layout-docs-wide': docsWideSpec }
+const resolved = resolveLayoutExtends('layout-docs-wide', registry)
+
+// 2. Presets + Overrides anwenden
+const result = loadLayoutSpec(resolved)
+console.log(result.classList)  // ["section", "nc-container", "nc-container--wide", "o-grid", "t-docs-wide"]
+console.log(result.tokens)     // { "--nc-container-max-width": "1440px", ... }
+
+// 3. CSS-Output generieren
+const css = layoutSpecToTokens(result)
+// "--nc-container-max-width: 1440px;\n  --nc-grid-gap: clamp(12px, 1.5vw, 24px); ..."</pre>
+
+        </div>
+
+        </div> <!-- /docs-tabs -->
+      </div> <!-- /docs__body -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-dashboard",
+    "label": "Dashboard",
+    "description": "Kompaktes Layout fuer Admin-Panels und Dashboards. Volle Breite, kleiner Gap, kompaktes Section-Padding.",
+    "tags": ["dashboard", "admin", "app"],
+    "templateClass": ".t-dashboard"
+  },
+  "container": {
+    "ref": "container.full",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-sm)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.element",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.compact",
+    "overrides": {}
+  }
+}

@@ -3,7 +3,11 @@
 
     <div class="lab-header">
       <div class="lab-header__row">
-        <h3 class="lab-title">Theme Arena</h3>
+        <h3 class="lab-title">
+          Theme Arena
+          <span v-if="activeArenaLabel" class="lab-breadcrumb-sep">/</span>
+          <span v-if="activeArenaLabel" class="lab-breadcrumb-leaf">{{ activeArenaLabel }}</span>
+        </h3>
         <div class="lab-header__controls">
 
           <!-- Breakpoint Segmented Control -->
@@ -339,19 +343,6 @@
            COLORS ARENA — Specimens + Token Detail
            ═══════════════════════════════════════════════════════════════ -->
       <template v-else-if="isColorsSection">
-
-        <!-- Section Header -->
-        <div class="arena-header">
-          <h4 class="arena-title" v-if="!selectedSemanticToken">Live Vorschau — Alle Komponenten</h4>
-          <h4 class="arena-title" v-else>{{ selectedSemanticToken.label }} — Verwendung</h4>
-          <span class="arena-mode-labels">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-            Light
-            <span style="margin: 0 4px; opacity: .35">|</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
-            Dark
-          </span>
-        </div>
 
         <!-- ── ÜBERSICHT (kein Token selektiert) ── -->
         <template v-if="!selectedSemanticToken">
@@ -788,6 +779,19 @@
 
       <template v-else-if="isComponentSection">
         <ComponentArena :componentId="activeComponentId" />
+      </template>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           DOCS IFRAME — DS-Dokumentation (Grid, Spacing, Radii, etc.)
+           ═══════════════════════════════════════════════════════════════ -->
+      <template v-else-if="isDocsSection">
+        <iframe
+          class="lab-docs-iframe"
+          :src="docsIframeUrl"
+          frameborder="0"
+          title="Design System Documentation"
+          sandbox="allow-same-origin allow-scripts allow-popups"
+        ></iframe>
       </template>
 
       <!-- ═══════════════════════════════════════════════════════════════
@@ -1401,6 +1405,58 @@ const isTypographySection = computed(() => {
 const isColorsSection = computed(() => store.state.activeSection === 'foundation-colors')
 const isComponentSection = computed(() => store.state.activeSection.startsWith('component-'))
 const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
+
+// ---------------------------------------------------------------------------
+// Docs-Iframe Sections — zeigt die DS-Doku statt Theme Preview Mag
+// ---------------------------------------------------------------------------
+const DOCS_SECTION_MAP = {
+  'foundation-grid': '/docs/grid-docs',
+  'foundation-spacing': '/docs/spacing-docs',
+  'foundation-radius': '/docs/radii-docs',
+  'foundation-border': '/docs/border-docs',
+  'foundation-focus': '/docs/utility-a11y-docs',
+  'foundation-media': '/docs/media-ratios-docs',
+  'foundation-shadows': '/docs/shadow-elevation-docs',
+  'foundation-opacity': '/docs/opacity-zindex-motion-docs'
+}
+const isDocsSection = computed(() => store.state.activeSection in DOCS_SECTION_MAP)
+const docsIframeUrl = computed(() => {
+  const path = DOCS_SECTION_MAP[store.state.activeSection]
+  return path ? `http://localhost:3000${path}` : ''
+})
+
+// Breadcrumb label for active arena context
+const _arenaLabels = {
+  'foundation-colors': 'Colors',
+  'foundation-grid': 'Grid',
+  'foundation-surfaces': 'Surfaces',
+  'foundation-radius': 'Border Radius',
+  'foundation-shadows': 'Shadows',
+  'foundation-spacing': 'Spacing',
+  'foundation-typography': 'Typography',
+  'foundation-border': 'Border',
+  'foundation-focus': 'Focus Ring',
+  'foundation-media': 'Media Ratios',
+  'foundation-elements': 'Elements',
+  'foundation-themes': 'Themes',
+  'foundation-icons': 'Icons',
+  'foundation-opacity': 'Opacity & Motion'
+}
+const activeArenaLabel = computed(() => {
+  const section = store.state.activeSection
+  if (_arenaLabels[section]) return _arenaLabels[section]
+  if (section.startsWith('component-')) {
+    // Capitalize component id: "button" → "Button", "code-snippet" → "Code Snippet"
+    return section.replace('component-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  }
+  if (section.startsWith('module-')) {
+    return section.replace('module-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  }
+  if (section.startsWith('template-')) {
+    return section.replace('template-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  }
+  return ''
+})
 const selectedSemanticToken = computed(() => store.state.selectedToken)
 const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
 const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
@@ -1864,11 +1920,26 @@ const switchOn = computed(() => ({
 }
 
 .lab-title {
+  display: flex;
+  align-items: center;
+  gap: 0;
   font-size: 13px;
   font-weight: 700;
   color: var(--cfg-text);
   margin: 0;
   white-space: nowrap;
+}
+
+.lab-breadcrumb-sep {
+  margin: 0 6px;
+  font-weight: 400;
+  color: var(--cfg-text-muted);
+  opacity: 0.5;
+}
+
+.lab-breadcrumb-leaf {
+  font-weight: 500;
+  color: var(--cfg-text-muted);
 }
 
 /* ── Breakpoint Segmented Control ── */
@@ -1970,6 +2041,15 @@ const switchOn = computed(() => ({
   box-shadow:
     -1px 0 0 var(--cfg-border),
      1px 0 0 var(--cfg-border);
+}
+
+/* ── Docs Iframe ── */
+.lab-docs-iframe {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  border: none;
+  background: #fff;
 }
 
 /* ── Breakpoint Ruler ── */
@@ -3295,30 +3375,6 @@ const switchOn = computed(() => ({
 /* ═══════════════════════════════════════════════════════════════════
    COLORS ARENA — Specimens + Token Detail
    ═══════════════════════════════════════════════════════════════════ */
-
-.arena-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.arena-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin: 0;
-  color: inherit;
-}
-
-.arena-mode-labels {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  opacity: .6;
-}
-
-.arena-mode-labels svg { opacity: .7; }
 
 .arena-sub-heading {
   font-size: 11px;

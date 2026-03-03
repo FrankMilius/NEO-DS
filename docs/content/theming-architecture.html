@@ -1,0 +1,770 @@
+<!-- STYLES -->
+  <style>
+    /* ================================================================
+       Theming-Architecture-Docs: Scoped Styles
+       ================================================================ */
+
+    /* --- Flow-Diagramm --- */
+    .ta-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--fnd-spacing-03);
+      margin-block: var(--fnd-spacing-06);
+    }
+    .ta-flow__step {
+      padding: var(--fnd-spacing-04);
+      border-radius: var(--fnd-radius-sm);
+      background: var(--fnd-color-layer-01);
+      border: 1px solid var(--fnd-color-border-secondary);
+      text-align: center;
+      position: relative;
+    }
+    .ta-flow__step::after {
+      content: '\2192';
+      position: absolute;
+      right: calc(var(--fnd-spacing-03) * -1 - 0.5em);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--fnd-color-text-tertiary);
+      font-size: var(--fs-lg);
+    }
+    .ta-flow__step:last-child::after { content: none; }
+    .ta-flow__step-num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-tertiary);
+      display: block;
+      margin-block-end: var(--fnd-spacing-01);
+    }
+    .ta-flow__step-title {
+      font-weight: var(--fnd-font-weight-semibold);
+      font-size: var(--fs-sm);
+    }
+    .ta-flow__step-desc {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+      margin-block-start: var(--fnd-spacing-02);
+    }
+
+    /* --- Token-Kaskade --- */
+    .ta-cascade {
+      display: grid;
+      gap: var(--fnd-spacing-04);
+      margin-block: var(--fnd-spacing-06);
+    }
+    .ta-cascade__level {
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      border-radius: var(--fnd-radius-sm);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+    .ta-cascade__level--prim { background: color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent); }
+    .ta-cascade__level--sem  { background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent); }
+    .ta-cascade__level--comp { background: color-mix(in srgb, var(--fnd-color-feedback-warning) 8%, transparent); }
+    .ta-cascade__label {
+      font-weight: var(--fnd-font-weight-semibold);
+      font-size: var(--fs-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-block-end: var(--fnd-spacing-02);
+    }
+    .ta-cascade__example {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+    }
+    .ta-cascade__arrow {
+      text-align: center;
+      color: var(--fnd-color-text-tertiary);
+      font-size: var(--fs-lg);
+    }
+
+    /* --- Dark-Mode Strategie-Karten --- */
+    .ta-strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block: var(--fnd-spacing-06);
+    }
+    .ta-strategy-card {
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      border-radius: var(--fnd-radius-sm);
+      background: var(--fnd-color-layer-01);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+    .ta-strategy-card__title {
+      font-weight: var(--fnd-font-weight-semibold);
+      font-size: var(--fs-sm);
+      margin-block-end: var(--fnd-spacing-02);
+    }
+    .ta-strategy-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* --- Brand-Injection Schritte --- */
+    .ta-steps {
+      counter-reset: ta-step;
+      list-style: none;
+      padding: 0;
+      margin-block: var(--fnd-spacing-06);
+    }
+    .ta-steps > li {
+      counter-increment: ta-step;
+      padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+      padding-left: calc(var(--fnd-spacing-05) + 2.5rem);
+      position: relative;
+      border-left: 2px solid var(--fnd-color-border-secondary);
+      margin-block-end: var(--fnd-spacing-03);
+    }
+    .ta-steps > li::before {
+      content: counter(ta-step);
+      position: absolute;
+      left: var(--fnd-spacing-03);
+      top: var(--fnd-spacing-04);
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: var(--fnd-radius-full);
+      background: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-on-accent);
+      font-size: var(--fs-xs);
+      font-weight: var(--fnd-font-weight-bold);
+      display: grid;
+      place-items: center;
+    }
+    .ta-steps > li:last-child { border-left-color: transparent; }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Theming Architecture</h1>
+        <p class="docs__subtitle">
+          Das NEO Design System unterst&uuml;tzt 4 Themes &uuml;ber ein dreischichtiges Token-System,
+          automatische Dark-Mode-Erkennung und markenspezifische Palette-Injektion.
+          Theming ist rein CSS-basiert &mdash; kein JavaScript erforderlich.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Theming Architecture Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-overview" id="trigger-overview">&Uuml;berblick</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-tokens" id="trigger-tokens">Token-Schichten</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-dark" id="trigger-dark">Dark Mode</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-brand" id="trigger-brand">Brand Injection</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="theming-arch-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: &Uuml;berblick                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-overview" aria-labelledby="trigger-overview">
+
+          <h2 class="docs__section-title">Die 4 Themes</h2>
+          <p class="docs__section-desc">
+            Das Design System liefert zwei Brand-Varianten (Neo und Customer) mit je einem Light- und Dark-Theme.
+            Die Neo-Themes verwenden die prim&auml;re Farbpalette, die Customer-Themes die sekund&auml;re.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Theme</th>
+                  <th>CSS-Klasse</th>
+                  <th>Color Scheme</th>
+                  <th>Brand</th>
+                  <th>Auto-Switch</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Neo Light</td>
+                  <td><code>.neo-light-theme</code></td>
+                  <td>light</td>
+                  <td>NEO (prim&auml;r)</td>
+                  <td>Standard / Default</td>
+                </tr>
+                <tr>
+                  <td>Neo Dark</td>
+                  <td><code>.neo-dark-theme</code></td>
+                  <td>dark</td>
+                  <td>NEO (prim&auml;r)</td>
+                  <td><code>prefers-color-scheme: dark</code></td>
+                </tr>
+                <tr>
+                  <td>Customer Light</td>
+                  <td><code>.customer-light-theme</code></td>
+                  <td>light</td>
+                  <td>Customer (sekund&auml;r)</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td>Customer Dark</td>
+                  <td><code>.customer-dark-theme</code></td>
+                  <td>dark</td>
+                  <td>Customer (sekund&auml;r)</td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Theme-Aktivierung</h2>
+          <p class="docs__section-desc">
+            Das aktive Theme wird &uuml;ber das <code>data-theme</code>-Attribut auf dem
+            <code>&lt;html&gt;</code>-Element gesteuert. Ohne explizites Attribut greift der
+            Auto-Switch per <code>@media (prefers-color-scheme: dark)</code>.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Methode</th><th>Beispiel</th><th>Priorit&auml;t</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Explizit (data-theme)</td>
+                  <td><code>&lt;html data-theme="neo-dark-theme"&gt;</code></td>
+                  <td>H&ouml;chste &mdash; &uuml;berschreibt Auto-Switch</td>
+                </tr>
+                <tr>
+                  <td>CSS-Klasse</td>
+                  <td><code>&lt;html class="customer-light-theme"&gt;</code></td>
+                  <td>Hoch &mdash; explizite Klassenanwendung</td>
+                </tr>
+                <tr>
+                  <td>Auto-Switch (OS)</td>
+                  <td><code>@media (prefers-color-scheme: dark)</code></td>
+                  <td>Standard &mdash; greift ohne Attribut</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Theme Resolution Flow</h2>
+          <p class="docs__section-desc">
+            Der Aufl&ouml;sungsweg vom <code>data-theme</code>-Attribut bis zum gerenderten Komponentenwert:
+          </p>
+
+          <div class="ta-flow">
+            <div class="ta-flow__step">
+              <span class="ta-flow__step-num">01</span>
+              <span class="ta-flow__step-title">data-theme</span>
+              <span class="ta-flow__step-desc">Attribut auf <code>&lt;html&gt;</code> oder Auto-Switch per Media Query</span>
+            </div>
+            <div class="ta-flow__step">
+              <span class="ta-flow__step-num">02</span>
+              <span class="ta-flow__step-title">Theme-Klasse</span>
+              <span class="ta-flow__step-desc">z.B. <code>.neo-dark-theme</code> wird angewendet</span>
+            </div>
+            <div class="ta-flow__step">
+              <span class="ta-flow__step-num">03</span>
+              <span class="ta-flow__step-title">Token-Aufl&ouml;sung</span>
+              <span class="ta-flow__step-desc">Semantische Tokens erhalten theme-spezifische Werte</span>
+            </div>
+            <div class="ta-flow__step">
+              <span class="ta-flow__step-num">04</span>
+              <span class="ta-flow__step-title">Rendering</span>
+              <span class="ta-flow__step-desc">Komponenten nutzen aufgel&ouml;ste Custom Properties</span>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Quelldateien</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Datei</th><th>Verantwortung</th></tr></thead>
+              <tbody>
+                <tr><td><code>_color-primitives.scss</code></td><td>Farbpaletten, Brand-Injektion, Shade-Generierung</td></tr>
+                <tr><td><code>_color-semantic.scss</code></td><td>4 semantische Maps (light-base, dark-base, light-secondary, dark-secondary)</td></tr>
+                <tr><td><code>_color-themes.scss</code></td><td>Theme-Klassen, <code>prefers-color-scheme</code> Auto-Switch, <code>color-scheme</code></td></tr>
+                <tr><td><code>_component-tokens.scss</code></td><td>Komponenten-Tokens in <code>:root</code> + Dark-Mode-Overrides</td></tr>
+                <tr><td><code>_shadow.scss</code></td><td>Schatten-Tokens mit automatischem Dark-Mode-Switch</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Wichtig: Kein JavaScript n&ouml;tig</h2>
+          <p style="line-height: 1.8;">
+            Das Theme-System ist vollst&auml;ndig CSS-basiert. Die Umschaltung zwischen Light und Dark Mode erfolgt
+            &uuml;ber CSS Custom Properties und <code>@media (prefers-color-scheme)</code>. JavaScript wird nur f&uuml;r
+            eine optionale manuelle Theme-Umschaltung per UI-Toggle ben&ouml;tigt &mdash; das Setzen von
+            <code>data-theme</code> auf <code>&lt;html&gt;</code>.
+          </p>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Token-Schichten                                       -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-tokens" aria-labelledby="trigger-tokens" hidden>
+
+          <h2 class="docs__section-title">Drei-Schichten Token-Architektur</h2>
+          <p class="docs__section-desc">
+            Das Theming basiert auf drei Token-Schichten. Jede Schicht referenziert nur die darunter liegende.
+            Nur die semantische Schicht ist theme-aware &mdash; sie liefert je nach aktivem Theme unterschiedliche Werte.
+          </p>
+
+          <div class="ta-cascade">
+            <div class="ta-cascade__level ta-cascade__level--prim">
+              <div class="ta-cascade__label">Schicht 1: Primitives</div>
+              <div class="ta-cascade__example"><code>--fnd-color-primary-500: #0066cc</code></div>
+              <p style="font-size: var(--fs-sm); margin-top: var(--fnd-spacing-02); color: var(--fnd-color-text-secondary);">
+                Rohe Farbpaletten (primary, secondary, accent, neutral, system). Shade-Skala 100&ndash;950.
+                <strong>Nicht</strong> theme-aware &mdash; identische Werte in allen Themes.
+              </p>
+            </div>
+            <div class="ta-cascade__arrow">&darr;</div>
+            <div class="ta-cascade__level ta-cascade__level--sem">
+              <div class="ta-cascade__label">Schicht 2: Semantic</div>
+              <div class="ta-cascade__example"><code>--fnd-color-text-primary: var(--fnd-color-neutral-900)</code> <span style="color: var(--fnd-color-text-tertiary)">&larr; Light</span></div>
+              <div class="ta-cascade__example"><code>--fnd-color-text-primary: var(--fnd-color-neutral-100)</code> <span style="color: var(--fnd-color-text-tertiary)">&larr; Dark</span></div>
+              <p style="font-size: var(--fs-sm); margin-top: var(--fnd-spacing-02); color: var(--fnd-color-text-secondary);">
+                Rollen-basierte Mappings (text-primary, background-base, interactive-default).
+                <strong>Theme-aware</strong> &mdash; unterschiedliche Werte je nach Light/Dark und Brand.
+              </p>
+            </div>
+            <div class="ta-cascade__arrow">&darr;</div>
+            <div class="ta-cascade__level ta-cascade__level--comp">
+              <div class="ta-cascade__label">Schicht 3: Component</div>
+              <div class="ta-cascade__example"><code>--nc-button-bg: var(--fnd-color-interactive-default)</code></div>
+              <p style="font-size: var(--fs-sm); margin-top: var(--fnd-spacing-02); color: var(--fnd-color-text-secondary);">
+                Pro-Komponenten-Tokens. Referenzieren semantische Tokens. K&ouml;nnen im Dark-Block
+                von <code>_component-tokens.scss</code> &uuml;berschrieben werden.
+              </p>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Semantische Maps</h2>
+          <p class="docs__section-desc">
+            In <code>_color-semantic.scss</code> sind 4 Sass-Maps definiert. Jede Map enth&auml;lt denselben
+            Satz von ~55 semantischen Token-IDs mit unterschiedlichen Palette-Referenzen.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Sass-Map</th>
+                  <th>Theme-Zuordnung</th>
+                  <th>Color Scheme</th>
+                  <th>Brand</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>$semantic-light-base</code></td>
+                  <td><code>.neo-light-theme</code></td>
+                  <td>light</td>
+                  <td>NEO (prim&auml;r)</td>
+                </tr>
+                <tr>
+                  <td><code>$semantic-dark-base</code></td>
+                  <td><code>.neo-dark-theme</code></td>
+                  <td>dark</td>
+                  <td>NEO (prim&auml;r)</td>
+                </tr>
+                <tr>
+                  <td><code>$semantic-light-secondary</code></td>
+                  <td><code>.customer-light-theme</code></td>
+                  <td>light</td>
+                  <td>Customer (sekund&auml;r)</td>
+                </tr>
+                <tr>
+                  <td><code>$semantic-dark-secondary</code></td>
+                  <td><code>.customer-dark-theme</code></td>
+                  <td>dark</td>
+                  <td>Customer (sekund&auml;r)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Map-Struktur (Beispiel)</h2>
+          <p class="docs__section-desc">
+            Jede Map bildet semantische Rollen auf Primitive-Referenzen ab.
+            Die Theme-Klasse generiert daraus CSS Custom Properties.
+          </p>
+
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto; margin-block-end: var(--fnd-spacing-06);">
+<span style="color: var(--fnd-color-text-tertiary);">// _color-semantic.scss</span>
+
+$semantic-light-base: (
+  'text-primary':         'neutral-900',
+  'text-secondary':       'neutral-600',
+  'text-tertiary':        'neutral-500',
+  'background-base':      'neutral-100',
+  'background-secondary': 'neutral-150',
+  'surface-elevated':     'always-light',
+  'interactive-default':  'primary-500',
+  'interactive-hover':    'primary-600',
+  'border-primary':       'neutral-300',
+  'feedback-success':     'system-green-500',
+  'feedback-danger':      'system-red-500',
+  <span style="color: var(--fnd-color-text-tertiary);">// ... ~55 Token-IDs</span>
+);
+
+$semantic-dark-base: (
+  'text-primary':         'neutral-100',
+  'text-secondary':       'neutral-400',
+  'text-tertiary':        'neutral-500',
+  'background-base':      'neutral-950',
+  'background-secondary': 'neutral-900',
+  'surface-elevated':     'neutral-850',
+  'interactive-default':  'secondary-500',
+  'interactive-hover':    'secondary-400',
+  'border-primary':       'neutral-700',
+  'feedback-success':     'system-green-400',
+  'feedback-danger':      'system-red-400',
+  <span style="color: var(--fnd-color-text-tertiary);">// ... ~55 Token-IDs</span>
+);</pre>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Token-Aufl&ouml;sung: Vom Primitiv zum Komponentenwert</h2>
+          <p class="docs__section-desc">
+            Beispiel: Wie <code>--nc-button-bg</code> im Light- und Dark-Theme aufgel&ouml;st wird.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Schicht</th><th>Token</th><th>Light-Wert</th><th>Dark-Wert</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Primitiv</td>
+                  <td><code>--fnd-color-primary-500</code></td>
+                  <td>#0066cc</td>
+                  <td>#0066cc (identisch)</td>
+                </tr>
+                <tr>
+                  <td>Semantisch</td>
+                  <td><code>--fnd-color-interactive-default</code></td>
+                  <td><code>var(--fnd-color-primary-500)</code></td>
+                  <td><code>var(--fnd-color-secondary-500)</code></td>
+                </tr>
+                <tr>
+                  <td>Komponente</td>
+                  <td><code>--nc-button-bg</code></td>
+                  <td colspan="2"><code>var(--fnd-color-interactive-default)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Dark Mode                                             -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-dark" aria-labelledby="trigger-dark" hidden>
+
+          <h2 class="docs__section-title">Dark-Mode-Strategie</h2>
+          <p class="docs__section-desc">
+            Dark Mode geht &uuml;ber das Invertieren von Farben hinaus. Sechs Strategien stellen sicher,
+            dass Kontrast, Lesbarkeit und visuelle Hierarchie erhalten bleiben.
+          </p>
+
+          <div class="ta-strategy-grid">
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Surface Elevated</div>
+              <div class="ta-strategy-card__desc">
+                Overlay-Komponenten (Modal, Drawer, Toast, Dropdown) nutzen
+                <code>surface-elevated</code> statt <code>background-base</code>
+                f&uuml;r visuellen Lift auf dunklem Hintergrund.
+              </div>
+            </div>
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Feedback-Hintergr&uuml;nde</div>
+              <div class="ta-strategy-card__desc">
+                Dark-spezifische Hintergrundfarben: <code>#0d2b15</code> (Success),
+                <code>#3b1419</code> (Danger) &mdash; ged&auml;mpfte Varianten f&uuml;r dunkle Fl&auml;chen.
+              </div>
+            </div>
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Schatten Auto-Switch</div>
+              <div class="ta-strategy-card__desc">
+                <code>_shadow.scss</code> nutzt <code>@media (prefers-color-scheme: dark)</code>
+                f&uuml;r st&auml;rkere, weichere Schatten auf dunklen Fl&auml;chen.
+              </div>
+            </div>
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Hover/Active: always-light</div>
+              <div class="ta-strategy-card__desc">
+                Hover- und Active-States mischen Richtung <code>always-light</code>
+                (nicht <code>always-dark</code>) f&uuml;r sichtbaren Kontrast auf dunklem Hintergrund.
+              </div>
+            </div>
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Interaktive Farben</div>
+              <div class="ta-strategy-card__desc">
+                Im Dark Mode wird <code>secondary-500</code> (#009fe3, Neo Blue) statt
+                <code>primary-500</code> verwendet &mdash; 7.1:1 Kontrast auf Schwarz (WCAG AAA).
+              </div>
+            </div>
+            <div class="ta-strategy-card">
+              <div class="ta-strategy-card__title">Layer-System (Carbon)</div>
+              <div class="ta-strategy-card__desc">
+                <code>--fnd-color-layer-01/02/03</code> &mdash; alternierend in Light,
+                aufsteigend in Dark f&uuml;r verschachtelte Container-Hierarchien.
+              </div>
+            </div>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Komponenten-Token Dark Overrides</h2>
+          <p class="docs__section-desc">
+            Der Dark-Block in <code>_component-tokens.scss</code> &uuml;berschreibt Komponenten-Tokens
+            f&uuml;r den Dark Mode. Typisches Pattern:
+          </p>
+
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto; margin-block-end: var(--fnd-spacing-06);">
+<span style="color: var(--fnd-color-text-tertiary);">// _component-tokens.scss &mdash; Dark-Block</span>
+
+@media (prefers-color-scheme: dark) {
+  .neo-dark-theme,
+  :root {
+    <span style="color: var(--fnd-color-text-tertiary);">// Button: aufhellen statt abdunkeln</span>
+    --nc-button-bg-hover: color-mix(
+      in srgb,
+      var(--fnd-color-interactive-default) 85%,
+      var(--fnd-color-always-light)
+    );
+
+    --nc-button-bg-active: color-mix(
+      in srgb,
+      var(--fnd-color-interactive-default) 75%,
+      var(--fnd-color-always-light)
+    );
+
+    <span style="color: var(--fnd-color-text-tertiary);">// Tag/Chip: transparente Aufhellung</span>
+    --nc-tag-bg-hover: color-mix(
+      in srgb,
+      var(--fnd-color-always-light) 12%,
+      transparent
+    );
+  }
+}</pre>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">color-mix() statt rgba()</h2>
+          <p class="docs__section-desc">
+            Alle transparenten Overlays verwenden <code>color-mix(in srgb, farbe, transparent N%)</code>
+            anstelle von <code>rgba()</code>. Dies erm&ouml;glicht die Nutzung von CSS Custom Properties
+            f&uuml;r die Basisfarbe, was mit <code>rgba()</code> nicht m&ouml;glich ist.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Methode</th><th>Syntax</th><th>Token-kompatibel?</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>rgba()</code> (veraltet)</td>
+                  <td><code>rgba(0, 102, 204, 0.15)</code></td>
+                  <td>Nein &mdash; erfordert statische RGB-Werte</td>
+                </tr>
+                <tr>
+                  <td><code>color-mix()</code> (Standard)</td>
+                  <td><code>color-mix(in srgb, var(--fnd-color-interactive-default) 15%, transparent)</code></td>
+                  <td>Ja &mdash; funktioniert mit Custom Properties</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Layer-System</h2>
+          <p class="docs__section-desc">
+            Inspiriert vom Carbon Design System. Drei Layer-Stufen f&uuml;r verschachtelte Container:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Token</th><th>Light Mode</th><th>Dark Mode</th><th>Muster</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>--fnd-color-layer-01</code></td>
+                  <td>neutral-150</td>
+                  <td>neutral-850</td>
+                  <td rowspan="3">Light: alternierend<br>Dark: aufsteigend</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-layer-02</code></td>
+                  <td>neutral-100</td>
+                  <td>neutral-800</td>
+                </tr>
+                <tr>
+                  <td><code>--fnd-color-layer-03</code></td>
+                  <td>neutral-150</td>
+                  <td>neutral-750</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Brand Injection                                       -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-brand" aria-labelledby="trigger-brand" hidden>
+
+          <h2 class="docs__section-title">Brand-Injektions-Mechanismus</h2>
+          <p class="docs__section-desc">
+            Kundenspezifische Markenfarben werden &uuml;ber Sass-Variablen in <code>_color-primitives.scss</code>
+            injiziert. Aus drei Basisfarben wird automatisch eine vollst&auml;ndige Palette mit Shade-Stufen
+            100&ndash;950 generiert.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Sass-Variable</th><th>Standard</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>$brand-source</code></td>
+                  <td><code>'neo'</code></td>
+                  <td>Brand-Quelle: <code>'neo'</code> oder <code>'customer'</code></td>
+                </tr>
+                <tr>
+                  <td><code>$customer-primary-base</code></td>
+                  <td><code>null</code></td>
+                  <td>Prim&auml;rfarbe der Kundenmarke (Hex)</td>
+                </tr>
+                <tr>
+                  <td><code>$customer-secondary-base</code></td>
+                  <td><code>null</code></td>
+                  <td>Sekund&auml;rfarbe der Kundenmarke (Hex)</td>
+                </tr>
+                <tr>
+                  <td><code>$customer-accent-base</code></td>
+                  <td><code>null</code></td>
+                  <td>Akzentfarbe der Kundenmarke (Hex)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Integrationsschritte</h2>
+          <p class="docs__section-desc">
+            So wird eine Kundenmarke in das Design System injiziert:
+          </p>
+
+          <ol class="ta-steps">
+            <li>
+              <strong>Brand-Quelle setzen</strong><br>
+              <code style="font-size: var(--fs-sm);">$brand-source: 'customer';</code> vor dem Import von
+              <code>_color-primitives.scss</code> definieren.
+            </li>
+            <li>
+              <strong>Basisfarben definieren</strong><br>
+              <code style="font-size: var(--fs-sm);">$customer-primary-base: #e63312;</code><br>
+              <code style="font-size: var(--fs-sm);">$customer-secondary-base: #1a7ab5;</code><br>
+              <code style="font-size: var(--fs-sm);">$customer-accent-base: #f5a623;</code>
+            </li>
+            <li>
+              <strong>Palette wird auto-generiert</strong><br>
+              Aus jeder Basisfarbe werden die Shade-Stufen 100&ndash;950 automatisch per Sass-Farbfunktionen
+              erzeugt (Aufhellung f&uuml;r niedrige Stufen, Abdunklung f&uuml;r hohe).
+            </li>
+            <li>
+              <strong>Customer-Themes verf&uuml;gbar</strong><br>
+              <code>.customer-light-theme</code> und <code>.customer-dark-theme</code> nutzen die
+              sekund&auml;ren semantischen Maps mit den Customer-Paletten.
+            </li>
+          </ol>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Beispiel: Sass-Konfiguration</h2>
+
+          <pre style="font-family: var(--fnd-font-mono); font-size: var(--fs-sm); line-height: 1.6; padding: 1.5rem; background: var(--fnd-color-background-secondary); border-radius: var(--fnd-radius-sm); overflow-x: auto; margin-block-end: var(--fnd-spacing-06);">
+<span style="color: var(--fnd-color-text-tertiary);">// custom-brand.scss &mdash; Vor dem Haupt-Import</span>
+
+<span style="color: var(--fnd-color-text-tertiary);">// 1. Brand-Quelle umschalten</span>
+$brand-source: 'customer';
+
+<span style="color: var(--fnd-color-text-tertiary);">// 2. Basisfarben definieren</span>
+$customer-primary-base:   #e63312;
+$customer-secondary-base: #1a7ab5;
+$customer-accent-base:    #f5a623;
+
+<span style="color: var(--fnd-color-text-tertiary);">// 3. Design System importieren</span>
+@use 'scss/scss/main' as *;
+
+<span style="color: var(--fnd-color-text-tertiary);">// Ergebnis: Alle 4 Themes verf&uuml;gbar,</span>
+<span style="color: var(--fnd-color-text-tertiary);">// Customer-Themes nutzen die injizierten Paletten.</span></pre>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Paletten-&Uuml;berblick</h2>
+          <p class="docs__section-desc">
+            Wenn <code>$brand-source: 'customer'</code> gesetzt ist, werden die Paletten
+            nach folgendem Schema aufgebaut:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Palette</th><th>Quelle (neo)</th><th>Quelle (customer)</th><th>Shade-Stufen</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Primary</td>
+                  <td>NEO-Prim&auml;rpalette</td>
+                  <td><code>$customer-primary-base</code></td>
+                  <td>100&ndash;950</td>
+                </tr>
+                <tr>
+                  <td>Secondary</td>
+                  <td>NEO-Sekund&auml;rpalette</td>
+                  <td><code>$customer-secondary-base</code></td>
+                  <td>100&ndash;950</td>
+                </tr>
+                <tr>
+                  <td>Accent</td>
+                  <td>NEO-Akzentpalette</td>
+                  <td><code>$customer-accent-base</code></td>
+                  <td>100&ndash;950</td>
+                </tr>
+                <tr>
+                  <td>Neutral</td>
+                  <td colspan="2">Immer identisch &mdash; nicht markenabh&auml;ngig</td>
+                  <td>100&ndash;950</td>
+                </tr>
+                <tr>
+                  <td>System</td>
+                  <td colspan="2">Immer identisch &mdash; Feedback-Farben (Rot, Gr&uuml;n, Gelb, Blau)</td>
+                  <td>100&ndash;950</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 3rem;">Density Modes (Zukunft)</h2>
+          <p class="docs__section-desc">
+            In Planung: Spacing-Tokens k&ouml;nnten zuk&uuml;nftig drei Dichte-Modi unterst&uuml;tzen, analog
+            zum Theme-System &uuml;ber eine CSS-Klasse oder ein <code>data-density</code>-Attribut.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Modus</th><th>Beschreibung</th><th>Beispiel-Token-Skalierung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Compact</td>
+                  <td>Kompakte Darstellung f&uuml;r datenintensive Anwendungen</td>
+                  <td><code>--fnd-spacing-*</code> &times; 0.75</td>
+                </tr>
+                <tr>
+                  <td>Default</td>
+                  <td>Standard-Abst&auml;nde (aktueller Zustand)</td>
+                  <td><code>--fnd-spacing-*</code> &times; 1.0</td>
+                </tr>
+                <tr>
+                  <td>Spacious</td>
+                  <td>Gro&szlig;z&uuml;gige Darstellung f&uuml;r Marketing-Seiten</td>
+                  <td><code>--fnd-spacing-*</code> &times; 1.25</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        </div> <!-- /docs-tabs -->
+      </div> <!-- /docs__body -->
+
+    </main>
+<!-- /BODY -->

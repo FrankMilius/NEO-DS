@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipe System | Design System Docs</title>
+  <meta name="description" content="Spezifikation des Recipe v3.1 Systems: JSON Schema, Achsen, Specimens, Token-Gruppen, SDK-Pipeline und Validierung." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+<main class="docs">
+
+  <!-- Page Header -->
+  <div class="docs__hero">
+    <h1 class="docs__title">Recipe System</h1>
+    <p class="docs__subtitle">
+      Das <strong>Recipe v3.1</strong> System beschreibt jede Komponente als strukturierte JSON-Datei.
+      Recipes definieren Variationen (Achsen), Zust&auml;nde, Accessibility-Vertr&auml;ge,
+      Token-Wiring und Test-Specimens. Sie werden vom <strong>Theme Configurator</strong>
+      konsumiert und durch <code class="docs__token">lint-recipes.mjs</code> validiert.
+      Schema: <code class="docs__token">data/recipe-schema.json</code>.
+    </p>
+  </div>
+
+  <div class="docs__tab-nav">
+    <div class="docs-tabs__list" role="tablist" aria-label="Recipe-System-Dokumentation">
+      <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-spec" id="trigger-spec">Spezifikation</button>
+      <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-axes" id="trigger-axes">Achsen &amp; Specimens</button>
+      <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-tokens" id="trigger-tokens">Token-Wiring</button>
+      <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-sdk" id="trigger-sdk">SDK &amp; Pipeline</button>
+    </div>
+  </div>
+
+  <div class="docs__body">
+    <div class="docs-tabs" id="recipe-system-tabs">
+
+<!-- ============================================================ -->
+      <!-- TAB 1: Spezifikation                                        -->
+      <!-- ============================================================ -->
+      <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-spec" aria-labelledby="trigger-spec">
+
+        <section class="docs__section">
+          <h2 class="docs__section-title">Was ist ein Recipe?</h2>
+          <p class="docs__section-desc">
+            Ein <strong>Recipe</strong> ist eine strukturierte JSON-Datei, die eine Komponente vollst&auml;ndig beschreibt:
+            ihre Variationen, interaktiven Zust&auml;nde, Accessibility-Anforderungen, Token-Zuordnungen und
+            Test-Specimens. Jede Komponente im NEO Design System hat genau ein Recipe.
+          </p>
+
+          <div class="recipe-info-box">
+            <strong>Schema-Version:</strong> 3.1.0 &mdash;
+            Das JSON Schema liegt unter <code class="docs__token">data/recipe-schema.json</code> und wird
+            von <code class="docs__token">scripts/lint-recipes.mjs</code> zur Validierung herangezogen.
+            Aktuell existieren 92 Recipe-Dateien im <code class="docs__token">data/</code> Verzeichnis.
+          </div>
+        </section>
+
+        <!-- 9 kanonische Sektionen -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Die 9 kanonischen Sektionen</h2>
+          <p class="docs__section-desc">
+            Jedes Recipe besteht aus bis zu 9 Sektionen. Nur <code class="docs__token">meta</code> ist zwingend
+            erforderlich &mdash; alle anderen Sektionen sind optional, aber empfohlen f&uuml;r den Status
+            <code class="docs__token">stable</code>.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Sektion</th>
+                  <th>Zweck</th>
+                  <th>Wichtige Felder</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">meta</code></td>
+                  <td>Identit&auml;t &amp; Metadaten</td>
+                  <td><code>schemaVersion</code>, <code>component</code>, <code>version</code>, <code>status</code>, <code>tags</code>, <code>links</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">anatomy</code></td>
+                  <td>DOM-Struktur</td>
+                  <td><code>root.element</code>, <code>slots[]</code>, <code>domNotes[]</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">axes</code></td>
+                  <td>Variations-Dimensionen</td>
+                  <td>Pro Achse: <code>label</code>, <code>values</code> &mdash; jeder Wert hat <code>modifier</code>, <code>tokenGroups</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">states</code></td>
+                  <td>Interaktive Zust&auml;nde</td>
+                  <td><code>supported[]</code>, <code>precedence[]</code>, <code>interactive</code>, <code>rules[]</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">a11y</code></td>
+                  <td>Accessibility-Vertrag</td>
+                  <td><code>role</code>, <code>aria-*</code>, <code>keyboard</code>, <code>assertions[]</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">styling</code></td>
+                  <td>Token-Wiring</td>
+                  <td><code>baseClasses[]</code>, <code>baseTokenGroups[]</code>, <code>tokenGroups{}</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">recipes</code></td>
+                  <td>Klassen-Aufl&ouml;sung</td>
+                  <td><code>mode</code> (static/dynamic), <code>resolution.template</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">specimens</code></td>
+                  <td>Test-Matrizen</td>
+                  <td><code>id</code>, <code>label</code>, <code>matrix.axes</code>, <code>matrix.states</code>, <code>layout</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">links</code></td>
+                  <td>Querverweise</td>
+                  <td><code>docs</code>, <code>figma</code>, <code>storybook</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Naming Conventions -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Namenskonventionen</h2>
+          <p class="docs__section-desc">
+            Recipe-Dateien folgen einem strikten Benennungsschema:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Eigenschaft</th><th>Konvention</th><th>Beispiel</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Dateiname</td>
+                  <td><code class="docs__token">{component}-recipe.json</code></td>
+                  <td><code>button-recipe.json</code>, <code>data-table-recipe.json</code></td>
+                </tr>
+                <tr>
+                  <td>Component-ID</td>
+                  <td>Lowercase Kebab-Case</td>
+                  <td><code>button</code>, <code>segmented-control</code></td>
+                </tr>
+                <tr>
+                  <td>Achsen-Schluessel</td>
+                  <td>Lowercase camelCase</td>
+                  <td><code>variant</code>, <code>size</code>, <code>intent</code></td>
+                </tr>
+                <tr>
+                  <td>Modifier</td>
+                  <td>Lowercase Kebab-Case oder <code class="docs__token">null</code></td>
+                  <td><code>"filled"</code>, <code>"outline"</code>, <code>null</code> (= Default)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Status-Werte -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Status-Werte</h2>
+          <p class="docs__section-desc">
+            Jedes Recipe tr&auml;gt einen <code class="docs__token">meta.status</code> der den Reifegrad anzeigt:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Status</th><th>Bedeutung</th><th>Erlaubte &Auml;nderungen</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">draft</code></td>
+                  <td>Entwurf &mdash; unvollst&auml;ndig, nicht f&uuml;r Produktion</td>
+                  <td>Beliebige &Auml;nderungen, Breaking Changes erlaubt</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">experimental</code></td>
+                  <td>Experimentell &mdash; Grundstruktur steht, API kann sich &auml;ndern</td>
+                  <td>API-&Auml;nderungen mit Deprecation-Hinweis</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">stable</code></td>
+                  <td>Stabil &mdash; produktionsreif, alle 9 Sektionen vorhanden</td>
+                  <td>Nur additive &Auml;nderungen, keine Breaking Changes</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">deprecated</code></td>
+                  <td>Veraltet &mdash; wird in zuk&uuml;nftiger Version entfernt</td>
+                  <td>Nur Bug-Fixes, <code>meta.deprecatedBy</code> gesetzt</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Minimales Beispiel -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Minimales Recipe-Beispiel</h2>
+          <p class="docs__section-desc">
+            Die einfachste g&uuml;ltige Recipe-Datei enth&auml;lt nur die <code class="docs__token">meta</code>-Sektion:
+          </p>
+
+          <pre class="recipe-code">{
+  <span class="key">"meta"</span>: {
+    <span class="key">"schemaVersion"</span>: <span class="str">"3.1.0"</span>,
+    <span class="key">"component"</span>: <span class="str">"divider"</span>,
+    <span class="key">"version"</span>: <span class="str">"1.0.0"</span>,
+    <span class="key">"status"</span>: <span class="str">"stable"</span>,
+    <span class="key">"tags"</span>: [<span class="str">"layout"</span>, <span class="str">"atom"</span>]
+  }
+}</pre>
+        </section>
+
+      </div>
+
+<!-- ============================================================ -->
+      <!-- TAB 2: Achsen & Specimens                                    -->
+      <!-- ============================================================ -->
+      <div class="docs-tabs__panel" role="tabpanel" id="tab-axes" aria-labelledby="trigger-axes">
+
+        <section class="docs__section">
+          <h2 class="docs__section-title">Was sind Achsen?</h2>
+          <p class="docs__section-desc">
+            <strong>Achsen</strong> (Axes) sind benannte Variations-Dimensionen einer Komponente.
+            Typische Achsen sind <code class="docs__token">variant</code> (filled, outline, ghost),
+            <code class="docs__token">size</code> (sm, md, lg) und
+            <code class="docs__token">intent</code> (default, success, danger).
+            Jede Achse definiert eine endliche Menge von Werten, die kombiniert den gesamten
+            Variationsraum der Komponente aufspannen.
+          </p>
+        </section>
+
+        <!-- Achsen-Struktur -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Achsen-Wert-Struktur</h2>
+          <p class="docs__section-desc">
+            Jeder Achsen-Wert definiert einen <code class="docs__token">modifier</code> (CSS-Klasse)
+            und eine Liste von <code class="docs__token">tokenGroups</code> (Styling-Verbindung):
+          </p>
+
+          <pre class="recipe-code">{
+  <span class="key">"axes"</span>: {
+    <span class="key">"variant"</span>: {
+      <span class="key">"label"</span>: <span class="str">"Variante"</span>,
+      <span class="key">"values"</span>: {
+        <span class="key">"filled"</span>: {
+          <span class="key">"modifier"</span>: <span class="str">"filled"</span>,
+          <span class="key">"tokenGroups"</span>: [<span class="str">"filled"</span>]
+        },
+        <span class="key">"outline"</span>: {
+          <span class="key">"modifier"</span>: <span class="str">"outline"</span>,
+          <span class="key">"tokenGroups"</span>: [<span class="str">"outline"</span>]
+        },
+        <span class="key">"ghost"</span>: {
+          <span class="key">"modifier"</span>: <span class="null">null</span>,
+          <span class="key">"tokenGroups"</span>: [<span class="str">"ghost"</span>]
+        }
+      }
+    }
+  }
+}</pre>
+        </section>
+
+        <!-- Modifier-Regeln -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Modifier-Regeln</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>modifier-Wert</th><th>Bedeutung</th><th>Resultierende CSS-Klasse</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">null</code></td>
+                  <td>Default-Variante &mdash; keine zus&auml;tzliche Klasse erforderlich</td>
+                  <td><code>.nc-{component}</code> (nur Basis-Klasse)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">"filled"</code></td>
+                  <td>Benannte Variante &mdash; Modifier-Klasse wird angeh&auml;ngt</td>
+                  <td><code>.nc-{component}--filled</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">"outline"</code></td>
+                  <td>Benannte Variante</td>
+                  <td><code>.nc-{component}--outline</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="recipe-info-box">
+            <strong>Konvention:</strong> <code class="docs__token">modifier: null</code> kennzeichnet den Default-Zustand.
+            Wenn eine Komponente ohne Modifier-Klasse gerendert wird, gilt dieser Achsen-Wert.
+            Pro Achse darf maximal ein Wert <code>null</code> als Modifier haben.
+          </div>
+        </section>
+
+        <!-- Token Groups -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Token Groups</h2>
+          <p class="docs__section-desc">
+            Jeder Achsen-Wert verweist &uuml;ber <code class="docs__token">tokenGroups</code> auf
+            benannte Gruppen in <code class="docs__token">styling.tokenGroups</code>. Dadurch wird
+            die Verbindung zwischen Variationen und konkreten Design-Tokens hergestellt.
+          </p>
+
+          <div class="recipe-flow">
+            <span class="recipe-flow__node">axes.variant.filled</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">tokenGroups: ["filled"]</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">styling.tokenGroups.filled</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">--nc-button-bg, --nc-button-color</span>
+          </div>
+        </section>
+
+        <!-- Specimens -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Specimens: Test-Matrizen</h2>
+          <p class="docs__section-desc">
+            <strong>Specimens</strong> sind vordefinierte Test-Matrizen, die Achsen und Zust&auml;nde
+            kombinieren. Der Theme Configurator rendert Specimens als visuelle Pr&uuml;ftafeln.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Layout</th><th>Beschreibung</th><th>Konfiguration</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">row</code></td>
+                  <td>Horizontale Auflistung aller Achsen-Werte</td>
+                  <td>&mdash;</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">grid</code></td>
+                  <td>Zweidimensionale Matrix (Zeilen &times; Spalten)</td>
+                  <td><code>layoutConfig.rowAxis</code>, <code>layoutConfig.colAxis</code></td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">single</code></td>
+                  <td>Einzelnes Exemplar mit festgelegten Werten</td>
+                  <td>&mdash;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Specimen Beispiel -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Specimen-Beispiel</h2>
+          <p class="docs__section-desc">
+            Ein Grid-Specimen, das alle Varianten &times; Gr&ouml;&szlig;en in Default- und Hover-Zustand zeigt:
+          </p>
+
+          <pre class="recipe-code">{
+  <span class="key">"id"</span>: <span class="str">"variant-matrix"</span>,
+  <span class="key">"label"</span>: <span class="str">"Varianten-Matrix"</span>,
+  <span class="key">"matrix"</span>: {
+    <span class="key">"axes"</span>: {
+      <span class="key">"variant"</span>: <span class="str">"*"</span>,
+      <span class="key">"size"</span>: <span class="str">"*"</span>
+    },
+    <span class="key">"states"</span>: [<span class="str">"default"</span>, <span class="str">"hover"</span>]
+  },
+  <span class="key">"layout"</span>: <span class="str">"grid"</span>,
+  <span class="key">"layoutConfig"</span>: {
+    <span class="key">"rowAxis"</span>: <span class="str">"variant"</span>,
+    <span class="key">"colAxis"</span>: <span class="str">"size"</span>
+  }
+}</pre>
+
+          <div class="recipe-info-box">
+            <strong>Wildcard <code>"*"</code>:</strong> Bedeutet &ldquo;alle Werte dieser Achse&rdquo;.
+            Alternativ kann ein Array mit spezifischen Werten angegeben werden:
+            <code>"variant": ["filled", "outline"]</code>.
+          </div>
+        </section>
+
+      </div>
+
+<!-- ============================================================ -->
+      <!-- TAB 3: Token-Wiring                                          -->
+      <!-- ============================================================ -->
+      <div class="docs-tabs__panel" role="tabpanel" id="tab-tokens" aria-labelledby="trigger-tokens">
+
+        <section class="docs__section">
+          <h2 class="docs__section-title">Basis-Styling</h2>
+          <p class="docs__section-desc">
+            Das <code class="docs__token">styling</code>-Objekt definiert, welche CSS-Klassen und
+            Token-Gruppen den Grundzustand einer Komponente bilden:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">baseClasses</code></td>
+                  <td><code>string[]</code></td>
+                  <td>CSS-Klassen, die immer gesetzt werden (z.B. <code>["nc-button"]</code>)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">baseTokenGroups</code></td>
+                  <td><code>string[]</code></td>
+                  <td>Token-Gruppen, die immer aktiv sind (z.B. <code>["base", "layout"]</code>)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">tokenGroups</code></td>
+                  <td><code>object</code></td>
+                  <td>Benannte Token-Gruppen, referenziert von Achsen-Werten</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <pre class="recipe-code">{
+  <span class="key">"styling"</span>: {
+    <span class="key">"baseClasses"</span>: [<span class="str">"nc-button"</span>],
+    <span class="key">"baseTokenGroups"</span>: [<span class="str">"base"</span>, <span class="str">"layout"</span>],
+    <span class="key">"tokenGroups"</span>: {
+      <span class="key">"base"</span>: {
+        <span class="key">"label"</span>: <span class="str">"Basis"</span>,
+        <span class="key">"tokens"</span>: [<span class="str">"nc-button-radius"</span>, <span class="str">"nc-button-font-weight"</span>]
+      },
+      <span class="key">"filled"</span>: {
+        <span class="key">"label"</span>: <span class="str">"Filled"</span>,
+        <span class="key">"tokens"</span>: [<span class="str">"nc-button-bg"</span>, <span class="str">"nc-button-color"</span>, <span class="str">"nc-button-border"</span>]
+      },
+      <span class="key">"outline"</span>: {
+        <span class="key">"label"</span>: <span class="str">"Outline"</span>,
+        <span class="key">"tokens"</span>: [<span class="str">"nc-button-bg"</span>, <span class="str">"nc-button-color"</span>, <span class="str">"nc-button-border"</span>]
+      }
+    }
+  }
+}</pre>
+        </section>
+
+        <!-- Token-Gruppen-Struktur -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Token-Gruppen-Struktur</h2>
+          <p class="docs__section-desc">
+            Jede Token-Gruppe ist ein Objekt mit <code class="docs__token">label</code> (Anzeigename)
+            und <code class="docs__token">tokens</code> (Array von Token-Namen ohne <code>--</code> Prefix):
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">label</code></td>
+                  <td><code>string</code></td>
+                  <td>Menschenlesbarer Name der Gruppe (wird im Theme Configurator angezeigt)</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">tokens</code></td>
+                  <td><code>string[]</code></td>
+                  <td>Token-Namen, z.B. <code>"nc-button-bg"</code> &rarr; CSS: <code>var(--nc-button-bg)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Theme Configurator Verbindung -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Theme Configurator Integration</h2>
+          <p class="docs__section-desc">
+            Der Theme Configurator liest die <code class="docs__token">tokenGroups</code> eines Recipes
+            und baut daraus sein Inspector-Panel auf:
+          </p>
+
+          <div class="recipe-flow">
+            <span class="recipe-flow__node">Recipe JSON</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">styling.tokenGroups</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">Inspector Panel</span>
+            <span class="recipe-flow__arrow">&rarr;</span>
+            <span class="recipe-flow__node">Live Token-Editor</span>
+          </div>
+
+          <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-04);">
+            Jede Token-Gruppe wird als eigene Sektion im Inspector gerendert.
+            Der Nutzer kann Token-Werte live &auml;ndern und sieht die Auswirkung
+            sofort in den gerenderten Specimens.
+          </p>
+        </section>
+
+        <!-- Verbindung zu _component-tokens.scss -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Verbindung zu <code>_component-tokens.scss</code></h2>
+          <p class="docs__section-desc">
+            Die Token-Namen in <code class="docs__token">tokenGroups</code> m&uuml;ssen mit den
+            in <code class="docs__token">scss/scss/00-settings/_component-tokens.scss</code> deklarierten
+            <code>:root</code>-Variablen &uuml;bereinstimmen:
+          </p>
+
+          <pre class="recipe-code"><span class="comm">/* _component-tokens.scss */</span>
+:root {
+  <span class="key">--nc-button-bg</span>: var(--fnd-color-interactive-default);
+  <span class="key">--nc-button-color</span>: var(--fnd-color-on-accent);
+  <span class="key">--nc-button-border</span>: transparent;
+  <span class="key">--nc-button-radius</span>: var(--fnd-radius-sm);
+  <span class="key">--nc-button-font-weight</span>: var(--fnd-font-weight-semibold);
+}</pre>
+
+          <div class="recipe-info-box">
+            <strong>Validierung:</strong> <code class="docs__token">lint-recipes.mjs</code> pr&uuml;ft,
+            ob alle in <code>tokenGroups</code> referenzierten Token-Namen auch in
+            <code class="docs__token">data/design-tokens.json</code> unter dem jeweiligen
+            Component-Eintrag existieren. Fehlende Tokens erzeugen einen Fehler.
+          </div>
+        </section>
+
+      </div>
+
+<!-- ============================================================ -->
+      <!-- TAB 4: SDK & Pipeline                                        -->
+      <!-- ============================================================ -->
+      <div class="docs-tabs__panel" role="tabpanel" id="tab-sdk" aria-labelledby="trigger-sdk">
+
+        <section class="docs__section">
+          <h2 class="docs__section-title">Recipe SDK</h2>
+          <p class="docs__section-desc">
+            Das <strong>Recipe SDK</strong> unter <code class="docs__token">packages/recipe-sdk/index.js</code>
+            ist der programmatische Consumer von Recipe-Dateien. Es wird vom Theme Configurator
+            und von Build-Skripten verwendet.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Funktion</th><th>Zweck</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code class="docs__token">loadRecipe(json)</code></td>
+                  <td>Recipe parsen und normalisieren. Gibt ein validiertes Recipe-Objekt zur&uuml;ck.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">buildSpecimenMatrix(recipe, specimenId)</code></td>
+                  <td>Generiert das Achsen &times; States Grid f&uuml;r ein bestimmtes Specimen.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">resolveClasses(recipe, axisValues)</code></td>
+                  <td>Berechnet die vollst&auml;ndige CSS-Klassen-Liste f&uuml;r eine Achsen-Kombination.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">extractTokens(recipe, group)</code></td>
+                  <td>Extrahiert alle Token-Namen f&uuml;r eine benannte Token-Gruppe.</td>
+                </tr>
+                <tr>
+                  <td><code class="docs__token">validateSpecimenSanity(recipe)</code></td>
+                  <td>Pr&uuml;ft Specimens gegen definierte Achsen: fehlende Achsen-Referenzen oder ung&uuml;ltige Werte.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Pipeline -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Pipeline</h2>
+          <p class="docs__section-desc">
+            Der Weg vom Recipe-Authoring bis zur visuellen Darstellung im Theme Configurator:
+          </p>
+
+          <div class="recipe-pipeline">
+            <div class="recipe-pipeline__step">
+              <span class="recipe-pipeline__step-num">01</span>
+              <span class="recipe-pipeline__step-title">Authoring</span>
+              <span class="recipe-pipeline__step-desc">Recipe JSON erstellen/bearbeiten</span>
+            </div>
+            <div class="recipe-pipeline__step">
+              <span class="recipe-pipeline__step-num">02</span>
+              <span class="recipe-pipeline__step-title">Validierung</span>
+              <span class="recipe-pipeline__step-desc">lint-recipes.mjs pr&uuml;ft Schema + Semantik</span>
+            </div>
+            <div class="recipe-pipeline__step">
+              <span class="recipe-pipeline__step-num">03</span>
+              <span class="recipe-pipeline__step-title">SDK Load</span>
+              <span class="recipe-pipeline__step-desc">loadRecipe() normalisiert + cacht</span>
+            </div>
+            <div class="recipe-pipeline__step">
+              <span class="recipe-pipeline__step-num">04</span>
+              <span class="recipe-pipeline__step-title">Rendering</span>
+              <span class="recipe-pipeline__step-desc">Theme Configurator rendert Specimens</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Neues Recipe erstellen -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Neues Recipe erstellen</h2>
+          <p class="docs__section-desc">
+            Schritt-f&uuml;r-Schritt-Anleitung zum Erstellen eines neuen Recipes:
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Schritt</th><th>Aktion</th><th>Details</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>Datei anlegen</td>
+                  <td><code>data/{component}-recipe.json</code> mit <code>meta</code>-Sektion erstellen. Status: <code>draft</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>Achsen definieren</td>
+                  <td>Variationen identifizieren (variant, size, intent) und als <code>axes</code> modellieren.</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>Zust&auml;nde festlegen</td>
+                  <td><code>states.supported</code> und <code>states.precedence</code> definieren.</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>Token-Wiring</td>
+                  <td><code>styling.baseClasses</code>, <code>baseTokenGroups</code> und <code>tokenGroups</code> verkn&uuml;pfen.</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>Specimens erstellen</td>
+                  <td>Mindestens ein Specimen mit <code>layout: "grid"</code> f&uuml;r die Varianten-Matrix.</td>
+                </tr>
+                <tr>
+                  <td><strong>6</strong></td>
+                  <td>Validieren</td>
+                  <td><code>node scripts/lint-recipes.mjs</code> ausf&uuml;hren &mdash; alle Fehler beheben.</td>
+                </tr>
+                <tr>
+                  <td><strong>7</strong></td>
+                  <td>Status hochstufen</td>
+                  <td>Nach Review: <code>draft</code> &rarr; <code>experimental</code> &rarr; <code>stable</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Validierung -->
+        <section class="docs__section">
+          <h2 class="docs__section-title">Validierung</h2>
+          <p class="docs__section-desc">
+            Der Recipe-Linter f&uuml;hrt sowohl Schema-Validierung als auch semantische Pr&uuml;fungen durch:
+          </p>
+
+          <pre class="recipe-code"><span class="comm"># Alle Recipes validieren</span>
+node scripts/lint-recipes.mjs
+
+<span class="comm"># Exitcode 1 bei Fehlern, Warnungen sind nicht-blockierend</span>
+<span class="comm"># Wird automatisch durch `npm test` ausgef&uuml;hrt</span></pre>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Pr&uuml;fung</th><th>Severity</th><th>Beschreibung</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Schema-Validierung</td>
+                  <td><strong>Error</strong></td>
+                  <td>JSON-Struktur muss dem Schema <code>recipe-schema.json</code> entsprechen</td>
+                </tr>
+                <tr>
+                  <td>Token-Existenz</td>
+                  <td><strong>Error</strong></td>
+                  <td>Alle Token-Namen in <code>tokenGroups</code> m&uuml;ssen in <code>design-tokens.json</code> existieren</td>
+                </tr>
+                <tr>
+                  <td>Specimen-Achsen</td>
+                  <td><strong>Error</strong></td>
+                  <td>Specimens d&uuml;rfen nur auf definierte Achsen verweisen</td>
+                </tr>
+                <tr>
+                  <td>Modifier-Eindeutigkeit</td>
+                  <td><strong>Error</strong></td>
+                  <td>Innerhalb einer Achse muss jeder Modifier eindeutig sein</td>
+                </tr>
+                <tr>
+                  <td>Fehlende Sektionen</td>
+                  <td><strong>Warning</strong></td>
+                  <td>Stable-Recipes sollten alle 9 Sektionen enthalten</td>
+                </tr>
+                <tr>
+                  <td>Verwaiste Token-Gruppen</td>
+                  <td><strong>Warning</strong></td>
+                  <td>Token-Gruppen, die von keinem Achsen-Wert referenziert werden</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+    </div><!-- /.docs-tabs -->
+  </div>
+
+</main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+
+
+</body>
+</html>

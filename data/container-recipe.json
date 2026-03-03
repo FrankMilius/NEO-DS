@@ -1,0 +1,115 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "container",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["layout", "object", "container"],
+    "links": {
+      "docs": "/docs/layout-architecture-docs.html"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".nc-container" },
+    "slots": [
+      { "name": "content", "element": ".nc-container > *", "optional": false, "description": "Beliebiger Inhalt innerhalb des Containers." }
+    ],
+    "domNotes": [
+      "Container zentriert Inhalt horizontal und begrenzt die maximale Breite.",
+      "Fluid Padding skaliert von 16px (320px Viewport) bis 48px (1600px).",
+      "Ab XXL (1920px) entfaellt das Padding, stattdessen greift max-width.",
+      "Full-bleed Kinder (z.B. .nc-hero) brechen per negativem Margin aus dem Container aus."
+    ]
+  },
+
+  "axes": {
+    "width": {
+      "label": "Breite",
+      "description": "Maximale Breite des Containers ab XXL-Breakpoint.",
+      "values": {
+        "standard": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Standard-Container: max-width 1200px."
+        },
+        "wide": {
+          "modifier": "nc-container--wide",
+          "tokenGroups": ["geometry", "wide"],
+          "description": "Breiter Container: max-width 1440px."
+        },
+        "narrow": {
+          "modifier": "nc-container--narrow",
+          "tokenGroups": ["geometry"],
+          "description": "Schmaler Container: max-width 768px. Ideal fuer Formulare."
+        },
+        "full": {
+          "modifier": "nc-container--full",
+          "tokenGroups": ["geometry"],
+          "description": "Volle Breite ohne max-width Begrenzung."
+        }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "interactive": false,
+    "rules": []
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "assertions": [
+        "Container ist ein reines Layout-Element ohne semantische Rolle.",
+        "Inhalt innerhalb des Containers muss eigenstaendig zugaenglich sein."
+      ]
+    },
+    "overrides": []
+  },
+
+  "styling": {
+    "baseClasses": ["nc-container"],
+    "baseTokenGroups": ["geometry"],
+    "tokenGroups": {
+      "geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-container-max-width",
+          "nc-container-padding-inline",
+          "nc-container-padding-inline-xxl"
+        ]
+      },
+      "wide": {
+        "label": "Wide",
+        "tokens": [
+          "nc-container-max-width-wide"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes"],
+      "output": ["classList", "tokenGroups"]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "width-scale",
+      "label": "Breiten-Varianten",
+      "description": "Alle Container-Breiten im Vergleich.",
+      "matrix": {
+        "axes": { "width": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    }
+  ]
+}

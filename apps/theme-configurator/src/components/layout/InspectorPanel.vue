@@ -1,5 +1,7 @@
 <template>
-  <div class="inspector-panel">
+  <div class="inspector-panel" :style="{ width: panelWidth + 'px' }">
+    <!-- Drag Handle -->
+    <div class="inspector-resize-handle" @mousedown="startResize"></div>
     <!-- Section Header -->
     <div class="section-header">
       <h2 class="section-title">{{ sectionTitle }}</h2>
@@ -97,7 +99,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import FoundationColors from '../foundation/FoundationColors.vue'
 import SurfaceEditor from '../foundation/SurfaceEditor.vue'
@@ -113,6 +115,46 @@ import TemplatePlaceholder from '../templates/TemplatePlaceholder.vue'
 
 const store = useThemeStore()
 const activeSection = computed(() => store.state.activeSection)
+
+// ---------------------------------------------------------------------------
+// Resizable Panel
+// ---------------------------------------------------------------------------
+const MIN_WIDTH = 360
+const DEFAULT_WIDTH = 600
+const panelWidth = ref(DEFAULT_WIDTH)
+let resizing = false
+let startX = 0
+let startWidth = 0
+
+function startResize(e) {
+  resizing = true
+  startX = e.clientX
+  startWidth = panelWidth.value
+  document.body.style.cursor = 'col-resize'
+  document.body.style.userSelect = 'none'
+  document.addEventListener('mousemove', onResize)
+  document.addEventListener('mouseup', stopResize)
+}
+
+function onResize(e) {
+  if (!resizing) return
+  // Dragging left = larger panel (since panel is on the right)
+  const delta = startX - e.clientX
+  panelWidth.value = Math.max(MIN_WIDTH, startWidth + delta)
+}
+
+function stopResize() {
+  resizing = false
+  document.body.style.cursor = ''
+  document.body.style.userSelect = ''
+  document.removeEventListener('mousemove', onResize)
+  document.removeEventListener('mouseup', stopResize)
+}
+
+onBeforeUnmount(() => {
+  document.removeEventListener('mousemove', onResize)
+  document.removeEventListener('mouseup', stopResize)
+})
 
 const sectionMeta = {
   'foundation-colors': { title: 'Colors', desc: 'Define primitive color palettes, then map them to semantic tokens across all themes.' },
@@ -155,13 +197,29 @@ const sectionDesc = computed(() => sectionMeta[activeSection.value]?.desc || '')
 
 <style scoped>
 .inspector-panel {
-  width: 360px;
+  position: relative;
   min-width: 360px;
   flex-shrink: 0;
   padding: 24px;
   overflow-y: auto;
   background: var(--cfg-bg);
   border-left: 1px solid var(--cfg-border);
+}
+
+.inspector-resize-handle {
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.inspector-resize-handle:hover,
+.inspector-resize-handle:active {
+  background: var(--cfg-accent, #7c3aed);
+  opacity: 0.3;
 }
 
 .section-header {

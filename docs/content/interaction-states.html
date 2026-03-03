@@ -1,0 +1,936 @@
+<!-- STYLES -->
+  <style>
+    /* ================================================================
+       Interaction-States-Docs: Seitenspezifische Styles
+       ================================================================ */
+
+    /* --- State Demo Karten --- */
+    .is-demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .is-demo-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-03);
+      padding: var(--fnd-spacing-05);
+      background: var(--fnd-color-layer-01);
+      border: 1px solid var(--fnd-color-border-secondary);
+      border-radius: var(--fnd-radius-md);
+      text-align: center;
+    }
+    .is-demo-card__label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+    }
+    .is-demo-card__selector {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-interactive-default);
+      word-break: break-all;
+    }
+    .is-demo-card__desc {
+      font-size: var(--fs-xs);
+      color: var(--fnd-color-text-secondary);
+    }
+
+    /* --- Color-Mix Visualisierung --- */
+    .cm-formula {
+      display: flex;
+      flex-direction: column;
+      gap: var(--fnd-spacing-04);
+      margin-block-end: var(--fnd-spacing-08);
+    }
+    .cm-formula__row {
+      display: flex;
+      align-items: center;
+      gap: var(--fnd-spacing-04);
+      flex-wrap: wrap;
+    }
+    .cm-formula__swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--fnd-radius-md);
+      border: 1px solid var(--fnd-color-border-secondary);
+      flex-shrink: 0;
+    }
+    .cm-formula__code {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+      background: var(--fnd-color-background-secondary);
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-radius: var(--fnd-radius-sm);
+    }
+    .cm-formula__label {
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--fnd-color-text-primary);
+      min-width: 120px;
+    }
+
+    /* --- Precedence-Leiste --- */
+    .is-precedence {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fnd-spacing-02);
+      margin-block-end: var(--fnd-spacing-08);
+      align-items: center;
+    }
+    .is-precedence__item {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+      border-radius: var(--fnd-radius-sm);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      background: var(--fnd-color-background-secondary);
+      color: var(--fnd-color-text-primary);
+      border: 1px solid var(--fnd-color-border-secondary);
+    }
+    .is-precedence__item--highest {
+      background: var(--fnd-color-feedback-danger-bg);
+      border-color: var(--fnd-color-feedback-danger);
+      color: var(--fnd-color-feedback-danger);
+    }
+    .is-precedence__arrow {
+      color: var(--fnd-color-text-tertiary);
+      font-size: var(--fs-sm);
+    }
+
+    /* --- Focus-Ring Demo --- */
+    .is-focus-demo {
+      display: flex;
+      gap: var(--fnd-spacing-05);
+      flex-wrap: wrap;
+      margin-block-end: var(--fnd-spacing-08);
+      align-items: center;
+    }
+    .is-focus-demo__item {
+      padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+      background: var(--fnd-color-interactive-default);
+      color: var(--fnd-color-text-on-interactive);
+      border: none;
+      border-radius: var(--fnd-radius-sm);
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .is-focus-demo__item:focus-visible {
+      outline: 2px solid var(--fnd-color-interactive-focus);
+      outline-offset: 2px;
+    }
+
+    /* --- Hinweis-Box --- */
+    .is-hint {
+      background: color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-interactive-default);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+      font-size: var(--fs-sm);
+    }
+    .is-hint code {
+      font-size: var(--fs-xs);
+    }
+
+    /* --- Do/Don't Boxen --- */
+    .is-do {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-success);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+    .is-dont {
+      background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
+      border-left: 4px solid var(--fnd-color-feedback-danger);
+      padding: var(--fnd-spacing-04);
+      border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+      margin-block: var(--fnd-spacing-04);
+    }
+
+    /* --- State Matrix Checkmarks --- */
+    .is-matrix-check {
+      color: var(--fnd-color-feedback-success);
+      font-weight: 700;
+    }
+    .is-matrix-na {
+      color: var(--fnd-color-text-tertiary);
+    }
+  </style>
+<!-- /STYLES -->
+
+<!-- BODY -->
+    <main class="docs">
+
+      <div class="docs__hero">
+        <h1 class="docs__title">Interaction States</h1>
+        <p class="docs__subtitle">
+          Systematische Zustandsverwaltung f&uuml;r alle interaktiven Komponenten.
+          Farb-Ableitung &uuml;ber <code class="docs__token">color-mix()</code>,
+          Fokus via <code class="docs__token">@include focus-ring</code>,
+          Disabled &uuml;ber <code class="docs__token">--fnd-opacity-disabled</code>.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Interaction-States Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="panel-taxonomy" id="trigger-taxonomy">State-Taxonomie</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="panel-color" id="trigger-color">Color Derivation</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="panel-focus" id="trigger-focus">Focus &amp; A11y</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="panel-matrix" id="trigger-matrix">State Matrix</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: State-Taxonomie                                       -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="panel-taxonomy" aria-labelledby="trigger-taxonomy">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">Vollst&auml;ndige State-Taxonomie</h2>
+            <p class="docs__section-desc">
+              Jede interaktive Komponente im NEO Design System durchl&auml;uft definierte Zust&auml;nde.
+              Die folgende Tabelle zeigt alle 9 States mit zugeh&ouml;rigem CSS-Selektor, Token/Mixin
+              und Anwendungsbereich.
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>State</th>
+                    <th>CSS-Selektor</th>
+                    <th>Token / Mixin</th>
+                    <th>Gilt f&uuml;r</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Default</strong></td>
+                    <td>&mdash;</td>
+                    <td><code class="docs__token">var(--nc-{component}-*)</code></td>
+                    <td>Alle Komponenten</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hover</strong></td>
+                    <td><code class="docs__token">:hover</code></td>
+                    <td><code class="docs__token">color-mix()</code> Overlay</td>
+                    <td>Interaktive</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Active / Pressed</strong></td>
+                    <td><code class="docs__token">:active</code></td>
+                    <td><code class="docs__token">color-mix()</code> tieferes Overlay</td>
+                    <td>Interaktive</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Focus</strong></td>
+                    <td><code class="docs__token">:focus-visible</code></td>
+                    <td><code class="docs__token">@include focus-ring</code></td>
+                    <td>Interaktive</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Disabled</strong></td>
+                    <td><code class="docs__token">[disabled]</code>, <code class="docs__token">[aria-disabled="true"]</code></td>
+                    <td><code class="docs__token">opacity: var(--fnd-opacity-disabled)</code></td>
+                    <td>Interaktive</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Error</strong></td>
+                    <td><code class="docs__token">.nc-{c}--error</code>, <code class="docs__token">[aria-invalid="true"]</code></td>
+                    <td><code class="docs__token">--fnd-color-feedback-danger-*</code></td>
+                    <td>Formular</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Success</strong></td>
+                    <td><code class="docs__token">.nc-{c}--success</code></td>
+                    <td><code class="docs__token">--fnd-color-feedback-success-*</code></td>
+                    <td>Formular</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Selected</strong></td>
+                    <td><code class="docs__token">[aria-selected="true"]</code>, <code class="docs__token">[aria-checked="true"]</code></td>
+                    <td>Komponentenspezifische Tokens</td>
+                    <td>Selektierbare</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Loading</strong></td>
+                    <td><code class="docs__token">.nc-{c}--loading</code></td>
+                    <td>Spinner + Disabled-State</td>
+                    <td>Interaktive</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- State-Rangfolge -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">State-Rangfolge (Precedence)</h2>
+            <p class="docs__section-desc">
+              Wenn mehrere Zust&auml;nde gleichzeitig zutreffen, gewinnt der h&ouml;herrangige.
+              Die Reihenfolge von h&ouml;chster zu niedrigster Priorit&auml;t:
+            </p>
+
+            <div class="is-precedence">
+              <span class="is-precedence__item is-precedence__item--highest">disabled</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">error</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">loading</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">selected</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">active</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">hover</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">focus</span>
+              <span class="is-precedence__arrow">&gt;</span>
+              <span class="is-precedence__item">default</span>
+            </div>
+
+            <div class="is-hint">
+              <strong>Wichtig:</strong> <code class="docs__token">disabled</code> &uuml;berschreibt immer alle anderen Zust&auml;nde.
+              Ein deaktivierter Button zeigt weder Hover- noch Error-Styles.
+              Jeder State muss visuell unterscheidbar sein (WCAG 1.4.11 Non-text Contrast).
+            </div>
+          </section>
+
+          <!-- State-Indikatoren -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Visuelle Indikatoren</h2>
+            <p class="docs__section-desc">
+              Jeder Zustand muss &uuml;ber mindestens einen visuellen Kanal erkennbar sein
+              (Farbe, Form, Icon, Opacity). Sich nur auf Farbe zu verlassen reicht nicht aus
+              (WCAG 1.4.1 Use of Color).
+            </p>
+
+            <div class="is-demo-grid">
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Hover</div>
+                <div class="is-demo-card__desc">Abdunklung / Aufhellung via color-mix()</div>
+              </div>
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Active</div>
+                <div class="is-demo-card__desc">St&auml;rkere Abdunklung + optionale Scale-Transformation</div>
+              </div>
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Focus</div>
+                <div class="is-demo-card__desc">2px Outline + 2px Offset (focus-ring Mixin)</div>
+              </div>
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Disabled</div>
+                <div class="is-demo-card__desc">Opacity 0.38 + cursor: not-allowed</div>
+              </div>
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Error</div>
+                <div class="is-demo-card__desc">Rote Border + Feedback-Farbe + Icon</div>
+              </div>
+              <div class="is-demo-card">
+                <div class="is-demo-card__label">Loading</div>
+                <div class="is-demo-card__desc">Spinner-Icon + Disabled-Opacity + pointer-events: none</div>
+              </div>
+            </div>
+          </section>
+
+        </div><!-- /panel-taxonomy -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Color Derivation                                      -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="panel-color" aria-labelledby="trigger-color">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">color-mix() Formeln</h2>
+            <p class="docs__section-desc">
+              Alle Hover- und Active-Zust&auml;nde werden &uuml;ber <code class="docs__token">color-mix(in srgb, ...)</code>
+              abgeleitet. Das Grundprinzip: Die Basisfarbe wird mit einer Kontrastfarbe gemischt.
+              Im Light Mode wird zum Abdunkeln <code class="docs__token">always-dark</code> verwendet,
+              im Dark Mode zum Aufhellen <code class="docs__token">always-light</code>.
+            </p>
+
+            <h3 style="font-size: var(--fs-base); font-weight: 600; margin-block: var(--fnd-spacing-04);">Light Mode</h3>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>State</th>
+                    <th>Formel</th>
+                    <th>Mix-Anteil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Hover</strong></td>
+                    <td><code class="docs__token">color-mix(in srgb, var(--base), var(--fnd-color-always-dark) 8%)</code></td>
+                    <td>8%</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Active</strong></td>
+                    <td><code class="docs__token">color-mix(in srgb, var(--base), var(--fnd-color-always-dark) 16%)</code></td>
+                    <td>16%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 style="font-size: var(--fs-base); font-weight: 600; margin-block: var(--fnd-spacing-04);">Dark Mode</h3>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>State</th>
+                    <th>Formel</th>
+                    <th>Mix-Anteil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Hover</strong></td>
+                    <td><code class="docs__token">color-mix(in srgb, var(--base), var(--fnd-color-always-light) 12%)</code></td>
+                    <td>12%</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Active</strong></td>
+                    <td><code class="docs__token">color-mix(in srgb, var(--base), var(--fnd-color-always-light) 20%)</code></td>
+                    <td>20%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="is-hint">
+              <strong>Dark Mode:</strong> Hover/Active mischen immer Richtung
+              <code class="docs__token">always-light</code> (nicht <code class="docs__token">always-dark</code>).
+              So bleiben Elemente auf dunklem Hintergrund sichtbar und der Kontrast steigt.
+            </div>
+          </section>
+
+          <!-- Warum color-mix() -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Warum color-mix() statt rgba()?</h2>
+            <p class="docs__section-desc">
+              Das Design System verwendet konsequent <code class="docs__token">color-mix()</code>
+              anstelle von <code class="docs__token">rgba()</code> Overlays.
+            </p>
+
+            <div class="is-do">
+              <strong>Do:</strong> <code class="docs__token">color-mix(in srgb, ...)</code><br>
+              Konsistentes Overlay-Verhalten, kein Alpha-Channel-Stacking, saubere Dark-Mode-Unterst&uuml;tzung.
+            </div>
+            <div class="is-dont">
+              <strong>Don't:</strong> <code class="docs__token">rgba(0, 0, 0, 0.08)</code><br>
+              Alpha-Channels stapeln sich bei verschachtelten Elementen, unberechenbar im Dark Mode.
+            </div>
+
+            <div class="docs-snippet">
+              <pre>/* Do: color-mix() fuer State-Overlay */
+--nc-button-bg-hover: color-mix(
+  in srgb,
+  var(--nc-button-bg),
+  var(--fnd-color-always-dark) 8%
+);
+
+/* Don't: rgba() fuer State-Overlay */
+--nc-button-bg-hover: rgba(0, 0, 0, 0.08);</pre>
+            </div>
+          </section>
+
+          <!-- Opacity Tokens -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Foundation Opacity Tokens</h2>
+            <p class="docs__section-desc">
+              Zustandsbasierte Transparenz-Tokens f&uuml;r konsistente Interaktions-Darstellung.
+              Diese Tokens definieren die Standard-St&auml;rken f&uuml;r State-Overlays.
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Wert</th>
+                    <th>Verwendung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code class="docs__token">--fnd-opacity-disabled</code></td>
+                    <td><code>0.38</code></td>
+                    <td>Deaktivierte Elemente</td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">--fnd-opacity-hover</code></td>
+                    <td><code>0.08</code></td>
+                    <td>Hover-Overlay-St&auml;rke</td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">--fnd-opacity-focus</code></td>
+                    <td><code>0.12</code></td>
+                    <td>Focus-Overlay-St&auml;rke</td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">--fnd-opacity-pressed</code></td>
+                    <td><code>0.16</code></td>
+                    <td>Active/Pressed-Overlay</td>
+                  </tr>
+                  <tr>
+                    <td><code class="docs__token">--fnd-opacity-dragged</code></td>
+                    <td><code>0.24</code></td>
+                    <td>Drag-State-Overlay</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div><!-- /panel-color -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Focus & A11y                                          -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="panel-focus" aria-labelledby="trigger-focus">
+
+          <!-- Focus Ring -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Focus Ring Spezifikation</h2>
+            <p class="docs__section-desc">
+              Alle interaktiven Elemente verwenden den <code class="docs__token">focus-ring</code> Mixin
+              aus <code class="docs__token">01-tools/_mixins-a11y.scss</code>.
+              Die Fokus-Anzeige erscheint nur bei Tastatur-Navigation (<code class="docs__token">:focus-visible</code>),
+              nicht bei Maus-Klicks (<code class="docs__token">:focus</code>).
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>Eigenschaft</th>
+                    <th>Wert</th>
+                    <th>Token</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Outline-Stil</td>
+                    <td><code>2px solid</code></td>
+                    <td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td>Outline-Farbe</td>
+                    <td>Interaktive Focus-Farbe</td>
+                    <td><code class="docs__token">var(--fnd-color-interactive-focus)</code></td>
+                  </tr>
+                  <tr>
+                    <td>Outline-Offset</td>
+                    <td><code>2px</code></td>
+                    <td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td>Pseudo-Klasse</td>
+                    <td><code>:focus-visible</code> (nur Tastatur)</td>
+                    <td>&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="docs-snippet">
+              <pre>/* Mixin-Verwendung in Komponenten-SCSS */
+.nc-button {
+  @include focus-ring;
+}
+
+/* Generiertes CSS */
+.nc-button:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}</pre>
+            </div>
+
+            <h3 style="font-size: var(--fs-base); font-weight: 600; margin-block: var(--fnd-spacing-04);">Live-Demo (Tab-Taste druecken)</h3>
+            <div class="is-focus-demo">
+              <button class="is-focus-demo__item">Button 1</button>
+              <button class="is-focus-demo__item">Button 2</button>
+              <button class="is-focus-demo__item">Button 3</button>
+            </div>
+
+            <div class="is-hint">
+              <strong>Tipp:</strong> Dr&uuml;cke die <kbd>Tab</kbd>-Taste, um den Focus-Ring auf den Buttons zu sehen.
+              Bei Maus-Klick bleibt der Ring unsichtbar (<code class="docs__token">:focus-visible</code> statt <code class="docs__token">:focus</code>).
+            </div>
+          </section>
+
+          <!-- WCAG Anforderungen -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">WCAG-Anforderungen</h2>
+            <p class="docs__section-desc">
+              Das Design System erf&uuml;llt folgende WCAG 2.2 Success Criteria
+              f&uuml;r interaktive Zust&auml;nde:
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>WCAG SC</th>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Anforderung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1.4.1</strong></td>
+                    <td>Use of Color</td>
+                    <td>A</td>
+                    <td>Farbe nicht als einziger visueller Kanal f&uuml;r Zust&auml;nde</td>
+                  </tr>
+                  <tr>
+                    <td><strong>1.4.11</strong></td>
+                    <td>Non-text Contrast</td>
+                    <td>AA</td>
+                    <td>Alle State-Indikatoren &ge; 3:1 Kontrast gegen angrenzende Farben</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2.4.7</strong></td>
+                    <td>Focus Visible</td>
+                    <td>AA</td>
+                    <td>Alle interaktiven Elemente m&uuml;ssen sichtbaren Fokus-Indikator haben</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2.5.8</strong></td>
+                    <td>Target Size (Minimum)</td>
+                    <td>AA</td>
+                    <td>Mindestens 24&times;24px Touch-Zielfl&auml;che</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Keyboard Patterns -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Tastatur-Interaktionsmuster</h2>
+            <p class="docs__section-desc">
+              Standardisierte Tastatur-Patterns f&uuml;r alle Komponenten-Typen:
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>Taste(n)</th>
+                    <th>Aktion</th>
+                    <th>Kontext</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td>
+                    <td>Zwischen interaktiven Elementen navigieren</td>
+                    <td>Global</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+                    <td>Button, Link oder Toggle aktivieren</td>
+                    <td>Buttons, Links, Toggles</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd> <kbd>&rarr;</kbd> <kbd>&uarr;</kbd> <kbd>&darr;</kbd></td>
+                    <td>Innerhalb von Composite-Widgets navigieren</td>
+                    <td>Radio, Tabs, Men&uuml;</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>Escape</kbd></td>
+                    <td>Overlay schlie&szlig;en</td>
+                    <td>Modal, Dropdown, Drawer, Toast</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>Home</kbd> / <kbd>End</kbd></td>
+                    <td>Zum ersten/letzten Element springen</td>
+                    <td>Listen, Tabs, Men&uuml;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div><!-- /panel-focus -->
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: State Matrix                                          -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="panel-matrix" aria-labelledby="trigger-matrix">
+
+          <section class="docs__section">
+            <h2 class="docs__section-title">Komponente &times; State Matrix</h2>
+            <p class="docs__section-desc">
+              &Uuml;bersicht welche Zust&auml;nde von welchen Komponenten unterst&uuml;tzt werden.
+              <span class="is-matrix-check">&check;</span> = unterst&uuml;tzt,
+              <span class="is-matrix-na">&mdash;</span> = nicht anwendbar.
+            </p>
+
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+                <thead>
+                  <tr>
+                    <th>Komponente</th>
+                    <th>hover</th>
+                    <th>active</th>
+                    <th>focus</th>
+                    <th>disabled</th>
+                    <th>error</th>
+                    <th>success</th>
+                    <th>selected</th>
+                    <th>loading</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Button</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Input</strong></td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Textarea</strong></td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Select</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Checkbox</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Radio</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Switch</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Card</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tag</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Chip</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Accordion</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tab</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Link</strong></td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Modal</strong></td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Toast</strong></td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-check">&check;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                    <td class="is-matrix-na">&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Transition -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">Transition-Timing</h2>
+            <p class="docs__section-desc">
+              Alle State-Wechsel verwenden den <code class="docs__token">transition-quick()</code> Mixin
+              mit <code>150ms ease-out</code>. Der Mixin akzeptiert eine <strong>einzelne Sass-Liste</strong>
+              als Argument.
+            </p>
+
+            <div class="is-do">
+              <strong>Do:</strong> Einzelne Sass-Liste als Argument<br>
+              <code class="docs__token">@include transition-quick((color, background-color, border-color));</code>
+            </div>
+            <div class="is-dont">
+              <strong>Don't:</strong> Mehrere Argumente<br>
+              <code class="docs__token">@include transition-quick(color, background-color, border-color);</code>
+            </div>
+
+            <div class="docs-snippet">
+              <pre>/* Korrekte Verwendung von transition-quick() */
+.nc-button {
+  @include transition-quick((color, background-color, border-color, box-shadow));
+}
+
+/* Generiertes CSS */
+.nc-button {
+  transition: color 150ms ease-out,
+              background-color 150ms ease-out,
+              border-color 150ms ease-out,
+              box-shadow 150ms ease-out;
+}</pre>
+            </div>
+          </section>
+
+          <!-- State-Rezepte -->
+          <section class="docs__section">
+            <h2 class="docs__section-title">State-Deklaration in Komponenten</h2>
+            <p class="docs__section-desc">
+              Jede Komponente deklariert ihre unterst&uuml;tzten States und deren Rangfolge
+              &uuml;ber Component Tokens im <code class="docs__token">_component-tokens.scss</code>.
+            </p>
+
+            <div class="docs-snippet">
+              <pre>/* Beispiel: Button Component Tokens */
+:root {
+  --nc-button-bg:         var(--fnd-color-interactive-default);
+  --nc-button-bg-hover:   color-mix(in srgb, var(--nc-button-bg), var(--fnd-color-always-dark) 8%);
+  --nc-button-bg-active:  color-mix(in srgb, var(--nc-button-bg), var(--fnd-color-always-dark) 16%);
+  --nc-button-color:      var(--fnd-color-text-on-interactive);
+}
+
+/* Dark-Mode Override in _component-tokens.scss */
+[data-theme="neo-dark-theme"],
+.neo-dark-theme {
+  --nc-button-bg-hover:  color-mix(in srgb, var(--nc-button-bg), var(--fnd-color-always-light) 12%);
+  --nc-button-bg-active: color-mix(in srgb, var(--nc-button-bg), var(--fnd-color-always-light) 20%);
+}</pre>
+            </div>
+          </section>
+
+        </div><!-- /panel-matrix -->
+
+        </div><!-- /.docs-tabs -->
+      </div>
+
+    </main>
+<!-- /BODY -->

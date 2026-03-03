@@ -1,0 +1,29 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-content-magazine",
+    "label": "Content Magazine",
+    "description": "Magazin-artiges Layout mit breitem Container und grossem Gap. Fuer visuell reichhaltige Content-Seiten.",
+    "extends": "layout-content",
+    "tags": ["content", "magazine", "visual"],
+    "templateClass": ".t-content-magazine"
+  },
+  "container": {
+    "ref": "container.wide",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-lg)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.section",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.default",
+    "overrides": {}
+  }
+}

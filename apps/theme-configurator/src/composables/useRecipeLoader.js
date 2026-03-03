@@ -99,7 +99,32 @@ const RECIPE_IMPORTS = {
   tooltip: () => import('../../../../data/tooltip-recipe.json'),
   treeview: () => import('../../../../data/treeview-recipe.json'),
   'validation-summary': () => import('../../../../data/validation-summary-recipe.json'),
-  'video-section': () => import('../../../../data/video-section-recipe.json')
+  'video-section': () => import('../../../../data/video-section-recipe.json'),
+
+  // Layout Primitives
+  container: () => import('../../../../data/container-recipe.json'),
+  grid: () => import('../../../../data/grid-recipe.json'),
+  spacing: () => import('../../../../data/spacing-recipe.json'),
+  section: () => import('../../../../data/section-recipe.json'),
+
+  // Layout Specs (Base)
+  'layout-marketing': () => import('../../../../data/layout-marketing.json'),
+  'layout-docs': () => import('../../../../data/layout-docs.json'),
+  'layout-dashboard': () => import('../../../../data/layout-dashboard.json'),
+  'layout-form': () => import('../../../../data/layout-form.json'),
+  'layout-content': () => import('../../../../data/layout-content.json'),
+
+  // Layout Specs (Derived)
+  'layout-marketing-compact': () => import('../../../../data/layout-marketing-compact.json'),
+  'layout-marketing-dark': () => import('../../../../data/layout-marketing-dark.json'),
+  'layout-docs-wide': () => import('../../../../data/layout-docs-wide.json'),
+  'layout-docs-narrow': () => import('../../../../data/layout-docs-narrow.json'),
+  'layout-dashboard-spacious': () => import('../../../../data/layout-dashboard-spacious.json'),
+  'layout-dashboard-sidebar': () => import('../../../../data/layout-dashboard-sidebar.json'),
+  'layout-form-compact': () => import('../../../../data/layout-form-compact.json'),
+  'layout-form-wide': () => import('../../../../data/layout-form-wide.json'),
+  'layout-content-magazine': () => import('../../../../data/layout-content-magazine.json'),
+  'layout-content-landing': () => import('../../../../data/layout-content-landing.json')
 }
 
 // ---------------------------------------------------------------------------

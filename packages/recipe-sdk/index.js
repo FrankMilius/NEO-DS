@@ -1097,3 +1097,207 @@ export function validateSpecimenSanity(recipe) {
 
   return { errors, warnings };
 }
+
+// ---------------------------------------------------------------------------
+// 11. Layout Composition System
+// ---------------------------------------------------------------------------
+
+/**
+ * Preset-Registry fuer Layout-Primitive.
+ * Maps primitive.preset IDs auf CSS Custom Properties.
+ */
+export const LAYOUT_PRESETS = {
+  // Container Presets
+  'container.standard': {
+    '--nc-container-max-width': '1200px',
+    '--nc-container-padding-inline': 'clamp(16px, 3.5vw, 48px)',
+    '--nc-container-padding-inline-xxl': '0px',
+    'classList': ['nc-container']
+  },
+  'container.wide': {
+    '--nc-container-max-width': '1440px',
+    '--nc-container-max-width-wide': '1440px',
+    '--nc-container-padding-inline': 'clamp(16px, 3.5vw, 48px)',
+    '--nc-container-padding-inline-xxl': '0px',
+    'classList': ['nc-container', 'nc-container--wide']
+  },
+  'container.narrow': {
+    '--nc-container-max-width': '768px',
+    '--nc-container-padding-inline': 'clamp(16px, 3.5vw, 48px)',
+    '--nc-container-padding-inline-xxl': '0px',
+    'classList': ['nc-container', 'nc-container--narrow']
+  },
+  'container.full': {
+    '--nc-container-max-width': '100%',
+    '--nc-container-padding-inline': 'clamp(16px, 3.5vw, 48px)',
+    '--nc-container-padding-inline-xxl': '0px',
+    'classList': ['nc-container', 'nc-container--full']
+  },
+
+  // Grid Presets
+  'grid.default': {
+    '--nc-grid-columns': '12',
+    '--nc-grid-gap': 'clamp(12px, 1.5vw, 24px)',
+    'classList': ['o-grid']
+  },
+  'grid.sm-gap': {
+    '--nc-grid-columns': '12',
+    '--nc-grid-gap': 'var(--nc-grid-gap-sm)',
+    'classList': ['o-grid', 'o-grid--gap-sm']
+  },
+  'grid.lg-gap': {
+    '--nc-grid-columns': '12',
+    '--nc-grid-gap': 'var(--nc-grid-gap-lg)',
+    'classList': ['o-grid', 'o-grid--gap-lg']
+  },
+  'grid.auto-fit': {
+    '--nc-grid-columns': '12',
+    '--nc-grid-gap': 'clamp(12px, 1.5vw, 24px)',
+    'classList': ['o-grid', 'o-grid--auto-fit']
+  },
+
+  // Spacing Presets (semantische Rollen)
+  'spacing.section': { 'role': '--fnd-spacing-section' },
+  'spacing.component': { 'role': '--fnd-spacing-component' },
+  'spacing.element': { 'role': '--fnd-spacing-element' },
+  'spacing.gutter': { 'role': '--fnd-spacing-gutter' },
+
+  // Section Presets
+  'section.default': {
+    '--nc-section-padding-block': 'clamp(2rem, 4vw, 6rem)',
+    '--nc-section-bg': 'var(--fnd-color-background-base)',
+    '--nc-section-color': 'var(--fnd-color-text-primary)',
+    'classList': ['section']
+  },
+  'section.compact': {
+    '--nc-section-padding-block': 'var(--nc-section-padding-block-sm)',
+    '--nc-section-bg': 'var(--fnd-color-background-base)',
+    '--nc-section-color': 'var(--fnd-color-text-primary)',
+    'classList': ['section', 'section--compact']
+  },
+  'section.spacious': {
+    '--nc-section-padding-block': 'var(--nc-section-padding-block-lg)',
+    '--nc-section-bg': 'var(--fnd-color-background-base)',
+    '--nc-section-color': 'var(--fnd-color-text-primary)',
+    'classList': ['section', 'section--spacious']
+  }
+};
+
+/**
+ * Load and resolve a LayoutSpec.
+ * Resolves ref → preset, applies overrides, returns flat token map + classList.
+ *
+ * @param {Object} spec - LayoutSpec JSON
+ * @param {Object} [presets] - Custom preset registry (defaults to LAYOUT_PRESETS)
+ * @returns {{ tokens: Object, classList: string[], meta: Object }}
+ */
+export function loadLayoutSpec(spec, presets = LAYOUT_PRESETS) {
+  const tokens = {};
+  const classList = [];
+
+  for (const primitive of ['container', 'grid', 'spacing', 'section']) {
+    const entry = spec[primitive];
+    if (!entry || !entry.ref) continue;
+
+    const preset = presets[entry.ref];
+    if (!preset) continue;
+
+    // Merge preset tokens (skip classList key)
+    for (const [key, value] of Object.entries(preset)) {
+      if (key === 'classList' || key === 'role') continue;
+      tokens[key] = value;
+    }
+
+    // Merge preset classList
+    if (preset.classList) {
+      classList.push(...preset.classList);
+    }
+
+    // Apply overrides
+    if (entry.overrides) {
+      for (const [key, value] of Object.entries(entry.overrides)) {
+        tokens[key] = value;
+      }
+    }
+  }
+
+  // Add template class
+  if (spec.meta?.templateClass) {
+    classList.push(spec.meta.templateClass.replace(/^\./, ''));
+  }
+
+  return {
+    tokens,
+    classList: [...new Set(classList)],
+    meta: spec.meta || {}
+  };
+}
+
+/**
+ * Resolve extends chain for a LayoutSpec.
+ * Deep-merges parent specs, then applies the derived spec on top.
+ * Detects circular references.
+ *
+ * @param {string} specId - LayoutSpec ID to resolve
+ * @param {Object} specRegistry - Map of specId → LayoutSpec JSON
+ * @param {Set} [visited] - Internal cycle detection
+ * @returns {Object} Resolved LayoutSpec JSON (fully merged)
+ */
+export function resolveLayoutExtends(specId, specRegistry, visited = new Set()) {
+  const spec = specRegistry[specId];
+  if (!spec) throw new Error(`LayoutSpec "${specId}" nicht gefunden.`);
+
+  if (visited.has(specId)) {
+    throw new Error(`Zirkulaere Referenz in extends-Kette: ${[...visited, specId].join(' → ')}`);
+  }
+  visited.add(specId);
+
+  const parentId = spec.meta?.extends;
+  if (!parentId) return spec;
+
+  const parent = resolveLayoutExtends(parentId, specRegistry, visited);
+
+  // Deep-merge: parent primitives + child overrides
+  const merged = { ...spec };
+  for (const primitive of ['container', 'grid', 'spacing', 'section']) {
+    const parentEntry = parent[primitive] || {};
+    const childEntry = spec[primitive] || {};
+
+    merged[primitive] = {
+      ref: childEntry.ref || parentEntry.ref,
+      overrides: {
+        ...(parentEntry.overrides || {}),
+        ...(childEntry.overrides || {})
+      }
+    };
+  }
+
+  // Meta: child overrides parent, but keep parent fields as fallback
+  merged.meta = { ...parent.meta, ...spec.meta };
+
+  return merged;
+}
+
+/**
+ * Generate CSS class list from a resolved LayoutSpec.
+ *
+ * @param {Object} resolved - Output from loadLayoutSpec()
+ * @returns {string[]} CSS classes
+ */
+export function layoutSpecToClassList(resolved) {
+  return resolved.classList || [];
+}
+
+/**
+ * Generate CSS custom property declarations from a resolved LayoutSpec.
+ *
+ * @param {Object} resolved - Output from loadLayoutSpec()
+ * @returns {string} CSS text for style attribute or <style> block
+ */
+export function layoutSpecToTokens(resolved) {
+  const tokens = resolved.tokens || {};
+  return Object.entries(tokens)
+    .filter(([key]) => key.startsWith('--'))
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n  ');
+}

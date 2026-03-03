@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neo.design/schemas/layout-spec/v1.0.0",
+  "title": "NEO Layout Spec v1.0.0",
+  "description": "Schema fuer Layout-Kompositions-Spezifikationen im NEO Design System. Ein LayoutSpec verbindet die vier Layout-Primitive (Container, Grid, Spacing, Section) zu einem wiederverwendbaren Layout-Rezept.",
+  "type": "object",
+
+  "required": ["meta", "container", "grid", "spacing", "section"],
+  "additionalProperties": true,
+
+  "properties": {
+
+    "$schema": {
+      "type": "string"
+    },
+
+    "meta": {
+      "type": "object",
+      "required": ["id", "label", "description"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^layout-[a-z][a-z0-9-]*$",
+          "description": "Layout-ID in kebab-case. Muss mit 'layout-' beginnen."
+        },
+        "label": {
+          "type": "string",
+          "description": "Menschenlesbarer Name des Layouts."
+        },
+        "description": {
+          "type": "string",
+          "description": "Kurzbeschreibung des Layouts und seines Einsatzzwecks."
+        },
+        "extends": {
+          "type": "string",
+          "pattern": "^layout-[a-z][a-z0-9-]*$",
+          "description": "ID eines Basis-Layouts von dem dieses Layout abgeleitet wird. Alle Werte des Basis-Layouts werden uebernommen und koennen per overrides ueberschrieben werden."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Kategorisierungs-Tags (z.B. 'marketing', 'dashboard', 'content')."
+        },
+        "templateClass": {
+          "type": "string",
+          "pattern": "^\\.t-[a-z][a-z0-9-]*$",
+          "description": "CSS Template-Klasse (z.B. '.t-marketing'). Wird als Scope-Selektor auf dem aeusseren Wrapper gesetzt."
+        }
+      }
+    },
+
+    "container": {
+      "$ref": "#/$defs/primitiveRef",
+      "description": "Container-Konfiguration: Breite, Padding, Zentrierung."
+    },
+
+    "grid": {
+      "$ref": "#/$defs/primitiveRef",
+      "description": "Grid-Konfiguration: Spalten, Gap, Alignment."
+    },
+
+    "spacing": {
+      "$ref": "#/$defs/primitiveRef",
+      "description": "Spacing-Konfiguration: Sektions-Abstaende, Komponenten-Abstaende."
+    },
+
+    "section": {
+      "$ref": "#/$defs/primitiveRef",
+      "description": "Section-Konfiguration: Block-Padding, Hintergrund, Farbschema."
+    },
+
+    "output": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "classList": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Zusammengesetzte CSS-Klassen fuer dieses Layout."
+        },
+        "tokens": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "CSS Custom Properties die dieses Layout setzt (key: Variablenname, value: Wert)."
+        }
+      },
+      "description": "Berechnete Ausgabe — wird vom SDK aus refs + overrides aufgeloest."
+    }
+  },
+
+  "$defs": {
+
+    "primitiveRef": {
+      "type": "object",
+      "required": ["ref"],
+      "additionalProperties": false,
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$",
+          "description": "Referenz auf ein Primitive-Preset (Format: '{primitive}.{preset}', z.B. 'container.standard', 'grid.12-col')."
+        },
+        "overrides": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "CSS Custom Property Overrides die das referenzierte Preset ueberschreiben. Keys sind Variablennamen (z.B. '--nc-container-max-width'), Values sind CSS-Werte."
+        }
+      }
+    }
+  }
+}

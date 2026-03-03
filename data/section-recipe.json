@@ -1,0 +1,164 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "section",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["layout", "object", "section", "orchestrator"],
+    "links": {
+      "docs": "/docs/layout-architecture-docs.html"
+    }
+  },
+
+  "anatomy": {
+    "root": { "element": ".section" },
+    "slots": [
+      { "name": "container", "element": ".nc-container", "optional": false, "description": "Container der den Inhalt horizontal begrenzt." },
+      { "name": "content", "element": ".nc-container > *", "optional": false, "description": "Beliebiger Inhalt innerhalb des Containers." }
+    ],
+    "domNotes": [
+      "Section ist der Orchestrator: setzt Block-Padding, enthaelt Container, konfiguriert Grid.",
+      "Nesting: .section > .nc-container > .o-grid > .o-col-* > Content",
+      "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
+      "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block."
+    ]
+  },
+
+  "axes": {
+    "density": {
+      "label": "Dichte",
+      "description": "Vertikales Padding der Section.",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Standard: clamp(2rem, 4vw, 6rem)."
+        },
+        "compact": {
+          "modifier": "section--compact",
+          "tokenGroups": ["geometry"],
+          "description": "Kompakt: var(--fnd-spacing-08) = 32px."
+        },
+        "spacious": {
+          "modifier": "section--spacious",
+          "tokenGroups": ["geometry"],
+          "description": "Grosszuegig: var(--fnd-spacing-13) = 160px."
+        }
+      }
+    },
+    "surface": {
+      "label": "Oberflaeche",
+      "description": "Hintergrundfarbe und Farbschema der Section.",
+      "values": {
+        "base": {
+          "modifier": null,
+          "tokenGroups": ["surface"],
+          "description": "Standard-Hintergrund: background-base."
+        },
+        "elevated": {
+          "modifier": "section--elevated",
+          "tokenGroups": ["surface"],
+          "description": "Erhoeht: surface-elevated (Light: #fff, Dark: layer-01)."
+        },
+        "muted": {
+          "modifier": "section--muted",
+          "tokenGroups": ["surface"],
+          "description": "Gedaempft: background-secondary."
+        },
+        "accent": {
+          "modifier": "section--accent",
+          "tokenGroups": ["surface"],
+          "description": "Akzent: interactive-default Hintergrund mit On-Accent Text."
+        }
+      }
+    }
+  },
+
+  "states": {
+    "supported": ["default"],
+    "precedence": ["default"],
+    "interactive": false,
+    "rules": []
+  },
+
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "AA",
+      "assertions": [
+        "Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).",
+        "Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.",
+        "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund."
+      ]
+    },
+    "overrides": []
+  },
+
+  "styling": {
+    "baseClasses": ["section"],
+    "baseTokenGroups": ["geometry", "surface"],
+    "tokenGroups": {
+      "geometry": {
+        "label": "Geometry",
+        "tokens": [
+          "nc-section-padding-block",
+          "nc-section-padding-block-sm",
+          "nc-section-padding-block-lg"
+        ]
+      },
+      "surface": {
+        "label": "Surface",
+        "tokens": [
+          "nc-section-bg",
+          "nc-section-color"
+        ]
+      }
+    }
+  },
+
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": ["axes"],
+      "output": ["classList", "tokenGroups"]
+    }
+  },
+
+  "specimens": [
+    {
+      "id": "density-scale",
+      "label": "Dichte-Varianten",
+      "description": "Compact, Default und Spacious im Vergleich.",
+      "matrix": {
+        "axes": { "density": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "surface-variants",
+      "label": "Oberflaechen-Varianten",
+      "description": "Alle Section-Hintergruende.",
+      "matrix": {
+        "axes": { "surface": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "density-x-surface",
+      "label": "Dichte × Oberflaeche",
+      "description": "Vollstaendige Matrix aller Kombinationen.",
+      "matrix": {
+        "axes": { "density": "*", "surface": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "surface",
+        "colAxis": "density"
+      }
+    }
+  ]
+}

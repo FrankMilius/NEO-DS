@@ -1,0 +1,31 @@
+{
+  "$schema": "./layout-spec-schema.json",
+  "meta": {
+    "id": "layout-marketing-dark",
+    "label": "Marketing Dark",
+    "description": "Marketing-Layout mit erhoehter Oberflaeche. Ideal fuer dunkle Hero-Sektionen und Feature-Highlights.",
+    "extends": "layout-marketing",
+    "tags": ["marketing", "dark", "hero"],
+    "templateClass": ".t-marketing-dark"
+  },
+  "container": {
+    "ref": "container.wide",
+    "overrides": {}
+  },
+  "grid": {
+    "ref": "grid.default",
+    "overrides": {
+      "--nc-grid-gap": "var(--nc-grid-gap-lg)"
+    }
+  },
+  "spacing": {
+    "ref": "spacing.section",
+    "overrides": {}
+  },
+  "section": {
+    "ref": "section.spacious",
+    "overrides": {
+      "--nc-section-bg": "var(--fnd-color-surface-elevated)"
+    }
+  }
+}

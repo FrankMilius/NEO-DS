@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-03-02
+// Generated: 2026-03-03
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -9144,6 +9144,148 @@ export const componentTokenGroups = [
         "default": "24px"
       }
     ]
+  },
+  {
+    "id": "container",
+    "label": "Container",
+    "icon": "box",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometry",
+        "tokenIds": [
+          "nc-container-max-width",
+          "nc-container-max-width-wide",
+          "nc-container-padding-inline",
+          "nc-container-padding-inline-xxl"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-container-max-width",
+        "label": "Max Width",
+        "type": "size",
+        "default": "1200px"
+      },
+      {
+        "id": "nc-container-max-width-wide",
+        "label": "Max Width (Wide)",
+        "type": "size",
+        "default": "1440px"
+      },
+      {
+        "id": "nc-container-padding-inline",
+        "label": "Padding Inline",
+        "type": "size",
+        "default": "clamp(16px, 3.5vw, 48px)"
+      },
+      {
+        "id": "nc-container-padding-inline-xxl",
+        "label": "Padding Inline (XXL)",
+        "type": "size",
+        "default": "0px"
+      }
+    ]
+  },
+  {
+    "id": "grid",
+    "label": "Grid",
+    "icon": "layout-grid",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometry",
+        "tokenIds": [
+          "nc-grid-columns",
+          "nc-grid-gap",
+          "nc-grid-gap-sm",
+          "nc-grid-gap-lg"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-grid-columns",
+        "label": "Columns",
+        "type": "number",
+        "default": "12"
+      },
+      {
+        "id": "nc-grid-gap",
+        "label": "Gap",
+        "type": "size",
+        "default": "clamp(12px, 1.5vw, 24px)"
+      },
+      {
+        "id": "nc-grid-gap-sm",
+        "label": "Gap Small",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-grid-gap-lg",
+        "label": "Gap Large",
+        "type": "size",
+        "default": "var(--fnd-spacing-08)"
+      }
+    ]
+  },
+  {
+    "id": "section",
+    "label": "Section",
+    "icon": "section",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometry",
+        "tokenIds": [
+          "nc-section-padding-block",
+          "nc-section-padding-block-sm",
+          "nc-section-padding-block-lg"
+        ]
+      },
+      {
+        "id": "surface",
+        "label": "Surface",
+        "tokenIds": [
+          "nc-section-bg",
+          "nc-section-color"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-section-padding-block",
+        "label": "Padding Block",
+        "type": "size",
+        "default": "clamp(2rem, 4vw, 6rem)"
+      },
+      {
+        "id": "nc-section-padding-block-sm",
+        "label": "Padding Block (Compact)",
+        "type": "size",
+        "default": "var(--fnd-spacing-08)"
+      },
+      {
+        "id": "nc-section-padding-block-lg",
+        "label": "Padding Block (Spacious)",
+        "type": "size",
+        "default": "var(--fnd-spacing-13)"
+      },
+      {
+        "id": "nc-section-bg",
+        "label": "Background",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-section-color",
+        "label": "Text Color",
+        "type": "color",
+        "ref": "text-primary"
+      }
+    ]
   }
 ]
 
@@ -9855,16 +9997,16 @@ export const navigationTree = [
         "isSubgroup": true,
         "children": [
           {
-            "id": "aspect-ratio",
-            "label": "Aspect Ratio",
-            "icon": "aspect-ratio",
-            "section": "component-aspect-ratio"
-          },
-          {
             "id": "container",
             "label": "Container",
             "icon": "box",
             "section": "component-container"
+          },
+          {
+            "id": "grid",
+            "label": "Grid",
+            "icon": "layout-grid",
+            "section": "component-grid"
           },
           {
             "id": "section",
@@ -9877,6 +10019,43 @@ export const navigationTree = [
             "label": "Shell",
             "icon": "layout",
             "section": "component-shell"
+          }
+        ]
+      },
+      {
+        "id": "layouts",
+        "label": "Layouts",
+        "isSubgroup": true,
+        "children": [
+          {
+            "id": "layout-marketing",
+            "label": "Marketing",
+            "icon": "speakerphone",
+            "section": "layout-marketing"
+          },
+          {
+            "id": "layout-docs",
+            "label": "Documentation",
+            "icon": "book",
+            "section": "layout-docs"
+          },
+          {
+            "id": "layout-dashboard",
+            "label": "Dashboard",
+            "icon": "dashboard",
+            "section": "layout-dashboard"
+          },
+          {
+            "id": "layout-form",
+            "label": "Form",
+            "icon": "forms",
+            "section": "layout-form"
+          },
+          {
+            "id": "layout-content",
+            "label": "Content",
+            "icon": "article",
+            "section": "layout-content"
           }
         ]
       },

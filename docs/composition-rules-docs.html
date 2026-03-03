@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Composition Rules | Design System Docs</title>
+  <meta name="description" content="Verbindliche Regeln f&uuml;r Komponenten-Verschachtelung, Spacing, Layout-Komposition und Anti-Patterns im NEO Design System." />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* Composition-Rules-spezifische Styles */
+    .comp-hierarchy {
+      font-family: var(--fnd-font-mono);
+      font-size: var(--fs-sm);
+      line-height: 1.6;
+      padding: 1.5rem;
+      margin: 0;
+      background: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-sm);
+      max-width: 640px;
+      margin-block-end: var(--fnd-spacing-06);
+    }
+
+    .comp-rule {
+      display: flex;
+      gap: var(--fnd-spacing-04);
+      padding: var(--fnd-spacing-04);
+      border-radius: var(--fnd-radius-lg);
+      margin-block-end: var(--fnd-spacing-04);
+    }
+    .comp-rule--wrong {
+      background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
+      border-inline-start: 3px solid var(--fnd-color-feedback-danger);
+    }
+    .comp-rule--correct {
+      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+      border-inline-start: 3px solid var(--fnd-color-feedback-success);
+    }
+    .comp-rule__icon {
+      flex-shrink: 0;
+      font-size: var(--fs-lg);
+      line-height: 1;
+    }
+    .comp-rule__body {
+      flex: 1;
+      min-width: 0;
+    }
+    .comp-rule__label {
+      font-weight: var(--fnd-font-weight-semibold);
+      font-size: var(--fs-sm);
+      margin-block-end: var(--fnd-spacing-02);
+    }
+    .comp-rule--wrong .comp-rule__label {
+      color: var(--fnd-color-feedback-danger);
+    }
+    .comp-rule--correct .comp-rule__label {
+      color: var(--fnd-color-feedback-success);
+    }
+    .comp-rule pre {
+      font-size: var(--fs-xs);
+      margin: 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .comp-note {
+      display: flex;
+      gap: var(--fnd-spacing-03);
+      padding: var(--fnd-spacing-04);
+      background: var(--fnd-color-background-secondary);
+      border-radius: var(--fnd-radius-lg);
+      margin-block-end: var(--fnd-spacing-06);
+      font-size: var(--fs-sm);
+      line-height: 1.6;
+    }
+    .comp-note__icon {
+      flex-shrink: 0;
+      font-size: var(--fs-base);
+    }
+  </style>
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Composition Rules</h1>
+        <p class="docs__subtitle">
+          Verbindliche Regeln f&uuml;r die Komposition von Komponenten im NEO Design System.
+          Die Regeln leiten sich aus der Atomic-Design-Hierarchie (Objects &rarr; Atoms &rarr; Molecules &rarr; Organisms &rarr; Templates)
+          und dem Layout Composition System ab.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Composition Rules Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-nesting" id="trigger-nesting">Nesting-Regeln</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-spacing" id="trigger-spacing">Spacing-Regeln</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-layout" id="trigger-layout">Layout-Komposition</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-antipatterns" id="trigger-antipatterns">Anti-Patterns</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="composition-rules-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Nesting-Regeln                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-nesting" aria-labelledby="trigger-nesting">
+
+          <h2 class="docs__section-title">Atomic-Design-Hierarchie</h2>
+          <p class="docs__section-desc">
+            Komponenten sind in ITCSS-Schichten organisiert. Die Schichtnummer bestimmt,
+            welche Komponenten ineinander verschachtelt werden d&uuml;rfen.
+          </p>
+
+          <pre class="comp-hierarchy">Template  (08-templates)
+    &darr;
+Organism  (07-organisms)     z.B. Header, Footer, Modal, Carousel
+    &darr;
+Molecule  (06-molecules)     z.B. Card, Accordion, Breadcrumb
+    &darr;
+Atom      (05-atoms)         z.B. Button, Icon, Input, Badge
+    &darr;
+Object    (04-objects)        z.B. Container, Grid, Section</pre>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Nesting-Regeln</h2>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Regel</th>
+                  <th>Beispiel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>Eine Komponente darf nur Komponenten aus der <strong>gleichen oder niedrigeren</strong> Schicht enthalten.</td>
+                  <td>Organism (07) &rarr; Molecule (06) + Atom (05)</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>Ein Organism (07) darf <strong>niemals</strong> einen anderen Organism enthalten.</td>
+                  <td>Modal darf keinen Header enthalten</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>Eine Molecule (06) darf nur Atoms (05) enthalten, <strong>keine Organisms</strong> (07).</td>
+                  <td>Card enth&auml;lt Button + Badge, nie Carousel</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>Templates (08) orchestrieren Organisms innerhalb von Sections.</td>
+                  <td><code>.t-dashboard</code> ordnet Header, Sidebar, Content an</td>
+                </tr>
+                <tr>
+                  <td><strong>5</strong></td>
+                  <td>Objects (04) sind Layout-Wrapper &mdash; sie enthalten Inhalt, <strong>keine anderen Objects</strong>.</td>
+                  <td>Container enth&auml;lt Grid, aber Grid enth&auml;lt keinen Container</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Section als Orchestrator</h2>
+          <p class="docs__section-desc">
+            Das kanonische Layout-Pattern: Section &rarr; Container &rarr; Grid &rarr; Inhalt.
+          </p>
+
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__lang">HTML</span>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;section class="section"&gt;
+  &lt;div class="nc-container"&gt;
+    &lt;div class="o-grid"&gt;
+      &lt;!-- Organism- oder Molecule-Inhalt --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Verschachtelungs-Matrix</h2>
+          <p class="docs__section-desc">
+            Erlaubte Verschachtelungen der Layout-Primitive.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Primitiv</th>
+                  <th>In sich verschachteln?</th>
+                  <th>Grund</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong><code>.nc-container</code></strong></td>
+                  <td style="color: var(--fnd-color-feedback-danger); font-weight: 600;">NIEMALS</td>
+                  <td>Doppelte max-width/padding f&uuml;hrt zu falschem Layout</td>
+                </tr>
+                <tr>
+                  <td><strong><code>.o-grid</code></strong></td>
+                  <td style="color: var(--fnd-color-feedback-success); font-weight: 600;">Erlaubt</td>
+                  <td>Innere Grids setzen den Spalten-Kontext zur&uuml;ck</td>
+                </tr>
+                <tr>
+                  <td><strong><code>.section</code></strong></td>
+                  <td style="color: var(--fnd-color-feedback-danger); font-weight: 600;">NIEMALS</td>
+                  <td>Sections sind Top-Level-Bl&ouml;cke, keine verschachtelbaren Wrapper</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Spacing-Regeln                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-spacing" aria-labelledby="trigger-spacing" hidden>
+
+          <h2 class="docs__section-title">Semantische Spacing-Hierarchie</h2>
+          <p class="docs__section-desc">
+            Spacing-Tokens definieren konsistente Abst&auml;nde f&uuml;r jeden Kontext.
+            Die Hierarchie folgt dem Prinzip: gr&ouml;&szlig;erer Kontext &rarr; gr&ouml;&szlig;erer Abstand.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Kontext</th>
+                  <th>Token</th>
+                  <th>Skala-Stufe</th>
+                  <th>Wert</th>
+                  <th>Verwendung</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Zwischen Sections</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-section</code></td>
+                  <td>12</td>
+                  <td>80px</td>
+                  <td>Section <code>padding-block</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Zwischen Komponenten</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-component</code></td>
+                  <td>08</td>
+                  <td>32px</td>
+                  <td>Gap zwischen Organisms/Molecules</td>
+                </tr>
+                <tr>
+                  <td><strong>Zwischen Elementen</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-element</code></td>
+                  <td>04</td>
+                  <td>16px</td>
+                  <td>Gap innerhalb einer Komponente</td>
+                </tr>
+                <tr>
+                  <td><strong>Grid Gutter</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-gutter</code></td>
+                  <td>04</td>
+                  <td>16px</td>
+                  <td>Grid Gap</td>
+                </tr>
+                <tr>
+                  <td><strong>Inline Spacing</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-inline</code></td>
+                  <td>03</td>
+                  <td>12px</td>
+                  <td>Horizontal zwischen Geschwistern</td>
+                </tr>
+                <tr>
+                  <td><strong>Stack Spacing</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-stack</code></td>
+                  <td>04</td>
+                  <td>16px</td>
+                  <td>Vertikal zwischen Geschwistern</td>
+                </tr>
+                <tr>
+                  <td><strong>Inset Padding</strong></td>
+                  <td><code class="docs__token">--fnd-spacing-inset</code></td>
+                  <td>04</td>
+                  <td>16px</td>
+                  <td>Gleichm&auml;&szlig;iges Padding rundum</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Grundregeln</h2>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Regel</th>
+                  <th>Begr&uuml;ndung</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1</strong></td>
+                  <td>Komponenten setzen <strong>niemals</strong> eigenes &auml;u&szlig;eres Spacing (margin).</td>
+                  <td>Der Eltern-Container steuert Abst&auml;nde &uuml;ber <code>gap</code> oder <code>margin</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td>Verwende <code>gap</code> statt <code>margin</code> f&uuml;r Abst&auml;nde zwischen Geschwistern in Grid/Flex.</td>
+                  <td><code>gap</code> vermeidet Margin-Collapse und vereinfacht das Spacing-Modell.</td>
+                </tr>
+                <tr>
+                  <td><strong>3</strong></td>
+                  <td>Section-Padding wird &uuml;ber <code>--nc-section-padding-block</code> gesteuert.</td>
+                  <td>Modifier-Klassen: <code>--compact</code> (klein), <code>--spacious</code> (gro&szlig;).</td>
+                </tr>
+                <tr>
+                  <td><strong>4</strong></td>
+                  <td>Stufen 06&ndash;13 sind fluid (<code>clamp()</code>), Stufen 01&ndash;05 sind statisch.</td>
+                  <td>Gro&szlig;e Abst&auml;nde skalieren responsiv, kleine bleiben fix.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Spacing-Pattern im Code</h2>
+
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__lang">CSS</span>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-css">/* Richtig: Parent steuert Spacing via gap */
+.my-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-component);  /* 32px zwischen Kindern */
+}
+
+/* Richtig: Section-Padding &uuml;ber Token */
+.section {
+  padding-block: var(--nc-section-padding-block);
+}
+.section--compact {
+  --nc-section-padding-block: var(--fnd-spacing-08);
+}
+.section--spacious {
+  --nc-section-padding-block: var(--fnd-spacing-13);
+}
+
+/* Falsch: Komponente setzt eigenes Margin */
+.nc-card {
+  margin-bottom: 32px;  /* NIEMALS! */
+}</code></pre>
+          </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Layout-Komposition                                    -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-layout" aria-labelledby="trigger-layout" hidden>
+
+          <h2 class="docs__section-title">Layout-Recipe-Pattern (LayoutSpec)</h2>
+          <p class="docs__section-desc">
+            Ein Layout wird aus 4 Primitiven zusammengesetzt. Jedes LayoutSpec referenziert
+            Presets &uuml;ber <code class="docs__token">ref</code> und kann diese per
+            <code class="docs__token">overrides</code> anpassen.
+            Abgeleitete Layouts nutzen <code class="docs__token">extends</code>.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Primitiv</th>
+                  <th>Verantwortung</th>
+                  <th>Token-Pr&auml;fix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Container</strong></td>
+                  <td>Horizontale Breitenbegrenzung + Zentrierung</td>
+                  <td><code class="docs__token">--nc-container-*</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Grid</strong></td>
+                  <td>Spalten-System, Gap, Alignment</td>
+                  <td><code class="docs__token">--nc-grid-*</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Spacing</strong></td>
+                  <td>Vertikaler und horizontaler Rhythmus</td>
+                  <td><code class="docs__token">--fnd-spacing-*</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Section</strong></td>
+                  <td>Orchestrator &mdash; verbindet Container, Grid, Spacing</td>
+                  <td><code class="docs__token">--nc-section-*</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Verf&uuml;gbare Basis-Layouts</h2>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>Layout</th>
+                  <th>Container</th>
+                  <th>Grid Gap</th>
+                  <th>Section</th>
+                  <th>Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Marketing</strong></td>
+                  <td>Wide (1440px)</td>
+                  <td>Large</td>
+                  <td>Spacious</td>
+                  <td>Landing Pages</td>
+                </tr>
+                <tr>
+                  <td><strong>Docs</strong></td>
+                  <td>Standard (1200px)</td>
+                  <td>Default</td>
+                  <td>Default</td>
+                  <td>Dokumentation</td>
+                </tr>
+                <tr>
+                  <td><strong>Dashboard</strong></td>
+                  <td>Full (100%)</td>
+                  <td>Small</td>
+                  <td>Compact</td>
+                  <td>Admin Panels</td>
+                </tr>
+                <tr>
+                  <td><strong>Form</strong></td>
+                  <td>Narrow (768px)</td>
+                  <td>Default</td>
+                  <td>Default</td>
+                  <td>Formulare</td>
+                </tr>
+                <tr>
+                  <td><strong>Content</strong></td>
+                  <td>Standard (1200px)</td>
+                  <td>Default</td>
+                  <td>Default</td>
+                  <td>Artikel, Blog</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Template-Klassen</h2>
+          <p class="docs__section-desc">
+            Jedes Basis-Layout wird &uuml;ber eine Template-Klasse <code class="docs__token">.t-{layout-name}</code>
+            angewendet. Die Klasse setzt alle zugeh&ouml;rigen Token-Werte auf einmal.
+          </p>
+
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__lang">HTML</span>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-markup">&lt;!-- Marketing-Layout: breiter Container, gro&szlig;z&uuml;gige Sections --&gt;
+&lt;div class="t-home-hero"&gt;
+  &lt;section class="section section--spacious"&gt;
+    &lt;div class="nc-container"&gt;
+      &lt;div class="o-grid"&gt;...&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;
+
+&lt;!-- Dashboard-Layout: volle Breite, kompakte Sections --&gt;
+&lt;div class="t-dashboard"&gt;
+  &lt;section class="section section--compact"&gt;
+    &lt;div class="nc-container"&gt;
+      &lt;div class="o-grid"&gt;...&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Ableitung per <code>extends</code></h2>
+          <p class="docs__section-desc">
+            Neue Layouts k&ouml;nnen von einem Basis-Layout erben und nur Abweichungen &uuml;berschreiben.
+          </p>
+
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__lang">JSON</span>
+              <button class="nc-code-snippet__copy" type="button" aria-label="Code kopieren"></button>
+            </div>
+            <pre class="nc-code-snippet__pre"><code class="nc-code-snippet__code language-json">{
+  "name": "blog",
+  "extends": "content",
+  "overrides": {
+    "container": { "max-width": "860px" },
+    "section": { "padding-block": "var(--fnd-spacing-10)" }
+  }
+}</code></pre>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Entscheidungsbaum</h2>
+          <p class="docs__section-desc">
+            So w&auml;hlen Sie das richtige Basis-Layout:
+          </p>
+
+          <pre class="comp-hierarchy">Ist der Inhalt eine Landing Page?
+  &rarr; Ja: <strong>Marketing</strong> (Wide, Spacious)
+  &rarr; Nein:
+    Ist es ein Admin-/Dashboard-Bereich?
+      &rarr; Ja: <strong>Dashboard</strong> (Full, Compact)
+      &rarr; Nein:
+        Ist es ein Formular?
+          &rarr; Ja: <strong>Form</strong> (Narrow, Default)
+          &rarr; Nein:
+            Ist es Dokumentation?
+              &rarr; Ja: <strong>Docs</strong> (Standard, Default)
+              &rarr; Nein: <strong>Content</strong> (Standard, Default)</pre>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Anti-Patterns                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-antipatterns" aria-labelledby="trigger-antipatterns" hidden>
+
+          <h2 class="docs__section-title">H&auml;ufige Fehler &amp; Korrekturen</h2>
+          <p class="docs__section-desc">
+            Diese Anti-Patterns versto&szlig;en gegen die Composition Rules.
+            Jedes Beispiel zeigt den Fehler und die korrekte L&ouml;sung.
+          </p>
+
+          <!-- Anti-Pattern 1: Verschachtelte Container -->
+          <h3 style="margin-block-end: var(--fnd-spacing-03);">1. Verschachtelte Container</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Container in Container</div>
+              <pre><code>&lt;div class="nc-container"&gt;
+  &lt;div class="nc-container"&gt;  &lt;!-- FALSCH --&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Ein Container pro Section</div>
+              <pre><code>&lt;section class="section"&gt;
+  &lt;div class="nc-container"&gt;
+    &lt;div class="o-grid"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 2: Hardcoded Spacing -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">2. Hardcodiertes Spacing</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Pixel-Wert direkt im CSS</div>
+              <pre><code>.my-component {
+  margin-bottom: 32px;  /* FALSCH */
+}</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Spacing-Token oder Parent-Gap</div>
+              <pre><code>.my-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-component);
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 3: Eigenes Outer-Margin -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">3. Komponente setzt eigenes Outer-Margin</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Margin direkt auf der Komponente</div>
+              <pre><code>.nc-card {
+  margin-bottom: var(--fnd-spacing-08);  /* FALSCH */
+}</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Komponenten sind margin-frei, Parent steuert</div>
+              <pre><code>.card-grid {
+  display: grid;
+  gap: var(--fnd-spacing-component);
+}
+/* .nc-card hat kein margin */</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 4: Fehlender Section-Wrapper -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">4. Fehlender Section-Wrapper</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Container ohne Section</div>
+              <pre><code>&lt;div class="nc-container"&gt;
+  &lt;div class="o-grid"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Immer in Section wrappen</div>
+              <pre><code>&lt;section class="section"&gt;
+  &lt;div class="nc-container"&gt;
+    &lt;div class="o-grid"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 5: Organism in Organism -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">5. Organism verschachtelt Organism</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Header (Organism) in Modal (Organism)</div>
+              <pre><code>&lt;div class="nc-modal"&gt;
+  &lt;div class="nc-header"&gt;...&lt;/div&gt;  &lt;!-- FALSCH --&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Modal-Inhalt besteht aus Molecules/Atoms</div>
+              <pre><code>&lt;div class="nc-modal"&gt;
+  &lt;div class="nc-modal__header"&gt;...&lt;/div&gt;
+  &lt;div class="nc-modal__body"&gt;
+    &lt;!-- Molecules und Atoms --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 6: Token-Schichten mischen -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">6. Token-Schichten mischen</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: Komponente nutzt Primitive direkt</div>
+              <pre><code>.nc-button {
+  background: var(--fnd-color-primary-500);  /* FALSCH */
+}</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: Komponente nutzt Component-Token</div>
+              <pre><code>.nc-button {
+  background: var(--nc-button-bg);  /* Component-Token */
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Anti-Pattern 7: rgba() statt color-mix() -->
+          <h3 style="margin-block-start: var(--fnd-spacing-06); margin-block-end: var(--fnd-spacing-03);">7. <code>rgba()</code> f&uuml;r Overlays</h3>
+          <div class="comp-rule comp-rule--wrong">
+            <span class="comp-rule__icon" aria-hidden="true">&#10060;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Falsch: <code>rgba()</code> bricht bei Themes</div>
+              <pre><code>.overlay {
+  background: rgba(0, 0, 0, 0.5);  /* FALSCH */
+}</code></pre>
+            </div>
+          </div>
+          <div class="comp-rule comp-rule--correct">
+            <span class="comp-rule__icon" aria-hidden="true">&#10003;</span>
+            <div class="comp-rule__body">
+              <div class="comp-rule__label">Richtig: <code>color-mix()</code> ist theme-kompatibel</div>
+              <pre><code>.overlay {
+  background: color-mix(in srgb,
+    var(--fnd-color-always-dark) 50%,
+    transparent);
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Zusammenfassung -->
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Zusammenfassung</h2>
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Anti-Pattern</th>
+                  <th>Regel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Verschachtelte Container</td>
+                  <td>Ein <code>.nc-container</code> pro Section</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Hardcodiertes Spacing</td>
+                  <td>Immer <code>--fnd-spacing-*</code> Tokens verwenden</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Eigenes Outer-Margin</td>
+                  <td>Komponenten sind margin-frei</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Fehlender Section-Wrapper</td>
+                  <td>Container immer in <code>&lt;section&gt;</code> wrappen</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Organism in Organism</td>
+                  <td>Organisms enthalten nur Molecules/Atoms</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>Token-Schichten mischen</td>
+                  <td>Komponenten nutzen <code>--nc-*</code>, nie <code>--fnd-*</code> Primitives</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td><code>rgba()</code> f&uuml;r Overlays</td>
+                  <td><code>color-mix(in srgb, ...)</code> verwenden</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        </div> <!-- /docs-tabs -->
+      </div> <!-- /docs__body -->
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+  <!-- Prism.js Syntax-Highlighting -->
+  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
+  <script src="../node_modules/prismjs/prism.js"></script>
+  <script src="../node_modules/prismjs/components/prism-css.min.js"></script>
+  <script src="../node_modules/prismjs/components/prism-scss.min.js"></script>
+  <script src="../node_modules/prismjs/components/prism-json.min.js"></script>
+  <script src="../node_modules/prismjs/components/prism-markup.min.js"></script>
+
+  <!-- Code Snippet Controller -->
+  <script src="../js/code-snippet.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function() { setupCodeSnippets(); });</script>
+
+  <script>
+    // Viewport indicator
+    (function() {
+      var info = document.getElementById('viewport-info');
+      if (!info) return;
+      function update() { info.textContent = window.innerWidth + ' px'; }
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+
+</body>
+</html>
