@@ -1,7 +1,7 @@
 <template>
   <div class="color-editor">
-    <!-- ── Current Color + HEX Input ── -->
-    <div class="picker-current">
+    <!-- ── Current Color Preview ── -->
+    <div class="picker-current" :style="themeBackground ? { background: themeBackground } : {}">
       <div class="picker-preview" :style="{ background: modelValue }">
         <span class="picker-preview-label" :style="{ color: contrastColor }">Aa</span>
       </div>
@@ -91,7 +91,8 @@ const props = defineProps({
   title: { type: String, default: 'Color' },
   tokenId: { type: String, default: '' },
   tokenPalettes: { type: Array, default: () => [] },
-  contrastTarget: { type: String, default: '' }
+  contrastTarget: { type: String, default: '' },
+  themeBackground: { type: String, default: '' }
 })
 
 const emit = defineEmits(['update:modelValue', 'select-primitive'])
@@ -191,6 +192,9 @@ const contrastColor = computed(() => {
   display: flex;
   gap: 12px;
   align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cfg-border);
 }
 
 .picker-preview {

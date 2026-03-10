@@ -1,5 +1,6 @@
 <template>
-  <div class="component-arena" v-if="componentData">
+  <div :class="['component-arena', 'preview-' + store.state.previewMode]" v-if="componentData" style="position: relative;">
+    <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
 
     <!-- variants-matrix Renderer -->
     <template v-if="arenaConfig && arenaConfig.type === 'variants-matrix'">
@@ -260,53 +261,259 @@
 
         <!-- ─── form-input ─────────────────────────────────────────── -->
         <template v-if="previewType === 'form-input'">
-          <div class="arena-category-divider"><span class="arena-category-label">Sizes</span></div>
-          <div class="arena-specimen">
-            <span class="arena-specimen__label">Default State — Sizes</span>
-            <div class="arena-specimen__pair">
-              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                <div class="arena-preview-stack">
-                  <template v-for="size in ['sm', 'md', 'lg']" :key="size">
-                    <input type="text" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()"
-                      :style="inputStyle(tokensLight, size)" readonly />
-                  </template>
-                </div>
-              </div>
-              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                <div class="arena-preview-stack">
-                  <template v-for="size in ['sm', 'md', 'lg']" :key="size">
-                    <input type="text" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()"
-                      :style="inputStyle(tokensDark, size)" readonly />
-                  </template>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="arena-category-divider"><span class="arena-category-label">States</span></div>
-          <div class="arena-specimen">
-            <span class="arena-specimen__label">States</span>
-            <div class="arena-specimen__pair">
-              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                <div class="arena-preview-stack">
-                  <input type="text" class="arena-input" value="Default" :style="inputStyle(tokensLight, 'md')" readonly />
-                  <input type="text" class="arena-input" value="Hover" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-hover') }" readonly />
-                  <input type="text" class="arena-input" value="Focus" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-focus'), outline: '2px solid ' + (tk(tokensLight, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly />
-                  <input type="text" class="arena-input" value="Error" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-error') }" readonly />
-                  <input type="text" class="arena-input" value="Disabled" :style="{ ...inputStyle(tokensLight, 'md'), background: tk(tokensLight, 'disabled-bg'), color: tk(tokensLight, 'disabled-color'), borderColor: tk(tokensLight, 'disabled-border'), opacity: tk(tokensLight, 'disabled-opacity') || '0.5' }" readonly />
+          <!-- ── Input (default) ──────────────────────────────────── -->
+          <template v-if="props.componentId === 'input'">
+            <div class="arena-category-divider"><span class="arena-category-label">Sizes</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Default State — Sizes</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <input v-for="size in ['sm', 'md', 'lg']" :key="size" type="text" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()" :style="inputStyle(tokensLight, size)" readonly />
+                  </div>
                 </div>
-              </div>
-              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                <div class="arena-preview-stack">
-                  <input type="text" class="arena-input" value="Default" :style="inputStyle(tokensDark, 'md')" readonly />
-                  <input type="text" class="arena-input" value="Hover" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-hover') }" readonly />
-                  <input type="text" class="arena-input" value="Focus" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-focus'), outline: '2px solid ' + (tk(tokensDark, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly />
-                  <input type="text" class="arena-input" value="Error" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-error') }" readonly />
-                  <input type="text" class="arena-input" value="Disabled" :style="{ ...inputStyle(tokensDark, 'md'), background: tk(tokensDark, 'disabled-bg'), color: tk(tokensDark, 'disabled-color'), borderColor: tk(tokensDark, 'disabled-border'), opacity: tk(tokensDark, 'disabled-opacity') || '0.5' }" readonly />
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <input v-for="size in ['sm', 'md', 'lg']" :key="size" type="text" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()" :style="inputStyle(tokensDark, size)" readonly />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="arena-category-divider"><span class="arena-category-label">States</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">States</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <input type="text" class="arena-input" value="Default" :style="inputStyle(tokensLight, 'md')" readonly />
+                    <input type="text" class="arena-input" value="Hover" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-hover') }" readonly />
+                    <input type="text" class="arena-input" value="Focus" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-focus'), outline: '2px solid ' + (tk(tokensLight, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly />
+                    <input type="text" class="arena-input" value="Error" :style="{ ...inputStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-error') }" readonly />
+                    <input type="text" class="arena-input" value="Disabled" :style="{ ...inputStyle(tokensLight, 'md'), background: tk(tokensLight, 'disabled-bg'), color: tk(tokensLight, 'disabled-color'), borderColor: tk(tokensLight, 'disabled-border'), opacity: tk(tokensLight, 'disabled-opacity') || '0.5' }" readonly />
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <input type="text" class="arena-input" value="Default" :style="inputStyle(tokensDark, 'md')" readonly />
+                    <input type="text" class="arena-input" value="Hover" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-hover') }" readonly />
+                    <input type="text" class="arena-input" value="Focus" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-focus'), outline: '2px solid ' + (tk(tokensDark, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly />
+                    <input type="text" class="arena-input" value="Error" :style="{ ...inputStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-error') }" readonly />
+                    <input type="text" class="arena-input" value="Disabled" :style="{ ...inputStyle(tokensDark, 'md'), background: tk(tokensDark, 'disabled-bg'), color: tk(tokensDark, 'disabled-color'), borderColor: tk(tokensDark, 'disabled-border'), opacity: tk(tokensDark, 'disabled-opacity') || '0.5' }" readonly />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ── Textarea ─────────────────────────────────────────── -->
+          <template v-else-if="props.componentId === 'textarea'">
+            <div class="arena-category-divider"><span class="arena-category-label">Sizes</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Textarea — Sizes</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <textarea v-for="size in ['sm', 'md', 'lg']" :key="size" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()" :style="textareaStyle(tokensLight, size)" readonly rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <textarea v-for="size in ['sm', 'md', 'lg']" :key="size" class="arena-input" :placeholder="'Placeholder ' + size.toUpperCase()" :style="textareaStyle(tokensDark, size)" readonly rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="arena-category-divider"><span class="arena-category-label">States</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">States</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <textarea class="arena-input" :style="textareaStyle(tokensLight, 'md')" readonly rows="2">Default</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-focus'), outline: '2px solid ' + (tk(tokensLight, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly rows="2">Focus</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-error') }" readonly rows="2">Error</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensLight, 'md'), background: tk(tokensLight, 'disabled-bg'), color: tk(tokensLight, 'disabled-color'), opacity: '0.5' }" readonly rows="2">Disabled</textarea>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <textarea class="arena-input" :style="textareaStyle(tokensDark, 'md')" readonly rows="2">Default</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-focus'), outline: '2px solid ' + (tk(tokensDark, 'border-focus') || 'currentColor'), outlineOffset: '1px' }" readonly rows="2">Focus</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-error') }" readonly rows="2">Error</textarea>
+                    <textarea class="arena-input" :style="{ ...textareaStyle(tokensDark, 'md'), background: tk(tokensDark, 'disabled-bg'), color: tk(tokensDark, 'disabled-color'), opacity: '0.5' }" readonly rows="2">Disabled</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ── Select ───────────────────────────────────────────── -->
+          <template v-else-if="props.componentId === 'select'">
+            <div class="arena-category-divider"><span class="arena-category-label">Sizes</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Select — Sizes</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div v-for="size in ['sm', 'md', 'lg']" :key="size" class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="selectStyle(tokensLight, size)" disabled>
+                        <option>Option {{ size.toUpperCase() }}</option>
+                      </select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensLight)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div v-for="size in ['sm', 'md', 'lg']" :key="size" class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="selectStyle(tokensDark, size)" disabled>
+                        <option>Option {{ size.toUpperCase() }}</option>
+                      </select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensDark)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="arena-category-divider"><span class="arena-category-label">States</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">States</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="selectStyle(tokensLight, 'md')" disabled><option>Default</option></select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensLight)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="{ ...selectStyle(tokensLight, 'md'), borderColor: tk(tokensLight, 'border-error') }" disabled><option>Error</option></select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensLight)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="{ ...selectStyle(tokensLight, 'md'), background: tk(tokensLight, 'disabled-bg'), color: tk(tokensLight, 'disabled-color'), opacity: '0.5' }" disabled><option>Disabled</option></select>
+                      <svg class="arena-select-chevron" :style="{ ...selectChevronStyle(tokensLight), opacity: '0.3' }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="selectStyle(tokensDark, 'md')" disabled><option>Default</option></select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensDark)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="{ ...selectStyle(tokensDark, 'md'), borderColor: tk(tokensDark, 'border-error') }" disabled><option>Error</option></select>
+                      <svg class="arena-select-chevron" :style="selectChevronStyle(tokensDark)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="arena-select-wrap" :style="{ position: 'relative' }">
+                      <select class="arena-input" :style="{ ...selectStyle(tokensDark, 'md'), background: tk(tokensDark, 'disabled-bg'), color: tk(tokensDark, 'disabled-color'), opacity: '0.5' }" disabled><option>Disabled</option></select>
+                      <svg class="arena-select-chevron" :style="{ ...selectChevronStyle(tokensDark), opacity: '0.3' }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ── Search ───────────────────────────────────────────── -->
+          <template v-else-if="props.componentId === 'search'">
+            <div class="arena-category-divider"><span class="arena-category-label">Search</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Search — Default &amp; Results</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-search-wrap">
+                      <div class="arena-search-input-row" :style="{ ...inputStyle(tokensLight, 'md'), display: 'flex', alignItems: 'center', gap: '8px' }">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        <span style="opacity:0.4;font-size:14px">Search…</span>
+                      </div>
+                      <div class="arena-search-results" :style="searchResultsStyle(tokensLight)">
+                        <div v-for="item in ['Dashboard', 'Settings', 'User Profile']" :key="item" class="arena-search-item" :style="searchItemStyle(tokensLight)">{{ item }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-search-wrap">
+                      <div class="arena-search-input-row" :style="{ ...inputStyle(tokensDark, 'md'), display: 'flex', alignItems: 'center', gap: '8px' }">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        <span style="opacity:0.4;font-size:14px">Search…</span>
+                      </div>
+                      <div class="arena-search-results" :style="searchResultsStyle(tokensDark)">
+                        <div v-for="item in ['Dashboard', 'Settings', 'User Profile']" :key="item" class="arena-search-item" :style="searchItemStyle(tokensDark)">{{ item }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ── OTP Input ────────────────────────────────────────── -->
+          <template v-else-if="props.componentId === 'otp-input'">
+            <div class="arena-category-divider"><span class="arena-category-label">OTP Input</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">OTP — Sizes &amp; States</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack" style="gap:16px">
+                    <div v-for="size in ['sm', 'md', 'lg']" :key="size" style="display:flex;align-items:center;gap:6px">
+                      <input v-for="(digit, i) in ['1','2','3','—','4','5','6']" :key="i"
+                        :type="digit === '—' ? 'text' : 'text'"
+                        :value="digit === '—' ? '' : digit"
+                        :class="digit === '—' ? 'arena-otp-separator' : 'arena-otp-cell'"
+                        :style="digit === '—' ? { width: '12px', border: 'none', background: 'none', textAlign: 'center', fontSize: '16px', color: tLight['text-secondary'] || '#999' } : otpCellStyle(tokensLight, size)"
+                        readonly maxlength="1" />
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack" style="gap:16px">
+                    <div v-for="size in ['sm', 'md', 'lg']" :key="size" style="display:flex;align-items:center;gap:6px">
+                      <input v-for="(digit, i) in ['1','2','3','—','4','5','6']" :key="i"
+                        :type="digit === '—' ? 'text' : 'text'"
+                        :value="digit === '—' ? '' : digit"
+                        :class="digit === '—' ? 'arena-otp-separator' : 'arena-otp-cell'"
+                        :style="digit === '—' ? { width: '12px', border: 'none', background: 'none', textAlign: 'center', fontSize: '16px', color: tDark['text-secondary'] || '#666' } : otpCellStyle(tokensDark, size)"
+                        readonly maxlength="1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <!-- ── File Upload ──────────────────────────────────────── -->
+          <template v-else-if="props.componentId === 'file-upload'">
+            <div class="arena-category-divider"><span class="arena-category-label">File Upload</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Dropzone</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-file-dropzone" :style="fileUploadStyle(tokensLight)">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ color: tk(tokensLight, 'icon-color') || tLight['text-secondary'] || '#999' }"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M12 11v6"/><path d="M9.5 13.5l2.5 -2.5l2.5 2.5"/></svg>
+                      <span style="font-size:13px;font-weight:500">Datei hierher ziehen</span>
+                      <span style="font-size:11px;opacity:0.5">oder klicken zum Auswählen</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-preview-stack">
+                    <div class="arena-file-dropzone" :style="fileUploadStyle(tokensDark)">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ color: tk(tokensDark, 'icon-color') || tDark['text-secondary'] || '#666' }"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M12 11v6"/><path d="M9.5 13.5l2.5 -2.5l2.5 2.5"/></svg>
+                      <span style="font-size:13px;font-weight:500">Datei hierher ziehen</span>
+                      <span style="font-size:11px;opacity:0.5">oder klicken zum Auswählen</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
         </template>
 
         <!-- ─── inline-element (tag, chip, kbd, divider) ───────────── -->
@@ -518,8 +725,8 @@
 
         <!-- ─── surface (alert, toast, banner, popover, dialog, tooltip, validation-summary, empty-state) ── -->
         <template v-else-if="previewType === 'surface'">
-          <!-- Alert / Banner / Validation-Summary / Toast -->
-          <template v-if="['alert','banner','validation-summary','toast'].includes(props.componentId)">
+          <!-- Alert (inline feedback card with icon) -->
+          <template v-if="props.componentId === 'alert'">
             <div class="arena-category-divider"><span class="arena-category-label">Variants</span></div>
             <div class="arena-specimen" v-for="v in surfaceVariants" :key="v.id">
               <span class="arena-specimen__label">{{ v.label }}</span>
@@ -529,7 +736,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ width: tk(tokensLight, 'icon-size') || '20px', height: tk(tokensLight, 'icon-size') || '20px', flexShrink: 0, color: tk(tokensLight, v.id + '-icon-color') || 'currentColor' }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline v-if="v.id==='success'" points="22 4 12 14.01 9 11.01"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" x1="12" y1="9" x2="12" y2="13"/><line v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <div class="arena-surface-content">
                       <strong>{{ v.label }} Title</strong>
-                      <span style="font-size: 0.9em; opacity: 0.85;">Description text for the {{ v.label.toLowerCase() }} message.</span>
+                      <span style="font-size: 0.9em; opacity: 0.85;">Description text for the {{ v.label.toLowerCase() }} alert.</span>
                     </div>
                   </div>
                 </div>
@@ -538,8 +745,87 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" :style="{ width: tk(tokensDark, 'icon-size') || '20px', height: tk(tokensDark, 'icon-size') || '20px', flexShrink: 0, color: tk(tokensDark, v.id + '-icon-color') || 'currentColor' }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline v-if="v.id==='success'" points="22 4 12 14.01 9 11.01"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" x1="12" y1="9" x2="12" y2="13"/><line v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <div class="arena-surface-content">
                       <strong>{{ v.label }} Title</strong>
-                      <span style="font-size: 0.9em; opacity: 0.85;">Description text for the {{ v.label.toLowerCase() }} message.</span>
+                      <span style="font-size: 0.9em; opacity: 0.85;">Description text for the {{ v.label.toLowerCase() }} alert.</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Banner (full-width bar, no border-radius) -->
+          <template v-else-if="props.componentId === 'banner'">
+            <div class="arena-category-divider"><span class="arena-category-label">Variants</span></div>
+            <div class="arena-specimen" v-for="v in surfaceVariants" :key="v.id">
+              <span class="arena-specimen__label">{{ v.label }}</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensLight, v.id), borderRadius: 0, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" :style="{ width: '18px', height: '18px', flexShrink: 0 }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M5 12l5 5l10 -10"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M12 9v4M12 17h.01"/></svg>
+                      <span style="font-size:13px;font-weight:500">{{ v.label }} banner message</span>
+                    </div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;opacity:0.5;cursor:pointer"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensDark, v.id), borderRadius: 0, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" :style="{ width: '18px', height: '18px', flexShrink: 0 }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M5 12l5 5l10 -10"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M12 9v4M12 17h.01"/></svg>
+                      <span style="font-size:13px;font-weight:500">{{ v.label }} banner message</span>
+                    </div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;opacity:0.5;cursor:pointer"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Toast (compact notification with close button) -->
+          <template v-else-if="props.componentId === 'toast'">
+            <div class="arena-category-divider"><span class="arena-category-label">Variants</span></div>
+            <div class="arena-specimen" v-for="v in surfaceVariants" :key="v.id">
+              <span class="arena-specimen__label">{{ v.label }}</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensLight, v.id), maxWidth: '360px', flexDirection: 'row', alignItems: 'flex-start', gap: '10px' }">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" :style="{ width: '18px', height: '18px', flexShrink: 0, marginTop: '1px' }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M5 12l5 5l10 -10"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M12 9v4M12 17h.01"/></svg>
+                    <div style="flex:1;font-size:13px">{{ v.label }} notification message.</div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;opacity:0.5;cursor:pointer;flex-shrink:0"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensDark, v.id), maxWidth: '360px', flexDirection: 'row', alignItems: 'flex-start', gap: '10px' }">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" :style="{ width: '18px', height: '18px', flexShrink: 0, marginTop: '1px' }"><circle v-if="v.id==='info'" cx="12" cy="12" r="10"/><path v-if="v.id==='info'" d="M12 16v-4M12 8h.01"/><path v-if="v.id==='success'" d="M5 12l5 5l10 -10"/><path v-if="v.id==='warning'||v.id==='danger'||v.id==='error'" d="M12 9v4M12 17h.01"/></svg>
+                    <div style="flex:1;font-size:13px">{{ v.label }} notification message.</div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;opacity:0.5;cursor:pointer;flex-shrink:0"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Validation Summary (list of error items) -->
+          <template v-else-if="props.componentId === 'validation-summary'">
+            <div class="arena-category-divider"><span class="arena-category-label">Validation Summary</span></div>
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Error List</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensLight, 'danger'), flexDirection: 'column', gap: '8px' }">
+                    <strong style="font-size:14px">3 Fehler gefunden</strong>
+                    <ul style="margin:0;padding-left:18px;font-size:13px;opacity:0.85;display:flex;flex-direction:column;gap:4px">
+                      <li>E-Mail-Adresse ist ungültig</li>
+                      <li>Passwort muss mindestens 8 Zeichen lang sein</li>
+                      <li>AGB müssen akzeptiert werden</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-surface-card" :style="{ ...surfaceStyle(tokensDark, 'danger'), flexDirection: 'column', gap: '8px' }">
+                    <strong style="font-size:14px">3 Fehler gefunden</strong>
+                    <ul style="margin:0;padding-left:18px;font-size:13px;opacity:0.85;display:flex;flex-direction:column;gap:4px">
+                      <li>E-Mail-Adresse ist ungültig</li>
+                      <li>Passwort muss mindestens 8 Zeichen lang sein</li>
+                      <li>AGB müssen akzeptiert werden</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -745,7 +1031,77 @@
               </div>
             </div>
           </template>
-          <!-- Segmented Control / Toggle Group / Dropdown Menu — generic nav items -->
+          <!-- Segmented Control — pill group with one active segment -->
+          <template v-else-if="props.componentId === 'segmented-control'">
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Segmented Control</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-segmented-group" :style="segmentedGroupStyle(tokensLight)">
+                    <span v-for="(item, i) in ['Day', 'Week', 'Month']" :key="item" class="arena-segmented-item" :style="segmentedItemStyle(tokensLight, i === 0)">{{ item }}</span>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-segmented-group" :style="segmentedGroupStyle(tokensDark)">
+                    <span v-for="(item, i) in ['Day', 'Week', 'Month']" :key="item" class="arena-segmented-item" :style="segmentedItemStyle(tokensDark, i === 0)">{{ item }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Toggle Group — icon buttons, some pressed -->
+          <template v-else-if="props.componentId === 'toggle-group'">
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Toggle Group</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div class="arena-toggle-group" :style="{ display: 'inline-flex', border: '1px solid ' + (tLight['border-primary'] || '#ccc'), borderRadius: tk(tokensLight, 'radius') || '6px', overflow: 'hidden' }">
+                    <span v-for="(item, i) in [{label:'Left',icon:'M4 6h16M4 12h16M4 18h16'},{label:'Center',icon:'M4 6h16M7 12h10M4 18h16'},{label:'Right',icon:'M4 6h16M4 12h16M4 18h16'}]" :key="item.label"
+                      :style="{ display:'inline-flex',alignItems:'center',justifyContent:'center',width:'36px',height:'36px',cursor:'pointer', background: i===0 ? (tLight['interactive-default']||'#002049') : 'transparent', color: i===0 ? '#fff' : (tLight['text-primary']||'currentColor'), borderRight: i<2 ? '1px solid '+(tLight['border-primary']||'#ccc') : 'none' }">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path :d="item.icon"/></svg>
+                    </span>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div class="arena-toggle-group" :style="{ display: 'inline-flex', border: '1px solid ' + (tDark['border-primary'] || '#555'), borderRadius: tk(tokensDark, 'radius') || '6px', overflow: 'hidden' }">
+                    <span v-for="(item, i) in [{label:'Left',icon:'M4 6h16M4 12h16M4 18h16'},{label:'Center',icon:'M4 6h16M7 12h10M4 18h16'},{label:'Right',icon:'M4 6h16M4 12h16M4 18h16'}]" :key="item.label"
+                      :style="{ display:'inline-flex',alignItems:'center',justifyContent:'center',width:'36px',height:'36px',cursor:'pointer', background: i===0 ? (tDark['interactive-default']||'#009fe3') : 'transparent', color: i===0 ? '#fff' : (tDark['text-primary']||'currentColor'), borderRight: i<2 ? '1px solid '+(tDark['border-primary']||'#555') : 'none' }">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path :d="item.icon"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Dropdown Menu — trigger + dropdown panel -->
+          <template v-else-if="props.componentId === 'dropdown-menu'">
+            <div class="arena-specimen">
+              <span class="arena-specimen__label">Dropdown Menu</span>
+              <div class="arena-specimen__pair">
+                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                  <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+                    <span :style="{ display:'inline-flex',alignItems:'center',gap:'6px',padding:'6px 12px',fontSize:'13px',fontWeight:'500',borderRadius:tk(tokensLight,'radius')||'6px',border:'1px solid '+(tLight['border-primary']||'#ccc'),background:tLight['background-base']||'#fff',color:tLight['text-primary']||'currentColor',cursor:'pointer' }">
+                      Actions <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </span>
+                    <div :style="{ border:'1px solid '+(tLight['border-primary']||'#ccc'),borderRadius:tk(tokensLight,'radius')||'8px',background:tLight['background-base']||'#fff',boxShadow:'0 4px 12px rgba(0,0,0,0.1)',overflow:'hidden',minWidth:'160px' }">
+                      <div v-for="item in ['Edit', 'Duplicate', 'Archive', 'Delete']" :key="item" :style="{ padding:'8px 12px',fontSize:'13px',cursor:'pointer',color: item==='Delete' ? (tLight['feedback-danger']||'#da1e28') : (tLight['text-primary']||'currentColor'), borderTop: item==='Delete' ? '1px solid '+(tLight['border-secondary']||'#eee') : 'none' }">{{ item }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                  <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+                    <span :style="{ display:'inline-flex',alignItems:'center',gap:'6px',padding:'6px 12px',fontSize:'13px',fontWeight:'500',borderRadius:tk(tokensDark,'radius')||'6px',border:'1px solid '+(tDark['border-primary']||'#555'),background:tDark['background-base']||'#1a1a1a',color:tDark['text-primary']||'currentColor',cursor:'pointer' }">
+                      Actions <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </span>
+                    <div :style="{ border:'1px solid '+(tDark['border-primary']||'#555'),borderRadius:tk(tokensDark,'radius')||'8px',background:tDark['surface-elevated']||tDark['background-base']||'#1d1d1d',boxShadow:'0 4px 12px rgba(0,0,0,0.3)',overflow:'hidden',minWidth:'160px' }">
+                      <div v-for="item in ['Edit', 'Duplicate', 'Archive', 'Delete']" :key="item" :style="{ padding:'8px 12px',fontSize:'13px',cursor:'pointer',color: item==='Delete' ? (tDark['feedback-danger']||'#ff6b6b') : (tDark['text-primary']||'currentColor'), borderTop: item==='Delete' ? '1px solid '+(tDark['border-secondary']||'#333') : 'none' }">{{ item }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- Fallback nav items -->
           <template v-else>
             <div class="arena-specimen">
               <span class="arena-specimen__label">{{ componentData.label }}</span>
@@ -1221,6 +1577,7 @@
 <script setup>
 import { computed, ref, reactive, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 
 const props = defineProps({
@@ -1228,6 +1585,7 @@ const props = defineProps({
 })
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight(props.componentId)
 
 const componentData = computed(() => {
   return componentTokenGroups.find(g => g.id === props.componentId) || null
@@ -1323,6 +1681,106 @@ function inputStyle(tokens, size) {
     borderWidth: t('border-width') || '1px',
     borderStyle: 'solid',
     borderRadius: t('radius') || '6px'
+  }
+}
+
+// --- textarea ---
+function textareaStyle(tokens, size) {
+  const base = inputStyle(tokens, size)
+  const t = (p) => tokens[`nc-textarea-${p}`] || tokens[`nc-input-${p}`] || ''
+  return {
+    ...base,
+    height: 'auto',
+    minHeight: t('min-height') || '80px',
+    resize: t('resize') || 'vertical',
+    lineHeight: '1.5'
+  }
+}
+
+// --- select ---
+function selectStyle(tokens, size) {
+  const base = inputStyle(tokens, size)
+  return {
+    ...base,
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    paddingRight: '36px',
+    cursor: 'pointer'
+  }
+}
+
+function selectChevronStyle(tokens) {
+  const t = (p) => tokens[`nc-select-${p}`] || ''
+  return {
+    position: 'absolute',
+    right: '10px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    pointerEvents: 'none',
+    color: t('indicator-color') || tokens['nc-input-color'] || 'currentColor',
+    width: t('indicator-size') || '16px',
+    height: t('indicator-size') || '16px'
+  }
+}
+
+// --- search ---
+function searchResultsStyle(tokens) {
+  const t = (p) => tokens[`nc-search-${p}`] || ''
+  return {
+    background: t('results-bg') || tokens['nc-input-bg'] || '#fff',
+    border: `1px solid ${t('results-border') || tokens['nc-input-border'] || '#ccc'}`,
+    borderRadius: t('results-radius') || '8px',
+    boxShadow: t('results-shadow') || '0 4px 12px rgba(0,0,0,0.1)',
+    marginTop: '4px',
+    overflow: 'hidden'
+  }
+}
+
+function searchItemStyle(tokens) {
+  const t = (p) => tokens[`nc-search-${p}`] || ''
+  return {
+    padding: t('item-padding') || '8px 12px',
+    fontSize: '13px',
+    color: t('item-color') || tokens['nc-input-color'] || 'currentColor',
+    cursor: 'pointer'
+  }
+}
+
+// --- otp-input ---
+function otpCellStyle(tokens, size) {
+  const t = (p) => tokens[`nc-otp-${p}`] || ''
+  const cellSize = { sm: '32px', md: '40px', lg: '48px' }[size] || (t('cell-size') || '40px')
+  return {
+    width: cellSize,
+    height: cellSize,
+    textAlign: 'center',
+    fontSize: t('cell-font-size') || { sm: '14px', md: '18px', lg: '22px' }[size],
+    fontWeight: t('cell-font-weight') || '600',
+    fontFamily: 'monospace',
+    borderRadius: t('cell-radius') || '6px',
+    border: `1px solid ${t('cell-border') || tokens['nc-input-border'] || '#ccc'}`,
+    background: tokens['nc-input-bg'] || 'transparent',
+    color: tokens['nc-input-color'] || 'currentColor',
+    boxSizing: 'border-box'
+  }
+}
+
+// --- file-upload ---
+function fileUploadStyle(tokens) {
+  const t = (p) => tokens[`nc-file-upload-${p}`] || ''
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    padding: t('padding') || '32px 24px',
+    borderRadius: t('radius') || '8px',
+    border: `2px ${t('border-style') || 'dashed'} ${t('border') || tokens['nc-input-border'] || '#ccc'}`,
+    background: t('bg') || 'transparent',
+    color: 'currentColor',
+    textAlign: 'center',
+    cursor: 'pointer'
   }
 }
 
@@ -1555,6 +2013,32 @@ function navItemStyle(tokens, isActive, isDisabled) {
     fontSize: t('font-size') || '14px',
     opacity: isDisabled ? '0.5' : '1',
     cursor: isDisabled ? 'not-allowed' : 'pointer'
+  }
+}
+
+// --- segmented-control ---
+function segmentedGroupStyle(tokens) {
+  const t = (p) => tokens[`nc-segmented-control-${p}`] || ''
+  return {
+    display: 'inline-flex',
+    padding: t('group-padding') || '3px',
+    borderRadius: t('radius') || '8px',
+    background: t('group-bg') || tokens['nc-input-bg'] || (tLight.value['background-secondary'] || '#f0f0f0'),
+    gap: '2px'
+  }
+}
+
+function segmentedItemStyle(tokens, isActive) {
+  const t = (p) => tokens[`nc-segmented-control-${p}`] || ''
+  return {
+    padding: t('item-padding') || '6px 16px',
+    borderRadius: t('item-radius') || '6px',
+    fontSize: t('font-size') || '13px',
+    fontWeight: isActive ? '600' : '400',
+    background: isActive ? (t('active-bg') || '#fff') : 'transparent',
+    color: isActive ? (t('active-color') || 'currentColor') : (t('color') || 'currentColor'),
+    boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+    cursor: 'pointer'
   }
 }
 
@@ -2053,7 +2537,7 @@ watch(
 }
 
 .arena-specimen__panel {
-  padding: 12px;
+  padding: 24px; /* --fnd-spacing-06 */
 }
 
 .arena-specimen__panel--light {
@@ -2460,5 +2944,24 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── Preview Mode: Light only ── */
+.component-arena.preview-light .arena-specimen__pair {
+  grid-template-columns: 1fr;
+}
+.component-arena.preview-light .arena-specimen__panel:not(.arena-specimen__panel--light) {
+  display: none;
+}
+.component-arena.preview-light .arena-specimen__panel--light {
+  border-right: none;
+}
+
+/* ── Preview Mode: Dark only ── */
+.component-arena.preview-dark .arena-specimen__pair {
+  grid-template-columns: 1fr;
+}
+.component-arena.preview-dark .arena-specimen__panel--light {
+  display: none;
 }
 </style>

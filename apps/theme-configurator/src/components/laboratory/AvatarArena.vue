@@ -1,5 +1,6 @@
 <template>
-  <div class="component-arena">
+  <div class="component-arena" style="position: relative;">
+    <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- Sektion 1: Size Scale (Image)                                  -->
@@ -347,9 +348,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight('avatar')
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -444,7 +447,16 @@ const activeBg = computed(() =>
 // ---------------------------------------------------------------------------
 // Data — Echte Avatar-Fotos aus assets/avatars/
 // ---------------------------------------------------------------------------
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
+const allSizes = ['xs', 'sm', 'md', 'lg', 'xl']
+
+// Arena Filtering
+function isSizeVisible(id) {
+  const f = store.state.arenaFilters.sizes
+  if (!f) return true
+  return f.has(id) && f.get(id) !== false
+}
+
+const sizes = computed(() => allSizes.filter(s => isSizeVisible(s)))
 
 const badges = [
   { id: 'online', label: 'Online' },
@@ -608,7 +620,7 @@ function iconSize(size) {
 }
 
 .arena-specimen__panel {
-  padding: 16px;
+  padding: 24px; /* --fnd-spacing-06 */
 }
 
 .arena-specimen__single {

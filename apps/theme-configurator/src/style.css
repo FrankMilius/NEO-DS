@@ -21,6 +21,8 @@
   --cfg-danger-border-subtle: color-mix(in srgb, var(--cfg-danger) 20%, transparent);
   --cfg-success-subtle: color-mix(in srgb, var(--cfg-success) 8%, transparent);
   --cfg-warning-subtle: color-mix(in srgb, var(--cfg-warning) 12%, transparent);
+  --cfg-highlight: #06b6d4;
+  --cfg-highlight-bg: color-mix(in srgb, var(--cfg-highlight) 12%, transparent);
 
   /* Pipeline-Processing (Indigo — kein DS-Äquivalent) */
   --cfg-processing: #6366f1;
@@ -118,6 +120,18 @@ code, pre, .token-name {
 :focus-visible {
   outline: 2px solid var(--cfg-accent);
   outline-offset: 2px;
+}
+
+/* Arena Highlight Overlay (Inspector → Arena visual feedback) */
+.arena-highlight-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  border: 2px solid var(--cfg-highlight, #06b6d4);
+  background: var(--cfg-highlight-bg, color-mix(in srgb, #06b6d4 12%, transparent));
+  border-radius: inherit;
+  transition: opacity 150ms ease;
 }
 
 /* Button reset */

@@ -1,17 +1,6 @@
 <template>
-  <div class="component-arena">
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Rezept-Selector: Chip-Leiste                                   -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-recipe-bar">
-      <button
-        v-for="r in recipes"
-        :key="r.id"
-        :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === r.id }]"
-        @click="activeRecipeId = r.id"
-      >{{ r.label }}</button>
-    </div>
+  <div class="component-arena" style="position: relative;">
+    <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
 
     <!-- Grid-Toggle -->
     <div class="arena-toolbar">
@@ -22,27 +11,27 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Live Preview: Light / Dark Split                               -->
+    <!-- Live Preview                                                    -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <div class="arena-category-divider">
       <span class="arena-category-label">{{ activeRecipe.label }}</span>
     </div>
     <div class="arena-specimen">
       <span class="arena-specimen__label">{{ activeRecipe.description }}</span>
-      <div class="arena-specimen__pair">
-        <!-- Light Panel -->
-        <div
-          class="arena-specimen__panel arena-specimen__panel--light"
-          :style="panelStyle(tLight)"
-        >
+      <!-- Split View -->
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
           <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
           <div v-else v-html="activeRecipe.html"></div>
         </div>
-        <!-- Dark Panel -->
-        <div
-          class="arena-specimen__panel"
-          :style="panelStyle(tDark)"
-        >
+        <div class="arena-specimen__panel" :style="panelStyle(tDark)">
+          <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
+          <div v-else v-html="activeRecipe.html"></div>
+        </div>
+      </div>
+      <!-- Single View -->
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
           <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
           <div v-else v-html="activeRecipe.html"></div>
         </div>
@@ -58,7 +47,7 @@
       </div>
       <div class="arena-specimen">
         <span class="arena-specimen__label">{{ activeRecipe.statusLevels.join(' · ') }}</span>
-        <div class="arena-specimen__pair">
+        <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
             <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
               <div v-for="level in activeRecipe.statusLevels" :key="level"
@@ -66,6 +55,14 @@
             </div>
           </div>
           <div class="arena-specimen__panel" :style="panelStyle(tDark)">
+            <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
+              <div v-for="level in activeRecipe.statusLevels" :key="level"
+                v-html="activeRecipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="arena-specimen__single">
+          <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
             <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
               <div v-for="level in activeRecipe.statusLevels" :key="level"
                 v-html="activeRecipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
@@ -84,7 +81,7 @@
       </div>
       <div class="arena-specimen">
         <span class="arena-specimen__label">{{ activeRecipe.states.join(' · ') }}</span>
-        <div class="arena-specimen__pair">
+        <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
             <div class="arena-card-states-info">
               States werden durch die echten CSS-Klassen aus styles.css gesteuert.
@@ -97,6 +94,14 @@
             </div>
           </div>
         </div>
+        <div v-else class="arena-specimen__single">
+          <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
+            <div class="arena-card-states-info">
+              States werden durch die echten CSS-Klassen aus styles.css gesteuert.
+              Interagiere direkt mit der Card oben.
+            </div>
+          </div>
+        </div>
       </div>
     </template>
 
@@ -106,9 +111,11 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight('card')
 
 // ---------------------------------------------------------------------------
 // Rezepte aus card-recipes.json (via fetch beim Laden)
@@ -139,6 +146,13 @@ const componentData = computed(() =>
 
 const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
 const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
+
+// 3-Mode Support (light / dark / split)
+const arenaMode = computed(() => store.state.previewMode)
+const isSplit = computed(() => arenaMode.value === 'split')
+const activeTheme = computed(() =>
+  arenaMode.value === 'dark' ? tDark.value : tLight.value
+)
 
 // ---------------------------------------------------------------------------
 // Token Resolution → CSS Custom Properties auf dem Panel
@@ -186,37 +200,6 @@ function panelStyle(semanticMap) {
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-}
-
-/* Rezept-Selector */
-.arena-recipe-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 0;
-}
-
-.arena-recipe-chip {
-  padding: 4px 10px;
-  border-radius: 12px;
-  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
-  background: transparent;
-  color: inherit;
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 150ms ease;
-  white-space: nowrap;
-}
-
-.arena-recipe-chip:hover {
-  background: color-mix(in srgb, currentColor 8%, transparent);
-}
-
-.arena-recipe-chip--active {
-  background: color-mix(in srgb, currentColor 12%, transparent);
-  border-color: currentColor;
-  font-weight: 700;
 }
 
 /* Toolbar */
@@ -289,12 +272,17 @@ function panelStyle(semanticMap) {
 }
 
 .arena-specimen__panel {
-  padding: 16px;
+  padding: 24px; /* --fnd-spacing-06 */
   overflow: hidden;
 }
 
 .arena-specimen__panel--light {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.arena-specimen__single {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 /* Status Row */

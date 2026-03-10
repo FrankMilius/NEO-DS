@@ -4,79 +4,79 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Composition Rules | Design System Docs</title>
-  <meta name="description" content="Verbindliche Regeln f&uuml;r Komponenten-Verschachtelung, Spacing, Layout-Komposition und Anti-Patterns im NEO Design System." />
+  <meta name="description" content="Kompositionsregeln des NEO DS: Section-Inhalt, Organism-Abstaende, Layout-Recipe-Kombination und Nesting-Regeln." />
   <link rel="stylesheet" href="../styles.css" />
-  <style>
-    /* Composition-Rules-spezifische Styles */
-    .comp-hierarchy {
-      font-family: var(--fnd-font-mono);
-      font-size: var(--fs-sm);
-      line-height: 1.6;
-      padding: 1.5rem;
-      margin: 0;
-      background: var(--fnd-color-background-secondary);
-      border-radius: var(--fnd-radius-sm);
-      max-width: 640px;
-      margin-block-end: var(--fnd-spacing-06);
-    }
+<style>
+  /* Composition-Rules-spezifische Styles */
+  .comp-hierarchy {
+    font-family: var(--fnd-font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    padding: 1.5rem;
+    margin: 0;
+    background: var(--fnd-color-background-secondary);
+    border-radius: var(--fnd-radius-sm);
+    max-width: 640px;
+    margin-block-end: var(--fnd-spacing-06);
+  }
 
-    .comp-rule {
-      display: flex;
-      gap: var(--fnd-spacing-04);
-      padding: var(--fnd-spacing-04);
-      border-radius: var(--fnd-radius-lg);
-      margin-block-end: var(--fnd-spacing-04);
-    }
-    .comp-rule--wrong {
-      background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
-      border-inline-start: 3px solid var(--fnd-color-feedback-danger);
-    }
-    .comp-rule--correct {
-      background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
-      border-inline-start: 3px solid var(--fnd-color-feedback-success);
-    }
-    .comp-rule__icon {
-      flex-shrink: 0;
-      font-size: var(--fs-lg);
-      line-height: 1;
-    }
-    .comp-rule__body {
-      flex: 1;
-      min-width: 0;
-    }
-    .comp-rule__label {
-      font-weight: var(--fnd-font-weight-semibold);
-      font-size: var(--fs-sm);
-      margin-block-end: var(--fnd-spacing-02);
-    }
-    .comp-rule--wrong .comp-rule__label {
-      color: var(--fnd-color-feedback-danger);
-    }
-    .comp-rule--correct .comp-rule__label {
-      color: var(--fnd-color-feedback-success);
-    }
-    .comp-rule pre {
-      font-size: var(--fs-xs);
-      margin: 0;
-      white-space: pre;
-      overflow-x: auto;
-    }
+  .comp-rule {
+    display: flex;
+    gap: var(--fnd-spacing-04);
+    padding: var(--fnd-spacing-04);
+    border-radius: var(--fnd-radius-lg);
+    margin-block-end: var(--fnd-spacing-04);
+  }
+  .comp-rule--wrong {
+    background: color-mix(in srgb, var(--fnd-color-feedback-danger) 8%, transparent);
+    border-inline-start: 3px solid var(--fnd-color-feedback-danger);
+  }
+  .comp-rule--correct {
+    background: color-mix(in srgb, var(--fnd-color-feedback-success) 8%, transparent);
+    border-inline-start: 3px solid var(--fnd-color-feedback-success);
+  }
+  .comp-rule__icon {
+    flex-shrink: 0;
+    font-size: var(--fs-lg);
+    line-height: 1;
+  }
+  .comp-rule__body {
+    flex: 1;
+    min-width: 0;
+  }
+  .comp-rule__label {
+    font-weight: var(--fnd-font-weight-semibold);
+    font-size: var(--fs-sm);
+    margin-block-end: var(--fnd-spacing-02);
+  }
+  .comp-rule--wrong .comp-rule__label {
+    color: var(--fnd-color-feedback-danger);
+  }
+  .comp-rule--correct .comp-rule__label {
+    color: var(--fnd-color-feedback-success);
+  }
+  .comp-rule pre {
+    font-size: var(--fs-xs);
+    margin: 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
 
-    .comp-note {
-      display: flex;
-      gap: var(--fnd-spacing-03);
-      padding: var(--fnd-spacing-04);
-      background: var(--fnd-color-background-secondary);
-      border-radius: var(--fnd-radius-lg);
-      margin-block-end: var(--fnd-spacing-06);
-      font-size: var(--fs-sm);
-      line-height: 1.6;
-    }
-    .comp-note__icon {
-      flex-shrink: 0;
-      font-size: var(--fs-base);
-    }
-  </style>
+  .comp-note {
+    display: flex;
+    gap: var(--fnd-spacing-03);
+    padding: var(--fnd-spacing-04);
+    background: var(--fnd-color-background-secondary);
+    border-radius: var(--fnd-radius-lg);
+    margin-block-end: var(--fnd-spacing-06);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+  .comp-note__icon {
+    flex-shrink: 0;
+    font-size: var(--fs-base);
+  }
+</style>
 </head>
 <body class="neo-light-theme">
 
@@ -816,28 +816,7 @@ Object    (04-objects)        z.B. Container, Grid, Section</pre>
   <script src="docs-toc.js"></script>
   <script src="docs-stage-controls.js"></script>
   <script src="docs-recipe-tab.js"></script>
-  <!-- Prism.js Syntax-Highlighting -->
-  <script>window.Prism = window.Prism || {}; Prism.manual = true;</script>
-  <script src="../node_modules/prismjs/prism.js"></script>
-  <script src="../node_modules/prismjs/components/prism-css.min.js"></script>
-  <script src="../node_modules/prismjs/components/prism-scss.min.js"></script>
-  <script src="../node_modules/prismjs/components/prism-json.min.js"></script>
-  <script src="../node_modules/prismjs/components/prism-markup.min.js"></script>
 
-  <!-- Code Snippet Controller -->
-  <script src="../js/code-snippet.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', function() { setupCodeSnippets(); });</script>
-
-  <script>
-    // Viewport indicator
-    (function() {
-      var info = document.getElementById('viewport-info');
-      if (!info) return;
-      function update() { info.textContent = window.innerWidth + ' px'; }
-      window.addEventListener('resize', update);
-      update();
-    })();
-  </script>
 
 </body>
 </html>

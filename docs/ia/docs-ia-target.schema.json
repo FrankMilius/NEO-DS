@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neo.design/schemas/docs-ia-target/v1.0.0",
+  "title": "NEO Docs Information Architecture Target Model",
+  "description": "Schema fuer die Ziel-Informationsarchitektur der NEO-Dokumentation inkl. Migrationsmatrix alt -> neu.",
+  "type": "object",
+  "required": ["meta", "targetModel", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "version", "generatedAt"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sourceFiles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "targetModel": {
+      "type": "object",
+      "required": ["sections", "groups"],
+      "additionalProperties": false,
+      "properties": {
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/section"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/group"
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/migrationEntry"
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "sectionId": {
+      "type": "string",
+      "enum": [
+        "overview",
+        "foundation",
+        "layout-system",
+        "components",
+        "templates",
+        "governance"
+      ]
+    },
+    "groupId": {
+      "type": "string",
+      "enum": [
+        "start",
+        "color-and-theme",
+        "typography",
+        "spacing-and-sizing",
+        "borders-and-radii",
+        "surfaces-and-effects",
+        "icons-and-elements",
+        "architecture",
+        "primitives",
+        "layout-specs",
+        "shell-presets",
+        "actions",
+        "form-inputs",
+        "form-structure",
+        "selection-and-controls",
+        "navigation",
+        "overlays-feedback",
+        "status-and-loading",
+        "data-display",
+        "content-blocks",
+        "media-and-rich-content",
+        "search-and-command",
+        "utilities-and-micro",
+        "page-templates",
+        "architecture-and-principles",
+        "recipes-and-governance",
+        "quality-and-accessibility",
+        "migration-and-status"
+      ]
+    },
+    "section": {
+      "type": "object",
+      "required": ["id", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/sectionId"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "required": ["id", "section", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/groupId"
+        },
+        "section": {
+          "$ref": "#/$defs/sectionId"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "migrationEntry": {
+      "type": "object",
+      "required": [
+        "source",
+        "oldSlug",
+        "newSlug",
+        "oldCategory",
+        "newSection",
+        "newGroup",
+        "changeType"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["pages", "sidebar-only"]
+        },
+        "oldSlug": {
+          "$ref": "#/$defs/slug"
+        },
+        "newSlug": {
+          "$ref": "#/$defs/slug"
+        },
+        "oldCategory": {
+          "type": "string",
+          "enum": ["guides", "foundation", "components", "templates"]
+        },
+        "oldGroup": {
+          "type": ["string", "null"]
+        },
+        "newSection": {
+          "$ref": "#/$defs/sectionId"
+        },
+        "newGroup": {
+          "$ref": "#/$defs/groupId"
+        },
+        "changeType": {
+          "type": "string",
+          "enum": ["kept", "reclassified", "added-to-registry"]
+        }
+      }
+    }
+  }
+}

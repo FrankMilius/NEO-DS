@@ -17,33 +17,6 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         TAB BAR — Primitives / Semantic Colors
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="color-tabs">
-      <button
-        :class="['color-tab', { active: activeTab === 'primitives' }]"
-        @click="activeTab = 'primitives'"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
-          <circle cx="7.5" cy="10.5" r="1" fill="currentColor" /><circle cx="12" cy="7.5" r="1" fill="currentColor" /><circle cx="16.5" cy="10.5" r="1" fill="currentColor" />
-        </svg>
-        <span>Primitive Colors</span>
-        <span class="tab-badge tier-1">L1</span>
-      </button>
-      <button
-        :class="['color-tab', { active: activeTab === 'semantic' }]"
-        @click="activeTab = 'semantic'"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3l4 7h-8z" /><circle cx="17" cy="17" r="3" /><rect x="4" y="14" width="6" height="6" rx="1" />
-        </svg>
-        <span>Semantic Colors</span>
-        <span class="tab-badge tier-2">L2</span>
-      </button>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
          TAB 1: PRIMITIVE COLORS
          ═══════════════════════════════════════════════════════════════════ -->
     <div v-show="activeTab === 'primitives'" class="tab-content">
@@ -53,7 +26,7 @@
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
           Main Palettes
-          <span v-if="!isDefaultNeo" class="theme-name-badge">{{ currentThemeName }}</span>
+          <span class="palette-count-badge" :class="{ 'palette-count-badge--full': mainPaletteCount >= 5 }">{{ mainPaletteCount }}/5</span>
         </h3>
         <p class="sub-desc" v-if="isDefaultNeo">Brand color bases — shade scales are auto-generated (50–950, 5% steps).</p>
         <p class="sub-desc" v-else>
@@ -98,6 +71,109 @@
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
               </div>
+            </div>
+
+            <!-- Custom Main Palettes (default NEO: ergaenzen die 3 Brand-Paletten) -->
+            <div v-for="palette in customMainPalettesWithShades" :key="palette.id" class="primitive-card">
+              <div class="primitive-header">
+                <div class="primitive-swatch" :style="{ background: palette.base }"></div>
+                <div class="primitive-info">
+                  <span class="primitive-label">{{ palette.label }}</span>
+                  <span class="primitive-token">--fnd-primitive-{{ palette.id }}-500</span>
+                </div>
+                <button
+                  class="btn-remove"
+                  @click="removeCustomMainPalette(palette.id)"
+                  title="Delete palette"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
+                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                  </svg>
+                </button>
+              </div>
+              <div class="primitive-editor">
+                <input
+                  type="color"
+                  :value="palette.base"
+                  @input="updateCustomMainPaletteColor(palette.id, $event.target.value)"
+                  class="color-picker-mini"
+                />
+                <input
+                  type="text"
+                  class="hex-input"
+                  :value="palette.base"
+                  @change="updateCustomMainPaletteColor(palette.id, $event.target.value)"
+                />
+              </div>
+              <div class="shade-strip">
+                <div
+                  v-for="shade in palette.shades"
+                  :key="shade.step"
+                  class="shade-chip"
+                  :style="{ background: shade.color }"
+                  @mouseenter="showTooltip($event, palette.id, shade)"
+                  @mouseleave="hideTooltip"
+                >
+                  <span class="shade-label">{{ shade.step }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Main Palette (Default NEO) -->
+            <div v-if="mainPaletteCount < 5" class="primitive-card add-palette-card">
+              <template v-if="!showAddMainForm">
+                <button class="add-palette-btn" @click="showAddMainForm = true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <span>Add Main Palette</span>
+                </button>
+              </template>
+              <template v-else>
+                <div class="add-form">
+                  <label class="add-form-label">Palette Name</label>
+                  <input
+                    ref="addMainNameInput"
+                    type="text"
+                    class="hex-input"
+                    v-model="newMainPaletteName"
+                    placeholder="e.g. Highlight"
+                    @keyup.enter="addCustomMainPalette"
+                    @keyup.escape="cancelAddMainPalette"
+                  />
+                  <label class="add-form-label">Base Color (500)</label>
+                  <div class="primitive-editor">
+                    <input
+                      type="color"
+                      v-model="newMainPaletteColor"
+                      class="color-picker-mini"
+                    />
+                    <input
+                      type="text"
+                      class="hex-input"
+                      v-model="newMainPaletteColor"
+                    />
+                  </div>
+                  <div class="shade-strip" v-if="newMainPalettePreview.length">
+                    <div
+                      v-for="shade in newMainPalettePreview"
+                      :key="shade.step"
+                      class="shade-chip"
+                      :style="{ background: shade.color }"
+                      @mouseenter="showTooltip($event, 'preview', shade)"
+                      @mouseleave="hideTooltip"
+                    >
+                      <span class="shade-label">{{ shade.step }}</span>
+                    </div>
+                  </div>
+                  <div class="add-form-actions">
+                    <button class="btn-add-confirm" @click="addCustomMainPalette" :disabled="!newMainPaletteName.trim()">Add</button>
+                    <button class="btn-add-cancel" @click="cancelAddMainPalette">Cancel</button>
+                  </div>
+                </div>
+              </template>
             </div>
           </template>
 
@@ -151,7 +227,7 @@
             </div>
 
             <!-- Add Main Palette Card (non-default themes only) -->
-            <div class="primitive-card add-palette-card">
+            <div v-if="mainPaletteCount < 5" class="primitive-card add-palette-card">
               <template v-if="!showAddMainForm">
                 <button class="add-palette-btn" @click="showAddMainForm = true">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -511,19 +587,75 @@
          ═══════════════════════════════════════════════════════════════════ -->
     <div v-show="activeTab === 'semantic'" class="tab-content">
 
-      <div class="semantic-intro">
-        <p class="sub-desc">
-          Map intent-based tokens to primitive colors. Each semantic token references a defined primitive shade.
-        </p>
-        <span class="theme-indicator">{{ themeLabel }}</span>
-      </div>
+      <!-- ── CATEGORY CARDS OVERVIEW ── -->
+      <template v-if="!store.state.semanticCategory">
+        <p class="sub-desc">Wähle eine Kategorie, um die zugehörigen semantischen Tokens zu konfigurieren.</p>
+        <div class="semantic-category-grid">
+          <button
+            v-for="group in semanticTokenGroups"
+            :key="group.id"
+            class="semantic-category-card"
+            @click="store.state.semanticCategory = group.id"
+          >
+            <div class="semantic-category-card__icon">
+              <!-- Text -->
+              <svg v-if="group.id === 'text'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l3-8h10l3 8"/><path d="M7 12l5-8 5 8"/></svg>
+              <!-- Background -->
+              <svg v-else-if="group.id === 'background'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+              <!-- Border -->
+              <svg v-else-if="group.id === 'border'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" stroke-dasharray="4 2"/></svg>
+              <!-- Interactive -->
+              <svg v-else-if="group.id === 'interactive'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5"/><path d="M11 11.5v-2a1.5 1.5 0 0 1 3 0v2.5"/><path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5"/><path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7l-.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47"/></svg>
+              <!-- Feedback -->
+              <svg v-else-if="group.id === 'feedback'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+              <!-- Surface / Layer -->
+              <svg v-else-if="group.id === 'layer'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4.5v5l-8 4.5l-8 -4.5v-5z"/><path d="M12 12l8 -4.5"/><path d="M12 12v9"/><path d="M12 12l-8 -4.5"/></svg>
+              <!-- On-Color -->
+              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 0 1 0 18"/></svg>
+            </div>
+            <div class="semantic-category-card__title-row">
+              <span class="semantic-category-card__label">{{ group.label }}</span>
+              <span
+                :class="['semantic-category-card__status', `semantic-category-card__status--${getCategoryStatus(group)}`]"
+                :title="getCategoryStatusTooltip(group)"
+              >
+                <!-- Check (all mapped) -->
+                <svg v-if="getCategoryStatus(group) === 'complete'" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <!-- Exclamation (partial) -->
+                <svg v-else-if="getCategoryStatus(group) === 'partial'" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v8"/><path d="M12 17h.01"/></svg>
+                <!-- Warning triangle (none) -->
+                <svg v-else width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 20h20L12 2z"/><path d="M12 10v4"/><path d="M12 18h.01"/></svg>
+              </span>
+            </div>
+            <span class="semantic-category-card__count">{{ getCategoryMappedCount(group) }}/{{ group.tokens.length }} zugeordnet</span>
+            <div class="semantic-category-card__swatches">
+              <span
+                v-for="token in group.tokens.slice(0, 5)"
+                :key="token.id"
+                class="semantic-category-card__swatch"
+                :style="{ background: getLightValue(token.id) }"
+              ></span>
+            </div>
+          </button>
+        </div>
+      </template>
 
-      <!-- Semantic Token Groups -->
-      <section v-for="group in semanticTokenGroups" :key="group.id" class="token-section">
-        <h4 class="group-label">{{ group.label }}</h4>
+      <!-- ── ACTIVE CATEGORY: TOKEN LIST ── -->
+      <template v-else>
+        <div class="semantic-category-header">
+          <button class="semantic-back-btn" @click="store.state.semanticCategory = null; store.state.selectedToken = null">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 6l-6 6l6 6"/>
+            </svg>
+            Kategorien
+          </button>
+          <h4 class="semantic-category-title">{{ activeCategoryGroup?.label }}</h4>
+          <span class="semantic-category-count">{{ activeCategoryGroup?.tokens.length }} Tokens</span>
+        </div>
+
         <div class="semantic-token-grid">
           <div
-            v-for="token in group.tokens"
+            v-for="token in activeCategoryGroup?.tokens"
             :key="token.id"
             :class="['semantic-token-card', { 'semantic-token-card--active': selectedTokenId === token.id }]"
           >
@@ -531,23 +663,15 @@
               class="semantic-token-header"
               @click="toggleSemanticToken(token)"
             >
-              <!-- Dual-Theme Swatch: Light + Dark nebeneinander -->
-              <div class="dual-swatch" :class="{ 'dual-swatch--same': isDualSame(token.id) }">
-                <div
-                  class="dual-swatch__half dual-swatch__half--light"
-                  :style="{ background: getLightValue(token.id) }"
-                  :title="getResolvedChain(token.id, 'light')"
-                ></div>
-                <div
-                  class="dual-swatch__half dual-swatch__half--dark"
-                  :style="{ background: getDarkValue(token.id) }"
-                  :title="getResolvedChain(token.id, 'dark')"
-                ></div>
-                <span v-if="!isDualSame(token.id)" class="dual-swatch__diff" title="Light ≠ Dark">!</span>
-              </div>
+              <!-- Single swatch: zeigt aktive Theme-Farbe -->
+              <div
+                class="token-swatch"
+                :style="{ background: getActiveThemeValue(token.id) }"
+                :title="getResolvedChain(token.id, activeThemeMode)"
+              ></div>
               <div class="token-meta">
                 <span class="token-label">{{ token.label }}</span>
-                <span class="token-value">{{ getSemanticDisplayValue(token.id) }}</span>
+                <span class="token-value">{{ getActiveDisplayValue(token.id) }}</span>
                 <span v-if="token.description" class="token-hint">{{ token.description }}</span>
               </div>
               <span v-if="getUsedByCount(token.id)" class="used-by-badge" :title="getUsedByTooltip(token.id)">
@@ -563,23 +687,55 @@
               </svg>
             </button>
 
-            <!-- Expanded: Color Editor -->
+            <!-- Expanded: Color Editor + Used-By -->
             <transition name="expand">
               <div v-if="selectedTokenId === token.id" class="primitive-picker">
                 <ColorEditor
-                  :modelValue="getSemanticValue(token.id)"
+                  :modelValue="getActiveThemeValue(token.id)"
                   @update:modelValue="assignHexToSemantic(token.id, $event)"
                   @select-primitive="assignPrimitiveToSemantic(token.id, $event)"
                   :title="token.label"
                   :tokenId="'fnd-color-' + token.id"
                   :tokenPalettes="availablePrimitiveGroups"
                   :contrastTarget="getContrastTarget(token.id)"
+                  :themeBackground="activeThemeMode === 'dark' ? getDarkValue('background-base') : getLightValue('background-base')"
                 />
+
+                <!-- Wird verwendet von: Component Token Referenzen -->
+                <div v-if="getUsedBy(token.id).length" class="used-by-section">
+                  <h5 class="used-by-heading">Wird verwendet von</h5>
+                  <div class="used-by-list">
+                    <div
+                      v-for="dep in getUsedBy(token.id)"
+                      :key="dep.tokenId"
+                      class="used-by-item"
+                    >
+                      <span class="used-by-component">{{ dep.component }}</span>
+                      <code class="used-by-token">{{ dep.tokenId }}</code>
+                      <span class="used-by-label">{{ dep.label }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nicht betroffen: Varianten die anderen Token nutzen -->
+                <div v-if="getNotAffected(token.id).length" class="not-affected-section">
+                  <h5 class="not-affected-heading">Nicht betroffen</h5>
+                  <div class="not-affected-list">
+                    <div
+                      v-for="item in getNotAffected(token.id)"
+                      :key="item.label"
+                      class="not-affected-item"
+                    >
+                      <span class="not-affected-label">{{ item.label }}</span>
+                      <code class="not-affected-token">→ {{ item.usesToken }}</code>
+                    </div>
+                  </div>
+                </div>
               </div>
             </transition>
           </div>
         </div>
-      </section>
+      </template>
 
     </div><!-- /tab-content: semantic -->
   </div>
@@ -604,7 +760,12 @@ const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dar
 // ---------------------------------------------------------------------------
 // Active Tab State
 // ---------------------------------------------------------------------------
-const activeTab = ref('primitives')
+const activeTab = computed(() => store.state.colorActiveTab)
+
+const activeCategoryGroup = computed(() => {
+  if (!store.state.semanticCategory) return null
+  return semanticTokenGroups.find(g => g.id === store.state.semanticCategory) || null
+})
 
 const selectedToken = ref(null)
 const selectedTokenId = computed(() => selectedToken.value?.id || null)
@@ -683,9 +844,17 @@ const customMainPalettesWithShades = computed(() => {
   }))
 })
 
+const MAX_MAIN_PALETTES = 5
+
+const mainPaletteCount = computed(() => {
+  const base = isDefaultNeo.value ? 3 : 0 // primary, secondary, accent
+  return base + customMainPalettes.value.length
+})
+
 function addCustomMainPalette() {
   const name = newMainPaletteName.value.trim()
   if (!name) return
+  if (mainPaletteCount.value >= MAX_MAIN_PALETTES) return
   const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
   if (customMainPalettes.value.some(p => p.id === id)) return
   customMainPalettes.value.push({ id, label: name, base: newMainPaletteColor.value })
@@ -1154,17 +1323,59 @@ function getSemanticRef(tokenId) {
 }
 
 // ---------------------------------------------------------------------------
-// Stufe 3: Dual-Theme Swatch helpers
+// Theme-aware helpers: resolve to active previewMode
 // ---------------------------------------------------------------------------
+const activeThemeMode = computed(() => {
+  return store.state.previewMode === 'split' ? 'light' : store.state.previewMode
+})
+
 function getLightValue(tokenId) {
   return tLight.value[tokenId] || '#000000'
 }
 function getDarkValue(tokenId) {
   return tDark.value[tokenId] || '#000000'
 }
-function isDualSame(tokenId) {
-  return getLightValue(tokenId).toLowerCase() === getDarkValue(tokenId).toLowerCase()
+
+function getActiveThemeValue(tokenId) {
+  return activeThemeMode.value === 'dark' ? getDarkValue(tokenId) : getLightValue(tokenId)
 }
+
+function getActiveDisplayValue(tokenId) {
+  const hex = getActiveThemeValue(tokenId)
+  const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
+  const ref = primitiveColorMap.value[normalized]
+  return ref || hex
+}
+
+// ---------------------------------------------------------------------------
+// Category Status: Wie viele Tokens haben ein Primitive-Mapping?
+// ---------------------------------------------------------------------------
+function hasPrimitiveMapping(tokenId) {
+  const hex = getActiveThemeValue(tokenId)
+  if (!hex || hex === '#000000') return false
+  const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
+  return !!primitiveColorMap.value[normalized]
+}
+
+function getCategoryMappedCount(group) {
+  return group.tokens.filter(t => hasPrimitiveMapping(t.id)).length
+}
+
+function getCategoryStatus(group) {
+  const mapped = getCategoryMappedCount(group)
+  if (mapped === group.tokens.length) return 'complete'
+  if (mapped > 0) return 'partial'
+  return 'none'
+}
+
+function getCategoryStatusTooltip(group) {
+  const mapped = getCategoryMappedCount(group)
+  const total = group.tokens.length
+  if (mapped === total) return `Alle ${total} Tokens haben ein Primitive-Mapping`
+  if (mapped > 0) return `${mapped} von ${total} Tokens haben ein Primitive-Mapping`
+  return `Kein Token hat ein Primitive-Mapping`
+}
+
 function getResolvedChain(tokenId, mode) {
   const hex = mode === 'dark' ? getDarkValue(tokenId) : getLightValue(tokenId)
   const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
@@ -1259,6 +1470,31 @@ function getUsedByCount(semanticId) {
 function getUsedByTooltip(semanticId) {
   return getUsedBy(semanticId).map(d => `${d.component}: ${d.label}`).join(', ')
 }
+
+// ---------------------------------------------------------------------------
+// Nicht betroffen: Varianten die NICHT diesen Token nutzen (Kontext-Hilfe)
+// Zeigt z.B. bei text-on-interactive, dass Secondary → interactive-default nutzt
+// ---------------------------------------------------------------------------
+const NOT_AFFECTED_MAP = {
+  'text-on-interactive': [
+    { label: 'Secondary Button', usesToken: 'interactive-default' },
+    { label: 'Ghost Button', usesToken: 'text-primary' },
+    { label: 'Inactive Tab', usesToken: 'text-secondary' },
+    { label: 'Text Link', usesToken: 'text-link' }
+  ],
+  'interactive-default': [
+    { label: 'Ghost Button Text', usesToken: 'text-primary' },
+    { label: 'Disabled Button', usesToken: 'text-disabled' }
+  ],
+  'text-primary': [
+    { label: 'Primary Button Text', usesToken: 'text-on-interactive' },
+    { label: 'Active Tab Text', usesToken: 'text-on-interactive' }
+  ]
+}
+
+function getNotAffected(semanticId) {
+  return NOT_AFFECTED_MAP[semanticId] || []
+}
 </script>
 
 <style scoped>
@@ -1266,64 +1502,6 @@ function getUsedByTooltip(semanticId) {
   display: flex;
   flex-direction: column;
   gap: 0;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   TAB BAR
-   ═══════════════════════════════════════════════════════════════════ */
-.color-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 2px solid var(--cfg-border);
-  margin-bottom: 24px;
-  position: sticky;
-  top: -24px;
-  z-index: var(--cfg-z-sticky);
-  background: var(--cfg-bg);
-  padding-top: 0;
-}
-
-.color-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  border: none;
-  background: none;
-  color: var(--cfg-text-muted);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
-  transition: color var(--fnd-motion-duration-150);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-}
-
-.color-tab:hover {
-  color: var(--cfg-text);
-}
-
-.color-tab.active {
-  color: var(--cfg-accent);
-  border-bottom-color: var(--cfg-accent);
-}
-
-.color-tab svg {
-  opacity: 0.6;
-}
-
-.color-tab.active svg {
-  opacity: 1;
-}
-
-.tab-badge {
-  font-size: 9px;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 3px;
-  font-family: monospace;
-  line-height: 1.3;
 }
 
 .tab-content {
@@ -1383,14 +1561,19 @@ function getUsedByTooltip(semanticId) {
   background: var(--cfg-accent-subtle);
 }
 
-.theme-name-badge {
+.palette-count-badge {
   font-size: 10px;
   font-weight: 600;
-  color: var(--cfg-accent);
+  color: var(--cfg-text-muted);
   padding: 2px 8px;
   border-radius: 4px;
+  background: var(--cfg-surface-elevated);
+  font-variant-numeric: tabular-nums;
+}
+
+.palette-count-badge--full {
+  color: var(--cfg-accent);
   background: var(--cfg-accent-subtle);
-  margin-left: auto;
 }
 
 /* Primitives — wider cards for the expanded 19-step scale */
@@ -1693,22 +1876,138 @@ function getUsedByTooltip(semanticId) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   SEMANTIC COLORS TAB
+   SEMANTIC COLORS TAB — Category Cards
    ═══════════════════════════════════════════════════════════════════ */
-.semantic-intro {
+.semantic-category-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.semantic-category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 10px;
+  background: var(--cfg-surface);
+  cursor: pointer;
+  transition: border-color var(--fnd-motion-duration-150), box-shadow var(--fnd-motion-duration-150);
+  text-align: left;
+  color: inherit;
+}
+
+.semantic-category-card:hover {
+  border-color: var(--cfg-accent);
+  box-shadow: 0 0 0 1px var(--cfg-accent);
+}
+
+.semantic-category-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--cfg-surface-elevated, #f5f5f5);
+  color: var(--cfg-accent);
+}
+
+.semantic-category-card__title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  width: 100%;
+  gap: 8px;
 }
 
-.group-label {
+.semantic-category-card__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cfg-text);
+}
+
+.semantic-category-card__status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.semantic-category-card__status--complete {
+  background: #16a34a;
+}
+
+.semantic-category-card__status--partial {
+  background: #d97706;
+}
+
+.semantic-category-card__status--none {
+  background: #dc2626;
+}
+
+.semantic-category-card__count {
+  font-size: 11px;
+  color: var(--cfg-text-muted);
+}
+
+.semantic-category-card__swatches {
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.semantic-category-card__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ── Category Header (back + title) ── */
+.semantic-category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.semantic-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px 4px 4px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text-muted);
   font-size: 12px;
   font-weight: 600;
-  color: var(--cfg-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color var(--fnd-motion-duration-100), border-color var(--fnd-motion-duration-100);
+}
+
+.semantic-back-btn:hover {
+  color: var(--cfg-text);
+  border-color: var(--cfg-text-muted);
+}
+
+.semantic-category-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cfg-text);
   margin: 0;
+}
+
+.semantic-category-count {
+  font-size: 11px;
+  color: var(--cfg-text-muted);
+  margin-left: auto;
 }
 
 .semantic-token-grid {
@@ -1748,45 +2047,13 @@ function getUsedByTooltip(semanticId) {
   background: var(--cfg-surface-elevated);
 }
 
-/* ── Dual-Theme Swatch (Light + Dark nebeneinander) ── */
-.dual-swatch {
-  position: relative;
-  display: flex;
-  width: 32px;
+/* ── Single Token Swatch (aktives Theme) ── */
+.token-swatch {
+  width: 28px;
   height: 28px;
   border-radius: 6px;
-  overflow: hidden;
   border: 1px solid var(--cfg-border);
   flex-shrink: 0;
-}
-
-.dual-swatch__half {
-  flex: 1;
-}
-
-.dual-swatch__half--light {
-  border-right: 1px solid rgba(128, 128, 128, .2);
-}
-
-.dual-swatch__diff {
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #f59e0b;
-  color: #fff;
-  font-size: 8px;
-  font-weight: 800;
-  line-height: 12px;
-  text-align: center;
-  border: 1.5px solid var(--cfg-surface, #fff);
-  pointer-events: none;
-}
-
-.dual-swatch--same .dual-swatch__diff {
-  display: none;
 }
 
 /* Legacy single swatch (fallback for non-semantic usage) */
@@ -1936,6 +2203,84 @@ function getUsedByTooltip(semanticId) {
   font-size: 10px;
   font-family: 'DM Mono', monospace;
   color: var(--cfg-text-muted, #888);
+}
+
+/* ── Wird verwendet von / Nicht betroffen ── */
+.used-by-section,
+.not-affected-section {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--cfg-border, #e5e5e5);
+}
+
+.used-by-heading,
+.not-affected-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cfg-text-secondary, #666);
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.not-affected-heading {
+  color: var(--cfg-text-muted, #999);
+}
+
+.used-by-list,
+.not-affected-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.used-by-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.used-by-component {
+  font-weight: 600;
+  color: var(--cfg-text-primary, #333);
+  white-space: nowrap;
+}
+
+.used-by-token {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px;
+  color: var(--cfg-text-muted, #888);
+  flex: 1;
+}
+
+.used-by-label {
+  font-size: 10px;
+  color: var(--cfg-text-secondary, #666);
+  white-space: nowrap;
+}
+
+.not-affected-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--cfg-text-muted, #999);
+}
+
+.not-affected-label {
+  white-space: nowrap;
+}
+
+.not-affected-token {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px;
+  color: var(--cfg-text-muted, #aaa);
 }
 
 </style>

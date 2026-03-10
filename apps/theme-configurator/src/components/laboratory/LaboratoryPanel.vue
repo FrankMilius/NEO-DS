@@ -8,82 +8,43 @@
           <span v-if="activeArenaLabel" class="lab-breadcrumb-sep">/</span>
           <span v-if="activeArenaLabel" class="lab-breadcrumb-leaf">{{ activeArenaLabel }}</span>
         </h3>
-        <div class="lab-header__controls">
-
-          <!-- Breakpoint Segmented Control -->
-          <div class="bp-toggle" role="radiogroup" aria-label="Vorschau-Breite">
-            <button
-              v-for="bp in BREAKPOINTS"
-              :key="bp.key"
-              :class="['toggle-btn', 'toggle-btn--bp', { active: activeBreakpoint === bp.key }]"
-              @click="activeBreakpoint = bp.key"
-              :title="`${bp.label}: ${bp.width}px`"
-              :aria-label="`${bp.label} — ${bp.width}px`"
-            >{{ bp.label }}</button>
-          </div>
-
-          <!-- Fullscreen Button -->
+        <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
+        <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Theme mode">
           <button
-            class="lab-icon-btn"
-            @click="toggleFullscreen"
-            :aria-label="isFullscreen ? 'Vollbild verlassen' : 'Vollbild'"
-            :title="isFullscreen ? 'Vollbild verlassen (ESC)' : 'Vollbild'"
+            :class="['seg-btn', { active: store.state.previewMode === 'light' }]"
+            @click="store.setPreviewMode('light')"
+            aria-label="Light mode"
           >
-            <svg v-if="!isFullscreen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v-4h4"/><path d="M4 4l5 5"/><path d="M20 8v-4h-4"/><path d="M20 4l-5 5"/><path d="M4 16v4h4"/><path d="M4 20l5 -5"/><path d="M20 16v4h-4"/><path d="M20 20l-5 -5"/></svg>
-            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4"/><path d="M3 3l6 6"/><path d="M19 9h-4v-4"/><path d="M21 3l-6 6"/><path d="M5 15h4v4"/><path d="M3 21l6 -6"/><path d="M19 15h-4v4"/><path d="M21 21l-6 -6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
+            </svg>
           </button>
-
-          <!-- Spacer vor Theme Toggle -->
-          <div class="lab-header__spacer"></div>
-
-          <!-- Light / Dark / Split Toggle -->
-          <div class="theme-toggle" role="radiogroup" aria-label="Theme mode">
-            <button
-              :class="['toggle-btn', { active: store.state.previewMode === 'light' }]"
-              @click="store.setPreviewMode('light')"
-              aria-label="Light mode"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
-              </svg>
-              Light
-            </button>
-            <button
-              :class="['toggle-btn', { active: store.state.previewMode === 'dark' }]"
-              @click="store.setPreviewMode('dark')"
-              aria-label="Dark mode"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-              </svg>
-              Dark
-            </button>
-            <button
-              :class="['toggle-btn', { active: store.state.previewMode === 'split' }]"
-              @click="store.setPreviewMode('split')"
-              aria-label="Split view"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
-              </svg>
-              Split
-            </button>
-          </div>
-
+          <button
+            :class="['seg-btn', { active: store.state.previewMode === 'dark' }]"
+            @click="store.setPreviewMode('dark')"
+            aria-label="Dark mode"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+          <button
+            :class="['seg-btn', { active: store.state.previewMode === 'split' }]"
+            @click="store.setPreviewMode('split')"
+            aria-label="Split view"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
+    <!-- Recipe Filterbar (nur bei Komponenten-Sektionen mit Filtern) -->
+    <ArenaFilterbar v-if="isComponentSection && hasFilterOptions" :filters="filterOptions" />
 
-      <!-- Breakpoint Ruler / Divider -->
-      <div v-if="activeBreakpoint" class="bp-ruler">
-        <div class="bp-ruler__line"></div>
-        <span class="bp-ruler__label">
-          <strong>{{ currentBpLabel }}</strong>, {{ currentBpWidth }}px
-        </span>
-        <div class="bp-ruler__line"></div>
-      </div>
+    <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
 
       <div class="lab-viewport-inner">
 
@@ -342,183 +303,490 @@
       <!-- ═══════════════════════════════════════════════════════════════
            COLORS ARENA — Specimens + Token Detail
            ═══════════════════════════════════════════════════════════════ -->
-      <template v-else-if="isColorsSection">
+      <template v-else-if="hasSemanticCategory">
 
-        <!-- ── ÜBERSICHT (kein Token selektiert) ── -->
+        <!-- ── CATEGORY SPECIMENS (Kategorie selektiert, kein Token) ── -->
         <template v-if="!selectedSemanticToken">
-          <div class="arena-specimens-grid">
+          <div :class="['arena-specimens-grid', `arena-specimens-grid--${store.state.previewMode}`]">
 
-            <!-- 1 · Buttons -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('buttons') }]">
-              <span class="arena-specimen__label">Buttons</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">Primary</button>
-                  <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tLight['interactive-default'], borderColor: tLight['interactive-default'] }">Secondary</button>
-                  <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tLight['text-primary'] }">Ghost</button>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">Primary</button>
-                  <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tDark['interactive-default'], borderColor: tDark['interactive-default'] }">Secondary</button>
-                  <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tDark['text-primary'] }">Ghost</button>
-                </div>
-              </div>
-            </div>
+            <!-- ══════ TEXT CATEGORY ══════ -->
+            <template v-if="semanticCategory === 'text'">
 
-            <!-- 2 · Input -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('input') }]">
-              <span class="arena-specimen__label">Input</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <span class="arena-spec-input-label" :style="{ color: tLight['text-primary'] }">Label</span>
-                  <div class="arena-spec-input" :style="{ background: tLight['background-base'], borderColor: tLight['border-primary'], color: tLight['text-tertiary'] }">Placeholder…</div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <span class="arena-spec-input-label" :style="{ color: tDark['text-primary'] }">Label</span>
-                  <div class="arena-spec-input" :style="{ background: tDark['background-base'], borderColor: tDark['border-primary'], color: tDark['text-tertiary'] }">Placeholder…</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 4 · Badges -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('badges') }]">
-              <span class="arena-specimen__label">Badges</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-badge-row">
-                    <span class="arena-spec-badge" :style="{ background: tLight['background-success'], color: tLight['text-success'] }">Erfolg</span>
-                    <span class="arena-spec-badge" :style="{ background: tLight['background-danger'], color: tLight['text-danger'] }">Fehler</span>
-                    <span class="arena-spec-badge" :style="{ background: tLight['background-warning'], color: tLight['text-warning'] }">Warnung</span>
-                    <span class="arena-spec-badge" :style="{ background: tLight['background-info'], color: tLight['text-info'] }">Info</span>
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-badge-row">
-                    <span class="arena-spec-badge" :style="{ background: tDark['background-success'], color: tDark['text-success'] }">Erfolg</span>
-                    <span class="arena-spec-badge" :style="{ background: tDark['background-danger'], color: tDark['text-danger'] }">Fehler</span>
-                    <span class="arena-spec-badge" :style="{ background: tDark['background-warning'], color: tDark['text-warning'] }">Warnung</span>
-                    <span class="arena-spec-badge" :style="{ background: tDark['background-info'], color: tDark['text-info'] }">Info</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 5 · Alerts -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('alert') }]">
-              <span class="arena-specimen__label">Alerts</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-alert" :style="{ background: tLight['background-success'], borderColor: tLight['border-success'], color: tLight['feedback-success'] }">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
-                  </div>
-                  <div class="arena-spec-alert" :style="{ background: tLight['background-danger'], borderColor: tLight['border-danger'], color: tLight['feedback-danger'] }">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-alert" :style="{ background: tDark['background-success'], borderColor: tDark['border-success'], color: tDark['feedback-success'] }">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5l10 -10"/></svg> Erfolg
-                  </div>
-                  <div class="arena-spec-alert" :style="{ background: tDark['background-danger'], borderColor: tDark['border-danger'], color: tDark['feedback-danger'] }">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Fehler
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 6 · Toggle -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('toggle') }]">
-              <span class="arena-specimen__label">Toggle</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-toggle-row">
-                    <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tLight['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
-                    <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tLight['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-toggle-row">
-                    <div class="arena-spec-toggle arena-spec-toggle--on" :style="{ background: tDark['interactive-default'] }"><div class="arena-spec-toggle__knob"></div></div>
-                    <div class="arena-spec-toggle arena-spec-toggle--off" :style="{ background: tDark['background-tertiary'] }"><div class="arena-spec-toggle__knob"></div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 7 · Navigation / Links -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('navigation') }]">
-              <span class="arena-specimen__label">Navigation</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-link-list">
-                    <a class="arena-spec-link" :style="{ color: tLight['text-link'] }">Standard-Link</a>
-                    <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tLight['text-link-hover'] }">Hover-Link</a>
-                    <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tLight['interactive-visited'] || tLight['text-link'] }">Visited-Link</a>
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-link-list">
-                    <a class="arena-spec-link" :style="{ color: tDark['text-link'] }">Standard-Link</a>
-                    <a class="arena-spec-link arena-spec-link--hover" :style="{ color: tDark['text-link-hover'] }">Hover-Link</a>
-                    <a class="arena-spec-link arena-spec-link--visited" :style="{ color: tDark['interactive-visited'] || tDark['text-link'] }">Visited-Link</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 8 · Text Block -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('textblock') }]">
-              <span class="arena-specimen__label">Text-Block</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-text">
-                    <span class="arena-spec-text__heading" :style="{ color: tLight['text-primary'] }">Überschrift</span>
-                    <span class="arena-spec-text__body" :style="{ color: tLight['text-secondary'] }">Fließtext und Beschreibung</span>
-                    <span class="arena-spec-text__muted" :style="{ color: tLight['text-tertiary'] }">Ergänzender Hinweis</span>
-                    <span class="arena-spec-text__disabled" :style="{ color: tLight['text-disabled'] }">Deaktiviert</span>
-                  </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-text">
-                    <span class="arena-spec-text__heading" :style="{ color: tDark['text-primary'] }">Überschrift</span>
-                    <span class="arena-spec-text__body" :style="{ color: tDark['text-secondary'] }">Fließtext und Beschreibung</span>
-                    <span class="arena-spec-text__muted" :style="{ color: tDark['text-tertiary'] }">Ergänzender Hinweis</span>
-                    <span class="arena-spec-text__disabled" :style="{ color: tDark['text-disabled'] }">Deaktiviert</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 9 · Table Row -->
-            <div :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('tablerow') }]">
-              <span class="arena-specimen__label">Table Row</span>
-              <div class="arena-specimen__pair">
-                <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
-                  <div class="arena-spec-table">
-                    <div class="arena-spec-table__header" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
-                      <span :style="{ color: tLight['text-primary'] }">Spalte A</span>
-                      <span :style="{ color: tLight['text-primary'] }">Spalte B</span>
-                    </div>
-                    <div class="arena-spec-table__row" :style="{ background: tLight['layer-02'], borderColor: tLight['border-secondary'] }">
-                      <span :style="{ color: tLight['text-primary'] }">Wert 1</span>
-                      <span :style="{ color: tLight['text-secondary'] }">Detail</span>
+              <!-- Headings + Body Text -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Überschriften &amp; Fließtext</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <h2 class="arena-text-h2" :style="{ color: tLight['text-primary'] }">Hauptüberschrift</h2>
+                      <h3 class="arena-text-h3" :style="{ color: tLight['text-primary'] }">Unterüberschrift</h3>
+                      <p class="arena-text-body" :style="{ color: tLight['text-secondary'] }">Dies ist ein Fließtext mit mittlerem Kontrast. Er wird für Beschreibungen, Artikeltexte und ergänzende Inhalte verwendet.</p>
+                      <p class="arena-text-muted" :style="{ color: tLight['text-tertiary'] }">Tertiärer Hinweistext — dezent, für Hilfetexte und Metadaten.</p>
                     </div>
                   </div>
-                </div>
-                <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-                  <div class="arena-spec-table">
-                    <div class="arena-spec-table__header" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
-                      <span :style="{ color: tDark['text-primary'] }">Spalte A</span>
-                      <span :style="{ color: tDark['text-primary'] }">Spalte B</span>
-                    </div>
-                    <div class="arena-spec-table__row" :style="{ background: tDark['layer-02'], borderColor: tDark['border-secondary'] }">
-                      <span :style="{ color: tDark['text-primary'] }">Wert 1</span>
-                      <span :style="{ color: tDark['text-secondary'] }">Detail</span>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <h2 class="arena-text-h2" :style="{ color: tDark['text-primary'] }">Hauptüberschrift</h2>
+                      <h3 class="arena-text-h3" :style="{ color: tDark['text-primary'] }">Unterüberschrift</h3>
+                      <p class="arena-text-body" :style="{ color: tDark['text-secondary'] }">Dies ist ein Fließtext mit mittlerem Kontrast. Er wird für Beschreibungen, Artikeltexte und ergänzende Inhalte verwendet.</p>
+                      <p class="arena-text-muted" :style="{ color: tDark['text-tertiary'] }">Tertiärer Hinweistext — dezent, für Hilfetexte und Metadaten.</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <!-- Labels + Input -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Labels &amp; Formulare</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <label class="arena-text-label" :style="{ color: tLight['text-primary'] }">Formular-Label</label>
+                      <div class="arena-spec-input" :style="{ borderColor: tLight['border-primary'], color: tLight['text-tertiary'] }">Platzhalter-Text…</div>
+                      <span class="arena-text-hint" :style="{ color: tLight['text-tertiary'] }">Hilfetext unter dem Eingabefeld</span>
+                      <label class="arena-text-label arena-text-label--disabled" :style="{ color: tLight['text-disabled'] }">Deaktiviertes Label</label>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <label class="arena-text-label" :style="{ color: tDark['text-primary'] }">Formular-Label</label>
+                      <div class="arena-spec-input" :style="{ borderColor: tDark['border-primary'], color: tDark['text-tertiary'] }">Platzhalter-Text…</div>
+                      <span class="arena-text-hint" :style="{ color: tDark['text-tertiary'] }">Hilfetext unter dem Eingabefeld</span>
+                      <label class="arena-text-label arena-text-label--disabled" :style="{ color: tDark['text-disabled'] }">Deaktiviertes Label</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Links -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Links</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <p class="arena-text-body" :style="{ color: tLight['text-secondary'] }">
+                        Text mit einem <span :style="{ color: tLight['text-link'], textDecoration: 'underline', cursor: 'pointer' }">Standard-Link</span> und einem
+                        <span :style="{ color: tLight['text-link-hover'], textDecoration: 'underline', cursor: 'pointer' }">Hover-Link</span> im Fließtext.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <p class="arena-text-body" :style="{ color: tDark['text-secondary'] }">
+                        Text mit einem <span :style="{ color: tDark['text-link'], textDecoration: 'underline', cursor: 'pointer' }">Standard-Link</span> und einem
+                        <span :style="{ color: tDark['text-link-hover'], textDecoration: 'underline', cursor: 'pointer' }">Hover-Link</span> im Fließtext.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interaktive Text-Varianten (alle Button-Varianten + Tabs mit Token-Annotation) -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Interaktive Text-Varianten</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-variant-grid">
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">Primary</button>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tLight['interactive-default'], borderColor: tLight['interactive-default'] }">Secondary</button>
+                        <span class="arena-variant-token">interactive-default</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tLight['text-primary'] }">Ghost</button>
+                        <span class="arena-variant-token">text-primary</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'], opacity: 0.5 }">Disabled</button>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                      <div class="arena-variant-separator"></div>
+                      <div class="arena-variant-item">
+                        <div class="arena-tab-group">
+                          <span class="arena-tab arena-tab--active" :style="{ color: tLight['text-on-interactive'], background: tLight['interactive-default'] }">Active Tab</span>
+                          <span class="arena-tab" :style="{ color: tLight['text-secondary'] }">Inactive</span>
+                        </div>
+                        <span class="arena-variant-token">text-on-interactive / text-secondary</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <div class="arena-selected-chip" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          Selected
+                        </div>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-variant-grid">
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">Primary</button>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--secondary" :style="{ background: 'transparent', color: tDark['interactive-default'], borderColor: tDark['interactive-default'] }">Secondary</button>
+                        <span class="arena-variant-token">interactive-default</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--ghost" :style="{ background: 'transparent', color: tDark['text-primary'] }">Ghost</button>
+                        <span class="arena-variant-token">text-primary</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'], opacity: 0.5 }">Disabled</button>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                      <div class="arena-variant-separator"></div>
+                      <div class="arena-variant-item">
+                        <div class="arena-tab-group">
+                          <span class="arena-tab arena-tab--active" :style="{ color: tDark['text-on-interactive'], background: tDark['interactive-default'] }">Active Tab</span>
+                          <span class="arena-tab" :style="{ color: tDark['text-secondary'] }">Inactive</span>
+                        </div>
+                        <span class="arena-variant-token">text-on-interactive / text-secondary</span>
+                      </div>
+                      <div class="arena-variant-item">
+                        <div class="arena-selected-chip" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          Selected
+                        </div>
+                        <span class="arena-variant-token">text-on-interactive</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inverse Text -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Inverse Text</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <div class="arena-text-inverse-bar" :style="{ background: tLight['background-inverse'], color: tLight['text-inverse'], padding: '8px 12px', borderRadius: '6px', fontSize: '12px' }">Inverse Text auf dunkler Fläche</div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <div class="arena-text-inverse-bar" :style="{ background: tDark['background-inverse'], color: tDark['text-inverse'], padding: '8px 12px', borderRadius: '6px', fontSize: '12px' }">Inverse Text auf heller Fläche</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feedback Text -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Status-Text</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen arena-text-specimen--row">
+                      <span :style="{ color: tLight['text-success'], fontSize: '13px', fontWeight: 600 }">Erfolg-Meldung</span>
+                      <span :style="{ color: tLight['text-danger'], fontSize: '13px', fontWeight: 600 }">Fehler-Meldung</span>
+                      <span :style="{ color: tLight['text-warning'], fontSize: '13px', fontWeight: 600 }">Warnung</span>
+                      <span :style="{ color: tLight['text-info'], fontSize: '13px', fontWeight: 600 }">Info-Hinweis</span>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen arena-text-specimen--row">
+                      <span :style="{ color: tDark['text-success'], fontSize: '13px', fontWeight: 600 }">Erfolg-Meldung</span>
+                      <span :style="{ color: tDark['text-danger'], fontSize: '13px', fontWeight: 600 }">Fehler-Meldung</span>
+                      <span :style="{ color: tDark['text-warning'], fontSize: '13px', fontWeight: 600 }">Warnung</span>
+                      <span :style="{ color: tDark['text-info'], fontSize: '13px', fontWeight: 600 }">Info-Hinweis</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </template>
+
+            <!-- ══════ BACKGROUND CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'background'">
+
+              <!-- Base + Secondary + Tertiary -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Hintergrund-Ebenen</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-bg-layers">
+                      <div class="arena-bg-layer" :style="{ background: tLight['background-base'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Base</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tLight['background-secondary'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Secondary</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tLight['background-tertiary'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Tertiary</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tLight['background-quaternary'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['text-primary'] }">Quaternary</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-bg-layers">
+                      <div class="arena-bg-layer" :style="{ background: tDark['background-base'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Base</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tDark['background-secondary'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Secondary</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tDark['background-tertiary'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Tertiary</span>
+                      </div>
+                      <div class="arena-bg-layer" :style="{ background: tDark['background-quaternary'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['text-primary'] }">Quaternary</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hover + Active + Disabled -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Zustands-Hintergründe</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-bg-states">
+                      <div class="arena-bg-state" :style="{ background: tLight['background-hover'] }"><span :style="{ color: tLight['text-primary'] }">Hover</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-active'] }"><span :style="{ color: tLight['text-primary'] }">Active</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-disabled'] }"><span :style="{ color: tLight['text-disabled'] }">Disabled</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-inverse'] }"><span :style="{ color: tLight['text-inverse'] }">Inverse</span></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-bg-states">
+                      <div class="arena-bg-state" :style="{ background: tDark['background-hover'] }"><span :style="{ color: tDark['text-primary'] }">Hover</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-active'] }"><span :style="{ color: tDark['text-primary'] }">Active</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-disabled'] }"><span :style="{ color: tDark['text-disabled'] }">Disabled</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-inverse'] }"><span :style="{ color: tDark['text-inverse'] }">Inverse</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accent + Feedback BGs -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Akzent &amp; Feedback</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-bg-states">
+                      <div class="arena-bg-state" :style="{ background: tLight['background-accent'] }"><span :style="{ color: tLight['on-accent'] || tLight['text-primary'] }">Accent</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-accent-secondary'] }"><span :style="{ color: tLight['text-primary'] }">Accent 2</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-success'] }"><span :style="{ color: tLight['text-success'] }">Success</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-danger'] }"><span :style="{ color: tLight['text-danger'] }">Danger</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-warning'] }"><span :style="{ color: tLight['text-warning'] }">Warning</span></div>
+                      <div class="arena-bg-state" :style="{ background: tLight['background-info'] }"><span :style="{ color: tLight['text-info'] }">Info</span></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-bg-states">
+                      <div class="arena-bg-state" :style="{ background: tDark['background-accent'] }"><span :style="{ color: tDark['on-accent'] || tDark['text-primary'] }">Accent</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-accent-secondary'] }"><span :style="{ color: tDark['text-primary'] }">Accent 2</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-success'] }"><span :style="{ color: tDark['text-success'] }">Success</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-danger'] }"><span :style="{ color: tDark['text-danger'] }">Danger</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-warning'] }"><span :style="{ color: tDark['text-warning'] }">Warning</span></div>
+                      <div class="arena-bg-state" :style="{ background: tDark['background-info'] }"><span :style="{ color: tDark['text-info'] }">Info</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </template>
+
+            <!-- ══════ BORDER CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'border'">
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Rahmen-Varianten</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-border-specimens">
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-primary'] }"><span :style="{ color: tLight['text-primary'] }">Primary</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-secondary'] }"><span :style="{ color: tLight['text-primary'] }">Secondary</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-strong'] }"><span :style="{ color: tLight['text-primary'] }">Strong</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-disabled'], background: tLight['background-disabled'] }"><span :style="{ color: tLight['text-disabled'] }">Disabled</span></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-border-specimens">
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-primary'] }"><span :style="{ color: tDark['text-primary'] }">Primary</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-secondary'] }"><span :style="{ color: tDark['text-primary'] }">Secondary</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-strong'] }"><span :style="{ color: tDark['text-primary'] }">Strong</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-disabled'], background: tDark['background-disabled'] }"><span :style="{ color: tDark['text-disabled'] }">Disabled</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feedback Borders -->
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Feedback-Rahmen</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-border-specimens">
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-success'], background: tLight['background-success'] }"><span :style="{ color: tLight['text-success'] }">Success</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-danger'], background: tLight['background-danger'] }"><span :style="{ color: tLight['text-danger'] }">Danger</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-warning'], background: tLight['background-warning'] }"><span :style="{ color: tLight['text-warning'] }">Warning</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tLight['border-info'], background: tLight['background-info'] }"><span :style="{ color: tLight['text-info'] }">Info</span></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-border-specimens">
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-success'], background: tDark['background-success'] }"><span :style="{ color: tDark['text-success'] }">Success</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-danger'], background: tDark['background-danger'] }"><span :style="{ color: tDark['text-danger'] }">Danger</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-warning'], background: tDark['background-warning'] }"><span :style="{ color: tDark['text-warning'] }">Warning</span></div>
+                      <div class="arena-border-box" :style="{ borderColor: tDark['border-info'], background: tDark['background-info'] }"><span :style="{ color: tDark['text-info'] }">Info</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- ══════ INTERACTIVE CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'interactive'">
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Interaktive Elemente</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-default'], color: tLight['text-on-interactive'] }">Default</button>
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-hover'], color: tLight['text-on-interactive'] }">Hover</button>
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tLight['interactive-active'], color: tLight['text-on-interactive'] }">Active</button>
+                      <div :style="{ display: 'flex', gap: '12px', alignItems: 'center' }">
+                        <a :style="{ color: tLight['text-link'], textDecoration: 'underline', fontSize: '13px' }">Link</a>
+                        <a :style="{ color: tLight['interactive-visited'], textDecoration: 'underline', fontSize: '13px' }">Visited</a>
+                      </div>
+                      <div class="arena-focus-demo" :style="{ borderColor: tLight['border-primary'], outlineColor: tLight['interactive-focus'] }">
+                        <span :style="{ color: tLight['text-primary'], fontSize: '12px' }">Focus Ring</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-text-specimen">
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-default'], color: tDark['text-on-interactive'] }">Default</button>
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-hover'], color: tDark['text-on-interactive'] }">Hover</button>
+                      <button class="arena-spec-btn arena-spec-btn--primary" :style="{ background: tDark['interactive-active'], color: tDark['text-on-interactive'] }">Active</button>
+                      <div :style="{ display: 'flex', gap: '12px', alignItems: 'center' }">
+                        <a :style="{ color: tDark['text-link'], textDecoration: 'underline', fontSize: '13px' }">Link</a>
+                        <a :style="{ color: tDark['interactive-visited'], textDecoration: 'underline', fontSize: '13px' }">Visited</a>
+                      </div>
+                      <div class="arena-focus-demo" :style="{ borderColor: tDark['border-primary'], outlineColor: tDark['interactive-focus'] }">
+                        <span :style="{ color: tDark['text-primary'], fontSize: '12px' }">Focus Ring</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- ══════ FEEDBACK CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'feedback'">
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Feedback-Komponenten</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-feedback-list">
+                      <div class="arena-spec-alert" :style="{ background: tLight['background-info'], borderColor: tLight['border-info'], color: tLight['feedback-info'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg> Info-Hinweis
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tLight['background-success'], borderColor: tLight['border-success'], color: tLight['feedback-success'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5l10 -10"/></svg> Erfolgsmeldung
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tLight['background-warning'], borderColor: tLight['border-warning'], color: tLight['feedback-warning'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Warnhinweis
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tLight['background-danger'], borderColor: tLight['border-danger'], color: tLight['feedback-danger'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg> Fehlermeldung
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-feedback-list">
+                      <div class="arena-spec-alert" :style="{ background: tDark['background-info'], borderColor: tDark['border-info'], color: tDark['feedback-info'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg> Info-Hinweis
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tDark['background-success'], borderColor: tDark['border-success'], color: tDark['feedback-success'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5l10 -10"/></svg> Erfolgsmeldung
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tDark['background-warning'], borderColor: tDark['border-warning'], color: tDark['feedback-warning'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4v.01"/><path d="M5 19h14a2 2 0 0 0 1.84-2.75l-7.1-12.25a2 2 0 0 0-3.5 0l-7.1 12.25a2 2 0 0 0 1.84 2.75"/></svg> Warnhinweis
+                      </div>
+                      <div class="arena-spec-alert" :style="{ background: tDark['background-danger'], borderColor: tDark['border-danger'], color: tDark['feedback-danger'] }">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg> Fehlermeldung
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- ══════ LAYER / SURFACE CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'layer'">
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Oberflächen-Ebenen</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-layer-stack">
+                      <div class="arena-layer-card" :style="{ background: tLight['layer-01'], borderColor: tLight['border-secondary'] }">
+                        <span :style="{ color: tLight['on-layer-01'] || tLight['text-primary'] }">Surface 01 — Karte</span>
+                        <div class="arena-layer-card arena-layer-card--nested" :style="{ background: tLight['layer-02'], borderColor: tLight['border-secondary'] }">
+                          <span :style="{ color: tLight['on-layer-02'] || tLight['text-primary'] }">Surface 02 — Input in Karte</span>
+                          <div class="arena-layer-card arena-layer-card--nested" :style="{ background: tLight['layer-03'], borderColor: tLight['border-secondary'] }">
+                            <span :style="{ color: tLight['text-primary'] }">Surface 03 — Dropdown</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-layer-stack">
+                      <div class="arena-layer-card" :style="{ background: tDark['layer-01'], borderColor: tDark['border-secondary'] }">
+                        <span :style="{ color: tDark['on-layer-01'] || tDark['text-primary'] }">Surface 01 — Karte</span>
+                        <div class="arena-layer-card arena-layer-card--nested" :style="{ background: tDark['layer-02'], borderColor: tDark['border-secondary'] }">
+                          <span :style="{ color: tDark['on-layer-02'] || tDark['text-primary'] }">Surface 02 — Input in Karte</span>
+                          <div class="arena-layer-card arena-layer-card--nested" :style="{ background: tDark['layer-03'], borderColor: tDark['border-secondary'] }">
+                            <span :style="{ color: tDark['text-primary'] }">Surface 03 — Dropdown</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- ══════ ON-COLOR CATEGORY ══════ -->
+            <template v-else-if="semanticCategory === 'on-color'">
+              <div class="arena-specimen">
+                <span class="arena-specimen__label">Text auf farbigen Flächen</span>
+                <div class="arena-specimen__pair">
+                  <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                    <div class="arena-on-color-grid">
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-base'], borderColor: tLight['border-secondary'] }"><span :style="{ color: tLight['on-surface'] }">On Surface</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['layer-01'] }"><span :style="{ color: tLight['on-layer-01'] || tLight['text-primary'] }">On Layer 01</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['layer-02'] }"><span :style="{ color: tLight['on-layer-02'] || tLight['text-primary'] }">On Layer 02</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-accent'] }"><span :style="{ color: tLight['on-accent'] }">On Accent</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-success'] }"><span :style="{ color: tLight['on-success'] }">On Success</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-warning'] }"><span :style="{ color: tLight['on-warning'] }">On Warning</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-danger'] }"><span :style="{ color: tLight['on-danger'] }">On Danger</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tLight['background-info'] }"><span :style="{ color: tLight['on-info'] }">On Info</span></div>
+                    </div>
+                  </div>
+                  <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                    <div class="arena-on-color-grid">
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-base'], borderColor: tDark['border-secondary'] }"><span :style="{ color: tDark['on-surface'] }">On Surface</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['layer-01'] }"><span :style="{ color: tDark['on-layer-01'] || tDark['text-primary'] }">On Layer 01</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['layer-02'] }"><span :style="{ color: tDark['on-layer-02'] || tDark['text-primary'] }">On Layer 02</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-accent'] }"><span :style="{ color: tDark['on-accent'] }">On Accent</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-success'] }"><span :style="{ color: tDark['on-success'] }">On Success</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-warning'] }"><span :style="{ color: tDark['on-warning'] }">On Warning</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-danger'] }"><span :style="{ color: tDark['on-danger'] }">On Danger</span></div>
+                      <div class="arena-on-color-chip" :style="{ background: tDark['background-info'] }"><span :style="{ color: tDark['on-info'] }">On Info</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
 
           </div>
         </template>
@@ -526,20 +794,16 @@
         <!-- ── TOKEN-DETAIL (Token selektiert) ── -->
         <template v-else>
 
-          <!-- Hero Dual Swatch -->
+          <!-- Hero Single Swatch (aktives Theme) -->
           <div class="arena-token-hero">
-            <div class="arena-dual-swatch-large">
-              <div class="arena-swatch-half" :style="{ background: tLight[selectedSemanticToken.id] }">
-                <span class="arena-swatch-hex" :style="{ color: contrastColor(tLight[selectedSemanticToken.id]) }">{{ tLight[selectedSemanticToken.id] }}</span>
-                <span class="arena-swatch-mode" :style="{ color: contrastColor(tLight[selectedSemanticToken.id]) }">Light</span>
-              </div>
-              <div class="arena-swatch-half" :style="{ background: tDark[selectedSemanticToken.id] }">
-                <span class="arena-swatch-hex" :style="{ color: contrastColor(tDark[selectedSemanticToken.id]) }">{{ tDark[selectedSemanticToken.id] }}</span>
-                <span class="arena-swatch-mode" :style="{ color: contrastColor(tDark[selectedSemanticToken.id]) }">Dark</span>
+            <div class="arena-hero-swatch" :style="{ background: activeThemeBg }">
+              <div class="arena-hero-swatch__color" :style="{ background: activeThemeTokenValue }">
+                <span class="arena-hero-swatch__hex" :style="{ color: contrastColor(activeThemeTokenValue) }">{{ activeThemeTokenValue }}</span>
               </div>
             </div>
             <div class="arena-token-meta">
               <code class="arena-token-name">--fnd-color-{{ selectedSemanticToken.id }}</code>
+              <span class="arena-token-mode-badge">{{ activeThemeMode === 'dark' ? 'Dark' : 'Light' }}</span>
               <span v-if="selectedSemanticToken.description" class="arena-token-desc">{{ selectedSemanticToken.description }}</span>
             </div>
           </div>
@@ -547,7 +811,7 @@
           <!-- Affected Specimens -->
           <template v-if="activeSpecimens.length">
             <h5 class="arena-sub-heading">Betroffene Komponenten</h5>
-            <div class="arena-specimens-grid">
+            <div :class="['arena-specimens-grid', `arena-specimens-grid--${store.state.previewMode}`]">
               <!-- Re-use same specimen blocks, but only for affected ones -->
 
               <div v-if="activeSpecimens.includes('buttons')" :class="['arena-specimen', { 'arena-specimen--pulse': highlightedSpecimens.has('buttons') }]">
@@ -755,6 +1019,13 @@
       </template>
 
       <!-- ═══════════════════════════════════════════════════════════════
+           GRID ARENA — Foundation Grid Properties
+           ═══════════════════════════════════════════════════════════════ -->
+      <template v-else-if="isGridSection">
+        <GridArena />
+      </template>
+
+      <!-- ═══════════════════════════════════════════════════════════════
            COMPONENT ARENA — Generische Komponenten-Vorschau
            ═══════════════════════════════════════════════════════════════ -->
       <template v-else-if="isComponentSection && activeComponentId === 'avatar'">
@@ -777,6 +1048,10 @@
         <ButtonArena />
       </template>
 
+      <template v-else-if="isComponentSection && activeComponentId === 'grid'">
+        <GridArena />
+      </template>
+
       <template v-else-if="isComponentSection">
         <ComponentArena :componentId="activeComponentId" />
       </template>
@@ -792,6 +1067,11 @@
           title="Design System Documentation"
           sandbox="allow-same-origin allow-scripts allow-popups"
         ></iframe>
+      </template>
+
+      <!-- Empty state for Colors / Primitives tab -->
+      <template v-else-if="isColorsSection">
+        <!-- Primitives tab: leerer Viewport -->
       </template>
 
       <!-- ═══════════════════════════════════════════════════════════════
@@ -1388,6 +1668,10 @@ import BadgeArena from './BadgeArena.vue'
 import StatusArena from './StatusArena.vue'
 import CardArena from './CardArena.vue'
 import ButtonArena from './ButtonArena.vue'
+import GridArena from './GridArena.vue'
+import ArenaFilterbar from './ArenaFilterbar.vue'
+import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
+import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
@@ -1403,14 +1687,34 @@ const isTypographySection = computed(() => {
 // Colors Arena — Specimens + Token Detail
 // ---------------------------------------------------------------------------
 const isColorsSection = computed(() => store.state.activeSection === 'foundation-colors')
+const isColorSemanticTab = computed(() => isColorsSection.value && store.state.colorActiveTab === 'semantic')
+const semanticCategory = computed(() => store.state.semanticCategory)
+const hasSemanticCategory = computed(() => isColorSemanticTab.value && semanticCategory.value !== null)
+const isGridSection = computed(() =>
+  store.state.activeSection === 'foundation-grid' || store.state.activeSection === 'component-grid'
+)
 const isComponentSection = computed(() => store.state.activeSection.startsWith('component-'))
 const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
+
+// ---------------------------------------------------------------------------
+// Recipe Filterbar — extrahiert Filteroptionen aus Recipe-Daten
+// ---------------------------------------------------------------------------
+const { recipe: activeRecipe } = useRecipeLoader(activeComponentId)
+
+const filterOptions = computed(() => {
+  if (!activeRecipe.value) return {}
+  return extractFiltersFromRecipe(activeRecipe.value)
+})
+
+const hasFilterOptions = computed(() => {
+  const f = filterOptions.value
+  return Object.values(f).some(arr => arr && arr.length > 0)
+})
 
 // ---------------------------------------------------------------------------
 // Docs-Iframe Sections — zeigt die DS-Doku statt Theme Preview Mag
 // ---------------------------------------------------------------------------
 const DOCS_SECTION_MAP = {
-  'foundation-grid': '/docs/grid-docs',
   'foundation-spacing': '/docs/spacing-docs',
   'foundation-radius': '/docs/radii-docs',
   'foundation-border': '/docs/border-docs',
@@ -1460,6 +1764,16 @@ const activeArenaLabel = computed(() => {
 const selectedSemanticToken = computed(() => store.state.selectedToken)
 const tLight = computed(() => store.state.themes[store.state.activeThemeSet].light)
 const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
+const activeThemeMode = computed(() => store.state.previewMode === 'split' ? 'light' : store.state.previewMode)
+const activeThemeTokenValue = computed(() => {
+  if (!selectedSemanticToken.value) return '#000000'
+  const t = activeThemeMode.value === 'dark' ? tDark.value : tLight.value
+  return t[selectedSemanticToken.value.id] || '#000000'
+})
+const activeThemeBg = computed(() => {
+  const t = activeThemeMode.value === 'dark' ? tDark.value : tLight.value
+  return t['background-base'] || '#ffffff'
+})
 
 const SPECIMEN_TOKENS = {
   buttons:    ['interactive-default', 'text-on-interactive', 'text-primary'],
@@ -1730,22 +2044,14 @@ watch(isFullscreen, (val) => {
 // Theme tokens — reads directly from store (reactive to theme/mode changes)
 // ---------------------------------------------------------------------------
 const t = computed(() => {
-  return store.state.themes[store.state.activeThemeSet][store.state.previewMode]
+  const mode = store.state.previewMode === 'split' ? 'light' : store.state.previewMode
+  return store.state.themes[store.state.activeThemeSet][mode]
 })
 
 const viewportStyle = computed(() => {
-  const mode = store.state.previewMode
-  let base
-  if (mode === 'split') {
-    // Split: neutral background, arenas steuern eigene BGs
-    base = { background: 'var(--cfg-bg)', color: 'var(--cfg-text)' }
-  } else if (mode === 'dark') {
-    base = { background: tDark.value['background-base'], color: tDark.value['text-primary'] }
-  } else {
-    base = { background: tLight.value['background-secondary'], color: tLight.value['text-primary'] }
-  }
-  // Label-Hintergrund: nur im Light-Theme
-  base['--arena-label-bg'] = (mode === 'light' || mode === 'split') ? '#555555' : 'transparent'
+  // Viewport bleibt immer neutral — Theme-Wechsel nur in den arena-specimen Panels
+  const base = { background: 'var(--cfg-bg)', color: 'var(--cfg-text)' }
+  base['--arena-label-bg'] = '#555555'
   if (activeBreakpoint.value !== null) {
     const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
     if (bp) base['--bp-max-width'] = bp.width + 'px'
@@ -1754,20 +2060,9 @@ const viewportStyle = computed(() => {
 })
 
 const viewportClass = computed(() => {
-  const mode = store.state.previewMode
-  const classes = [mode === 'dark' ? 'dark-mode' : mode === 'split' ? 'split-mode' : 'light-mode']
+  const classes = []
   if (activeBreakpoint.value !== null) classes.push('lab-viewport--constrained')
   return classes
-})
-
-// Breakpoint Ruler — zeigt aktuellen BP-Name + Pixel-Breite
-const currentBpLabel = computed(() => {
-  const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
-  return bp ? bp.label : ''
-})
-const currentBpWidth = computed(() => {
-  const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
-  return bp ? bp.width : 0
 })
 
 // Button styles (typography showcase)
@@ -1893,6 +2188,7 @@ const switchOn = computed(() => ({
 .lab-header {
   display: flex;
   flex-direction: column;
+  height: 60px;
   border-bottom: 1px solid var(--cfg-border);
   flex-shrink: 0;
 }
@@ -1906,17 +2202,38 @@ const switchOn = computed(() => ({
   min-height: 44px;
 }
 
-.lab-header__controls {
+/* ── Theme Segmented Control ── */
+.theme-segmented {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: 2px;
+  padding: 3px;
+  background: var(--cfg-surface-elevated);
+  border-radius: 10px;
+  border: 1px solid var(--cfg-border);
+  flex-shrink: 0;
 }
 
-.lab-header__spacer {
-  width: 8px;
-  flex-shrink: 0;
+.seg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cfg-text-muted);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.seg-btn:hover {
+  color: var(--cfg-text);
+}
+
+.seg-btn.active {
+  background: var(--cfg-surface);
+  color: var(--cfg-text);
+  box-shadow: var(--cfg-shadow-sm);
 }
 
 .lab-title {
@@ -1942,78 +2259,6 @@ const switchOn = computed(() => ({
   color: var(--cfg-text-muted);
 }
 
-/* ── Breakpoint Segmented Control ── */
-.bp-toggle {
-  display: flex;
-  border-radius: 8px;
-  background: var(--cfg-surface-elevated);
-  padding: 2px;
-  gap: 2px;
-}
-
-/* ── Light/Dark Toggle ── */
-.theme-toggle {
-  display: flex;
-  border-radius: 8px;
-  background: var(--cfg-surface-elevated);
-  padding: 2px;
-  gap: 2px;
-}
-
-/* ── Shared Toggle Button ── */
-.toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--cfg-text-muted);
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--fnd-motion-duration-150) ease;
-}
-
-.toggle-btn:hover { color: var(--cfg-text); }
-
-.toggle-btn.active {
-  background: var(--cfg-surface);
-  color: var(--cfg-text);
-  box-shadow: var(--cfg-shadow-sm);
-}
-
-.toggle-btn--bp {
-  padding: 4px 7px;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── Fullscreen Icon Button ── */
-.lab-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--cfg-text-muted);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background var(--fnd-motion-duration-150) ease, color var(--fnd-motion-duration-150) ease;
-}
-
-.lab-icon-btn:hover {
-  background: var(--cfg-surface-elevated);
-  color: var(--cfg-text);
-}
-
-.lab-icon-btn:focus-visible {
-  outline: 2px solid var(--cfg-accent);
-  outline-offset: 2px;
-}
 
 /* ── Lab Viewport ── */
 .lab-viewport {
@@ -2050,37 +2295,6 @@ const switchOn = computed(() => ({
   width: 100%;
   border: none;
   background: #fff;
-}
-
-/* ── Breakpoint Ruler ── */
-.bp-ruler {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: var(--bp-max-width, 100%);
-  margin-inline: auto;
-  width: 100%;
-  padding: 0 0 4px;
-}
-
-.bp-ruler__line {
-  flex: 1;
-  height: 1px;
-  background: var(--cfg-border);
-}
-
-.bp-ruler__label {
-  font-size: 10px;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  color: var(--cfg-text-muted);
-  white-space: nowrap;
-  letter-spacing: 0.02em;
-}
-
-.bp-ruler__label strong {
-  font-weight: 700;
-  color: var(--cfg-text);
 }
 
 .preview-section {
@@ -3432,6 +3646,17 @@ const switchOn = computed(() => ({
   border-right: 1px solid rgba(128,128,128,.15);
 }
 
+/* ── Preview Mode: Light only / Dark only ── */
+.arena-specimens-grid--light .arena-specimen__panel:not(.arena-specimen__panel--light) {
+  display: none;
+}
+.arena-specimens-grid--light .arena-specimen__panel--light {
+  border-right: none;
+}
+.arena-specimens-grid--dark .arena-specimen__panel--light {
+  display: none;
+}
+
 /* ── Pulse ── */
 .arena-specimen--pulse {
   border-color: var(--cfg-accent, #3b82f6);
@@ -3630,35 +3855,25 @@ const switchOn = computed(() => ({
   margin-bottom: 8px;
 }
 
-.arena-dual-swatch-large {
-  display: flex;
+.arena-hero-swatch {
   border-radius: 10px;
-  overflow: hidden;
-  height: 80px;
+  padding: 16px;
+  border: 1px solid rgba(128,128,128,0.15);
 }
 
-.arena-swatch-half {
-  flex: 1;
+.arena-hero-swatch__color {
+  height: 56px;
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  position: relative;
+  border: 1px solid rgba(128,128,128,0.1);
 }
 
-.arena-swatch-hex {
-  font-size: 14px;
+.arena-hero-swatch__hex {
+  font-size: 15px;
   font-weight: 700;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
-}
-
-.arena-swatch-mode {
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  opacity: .7;
 }
 
 .arena-token-meta {
@@ -3672,6 +3887,19 @@ const switchOn = computed(() => ({
   font-size: 12px;
   font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
   opacity: .7;
+}
+
+.arena-token-mode-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--cfg-surface-elevated, #f0f0f0);
+  color: var(--cfg-text-muted);
 }
 
 .arena-token-desc {
@@ -3706,5 +3934,217 @@ const switchOn = computed(() => ({
   text-align: center;
   padding: 24px 0;
   margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CATEGORY-SPECIFIC ARENA SPECIMENS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Text Category ── */
+.arena-text-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-text-specimen--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.arena-text-h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.arena-text-h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.arena-text-body {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.arena-text-muted {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.arena-text-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.arena-text-hint {
+  font-size: 11px;
+}
+
+/* ── Background Category ── */
+.arena-bg-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arena-bg-layer {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.arena-bg-states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.arena-bg-state {
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Border Category ── */
+.arena-border-specimens {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.arena-border-box {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Interactive Category ── */
+.arena-focus-demo {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid;
+  border-radius: 6px;
+  outline: 2px solid;
+  outline-offset: 2px;
+}
+
+/* ── Feedback Category ── */
+.arena-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Layer / Surface Category ── */
+.arena-layer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.arena-layer-card {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-layer-card--nested {
+  margin-top: 8px;
+}
+
+/* ── On-Color Category ── */
+.arena-on-color-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.arena-on-color-chip {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── Interaktive Varianten Grid ── */
+.arena-variant-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.arena-variant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arena-variant-item .arena-spec-btn {
+  min-width: 90px;
+}
+
+.arena-variant-token {
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: rgba(136, 136, 136, 0.8);
+  white-space: nowrap;
+}
+
+.arena-variant-separator {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 2px 0;
+}
+
+.arena-tab-group {
+  display: flex;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.arena-tab {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: default;
+}
+
+.arena-tab--active {
+  font-weight: 600;
+}
+
+.arena-selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 500;
 }
 </style>

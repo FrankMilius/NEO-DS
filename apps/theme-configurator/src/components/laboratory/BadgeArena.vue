@@ -1,43 +1,28 @@
 <template>
-  <div class="component-arena">
+  <div class="component-arena" style="position: relative;">
+    <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
 
-    <!-- Recipe Chips — generated from tone axis -->
-    <div class="arena-recipe-chips">
-      <button
-        v-for="(_, toneId) in recipeData.axes.tone.values"
-        :key="toneId"
-        :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === toneId }]"
-        @click="activeRecipeId = toneId"
-      >
-        {{ capitalize(toneId) }}
-      </button>
-    </div>
-
-    <!-- Specimens — generic matrix renderer (negative specimens sind QA-only) -->
-    <template v-for="specimen in recipeData.specimens.filter(s => s.type !== 'negative')" :key="specimen.id">
+    <!-- Pro Tone ein eigener Specimen-Container -->
+    <template v-for="tone in visibleTones" :key="tone">
       <div class="arena-category-divider">
-        <span class="arena-category-label">{{ specimen.label }}</span>
+        <span class="arena-category-label">{{ capitalize(tone) }}</span>
       </div>
-      <div
-        :class="['arena-specimen', { 'arena-specimen--selected': isSpecimenSelected(specimen.id) }]"
-        @click="selectSpecimen(specimen)"
-      >
-        <span class="arena-specimen__label">{{ specimen.description }}</span>
+      <div class="arena-specimen">
 
         <!-- Split mode: light + dark panels -->
         <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
-            <SpecimenContent :specimen="specimen" :tokens="tokensLight" :theme="tLight" mode="light" />
+            <ToneContent :tone="tone" :tokens="tokensLight" :theme="tLight" mode="light" />
           </div>
           <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-            <SpecimenContent :specimen="specimen" :tokens="tokensDark" :theme="tDark" mode="dark" />
+            <ToneContent :tone="tone" :tokens="tokensDark" :theme="tDark" mode="dark" />
           </div>
         </div>
 
         <!-- Single mode -->
         <div v-else class="arena-specimen__single">
           <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
-            <SpecimenContent :specimen="specimen" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
+            <ToneContent :tone="tone" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
           </div>
         </div>
 
@@ -48,20 +33,42 @@
 </template>
 
 <script setup>
-import { ref, computed, h, defineComponent } from 'vue'
+import { computed, h, defineComponent } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
-import { loadRecipe, expandSpecimenMatrix, specimenTokenGroups, groupCellsByAxis, capitalize } from 'recipe-sdk'
+import { loadRecipe, capitalize } from 'recipe-sdk'
 import recipeRaw from '../../../../../data/badge-recipe.json'
 
 const recipeData = loadRecipe(recipeRaw)
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight('badge')
 
 // ---------------------------------------------------------------------------
-// Recipe Data
+// Achsen aus Recipe
 // ---------------------------------------------------------------------------
-const activeRecipeId = ref('default')
+const allTones = Object.keys(recipeData.axes.tone?.values || {})
+const allSizes = Object.keys(recipeData.axes.size?.values || {})
+const allEmphases = Object.keys(recipeData.axes.emphasis?.values || {})
+const allDecorators = Object.keys(recipeData.axes.decorator?.values || {}).filter(d => d !== 'none')
+
+// Generischer Filter-Helper: null/undefined = alle, Map = selektiv
+function filteredAxis(allValues, filterKey) {
+  return computed(() => {
+    const f = store.state.arenaFilters[filterKey]
+    if (!f) return allValues
+    return allValues.filter(v => f.has(v) && f.get(v) !== false)
+  })
+}
+
+// Sichtbare Tones (tone → variants), Sizes, Emphases
+const visibleTones = filteredAxis(allTones, 'variants')
+const visibleSizes = filteredAxis(allSizes, 'sizes')
+const visibleEmphases = filteredAxis(allEmphases, 'emphasis')
+const visibleDecorators = filteredAxis(allDecorators, 'decorator')
+
+const hasSizes = allSizes.length > 1
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -178,53 +185,6 @@ const activeBg = computed(() =>
     : tLight.value['background-secondary']
 )
 
-// ---------------------------------------------------------------------------
-// Specimen Selection — tokenGroups computed from axes
-// ---------------------------------------------------------------------------
-function selectSpecimen(specimen) {
-  const groups = specimenTokenGroups(specimen, recipeData.axes, recipeData.styling.baseTokenGroups, recipeData.states?.rules)
-  store.setArenaSelection('badge', specimen.id, groups)
-}
-
-function isSpecimenSelected(specimenId) {
-  const sel = store.state.arenaSelection
-  return sel && sel.componentId === 'badge' && sel.specimenId === specimenId
-}
-
-// ---------------------------------------------------------------------------
-// Matrix Expansion
-// ---------------------------------------------------------------------------
-function expandedCells(specimen) {
-  return expandSpecimenMatrix(specimen, recipeData)
-}
-
-function groupedCells(specimen) {
-  const cells = expandedCells(specimen)
-  const rowAxis = specimen.layoutConfig?.rowAxis
-  if (!rowAxis) return [{ key: '_', label: '', cells }]
-  return groupCellsByAxis(cells, rowAxis)
-}
-
-// ---------------------------------------------------------------------------
-// Icons pro Variante (Tabler-artige SVGs, 24x24 viewBox)
-// ---------------------------------------------------------------------------
-const ICONS = {
-  default:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="9"/></svg>',
-  secondary: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="9"/></svg>',
-  outline:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="9"/></svg>',
-  success:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/><path d="M9 12l2 2l4-4"/></svg>',
-  warning:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636-2.87l-8.106-13.536a1.914 1.914 0 0 0-3.274 0z"/><path d="M12 16h.01"/></svg>',
-  error:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/><path d="M12 9v4"/><path d="M12 16h.01"/></svg>',
-  info:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/></svg>'
-}
-
-// Vite base path fuer public/ Assets
-const base = import.meta.env.BASE_URL
-const photos = [
-  `${base}avatars/females/avatar-female-1.png`,
-  `${base}avatars/males/avatar-male-5.png`,
-  `${base}avatars/females/avatar-female-4.png`
-]
 
 // ---------------------------------------------------------------------------
 // Style Builders
@@ -275,181 +235,152 @@ function badgeStyleForCell(tokens, cell) {
   }
 }
 
-function dotStyle(tokens, variant) {
-  return {
-    width: tokens['nc-badge-dot-size'],
-    height: tokens['nc-badge-dot-size'],
-    borderRadius: tokens['nc-badge-dot-radius'] || '9999px',
-    background: tokens[`nc-badge-${variant}-bg`] || tokens['nc-badge-default-bg'],
-    flexShrink: '0'
-  }
-}
-
-function iconStyle(tokens) {
-  return {
-    width: tokens['nc-badge-icon-size'],
-    height: tokens['nc-badge-icon-size'],
-    flexShrink: '0',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-}
-
-function avatarBaseStyle() {
-  return {
-    position: 'relative',
-    width: '48px',
-    height: '48px',
-    minWidth: '48px',
-    borderRadius: '9999px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: '0'
-  }
-}
-
-function avatarBadgeSlotStyle() {
-  return {
-    position: 'absolute',
-    top: '-4px',
-    right: '-4px',
-    zIndex: '2'
-  }
-}
-
 // ---------------------------------------------------------------------------
-// SpecimenContent — inline render component for each specimen
+// ToneContent — rendert pro Tone: Default → Sizes
 // ---------------------------------------------------------------------------
-const SpecimenContent = defineComponent({
+const ToneContent = defineComponent({
   props: {
-    specimen: { type: Object, required: true },
+    tone: { type: String, required: true },
     tokens: { type: Object, required: true },
     theme: { type: Object, required: true },
     mode: { type: String, default: 'light' }
   },
   setup(props) {
     return () => {
-      const { specimen, tokens, theme, mode } = props
-      const isDark = mode === 'dark'
-      const render = specimen.render || {}
-      const isComposition = render.compositionType === 'avatar-badge'
+      const { tone, tokens } = props
+      const sections = []
 
-      // Dot-mode specimen: special rendering
-      const matrixAxes = specimen.matrix?.axes || specimen.matrix || {}
-      if (matrixAxes.decorator?.[0] === 'dot' || (Array.isArray(matrixAxes.decorator) && matrixAxes.decorator.includes('dot'))) {
-        const cells = expandSpecimenMatrix(specimen, recipeData)
-        return h('div', { class: 'arena-badge-row' },
-          cells.map(cell => {
-            const tone = cell.axisValues.tone || 'default'
-            return h('div', { key: cell.id, class: 'arena-badge-labeled' }, [
-              h('span', { class: 'arena-badge-dot', style: dotStyle(tokens, tone) }),
-              h('span', {
-                class: 'arena-badge-dot-label',
-                style: isDark ? { color: theme['text-secondary'] } : {}
-              }, capitalize(tone))
-            ])
-          })
-        )
-      }
-
-      // Counter specimen (non-composition)
-      if (render.counterValues && !isComposition) {
-        const cells = expandSpecimenMatrix(specimen, recipeData)
-        const rows = groupCellsByAxis(cells, specimen.layoutConfig?.rowAxis || 'tone')
-        return h('div', { class: 'arena-badge-counter-group' },
-          rows.map(row => {
-            const representativeCell = row.cells[0]
-            return h('div', { key: row.key, class: 'arena-badge-counter-row' }, [
-              h('span', {
-                class: 'arena-badge-counter-label',
-                style: isDark ? { color: theme['text-secondary'] } : {}
-              }, row.label),
-              ...render.counterValues.map(val =>
-                h('span', {
-                  key: val,
-                  class: 'arena-badge',
-                  style: badgeStyleForCell(tokens, representativeCell)
-                }, [
-                  h('span', { class: 'arena-badge__label' }, val)
-                ])
-              )
-            ])
-          })
-        )
-      }
-
-      // Avatar-badge composition
-      if (isComposition) {
-        const cells = expandSpecimenMatrix(specimen, recipeData)
-        return h('div', { class: 'arena-badge-row' },
-          cells.map((cell, i) => {
-            const counterVal = render.counterValues?.[i] || ''
-            return h('div', { key: cell.id, class: 'arena-avatar-with-badge' }, [
-              h('div', { class: 'arena-avatar', style: avatarBaseStyle() }, [
-                h('img', {
-                  class: 'arena-avatar__image',
-                  src: photos[i % photos.length],
-                  alt: '',
-                  style: { borderRadius: '9999px' }
-                }),
-                h('span', { class: 'arena-avatar__badge-slot', style: avatarBadgeSlotStyle() }, [
-                  h('span', {
-                    class: 'arena-badge',
-                    style: badgeStyleForCell(tokens, cell)
-                  }, [
-                    h('span', { class: 'arena-badge__label' }, counterVal)
-                  ])
-                ])
-              ])
-            ])
-          })
-        )
-      }
-
-      // Standard rendering: row or grid
-      const cells = expandSpecimenMatrix(specimen, recipeData)
-
-      if (specimen.layout === 'grid' && specimen.layoutConfig?.rowAxis) {
-        const rows = groupCellsByAxis(cells, specimen.layoutConfig.rowAxis)
-        return h('div', { class: 'arena-badge-grid' },
-          rows.map(row =>
-            h('div', { key: row.key, class: 'arena-badge-size-row' },
-              row.cells.map(cell => renderBadgeCell(cell, tokens, render))
+      // 1. Default — Badge in md, sichtbare Emphases
+      const emphases = visibleEmphases.value
+      sections.push(
+        h('div', { class: 'arena-variant-section' },
+          [h('div', { class: 'arena-badge-row' },
+            emphases.map(emphasis =>
+              renderBadge(tokens, { tone, size: 'md', emphasis })
             )
-          )
+          )]
+        )
+      )
+
+      // 2. Sizes (sofern > 1 Size und sichtbar)
+      const sizes = visibleSizes.value
+      if (hasSizes && sizes.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'Sizes'),
+            h('div', { class: 'arena-badge-row' },
+              sizes.map(size =>
+                renderBadge(tokens, { tone, size, emphasis: 'solid' })
+              )
+            )
+          ])
         )
       }
 
-      // Row layout (default)
-      return h('div', { class: 'arena-badge-row' },
-        cells.map(cell => renderBadgeCell(cell, tokens, render))
-      )
+      // 3. Decorators (icon, dot, counter — sofern sichtbar)
+      const decorators = visibleDecorators.value
+      if (decorators.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'Decorator'),
+            h('div', { class: 'arena-badge-row' },
+              decorators.map(decorator =>
+                renderDecoratedBadge(tokens, { tone, size: 'md', emphasis: 'solid', decorator })
+              )
+            )
+          ])
+        )
+      }
+
+      return h('div', { class: 'arena-variant-content' }, sections)
     }
   }
 })
 
-function renderBadgeCell(cell, tokens, render) {
-  const tone = cell.axisValues.tone || 'default'
-  const label = capitalize(tone)
-  const hasIcon = cell.slotConfig?.icon
+// ---------------------------------------------------------------------------
+// Icons
+// ---------------------------------------------------------------------------
+const BADGE_ICON = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>'
 
+// ---------------------------------------------------------------------------
+// renderDecoratedBadge — Badge mit Decorator (icon, dot, counter)
+// ---------------------------------------------------------------------------
+function renderDecoratedBadge(tokens, { tone, size = 'md', emphasis = 'solid', decorator }) {
+  const style = badgeStyleForCell(tokens, { axisValues: { tone, size, emphasis } })
   const children = []
-  if (hasIcon) {
+
+  if (decorator === 'dot') {
+    const toneColor = tokens[`nc-badge-${tone}-color`] || tokens['nc-badge-default-color']
     children.push(h('span', {
-      class: 'arena-badge__icon',
-      style: iconStyle(tokens),
-      innerHTML: ICONS[tone] || ICONS.default
+      class: 'arena-badge__dot',
+      style: {
+        width: tokens['nc-badge-dot-size'],
+        height: tokens['nc-badge-dot-size'],
+        borderRadius: tokens['nc-badge-dot-radius'],
+        background: toneColor,
+        flexShrink: '0'
+      }
     }))
   }
-  children.push(h('span', { class: 'arena-badge__label' }, label))
+
+  if (decorator === 'icon') {
+    children.push(h('span', {
+      class: 'arena-badge__icon',
+      style: {
+        width: tokens['nc-badge-icon-size'],
+        height: tokens['nc-badge-icon-size'],
+        flexShrink: '0',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      innerHTML: BADGE_ICON
+    }))
+  }
+
+  children.push(h('span', { class: 'arena-badge__label' }, capitalize(decorator)))
+
+  if (decorator === 'counter') {
+    children.push(h('span', {
+      class: 'arena-badge__counter',
+      style: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '16px',
+        height: '16px',
+        padding: '0 4px',
+        borderRadius: '9999px',
+        fontSize: '10px',
+        fontWeight: '700',
+        lineHeight: '1',
+        background: tokens[`nc-badge-${tone}-color`] || tokens['nc-badge-default-color'],
+        color: tokens[`nc-badge-${tone}-bg`] || tokens['nc-badge-default-bg']
+      }
+    }, '3'))
+  }
 
   return h('span', {
-    key: cell.id,
+    key: `${tone}-${size}-${emphasis}-${decorator}`,
     class: 'arena-badge',
-    style: badgeStyleForCell(tokens, cell)
+    style
   }, children)
+}
+
+// ---------------------------------------------------------------------------
+// renderBadge — einzelnes Badge mit Tone/Size/Emphasis
+// ---------------------------------------------------------------------------
+function renderBadge(tokens, { tone, size = 'md', emphasis = 'solid' }) {
+  const label = emphasis !== 'solid' ? capitalize(emphasis) : capitalize(tone)
+  const style = badgeStyleForCell(tokens, { axisValues: { tone, size, emphasis } })
+
+  return h('span', {
+    key: `${tone}-${size}-${emphasis}`,
+    class: 'arena-badge',
+    style
+  }, [
+    h('span', { class: 'arena-badge__label' }, label)
+  ])
 }
 </script>
 
@@ -459,40 +390,6 @@ function renderBadgeCell(cell, tokens, render) {
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-}
-
-/* Recipe Chips */
-.arena-recipe-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-
-.arena-recipe-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border: 1px solid var(--cfg-border);
-  border-radius: 6px;
-  background: var(--cfg-surface);
-  color: var(--cfg-text-secondary);
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.arena-recipe-chip:hover {
-  background: var(--cfg-surface-elevated);
-  color: var(--cfg-text);
-}
-
-.arena-recipe-chip--active {
-  background: var(--cfg-accent-subtle);
-  color: var(--cfg-accent);
-  border-color: var(--cfg-accent);
-  font-weight: 600;
 }
 
 .arena-category-divider {
@@ -523,29 +420,6 @@ function renderBadgeCell(cell, tokens, render) {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
-  cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-.arena-specimen:hover {
-  border-color: color-mix(in srgb, var(--cfg-accent) 40%, transparent);
-}
-
-.arena-specimen--selected {
-  border-color: var(--cfg-accent);
-  box-shadow: 0 0 0 1px var(--cfg-accent), 0 0 8px color-mix(in srgb, var(--cfg-accent) 20%, transparent);
-}
-
-.arena-specimen__label {
-  display: block;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 6px 12px;
-  opacity: 0.55;
-  border-radius: 4px;
-  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -554,7 +428,7 @@ function renderBadgeCell(cell, tokens, render) {
 }
 
 .arena-specimen__panel {
-  padding: 16px;
+  padding: 24px; /* --fnd-spacing-06 */
 }
 
 .arena-specimen__single {
@@ -566,37 +440,45 @@ function renderBadgeCell(cell, tokens, render) {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
 }
 
-.arena-specimen__panel--full {
-  /* Volle Breite im Single-Modus */
+/* Variant Content */
+.arena-variant-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* --fnd-spacing-02 */
+}
+
+.arena-variant-section {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-variant-section__label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.4;
+  margin-bottom: 8px; /* --fnd-spacing-02 */
+}
+
+.arena-variant-divider {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.08;
+  margin: 0;
 }
 
 /* Badge Rows */
 .arena-badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px; /* --fnd-spacing-04 */
   align-items: center;
 }
 
-/* Size Scale Row — SM + MD nebeneinander pro Variante */
-.arena-badge-size-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.arena-badge-size-row:last-child {
-  margin-bottom: 0;
-}
-
-/* Badge Grid */
-.arena-badge-grid {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Badge Base — rein inline-styled, nur layout-Reset hier */
+/* Badge Base */
 .arena-badge {
   box-sizing: border-box;
 }
@@ -606,74 +488,8 @@ function renderBadgeCell(cell, tokens, render) {
   align-items: center;
 }
 
-.arena-badge__icon {
-  line-height: 0;
-}
-
-.arena-badge__icon > :deep(svg) {
+.arena-badge__icon svg {
   width: 100%;
   height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Dot Labeled */
-.arena-badge-labeled {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.arena-badge-dot-label {
-  font-size: 9px;
-  font-weight: 500;
-  opacity: 0.6;
-}
-
-/* Counter group */
-.arena-badge-counter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.arena-badge-counter-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.arena-badge-counter-label {
-  font-size: 10px;
-  font-weight: 600;
-  opacity: 0.55;
-  min-width: 44px;
-}
-
-/* Avatar with Badge */
-.arena-avatar-with-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.arena-avatar {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.arena-avatar__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 </style>

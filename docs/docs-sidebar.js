@@ -18,6 +18,7 @@
   'use strict';
 
   var STORAGE_KEY = 'docs-sidebar-state';
+  var SCROLL_STORAGE_KEY = 'docs-sidebar-scroll-top';
   var DESKTOP_BREAKPOINT = 960; // matches @include respond-to('md') = 960px
 
   function init() {
@@ -105,6 +106,38 @@
       } catch (e) {
         // noop (private browsing etc.)
       }
+    }
+
+    // -------------------------------------------------------------------
+    // 2b. Scroll Position State (localStorage)
+    // -------------------------------------------------------------------
+    function saveScrollPosition() {
+      try {
+        localStorage.setItem(SCROLL_STORAGE_KEY, String(sidebar.scrollTop || 0));
+      } catch (e) {
+        // noop (private browsing etc.)
+      }
+    }
+
+    function loadScrollPosition() {
+      try {
+        var raw = localStorage.getItem(SCROLL_STORAGE_KEY);
+        if (raw === null) return 0;
+        var value = parseInt(raw, 10);
+        return Number.isNaN(value) ? 0 : Math.max(0, value);
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function restoreScrollPosition() {
+      var scrollTop = loadScrollPosition();
+      if (!scrollTop) return;
+
+      // Nach dem initialen Layout anwenden (inkl. geladener Sidebar + ARIA-States).
+      requestAnimationFrame(function () {
+        sidebar.scrollTop = scrollTop;
+      });
     }
 
     // -------------------------------------------------------------------
@@ -197,6 +230,22 @@
     ensureCustomLinks();
     loadCollapseState();
     setActiveLink();
+    restoreScrollPosition();
+
+    // Persistiert die Position bei Scroll, Link-Klick und Seitenwechsel.
+    var saveScrollTimer = null;
+    sidebar.addEventListener('scroll', function () {
+      clearTimeout(saveScrollTimer);
+      saveScrollTimer = setTimeout(saveScrollPosition, 80);
+    }, { passive: true });
+
+    var links = sidebar.querySelectorAll('.docs-sidebar__link');
+    links.forEach(function (link) {
+      link.addEventListener('click', saveScrollPosition);
+    });
+
+    window.addEventListener('pagehide', saveScrollPosition);
+    window.addEventListener('beforeunload', saveScrollPosition);
   }
 
   // -------------------------------------------------------------------

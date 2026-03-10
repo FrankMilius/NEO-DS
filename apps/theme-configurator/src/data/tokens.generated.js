@@ -9294,6 +9294,18 @@ export const componentTokenGroups = [
 // ---------------------------------------------------------------------------
 
 export const foundationTokens = {
+  "sizes": {
+    "label": "Sizes",
+    "icon": "ruler",
+    "tokens": {
+      "xs":  { "label": "XS",  "value": "24px",  "rem": "1.5rem" },
+      "sm":  { "label": "SM",  "value": "32px",  "rem": "2rem" },
+      "md":  { "label": "MD",  "value": "40px",  "rem": "2.5rem" },
+      "lg":  { "label": "LG",  "value": "48px",  "rem": "3rem" },
+      "xl":  { "label": "XL",  "value": "64px",  "rem": "4rem" },
+      "2xl": { "label": "2XL", "value": "80px",  "rem": "5rem" }
+    }
+  },
   "radius": {
     "label": "Border Radius",
     "icon": "border-radius",

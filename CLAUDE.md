@@ -17,6 +17,7 @@ This project is primarily HTML, JavaScript, and JSON with SCSS styling. The desi
 ## Workflow Preferences
 
 - When I give a numbered plan or say "implement phase X", go straight to implementation. Do NOT re-analyze, re-plan, or verify previous phases unless I explicitly ask.
+- I sometimes give instructions in German. `umsetzen` = implement now. `Phase X umsetzen` = implement phase X immediately without re-analysis. Understand these as direct action commands.
 
 ## Git Operations
 

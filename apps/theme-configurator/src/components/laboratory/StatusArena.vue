@@ -1,5 +1,6 @@
 <template>
-  <div class="component-arena">
+  <div class="component-arena" style="position: relative;">
+    <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- Sektion 1: All Variants × All Sizes                            -->
@@ -224,9 +225,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight('status')
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -309,7 +312,7 @@ const activeBg = computed(() =>
 // ---------------------------------------------------------------------------
 // Data
 // ---------------------------------------------------------------------------
-const variants = [
+const allVariants = [
   { id: 'online',  label: 'Online' },
   { id: 'offline', label: 'Offline' },
   { id: 'busy',    label: 'Busy' },
@@ -317,22 +320,35 @@ const variants = [
   { id: 'neutral', label: 'Neutral' }
 ]
 
-const sizes = [
+const allSizes = [
   { id: 'xs', label: 'XS' },
   { id: 'sm', label: 'SM' },
   { id: 'md', label: 'MD' }
 ]
 
-const pulseVariants = [
-  { id: 'online', label: 'Online' },
-  { id: 'busy',   label: 'Busy' }
-]
+// Arena Filtering
+function isVariantVisible(id) {
+  const f = store.state.arenaFilters.variants
+  if (!f) return true
+  return f.has(id) && f.get(id) !== false
+}
 
-const avatarStatuses = [
-  { id: 'online', label: 'Online' },
-  { id: 'busy',   label: 'Busy' },
-  { id: 'away',   label: 'Away' }
-]
+function isSizeVisible(id) {
+  const f = store.state.arenaFilters.sizes
+  if (!f) return true
+  return f.has(id) && f.get(id) !== false
+}
+
+const variants = computed(() => allVariants.filter(v => isVariantVisible(v.id)))
+const sizes = computed(() => allSizes.filter(s => isSizeVisible(s.id)))
+
+const pulseVariants = computed(() =>
+  [{ id: 'online', label: 'Online' }, { id: 'busy', label: 'Busy' }].filter(v => isVariantVisible(v.id))
+)
+
+const avatarStatuses = computed(() =>
+  [{ id: 'online', label: 'Online' }, { id: 'busy', label: 'Busy' }, { id: 'away', label: 'Away' }].filter(v => isVariantVisible(v.id))
+)
 
 const base = import.meta.env.BASE_URL
 const photos = [
@@ -422,7 +438,7 @@ function ringStyle(tokens) {
 }
 
 .arena-specimen__panel {
-  padding: 16px;
+  padding: 24px; /* --fnd-spacing-06 */
 }
 
 .arena-specimen__single {

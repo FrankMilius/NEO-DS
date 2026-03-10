@@ -51,12 +51,29 @@ const state = reactive({
   // Current navigation section
   activeSection: 'foundation-colors',
 
+  // Color inspector active tab: 'primitives' or 'semantic'
+  colorActiveTab: 'primitives',
+
+  // Semantic category: null (overview) or 'text'|'background'|'border'|'interactive'|'feedback'|'layer'|'on-color'
+  semanticCategory: null,
+
   // Selected token for inspector
   selectedToken: null,
 
   // Arena specimen selection (ephemeral, not persisted)
   // { componentId, specimenId, tokenGroups } or null
   arenaSelection: null,
+
+  // Sync Geometry: Geometrie-Aenderungen gelten fuer beide Themes
+  syncGeometry: true,
+
+  // Highlighted Token: Inspector→Arena visuelles Feedback
+  // { tokenId, property } oder null
+  highlightedToken: null,
+
+  // Arena Filters: dynamisch pro Kategorie. null = all selected; Map<id,boolean> = selektiv.
+  // Standard-Kategorien: variants, sizes, states. Dazu komponentenspezifische (emphasis, pattern, etc.)
+  arenaFilters: {},
 
   // Version tag
   version: '1.0.0',
@@ -239,6 +256,11 @@ function setPreviewMode(mode) {
 function setActiveSection(sectionId) {
   state.activeSection = sectionId
   state.arenaSelection = null
+  resetArenaFilters()
+  // Komponenten-Sektionen starten immer im Split View (Light/Dark Vergleich)
+  if (sectionId.startsWith('component-')) {
+    state.previewMode = 'split'
+  }
 }
 
 function selectToken(token) {
@@ -253,13 +275,42 @@ function clearArenaSelection() {
   state.arenaSelection = null
 }
 
-function updateSemanticToken(tokenId, value) {
-  const mode = state.previewMode
-  const themeSet = state.activeThemeSet
-  if (state.themes[themeSet][mode][tokenId] !== undefined) {
-    pushHistory()
-    state.themes[themeSet][mode][tokenId] = value
+// ---------------------------------------------------------------------------
+// Sync Geometry + Visual Highlighting
+// ---------------------------------------------------------------------------
+
+function setSyncGeometry(val) {
+  state.syncGeometry = val
+}
+
+function setHighlightedToken(tokenId, property) {
+  state.highlightedToken = tokenId ? { tokenId, property } : null
+}
+
+function clearHighlightedToken() {
+  state.highlightedToken = null
+}
+
+// ---------------------------------------------------------------------------
+// Arena Filters
+// ---------------------------------------------------------------------------
+
+function setArenaFilter(category, filterMap) {
+  state.arenaFilters[category] = filterMap
+}
+
+function resetArenaFilters() {
+  // Alle Kategorien zuruecksetzen (dynamisch)
+  for (const key of Object.keys(state.arenaFilters)) {
+    delete state.arenaFilters[key]
   }
+}
+
+function updateSemanticToken(tokenId, value) {
+  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
+  const themeSet = state.activeThemeSet
+  pushHistory()
+  state.themes[themeSet][mode][tokenId] = value
 }
 
 function setFocusRingMode(mode) {
@@ -1264,6 +1315,11 @@ export function useThemeStore() {
     selectToken,
     setArenaSelection,
     clearArenaSelection,
+    setSyncGeometry,
+    setHighlightedToken,
+    clearHighlightedToken,
+    setArenaFilter,
+    resetArenaFilters,
     updateSemanticToken,
     updateFoundationToken,
     updateComponentToken,

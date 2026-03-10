@@ -1,0 +1,1340 @@
+{
+  "$schema": "./docs-ia-target.schema.json",
+  "meta": {
+    "id": "docs-ia-migration-v1",
+    "title": "NEO Docs IA Migration Matrix",
+    "version": "1.0.0",
+    "generatedAt": "2026-03-03T09:45:53.526Z",
+    "sourceFiles": [
+      "docs/_pages.json",
+      "docs/docs-sidebar.html"
+    ],
+    "notes": [
+      "Matrix vereinheitlicht die bisher getrennten Quellen _pages.json und docs-sidebar.html.",
+      "Alle alten Slugs bleiben stabil (newSlug = oldSlug), nur Gruppierung/Section wird neu klassifiziert.",
+      "Sidebar-only Seiten werden explizit als added-to-registry markiert."
+    ]
+  },
+  "targetModel": {
+    "sections": [
+      {
+        "id": "overview",
+        "label": "Overview"
+      },
+      {
+        "id": "foundation",
+        "label": "Foundation"
+      },
+      {
+        "id": "layout-system",
+        "label": "Layout System"
+      },
+      {
+        "id": "components",
+        "label": "Components"
+      },
+      {
+        "id": "templates",
+        "label": "Templates"
+      },
+      {
+        "id": "governance",
+        "label": "Governance"
+      }
+    ],
+    "groups": [
+      {
+        "id": "start",
+        "section": "overview",
+        "label": "Start"
+      },
+      {
+        "id": "color-and-theme",
+        "section": "foundation",
+        "label": "Color & Theme"
+      },
+      {
+        "id": "typography",
+        "section": "foundation",
+        "label": "Typography"
+      },
+      {
+        "id": "spacing-and-sizing",
+        "section": "foundation",
+        "label": "Spacing & Sizing"
+      },
+      {
+        "id": "borders-and-radii",
+        "section": "foundation",
+        "label": "Borders & Radii"
+      },
+      {
+        "id": "surfaces-and-effects",
+        "section": "foundation",
+        "label": "Surfaces & Effects"
+      },
+      {
+        "id": "icons-and-elements",
+        "section": "foundation",
+        "label": "Icons & Elements"
+      },
+      {
+        "id": "architecture",
+        "section": "layout-system",
+        "label": "Architecture"
+      },
+      {
+        "id": "primitives",
+        "section": "layout-system",
+        "label": "Primitives"
+      },
+      {
+        "id": "layout-specs",
+        "section": "layout-system",
+        "label": "Layout Specs"
+      },
+      {
+        "id": "shell-presets",
+        "section": "layout-system",
+        "label": "Shell Presets"
+      },
+      {
+        "id": "actions",
+        "section": "components",
+        "label": "Actions"
+      },
+      {
+        "id": "form-inputs",
+        "section": "components",
+        "label": "Form Inputs"
+      },
+      {
+        "id": "form-structure",
+        "section": "components",
+        "label": "Form Structure"
+      },
+      {
+        "id": "selection-and-controls",
+        "section": "components",
+        "label": "Selection & Controls"
+      },
+      {
+        "id": "navigation",
+        "section": "components",
+        "label": "Navigation"
+      },
+      {
+        "id": "overlays-feedback",
+        "section": "components",
+        "label": "Overlays & Feedback"
+      },
+      {
+        "id": "status-and-loading",
+        "section": "components",
+        "label": "Status & Loading"
+      },
+      {
+        "id": "data-display",
+        "section": "components",
+        "label": "Data Display"
+      },
+      {
+        "id": "content-blocks",
+        "section": "components",
+        "label": "Content Blocks"
+      },
+      {
+        "id": "media-and-rich-content",
+        "section": "components",
+        "label": "Media & Rich Content"
+      },
+      {
+        "id": "search-and-command",
+        "section": "components",
+        "label": "Search & Command"
+      },
+      {
+        "id": "utilities-and-micro",
+        "section": "components",
+        "label": "Utilities & Micro Components"
+      },
+      {
+        "id": "page-templates",
+        "section": "templates",
+        "label": "Page Templates"
+      },
+      {
+        "id": "architecture-and-principles",
+        "section": "governance",
+        "label": "Architecture & Principles"
+      },
+      {
+        "id": "recipes-and-governance",
+        "section": "governance",
+        "label": "Recipes & Governance"
+      },
+      {
+        "id": "quality-and-accessibility",
+        "section": "governance",
+        "label": "Quality & Accessibility"
+      },
+      {
+        "id": "migration-and-status",
+        "section": "governance",
+        "label": "Migration & Status"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "source": "pages",
+      "oldSlug": "accordion",
+      "newSlug": "accordion",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "alert",
+      "newSlug": "alert",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "alert-dialog",
+      "newSlug": "alert-dialog",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "architecture",
+      "newSlug": "architecture",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "architecture-and-principles",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "avatar",
+      "newSlug": "avatar",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "badge",
+      "newSlug": "badge",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "banner",
+      "newSlug": "banner",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "border",
+      "newSlug": "border",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "borders-and-radii",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "breadcrumb",
+      "newSlug": "breadcrumb",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "button",
+      "newSlug": "button",
+      "oldCategory": "components",
+      "oldGroup": "Actions",
+      "newSection": "components",
+      "newGroup": "actions",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "button-micro",
+      "newSlug": "button-micro",
+      "oldCategory": "components",
+      "oldGroup": "Actions",
+      "newSection": "components",
+      "newGroup": "actions",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "card",
+      "newSlug": "card",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "carousel",
+      "newSlug": "carousel",
+      "oldCategory": "components",
+      "oldGroup": "Media",
+      "newSection": "components",
+      "newGroup": "media-and-rich-content",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "checkbox",
+      "newSlug": "checkbox",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "chip",
+      "newSlug": "chip",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "code-snippet",
+      "newSlug": "code-snippet",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "color",
+      "newSlug": "color",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "color-and-theme",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "component-matrix",
+      "newSlug": "component-matrix",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "migration-and-status",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "composition-rules",
+      "newSlug": "composition-rules",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "quality-and-accessibility",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "container",
+      "newSlug": "container",
+      "oldCategory": "components",
+      "oldGroup": "Layout",
+      "newSection": "layout-system",
+      "newGroup": "primitives",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "cta",
+      "newSlug": "cta",
+      "oldCategory": "components",
+      "oldGroup": "Actions",
+      "newSection": "components",
+      "newGroup": "actions",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "data-table",
+      "newSlug": "data-table",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "divider",
+      "newSlug": "divider",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "utilities-and-micro",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "drawer",
+      "newSlug": "drawer",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "dropdown-menu",
+      "newSlug": "dropdown-menu",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "elements",
+      "newSlug": "elements",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "icons-and-elements",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "empty-state",
+      "newSlug": "empty-state",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "facts",
+      "newSlug": "facts",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "faq",
+      "newSlug": "faq",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "feature-accordion",
+      "newSlug": "feature-accordion",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "file-upload",
+      "newSlug": "file-upload",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "footer",
+      "newSlug": "footer",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "form-field",
+      "newSlug": "form-field",
+      "oldCategory": "components",
+      "oldGroup": "Form Structure",
+      "newSection": "components",
+      "newGroup": "form-structure",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "form-layout",
+      "newSlug": "form-layout",
+      "oldCategory": "components",
+      "oldGroup": "Form Structure",
+      "newSection": "components",
+      "newGroup": "form-structure",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "grid",
+      "newSlug": "grid",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "layout-system",
+      "newGroup": "primitives",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "header",
+      "newSlug": "header",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "hero",
+      "newSlug": "hero",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "icons",
+      "newSlug": "icons",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "icons-and-elements",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "index",
+      "newSlug": "index",
+      "oldCategory": "guides",
+      "oldGroup": "Home",
+      "newSection": "overview",
+      "newGroup": "start",
+      "changeType": "kept"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "input",
+      "newSlug": "input",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "input-group",
+      "newSlug": "input-group",
+      "oldCategory": "components",
+      "oldGroup": "Form Structure",
+      "newSection": "components",
+      "newGroup": "form-structure",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "interaction-states",
+      "newSlug": "interaction-states",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "quality-and-accessibility",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "item",
+      "newSlug": "item",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "kbd",
+      "newSlug": "kbd",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "utilities-and-micro",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "label",
+      "newSlug": "label",
+      "oldCategory": "components",
+      "oldGroup": "Form Structure",
+      "newSection": "components",
+      "newGroup": "form-structure",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "layout-architecture",
+      "newSlug": "layout-architecture",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "layout-system",
+      "newGroup": "architecture",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "link-with-arrow",
+      "newSlug": "link-with-arrow",
+      "oldCategory": "components",
+      "oldGroup": "Actions",
+      "newSection": "components",
+      "newGroup": "actions",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "logo-wall",
+      "newSlug": "logo-wall",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "marquee",
+      "newSlug": "marquee",
+      "oldCategory": "components",
+      "oldGroup": "Media",
+      "newSection": "components",
+      "newGroup": "media-and-rich-content",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "media-ratios",
+      "newSlug": "media-ratios",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "layout-system",
+      "newGroup": "primitives",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "metric",
+      "newSlug": "metric",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "modal",
+      "newSlug": "modal",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "nav-atoms",
+      "newSlug": "nav-atoms",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "navigation",
+      "newSlug": "navigation",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "navigation-menu",
+      "newSlug": "navigation-menu",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "notification",
+      "newSlug": "notification",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "opacity-zindex-motion",
+      "newSlug": "opacity-zindex-motion",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "surfaces-and-effects",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "otp-input",
+      "newSlug": "otp-input",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "pagination",
+      "newSlug": "pagination",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "popover",
+      "newSlug": "popover",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "pricing",
+      "newSlug": "pricing",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "progress",
+      "newSlug": "progress",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "status-and-loading",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "question",
+      "newSlug": "question",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "radii",
+      "newSlug": "radii",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "borders-and-radii",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "radio",
+      "newSlug": "radio",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "rating",
+      "newSlug": "rating",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "recipe-status",
+      "newSlug": "recipe-status",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "recipes-and-governance",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "recipe-system",
+      "newSlug": "recipe-system",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "recipes-and-governance",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "search",
+      "newSlug": "search",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "search-and-command",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "section",
+      "newSlug": "section",
+      "oldCategory": "components",
+      "oldGroup": "Layout",
+      "newSection": "layout-system",
+      "newGroup": "primitives",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "security-list",
+      "newSlug": "security-list",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "segmented-control",
+      "newSlug": "segmented-control",
+      "oldCategory": "components",
+      "oldGroup": "Controls",
+      "newSection": "components",
+      "newGroup": "selection-and-controls",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "select",
+      "newSlug": "select",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "shadow-elevation",
+      "newSlug": "shadow-elevation",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "surfaces-and-effects",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "shell",
+      "newSlug": "shell",
+      "oldCategory": "components",
+      "oldGroup": "Layout",
+      "newSection": "layout-system",
+      "newGroup": "shell-presets",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "sidebar",
+      "newSlug": "sidebar",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "sizes",
+      "newSlug": "sizes",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "spacing-and-sizing",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "skeleton",
+      "newSlug": "skeleton",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "status-and-loading",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "slider",
+      "newSlug": "slider",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "solutions",
+      "newSlug": "solutions",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "spacing",
+      "newSlug": "spacing",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "spacing-and-sizing",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "spinner",
+      "newSlug": "spinner",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "status-and-loading",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "square",
+      "newSlug": "square",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "square-value",
+      "newSlug": "square-value",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "status",
+      "newSlug": "status",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "stepper",
+      "newSlug": "stepper",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "switch",
+      "newSlug": "switch",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "system-overview",
+      "newSlug": "system-overview",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "architecture-and-principles",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "table",
+      "newSlug": "table",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "tabs",
+      "newSlug": "tabs",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "tag",
+      "newSlug": "tag",
+      "oldCategory": "components",
+      "oldGroup": "Data Display",
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-content-page",
+      "newSlug": "template-content-page",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-dashboard",
+      "newSlug": "template-dashboard",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-error-page",
+      "newSlug": "template-error-page",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-form-page",
+      "newSlug": "template-form-page",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-home-basic",
+      "newSlug": "template-home-basic",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-home-hero",
+      "newSlug": "template-home-hero",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "template-settings-page",
+      "newSlug": "template-settings-page",
+      "oldCategory": "templates",
+      "oldGroup": "Templates",
+      "newSection": "templates",
+      "newGroup": "page-templates",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "testimonial",
+      "newSlug": "testimonial",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "text-blocks",
+      "newSlug": "text-blocks",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "text-only",
+      "newSlug": "text-only",
+      "oldCategory": "components",
+      "oldGroup": "Sections",
+      "newSection": "components",
+      "newGroup": "content-blocks",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "textarea",
+      "newSlug": "textarea",
+      "oldCategory": "components",
+      "oldGroup": "Form Inputs",
+      "newSection": "components",
+      "newGroup": "form-inputs",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "themes",
+      "newSlug": "themes",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "color-and-theme",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "theming-architecture",
+      "newSlug": "theming-architecture",
+      "oldCategory": "guides",
+      "oldGroup": "System & Guides",
+      "newSection": "governance",
+      "newGroup": "architecture-and-principles",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "timeline",
+      "newSlug": "timeline",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "data-display",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "toast",
+      "newSlug": "toast",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "toggle",
+      "newSlug": "toggle",
+      "oldCategory": "components",
+      "oldGroup": "Controls",
+      "newSection": "components",
+      "newGroup": "selection-and-controls",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "sidebar-only",
+      "oldSlug": "toolbar",
+      "newSlug": "toolbar",
+      "oldCategory": "components",
+      "oldGroup": null,
+      "newSection": "components",
+      "newGroup": "search-and-command",
+      "changeType": "added-to-registry"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "tooltip",
+      "newSlug": "tooltip",
+      "oldCategory": "components",
+      "oldGroup": "Feedback",
+      "newSection": "components",
+      "newGroup": "overlays-feedback",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "treeview",
+      "newSlug": "treeview",
+      "oldCategory": "components",
+      "oldGroup": "Navigation",
+      "newSection": "components",
+      "newGroup": "navigation",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "typography",
+      "newSlug": "typography",
+      "oldCategory": "foundation",
+      "oldGroup": "Design Tokens",
+      "newSection": "foundation",
+      "newGroup": "typography",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "utility-a11y",
+      "newSlug": "utility-a11y",
+      "oldCategory": "foundation",
+      "oldGroup": "Utilities",
+      "newSection": "components",
+      "newGroup": "utilities-and-micro",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "utility-visibility",
+      "newSlug": "utility-visibility",
+      "oldCategory": "foundation",
+      "oldGroup": "Utilities",
+      "newSection": "components",
+      "newGroup": "utilities-and-micro",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "video",
+      "newSlug": "video",
+      "oldCategory": "components",
+      "oldGroup": "Media",
+      "newSection": "components",
+      "newGroup": "media-and-rich-content",
+      "changeType": "reclassified"
+    },
+    {
+      "source": "pages",
+      "oldSlug": "video-section",
+      "newSlug": "video-section",
+      "oldCategory": "components",
+      "oldGroup": "Media",
+      "newSection": "components",
+      "newGroup": "media-and-rich-content",
+      "changeType": "reclassified"
+    }
+  ]
+}

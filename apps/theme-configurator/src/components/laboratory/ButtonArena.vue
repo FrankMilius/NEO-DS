@@ -1,43 +1,30 @@
 <template>
   <div class="component-arena">
 
-    <!-- Recipe Chips — generated from variant axis -->
-    <div class="arena-recipe-chips">
-      <button
-        v-for="(_, variantId) in recipeData.axes.variant.values"
-        :key="variantId"
-        :class="['arena-recipe-chip', { 'arena-recipe-chip--active': activeRecipeId === variantId }]"
-        @click="activeRecipeId = variantId"
-      >
-        {{ capitalize(variantId) }}
-      </button>
-    </div>
-
-    <!-- Specimens — generic matrix renderer (negative specimens sind QA-only) -->
-    <template v-for="specimen in recipeData.specimens.filter(s => s.type !== 'negative')" :key="specimen.id">
+    <!-- Pro Variante ein eigener Specimen-Container -->
+    <template v-for="variant in visibleVariants" :key="variant">
       <div class="arena-category-divider">
-        <span class="arena-category-label">{{ specimen.label }}</span>
+        <span class="arena-category-label">{{ capitalize(variant) }}</span>
       </div>
-      <div
-        :class="['arena-specimen', { 'arena-specimen--selected': isSpecimenSelected(specimen.id) }]"
-        @click="selectSpecimen(specimen)"
-      >
-        <span class="arena-specimen__label">{{ specimen.description }}</span>
+      <div class="arena-specimen">
 
         <!-- Split mode: light + dark panels -->
         <div v-if="isSplit" class="arena-specimen__pair">
-          <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
-            <SpecimenContent :specimen="specimen" :tokens="tokensLight" :theme="tLight" mode="light" />
+          <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'], position: 'relative' }">
+            <VariantContent :variant="variant" :tokens="tokensLight" :theme="tLight" mode="light" />
+            <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
-          <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
-            <SpecimenContent :specimen="specimen" :tokens="tokensDark" :theme="tDark" mode="dark" />
+          <div class="arena-specimen__panel" :style="{ background: tDark['background-base'], position: 'relative' }">
+            <VariantContent :variant="variant" :tokens="tokensDark" :theme="tDark" mode="dark" />
+            <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
         </div>
 
         <!-- Single mode -->
         <div v-else class="arena-specimen__single">
-          <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
-            <SpecimenContent :specimen="specimen" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
+          <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg, position: 'relative' }">
+            <VariantContent :variant="variant" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
+            <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
         </div>
 
@@ -48,19 +35,43 @@
 </template>
 
 <script setup>
-import { ref, computed, h, defineComponent } from 'vue'
+import { computed, h, defineComponent } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
-import { loadRecipe, expandSpecimenMatrix, applyStateRules, specimenTokenGroups, groupCellsByAxis, renderModel, capitalize } from 'recipe-sdk'
+import { loadRecipe, capitalize } from 'recipe-sdk'
 import recipeRaw from '../../../../../data/button-recipe.json'
 
 const store = useThemeStore()
+const { isHighlighted, highlightStyle } = useArenaHighlight('button')
 
 // ---------------------------------------------------------------------------
 // Recipe Data
 // ---------------------------------------------------------------------------
 const recipeData = loadRecipe(recipeRaw)
-const activeRecipeId = ref('primary')
+
+// Achsen aus Recipe
+const allVariants = Object.keys(recipeData.axes.variant?.values || {})
+const allSizes = Object.keys(recipeData.axes.size?.values || {})
+const allStates = (recipeData.states?.supported || []).filter(s => s !== 'default')
+const allPatterns = Object.keys(recipeData.axes.pattern?.values || {})
+const allCompositions = Object.keys(recipeData.axes.composition?.values || {}).filter(c => c !== 'single')
+
+// Generischer Filter-Helper: null/undefined = alle, Map = selektiv
+function filteredAxis(allValues, filterKey) {
+  return computed(() => {
+    const f = store.state.arenaFilters[filterKey]
+    if (!f) return allValues
+    return allValues.filter(v => f.has(v) && f.get(v) !== false)
+  })
+}
+
+// Sichtbare Achsen
+const visibleVariants = filteredAxis(allVariants, 'variants')
+const visibleSizes = filteredAxis(allSizes, 'sizes')
+const visibleStates = filteredAxis(allStates, 'states')
+const visiblePatterns = filteredAxis(allPatterns, 'pattern')
+const visibleCompositions = filteredAxis(allCompositions, 'composition')
 
 // ---------------------------------------------------------------------------
 // Token Data
@@ -254,54 +265,23 @@ const activeBg = computed(() =>
 )
 
 // ---------------------------------------------------------------------------
-// Specimen Selection — tokenGroups computed from axes
+// Mehr als 1 Size? → Size-Sektion anzeigen
 // ---------------------------------------------------------------------------
-function selectSpecimen(specimen) {
-  const groups = specimenTokenGroups(specimen, recipeData.axes, recipeData.styling.baseTokenGroups, recipeData.states?.rules)
-  store.setArenaSelection('button', specimen.id, groups)
-}
-
-function isSpecimenSelected(specimenId) {
-  const sel = store.state.arenaSelection
-  return sel && sel.componentId === 'button' && sel.specimenId === specimenId
-}
-
-// ---------------------------------------------------------------------------
-// Matrix Expansion
-// ---------------------------------------------------------------------------
-function expandedCells(specimen) {
-  return expandSpecimenMatrix(specimen, recipeData)
-}
-
-function groupedCells(specimen) {
-  const cells = expandedCells(specimen)
-  const rowAxis = specimen.layoutConfig?.rowAxis
-  if (!rowAxis) return [{ key: '_', label: '', cells }]
-  return groupCellsByAxis(cells, rowAxis)
-}
+const hasSizes = allSizes.length > 1
 
 // ---------------------------------------------------------------------------
 // Icons (Tabler-artige SVGs, 24x24 viewBox)
 // ---------------------------------------------------------------------------
-const ICONS = {
-  default:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>',
-  primary:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>',
-  secondary: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>',
-  accent:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 8l0 4l2 2"/></svg>',
-  outline:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg>',
-  ghost:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"/><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"/></svg>',
-  success:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M9 12l2 2l4 -4"/></svg>',
-  warning:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"/><path d="M12 16h.01"/></svg>',
-  error:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 9v4"/><path d="M12 16h.01"/></svg>',
-  info:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/></svg>'
-}
+const ICON_PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>'
+const ICON_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>'
 
-// Toggle icons
+// Toggle Icons
 const TOGGLE_ICONS = {
   Bold:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h6a3.5 3.5 0 0 1 0 7h-6z"/><path d="M13 12h1a3.5 3.5 0 0 1 0 7h-7v-7"/></svg>',
   Italic:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5l6 0"/><path d="M7 19l6 0"/><path d="M14 5l-4 14"/></svg>',
   Underline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v5a5 5 0 0 0 10 0v-5"/><path d="M5 19h14"/></svg>'
 }
+
 
 // ---------------------------------------------------------------------------
 // Style Builders
@@ -371,10 +351,9 @@ function spinnerStyle(tokens, cell) {
 }
 
 function iconStyle(tokens, size) {
-  const s = size || 'md'
   return {
-    width: tokens[`nc-button-icon-size-${s}`],
-    height: tokens[`nc-button-icon-size-${s}`],
+    width: tokens[`nc-button-icon-size-${size}`] || '20px',
+    height: tokens[`nc-button-icon-size-${size}`] || '20px',
     flexShrink: '0',
     display: 'inline-flex',
     alignItems: 'center',
@@ -383,190 +362,240 @@ function iconStyle(tokens, size) {
 }
 
 // ---------------------------------------------------------------------------
-// SpecimenContent — inline render component for each specimen
+// VariantContent — rendert pro Variante: Default → States → Sizes
 // ---------------------------------------------------------------------------
-const SpecimenContent = defineComponent({
+const VariantContent = defineComponent({
   props: {
-    specimen: { type: Object, required: true },
+    variant: { type: String, required: true },
     tokens: { type: Object, required: true },
     theme: { type: Object, required: true },
     mode: { type: String, default: 'light' }
   },
   setup(props) {
     return () => {
-      const { specimen, tokens, theme, mode } = props
-      const isDark = mode === 'dark'
-      const render = specimen.render || {}
-      const cells = expandSpecimenMatrix(specimen, recipeData)
+      const { variant, tokens } = props
+      const sections = []
 
-      // Resolve composition from first cell's axis values via renderModel
-      const model = cells.length > 0 ? renderModel(cells[0], recipeData) : {}
-      const hint = model.renderHint
-      const wrapper = model.wrapper
-
-      // --- Button Group composition ---
-      if (hint === 'button-group') {
-        const cell = cells[0]
-        const labels = render.groupLabels || ['Left', 'Center', 'Right']
-        const wrapperAttrs = {
-          class: wrapper?.className || 'arena-button-group',
-          ...(wrapper?.attributes || { role: 'group' })
-        }
-        return h(wrapper?.element || 'div', wrapperAttrs,
-          labels.map((label, i) => {
-            const style = { ...buttonStyleForCell(tokens, cell) }
-            // Remove inner border-radius for middle buttons
-            if (i === 0) {
-              style.borderTopRightRadius = '0'
-              style.borderBottomRightRadius = '0'
-              style.borderRight = 'none'
-            } else if (i === labels.length - 1) {
-              style.borderTopLeftRadius = '0'
-              style.borderBottomLeftRadius = '0'
-              style.borderLeft = 'none'
-            } else {
-              style.borderRadius = '0'
-              style.borderLeft = 'none'
-              style.borderRight = 'none'
-            }
-            return h('button', { key: label, class: 'arena-button', style }, [
-              h('span', { class: 'arena-button__label' }, label)
-            ])
-          })
+      // 1. Default — Button in md, default state
+      sections.push(
+        h('div', { class: 'arena-variant-section' },
+          [renderButton(tokens, { variant, size: 'md' })]
         )
-      }
-
-      // --- Toggle composition ---
-      if (hint === 'toggle') {
-        const cell = cells[0]
-        const labels = render.toggleLabels || ['Bold', 'Italic', 'Underline']
-        const wrapperAttrs = {
-          class: wrapper?.className || 'arena-button-row',
-          ...(wrapper?.attributes || {})
-        }
-        return h(wrapper?.element || 'div', wrapperAttrs,
-          labels.map((label, i) => {
-            const pressed = i === 0 // First toggle is "pressed"
-            const baseStyle = buttonStyleForCell(tokens, cell)
-            const style = { ...baseStyle }
-            if (pressed) {
-              // Active toggle: use primary colors
-              style.background = tokens['nc-button-primary-bg'] || '#0066cc'
-              style.color = tokens['nc-button-primary-color'] || '#ffffff'
-              style.borderColor = tokens['nc-button-primary-bg'] || '#0066cc'
-            }
-            const size = cell.axisValues.size || 'md'
-            const icon = TOGGLE_ICONS[label] || ICONS.default
-            return h('button', {
-              key: label,
-              class: 'arena-button',
-              style,
-              'aria-pressed': pressed ? 'true' : 'false'
-            }, [
-              h('span', {
-                class: 'arena-button__icon',
-                style: iconStyle(tokens, size),
-                innerHTML: icon
-              })
-            ])
-          })
-        )
-      }
-
-      // --- Link as Button composition (elementHint: 'a') ---
-      if (hint === 'link' || model.elementHint === 'a') {
-        return h('div', { class: 'arena-button-row' },
-          cells.map(cell => {
-            const variant = cell.axisValues.variant || 'primary'
-            const style = buttonStyleForCell(tokens, cell)
-            return h(model.elementHint || 'a', {
-              key: cell.id,
-              class: 'arena-button',
-              style,
-              href: '#',
-              role: 'button',
-              onClick: (e) => e.preventDefault()
-            }, [
-              h('span', { class: 'arena-button__label' }, capitalize(variant))
-            ])
-          })
-        )
-      }
-
-      // --- Icon-Only grid ---
-      if (specimen.layout === 'grid' && specimen.layoutConfig?.rowAxis) {
-        const rows = groupCellsByAxis(cells, specimen.layoutConfig.rowAxis)
-        return h('div', { class: 'arena-button-grid' },
-          rows.map(row =>
-            h('div', { key: row.key, class: 'arena-button-grid-row' }, [
-              h('span', {
-                class: 'arena-button-grid-label',
-                style: isDark ? { color: theme['text-secondary'] } : {}
-              }, row.label),
-              ...row.cells.map(cell => renderButtonCell(cell, tokens, render))
-            ])
-          )
-        )
-      }
-
-      // --- Standard row layout ---
-      return h('div', { class: 'arena-button-row' },
-        cells.map(cell => renderButtonCell(cell, tokens, render))
       )
+
+      // 2. States (sofern sichtbar)
+      const states = visibleStates.value
+      if (states.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'States'),
+            h('div', { class: 'arena-button-row' },
+              states.map(state =>
+                renderButton(tokens, { variant, size: 'md', state })
+              )
+            )
+          ])
+        )
+      }
+
+      // 3. Sizes (sofern > 1 Size und sichtbar)
+      const sizes = visibleSizes.value
+      if (hasSizes && sizes.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'Sizes'),
+            h('div', { class: 'arena-button-row' },
+              sizes.map(size =>
+                renderButton(tokens, { variant, size })
+              )
+            )
+          ])
+        )
+      }
+
+      // 4. Patterns (with-icon, icon-only — sofern sichtbar)
+      const patterns = visiblePatterns.value.filter(p => p !== 'standard')
+      if (patterns.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'Pattern'),
+            h('div', { class: 'arena-button-row' },
+              patterns.map(pattern =>
+                renderButton(tokens, { variant, size: 'md', pattern })
+              )
+            )
+          ])
+        )
+      }
+
+      // 5. Compositions (group, toggle, link — sofern sichtbar)
+      const compositions = visibleCompositions.value
+      if (compositions.length > 0) {
+        sections.push(
+          h('div', { class: 'arena-variant-section' }, [
+            h('div', { class: 'arena-variant-section__label' }, 'Composition'),
+            h('div', { class: 'arena-button-row', style: { gap: '16px' } },
+              compositions.map(comp =>
+                renderComposition(tokens, { variant, size: 'md', composition: comp })
+              )
+            )
+          ])
+        )
+      }
+
+      return h('div', { class: 'arena-variant-content' }, sections)
     }
   }
 })
 
-function renderButtonCell(cell, tokens, render) {
-  const variant = cell.axisValues.variant || 'primary'
-  const size = cell.axisValues.size || 'md'
-  const pattern = cell.axisValues.pattern || 'standard'
+// ---------------------------------------------------------------------------
+// renderButton — einzelner Button mit Variant/Size/State
+// ---------------------------------------------------------------------------
+function renderButton(tokens, { variant, size = 'md', state = 'default', pattern = 'standard' }) {
+  const isDisabled = state === 'disabled'
+  const isLoading = state === 'loading'
+  const isFocus = state === 'focus-visible'
+  const isHover = state === 'hover'
+  const isActive = state === 'active'
+  const isPressed = state === 'pressed'
   const isIconOnly = pattern === 'icon-only'
-  const hasIcon = cell.slotConfig?.icon
-  const isLoading = cell.resolvedState?.active?.includes('loading')
-  const stateAttrs = cell.resolvedState?.attributes || {}
-  const label = render.label === '{variant}' ? capitalize(variant)
-              : render.label === '{size}' ? size.toUpperCase()
-              : capitalize(variant)
+  const hasIcon = pattern === 'with-icon' || isIconOnly
 
+  const style = { ...buttonStyleForCell(tokens, { axisValues: { variant, size, pattern } }) }
+
+  // State-spezifische Style-Overrides
+  if (isHover) {
+    style.background = tokens[`nc-button-${variant}-bg-hover`] || style.background
+  }
+  if (isActive) {
+    style.background = tokens[`nc-button-${variant}-bg-active`] || style.background
+  }
+  if (isDisabled) {
+    style.background = tokens['nc-button-disabled-bg']
+    style.color = tokens['nc-button-disabled-color']
+    style.borderColor = tokens['nc-button-disabled-border']
+    style.opacity = tokens['nc-button-opacity-disabled']
+    style.cursor = 'not-allowed'
+  }
+  if (isLoading) {
+    style.position = 'relative'
+    style.cursor = 'wait'
+  }
+  if (isFocus) {
+    style.outline = `2px solid ${tokens['nc-button-primary-bg'] || '#0066cc'}`
+    style.outlineOffset = '2px'
+  }
+  if (isPressed) {
+    style.background = tokens['nc-button-primary-bg'] || '#0066cc'
+    style.color = tokens['nc-button-primary-color'] || '#ffffff'
+    style.borderColor = tokens['nc-button-primary-bg'] || '#0066cc'
+  }
+
+  const label = pattern !== 'standard'
+    ? capitalize(pattern.replace('-', ' '))
+    : state !== 'default' ? capitalize(state) : capitalize(variant)
   const children = []
 
-  // Icon
-  if (hasIcon || isIconOnly) {
-    const iconKey = isIconOnly ? (render.icon === 'default' ? 'default' : variant) : variant
+  // Icon (leading icon oder icon-only)
+  if (hasIcon) {
     children.push(h('span', {
       class: 'arena-button__icon',
       style: iconStyle(tokens, size),
-      innerHTML: ICONS[iconKey] || ICONS.default
+      innerHTML: isIconOnly ? ICON_PLUS : ICON_CHECK
     }))
   }
 
-  // Label (hidden in loading state to maintain width)
+  // Label (hidden during loading, absent for icon-only)
   if (!isIconOnly) {
     const labelStyle = isLoading ? { visibility: 'hidden' } : {}
     children.push(h('span', { class: 'arena-button__label', style: labelStyle }, label))
   }
 
-  // Spinner overlay for loading state (driven by resolvedState.slotConfig.spinner)
-  if (isLoading && cell.resolvedState?.slotConfig?.spinner) {
+  // Spinner fuer Loading
+  if (isLoading) {
     children.push(h('span', { class: 'arena-button__spinner', style: {
       position: 'absolute', inset: '0',
       display: 'flex', alignItems: 'center', justifyContent: 'center'
-    }}, [h('span', { style: spinnerStyle(tokens, cell) })]))
+    }}, [h('span', { style: spinnerStyle(tokens, { axisValues: { variant } }) })]))
   }
 
-  const btnStyle = { ...buttonStyleForCell(tokens, cell) }
-  if (isLoading) btnStyle.position = 'relative'
-
   return h('button', {
-    key: cell.id,
+    key: `${variant}-${size}-${state}-${pattern}`,
     class: ['arena-button', isLoading ? 'arena-button--loading' : ''].filter(Boolean).join(' '),
-    style: btnStyle,
+    style,
     ...(isIconOnly ? { 'aria-label': capitalize(variant) } : {}),
-    ...(stateAttrs['aria-busy'] ? { 'aria-busy': 'true' } : {}),
-    ...(stateAttrs['disabled?'] || stateAttrs['aria-disabled'] ? { disabled: true } : {})
+    ...(isDisabled ? { disabled: true } : {})
   }, children)
 }
+
+// ---------------------------------------------------------------------------
+// renderComposition — Button-Group, Toggle, Link
+// ---------------------------------------------------------------------------
+function renderComposition(tokens, { variant, size = 'md', composition }) {
+  if (composition === 'group') {
+    const labels = ['Left', 'Center', 'Right']
+    return h('div', { key: 'group', class: 'arena-button-group', role: 'group' },
+      labels.map((label, i) => {
+        const style = { ...buttonStyleForCell(tokens, { axisValues: { variant, size, pattern: 'standard' } }) }
+        if (i === 0) {
+          style.borderTopRightRadius = '0'
+          style.borderBottomRightRadius = '0'
+          style.borderRight = 'none'
+        } else if (i === labels.length - 1) {
+          style.borderTopLeftRadius = '0'
+          style.borderBottomLeftRadius = '0'
+          style.borderLeft = 'none'
+        } else {
+          style.borderRadius = '0'
+          style.borderLeft = 'none'
+          style.borderRight = 'none'
+        }
+        return h('button', { key: label, class: 'arena-button', style }, [
+          h('span', { class: 'arena-button__label' }, label)
+        ])
+      })
+    )
+  }
+
+  if (composition === 'toggle') {
+    const labels = ['Bold', 'Italic', 'Underline']
+    return h('div', { key: 'toggle', class: 'arena-button-group', role: 'group' },
+      labels.map((label, i) => {
+        const pressed = i === 0
+        const style = { ...buttonStyleForCell(tokens, { axisValues: { variant, size, pattern: 'standard' } }) }
+        if (pressed) {
+          style.background = tokens['nc-button-primary-bg'] || '#0066cc'
+          style.color = tokens['nc-button-primary-color'] || '#ffffff'
+          style.borderColor = tokens['nc-button-primary-bg'] || '#0066cc'
+        }
+        return h('button', {
+          key: label, class: 'arena-button', style,
+          'aria-pressed': pressed ? 'true' : 'false'
+        }, [
+          h('span', {
+            class: 'arena-button__icon',
+            style: iconStyle(tokens, size),
+            innerHTML: TOGGLE_ICONS[label]
+          })
+        ])
+      })
+    )
+  }
+
+  if (composition === 'link') {
+    const style = buttonStyleForCell(tokens, { axisValues: { variant, size, pattern: 'standard' } })
+    return h('a', {
+      key: 'link', class: 'arena-button', style,
+      href: '#', role: 'button',
+      onClick: (e) => e.preventDefault()
+    }, [
+      h('span', { class: 'arena-button__label' }, 'Link as Button')
+    ])
+  }
+
+  return null
+}
+
 </script>
 
 <style scoped>
@@ -575,40 +604,6 @@ function renderButtonCell(cell, tokens, render) {
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-}
-
-/* Recipe Chips */
-.arena-recipe-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-
-.arena-recipe-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border: 1px solid var(--cfg-border);
-  border-radius: 6px;
-  background: var(--cfg-surface);
-  color: var(--cfg-text-secondary);
-  font-size: 11px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.arena-recipe-chip:hover {
-  background: var(--cfg-surface-elevated);
-  color: var(--cfg-text);
-}
-
-.arena-recipe-chip--active {
-  background: var(--cfg-accent-subtle);
-  color: var(--cfg-accent);
-  border-color: var(--cfg-accent);
-  font-weight: 600;
 }
 
 .arena-category-divider {
@@ -639,29 +634,6 @@ function renderButtonCell(cell, tokens, render) {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
-  cursor: pointer;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-.arena-specimen:hover {
-  border-color: color-mix(in srgb, var(--cfg-accent) 40%, transparent);
-}
-
-.arena-specimen--selected {
-  border-color: var(--cfg-accent);
-  box-shadow: 0 0 0 1px var(--cfg-accent), 0 0 8px color-mix(in srgb, var(--cfg-accent) 20%, transparent);
-}
-
-.arena-specimen__label {
-  display: block;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 6px 12px;
-  opacity: 0.55;
-  border-radius: 4px;
-  background: var(--arena-label-bg, transparent);
 }
 
 .arena-specimen__pair {
@@ -670,7 +642,7 @@ function renderButtonCell(cell, tokens, render) {
 }
 
 .arena-specimen__panel {
-  padding: 16px;
+  padding: 24px; /* --fnd-spacing-06 */
 }
 
 .arena-specimen__single {
@@ -682,38 +654,42 @@ function renderButtonCell(cell, tokens, render) {
   border-right: 1px solid color-mix(in srgb, currentColor 8%, transparent);
 }
 
-/* Button Rows */
-.arena-button-row {
+/* Variant Content */
+.arena-variant-content {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px; /* --fnd-spacing-02 */
 }
 
-/* Button Group (no gap, adjacent borders) */
-.arena-button-group {
-  display: inline-flex;
-  align-items: center;
-}
-
-/* Button Grid (icon-only size matrix) */
-.arena-button-grid {
+.arena-variant-section {
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.arena-button-grid-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.arena-variant-section__label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.4;
+  margin-bottom: 8px; /* --fnd-spacing-02 */
 }
 
-.arena-button-grid-label {
-  font-size: 10px;
-  font-weight: 600;
-  opacity: 0.55;
-  min-width: 70px;
+.arena-variant-divider {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.08;
+  margin: 0;
+}
+
+/* Button Rows */
+.arena-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* --fnd-spacing-04 */
+  align-items: center;
 }
 
 /* Button Base */
@@ -727,18 +703,15 @@ function renderButtonCell(cell, tokens, render) {
   align-items: center;
 }
 
-.arena-button__icon {
-  line-height: 0;
+/* Button Group */
+.arena-button-group {
+  display: inline-flex;
 }
 
-.arena-button__icon > :deep(svg) {
+/* Button Icon */
+.arena-button__icon svg {
   width: 100%;
   height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 /* Spinner animation */

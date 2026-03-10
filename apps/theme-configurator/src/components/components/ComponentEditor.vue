@@ -1,17 +1,25 @@
 <template>
   <div class="component-editor">
     <section class="token-section">
-      <h3 class="sub-heading">
-        <span class="tier-badge tier-3">L3</span>
-        {{ componentLabel }} Tokens
-        <span v-if="recipeVersion" class="recipe-version-badge" :title="`Recipe v${recipeVersion}`">{{ recipeVersion }}</span>
-      </h3>
-      <ComponentLockToggle :componentId="componentId" :componentLabel="componentLabel" />
 
-      <p class="sub-desc">
-        Component-level tokens reference semantic (L2) tokens. Override here for theme-specific customization.
-        <template v-if="hasRecipeData"> Grouping from recipe.</template>
-      </p>
+      <!-- Sync Geometry Toggle -->
+      <label class="sync-toggle">
+        <svg v-if="store.state.syncGeometry" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 15l6-6"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072L18 13"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071L6 11"/>
+        </svg>
+        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 15l3-3m2-2 1-1"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072"/><path d="M3 3l18 18"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071"/>
+        </svg>
+        <span class="sync-label">Sync Geometry</span>
+        <button
+          :class="['sync-switch', { on: store.state.syncGeometry }]"
+          role="switch"
+          :aria-checked="store.state.syncGeometry"
+          @click="store.setSyncGeometry(!store.state.syncGeometry)"
+        >
+          <span class="sync-switch__thumb"></span>
+        </button>
+      </label>
 
       <!-- Locked Overlay Notice -->
       <div v-if="isLocked" class="locked-notice">
@@ -33,30 +41,80 @@
       <!-- Token Content (dimmed when locked) -->
       <div :class="{ 'ce-locked': isLocked }">
 
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <!-- Split-Modus: Tabellarische Light/Dark Gegenueberstellung       -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <template v-if="isSplit">
-        <!-- Split Header -->
-        <div class="split-header">
-          <span class="split-header__token">Token</span>
-          <span class="split-header__light">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-            Light
-          </span>
-          <span class="split-header__dark">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
-            Dark
-          </span>
-        </div>
-
-        <!-- Subgroup Accordion im Split-Modus -->
-        <template v-if="hasSubgroups">
-          <template v-for="catGroup in filteredCategoryGroups" :key="catGroup.category">
-            <div v-if="catGroup.category !== 'general'" class="ce-category-divider">
-              <span class="ce-category-label">{{ categoryLabel(catGroup.category) }}</span>
+      <!-- ═══════════════════════════════════════════════════════════════
+           SEKTION 1: ANATOMY (Geometrie-Tokens) — theme-invariant
+           ═══════════════════════════════════════════════════════════════ -->
+      <div v-if="anatomySubgroups.length" class="inspector-section" :class="{ collapsed: !anatomyOpen }">
+        <button class="inspector-section__header" @click="anatomyOpen = !anatomyOpen">
+          <!-- Anatomy Icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7v-2a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+            <rect x="7" y="7" width="10" height="10" rx="1"/>
+          </svg>
+          <span class="inspector-section__title">Anatomy</span>
+          <span class="inspector-section__count">{{ anatomyTokenCount }}</span>
+          <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div v-if="anatomyOpen" class="inspector-section__body">
+          <template v-for="sg in anatomySubgroups" :key="sg.id">
+            <div v-if="anatomySubgroups.length > 1" class="anatomy-group-label">{{ sg.label }}</div>
+            <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
+              <div class="anatomy-row__label">{{ token.label }}</div>
+              <GeometryTokenSelect
+                :token="token"
+                :modelValue="getTokenValue(token)"
+                :isOverridden="isOverridden(token)"
+                @update:modelValue="updateToken(token, $event)"
+              />
+              <!-- Highlight-Icon: visuelles Feedback im Arena -->
+              <button
+                class="anatomy-highlight-btn"
+                @mouseenter="store.setHighlightedToken(token.id, mapTokenToProperty(token.id))"
+                @mouseleave="store.clearHighlightedToken()"
+                title="Im Preview hervorheben"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"/><path d="M21 12c-2.4 4-5.4 6-9 6-3.6 0-6.6-2-9-6 2.4-4 5.4-6 9-6 3.6 0 6.6 2 9 6"/>
+                </svg>
+              </button>
             </div>
-            <div v-for="sg in catGroup.subgroups" :key="sg.id" class="ce-subgroup">
+          </template>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           SEKTION 2: APPEARANCE (Farb-Tokens) — Mirror-Layout Light/Dark
+           ═══════════════════════════════════════════════════════════════ -->
+      <div v-if="appearanceSubgroups.length" class="inspector-section" :class="{ collapsed: !appearanceOpen }">
+        <button class="inspector-section__header" @click="appearanceOpen = !appearanceOpen">
+          <!-- Palette Icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21a9 9 0 0 1 0-18c4.97 0 9 3.582 9 8 0 1.06-.474 2.078-1.318 2.828-.844.75-1.989 1.172-3.182 1.172H14a2 2 0 0 0-1 3.75A1.3 1.3 0 0 1 12 21"/>
+            <circle cx="7.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="12" cy="7.5" r=".5" fill="currentColor"/><circle cx="16.5" cy="10.5" r=".5" fill="currentColor"/>
+          </svg>
+          <span class="inspector-section__title">Appearance</span>
+          <span class="inspector-section__count">{{ appearanceTokenCount }}</span>
+          <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div v-if="appearanceOpen" class="inspector-section__body">
+          <!-- Mirror-Header: Light / Dark -->
+          <div class="mirror-header">
+            <span class="mirror-header__prop">Property</span>
+            <span class="mirror-header__mode">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+              Light
+            </span>
+            <span></span>
+            <span class="mirror-header__mode">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
+              Dark
+            </span>
+          </div>
+
+          <!-- Varianten-Subgroups -->
+          <template v-for="sg in appearanceSubgroups" :key="sg.id">
+            <!-- Subgroup Accordion -->
+            <div class="ce-subgroup">
               <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -69,130 +127,35 @@
               </div>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
                 <template v-for="token in sg.tokens" :key="token.id">
-                  <div :class="['split-row', { diff: tokenValuesDiffer(token) }]" @click="selectToken(token)">
-                    <div class="split-row__info">
-                      <span class="token-label">
-                        {{ token.label }}
-                        <span v-if="token.ref" class="ref-indicator" :title="`Semantic: --fnd-color-${token.ref}`">
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        </span>
-                      </span>
+                  <!-- Mirror Row: Light + Dark nebeneinander -->
+                  <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
+                    <div class="mirror-row__label">
+                      <span class="token-label">{{ token.label }}</span>
                     </div>
-                    <div class="split-row__light">
+                    <div class="mirror-row__light">
                       <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'light') }"></div>
-                      <code class="token-value">{{ getTokenValueForMode(token, 'light') }}</code>
+                      <code class="token-value">{{ formatValue(getTokenValueForMode(token, 'light')) }}</code>
                     </div>
-                    <div class="split-row__dark">
+                    <!-- Mirror Button -->
+                    <button class="mirror-btn" @click.stop="mirrorValue(token, $event)" title="Light → Dark kopieren (Shift: Dark → Light)">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 7h10v10"/><path d="M7 17L17 7"/>
+                      </svg>
+                    </button>
+                    <div class="mirror-row__dark">
                       <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'dark') }"></div>
-                      <code class="token-value">{{ getTokenValueForMode(token, 'dark') }}</code>
+                      <code class="token-value">{{ formatValue(getTokenValueForMode(token, 'dark')) }}</code>
                     </div>
                   </div>
-                </template>
-              </div>
-            </div>
-          </template>
-        </template>
-
-        <!-- Flat-List im Split-Modus -->
-        <div v-else class="token-list">
-          <template v-for="token in tokens" :key="token.id">
-            <div :class="['split-row', { diff: tokenValuesDiffer(token) }]" @click="selectToken(token)">
-              <div class="split-row__info">
-                <span class="token-label">
-                  {{ token.label }}
-                  <span v-if="token.ref" class="ref-indicator" :title="`Semantic: --fnd-color-${token.ref}`">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  </span>
-                </span>
-              </div>
-              <div class="split-row__light">
-                <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'light') }"></div>
-                <code class="token-value">{{ getTokenValueForMode(token, 'light') }}</code>
-              </div>
-              <div class="split-row__dark">
-                <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'dark') }"></div>
-                <code class="token-value">{{ getTokenValueForMode(token, 'dark') }}</code>
-              </div>
-            </div>
-          </template>
-        </div>
-      </template>
-
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <!-- Single-Modus (Light oder Dark): bestehende Ansicht             -->
-      <!-- ═══════════════════════════════════════════════════════════════ -->
-      <template v-else>
-        <!-- ═══ Varianten-Accordion (wenn subgroups vorhanden) ═══ -->
-        <template v-if="hasSubgroups">
-          <template v-for="catGroup in filteredCategoryGroups" :key="catGroup.category">
-            <div v-if="catGroup.category !== 'general'" class="ce-category-divider">
-              <span class="ce-category-label">{{ categoryLabel(catGroup.category) }}</span>
-            </div>
-
-            <div v-for="sg in catGroup.subgroups" :key="sg.id" class="ce-subgroup">
-              <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
-                <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"/>
-                </svg>
-                <span class="ce-subgroup-label">{{ sg.label }}</span>
-                <!-- Mini-Swatch-Strip fuer Farbvarianten -->
-                <div v-if="sg.swatches.length" class="ce-subgroup-swatches">
-                  <span
-                    v-for="(sw, i) in sg.swatches"
-                    :key="i"
-                    class="ce-swatch-dot"
-                    :style="{ background: sw }"
-                    :title="['bg', 'color', 'border'][i]"
-                  ></span>
-                </div>
-                <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
-              </div>
-
-              <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
-                <template v-for="token in sg.tokens" :key="token.id">
-                  <div
-                    :class="['token-row', { selected: selectedId === token.id }]"
-                    @click="selectToken(token)"
-                  >
-                    <div class="token-left">
-                      <div v-if="token.type === 'color'" class="token-swatch" :style="{ background: getTokenValue(token) }"></div>
-                      <div v-else-if="token.type === 'size'" class="token-size-indicator">
-                        <div class="size-bar" :style="{ width: Math.min(parseFloat(getTokenValue(token)), 60) + 'px' }"></div>
-                      </div>
-                      <div v-else class="token-generic-indicator">
-                        <span class="indicator-text">{{ token.type }}</span>
-                      </div>
-                    </div>
-                    <div class="token-info">
-                      <span class="token-label">
-                        {{ token.label }}
-                        <span v-if="token.ref" class="ref-indicator" :title="`Semantic: --fnd-color-${token.ref}`">
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        </span>
-                      </span>
-                      <code class="token-name">--{{ token.id }}</code>
-                    </div>
-                    <div class="token-value-wrap">
-                      <code class="token-value">{{ getTokenValue(token) }}</code>
-                      <span v-if="token.ref" class="ref-badge" :title="`References --fnd-color-${token.ref}`">ref: {{ token.ref }}</span>
-                      <span v-if="isOverridden(token)" class="override-badge">modified</span>
-                    </div>
-                  </div>
-                  <!-- Inline Editor (Accordion) -->
+                  <!-- Inline Editor -->
                   <transition name="slide">
                     <div v-if="selectedId === token.id" class="inline-editor">
-                      <!-- Semantic reference info + reset button -->
                       <div v-if="token.ref" class="semantic-ref-bar">
                         <span class="semantic-ref-label">
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button
-                          v-if="isOverridden(token)"
-                          class="reset-ref-btn"
-                          @click.stop="resetToSemantic(token)"
-                          title="Reset to semantic reference"
-                        >Reset</button>
+                        <button v-if="isOverridden(token)" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Reset</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)"
@@ -200,109 +163,134 @@
                         :title="token.label" :tokenId="token.id"
                         :tokenPalettes="palettes"
                         :contrastTarget="getContrastTarget(token)" />
-                      <SizeEditor v-else-if="token.type === 'size'"
-                        :modelValue="getTokenValue(token)"
-                        @update:modelValue="updateToken(token, $event)"
-                        :title="token.label" :tokenId="token.id" :max="200" />
-                      <div v-else class="generic-editor">
-                        <h3 class="editor-title">{{ token.label }}</h3>
-                        <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
-                      </div>
-                      <!-- Semantic Token Picker -->
-                      <SemanticTokenPicker
-                        v-if="token.ref || token.type === 'color' || token.type === 'size'"
-                        :token="token"
-                        :currentValue="getTokenValue(token)"
-                        @select="updateToken(token, $event)"
-                      />
+                      <SemanticTokenPicker v-if="token.ref || token.type === 'color'"
+                        :token="token" :currentValue="getTokenValue(token)"
+                        @select="updateToken(token, $event)" />
                     </div>
                   </transition>
                 </template>
               </div>
             </div>
           </template>
-        </template>
+        </div>
+      </div>
 
-        <!-- ═══ Flat-List Fallback (keine subgroups) ═══ -->
-        <div v-else class="token-list">
-          <template v-for="token in tokens" :key="token.id">
-            <div
-              :class="['token-row', { selected: selectedId === token.id }]"
-              @click="selectToken(token)"
-            >
-              <div class="token-left">
-                <div
-                  v-if="token.type === 'color'"
-                  class="token-swatch"
-                  :style="{ background: getTokenValue(token) }"
-                ></div>
-                <div v-else-if="token.type === 'size'" class="token-size-indicator">
-                  <div class="size-bar" :style="{ width: Math.min(parseFloat(getTokenValue(token)), 60) + 'px' }"></div>
+      <!-- ═══════════════════════════════════════════════════════════════
+           SEKTION 3: STATES (Hover, Focus, Disabled) — collapsed
+           ═══════════════════════════════════════════════════════════════ -->
+      <div v-if="stateSubgroups.length" class="inspector-section" :class="{ collapsed: !statesOpen }">
+        <button class="inspector-section__header" @click="statesOpen = !statesOpen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/>
+          </svg>
+          <span class="inspector-section__title">States</span>
+          <span class="inspector-section__count">{{ stateTokenCount }}</span>
+          <span class="inspector-section__hint">Hover, Focus, Disabled</span>
+          <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div v-if="statesOpen" class="inspector-section__body">
+          <template v-for="sg in stateSubgroups" :key="sg.id">
+            <div class="ce-subgroup">
+              <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
+                <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+                <span class="ce-subgroup-label">{{ sg.label }}</span>
+                <div v-if="sg.swatches.length" class="ce-subgroup-swatches">
+                  <span v-for="(sw, i) in sg.swatches" :key="i" class="ce-swatch-dot" :style="{ background: sw }"></span>
                 </div>
-                <div v-else class="token-generic-indicator">
-                  <span class="indicator-text">{{ token.type }}</span>
-                </div>
+                <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
               </div>
+              <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
+                <template v-for="token in sg.tokens" :key="token.id">
+                  <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+                    <div class="token-left">
+                      <div v-if="token.type === 'color'" class="token-swatch" :style="{ background: getTokenValue(token) }"></div>
+                      <div v-else-if="token.type === 'size'" class="token-size-indicator">
+                        <div class="size-bar" :style="{ width: Math.min(parseFloat(getTokenValue(token)), 60) + 'px' }"></div>
+                      </div>
+                      <div v-else class="token-generic-indicator"><span class="indicator-text">{{ token.type }}</span></div>
+                    </div>
+                    <div class="token-info">
+                      <span class="token-label">{{ token.label }}</span>
+                      <code class="token-name">--{{ token.id }}</code>
+                    </div>
+                    <div class="token-value-wrap">
+                      <code class="token-value">{{ getTokenValue(token) }}</code>
+                      <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                    </div>
+                  </div>
+                  <transition name="slide">
+                    <div v-if="selectedId === token.id" class="inline-editor">
+                      <div v-if="token.ref" class="semantic-ref-bar">
+                        <span class="semantic-ref-label">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                          Semantic: <code>--fnd-color-{{ token.ref }}</code>
+                        </span>
+                        <button v-if="isOverridden(token)" class="reset-ref-btn" @click.stop="resetToSemantic(token)">Reset</button>
+                      </div>
+                      <ColorEditor v-if="token.type === 'color'"
+                        :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
+                        :title="token.label" :tokenId="token.id" :tokenPalettes="palettes"
+                        :contrastTarget="getContrastTarget(token)" />
+                      <SizeEditor v-else-if="token.type === 'size'"
+                        :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
+                        :title="token.label" :tokenId="token.id" :max="200" />
+                      <div v-else class="generic-editor">
+                        <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                      </div>
+                      <SemanticTokenPicker v-if="token.ref || token.type === 'color' || token.type === 'size'"
+                        :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
+                    </div>
+                  </transition>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
 
+      <!-- ═══════════════════════════════════════════════════════════════
+           SEKTION 4: ADVANCED (Shadows, Opacity, Motion) — collapsed
+           ═══════════════════════════════════════════════════════════════ -->
+      <div v-if="advancedTokens.length" class="inspector-section" :class="{ collapsed: !advancedOpen }">
+        <button class="inspector-section__header" @click="advancedOpen = !advancedOpen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37 1 .608 2.296.07 2.572-1.065z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span class="inspector-section__title">Advanced</span>
+          <span class="inspector-section__count">{{ advancedTokens.length }}</span>
+          <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div v-if="advancedOpen" class="inspector-section__body">
+          <template v-for="token in advancedTokens" :key="token.id">
+            <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+              <div class="token-left">
+                <div class="token-generic-indicator"><span class="indicator-text">{{ token.type }}</span></div>
+              </div>
               <div class="token-info">
-                <span class="token-label">
-                  {{ token.label }}
-                  <span v-if="token.ref" class="ref-indicator" :title="`Semantic: --fnd-color-${token.ref}`">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  </span>
-                </span>
+                <span class="token-label">{{ token.label }}</span>
                 <code class="token-name">--{{ token.id }}</code>
               </div>
-
               <div class="token-value-wrap">
                 <code class="token-value">{{ getTokenValue(token) }}</code>
-                <span v-if="token.ref" class="ref-badge" :title="`References --fnd-color-${token.ref}`">
-                  ref: {{ token.ref }}
-                </span>
                 <span v-if="isOverridden(token)" class="override-badge">modified</span>
               </div>
             </div>
-            <!-- Inline Editor (Flat-List) -->
             <transition name="slide">
               <div v-if="selectedId === token.id" class="inline-editor">
-                <!-- Semantic reference info + reset button -->
-                <div v-if="token.ref" class="semantic-ref-bar">
-                  <span class="semantic-ref-label">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                    Semantic: <code>--fnd-color-{{ token.ref }}</code>
-                  </span>
-                  <button
-                    v-if="isOverridden(token)"
-                    class="reset-ref-btn"
-                    @click.stop="resetToSemantic(token)"
-                    title="Reset to semantic reference"
-                  >Reset</button>
-                </div>
-                <ColorEditor v-if="token.type === 'color'"
-                  :modelValue="getTokenValue(token)"
-                  @update:modelValue="updateToken(token, $event)"
-                  :title="token.label" :tokenId="token.id"
-                  :tokenPalettes="palettes" />
-                <SizeEditor v-else-if="token.type === 'size'"
-                  :modelValue="getTokenValue(token)"
-                  @update:modelValue="updateToken(token, $event)"
+                <SizeEditor v-if="token.type === 'size'"
+                  :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                   :title="token.label" :tokenId="token.id" :max="200" />
                 <div v-else class="generic-editor">
-                  <h3 class="editor-title">{{ token.label }}</h3>
                   <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                 </div>
-                <!-- Semantic Token Picker -->
-                <SemanticTokenPicker
-                  v-if="token.ref || token.type === 'color' || token.type === 'size'"
-                  :token="token"
-                  :currentValue="getTokenValue(token)"
-                  @select="updateToken(token, $event)"
-                />
               </div>
             </transition>
           </template>
         </div>
-      </template>
+      </div>
 
       </div><!-- /ce-locked wrapper -->
 
@@ -326,8 +314,8 @@ import { componentTokenGroups, primitiveColors, supportingPalettes, foundationPa
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 import SizeEditor from '../editors/SizeEditor.vue'
+import GeometryTokenSelect from '../editors/GeometryTokenSelect.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
-import ComponentLockToggle from './ComponentLockToggle.vue'
 import VariantCreator from './VariantCreator.vue'
 
 const props = defineProps({
@@ -339,19 +327,25 @@ const selectedToken = ref(null)
 const selectedId = computed(() => selectedToken.value?.id || null)
 
 // ---------------------------------------------------------------------------
+// Section Collapse State
+// ---------------------------------------------------------------------------
+const anatomyOpen = ref(true)
+const appearanceOpen = ref(true)
+const statesOpen = ref(false)
+const advancedOpen = ref(false)
+
+// ---------------------------------------------------------------------------
 // Recipe Loader (lazy, cached)
 // ---------------------------------------------------------------------------
 const { recipe, loading: recipeLoading } = useRecipeLoader(toRef(props, 'componentId'))
 
 const hasRecipeData = computed(() => !!recipe.value?.styling?.tokenGroups)
-const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 
 // ---------------------------------------------------------------------------
 // Component Lock State
 // ---------------------------------------------------------------------------
 const isLocked = computed(() => store.isComponentLocked(props.componentId))
 
-// Check if recipe has axes that support variant creation
 const hasVariantAxes = computed(() => {
   if (!recipe.value?.axes) return false
   return Object.values(recipe.value.axes).some(axis =>
@@ -360,17 +354,12 @@ const hasVariantAxes = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
-// 3-Mode Support (light / dark / split)
-// ---------------------------------------------------------------------------
-const isSplit = computed(() => store.state.previewMode === 'split')
-
-// ---------------------------------------------------------------------------
 // Arena Selection (kontextuelle Filterung)
 // ---------------------------------------------------------------------------
 const arenaSelection = computed(() => store.state.arenaSelection)
 
 // ---------------------------------------------------------------------------
-// Token Registry from componentTokenGroups (metadata: default, ref, type, label)
+// Token Registry from componentTokenGroups
 // ---------------------------------------------------------------------------
 const registryData = computed(() => {
   return componentTokenGroups.find(c => c.id === props.componentId) || null
@@ -382,7 +371,7 @@ const tokenRegistry = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
-// Component Label (from recipe or registry)
+// Component Label
 // ---------------------------------------------------------------------------
 const componentLabel = computed(() => {
   if (recipe.value?.meta?.component) {
@@ -392,14 +381,14 @@ const componentLabel = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
-// Flat token list (for components without subgroups)
+// Flat token list
 // ---------------------------------------------------------------------------
 const tokens = computed(() => {
   return registryData.value?.tokens || []
 })
 
 // ---------------------------------------------------------------------------
-// Varianten-Accordion (subgroups) — Recipe-driven or legacy fallback
+// Subgroup Building (Recipe-driven or legacy)
 // ---------------------------------------------------------------------------
 const hasSubgroups = computed(() => {
   if (hasRecipeData.value) {
@@ -409,49 +398,23 @@ const hasSubgroups = computed(() => {
 })
 
 const subgroups = computed(() => {
-  if (hasRecipeData.value) {
-    return buildRecipeSubgroups()
-  }
+  if (hasRecipeData.value) return buildRecipeSubgroups()
   return buildLegacySubgroups()
 })
 
-/**
- * Build subgroups from recipe's styling.tokenGroups.
- * Token metadata (default, ref, type, label) comes from the token registry.
- */
 function buildRecipeSubgroups() {
   const recipeGroups = recipe.value.styling.tokenGroups
   const result = []
-
   for (const [groupId, group] of Object.entries(recipeGroups)) {
-    const sgTokens = (group.tokens || [])
-      .map(id => tokenRegistry.value.get(id))
-      .filter(Boolean)
-
+    const sgTokens = (group.tokens || []).map(id => tokenRegistry.value.get(id)).filter(Boolean)
     if (sgTokens.length === 0) continue
-
-    // Bestimme Kategorie aus dem Recipe-Achsen-Kontext
     const category = detectCategory(groupId)
-
-    // Mini-Swatch
     const swatches = buildSwatches(sgTokens, category)
-
-    result.push({
-      id: groupId,
-      label: group.label || groupId,
-      category,
-      tokenIds: sgTokens.map(t => t.id),
-      tokens: sgTokens,
-      swatches
-    })
+    result.push({ id: groupId, label: group.label || groupId, category, tokenIds: sgTokens.map(t => t.id), tokens: sgTokens, swatches })
   }
-
   return result
 }
 
-/**
- * Fallback: Build subgroups from legacy componentTokenGroups structure.
- */
 function buildLegacySubgroups() {
   if (!registryData.value?.subgroups) return []
   const tokenMap = new Map(registryData.value.tokens.map(t => [t.id, t]))
@@ -462,15 +425,10 @@ function buildLegacySubgroups() {
   })
 }
 
-/**
- * Detect category from group ID (heuristic mapping to recipe axes).
- */
 function detectCategory(groupId) {
-  // Wenn Recipe Achsen hat, nutze die Achsenwerte
   if (recipe.value?.axes) {
     for (const [axisId, axis] of Object.entries(recipe.value.axes)) {
       if (axis.values && groupId in axis.values) {
-        // Variant-Achse → 'main', State-Achse → 'state'
         if (axisId === 'variant') return 'main'
         if (axisId === 'severity' || axisId === 'intent') return 'system'
         if (axisId === 'tone') return 'tone'
@@ -478,17 +436,13 @@ function detectCategory(groupId) {
       }
     }
   }
-
-  // Heuristik anhand des Namens
   const lower = groupId.toLowerCase()
-  if (['geometry', 'typography', 'interaction', 'core-geometry', 'core-colors'].includes(lower)) return 'core'
+  if (['geometry', 'typography', 'interaction', 'core-geometry', 'icon-sizing', 'size-scale'].includes(lower)) return 'core'
   if (['disabled', 'error', 'loading', 'spinner'].includes(lower)) return 'state'
+  if (['core-colors'].includes(lower)) return 'core'
   return 'general'
 }
 
-/**
- * Build mini-swatches for a subgroup header.
- */
 function buildSwatches(sgTokens, category) {
   const swatches = []
   if (category && category !== 'core' && category !== 'general') {
@@ -497,55 +451,76 @@ function buildSwatches(sgTokens, category) {
     const borderToken = sgTokens.find(t => t.type === 'color' && t.id.endsWith('-border'))
     if (bgToken) swatches.push(getTokenValue(bgToken))
     if (colorToken) swatches.push(getTokenValue(colorToken))
-    if (borderToken) {
-      const v = getTokenValue(borderToken)
-      if (v !== 'transparent') swatches.push(v)
-    }
+    if (borderToken) { const v = getTokenValue(borderToken); if (v !== 'transparent') swatches.push(v) }
   }
   return swatches
 }
 
 // ---------------------------------------------------------------------------
-// Category Grouping
+// Token Classification: Anatomy / Appearance / States / Advanced
 // ---------------------------------------------------------------------------
-const categoryGroups = computed(() => {
-  const groups = []
-  let lastCat = null
-  for (const sg of subgroups.value) {
-    const cat = sg.category || 'general'
-    if (cat !== lastCat) { groups.push({ category: cat, subgroups: [] }); lastCat = cat }
-    groups[groups.length - 1].subgroups.push(sg)
-  }
-  return groups
-})
 
-const CATEGORY_LABELS = {
-  general: '',
-  main: 'Main Variants',
-  supporting: 'Supporting',
-  system: 'System',
-  state: 'States',
-  patterns: 'Patterns',
-  core: 'Core',
-  tone: 'Tone',
-  emphasis: 'Emphasis'
+// Geometrie-IDs: size, typography, interaction tokens
+const ANATOMY_IDS = new Set(['geometry', 'typography', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry'])
+
+function isAnatomySubgroup(sg) {
+  return ANATOMY_IDS.has(sg.id) || sg.category === 'core'
 }
 
-function categoryLabel(cat) { return CATEGORY_LABELS[cat] || cat }
+function isStateSubgroup(sg) {
+  return sg.category === 'state'
+}
 
-// Filtered subgroups based on arena selection
-const filteredCategoryGroups = computed(() => {
+function isAppearanceSubgroup(sg) {
+  return !isAnatomySubgroup(sg) && !isStateSubgroup(sg)
+}
+
+// Klassifizierte Subgroups (mit Arena-Filter)
+const allFilteredSubgroups = computed(() => {
+  if (!hasSubgroups.value) return subgroups.value
+
   if (!arenaSelection.value || arenaSelection.value.componentId !== props.componentId) {
-    return categoryGroups.value
+    return subgroups.value
   }
   const activeGroups = new Set(arenaSelection.value.tokenGroups)
-  return categoryGroups.value
-    .map(cg => ({
-      ...cg,
-      subgroups: cg.subgroups.filter(sg => activeGroups.has(sg.id))
-    }))
-    .filter(cg => cg.subgroups.length > 0)
+  return subgroups.value.filter(sg => activeGroups.has(sg.id))
 })
+
+const anatomySubgroups = computed(() => allFilteredSubgroups.value.filter(isAnatomySubgroup))
+const appearanceSubgroups = computed(() => {
+  // Nur Farb-Tokens in Appearance anzeigen
+  return allFilteredSubgroups.value
+    .filter(isAppearanceSubgroup)
+    .map(sg => ({
+      ...sg,
+      tokens: sg.tokens.filter(t => t.type === 'color')
+    }))
+    .filter(sg => sg.tokens.length > 0)
+})
+const stateSubgroups = computed(() => allFilteredSubgroups.value.filter(isStateSubgroup))
+
+// Advanced: Tokens die in keine Subgroup fallen oder spezielle Typen
+const advancedTokens = computed(() => {
+  if (!hasSubgroups.value) return []
+  // Sammel-Tokens die weder Anatomie noch Appearance noch States sind
+  const classified = new Set()
+  for (const sg of allFilteredSubgroups.value) {
+    for (const t of sg.tokens) classified.add(t.id)
+  }
+  // Nicht-Farb-Tokens aus Appearance-Subgroups → Advanced
+  const result = []
+  for (const sg of allFilteredSubgroups.value.filter(isAppearanceSubgroup)) {
+    for (const t of sg.tokens) {
+      if (t.type !== 'color') result.push(t)
+    }
+  }
+  return result
+})
+
+// Token-Counts
+const anatomyTokenCount = computed(() => anatomySubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
+const appearanceTokenCount = computed(() => appearanceSubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
+const stateTokenCount = computed(() => stateSubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
 
 const expandedSubgroups = ref(new Set())
 
@@ -561,9 +536,7 @@ function toggleSubgroup(id) {
 function getTokenValue(token) {
   const override = store.currentComponentOverrides.value[token.id]
   if (override !== undefined) return override
-  if (token.ref) {
-    return store.currentSemanticTokens.value[token.ref] || token.default || ''
-  }
+  if (token.ref) return store.currentSemanticTokens.value[token.ref] || token.default || ''
   return token.default || ''
 }
 
@@ -593,23 +566,54 @@ function updateToken(token, value) {
   store.updateComponentToken(token.id, value)
 }
 
-/**
- * Reset a token override back to its semantic reference value.
- */
 function resetToSemantic(token) {
   store.resetComponentToken(token.id)
 }
 
 // ---------------------------------------------------------------------------
-// Token-Palette im primitive-picker Format
+// Mirror Button: Wert zwischen Light/Dark kopieren
+// ---------------------------------------------------------------------------
+function mirrorValue(token, event) {
+  // Shift+Click: Dark → Light, sonst Light → Dark
+  // Da overrides derzeit nicht mode-spezifisch sind, kopiert der Mirror-Button
+  // den resolved Light-Wert als explizites Override (gilt dann fuer beide)
+  const sourceMode = event.shiftKey ? 'dark' : 'light'
+  const value = getTokenValueForMode(token, sourceMode)
+  store.updateComponentToken(token.id, value)
+}
+
+// ---------------------------------------------------------------------------
+// Highlight Property Mapping (fuer Arena-Overlay)
+// ---------------------------------------------------------------------------
+function mapTokenToProperty(tokenId) {
+  if (tokenId.includes('height')) return 'height'
+  if (tokenId.includes('padding-x') || tokenId.includes('padding-inline')) return 'padding-inline'
+  if (tokenId.includes('padding-y') || tokenId.includes('padding-block')) return 'padding-block'
+  if (tokenId.includes('radius')) return 'border-radius'
+  if (tokenId.includes('gap')) return 'gap'
+  if (tokenId.includes('border-width')) return 'border-width'
+  if (tokenId.includes('font-size')) return 'font-size'
+  if (tokenId.includes('line-height')) return 'line-height'
+  return 'box'
+}
+
+// ---------------------------------------------------------------------------
+// Format helpers
+// ---------------------------------------------------------------------------
+function formatValue(val) {
+  if (!val) return '—'
+  // Kuerze lange Hex-Werte oder Token-Referenzen
+  if (val.length > 12) return val.substring(0, 10) + '…'
+  return val
+}
+
+// ---------------------------------------------------------------------------
+// Palette fuer ColorEditor
 // ---------------------------------------------------------------------------
 function palettesToPicker(obj) {
   return Object.entries(obj).map(([id, pal]) => ({
-    id,
-    label: pal.label,
-    shades: Object.entries(pal.shades).map(([step, color]) => ({
-      step, color, token: `--fnd-primitive-${id}-${step}`
-    }))
+    id, label: pal.label,
+    shades: Object.entries(pal.shades).map(([step, color]) => ({ step, color, token: `--fnd-primitive-${id}-${step}` }))
   }))
 }
 
@@ -617,21 +621,15 @@ const palettes = computed(() => {
   const groups = []
   for (const [id, pal] of Object.entries(primitiveColors)) {
     groups.push({
-      id,
-      label: pal.label,
-      shades: Object.entries(pal.shades).map(([step, color]) => ({
-        step, color, token: `--fnd-primitive-${id}-${step}`
-      }))
+      id, label: pal.label,
+      shades: Object.entries(pal.shades).map(([step, color]) => ({ step, color, token: `--fnd-primitive-${id}-${step}` }))
     })
   }
   groups.push(...palettesToPicker(supportingPalettes))
   for (const [id, pal] of Object.entries(neutralPalette)) {
     groups.push({
-      id,
-      label: pal.label,
-      shades: Object.entries(pal.shades).map(([step, color]) => ({
-        step, color, token: `--fnd-primitive-neutral-${step}`
-      }))
+      id, label: pal.label,
+      shades: Object.entries(pal.shades).map(([step, color]) => ({ step, color, token: `--fnd-primitive-neutral-${step}` }))
     })
   }
   groups.push(...palettesToPicker(foundationPalettes))
@@ -649,26 +647,20 @@ function getContrastTarget(token) {
   const siblings = sg ? sg.tokens : tokens.value
 
   if (tokenId.endsWith('-bg') || tokenId.endsWith('-background')) {
-    const colorToken = siblings.find(t =>
-      t.type === 'color' && (t.id.endsWith('-color') || t.id.endsWith('-text'))
-    )
+    const colorToken = siblings.find(t => t.type === 'color' && (t.id.endsWith('-color') || t.id.endsWith('-text')))
     return colorToken ? getTokenValue(colorToken) : ''
   }
-
   if (tokenId.endsWith('-color') || tokenId.endsWith('-text')) {
-    const bgToken = siblings.find(t =>
-      t.type === 'color' && (t.id.endsWith('-bg') || t.id.endsWith('-background'))
-    )
+    const bgToken = siblings.find(t => t.type === 'color' && (t.id.endsWith('-bg') || t.id.endsWith('-background')))
     return bgToken ? getTokenValue(bgToken) : ''
   }
-
   return ''
 }
 </script>
 
 <style scoped>
 .component-editor { display: flex; flex-direction: column; gap: 24px; }
-.token-section { display: flex; flex-direction: column; gap: 16px; }
+.token-section { display: flex; flex-direction: column; gap: 12px; }
 
 .sub-heading {
   font-size: 15px;
@@ -680,27 +672,267 @@ function getContrastTarget(token) {
   gap: 8px;
 }
 
-.sub-desc { font-size: 12px; color: var(--cfg-text-muted); margin: 0; }
 
-.tier-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
+/* ═══════════════════════════════════════════════════════════════
+   Inspector Section Card
+   ═══════════════════════════════════════════════════════════════ */
+
+.inspector-section {
+  border: 1px solid var(--cfg-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s;
 }
 
-.tier-3 { background: #fef3c7; color: #d97706; }
+.inspector-section:hover {
+  border-color: color-mix(in srgb, var(--cfg-text-muted) 30%, transparent);
+}
 
-.recipe-version-badge {
-  font-size: 9px;
+.inspector-section__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cfg-text-muted);
+  transition: background 0.1s;
+}
+
+.inspector-section__header:hover {
+  background: var(--cfg-surface-elevated);
+}
+
+.inspector-section__title {
+  color: var(--cfg-text);
+  font-size: 12px;
+}
+
+.inspector-section__count {
+  font-size: 10px;
   font-weight: 600;
   padding: 1px 5px;
-  border-radius: 3px;
-  background: #dbeafe;
-  color: #1d4ed8;
-  margin-left: auto;
+  border-radius: 4px;
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text-muted);
+  font-variant-numeric: tabular-nums;
 }
+
+.inspector-section__hint {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--cfg-text-muted);
+  opacity: 0.7;
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.inspector-section__chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+  color: var(--cfg-text-muted);
+}
+
+.inspector-section__hint + .inspector-section__chevron {
+  margin-left: 0;
+}
+
+.inspector-section.collapsed .inspector-section__chevron {
+  transform: rotate(-90deg);
+}
+
+.inspector-section__body {
+  border-top: 1px solid var(--cfg-border);
+  padding: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Anatomy Section
+   ═══════════════════════════════════════════════════════════════ */
+
+.anatomy-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cfg-text-muted);
+  padding: 8px 8px 4px;
+}
+
+.anatomy-row {
+  display: grid;
+  grid-template-columns: 1fr auto 28px;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.1s;
+}
+
+.anatomy-row:hover {
+  background: var(--cfg-surface-elevated);
+}
+
+.anatomy-row__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cfg-text);
+}
+
+.anatomy-row__value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.anatomy-row__bar {
+  width: 40px;
+  height: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.anatomy-value-code {
+  font-size: 11px;
+  color: var(--cfg-text-muted);
+  background: var(--cfg-surface-elevated);
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  border: 1px solid transparent;
+}
+
+.anatomy-value-code:hover {
+  border-color: var(--cfg-accent);
+}
+
+.override-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d97706;
+  flex-shrink: 0;
+}
+
+.anatomy-highlight-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cfg-text-muted);
+  cursor: pointer;
+  opacity: 0.4;
+  transition: all 0.15s;
+}
+
+.anatomy-highlight-btn:hover {
+  opacity: 1;
+  color: #06b6d4;
+  background: color-mix(in srgb, #06b6d4 12%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Appearance Section — Mirror Layout
+   ═══════════════════════════════════════════════════════════════ */
+
+.mirror-header {
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) 1fr 28px 1fr;
+  gap: 4px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cfg-text-muted);
+  border-bottom: 1px solid var(--cfg-border);
+  margin-bottom: 4px;
+}
+
+.mirror-header__prop { }
+
+.mirror-header__mode {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mirror-row {
+  display: grid;
+  grid-template-columns: minmax(80px, 1fr) 1fr 28px 1fr;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.mirror-row:hover { background: var(--cfg-surface-elevated); }
+
+.mirror-row.selected {
+  border-color: var(--cfg-accent);
+  background: var(--cfg-accent-subtle);
+}
+
+.mirror-row.diff {
+  background: color-mix(in srgb, #fbbf24 8%, transparent);
+}
+
+.mirror-row.diff:hover {
+  background: color-mix(in srgb, #fbbf24 15%, transparent);
+}
+
+.mirror-row__label {
+  min-width: 0;
+}
+
+.mirror-row__light,
+.mirror-row__dark {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.mirror-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--cfg-text-muted);
+  cursor: pointer;
+  opacity: 0.3;
+  transition: all 0.15s;
+}
+
+.mirror-btn:hover {
+  opacity: 1;
+  color: var(--cfg-accent);
+  background: var(--cfg-accent-subtle);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Shared Token Styles (reused across sections)
+   ═══════════════════════════════════════════════════════════════ */
 
 .token-list { display: flex; flex-direction: column; gap: 2px; }
 
@@ -738,6 +970,14 @@ function getContrastTarget(token) {
   height: 28px;
   border-radius: 6px;
   border: 1px solid var(--cfg-border);
+}
+
+.token-swatch--sm {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--cfg-border);
+  flex-shrink: 0;
 }
 
 .token-size-indicator {
@@ -809,6 +1049,7 @@ function getContrastTarget(token) {
   font-weight: 600;
 }
 
+/* Inline Editor */
 .inline-editor {
   padding: 16px;
   background: var(--cfg-surface);
@@ -817,6 +1058,7 @@ function getContrastTarget(token) {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin: 4px 0;
 }
 
 .semantic-ref-bar {
@@ -876,7 +1118,7 @@ function getContrastTarget(token) {
   font-family: monospace;
 }
 
-/* Varianten-Accordion */
+/* Subgroup Accordion */
 .ce-category-divider {
   display: flex;
   align-items: center;
@@ -960,71 +1202,6 @@ function getContrastTarget(token) {
   padding: 4px;
 }
 
-/* Split-Modus */
-.split-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  padding: 6px 12px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--cfg-text-muted);
-  border-bottom: 1px solid var(--cfg-border);
-}
-
-.split-header__light,
-.split-header__dark {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.split-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.1s;
-  align-items: center;
-}
-
-.split-row:hover { background: var(--cfg-surface-elevated); }
-
-.split-row.diff {
-  background: color-mix(in srgb, #fbbf24 8%, transparent);
-}
-
-.split-row.diff:hover {
-  background: color-mix(in srgb, #fbbf24 15%, transparent);
-}
-
-.split-row__info {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.split-row__light,
-.split-row__dark {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-}
-
-.token-swatch--sm {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1px solid var(--cfg-border);
-  flex-shrink: 0;
-}
-
 /* Context Bar */
 .context-bar {
   display: flex;
@@ -1072,11 +1249,56 @@ function getContrastTarget(token) {
   font-weight: 500;
 }
 
-/* Dim token list when locked */
 .ce-locked {
   opacity: 0.55;
   pointer-events: none;
   user-select: none;
+}
+
+/* ── Sync Geometry Toggle ── */
+.sync-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--cfg-text-secondary);
+  user-select: none;
+}
+
+.sync-label { flex: 1; }
+
+.sync-switch {
+  position: relative;
+  width: 34px;
+  height: 20px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 10px;
+  background: var(--cfg-surface-elevated);
+  cursor: pointer;
+  transition: all 150ms ease;
+  padding: 0;
+}
+
+.sync-switch.on {
+  background: var(--cfg-accent);
+  border-color: var(--cfg-accent);
+}
+
+.sync-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 150ms ease;
+}
+
+.sync-switch.on .sync-switch__thumb {
+  transform: translateX(14px);
 }
 
 .slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }
