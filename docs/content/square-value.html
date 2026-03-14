@@ -220,27 +220,21 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Foundation-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Element / Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>W&uuml;rfelfl&auml;che background</td><td><code class="docs__token">var(--fnd-color-background-inverse)</code></td><td>Dunkler Hintergrund der Standard-Fl&auml;chen</td></tr>
-                <tr><td>W&uuml;rfelfl&auml;che border-radius</td><td><code class="docs__token">var(--fnd-radius-lg)</code></td><td>Abgerundete Ecken</td></tr>
-                <tr><td>W&uuml;rfelfl&auml;che padding (desktop)</td><td><code class="docs__token">var(--fnd-spacing-05)</code></td><td>Innenabstand oben/unten, Desktop</td></tr>
-                <tr><td>Titel-Farbe</td><td><code class="docs__token">var(--fnd-color-text-inverse)</code></td><td>Text auf inversem Hintergrund</td></tr>
-                <tr><td>Zahl-Farbe</td><td><code class="docs__token">var(--fnd-color-text-inverse)</code></td><td>Zahl-Text auf inversem Hintergrund</td></tr>
-                <tr><td>Green-Theme bg</td><td><code class="docs__token">var(--fnd-color-background-accent-green)</code></td><td>Gr&uuml;ne Variante via <code class="docs__token">.green-theme</code></td></tr>
-                <tr><td>Bild-Fl&auml;che bg</td><td>transparent</td><td>Kein Hintergrund, wenn <code class="docs__token">&lt;picture&gt;</code> vorhanden</td></tr>
-                <tr><td>Bild aspect-ratio</td><td><code class="docs__token">var(--fnd-media-ratio-1-1)</code></td><td>Quadratisches Seitenverh&auml;ltnis</td></tr>
-                <tr><td>Inner gap (mobile)</td><td><code class="docs__token">var(--fnd-spacing-02)</code></td><td>Abstand zwischen den W&uuml;rfeln</td></tr>
-                <tr><td>Inner gap (desktop)</td><td><code class="docs__token">var(--fnd-spacing-03)</code></td><td>Abstand zwischen den W&uuml;rfeln, Desktop</td></tr>
-                <tr><td>Char-Animation transition</td><td><code class="docs__token">var(--fnd-motion-duration-300)</code></td><td>Zeichen-Animation (translateY 50px &rarr; 0)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+
+        </div>
           </section>
 
           <section class="docs__section" id="style-css-vars">
@@ -267,21 +261,85 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.square-value-wrapper</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-*</code>) + Layout-Vars (<code class="docs__token">--square-*</code>)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_square-value.scss</code></td></tr>
-                <tr><td><strong>3D-Methode</strong></td><td>CSS <code class="docs__token">transform-style: preserve-3d</code> + <code class="docs__token">rotateX/Y</code></td></tr>
-                <tr><td><strong>Rotationsachse Default</strong></td><td>X-Achse (horizontal, &ldquo;Trommel&rdquo;)</td></tr>
-                <tr><td><strong>Rotationsachse vertikal</strong></td><td>Y-Achse (via Modifier-Klassen)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.square-value</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">square-value</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--square-value-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.square-value</code></td><td>Block</td><td>square-value-Container</td></tr>
+      <tr><td><code class="docs__token">.square-value-wrapper</code></td><td>Element</td><td>wrapper</td></tr>
+      <tr><td><code class="docs__token">.square-wrapper</code></td><td>Element</td><td>square-wrapper</td></tr>
+      <tr><td><code class="docs__token">.square-block</code></td><td>Element</td><td>square-block</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Orientation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>horizontal</td><td>Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical</td></tr>
+      <tr><td><code class="docs__token">.mobile-vertical</code></td><td>mobile-vertical</td><td>Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical</td></tr>
+      <tr><td><code class="docs__token">.tablet-vertical</code></td><td>tablet-vertical</td><td>Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical</td></tr>
+      <tr><td><code class="docs__token">.desktop-vertical</code></td><td>desktop-vertical</td><td>Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text</td><td>Inhalt der Wuerfel-Flaechen — text, image, video</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>image</td><td>Inhalt der Wuerfel-Flaechen — text, image, video</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>video</td><td>Inhalt der Wuerfel-Flaechen — text, image, video</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>3D-Wuerfel: transform-style preserve-3d, rotateX/rotateY fuer Flaechen.</li>
+    <li>4 Faces pro Wuerfel: background-inverse, radius-sm, text-inverse.</li>
+    <li>Richtungs-Varianten: mobile-vertical, tablet-vertical, desktop-vertical.</li>
+    <li>Animationen: enter (scale 0→1), exit (scale→0), rotate-once/-twice/-thrice, char-square Textanimation.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+
+        </div>
           </section>
 
           <section class="docs__section" id="api-classes">
@@ -393,83 +451,29 @@ transform: translateZ(-offset) rotateX(var(--rotate, 0deg));</pre>
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Die Square-Value-Komponente ist hochgradig animiert. F&uuml;r Nutzer mit Bewegungsempfindlichkeit
-            und Screenreader-Nutzer sind besondere Ma&szlig;nahmen erforderlich.
-          </p>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Reduced Motion: Animation deaktivieren</h4>
-              <ul>
-                <li>Die globale <code class="docs__token">prefers-reduced-motion: reduce</code>-Regel im Design-System reduziert alle Transitions</li>
-                <li>Die JS-Rotation-Logik <strong>muss</strong> zus&auml;tzlich pr&uuml;fen und die Rotation bei Reduced Motion stoppen</li>
-                <li>Ohne Animation sollten alle Werte als statische Kacheln sichtbar bleiben</li>
-                <li>WCAG 2.3.3 (AAA) und 2.3.1 (AA: keine Blitzeffekte) m&uuml;ssen eingehalten werden</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6M12 9v6"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Screenreader: Inhalte aller Fl&auml;chen zug&auml;nglich machen</h4>
-              <ul>
-                <li>Alle nicht-sichtbaren Fl&auml;chen m&uuml;ssen f&uuml;r Screenreader trotzdem lesbar sein</li>
-                <li><code class="docs__token">visibility: hidden</code> auf Faces entfernt diese aus der Accessibility-Tree &mdash; stattdessen <code class="docs__token">aria-hidden</code> nur auf w&auml;hrend der Transition verborgene Fl&auml;chen setzen</li>
-                <li>Alternativ: Zusammenfassung aller Werte als versteckter Text (<code class="docs__token">.u-sr-only</code>) im Container</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Bilder und Videos</h4>
-              <ul>
-                <li>Bild-Fl&auml;chen (<code class="docs__token">&lt;picture&gt;</code>): <code class="docs__token">alt</code>-Text am <code class="docs__token">&lt;img&gt;</code> setzen</li>
-                <li>Dekorative Bilder: <code class="docs__token">alt=""</code> (leer)</li>
-                <li>Videos: <code class="docs__token">muted autoplay</code> nur mit <code class="docs__token">playsinline</code>; Pause-M&ouml;glichkeit anbieten (WCAG 2.2.2)</li>
-                <li>Kein Auto-Play ohne Pause-Kontrolle f&uuml;r Videos l&auml;nger als 5 Sekunden</li>
-              </ul>
-            </div>
-          </div>
-
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: SR-Only-Zusammenfassung aller Werte --&gt;
-&lt;div class="square-value-wrapper"&gt;
-  &lt;!-- Screenreader-freundliche Zusammenfassung --&gt;
-  &lt;dl class="u-sr-only"&gt;
-    &lt;dt&gt;Kunden&lt;/dt&gt;&lt;dd&gt;2.500+&lt;/dd&gt;
-    &lt;dt&gt;Uptime&lt;/dt&gt;&lt;dd&gt;99.9%&lt;/dd&gt;
-    &lt;dt&gt;L&auml;nder&lt;/dt&gt;&lt;dd&gt;47&lt;/dd&gt;
-  &lt;/dl&gt;
-  &lt;!-- Visuelle Animation (aria-hidden) --&gt;
-  &lt;div class="square-value" aria-hidden="true"&gt;
-    &hellip;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Reduced Motion im JS --&gt;
-&lt;script&gt;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function rotateCube() {
-  if (reducedMotion) return; // Animation &uuml;berspringen
-  // Rotations-Logik&hellip;
-}
-&lt;/script&gt;
-
-&lt;!-- FALSCH: Kein alt-Text auf Bild-Fl&auml;chen --&gt;
-&lt;div&gt;&lt;picture&gt;&lt;img src="img.jpg" /&gt;&lt;/picture&gt;&lt;/div&gt;
-
-&lt;!-- FALSCH: Alle Fl&auml;chen ohne jede SR-Ank&uuml;ndigung --&gt;
-&lt;div class="square-value" aria-hidden="true"&gt;
-  &lt;!-- Kein u-sr-only Ersatztext --&gt;
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Dekorativ/informativ. prefers-reduced-motion: 3D-Rotation und Char-Animation stoppen. Text auf inverse BG muss kontrastreich sein.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA large text (3:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

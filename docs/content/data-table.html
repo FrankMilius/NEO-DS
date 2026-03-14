@@ -773,138 +773,301 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Token-Referenz</h2>
-            <p class="docs__section-desc">Alle <code class="docs__token">--nc-dt-*</code> Component-Tokens. Ueberschreibbar auf jedem Scope.</p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default-Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-dt-row-height</code></td><td>40px</td><td>Aktive Zeilenhoehe (Alias)</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-row-height-compact</code></td><td>32px</td><td>Compact-Zeilenhoehe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-row-height-comfortable</code></td><td>48px</td><td>Comfortable-Zeilenhoehe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-cell-padding-x</code></td><td>16px</td><td>Horizontales Cell-Padding</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-cell-padding-y</code></td><td>12px</td><td>Vertikales Cell-Padding</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-header-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Header-Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Header-Textfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-body-bg</code></td><td>var(--fnd-color-background-base)</td><td>Body-Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-row-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>Hover-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-row-bg-selected</code></td><td>var(--fnd-color-layer-02)</td><td>Selektierte Zeile</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-row-bg-stripe</code></td><td>var(--fnd-color-layer-01)</td><td>Zebra-Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-radius</code></td><td>8px</td><td>Container-Radius</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-batch-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>Batch-Bar-Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-batch-color</code></td><td>var(--fnd-color-text-inverse)</td><td>Batch-Bar-Textfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-error-border</code></td><td>var(--fnd-color-border-danger)</td><td>Error-State-Randfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
-                <!-- Spaltentyp-Tokens -->
-                <tr><td colspan="3" style="font-weight:var(--fnd-font-weight-semibold);background:var(--fnd-color-background-secondary)">Spaltentypen</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-link-color</code></td><td>var(--fnd-color-text-link)</td><td>Link-Textfarbe (Email, URL)</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-link-color-hover</code></td><td>var(--fnd-color-text-link-hover)</td><td>Link-Hover-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-link-icon-size</code></td><td>14px</td><td>URL-Link-Icon-Groesse</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-radio-column-width</code></td><td>52px</td><td>Radio-Spaltenbreite</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-user-avatar-size</code></td><td>32px</td><td>Avatar-Groesse in User-Spalte</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-user-gap</code></td><td>12px</td><td>Abstand Avatar/Text</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-user-name-font-weight</code></td><td>semibold</td><td>Name-Schriftstärke</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-user-email-font-size</code></td><td>12px</td><td>Email-Schriftgroesse</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-height</code></td><td>6px</td><td>Progress-Bar-Hoehe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>Progress-Track</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-fill</code></td><td>var(--fnd-color-interactive-default)</td><td>Progress-Fuellfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-fill-success</code></td><td>var(--fnd-color-feedback-success)</td><td>Fortschritt: Erfolg</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-fill-warning</code></td><td>var(--fnd-color-feedback-warning)</td><td>Fortschritt: Warnung</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-fill-danger</code></td><td>var(--fnd-color-feedback-danger)</td><td>Fortschritt: Gefahr</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-progress-radius</code></td><td>9999px</td><td>Progress-Radius (Pill)</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-actions-gap</code></td><td>4px</td><td>Abstand zwischen Action-Buttons</td></tr>
-                <tr><th colspan="3" style="padding-top:var(--fnd-spacing-04);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--fnd-color-text-secondary)">Table Title Bar</th></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-bar-padding</code></td><td>16px 16px 0</td><td>Padding der Title Bar</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-bar-gap</code></td><td>8px</td><td>Abstand Titel ↔ Beschreibung</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-font-size</code></td><td>heading-m</td><td>Schriftgroesse des Tabellentitels</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-font-weight</code></td><td>semibold</td><td>Schriftstaerke des Titels</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-color</code></td><td>text-primary</td><td>Farbe des Titels</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-title-line-height</code></td><td>1.3</td><td>Zeilenhoehe des Titels</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-description-font-size</code></td><td>body-m</td><td>Schriftgroesse der Beschreibung</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-description-color</code></td><td>text-secondary</td><td>Farbe der Beschreibung</td></tr>
-                <tr><td><code class="docs__token">--nc-dt-description-line-height</code></td><td>1.5</td><td>Zeilenhoehe der Beschreibung</td></tr>
-                <tr><th colspan="3" style="padding-top:var(--fnd-spacing-04);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--fnd-color-text-secondary)">Pagination: Page-Jump</th></tr>
-                <tr><td><code class="docs__token">--nc-dt-page-select-width</code></td><td>72px</td><td>Breite des Seiten-Jump-Selects</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-radius</code></td><td>var(--fnd-radius-sm)</td><td>4px — ref(radius.sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-border</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-bg</code></td><td>var(--fnd-color-background-base)</td><td>ref(color.surface.default)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-color</code></td><td>var(--fnd-color-text-primary)</td><td>ref(color.text.primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-font-size</code></td><td>var(--fs-sm)</td><td>14px — ref(font.size.sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-font-weight</code></td><td>var(--fnd-font-weight-regular)</td><td>ref(font.weight.regular)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-scroll-shadow-size</code></td><td>24px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Header</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-header-height</code></td><td>44px</td><td>FALLBACK size.header.md</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>ref(color.surface.muted)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td>ref(color.text.secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-font-size</code></td><td>var(--fs-sm)</td><td>14px — ref(font.size.sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>ref(font.weight.semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-letter-spacing</code></td><td>normal</td><td>ref(font.tracking.normal)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-border-bottom</code></td><td>var(--fnd-border-width-sm) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Row</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-row-height</code></td><td>var(--nc-dt-row-height-default)</td><td>Alias – per Modifier ueberschrieben</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-compact</code></td><td>var(--fnd-size-sm)</td><td>32px — size.row.sm</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-default</code></td><td>var(--fnd-size-md)</td><td>40px — size.row.md</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-comfortable</code></td><td>var(--fnd-size-lg)</td><td>48px — size.row.lg</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-cell-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>16px — ref(space.4)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-cell-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>12px — ref(space.3)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-border-bottom</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>ref(color.surface.hover)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-selected</code></td><td>var(--fnd-color-layer-02)</td><td>ref(color.surface.selected)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-stripe</code></td><td>var(--fnd-color-layer-01)</td><td>ref(color.surface.alt)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toolbar</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-height</code></td><td>48px</td><td>FALLBACK size.toolbar.md</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-bg</code></td><td>var(--fnd-color-background-base)</td><td>ref(color.surface.default)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-border-bottom</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-gap</code></td><td>var(--fnd-spacing-03)</td><td>ref(space.3)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-search-min-width</code></td><td>240px</td><td>FALLBACK size.input.lg</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-select-width</code></td><td>120px</td><td>FALLBACK size.select.md</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Pagination</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-pagination-height</code></td><td>48px</td><td>FALLBACK size.pagination.md</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-bg</code></td><td>var(--fnd-color-background-base)</td><td>ref(color.surface.default)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-border-top</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-gap</code></td><td>var(--fnd-spacing-03)</td><td>ref(space.3)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-page-select-width</code></td><td>72px</td><td>Breite des Seiten-Jump-Selects</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Title Bar</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-title-bar-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-04) 0</td><td>16px 16px 0</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-bar-gap</code></td><td>var(--fnd-spacing-02)</td><td>8px — ref(card.header.gap)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-font-size</code></td><td>var(--fnd-typography-heading-m-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>ref(card.title.weight)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>ref(card.title.color)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-line-height</code></td><td>1.3</td><td>ref(card.title.lh)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td>ref(card.desc.color)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-line-height</code></td><td>1.5</td><td>ref(card.desc.lh)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Link &amp; Actions</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-link-color</code></td><td>var(--fnd-color-text-link)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-color-hover</code></td><td>var(--fnd-color-text-link-hover)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-icon-size</code></td><td>14px</td><td>FALLBACK</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-date-font-feature</code></td><td>'tnum'</td><td>tabular-nums</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-actions-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-action-column-width</code></td><td>52px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-action-icon-size</code></td><td>var(--nc-icon-size-sm)</td><td>20px — ref(size.icon.md)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Skeleton</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-radius</code></td><td>var(--fnd-radius-sm)</td><td>ref(radius.sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-shimmer</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-avatar</code></td><td>32px</td><td>Runder Skeleton (Avatar)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-numeric</code></td><td>48px</td><td>Schmaler Skeleton (Zahlen)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-text</code></td><td>75%</td><td>Standard-Breite</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Empty &amp; Error</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-empty-icon-size</code></td><td>32px</td><td>FALLBACK size.icon.lg → nc-icon-size-xl</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-empty-title-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-empty-body-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-error-border</code></td><td>var(--fnd-color-border-danger)</td><td>ref(color.border.danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-error-color</code></td><td>var(--fnd-color-text-danger)</td><td>ref(color.text.danger)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sort</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-size</code></td><td>16px</td><td>FALLBACK size.icon.sm → nc-icon-size-xs</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-color</code></td><td>var(--nc-icon-color-secondary)</td><td>ref(color.icon.muted)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-color-active</code></td><td>var(--nc-icon-color-default)</td><td>ref(color.icon.primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-hit-area</code></td><td>var(--nc-icon-touch-target)</td><td>44px — ref(size.hitTarget.md)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Checkbox</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-checkbox-column-width</code></td><td>52px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-checkbox-padding-x</code></td><td>var(--fnd-spacing-03)</td><td>ref(space.3)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Radio</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-radio-column-width</code></td><td>52px</td><td>FALLBACK — identisch Checkbox</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-radio-padding-x</code></td><td>var(--fnd-spacing-03)</td><td>ref(space.3)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Expand</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-expand-icon-size</code></td><td>var(--nc-icon-size-xs)</td><td>16px — ref(size.icon.sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-column-width</code></td><td>52px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-panel-bg</code></td><td>var(--fnd-color-layer-01)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-panel-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-06)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Batch</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-batch-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>ref(color.surface.inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-color</code></td><td>var(--fnd-color-text-inverse)</td><td>ref(color.text.inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-height</code></td><td>var(--nc-dt-toolbar-height)</td><td>ref(size.toolbar.md)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>Shadow fuer schwebende Batch-Bar</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-count-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-clear-color</code></td><td>color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">User Column</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-user-avatar-size</code></td><td>32px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-name-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-name-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-email-font-size</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-email-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Progress Column</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-progress-height</code></td><td>6px</td><td>FALLBACK</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-success</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-warning</code></td><td>var(--fnd-color-feedback-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-danger</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-radius</code></td><td>var(--fnd-radius-full)</td><td>Pill</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-label-width</code></td><td>36px</td><td>FALLBACK — Platz fuer &quot;100%&quot;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-label-font-size</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Stacked Layout</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-gap</code></td><td>var(--fnd-spacing-03)</td><td>Gap zwischen Cards</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-padding</code></td><td>var(--fnd-spacing-04)</td><td>Padding in Cards</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-radius</code></td><td>var(--fnd-radius-sm)</td><td>Card-Ecken</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-border</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-width</code></td><td>120px</td><td>Label-Breite in Card-Zeilen</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Label-Farbe</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sticky Columns</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-shadow</code></td><td>4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-shadow-end</code></td><td>-4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-bg</code></td><td>var(--nc-dt-body-bg)</td><td>BG fuer sticky Columns (ueberlagert Row-BG)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Card Variant</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-card-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>Card-Elevation</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-card-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Glass Variant</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-glass-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-base) 60%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-header-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-secondary) 40%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-border</code></td><td>var(--fnd-border-width-xs) solid color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-backdrop-blur</code></td><td>8px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content Wrapping</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dt-cell-line-clamp</code></td><td>1</td><td>Zeilen-Limit bei wrap-Modus</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
-          <section class="docs__section" id="style-override">
-            <h2 class="docs__section-title">Theme-Override Beispiel</h2>
-            <div class="docs__code-block">/* Eigene Tabelle mit erhoehtem Radius und Akzent-Header */
-.my-section .nc-data-table {
-  --nc-dt-radius: var(--fnd-radius-2xl);
-  --nc-dt-header-bg: var(--fnd-color-interactive-default);
-  --nc-dt-header-color: var(--fnd-color-text-on-interactive);
-}</div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen</h2>
-            <div class="docs__code-block">.nc-data-table                      // Block (Wrapper)
-  --compact                         // Modifier: 32px rows
-  --comfortable                     // Modifier: 48px rows
-  --striped                         // Modifier: Zebra-Streifen
-  --bordered                        // Modifier: Zell-Raender
-  --sticky-header                   // Modifier: Sticky Header
-  --loading                         // Modifier: Lade-Zustand
-  --error                           // Modifier: Fehler-Zustand
-  __title-bar                       // Table Header (Titel + Beschreibung)
-  __title                           // Tabellen-Titel (Pflicht)
-  __description                     // Tabellen-Beschreibung (optional)
-  __toolbar                         // Toolbar (Search, Filter, Actions)
-  __search                          // Such-Input-Wrapper
-  __toolbar-actions                 // Flex-Container (Buttons rechts)
-  __batch-bar                       // Batch-Actions-Leiste
-  __batch-count                     // Zaehler
-  __batch-actions                   // Action-Buttons
-  __batch-cancel                    // Abbrechen-Button
-  __scroll-container                // Horizontaler Scroll
-  __table                           // &lt;table&gt;
-  __thead / __tbody                 // Gruppen
-  __row                             // &lt;tr&gt;
-  __row--expand                     // Expansion-Zeile
-  __th / __td                       // Zellen
-  __th--numeric / __td--numeric     // Rechtsbuendig
-  __sort-button                     // Sort-Trigger
-  __sort-icon                       // Sort-Pfeil
-  __checkbox-cell                   // Checkbox-Spalte
-  __expand-cell                     // Expand-Spalte
-  __expand-button                   // Expand-Toggle
-  __expand-panel                    // Detail-Inhalt
-  __action-cell                     // Action-Spalte (einzeln)
-  __action-menu                     // Kebab-Button
-  __pagination                      // Pagination-Bereich
-  __rows-per-page / __rows-select   // Rows-per-Page
-  __page-info / __page-buttons      // Seiten-Info/Buttons
-  __page-select                     // Page-Jump-Wrapper (Seite X von Y)
-  __page-select-input               // Page-Jump Select-Element
-  __empty / __empty-icon / __empty-title  // Leerzustand
-  __error                           // Fehlerzustand
-  __skeleton-row / __skeleton-bar   // Lade-Skeleton
-
-  // -- Spaltentyp-Modifier (Column Data Types) --
-  __td--email                       // Email-Link-Spalte
-  __td--date / __th--date           // Datum-Spalte (tabular-nums)
-  __td--link                        // URL-Link mit Icon
-  __td--status / __th--status       // Status/Badge-Spalte (zentriert)
-  __td--user                        // User-Identity-Spalte
-  __td--progress                    // Progress-Bar-Spalte
-  __td--actions                     // Multi-Action-Spalte
-  __radio-cell                      // Radio-Selection-Spalte
-  __user-info                       // Flex-Wrapper (Avatar + Text)
-  __user-text                       // Stacked Name/Email
-  __user-name                       // Name (fett)
-  __user-email                      // Email (sekundaer)
-  __progress-wrapper                // Flex-Wrapper (Bar + Label)
-  __progress-bar                    // Track-Element
-  __progress-fill                   // Fuell-Element
-  __progress-fill--success/warning/danger  // Farb-Varianten
-  __progress-label                  // Prozent-Anzeige
-  __actions-wrapper                 // Flex-Wrapper fuer Buttons</div>
-          </section>
         </div><!-- /tab-style -->
 
         <!-- ============================================================ -->
@@ -912,200 +1075,290 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-data-table</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-dt-*</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_data-table.scss</code></td></tr>
-                <tr><td><strong>JS-Datei</strong></td><td><code class="docs__token">js/data-table.js</code></td></tr>
-                <tr><td><strong>Auto-Init</strong></td><td><code class="docs__token">setupDataTables()</code> &mdash; alle <code>[data-dt-id]</code></td></tr>
-                <tr><td><strong>Manuell</strong></td><td><code class="docs__token">setupDataTable(container, options)</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-data-table</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-data-table</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-data-table-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-data-table</code></td><td>Block</td><td>data-table-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__title-bar</code></td><td>Element (optional)</td><td>title-bar</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__title</code></td><td>Element (optional)</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__description</code></td><td>Element (optional)</td><td>description</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__toolbar</code></td><td>Element (optional)</td><td>toolbar</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__scroll-container</code></td><td>Element</td><td>scroll-container</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__table</code></td><td>Element</td><td>table</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__thead</code></td><td>Element</td><td>thead</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__tbody</code></td><td>Element</td><td>tbody</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__row</code></td><td>Element</td><td>row</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__th</code></td><td>Element</td><td>th</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__td</code></td><td>Element</td><td>td</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__sort-button</code></td><td>Element (optional)</td><td>sort-button</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__checkbox-cell</code></td><td>Element (optional)</td><td>checkbox-cell</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__radio-cell</code></td><td>Element (optional)</td><td>radio-cell</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__expand-button</code></td><td>Element (optional)</td><td>expand-button</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__expand-panel</code></td><td>Element (optional)</td><td>expand-panel</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__action-menu</code></td><td>Element (optional)</td><td>action-menu</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__batch-bar</code></td><td>Element (optional)</td><td>batch-bar</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__batch-count</code></td><td>Element (optional)</td><td>batch-count</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__batch-clear</code></td><td>Element (optional)</td><td>batch-clear</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__pagination</code></td><td>Element (optional)</td><td>pagination</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__empty</code></td><td>Element (optional)</td><td>empty</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__error</code></td><td>Element (optional)</td><td>error</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__skeleton-bar</code></td><td>Element (optional)</td><td>skeleton-bar</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table__td::before</code></td><td>Element (optional)</td><td>stacked-label</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Density-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Zeilendichte — default (40px), compact (32px), comfortable (48px)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--compact</code></td><td>compact</td><td>Zeilendichte — default (40px), compact (32px), comfortable (48px)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--comfortable</code></td><td>comfortable</td><td>Zeilendichte — default (40px), compact (32px), comfortable (48px)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Feature-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>basic</td><td>Feature-Set — basic, sortable, selectable, expandable</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--sortable</code></td><td>sortable</td><td>Feature-Set — basic, sortable, selectable, expandable</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--selectable</code></td><td>selectable</td><td>Feature-Set — basic, sortable, selectable, expandable</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--expandable</code></td><td>expandable</td><td>Feature-Set — basic, sortable, selectable, expandable</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Selection Mode-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Zeilen-Auswahl — none, checkbox (multi-select), radio (single-select)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--selectable</code></td><td>checkbox</td><td>Zeilen-Auswahl — none, checkbox (multi-select), radio (single-select)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>radio</td><td>Zeilen-Auswahl — none, checkbox (multi-select), radio (single-select)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>flat</td><td>Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--striped</code></td><td>striped</td><td>Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--bordered</code></td><td>bordered</td><td>Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--card</code></td><td>card</td><td>Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--glass</code></td><td>glass</td><td>Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>truncate</td><td>Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)</td></tr>
+      <tr><td><code class="docs__token">.nc-data-table--wrap</code></td><td>wrap</td><td>Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-border</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-body-font-weight</code></td><td>var(--fnd-font-weight-regular)</td><td>var(--fnd-font-weight-regular)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-scroll-shadow-size</code></td><td>24px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Header</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-height</code></td><td>44px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-letter-spacing</code></td><td>normal</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-header-border-bottom</code></td><td>var(--fnd-border-width-sm) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-sm) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Row</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height</code></td><td>var(--nc-dt-row-height-default)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-compact</code></td><td>var(--fnd-size-sm)</td><td>var(--fnd-size-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-default</code></td><td>var(--fnd-size-md)</td><td>var(--fnd-size-md)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-height-comfortable</code></td><td>var(--fnd-size-lg)</td><td>var(--fnd-size-lg)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-cell-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-cell-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-border-bottom</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>var(--fnd-color-background-hover)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-selected</code></td><td>var(--fnd-color-layer-02)</td><td>var(--fnd-color-layer-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-row-bg-stripe</code></td><td>var(--fnd-color-layer-01)</td><td>var(--fnd-color-layer-01)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Toolbar</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-height</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-border-bottom</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-toolbar-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-search-min-width</code></td><td>240px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-select-width</code></td><td>120px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Pagination</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-height</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-border-top</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-pagination-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-page-select-width</code></td><td>72px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Title Bar</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-bar-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-04) 0</td><td>var(--fnd-spacing-04) var(--fnd-spacing-04) 0</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-bar-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-font-size</code></td><td>var(--fnd-typography-heading-m-font-size)</td><td>var(--fnd-typography-heading-m-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-title-line-height</code></td><td>1.3</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td>var(--fnd-typography-body-m-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-description-line-height</code></td><td>1.5</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sort</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-color</code></td><td>var(--nc-icon-color-secondary)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-icon-color-active</code></td><td>var(--nc-icon-color-default)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sort-hit-area</code></td><td>var(--nc-icon-touch-target)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Checkbox</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-checkbox-column-width</code></td><td>52px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-checkbox-padding-x</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Radio</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-radio-column-width</code></td><td>52px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-radio-padding-x</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Expand</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-icon-size</code></td><td>var(--nc-icon-size-xs)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-column-width</code></td><td>52px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-panel-bg</code></td><td>var(--fnd-color-layer-01)</td><td>var(--fnd-color-layer-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-expand-panel-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-06)</td><td>var(--fnd-spacing-04) var(--fnd-spacing-06)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Batch</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>var(--fnd-color-background-inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-color</code></td><td>var(--fnd-color-text-inverse)</td><td>var(--fnd-color-text-inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-height</code></td><td>var(--nc-dt-toolbar-height)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>var(--fnd-elevation-raised)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-count-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-batch-clear-color</code></td><td>color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Link &amp; Actions</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-color</code></td><td>var(--fnd-color-text-link)</td><td>var(--fnd-color-text-link)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-color-hover</code></td><td>var(--fnd-color-text-link-hover)</td><td>var(--fnd-color-text-link-hover)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-icon-size</code></td><td>14px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-link-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-date-font-feature</code></td><td>'tnum'</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-actions-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-action-column-width</code></td><td>52px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-action-icon-size</code></td><td>var(--nc-icon-size-sm)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Skeleton</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-shimmer</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-avatar</code></td><td>32px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-numeric</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-skeleton-width-text</code></td><td>75%</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Empty &amp; Error</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-empty-icon-size</code></td><td>32px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-empty-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-empty-body-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-error-border</code></td><td>var(--fnd-color-border-danger)</td><td>var(--fnd-color-border-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-error-color</code></td><td>var(--fnd-color-text-danger)</td><td>var(--fnd-color-text-danger)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">User Column</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-avatar-size</code></td><td>32px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-name-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-name-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-email-font-size</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-user-email-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Progress Column</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-height</code></td><td>6px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-success</code></td><td>var(--fnd-color-feedback-success)</td><td>var(--fnd-color-feedback-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-warning</code></td><td>var(--fnd-color-feedback-warning)</td><td>var(--fnd-color-feedback-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-fill-danger</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-label-width</code></td><td>36px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-progress-label-font-size</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Stacked Layout</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-padding</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-card-border</code></td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td><td>var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-width</code></td><td>120px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-stacked-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sticky Columns</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-shadow</code></td><td>4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-shadow-end</code></td><td>-4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-sticky-col-bg</code></td><td>var(--nc-dt-body-bg)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Card Variant</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-card-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>var(--fnd-elevation-raised)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-card-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Glass Variant</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-base) 60%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-header-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-secondary) 40%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-border</code></td><td>var(--fnd-border-width-xs) solid color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent)</td><td>var(--fnd-border-width-xs) solid color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent)</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-glass-backdrop-blur</code></td><td>8px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Content Wrapping</td></tr>
+      <tr><td><code class="docs__token">--nc-dt-cell-line-clamp</code></td><td>1</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Wrapper: border, radius, overflow:hidden. Semantisches &lt;table&gt; mit &lt;thead&gt;/&lt;tbody&gt;.</li>
+    <li>Scroll-Container: horizontaler Scroll mit CSS-Schatten-Indikatoren.</li>
+    <li>Title-Bar: Titel + Beschreibung. Toolbar: Suche + Filter + Batch-Actions.</li>
+    <li>Density: default (40px), compact (32px), comfortable (48px).</li>
+    <li>Striped: nth-child(even of :not(expand-row)). Bordered: border-inline-end.</li>
+    <li>Sticky Header: position:sticky top:0 auf &lt;th&gt;.</li>
+    <li>Sticky Columns: erste/letzte Spalte fixiert mit Schatten-Indikator.</li>
+    <li>Stacked Layout: Mobile Card-View via data-label auf &lt;td&gt;.</li>
+    <li>Card Variante: erhobene Tabelle mit elevation-raised Shadow.</li>
+    <li>Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.</li>
+    <li>Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.</li>
+    <li>Skeleton Varianten: avatar (rund), numeric (schmal), text (75%).</li>
+    <li>Content Wrapping: --wrap Modifier fuer mehrzeiligen Zelleninhalt.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
-          <section class="docs__section" id="api-options">
-            <h2 class="docs__section-title">Optionen</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Option</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code>sortable</code></td><td>boolean</td><td>false</td><td>Tri-State-Sort aktivieren</td></tr>
-                <tr><td><code>selectable</code></td><td>false | 'single' | 'multi'</td><td>false</td><td>Zeilen-Auswahl aktivieren</td></tr>
-                <tr><td><code>expandable</code></td><td>boolean</td><td>false</td><td>Aufklappbare Zeilen</td></tr>
-                <tr><td><code>paginated</code></td><td>boolean</td><td>false</td><td>Client-Pagination</td></tr>
-                <tr><td><code>filterable</code></td><td>boolean</td><td>false</td><td>Globale Suche</td></tr>
-                <tr><td><code>pageSize</code></td><td>number</td><td>25</td><td>Zeilen pro Seite</td></tr>
-                <tr><td><code>onSort</code></td><td>function</td><td>null</td><td>(column, direction) Callback</td></tr>
-                <tr><td><code>onSelect</code></td><td>function</td><td>null</td><td>(selectedIds[]) Callback</td></tr>
-                <tr><td><code>onExpand</code></td><td>function</td><td>null</td><td>(rowId, expanded) Callback</td></tr>
-                <tr><td><code>onPageChange</code></td><td>function</td><td>null</td><td>(page, pageSize) Callback</td></tr>
-                <tr><td><code>onSearch</code></td><td>function</td><td>null</td><td>(query) Callback</td></tr>
-                <tr><td><code>onBatchAction</code></td><td>function</td><td>null</td><td>(actionId, selectedIds[]) Callback</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-methods">
-            <h2 class="docs__section-title">Return API</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Methode</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code>destroy()</code></td><td>Alle Event-Listener sauber entfernen</td></tr>
-                <tr><td><code>refresh()</code></td><td>DOM-Zustand neu lesen (nach dynamischem Update)</td></tr>
-                <tr><td><code>getSelectedRows()</code></td><td>Array der selektierten Row-IDs</td></tr>
-                <tr><td><code>setPage(n)</code></td><td>Zu Seite n springen</td></tr>
-                <tr><td><code>getState()</code></td><td>Aktueller State-Snapshot (Kopie)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-data-attrs">
-            <h2 class="docs__section-title">Data-Attribute</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Attribut</th><th>Element</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code>data-dt-id</code></td><td>Container</td><td>Eindeutige ID fuer Auto-Init</td></tr>
-                <tr><td><code>data-dt-sortable</code></td><td>Container</td><td>Sort aktivieren</td></tr>
-                <tr><td><code>data-dt-selectable</code></td><td>Container</td><td>='multi' oder ='single'</td></tr>
-                <tr><td><code>data-dt-expandable</code></td><td>Container</td><td>Expand aktivieren</td></tr>
-                <tr><td><code>data-dt-paginated</code></td><td>Container</td><td>Pagination aktivieren</td></tr>
-                <tr><td><code>data-dt-filterable</code></td><td>Container</td><td>Suche aktivieren</td></tr>
-                <tr><td><code>data-dt-page-size</code></td><td>Container</td><td>Zeilen pro Seite (Zahl)</td></tr>
-                <tr><td><code>data-dt-col</code></td><td>&lt;th&gt;</td><td>Spalten-ID</td></tr>
-                <tr><td><code>data-dt-sort</code></td><td>Sort-Button</td><td>Spalten-ID zum Sortieren</td></tr>
-                <tr><td><code>data-dt-row-id</code></td><td>&lt;tr&gt;</td><td>Zeilen-ID</td></tr>
-                <tr><td><code>data-dt-select-all</code></td><td>Checkbox</td><td>Select-All Checkbox</td></tr>
-                <tr><td><code>data-dt-select-row</code></td><td>Checkbox</td><td>=rowId fuer Zeilen-Checkbox</td></tr>
-                <tr><td><code>data-dt-expand</code></td><td>Button</td><td>=rowId fuer Expand-Toggle</td></tr>
-                <tr><td><code>data-dt-search</code></td><td>Input</td><td>Such-Input</td></tr>
-                <tr><td><code>data-dt-page</code></td><td>Button</td><td>=prev|next|first|last</td></tr>
-                <tr><td><code>data-dt-rows-per-page</code></td><td>Select</td><td>Rows-per-Page Dropdown</td></tr>
-                <tr><td><code>data-dt-page-info</code></td><td>Span</td><td>Anzeige '1&ndash;25 von 142'</td></tr>
-                <tr><td><code>data-dt-page-select</code></td><td>Select</td><td>Page-Jump Dropdown (Seite X von Y)</td></tr>
-                <tr><td><code>data-dt-page-max</code></td><td>Span</td><td>Anzeige 'von {n}' (max. Seitenzahl)</td></tr>
-                <tr><td><code>data-dt-batch-count</code></td><td>Span</td><td>Zaehler in Batch-Bar</td></tr>
-                <tr><td><code>data-dt-batch-action</code></td><td>Button</td><td>=actionId fuer Batch-Aktion</td></tr>
-                <tr><td><code>data-dt-batch-cancel</code></td><td>Button</td><td>Batch-Auswahl aufheben</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-usage">
-            <h2 class="docs__section-title">Verwendungs-Beispiel</h2>
-            <div class="docs__code-block">&lt;!-- Auto-Init via data-Attribute --&gt;
-&lt;div class="nc-data-table"
-     data-dt-id="users"
-     data-dt-sortable
-     data-dt-selectable="multi"
-     data-dt-paginated
-     data-dt-page-size="25"&gt;
-  &lt;!-- ... Toolbar, Table, Pagination ... --&gt;
-&lt;/div&gt;
-
-&lt;script src="js/data-table.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  // Auto-Init: alle [data-dt-id] Container
-  setupDataTables();
-
-  // Oder manuell:
-  const dt = setupDataTable(
-    document.querySelector('#my-table'),
-    {
-      sortable: true,
-      selectable: 'multi',
-      paginated: true,
-      pageSize: 10,
-      onSort: (col, dir) =&gt; console.log('Sort:', col, dir),
-      onSelect: (ids) =&gt; console.log('Selected:', ids),
-    }
-  );
-
-  // API nutzen
-  dt.getSelectedRows();  // ['row-1', 'row-3']
-  dt.setPage(2);
-  dt.destroy();
-&lt;/script&gt;</div>
-          </section>
-
-          <!-- Table Header & Toolbar -->
-          <section class="docs__section">
-            <h2 class="docs__section-title">Table Header &amp; Toolbar</h2>
-            <p class="docs__section-desc">Zwei optionale Bereiche oberhalb der Tabelle. Der <strong>Table Header</strong> (<code>__title-bar</code>) zeigt Titel und optionale Beschreibung. Die <strong>Toolbar</strong> (<code>__toolbar</code>) enthaelt Controls fuer globale Aktionen.</p>
-
-            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Markup-Hierarchie</h3>
-            <div class="docs__code-block">.nc-data-table
-  ├── .nc-data-table__title-bar         // Optional: Table Header
-  │   ├── h2.nc-data-table__title       // Pflicht wenn title-bar vorhanden
-  │   └── p.nc-data-table__description  // Optional
-  ├── .nc-data-table__toolbar           // Optional: Toolbar (role="toolbar")
-  │   ├── .nc-data-table__search        // Optional: Such-Feld
-  │   └── .nc-data-table__toolbar-actions // Optional: Buttons (margin-start:auto)
-  ├── .nc-data-table__scroll-container
-  │   └── table.nc-data-table__table
-  └── .nc-data-table__pagination        // Optional</div>
-
-            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Varianten</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Kombination</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>Nur Title Bar</td><td>Zeigt <code>__title-bar</code> mit Titel + optionaler Beschreibung, direkt gefolgt von der Tabelle.</td></tr>
-                <tr><td>Nur Toolbar</td><td>Zeigt <code>__toolbar</code> mit Suche und/oder Action-Buttons. <code>role="toolbar"</code> setzen.</td></tr>
-                <tr><td>Title Bar + Toolbar</td><td>Title Bar oberhalb der Toolbar. Titel gibt Kontext, Toolbar bietet Aktionen.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 style="font-size:0.875rem;margin:var(--fnd-spacing-04) 0 var(--fnd-spacing-02)">Toolbar-Controls</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Control</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>Suche</td><td><code>__search</code> + <code>[data-dt-search]</code></td><td>Globales Such-Feld, wird vom JS erkannt</td></tr>
-                <tr><td>Primaer-Button</td><td><code>.nc-button--sm --primary</code></td><td>Z.B. &laquo;Hinzufuegen&raquo; mit Plus-Icon</td></tr>
-                <tr><td>Icon-Button</td><td><code>.nc-button--sm --ghost --icon-only</code></td><td>Z.B. Export, Filter, Loeschen</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- Spaltentyp-Klassen -->
-          <section class="docs__section">
-            <h2 class="docs__section-title">Spaltentyp-Klassen</h2>
-            <p class="docs__section-desc">Rein CSS-basierte Modifier auf <code>&lt;td&gt;</code>/<code>&lt;th&gt;</code>. Keine JS-Konfiguration noetig — das HTML komponiert bestehende Atom-Komponenten innerhalb der Zellen.</p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead>
-                <tr>
-                  <th>Modifier</th>
-                  <th>Zweck</th>
-                  <th>Empfohlene Breite</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><code>__td--email</code></td><td>Email als klickbarer <code>&lt;a href="mailto:"&gt;</code> Link</td><td>160px</td></tr>
-                <tr><td><code>__td--date</code></td><td>Datum mit tabular-nums, <code>&lt;time&gt;</code> empfohlen</td><td>120px</td></tr>
-                <tr><td><code>__td--numeric</code></td><td>Rechtsbuendig, tabular-nums (auch fuer Waehrung)</td><td>80px</td></tr>
-                <tr><td><code>__td--status</code></td><td>Bettet <code>.nc-badge</code> ein, zentriert</td><td>100px</td></tr>
-                <tr><td><code>__td--link</code></td><td>URL mit Icon + Text, Flex-Layout</td><td>120px</td></tr>
-                <tr><td><code>__td--user</code></td><td>Avatar + Name + Email Komposit-Spalte</td><td>200px</td></tr>
-                <tr><td><code>__td--progress</code></td><td>Inline Progress-Bar mit Prozent-Label</td><td>120px</td></tr>
-                <tr><td><code>__td--actions</code></td><td>Mehrere Icon-Buttons via <code>__actions-wrapper</code></td><td>52–120px</td></tr>
-                <tr><td><code>__radio-cell</code></td><td>Radio-Button Einzelauswahl (analog __checkbox-cell)</td><td>52px</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
         </div><!-- /tab-api -->
 
         <!-- ============================================================ -->
@@ -1113,57 +1366,72 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <section class="docs__section" id="a11y-aria">
-            <h2 class="docs__section-title">ARIA-Attribute</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Attribut</th><th>Element</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code>aria-sort</code></td><td>&lt;th&gt;</td><td>none | ascending | descending</td></tr>
-                <tr><td><code>aria-selected</code></td><td>&lt;tr&gt;</td><td>true | false bei selektierbaren Zeilen</td></tr>
-                <tr><td><code>aria-expanded</code></td><td>Expand-Button</td><td>true | false</td></tr>
-                <tr><td><code>aria-controls</code></td><td>Expand-Button</td><td>ID des zugehoerigen Expand-Panels</td></tr>
-                <tr><td><code>aria-label</code></td><td>Checkboxen</td><td>Zeilen-Kontext (z.B. &ldquo;Maria Schmidt auswaehlen&rdquo;)</td></tr>
-                <tr><td><code>aria-label</code></td><td>Pagination-Buttons</td><td>Vorherige/Naechste Seite</td></tr>
-                <tr><td><code>aria-live="polite"</code></td><td>Batch-Bar</td><td>Screenreader-Ankuendigung bei Aenderung</td></tr>
-                <tr><td><code>aria-hidden="true"</code></td><td>Skeleton-Rows</td><td>Lade-Platzhalter vor Screenreadern verstecken</td></tr>
-                <tr><td><code>role="toolbar"</code></td><td>Toolbar</td><td>Semantik fuer Such-/Filter-Bereich</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">aria-sort auf &lt;th&gt;. aria-selected auf &lt;tr&gt;. aria-expanded auf Expand-Button. Checkboxen: aria-label mit Zeilenkontext. Batch-Bar Zaehler: aria-live='polite'. Toolbar: role='toolbar'.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: feature = selectable</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-selected</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-live</code></li>
+      <li>Selectable: aria-selected auf Zeilen. Batch-Bar Zaehler: aria-live='polite'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: feature = sortable</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-sort</code></li>
+      <li>Sortable: aria-sort='ascending|descending|none' auf sortierte &lt;th&gt;.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: feature = expandable</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-expanded</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-controls</code></li>
+      <li>Expandable: aria-expanded + aria-controls auf Expand-Button.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: selection = radio</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-selected</code></li>
+      <li>Radio-Selection: aria-selected auf ausgewaehlte Zeile. Nur eine Zeile gleichzeitig.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <section class="docs__section" id="a11y-keyboard">
-            <h2 class="docs__section-title">Tastatur-Interaktion</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Taste</th><th>Kontext</th><th>Aktion</th></tr></thead>
-              <tbody>
-                <tr><td><code>Tab</code></td><td>Tabelle</td><td>Zwischen interaktiven Elementen navigieren</td></tr>
-                <tr><td><code>Enter</code> / <code>Space</code></td><td>Sort-Button</td><td>Sortierung umschalten (Tri-State)</td></tr>
-                <tr><td><code>Space</code></td><td>Checkbox</td><td>Zeile selektieren/deselektieren</td></tr>
-                <tr><td><code>Enter</code> / <code>Space</code></td><td>Expand-Button</td><td>Detail-Panel auf-/zuklappen</td></tr>
-                <tr><td><code>Enter</code></td><td>Pagination-Button</td><td>Seite wechseln</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="a11y-guidelines">
-            <h2 class="docs__section-title">Richtlinien</h2>
-            <div class="docs-a11y-block">
-              <div class="docs-a11y-block__content">
-                <ul>
-                  <li>Semantisches <code>&lt;table&gt;</code>-Markup verwenden &mdash; Screenreader lesen Zeilen/Spalten-Beziehungen automatisch vor.</li>
-                  <li>Jede Checkbox braucht ein <code>aria-label</code> mit Zeilen-Kontext.</li>
-                  <li>Focus-Ring muss auf allen interaktiven Elementen sichtbar sein (via <code>:focus-visible</code> + <code>@include focus-ring</code>).</li>
-                  <li>Sort-State per <code>aria-sort</code> auf <code>&lt;th&gt;</code> &mdash; Screenreader kuendigen &ldquo;sorted ascending/descending&rdquo; an.</li>
-                  <li>Batch-Bar nutzt <code>aria-live="polite"</code> &mdash; Aenderungen werden automatisch angesagt.</li>
-                  <li><code>prefers-reduced-motion</code> deaktiviert Skeleton-Shimmer und Transition-Animationen.</li>
-                </ul>
-              </div>
-            </div>
-          </section>
         </div><!-- /tab-a11y -->
 
       </div>

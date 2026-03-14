@@ -454,82 +454,92 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-basis-tokens">
-            <h2 class="docs__section-title">Basis-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-breadcrumb-gap</code></td><td>var(--fnd-spacing-02) / 8px</td><td>Abstand zwischen Items</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-font-size</code></td><td>var(--fs-sm)</td><td>Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Link-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color-current</code></td><td>var(--fnd-color-text-primary)</td><td>Aktuelle Seite</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td>Hover-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-separator-color</code></td><td>var(--fnd-color-text-disabled)</td><td>Separator-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td>Separator-Icon-Gr&ouml;&szlig;e</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-scss">
-            <h2 class="docs__section-title">SCSS Mixin-Referenz</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Mixin</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">breadcrumb-base</code></td><td>nav Wrapper</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-list</code></td><td>ol flex list</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-item</code></td><td>li inline-flex</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-link</code></td><td>a with hover underline</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-page</code></td><td>current page span</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator</code></td><td>chevron/slash (base)</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--dot</code></td><td>dot variant (4px circle)</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--square</code></td><td>square variant (4px box)</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--custom</code></td><td>custom content via CSS var</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-ellipsis</code></td><td>truncation button</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-ellipsis-wrap</code></td><td>position context for dropdown</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-dropdown</code></td><td>dropdown menu (hidden items)</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-dropdown-item</code></td><td>single dropdown link</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
-
-.nc-breadcrumb                  // Block (nav Wrapper)
-.nc-breadcrumb__list            // Element: ol flex container
-.nc-breadcrumb__item            // Element: li inline-flex
-.nc-breadcrumb__link            // Element: a-Link mit Hover-Underline
-.nc-breadcrumb__page            // Element: span f&uuml;r aktuelle Seite
-.nc-breadcrumb__separator       // Element: Chevron oder Slash
-.nc-breadcrumb__separator--dot     // Modifier: Punkt-Separator
-.nc-breadcrumb__separator--square  // Modifier: Quadrat-Separator
-.nc-breadcrumb__separator--custom  // Modifier: Custom via CSS Property
-.nc-breadcrumb__ellipsis        // Element: Ellipsis-Button (&hellip;)
-.nc-breadcrumb__ellipsis-wrap   // Element: Position-Context (relative)
-.nc-breadcrumb__dropdown        // Element: Dropdown-Liste (role="menu")
-.nc-breadcrumb__dropdown-item   // Element: Dropdown-Link (role="menuitem")
-
-// ===== SCSS Mixins =====
-
-@mixin breadcrumb-base          // nav display, font-size, color
-@mixin breadcrumb-list          // ol flex, list-style, gap
-@mixin breadcrumb-item          // li inline-flex, align-items
-@mixin breadcrumb-link          // a color, hover underline
-@mixin breadcrumb-page          // current page color, font-weight
-@mixin breadcrumb-separator     // separator color, size, aria-hidden
-@mixin breadcrumb-separator--dot    // dot: 4px circle via ::before
-@mixin breadcrumb-separator--square // square: 4px box via ::before
-@mixin breadcrumb-separator--custom // custom: content via CSS var
-@mixin breadcrumb-ellipsis      // button reset, hover background
-@mixin breadcrumb-ellipsis-wrap // position: relative context
-@mixin breadcrumb-dropdown      // dropdown menu, absolute, elevation
-@mixin breadcrumb-dropdown-item // link item, hover bg, focus-ring</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color-current</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Separator</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-color</code></td><td>var(--fnd-color-text-disabled)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-opacity</code></td><td>0.4</td><td>Reduzierte Opacity fuer Separatoren</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-min-width</code></td><td>16px</td><td>Feste Breite gegen Layout-Shift</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-custom</code></td><td>'·'</td><td>Custom-Separator Inhalt (fuer --custom Modifier)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size SM</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-font-size-sm</code></td><td>var(--fs-xs)</td><td>SM-Size fuer Admin/Sidebar</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ghost Variant</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-ghost-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-ghost-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Back-Link</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-back-icon-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-back-gap</code></td><td>var(--fnd-spacing-01)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Home Icon</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dropdown</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-breadcrumb-dropdown-min-width</code></td><td>160px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -538,183 +548,158 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-breadcrumb</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-breadcrumb</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-breadcrumb-*</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_breadcrumb.scss</code></td></tr>
-                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;nav&gt;</code> mit <code class="docs__token">&lt;ol&gt;</code></td></tr>
-                <tr><td><strong>Separator</strong></td><td>SVG-Chevron (default) oder <code class="docs__token">/</code>-Text</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-breadcrumb</code></td><td>Block</td><td>nav-Wrapper der Breadcrumb-Komponente.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__list</code></td><td>Element</td><td>Geordnete Liste (<code class="docs__token">&lt;ol&gt;</code>) mit Flex-Layout.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__item</code></td><td>Element</td><td>Einzelnes Listenelement (<code class="docs__token">&lt;li&gt;</code>) mit inline-flex.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__link</code></td><td>Element</td><td>Anker-Link zu einer &uuml;bergeordneten Seite.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__page</code></td><td>Element</td><td>Span f&uuml;r die aktuelle Seite (nicht klickbar).</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__separator</code></td><td>Element</td><td>Visueller Trenner (Basis-Klasse).</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__separator--dot</code></td><td>Modifier</td><td>Gefuellter Punkt (4&times;4 px, border-radius 50%).</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__separator--square</code></td><td>Modifier</td><td>Gefuelltes Quadrat (4&times;4 px).</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__separator--custom</code></td><td>Modifier</td><td>Benutzerdefiniert via <code class="docs__token">--nc-breadcrumb-separator-custom</code>.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis</code></td><td>Element</td><td>Button zum Einblenden ausgeblendeter Zwischenebenen.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis-wrap</code></td><td>Element</td><td>Position-Context (<code class="docs__token">position: relative</code>) f&uuml;r Ellipsis + Dropdown.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__dropdown</code></td><td>Element</td><td>Dropdown-Liste (<code class="docs__token">&lt;ul role="menu"&gt;</code>) mit versteckten Ebenen. Sichtbar via <code class="docs__token">.is-open</code>.</td></tr>
-                <tr><td><code class="docs__token">.nc-breadcrumb__dropdown-item</code></td><td>Element</td><td>Einzelner Link (<code class="docs__token">&lt;a role="menuitem"&gt;</code>) im Dropdown.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. CSS Custom Properties -->
-          <section class="docs__section" id="api-tokens">
-            <h2 class="docs__section-title">CSS Custom Properties</h2>
-            <p class="docs__section-desc">
-              Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color-current</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-color-hover</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-separator-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Separator</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-separator-custom</code></td><td>'&middot;'</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dropdown</td></tr>
-                <tr><td><code class="docs__token">--nc-breadcrumb-dropdown-min-width</code></td><td>160px</td><td>&mdash;</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. SCSS Mixins -->
-          <section class="docs__section" id="api-mixins">
-            <h2 class="docs__section-title">SCSS Mixins</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Mixin</th><th>Parameter</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">breadcrumb-base</code></td><td>&mdash;</td><td>nav-Wrapper: font-size, color Tokens.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-list</code></td><td>&mdash;</td><td>ol: display flex, flex-wrap, gap, list-style none, margin/padding reset.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-item</code></td><td>&mdash;</td><td>li: display inline-flex, align-items center, gap.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-link</code></td><td>&mdash;</td><td>a: color, text-decoration none, hover underline, hover color.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-page</code></td><td>&mdash;</td><td>span: color-current, font-weight, nicht klickbar.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator</code></td><td>&mdash;</td><td>Separator: color, size, flex-shrink 0, aria-hidden.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--dot</code></td><td>&mdash;</td><td>Punkt-Variante: 4px Kreis via ::before.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--square</code></td><td>&mdash;</td><td>Quadrat-Variante: 4px Box via ::before.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-separator--custom</code></td><td>&mdash;</td><td>Custom-Variante: content aus --nc-breadcrumb-separator-custom.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-ellipsis</code></td><td>&mdash;</td><td>Button: appearance reset, cursor pointer, hover background.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-ellipsis-wrap</code></td><td>&mdash;</td><td>Position-Context (relative) f&uuml;r Dropdown.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-dropdown</code></td><td>&mdash;</td><td>Dropdown-Liste: absolut positioniert, elevation, animation.</td></tr>
-                <tr><td><code class="docs__token">breadcrumb-dropdown-item</code></td><td>&mdash;</td><td>Link-Item: hover background, focus-ring, min-height.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 5. Data-Attribute -->
-          <section class="docs__section" id="api-data-attributes">
-            <h2 class="docs__section-title">Data-Attribute (Truncation-Dropdown)</h2>
-            <p class="docs__section-desc">
-              Das Dropdown-Feature ist optional und wird &uuml;ber Data-Attribute auf dem <code class="docs__token">&lt;nav&gt;</code> aktiviert.
-              Ohne <code class="docs__token">js/breadcrumb.js</code> bleibt der Ellipsis-Button sichtbar, tut aber nichts (Progressive Enhancement).
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Attribut</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">data-breadcrumb-truncated</code></td>
-                  <td>Boolean (Pr&auml;senz)</td>
-                  <td>Aktiviert das Dropdown-Feature f&uuml;r diese Breadcrumb-Instanz.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">data-breadcrumb-hidden-items</code></td>
-                  <td>JSON-Array</td>
-                  <td>
-                    Liste der versteckten Ebenen. Format:
-                    <code class="docs__token">[{"label":"...","href":"..."}]</code>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 6. Slots/Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Basis-Breadcrumb --&gt;
-&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"&gt;
-  &lt;ol class="nc-breadcrumb__list"&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;a class="nc-breadcrumb__link" href="/home"&gt;Home&lt;/a&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;
-        &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
-      &lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;a class="nc-breadcrumb__link" href="/produkte"&gt;Produkte&lt;/a&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;!-- Letzte Seite: span statt a, aria-current="page" --&gt;
-      &lt;span class="nc-breadcrumb__page" aria-current="page"&gt;Aktuelle Seite&lt;/span&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/nav&gt;
-
-&lt;!-- Mit Ellipsis --&gt;
-&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"&gt;
-  &lt;ol class="nc-breadcrumb__list"&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;a class="nc-breadcrumb__link" href="#"&gt;Home&lt;/a&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;button class="nc-breadcrumb__ellipsis" aria-label="Weitere Seiten anzeigen"&gt;
-        &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
-      &lt;/button&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;a class="nc-breadcrumb__link" href="#"&gt;Kategorie&lt;/a&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;span class="nc-breadcrumb__page" aria-current="page"&gt;Aktuelle Seite&lt;/span&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/nav&gt;
-
-&lt;!-- Mit Slash-Separator --&gt;
-&lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;/&lt;/span&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-breadcrumb</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-breadcrumb</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-breadcrumb-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-breadcrumb</code></td><td>Block</td><td>breadcrumb-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__list</code></td><td>Element</td><td>list</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__link</code></td><td>Element</td><td>link</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__page</code></td><td>Element (optional)</td><td>page</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__separator</code></td><td>Element (optional)</td><td>separator</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__home-icon</code></td><td>Element (optional)</td><td>home-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__back-icon</code></td><td>Element (optional)</td><td>back-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis</code></td><td>Element (optional)</td><td>ellipsis</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__ellipsis-wrap</code></td><td>Element (optional)</td><td>ellipsis-wrap</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__dropdown</code></td><td>Element (optional)</td><td>dropdown</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__dropdown-item</code></td><td>Element (optional)</td><td>dropdown-item</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-breadcrumb--sm</code></td><td>sm</td><td>2 Groessenabstufungen — sm (Admin/Sidebar) / md (Standard, DEFAULT)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>md</td><td>2 Groessenabstufungen — sm (Admin/Sidebar) / md (Standard, DEFAULT)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Appearance-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Visueller Stil — default (Link-Farbe + Hover-Underline), ghost (dezente Links wie Text, erst bei Hover interaktiv)</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb--ghost</code></td><td>ghost</td><td>Visueller Stil — default (Link-Farbe + Hover-Underline), ghost (dezente Links wie Text, erst bei Hover interaktiv)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>full</td><td>Darstellung — full (alle Items sichtbar), truncated (Smart-Truncation mit Ellipsis-Dropdown), back-link (nur Parent-Link fuer Mobile)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>truncated</td><td>Darstellung — full (alle Items sichtbar), truncated (Smart-Truncation mit Ellipsis-Dropdown), back-link (nur Parent-Link fuer Mobile)</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb--back-link</code></td><td>back-link</td><td>Darstellung — full (alle Items sichtbar), truncated (Smart-Truncation mit Ellipsis-Dropdown), back-link (nur Parent-Link fuer Mobile)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text</td><td>Home-Element — text ('Home' als Wort) oder home-icon (Haus-SVG, platzsparend + international)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>home-icon</td><td>Home-Element — text ('Home' als Wort) oder home-icon (Haus-SVG, platzsparend + international)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Separator-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>chevron</td><td>Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>slash</td><td>Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__separator--dot</code></td><td>dot</td><td>Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__separator--square</code></td><td>square</td><td>Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)</td></tr>
+      <tr><td><code class="docs__token">.nc-breadcrumb__separator--custom</code></td><td>custom</td><td>Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color-current</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Separator</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-color</code></td><td>var(--fnd-color-text-disabled)</td><td>var(--fnd-color-text-disabled)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-opacity</code></td><td>0.4</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-min-width</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-custom</code></td><td>'·'</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Size SM</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-font-size-sm</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Ghost Variant</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-ghost-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-ghost-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Back-Link</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-back-icon-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-back-gap</code></td><td>var(--fnd-spacing-01)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Home Icon</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-separator-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dropdown</td></tr>
+      <tr><td><code class="docs__token">--nc-breadcrumb-dropdown-min-width</code></td><td>160px</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Wrapper ist &lt;nav class='nc-breadcrumb' aria-label='Breadcrumb'&gt;.</li>
+    <li>Liste ist &lt;ol class='nc-breadcrumb__list'&gt; — geordnete Semantik fuer den Pfad.</li>
+    <li>Items sind &lt;li class='nc-breadcrumb__item'&gt; mit &lt;a class='nc-breadcrumb__link'&gt; oder &lt;span class='nc-breadcrumb__page'&gt;.</li>
+    <li>Letztes Item: &lt;span class='nc-breadcrumb__page' aria-current='page'&gt; — nicht klickbar, font-weight medium.</li>
+    <li>Breadcrumb-Labels muessen exakt mit den &lt;h1&gt;-Ueberschriften der Zielseiten uebereinstimmen (kognitive Konsistenz).</li>
+    <li>Separator: &lt;span class='nc-breadcrumb__separator' aria-hidden='true'&gt; mit Chevron-SVG oder '/'.</li>
+    <li>Separatoren haben reduzierte Opacity (40%) und feste min-width gegen Layout-Shift.</li>
+    <li>Home-Icon: &lt;span class='nc-breadcrumb__home-icon'&gt; mit Haus-SVG ersetzt 'Home'-Text. Link braucht aria-label='Home'.</li>
+    <li>Smart-Truncation: Home + letzte 2 Items immer sichtbar. Mittlere Ebenen → Ellipsis-Dropdown.</li>
+    <li>Ellipsis: &lt;button class='nc-breadcrumb__ellipsis' aria-label='Weitere Seiten anzeigen'&gt; fuer abgekuerzte Pfade.</li>
+    <li>Ellipsis-Wrap: &lt;li class='nc-breadcrumb__ellipsis-wrap'&gt; ist Position-Context fuer Dropdown.</li>
+    <li>Dropdown: &lt;ul class='nc-breadcrumb__dropdown' role='menu'&gt; nutzt nc-dropdown-* Tokens (gleicher shadow/radius wie Navigation-Menu).</li>
+    <li>Dropdown-Item: &lt;a class='nc-breadcrumb__dropdown-item' role='menuitem'&gt; — einzelner Link.</li>
+    <li>Ghost: Links wirken wie normaler Text (text-tertiary), erst bei Hover interaktiv. Ideal fuer Artikel-Seiten.</li>
+    <li>Back-Link: Mobile-First — nur '← Parent' Link. Spart Platz fuer Content auf schmalen Viewports.</li>
+    <li>Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -723,131 +708,74 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Breadcrumb-Navigation muss die WCAG 2.1 AA-Kriterien erf&uuml;llen.
-            Semantisches HTML (<code class="docs__token">&lt;nav&gt;</code> + <code class="docs__token">&lt;ol&gt;</code>) ist entscheidend f&uuml;r Screenreader.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">&lt;nav aria-label='Breadcrumb'&gt; auf Wrapper. &lt;ol&gt; fuer geordnete Semantik. aria-current='page' auf aktuellem Item. Separatoren sind aria-hidden='true'. Labels muessen mit Seiten-Ueberschriften uebereinstimmen.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = truncated</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-label</code></li>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-haspopup</code></li>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-expanded</code></li>
+      <li>Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen', aria-haspopup='true', aria-expanded='true|false'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = truncated</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">role-menu</code></li>
+      <li><strong>Pflicht:</strong> <code class="docs__token">role-menuitem</code></li>
+      <li><strong>Pflicht:</strong> <code class="docs__token">keyboard-navigation</code></li>
+      <li>Dropdown: role='menu', Items: role='menuitem'. Keyboard: ArrowDown/Up navigiert, Escape schliesst, Tab verlaesst.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: content = home-icon</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-label</code></li>
+      <li>Home-Icon Link braucht aria-label='Home' da kein sichtbarer Text vorhanden.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = back-link</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-label</code></li>
+      <li>Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- nav + aria-label -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>nav + aria-label</h4>
-              <ul>
-                <li>Die Breadcrumb <strong>muss</strong> in ein <code class="docs__token">&lt;nav aria-label="Breadcrumb"&gt;</code> eingebettet sein</li>
-                <li>Das <code class="docs__token">aria-label</code> identifiziert die Navigation f&uuml;r Screenreader</li>
-                <li>Nur <strong>ein</strong> Breadcrumb-<code class="docs__token">&lt;nav&gt;</code> pro Seite verwenden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Geordnete Liste -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Geordnete Liste</h4>
-              <ul>
-                <li>Eine <code class="docs__token">&lt;ol&gt;</code> (<em>ordered list</em>) vermittelt die <strong>hierarchische Reihenfolge</strong> der Seiten</li>
-                <li>Screenreader k&uuml;ndigen die Anzahl der Items und deren Position an (z.B. &ldquo;Item 2 von 4&rdquo;)</li>
-                <li>Niemals <code class="docs__token">&lt;div&gt;</code> oder <code class="docs__token">&lt;ul&gt;</code> verwenden &mdash; die Reihenfolge ist semantisch relevant</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- aria-current="page" -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>aria-current="page"</h4>
-              <ul>
-                <li>Das letzte Item der Breadcrumb kennzeichnet die <strong>aktuelle Seite</strong></li>
-                <li>Das Attribut <code class="docs__token">aria-current="page"</code> auf einem <code class="docs__token">&lt;span&gt;</code> (nicht <code class="docs__token">&lt;a&gt;</code>) setzen</li>
-                <li>Die aktuelle Seite soll <strong>nicht verlinkt</strong> sein &mdash; Nutzer sind bereits dort</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Separator aria-hidden -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Separator aria-hidden</h4>
-              <ul>
-                <li>Separatoren (Chevrons, Slashes) sind <strong>rein dekorativ</strong></li>
-                <li>Immer <code class="docs__token">aria-hidden="true"</code> setzen, damit Screenreader sie &uuml;berspringen</li>
-                <li>Die semantische Reihenfolge wird bereits durch die <code class="docs__token">&lt;ol&gt;</code>-Struktur vermittelt</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Ellipsis-Button -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Ellipsis-Button</h4>
-              <ul>
-                <li>Der Ellipsis-Button <strong>muss</strong> ein <code class="docs__token">&lt;button&gt;</code>-Element sein</li>
-                <li>Ein beschreibendes <code class="docs__token">aria-label="Weitere Seiten anzeigen"</code> ist <strong>Pflicht</strong></li>
-                <li>Das visuelle &ldquo;&hellip;&rdquo;-Icon allein ist nicht ausreichend f&uuml;r Screenreader</li>
-                <li>Der Button wird per <code class="docs__token">Tab</code>, <code class="docs__token">Enter</code> oder <code class="docs__token">Space</code> aktiviert</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Dropdown-Verhalten -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Dropdown-Verhalten (Truncation)</h4>
-              <ul>
-                <li>Der Ellipsis-Button braucht <code class="docs__token">aria-haspopup="true"</code> und <code class="docs__token">aria-expanded="true|false"</code></li>
-                <li>Das Dropdown ist ein <code class="docs__token">&lt;ul role="menu"&gt;</code>, Items sind <code class="docs__token">&lt;a role="menuitem"&gt;</code></li>
-                <li><strong>Keyboard:</strong> <code class="docs__token">Enter</code>/<code class="docs__token">Space</code> &ouml;ffnet Dropdown, <code class="docs__token">ArrowDown</code>/<code class="docs__token">ArrowUp</code> navigiert, <code class="docs__token">Escape</code> schlie&szlig;t</li>
-                <li><strong>Focus-Trap:</strong> Beim &Ouml;ffnen fokussiert das erste Item. <code class="docs__token">Escape</code> gibt den Focus zum Ellipsis zur&uuml;ck</li>
-                <li><strong>Click-Outside:</strong> Klick au&szlig;erhalb schlie&szlig;t das Dropdown automatisch</li>
-                <li>Das Feature ist <strong>Progressive Enhancement</strong> &mdash; ohne <code class="docs__token">js/breadcrumb.js</code> bleibt der Button ohne Funktion</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Semantische Breadcrumb --&gt;
-&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"&gt;
-  &lt;ol class="nc-breadcrumb__list"&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;a class="nc-breadcrumb__link" href="/"&gt;Home&lt;/a&gt;
-      &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;
-        &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
-      &lt;/span&gt;
-    &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;span class="nc-breadcrumb__page" aria-current="page"&gt;Aktuelle Seite&lt;/span&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/nav&gt;
-
-&lt;!-- RICHTIG: Ellipsis-Button mit aria-label --&gt;
-&lt;button class="nc-breadcrumb__ellipsis" aria-label="Weitere Seiten anzeigen"&gt;
-  &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- FALSCH: div statt nav --&gt;
-&lt;div class="nc-breadcrumb"&gt;
-  &lt;a href="/"&gt;Home&lt;/a&gt; &amp;gt; &lt;a href="/seite"&gt;Seite&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Aktuelle Seite als Link --&gt;
-&lt;a class="nc-breadcrumb__link" href="#" aria-current="page"&gt;Aktuelle Seite&lt;/a&gt;
-
-&lt;!-- FALSCH: Separator ohne aria-hidden --&gt;
-&lt;span class="nc-breadcrumb__separator"&gt;/&lt;/span&gt;
-
-&lt;!-- FALSCH: Ellipsis als span statt button --&gt;
-&lt;span class="nc-breadcrumb__ellipsis" onclick="expand()"&gt;&amp;hellip;&lt;/span&gt;</div>
-          </section>
         </div>
 
       </div>

@@ -192,24 +192,19 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Foundation-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Element</th><th>Eigenschaft</th><th>Token / Wert</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-security-list</code></td><td>list-style</td><td>none</td></tr>
-                <tr><td><code class="docs__token">.nc-security-list</code></td><td>padding</td><td>0</td></tr>
-                <tr><td><code class="docs__token">.nc-security-list</code></td><td>display</td><td>grid</td></tr>
-                <tr><td><code class="docs__token">.nc-security-list</code></td><td>gap</td><td>0.75rem (statisch)</td></tr>
-                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>background</td><td><code class="docs__token">var(--fnd-color-background-base)</code></td></tr>
-                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>border-radius</td><td><code class="docs__token">var(--fnd-radius-3xl)</code></td></tr>
-                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>border</td><td>1px solid <code class="docs__token">var(--fnd-color-border-secondary)</code></td></tr>
-                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>padding</td><td><code class="docs__token">var(--fnd-spacing-04)</code> <code class="docs__token">var(--fnd-spacing-05)</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -218,69 +213,67 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-security-list</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-security-list</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-*</code>)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_security-list.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;ul&gt;</code> + <code class="docs__token">&lt;li&gt;</code></td></tr>
-                <tr><td><strong>Layout</strong></td><td>CSS Grid (einspaltig, anpassbar)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Element</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-security-list</code></td><td>Block</td><td><code class="docs__token">&lt;ul&gt;</code></td><td>Grid-Container ohne list-style. Gap 0.75rem.</td></tr>
-                <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>Element</td><td><code class="docs__token">&lt;li&gt;</code></td><td>Karten-Item: base bg, radius-3xl, border, spacing-04/05 padding.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-structure">
-            <h2 class="docs__section-title">Element-Struktur</h2>
-            <div class="docs__code-block">&lt;ul class="nc-security-list"&gt;
-
-  &lt;!-- Einfaches Item --&gt;
-  &lt;li class="nc-security-list__item"&gt;
-    ISO 27001 zertifiziert
-  &lt;/li&gt;
-
-  &lt;!-- Item mit Icon + Text --&gt;
-  &lt;li class="nc-security-list__item"
-      style="display: flex; align-items: center; gap: var(--fnd-spacing-03);"&gt;
-    &lt;svg aria-hidden="true"&gt;&lt;!-- security icon --&gt;&lt;/svg&gt;
-    &lt;span&gt;Ende-zu-Ende-Verschl&uuml;sselung&lt;/span&gt;
-  &lt;/li&gt;
-
-  &lt;!-- Item mit Icon + Titel + Beschreibung --&gt;
-  &lt;li class="nc-security-list__item"
-      style="display: grid; grid-template-columns: auto 1fr; gap: var(--fnd-spacing-04);"&gt;
-    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
-    &lt;div&gt;
-      &lt;strong&gt;SOC 2 Typ II&lt;/strong&gt;
-      &lt;p&gt;J&auml;hrliche Audits durch unabh&auml;ngige Pr&uuml;fer&lt;/p&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-
-&lt;/ul&gt;
-
-&lt;!-- Zwei-Spalten-Variante --&gt;
-&lt;ul class="nc-security-list"
-    style="grid-template-columns: repeat(2, 1fr);"&gt;
-  &hellip;
-&lt;/ul&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-security-list</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-security-list</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-security-list-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-security-list</code></td><td>Block</td><td>security-list-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-security-list__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-security-list__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-security-list__text</code></td><td>Element</td><td>text</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Einzige Variante</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Grid-Layout mit gap. Items: flex, align-items center, border-bottom.</li>
+    <li>Icon: accent-Farbe. Text: font-size base.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -289,56 +282,29 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Die Security-Liste ist ein statisches Listen-Element. Korrekte HTML-Semantik
-            gew&auml;hrleistet die Navigierbarkeit f&uuml;r Screenreader-Nutzer.
-          </p>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Semantische Listen-Auszeichnung</h4>
-              <ul>
-                <li><code class="docs__token">&lt;ul&gt;</code> und <code class="docs__token">&lt;li&gt;</code> verwenden &mdash; niemals <code class="docs__token">&lt;div&gt;</code></li>
-                <li>Screenreader k&uuml;ndigen die Listenl&auml;nge an (z.B. &ldquo;Liste mit 4 Elementen&rdquo;)</li>
-                <li>CSS setzt <code class="docs__token">list-style: none</code> &mdash; dies entfernt in Safari die Listenrole; bei Bedarf <code class="docs__token">role="list"</code> auf <code class="docs__token">&lt;ul&gt;</code> setzen</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6M12 9v6"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Dekorative Icons</h4>
-              <ul>
-                <li>Icons in den Items sind dekorativ &mdash; <code class="docs__token">aria-hidden="true"</code> setzen</li>
-                <li>Der zugeh&ouml;rige Beschreibungstext muss immer als sichtbarer Text vorhanden sein</li>
-                <li>Kein reines Icon ohne sichtbaren Text in einem List-Item verwenden</li>
-              </ul>
-            </div>
-          </div>
-
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Semantische Liste mit aria-label f&uuml;r Kontext --&gt;
-&lt;ul class="nc-security-list" role="list" aria-label="Sicherheitszertifizierungen"&gt;
-  &lt;li class="nc-security-list__item"&gt;
-    &lt;svg aria-hidden="true"&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
-    &lt;span&gt;ISO 27001 zertifiziert&lt;/span&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- FALSCH: Div statt ul/li --&gt;
-&lt;div class="nc-security-list"&gt;
-  &lt;div class="nc-security-list__item"&gt;ISO 27001&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Icon ohne Beschreibungstext --&gt;
-&lt;li class="nc-security-list__item"&gt;
-  &lt;svg&gt;&lt;!-- kein aria-label, kein sichtbarer Text --&gt;&lt;/svg&gt;
-&lt;/li&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Liste mit Sicherheits-Features. Icon dekorativ (aria-hidden). Text muss lesbar sein.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

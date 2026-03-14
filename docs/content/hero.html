@@ -227,149 +227,19 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-layout">
-            <h2 class="docs__section-title">Layout-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token / Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">display</code></td><td>grid</td><td>Zweispaltiges Grid-Layout</td></tr>
-                <tr><td><code class="docs__token">gap</code></td><td>2.5rem</td><td>Abstand zwischen Content und Media</td></tr>
-                <tr><td><code class="docs__token">align-items</code></td><td>center</td><td>Vertikale Zentrierung beider Spalten</td></tr>
-                <tr><td><code class="docs__token">grid-template-columns</code></td><td>repeat(2, 1fr) ab 768&nbsp;px</td><td>Responsive Split-Layout</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-typography">
-            <h2 class="docs__section-title">Typografie-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--fs-4xl</code></td><td>Skalenstufe 4xl</td><td>Schriftgr&ouml;&szlig;e des Titels</td></tr>
-                <tr><td><code class="docs__token">--lh-heading</code></td><td>Heading-Line-Height</td><td>Zeilenabstand des Titels (berechnet)</td></tr>
-                <tr><td><code class="docs__token">max-width: 18ch</code></td><td>18 Zeichen</td><td>Maximale Titelbreite f&uuml;r optimale Lesbarkeit</td></tr>
-                <tr><td><code class="docs__token">--font-heading</code></td><td>Heading-Schriftfamilie</td><td>Schrift der Metriken in der Card</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-colors">
-            <h2 class="docs__section-title">Farb-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Element</th><th>Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><strong>Content-Text</strong></td>
-                  <td><code class="docs__token">--fnd-color-text-inverse</code></td>
-                  <td>Textfarbe des Hero-Contents (invertiert f&uuml;r dunkle Hintergr&uuml;nde)</td>
-                </tr>
-                <tr>
-                  <td><strong>Highlights-Text</strong></td>
-                  <td><code class="docs__token">--fnd-color-text-secondary</code></td>
-                  <td>Ged&auml;mpfte Textfarbe der Highlight-Liste</td>
-                </tr>
-                <tr>
-                  <td><strong>Highlight-Bullet</strong></td>
-                  <td><code class="docs__token">--fnd-color-background-accent-green</code></td>
-                  <td>Gr&uuml;ner Aufz&auml;hlungspunkt vor jedem Highlight</td>
-                </tr>
-                <tr>
-                  <td><strong>Bild-Hintergrund</strong></td>
-                  <td><code class="docs__token">--fnd-color-background-base</code></td>
-                  <td>F&uuml;llfarbe des Picture-Containers</td>
-                </tr>
-                <tr>
-                  <td><strong>Card-Hintergrund</strong></td>
-                  <td><code class="docs__token">color-mix(... --fnd-color-always-dark ...)</code></td>
-                  <td>Radial-Gradient aus always-dark und background-base</td>
-                </tr>
-                <tr>
-                  <td><strong>Card-Text</strong></td>
-                  <td><code class="docs__token">--fnd-color-always-light</code></td>
-                  <td>Immer heller Text auf dunkler Card (themeunabh&auml;ngig)</td>
-                </tr>
-                <tr>
-                  <td><strong>Metric-Hintergrund</strong></td>
-                  <td><code class="docs__token">color-mix(in srgb, --fnd-color-always-light 8%, transparent)</code></td>
-                  <td>Subtiler heller Schimmer auf der Card</td>
-                </tr>
-                <tr>
-                  <td><strong>Puls-Farbe</strong></td>
-                  <td><code class="docs__token">--fnd-color-feedback-success</code></td>
-                  <td>Gr&uuml;ner Radial-Gradient des Puls-Elements</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-elevation">
-            <h2 class="docs__section-title">Elevation-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Element</th><th>Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><strong>.nc-hero__picture</strong></td>
-                  <td><code class="docs__token">--fnd-elevation-overlay</code></td>
-                  <td>Schatten des Bild-Containers</td>
-                </tr>
-                <tr>
-                  <td><strong>.nc-hero__card</strong></td>
-                  <td><code class="docs__token">--fnd-elevation-overlay</code></td>
-                  <td>Schatten der Dashboard-Card</td>
-                </tr>
-                <tr>
-                  <td><strong>.nc-hero__picture</strong></td>
-                  <td><code class="docs__token">--fnd-radius-lg</code></td>
-                  <td>Border-Radius des Bild-Containers</td>
-                </tr>
-                <tr>
-                  <td><strong>.nc-hero__card</strong></td>
-                  <td><code class="docs__token">32px</code></td>
-                  <td>Fester Border-Radius der Card</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-animation">
-            <h2 class="docs__section-title">Animation</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">animation</code></td><td>nc-hero-pulse 3s infinite</td><td>Puls-Keyframe-Animation des Puls-Elements</td></tr>
-                <tr><td><code class="docs__token">@keyframes nc-hero-pulse</code></td><td>scale 0.9 &rarr; 1.05 &rarr; 0.9</td><td>Leichtes Vergr&ouml;&szlig;ern und Verkleinern mit Opacity-Wechsel</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
-
-.nc-hero                       // Block — zweispaltiges Grid-Layout
-.nc-hero__content              // Content-Spalte (Titel, Highlights, CTA)
-.nc-hero__title                // Heading des Hero-Bereichs
-.nc-hero__highlights           // Ungeordnete Liste der Features (ul)
-.nc-hero__highlight            // Einzelner Feature-Eintrag (li) — Bullet per ::before
-.nc-hero__media                // Media-Spalte (Bild oder Card)
-.nc-hero__media-spacer         // Platzhalter, wenn kein Media-Inhalt vorhanden
-.nc-hero__picture              // Bild-Container (rounded, elevated)
-.nc-hero__card                 // Dashboard-Card (dunkler Mockup-Container)
-.nc-hero__metric               // Metriken-Kachel innerhalb der Card
-.nc-hero__metric-value         // Numerischer Wert der Metrik
-.nc-hero__metric-label         // Beschriftung der Metrik
-.nc-hero__pulse                // Animiertes Puls-Element (bottom-right in Card)</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -378,144 +248,73 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-hero</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-hero</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens <code class="docs__token">--fnd-*</code> (keine eigenen <code class="docs__token">--nc-hero-*</code>)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/scss/07-organisms/_hero.scss</code></td></tr>
-                <tr><td><strong>Varianten</strong></td><td>Bild (<code class="docs__token">.nc-hero__picture</code>), Dashboard-Card (<code class="docs__token">.nc-hero__card</code>), Nur Content</td></tr>
-                <tr><td><strong>Responsive</strong></td><td>Einspaltlich unter 768&nbsp;px, zweispaltig ab 768&nbsp;px</td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine eigene JS-Logik &mdash; Animation via CSS-Keyframe</td></tr>
-                <tr><td><strong>Empfohlenes HTML-Element</strong></td><td><code class="docs__token">&lt;section&gt;</code> mit <code class="docs__token">aria-label</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-hero</code></td><td>Block</td><td>Hero-Container. Grid-Layout, Gap 2.5rem, align-items center.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__content</code></td><td>Element</td><td>Linke Inhaltsspalte. Grid, Gap 1rem, Textfarbe text-inverse.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__title</code></td><td>Element</td><td>Haupt&uuml;berschrift. Schriftgr&ouml;&szlig;e --fs-4xl, max-width 18ch.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__highlights</code></td><td>Element</td><td>Feature-Liste (ul). Kein list-style, Gap 0.5rem, Textfarbe text-secondary.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__highlight</code></td><td>Element</td><td>Einzelner Listeneintrag (li). Gr&uuml;ner Kreis-Bullet via ::before.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__media</code></td><td>Element</td><td>Rechte Media-Spalte. Flex, justify-content center.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__media-spacer</code></td><td>Element</td><td>Optionaler Platzhalter (width 100 %, min-height 1px).</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__picture</code></td><td>Element</td><td>Bild-Wrapper. Radius --fnd-radius-lg, overflow hidden, Elevation overlay.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__card</code></td><td>Element</td><td>Dashboard-Mockup-Card. 420px max, 4/5 Aspect-Ratio, dunkler Gradient-Hintergrund.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__metric</code></td><td>Element</td><td>Metriken-Kachel innerhalb der Card. Abgerundet, leichte Wei&szlig;-Transparenz.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__metric-value</code></td><td>Element</td><td>Numerischer Wert. Schriftgr&ouml;&szlig;e 1.8rem, Font-Family --font-heading.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__metric-label</code></td><td>Element</td><td>Beschriftung der Metrik. Schriftgr&ouml;&szlig;e 0.85rem, opacity 0.8, block.</td></tr>
-                <tr><td><code class="docs__token">.nc-hero__pulse</code></td><td>Element</td><td>Animierter Kreis (72px). Absolut positioniert, Radial-Gradient success-Farbe.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. CSS Custom Properties -->
-          <section class="docs__section" id="api-tokens">
-            <h2 class="docs__section-title">CSS Custom Properties (Foundation)</h2>
-            <p class="docs__section-desc">
-              Der Hero verwendet ausschlie&szlig;lich Foundation-Tokens. Es gibt keinen eigenen
-              <code class="docs__token">--nc-hero-*</code>-Namespace. Alle Farb- und Spacingwerte
-              werden direkt aus <code class="docs__token">--fnd-*</code>-Tokens bezogen.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Verwendet in</th><th>Zweck</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Farbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-text-inverse</code></td><td>.nc-hero__content</td><td>Textfarbe des Content-Bereichs</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-text-secondary</code></td><td>.nc-hero__highlights</td><td>Gedimmte Textfarbe der Highlight-Liste</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-background-accent-green</code></td><td>.nc-hero__highlight::before</td><td>Gr&uuml;ner Bullet-Punkt</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-background-base</code></td><td>.nc-hero__picture</td><td>Hintergrundfarbe des Bild-Containers</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-always-dark</code></td><td>.nc-hero__card</td><td>Basis des Card-Radial-Gradients</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-always-light</code></td><td>.nc-hero__card, .nc-hero__metric</td><td>Textfarbe und Metrik-Hintergrund der Card</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-feedback-success</code></td><td>.nc-hero__pulse</td><td>Farbe des Puls-Radial-Gradients</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Spacing</td></tr>
-                <tr><td><code class="docs__token">--fnd-spacing-06</code></td><td>.nc-hero__card</td><td>Innenabstand der Dashboard-Card</td></tr>
-                <tr><td><code class="docs__token">--fnd-spacing-04</code></td><td>.nc-hero__metric</td><td>Innenabstand der Metriken-Kacheln</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Border &amp; Elevation</td></tr>
-                <tr><td><code class="docs__token">--fnd-radius-lg</code></td><td>.nc-hero__picture</td><td>Abgerundete Ecken des Bild-Containers</td></tr>
-                <tr><td><code class="docs__token">--fnd-radius-3xl</code></td><td>.nc-hero__metric</td><td>Stark abgerundete Ecken der Metriken-Kacheln</td></tr>
-                <tr><td><code class="docs__token">--fnd-elevation-overlay</code></td><td>.nc-hero__picture, .nc-hero__card</td><td>Schattierung beider Media-Varianten</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typografie</td></tr>
-                <tr><td><code class="docs__token">--fs-4xl</code></td><td>.nc-hero__title</td><td>Schriftgr&ouml;&szlig;e des Haupt-Headings</td></tr>
-                <tr><td><code class="docs__token">--lh-heading</code></td><td>.nc-hero__title</td><td>Line-Height-Multiplikator f&uuml;r das Heading</td></tr>
-                <tr><td><code class="docs__token">--font-heading</code></td><td>.nc-hero__metric-value</td><td>Schriftfamilie der Metrik-Werte</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. Slots / Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Bild-Variante --&gt;
-&lt;section class="nc-hero" aria-label="[Seitenbereich-Label]"&gt;
-
-  &lt;!-- Slot 1: Content --&gt;
-  &lt;div class="nc-hero__content"&gt;
-    &lt;h1 class="nc-hero__title"&gt;Ihr Titel hier.&lt;/h1&gt;
-
-    &lt;!-- Slot 1a: Highlights (optional) --&gt;
-    &lt;ul class="nc-hero__highlights" aria-label="Features"&gt;
-      &lt;li class="nc-hero__highlight"&gt;Feature eins&lt;/li&gt;
-      &lt;li class="nc-hero__highlight"&gt;Feature zwei&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;!-- Slot 1b: CTA (optional) --&gt;
-    &lt;div&gt;
-      &lt;a href="#" class="nc-button nc-button--primary"&gt;Jetzt starten&lt;/a&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-  &lt;!-- Slot 2: Media (Bild) --&gt;
-  &lt;div class="nc-hero__media"&gt;
-    &lt;div class="nc-hero__picture"&gt;
-      &lt;img src="..." alt="[Bildbeschreibung]" width="..." height="..." /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;/section&gt;
-
-&lt;!-- Dashboard-Card-Variante --&gt;
-&lt;section class="nc-hero" aria-label="[Seitenbereich-Label]"&gt;
-
-  &lt;!-- Slot 1: Content (gleich wie oben) --&gt;
-  &lt;div class="nc-hero__content"&gt;...&lt;/div&gt;
-
-  &lt;!-- Slot 2: Media (Card) --&gt;
-  &lt;div class="nc-hero__media"&gt;
-    &lt;div class="nc-hero__card" aria-hidden="true"&gt;
-
-      &lt;div class="nc-hero__metric"&gt;
-        &lt;span class="nc-hero__metric-value"&gt;98.4 %&lt;/span&gt;
-        &lt;span class="nc-hero__metric-label"&gt;Uptime&lt;/span&gt;
-      &lt;/div&gt;
-
-      &lt;!-- Weitere Metriken nach Bedarf --&gt;
-
-      &lt;!-- Puls-Element (optional, rein dekorativ) --&gt;
-      &lt;div class="nc-hero__pulse" aria-hidden="true"&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;/section&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-hero</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-hero</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-hero-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-hero</code></td><td>Block</td><td>hero-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__title</code></td><td>Element</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__highlights</code></td><td>Element (optional)</td><td>highlights</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__media</code></td><td>Element (optional)</td><td>media</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__picture</code></td><td>Element (optional)</td><td>picture</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__card</code></td><td>Element (optional)</td><td>card</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>picture</td><td>Variante — picture, card</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>card</td><td>Variante — picture, card</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Grid: 2-Spalten ab 768px. Content: text-inverse, gap 1rem.</li>
+    <li>Title: fs-4xl, max-width 18ch. Highlights: Bullet-Liste mit accent-Punkt.</li>
+    <li>Card-Variante: radial-gradient dark BG, radius-3xl, Metric + Pulse-Animation.</li>
+    <li>Picture-Variante: radius-sm, elevation-overlay.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -524,151 +323,29 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Der Hero ist ein prominenter Bereich der Seite und muss f&uuml;r alle Nutzer zug&auml;nglich sein.
-            Besondere Anforderungen gelten f&uuml;r Landmark-Semantik, Bildtexte, dekorative Elemente und
-            die CSS-Animation des Puls-Elements.
-          </p>
-
-          <!-- Landmark-Semantik -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Landmark-Semantik</h4>
-              <ul>
-                <li>Verwende <code class="docs__token">&lt;section&gt;</code> als umschlie&szlig;endes Element, da der Hero einen eigenst&auml;ndigen Inhaltsbereich repr&auml;sentiert</li>
-                <li>F&uuml;ge immer <code class="docs__token">aria-label="[Beschreibung des Bereichs]"</code> hinzu, damit Screenreader den Landmark benennen k&ouml;nnen</li>
-                <li>Ohne <code class="docs__token">aria-label</code> ist die Section f&uuml;r assistive Technologien nicht unterscheidbar von anderen Sections</li>
-                <li>Verwende <strong>nicht</strong> <code class="docs__token">&lt;div&gt;</code> als Root-Element, da dies keinen Landmark-Wert besitzt</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Bildbeschreibung -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Bildbeschreibung (alt-Text)</h4>
-              <ul>
-                <li>Jedes <code class="docs__token">&lt;img&gt;</code> in <code class="docs__token">.nc-hero__picture</code> muss ein aussagekr&auml;ftiges <code class="docs__token">alt</code>-Attribut besitzen (WCAG 1.1.1)</li>
-                <li>Der alt-Text soll den Inhalt und Zweck des Bildes beschreiben, nicht &ldquo;Bild von &hellip;&rdquo;</li>
-                <li>Rein dekorative Bilder erhalten <code class="docs__token">alt=""</code> (leerer String) &mdash; niemals das Attribut weglassen</li>
-                <li>Angabe von <code class="docs__token">width</code> und <code class="docs__token">height</code> verhindert Cumulative Layout Shift (CLS)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Dekorative Media-Elemente -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Dekorative Card-Inhalte</h4>
-              <ul>
-                <li><code class="docs__token">.nc-hero__card</code> ist ein visueller Mockup und enth&auml;lt keine f&uuml;r Screenreader relevanten Informationen</li>
-                <li>Setze <code class="docs__token">aria-hidden="true"</code> auf <code class="docs__token">.nc-hero__card</code>, damit der gesamte Mockup &uuml;bersprungen wird</li>
-                <li><code class="docs__token">.nc-hero__pulse</code> ist rein dekorativ und muss ebenfalls <code class="docs__token">aria-hidden="true"</code> tragen</li>
-                <li>Metrik-Werte innerhalb der Card d&uuml;rfen nicht als einzige Informationsquelle dienen &mdash; relevante Kennzahlen m&uuml;ssen auch im Textinhalt der Seite vorkommen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Heading-Hierarchie -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="4" y1="14" x2="14" y2="14"/><line x1="4" y1="18" x2="14" y2="18"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Heading-Hierarchie</h4>
-              <ul>
-                <li><code class="docs__token">.nc-hero__title</code> muss das erste Heading der Seite sein und als <code class="docs__token">&lt;h1&gt;</code> ausgezeichnet werden</li>
-                <li>Pro Seite darf es nur ein <code class="docs__token">&lt;h1&gt;</code> geben</li>
-                <li>Alle nachfolgenden Headings m&uuml;ssen die Hierarchie einhalten (<code class="docs__token">h2</code>, <code class="docs__token">h3</code>, &hellip;)</li>
-                <li>Verwende die CSS-Klasse <code class="docs__token">.nc-hero__title</code> nicht auf einem anderen Heading-Level als <code class="docs__token">h1</code></li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Bewegung / Animation -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Bewegung &amp; Animation (WCAG 2.3.3)</h4>
-              <ul>
-                <li>Die <code class="docs__token">nc-hero-pulse</code>-Animation l&auml;uft dauerhaft und kann f&uuml;r Nutzer mit vestibul&auml;ren St&ouml;rungen problematisch sein</li>
-                <li>Der globale <code class="docs__token">@media (prefers-reduced-motion: reduce)</code>-Block im Design System pausiert alle Animationen automatisch</li>
-                <li>Stelle sicher, dass <code class="docs__token">_animations.scss</code> eingebunden ist, damit <code class="docs__token">prefers-reduced-motion</code> greift</li>
-                <li>Die Pulse-Animation ist rein dekorativ &mdash; ihr Fehlen darf die Lesbarkeit nicht beeintr&auml;chtigen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Kontrast -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Farbkontrast (WCAG 1.4.3 / 1.4.6)</h4>
-              <ul>
-                <li><code class="docs__token">--fnd-color-text-inverse</code> und <code class="docs__token">--fnd-color-text-secondary</code> sind f&uuml;r den jeweiligen Hero-Hintergrund auf WCAG AA ausgelegt</li>
-                <li>Die Dashboard-Card verwendet <code class="docs__token">--fnd-color-always-light</code> auf einem sehr dunklen Hintergrund &mdash; Kontrast &gt;&nbsp;7:1 (AAA)</li>
-                <li>Der <code class="docs__token">nc-hero__metric-label</code> hat <code class="docs__token">opacity: 0.8</code> &mdash; pr&uuml;fe bei individuellen Anpassungen, dass der Kontrast erhalten bleibt</li>
-                <li>Verwende nie hardkodierte Farben im Hero &mdash; ausschlie&szlig;lich semantische Foundation-Tokens nutzen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: section mit aria-label, h1-Titel, vollst&auml;ndiger alt-Text --&gt;
-&lt;section class="nc-hero" aria-label="Produkt-Einstieg"&gt;
-  &lt;div class="nc-hero__content"&gt;
-    &lt;h1 class="nc-hero__title"&gt;Ihre Plattform.&lt;/h1&gt;
-    &lt;ul class="nc-hero__highlights" aria-label="Features"&gt;
-      &lt;li class="nc-hero__highlight"&gt;Schnelle Einrichtung&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-hero__media"&gt;
-    &lt;div class="nc-hero__picture"&gt;
-      &lt;img src="dashboard.png" alt="Dashboard-&Uuml;bersicht mit Metriken" width="600" height="400" /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- RICHTIG: Card-Variante komplett als aria-hidden deklariert --&gt;
-&lt;section class="nc-hero" aria-label="Analytics-&Uuml;berblick"&gt;
-  &lt;div class="nc-hero__content"&gt;
-    &lt;h1 class="nc-hero__title"&gt;Analytics in Echtzeit.&lt;/h1&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-hero__media"&gt;
-    &lt;div class="nc-hero__card" aria-hidden="true"&gt;
-      &lt;div class="nc-hero__metric"&gt;
-        &lt;span class="nc-hero__metric-value"&gt;98.4 %&lt;/span&gt;
-        &lt;span class="nc-hero__metric-label"&gt;Uptime&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div class="nc-hero__pulse" aria-hidden="true"&gt;&lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- FALSCH: div als Root, fehlendes aria-label, fehlender alt-Text --&gt;
-&lt;div class="nc-hero"&gt;
-  &lt;div class="nc-hero__content"&gt;
-    &lt;h2 class="nc-hero__title"&gt;Titel&lt;/h2&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-hero__media"&gt;
-    &lt;div class="nc-hero__picture"&gt;
-      &lt;img src="bild.png" /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Card ohne aria-hidden &mdash; Screenreader liest Mockup-Zahlen vor --&gt;
-&lt;div class="nc-hero__card"&gt;
-  &lt;div class="nc-hero__metric"&gt;
-    &lt;span class="nc-hero__metric-value"&gt;98.4 %&lt;/span&gt;
-    &lt;span class="nc-hero__metric-label"&gt;Uptime&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: text-secondary Kontrast pruefen. Pulse-Animation: reduced-motion.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA large text (3:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

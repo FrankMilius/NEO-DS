@@ -260,196 +260,19 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-foundation">
-            <h2 class="docs__section-title">Foundation-Token-Referenz</h2>
-            <p class="docs__section-desc">
-              Der Header verwendet ausschlie&szlig;lich Foundation-Tokens (<code class="docs__token">--fnd-*</code>).
-              Es gibt keine dedizierten <code class="docs__token">--nc-header-*</code> Component-Tokens &mdash;
-              alle Werte werden direkt aus dem Foundation-Layer bezogen.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Anwendung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>Hintergrund Nav Wrapper</td>
-                  <td><code class="docs__token">--fnd-color-background-base</code></td>
-                  <td><code class="docs__token">.nav-wrapper</code> background-color</td>
-                </tr>
-                <tr>
-                  <td>Textfarbe (hoch)</td>
-                  <td><code class="docs__token">--fnd-color-text-high</code></td>
-                  <td>Nav, Nav Brand Logo, Nav Drop Button, Button-Spans</td>
-                </tr>
-                <tr>
-                  <td>Textfarbe (mittel)</td>
-                  <td><code class="docs__token">--fnd-color-text-mid</code></td>
-                  <td>Hamburger-Icon, Company-Section Secondary-Link</td>
-                </tr>
-                <tr>
-                  <td>Unterrand Nav Wrapper</td>
-                  <td><code class="docs__token">--fnd-color-border-low</code></td>
-                  <td><code class="docs__token">.nav-wrapper</code> border-block-end, Nav Brand Trenner</td>
-                </tr>
-                <tr>
-                  <td>Aktiver Unterrand Nav-Item</td>
-                  <td><code class="docs__token">--fnd-color-border-high</code></td>
-                  <td><code class="docs__token">li:hover</code> / <code class="docs__token">li:focus</code> border-bottom</td>
-                </tr>
-                <tr>
-                  <td>Inaktiver Link</td>
-                  <td><code class="docs__token">--fnd-color-text-state-disabled</code></td>
-                  <td><code class="docs__token">a.inactive</code>, <code class="docs__token">button.inactive</code></td>
-                </tr>
-                <tr>
-                  <td>Icon-Button Hintergrund</td>
-                  <td><code class="docs__token">--fnd-color-background-secondary</code></td>
-                  <td><code class="docs__token">.icon-button</code> background</td>
-                </tr>
-                <tr>
-                  <td>Icon-Button Hover</td>
-                  <td><code class="docs__token">--fnd-color-background-tertiary</code></td>
-                  <td><code class="docs__token">.icon-button:hover</code> / <code class="docs__token">:focus</code></td>
-                </tr>
-                <tr>
-                  <td>Mobile Menu Hintergrund</td>
-                  <td><code class="docs__token">--fnd-color-always-light</code></td>
-                  <td><code class="docs__token">.nav-menu</code> (mobile), Expanded CTA-Bereich</td>
-                </tr>
-                <tr>
-                  <td>Hamburger Open State BG</td>
-                  <td><code class="docs__token">--fnd-color-background-secondary</code></td>
-                  <td><code class="docs__token">.header-open .hamburger .icon-only</code></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-spacing">
-            <h2 class="docs__section-title">Spacing &amp; Z-Index Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Anwendung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>Z-Index Header</td>
-                  <td><code class="docs__token">--fnd-z-header</code></td>
-                  <td><code class="docs__token">.header</code> z-index</td>
-                </tr>
-                <tr>
-                  <td>Cloned CTA Z-Index</td>
-                  <td>3 (intern)</td>
-                  <td><code class="docs__token">.cloned-cta</code>, <code class="docs__token">.nav-tools</code> Panels</td>
-                </tr>
-                <tr>
-                  <td>Desktop Padding (MD)</td>
-                  <td><code class="docs__token">--fnd-spacing-09</code></td>
-                  <td>Conversion/CTA margin-inline auf desktop-up</td>
-                </tr>
-                <tr>
-                  <td>Desktop Padding (LG)</td>
-                  <td><code class="docs__token">--fnd-spacing-10</code></td>
-                  <td>Conversion/CTA margin-inline auf large-desktop</td>
-                </tr>
-                <tr>
-                  <td>Mobile Nav Item Margin</td>
-                  <td><code class="docs__token">--fnd-spacing-07</code></td>
-                  <td>Nav Item margin-bottom (mobile)</td>
-                </tr>
-                <tr>
-                  <td>Mobile Nav Margin</td>
-                  <td><code class="docs__token">--fnd-spacing-08</code> / <code class="docs__token">--fnd-spacing-05</code></td>
-                  <td><code class="docs__token">.main-nav</code> margin (mobile)</td>
-                </tr>
-                <tr>
-                  <td>Nav Tools Button Abstand</td>
-                  <td><code class="docs__token">--fnd-spacing-02</code></td>
-                  <td>Hamburger margin-left, .button-container margin-left</td>
-                </tr>
-                <tr>
-                  <td>Nav Brand Padding</td>
-                  <td><code class="docs__token">--fnd-spacing-03</code> / <code class="docs__token">--fnd-spacing-04</code></td>
-                  <td>Brand span padding-inline-end (mobile/desktop)</td>
-                </tr>
-                <tr>
-                  <td>Cloned CTA Top</td>
-                  <td><code class="docs__token">--fnd-spacing-06</code></td>
-                  <td><code class="docs__token">.cloned-cta</code> top-Abstand</td>
-                </tr>
-                <tr>
-                  <td>Cloned CTA Right (MD)</td>
-                  <td><code class="docs__token">--fnd-spacing-09</code></td>
-                  <td><code class="docs__token">.cloned-cta</code> right (desktop-up)</td>
-                </tr>
-                <tr>
-                  <td>Cloned CTA Right (LG)</td>
-                  <td><code class="docs__token">--fnd-spacing-10</code></td>
-                  <td><code class="docs__token">.cloned-cta</code> right (large-desktop)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-transitions">
-            <h2 class="docs__section-title">Transitions</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Selektor</th><th>Eigenschaft</th><th>Dauer / Easing</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.nav-wrapper</code></td>
-                  <td>background-color</td>
-                  <td>0.4s cubic-bezier(0, 0.81, 0.36, 0.87)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nav-drop button + ul</code> (Desktop)</td>
-                  <td>opacity, visibility</td>
-                  <td>0.4s cubic-bezier(0, 0.81, 0.36, 0.87)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nav-menu</code> (Mobile)</td>
-                  <td>opacity, visibility</td>
-                  <td>0.4s cubic-bezier(0, 0.81, 0.36, 0.87)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem-overview">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== Header (kein nc-Pr&auml;fix &mdash; Legacy-Klasse) =====
-
-.header                        // Block &mdash; Haupt-Container, z-index: var(--fnd-z-header)
-.nav-wrapper                   // Fixierter Nav-Hintergrund-Container
-.nav-wrapper.nav-hidden        // Modifier &mdash; ausgeblendet (opacity: 0)
-.header.expanded               // State &mdash; Mobile-Menu ge&ouml;ffnet
-
-// Unterstrukturen
-nav                            // Semantisches nav-Element (flex-between, container-padding)
-.nav-brand                     // Logo + Produktname
-.nav-menu                      // Haupt-Nav-Wrapper (flex-grow: 1 auf Desktop)
-.nav-menu.nav-menu-no-items    // Modifier &mdash; keine Nav-Items
-.main-nav                      // &lt;ul&gt; der prim&auml;ren Navigation
-.nav-drop                      // &lt;li&gt; mit Dropdown-Unternavigation
-.nav-tools                     // Rechte Tool-Leiste (Icon-Buttons, Hamburger)
-.default-content-wrapper       // Innerer Flex-Container f&uuml;r Brand/Menu/Tools
-
-// Nav-Drop Unterelemente
-.header-section-solutions      // Dropdown-Sektion: L&ouml;sungen
-.header-section-company        // Dropdown-Sektion: Unternehmen
-.icon-only                     // Chevron-Icon (auf/zu) im Dropdown-Button
-
-// Nav-Tools Unterelemente
-.icon-button                   // 40&times;40px Icon-Button
-.hamburger                     // Hamburger/Close-Button (nur Mobile)
-
-// Conversion
-.conversion                    // Fixierter CTA-Wrapper (direkt in .header)
-.cloned-cta                    // JS-geklonter CTA (z-index: 3)</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -458,222 +281,66 @@ nav                            // Semantisches nav-Element (flex-between, contai
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.header</code></td></tr>
-                <tr><td><strong>Typ</strong></td><td>Organism &mdash; seitenweiter, fixierter Header</td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Foundation-Tokens (<code class="docs__token">--fnd-color-*</code>, <code class="docs__token">--fnd-spacing-*</code>, <code class="docs__token">--fnd-z-*</code>)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_header.scss</code></td></tr>
-                <tr><td><strong>Component-Tokens</strong></td><td>Keine &mdash; keine <code class="docs__token">--nc-header-*</code> Tokens definiert</td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;header&gt;</code></td></tr>
-                <tr><td><strong>Position</strong></td><td>Fixed (via <code class="docs__token">.nav-wrapper</code>)</td></tr>
-                <tr><td><strong>Responsive</strong></td><td>Ja &mdash; mobile-only, desktop-up, large-desktop, full-desktop Breakpoints</td></tr>
-                <tr><td><strong>CSS-Variable</strong></td><td><code class="docs__token">--nav-height</code> (extern gesetzt, steuert nav-H&ouml;he und Dropdown-Offset)</td></tr>
-                <tr><td><strong>Maximale Container-Breite</strong></td><td><code class="docs__token">--container-max-width</code> (1472px, f&uuml;r Full-Bleed Dropdown Padding)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (vollst&auml;ndig)</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; strukturelle Elemente</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.header</code></td><td><code class="docs__token">&lt;header&gt;</code></td><td>Haupt-Block. <code class="docs__token">position: relative</code>, <code class="docs__token">z-index: var(--fnd-z-header)</code>.</td></tr>
-                <tr><td><code class="docs__token">.nav-wrapper</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Fixierter Hintergrund-Wrapper der gesamten Nav. H&auml;lt Farbe, Border und Transition.</td></tr>
-                <tr><td><code class="docs__token">.nav-brand</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Logo-Bereich. Enth&auml;lt SVG-Logo und optionalen Produkttitel.</td></tr>
-                <tr><td><code class="docs__token">.nav-menu</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>H&uuml;lle der Haupt-Navigation. Auf Mobile: Full-Screen Overlay. Auf Desktop: flex-grow: 1.</td></tr>
-                <tr><td><code class="docs__token">.main-nav</code></td><td><code class="docs__token">&lt;ul&gt;</code></td><td>Prim&auml;re Navigationsliste. Horizontal auf Desktop, vertikal auf Mobile.</td></tr>
-                <tr><td><code class="docs__token">.nav-drop</code></td><td><code class="docs__token">&lt;li&gt;</code></td><td>Dropdown-Navigation-Element. Enth&auml;lt Button + Dropdown-Panel.</td></tr>
-                <tr><td><code class="docs__token">.nav-tools</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Rechte Werkzeugleiste. Icon-Buttons + Hamburger-Button.</td></tr>
-                <tr><td><code class="docs__token">.default-content-wrapper</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Innerer Flex-Container (align-items: center). Wird in Brand, Menu und Tools verwendet.</td></tr>
-                <tr><td><code class="docs__token">.conversion</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>Fixierter CTA-Wrapper, direkt unterhalb <code class="docs__token">.header</code> (nicht in .nav-wrapper).</td></tr>
-                <tr><td><code class="docs__token">.cloned-cta</code></td><td><code class="docs__token">&lt;div&gt;</code></td><td>JS-geklonte CTA-Kopie mit <code class="docs__token">z-index: 3</code>. Breakpoint-spezifische right-Abstufung.</td></tr>
-                <tr><td><code class="docs__token">.icon-only</code></td><td><code class="docs__token">&lt;span&gt;</code></td><td>Icon-Container im Dropdown-Button. Wechselt zwischen Chevron-Down und Chevron-Up.</td></tr>
-                <tr><td><code class="docs__token">.icon-button</code></td><td><code class="docs__token">&lt;a&gt;</code> / <code class="docs__token">&lt;button&gt;</code></td><td>40&times;40px quadratischer Icon-Button in Nav-Tools.</td></tr>
-                <tr><td><code class="docs__token">.hamburger</code></td><td><code class="docs__token">&lt;span&gt;</code></td><td>Hamburger-Button-Wrapper (nur auf Mobile sichtbar).</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">State-Modifier</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Anwendung</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.header.expanded</code></td><td><code class="docs__token">.header</code></td><td>Mobile-Menu ge&ouml;ffnet. Macht <code class="docs__token">.nav-menu</code> sichtbar, fixiert CTA unten.</td></tr>
-                <tr><td><code class="docs__token">.nav-wrapper.nav-hidden</code></td><td><code class="docs__token">.nav-wrapper</code></td><td>Header ausgeblendet (opacity: 0, pointer-events: none). Z.B. beim Scrollen nach unten.</td></tr>
-                <tr><td><code class="docs__token">.nav-menu.nav-menu-no-items</code></td><td><code class="docs__token">.nav-menu</code></td><td>Keine Nav-Items vorhanden. Beeinflusst Sichtbarkeit des letzten Button-Containers in Nav-Tools.</td></tr>
-                <tr><td><code class="docs__token">a.inactive</code> / <code class="docs__token">button.inactive</code></td><td>Links/Buttons in <code class="docs__token">.main-nav</code></td><td>Deaktivierter Zustand. Farbe: <code class="docs__token">--fnd-color-text-state-disabled</code>.</td></tr>
-                <tr><td><code class="docs__token">button[aria-expanded="true"]</code></td><td>Dropdown-Button in <code class="docs__token">.nav-drop</code></td><td>Dropdown ge&ouml;ffnet. Panel wird sichtbar, Icon wechselt.</td></tr>
-                <tr><td><code class="docs__token">.header-open</code></td><td><code class="docs__token">&lt;body&gt;</code> / Container</td><td>Outer-State. Ver&auml;ndert Hamburger-Icon-Hintergrund via CSS-Selektor.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dropdown-Sektions-Klassen</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.header-section-solutions</code></td><td>Dropdown-Sektion f&uuml;r L&ouml;sungs-Links. Links verwenden <code class="docs__token">heading('xxs')</code>-Typografie.</td></tr>
-                <tr><td><code class="docs__token">.header-section-company</code></td><td>Dropdown-Sektion f&uuml;r Unternehmens-Links. Sekund&auml;re Links in <code class="docs__token">--fnd-color-text-mid</code>. Hat absolute <code class="docs__token">.icon-only</code> Positionierung.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. CSS Custom Properties (Extern) -->
-          <section class="docs__section" id="api-custom-props">
-            <h2 class="docs__section-title">CSS Custom Properties (Extern)</h2>
-            <p class="docs__section-desc">
-              Diese Variablen m&uuml;ssen au&szlig;erhalb des Header-SCSS gesetzt werden (z.B. in einem globalen <code class="docs__token">:root</code>-Block).
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Variable</th><th>Verwendung</th><th>Beispielwert</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">--nav-height</code></td>
-                  <td>H&ouml;he der <code class="docs__token">nav</code>, Offset des Dropdown-Panels, Inset des Mobile-Menus</td>
-                  <td>64px</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">--container-max-width</code></td>
-                  <td>Maximale Inhaltsbreite f&uuml;r Full-Bleed Dropdown Padding ab 1920px</td>
-                  <td>1472px</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">--grid-gap</code></td>
-                  <td>Grid-Abstand im Dropdown-Panel</td>
-                  <td>24px</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">--cta-right-offset</code></td>
-                  <td>Optionaler Override f&uuml;r CTA-Rechtsabstand (1200px&ndash;1599px Breakpoint)</td>
-                  <td>var(--fnd-spacing-09)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. SCSS Mixins -->
-          <section class="docs__section" id="api-mixins">
-            <h2 class="docs__section-title">SCSS Mixins</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Mixin</th><th>Anwendung</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">desktop-up</code></td><td>Breakpoint</td><td>Styles ab Desktop-Breite aufw&auml;rts</td></tr>
-                <tr><td><code class="docs__token">large-desktop</code></td><td>Breakpoint</td><td>Styles f&uuml;r gro&szlig;e Desktops</td></tr>
-                <tr><td><code class="docs__token">full-desktop</code></td><td>Breakpoint</td><td>Styles ab 1920px &mdash; zentriert Inhalt mit <code class="docs__token">--container-max-width</code></td></tr>
-                <tr><td><code class="docs__token">mobile-only</code></td><td>Breakpoint</td><td>Styles nur auf Mobile (unterhalb Desktop-Breakpoint)</td></tr>
-                <tr><td><code class="docs__token">heading('l')</code></td><td>Typografie</td><td>Nav-Element Typografie</td></tr>
-                <tr><td><code class="docs__token">heading('xs')</code></td><td>Typografie</td><td>Nav Brand Titel</td></tr>
-                <tr><td><code class="docs__token">heading('xxs')</code></td><td>Typografie</td><td>Header-Section Solutions Links</td></tr>
-                <tr><td><code class="docs__token">paragraph('l')</code></td><td>Typografie</td><td>Main-Nav, Nav Drop Button</td></tr>
-                <tr><td><code class="docs__token">flex-between</code></td><td>Layout</td><td>flex + justify-content: space-between f&uuml;r das nav-Element</td></tr>
-                <tr><td><code class="docs__token">flex-column</code></td><td>Layout</td><td>flex-direction: column f&uuml;r .main-nav</td></tr>
-                <tr><td><code class="docs__token">container-padding</code></td><td>Layout</td><td>Horizontales Innenpadding an nav und Dropdown-Panels</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 5. Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Element-Struktur</h2>
-            <div class="docs__code-block">&lt;header class="header"&gt;
-
-  &lt;!-- Fixierter Nav-Wrapper --&gt;
-  &lt;div class="nav-wrapper"&gt;
-    &lt;nav&gt;
-
-      &lt;!-- Logo und Produktname --&gt;
-      &lt;div class="nav-brand"&gt;
-        &lt;div class="default-content-wrapper"&gt;
-          &lt;p&gt;&lt;a href="/"&gt;&lt;span class="icon icon-logo"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-          &lt;p&gt;&lt;a href="/"&gt;&lt;span&gt;Produktname&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-
-      &lt;!-- Haupt-Navigation --&gt;
-      &lt;div class="nav-menu"&gt;
-        &lt;div class="default-content-wrapper"&gt;
-          &lt;ul class="main-nav"&gt;
-
-            &lt;!-- Einfacher Link --&gt;
-            &lt;li&gt;&lt;a href="/produkte"&gt;Produkte&lt;/a&gt;&lt;/li&gt;
-
-            &lt;!-- Dropdown-Item --&gt;
-            &lt;li class="nav-drop"&gt;
-              &lt;button aria-expanded="false" aria-controls="dropdown-loesungen"&gt;
-                &lt;span&gt;L&ouml;sungen&lt;/span&gt;
-                &lt;span class="icon-only"&gt;&lt;!-- Chevron-Down Icon --&gt;&lt;/span&gt;
-                &lt;span class="icon-only"&gt;&lt;!-- Chevron-Up Icon (hidden) --&gt;&lt;/span&gt;
-              &lt;/button&gt;
-              &lt;ul id="dropdown-loesungen"&gt;
-                &lt;li class="header-section-solutions"&gt;
-                  &lt;ul&gt;
-                    &lt;li&gt;&lt;a href="/loesungen/enterprise"&gt;Enterprise&lt;/a&gt;&lt;/li&gt;
-                  &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li class="header-section-company"&gt;
-                  &lt;ul&gt;
-                    &lt;li&gt;
-                      &lt;a href="/ueber-uns"&gt;Über uns&lt;/a&gt;
-                      &lt;span class="icon-only"&gt;&lt;!-- Arrow Icon --&gt;&lt;/span&gt;
-                    &lt;/li&gt;
-                  &lt;/ul&gt;
-                &lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/li&gt;
-
-          &lt;/ul&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-
-      &lt;!-- Rechte Tools (Icon-Buttons + Hamburger) --&gt;
-      &lt;div class="nav-tools"&gt;
-        &lt;div class="default-content-wrapper"&gt;
-          &lt;p class="button-container"&gt;
-            &lt;a class="icon-button" href="/suche" aria-label="Suche"&gt;
-              &lt;span class="icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
-            &lt;/a&gt;
-          &lt;/p&gt;
-          &lt;p class="button-container"&gt;
-            &lt;span class="hamburger"&gt;
-              &lt;button class="icon-button" aria-expanded="false" aria-controls="nav-menu" aria-label="Navigation &ouml;ffnen"&gt;
-                &lt;span class="icon-only"&gt;&lt;!-- Hamburger Icon --&gt;&lt;/span&gt;
-                &lt;span class="icon-only"&gt;&lt;!-- Close Icon (hidden) --&gt;&lt;/span&gt;
-              &lt;/button&gt;
-            &lt;/span&gt;
-          &lt;/p&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-
-    &lt;/nav&gt;
-  &lt;/div&gt;
-
-  &lt;!-- Optionaler fixierter Conversion-CTA --&gt;
-  &lt;div class="conversion"&gt;
-    &lt;p class="button-container"&gt;
-      &lt;a class="nc-button nc-button--primary" href="/kontakt"&gt;Kontakt&lt;/a&gt;
-    &lt;/p&gt;
-  &lt;/div&gt;
-
-&lt;/header&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.header</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">header</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--header-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.header</code></td><td>Block</td><td>header-Container</td></tr>
+      <tr><td><code class="docs__token">.nav-wrapper</code></td><td>Element</td><td>nav-wrapper</td></tr>
+      <tr><td><code class="docs__token">.conversion</code></td><td>Element (optional)</td><td>conversion</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Einzige Variante</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Relative positioned, z-index header. Nav-Wrapper: fixed, background-base, border-bottom.</li>
+    <li>nav-hidden: opacity 0, pointer-events none. Conversion: fixed Button, right 0, z-index dropdown.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -682,150 +349,20 @@ nav                            // Semantisches nav-Element (flex-between, contai
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Der globale Header muss als prim&auml;re Navigation vollst&auml;ndig per Tastatur bedienbar und von
-            Screenreadern korrekt verstanden werden. Die folgenden Anforderungen orientieren sich an WCAG 2.1 AA.
-          </p>
-
-          <!-- Landmarks und Semantik -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Landmarks und Semantik</h4>
-              <ul>
-                <li><code class="docs__token">&lt;header&gt;</code> definiert das globale Banner-Landmark &mdash; Screenreader k&ouml;nnen direkt dorthin navigieren</li>
-                <li><code class="docs__token">&lt;nav&gt;</code> definiert ein Navigation-Landmark und sollte ein <code class="docs__token">aria-label</code> tragen (z.B. <code class="docs__token">aria-label="Hauptnavigation"</code>), wenn mehrere <code class="docs__token">&lt;nav&gt;</code>-Elemente auf der Seite vorhanden sind</li>
-                <li>Das Dropdown-<code class="docs__token">&lt;ul&gt;</code> sollte &uuml;ber <code class="docs__token">aria-controls</code> und eine passende <code class="docs__token">id</code> mit dem Trigger-Button verkn&uuml;pft sein</li>
-                <li>Verschachtelte <code class="docs__token">&lt;ul&gt;</code>-Listen innerhalb von <code class="docs__token">.main-nav</code> folgen der nat&uuml;rlichen semantischen Listenhierarchie</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Dropdown-Tastatursteuerung -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Dropdown-Tastatursteuerung</h4>
-              <ul>
-                <li>Dropdown-Buttons m&uuml;ssen <code class="docs__token">aria-expanded="false"</code> (geschlossen) bzw. <code class="docs__token">aria-expanded="true"</code> (ge&ouml;ffnet) f&uuml;hren</li>
-                <li><kbd>Enter</kbd> und <kbd>Space</kbd> &ouml;ffnen/schlie&szlig;en das Dropdown</li>
-                <li><kbd>Escape</kbd> schlie&szlig;t das ge&ouml;ffnete Dropdown und gibt den Fokus an den Trigger zur&uuml;ck</li>
-                <li>Tab-Fokus muss durch alle Links im Dropdown-Panel f&uuml;hren und das Panel korrekt schlie&szlig;en, wenn der Fokus das Panel verl&auml;sst</li>
-                <li>Dropdown-Buttons haben <code class="docs__token">:focus-visible</code>: Text-Unterstrich statt Box-Shadow (<code class="docs__token">text-decoration-thickness: 2px</code>, <code class="docs__token">text-underline-offset: 6px</code>)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Hamburger-Button -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Hamburger-Button (Mobile)</h4>
-              <ul>
-                <li>Muss <code class="docs__token">aria-expanded</code> und <code class="docs__token">aria-controls</code> (verweist auf <code class="docs__token">.nav-menu</code> ID) tragen</li>
-                <li>Muss ein sichtbares <code class="docs__token">aria-label</code> haben, das den aktuellen Zustand beschreibt: z.B. <code class="docs__token">aria-label="Navigation &ouml;ffnen"</code> / <code class="docs__token">aria-label="Navigation schlie&szlig;en"</code></li>
-                <li>Das Icon wechselt visuell zwischen Hamburger und X &mdash; der zugeh&ouml;rige Text muss per <code class="docs__token">aria-label</code> oder <code class="docs__token">aria-live</code> kommuniziert werden</li>
-                <li>Nach dem &Ouml;ffnen des Menus sollte der Fokus ins Men&uuml; verschoben werden (erster fokussierbarer Link)</li>
-                <li>Nach dem Schlie&szlig;en kehrt der Fokus zum Hamburger-Button zur&uuml;ck</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Logo und Nav Brand -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Logo und Nav Brand</h4>
-              <ul>
-                <li>Das Logo-SVG muss entweder ein <code class="docs__token">aria-label</code> am Link (<code class="docs__token">&lt;a aria-label="Zur Startseite"&gt;</code>) tragen oder das SVG muss einen <code class="docs__token">&lt;title&gt;</code> enthalten</li>
-                <li>Das SVG selbst sollte <code class="docs__token">aria-hidden="true"</code> tragen, wenn der Link bereits beschriftet ist</li>
-                <li>Logo-SVGs und Icon-Logo-Klassen sind rein dekorativ innerhalb eines beschrifteten Links</li>
-                <li>Separate Produktname-Links m&uuml;ssen ebenfalls einen aussagekr&auml;ftigen Linktext haben</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Icon-Buttons in Nav Tools -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Icon-Buttons in Nav-Tools</h4>
-              <ul>
-                <li>Alle <code class="docs__token">.icon-button</code>-Elemente m&uuml;ssen ein <code class="docs__token">aria-label</code> tragen, das die Funktion beschreibt (z.B. <code class="docs__token">aria-label="Suche"</code>, <code class="docs__token">aria-label="Konto"</code>)</li>
-                <li>Das enthaltene Icon (<code class="docs__token">&lt;span class="icon"&gt;</code> / SVG) muss <code class="docs__token">aria-hidden="true"</code> haben</li>
-                <li><code class="docs__token">overflow: hidden</code> auf <code class="docs__token">.icon-button span</code> versteckt keinen sichtbaren Text &mdash; nur Clippen von Icon-Overflows</li>
-                <li>Fokus-Indikator: Icon-Buttons m&uuml;ssen einen sichtbaren <code class="docs__token">:focus-visible</code>-Ring erhalten (via <code class="docs__token">@include focus-ring</code> oder &auml;quivalent)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Inaktive Links -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Inaktive Links (<code class="docs__token">.inactive</code>)</h4>
-              <ul>
-                <li>Farbe: <code class="docs__token">--fnd-color-text-state-disabled</code> &mdash; muss ausreichend Kontrast gegen&uuml;ber dem Hintergrund bieten (min. 3:1 f&uuml;r UI-Komponenten, WCAG 1.4.11)</li>
-                <li>Inaktive Elemente sollten zus&auml;tzlich <code class="docs__token">aria-disabled="true"</code> tragen, wenn sie nicht navigierbar sind</li>
-                <li>Rein visuell deaktivierte Links (ohne <code class="docs__token">disabled</code>-Attribut) bleiben im Tab-Fokus &mdash; das ist akzeptabel, solange sie klar als inaktiv kommuniziert werden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: nav mit aria-label (mehrere nav-Elemente auf der Seite) --&gt;
-&lt;header class="header"&gt;
-  &lt;div class="nav-wrapper"&gt;
-    &lt;nav aria-label="Hauptnavigation"&gt;
-      ...
-    &lt;/nav&gt;
-  &lt;/div&gt;
-&lt;/header&gt;
-
-&lt;!-- RICHTIG: Logo-Link mit aria-label, SVG aria-hidden --&gt;
-&lt;a href="/" aria-label="Zur Startseite"&gt;
-  &lt;span class="icon icon-logo" aria-hidden="true"&gt;
-    &lt;svg&gt;...&lt;/svg&gt;
-  &lt;/span&gt;
-&lt;/a&gt;
-
-&lt;!-- RICHTIG: Dropdown-Button mit aria-expanded und aria-controls --&gt;
-&lt;button aria-expanded="false" aria-controls="dropdown-loesungen"&gt;
-  &lt;span&gt;L&ouml;sungen&lt;/span&gt;
-  &lt;span class="icon-only" aria-hidden="true"&gt;&lt;!-- Chevron --&gt;&lt;/span&gt;
-&lt;/button&gt;
-&lt;ul id="dropdown-loesungen"&gt;...&lt;/ul&gt;
-
-&lt;!-- RICHTIG: Hamburger mit dynamischem aria-label und aria-expanded --&gt;
-&lt;button class="icon-button"
-        aria-expanded="false"
-        aria-controls="main-nav-menu"
-        aria-label="Navigation &ouml;ffnen"&gt;
-  &lt;span class="icon-only" aria-hidden="true"&gt;&lt;!-- Hamburger --&gt;&lt;/span&gt;
-  &lt;span class="icon-only" aria-hidden="true"&gt;&lt;!-- Close --&gt;&lt;/span&gt;
-&lt;/button&gt;
-
-&lt;!-- RICHTIG: Icon-Button mit aria-label --&gt;
-&lt;a class="icon-button" href="/suche" aria-label="Suche"&gt;
-  &lt;span class="icon" aria-hidden="true"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
-&lt;/a&gt;
-
-&lt;!-- FALSCH: nav ohne Label (wenn mehrere navs vorhanden) --&gt;
-&lt;nav&gt;...&lt;/nav&gt;
-&lt;nav&gt;...&lt;/nav&gt;
-
-&lt;!-- FALSCH: Icon-Button ohne aria-label --&gt;
-&lt;button class="icon-button"&gt;
-  &lt;span class="icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
-&lt;/button&gt;
-
-&lt;!-- FALSCH: Dropdown-Button ohne aria-expanded --&gt;
-&lt;button&gt;L&ouml;sungen&lt;/button&gt;
-&lt;ul class="dropdown"&gt;...&lt;/ul&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Header: role banner. Nav: role navigation, aria-label. Conversion-Button: fokussierbar, focus-ring.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

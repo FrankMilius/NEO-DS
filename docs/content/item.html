@@ -333,58 +333,112 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td>Abstand zwischen Slots</td></tr>
-                <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>Horizontales Padding</td></tr>
-                <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>Vertikales Padding</td></tr>
-                <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-md)</td><td>Border-Radius</td></tr>
-                <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td>Vertikale Ausrichtung</td></tr>
-                <tr><td><code class="docs__token">--nc-item-bg</code></td><td>transparent</td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-item-border</code></td><td>transparent</td><td>Borderfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-item-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Hover-Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-item-title-font-size</code></td><td>var(--fs-sm)</td><td>Titel-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-item-title-font-weight</code></td><td>500</td><td>Titel-Schriftstärke</td></tr>
-                <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-high)</td><td>Titel-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-item-desc-font-size</code></td><td>var(--fs-xs)</td><td>Description-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-mid)</td><td>Description-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-item-media-size</code></td><td>40px</td><td>Media-Container-Gr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-item-media-radius</code></td><td>var(--fnd-radius-md)</td><td>Media-Border-Radius</td></tr>
-                <tr><td><code class="docs__token">--nc-item-media-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Media-Hintergrund (Icon)</td></tr>
-                <tr><td><code class="docs__token">--nc-item-media-color</code></td><td>var(--fnd-color-text-mid)</td><td>Media-Icon-Farbe</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== BEM-Klassen (kanonisch) =====
-
-.nc-item                      // Block
-.nc-item--outline             // Modifier: Outline-Variante
-.nc-item--muted               // Modifier: Muted-Variante
-.nc-item--sm                  // Modifier: Small
-.nc-item--xs                  // Modifier: Extra-Small
-.nc-item--interactive         // Modifier: Hover/Focus (auto bei a/button)
-.nc-item__media               // Element: Media-Container
-.nc-item__media--icon         // Modifier: Icon (Kreis-Background)
-.nc-item__media--image        // Modifier: Bild
-.nc-item__media--avatar       // Modifier: Avatar
-.nc-item__content             // Element: Text-Wrapper
-.nc-item__title               // Element: Titel
-.nc-item__title--truncate     // Modifier: Einzeilig mit Ellipsis
-.nc-item__description         // Element: Beschreibung
-.nc-item__description--truncate // Modifier: Einzeilig mit Ellipsis
-.nc-item__actions             // Element: Aktionen-Slot
-.nc-item-group                // Standalone: Gruppierung
-.nc-item-group--outline       // Modifier: Gruppe mit Border
-.nc-item-separator            // Standalone: Trenner</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-bg</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-title-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-font-weight</code></td><td>var(--fnd-font-weight-bold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-line-height</code></td><td>1.4</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-line-height</code></td><td>1.5</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Selected State</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-selected-bg</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-selected-border</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-selected-accent-width</code></td><td>2px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Media</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-media-size</code></td><td>40px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Thumbnail</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-ratio</code></td><td>16 / 9</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-width</code></td><td>120px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Density: Compact</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-compact-padding-x</code></td><td>var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-padding-y</code></td><td>var(--fnd-spacing-01)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-gap</code></td><td>var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-media-size</code></td><td>28px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Density: Loose</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-item-loose-padding-x</code></td><td>var(--fnd-spacing-05)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-padding-y</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-gap</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-media-size</code></td><td>48px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -393,94 +447,165 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-structure">
-            <h2 class="docs__section-title">Komponenten-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Standard Item --&gt;
-&lt;div class="nc-item"&gt;
-  &lt;div class="nc-item__media nc-item__media--icon"&gt;
-    &lt;svg&gt;...&lt;/svg&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-item__content"&gt;
-    &lt;div class="nc-item__title"&gt;Titel&lt;/div&gt;
-    &lt;p class="nc-item__description"&gt;Beschreibung&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-item__actions"&gt;
-    &lt;button class="button outline"&gt;Aktion&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Als Link --&gt;
-&lt;a class="nc-item nc-item--outline" href="#"&gt;
-  &lt;div class="nc-item__media nc-item__media--icon"&gt;...&lt;/div&gt;
-  &lt;div class="nc-item__content"&gt;
-    &lt;div class="nc-item__title"&gt;Klickbarer Titel&lt;/div&gt;
-    &lt;p class="nc-item__description"&gt;...&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/a&gt;
-
-&lt;!-- Mit Avatar --&gt;
-&lt;div class="nc-item nc-item--sm"&gt;
-  &lt;div class="nc-item__media nc-item__media--avatar"&gt;
-    &lt;span class="nc-avatar nc-avatar--sm"&gt;
-      &lt;span class="nc-avatar__fallback"&gt;MM&lt;/span&gt;
-    &lt;/span&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-item__content"&gt;
-    &lt;div class="nc-item__title"&gt;Max Mustermann&lt;/div&gt;
-    &lt;p class="nc-item__description"&gt;max@example.com&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Item Group --&gt;
-&lt;div class="nc-item-group nc-item-group--outline"&gt;
-  &lt;div class="nc-item"&gt;...&lt;/div&gt;
-  &lt;div class="nc-item"&gt;...&lt;/div&gt;
-  &lt;div class="nc-item"&gt;...&lt;/div&gt;
-&lt;/div&gt;</div>
-          </section>
-
-          <section class="docs__section" id="api-variants">
-            <h2 class="docs__section-title">Varianten</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-item</code></td><td>Default: Transparent, kein Border</td></tr>
-                <tr><td><code class="docs__token">.nc-item--outline</code></td><td>Sichtbarer Border</td></tr>
-                <tr><td><code class="docs__token">.nc-item--muted</code></td><td>Ged&auml;mpfter Hintergrund</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-sizes">
-            <h2 class="docs__section-title">Gr&ouml;&szlig;en</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Padding</th><th>Media</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>(default)</td><td>12px 16px</td><td>40px</td><td>Standard</td></tr>
-                <tr><td><code class="docs__token">.nc-item--sm</code></td><td>8px 12px</td><td>32px</td><td>Kompakt</td></tr>
-                <tr><td><code class="docs__token">.nc-item--xs</code></td><td>4px 8px</td><td>24px</td><td>Minimal</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-media">
-            <h2 class="docs__section-title">Media-Varianten</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-item__media</code></td><td>Generischer Container</td></tr>
-                <tr><td><code class="docs__token">.nc-item__media--icon</code></td><td>Kreis mit Hintergrund, Icon 50% Gr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">.nc-item__media--image</code></td><td>Abgerundetes Bild, object-fit cover</td></tr>
-                <tr><td><code class="docs__token">.nc-item__media--avatar</code></td><td>Wrapper f&uuml;r <code>.nc-avatar</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-item</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-item</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-item-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-item</code></td><td>Block</td><td>item-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-item__media</code></td><td>Element (optional)</td><td>media</td></tr>
+      <tr><td><code class="docs__token">.nc-item__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-item__title</code></td><td>Element</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-item__description</code></td><td>Element (optional)</td><td>description</td></tr>
+      <tr><td><code class="docs__token">.nc-item__meta</code></td><td>Element (optional)</td><td>meta</td></tr>
+      <tr><td><code class="docs__token">.nc-item__actions</code></td><td>Element (optional)</td><td>actions</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Visuelle Variante — default (transparent), outline (Border + Shadow), muted (Hintergrund)</td></tr>
+      <tr><td><code class="docs__token">.nc-item--outline</code></td><td>outline</td><td>Visuelle Variante — default (transparent), outline (Border + Shadow), muted (Hintergrund)</td></tr>
+      <tr><td><code class="docs__token">.nc-item--muted</code></td><td>muted</td><td>Visuelle Variante — default (transparent), outline (Border + Shadow), muted (Hintergrund)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Groesse — default, sm, xs</td></tr>
+      <tr><td><code class="docs__token">.nc-item--sm</code></td><td>sm</td><td>Groesse — default, sm, xs</td></tr>
+      <tr><td><code class="docs__token">.nc-item--xs</code></td><td>xs</td><td>Groesse — default, sm, xs</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Density-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-item--compact</code></td><td>compact</td><td>Informationsdichte — compact (wenig Platz), default (ausgewogen), loose (viel Platz)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Informationsdichte — compact (wenig Platz), default (ausgewogen), loose (viel Platz)</td></tr>
+      <tr><td><code class="docs__token">.nc-item--loose</code></td><td>loose</td><td>Informationsdichte — compact (wenig Platz), default (ausgewogen), loose (viel Platz)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Alignment-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>center</td><td>Vertikale Ausrichtung — center (zentriert), start (oben)</td></tr>
+      <tr><td><code class="docs__token">.nc-item--align-start</code></td><td>start</td><td>Vertikale Ausrichtung — center (zentriert), start (oben)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Media-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Media-Typ — none, icon, image, avatar, thumbnail (16:9)</td></tr>
+      <tr><td><code class="docs__token">.nc-item__media--icon</code></td><td>icon</td><td>Media-Typ — none, icon, image, avatar, thumbnail (16:9)</td></tr>
+      <tr><td><code class="docs__token">.nc-item__media--image</code></td><td>image</td><td>Media-Typ — none, icon, image, avatar, thumbnail (16:9)</td></tr>
+      <tr><td><code class="docs__token">.nc-item__media--avatar</code></td><td>avatar</td><td>Media-Typ — none, icon, image, avatar, thumbnail (16:9)</td></tr>
+      <tr><td><code class="docs__token">.nc-item__media--thumbnail</code></td><td>thumbnail</td><td>Media-Typ — none, icon, image, avatar, thumbnail (16:9)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+      <tr><td><code class="docs__token">--nc-item-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-font-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-title-line-height</code></td><td>1.4</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-desc-line-height</code></td><td>1.5</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Selected State</td></tr>
+      <tr><td><code class="docs__token">--nc-item-selected-bg</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-selected-border</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-selected-accent-width</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Media</td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-size</code></td><td>40px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-media-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Thumbnail</td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-ratio</code></td><td>16 / 9</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-width</code></td><td>120px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Density: Compact</td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-padding-x</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-padding-y</code></td><td>var(--fnd-spacing-01)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-compact-media-size</code></td><td>28px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Density: Loose</td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-padding-x</code></td><td>var(--fnd-spacing-05)</td><td>var(--fnd-spacing-05)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-padding-y</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-gap</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-loose-media-size</code></td><td>48px</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flex-Layout: align-items center (oder flex-start via --align-start), gap spacing-03.</li>
+    <li>Grid-basierte Content-Struktur: title (bold, text-primary) + description (text-secondary).</li>
+    <li>Left-Accent-Border via ::before Pseudo-Element (2px, interactive-Farbe) bei Hover/Active/Selected.</li>
+    <li>Density: compact (spacing-01/02), default (spacing-03/04), loose (spacing-04/05).</li>
+    <li>Thumbnail: 16:9 Aspect-Ratio, konfigurierbarer Breite (120px default).</li>
+    <li>Meta-Slot: Inline-flex rechts neben Content, fuer Shortcuts/Badges.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -489,31 +614,20 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <section class="docs__section" id="a11y-overview">
-            <h2 class="docs__section-title">Accessibility</h2>
-
-            <h3>Semantik</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Anwendungsfall</th><th>Element</th><th>Hinweis</th></tr></thead>
-              <tbody>
-                <tr><td>Informativer Inhalt</td><td><code>&lt;div&gt;</code></td><td>Nicht fokussierbar, keine Rolle n&ouml;tig</td></tr>
-                <tr><td>Klickbarer Link</td><td><code>&lt;a&gt;</code></td><td>Native Fokus + Hover-State</td></tr>
-                <tr><td>Aktion</td><td><code>&lt;button&gt;</code></td><td>Focus-Ring automatisch via <code>:focus-visible</code></td></tr>
-                <tr><td>Listenelement</td><td><code>&lt;li&gt;</code> in <code>&lt;ul&gt;</code></td><td>Mit <code>.nc-item-group</code> als <code>&lt;ul&gt;</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 style="margin-top: var(--fnd-spacing-06);">Empfehlungen</h3>
-            <ul style="padding-left: 1.5rem; line-height: 1.8;">
-              <li>Verwende <code>&lt;a&gt;</code> f&uuml;r navigierbare Items, <code>&lt;button&gt;</code> f&uuml;r Aktionen.</li>
-              <li>Bei <code>.nc-item-group</code> als <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> rendern f&uuml;r Screenreader.</li>
-              <li>Farbe nie als einziges Unterscheidungsmerkmal verwenden &mdash; immer mit Text/Icon kombinieren.</li>
-              <li>Truncated Titles mit <code>title</code>-Attribut oder <code>aria-label</code> erg&auml;nzen.</li>
-              <li>Focus-Ring wird automatisch &uuml;ber <code>:focus-visible</code> angezeigt.</li>
-            </ul>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Accent-Border ist dekorativ (::before), kein Informationstraeger.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

@@ -227,80 +227,149 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-base">
-            <h2 class="docs__section-title">Foundation-Token-Referenz</h2>
-            <p class="docs__section-desc">
-              <code class="docs__token">.nc-compare-table</code> verwendet ausschlie&szlig;lich Foundation-Tokens (<code class="docs__token">--fnd-*</code>).
-              Es gibt keine eigenen Component-Tokens (<code class="docs__token">--nc-*</code>) f&uuml;r diese Atom-Komponente.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>background (Block)</td>
-                  <td><code class="docs__token">--fnd-color-background-base</code></td>
-                  <td>Tabellen-Hintergrund</td>
-                </tr>
-                <tr>
-                  <td>border-radius</td>
-                  <td><code class="docs__token">--fnd-radius-3xl</code></td>
-                  <td>Abgerundete Ecken der gesamten Tabelle</td>
-                </tr>
-                <tr>
-                  <td>box-shadow</td>
-                  <td><code class="docs__token">--fnd-elevation-raised</code></td>
-                  <td>Schatten &mdash; hebt Tabelle vom Untergrund ab</td>
-                </tr>
-                <tr>
-                  <td>padding (th, td)</td>
-                  <td><code class="docs__token">--fnd-spacing-04</code></td>
-                  <td>Zell-Innenabstand (alle Richtungen)</td>
-                </tr>
-                <tr>
-                  <td>border-block-end (th, td)</td>
-                  <td><code class="docs__token">--fnd-color-border-secondary</code></td>
-                  <td>Trennlinie unterhalb jeder Zeile (1px solid)</td>
-                </tr>
-                <tr>
-                  <td>background (thead)</td>
-                  <td><code class="docs__token">--fnd-color-background-inverse</code></td>
-                  <td>Invertierter Kopfzeilen-Hintergrund</td>
-                </tr>
-                <tr>
-                  <td>color (thead)</td>
-                  <td><code class="docs__token">--fnd-color-text-inverse</code></td>
-                  <td>Invertierter Kopfzeilen-Text</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-structure">
-            <h2 class="docs__section-title">Struktur-Eigenschaften (statisch)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>width</td><td>100%</td><td>Tabelle f&uuml;llt den Container</td></tr>
-                <tr><td>border-collapse</td><td>collapse</td><td>Keine Zwischenr&auml;ume zwischen Zellen</td></tr>
-                <tr><td>overflow</td><td>hidden</td><td>Ecken werden durch Radius korrekt maskiert</td></tr>
-                <tr><td>text-align (th, td)</td><td>left</td><td>Linksb&uuml;ndige Ausrichtung</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== Klassen (kein BEM-Modifier-System) =====
-
-.nc-compare-table          // Block &mdash; Tabellen-Wrapper
-.nc-compare-table thead    // Kopfzeilen-Bereich (inverts)
-.nc-compare-table th       // Kopfzeilen-Zelle
-.nc-compare-table td       // Daten-Zelle</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-radius</code></td><td>var(--fnd-radius-md)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-shadow</code></td><td>var(--fnd-elevation-raised)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Header</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-header-bg</code></td><td>var(--fnd-color-background-inverse)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-color</code></td><td>var(--fnd-color-text-inverse)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-letter-spacing</code></td><td>0.01em</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Cell Padding (Default)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-cell-padding</code></td><td>var(--nc-table-cell-padding-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-default</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Row Border</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-row-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-color-secondary</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-transition-duration</code></td><td>var(--fnd-motion-duration-150)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Cell Padding (Compact)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-compact</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Cell Padding (Expressive)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-expressive</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Row Hover</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-row-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zebra-Striping</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-stripe-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-secondary) 50%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Selection</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-row-bg-selected</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-border-selected</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-checkbox-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-checkbox-column-width</code></td><td>48px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sortable</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-size</code></td><td>14px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-color-active</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sticky Header</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-sticky-shadow</code></td><td>var(--fnd-elevation-raised)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-sticky-z-index</code></td><td>var(--fnd-z-sticky)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ghost Variant</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-table-ghost-header-bg</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-ghost-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-table-ghost-border-color</code></td><td>transparent</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -309,126 +378,159 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-compare-table</code></td></tr>
-                <tr><td><strong>ITCSS-Schicht</strong></td><td>05-Atoms</td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-*</code> (keine Component-Tokens)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_table.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;table&gt;</code></td></tr>
-                <tr><td><strong>Modifier</strong></td><td>Keine &mdash; einziger Stil-Einstieg via Klasse</td></tr>
-                <tr><td><strong>Dark Mode</strong></td><td>Automatisch via semantische Tokens</td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine &mdash; rein deklarative Tabelle</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Selektoren</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Selektor</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.nc-compare-table</code></td>
-                  <td>Haupt-Tabellen-Element. Setzt Breite, Collapse, Hintergrund, Radius, Overflow, Elevation.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-compare-table th</code><br><code class="docs__token">.nc-compare-table td</code></td>
-                  <td>Alle Zellen. Setzt Padding, text-align links, border-block-end.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-compare-table thead</code></td>
-                  <td>Kopfzeilen-Bereich. Inverser Hintergrund und Textfarbe.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. HTML-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">HTML-Struktur</h2>
-            <div class="docs__code-block">&lt;table class="nc-compare-table"&gt;
-
-  &lt;!-- Kopfzeile --&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th scope="col"&gt;Funktion&lt;/th&gt;
-      &lt;th scope="col"&gt;Starter&lt;/th&gt;
-      &lt;th scope="col"&gt;Enterprise&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-
-  &lt;!-- Daten-Zeilen --&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Nutzer&lt;/td&gt;
-      &lt;td&gt;5&lt;/td&gt;
-      &lt;td&gt;Unbegrenzt&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Speicherplatz&lt;/td&gt;
-      &lt;td&gt;10 GB&lt;/td&gt;
-      &lt;td&gt;1 TB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-
-&lt;/table&gt;</div>
-          </section>
-
-          <!-- 4. Hinweis DataTable -->
-          <section class="docs__section" id="api-datatable-note">
-            <h2 class="docs__section-title">Abgrenzung zu DataTable</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Aspekt</th><th>.nc-compare-table</th><th>.nc-data-table</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>Zweck</td>
-                  <td>Statischer Vergleich / Datenausgabe</td>
-                  <td>Interaktive Datentabelle mit Features</td>
-                </tr>
-                <tr>
-                  <td>Sortierung</td>
-                  <td>Nein</td>
-                  <td>Ja (optional)</td>
-                </tr>
-                <tr>
-                  <td>Filterung</td>
-                  <td>Nein</td>
-                  <td>Ja (optional)</td>
-                </tr>
-                <tr>
-                  <td>Paginierung</td>
-                  <td>Nein</td>
-                  <td>Ja (optional)</td>
-                </tr>
-                <tr>
-                  <td>JavaScript</td>
-                  <td>Nicht n&ouml;tig</td>
-                  <td>setupDataTable() erforderlich</td>
-                </tr>
-                <tr>
-                  <td>Token-Namespace</td>
-                  <td><code class="docs__token">--fnd-*</code></td>
-                  <td><code class="docs__token">--nc-dt-*</code></td>
-                </tr>
-                <tr>
-                  <td>ITCSS-Schicht</td>
-                  <td>05-Atoms</td>
-                  <td>07-Organisms</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-compare-table</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-compare-table</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-compare-table-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-compare-table</code></td><td>Block</td><td>table-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table__sort-icon</code></td><td>Element</td><td>sort-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table__checkbox</code></td><td>Element</td><td>checkbox</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table__numeric</code></td><td>Element</td><td>numeric</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Grid Style-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>lines</td><td>Visuelles Grid-Layout — lines (Standard mit Trennlinien), borderless (nur Weissraum), ghost (dezent fuer Card-Integration)</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--borderless</code></td><td>borderless</td><td>Visuelles Grid-Layout — lines (Standard mit Trennlinien), borderless (nur Weissraum), ghost (dezent fuer Card-Integration)</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--ghost</code></td><td>ghost</td><td>Visuelles Grid-Layout — lines (Standard mit Trennlinien), borderless (nur Weissraum), ghost (dezent fuer Card-Integration)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Density-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-compare-table--compact</code></td><td>compact</td><td>Zellenabstand — compact (datenintensiv), default (Standard), expressive (Marketing-Vergleiche)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Zellenabstand — compact (datenintensiv), default (Standard), expressive (Marketing-Vergleiche)</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--expressive</code></td><td>expressive</td><td>Zellenabstand — compact (datenintensiv), default (Standard), expressive (Marketing-Vergleiche)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Striping-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Zebra-Striping fuer verbesserte Zeilenorientierung</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--striped</code></td><td>striped</td><td>Zebra-Striping fuer verbesserte Zeilenorientierung</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Selection-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Zeilen-Auswahl per Checkbox fuer Massenaktionen</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--selectable</code></td><td>checkbox</td><td>Zeilen-Auswahl per Checkbox fuer Massenaktionen</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sorting-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>static</td><td>Interaktive Spalten-Sortierung mit Sort-Icons</td></tr>
+      <tr><td><code class="docs__token">.nc-compare-table--sortable</code></td><td>sortable</td><td>Interaktive Spalten-Sortierung mit Sort-Icons</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+      <tr><td><code class="docs__token">--nc-table-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-radius</code></td><td>var(--fnd-radius-md)</td><td>var(--fnd-radius-md)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>var(--fnd-elevation-raised)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Header</td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>var(--fnd-color-background-inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-color</code></td><td>var(--fnd-color-text-inverse)</td><td>var(--fnd-color-text-inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-header-letter-spacing</code></td><td>0.01em</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Cell Padding (Default)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-cell-padding</code></td><td>var(--nc-table-cell-padding-default)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-default</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td><td>var(--fnd-spacing-03) var(--fnd-spacing-04)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Cell Padding (Compact)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-compact</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Cell Padding (Expressive)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-cell-padding-expressive</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Row Border</td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Row Hover</td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Zebra-Striping</td></tr>
+      <tr><td><code class="docs__token">--nc-table-stripe-bg</code></td><td>color-mix(in srgb, var(--fnd-color-background-secondary) 50%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Selection</td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-bg-selected</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-row-border-selected</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-checkbox-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-table-checkbox-column-width</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sortable</td></tr>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-size</code></td><td>14px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-sort-icon-color-active</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Sticky Header</td></tr>
+      <tr><td><code class="docs__token">--nc-table-sticky-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>var(--fnd-elevation-raised)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-sticky-z-index</code></td><td>var(--fnd-z-sticky)</td><td>var(--fnd-z-sticky)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+      <tr><td><code class="docs__token">--nc-table-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-color-secondary</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-transition-duration</code></td><td>var(--fnd-motion-duration-150)</td><td>var(--fnd-motion-duration-150)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Ghost Variant</td></tr>
+      <tr><td><code class="docs__token">--nc-table-ghost-header-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-table-ghost-header-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-table-ghost-border-color</code></td><td>transparent</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Einfache Vergleichstabelle mit inverser Header-Zeile.</li>
+    <li>Volle Breite, border-collapse, elevation-raised Shadow.</li>
+    <li>Header: inverse BG + Color. Zellen: variable Padding per Density.</li>
+    <li>Sortable: cursor pointer + Sort-Icon im Header. Selectable: Checkbox-Spalte.</li>
+    <li>Sticky-Header: position sticky mit Shadow beim Scrollen.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -437,102 +539,56 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Tabellen m&uuml;ssen semantisch korrekt ausgezeichnet sein, damit Screenreader die Tabellenstruktur verst&auml;ndlich vorlesen k&ouml;nnen.
-          </p>
-
-          <!-- Semantische Struktur -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Semantische HTML-Struktur</h4>
-              <ul>
-                <li>Immer <code class="docs__token">&lt;table&gt;</code>, <code class="docs__token">&lt;thead&gt;</code>, <code class="docs__token">&lt;tbody&gt;</code>, <code class="docs__token">&lt;tr&gt;</code>, <code class="docs__token">&lt;th&gt;</code> und <code class="docs__token">&lt;td&gt;</code> verwenden</li>
-                <li>Kopfzellen mit <code class="docs__token">scope="col"</code> (Spalten-Kopf) oder <code class="docs__token">scope="row"</code> (Zeilen-Kopf) auszeichnen</li>
-                <li>Komplexe Tabellen mit <code class="docs__token">id</code>/<code class="docs__token">headers</code> verkn&uuml;pfen</li>
-                <li><code class="docs__token">&lt;caption&gt;</code> oder <code class="docs__token">aria-label</code> f&uuml;r Tabellentitel nutzen (WCAG 1.3.1)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Farbe als einziges Signal -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Farbe nie alleiniges Signal (WCAG 1.4.1)</h4>
-              <ul>
-                <li>Zellwerte wie &bdquo;Ja&ldquo;/&bdquo;Nein&ldquo; oder Icons verwenden &mdash; nicht nur Hintergrundfarbe</li>
-                <li>Positive/negative Werte durch Text oder Icons unterscheiden, nicht nur durch Farbton</li>
-                <li>Der inverse Thead-Hintergrund ist ein rein visuelles Gestaltungselement</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Tastaturnavigation -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h.01M12 14h.01M16 14h.01M6 18h12"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Tastaturnavigation</h4>
-              <ul>
-                <li>Statische Tabellen ben&ouml;tigen keine zus&auml;tzliche Tastatur-Logik</li>
-                <li>Enthaltene Links oder Buttons m&uuml;ssen per <kbd>Tab</kbd> erreichbar sein</li>
-                <li>F&uuml;r interaktive Tabellen mit vielen Zellen <code class="docs__token">role="grid"</code> und Pfeilnavigation erw&auml;gen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Responsive -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Responsive &amp; horizontales Scrollen</h4>
-              <ul>
-                <li>Bei breiten Tabellen auf mobilen Viewports horizontales Scrollen erm&ouml;glichen</li>
-                <li>Container mit <code class="docs__token">overflow-x: auto</code> wrappen und <code class="docs__token">tabindex="0"</code> setzen, damit Tastaturnutzer scrollen k&ouml;nnen</li>
-                <li>Screenreader lesen auch horizontal gescrollte Tabellen korrekt vor</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Vollst&auml;ndige semantische Auszeichnung --&gt;
-&lt;table class="nc-compare-table" aria-label="Planvergleich"&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th scope="col"&gt;Funktion&lt;/th&gt;
-      &lt;th scope="col"&gt;Starter&lt;/th&gt;
-      &lt;th scope="col"&gt;Enterprise&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;th scope="row"&gt;Nutzer&lt;/th&gt;
-      &lt;td&gt;5&lt;/td&gt;
-      &lt;td&gt;Unbegrenzt&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;!-- RICHTIG: Horizontal scrollbar f&uuml;r schmale Viewports --&gt;
-&lt;div style="overflow-x: auto;" tabindex="0" role="region" aria-label="Planvergleich"&gt;
-  &lt;table class="nc-compare-table"&gt;...&lt;/table&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: div statt th f&uuml;r Kopfzellen --&gt;
-&lt;tr&gt;
-  &lt;td&gt;&lt;strong&gt;Funktion&lt;/strong&gt;&lt;/td&gt;
-  &lt;td&gt;&lt;strong&gt;Starter&lt;/strong&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;!-- FALSCH: Keine Auszeichnung des Tabellen-Labels --&gt;
-&lt;table class="nc-compare-table"&gt;
-  &lt;!-- Kein aria-label, kein caption --&gt;
-  ...
-&lt;/table&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">&lt;table&gt; mit &lt;caption&gt; oder aria-label. Semantisches &lt;thead&gt;/&lt;tbody&gt;/&lt;tfoot&gt;. scope='col' auf &lt;th&gt;.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li>aria-sort='ascending|descending|none' auf sortierbare &lt;th&gt;</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li>aria-selected='true' auf selektierte &lt;tr&gt;</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

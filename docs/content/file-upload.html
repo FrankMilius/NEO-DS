@@ -242,46 +242,36 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-bem-upload">
-            <h2 class="docs__section-title">BEM-Klassen: File Upload (Dropzone)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-file-upload</code></td><td>Block</td><td>Dropzone-Container. Flex-Layout, zentriert, gestrichelte Border.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload__icon</code></td><td>Element</td><td>Upload-Icon (SVG) oberhalb des Textes.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload__text</code></td><td>Element</td><td>Prim&auml;rer Hinweistext (&bdquo;Dateien hierher ziehen&ldquo;).</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload__subtext</code></td><td>Element</td><td>Sekund&auml;rer Text mit Browse-Link-Hinweis.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload__input</code></td><td>Element</td><td>Verstecktes <code class="docs__token">&lt;input type="file"&gt;</code>.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload__button</code></td><td>Element</td><td>Inline-Link/Button-Text zum Ausw&auml;hlen von Dateien.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload--dragging</code></td><td>Modifier</td><td>Visuelles Feedback bei aktivem Drag-Over.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload--error</code></td><td>Modifier</td><td>Fehlerzustand &mdash; rote Border, Fehlerfarbe.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload--disabled</code></td><td>Modifier</td><td>Deaktiviert &mdash; reduzierte Opacity, kein Pointer.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload--compact</code></td><td>Modifier</td><td>Kompakte einzeilige Variante ohne gro&szlig;e Dropzone.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem-list">
-            <h2 class="docs__section-title">BEM-Klassen: Dateiliste</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-file-upload-list</code></td><td>Block</td><td>Liste der hochgeladenen Dateien (<code class="docs__token">&lt;ul&gt;</code>).</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__item</code></td><td>Element</td><td>Einzelne Datei-Zeile (<code class="docs__token">&lt;li&gt;</code>).</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__icon</code></td><td>Element</td><td>Datei-Icon (SVG) links.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__name</code></td><td>Element</td><td>Dateiname.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__size</code></td><td>Element</td><td>Dateigr&ouml;&szlig;e oder Fehlermeldung.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__remove</code></td><td>Element</td><td>Entfernen-/Abbrechen-Button (rechts).</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__progress</code></td><td>Element</td><td>Fortschrittsbalken (via <code class="docs__token">--progress</code> Custom Property).</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__item--error</code></td><td>Modifier</td><td>Datei-Zeile im Fehlerzustand.</td></tr>
-                <tr><td><code class="docs__token">.nc-file-upload-list__item--uploading</code></td><td>Modifier</td><td>Datei wird hochgeladen (Fortschrittsbalken sichtbar).</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dropzone</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-file-upload-border</code></td><td>var(--fnd-color-border-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-border-style</code></td><td>dashed</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-border-hover</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-padding</code></td><td>var(--fnd-spacing-08)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-file-upload-icon-size</code></td><td>40px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -290,110 +280,121 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-file-upload</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-file-upload</code>, <code class="docs__token">nc-file-upload-list</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-file-upload-*</code></td></tr>
-                <tr><td><strong>HTML-Element (Dropzone)</strong></td><td><code class="docs__token">&lt;div&gt;</code> mit <code class="docs__token">role="button"</code></td></tr>
-                <tr><td><strong>HTML-Element (Liste)</strong></td><td><code class="docs__token">&lt;ul&gt;</code> / <code class="docs__token">&lt;li&gt;</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-structure-dropzone">
-            <h2 class="docs__section-title">HTML-Struktur: Dropzone</h2>
-            <div class="docs__code-block">&lt;!-- Standard Dropzone --&gt;
-&lt;div class="nc-file-upload" role="button" tabindex="0"&gt;
-  &lt;input class="nc-file-upload__input" type="file" multiple tabindex="-1" /&gt;
-
-  &lt;span class="nc-file-upload__icon"&gt;
-    &lt;svg&gt;&lt;!-- upload icon --&gt;&lt;/svg&gt;
-  &lt;/span&gt;
-
-  &lt;span class="nc-file-upload__text"&gt;Dateien hierher ziehen&lt;/span&gt;
-  &lt;span class="nc-file-upload__subtext"&gt;
-    oder &lt;span class="nc-file-upload__button"&gt;Dateien ausw&amp;auml;hlen&lt;/span&gt;
-  &lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- Compact Variante --&gt;
-&lt;div class="nc-file-upload nc-file-upload--compact" role="button" tabindex="0"&gt;
-  &lt;input class="nc-file-upload__input" type="file" multiple tabindex="-1" /&gt;
-  &lt;span class="nc-file-upload__icon"&gt;
-    &lt;svg&gt;&lt;!-- upload icon --&gt;&lt;/svg&gt;
-  &lt;/span&gt;
-  &lt;span class="nc-file-upload__text"&gt;Dateien ausw&amp;auml;hlen&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- Error State --&gt;
-&lt;div class="nc-file-upload nc-file-upload--error" role="button" tabindex="0"&gt;
-  ...
-&lt;/div&gt;
-
-&lt;!-- Disabled State --&gt;
-&lt;div class="nc-file-upload nc-file-upload--disabled" aria-disabled="true"&gt;
-  &lt;input class="nc-file-upload__input" type="file" multiple disabled /&gt;
-  ...
-&lt;/div&gt;
-
-&lt;!-- Dragging State (per JS toggle) --&gt;
-&lt;div class="nc-file-upload nc-file-upload--dragging" role="button" tabindex="0"&gt;
-  ...
-&lt;/div&gt;</div>
-          </section>
-
-          <section class="docs__section" id="api-structure-list">
-            <h2 class="docs__section-title">HTML-Struktur: Dateiliste</h2>
-            <div class="docs__code-block">&lt;ul class="nc-file-upload-list"&gt;
-
-  &lt;!-- Fertig hochgeladen --&gt;
-  &lt;li class="nc-file-upload-list__item"&gt;
-    &lt;span class="nc-file-upload-list__icon"&gt;
-      &lt;svg&gt;&lt;!-- file icon --&gt;&lt;/svg&gt;
-    &lt;/span&gt;
-    &lt;span class="nc-file-upload-list__name"&gt;dokument.pdf&lt;/span&gt;
-    &lt;span class="nc-file-upload-list__size"&gt;2.4 MB&lt;/span&gt;
-    &lt;button class="nc-file-upload-list__remove"
-            aria-label="dokument.pdf entfernen"&gt;
-      &lt;svg&gt;&lt;!-- close icon --&gt;&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/li&gt;
-
-  &lt;!-- Upload in Progress --&gt;
-  &lt;li class="nc-file-upload-list__item nc-file-upload-list__item--uploading"&gt;
-    &lt;span class="nc-file-upload-list__icon"&gt;
-      &lt;svg&gt;&lt;!-- file icon --&gt;&lt;/svg&gt;
-    &lt;/span&gt;
-    &lt;span class="nc-file-upload-list__name"&gt;foto.jpg&lt;/span&gt;
-    &lt;span class="nc-file-upload-list__size"&gt;5.1 MB&lt;/span&gt;
-    &lt;div class="nc-file-upload-list__progress"
-         style="--progress: 65%;"&gt;&lt;/div&gt;
-    &lt;button class="nc-file-upload-list__remove"
-            aria-label="foto.jpg Upload abbrechen"&gt;
-      &lt;svg&gt;&lt;!-- close icon --&gt;&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/li&gt;
-
-  &lt;!-- Error --&gt;
-  &lt;li class="nc-file-upload-list__item nc-file-upload-list__item--error"&gt;
-    &lt;span class="nc-file-upload-list__icon"&gt;
-      &lt;svg&gt;&lt;!-- error icon --&gt;&lt;/svg&gt;
-    &lt;/span&gt;
-    &lt;span class="nc-file-upload-list__name"&gt;archiv.zip&lt;/span&gt;
-    &lt;span class="nc-file-upload-list__size"&gt;Dateityp nicht erlaubt&lt;/span&gt;
-    &lt;button class="nc-file-upload-list__remove"
-            aria-label="archiv.zip entfernen"&gt;
-      &lt;svg&gt;&lt;!-- close icon --&gt;&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/li&gt;
-
-&lt;/ul&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-file-upload</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-file-upload</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-file-upload-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-file-upload</code></td><td>Block</td><td>file-upload-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload__text</code></td><td>Element</td><td>text</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload__subtext</code></td><td>Element (optional)</td><td>subtext</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload__button</code></td><td>Element (optional)</td><td>button</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload__input</code></td><td>Element</td><td>input</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list</code></td><td>Element (optional)</td><td>list</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__item</code></td><td>Element (optional)</td><td>list-item</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__icon</code></td><td>Element (optional)</td><td>list-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__name</code></td><td>Element (optional)</td><td>list-name</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__size</code></td><td>Element (optional)</td><td>list-size</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__remove</code></td><td>Element (optional)</td><td>list-remove</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload-list__progress</code></td><td>Element (optional)</td><td>list-progress</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Variante — default (Dropzone mit Icon/Text), compact (kompakte Zeile mit Button)</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload--compact</code></td><td>compact</td><td>Variante — default (Dropzone mit Icon/Text), compact (kompakte Zeile mit Button)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Validation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Validierungs-State — none (Standard), error (roter Rand)</td></tr>
+      <tr><td><code class="docs__token">.nc-file-upload--error</code></td><td>error</td><td>Validierungs-State — none (Standard), error (roter Rand)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>dropzone-only</td><td>Inhaltsvariante — dropzone-only (nur Dropzone), with-list (Dropzone + Dateiliste), with-progress (Dateiliste mit Upload-Fortschritt)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-list</td><td>Inhaltsvariante — dropzone-only (nur Dropzone), with-list (Dropzone + Dateiliste), with-progress (Dateiliste mit Upload-Fortschritt)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-progress</td><td>Inhaltsvariante — dropzone-only (nur Dropzone), with-list (Dropzone + Dateiliste), with-progress (Dateiliste mit Upload-Fortschritt)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dropzone</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-border</code></td><td>var(--fnd-color-border-primary)</td><td>var(--fnd-color-border-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-border-style</code></td><td>dashed</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-border-hover</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-padding</code></td><td>var(--fnd-spacing-08)</td><td>var(--fnd-spacing-08)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Icon</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-icon-size</code></td><td>40px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-file-upload-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Dropzone: flex-column zentriert, gestrichelte Border (dashed), Hover wechselt Border + BG.</li>
+    <li>Icon: 40px Upload-Icon, dekorativ (aria-hidden).</li>
+    <li>Text: Hauptanweisung (z.B. 'Dateien hierher ziehen').</li>
+    <li>Subtext: Erlaubte Typen/Groesse (z.B. 'PNG, JPG bis 5MB').</li>
+    <li>Button: Optionaler Browse-Button, nutzt .nc-button Styling.</li>
+    <li>Input: &lt;input type='file'&gt; ist sr-only — visuell versteckt aber zugaenglich.</li>
+    <li>Compact-Variante: flex-row, solid Border, kleineres Icon, Subtext hidden.</li>
+    <li>Dragging-State: border-hover + bg-hover + 2px Border (JS via Drag-Events).</li>
+    <li>Error-State: border-error Farbe auf der Dropzone.</li>
+    <li>Disabled-State: opacity-disabled, not-allowed, pointer-events:none.</li>
+    <li>Dateiliste: Separate Komponente (.nc-file-upload-list), flex-column.</li>
+    <li>List-Item: flex-row mit Icon, Name (ellipsis), Size, Remove-Button.</li>
+    <li>Item--error: border-error + bg-danger auf einzelne fehlerhafte Datei.</li>
+    <li>Item--uploading: opacity-medium waehrend Upload.</li>
+    <li>Progress-Bar: 3px, interactive-default Farbe, border-radius-full.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -402,115 +403,51 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Die File-Upload-Komponente muss per Tastatur bedienbar und f&uuml;r Screenreader zug&auml;nglich sein (WCAG 2.1 AA).
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Dropzone: role='button', tabindex='0', aria-label (z.B. 'Dateien hochladen'). &lt;input type='file'&gt; bleibt im DOM (sr-only) fuer native File-Picker. Keyboard: Enter/Space oeffnet File-Picker. Dateiliste: role='list'. Remove-Button: aria-label='Datei entfernen: {name}'.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: validation = error</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-invalid</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-describedby</code></li>
+      <li>Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby (z.B. 'Datei zu gross').</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-disabled</code></li>
+      <li>Disabled: disabled-Attribut auf dem Input. Dropzone: aria-disabled='true'.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- role="button" on Dropzone -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>role="button" auf Dropzone</h4>
-              <ul>
-                <li>Die Dropzone (<code class="docs__token">&lt;div&gt;</code>) erh&auml;lt <code class="docs__token">role="button"</code> und <code class="docs__token">tabindex="0"</code></li>
-                <li>Enter und Space m&uuml;ssen den versteckten File-Input triggern</li>
-                <li>Im Disabled-Zustand: <code class="docs__token">aria-disabled="true"</code> und <code class="docs__token">tabindex="-1"</code></li>
-                <li>Label per <code class="docs__token">aria-label</code> oder sichtbaren Text bereitstellen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Hidden File Input -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Verstecktes File-Input</h4>
-              <ul>
-                <li>Das <code class="docs__token">&lt;input type="file"&gt;</code> ist visuell versteckt (<code class="docs__token">tabindex="-1"</code>)</li>
-                <li>Es wird programmatisch per <code class="docs__token">.click()</code> ausgel&ouml;st, wenn die Dropzone aktiviert wird</li>
-                <li>Das Input muss <strong>nicht</strong> direkt fokussierbar sein &mdash; der Focus liegt auf der Dropzone</li>
-                <li>Das <code class="docs__token">accept</code>-Attribut sollte erlaubte Dateitypen einschr&auml;nken</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- List Semantics -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Listen-Semantik</h4>
-              <ul>
-                <li>Die Dateiliste nutzt <code class="docs__token">&lt;ul&gt;</code> / <code class="docs__token">&lt;li&gt;</code> f&uuml;r korrekte Listenstruktur</li>
-                <li>Screenreader k&uuml;ndigen &bdquo;Liste mit X Elementen&ldquo; an</li>
-                <li>Der Entfernen-Button braucht ein beschreibendes <code class="docs__token">aria-label</code> (z.B. &bdquo;dokument.pdf entfernen&ldquo;)</li>
-                <li>F&uuml;r dynamische Updates: <code class="docs__token">aria-live="polite"</code> am Listen-Container</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Drag-and-Drop A11y -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Drag-and-Drop Zug&auml;nglichkeit</h4>
-              <ul>
-                <li>Drag-and-Drop ist eine <strong>Erweiterung</strong>, kein Ersatz &mdash; der Browse-Button ist die prim&auml;re Interaktion</li>
-                <li>Tastaturnutzer m&uuml;ssen Dateien &uuml;ber Enter/Space + nativen File-Dialog ausw&auml;hlen k&ouml;nnen</li>
-                <li>Im Dragging-State sollte kein Focus-Trap entstehen</li>
-                <li>Status&auml;nderungen (Upload-Start, Fortschritt, Fehler) per <code class="docs__token">aria-live</code> ank&uuml;ndigen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Dropzone mit role und Tastatur-Support --&gt;
-&lt;div class="nc-file-upload"
-     role="button"
-     tabindex="0"
-     aria-label="Dateien hochladen"&gt;
-  &lt;input class="nc-file-upload__input"
-         type="file" multiple
-         accept=".pdf,.jpg,.png"
-         tabindex="-1" /&gt;
-  &lt;span class="nc-file-upload__icon" aria-hidden="true"&gt;
-    &lt;svg&gt;...&lt;/svg&gt;
-  &lt;/span&gt;
-  &lt;span class="nc-file-upload__text"&gt;Dateien hierher ziehen&lt;/span&gt;
-  &lt;span class="nc-file-upload__subtext"&gt;
-    oder &lt;span class="nc-file-upload__button"&gt;Dateien ausw&amp;auml;hlen&lt;/span&gt;
-  &lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Liste mit aria-live --&gt;
-&lt;ul class="nc-file-upload-list" aria-live="polite"&gt;
-  &lt;li class="nc-file-upload-list__item"&gt;
-    &lt;span class="nc-file-upload-list__icon" aria-hidden="true"&gt;...&lt;/span&gt;
-    &lt;span class="nc-file-upload-list__name"&gt;dokument.pdf&lt;/span&gt;
-    &lt;span class="nc-file-upload-list__size"&gt;2.4 MB&lt;/span&gt;
-    &lt;button class="nc-file-upload-list__remove"
-            aria-label="dokument.pdf entfernen"&gt;...&lt;/button&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- RICHTIG: Disabled State --&gt;
-&lt;div class="nc-file-upload nc-file-upload--disabled"
-     aria-disabled="true"&gt;
-  &lt;input class="nc-file-upload__input" type="file" disabled /&gt;
-  ...
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Kein role, kein tabindex --&gt;
-&lt;div class="nc-file-upload"&gt;
-  &lt;input class="nc-file-upload__input" type="file" /&gt;
-  ...
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Remove-Button ohne aria-label --&gt;
-&lt;button class="nc-file-upload-list__remove"&gt;X&lt;/button&gt;</div>
-          </section>
         </div>
 
       </div>
