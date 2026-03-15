@@ -3,9 +3,9 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "dropdown-menu",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "navigation", "action"],
+    "tags": ["interactive", "navigation", "action", "selection"],
     "links": {
       "figma": "",
       "storybook": "",
@@ -19,20 +19,28 @@
       { "name": "trigger", "element": ".nc-dropdown__trigger", "optional": false },
       { "name": "menu", "element": ".nc-dropdown__menu", "optional": false },
       { "name": "item", "element": ".nc-dropdown__item", "optional": false },
+      { "name": "item-check", "element": ".nc-dropdown__item-check", "optional": true },
       { "name": "item-icon", "element": ".nc-dropdown__item-icon", "optional": true },
       { "name": "item-label", "element": ".nc-dropdown__item-label", "optional": true },
       { "name": "item-shortcut", "element": ".nc-dropdown__item-shortcut", "optional": true },
+      { "name": "submenu-indicator", "element": ".nc-dropdown__submenu-indicator", "optional": true },
       { "name": "group", "element": ".nc-dropdown__group", "optional": true },
       { "name": "group-label", "element": ".nc-dropdown__group-label", "optional": true },
-      { "name": "separator", "element": ".nc-dropdown__separator", "optional": true }
+      { "name": "separator", "element": ".nc-dropdown__separator", "optional": true },
+      { "name": "footer", "element": ".nc-dropdown__footer", "optional": true }
     ],
     "convenience": [],
     "domNotes": [
       "Root: inline-flex Wrapper mit Trigger-Button und Menu-Panel.",
       "Trigger: <button aria-haspopup='true' aria-expanded='true|false'>.",
       "Menu: position:absolute, role='menu'. Versteckt via [hidden].",
-      "Positionierung: --bottom-start, --bottom-end, --top-start, --top-end Modifier.",
-      "Items: role='menuitem', flex-Layout mit gap fuer Icon + Label + Shortcut.",
+      "Positionierung: --bottom-start, --bottom-end, --top-start, --top-end Modifier. Empfehlung: Auto-Placement via Floating UI (computePosition + flip + shift + offset) fuer viewportabhaengige Positionierung. CSS-Modifier als Fallback fuer statische Anwendungsfaelle.",
+      "Auto-Placement Pattern: import { computePosition, flip, shift, offset } from '@floating-ui/dom'; computePosition(trigger, menu, { placement: 'bottom-start', middleware: [offset(4), flip(), shift({ padding: 8 })] });",
+      "Items: role='menuitem', flex-Layout mit gap fuer Check + Icon + Label + Shortcut + Submenu-Indicator.",
+      "Checkable Items (single): role='menuitemradio', aria-checked='true|false'. Nur ein Item gleichzeitig checked. Check-Icon (Haekchen) links im Item, reservierte Spalte via .nc-dropdown--checkable.",
+      "Checkable Items (multiple): role='menuitemcheckbox', aria-checked='true|false'. Mehrere Items gleichzeitig checked.",
+      "Submenu: Parent-Item hat aria-haspopup='menu' + aria-expanded='true|false'. Submenu oeffnet sich rechts (LTR) oder links (RTL). Oeffnung via Hover (300ms Delay) oder ArrowRight. Schliessung via ArrowLeft oder Hover-out. Chevron-Icon (.nc-dropdown__submenu-indicator) zeigt Submenu-Existenz an.",
+      "Footer: Permanenter Bereich am unteren Rand mit eigener Border-Top. Nicht scrollbar (sticky). Typisch: 'Alle anzeigen'-Link, Hilfetext, Aktions-Buttons.",
       "Danger-Item: Rote Farbe (feedback-danger), eigener Hover-BG.",
       "Icons: 16px, dekorativ. Shortcut: monospace, rechtsbuendig.",
       "Group-Label: uppercase, letter-spacing, user-select:none.",
@@ -44,7 +52,7 @@
   "axes": {
     "placement": {
       "label": "Placement",
-      "description": "Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end",
+      "description": "Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.",
       "values": {
         "bottom-start": { "modifier": null,                                  "tokenGroups": [], "renderHint": "dropdown-bottom-start" },
         "bottom-end":   { "modifier": "nc-dropdown__menu--bottom-end",       "tokenGroups": [], "renderHint": "dropdown-bottom-end" },
@@ -53,14 +61,26 @@
       }
     },
 
+    "selectionMode": {
+      "label": "Selection Mode",
+      "description": "Auswahl-Modus: none (Standard, reine Aktionen), single (Radio-Auswahl, nur ein Item aktiv), multiple (Checkbox-Auswahl, mehrere Items aktiv)",
+      "values": {
+        "none":     { "modifier": null,                     "tokenGroups": [],            "renderHint": "selection-none" },
+        "single":   { "modifier": "nc-dropdown--checkable", "tokenGroups": ["checkable"], "slotConfig": { "item-check": true }, "renderHint": "selection-single" },
+        "multiple": { "modifier": "nc-dropdown--checkable", "tokenGroups": ["checkable"], "slotConfig": { "item-check": true }, "renderHint": "selection-multiple" }
+      }
+    },
+
     "content": {
       "label": "Content",
-      "description": "Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel)",
+      "description": "Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)",
       "values": {
         "plain":          { "modifier": null, "tokenGroups": [], "renderHint": "dropdown-plain" },
         "with-icons":     { "modifier": null, "tokenGroups": [], "slotConfig": { "item-icon": true }, "renderHint": "dropdown-with-icons" },
         "grouped":        { "modifier": null, "tokenGroups": [], "slotConfig": { "group": true, "group-label": true, "separator": true }, "renderHint": "dropdown-grouped" },
-        "with-shortcuts": { "modifier": null, "tokenGroups": [], "slotConfig": { "item-shortcut": true }, "renderHint": "dropdown-with-shortcuts" }
+        "with-shortcuts": { "modifier": null, "tokenGroups": [], "slotConfig": { "item-shortcut": true }, "renderHint": "dropdown-with-shortcuts" },
+        "with-submenu":   { "modifier": null, "tokenGroups": ["submenu"], "slotConfig": { "submenu-indicator": true }, "renderHint": "dropdown-with-submenu" },
+        "with-footer":    { "modifier": null, "tokenGroups": ["footer"], "slotConfig": { "footer": true }, "renderHint": "dropdown-with-footer" }
       }
     },
 
@@ -75,13 +95,14 @@
   },
 
   "states": {
-    "supported": ["default", "hover", "active", "focus", "disabled"],
-    "precedence": ["disabled", "focus", "active", "hover", "default"],
+    "supported": ["default", "hover", "active", "focus", "disabled", "checked"],
+    "precedence": ["disabled", "focus", "active", "checked", "hover", "default"],
     "rules": [
       { "state": "hover", "unless": ["disabled"],  "note": "Hover: bg-hover auf dem Item. Nicht bei Disabled." },
       { "state": "active", "unless": ["disabled"],  "note": "Active: bg-active auf dem Item (Klick-Feedback)." },
       { "state": "focus", "unless": ["disabled"],   "note": "Focus: focus-ring auf dem Item via :focus-visible." },
-      { "state": "disabled", "unless": [],          "note": "Disabled: color-disabled, pointer-events: none, cursor: default." }
+      { "state": "disabled", "unless": [],          "note": "Disabled: color-disabled, pointer-events: none, cursor: default." },
+      { "state": "checked", "unless": ["disabled"], "note": "Checked: Check-Icon sichtbar (opacity:1), font-weight:medium. Nur bei selectionMode single/multiple." }
     ],
     "interactive": true
   },
@@ -103,6 +124,21 @@
         "when": { "axes": { "itemVariant": ["danger"] } },
         "suggest": [],
         "note": "Danger-Items: Farbe allein ist kein Signal — Label muss die destruktive Aktion beschreiben (z.B. 'Loeschen')."
+      },
+      {
+        "when": { "axes": { "selectionMode": ["single"] } },
+        "suggest": ["role-menuitemradio", "aria-checked"],
+        "note": "Single-Select: Items muessen role='menuitemradio' und aria-checked='true|false' haben. Screen Reader meldet 'Radiobutton, aktiviert'."
+      },
+      {
+        "when": { "axes": { "selectionMode": ["multiple"] } },
+        "suggest": ["role-menuitemcheckbox", "aria-checked"],
+        "note": "Multi-Select: Items muessen role='menuitemcheckbox' und aria-checked='true|false' haben. Screen Reader meldet 'Kontrollkaestchen, aktiviert'."
+      },
+      {
+        "when": { "axes": { "content": ["with-submenu"] } },
+        "suggest": ["aria-haspopup-menu", "aria-expanded"],
+        "note": "Submenu-Item: aria-haspopup='menu', aria-expanded='true|false'. Keyboard: ArrowRight oeffnet Submenu, ArrowLeft/Escape schliesst es."
       }
     ]
   },
@@ -110,7 +146,10 @@
   "constraints": {
     "rules": [
       { "when": {}, "require": ["aria-haspopup", "aria-expanded"], "notes": ["Trigger braucht aria-haspopup='true' und aria-expanded State."] },
-      { "when": {}, "require": ["role-menu", "role-menuitem"], "notes": ["Menu: role='menu'. Items: role='menuitem'. Keyboard-Navigation erforderlich."] }
+      { "when": {}, "require": ["role-menu", "role-menuitem"], "notes": ["Menu: role='menu'. Items: role='menuitem'. Keyboard-Navigation erforderlich."] },
+      { "when": { "axes": { "selectionMode": ["single"] } }, "require": ["role-menuitemradio", "aria-checked"], "notes": ["Single-Select: role='menuitemradio' + aria-checked auf jedem checkbaren Item."] },
+      { "when": { "axes": { "selectionMode": ["multiple"] } }, "require": ["role-menuitemcheckbox", "aria-checked"], "notes": ["Multi-Select: role='menuitemcheckbox' + aria-checked auf jedem checkbaren Item."] },
+      { "when": { "axes": { "content": ["with-submenu"] } }, "require": ["aria-haspopup-menu"], "notes": ["Submenu-Items brauchen aria-haspopup='menu' + aria-expanded."] }
     ],
     "copy": {
       "triggerLabel": {
@@ -168,6 +207,30 @@
           "nc-dropdown-item-danger-bg-hover"
         ]
       },
+      "checkable": {
+        "label": "Checkable Items",
+        "tokens": [
+          "nc-dropdown-check-size",
+          "nc-dropdown-check-color",
+          "nc-dropdown-check-gap"
+        ]
+      },
+      "submenu": {
+        "label": "Submenu",
+        "tokens": [
+          "nc-dropdown-submenu-indicator-size",
+          "nc-dropdown-submenu-indicator-color",
+          "nc-dropdown-submenu-offset"
+        ]
+      },
+      "footer": {
+        "label": "Footer",
+        "tokens": [
+          "nc-dropdown-footer-padding",
+          "nc-dropdown-footer-bg",
+          "nc-dropdown-footer-border-color"
+        ]
+      },
       "group": {
         "label": "Group Label",
         "tokens": [
@@ -197,6 +260,7 @@
       "classList": [
         "styling.baseClasses",
         "axes.placement.values.*.modifier",
+        "axes.selectionMode.values.*.modifier",
         "axes.content.values.*.modifier",
         "axes.itemVariant.values.*.modifier"
       ],
@@ -213,7 +277,7 @@
       "label": "All States",
       "description": "Dropdown-Item in allen Zustaenden: default, hover, active, focus, disabled",
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": ["plain"], "itemVariant": ["default"] },
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": ["plain"], "itemVariant": ["default"] },
         "states": ["default", "hover", "active", "focus", "disabled"]
       },
       "layout": "row",
@@ -228,7 +292,7 @@
       "label": "Placement Variants",
       "description": "Alle vier Positionierungen: bottom-start, bottom-end, top-start, top-end",
       "matrix": {
-        "axes": { "placement": "*", "content": ["plain"], "itemVariant": ["default"] },
+        "axes": { "placement": "*", "selectionMode": ["none"], "content": ["plain"], "itemVariant": ["default"] },
         "states": ["default"]
       },
       "layout": "grid",
@@ -242,9 +306,9 @@
     {
       "id": "content-variants",
       "label": "Content Variants",
-      "description": "Plain, With Icons, Grouped, With Shortcuts",
+      "description": "Plain, With Icons, Grouped, With Shortcuts, With Submenu, With Footer",
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": "*", "itemVariant": ["default"] },
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": "*", "itemVariant": ["default"] },
         "states": ["default"]
       },
       "layout": "grid",
@@ -252,7 +316,67 @@
       "render": { "label": "{content}" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Icons dekorativ (aria-hidden). Shortcuts: rein visuell, Screenreader ignoriert. Group-Label: nicht fokussierbar."
+        "note": "Icons dekorativ (aria-hidden). Shortcuts: rein visuell. Group-Label: nicht fokussierbar. Footer: fokussierbare Links/Buttons."
+      }
+    },
+    {
+      "id": "checkable-single",
+      "label": "Single Select (Radio)",
+      "description": "Radio-Auswahl: Nur ein Item gleichzeitig aktiv. role='menuitemradio', aria-checked.",
+      "matrix": {
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["single"], "content": ["plain"], "itemVariant": ["default"] },
+        "states": ["default", "checked"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "dropdown-checkable-single", "label": "single-select" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Items: role='menuitemradio'. Check-Icon dekorativ (aria-hidden). aria-checked steuert Screen-Reader-Ausgabe."
+      }
+    },
+    {
+      "id": "checkable-multiple",
+      "label": "Multi Select (Checkbox)",
+      "description": "Checkbox-Auswahl: Mehrere Items gleichzeitig aktiv. role='menuitemcheckbox', aria-checked.",
+      "matrix": {
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["multiple"], "content": ["with-icons"], "itemVariant": ["default"] },
+        "states": ["default", "checked"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "dropdown-checkable-multiple", "label": "multi-select" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Items: role='menuitemcheckbox'. Mehrere Items koennen gleichzeitig aria-checked='true' haben."
+      }
+    },
+    {
+      "id": "with-submenu",
+      "label": "Submenu (Cascading)",
+      "description": "Item mit Submenu-Indikator (Chevron rechts). Submenu oeffnet sich bei Hover/ArrowRight.",
+      "matrix": {
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": ["with-submenu"], "itemVariant": ["default"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "dropdown-submenu", "label": "cascading-menu" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Submenu-Item: aria-haspopup='menu', aria-expanded. Keyboard: ArrowRight oeffnet, ArrowLeft/Escape schliesst."
+      }
+    },
+    {
+      "id": "with-footer",
+      "label": "Footer Slot",
+      "description": "Permanenter Footer-Bereich am unteren Rand — z.B. 'Alle anzeigen' Link oder Hilfetext.",
+      "matrix": {
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": ["with-footer"], "itemVariant": ["default"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "dropdown-footer", "label": "footer-slot" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Footer-Inhalt (Links, Buttons) muss fokussierbar sein. Tab-Reihenfolge: Items → Footer."
       }
     },
     {
@@ -260,7 +384,7 @@
       "label": "Danger Item",
       "description": "Destruktive Aktion (z.B. Loeschen) mit roter Farbe und eigenem Hover-BG",
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": ["with-icons"], "itemVariant": ["danger"] },
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": ["with-icons"], "itemVariant": ["danger"] },
         "states": ["default", "hover"]
       },
       "layout": "row",
@@ -275,7 +399,7 @@
       "label": "Grouped with Danger",
       "description": "Typisches Kontextmenue: Gruppen mit normalen und destruktiven Aktionen",
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": ["grouped"], "itemVariant": ["default"] },
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["none"], "content": ["grouped"], "itemVariant": ["default"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -286,18 +410,18 @@
       }
     },
     {
-      "id": "with-keyboard-shortcuts",
-      "label": "With Keyboard Shortcuts",
-      "description": "Items mit Keyboard-Shortcut-Anzeige (z.B. Ctrl+C, Ctrl+V)",
+      "id": "full-featured",
+      "label": "Full Featured",
+      "description": "Alle Features kombiniert: Gruppen, Icons, Checkable, Submenu, Danger, Footer, Shortcuts.",
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": ["with-shortcuts"], "itemVariant": ["default"] },
+        "axes": { "placement": ["bottom-start"], "selectionMode": ["single"], "content": ["grouped"], "itemVariant": ["default"] },
         "states": ["default"]
       },
       "layout": "row",
-      "render": { "compositionType": "dropdown-shortcuts", "label": "shortcuts" },
+      "render": { "compositionType": "dropdown-full-featured", "label": "full-featured" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Shortcut-Text ist dekorativ — Screen Reader ignoriert. Aktive Shortcuts muessen JS-seitig implementiert werden."
+        "note": "Kombination aller Features. Sicherstellen: Check-Icons dekorativ, Shortcuts dekorativ, Submenu-Indikator dekorativ. ARIA-Rollen korrekt je nach selectionMode."
       }
     }
   ]

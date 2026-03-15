@@ -1,13 +1,14 @@
 // ==========================================================================
-// 05-Atoms: Tag
+// 05-Atoms: Tag v2.0.0
 // ==========================================================================
-// Statisches oder interaktives Label-Element. Kann als reiner Text-Indikator,
-// als Navigation-Link oder als entfernbares Element verwendet werden.
+// Interaktives Pill-Element fuer dynamische Metadaten, Filter, Navigation.
+// Visuell klar als klickbar erkennbar — Pill-Shape (voll abgerundet).
 //
 // SEMANTIK:
 //   R5: Statischer Tag → <span>, nicht fokussierbar
 //   R1: Navigations-Tag → <a href>, immer mit --interactive Modifier
 //   R2: Entfernbarer Tag → <span> mit <button> als Remove-Element
+//   R3: Selectable Tag → <button aria-pressed>, Filter-Chip Muster
 //   R7: Farbe nie alleiniges Signal
 //
 // GROESSEN (3 Stufen, versetzt zum Button-Scale):
@@ -17,6 +18,10 @@
 //
 // VARIANTEN (7):
 //   default, outline, primary, success, warning, error, info
+//
+// ZUSTAENDE:
+//   --interactive: Hover/Active/Focus/Disabled
+//   --selected: Toggle-State fuer Filter-Chips (aria-pressed)
 //
 // KLASSEN:
 //   .nc-tag (kanonisch, BEM)
@@ -62,14 +67,11 @@
 // Interactive Modifier
 // ---------------------------------------------------------------------------
 // Fuer klickbare Tags (<a> oder <button>). Fuegt Hover/Active/Focus hinzu.
+// Shadow-Hover fuer deutlichere Klickbarkeit bei Navigations-Tags.
 
 @mixin tag-interactive {
   cursor: pointer;
-  transition:
-    background-color var(--nc-tag-transition-duration) ease,
-    border-color     var(--nc-tag-transition-duration) ease,
-    color            var(--nc-tag-transition-duration) ease,
-    transform        var(--nc-tag-transition-duration) ease;
+  @include transition-quick((background-color, border-color, color, transform, box-shadow));
 
   &:focus-visible {
     @include focus-ring;
@@ -77,10 +79,12 @@
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
     background-color: var(--_tag-bg-hover, var(--nc-tag-default-bg-hover));
+    box-shadow: var(--nc-tag-interactive-shadow-hover);
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
     transform: scale(0.98);
+    box-shadow: none;
   }
 
   &:disabled,
@@ -92,7 +96,21 @@
     cursor: not-allowed;
     pointer-events: none;
     transform: none;
+    box-shadow: none;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Selected State (Filter-Chip / Toggle)
+// ---------------------------------------------------------------------------
+// Fuer selectable Tags, die beim Anklicken aktiv bleiben (aria-pressed).
+// Kombinierbar mit --interactive.
+
+@mixin tag-selected {
+  --_surface-bg: var(--nc-tag-selected-bg);
+  --_surface-color: var(--nc-tag-selected-color);
+  --_surface-border-color: var(--nc-tag-selected-border);
+  --_tag-bg-hover: var(--nc-tag-selected-bg-hover);
 }
 
 // ---------------------------------------------------------------------------
@@ -186,6 +204,12 @@
 
   // Interactive Modifier (fuer <a> und klickbare Tags)
   &--interactive { @include tag-interactive; }
+
+  // Selected State (Filter-Chip/Toggle — aria-pressed="true")
+  &--selected,
+  &[aria-pressed='true'] {
+    @include tag-selected;
+  }
 
   // Removable Modifier (hat Dismiss-Button)
   &--removable {

@@ -3,16 +3,18 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "modal",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["overlay", "interactive", "dialog"],
     "links": { "figma": "", "storybook": "", "docs": "/docs/modal-docs" }
   },
+
   "anatomy": {
     "root": { "element": ".nc-modal" },
     "slots": [
       { "name": "header", "element": ".nc-modal__header", "optional": true },
       { "name": "title", "element": ".nc-modal__title", "optional": true },
+      { "name": "header-icon", "element": ".nc-modal__header-icon", "optional": true },
       { "name": "close", "element": ".nc-modal__close", "optional": true },
       { "name": "body", "element": ".nc-modal__body", "optional": false },
       { "name": "footer", "element": ".nc-modal__footer", "optional": true }
@@ -20,13 +22,21 @@
     "convenience": [],
     "domNotes": [
       "Root: natives <dialog> Element. showModal() fuer modale Anzeige.",
-      "Verwendet --nc-dialog-* Tokens (geteilt mit Alert-Dialog).",
+      "Verwendet --nc-dialog-* Tokens (geteilt mit Alert-Dialog fuer Overlay-Konsistenz).",
       "[open]: display:flex. Zentriert via fixed + margin:auto.",
-      "Backdrop: ::backdrop mit overlay-bg Animation.",
+      "Backdrop: ::backdrop mit overlay-bg Animation. Optional: Klick auf Backdrop schliesst via data-backdrop-close='true'. Nicht bei Formularen (Datenverlust).",
       "Oeffnungs-Animation: opacity + translate (16px hoch). @starting-style.",
-      "Body Scroll Lock: body:has(.nc-modal[open]) { overflow: hidden }."
+      "Body Scroll Lock: body:has(.nc-modal[open]) { overflow: hidden }.",
+      "Sticky Header/Footer: Bei --scrollable Modifier bleiben Header und Footer fixiert. JS setzt .is-scrolled-top/.is-scrolled-bottom auf .nc-modal basierend auf scrollTop des Body — Header/Footer zeigen dann eine subtile Border (nc-dialog-header-border-color / nc-dialog-footer-border-color) als Scroll-Indikator.",
+      "Scroll-Detection JS Pattern: const body = modal.querySelector('.nc-modal__body'); body.addEventListener('scroll', () => { modal.classList.toggle('is-scrolled-top', body.scrollTop > 0); modal.classList.toggle('is-scrolled-bottom', body.scrollTop + body.clientHeight < body.scrollHeight); });",
+      "Backdrop-Close JS Pattern: dialog.addEventListener('click', (e) => { if (e.target === dialog && dialog.dataset.backdropClose === 'true') dialog.close(); });",
+      "Mobile Bottom-Sheet: Unter sm-Breakpoint gleitet das Modal von unten herein (translate: 0 100% → 0 0), volle Breite, abgerundete obere Ecken (nc-dialog-mobile-radius). Max-Hoehe begrenzt (nc-dialog-mobile-max-height: 90vh).",
+      "Overlay-Konsistenz: nc-dialog-bg = surface-elevated (wie Dropdown/Popover). nc-dialog-shadow = elevation-modal (Level 3, hoechster Schatten). Dropdown: elevation-floating (Level 1). Popover: elevation-overlay (Level 2).",
+      "Danger-Intent: Header-Icon-Bereich und primaere Footer-Action uebernehmen danger-Markenfarbe. Visuelles Signal fuer destruktive Aktion.",
+      "Close-Button: <button class='nc-modal__close' aria-label='Schliessen'>. 36px Target, focus-visible Ring."
     ]
   },
+
   "axes": {
     "size": {
       "label": "Size",
@@ -38,112 +48,220 @@
         "full": { "modifier": "nc-modal--full", "tokenGroups": [], "renderHint": "modal-full" }
       }
     },
+
     "content": {
       "label": "Content",
-      "description": "Inhaltsstruktur — simple (nur Body), with-header, with-footer, full (Header + Body + Footer)",
+      "description": "Inhaltsstruktur — simple (nur Body), with-header, with-footer, full (Header + Body + Footer), scrollable (voller Inhalt mit scrollbarem Body und sticky Header/Footer)",
       "values": {
         "simple":      { "modifier": null, "tokenGroups": [], "renderHint": "modal-simple" },
         "with-header": { "modifier": null, "tokenGroups": [], "slotConfig": { "header": true, "title": true, "close": true }, "renderHint": "modal-header" },
         "with-footer": { "modifier": null, "tokenGroups": [], "slotConfig": { "footer": true }, "renderHint": "modal-footer" },
-        "full":        { "modifier": null, "tokenGroups": [], "slotConfig": { "header": true, "title": true, "close": true, "footer": true }, "renderHint": "modal-full-content" }
+        "full":        { "modifier": null, "tokenGroups": [], "slotConfig": { "header": true, "title": true, "close": true, "footer": true }, "renderHint": "modal-full-content" },
+        "scrollable":  { "modifier": "nc-modal--scrollable", "tokenGroups": ["scroll-borders"], "slotConfig": { "header": true, "title": true, "close": true, "footer": true }, "renderHint": "modal-scrollable" }
+      }
+    },
+
+    "intent": {
+      "label": "Intent",
+      "description": "Absicht — default (neutral, informativ), danger (destruktive Aktion wie Loeschen)",
+      "values": {
+        "default": { "modifier": null,              "tokenGroups": [],         "renderHint": "intent-default" },
+        "danger":  { "modifier": "nc-modal--danger", "tokenGroups": ["danger"], "renderHint": "intent-danger" }
       }
     }
   },
+
   "states": {
     "supported": ["default", "open"],
     "precedence": ["open", "default"],
     "rules": [
-      { "state": "open", "unless": [], "note": "Open: display:flex, opacity:1, translate(0,0). Animation via @starting-style." }
+      { "state": "open", "unless": [], "note": "Open: display:flex, opacity:1, translate(0,0). Animation via @starting-style. Backdrop sichtbar." }
     ],
     "interactive": true
   },
+
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": ["hasAccessibleName", "supportsKeyboard"],
-      "note": "Natives <dialog> liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. ESC schliesst. Fokus-Trap ist nativ. Fokus kehrt zum Trigger zurueck."
+      "note": "Natives <dialog> liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. ESC schliesst nativ. Fokus-Trap ist nativ. Fokus kehrt zum Trigger zurueck."
     },
-    "overrides": []
+    "overrides": [
+      {
+        "when": { "axes": { "intent": ["danger"] } },
+        "suggest": [],
+        "note": "Danger-Modal: Primaere Action (z.B. 'Loeschen') muss Label klar benennen. Farbe allein ist kein Signal. Optional: autofocus auf Cancel statt Confirm."
+      },
+      {
+        "when": { "axes": { "content": ["scrollable"] } },
+        "suggest": [],
+        "note": "Scrollable: Sticky Header/Footer informieren visuell via Border-Erscheinung. Kein A11y-Impact — Scroll ist nativ per Tastatur."
+      }
+    ]
   },
+
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["dialog-element", "aria-labelledby"], "notes": ["<dialog> mit showModal(). aria-labelledby auf den Titel."] }
+      { "when": {}, "require": ["dialog-element", "aria-labelledby"], "notes": ["<dialog> mit showModal(). aria-labelledby auf den Titel."] },
+      { "when": {}, "require": ["close-mechanism"], "notes": ["Mindestens eine Schliess-Moeglichkeit: ESC (nativ), Close-Button, oder Backdrop-Klick."] }
     ],
     "copy": {
-      "title": { "maxChars": 60, "note": "Modal-Titel: 'Einstellungen', 'Neuen Eintrag erstellen', 'Datei hochladen'." }
+      "title": { "maxChars": 60, "note": "Modal-Titel: 'Einstellungen', 'Neuen Eintrag erstellen', 'Datei hochladen'." },
+      "dangerAction": { "maxChars": 30, "note": "Danger-Action: Klar benannt, z.B. 'Endgueltig loeschen', nicht nur 'OK'." }
     }
   },
+
   "styling": {
     "baseClasses": ["nc-modal"],
-    "baseTokenGroups": ["container", "header", "footer"],
+    "baseTokenGroups": ["container", "header", "body", "footer", "close-button"],
+
     "tokenGroups": {
       "container": {
         "label": "Container",
-        "tokens": ["nc-dialog-max-width", "nc-dialog-padding", "nc-dialog-radius", "nc-dialog-bg", "nc-dialog-shadow", "nc-dialog-overlay-bg", "nc-dialog-section-gap"]
+        "tokens": [
+          "nc-dialog-max-width",
+          "nc-dialog-max-height",
+          "nc-dialog-padding",
+          "nc-dialog-radius",
+          "nc-dialog-bg",
+          "nc-dialog-shadow",
+          "nc-dialog-overlay-bg",
+          "nc-dialog-section-gap"
+        ]
       },
       "header": {
         "label": "Header",
-        "tokens": ["nc-dialog-title-font-size", "nc-dialog-title-font-weight", "nc-dialog-title-color", "nc-dialog-header-gap"]
+        "tokens": [
+          "nc-dialog-title-font-size",
+          "nc-dialog-title-font-weight",
+          "nc-dialog-title-color",
+          "nc-dialog-header-gap",
+          "nc-dialog-header-border-color"
+        ]
+      },
+      "body": {
+        "label": "Body",
+        "tokens": [
+          "nc-dialog-description-font-size",
+          "nc-dialog-description-color"
+        ]
       },
       "footer": {
         "label": "Footer",
-        "tokens": ["nc-dialog-description-font-size", "nc-dialog-description-color", "nc-dialog-footer-gap"]
+        "tokens": [
+          "nc-dialog-footer-gap",
+          "nc-dialog-footer-border-color"
+        ]
+      },
+      "close-button": {
+        "label": "Close Button",
+        "tokens": [
+          "nc-dialog-close-size",
+          "nc-dialog-close-radius",
+          "nc-dialog-close-bg",
+          "nc-dialog-close-bg-hover",
+          "nc-dialog-close-icon-size"
+        ]
+      },
+      "danger": {
+        "label": "Danger Intent",
+        "tokens": [
+          "nc-dialog-danger-icon-color",
+          "nc-dialog-danger-action-bg",
+          "nc-dialog-danger-action-color"
+        ]
+      },
+      "scroll-borders": {
+        "label": "Scroll Borders",
+        "tokens": [
+          "nc-dialog-header-border-color",
+          "nc-dialog-footer-border-color"
+        ]
+      },
+      "mobile": {
+        "label": "Mobile Bottom-Sheet",
+        "tokens": [
+          "nc-dialog-mobile-radius",
+          "nc-dialog-mobile-max-height"
+        ]
       }
     }
   },
+
   "recipes": {
     "mode": "derived",
     "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.size.values.*.modifier"],
+      "classList": ["styling.baseClasses", "axes.size.values.*.modifier", "axes.content.values.*.modifier", "axes.intent.values.*.modifier"],
       "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
     }
   },
+
   "specimens": [
     {
       "id": "default", "label": "Default Modal",
-      "description": "Standard Modal mit Header, Body und Footer",
-      "matrix": { "axes": { "size": ["md"], "content": ["full"] }, "states": ["default"] },
+      "description": "Standard Modal mit Header, Body und Footer (md, default intent)",
+      "matrix": { "axes": { "size": ["md"], "content": ["full"], "intent": ["default"] }, "states": ["default"] },
       "layout": "row", "render": { "compositionType": "modal-default", "label": "default" },
       "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-labelledby auf Title. Close-Button: aria-label='Schliessen'. ESC schliesst." }
     },
     {
       "id": "size-variants", "label": "Size Variants",
-      "description": "SM, MD, LG, Full",
-      "matrix": { "axes": { "size": "*", "content": ["with-header"] }, "states": ["default"] },
+      "description": "SM (400px), MD (560px), LG (720px), Full (100%)",
+      "matrix": { "axes": { "size": "*", "content": ["with-header"], "intent": ["default"] }, "states": ["default"] },
       "layout": "grid", "layoutConfig": { "rowAxis": "size" }, "render": { "label": "{size}" },
       "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alle Groessen: gleiche A11y. Full: max-width 100%, volle Hoehe." }
     },
     {
       "id": "content-variants", "label": "Content Variants",
-      "description": "Simple, With Header, With Footer, Full",
-      "matrix": { "axes": { "size": ["md"], "content": "*" }, "states": ["default"] },
+      "description": "Simple, With Header, With Footer, Full, Scrollable",
+      "matrix": { "axes": { "size": ["md"], "content": "*", "intent": ["default"] }, "states": ["default"] },
       "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Simple: aria-label statt aria-labelledby. Full: Header + Body + Footer." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Simple: aria-label statt aria-labelledby. Scrollable: Sticky Header/Footer." }
+    },
+    {
+      "id": "scrollable", "label": "Scrollable Body",
+      "description": "Langer Inhalt scrollt im Body. Header und Footer bleiben sticky. Scroll-Borders erscheinen dynamisch.",
+      "matrix": { "axes": { "size": ["md"], "content": ["scrollable"], "intent": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "modal-scrollable", "label": "scrollable" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Body: overflow-y:auto. Header/Footer bleiben fixiert. Scroll per Tastatur." }
+    },
+    {
+      "id": "danger-confirmation", "label": "Danger Confirmation",
+      "description": "Destruktive Bestaetigung mit rotem Header-Icon und roter primaerer Action.",
+      "matrix": { "axes": { "size": ["sm"], "content": ["full"], "intent": ["danger"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "modal-danger", "label": "danger" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Danger-Farbe 4.5:1 Kontrast. Label muss destruktive Aktion klar benennen." }
     },
     {
       "id": "with-form", "label": "Modal with Form",
       "description": "Modal mit eingebettetem Formular",
       "composes": ["form", "form-field", "form-actions"],
-      "matrix": { "axes": { "size": ["md"], "content": ["full"] }, "states": ["default"] },
+      "matrix": { "axes": { "size": ["md"], "content": ["full"], "intent": ["default"] }, "states": ["default"] },
       "layout": "row", "render": { "compositionType": "modal-form", "label": "form" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Formular im Modal: Tab-Navigation durch Fields. Submit im Footer." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Formular im Modal: Tab-Navigation durch Fields. Submit im Footer. Backdrop-Close NICHT aktivieren." }
     },
     {
-      "id": "scrollable", "label": "Scrollable Body",
-      "description": "Modal mit scrollbarem Body-Bereich",
-      "matrix": { "axes": { "size": ["md"], "content": ["full"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "modal-scrollable", "label": "scrollable" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Body: overflow-y:auto. Header/Footer bleiben fixiert." }
+      "id": "mobile-bottom-sheet", "label": "Mobile Bottom-Sheet",
+      "description": "Responsive Transformation: Modal wird auf Mobile zum Bottom-Sheet (volle Breite, von unten).",
+      "matrix": { "axes": { "size": ["md"], "content": ["full"], "intent": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "modal-bottom-sheet", "label": "bottom-sheet" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Bottom-Sheet: Gleiche A11y wie zentriertes Modal. ESC + Close-Button. Optional: Swipe-to-dismiss." }
     },
     {
-      "id": "confirmation", "label": "Confirmation Modal",
-      "description": "Einfacher Bestaetigungsdialog mit Cancel + Confirm",
-      "composes": ["button"],
-      "matrix": { "axes": { "size": ["sm"], "content": ["full"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "modal-confirmation", "label": "confirmation" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Confirm-Button: autofocus. Cancel: ESC oder Cancel-Button." }
+      "id": "backdrop-close", "label": "Backdrop Close",
+      "description": "Klick auf Backdrop schliesst Modal. Optional via data-backdrop-close='true'.",
+      "matrix": { "axes": { "size": ["md"], "content": ["full"], "intent": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "modal-backdrop-close", "label": "backdrop-close" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Backdrop-Close optional — NICHT bei Formularen (Datenverlust). Nutzer muss Close-Button oder ESC als Alternative haben." }
+    },
+    {
+      "id": "overlay-hierarchy", "label": "Overlay Hierarchy",
+      "description": "Vergleich der Schatten-Hierarchie: Dropdown (Level 1) → Popover (Level 2) → Modal (Level 3)",
+      "matrix": { "axes": { "size": ["sm"], "content": ["with-header"], "intent": ["default"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "modal-overlay-hierarchy", "label": "elevation-hierarchy" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Schattenstufen signalisieren z-Ebene. Modal hat den staerksten Schatten." }
     }
   ]
 }

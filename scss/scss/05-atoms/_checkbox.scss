@@ -157,4 +157,41 @@
   &--error .nc-checkbox__input:not(:checked) + .nc-checkbox__control {
     border-color: var(--nc-checkbox-border-error);
   }
+
+  // -- Card-Variante --
+  // Checkbox mit umgebendem Rahmen (Card-Wrapper um Label + Control).
+
+  &--card {
+    padding: var(--nc-checkbox-card-padding);
+    background-color: var(--nc-checkbox-card-bg);
+    border: var(--nc-checkbox-border-width) solid var(--nc-checkbox-card-border);
+    border-radius: var(--nc-checkbox-card-radius);
+    transition:
+      background-color var(--nc-checkbox-transition-duration) ease,
+      border-color var(--nc-checkbox-transition-duration) ease;
+
+    // Hover
+    &:hover:not(:has(input:disabled)) {
+      border-color: var(--nc-checkbox-card-border-hover);
+    }
+
+    // Checked — Card bekommt aktive BG + Border
+    &:has(input:checked),
+    &:has(input:indeterminate) {
+      background-color: var(--nc-checkbox-card-bg-checked);
+      border-color: var(--nc-checkbox-card-border-checked);
+    }
+
+    // Error auf Card-Level
+    &.nc-checkbox--error {
+      border-color: var(--nc-checkbox-border-error);
+    }
+
+    // Disabled auf Card-Level
+    &:has(input:disabled) {
+      opacity: var(--nc-checkbox-disabled-opacity);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
 }

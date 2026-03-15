@@ -674,3 +674,315 @@ dialog.green-theme {
 body:has(.theme-switcher-modal[open]) {
   overflow: hidden;
 }
+
+// ==========================================================================
+// 07-Organisms: Modal (BEM / Token-basiert)
+// ==========================================================================
+// Generischer modaler Dialog basierend auf nativem <dialog>.
+// Teilt --nc-dialog-* Tokens mit Alert-Dialog.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-dialog-* Component-Tokens.
+//   Geteilt mit .nc-alert-dialog fuer Konsistenz.
+//
+// PATTERN:
+//   Natives <dialog> + showModal(). Fokus-Trap nativ.
+//   Oeffnung: opacity + translate (16px hoch). @starting-style.
+//   Schliessen: ESC nativ, Close-Button, optional Backdrop-Klick.
+//   Mobile: Bottom-Sheet Pattern via @media.
+//
+// BEM-KLASSEN:
+//   .nc-modal                       Block (<dialog>, fixed, centered)
+//   .nc-modal__header               Header-Bereich (sticky bei Scroll)
+//   .nc-modal__title                <h2> Titel
+//   .nc-modal__close                Close-Button (X)
+//   .nc-modal__body                 Scrollbarer Inhaltsbereich
+//   .nc-modal__footer               Footer mit Actions (sticky bei Scroll)
+//   .nc-modal--sm                   400px Breite
+//   .nc-modal--lg                   720px Breite
+//   .nc-modal--full                 100% Breite + Hoehe
+//   .nc-modal--danger               Destruktive Bestaetigungsabsicht
+//   .nc-modal--scrollable           Aktiviert sticky Header/Footer
+//
+// ACCESSIBILITY:
+//   Natives <dialog> liefert role="dialog", aria-modal="true" bei showModal().
+//   aria-labelledby → Title. ESC schliesst nativ.
+//   Fokus-Trap nativ. Fokus kehrt zum Trigger zurueck.
+//   Backdrop-Close: Optional (data-backdrop-close="true").
+//   Nicht bei Formularen, um Datenverlust zu vermeiden.
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Basis-Styling fuer den Modal-Dialog.
+@mixin modal-base {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: var(--nc-dialog-max-width);
+  width: calc(100% - var(--fnd-spacing-08));
+  max-height: var(--nc-dialog-max-height);
+  padding: 0; // Padding via Header/Body/Footer
+  border: none;
+  border-radius: var(--nc-dialog-radius);
+  background-color: var(--nc-dialog-bg);
+  box-shadow: var(--nc-dialog-shadow);
+  color: var(--fnd-color-text-primary);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+
+  &[open] {
+    display: flex;
+  }
+
+  // Oeffnungs-Animation
+  transition:
+    opacity var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused),
+    translate var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused),
+    display var(--fnd-motion-duration-300) var(--fnd-motion-ease-focused) allow-discrete;
+
+  &[open] {
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 16px;
+    }
+  }
+
+  &:not([open]) {
+    opacity: 0;
+    translate: 0 16px;
+  }
+
+  // Backdrop
+  &::backdrop {
+    background: var(--nc-dialog-overlay-bg);
+    animation: animations-fade-in;
+    animation-duration: var(--fnd-motion-duration-300);
+    animation-timing-function: var(--fnd-motion-ease-focused);
+    animation-fill-mode: forwards;
+  }
+
+  @include reduced-motion {
+    transition: none;
+
+    &::backdrop {
+      animation: none;
+    }
+  }
+}
+
+/// Modal Header — sticky bei scrollbarem Body.
+@mixin modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nc-dialog-header-gap);
+  padding: var(--nc-dialog-padding);
+  padding-bottom: var(--fnd-spacing-04);
+  flex-shrink: 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+}
+
+/// Modal Titel.
+@mixin modal-title {
+  font-size: var(--nc-dialog-title-font-size);
+  font-weight: var(--nc-dialog-title-font-weight);
+  color: var(--nc-dialog-title-color);
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+  min-width: 0;
+}
+
+/// Close-Button (X) im Header.
+@mixin modal-close {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-dialog-close-size);
+  height: var(--nc-dialog-close-size);
+  border-radius: var(--nc-dialog-close-radius);
+  background-color: var(--nc-dialog-close-bg);
+  cursor: pointer;
+  flex-shrink: 0;
+  color: var(--fnd-color-text-primary);
+
+  &:hover {
+    background-color: var(--nc-dialog-close-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  > svg,
+  > .nc-icon {
+    width: var(--nc-dialog-close-icon-size);
+    height: var(--nc-dialog-close-icon-size);
+    display: flex;
+    pointer-events: none;
+  }
+}
+
+/// Modal Body — scrollbar bei Ueberlauf.
+@mixin modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--nc-dialog-padding);
+  min-height: 0;
+  @include hide-scrollbar;
+}
+
+/// Modal Footer — sticky, Actions rechtsbuendig.
+@mixin modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--nc-dialog-footer-gap);
+  padding: var(--nc-dialog-padding);
+  padding-top: var(--fnd-spacing-04);
+  flex-shrink: 0;
+  border-top: 1px solid transparent;
+  transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-modal {
+  @include modal-base;
+
+  // -- Header --
+
+  &__header {
+    @include modal-header;
+  }
+
+  &__title {
+    @include modal-title;
+  }
+
+  &__close {
+    @include modal-close;
+  }
+
+  // -- Body --
+
+  &__body {
+    @include modal-body;
+  }
+
+  // -- Footer --
+
+  &__footer {
+    @include modal-footer;
+  }
+
+  // -- Groessen-Modifier --
+
+  &--sm {
+    --nc-dialog-max-width: 400px;
+  }
+
+  &--lg {
+    --nc-dialog-max-width: 720px;
+  }
+
+  &--full {
+    --nc-dialog-max-width: 100%;
+    --nc-dialog-max-height: 100vh;
+    --nc-dialog-radius: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  // -- Scrollable: Sticky Header/Footer mit Scroll-Borders --
+  // Header und Footer zeigen Border nur wenn Body scrollt.
+  // JS setzt .is-scrolled-top / .is-scrolled-bottom auf .nc-modal
+  // basierend auf scrollTop des Body.
+
+  &--scrollable {
+    .nc-modal__body {
+      overflow-y: auto;
+    }
+
+    // Border erscheint wenn Inhalt wegscrollt
+    &.is-scrolled-top .nc-modal__header {
+      border-bottom-color: var(--nc-dialog-header-border-color);
+    }
+
+    &.is-scrolled-bottom .nc-modal__footer {
+      border-top-color: var(--nc-dialog-footer-border-color);
+    }
+  }
+
+  // -- Danger Intent --
+  // Destruktive Bestaetigung: Header-Icon rot, primaere Action rot.
+
+  &--danger {
+    .nc-modal__header-icon {
+      color: var(--nc-dialog-danger-icon-color);
+    }
+
+    .nc-modal__footer .nc-button--primary,
+    .nc-modal__footer [data-action='confirm'] {
+      background-color: var(--nc-dialog-danger-action-bg);
+      color: var(--nc-dialog-danger-action-color);
+      border-color: var(--nc-dialog-danger-action-bg);
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--nc-dialog-danger-action-bg) 85%, var(--fnd-color-always-dark));
+      }
+    }
+  }
+
+  // -- Mobile Bottom-Sheet --
+  // Unter md Breakpoint: Modal gleitet von unten rein, volle Breite.
+
+  @include respond-to-max('sm') {
+    inset: auto 0 0 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: var(--nc-dialog-mobile-max-height);
+    border-radius: var(--nc-dialog-mobile-radius);
+
+    &[open] {
+      @starting-style {
+        opacity: 0;
+        translate: 0 100%;
+      }
+    }
+
+    &:not([open]) {
+      translate: 0 100%;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    border: 2px solid ButtonText;
+
+    .nc-modal__close:focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Body Scroll Lock
+// ---------------------------------------------------------------------------
+
+body:has(.nc-modal[open]) {
+  overflow: hidden;
+}

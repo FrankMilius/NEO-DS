@@ -13,9 +13,17 @@
 //   Ein fester Viewport-Container (Toaster) haelt gestapelte Toasts.
 //   6 Positionen: top-left, top-center, top-right, bottom-left,
 //                 bottom-center, bottom-right.
-//   4 semantische Varianten: default, success, warning, error.
+//   5 semantische Varianten: default, success, warning, error, info.
 //   Slide-in/Slide-out Animationen je nach Position.
 //   Auto-Dismiss mit optionalem Progress-Bar.
+//
+// ERWEITERTE FEATURES (v2.0.0):
+//   Pause on Hover/Focus: Progress-Animation pausiert bei :hover/:focus-within.
+//   Queue Management: max-visible Token begrenzt sichtbare Toasts (JS).
+//   Undo Action: Action-Button mit Undo-Semantik (data-undo).
+//   Stack Animation: CSS transition auf Toaster-Kinder bei Entfernung.
+//   Swipe-to-Dismiss: Touch-basiertes Wegwischen (translateX, opacity).
+//   Icon Form-Language: Jede Variante hat dediziertes Icon (nicht nur Farbe).
 //
 // BEM-KLASSEN:
 //   .nc-toaster                    Viewport-Container (fixed, z-index toast)
@@ -31,7 +39,7 @@
 //   .nc-toast__content             Flex-1 Text-Bereich
 //   .nc-toast__title               Titel (font-weight 600)
 //   .nc-toast__description         Beschreibungstext
-//   .nc-toast__action              Optionaler Action-Button
+//   .nc-toast__action              Optionaler Action-Button (inkl. Undo)
 //   .nc-toast__close               Schliessen-Button
 //   .nc-toast__progress            Fortschrittsbalken (Auto-Dismiss)
 //   .nc-toast--default             Default-Variante (Standard)
@@ -41,6 +49,14 @@
 //   .nc-toast--info                Info-Variante
 //   .nc-toast.is-entering          Eintritts-Animation
 //   .nc-toast.is-leaving           Austritts-Animation
+//   .nc-toast.is-swiping           Aktive Swipe-Geste (JS setzt translateX)
+//   .nc-toast.is-swipe-out         Swipe-Dismiss Animation
+//
+// OVERLAY-HIERARCHIE:
+//   Level 1: Dropdown (elevation-floating)
+//   Level 2: Popover  (elevation-overlay)
+//   Level 3: Modal    (elevation-modal)
+//   Toast:   Ueber allem (z-index toast, elevation-overlay)
 //
 // ACCESSIBILITY:
 //   role="status" auf Toast (polite announcements)
@@ -50,6 +66,8 @@
 //   Farbe nie alleiniges Signal — immer mit Icon + Text
 //   Focus-Management: ESC schliesst neuesten Toast
 //   Reduzierte Bewegung: keine Slide-Animationen
+//   Pause on Hover/Focus: Timer pausiert, Progress-Bar haelt an
+//   Swipe: Nur horizontal, Threshold konfigurierbar (--nc-toast-swipe-threshold)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -234,17 +252,17 @@
   font-size: var(--nc-toast-description-font-size);
 }
 
-/// Action-Button.
+/// Action-Button (inkl. Undo-Button).
 @mixin toast-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+  padding: var(--nc-toast-action-padding);
   border: 1px solid var(--_toast-border);
-  border-radius: var(--fnd-radius-sm);
+  border-radius: var(--nc-toast-action-radius);
   background: transparent;
   color: inherit;
-  font-size: var(--nc-toast-description-font-size);
+  font-size: var(--nc-toast-action-font-size);
   font-weight: var(--fnd-font-weight-medium);
   cursor: pointer;
   white-space: nowrap;
@@ -265,21 +283,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: var(--nc-toast-close-size);
+  height: var(--nc-toast-close-size);
   flex-shrink: 0;
   padding: 0;
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
   color: var(--_toast-color);
-  opacity: var(--fnd-opacity-disabled);
+  opacity: var(--nc-toast-close-opacity);
   cursor: pointer;
   @include transition(opacity background-color, '200');
 
   &:hover {
     opacity: 1;
-    background-color: color-mix(in srgb, currentColor 10%, transparent);
+    background-color: var(--nc-toast-close-bg-hover);
   }
 
   &:focus-visible {
@@ -307,6 +325,8 @@
   background-color: var(--_toast-progress-bg, var(--nc-toast-default-progress-bg));
   border-radius: 0 0 0 var(--nc-toast-radius);
   // Animation wird per JS-Inline-Style gesteuert (duration)
+  // Pause bei Hover/Focus auf dem Toast-Element
+  animation-play-state: running;
 }
 
 // ---------------------------------------------------------------------------
@@ -315,6 +335,11 @@
 
 .nc-toaster {
   @include toaster-base;
+
+  // Stack-Transition: Kinder gleiten sanft nach, wenn ein Toast entfernt wird.
+  > .nc-toast {
+    transition: transform var(--nc-toast-stack-transition, 200ms ease);
+  }
 
   // -- Position: top-left --
   &--top-left {
@@ -481,6 +506,43 @@
     animation: nc-toast-slide-out-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
   }
 
+  // ---------------------------------------------------------------------------
+  // Pause on Hover/Focus — Progress-Bar stoppt, Auto-Dismiss Timer pausiert (JS)
+  // ---------------------------------------------------------------------------
+
+  &:hover &__progress,
+  &:focus-within &__progress {
+    animation-play-state: paused;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Swipe-to-Dismiss (Mobile Touch)
+  // ---------------------------------------------------------------------------
+  // JS setzt --_toast-swipe-x und --_toast-swipe-opacity per Touch-Event.
+  // CSS uebernimmt Transformation und Opacity-Uebergang.
+
+  &.is-swiping {
+    transform: translateX(var(--_toast-swipe-x, 0));
+    opacity: var(--_toast-swipe-opacity, 1);
+    cursor: grabbing;
+    user-select: none;
+    // Keine transition waehrend aktiver Geste
+    transition: none;
+  }
+
+  &.is-swipe-out {
+    transform: translateX(var(--_toast-swipe-x, 100%));
+    opacity: 0;
+    @include transition(transform opacity, '200');
+    pointer-events: none;
+  }
+
+  // Touch-Hint: dezenter Cursor auf Touch-Geraeten
+  @media (pointer: coarse) {
+    cursor: grab;
+    touch-action: pan-y; // Horizontal swipe erlauben, vertikales Scrollen beibehalten
+  }
+
   // -- Reduced Motion --
 
   @media (prefers-reduced-motion: reduce) {
@@ -496,6 +558,38 @@
     &.is-leaving {
       opacity: 0;
       @include transition-quick((opacity));
+    }
+
+    // Swipe auch bei reduzierter Bewegung: nur Opacity, kein translateX
+    &.is-swiping {
+      transform: none;
+    }
+
+    &.is-swipe-out {
+      transform: none;
+      opacity: 0;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    border: 1px solid ButtonText;
+
+    &__close:focus-visible {
+      outline: 2px solid Highlight;
+    }
+
+    &__action {
+      border-color: ButtonText;
+
+      &:focus-visible {
+        outline: 2px solid Highlight;
+      }
+    }
+
+    &__progress {
+      background-color: Highlight;
     }
   }
 }

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "grid",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["layout", "object", "grid"],
     "links": {
@@ -19,8 +19,11 @@
     "domNotes": [
       "12-Spalten-Grid basierend auf CSS Grid.",
       "Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).",
-      "Mobile: Grid reduziert auf 4 Spalten, Spans >4 werden full-width.",
-      "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop)."
+      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 2 oder 6 Spalten.",
+      "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).",
+      "Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.",
+      "Subgrid erlaubt verschachtelte Grids die das Eltern-Raster uebernehmen (z.B. fuer Header-Alignment in Cards).",
+      "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging."
     ]
   },
 
@@ -82,6 +85,79 @@
           "description": "Items am unteren Rand ausgerichtet."
         }
       }
+    },
+    "flow": {
+      "label": "Flow",
+      "description": "Automatische Platzierung von Items im Grid.",
+      "values": {
+        "row": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Standard-Fluss nach Zeilen (grid-auto-flow: row)."
+        },
+        "column": {
+          "modifier": "o-grid--flow-col",
+          "tokenGroups": [],
+          "description": "Fluss nach Spalten (grid-auto-flow: column). Items fuellen Spalten zuerst."
+        },
+        "dense": {
+          "modifier": "o-grid--dense",
+          "tokenGroups": [],
+          "description": "Fuellt Luecken im Grid optimal aus (grid-auto-flow: dense). Ideal fuer Masonry-aehnliche Layouts."
+        }
+      }
+    },
+    "mobile-columns": {
+      "label": "Mobile Spalten",
+      "description": "Spaltenanzahl auf Mobile-Viewports (< 768px). Standard: 4 Spalten.",
+      "values": {
+        "4": {
+          "modifier": null,
+          "tokenGroups": ["responsive"],
+          "description": "4 Spalten auf Mobile (Standard). Spans > 4 werden full-width."
+        },
+        "2": {
+          "modifier": "o-grid--mobile-2",
+          "tokenGroups": ["responsive"],
+          "description": "2 Spalten auf Mobile. Ideal fuer einfache Listen-Layouts."
+        },
+        "6": {
+          "modifier": "o-grid--mobile-6",
+          "tokenGroups": ["responsive"],
+          "description": "6 Spalten auf Mobile. Fuer dichte Dashboard-UIs mit kleinen Widgets."
+        },
+        "1": {
+          "modifier": "o-grid--mobile-1",
+          "tokenGroups": ["responsive"],
+          "description": "1 Spalte auf Mobile. Full-width Stacking aller Items."
+        }
+      }
+    },
+    "subgrid": {
+      "label": "Subgrid",
+      "description": "Verschachteltes Grid das das Spaltenraster des Eltern-Grids uebernimmt.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Kein Subgrid (Standard). Verschachtelte Grids sind unabhaengig."
+        },
+        "columns": {
+          "modifier": "o-grid--subgrid",
+          "tokenGroups": [],
+          "description": "Subgrid auf Spaltenachse. Kind-Grid erbt grid-template-columns vom Eltern."
+        },
+        "rows": {
+          "modifier": "o-grid--subgrid-rows",
+          "tokenGroups": [],
+          "description": "Subgrid auf Zeilenachse. Ermoeglicht Header-Alignment ueber mehrere Cards."
+        },
+        "both": {
+          "modifier": "o-grid--subgrid-both",
+          "tokenGroups": [],
+          "description": "Subgrid auf beiden Achsen. Vollstaendige Rasteruebernahme."
+        }
+      }
     }
   },
 
@@ -97,7 +173,9 @@
       "interactive": false,
       "assertions": [
         "Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.",
-        "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt."
+        "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt.",
+        "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch.",
+        "Subgrid aendert keine Semantik — nur das visuelle Raster wird geteilt."
       ]
     },
     "overrides": []
@@ -119,6 +197,13 @@
         "tokens": [
           "nc-grid-gap-sm",
           "nc-grid-gap-lg"
+        ]
+      },
+      "responsive": {
+        "label": "Responsive",
+        "tokens": [
+          "nc-grid-mobile-columns",
+          "nc-grid-tablet-columns"
         ]
       }
     }
@@ -154,6 +239,16 @@
       "layout": "row"
     },
     {
+      "id": "flow-variants",
+      "label": "Flow-Varianten",
+      "description": "Platzierungsverhalten: row, column, dense.",
+      "matrix": {
+        "axes": { "flow": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
       "id": "alignment",
       "label": "Alignment",
       "description": "Vertikale Ausrichtungs-Varianten.",
@@ -162,6 +257,40 @@
         "states": ["default"]
       },
       "layout": "row"
+    },
+    {
+      "id": "mobile-breakpoints",
+      "label": "Mobile Spalten",
+      "description": "Spaltenraster auf Mobile-Viewports.",
+      "matrix": {
+        "axes": { "mobile-columns": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "subgrid-modes",
+      "label": "Subgrid",
+      "description": "Verschachteltes Raster mit Eltern-Uebernahme.",
+      "matrix": {
+        "axes": { "subgrid": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "responsive-matrix",
+      "label": "Responsive Matrix",
+      "description": "Grid-Verhalten ueber alle Breakpoints: Mobile, Tablet, Desktop.",
+      "matrix": {
+        "axes": { "mobile-columns": "*", "gap": "*" },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "mobile-columns",
+        "colAxis": "gap"
+      }
     }
   ]
 }

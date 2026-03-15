@@ -1,9 +1,7 @@
 // ==========================================================================
-// 07-Organisms: DataTable
+// 07-Organisms: DataTable v2.0.0
 // ==========================================================================
-// Token-basiertes DataTable-System mit 9 kombinierbaren Varianten:
-// basic, sortable, filterable, selectable, expandable, actions,
-// paginated, sticky-header, density.
+// Token-basiertes DataTable-System mit kombinierbaren Varianten.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-dt-* Component-Tokens
@@ -43,22 +41,31 @@
 //   .nc-data-table__action-cell         Actions-Spalte (fest breit)
 //   .nc-data-table__action-menu         Kebab-Menu-Trigger
 //   .nc-data-table__batch-bar           Batch-Actions-Leiste
+//   .nc-data-table__batch-count         Zaehler (aria-live)
+//   .nc-data-table__batch-clear         Clear-All Button
 //   .nc-data-table__pagination          Pagination-Bereich
-//   .nc-data-table__page-select         Page-Jump-Dropdown (Seite X von Y)
+//   .nc-data-table__page-select         Page-Jump-Dropdown
 //   .nc-data-table__page-select-input   Select-Element im Page-Jump
 //   .nc-data-table__empty               Leerzustand
 //   .nc-data-table__error               Fehlerzustand
 //   .nc-data-table__skeleton-row        Lade-Zustand (Skeleton)
 //   .nc-data-table__skeleton-bar        Einzelner Skeleton-Balken
+//   .nc-data-table__stacked-label       Label in Stacked/Card-Layout
 //
 // MODIFIER:
 //   --compact / --comfortable           Dichte
 //   --sortable                          Sortierbare Spalten
-//   --selectable                        Zeilen-Auswahl
+//   --selectable                        Zeilen-Auswahl (Checkbox)
 //   --expandable                        Aufklappbare Zeilen
 //   --striped                           Zebra-Streifen
 //   --bordered                          Vollstaendige Zellgrenzen
 //   --sticky-header                     Sticky <thead>
+//   --sticky-col-start                  Sticky erste Spalte
+//   --sticky-col-end                    Sticky letzte Spalte
+//   --stacked                           Card-Layout fuer Mobile
+//   --card                              Erhobene Card-Variante
+//   --glass                             Transparente Glass-Variante
+//   --wrap                              Mehrzeiliger Zelleninhalt
 //   --loading                           Skeleton-Lade-Zustand
 //   --error                             Fehlerzustand
 //
@@ -744,6 +751,7 @@
 
   &__batch-bar {
     @include dt-batch-bar;
+    box-shadow: var(--nc-dt-batch-shadow);
 
     &[hidden] {
       display: none;
@@ -752,6 +760,7 @@
 
   &__batch-count {
     font-weight: var(--fnd-font-weight-semibold);
+    font-size: var(--nc-dt-batch-count-font-size);
   }
 
   &__batch-actions {
@@ -929,6 +938,220 @@
   }
 
   // -----------------------------------------------------------------------
+  // Modifier: Sticky Column Start (erste Spalte fixiert)
+  // -----------------------------------------------------------------------
+
+  &--sticky-col-start {
+    .nc-data-table__th:first-child,
+    .nc-data-table__td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: var(--nc-dt-sticky-col-bg);
+
+      // Schatten am rechten Rand der fixierten Spalte
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 1px;
+        box-shadow: var(--nc-dt-sticky-col-shadow);
+        pointer-events: none;
+      }
+    }
+
+    // Header ueber Body-Spalte
+    .nc-data-table__th:first-child {
+      z-index: calc(var(--fnd-z-sticky) + 1);
+      background: var(--nc-dt-header-bg);
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Sticky Column End (letzte Spalte fixiert)
+  // -----------------------------------------------------------------------
+
+  &--sticky-col-end {
+    .nc-data-table__th:last-child,
+    .nc-data-table__td:last-child {
+      position: sticky;
+      right: 0;
+      z-index: 1;
+      background: var(--nc-dt-sticky-col-bg);
+
+      // Schatten am linken Rand der fixierten Spalte
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 1px;
+        box-shadow: var(--nc-dt-sticky-col-shadow-end);
+        pointer-events: none;
+      }
+    }
+
+    .nc-data-table__th:last-child {
+      z-index: calc(var(--fnd-z-sticky) + 1);
+      background: var(--nc-dt-header-bg);
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Stacked Layout (Mobile Card View)
+  // -----------------------------------------------------------------------
+  // Unterhalb des Breakpoints wird jede <tr> als eigenstaendige Card
+  // dargestellt. Spaltenkoepfe werden via data-label als Inline-Label
+  // vor dem Wert angezeigt.
+
+  &--stacked {
+    @include respond-to-max('md') {
+      .nc-data-table__scroll-container {
+        overflow-x: visible;
+      }
+
+      .nc-data-table__table {
+        table-layout: auto;
+      }
+
+      .nc-data-table__thead {
+        // Header visuell verstecken, aber fuer SR erhalten
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+      }
+
+      .nc-data-table__tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--nc-dt-stacked-card-gap);
+        padding: var(--nc-dt-stacked-card-gap);
+      }
+
+      .nc-data-table__row {
+        display: flex;
+        flex-direction: column;
+        border: var(--nc-dt-stacked-card-border);
+        border-radius: var(--nc-dt-stacked-card-radius);
+        padding: var(--nc-dt-stacked-card-padding);
+        background: var(--nc-dt-body-bg);
+      }
+
+      .nc-data-table__td {
+        display: flex;
+        align-items: baseline;
+        gap: var(--fnd-spacing-03);
+        height: auto;
+        padding: var(--fnd-spacing-02) 0;
+        border-bottom: var(--nc-dt-row-border-bottom);
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        // data-label als Inline-Label
+        &::before {
+          content: attr(data-label);
+          display: inline-block;
+          flex-shrink: 0;
+          width: var(--nc-dt-stacked-label-width);
+          color: var(--nc-dt-stacked-label-color);
+          font-weight: var(--nc-dt-stacked-label-font-weight);
+          font-size: var(--nc-dt-body-font-size);
+        }
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Card Variante (erhobene Tabelle)
+  // -----------------------------------------------------------------------
+
+  &--card {
+    border: none;
+    box-shadow: var(--nc-dt-card-shadow);
+    background: var(--nc-dt-card-bg);
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Glass Variante (transparente Dashboard-Tabelle)
+  // -----------------------------------------------------------------------
+
+  &--glass {
+    background: var(--nc-dt-glass-bg);
+    border: var(--nc-dt-glass-border);
+    backdrop-filter: blur(var(--nc-dt-glass-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--nc-dt-glass-backdrop-blur));
+
+    .nc-data-table__th {
+      background: var(--nc-dt-glass-header-bg);
+    }
+
+    .nc-data-table__row:hover {
+      background: color-mix(in srgb, var(--nc-dt-row-bg-hover) 50%, transparent);
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Modifier: Content Wrap (mehrzeiliger Zelleninhalt)
+  // -----------------------------------------------------------------------
+
+  &--wrap &__td {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    -webkit-line-clamp: var(--nc-dt-cell-line-clamp);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  // -----------------------------------------------------------------------
+  // Skeleton Varianten (Breiten-Typen)
+  // -----------------------------------------------------------------------
+
+  &__skeleton-bar--avatar {
+    width: var(--nc-dt-skeleton-width-avatar);
+    height: var(--nc-dt-skeleton-width-avatar);
+    border-radius: var(--fnd-radius-full);
+  }
+
+  &__skeleton-bar--numeric {
+    width: var(--nc-dt-skeleton-width-numeric);
+    margin-inline-start: auto;
+  }
+
+  &__skeleton-bar--text {
+    width: var(--nc-dt-skeleton-width-text);
+  }
+
+  // -----------------------------------------------------------------------
+  // Batch Bar v2: Clear All Button
+  // -----------------------------------------------------------------------
+
+  &__batch-clear {
+    @include dt-icon-button;
+    color: var(--nc-dt-batch-clear-color);
+    font-size: var(--fs-xs);
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--nc-dt-batch-color);
+    }
+  }
+
+  // -----------------------------------------------------------------------
   // Modifier: Static (Referenz-Tabellen ohne interaktive Features)
   // -----------------------------------------------------------------------
   // Descendant-Selektoren statt BEM-Klassen auf th/td/tr,
@@ -990,5 +1213,11 @@
 
   .nc-data-table__skeleton-bar::after {
     animation: none;
+  }
+
+  // Glass backdrop-filter kann Performance kosten
+  .nc-data-table--glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

@@ -77,6 +77,21 @@
   }
 }
 
+/// Header-Bereich fuer Select-All / Master-Checkbox.
+/// Separator (border-bottom) trennt Header von Optionen.
+@mixin checkbox-group-header {
+  display: flex;
+  align-items: center;
+  padding-block-end: var(--nc-group-header-gap);
+  margin-block-end: var(--nc-group-header-gap);
+  border-block-end: 1px solid var(--nc-group-header-border);
+}
+
+/// Hint-Bereich unterhalb der Optionen (z.B. Hilfetext via form-hint).
+@mixin checkbox-group-hint {
+  margin-block-start: var(--nc-group-hint-margin-top);
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -84,10 +99,32 @@
 .nc-checkbox-group {
   @include checkbox-group-base;
 
+  // -- Header (Select-All / Master-Checkbox) --
+
+  &__header {
+    @include checkbox-group-header;
+  }
+
+  // -- Hint (Gruppenebene Hilfetext) --
+
+  &__hint {
+    @include checkbox-group-hint;
+  }
+
   // -- Layout-Modifier --
 
   &--horizontal {
     @include checkbox-group-horizontal;
+  }
+
+  // -- Size-Modifier (koppelt Gap an Checkbox-Groesse) --
+
+  &--sm {
+    gap: var(--nc-group-gap-sm);
+  }
+
+  &--lg {
+    gap: var(--nc-group-gap-lg);
   }
 
   // -- State-Modifier --

@@ -85,19 +85,45 @@
   margin-inline-start: auto;
 }
 
+// Skip-Link — erstes Kind der Shell, unsichtbar bis :focus
+.nc-shell__skip-link {
+  position: absolute;
+  inset-inline-start: -9999px;
+  inset-block-start: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 100;
+
+  &:focus {
+    position: fixed;
+    inset-block-start: var(--fnd-spacing-04);
+    inset-inline-start: var(--fnd-spacing-04);
+    width: auto;
+    height: auto;
+    padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+    background-color: var(--nc-shell-skip-link-bg);
+    color: var(--nc-shell-skip-link-color);
+    font-weight: var(--fnd-font-weight-semibold);
+    border-radius: var(--fnd-radius-sm);
+    @include focus-ring;
+    z-index: var(--nc-shell-skip-link-z);
+  }
+}
+
 // Navbar — sticky Navigation
 .nc-shell__navbar {
   grid-area: navbar;
   position: sticky;
   inset-block-start: 0;
-  z-index: var(--fnd-z-header);
+  z-index: var(--nc-shell-z-navbar);
 }
 
 // Linkbar + Navbar stacked sticky: Linkbar muss ueber Navbar, wenn sichtbar
 [data-layout='landing'] .nc-shell__linkbar {
   position: sticky;
   inset-block-start: 0;
-  z-index: calc(var(--fnd-z-header) + 1);
+  z-index: calc(var(--nc-shell-z-navbar) + 1);
 }
 
 [data-layout='landing'] .nc-shell__navbar {
@@ -206,7 +232,7 @@
   display: none; // Default: versteckt, Preset schaltet ein
   position: sticky;
   inset-block-end: 0;
-  z-index: var(--fnd-z-sticky);
+  z-index: var(--nc-shell-z-footerbar);
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   height: var(--nc-shell-footerbar-height);
@@ -221,6 +247,24 @@
 .nc-shell__footerbar-left   { justify-self: start; }
 .nc-shell__footerbar-center { justify-self: center; }
 .nc-shell__footerbar-right  { justify-self: end; }
+
+// ---------------------------------------------------------------------------
+// Footerbar Mobile Behavior
+// ---------------------------------------------------------------------------
+// data-footerbar-mobile="hide|static" auf .nc-shell oder <body>.
+// Default (kein Attribut): sticky (identisch zum Desktop-Verhalten).
+
+@include respond-to-max('lg') {
+  // hide: Footerbar auf Mobile komplett ausblenden — spart vertikalen Platz
+  [data-footerbar-mobile='hide'] .nc-shell__footerbar {
+    display: none !important;
+  }
+
+  // static: Footerbar nicht klebrig, sondern am Ende des Dokuments
+  [data-footerbar-mobile='static'] .nc-shell__footerbar {
+    position: static;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Toggle-Button (in Navbar)
@@ -303,7 +347,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  z-index: calc(var(--fnd-z-drawer) - 1);
+  z-index: var(--nc-shell-z-overlay);
   background: color-mix(in srgb, var(--fnd-color-text-primary) 50%, transparent);
   opacity: 0;
   @include transition-quick((opacity));
@@ -323,7 +367,7 @@
     position: fixed;
     inset-block-start: 0;
     inset-block-end: 0;
-    z-index: var(--fnd-z-drawer);
+    z-index: var(--nc-shell-z-drawer);
     width: min(300px, 85vw);
     max-width: none;
     @include transition-quick((transform));
@@ -350,6 +394,24 @@
   .nc-shell--sidebar-right-drawer-open .nc-shell__sidebar-right {
     display: block;
     transform: translateX(0);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar Density — narrow / standard (default) / wide
+// ---------------------------------------------------------------------------
+// Steuert Sidebar-Breiten ueber data-sidebar-density auf .nc-shell oder <body>.
+// Standard ist der Default (kein Attribut noetig).
+
+@include respond-to('lg') {
+  [data-sidebar-density='narrow'] {
+    .nc-shell__sidebar-left  { width: var(--nc-shell-sidebar-left-width-narrow); }
+    .nc-shell__sidebar-right { width: var(--nc-shell-sidebar-right-width-narrow); }
+  }
+
+  [data-sidebar-density='wide'] {
+    .nc-shell__sidebar-left  { width: var(--nc-shell-sidebar-left-width-wide); }
+    .nc-shell__sidebar-right { width: var(--nc-shell-sidebar-right-width-wide); }
   }
 }
 
@@ -398,13 +460,17 @@
 // ---------------------------------------------------------------------------
 
 [data-layout='docs'] {
+  // Docs-spezifische Sidebar-Breiten (schmaler als Standard)
+  --nc-shell-sidebar-left-width: 240px;
+  --nc-shell-sidebar-right-width: 200px;
+
   .nc-shell__footerbar {
     display: grid;
   }
 
   @include respond-to('lg') {
     .nc-shell__stage {
-      grid-template-columns: 240px 1fr 200px;
+      grid-template-columns: var(--nc-shell-sidebar-left-width) 1fr var(--nc-shell-sidebar-right-width);
       grid-template-areas: 'sidebar-l main sidebar-r';
     }
 
@@ -446,13 +512,16 @@
 // ---------------------------------------------------------------------------
 
 [data-layout='settings'] {
+  // Settings-spezifische Sidebar-Breite (schmaler)
+  --nc-shell-sidebar-left-width: 220px;
+
   .nc-shell__footerbar {
     display: grid;
   }
 
   @include respond-to('lg') {
     .nc-shell__stage {
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: var(--nc-shell-sidebar-left-width) 1fr;
       grid-template-areas: 'sidebar-l main';
     }
 

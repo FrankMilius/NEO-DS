@@ -17,6 +17,20 @@
 //     div.nc-toolbar__group
 //     div.nc-toolbar__spacer
 //     div.nc-toolbar__group (--end)
+//     button.nc-toolbar__overflow-trigger (optional, Priority-Based Overflow)
+//
+// VARIANTEN:
+//   --bordered      — Mit Rahmen + Radius
+//   --border-bottom — Nur untere Grenzlinie
+//   --floating      — Card-aehnlich mit Shadow (Canvas-Editor)
+//   --blurred       — Glassmorphism (halbtransparent + backdrop-filter)
+//   --compact       — 32px Hoehe, kleinerer Gap
+//   --sticky        — Klebt unter Navbar, Schatten beim Scrollen
+//
+// ALIGNMENT:
+//   --align-start   — Gruppen links (default)
+//   --align-center  — Gruppen zentriert (Medium-Stil)
+//   --align-justify — Gruppen gleichmaessig verteilt
 //
 // KLASSEN:
 //   .nc-toolbar (kanonisch, BEM)
@@ -56,6 +70,35 @@
     border-bottom: var(--nc-toolbar-border-width) solid var(--nc-toolbar-border);
   }
 
+  // -- Variante: Floating (Canvas-Editor, schwebt ueber Content) --
+  &--floating {
+    --nc-toolbar-bg: var(--nc-toolbar-floating-bg);
+    border: var(--nc-toolbar-border-width) solid var(--nc-toolbar-floating-border);
+    border-radius: var(--nc-toolbar-floating-radius);
+    box-shadow: var(--nc-toolbar-floating-shadow);
+  }
+
+  // -- Variante: Blurred (Glassmorphism, halbtransparent) --
+  &--blurred {
+    --nc-toolbar-bg: var(--nc-toolbar-blurred-bg);
+    backdrop-filter: blur(var(--nc-toolbar-blurred-blur));
+    -webkit-backdrop-filter: blur(var(--nc-toolbar-blurred-blur));
+    border: var(--nc-toolbar-border-width) solid var(--nc-toolbar-blurred-border);
+    border-radius: var(--nc-toolbar-radius);
+  }
+
+  // -- Variante: Sticky (haftet unter Navbar) --
+  &--sticky {
+    position: sticky;
+    top: 0;
+    z-index: var(--nc-toolbar-sticky-z-index);
+
+    &.is-scrolled {
+      box-shadow: var(--nc-toolbar-sticky-shadow);
+      border-bottom: var(--nc-toolbar-border-width) solid var(--nc-toolbar-border);
+    }
+  }
+
   // -- Gruppe (logische Zusammenfassung) --
 
   &__group {
@@ -76,13 +119,15 @@
     flex: 1;
   }
 
-  // -- Separator (vertikale Trennlinie) --
+  // -- Separator (vertikale Trennlinie, feste Hoehe) --
 
   &__separator {
     width: 0;
-    align-self: stretch;
+    height: var(--nc-toolbar-separator-height);
+    align-self: center;
     border-left: var(--nc-toolbar-separator-width) solid var(--nc-toolbar-separator-color);
-    margin-block: var(--nc-toolbar-separator-margin);
+    margin-inline: var(--nc-toolbar-separator-margin);
+    flex-shrink: 0;
   }
 
   // -- Label (optionaler Text) --
@@ -95,15 +140,69 @@
     user-select: none;
   }
 
+  // -- Overflow-Trigger (Priority-Based Overflow) --
+
+  &__overflow-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-toolbar-overflow-trigger-size);
+    height: var(--nc-toolbar-overflow-trigger-size);
+    border: none;
+    background: none;
+    color: var(--nc-toolbar-label-color);
+    border-radius: var(--fnd-radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    @include transition-quick((background-color));
+
+    &:hover {
+      background-color: var(--fnd-color-background-hover);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+  }
+
   // -- Compact-Variante (kleinere Hoehe) --
 
   &--compact {
-    --nc-toolbar-height: var(--fnd-size-sm);   // 32px
-    --nc-toolbar-gap: var(--fnd-spacing-01);   // 4px
-    padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+    --nc-toolbar-height: var(--nc-toolbar-compact-height);
+    --nc-toolbar-gap: var(--nc-toolbar-compact-gap);
+    padding: var(--nc-toolbar-compact-padding);
+    --nc-toolbar-separator-height: 16px;
+
+    // Mobile: Compact auf Default-Hoehe anheben (Touch-Target)
+    @include respond-to-max('sm') {
+      --nc-toolbar-height: var(--fnd-size-lg); // 48px
+      padding: var(--nc-toolbar-padding);
+    }
   }
 
-  // -- Responsive: Wrapping auf kleinen Screens --
+  // ---------------------------------------------------------------------------
+  // Alignment (Ausrichtung der Gruppen)
+  // ---------------------------------------------------------------------------
+
+  &--align-center {
+    justify-content: center;
+  }
+
+  &--align-justify {
+    justify-content: space-between;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Responsive: Wrapping auf kleinen Screens
+  // ---------------------------------------------------------------------------
 
   @include respond-to-max('sm') {
     flex-wrap: wrap;

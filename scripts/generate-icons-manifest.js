@@ -143,4 +143,91 @@ categories.forEach(cat => {
   console.log('    ' + cat.padEnd(30) + count);
 });
 
-console.log('\nDone.');
+console.log('');
+
+// ---------------------------------------------------------------------------
+// Generate per-library manifests for additional icon libraries
+// ---------------------------------------------------------------------------
+// Convention: assets/icons-{libraryId}/ → data/icons-manifest-{libraryId}.json
+// Each additional library gets its own manifest file.
+
+const assetsDir = path.resolve(__dirname, '../assets');
+const dataDir = path.resolve(__dirname, '../data');
+
+const libraryDirs = fs.readdirSync(assetsDir, { withFileTypes: true })
+  .filter(d => d.isDirectory() && d.name.startsWith('icons-') && d.name !== 'icons')
+  .map(d => d.name);
+
+libraryDirs.forEach(dirName => {
+  const libraryId = dirName.replace(/^icons-/, '');
+  const libDir = path.join(assetsDir, dirName);
+  const libOutputPath = path.join(dataDir, 'icons-manifest-' + libraryId + '.json');
+
+  console.log('Generating manifest for library: ' + libraryId + '...');
+
+  const libCategories = [];
+  const libIcons = [];
+
+  const subDirs = fs.readdirSync(libDir, { withFileTypes: true })
+    .filter(d => d.isDirectory())
+    .map(d => d.name)
+    .sort();
+
+  subDirs.forEach(category => {
+    libCategories.push(category);
+    const categoryDir = path.join(libDir, category);
+    const files = fs.readdirSync(categoryDir)
+      .filter(f => /\.svg$/i.test(f))
+      .sort();
+
+    files.forEach(file => {
+      const name = path.basename(file, '.svg');
+      const filePath = path.join(categoryDir, file);
+
+      const keywords = [
+        ...name.split(/[-_]+/),
+        category,
+        ...category.split(/[-_]+/)
+      ].filter((v, i, a) => a.indexOf(v) === i);
+
+      let svgContent = fs.readFileSync(filePath, 'utf8');
+      svgContent = svgContent.replace(/<\?xml[^?]*\?>\s*/g, '');
+      svgContent = svgContent.replace(/stroke="#000000"/g, 'stroke="currentColor"');
+      svgContent = svgContent.replace(/stroke="#000"/g, 'stroke="currentColor"');
+      svgContent = svgContent.trim();
+
+      libIcons.push({
+        name: name,
+        category: category,
+        file: file,
+        path: category + '/' + file,
+        type: 'svg',
+        source: libraryId,
+        keywords: keywords,
+        svg: svgContent
+      });
+    });
+  });
+
+  const libManifest = {
+    meta: {
+      generated: new Date().toISOString().split('T')[0],
+      library: libraryId,
+      total: libIcons.length,
+      categories_count: libCategories.length
+    },
+    categories: libCategories,
+    icons: libIcons
+  };
+
+  fs.writeFileSync(libOutputPath, JSON.stringify(libManifest, null, 2), 'utf8');
+
+  console.log('  ✓ icons-manifest-' + libraryId + '.json (' + libIcons.length + ' icons in ' + libCategories.length + ' categories)');
+  libCategories.forEach(cat => {
+    const count = libIcons.filter(i => i.category === cat).length;
+    console.log('    ' + cat.padEnd(30) + count);
+  });
+  console.log('');
+});
+
+console.log('Done.');

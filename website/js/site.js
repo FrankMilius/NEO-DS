@@ -376,21 +376,21 @@ const renderNavigation = (section, lang) => {
   const navigationMenu = buildNavigationMenu(content.links, lang);
 
   const actions = createEl('div', 'nc-nav__actions');
-  const primary = createEl('a', 'button accent', content.cta_primary.label);
+  const primary = createEl('a', 'nc-button nc-button--accent', content.cta_primary.label);
   primary.href = content.cta_primary.href;
 
   const tools = createEl('div', 'nc-tools');
 
-  const mobileToggle = createEl('button', 'button ghost nc-mobile-toggle');
+  const mobileToggle = createEl('button', 'nc-button nc-button--ghost nc-mobile-toggle');
   mobileToggle.type = 'button';
   mobileToggle.setAttribute('aria-expanded', 'false');
   mobileToggle.setAttribute('aria-label', lang === 'de' ? 'Menü öffnen' : 'Open menu');
   mobileToggle.innerHTML = `
     <span class="nc-mobile-toggle__icon" aria-hidden="true"></span>
-    <span class="sr-only">${lang === 'de' ? 'Menü' : 'Menu'}</span>
+    <span class="u-sr-only">${lang === 'de' ? 'Menü' : 'Menu'}</span>
   `;
 
-  const searchButton = createEl('button', 'icon-button nc-search-toggle');
+  const searchButton = createEl('button', 'nc-button nc-button--icon-only nc-search-toggle');
   searchButton.type = 'button';
   searchButton.setAttribute('aria-expanded', 'false');
   searchButton.setAttribute('aria-controls', 'search-panel');
@@ -426,7 +426,7 @@ const renderNavigation = (section, lang) => {
   searchPanel.innerHTML = `
     <div class="nc-container">
       <div class="nc-search-panel__inner">
-        <label class="sr-only" for="site-search">${lang === 'de' ? 'Suche' : 'Search'}</label>
+        <label class="u-sr-only" for="site-search">${lang === 'de' ? 'Suche' : 'Search'}</label>
         <div class="nc-search-panel__top">
           <input id="site-search" type="search" placeholder="${lang === 'de'
             ? 'Suche nach Themen, Features, Kunden...'
@@ -447,7 +447,7 @@ const renderNavigation = (section, lang) => {
   mobilePanel.innerHTML = `
     <div class="nc-container">
       <div class="nc-mobile-panel__inner" data-search-surface="true">
-        <label class="sr-only" for="mobile-search">${lang === 'de' ? 'Suche' : 'Search'}</label>
+        <label class="u-sr-only" for="mobile-search">${lang === 'de' ? 'Suche' : 'Search'}</label>
         <div class="nc-search-panel__top">
           <input id="mobile-search" type="search" placeholder="${lang === 'de'
             ? 'Suche in Neocosmo...'
@@ -553,20 +553,20 @@ const renderHero = (section, lang) => {
   const shell = buildSectionShell(section, lang);
   const wrap = createEl('div', 'nc-container nc-hero');
 
-  const text = createEl('div', 'nc-hero__content no-container-pad');
+  const text = createEl('div', 'nc-hero__content');
   const eyebrow = createEl('p', 'nc-eyebrow', content.eyebrow);
   const title = createEl('h1', 'nc-hero__title', content.title);
   const lead = createEl('p', 'nc-lead', content.lead);
-  const actions = createEl('div', 'button-container button_container__nv-hero__content');
-  const primary = createEl('a', 'button accent', content.cta_primary.label);
+  const actions = createEl('div', 'nc-button-group');
+  const primary = createEl('a', 'nc-button nc-button--accent', content.cta_primary.label);
   primary.href = content.cta_primary.href;
-  const secondary = createEl('a', 'button outline', content.cta_secondary.label);
+  const secondary = createEl('a', 'nc-button nc-button--outline', content.cta_secondary.label);
   secondary.href = content.cta_secondary.href;
   actions.append(primary, secondary);
 
   text.append(eyebrow, title, lead, actions);
 
-  const media = createEl('div', 'nc-hero__media no-container-pad');
+  const media = createEl('div', 'nc-hero__media');
   if (section.id === 'hero-primary--content-left--bg-picture') {
     const spacer = createEl('div', 'nc-hero__media-spacer');
     media.appendChild(spacer);
@@ -621,7 +621,7 @@ const renderVideoSection = (section, lang) => {
     overlay.setAttribute('aria-label', lang === 'de' ? 'Video abspielen' : 'Play video');
     overlay.innerHTML = `
       <span class="nc-video__overlay-icon" aria-hidden="true"></span>
-      <span class="sr-only">${lang === 'de' ? 'Video abspielen' : 'Play video'}</span>
+      <span class="u-sr-only">${lang === 'de' ? 'Video abspielen' : 'Play video'}</span>
     `;
 
     const playVideo = () => {
@@ -641,7 +641,7 @@ const renderVideoSection = (section, lang) => {
   const text = createEl('div', 'nc-video__content');
   const title = createEl('h2', 'nc-video__title', content.title);
   const lead = createEl('p', 'nc-lead nc-video__text', content.text);
-  const cta = createEl('a', 'button accent', content.cta.label);
+  const cta = createEl('a', 'nc-button nc-button--accent', content.cta.label);
   cta.href = content.cta.href;
 
   text.append(title, lead, cta);
@@ -674,9 +674,9 @@ const renderFeatureGrid = (section, lang, className) => {
   const grid = createEl('div', className);
   content.items.forEach((item, index) => {
     const card = createEl('article', 'nc-card');
-    const body = createEl('div', 'nc-card__body');
+    const body = createEl('div', 'nc-card__content');
     const cardTitle = createEl('h3', 'nc-card__title', item.title);
-    const text = createEl('p', 'nc-card__text', item.text);
+    const text = createEl('p', 'nc-card__description', item.text);
     body.append(cardTitle, text);
 
     if (item.image?.src) {
@@ -750,22 +750,11 @@ const renderMediaGallery = (section, lang) => {
   slider.dataset.slider = 'media_gallery';
   slider.tabIndex = 0;
   const track = createEl('div', 'nc-slider__track nc-slider__track--media');
-  const colorMap = {
-    communityhub: '#aef359',
-    learningstudio: '#c0e8e8',
-    aiinsights: '#bbd8e7',
-    teamupdates: '#aef359',
-    knowledgehub: '#c0e8e8'
-  };
   content.items.forEach((item, index) => {
     const card = createEl('figure', 'nc-media-card');
-    const key = item.title.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (colorMap[key]) {
-      card.style.backgroundColor = colorMap[key];
-    }
     const caption = createEl('figcaption', 'nc-media-card__caption');
     const captionTitle = createEl('h3', 'nc-card__title', item.title);
-    const captionText = createEl('p', 'nc-card__text', item.text);
+    const captionText = createEl('p', 'nc-card__description', item.text);
     caption.append(captionTitle, captionText);
     const img = document.createElement('img');
     img.src = item.image;
@@ -776,11 +765,11 @@ const renderMediaGallery = (section, lang) => {
     track.appendChild(card);
   });
   const controls = createEl('div', 'nc-slider__controls');
-  const prev = createEl('button', 'icon-button', '‹');
+  const prev = createEl('button', 'nc-button nc-button--icon-only', '‹');
   prev.type = 'button';
   prev.dataset.action = 'prev';
   prev.setAttribute('aria-label', lang === 'de' ? 'Vorheriges Highlight' : 'Previous highlight');
-  const next = createEl('button', 'icon-button', '›');
+  const next = createEl('button', 'nc-button nc-button--icon-only', '›');
   next.type = 'button';
   next.dataset.action = 'next';
   next.setAttribute('aria-label', lang === 'de' ? 'Nächstes Highlight' : 'Next highlight');
@@ -793,11 +782,11 @@ const renderMediaGallery = (section, lang) => {
 };
 
 const renderUseCases = (section, lang) => {
-  return renderFeatureGrid(section, lang, 'nc-usecase-grid');
+  return renderFeatureGrid(section, lang, 'nc-card-grid');
 };
 
 const renderNews = (section, lang) => {
-  return renderFeatureGrid(section, lang, 'nc-news-grid');
+  return renderFeatureGrid(section, lang, 'nc-card-grid');
 };
 
 const renderTestimonials = (section, lang) => {
@@ -837,11 +826,11 @@ const renderTestimonials = (section, lang) => {
   });
 
   const controls = createEl('div', 'nc-slider__controls');
-  const prev = createEl('button', 'icon-button', '‹');
+  const prev = createEl('button', 'nc-button nc-button--icon-only', '‹');
   prev.type = 'button';
   prev.dataset.action = 'prev';
   prev.setAttribute('aria-label', lang === 'de' ? 'Vorheriges Testimonial' : 'Previous testimonial');
-  const next = createEl('button', 'icon-button', '›');
+  const next = createEl('button', 'nc-button nc-button--icon-only', '›');
   next.type = 'button';
   next.dataset.action = 'next';
   next.setAttribute('aria-label', lang === 'de' ? 'Nächstes Testimonial' : 'Next testimonial');
@@ -865,12 +854,12 @@ const renderPricing = (section, lang) => {
     if (index === 1) card.classList.add('is-featured');
     const name = createEl('h3', 'nc-card__title', plan.name);
     const price = createEl('p', 'nc-price', plan.price);
-    const desc = createEl('p', 'nc-card__text', plan.description);
+    const desc = createEl('p', 'nc-card__description', plan.description);
     const list = createEl('ul', 'nc-feature-list');
     plan.features.forEach((feature) => {
       list.appendChild(createEl('li', 'nc-feature-list__item', feature));
     });
-    const cta = createEl('a', 'button secondary', plan.cta.label);
+    const cta = createEl('a', 'nc-button nc-button--secondary', plan.cta.label);
     cta.href = plan.cta.href;
     card.append(name, price, desc, list, cta);
     grid.appendChild(card);
@@ -885,7 +874,8 @@ const renderComparison = (section, lang) => {
   const shell = buildSectionShell(section, lang);
   const wrap = createEl('div', 'nc-container');
   const title = createEl('h2', 'nc-section-title', content.title);
-  const table = createEl('table', 'nc-compare-table');
+  const tableWrap = createEl('div', 'nc-data-table nc-data-table--static nc-data-table--striped');
+  const table = createEl('table', 'nc-data-table__table');
   const thead = document.createElement('thead');
   const headRow = document.createElement('tr');
   headRow.appendChild(createEl('th', '', lang === 'de' ? 'Feature' : 'Feature'));
@@ -895,13 +885,14 @@ const renderComparison = (section, lang) => {
   const tbody = document.createElement('tbody');
   content.rows.forEach((row) => {
     const tr = document.createElement('tr');
-    tr.appendChild(createEl('td', 'nc-compare-table__feature', row.feature));
+    tr.appendChild(createEl('td', '', row.feature));
     row.values.forEach((value) => tr.appendChild(createEl('td', '', value)));
     tbody.appendChild(tr);
   });
 
   table.append(thead, tbody);
-  wrap.append(title, table);
+  tableWrap.appendChild(table);
+  wrap.append(title, tableWrap);
   shell.appendChild(wrap);
   return shell;
 };
@@ -1055,9 +1046,9 @@ const renderCTA = (section, lang, site) => {
   const form = createEl('form', 'nc-cta__form');
   form.setAttribute('aria-label', lang === 'de' ? 'Newsletter Anmeldung' : 'Newsletter sign-up');
   form.innerHTML = `
-    <label class="sr-only" for="email">${content.placeholder}</label>
+    <label class="u-sr-only" for="email">${content.placeholder}</label>
     <input id="email" name="email" type="email" placeholder="${content.placeholder}" required />
-    <button class="button accent" type="submit">${content.button}</button>
+    <button class="nc-button nc-button--accent" type="submit">${content.button}</button>
   `;
   const note = createEl('small', 'nc-cta__note', content.note);
 
@@ -1092,7 +1083,7 @@ const renderCTA = (section, lang, site) => {
       <option value="demo">${lang === 'de' ? 'Demo vereinbaren' : 'Schedule a demo'}</option>
       <option value="support">${lang === 'de' ? 'Technischer Support' : 'Technical support'}</option>
     </select>
-    <button class="button accent cta-button" type="submit">${lang === 'de' ? 'Demo anfragen' : 'Book a demo'}</button>
+    <button class="nc-button nc-button--accent" type="submit">${lang === 'de' ? 'Demo anfragen' : 'Book a demo'}</button>
   `;
   demo.append(demoTitle, demoText, demoForm);
   mid.append(demo);
@@ -1183,9 +1174,9 @@ const renderSection = (section, lang, site) => {
       if (section.id === 'social_proof_logos') return renderLogoWall(section, lang);
       return renderSecurity(section, lang);
     case 'features':
-      return renderFeatureGrid(section, lang, 'nc-feature-grid');
+      return renderFeatureGrid(section, lang, 'nc-card-grid');
     case 'benefits':
-      return renderFeatureGrid(section, lang, 'nc-benefit-grid');
+      return renderFeatureGrid(section, lang, 'nc-card-grid');
     case 'metrics':
       return renderMetrics(section, lang);
     case 'facts':
@@ -1514,7 +1505,7 @@ const setupButtonMicroInteractions = () => {
     if (!(target instanceof Element)) return;
 
     const button = target.closest(
-      '.nc-button--micro-a, .nc-button--micro-b, .nc-button--micro-c, .button.micro-a, .button.micro-b, .button.micro-c'
+      '.nc-button--micro-a, .nc-button--micro-b, .nc-button--micro-c'
     );
     if (!button) return;
     if (button.matches(':disabled, [aria-disabled="true"], [data-loading="true"]')) return;

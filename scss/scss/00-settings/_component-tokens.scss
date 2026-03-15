@@ -74,8 +74,9 @@
   --nc-button-border-width-sm: var(--fnd-border-width-xs);  // 1px → XS/SM/MD
   --nc-button-border-width-lg: var(--fnd-border-width-sm);  // 2px → LG
   --nc-button-transition-duration: var(--fnd-motion-duration-200);
-  --nc-button-scale-active: 0.98;
+  --nc-button-scale-active: 0.97;
   --nc-button-opacity-disabled: var(--fnd-opacity-disabled);
+  --nc-button-touch-target-min: 44px;                        // WCAG 44px Touch-Target fuer XS/SM
 
   // -- Icon-Spacing pro Größe (gap zwischen Icon und Label) --
   --nc-button-icon-gap-xs: var(--fnd-spacing-01);  // 4px
@@ -146,6 +147,26 @@
   --nc-button-error-color: var(--fnd-color-always-light);
   --nc-button-error-border: var(--fnd-color-feedback-danger);
 
+  // -- Inverted Variant (fuer dunkle/bildlastige Hintergruende) --
+  --nc-button-inverted-bg: var(--fnd-color-always-light);
+  --nc-button-inverted-bg-hover: color-mix(in srgb, var(--fnd-color-always-light) 90%, transparent);
+  --nc-button-inverted-bg-active: color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
+  --nc-button-inverted-color: var(--fnd-color-always-dark);
+  --nc-button-inverted-border: var(--fnd-color-always-light);
+
+  // -- Soft Variant (blasser Markenfarben-Hintergrund mit kraeftiger Textfarbe) --
+  --nc-button-soft-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent);
+  --nc-button-soft-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
+  --nc-button-soft-bg-active: color-mix(in srgb, var(--fnd-color-interactive-default) 24%, transparent);
+  --nc-button-soft-color: var(--fnd-color-interactive-default);
+  --nc-button-soft-border: transparent;
+
+  // -- FAB (Floating Action Button) --
+  --nc-button-fab-size: 56px;
+  --nc-button-fab-radius: var(--fnd-radius-full);
+  --nc-button-fab-shadow: var(--fnd-elevation-overlay);
+  --nc-button-fab-shadow-hover: var(--fnd-elevation-navigation);
+
   // -- Disabled State --
   --nc-button-disabled-bg: var(--fnd-color-background-disabled);
   --nc-button-disabled-color: var(--fnd-color-text-disabled);
@@ -202,7 +223,7 @@
   --nc-card-bg: var(--fnd-color-background-base);
   --nc-card-color: var(--fnd-color-text-primary);
   --nc-card-border: var(--fnd-color-border-secondary);
-  --nc-card-radius: var(--fnd-radius-3xl);
+  --nc-card-radius: var(--fnd-radius-4xl);
   --nc-card-padding: var(--fnd-spacing-06);
   --nc-card-shadow: var(--fnd-elevation-base);
   --nc-card-shadow-hover: var(--fnd-elevation-raised);
@@ -272,10 +293,42 @@
   --nc-card-action-icon-size: 48px;
 
   // ---------------------------------------------------------------------------
-  // Input Tokens
+  // Form Control Shared Tokens (Input, Textarea, Select)
+  // ---------------------------------------------------------------------------
+  // Gemeinsame Basis-Tokens fuer alle Formular-Felder. Input, Textarea und
+  // Select erben diese Werte via var()-Aliase. Aenderungen hier wirken global.
+
+  // -- Outlined (Default) --
+  --nc-form-control-bg:                          var(--fnd-color-background-base);
+  --nc-form-control-color:                       var(--fnd-color-text-primary);
+  --nc-form-control-border-color:                var(--fnd-color-border-primary);
+  --nc-form-control-radius:                      var(--fnd-radius-sm);
+  --nc-form-control-border-width:                var(--fnd-border-width-xs);
+  --nc-form-control-placeholder-color:           var(--fnd-color-text-tertiary);
+  --nc-form-control-border-hover:                var(--fnd-color-border-strong);
+  --nc-form-control-border-focus:                var(--fnd-color-interactive-focus);
+  --nc-form-control-border-error:                var(--fnd-color-border-danger);
+  --nc-form-control-border-success:              var(--fnd-color-border-success);
+  --nc-form-control-transition-duration:         var(--fnd-motion-duration-200);
+
+  // -- Filled Variant --
+  --nc-form-control-filled-bg:                   var(--fnd-color-background-secondary);
+  --nc-form-control-filled-bg-hover:             var(--fnd-color-background-tertiary);
+  --nc-form-control-filled-bg-focus:             var(--fnd-color-background-secondary);
+  --nc-form-control-filled-border-bottom:        var(--fnd-border-width-sm);              // 2px
+  --nc-form-control-filled-underline-color:      var(--fnd-color-border-primary);
+  --nc-form-control-filled-underline-color-focus: var(--fnd-color-interactive-focus);
+  --nc-form-control-filled-color:                var(--fnd-color-text-primary);
+
+  // -- Borderless (Minimal) Variant --
+  --nc-form-control-minimal-bg-hover:            color-mix(in srgb, var(--fnd-color-text-primary) 6%, transparent);
+  --nc-form-control-minimal-border-focus:        var(--fnd-color-interactive-focus);
+
+  // ---------------------------------------------------------------------------
+  // Input Tokens (erben von Form Control Shared Tokens)
   // ---------------------------------------------------------------------------
 
-  // -- Geometry (3 sizes: sm / md / lg) --
+  // -- Geometry (3 sizes: sm / md / lg) — komponentenspezifisch --
   --nc-input-height-sm: var(--fnd-size-sm);
   --nc-input-height-md: var(--fnd-size-md);
   --nc-input-height-lg: var(--fnd-size-lg);
@@ -288,20 +341,19 @@
   --nc-input-font-size-sm: var(--fs-xs);
   --nc-input-font-size-md: var(--fs-base);
   --nc-input-font-size-lg: var(--fs-base);
-  --nc-input-radius: var(--fnd-radius-sm);                     // 4px
-  --nc-input-border-width: var(--fnd-border-width-xs);         // 1px
 
-  // -- Colors --
-  --nc-input-bg: var(--fnd-color-background-base);
-  --nc-input-color: var(--fnd-color-text-primary);
-  --nc-input-border: var(--fnd-color-border-primary);
-  --nc-input-placeholder: var(--fnd-color-text-tertiary);
-
-  // -- Interactive States --
-  --nc-input-border-hover: var(--fnd-color-border-strong);
-  --nc-input-border-focus: var(--fnd-color-interactive-focus);
-  --nc-input-border-error: var(--fnd-color-border-danger);
-  --nc-input-border-success: var(--fnd-color-border-success);
+  // -- Shared Aliases (kaskadieren von --nc-form-control-*) --
+  --nc-input-radius: var(--nc-form-control-radius);
+  --nc-input-border-width: var(--nc-form-control-border-width);
+  --nc-input-bg: var(--nc-form-control-bg);
+  --nc-input-color: var(--nc-form-control-color);
+  --nc-input-border: var(--nc-form-control-border-color);
+  --nc-input-placeholder: var(--nc-form-control-placeholder-color);
+  --nc-input-border-hover: var(--nc-form-control-border-hover);
+  --nc-input-border-focus: var(--nc-form-control-border-focus);
+  --nc-input-border-error: var(--nc-form-control-border-error);
+  --nc-input-border-success: var(--nc-form-control-border-success);
+  --nc-input-transition-duration: var(--nc-form-control-transition-duration);
 
   // -- Disabled --
   --nc-input-disabled-bg: var(--fnd-color-background-disabled);
@@ -313,20 +365,57 @@
   --nc-input-bg-readonly: var(--fnd-color-background-secondary);
   --nc-input-border-readonly: var(--fnd-color-border-secondary);
 
-  // -- Transition --
-  --nc-input-transition-duration: var(--fnd-motion-duration-200);
-
   // -- Icon (Prefix/Suffix) --
   --nc-input-icon-size: 20px;
   --nc-input-icon-color: var(--fnd-color-text-secondary);
+
+  // -- Filled Variant (Aliase von Shared Tokens) --
+  --nc-input-filled-bg: var(--nc-form-control-filled-bg);
+  --nc-input-filled-bg-hover: var(--nc-form-control-filled-bg-hover);
+  --nc-input-filled-bg-focus: var(--nc-form-control-filled-bg-focus);
+  --nc-input-filled-underline-width: var(--nc-form-control-filled-border-bottom);
+  --nc-input-filled-underline-color: var(--nc-form-control-filled-underline-color);
+  --nc-input-filled-underline-color-focus: var(--nc-form-control-filled-underline-color-focus);
+
+  // -- Borderless Variant (Aliase von Shared Tokens) --
+  --nc-input-borderless-bg-hover: var(--nc-form-control-minimal-bg-hover);
+  --nc-input-borderless-underline-focus: var(--nc-form-control-minimal-border-focus);
+
+  // -- Floating Label --
+  --nc-input-label-color: var(--fnd-color-text-secondary);
+  --nc-input-label-color-focus: var(--fnd-color-interactive-focus);
+  --nc-input-label-font-size: var(--fs-base);
+  --nc-input-label-font-size-float: var(--fs-xs);
+  --nc-input-label-offset-y: var(--fnd-spacing-02);                    // 8px
+  --nc-input-label-scale: 0.75;
+  --nc-input-label-padding-top: var(--fnd-spacing-05);                 // 20px — Platz fuer schwebendes Label
+
+  // -- Text Affix (Prefix/Suffix) --
+  --nc-input-affix-color: var(--fnd-color-text-secondary);
+  --nc-input-affix-font-size: var(--fs-sm);
+  --nc-input-affix-padding-x: var(--fnd-spacing-03);                   // 12px
+  --nc-input-affix-bg: var(--fnd-color-background-secondary);
+  --nc-input-affix-border: var(--fnd-color-border-primary);
+
+  // -- Content State (Clear Button) --
+  --nc-input-clear-size: 16px;
+  --nc-input-clear-color: var(--fnd-color-text-tertiary);
+  --nc-input-clear-color-hover: var(--fnd-color-text-primary);
+
+  // -- Touch Target --
+  --nc-input-touch-area-min: 44px;
 
   // ---------------------------------------------------------------------------
   // Textarea Tokens
   // ---------------------------------------------------------------------------
 
   --nc-textarea-min-height: 80px;
+  --nc-textarea-max-height: none;
   --nc-textarea-padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
   --nc-textarea-resize: vertical;
+  --nc-textarea-scrollbar-width: thin;
+  --nc-textarea-actions-gap: var(--fnd-spacing-02);
+  --nc-textarea-actions-padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
 
   // ---------------------------------------------------------------------------
   // Select Tokens
@@ -335,6 +424,8 @@
   --nc-select-indicator-size: 20px;
   --nc-select-indicator-color: var(--fnd-color-text-secondary);
   --nc-select-padding-right: var(--fnd-spacing-08);            // 32px (Platz fuer Arrow)
+  --nc-select-optgroup-font-weight: var(--fnd-font-weight-semibold);
+  --nc-select-optgroup-padding-left: var(--fnd-spacing-02);
 
   // ---------------------------------------------------------------------------
   // Form Label Tokens
@@ -344,8 +435,21 @@
   --nc-form-label-font-weight: var(--fnd-font-weight-semibold);
   --nc-form-label-color: var(--fnd-color-text-primary);
   --nc-form-label-gap: var(--fnd-spacing-02);                  // 8px gap zum Input
+  --nc-form-label-padding-block: 2px;                          // Erweiterter Klickbereich (Fitts' Law)
+  --nc-form-label-min-height: 24px;                            // WCAG 2.5.8 Target Size Minimum
   --nc-form-label-required-color: var(--fnd-color-feedback-danger);
   --nc-form-label-optional-color: var(--fnd-color-text-tertiary);
+  --nc-form-label-info-color: var(--fnd-color-interactive-default);
+
+  // Inline-Layout: Truncation + Baseline-Alignment
+  --nc-form-label-inline-max-width: 200px;                   // Truncation-Schwelle fuer Inline-Labels
+  --nc-form-label-inline-padding-top: var(--nc-input-padding-y-md, 8px); // Baseline-Sync mit Input
+
+  // Size-Varianten (SM / Emphasis)
+  --nc-form-label-sm-font-size: var(--fs-sm);
+  --nc-form-label-sm-font-weight: var(--fnd-font-weight-medium);
+  --nc-form-label-emphasis-font-size: var(--fs-lg);
+  --nc-form-label-emphasis-font-weight: var(--fnd-font-weight-bold);
 
   // ---------------------------------------------------------------------------
   // Form Hint Tokens
@@ -354,6 +458,9 @@
   --nc-form-hint-font-size: var(--fs-sm);
   --nc-form-hint-color: var(--fnd-color-text-secondary);
   --nc-form-hint-gap: var(--fnd-spacing-01);                   // 4px
+  --nc-form-hint-link-color: var(--fnd-color-interactive-default);
+  --nc-form-hint-muted-color: var(--fnd-color-text-tertiary);
+  --nc-form-hint-list-gap: var(--fnd-spacing-01);              // 4px
 
   // ---------------------------------------------------------------------------
   // Form Error Tokens
@@ -406,6 +513,15 @@
   --nc-checkbox-transition-duration: var(--fnd-motion-duration-150);
   --nc-checkbox-focus-ring-offset: 2px;
 
+  // -- Card-Variante --
+  --nc-checkbox-card-bg: var(--fnd-color-background-base);
+  --nc-checkbox-card-bg-checked: var(--fnd-color-interactive-subtle);
+  --nc-checkbox-card-border: var(--fnd-color-border-primary);
+  --nc-checkbox-card-border-checked: var(--fnd-color-interactive-default);
+  --nc-checkbox-card-border-hover: var(--fnd-color-border-strong);
+  --nc-checkbox-card-radius: var(--fnd-radius-md);
+  --nc-checkbox-card-padding: var(--fnd-spacing-04);
+
   // ---------------------------------------------------------------------------
   // Radio Tokens
   // ---------------------------------------------------------------------------
@@ -440,6 +556,24 @@
   // -- Transition --
   --nc-radio-transition-duration: var(--fnd-motion-duration-150);
 
+  // -- Card-Variante --
+  --nc-radio-card-bg: var(--fnd-color-background-base);
+  --nc-radio-card-bg-checked: var(--fnd-color-interactive-subtle);
+  --nc-radio-card-border: var(--fnd-color-border-primary);
+  --nc-radio-card-border-checked: var(--fnd-color-interactive-default);
+  --nc-radio-card-border-hover: var(--fnd-color-border-strong);
+  --nc-radio-card-radius: var(--fnd-radius-md);
+  --nc-radio-card-padding: var(--fnd-spacing-04);
+
+  // -- Segmented-Variante (Radio-Group) --
+  --nc-radio-segmented-bg: var(--fnd-color-background-secondary);
+  --nc-radio-segmented-bg-checked: var(--fnd-color-interactive-default);
+  --nc-radio-segmented-color: var(--fnd-color-text-primary);
+  --nc-radio-segmented-color-checked: var(--fnd-color-text-on-interactive);
+  --nc-radio-segmented-radius: var(--fnd-radius-md);
+  --nc-radio-segmented-padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+  --nc-radio-segmented-border: var(--fnd-color-border-secondary);
+
   // ---------------------------------------------------------------------------
   // Switch Tokens
   // ---------------------------------------------------------------------------
@@ -457,8 +591,15 @@
   --nc-switch-disabled-thumb: var(--fnd-color-border-secondary);
   --nc-switch-disabled-opacity: var(--fnd-opacity-disabled);
   --nc-switch-label-gap: var(--fnd-spacing-03);
-  --nc-switch-label-color: var(--fnd-color-text-primary);
+  --nc-switch-label-color: var(--nc-input-label-color);
   --nc-switch-transition-duration: var(--fnd-motion-duration-200);
+  --nc-switch-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --nc-switch-thumb-shadow: var(--fnd-shadow-xs);
+  --nc-switch-thumb-active-scale: 1.2;
+  --nc-switch-touch-padding: 10px;
+  --nc-switch-focus-ring-offset: 3px;
+  --nc-switch-indicator-color: var(--fnd-color-text-tertiary);
+  --nc-switch-indicator-checked-color: var(--fnd-color-text-on-interactive);
 
   // ---------------------------------------------------------------------------
   // Checkbox/Radio Group Tokens
@@ -466,16 +607,40 @@
 
   --nc-group-gap: var(--fnd-spacing-03);                       // 12px vertikal
   --nc-group-gap-horizontal: var(--fnd-spacing-05);            // 20px horizontal
+  --nc-group-gap-sm: var(--fnd-spacing-02);                    // 8px  — fuer sm Checkboxen/Radios
+  --nc-group-gap-lg: var(--fnd-spacing-04);                    // 16px — fuer lg Checkboxen/Radios
+  --nc-group-header-gap: var(--fnd-spacing-03);                // 12px — Abstand Header → Optionen
+  --nc-group-header-border: var(--fnd-color-border-secondary); // Separator unter Header
+  --nc-group-hint-margin-top: var(--fnd-spacing-02);           // 8px  — Abstand Optionen → Hint
 
   // ---------------------------------------------------------------------------
   // Input Group Tokens (Prefix/Suffix/Addon)
   // ---------------------------------------------------------------------------
 
+  // Mirror-Tokens (synchronisiert mit Input)
+  --nc-input-group-height-sm: var(--nc-input-height-sm);
+  --nc-input-group-height-md: var(--nc-input-height-md);
+  --nc-input-group-height-lg: var(--nc-input-height-lg);
+  --nc-input-group-radius: var(--nc-input-radius);
+  --nc-input-group-border-width: var(--nc-input-border-width);
+
+  // Addon Base (statische Elemente: Text, Icons)
   --nc-input-group-addon-bg: var(--fnd-color-background-secondary);
   --nc-input-group-addon-color: var(--fnd-color-text-secondary);
   --nc-input-group-addon-border: var(--fnd-color-border-primary);
   --nc-input-group-addon-padding-x: var(--fnd-spacing-03);
   --nc-input-group-addon-font-size: var(--nc-input-font-size-md);
+
+  // Addon Interaction (interaktive Elemente: Buttons in Addons)
+  --nc-input-group-addon-hover-bg: var(--fnd-color-background-tertiary);
+  --nc-input-group-addon-active-bg: var(--fnd-color-background-quaternary, color-mix(in srgb, var(--fnd-color-background-tertiary) 80%, var(--fnd-color-text-primary) 20%));
+
+  // Validation
+  --nc-input-group-addon-border-error: var(--nc-input-border-error);
+  --nc-input-group-addon-border-success: var(--nc-input-border-success);
+
+  // Layout
+  --nc-input-group-inner-radius: var(--fnd-radius-null);
 
   // ---------------------------------------------------------------------------
   // Stepper Tokens
@@ -501,7 +666,22 @@
   --nc-slider-thumb-border: var(--fnd-color-interactive-default);
   --nc-slider-thumb-border-width: var(--fnd-border-width-sm);
   --nc-slider-thumb-shadow: var(--fnd-elevation-base);
+  --nc-slider-thumb-touch-size: 44px;
+  --nc-slider-thumb-focus-ring-offset: 2px;
   --nc-slider-disabled-opacity: var(--fnd-opacity-disabled);
+  --nc-slider-transition-duration: var(--fnd-motion-duration-200);
+  --nc-slider-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // -- Floating Tooltip --
+  --nc-slider-tooltip-bg: var(--fnd-color-background-inverted);
+  --nc-slider-tooltip-color: var(--fnd-color-text-on-inverted);
+  --nc-slider-tooltip-radius: var(--fnd-radius-sm);
+  --nc-slider-tooltip-font-size: var(--fs-xs);
+  --nc-slider-tooltip-padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+  --nc-slider-tooltip-offset-y: 8px;
+
+  // -- Range (Dual Thumb) --
+  --nc-slider-range-fill-bg: var(--nc-slider-track-bg-active);
 
   // ---------------------------------------------------------------------------
   // Rating Tokens
@@ -509,10 +689,24 @@
 
   --nc-rating-size: 24px;
   --nc-rating-gap: var(--fnd-spacing-01);
+  --nc-rating-touch-padding: 10px;
   --nc-rating-color-active: var(--fnd-color-feedback-warning);
   --nc-rating-color-inactive: var(--fnd-color-border-secondary);
   --nc-rating-hover-color: var(--fnd-color-feedback-warning);
+  --nc-rating-count-color: var(--nc-input-label-color);
   --nc-rating-disabled-opacity: var(--fnd-opacity-disabled);
+  --nc-rating-error-color: var(--fnd-color-border-danger);
+  --nc-rating-transition-duration: var(--fnd-motion-duration-200);
+  --nc-rating-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // -- Sentiment-Farbskala --
+  --nc-rating-sentiment-low: var(--fnd-color-feedback-danger);
+  --nc-rating-sentiment-mid: var(--fnd-color-feedback-warning);
+  --nc-rating-sentiment-high: var(--fnd-color-feedback-success);
+
+  // -- Hover-Kaskade (Stagger) --
+  --nc-rating-stagger-delay: 30ms;
+  --nc-rating-bounce-scale: 1.25;
 
   // ---------------------------------------------------------------------------
   // OTP Input Tokens
@@ -563,6 +757,24 @@
   --nc-fieldset-legend-color: var(--fnd-color-text-primary);
   --nc-fieldset-legend-padding: var(--fnd-spacing-02);
 
+  // -- Helper-Text (Gruppen-Beschreibung unter Legend) --
+  --nc-fieldset-helper-size: var(--fs-sm);
+  --nc-fieldset-helper-color: var(--fnd-color-text-secondary);
+  --nc-fieldset-helper-margin-top: calc(var(--fnd-spacing-01) * -1); // negativer Abstand zur Legend
+
+  // -- Card-Variante --
+  --nc-fieldset-card-bg: var(--fnd-color-background-secondary);
+  --nc-fieldset-card-shadow: var(--fnd-elevation-flat);
+
+  // -- Density --
+  --nc-fieldset-padding-compact: var(--fnd-spacing-04);
+  --nc-fieldset-gap-compact: var(--fnd-spacing-03);
+  --nc-fieldset-padding-loose: var(--fnd-spacing-08);
+  --nc-fieldset-gap-loose: var(--fnd-spacing-06);
+
+  // -- Required-Indikator --
+  --nc-fieldset-required-color: var(--fnd-color-text-danger);
+
   // ---------------------------------------------------------------------------
   // Validation Summary Tokens
   // ---------------------------------------------------------------------------
@@ -577,22 +789,96 @@
   // Dialog/Modal Tokens
   // ---------------------------------------------------------------------------
 
+  // Container
   --nc-dialog-max-width: 560px;
+  --nc-dialog-max-height: calc(100vh - var(--fnd-spacing-08));
   --nc-dialog-padding: var(--fnd-spacing-08);
-  --nc-dialog-radius: var(--fnd-radius-3xl);
+  --nc-dialog-radius: var(--fnd-radius-4xl);
   --nc-dialog-bg: var(--fnd-color-surface-elevated);
   --nc-dialog-shadow: var(--fnd-elevation-modal);
   --nc-dialog-overlay-bg: var(--fnd-color-background-overlay);
+  --nc-dialog-section-gap: var(--fnd-spacing-06);                // 24px
 
-  // Alert Dialog extension tokens
+  // Header
   --nc-dialog-title-font-size: var(--fnd-typography-heading-m-font-size);
   --nc-dialog-title-font-weight: var(--fnd-font-weight-semibold);
   --nc-dialog-title-color: var(--fnd-color-text-primary);
+  --nc-dialog-header-gap: var(--fnd-spacing-02);                 // 8px
+  --nc-dialog-header-border-color: var(--fnd-color-border-secondary);
+
+  // Body / Description
   --nc-dialog-description-font-size: var(--fnd-typography-body-m-font-size);
   --nc-dialog-description-color: var(--fnd-color-text-secondary);
+
+  // Footer
   --nc-dialog-footer-gap: var(--fnd-spacing-03);                 // 12px
-  --nc-dialog-header-gap: var(--fnd-spacing-02);                 // 8px
-  --nc-dialog-section-gap: var(--fnd-spacing-06);                // 24px
+  --nc-dialog-footer-border-color: var(--fnd-color-border-secondary);
+
+  // Close-Button
+  --nc-dialog-close-size: 36px;
+  --nc-dialog-close-radius: var(--fnd-radius-sm);
+  --nc-dialog-close-bg: var(--fnd-color-background-secondary);
+  --nc-dialog-close-bg-hover: var(--fnd-color-background-tertiary);
+  --nc-dialog-close-icon-size: 18px;
+
+  // Danger Intent
+  --nc-dialog-danger-icon-color: var(--fnd-color-feedback-danger);
+  --nc-dialog-danger-action-bg: var(--fnd-color-feedback-danger);
+  --nc-dialog-danger-action-color: var(--fnd-color-on-danger);
+
+  // Mobile Bottom-Sheet
+  --nc-dialog-mobile-radius: var(--fnd-radius-xl) var(--fnd-radius-xl) 0 0;
+  --nc-dialog-mobile-max-height: 90vh;
+
+  // ---------------------------------------------------------------------------
+  // Drawer Tokens
+  // ---------------------------------------------------------------------------
+  // Slide-in Panel (Bottom-Sheet, Side-Panel). Elevation-modal (L3).
+
+  // Dimensions
+  --nc-drawer-max-width:        100%;
+  --nc-drawer-max-height:       85vh;
+  --nc-drawer-width:            100%;
+  --nc-drawer-side-width:       380px;
+
+  // Visual
+  --nc-drawer-padding:          var(--fnd-spacing-06);
+  --nc-drawer-radius:           var(--fnd-radius-4xl);
+  --nc-drawer-bg:               var(--nc-dialog-bg, var(--fnd-color-surface-elevated));
+  --nc-drawer-shadow:           var(--fnd-elevation-modal);          // L3, gleiche Ebene wie Modal
+  --nc-drawer-overlay-bg:       var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay));
+
+  // Header
+  --nc-drawer-title-font-size:  var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size));
+  --nc-drawer-title-font-weight: var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold));
+  --nc-drawer-title-color:      var(--nc-dialog-title-color, var(--fnd-color-text-primary));
+  --nc-drawer-desc-font-size:   var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size));
+  --nc-drawer-desc-color:       var(--nc-dialog-description-color, var(--fnd-color-text-secondary));
+  --nc-drawer-header-border-color: var(--fnd-color-border-secondary);
+
+  // Spacing
+  --nc-drawer-header-gap:       var(--nc-dialog-header-gap, var(--fnd-spacing-02));
+  --nc-drawer-section-gap:      var(--nc-dialog-section-gap, var(--fnd-spacing-06));
+  --nc-drawer-footer-gap:       var(--nc-dialog-footer-gap, var(--fnd-spacing-03));
+  --nc-drawer-footer-border-color: var(--fnd-color-border-secondary);
+
+  // Handle (Bottom-Sheet Drag-Indikator)
+  --nc-drawer-handle-width:     32px;
+  --nc-drawer-handle-height:    4px;
+  --nc-drawer-handle-radius:    var(--fnd-radius-full);
+  --nc-drawer-handle-bg:        var(--fnd-color-border-primary);
+
+  // Close Button
+  --nc-drawer-close-size:       36px;
+  --nc-drawer-close-radius:     var(--fnd-radius-sm);
+  --nc-drawer-close-bg:         var(--fnd-color-background-secondary);
+  --nc-drawer-close-bg-hover:   var(--fnd-color-background-tertiary);
+  --nc-drawer-close-icon-size:  18px;
+  --nc-drawer-close-offset:     var(--fnd-spacing-04);
+
+  // Motion (Spring-Charakteristik)
+  --nc-drawer-duration:         var(--fnd-motion-duration-300);
+  --nc-drawer-ease:             cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   // ---------------------------------------------------------------------------
   // Tabs Tokens
@@ -620,6 +906,9 @@
   --nc-alert-border-width: var(--fnd-border-width-xs); // 1px
   --nc-alert-icon-size: 20px;
   --nc-alert-gap: var(--fnd-spacing-03);
+  --nc-alert-title-font-weight: var(--fnd-font-weight-semibold);
+  --nc-alert-description-opacity: var(--fnd-opacity-subtle);
+  --nc-alert-close-size: 20px;
 
   // Info
   --nc-alert-info-bg: var(--fnd-color-background-info);
@@ -645,13 +934,50 @@
   --nc-alert-danger-border: var(--fnd-color-border-danger);
   --nc-alert-danger-icon-color: var(--fnd-color-feedback-danger);
 
+  // Inline-Variante (kein Hintergrund, nur Icon + Text)
+  --nc-alert-inline-gap: var(--fnd-spacing-02);
+  --nc-alert-inline-font-size: var(--fnd-typography-body-s-font-size);
+
+  // Details-Toggle
+  --nc-alert-details-margin-top: var(--fnd-spacing-03);
+  --nc-alert-details-font-size: var(--fnd-typography-body-s-font-size);
+
+  // Alert-Dialog Icon (Status-Icon im Header)
+  --nc-dialog-icon-size: 24px;
+
   // ---------------------------------------------------------------------------
   // Accordion Tokens
   // ---------------------------------------------------------------------------
 
+  // Geometry
   --nc-accordion-border: var(--fnd-color-border-secondary);
   --nc-accordion-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-accordion-icon-size: 20px;
+  --nc-accordion-trigger-font-weight: var(--fnd-font-weight-medium);
+  --nc-accordion-trigger-color: var(--fnd-color-text-primary);
+  --nc-accordion-content-color: var(--fnd-color-text-secondary);
+  --nc-accordion-icon-color: var(--fnd-color-text-tertiary);
+  --nc-accordion-trigger-hover-bg: color-mix(in srgb, var(--fnd-color-text-primary) 4%, transparent);
+
+  // Density
+  --nc-accordion-padding-compact: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  --nc-accordion-padding-spacious: var(--fnd-spacing-06) var(--fnd-spacing-07);
+  --nc-accordion-content-font-size: var(--fnd-typography-body-m-font-size);
+  --nc-accordion-content-font-size-compact: var(--fnd-typography-body-s-font-size);
+
+  // Separated & Elevated Varianten
+  --nc-accordion-item-gap: var(--fnd-spacing-03);
+  --nc-accordion-item-radius: var(--fnd-radius-sm);
+  --nc-accordion-item-shadow: var(--fnd-shadow-sm);
+  --nc-accordion-item-bg: var(--fnd-color-background-base);
+  --nc-accordion-elevated-shadow: var(--fnd-shadow-md);
+
+  // Media Slot
+  --nc-accordion-media-radius: var(--fnd-radius-sm);
+  --nc-accordion-media-max-height: 200px;
+  --nc-accordion-media-gap: var(--fnd-spacing-04);
+
+  // Animation
   --nc-accordion-transition-duration: var(--fnd-motion-duration-200);
 
   // ---------------------------------------------------------------------------
@@ -721,6 +1047,23 @@
   --nc-badge-dot-size: 8px;
   --nc-badge-dot-radius: var(--fnd-radius-full);
 
+  // -- Decorator-Positionierung (auf Parent-Element) --
+  --nc-badge-top-offset: -4px;
+  --nc-badge-right-offset: -4px;
+  --nc-badge-ring-width: 2px;
+  --nc-badge-ring-color: var(--fnd-color-background-base);
+
+  // -- Pulse-Animation (kritischer Dot-Status) --
+  --nc-badge-pulse-duration: 1.5s;
+  --nc-badge-pulse-scale: 1.8;
+  --nc-badge-pulse-opacity: 0;
+
+  // -- Status-String (reiner Text ohne BG) --
+  --nc-badge-status-font-weight: var(--fnd-font-weight-semibold);
+
+  // -- Soft Emphasis (Opacity-Level) --
+  --nc-badge-soft-opacity: 40%;
+
   // ---------------------------------------------------------------------------
   // Avatar Tokens
   // ---------------------------------------------------------------------------
@@ -748,6 +1091,7 @@
   // -- Ring (Abgrenzung auf aehnlichen Hintergruenden) --
   --nc-avatar-ring-width: 2px;
   --nc-avatar-ring-color: var(--fnd-color-background-base);
+  --nc-avatar-ring-shadow: var(--fnd-shadow-xs);
 
   // -- Shape --
   --nc-avatar-radius: var(--fnd-radius-full);       // 9999px = Kreis
@@ -755,17 +1099,33 @@
 
   // -- Badge (Status-Indikator) --
   --nc-avatar-badge-size: 12px;
-  --nc-avatar-badge-border-width: 1px;
+  --nc-avatar-badge-border-width: 2px;
   --nc-avatar-badge-border-color: var(--fnd-color-background-base);
   --nc-avatar-badge-online: var(--fnd-color-feedback-success);
   --nc-avatar-badge-offline: var(--fnd-color-text-disabled);
   --nc-avatar-badge-busy: var(--fnd-color-feedback-danger);
   --nc-avatar-badge-away: var(--fnd-color-feedback-warning);
+  --nc-avatar-badge-verified: var(--fnd-color-interactive-default);
 
   // -- Group --
   --nc-avatar-group-spacing: -8px;
   --nc-avatar-group-ring-width: 2px;
   --nc-avatar-group-ring-color: var(--fnd-color-background-base);
+
+  // -- Interactive Mode (link / button) --
+  --nc-avatar-hover-scale: 1.05;
+  --nc-avatar-hover-shadow: var(--fnd-shadow-sm);
+  --nc-avatar-active-scale: 0.97;
+  --nc-avatar-focus-ring-width: 2px;
+  --nc-avatar-focus-ring-color: var(--fnd-color-interactive-focus);
+  --nc-avatar-focus-ring-offset: 2px;
+
+  // -- Image Loading (Fade-In) --
+  --nc-avatar-image-fade-duration: var(--fnd-motion-duration-300);
+
+  // -- Hash-Color Fallback (CSS-Custom-Property, gesetzt per JS) --
+  --nc-avatar-hash-bg: var(--nc-avatar-bg);
+  --nc-avatar-hash-color: var(--nc-avatar-color);
 
   // -- Transition --
   --nc-avatar-transition-duration: var(--fnd-motion-duration-200);
@@ -788,19 +1148,121 @@
   --nc-tooltip-font-size: var(--fs-sm);
   --nc-tooltip-max-width: 320px;
 
+  // Arrow
+  --nc-tooltip-arrow-size: 8px;
+
+  // Animation (Scale + Fade)
+  --nc-tooltip-transition-duration: var(--fnd-motion-duration-200);
+  --nc-tooltip-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --nc-tooltip-offset: 8px;
+
+  // Hover-Intent Delay (JS-gesteuert, CSS-Token fuer Dokumentation)
+  --nc-tooltip-delay: 300ms;
+
   // ---------------------------------------------------------------------------
   // Breadcrumb Tokens
   // ---------------------------------------------------------------------------
 
   --nc-breadcrumb-gap: var(--fnd-spacing-02);                    // 8px
   --nc-breadcrumb-font-size: var(--fs-sm);
+  --nc-breadcrumb-font-size-sm: var(--fs-xs);                   // SM-Size fuer Admin/Sidebar
   --nc-breadcrumb-color: var(--fnd-color-text-secondary);
   --nc-breadcrumb-color-current: var(--fnd-color-text-primary);
   --nc-breadcrumb-color-hover: var(--fnd-color-text-primary);
   --nc-breadcrumb-separator-color: var(--fnd-color-text-disabled);
+  --nc-breadcrumb-separator-opacity: 0.4;                       // Reduzierte Opacity fuer Separatoren
   --nc-breadcrumb-separator-size: 16px;
+  --nc-breadcrumb-separator-min-width: 16px;                    // Feste Breite gegen Layout-Shift
   --nc-breadcrumb-separator-custom: '·';                        // Custom-Separator Inhalt (fuer --custom Modifier)
   --nc-breadcrumb-dropdown-min-width: 160px;
+  // Ghost Variant: Links wirken wie Text, erst bei Hover interaktiv
+  --nc-breadcrumb-ghost-color: var(--fnd-color-text-tertiary);
+  --nc-breadcrumb-ghost-color-hover: var(--fnd-color-text-primary);
+  // Back-Link Variant: Mobile-First, nur Parent-Link
+  --nc-breadcrumb-back-icon-size: 16px;
+  --nc-breadcrumb-back-gap: var(--fnd-spacing-01);
+
+  // ---------------------------------------------------------------------------
+  // TreeView Tokens
+  // ---------------------------------------------------------------------------
+  // Hierarchische Baumnavigation mit Expand/Collapse.
+  // v2.0.0: Guide-Lines, Action-Slot, Checkbox-Mode, Density, Drag & Drop,
+  //         Slide-Down Animation, Badge-Support.
+  // ---------------------------------------------------------------------------
+
+  // -- Layout --
+  --nc-treeview-indent: 24px;                                  // Einrueckung pro Ebene
+  --nc-treeview-item-height: 32px;                             // Min-Hoehe pro Node
+  --nc-treeview-item-height-compact: 28px;                     // Compact Density
+  --nc-treeview-item-padding-x: var(--fnd-spacing-02);         // Inline-Padding
+  --nc-treeview-gap: var(--fnd-spacing-02);                    // Gap zwischen Icon/Label (= Item-Gap)
+  --nc-treeview-radius: var(--fnd-radius-sm);
+
+  // -- Toggle --
+  --nc-treeview-toggle-size: 20px;
+  --nc-treeview-toggle-color: var(--fnd-color-text-secondary);
+  --nc-treeview-toggle-color-hover: var(--fnd-color-text-primary);
+  --nc-treeview-toggle-transition: var(--fnd-motion-duration-200);
+
+  // -- Icon --
+  --nc-treeview-icon-size: 20px;
+  --nc-treeview-icon-color: var(--fnd-color-text-secondary);
+
+  // -- Typography --
+  --nc-treeview-label-font-size: var(--fs-sm);
+  --nc-treeview-label-color: var(--fnd-color-text-primary);
+  --nc-treeview-label-font-weight: var(--fnd-font-weight-regular);
+  --nc-treeview-label-font-weight-selected: var(--fnd-font-weight-medium);
+
+  // -- Colors --
+  --nc-treeview-bg-hover: var(--fnd-color-background-secondary);
+  --nc-treeview-bg-selected: var(--fnd-color-background-tertiary);
+  --nc-treeview-bg-active: var(--fnd-color-background-tertiary);
+  --nc-treeview-border-selected: var(--fnd-color-interactive-default);
+  --nc-treeview-border-selected-width: 3px;
+  --nc-treeview-disabled-opacity: var(--fnd-opacity-disabled);
+  --nc-treeview-transition-duration: var(--fnd-motion-duration-150);
+
+  // -- Links --
+  --nc-treeview-link-color: var(--fnd-color-interactive-default);
+  --nc-treeview-link-color-hover: var(--fnd-color-interactive-hover);
+
+  // -- Guide-Lines (vertikale Verbindungslinien) --
+  --nc-treeview-guide-color: var(--fnd-color-border-secondary);
+  --nc-treeview-guide-width: 1px;
+  --nc-treeview-guide-style: solid;                            // solid, dashed, none
+  --nc-treeview-guide-opacity: 0.5;
+
+  // -- Action-Slot (Hover-sichtbare Aktionen rechts) --
+  --nc-treeview-action-gap: var(--fnd-spacing-02);
+  --nc-treeview-action-color: var(--fnd-color-text-tertiary);
+  --nc-treeview-action-color-hover: var(--fnd-color-text-primary);
+  --nc-treeview-action-size: 20px;
+
+  // -- Checkbox-Mode (Multi-Select) --
+  --nc-treeview-checkbox-size: 16px;
+  --nc-treeview-checkbox-gap: var(--fnd-spacing-02);
+
+  // -- Badge --
+  --nc-treeview-badge-font-size: var(--fs-2xs);
+  --nc-treeview-badge-radius: var(--fnd-radius-full);
+  --nc-treeview-badge-padding: 0 var(--fnd-spacing-02);
+  --nc-treeview-badge-bg: var(--fnd-color-background-tertiary);
+  --nc-treeview-badge-color: var(--fnd-color-text-secondary);
+
+  // -- Drag & Drop --
+  --nc-treeview-drop-indicator-color: var(--fnd-color-interactive-default);
+  --nc-treeview-drop-indicator-width: 2px;
+  --nc-treeview-drag-opacity: 0.6;
+
+  // -- Animation (Slide-Down fuer Children) --
+  --nc-treeview-expand-duration: var(--fnd-motion-duration-200);
+
+  // -- Bordered Variant --
+  --nc-treeview-bordered-border-color: var(--fnd-color-border-secondary);
+  --nc-treeview-bordered-border-width: var(--fnd-border-width-xs);
+  --nc-treeview-bordered-radius: var(--fnd-radius-md);
+  --nc-treeview-bordered-padding: var(--fnd-spacing-03);
 
   // ---------------------------------------------------------------------------
   // Toast/Notification Tokens
@@ -809,6 +1271,90 @@
   --nc-toast-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-toast-radius: var(--fnd-radius-sm);
   --nc-toast-shadow: var(--fnd-elevation-floating);
+
+  // ---------------------------------------------------------------------------
+  // Label Tokens
+  // ---------------------------------------------------------------------------
+  // Dekoratives Pill-Label fuer Status, Kategorie, Metadaten.
+  // Visuell "leiser" als Buttons — bevorzugt subtile Pastelltoene.
+  //
+  // ACHSEN: emphasis (subtle/solid/outline), size (xs/sm/md), shape (rounded/pill)
+  // VARIANTEN: default, accent, success, warning, danger, info
+  // INTERAKTIV: Optional mit Hover + Remove-Button (Filter-Tags)
+  // ---------------------------------------------------------------------------
+
+  // -- Sizes (3 Stufen, kleiner als Tag-Scale) --
+  --nc-label-height-xs: 20px;                                // Fuer dichte Listen/Tabellen
+  --nc-label-height-sm: 24px;                                // Standard
+  --nc-label-height-md: 28px;                                // Fuer Header/Hero-Bereiche
+
+  // -- Basis --
+  --nc-label-padding-x: var(--fnd-spacing-02);               // 8px
+  --nc-label-padding-x-xs: var(--fnd-spacing-01);            // 4px
+  --nc-label-padding-x-md: var(--fnd-spacing-03);            // 12px
+  --nc-label-radius: var(--fnd-radius-xs);                   // rounded (Standard)
+  --nc-label-radius-pill: var(--fnd-radius-full);            // pill (9999px)
+  --nc-label-font-size: var(--fs-2xs);                       // 11px
+  --nc-label-font-size-xs: 10px;
+  --nc-label-font-size-md: var(--fs-xs);                     // 12px
+  --nc-label-font-weight: var(--fnd-font-weight-semibold);
+  --nc-label-gap: var(--fnd-spacing-01);                     // 4px (Icon-Text)
+  --nc-label-container-gap: var(--fnd-spacing-02);           // 8px (Label-zu-Label)
+  --nc-label-transition-duration: var(--fnd-motion-duration-200);
+  --nc-label-letter-spacing: 0.01em;
+
+  // -- Icon --
+  --nc-label-icon-size: 12px;
+
+  // -- Default (Subtle) --
+  --nc-label-default-bg: var(--fnd-color-background-secondary);
+  --nc-label-default-color: var(--fnd-color-text-secondary);
+  --nc-label-default-border: transparent;
+  --nc-label-default-bg-hover: var(--fnd-color-background-tertiary);
+
+  // -- Accent (Subtle) --
+  --nc-label-accent-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent);
+  --nc-label-accent-color: var(--fnd-color-interactive-default);
+  --nc-label-accent-border: transparent;
+  --nc-label-accent-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
+
+  // -- Success (Subtle) --
+  --nc-label-success-bg: var(--fnd-color-background-success);
+  --nc-label-success-color: var(--fnd-color-text-success);
+  --nc-label-success-border: transparent;
+  --nc-label-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target));
+
+  // -- Warning (Subtle) --
+  --nc-label-warning-bg: var(--fnd-color-background-warning);
+  --nc-label-warning-color: var(--fnd-color-text-warning);
+  --nc-label-warning-border: transparent;
+  --nc-label-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target));
+
+  // -- Danger (Subtle) --
+  --nc-label-danger-bg: var(--fnd-color-background-danger);
+  --nc-label-danger-color: var(--fnd-color-text-danger);
+  --nc-label-danger-border: transparent;
+  --nc-label-danger-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target));
+
+  // -- Info (Subtle) --
+  --nc-label-info-bg: var(--fnd-color-background-info);
+  --nc-label-info-color: var(--fnd-color-text-info);
+  --nc-label-info-border: transparent;
+  --nc-label-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target));
+
+  // -- Solid-Emphasis Override --
+  --nc-label-solid-default-bg: var(--fnd-color-background-inverse);
+  --nc-label-solid-default-color: var(--fnd-color-text-inverse);
+
+  // -- Outline-Emphasis Override --
+  --nc-label-outline-border-width: var(--fnd-border-width-xs);
+
+  // -- Remove-Button --
+  --nc-label-remove-size: 14px;
+  --nc-label-remove-hover-bg: color-mix(in srgb, currentColor 15%, transparent);
+
+  // -- Disabled --
+  --nc-label-disabled-opacity: var(--fnd-opacity-disabled);
 
   // ---------------------------------------------------------------------------
   // Tag Tokens
@@ -872,6 +1418,15 @@
   --nc-tag-info-border: transparent;
   --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target));
 
+  // -- Selected (Filter-Chip/Toggle) --
+  --nc-tag-selected-bg: var(--fnd-color-interactive-default);
+  --nc-tag-selected-color: var(--fnd-color-text-on-interactive);
+  --nc-tag-selected-border: transparent;
+  --nc-tag-selected-bg-hover: var(--fnd-color-interactive-hover);
+
+  // -- Interactive Shadow (Hover-Indikator fuer Navigations-Tags) --
+  --nc-tag-interactive-shadow-hover: var(--fnd-shadow-xs);
+
   // -- Remove-Button --
   --nc-tag-remove-size: 16px;
   --nc-tag-remove-hover-bg: color-mix(in srgb, currentColor 15%, transparent);
@@ -893,10 +1448,12 @@
   --nc-chip-height-sm: var(--nc-button-height-xs);     // 24px
   --nc-chip-height-md: var(--nc-button-height-sm);     // 32px (Default)
   --nc-chip-height-lg: var(--nc-button-height-md);     // 40px
+  --nc-chip-touch-target-min: 44px;                     // WCAG Touch-Target Minimum
 
   // -- Basis --
   --nc-chip-padding-x: var(--fnd-spacing-03);          // 12px
   --nc-chip-padding-y: var(--fnd-spacing-01);          // 4px
+  --nc-chip-padding-avatar: var(--fnd-spacing-01);     // Reduziertes Padding neben Avatar
   --nc-chip-radius: var(--fnd-radius-full);            // pill
   --nc-chip-font-size: var(--fs-xs);
   --nc-chip-font-size-sm: var(--fs-xs);                    // 12px
@@ -904,13 +1461,25 @@
   --nc-chip-font-weight: var(--fnd-font-weight-semibold);
   --nc-chip-gap: var(--fnd-spacing-02);                // 8px
   --nc-chip-transition-duration: var(--fnd-motion-duration-200);
-  --nc-chip-scale-active: 0.98;
+  --nc-chip-scale-active: 0.96;
 
-  // -- Default (unselected) --
+  // -- Default / Filled (unselected) --
   --nc-chip-default-bg: transparent;
   --nc-chip-default-color: var(--fnd-color-text-primary);
   --nc-chip-default-border: var(--fnd-color-border-primary);
   --nc-chip-default-bg-hover: var(--fnd-color-background-secondary);
+
+  // -- Outline Variant --
+  --nc-chip-outline-bg: transparent;
+  --nc-chip-outline-color: var(--fnd-color-text-primary);
+  --nc-chip-outline-border: var(--fnd-color-border-primary);
+  --nc-chip-outline-bg-hover: var(--fnd-color-background-secondary);
+
+  // -- Ghost Variant --
+  --nc-chip-ghost-bg: transparent;
+  --nc-chip-ghost-color: var(--fnd-color-text-secondary);
+  --nc-chip-ghost-border: transparent;
+  --nc-chip-ghost-bg-hover: color-mix(in srgb, var(--fnd-color-text-primary) 6%, transparent);
 
   // -- Selected --
   --nc-chip-selected-bg: var(--fnd-color-interactive-default);
@@ -923,13 +1492,87 @@
 
   // -- Icon / Avatar --
   --nc-chip-icon-size: 16px;
-  --nc-chip-avatar-size: 20px;
+  --nc-chip-avatar-size: var(--nc-avatar-size-xs);      // Sync mit Avatar XS (24px → 20px)
+
+  // -- Count Badge --
+  --nc-chip-count-font-size: 0.625rem;                   // 10px
+  --nc-chip-count-height: 18px;
+  --nc-chip-count-min-width: 18px;
+  --nc-chip-count-padding-x: 4px;
+  --nc-chip-count-bg: color-mix(in srgb, currentColor 15%, transparent);
+  --nc-chip-count-radius: var(--fnd-radius-full);
+
+  // -- Group --
+  --nc-chip-group-gap: var(--fnd-spacing-02);
 
   // -- Disabled --
   --nc-chip-disabled-bg: var(--fnd-color-background-disabled);
   --nc-chip-disabled-color: var(--fnd-color-text-disabled);
   --nc-chip-disabled-border: var(--fnd-color-border-secondary);
   --nc-chip-opacity-disabled: var(--fnd-opacity-disabled);
+
+  // ---------------------------------------------------------------------------
+  // Item Tokens
+  // ---------------------------------------------------------------------------
+
+  // -- Layout --
+  --nc-item-gap: var(--fnd-spacing-03);
+  --nc-item-padding-x: var(--fnd-spacing-04);
+  --nc-item-padding-y: var(--fnd-spacing-03);
+  --nc-item-radius: var(--fnd-radius-sm);
+  --nc-item-align: center;
+  --nc-item-border-width: var(--fnd-border-width-xs);
+  --nc-item-transition: var(--fnd-motion-duration-200);
+
+  // -- Typography --
+  --nc-item-title-font-size: var(--fs-sm);
+  --nc-item-title-font-weight: var(--fnd-font-weight-bold);
+  --nc-item-title-line-height: 1.4;
+  --nc-item-title-color: var(--fnd-color-text-primary);
+  --nc-item-desc-font-size: var(--fs-xs);
+  --nc-item-desc-line-height: 1.5;
+  --nc-item-desc-color: var(--fnd-color-text-secondary);
+
+  // -- Colors --
+  --nc-item-bg: transparent;
+  --nc-item-border: transparent;
+  --nc-item-hover-bg: var(--fnd-color-background-secondary);
+  --nc-item-active-bg: var(--fnd-color-background-tertiary);
+
+  // -- Selected --
+  --nc-item-selected-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent);
+  --nc-item-selected-border: var(--fnd-color-interactive-default);
+  --nc-item-selected-accent-width: 2px;
+
+  // -- Accent Border (hover/active) --
+  --nc-item-accent-width: 2px;
+  --nc-item-accent-color: var(--fnd-color-interactive-default);
+
+  // -- Media --
+  --nc-item-media-size: 40px;
+  --nc-item-media-radius: var(--fnd-radius-sm);
+  --nc-item-media-bg: var(--fnd-color-background-secondary);
+  --nc-item-media-color: var(--fnd-color-text-secondary);
+
+  // -- Thumbnail (16:9) --
+  --nc-item-thumbnail-ratio: 16 / 9;
+  --nc-item-thumbnail-width: 120px;
+  --nc-item-thumbnail-radius: var(--fnd-radius-sm);
+
+  // -- Density: Compact --
+  --nc-item-compact-padding-x: var(--fnd-spacing-02);
+  --nc-item-compact-padding-y: var(--fnd-spacing-01);
+  --nc-item-compact-gap: var(--fnd-spacing-02);
+  --nc-item-compact-media-size: 28px;
+
+  // -- Density: Loose --
+  --nc-item-loose-padding-x: var(--fnd-spacing-05);
+  --nc-item-loose-padding-y: var(--fnd-spacing-04);
+  --nc-item-loose-gap: var(--fnd-spacing-04);
+  --nc-item-loose-media-size: 48px;
+
+  // -- Disabled --
+  --nc-item-disabled-opacity: var(--fnd-opacity-disabled);
 
   // ---------------------------------------------------------------------------
   // Toggle Group Tokens
@@ -939,6 +1582,7 @@
   --nc-toggle-group-radius: var(--nc-button-radius-md);          // 6px
   --nc-toggle-group-border: var(--fnd-color-border-primary);
   --nc-toggle-group-bg: var(--fnd-color-background-secondary);
+  --nc-toggle-group-shadow: none;
 
   // -- Item --
   --nc-toggle-group-item-bg: transparent;
@@ -950,6 +1594,19 @@
   --nc-toggle-group-item-selected-bg: var(--fnd-color-interactive-default);
   --nc-toggle-group-item-selected-color: var(--fnd-color-text-on-interactive);
   --nc-toggle-group-item-selected-border: var(--fnd-color-interactive-default);
+
+  // -- Item Soft Selected (helle Markenfarbe) --
+  --nc-toggle-group-item-soft-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent);
+  --nc-toggle-group-item-soft-color: var(--fnd-color-interactive-default);
+
+  // -- Underline Indicator --
+  --nc-toggle-group-underline-width: 2px;
+  --nc-toggle-group-underline-color: var(--fnd-color-interactive-default);
+
+  // -- Divider (subtile Trennlinie statt voller Border) --
+  --nc-toggle-group-divider-width: 1px;
+  --nc-toggle-group-divider-height: 50%;
+  --nc-toggle-group-divider-color: var(--fnd-color-border-secondary);
 
   // -- Item Disabled --
   --nc-toggle-group-item-disabled-bg: var(--fnd-color-background-disabled);
@@ -983,11 +1640,25 @@
   --nc-segmented-item-disabled-color: var(--fnd-color-text-disabled);
   --nc-segmented-item-disabled-opacity: var(--fnd-opacity-disabled);
 
+  // -- Badge (optional, z.B. "Inbox (5)") --
+  --nc-segmented-item-badge-bg: var(--fnd-color-background-tertiary);
+  --nc-segmented-item-badge-color: var(--fnd-color-text-secondary);
+  --nc-segmented-item-badge-bg-selected: color-mix(in srgb, var(--fnd-color-text-primary) 12%, transparent);
+  --nc-segmented-item-badge-color-selected: var(--fnd-color-text-primary);
+  --nc-segmented-item-badge-radius: var(--fnd-radius-full);
+  --nc-segmented-item-badge-padding: 0 var(--fnd-spacing-02);
+  --nc-segmented-item-badge-font-size: 0.75em;
+
+  // -- Indicator (Sliding active background) --
+  --nc-segmented-indicator-transition: var(--fnd-motion-duration-300);
+
   --nc-segmented-transition-duration: var(--fnd-motion-duration-200);
 
   // ---------------------------------------------------------------------------
   // Toast / Sonner Tokens
   // ---------------------------------------------------------------------------
+  // Temporaere Feedback-Nachrichten. Overlay-Familie: surface-elevated.
+  // Pause on Hover/Focus, Queue-Limit, Swipe-to-Dismiss, Undo-Action.
 
   // -- Layout --
   --nc-toast-z-index: var(--fnd-z-toast);
@@ -1003,13 +1674,28 @@
   --nc-toast-font-size: var(--fs-sm);
   --nc-toast-description-font-size: var(--fs-xs);
 
+  // -- Close Button --
+  --nc-toast-close-size: 20px;
+  --nc-toast-close-opacity: var(--fnd-opacity-disabled);
+  --nc-toast-close-bg-hover: color-mix(in srgb, currentColor 10%, transparent);
+
+  // -- Action Button --
+  --nc-toast-action-padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+  --nc-toast-action-radius: var(--fnd-radius-sm);
+  --nc-toast-action-font-size: var(--fs-xs);
+
   // -- Animation --
   --nc-toast-animation-duration: var(--fnd-motion-duration-300);
   --nc-toast-animation-easing: ease-out;
+  --nc-toast-stack-transition: var(--fnd-motion-duration-200);        // Nachrück-Animation beim Entfernen
 
   // -- Progress Bar --
   --nc-toast-progress-height: 3px;
   --nc-toast-auto-dismiss-duration: 5000;                             // ms (JS)
+
+  // -- Queue Management (JS) --
+  --nc-toast-max-visible: 3;                                          // Maximale gleichzeitig sichtbare Toasts
+  --nc-toast-swipe-threshold: 100;                                    // px — Mindest-Swipe-Distanz zum Dismissen
 
   // -- Default Variant --
   --nc-toast-default-bg: var(--fnd-color-surface-elevated);
@@ -1207,6 +1893,48 @@
   // -- Spaltentyp: Datum --
   --nc-dt-date-font-feature:        'tnum';                                  // tabular-nums
 
+  // ====================================================================
+  // DataTable v2.0.0 — Neue Tokens
+  // ====================================================================
+
+  // -- Stacked Layout (Mobile Card View) --
+  --nc-dt-stacked-breakpoint:        768px;                                   // Unterhalb: Card-Layout
+  --nc-dt-stacked-card-gap:          var(--fnd-spacing-03);                   // Gap zwischen Cards
+  --nc-dt-stacked-card-padding:      var(--fnd-spacing-04);                   // Padding in Cards
+  --nc-dt-stacked-card-radius:       var(--fnd-radius-sm);                    // Card-Ecken
+  --nc-dt-stacked-card-border:       var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
+  --nc-dt-stacked-label-width:       120px;                                   // Label-Breite in Card-Zeilen
+  --nc-dt-stacked-label-color:       var(--fnd-color-text-secondary);         // Label-Farbe
+  --nc-dt-stacked-label-font-weight: var(--fnd-font-weight-semibold);
+
+  // -- Batch Bar v2 (Zaehler + Clear All) --
+  --nc-dt-batch-shadow:              var(--fnd-elevation-raised);             // Shadow fuer schwebende Batch-Bar
+  --nc-dt-batch-count-font-size:     var(--fs-sm);
+  --nc-dt-batch-clear-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent);
+
+  // -- Sticky Columns --
+  --nc-dt-sticky-col-shadow:         4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent);
+  --nc-dt-sticky-col-shadow-end:     -4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent);
+  --nc-dt-sticky-col-bg:             var(--nc-dt-body-bg);                    // BG fuer sticky Columns (ueberlagert Row-BG)
+
+  // -- Skeleton Varianten (Breiten-Typen) --
+  --nc-dt-skeleton-width-avatar:     32px;                                    // Runder Skeleton (Avatar)
+  --nc-dt-skeleton-width-numeric:    48px;                                    // Schmaler Skeleton (Zahlen)
+  --nc-dt-skeleton-width-text:       75%;                                     // Standard-Breite
+
+  // -- Variante: Card (erhobene Tabelle in Card-Container) --
+  --nc-dt-card-shadow:               var(--fnd-elevation-raised);             // Card-Elevation
+  --nc-dt-card-bg:                   var(--fnd-color-background-base);
+
+  // -- Variante: Glass (transparente Zeilen fuer moderne Dashboards) --
+  --nc-dt-glass-bg:                  color-mix(in srgb, var(--fnd-color-background-base) 60%, transparent);
+  --nc-dt-glass-header-bg:           color-mix(in srgb, var(--fnd-color-background-secondary) 40%, transparent);
+  --nc-dt-glass-border:              var(--fnd-border-width-xs) solid color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent);
+  --nc-dt-glass-backdrop-blur:       8px;
+
+  // -- Content: Truncate / Wrap --
+  --nc-dt-cell-line-clamp:           1;                                       // Zeilen-Limit bei wrap-Modus
+
   // -- Table Title Bar (oberhalb Toolbar/Tabelle) --
   --nc-dt-title-bar-padding:        var(--fnd-spacing-04) var(--fnd-spacing-04) 0; // 16px 16px 0
   --nc-dt-title-bar-gap:            var(--fnd-spacing-02);                   // 8px — ref(card.header.gap)
@@ -1217,6 +1945,74 @@
   --nc-dt-description-font-size:    var(--fnd-typography-body-m-font-size);
   --nc-dt-description-color:        var(--fnd-color-text-secondary);         // ref(card.desc.color)
   --nc-dt-description-line-height:  1.5;                                     // ref(card.desc.lh)
+}
+
+// ---------------------------------------------------------------------------
+// Compare-Table Tokens
+// ---------------------------------------------------------------------------
+// Einfache Vergleichstabelle (nicht DataTable) mit inverser Header-Zeile.
+// v2.0.0: Zebra-Striping, Row-Hover, Sticky-Header, Density, Grid-Style,
+//         Selection (Checkbox), Sortable, Spalten-Alignment.
+// ---------------------------------------------------------------------------
+
+:root {
+  // -- Container --
+  --nc-table-bg: var(--fnd-color-background-base);
+  --nc-table-radius: var(--fnd-radius-md);
+  --nc-table-shadow: var(--fnd-elevation-raised);
+  --nc-table-border-color: var(--fnd-color-border-secondary);
+  --nc-table-border-width: var(--fnd-border-width-xs);
+
+  // -- Header --
+  --nc-table-header-bg: var(--fnd-color-background-inverse);
+  --nc-table-header-color: var(--fnd-color-text-inverse);
+  --nc-table-header-font-size: var(--fs-sm);
+  --nc-table-header-font-weight: var(--fnd-font-weight-semibold);
+  --nc-table-header-letter-spacing: 0.01em;
+
+  // -- Cell Padding (3 Density-Stufen) --
+  --nc-table-cell-padding-compact: var(--fnd-spacing-02) var(--fnd-spacing-03);
+  --nc-table-cell-padding-default: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  --nc-table-cell-padding-expressive: var(--fnd-spacing-04) var(--fnd-spacing-05);
+  --nc-table-cell-padding: var(--nc-table-cell-padding-default);
+
+  // -- Row --
+  --nc-table-row-border-color: var(--fnd-color-border-secondary);
+  --nc-table-row-border-width: var(--fnd-border-width-xs);
+
+  // -- Row Hover --
+  --nc-table-row-bg-hover: var(--fnd-color-background-secondary);
+
+  // -- Zebra-Striping --
+  --nc-table-stripe-bg: color-mix(in srgb, var(--fnd-color-background-secondary) 50%, transparent);
+
+  // -- Selected Row --
+  --nc-table-row-bg-selected: var(--fnd-color-background-tertiary);
+  --nc-table-row-border-selected: var(--fnd-color-interactive-default);
+
+  // -- Sticky Header --
+  --nc-table-sticky-shadow: var(--fnd-elevation-raised);
+  --nc-table-sticky-z-index: var(--fnd-z-sticky);
+
+  // -- Sortable --
+  --nc-table-sort-icon-size: 14px;
+  --nc-table-sort-icon-color: var(--fnd-color-text-tertiary);
+  --nc-table-sort-icon-color-active: var(--fnd-color-text-primary);
+
+  // -- Checkbox (Selection) --
+  --nc-table-checkbox-size: 16px;
+  --nc-table-checkbox-column-width: 48px;
+
+  // -- Typography --
+  --nc-table-font-size: var(--fs-sm);
+  --nc-table-color: var(--fnd-color-text-primary);
+  --nc-table-color-secondary: var(--fnd-color-text-secondary);
+  --nc-table-transition-duration: var(--fnd-motion-duration-150);
+
+  // -- Ghost Variant (dezent, fuer Card-Integration) --
+  --nc-table-ghost-header-bg: transparent;
+  --nc-table-ghost-header-color: var(--fnd-color-text-secondary);
+  --nc-table-ghost-border-color: transparent;
 }
 
 // ---------------------------------------------------------------------------
@@ -1366,6 +2162,32 @@
 
   // Ellipsis
   --nc-pagination-ellipsis-color:   var(--fnd-color-text-tertiary);
+
+  // -- Active-Indikator (Unterlinie) --
+  --nc-pagination-active-indicator-height: 2px;
+  --nc-pagination-active-indicator-color:  var(--fnd-color-interactive-default);
+
+  // -- Raised (Shadow auf aktiver Seite) --
+  --nc-pagination-item-shadow-active: var(--fnd-elevation-raised);
+
+  // -- Touch-Target (Mobile, unsichtbar vergroessert) --
+  --nc-pagination-touch-min:        44px;
+
+  // -- Minimal-Variante (nur Prev/Info/Next) --
+  --nc-pagination-minimal-info-color: var(--fnd-color-text-secondary);
+  --nc-pagination-minimal-info-size:  var(--fs-sm);
+
+  // -- Jumper (Gehe-zu-Seite Input) --
+  --nc-pagination-jumper-width:     56px;
+  --nc-pagination-jumper-height:    var(--fnd-size-sm);
+  --nc-pagination-jumper-radius:    var(--fnd-radius-sm);
+  --nc-pagination-jumper-border:    var(--fnd-border-width-xs) solid var(--fnd-color-border-primary);
+  --nc-pagination-jumper-font-size: var(--fs-sm);
+  --nc-pagination-jumper-color:     var(--fnd-color-text-primary);
+
+  // -- Outline-Variante (Border statt Hintergrund) --
+  --nc-pagination-outline-border:   var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
+  --nc-pagination-outline-border-active: var(--fnd-border-width-sm) solid var(--fnd-color-interactive-default);
 }
 
 // ---------------------------------------------------------------------------
@@ -1412,6 +2234,21 @@
   // Separator
   --nc-dropdown-separator-color:    var(--fnd-color-border-secondary);
   --nc-dropdown-separator-margin:   var(--fnd-spacing-01);           // 4px
+
+  // Checkable Items (selectionMode: single/multiple)
+  --nc-dropdown-check-size:         16px;
+  --nc-dropdown-check-color:        var(--fnd-color-interactive-default);
+  --nc-dropdown-check-gap:          var(--fnd-spacing-02);           // 8px
+
+  // Submenu Indicator (Cascading Menus)
+  --nc-dropdown-submenu-indicator-size:  12px;
+  --nc-dropdown-submenu-indicator-color: var(--fnd-color-text-tertiary);
+  --nc-dropdown-submenu-offset:     0px;                              // Horizontaler Versatz des Submenus
+
+  // Footer
+  --nc-dropdown-footer-padding:     var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
+  --nc-dropdown-footer-bg:          var(--fnd-color-background-secondary);
+  --nc-dropdown-footer-border-color: var(--fnd-color-border-secondary);
 }
 
 // ---------------------------------------------------------------------------
@@ -1450,6 +2287,7 @@
   --nc-banner-z-index:              var(--fnd-z-notification);
   --nc-banner-font-size:            var(--fs-sm);
   --nc-banner-font-weight:          var(--fnd-font-weight-medium);
+  --nc-banner-icon-size:            16px;
 
   // Info (default)
   --nc-banner-info-bg:              var(--fnd-color-interactive-default);
@@ -1467,6 +2305,10 @@
   --nc-banner-success-bg:           var(--fnd-color-feedback-success);
   --nc-banner-success-color:        var(--fnd-color-on-success);
 
+  // Border-Accent (optionale dezente Variante: subtiler BG + Akzent-Border)
+  --nc-banner-accent-border-width:  4px;
+  --nc-banner-accent-border-color:  currentColor;
+
   // Close Button
   --nc-banner-close-size:           20px;
   --nc-banner-close-radius:         var(--fnd-radius-sm);
@@ -1476,6 +2318,77 @@
   // CTA Link
   --nc-banner-link-weight:          var(--fnd-font-weight-bold);
   --nc-banner-link-underline:       underline;
+
+  // Dismiss Animation
+  --nc-banner-dismiss-duration:     var(--fnd-motion-duration-300);
+
+  // Title Prefix
+  --nc-banner-title-weight:         var(--fnd-font-weight-bold);
+}
+
+// ---------------------------------------------------------------------------
+// Notification (News-Alert) Tokens
+// ---------------------------------------------------------------------------
+// Spezialisiertes News-Alert-Modul fuer In-App-Neuigkeiten,
+// Feature-Updates und System-Ankuendigungen. Floating-Card Surface.
+
+:root {
+  // Container
+  --nc-notification-padding:             var(--fnd-spacing-05);           // 20px
+  --nc-notification-radius:              var(--fnd-radius-md);           // card-radius Referenz
+  --nc-notification-shadow:              var(--fnd-elevation-overlay);   // popover-shadow Referenz (L2)
+  --nc-notification-bg:                  var(--fnd-color-surface-elevated);
+  --nc-notification-border-width:        var(--fnd-border-width-xs);
+  --nc-notification-border-color:        var(--fnd-color-border-secondary);
+  --nc-notification-max-width:           400px;
+  --nc-notification-gap:                 var(--fnd-spacing-03);          // 12px
+
+  // Header
+  --nc-notification-header-gap:          var(--fnd-spacing-02);          // 8px
+  --nc-notification-title-size:          var(--fs-sm);
+  --nc-notification-title-weight:        var(--fnd-font-weight-semibold);
+  --nc-notification-title-color:         var(--fnd-color-text-primary);
+  --nc-notification-meta-size:           var(--fs-xs);
+  --nc-notification-meta-color:          var(--fnd-color-text-tertiary);
+
+  // Body
+  --nc-notification-body-size:           var(--fs-sm);
+  --nc-notification-body-color:          var(--fnd-color-text-secondary);
+  --nc-notification-body-line-height:    1.5;
+
+  // Media Slot (Thumbnail/Avatar)
+  --nc-notification-media-size:          48px;
+  --nc-notification-media-radius:        var(--fnd-radius-sm);
+
+  // Unread Indicator
+  --nc-notification-unread-dot-size:     8px;
+  --nc-notification-unread-dot-color:    var(--fnd-color-interactive-default);
+  --nc-notification-unread-bg:           color-mix(in srgb, var(--fnd-color-interactive-default) 6%, transparent);
+
+  // Close Button
+  --nc-notification-close-size:          24px;
+  --nc-notification-close-radius:        var(--fnd-radius-sm);
+  --nc-notification-close-opacity:       var(--fnd-opacity-disabled);
+  --nc-notification-close-opacity-hover: 1;
+
+  // Footer
+  --nc-notification-footer-gap:          var(--fnd-spacing-03);
+  --nc-notification-action-size:         var(--fs-xs);
+  --nc-notification-action-weight:       var(--fnd-font-weight-semibold);
+  --nc-notification-action-color:        var(--fnd-color-interactive-default);
+
+  // Priority High (Akzent-Border links)
+  --nc-notification-priority-border-width: 4px;
+  --nc-notification-priority-border-color: var(--fnd-color-feedback-warning);
+
+  // Type Colors (Icon/Akzent)
+  --nc-notification-feature-color:       var(--fnd-color-interactive-default);
+  --nc-notification-system-color:        var(--fnd-color-feedback-warning);
+  --nc-notification-promo-color:         var(--fnd-color-feedback-success);
+
+  // Animation
+  --nc-notification-transition-duration: var(--fnd-motion-duration-200);
+  --nc-notification-dismiss-duration:    var(--fnd-motion-duration-300);
 }
 
 // ---------------------------------------------------------------------------
@@ -1507,15 +2420,16 @@
 // ---------------------------------------------------------------------------
 // Popover Tokens
 // ---------------------------------------------------------------------------
-// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen).
-// Baut auf Tooltip-Pattern auf, erlaubt aber Interaktion.
+// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen, Filter).
+// Overlay-Level 2 (zwischen Dropdown L1 und Modal L3).
+// Gleiche "Materialitaet" wie Dropdown/Modal: surface-elevated, einheitliche Border/Radius.
 
 :root {
-  --nc-popover-bg:                var(--fnd-color-background-base);
+  --nc-popover-bg:                var(--fnd-color-surface-elevated);
   --nc-popover-border:            var(--fnd-color-border-secondary);
   --nc-popover-border-width:      var(--fnd-border-width-xs);      // 1px
   --nc-popover-radius:            var(--fnd-radius-sm);            // 4px
-  --nc-popover-shadow:            var(--fnd-elevation-floating);
+  --nc-popover-shadow:            var(--fnd-elevation-overlay);    // Level 2 (Dropdown=floating L1, Modal=modal L3)
   --nc-popover-padding:           var(--fnd-spacing-04);           // 16px
   --nc-popover-min-width:         200px;
   --nc-popover-max-width:         360px;
@@ -1523,9 +2437,9 @@
   --nc-popover-offset:            var(--fnd-spacing-02);           // 8px Abstand zum Trigger
   --nc-popover-animation-duration: var(--fnd-motion-duration-150);
 
-  // Arrow
+  // Arrow (optional, dezent — Select/Dropdown haben keinen Pfeil)
   --nc-popover-arrow-size:        8px;
-  --nc-popover-arrow-bg:          var(--fnd-color-background-base);
+  --nc-popover-arrow-bg:          var(--fnd-color-surface-elevated);
   --nc-popover-arrow-border:      var(--fnd-color-border-secondary);
 
   // Header (optionaler Titel im Popover)
@@ -1533,10 +2447,17 @@
   --nc-popover-header-border:     var(--fnd-color-border-secondary);
   --nc-popover-header-font-size:  var(--fs-sm);
   --nc-popover-header-font-weight: var(--fnd-font-weight-semibold);
+  --nc-popover-header-color:      var(--fnd-color-text-primary);
 
   // Footer
   --nc-popover-footer-padding:    var(--fnd-spacing-03) var(--fnd-spacing-04);
   --nc-popover-footer-border:     var(--fnd-color-border-secondary);
+
+  // Close-Button (im Header)
+  --nc-popover-close-size:        24px;
+  --nc-popover-close-radius:      var(--fnd-radius-sm);
+  --nc-popover-close-bg-hover:    var(--fnd-color-background-hover);
+  --nc-popover-close-icon-size:   14px;
 }
 
 // ---------------------------------------------------------------------------
@@ -1643,11 +2564,211 @@
   --nc-toolbar-separator-color:   var(--fnd-color-border-secondary);
   --nc-toolbar-separator-width:   var(--fnd-border-width-xs);      // 1px
   --nc-toolbar-separator-margin:  var(--fnd-spacing-01);           // 4px
+  --nc-toolbar-separator-height:  24px;                            // Feste Hoehe statt stretch
 
   // Label (optionaler Text in der Toolbar)
   --nc-toolbar-label-color:       var(--fnd-color-text-secondary);
   --nc-toolbar-label-size:        var(--fs-sm);
   --nc-toolbar-label-weight:      var(--fnd-font-weight-medium);
+
+  // -- Compact (ueberschriebene Werte) --
+  --nc-toolbar-compact-height:    var(--fnd-size-sm);              // 32px
+  --nc-toolbar-compact-gap:       var(--fnd-spacing-01);           // 4px
+  --nc-toolbar-compact-padding:   var(--fnd-spacing-01) var(--fnd-spacing-02);
+
+  // -- Floating Variante (Canvas-Editor, Card-aehnlich) --
+  --nc-toolbar-floating-bg:       var(--fnd-color-surface-elevated);
+  --nc-toolbar-floating-radius:   var(--fnd-radius-md);            // 8px
+  --nc-toolbar-floating-shadow:   var(--fnd-elevation-floating);
+  --nc-toolbar-floating-border:   var(--fnd-color-border-secondary);
+
+  // -- Blurred Variante (Glassmorphism) --
+  --nc-toolbar-blurred-bg:        color-mix(in srgb, var(--fnd-color-background-base) 80%, transparent);
+  --nc-toolbar-blurred-blur:      12px;
+  --nc-toolbar-blurred-border:    color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent);
+
+  // -- Sticky Variante --
+  --nc-toolbar-sticky-shadow:     var(--fnd-shadow-sm);
+  --nc-toolbar-sticky-z-index:    var(--fnd-z-sticky);
+
+  // -- Overflow-Menu (Priority-Based Overflow) --
+  --nc-toolbar-overflow-trigger-size: var(--fnd-size-sm);          // 32px
+}
+
+// ---------------------------------------------------------------------------
+// Nav Atoms Tokens
+// ---------------------------------------------------------------------------
+// Primitive Bausteine: Icon, Label, Badge-Dot.
+
+:root {
+  // Icon
+  --nc-nav-atom-icon-size:         24px;
+  --nc-nav-atom-icon-color:        var(--fnd-color-text-primary);
+  --nc-nav-atom-icon-stroke:       1.5;
+
+  // Label
+  --nc-nav-atom-label-size:        var(--fs-sm);
+  --nc-nav-atom-label-weight:      var(--fnd-font-weight-medium);
+  --nc-nav-atom-label-color:       var(--fnd-color-text-primary);
+
+  // Badge-Dot (Notification-Indikator)
+  --nc-nav-atom-badge-size:        8px;
+  --nc-nav-atom-badge-color:       var(--fnd-color-feedback-danger);
+  --nc-nav-atom-badge-offset:      -2px;
+  --nc-nav-atom-badge-ring-width:  2px;
+  --nc-nav-atom-badge-ring-color:  var(--fnd-color-background-base);
+}
+
+// ---------------------------------------------------------------------------
+// Nav Molecules Tokens
+// ---------------------------------------------------------------------------
+// Interaktive Nav-Elemente: Link, Toggle, Mobile-Toggle, Lang-Switch.
+
+:root {
+  // -- Nav Link (Shared Interaction) --
+  --nc-nav-mol-link-gap:           var(--fnd-spacing-02);        // 8px
+  --nc-nav-mol-link-padding-x:     0.75rem;
+  --nc-nav-mol-link-padding-y:     0.5rem;
+  --nc-nav-mol-link-radius:        var(--fnd-radius-sm);
+  --nc-nav-mol-link-color:         var(--fnd-color-text-primary);
+  --nc-nav-mol-link-hover-bg:      var(--fnd-color-background-secondary);
+  --nc-nav-mol-link-hover-color:   var(--fnd-color-interactive-default);
+  --nc-nav-mol-link-active-weight: var(--fnd-font-weight-semibold);
+  --nc-nav-mol-link-active-border: var(--fnd-color-interactive-default);   // accent underline
+  --nc-nav-mol-link-active-width:  2px;
+
+  // -- Nav Toggle (Hamburger / Mobile) --
+  --nc-nav-mol-toggle-size:        var(--fnd-size-xs);            // 40px
+  --nc-nav-mol-toggle-bar-height:  2px;
+  --nc-nav-mol-toggle-bar-gap:     5px;
+  --nc-nav-mol-toggle-bar-radius:  var(--fnd-radius-xs);
+  --nc-nav-mol-toggle-bar-color:   currentColor;
+
+  // -- Mobile Panel --
+  --nc-nav-mol-mobile-bg:          var(--fnd-color-background-base);
+  --nc-nav-mol-mobile-border:      var(--fnd-color-border-secondary);
+  --nc-nav-mol-mobile-padding:     var(--fnd-spacing-05);         // 20px
+  --nc-nav-mol-mobile-gap:         var(--fnd-spacing-04);         // 16px
+  --nc-nav-mol-mobile-link-padding: 0.5rem 0;
+  --nc-nav-mol-mobile-link-border: var(--fnd-color-border-secondary);
+
+  // -- Lang Toggle --
+  --nc-nav-mol-lang-bg:            var(--fnd-color-background-secondary);
+  --nc-nav-mol-lang-radius:        var(--fnd-radius-sm);
+  --nc-nav-mol-lang-padding:       0 0.5rem;
+  --nc-nav-mol-lang-active-bg:     var(--fnd-color-background-inverse);
+  --nc-nav-mol-lang-active-color:  var(--fnd-color-text-inverse);
+  --nc-nav-mol-lang-active-radius: var(--fnd-radius-sm);
+}
+
+// ---------------------------------------------------------------------------
+// Navigation Orchestration Tokens
+// ---------------------------------------------------------------------------
+// Kompositions-Governance: Token-Sync, Compact-Density, Mobile-Breakpoint.
+// Dieses Recipe definiert keine eigenen visuellen Styles, sondern orchestriert
+// die Token-Vererbung zwischen Shell → Navigation → Menu → Molecules → Atoms.
+
+:root {
+  // -- Composition Map (Referenz-Tokens fuer die Kaskade) --
+  --nc-nav-orch-shell-z-index:    var(--nc-shell-z-navbar);        // Z-Index von Shell
+  --nc-nav-orch-height:           var(--nc-nav-height);             // Header-Hoehe
+  --nc-nav-orch-gap:              var(--nc-nav-gap);                // Link-Abstand
+  --nc-nav-orch-icon-size:        var(--nc-nav-atom-icon-size);     // Icon-Baseline
+  --nc-nav-orch-link-hover-bg:    var(--nc-nav-mol-link-hover-bg);  // Shared Hover-BG
+  --nc-nav-orch-link-active-border: var(--nc-nav-mol-link-active-border); // Shared Active-Accent
+  --nc-nav-orch-viewport-shadow:  var(--nc-nav-menu-viewport-shadow); // Dropdown-Shadow
+
+  // -- Sync Rules (dokumentatorisch — Werte kaskadieren via var()) --
+  --nc-nav-orch-sync-height:      var(--nc-nav-height);             // nav-height → scroll-margin-top
+  --nc-nav-orch-sync-interaction: var(--nc-nav-mol-link-hover-bg);  // mol-hover → menu-trigger-hover
+  --nc-nav-orch-sync-elevation:   var(--nc-popover-shadow);         // popover-shadow → viewport-shadow
+  --nc-nav-orch-sync-spacing:     var(--nc-nav-gap);                // nav-gap → menu-list-gap
+
+  // -- Mobile Orchestration --
+  --nc-nav-orch-mobile-breakpoint: 1200px;
+  --nc-nav-orch-mobile-drawer-width: var(--nc-shell-sidebar-left-width);
+
+  // -- Compact Density --
+  --nc-nav-orch-compact-height:   var(--fnd-size-lg);               // 48px statt 64px
+  --nc-nav-orch-compact-gap:      var(--fnd-spacing-04);            // 16px statt 24px
+  --nc-nav-orch-compact-padding:  var(--fnd-spacing-02);            // 8px statt 16px
+}
+
+// ---------------------------------------------------------------------------
+// Navigation (Header) Tokens
+// ---------------------------------------------------------------------------
+// Sticky Header mit Logo, Links, Actions.
+
+:root {
+  --nc-nav-height:                var(--fnd-size-xl);                // 64px
+  --nc-nav-bg:                    color-mix(in srgb, var(--fnd-color-background-base) 90%, transparent);
+  --nc-nav-bg-solid:              var(--fnd-color-background-base);
+  --nc-nav-border:                var(--fnd-color-border-secondary);
+  --nc-nav-border-width:          var(--fnd-border-width-xs);
+  --nc-nav-blur:                  12px;
+  --nc-nav-z-index:               var(--fnd-z-header);
+  --nc-nav-padding-block:         var(--fnd-spacing-04);             // 16px
+  --nc-nav-gap:                   var(--fnd-spacing-06);             // 24px
+  --nc-nav-brand-size:            var(--fs-xl);
+  --nc-nav-brand-weight:          var(--fnd-font-weight-bold);
+
+  // -- Emphasis: Transparent (Hero-Overlay) --
+  --nc-nav-transparent-bg:        transparent;
+  --nc-nav-transparent-border:    transparent;
+  --nc-nav-transparent-color:     var(--fnd-color-always-light);
+
+  // -- Sticky-Scroll Shadow --
+  --nc-nav-sticky-shadow:         var(--fnd-shadow-sm);
+}
+
+// ---------------------------------------------------------------------------
+// Navigation Menu Tokens
+// ---------------------------------------------------------------------------
+// Radix-inspiriertes NavigationMenu: Trigger, Viewport, Links, Indicator.
+
+:root {
+  // Trigger (Top-Level Button/Link)
+  --nc-nav-menu-trigger-color:       var(--fnd-color-text-primary);
+  --nc-nav-menu-trigger-hover-bg:    var(--fnd-color-background-secondary);
+  --nc-nav-menu-trigger-active-bg:   var(--fnd-color-background-tertiary);
+  --nc-nav-menu-trigger-radius:      var(--fnd-radius-sm);
+  --nc-nav-menu-trigger-font-size:   var(--fs-sm);
+  --nc-nav-menu-trigger-font-weight: var(--fnd-font-weight-medium);
+  --nc-nav-menu-trigger-padding-x:   0.75rem;
+  --nc-nav-menu-trigger-padding-y:   0.5rem;
+
+  // Viewport (Dropdown-Container)
+  --nc-nav-menu-viewport-bg:         var(--fnd-color-surface-elevated);
+  --nc-nav-menu-viewport-border:     var(--fnd-color-border-secondary);
+  --nc-nav-menu-viewport-radius:     var(--fnd-radius-sm);
+  --nc-nav-menu-viewport-shadow:     var(--fnd-elevation-floating);
+  --nc-nav-menu-viewport-width:      500px;
+
+  // Content (Dropdown-Panel)
+  --nc-nav-menu-content-padding:     1rem;
+  --nc-nav-menu-content-width:       500px;
+
+  // Link (im Dropdown)
+  --nc-nav-menu-link-radius:         var(--fnd-radius-sm);
+  --nc-nav-menu-link-hover-bg:       var(--fnd-color-background-secondary);
+  --nc-nav-menu-link-padding:        0.75rem;
+
+  // Indicator (Unterstrich / Pfeil)
+  --nc-nav-menu-indicator-color:     var(--fnd-color-interactive-default);
+  --nc-nav-menu-indicator-height:    2px;
+
+  // Mega-Menu (Grid-Layout)
+  --nc-nav-menu-mega-columns:        2;
+  --nc-nav-menu-mega-gap:            var(--fnd-spacing-04);
+
+  // Featured Item (Highlight im Mega-Menu)
+  --nc-nav-menu-featured-bg:         linear-gradient(135deg, var(--fnd-color-background-secondary), var(--fnd-color-background-tertiary));
+  --nc-nav-menu-featured-radius:     var(--fnd-radius-sm);
+  --nc-nav-menu-featured-padding:    1rem;
+
+  // Motion
+  --nc-nav-menu-duration:            200ms;
+  --nc-nav-menu-ease:                cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 // ---------------------------------------------------------------------------
@@ -1694,6 +2815,36 @@
   // Shortcut Hint
   --nc-search-shortcut-color:     var(--fnd-color-text-tertiary);
   --nc-search-shortcut-size:      var(--fs-xs);
+
+  // -- Scope (Bereichs-Eingrenzung) --
+  --nc-search-scope-bg:           var(--fnd-color-background-secondary);
+  --nc-search-scope-color:        var(--fnd-color-text-secondary);
+  --nc-search-scope-border:       var(--fnd-color-border-secondary);
+  --nc-search-scope-radius:       var(--fnd-radius-sm);
+  --nc-search-scope-font-size:    var(--fs-xs);
+  --nc-search-scope-padding:      var(--fnd-spacing-01) var(--fnd-spacing-02);
+  --nc-search-scope-gap:          var(--fnd-spacing-02);
+
+  // -- Appearance: Minimal (Header-Search) --
+  --nc-search-minimal-bg:         transparent;
+  --nc-search-minimal-border:     transparent;
+  --nc-search-minimal-border-focus: var(--fnd-color-interactive-focus);
+
+  // -- Size: XL (Hero-Search) --
+  --nc-search-xl-height:          64px;
+  --nc-search-xl-font-size:       var(--fs-lg);
+  --nc-search-xl-icon-size:       24px;
+  --nc-search-xl-radius:          var(--fnd-radius-md);
+  --nc-search-xl-shadow:          var(--fnd-elevation-floating);
+
+  // -- Command Palette (modales Overlay) --
+  --nc-search-command-max-width:  640px;
+  --nc-search-command-shadow:     var(--fnd-shadow-xl);
+  --nc-search-command-radius:     var(--fnd-radius-md);
+  --nc-search-command-overlay-bg: color-mix(in srgb, var(--fnd-color-text-primary) 40%, transparent);
+
+  // -- Ghost / Type-Ahead --
+  --nc-search-ghost-color:        var(--fnd-color-text-tertiary);
 }
 
 // ---------------------------------------------------------------------------
@@ -1744,6 +2895,40 @@
   --nc-cs-show-more-font-size: var(--fs-sm);
   --nc-cs-show-more-height:    var(--fnd-size-sm);               // 32px
 
+  // Header (optionale Titelleiste mit Dateiname/Label)
+  --nc-cs-header-bg:              var(--fnd-color-background-secondary);
+  --nc-cs-header-color:           var(--fnd-color-text-secondary);
+  --nc-cs-header-height:          36px;
+  --nc-cs-header-padding:         0 var(--fnd-spacing-04);
+  --nc-cs-header-font-size:       var(--fs-xs);
+  --nc-cs-header-font-weight:     var(--fnd-font-weight-medium);
+  --nc-cs-header-border:          var(--fnd-color-border-secondary);
+
+  // Header macOS Dots
+  --nc-cs-header-dot-size:        12px;
+  --nc-cs-header-dot-gap:         var(--fnd-spacing-02);
+  --nc-cs-header-dot-close:       #ff5f57;
+  --nc-cs-header-dot-minimize:    #febc2e;
+  --nc-cs-header-dot-maximize:    #28c840;
+
+  // Zeilennummern
+  --nc-cs-line-numbers-color:     var(--fnd-color-text-tertiary);
+  --nc-cs-line-numbers-width:     40px;
+  --nc-cs-line-numbers-padding:   0 var(--fnd-spacing-03) 0 var(--fnd-spacing-04);
+  --nc-cs-line-numbers-border:    var(--fnd-color-border-secondary);
+
+  // Zeilen-Highlight
+  --nc-cs-line-highlight-bg:      color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent);
+  --nc-cs-line-highlight-border:  var(--fnd-color-interactive-default);
+  --nc-cs-line-highlight-width:   3px;
+
+  // Copy Tooltip
+  --nc-cs-copy-tooltip-bg:        var(--fnd-color-text-primary);
+  --nc-cs-copy-tooltip-color:     var(--fnd-color-background-base);
+  --nc-cs-copy-tooltip-radius:    var(--fnd-radius-xs);
+  --nc-cs-copy-tooltip-font-size: var(--fs-xs);
+  --nc-cs-copy-success-color:     var(--fnd-color-feedback-success);
+
   // Syntax-Highlighting (Prism Token-Gruppen)
   // Light: -600 Shades fuer Kontrast auf layer-01 (#f5f5f5)
   --nc-cs-syntax-comment:      var(--fnd-color-text-tertiary);
@@ -1759,6 +2944,75 @@
   --nc-cs-syntax-attr-value:   #059669;                          // emerald-600
   --nc-cs-syntax-selector:     #8b5cf6;                          // violet-500
   --nc-cs-syntax-punctuation:  var(--fnd-color-text-tertiary);
+}
+
+// ---------------------------------------------------------------------------
+// Metric Tokens
+// ---------------------------------------------------------------------------
+// KPI / Big-Number Anzeige mit Label, Trend und Vergleichszeitraum.
+// Varianten: solid (inverse BG) + subtle (helle BG).
+// Groessen: md (kompakt), lg (standard), xl (Hero).
+
+:root {
+  // Container
+  --nc-metric-bg:                  var(--fnd-color-background-inverse);
+  --nc-metric-color:               var(--fnd-color-text-inverse);
+  --nc-metric-radius:              var(--fnd-radius-sm);
+  --nc-metric-padding:             var(--fnd-spacing-06);
+  --nc-metric-gap:                 var(--fnd-spacing-02);
+
+  // Value (Big Number)
+  --nc-metric-value-font-family:   var(--font-heading);
+  --nc-metric-value-font-size:     var(--fs-6xl);
+  --nc-metric-value-font-weight:   var(--fnd-font-weight-black);
+  --nc-metric-value-color:         var(--fnd-color-background-accent);
+  --nc-metric-value-line-height:   1.1;
+
+  // Unit (Einheit neben dem Wert)
+  --nc-metric-unit-font-size:      var(--fs-xl);
+  --nc-metric-unit-color:          var(--fnd-color-background-accent);
+  --nc-metric-unit-font-weight:    var(--fnd-font-weight-bold);
+
+  // Label (Beschriftung ueber dem Wert)
+  --nc-metric-label-font-size:     var(--fs-sm);
+  --nc-metric-label-color:         var(--fnd-color-text-inverse);
+  --nc-metric-label-font-weight:   var(--fnd-font-weight-medium);
+  --nc-metric-label-opacity:       0.75;
+
+  // Trend (Richtungsindikator)
+  --nc-metric-trend-font-size:     var(--fs-sm);
+  --nc-metric-trend-font-weight:   var(--fnd-font-weight-semibold);
+  --nc-metric-trend-gap:           var(--fnd-spacing-01);
+  --nc-metric-trend-icon-size:     16px;
+  --nc-metric-trend-up-color:      var(--fnd-color-feedback-success);
+  --nc-metric-trend-down-color:    var(--fnd-color-feedback-danger);
+  --nc-metric-trend-neutral-color: var(--fnd-color-text-tertiary);
+
+  // Footer (Vergleichszeitraum)
+  --nc-metric-footer-font-size:    var(--fs-xs);
+  --nc-metric-footer-color:        var(--fnd-color-text-inverse);
+  --nc-metric-footer-opacity:      0.5;
+
+  // Subtle Variante (heller Hintergrund)
+  --nc-metric-subtle-bg:              var(--fnd-color-background-secondary);
+  --nc-metric-subtle-color:           var(--fnd-color-text-primary);
+  --nc-metric-subtle-value-color:     var(--fnd-color-interactive-default);
+  --nc-metric-subtle-label-color:     var(--fnd-color-text-secondary);
+  --nc-metric-subtle-label-opacity:   1;
+  --nc-metric-subtle-footer-color:    var(--fnd-color-text-tertiary);
+  --nc-metric-subtle-footer-opacity:  1;
+
+  // Size: md (kompakt)
+  --nc-metric-md-padding:          var(--fnd-spacing-04);
+  --nc-metric-md-value-font-size:  var(--fs-3xl);
+  --nc-metric-md-unit-font-size:   var(--fs-lg);
+  --nc-metric-md-label-font-size:  var(--fs-xs);
+
+  // Size: xl (Hero)
+  --nc-metric-xl-padding:          var(--fnd-spacing-08);
+  --nc-metric-xl-value-font-size:  var(--fs-8xl);
+  --nc-metric-xl-unit-font-size:   var(--fs-3xl);
+  --nc-metric-xl-label-font-size:  var(--fs-base);
 }
 
 // ---------------------------------------------------------------------------
@@ -1780,6 +3034,14 @@
   --nc-shell-sidebar-bg: var(--fnd-color-layer-01);
   --nc-shell-sidebar-border: var(--fnd-color-border-secondary);
 
+  // -- Sidebar Density (narrow / standard / wide) --
+  --nc-shell-sidebar-left-width-narrow: 200px;
+  --nc-shell-sidebar-left-width-standard: 260px;
+  --nc-shell-sidebar-left-width-wide: 320px;
+  --nc-shell-sidebar-right-width-narrow: 160px;
+  --nc-shell-sidebar-right-width-standard: 260px;
+  --nc-shell-sidebar-right-width-wide: 300px;
+
   // -- Footerbar --
   --nc-shell-footerbar-height: 36px;
   --nc-shell-footerbar-bg: var(--fnd-color-layer-01);
@@ -1790,6 +3052,20 @@
   --nc-shell-content-max-width: var(--fnd-content-max-width);   // 1200px
   --nc-shell-content-narrow: 720px;
   --nc-shell-content-padding: var(--fnd-spacing-06);             // 24px
+
+  // -- Z-Index Governance --
+  // Feste Rangfolge: linkbar < footerbar < navbar < sidebar(desktop) < overlay < drawer(mobile)
+  --nc-shell-z-linkbar: var(--fnd-z-base, 1);
+  --nc-shell-z-footerbar: var(--fnd-z-sticky);
+  --nc-shell-z-navbar: var(--fnd-z-header);
+  --nc-shell-z-sidebar: var(--fnd-z-sidebar);
+  --nc-shell-z-overlay: calc(var(--fnd-z-drawer) - 1);
+  --nc-shell-z-drawer: var(--fnd-z-drawer);
+
+  // -- Skip-Link --
+  --nc-shell-skip-link-bg: var(--fnd-color-background-base);
+  --nc-shell-skip-link-color: var(--fnd-color-text-primary);
+  --nc-shell-skip-link-z: var(--fnd-z-skip-link);
 }
 
 // ---------------------------------------------------------------------------
@@ -1812,6 +3088,14 @@
   --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
   --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
   --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
+  --nc-segmented-item-badge-bg: var(--fnd-color-background-tertiary);
+  --nc-segmented-item-badge-color: var(--fnd-color-text-secondary);
+  --nc-segmented-item-badge-bg-selected: color-mix(in srgb, var(--fnd-color-text-primary) 12%, transparent);
+  --nc-segmented-item-badge-color-selected: var(--fnd-color-text-primary);
+
+  // Metric: Subtle-Variante Dark Overrides
+  --nc-metric-subtle-bg:              var(--fnd-color-background-secondary);
+  --nc-metric-subtle-value-color:     var(--fnd-color-interactive-default);
 
   // Code Snippet: Syntax-Farben fuer dunklen Hintergrund (-400 Shades)
   --nc-cs-syntax-keyword:      #a78bfa;                          // violet-400
@@ -1825,6 +3109,12 @@
   --nc-cs-syntax-attr-value:   #34d399;                          // emerald-400
   --nc-cs-syntax-selector:     #a78bfa;                          // violet-400
 
+  // Code Snippet: Header + Line-Highlight Dark Overrides
+  --nc-cs-header-bg:              var(--fnd-color-surface-elevated);
+  --nc-cs-line-highlight-bg:      color-mix(in srgb, var(--fnd-color-interactive-default) 15%, transparent);
+  --nc-cs-copy-tooltip-bg:        var(--fnd-color-background-secondary);
+  --nc-cs-copy-tooltip-color:     var(--fnd-color-text-primary);
+
   // Shell: Surface Elevated fuer Linkbar, Sidebars, Footerbar
   --nc-shell-linkbar-bg: var(--fnd-color-surface-elevated);
   --nc-shell-sidebar-bg: var(--fnd-color-surface-elevated);
@@ -1836,10 +3126,28 @@
 // ---------------------------------------------------------------------------
 
 :root {
+  // Breite
   --nc-container-max-width: 1200px;
   --nc-container-max-width-wide: 1440px;
+
+  // Fluid Inline Padding (skaliert mit Viewport)
   --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
   --nc-container-padding-inline-xxl: 0px;
+
+  // Vertical Spacing (padding-block) — fluid per Stufe
+  --nc-container-padding-block-sm: clamp(16px, 2vw, 24px);
+  --nc-container-padding-block-md: clamp(32px, 4vw, 48px);
+  --nc-container-padding-block-lg: clamp(48px, 6vw, 80px);
+
+  // Alignment
+  --nc-container-margin-start: auto;
+  --nc-container-margin-end: auto;
+
+  // Surface (elevated Container)
+  --nc-container-surface-bg: var(--fnd-color-surface-elevated);
+  --nc-container-surface-radius: var(--fnd-radius-md);
+  --nc-container-surface-shadow: var(--fnd-shadow-sm);
+  --nc-container-surface-padding: clamp(16px, 3vw, 32px);
 }
 
 // ---------------------------------------------------------------------------
@@ -1851,6 +3159,8 @@
   --nc-grid-gap: clamp(12px, 1.5vw, 24px);
   --nc-grid-gap-sm: var(--fnd-spacing-04);
   --nc-grid-gap-lg: var(--fnd-spacing-08);
+  --nc-grid-mobile-columns: 4;
+  --nc-grid-tablet-columns: 8;
 }
 
 // ---------------------------------------------------------------------------
@@ -1863,6 +3173,21 @@
   --nc-section-padding-block-lg: var(--fnd-spacing-13);
   --nc-section-bg: var(--fnd-color-background-base);
   --nc-section-color: var(--fnd-color-text-primary);
+
+  // Accent Surface
+  --nc-section-accent-bg: var(--fnd-color-interactive-default);
+  --nc-section-accent-color: var(--fnd-color-text-on-interactive);
+  --nc-section-accent-color-secondary: color-mix(in srgb, var(--fnd-color-text-on-interactive) 75%, transparent);
+
+  // Divider
+  --nc-section-divider-color: var(--fnd-color-border-primary);
+  --nc-section-divider-width: 1px;
+  --nc-section-divider-style: solid;
+
+  // Edge Shape
+  --nc-section-edge-height: 48px;
+  --nc-section-edge-angle: 3deg;
+  --nc-section-edge-fill: var(--fnd-color-background-base);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1874,6 +3199,14 @@
     --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
     --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
     --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
+    --nc-segmented-item-badge-bg: var(--fnd-color-background-tertiary);
+    --nc-segmented-item-badge-color: var(--fnd-color-text-secondary);
+    --nc-segmented-item-badge-bg-selected: color-mix(in srgb, var(--fnd-color-text-primary) 12%, transparent);
+    --nc-segmented-item-badge-color-selected: var(--fnd-color-text-primary);
+
+    // Metric: Subtle-Variante Dark Overrides
+    --nc-metric-subtle-bg:              var(--fnd-color-background-secondary);
+    --nc-metric-subtle-value-color:     var(--fnd-color-interactive-default);
 
     // Code Snippet: Syntax-Farben fuer dunklen Hintergrund (-400 Shades)
     --nc-cs-syntax-keyword:    #a78bfa;                          // violet-400
@@ -1886,6 +3219,12 @@
     --nc-cs-syntax-attr-name:  #fbbf24;                          // amber-400
     --nc-cs-syntax-attr-value: #34d399;                          // emerald-400
     --nc-cs-syntax-selector:   #a78bfa;                          // violet-400
+
+    // Code Snippet: Header + Line-Highlight Dark Overrides
+    --nc-cs-header-bg:              var(--fnd-color-surface-elevated);
+    --nc-cs-line-highlight-bg:      color-mix(in srgb, var(--fnd-color-interactive-default) 15%, transparent);
+    --nc-cs-copy-tooltip-bg:        var(--fnd-color-background-secondary);
+    --nc-cs-copy-tooltip-color:     var(--fnd-color-text-primary);
 
     // Shell: Surface Elevated fuer Linkbar, Sidebars, Footerbar
     --nc-shell-linkbar-bg: var(--fnd-color-surface-elevated);

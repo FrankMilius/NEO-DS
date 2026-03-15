@@ -15,6 +15,8 @@
 //   form-control-error        Error-Zustand
 //   form-control-success      Success-Zustand
 //   form-control-readonly     Readonly-Zustand
+//   form-control-filled       Filled-Variante (Hintergrund + Underline)
+//   form-control-borderless   Borderless-Variante (transparent bis Focus)
 //   form-check-base           Hidden-Input Pattern fuer Checkbox/Radio
 //   form-check-size($s)       Groessen fuer Checkbox/Radio
 //   sr-only                   Screen-Reader-Only (visually hidden)
@@ -157,6 +159,63 @@
   background-color: var(--nc-input-bg-readonly);
   border-color: var(--nc-input-border-readonly);
   cursor: default;
+}
+
+// ---------------------------------------------------------------------------
+// Form Control Varianten (Shared: Input, Textarea, Select)
+// ---------------------------------------------------------------------------
+
+/// Filled-Variante: Hintergrund-Flaeche statt Rahmen, nur border-bottom.
+/// Nutzt --nc-form-control-filled-* Shared Tokens.
+@mixin form-control-filled {
+  background-color: var(--nc-form-control-filled-bg);
+  border-color: transparent;
+  border-block-end: var(--nc-form-control-filled-border-bottom) solid var(--nc-form-control-filled-underline-color);
+  border-radius: var(--nc-form-control-radius) var(--nc-form-control-radius) 0 0;
+  color: var(--nc-form-control-filled-color);
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
+    background-color: var(--nc-form-control-filled-bg-hover);
+    border-color: transparent;
+    border-block-end-color: var(--nc-form-control-filled-underline-color);
+  }
+
+  &:focus-visible {
+    background-color: var(--nc-form-control-filled-bg-focus);
+    border-block-end-width: calc(var(--nc-form-control-filled-border-bottom) * 2);
+    border-block-end-color: var(--nc-form-control-filled-underline-color-focus);
+  }
+}
+
+/// Filled Error/Success Overrides (als eigenes Mixin fuer Komposierbarkeit).
+@mixin form-control-filled-validation {
+  &[aria-invalid='true'] {
+    border-block-end-color: var(--nc-form-control-border-error);
+  }
+}
+
+/// Borderless-Variante: Unsichtbar bis Hover/Focus.
+/// Nutzt --nc-form-control-minimal-* Shared Tokens.
+@mixin form-control-borderless {
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
+    background-color: var(--nc-form-control-minimal-bg-hover);
+  }
+
+  &:focus-visible {
+    background-color: transparent;
+    border-color: transparent;
+    border-block-end: 2px solid var(--nc-form-control-minimal-border-focus);
+  }
+}
+
+/// Borderless Error Override.
+@mixin form-control-borderless-validation {
+  &[aria-invalid='true'] {
+    border-block-end: 2px solid var(--nc-form-control-border-error);
+  }
 }
 
 // ---------------------------------------------------------------------------

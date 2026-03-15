@@ -1,31 +1,61 @@
 // ==========================================================================
 // 06-Molecules: Popover
 // ==========================================================================
-// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen, Aktionen).
+// Interaktives Popup mit beliebigem Inhalt (Formulare, Listen, Filter).
 // Unterschied zu Tooltip:
 //   - Tooltip: rein informativ, kein Fokus, verschwindet bei Mausverlust
 //   - Popover: interaktiv, Focus-Trap, bleibt offen bis explizit geschlossen
+//
+// OVERLAY-HIERARCHIE:
+//   Level 1: Dropdown (elevation-floating)
+//   Level 2: Popover  (elevation-overlay)  ← HIER
+//   Level 3: Modal    (elevation-modal)
+//   Alle Overlays: surface-elevated, einheitliche Border/Radius.
 //
 // SEMANTIK:
 //   R1: Trigger: aria-haspopup="dialog" aria-expanded="true|false"
 //   R2: Popover: role="dialog" aria-labelledby="..."
 //   R3: Keyboard: Escape schliesst, Tab bleibt im Popover (Focus-Trap via JS)
-//   R4: Klick ausserhalb schliesst (JS-seitig)
+//   R4: Light Dismiss: Klick ausserhalb schliesst (JS-seitig)
+//   R5: Scroll Dismiss: Optional — Scroll des Eltern-Containers schliesst (JS)
+//
+// TRIGGER-MODI:
+//   click (Standard): Toggle bei Klick auf Trigger
+//   hover (optional): Oeffnet nach Delay (300ms), schliesst bei Mausverlust.
+//     Nur fuer nicht-interaktive Inhalte (sonst Tooltip verwenden).
+//
+// AUTO-PLACEMENT:
+//   Empfehlung: Floating UI (computePosition + flip + shift + offset).
+//   CSS-Positionen als Fallback — JS setzt data-placement="top|bottom|…".
+//   Viewport-Constraint: max-width: calc(100vw - 32px) verhindert Ueberlauf.
 //
 // STRUKTUR:
 //   div.nc-popover
 //     button.nc-popover__trigger
 //     div.nc-popover__panel (role="dialog")
-//       div.nc-popover__arrow (optional)
+//       div.nc-popover__arrow (optional, dezent)
 //       div.nc-popover__header (optional)
 //       div.nc-popover__body
 //       div.nc-popover__footer (optional)
 //
 // POSITIONEN:
 //   top, bottom (default), left, right — jeweils zentriert
+//   bottom-start, bottom-end — Alignment-Varianten
 //
-// KLASSEN:
-//   .nc-popover (kanonisch, BEM)
+// BEM-KLASSEN:
+//   .nc-popover                       Block (inline-flex container)
+//   .nc-popover__trigger              Trigger-Button
+//   .nc-popover__panel                Panel (role="dialog")
+//   .nc-popover__panel--top           Positionierung oben
+//   .nc-popover__panel--left          Positionierung links
+//   .nc-popover__panel--right         Positionierung rechts
+//   .nc-popover__panel--bottom-start  Links-ausgerichtet
+//   .nc-popover__panel--bottom-end    Rechts-ausgerichtet
+//   .nc-popover__arrow                Dekorativer Pfeil (aria-hidden)
+//   .nc-popover__header               Header mit Titel + Close
+//   .nc-popover__body                 Hauptinhalt
+//   .nc-popover__footer               Footer mit Aktionen
+//   .nc-popover__close                Schliessen-Button
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -43,6 +73,9 @@
   border: var(--nc-popover-border-width) solid var(--nc-popover-border);
   border-radius: var(--nc-popover-radius);
   box-shadow: var(--nc-popover-shadow);
+
+  // Viewport-Constraint: Panel darf niemals breiter als der Viewport sein
+  max-width: min(var(--nc-popover-max-width), calc(100vw - 32px));
 
   // Eingangsanimation
   animation: fnd-scale-in var(--nc-popover-animation-duration)
@@ -118,6 +151,8 @@
   }
 
   // -- Arrow --
+  // Optional und dezent. Select/Dropdown haben keinen Pfeil.
+  // Arrow ist rein dekorativ: aria-hidden="true".
 
   &__arrow {
     position: absolute;
@@ -145,6 +180,31 @@
     border-top: none;
   }
 
+  // Arrow wenn Panel links → zeigt nach rechts
+  &__panel--left &__arrow {
+    top: 50%;
+    left: auto;
+    right: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    margin-top: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    margin-left: 0;
+    border-top: none;
+    border-left: none;
+    border-right: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+    border-bottom: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+  }
+
+  // Arrow wenn Panel rechts → zeigt nach links
+  &__panel--right &__arrow {
+    top: 50%;
+    left: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    margin-top: calc(-1 * var(--nc-popover-arrow-size) / 2);
+    margin-left: 0;
+    border-right: none;
+    border-bottom: none;
+    border-top: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+    border-left: var(--nc-popover-border-width) solid var(--nc-popover-arrow-border);
+  }
+
   // -- Header --
 
   &__header {
@@ -155,6 +215,7 @@
     border-bottom: var(--nc-popover-border-width) solid var(--nc-popover-header-border);
     font-size: var(--nc-popover-header-font-size);
     font-weight: var(--nc-popover-header-font-weight);
+    color: var(--nc-popover-header-color);
   }
 
   // -- Body --
@@ -179,18 +240,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: var(--nc-popover-close-size);
+    height: var(--nc-popover-close-size);
     padding: 0;
     border: none;
-    border-radius: var(--fnd-radius-sm);
+    border-radius: var(--nc-popover-close-radius);
     background: none;
     color: var(--fnd-color-text-secondary);
     cursor: pointer;
+    flex-shrink: 0;
     @include transition-quick((opacity, background-color));
 
     &:hover {
-      background-color: var(--fnd-color-background-hover);
+      background-color: var(--nc-popover-close-bg-hover);
     }
 
     &:focus-visible {
@@ -198,13 +260,25 @@
     }
 
     > svg {
-      width: 14px;
-      height: 14px;
+      width: var(--nc-popover-close-icon-size);
+      height: var(--nc-popover-close-icon-size);
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-popover__panel {
+      border: 1px solid ButtonText;
+    }
+
+    .nc-popover__close:focus-visible {
+      outline: 2px solid Highlight;
     }
   }
 }

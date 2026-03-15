@@ -288,112 +288,90 @@ drawer.addEventListener('cancel', (e) =&gt; {
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <!-- Drawer-Tokens -->
-          <section class="docs__section" id="style-drawer-tokens">
-            <h2 class="docs__section-title">Drawer-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-drawer-max-width</code></td><td>100%</td><td>Maximale Breite (bottom/top)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-max-height</code></td><td>85vh</td><td>Maximale H&ouml;he (bottom/top)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-width</code></td><td>100%</td><td>Breite (bottom/top)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-side-width</code></td><td>380px</td><td>Breite (left/right), responsive</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-padding</code></td><td>var(--fnd-spacing-06)</td><td>Innenabstand</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-radius</code></td><td>var(--fnd-radius-3xl)</td><td>Border-Radius</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-bg</code></td><td>var(--fnd-color-background-base)</td><td>Hintergrund</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-shadow</code></td><td>0 -8px 30px rgba(15,23,42,0.15)</td><td>Schatten</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-overlay-bg</code></td><td>var(--fnd-color-background-overlay)</td><td>Overlay-Hintergrund</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- Typography Tokens -->
-          <section class="docs__section" id="style-typography-tokens">
-            <h2 class="docs__section-title">Typography-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-drawer-title-font-size</code></td><td>heading-m</td><td>Titel-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-title-font-weight</code></td><td>600</td><td>Titel-Gewicht</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-title-color</code></td><td>text-primary</td><td>Titel-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-desc-font-size</code></td><td>body-m</td><td>Beschreibungs-Schrift</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-desc-color</code></td><td>text-secondary</td><td>Beschreibungs-Farbe</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- Handle Tokens -->
-          <section class="docs__section" id="style-handle-tokens">
-            <h2 class="docs__section-title">Handle-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-drawer-handle-width</code></td><td>48px</td><td>Handle-Breite</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-height</code></td><td>4px</td><td>Handle-H&ouml;he</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-radius</code></td><td>var(--fnd-radius-full)</td><td>Handle-Radius</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-bg</code></td><td>var(--fnd-color-border-mid)</td><td>Handle-Farbe</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- Spacing & Motion -->
-          <section class="docs__section" id="style-spacing-motion">
-            <h2 class="docs__section-title">Spacing &amp; Motion</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-drawer-header-gap</code></td><td>var(--fnd-spacing-02)</td><td>Abstand Titel / Beschreibung</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-section-gap</code></td><td>var(--fnd-spacing-06)</td><td>Content-Padding</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-footer-gap</code></td><td>var(--fnd-spacing-03)</td><td>Footer-Button-Gap</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-duration</code></td><td>var(--fnd-motion-duration-300)</td><td>Animations-Dauer</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-ease</code></td><td>var(--fnd-motion-ease-focused)</td><td>Animations-Easing</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- Responsive -->
-          <section class="docs__section" id="style-responsive">
-            <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Breakpoint</th><th>Side-Width</th></tr></thead>
-              <tbody>
-                <tr><td>&lt; 768px (Mobile)</td><td>380px</td></tr>
-                <tr><td>&ge; 768px (Tablet)</td><td>440px</td></tr>
-                <tr><td>&ge; 1200px (Desktop)</td><td>500px</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- BEM-Klassen&uuml;bersicht -->
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
-
-.nc-drawer                    // Block (dialog-Element)
-.nc-drawer--top               // Modifier: Richtung oben
-.nc-drawer--right             // Modifier: Richtung rechts
-.nc-drawer--left              // Modifier: Richtung links
-.nc-drawer__handle            // Drag-Handle (visueller Indikator)
-.nc-drawer__header            // Header-Bereich (Titel + Beschreibung)
-.nc-drawer__title             // Titel
-.nc-drawer__description       // Beschreibung
-.nc-drawer__content           // Scrollbarer Inhalt
-.nc-drawer__footer            // Footer mit Buttons
-.nc-drawer__close             // Close-Button (nur left/right)
-
-// Pseudo-Elemente
-::backdrop                    // Nativer Backdrop bei showModal()</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-max-width</code></td><td>100%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-max-height</code></td><td>85vh</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-width</code></td><td>100%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-side-width</code></td><td>380px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-padding</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-radius</code></td><td>var(--fnd-radius-4xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-bg</code></td><td>var(--nc-dialog-bg, var(--fnd-color-surface-elevated))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-shadow</code></td><td>var(--fnd-elevation-modal)</td><td>L3, gleiche Ebene wie Modal</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-overlay-bg</code></td><td>var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay))</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Header</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-title-font-size</code></td><td>var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-title-font-weight</code></td><td>var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-title-color</code></td><td>var(--nc-dialog-title-color, var(--fnd-color-text-primary))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-desc-font-size</code></td><td>var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-desc-color</code></td><td>var(--nc-dialog-description-color, var(--fnd-color-text-secondary))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-header-gap</code></td><td>var(--nc-dialog-header-gap, var(--fnd-spacing-02))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-header-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content &amp; Footer</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-section-gap</code></td><td>var(--nc-dialog-section-gap, var(--fnd-spacing-06))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-footer-gap</code></td><td>var(--nc-dialog-footer-gap, var(--fnd-spacing-03))</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Close Button</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-close-size</code></td><td>36px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-icon-size</code></td><td>18px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-offset</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Animation</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-duration</code></td><td>var(--fnd-motion-duration-300)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-ease</code></td><td>cubic-bezier(0.175, 0.885, 0.32, 1.275)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Handle (Bottom-Sheet)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-drawer-handle-width</code></td><td>32px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-height</code></td><td>4px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-bg</code></td><td>var(--fnd-color-border-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -402,157 +380,121 @@ drawer.addEventListener('cancel', (e) =&gt; {
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-drawer</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-drawer</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-drawer-*</code></td></tr>
-                <tr><td><strong>Fallback-Namespace</strong></td><td><code class="docs__token">--nc-dialog-*</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;dialog&gt;</code></td></tr>
-                <tr><td><strong>JS-API</strong></td><td><code class="docs__token">showModal()</code> / <code class="docs__token">close()</code></td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Modal &mdash; Fokus-Trap, ESC-Close, Backdrop-Click</td></tr>
-                <tr><td><strong>Richtungen</strong></td><td>bottom (default), top, right, left</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS-Klassen -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Modifiers</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-drawer</code></td><td>Block</td><td>Drawer-Container. Natives <code class="docs__token">&lt;dialog&gt;</code>-Element. Default: bottom.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer--top</code></td><td>Modifier</td><td>Slide-in von oben.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer--right</code></td><td>Modifier</td><td>Slide-in von rechts. Seitlicher Drawer.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer--left</code></td><td>Modifier</td><td>Slide-in von links. Seitlicher Drawer.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Elemente</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-drawer__handle</code></td><td>Element</td><td>Drag-Handle-Indikator. Sichtbar bei bottom/top, versteckt bei left/right.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__header</code></td><td>Element</td><td>Header-Bereich mit Titel und optionaler Beschreibung.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__title</code></td><td>Element</td><td>Drawer-Titel.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__description</code></td><td>Element</td><td>Beschreibungstext (optional).</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__content</code></td><td>Element</td><td>Scrollbarer Inhaltsbereich.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__footer</code></td><td>Element</td><td>Footer mit Aktions-Buttons.</td></tr>
-                <tr><td><code class="docs__token">.nc-drawer__close</code></td><td>Element</td><td>Close-Button. Sichtbar bei left/right, versteckt bei bottom/top.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. CSS Custom Properties -->
-          <section class="docs__section" id="api-tokens">
-            <h2 class="docs__section-title">CSS Custom Properties</h2>
-            <p class="docs__section-desc">
-              Alle Tokens werden auf <code class="docs__token">.nc-drawer</code> registriert und fallen auf <code class="docs__token">--nc-dialog-*</code> zur&uuml;ck.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dimensions</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-max-width</code></td><td>100%</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-max-height</code></td><td>85vh</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-width</code></td><td>100%</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-side-width</code></td><td>380px</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Visual</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-padding</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-radius</code></td><td>16px</td><td>var(--fnd-radius-3xl)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-base)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-shadow</code></td><td>0 -8px 30px&hellip;</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-overlay-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-overlay)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-title-font-size</code></td><td>&mdash;</td><td>heading-m</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-title-font-weight</code></td><td>600</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-title-color</code></td><td>&mdash;</td><td>text-primary</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-desc-font-size</code></td><td>&mdash;</td><td>body-m</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-desc-color</code></td><td>&mdash;</td><td>text-secondary</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Handle</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-width</code></td><td>48px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-height</code></td><td>4px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-full)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-handle-bg</code></td><td>&mdash;</td><td>var(--fnd-color-border-mid)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Motion</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-duration</code></td><td>&mdash;</td><td>var(--fnd-motion-duration-300)</td></tr>
-                <tr><td><code class="docs__token">--nc-drawer-ease</code></td><td>&mdash;</td><td>var(--fnd-motion-ease-focused)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. JavaScript API -->
-          <section class="docs__section" id="api-js">
-            <h2 class="docs__section-title">JavaScript API</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Methode / Property</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">showModal()</code></td><td>Methode</td><td>&Ouml;ffnet den Drawer modal mit Backdrop und Focus-Trap.</td></tr>
-                <tr><td><code class="docs__token">close(returnValue?)</code></td><td>Methode</td><td>Schlie&szlig;t den Drawer. Optionaler returnValue wird gesetzt.</td></tr>
-                <tr><td><code class="docs__token">returnValue</code></td><td>Property</td><td>Enth&auml;lt den Wert, der bei <code class="docs__token">close()</code> &uuml;bergeben wurde.</td></tr>
-                <tr><td><code class="docs__token">open</code></td><td>Property</td><td>Boolean &mdash; <code class="docs__token">true</code> wenn der Drawer ge&ouml;ffnet ist.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Events</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Event</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">close</code></td><td>Wird ausgel&ouml;st wenn der Drawer geschlossen wird.</td></tr>
-                <tr><td><code class="docs__token">cancel</code></td><td>Wird ausgel&ouml;st wenn ESC gedr&uuml;ckt wird.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 5. Slots/Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Bottom/Top Drawer --&gt;
-&lt;dialog class="nc-drawer" aria-labelledby="[title-id]" aria-describedby="[desc-id]"&gt;
-  &lt;div class="nc-drawer__handle"&gt;&lt;/div&gt;
-  &lt;div class="nc-drawer__header"&gt;
-    &lt;h2 class="nc-drawer__title" id="[title-id]"&gt;Titel&lt;/h2&gt;
-    &lt;p class="nc-drawer__description" id="[desc-id]"&gt;Beschreibung&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-drawer__content"&gt;Inhalt&lt;/div&gt;
-  &lt;div class="nc-drawer__footer"&gt;
-    &lt;button class="nc-button"&gt;Speichern&lt;/button&gt;
-    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/dialog&gt;
-
-&lt;!-- Left/Right Drawer --&gt;
-&lt;dialog class="nc-drawer nc-drawer--right" aria-labelledby="[title-id]"&gt;
-  &lt;button class="nc-drawer__close" aria-label="Schlie&szlig;en"&gt;
-    &lt;svg viewBox="0 0 24 24"&gt;&lt;line x1="18" y1="6" x2="6" y2="18"/&gt;&lt;line x1="6" y1="6" x2="18" y2="18"/&gt;&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;div class="nc-drawer__header"&gt;
-    &lt;h2 class="nc-drawer__title" id="[title-id]"&gt;Titel&lt;/h2&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-drawer__content"&gt;Inhalt&lt;/div&gt;
-  &lt;div class="nc-drawer__footer"&gt;
-    &lt;button class="nc-button"&gt;Speichern&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/dialog&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-drawer</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-drawer</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-drawer-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-drawer</code></td><td>Block</td><td>drawer-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__handle</code></td><td>Element (optional)</td><td>handle</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__header</code></td><td>Element (optional)</td><td>header</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__title</code></td><td>Element (optional)</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__description</code></td><td>Element (optional)</td><td>description</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__footer</code></td><td>Element (optional)</td><td>footer</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer__close</code></td><td>Element (optional)</td><td>close</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Direction-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom</td><td>Slide-Richtung — bottom (Standard, Bottom-Sheet), top, left, right (Side-Panel)</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer--top</code></td><td>top</td><td>Slide-Richtung — bottom (Standard, Bottom-Sheet), top, left, right (Side-Panel)</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer--left</code></td><td>left</td><td>Slide-Richtung — bottom (Standard, Bottom-Sheet), top, left, right (Side-Panel)</td></tr>
+      <tr><td><code class="docs__token">.nc-drawer--right</code></td><td>right</td><td>Slide-Richtung — bottom (Standard, Bottom-Sheet), top, left, right (Side-Panel)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-max-width</code></td><td>100%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-max-height</code></td><td>85vh</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-width</code></td><td>100%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-side-width</code></td><td>380px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-padding</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-radius</code></td><td>var(--fnd-radius-4xl)</td><td>var(--fnd-radius-4xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-bg</code></td><td>var(--nc-dialog-bg, var(--fnd-color-surface-elevated))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-shadow</code></td><td>var(--fnd-elevation-modal)</td><td>var(--fnd-elevation-modal)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-overlay-bg</code></td><td>var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay))</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Header</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-title-font-size</code></td><td>var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-title-font-weight</code></td><td>var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-title-color</code></td><td>var(--nc-dialog-title-color, var(--fnd-color-text-primary))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-desc-font-size</code></td><td>var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-desc-color</code></td><td>var(--nc-dialog-description-color, var(--fnd-color-text-secondary))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-header-gap</code></td><td>var(--nc-dialog-header-gap, var(--fnd-spacing-02))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-header-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Content &amp; Footer</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-section-gap</code></td><td>var(--nc-dialog-section-gap, var(--fnd-spacing-06))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-footer-gap</code></td><td>var(--nc-dialog-footer-gap, var(--fnd-spacing-03))</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Handle (Bottom-Sheet)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-width</code></td><td>32px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-height</code></td><td>4px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-handle-bg</code></td><td>var(--fnd-color-border-primary)</td><td>var(--fnd-color-border-primary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Close Button</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-size</code></td><td>36px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-icon-size</code></td><td>18px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-close-offset</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Animation</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-duration</code></td><td>var(--fnd-motion-duration-300)</td><td>var(--fnd-motion-duration-300)</td></tr>
+      <tr><td><code class="docs__token">--nc-drawer-ease</code></td><td>cubic-bezier(0.175, 0.885, 0.32, 1.275)</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Natives &lt;dialog&gt; mit showModal(). Slide-in von 4 Richtungen mit Spring-Animation.</li>
+    <li>Modifiers: --top, --right, --left (default: bottom).</li>
+    <li>Handle: 32×4px abgerundeter Balken, aria-hidden='true'. Nur bei bottom/top sichtbar. Signalisiert Swipe-to-Dismiss.</li>
+    <li>Content: scrollbar. Header und Footer bleiben sticky bei langen Listen.</li>
+    <li>Header Scroll-Border: JS setzt .is-scrolled Klasse bei gescrolltem Content — Header bekommt subtile Trennlinie.</li>
+    <li>Footer Scroll-Border: Gleiche Logik — Footer bekommt obere Trennlinie bei gescrolltem Content.</li>
+    <li>Light Dismiss: Klick auf ::backdrop schliesst Drawer. JS: dialog.addEventListener('click', e =&gt; { if (e.target === dialog) dialog.close() }).</li>
+    <li>Close-Button: Sichtbar auf allen Richtungen (v2.0: nicht mehr nur bei left/right). Absolut positioniert oben-rechts.</li>
+    <li>Mobile Prioritaet: Bottom-Sheet (direction=bottom) ist die bevorzugte Overlay-Variante fuer Touch-Geraete (Daumenzone).</li>
+    <li>Elevation: elevation-modal (L3) — gleiche Schattenstufe wie Modal. Ueberlagert gesamte Anwendungsebene.</li>
+    <li>Spring Animation: cubic-bezier(0.175, 0.885, 0.32, 1.275) fuer physisch-reaktionsschnelles Slide-in.</li>
+    <li>Body Scroll Lock: body:has(.nc-drawer[open]) { overflow: hidden }.</li>
+    <li>Side-Width: 380px (mobile) → 440px (tablet) → 500px (desktop) — responsive Breakpoints.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -561,143 +503,40 @@ drawer.addEventListener('cancel', (e) =&gt; {
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Der Drawer nutzt das native <code class="docs__token">&lt;dialog&gt;</code>-Element und erf&uuml;llt die WCAG 2.1 AA-Kriterien nativ.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Natives &lt;dialog&gt;: role=dialog, aria-modal=true, Fokus-Trap, ESC-Close. aria-labelledby → Title, aria-describedby → Description. Light Dismiss: Klick auf Backdrop schliesst Drawer.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">swipe-to-dismiss</code></li>
+      <li>Bottom/Top Drawers: Handle signalisiert Swipe-to-Dismiss. JS: Touch-Geste erkennen und Drawer schliessen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- 1. Natives <dialog> -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Natives <code class="docs__token">&lt;dialog&gt;</code></h4>
-              <ul>
-                <li>Automatisch <code class="docs__token">role="dialog"</code> und <code class="docs__token">aria-modal="true"</code> bei <code class="docs__token">showModal()</code></li>
-                <li>Kein manuelles ARIA-Setup n&ouml;tig</li>
-                <li>Unterst&uuml;tzt in allen modernen Browsern</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 2. aria-labelledby / aria-describedby -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>aria-labelledby / aria-describedby</h4>
-              <ul>
-                <li><code class="docs__token">aria-labelledby</code> verlinkt den Drawer mit der Titel-ID</li>
-                <li><code class="docs__token">aria-describedby</code> verlinkt mit der Beschreibungs-ID</li>
-                <li>Screenreader lesen beim &Ouml;ffnen automatisch Titel und Beschreibung vor</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 3. Focus-Trap -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Focus-Trap</h4>
-              <ul>
-                <li>Nativ bei <code class="docs__token">showModal()</code> &mdash; Fokus bleibt im Drawer</li>
-                <li>Tab-Navigation zykliert zwischen interaktiven Elementen</li>
-                <li>Elemente au&szlig;erhalb des Drawers sind nicht erreichbar (inert)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 4. ESC-Close -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>ESC-Close</h4>
-              <ul>
-                <li>Native Tastaturunterst&uuml;tzung &mdash; ESC schlie&szlig;t den Drawer</li>
-                <li>L&ouml;st das <code class="docs__token">cancel</code>-Event aus</li>
-                <li>Optional: <code class="docs__token">e.preventDefault()</code> blockiert das Schlie&szlig;en per ESC</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 5. Focus-R&uuml;ckkehr -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Focus-R&uuml;ckkehr</h4>
-              <ul>
-                <li>Fokus kehrt automatisch zum Trigger-Element zur&uuml;ck</li>
-                <li>Natives Verhalten von <code class="docs__token">&lt;dialog&gt;</code></li>
-                <li>Funktioniert bei <code class="docs__token">close()</code> und ESC</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 6. Body-Scroll-Lock -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Body-Scroll-Lock</h4>
-              <ul>
-                <li>CSS-basiert via <code class="docs__token">body:has(.nc-drawer[open]) { overflow: hidden; }</code></li>
-                <li>Verhindert Hintergrund-Scrollen w&auml;hrend der Drawer ge&ouml;ffnet ist</li>
-                <li>Kein JavaScript n&ouml;tig &mdash; rein deklarativ</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 7. Close-Button -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Close-Button (Side Drawers)</h4>
-              <ul>
-                <li>Seitliche Drawers (left/right) haben einen sichtbaren Close-Button</li>
-                <li><code class="docs__token">aria-label="Schlie&szlig;en"</code> f&uuml;r Screenreader</li>
-                <li>Bei Bottom/Top-Drawers wird stattdessen der Handle angezeigt</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Bottom Drawer mit Handle --&gt;
-&lt;dialog class="nc-drawer"
-        aria-labelledby="drawer-title"
-        aria-describedby="drawer-desc"&gt;
-  &lt;div class="nc-drawer__handle"&gt;&lt;/div&gt;
-  &lt;div class="nc-drawer__header"&gt;
-    &lt;h2 class="nc-drawer__title" id="drawer-title"&gt;Einstellungen&lt;/h2&gt;
-    &lt;p class="nc-drawer__description" id="drawer-desc"&gt;...&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-drawer__content"&gt;...&lt;/div&gt;
-  &lt;div class="nc-drawer__footer"&gt;...&lt;/div&gt;
-&lt;/dialog&gt;
-
-&lt;!-- RICHTIG: Side Drawer mit Close-Button --&gt;
-&lt;dialog class="nc-drawer nc-drawer--right"
-        aria-labelledby="side-title"&gt;
-  &lt;button class="nc-drawer__close" aria-label="Schlie&szlig;en"&gt;...&lt;/button&gt;
-  &lt;div class="nc-drawer__header"&gt;
-    &lt;h2 class="nc-drawer__title" id="side-title"&gt;Details&lt;/h2&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-drawer__content"&gt;...&lt;/div&gt;
-&lt;/dialog&gt;
-
-&lt;!-- RICHTIG: showModal() statt show() verwenden --&gt;
-&lt;script&gt;
-  drawer.showModal();
-&lt;/script&gt;
-
-&lt;!-- FALSCH: Kein aria-labelledby --&gt;
-&lt;dialog class="nc-drawer"&gt;
-  &lt;!-- Screenreader kann den Drawer nicht identifizieren --&gt;
-&lt;/dialog&gt;
-
-&lt;!-- FALSCH: show() statt showModal() --&gt;
-&lt;script&gt;
-  drawer.show(); // Keinen Backdrop, keinen Focus-Trap!
-&lt;/script&gt;</div>
-          </section>
         </div>
 
       </div>

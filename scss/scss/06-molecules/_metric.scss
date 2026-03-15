@@ -1,28 +1,187 @@
 // ==========================================================================
-// 06-Molecules: Metric
+// 06-Molecules: Metric  v2.0.0
 // ==========================================================================
-// Key metric display with large value and label.
-// Extracted from _site.scss for proper ITCSS placement.
+// KPI / Big-Number Anzeige fuer Dashboards und Marketing-Sektionen.
+// Zeigt grosse Kennzahlen mit Label, Trend-Indikator und Vergleichszeitraum.
+//
+// SEMANTIK:
+//   R1: Container: .nc-metric — Flex-Column, inverse oder subtle Hintergrund
+//   R2: Label: .nc-metric__label — Beschriftung ueber dem Wert
+//   R3: Value: .nc-metric__value — Grosse Zahl (font-heading, accent)
+//   R4: Unit:  .nc-metric__unit — Einheit neben dem Wert ($, %, kg)
+//   R5: Trend: .nc-metric__trend — Richtungsindikator (Icon + Prozent)
+//   R6: Footer: .nc-metric__footer — Vergleichszeitraum (z.B. "vs. Vorjahr")
+//
+// KLASSEN:
+//   .nc-metric                       Block
+//   .nc-metric__label                Beschriftung
+//   .nc-metric__value-row            Flex-Zeile: Value + Unit
+//   .nc-metric__value                Grosse Zahl
+//   .nc-metric__unit                 Einheit
+//   .nc-metric__trend                Trend-Indikator
+//   .nc-metric__trend-icon           Pfeil-Icon (SVG)
+//   .nc-metric__footer               Vergleichszeitraum
+//   .nc-metric--subtle               Heller Hintergrund
+//   .nc-metric--md                   Kompakte Groesse
+//   .nc-metric--xl                   Hero-Groesse
+//   .nc-metric--trend-up             Positiver Trend (Success)
+//   .nc-metric--trend-down           Negativer Trend (Danger)
+//   .nc-metric--trend-neutral        Neutraler Trend
 // ==========================================================================
 
 @use '../01-tools' as *;
 
+// ---------------------------------------------------------------------------
+// Basis
+// ---------------------------------------------------------------------------
+
 .nc-metric {
-  background: var(--fnd-color-background-inverse);
-  color: var(--fnd-color-text-inverse);
-  border-radius: var(--fnd-radius-sm);
-  padding: var(--fnd-spacing-06);
-  font-size: var(--fs-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-metric-gap);
+  background-color: var(--nc-metric-bg);
+  color: var(--nc-metric-color);
+  border-radius: var(--nc-metric-radius);
+  padding: var(--nc-metric-padding);
+
+  // -- Sub-Elemente --
+
+  &__label {
+    font-size: var(--nc-metric-label-font-size);
+    font-weight: var(--nc-metric-label-font-weight);
+    color: var(--nc-metric-label-color);
+    opacity: var(--nc-metric-label-opacity);
+    line-height: 1.3;
+  }
+
+  // Flex-Zeile fuer Value + Unit
+  &__value-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--fnd-spacing-02);
+  }
+
+  &__value {
+    font-family: var(--nc-metric-value-font-family);
+    font-size: var(--nc-metric-value-font-size);
+    font-weight: var(--nc-metric-value-font-weight);
+    color: var(--nc-metric-value-color);
+    line-height: var(--nc-metric-value-line-height);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__unit {
+    font-size: var(--nc-metric-unit-font-size);
+    font-weight: var(--nc-metric-unit-font-weight);
+    color: var(--nc-metric-unit-color);
+    line-height: 1;
+  }
+
+  &__trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nc-metric-trend-gap);
+    font-size: var(--nc-metric-trend-font-size);
+    font-weight: var(--nc-metric-trend-font-weight);
+    line-height: 1;
+    color: var(--nc-metric-trend-neutral-color);
+  }
+
+  &__trend-icon {
+    width: var(--nc-metric-trend-icon-size);
+    height: var(--nc-metric-trend-icon-size);
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__footer {
+    font-size: var(--nc-metric-footer-font-size);
+    color: var(--nc-metric-footer-color);
+    opacity: var(--nc-metric-footer-opacity);
+    line-height: 1.3;
+  }
+
+  // -- Emphasis: subtle (heller Hintergrund) --
+
+  &--subtle {
+    background-color: var(--nc-metric-subtle-bg);
+    color: var(--nc-metric-subtle-color);
+
+    .nc-metric__value {
+      color: var(--nc-metric-subtle-value-color);
+    }
+
+    .nc-metric__unit {
+      color: var(--nc-metric-subtle-value-color);
+    }
+
+    .nc-metric__label {
+      color: var(--nc-metric-subtle-label-color);
+      opacity: var(--nc-metric-subtle-label-opacity);
+    }
+
+    .nc-metric__footer {
+      color: var(--nc-metric-subtle-footer-color);
+      opacity: var(--nc-metric-subtle-footer-opacity);
+    }
+  }
+
+  // -- Trend Direction --
+
+  &--trend-up .nc-metric__trend {
+    color: var(--nc-metric-trend-up-color);
+  }
+
+  &--trend-down .nc-metric__trend {
+    color: var(--nc-metric-trend-down-color);
+  }
+
+  &--trend-neutral .nc-metric__trend {
+    color: var(--nc-metric-trend-neutral-color);
+  }
+
+  // -- Size: md (kompakt) --
+
+  &--md {
+    padding: var(--nc-metric-md-padding);
+
+    .nc-metric__value {
+      font-size: var(--nc-metric-md-value-font-size);
+    }
+
+    .nc-metric__unit {
+      font-size: var(--nc-metric-md-unit-font-size);
+    }
+
+    .nc-metric__label {
+      font-size: var(--nc-metric-md-label-font-size);
+    }
+  }
+
+  // -- Size: xl (Hero) --
+
+  &--xl {
+    padding: var(--nc-metric-xl-padding);
+
+    .nc-metric__value {
+      font-size: var(--nc-metric-xl-value-font-size);
+    }
+
+    .nc-metric__unit {
+      font-size: var(--nc-metric-xl-unit-font-size);
+    }
+
+    .nc-metric__label {
+      font-size: var(--nc-metric-xl-label-font-size);
+    }
+  }
 }
 
-.nc-metric__value {
-  font-family: var(--font-heading);
-  font-size: var(--fs-6xl);
-  font-weight: var(--fnd-font-weight-black);
-  color: var(--fnd-color-background-accent);
-}
-
-// Override for metrics section to not use full-bleed
+// Override fuer Metrics-Section Grid (Website)
 section.section--metrics .nc-container > .nc-metric-grid {
   padding-inline: 0;
   margin-inline: 0;

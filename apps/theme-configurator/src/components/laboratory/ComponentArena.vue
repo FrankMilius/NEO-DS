@@ -1435,6 +1435,153 @@
           </div>
         </template>
 
+        <!-- ─── metric v2.0.0 ─────────────────────────────────────── -->
+        <template v-else-if="previewType === 'metric'">
+
+          <!-- 1. Solid vs Subtle -->
+          <div class="arena-specimen">
+            <span class="arena-specimen__label">Solid vs Subtle</span>
+            <div class="arena-specimen__pair">
+              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div :style="mtricStyle(tokensLight, tLight, 'solid')">
+                    <div :style="mtricLabelStyle(tokensLight, tLight, 'solid')">Gesamtumsatz</div>
+                    <div style="display: flex; align-items: baseline; gap: 6px;">
+                      <span :style="mtricValueStyle(tokensLight, tLight, 'solid')">2.4M</span>
+                      <span :style="mtricUnitStyle(tokensLight, tLight, 'solid')">€</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensLight, tLight, 'up')">↑ +12.5%</div>
+                    <div :style="mtricFooterStyle(tokensLight, tLight, 'solid')">vs. Vorjahr</div>
+                  </div>
+                  <div :style="mtricStyle(tokensLight, tLight, 'subtle')">
+                    <div :style="mtricLabelStyle(tokensLight, tLight, 'subtle')">Aktive Nutzer</div>
+                    <div style="display: flex; align-items: baseline; gap: 6px;">
+                      <span :style="mtricValueStyle(tokensLight, tLight, 'subtle')">18.3k</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensLight, tLight, 'up')">↑ +8.2%</div>
+                    <div :style="mtricFooterStyle(tokensLight, tLight, 'subtle')">letzte 30 Tage</div>
+                  </div>
+                </div>
+              </div>
+              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div :style="mtricStyle(tokensDark, tDark, 'solid')">
+                    <div :style="mtricLabelStyle(tokensDark, tDark, 'solid')">Gesamtumsatz</div>
+                    <div style="display: flex; align-items: baseline; gap: 6px;">
+                      <span :style="mtricValueStyle(tokensDark, tDark, 'solid')">2.4M</span>
+                      <span :style="mtricUnitStyle(tokensDark, tDark, 'solid')">€</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensDark, tDark, 'up')">↑ +12.5%</div>
+                    <div :style="mtricFooterStyle(tokensDark, tDark, 'solid')">vs. Vorjahr</div>
+                  </div>
+                  <div :style="mtricStyle(tokensDark, tDark, 'subtle')">
+                    <div :style="mtricLabelStyle(tokensDark, tDark, 'subtle')">Aktive Nutzer</div>
+                    <div style="display: flex; align-items: baseline; gap: 6px;">
+                      <span :style="mtricValueStyle(tokensDark, tDark, 'subtle')">18.3k</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensDark, tDark, 'up')">↑ +8.2%</div>
+                    <div :style="mtricFooterStyle(tokensDark, tDark, 'subtle')">letzte 30 Tage</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Sizes: MD / LG / XL -->
+          <div class="arena-specimen">
+            <span class="arena-specimen__label">Sizes: MD / LG / XL</span>
+            <div class="arena-specimen__pair">
+              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div v-for="sz in ['md', 'lg', 'xl']" :key="sz">
+                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; opacity: .5;">{{ sz }}</div>
+                    <div :style="mtricStyle(tokensLight, tLight, 'solid', sz)">
+                      <div :style="mtricLabelStyle(tokensLight, tLight, 'solid', sz)">Conversion Rate</div>
+                      <div style="display: flex; align-items: baseline; gap: 6px;">
+                        <span :style="mtricValueStyle(tokensLight, tLight, 'solid', sz)">4.7</span>
+                        <span :style="mtricUnitStyle(tokensLight, tLight, 'solid', sz)">%</span>
+                      </div>
+                      <div :style="mtricTrendStyle(tokensLight, tLight, 'up')">↑ +1.2%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div v-for="sz in ['md', 'lg', 'xl']" :key="sz">
+                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; opacity: .5;">{{ sz }}</div>
+                    <div :style="mtricStyle(tokensDark, tDark, 'solid', sz)">
+                      <div :style="mtricLabelStyle(tokensDark, tDark, 'solid', sz)">Conversion Rate</div>
+                      <div style="display: flex; align-items: baseline; gap: 6px;">
+                        <span :style="mtricValueStyle(tokensDark, tDark, 'solid', sz)">4.7</span>
+                        <span :style="mtricUnitStyle(tokensDark, tDark, 'solid', sz)">%</span>
+                      </div>
+                      <div :style="mtricTrendStyle(tokensDark, tDark, 'up')">↑ +1.2%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Trend Variants -->
+          <div class="arena-specimen">
+            <span class="arena-specimen__label">Trend Variants: Up / Down / Neutral</span>
+            <div class="arena-specimen__pair">
+              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                  <div v-for="d in ['up','down','neutral']" :key="d" :style="mtricStyle(tokensLight, tLight, 'solid')">
+                    <div :style="mtricLabelStyle(tokensLight, tLight, 'solid')">{{ d === 'up' ? 'Umsatz' : d === 'down' ? 'Abwanderung' : 'Aufrufe' }}</div>
+                    <div :style="mtricValueStyle(tokensLight, tLight, 'solid')">{{ d === 'up' ? '1.2M' : d === 'down' ? '3.2%' : '45k' }}</div>
+                    <div :style="mtricTrendStyle(tokensLight, tLight, d)">{{ d === 'up' ? '↑ +12%' : d === 'down' ? '↓ -0.8%' : '— 0%' }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                  <div v-for="d in ['up','down','neutral']" :key="d" :style="mtricStyle(tokensDark, tDark, 'solid')">
+                    <div :style="mtricLabelStyle(tokensDark, tDark, 'solid')">{{ d === 'up' ? 'Umsatz' : d === 'down' ? 'Abwanderung' : 'Aufrufe' }}</div>
+                    <div :style="mtricValueStyle(tokensDark, tDark, 'solid')">{{ d === 'up' ? '1.2M' : d === 'down' ? '3.2%' : '45k' }}</div>
+                    <div :style="mtricTrendStyle(tokensDark, tDark, d)">{{ d === 'up' ? '↑ +12%' : d === 'down' ? '↓ -0.8%' : '— 0%' }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Dashboard Grid (subtle md) -->
+          <div class="arena-specimen">
+            <span class="arena-specimen__label">Dashboard Grid</span>
+            <div class="arena-specimen__pair">
+              <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-base'] }">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                  <div v-for="(m, i) in mtricDashboardData" :key="i" :style="mtricStyle(tokensLight, tLight, 'subtle', 'md')">
+                    <div :style="mtricLabelStyle(tokensLight, tLight, 'subtle', 'md')">{{ m.label }}</div>
+                    <div style="display: flex; align-items: baseline; gap: 4px;">
+                      <span :style="mtricValueStyle(tokensLight, tLight, 'subtle', 'md')">{{ m.value }}</span>
+                      <span v-if="m.unit" :style="mtricUnitStyle(tokensLight, tLight, 'subtle', 'md')">{{ m.unit }}</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensLight, tLight, m.trend)">{{ m.icon }} {{ m.delta }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                  <div v-for="(m, i) in mtricDashboardData" :key="i" :style="mtricStyle(tokensDark, tDark, 'subtle', 'md')">
+                    <div :style="mtricLabelStyle(tokensDark, tDark, 'subtle', 'md')">{{ m.label }}</div>
+                    <div style="display: flex; align-items: baseline; gap: 4px;">
+                      <span :style="mtricValueStyle(tokensDark, tDark, 'subtle', 'md')">{{ m.value }}</span>
+                      <span v-if="m.unit" :style="mtricUnitStyle(tokensDark, tDark, 'subtle', 'md')">{{ m.unit }}</span>
+                    </div>
+                    <div :style="mtricTrendStyle(tokensDark, tDark, m.trend)">{{ m.icon }} {{ m.delta }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </template>
+
         <!-- ─── icon-set ───────────────────────────────────────────── -->
         <template v-else-if="previewType === 'icon-set'">
           <div class="arena-specimen">
@@ -1637,8 +1784,9 @@ const PREVIEW_CONFIG = {
   'dropdown-menu': 'navigation',
   // progress-indicator (3)
   progress: 'progress-indicator', spinner: 'progress-indicator', skeleton: 'progress-indicator',
-  // data-display (3)
+  // data-display (3) + metric (1)
   'data-table': 'data-display', timeline: 'data-display', sidebar: 'data-display',
+  metric: 'metric',
   // form-layout (7)
   form: 'form-layout', 'form-field': 'form-layout', 'form-label': 'form-layout',
   'form-error': 'form-layout', 'form-hint': 'form-layout', 'input-group': 'form-layout',
@@ -2163,6 +2311,99 @@ function formErrorStyle(tokens) {
     color: t('color') || tLight.value['text-danger'] || '#dc2626'
   }
 }
+
+// --- metric v2.0.0 ---
+function mTk(tokens, prop) { return tokens[`nc-metric-${prop}`] || '' }
+
+const mtricSizeMap = {
+  md: { padding: '16px', valueSize: '1.875rem', unitSize: '1.125rem', labelSize: '0.75rem' },
+  lg: { padding: '24px', valueSize: '3.5rem', unitSize: '1.25rem', labelSize: '0.875rem' },
+  xl: { padding: '32px', valueSize: '5rem', unitSize: '1.875rem', labelSize: '1rem' }
+}
+
+function mtricStyle(tokens, t, emphasis, size = 'lg') {
+  const s = mtricSizeMap[size] || mtricSizeMap.lg
+  const pad = size === 'md' ? (mTk(tokens, 'md-padding') || s.padding)
+            : size === 'xl' ? (mTk(tokens, 'xl-padding') || s.padding)
+            : (mTk(tokens, 'padding') || s.padding)
+  if (emphasis === 'subtle') {
+    return { display: 'flex', flexDirection: 'column', gap: mTk(tokens, 'gap') || '8px',
+      background: mTk(tokens, 'subtle-bg') || t['background-secondary'],
+      color: mTk(tokens, 'subtle-color') || t['text-primary'],
+      borderRadius: mTk(tokens, 'radius') || '4px', padding: pad }
+  }
+  return { display: 'flex', flexDirection: 'column', gap: mTk(tokens, 'gap') || '8px',
+    background: mTk(tokens, 'bg') || t['background-inverse'],
+    color: mTk(tokens, 'color') || t['text-inverse'],
+    borderRadius: mTk(tokens, 'radius') || '4px', padding: pad }
+}
+
+function mtricValueStyle(tokens, t, emphasis, size = 'lg') {
+  const s = mtricSizeMap[size] || mtricSizeMap.lg
+  const szTk = size === 'md' ? 'md-value-font-size' : size === 'xl' ? 'xl-value-font-size' : 'value-font-size'
+  return {
+    fontFamily: mTk(tokens, 'value-font-family') || 'var(--font-heading,system-ui)',
+    fontSize: mTk(tokens, szTk) || s.valueSize,
+    fontWeight: mTk(tokens, 'value-font-weight') || '900',
+    lineHeight: mTk(tokens, 'value-line-height') || '1.1',
+    color: emphasis === 'subtle' ? (mTk(tokens, 'subtle-value-color') || t['interactive-default']) : (mTk(tokens, 'value-color') || t['background-accent']),
+    fontVariantNumeric: 'tabular-nums'
+  }
+}
+
+function mtricUnitStyle(tokens, t, emphasis, size = 'lg') {
+  const s = mtricSizeMap[size] || mtricSizeMap.lg
+  const szTk = size === 'md' ? 'md-unit-font-size' : size === 'xl' ? 'xl-unit-font-size' : 'unit-font-size'
+  return {
+    fontSize: mTk(tokens, szTk) || s.unitSize,
+    fontWeight: mTk(tokens, 'unit-font-weight') || '700',
+    color: emphasis === 'subtle' ? (mTk(tokens, 'subtle-value-color') || t['interactive-default']) : (mTk(tokens, 'unit-color') || t['background-accent']),
+    lineHeight: '1'
+  }
+}
+
+function mtricLabelStyle(tokens, t, emphasis, size = 'lg') {
+  const s = mtricSizeMap[size] || mtricSizeMap.lg
+  const szTk = size === 'md' ? 'md-label-font-size' : size === 'xl' ? 'xl-label-font-size' : 'label-font-size'
+  if (emphasis === 'subtle') {
+    return { fontSize: mTk(tokens, szTk) || s.labelSize, fontWeight: mTk(tokens, 'label-font-weight') || '500',
+      color: mTk(tokens, 'subtle-label-color') || t['text-secondary'],
+      opacity: mTk(tokens, 'subtle-label-opacity') || '1', lineHeight: '1.3' }
+  }
+  return { fontSize: mTk(tokens, szTk) || s.labelSize, fontWeight: mTk(tokens, 'label-font-weight') || '500',
+    color: mTk(tokens, 'label-color') || t['text-inverse'],
+    opacity: mTk(tokens, 'label-opacity') || '0.75', lineHeight: '1.3' }
+}
+
+function mtricTrendStyle(tokens, t, direction) {
+  const colorMap = {
+    up: mTk(tokens, 'trend-up-color') || t['feedback-success'] || '#16a34a',
+    down: mTk(tokens, 'trend-down-color') || t['feedback-danger'] || '#dc2626',
+    neutral: mTk(tokens, 'trend-neutral-color') || t['text-tertiary'] || '#9ca3af'
+  }
+  return { display: 'inline-flex', alignItems: 'center', gap: mTk(tokens, 'trend-gap') || '4px',
+    fontSize: mTk(tokens, 'trend-font-size') || '0.875rem',
+    fontWeight: mTk(tokens, 'trend-font-weight') || '600',
+    color: colorMap[direction] || colorMap.neutral, lineHeight: '1' }
+}
+
+function mtricFooterStyle(tokens, t, emphasis) {
+  if (emphasis === 'subtle') {
+    return { fontSize: mTk(tokens, 'footer-font-size') || '0.75rem',
+      color: mTk(tokens, 'subtle-footer-color') || t['text-tertiary'],
+      opacity: mTk(tokens, 'subtle-footer-opacity') || '1', lineHeight: '1.3' }
+  }
+  return { fontSize: mTk(tokens, 'footer-font-size') || '0.75rem',
+    color: mTk(tokens, 'footer-color') || t['text-inverse'],
+    opacity: mTk(tokens, 'footer-opacity') || '0.5', lineHeight: '1.3' }
+}
+
+const mtricDashboardData = [
+  { label: 'Umsatz', value: '1.2M', unit: '€', trend: 'up', icon: '↑', delta: '+12%' },
+  { label: 'Nutzer', value: '18.3k', unit: null, trend: 'up', icon: '↑', delta: '+8%' },
+  { label: 'Abwanderung', value: '3.2', unit: '%', trend: 'down', icon: '↓', delta: '-0.8%' },
+  { label: 'Ladezeit', value: '240', unit: 'ms', trend: 'neutral', icon: '—', delta: '0%' }
+]
 
 // --- code ---
 function codeBlockStyle(tokens) {

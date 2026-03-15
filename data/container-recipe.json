@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "container",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["layout", "object", "container"],
     "links": {
@@ -18,9 +18,12 @@
     ],
     "domNotes": [
       "Container zentriert Inhalt horizontal und begrenzt die maximale Breite.",
-      "Fluid Padding skaliert von 16px (320px Viewport) bis 48px (1600px).",
-      "Ab XXL (1920px) entfaellt das Padding, stattdessen greift max-width.",
-      "Full-bleed Kinder (z.B. .nc-hero) brechen per negativem Margin aus dem Container aus."
+      "Fluid Padding Inline skaliert von 16px (320px Viewport) bis 48px (1600px) via clamp().",
+      "Ab XXL (1920px) entfaellt das Inline-Padding, stattdessen greift max-width.",
+      "Full-bleed Kinder (z.B. .nc-hero) brechen per negativem Margin aus dem Container aus.",
+      "Vertical Spacing (padding-block) definiert den Abstand zur umgebenden Section/Shell.",
+      "Alignment steuert die horizontale Ausrichtung (zentriert, links, rechts).",
+      "Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene."
     ]
   },
 
@@ -50,6 +53,69 @@
           "description": "Volle Breite ohne max-width Begrenzung."
         }
       }
+    },
+    "vertical-spacing": {
+      "label": "Vertical Spacing",
+      "description": "Vertikales Padding (padding-block) fuer den Abstand zur umgebenden Section oder Shell.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Kein vertikales Padding (Standard)."
+        },
+        "sm": {
+          "modifier": "nc-container--vspace-sm",
+          "tokenGroups": ["geometry", "vertical-spacing"],
+          "description": "Kleiner vertikaler Abstand: 16px – 24px (fluid)."
+        },
+        "md": {
+          "modifier": "nc-container--vspace-md",
+          "tokenGroups": ["geometry", "vertical-spacing"],
+          "description": "Mittlerer vertikaler Abstand: 32px – 48px (fluid)."
+        },
+        "lg": {
+          "modifier": "nc-container--vspace-lg",
+          "tokenGroups": ["geometry", "vertical-spacing"],
+          "description": "Grosser vertikaler Abstand: 48px – 80px (fluid)."
+        }
+      }
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Horizontale Ausrichtung des Containers innerhalb des Viewports.",
+      "values": {
+        "center": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Zentriert (Standard): margin-inline: auto."
+        },
+        "start": {
+          "modifier": "nc-container--align-start",
+          "tokenGroups": ["geometry", "alignment"],
+          "description": "Linksbuendig: margin-inline-start: 0; margin-inline-end: auto."
+        },
+        "end": {
+          "modifier": "nc-container--align-end",
+          "tokenGroups": ["geometry", "alignment"],
+          "description": "Rechtsbuendig: margin-inline-start: auto; margin-inline-end: 0."
+        }
+      }
+    },
+    "surface": {
+      "label": "Surface",
+      "description": "Optionale Hintergrund-Surface auf Layout-Ebene (aehnlich Card, aber als Container).",
+      "values": {
+        "transparent": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Kein Hintergrund (Standard)."
+        },
+        "elevated": {
+          "modifier": "nc-container--surface",
+          "tokenGroups": ["geometry", "surface"],
+          "description": "Surface-Container mit Hintergrundfarbe, Border-Radius und optionalem Schatten."
+        }
+      }
     }
   },
 
@@ -65,7 +131,8 @@
       "interactive": false,
       "assertions": [
         "Container ist ein reines Layout-Element ohne semantische Rolle.",
-        "Inhalt innerhalb des Containers muss eigenstaendig zugaenglich sein."
+        "Inhalt innerhalb des Containers muss eigenstaendig zugaenglich sein.",
+        "Surface-Container sollten als <section> oder <article> mit aria-label genutzt werden."
       ]
     },
     "overrides": []
@@ -88,6 +155,30 @@
         "tokens": [
           "nc-container-max-width-wide"
         ]
+      },
+      "vertical-spacing": {
+        "label": "Vertical Spacing",
+        "tokens": [
+          "nc-container-padding-block-sm",
+          "nc-container-padding-block-md",
+          "nc-container-padding-block-lg"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "tokens": [
+          "nc-container-margin-start",
+          "nc-container-margin-end"
+        ]
+      },
+      "surface": {
+        "label": "Surface",
+        "tokens": [
+          "nc-container-surface-bg",
+          "nc-container-surface-radius",
+          "nc-container-surface-shadow",
+          "nc-container-surface-padding"
+        ]
       }
     }
   },
@@ -107,6 +198,36 @@
       "description": "Alle Container-Breiten im Vergleich.",
       "matrix": {
         "axes": { "width": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "vertical-spacing-scale",
+      "label": "Vertical Spacing",
+      "description": "Vertikales Padding in drei Stufen.",
+      "matrix": {
+        "axes": { "vertical-spacing": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "alignment-options",
+      "label": "Alignment",
+      "description": "Horizontale Ausrichtung: zentriert, links, rechts.",
+      "matrix": {
+        "axes": { "alignment": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "surface-variants",
+      "label": "Surface",
+      "description": "Transparenter vs. Surface-Container.",
+      "matrix": {
+        "axes": { "surface": "*" },
         "states": ["default"]
       },
       "layout": "row"

@@ -3,9 +3,9 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "pagination",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "navigation", "list"],
+    "tags": ["navigation", "list", "data"],
     "links": {
       "figma": "",
       "storybook": "",
@@ -16,53 +16,71 @@
   "anatomy": {
     "root": { "element": ".nc-pagination" },
     "slots": [
-      { "name": "prev", "element": ".nc-pagination__prev", "optional": true },
+      { "name": "prev", "element": ".nc-pagination__prev", "optional": false },
       { "name": "list", "element": ".nc-pagination__list", "optional": false },
       { "name": "item", "element": ".nc-pagination__item", "optional": false },
       { "name": "ellipsis", "element": ".nc-pagination__ellipsis", "optional": true },
-      { "name": "next", "element": ".nc-pagination__next", "optional": true }
+      { "name": "next", "element": ".nc-pagination__next", "optional": false },
+      { "name": "info", "element": ".nc-pagination__info", "optional": true },
+      { "name": "jumper", "element": ".nc-pagination__jumper", "optional": true }
     ],
     "convenience": [],
     "domNotes": [
-      "<nav aria-label='Seitennavigation'> als Container.",
-      "Seitenliste als <ol> mit <li>-Elementen fuer geordnete Semantik.",
-      "Items als <button> (clientseitig) oder <a href> (SSR/SEO).",
-      "Aktive Seite: --active Modifier oder aria-current='page'.",
-      "Prev/Next: SVG-Chevrons (16px), disabled via aria-disabled='true'.",
-      "Ellipsis: '...' Span, .u-sr-only Text 'Weitere Seiten' fuer Screen Reader.",
-      "font-variant-numeric: tabular-nums — gleichbreite Ziffern fuer stabiles Layout.",
-      "transition-quick auf background-color + color fuer Hover-Animation."
+      "Root: <nav aria-label='Seitennavigation'> — landmark fuer Screen Reader.",
+      "Seitenzahlen als <button> oder <a>. Aktive Seite: aria-current='page'.",
+      "Prev/Next: <button> mit SVG-Chevron. Am Rand: aria-disabled='true'.",
+      "Ellipsis: <span> mit .u-sr-only 'Weitere Seiten'.",
+      "Info: Minimal-Variante zeigt 'Seite X von Y' statt Seitenzahlen.",
+      "Jumper: <input type='number'> fuer direkte Seiteneingabe.",
+      "Touch-Target: unsichtbarer ::before min. 44px fuer Mobile-Tap.",
+      "tabular-nums: Gleichbreite Ziffern verhindern Layout-Sprung bei Seitenwechsel."
     ]
   },
 
   "axes": {
     "size": {
       "label": "Size",
-      "description": "Groesse der Seitenbuttons — md (32px, Standard), sm (28px, kompakt)",
+      "description": "Groesse der Seitenbuttons — md (32px, default), sm (28px, kompakt)",
       "values": {
-        "md": { "modifier": null,                    "tokenGroups": [], "renderHint": "pagination-md" },
-        "sm": { "modifier": "nc-pagination--sm",     "tokenGroups": [], "renderHint": "pagination-sm" }
+        "md": { "modifier": null, "tokenGroups": [] },
+        "sm": { "modifier": "nc-pagination--sm", "tokenGroups": [] }
       }
     },
-
     "alignment": {
       "label": "Alignment",
-      "description": "Ausrichtung — start (Standard, links), center (zentriert), end (rechts), between (Prev links, Next rechts)",
+      "description": "Horizontale Ausrichtung der Pagination",
       "values": {
-        "start":   { "modifier": null,                        "tokenGroups": [], "renderHint": "pagination-start" },
-        "center":  { "modifier": "nc-pagination--center",     "tokenGroups": [], "renderHint": "pagination-center" },
-        "end":     { "modifier": "nc-pagination--end",        "tokenGroups": [], "renderHint": "pagination-end" },
-        "between": { "modifier": "nc-pagination--between",    "tokenGroups": [], "renderHint": "pagination-between" }
+        "start":   { "modifier": null,                         "tokenGroups": [] },
+        "center":  { "modifier": "nc-pagination--center",      "tokenGroups": [] },
+        "end":     { "modifier": "nc-pagination--end",         "tokenGroups": [] },
+        "between": { "modifier": "nc-pagination--between",     "tokenGroups": [] }
       }
     },
-
-    "content": {
-      "label": "Content",
-      "description": "Inhaltskombination — numbers-only (nur Seitenzahlen), with-nav (+ Prev/Next), with-ellipsis (+ Prev/Next + Ellipsis)",
+    "appearance": {
+      "label": "Appearance",
+      "description": "Visueller Stil — default (Hintergrund), pill (abgerundet), outline (Border), minimal (nur Prev/Next + Info)",
       "values": {
-        "numbers-only":  { "modifier": null, "tokenGroups": [], "renderHint": "pagination-numbers" },
-        "with-nav":      { "modifier": null, "tokenGroups": [], "slotConfig": { "prev": true, "next": true }, "renderHint": "pagination-nav" },
-        "with-ellipsis": { "modifier": null, "tokenGroups": [], "slotConfig": { "prev": true, "next": true, "ellipsis": true }, "renderHint": "pagination-ellipsis" }
+        "default": { "modifier": null,                         "tokenGroups": ["item"] },
+        "pill":    { "modifier": "nc-pagination--pill",        "tokenGroups": ["item"] },
+        "outline": { "modifier": "nc-pagination--outline",     "tokenGroups": ["outline"] },
+        "minimal": { "modifier": "nc-pagination--minimal",     "tokenGroups": ["minimal"] }
+      }
+    },
+    "elevation": {
+      "label": "Elevation",
+      "description": "Shadow auf aktiver Seite — none (flach), raised (Schatten)",
+      "values": {
+        "none":   { "modifier": null,                          "tokenGroups": [] },
+        "raised": { "modifier": "nc-pagination--raised",       "tokenGroups": ["raised"] }
+      }
+    },
+    "features": {
+      "label": "Features",
+      "description": "Zusaetzliche Funktionen — default, with-indicator (Unterlinie), with-jumper (Go-to Input)",
+      "values": {
+        "default":        { "modifier": null,                              "tokenGroups": [] },
+        "with-indicator": { "modifier": "nc-pagination--with-indicator",   "tokenGroups": ["indicator"] },
+        "with-jumper":    { "modifier": "nc-pagination--with-jumper",      "tokenGroups": ["jumper"] }
       }
     }
   },
@@ -71,10 +89,10 @@
     "supported": ["default", "hover", "focus", "active", "disabled"],
     "precedence": ["disabled", "active", "focus", "hover", "default"],
     "rules": [
-      { "state": "hover", "unless": ["disabled", "active"],  "note": "Hover: background-hover auf dem Item. Nicht auf active oder disabled Items." },
-      { "state": "focus", "unless": ["disabled"],             "note": "Focus: focus-ring via :focus-visible auf Items und Nav-Buttons." },
-      { "state": "active", "unless": ["disabled"],            "note": "Active: Aktuelle Seite — interactive-default Hintergrund, on-interactive Farbe. Kein Hover-Effekt." },
-      { "state": "disabled", "unless": [],                    "note": "Disabled: Prev/Next am Seitenrand — text-disabled Farbe, pointer-events: none." }
+      { "state": "active", "unless": ["disabled"], "note": "Aktive Seite: aria-current='page', bg-active, color-active." },
+      { "state": "disabled", "unless": [], "note": "Disabled: Prev am Anfang, Next am Ende. aria-disabled='true', pointer-events:none." },
+      { "state": "hover", "unless": ["disabled", "active"], "note": "Hover: bg-hover Hintergrund." },
+      { "state": "focus", "unless": ["disabled"], "note": "Focus-visible: focus-ring Mixin." }
     ],
     "interactive": true
   },
@@ -82,34 +100,28 @@
   "a11y": {
     "base": {
       "interactive": true,
-      "contrastTarget": "WCAG AA non-text (3:1)",
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": ["hasAccessibleName", "supportsKeyboard"],
-      "note": "<nav aria-label='Seitennavigation'> fuer Landmark-Navigation. Aktive Seite: aria-current='page'. Prev/Next am Rand: aria-disabled='true'. Ellipsis: .u-sr-only 'Weitere Seiten'. Tab-Navigation durch alle Items."
+      "note": "<nav> landmark mit aria-label. Aktive Seite: aria-current='page'. Disabled: aria-disabled='true'. Ellipsis: .u-sr-only 'Weitere Seiten'. Touch-Target min. 44px via ::before."
     },
     "overrides": [
       {
-        "when": { "states": ["active"] },
-        "suggest": ["aria-current"],
-        "note": "Aktive Seite: aria-current='page' auf dem Button/Link. Kontrast von on-interactive gegen active-bg muss 4.5:1 sein."
-      },
-      {
         "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
-        "note": "Disabled Prev/Next: aria-disabled='true'. Nicht tabbar, pointer-events: none."
+        "suggest": ["aria-disabled=\"true\""],
+        "note": "Prev/Next am Rand: aria-disabled='true' statt disabled-Attribut fuer Screen-Reader-Ankuendigung."
       }
     ]
   },
 
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["nav-landmark", "aria-label"], "notes": ["<nav> mit aria-label='Seitennavigation' fuer Landmark-Navigation."] },
-      { "when": {}, "require": ["aria-current"], "notes": ["Aktive Seite braucht aria-current='page'."] }
+      { "when": {}, "require": ["nav-landmark"], "notes": ["Pagination muss in <nav aria-label='...'> stehen."] },
+      { "when": {}, "require": ["aria-current-page"], "notes": ["Aktive Seite braucht aria-current='page'."] },
+      { "when": { "slots": ["jumper"] }, "require": ["jumper-label"], "notes": ["Jumper-Input braucht aria-label='Gehe zu Seite'."] }
     ],
     "copy": {
-      "ariaLabel": {
-        "maxChars": 30,
-        "note": "aria-label beschreibt den Zweck: 'Seitennavigation', 'Ergebnis-Seiten'."
-      }
+      "prev": { "maxChars": 20, "note": "Prev-Button: knapper Text oder nur Icon." },
+      "next": { "maxChars": 20, "note": "Next-Button: knapper Text oder nur Icon." }
     }
   },
 
@@ -128,7 +140,7 @@
         ]
       },
       "item": {
-        "label": "Item",
+        "label": "Page Item",
         "tokens": [
           "nc-pagination-item-size",
           "nc-pagination-item-radius",
@@ -141,7 +153,7 @@
         ]
       },
       "navigation": {
-        "label": "Navigation",
+        "label": "Navigation (Prev/Next)",
         "tokens": [
           "nc-pagination-nav-color",
           "nc-pagination-nav-color-disabled"
@@ -151,6 +163,50 @@
         "label": "Ellipsis",
         "tokens": [
           "nc-pagination-ellipsis-color"
+        ]
+      },
+      "indicator": {
+        "label": "Active Indicator",
+        "tokens": [
+          "nc-pagination-active-indicator-height",
+          "nc-pagination-active-indicator-color"
+        ]
+      },
+      "raised": {
+        "label": "Raised (Shadow)",
+        "tokens": [
+          "nc-pagination-item-shadow-active"
+        ]
+      },
+      "touch": {
+        "label": "Touch Target",
+        "tokens": [
+          "nc-pagination-touch-min"
+        ]
+      },
+      "minimal": {
+        "label": "Minimal-Variante",
+        "tokens": [
+          "nc-pagination-minimal-info-color",
+          "nc-pagination-minimal-info-size"
+        ]
+      },
+      "jumper": {
+        "label": "Jumper (Go-to-Page)",
+        "tokens": [
+          "nc-pagination-jumper-width",
+          "nc-pagination-jumper-height",
+          "nc-pagination-jumper-radius",
+          "nc-pagination-jumper-border",
+          "nc-pagination-jumper-font-size",
+          "nc-pagination-jumper-color"
+        ]
+      },
+      "outline": {
+        "label": "Outline-Variante",
+        "tokens": [
+          "nc-pagination-outline-border",
+          "nc-pagination-outline-border-active"
         ]
       }
     }
@@ -167,7 +223,9 @@
         "styling.baseClasses",
         "axes.size.values.*.modifier",
         "axes.alignment.values.*.modifier",
-        "axes.content.values.*.modifier"
+        "axes.appearance.values.*.modifier",
+        "axes.elevation.values.*.modifier",
+        "axes.features.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -178,97 +236,130 @@
 
   "specimens": [
     {
-      "id": "all-states",
-      "label": "All States",
-      "description": "Pagination-Item in allen Zustaenden: default, hover, focus, active, disabled",
+      "id": "default",
+      "label": "Default",
+      "description": "Standard-Pagination mit Seitenzahlen, Ellipsis und Navigation",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["start"], "content": ["with-nav"] },
-        "states": ["default", "hover", "focus", "active", "disabled"]
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": ["default"], "elevation": ["none"], "features": ["default"] },
+        "states": ["default"]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Active-Item: on-interactive auf interactive-default — 4.5:1 Kontrast. Focus-Ring auf jedem Item. Disabled Prev/Next: text-disabled."
-      }
+      "render": { "compositionType": "pagination-default", "label": "default" }
     },
     {
-      "id": "size-variants",
-      "label": "Size Variants",
-      "description": "MD (32px) vs SM (28px)",
+      "id": "appearance-comparison",
+      "label": "Appearance Comparison",
+      "description": "Default vs Pill vs Outline vs Minimal",
       "matrix": {
-        "axes": { "size": "*", "alignment": ["start"], "content": ["with-nav"] },
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": "*", "elevation": ["none"], "features": ["default"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "appearance" },
+      "render": { "label": "{appearance}" }
+    },
+    {
+      "id": "size-comparison",
+      "label": "Size Comparison",
+      "description": "MD (32px) vs SM (28px) mit Touch-Target",
+      "matrix": {
+        "axes": { "size": "*", "alignment": ["start"], "appearance": ["default"], "elevation": ["none"], "features": ["default"] },
         "states": ["default"]
       },
       "layout": "grid",
       "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "SM: 28px Items, xs-Font. MD: 32px Items, sm-Font. Beide muessen min. 24px Touch-Target bieten."
-      }
+      "render": { "label": "{size}" }
+    },
+    {
+      "id": "raised",
+      "label": "Raised (Shadow)",
+      "description": "Aktive Seite mit Schatten — haptisches Feedback",
+      "matrix": {
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": ["default"], "elevation": ["raised"], "features": ["default"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "pagination-raised", "label": "raised" }
+    },
+    {
+      "id": "with-indicator",
+      "label": "With Active Indicator",
+      "description": "Aktive Seite mit Unterlinie — verbesserte visuelle Erkennbarkeit",
+      "matrix": {
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": ["default"], "elevation": ["none"], "features": ["with-indicator"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "pagination-indicator", "label": "indicator" }
+    },
+    {
+      "id": "with-jumper",
+      "label": "With Jumper",
+      "description": "Go-to-Page Input fuer schnelle Navigation bei vielen Seiten",
+      "matrix": {
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": ["default"], "elevation": ["none"], "features": ["with-jumper"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "pagination-jumper", "label": "jumper" }
+    },
+    {
+      "id": "minimal",
+      "label": "Minimal (Mobile)",
+      "description": "Nur Prev + 'Seite X von Y' + Next — ideal fuer Mobile und schmale Container",
+      "matrix": {
+        "axes": { "size": ["md"], "alignment": ["center"], "appearance": ["minimal"], "elevation": ["none"], "features": ["default"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "pagination-minimal", "label": "minimal" }
     },
     {
       "id": "alignment-variants",
       "label": "Alignment Variants",
       "description": "Start, Center, End, Between",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": "*", "content": ["with-nav"] },
+        "axes": { "size": ["md"], "alignment": "*", "appearance": ["default"], "elevation": ["none"], "features": ["default"] },
         "states": ["default"]
       },
       "layout": "grid",
       "layoutConfig": { "rowAxis": "alignment" },
-      "render": { "label": "{alignment}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Between: Prev links, Next rechts — volle Breite. Seitenzahlen in der Mitte."
-      }
-    },
-    {
-      "id": "content-variants",
-      "label": "Content Variants",
-      "description": "Numbers-only, mit Prev/Next, mit Ellipsis",
-      "matrix": {
-        "axes": { "size": ["md"], "alignment": ["start"], "content": "*" },
-        "states": ["default"]
-      },
-      "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Ellipsis: .u-sr-only 'Weitere Seiten' fuer Screen Reader. Prev/Next mit Chevron-SVG + sr-only Text."
-      }
-    },
-    {
-      "id": "many-pages",
-      "label": "Many Pages with Ellipsis",
-      "description": "Pagination mit vielen Seiten — Ellipsis verkuerzt die Liste",
-      "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "content": ["with-ellipsis"] },
-        "states": ["default"]
-      },
-      "layout": "row",
-      "render": { "compositionType": "pagination-many-pages", "label": "many pages" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Typisches Pattern: 1 ... 4 5 [6] 7 8 ... 20. Ellipsis-Spans sind nicht fokussierbar."
-      }
+      "render": { "label": "{alignment}" }
     },
     {
       "id": "first-last-page",
       "label": "First & Last Page",
-      "description": "Verhalten am Anfang und Ende — Prev bzw. Next disabled",
+      "description": "Disabled-States an den Raendern",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["start"], "content": ["with-nav"] },
+        "axes": { "size": ["md"], "alignment": ["start"], "appearance": ["default"], "elevation": ["none"], "features": ["default"] },
+        "states": ["disabled"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "pagination-edges", "label": "edges" }
+    },
+    {
+      "id": "pill-raised",
+      "label": "Pill + Raised Combo",
+      "description": "Pill-Form mit Shadow — moderner Look",
+      "matrix": {
+        "axes": { "size": ["md"], "alignment": ["center"], "appearance": ["pill"], "elevation": ["raised"], "features": ["default"] },
         "states": ["default"]
       },
       "layout": "row",
-      "render": { "compositionType": "pagination-edges", "label": "first/last" },
-      "a11y": {
-        "contrastTarget": "WCAG AA non-text (3:1)",
-        "note": "Erste Seite: Prev ist aria-disabled='true'. Letzte Seite: Next ist aria-disabled='true'."
-      }
+      "render": { "compositionType": "pagination-pill-raised", "label": "pill-raised" }
+    }
+  ],
+
+  "tokenDependencies": [
+    {
+      "source": "nc-button-radius-sm",
+      "target": "nc-pagination-item-radius",
+      "reason": "Pagination-Radius konsistent mit Button-Radius"
+    },
+    {
+      "source": "nc-input-border-width",
+      "target": "nc-pagination-outline-border",
+      "reason": "Outline-Border konsistent mit Input-Border"
     }
   ]
 }

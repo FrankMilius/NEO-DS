@@ -48,11 +48,29 @@ const state = reactive({
   // Light / Dark preview mode
   previewMode: 'light',
 
+  // Per-section preview mode memory (section → 'light'|'dark'|'split')
+  sectionPreviewModes: {},
+
   // Current navigation section
   activeSection: 'foundation-colors',
 
   // Color inspector active tab: 'primitives' or 'semantic'
   colorActiveTab: 'primitives',
+
+  // Spacing inspector active tab: 'primitives' or 'semantic'
+  spacingActiveTab: 'primitives',
+
+  // Spacing semantic category: null (overview) or 'layout'|'component'|'custom'
+  spacingCategory: null,
+
+  // Typography inspector active tab: 'primitives' or 'semantic'
+  typographyActiveTab: 'primitives',
+
+  // Shadow inspector active tab: 'primitives' or 'semantic'
+  shadowActiveTab: 'primitives',
+
+  // Typography semantic category: null (overview) or 'heading'|'display'|'body'|'feedback'
+  typographyCategory: null,
 
   // Semantic category: null (overview) or 'text'|'background'|'border'|'interactive'|'feedback'|'layer'|'on-color'
   semanticCategory: null,
@@ -66,6 +84,9 @@ const state = reactive({
 
   // Sync Geometry: Geometrie-Aenderungen gelten fuer beide Themes
   syncGeometry: true,
+
+  // Form Variant: Globaler Stil fuer Input/Textarea/Select (outlined/filled/borderless)
+  formVariant: { neo: 'outlined', customer: 'outlined' },
 
   // Highlighted Token: Inspector→Arena visuelles Feedback
   // { tokenId, property } oder null
@@ -148,6 +169,130 @@ const state = reactive({
     customer: {}
   },
 
+  // Custom spacing tokens per theme set (user-defined beyond defaults)
+  // Shape: { '14': { label: '14', value: '56px' }, ... }
+  customSpacingTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom radii tokens per theme set
+  // Maps key to { label, value }: { 'custom-1': { label: 'custom-1', value: '20px' } }
+  customRadiiTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom border width tokens per theme set
+  // Shape: { 'xxl': { label: 'XXL', value: '6px' } }
+  customBorderWidthTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom media ratio tokens per theme set
+  // Shape: { '21-9': { label: '21:9 (Ultrawide)', value: '21 / 9' } }
+  customMediaRatioTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom shadow level tokens per theme set
+  // Shape: { '2xl': { label: '2XL', value: '0 40px 80px rgba(15, 23, 42, 0.24)' } }
+  customShadowTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom elevation (semantic) mapping per theme set
+  // Shape: { 'popover': { label: 'Popover', value: 'md' } }  (value = shadow level key)
+  customElevationTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom opacity tokens per theme set
+  // Shape: { 'ghost': { label: 'Ghost', value: 0.04 } }
+  customOpacityTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom z-index tokens per theme set
+  // Shape: { 'popover': { label: 'Popover', value: 15 } }
+  customZindexTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom motion tokens per theme set
+  // Shape: { 'bounce': { label: 'Bounce', value: 'cubic-bezier(.68,-0.55,.27,1.55)', type: 'easing' } }
+  customMotionTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Custom motion effect tokens per theme set
+  // Shape: { 'bounce-in': { label: 'Bounce In', value: '...', transition: '...', intent: 'entrance' } }
+  customMotionEffectTokens: {
+    neo: {},
+    customer: {}
+  },
+
+  // Icon libraries per theme set
+  // Each entry: { id, name, builtIn, iconCount, manifestPath? }
+  // Built-in libraries: Tabler Icons + Heroicons
+  iconLibraries: {
+    neo: [
+      { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+      { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+    ],
+    customer: [
+      { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+      { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+    ]
+  },
+
+  // Icon stroke widths per size, per library, per theme set
+  // Structure: { neo: { tabler: { xs: '1', ... }, heroicons: { ... } }, customer: { ... } }
+  iconStrokeWidths: {
+    neo: {
+      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    },
+    customer: {
+      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    }
+  },
+
+  // Icon stroke colors per light/dark mode, per library, per theme set
+  // Structure: { neo: { tabler: { light: '#...', dark: '#...' }, heroicons: { ... } }, customer: { ... } }
+  iconStrokeColors: {
+    neo: {
+      tabler: { light: 'currentColor', dark: 'currentColor' },
+      heroicons: { light: 'currentColor', dark: 'currentColor' }
+    },
+    customer: {
+      tabler: { light: 'currentColor', dark: 'currentColor' },
+      heroicons: { light: 'currentColor', dark: 'currentColor' }
+    }
+  },
+
+  // Semantic spacing tokens per theme set
+  // Maps purpose to a primitive spacing reference: { 'padding-page': 'var(--fnd-spacing-08)', ... }
+  semanticSpacing: {
+    neo: {},
+    customer: {}
+  },
+
+  // Semantic typography tokens per theme set
+  // Maps purpose to typography values: { 'heading-h1-font-size': '42px', 'heading-h1-line-height': '1.1', ... }
+  semanticTypography: {
+    neo: {},
+    customer: {}
+  },
+
   // Undo history
   history: [],
   historyIndex: -1,
@@ -223,6 +368,66 @@ const currentFocusRingMode = computed(() => {
   return state.focusRingMode[state.activeThemeSet]
 })
 
+const currentCustomSpacingTokens = computed(() => {
+  return state.customSpacingTokens[state.activeThemeSet]
+})
+
+const currentCustomRadiiTokens = computed(() => {
+  return state.customRadiiTokens[state.activeThemeSet]
+})
+
+const currentCustomBorderWidthTokens = computed(() => {
+  return state.customBorderWidthTokens[state.activeThemeSet]
+})
+
+const currentCustomMediaRatioTokens = computed(() => {
+  return state.customMediaRatioTokens[state.activeThemeSet]
+})
+
+const currentCustomShadowTokens = computed(() => {
+  return state.customShadowTokens[state.activeThemeSet]
+})
+
+const currentCustomElevationTokens = computed(() => {
+  return state.customElevationTokens[state.activeThemeSet]
+})
+
+const currentCustomOpacityTokens = computed(() => {
+  return state.customOpacityTokens[state.activeThemeSet]
+})
+
+const currentCustomZindexTokens = computed(() => {
+  return state.customZindexTokens[state.activeThemeSet]
+})
+
+const currentCustomMotionTokens = computed(() => {
+  return state.customMotionTokens[state.activeThemeSet]
+})
+
+const currentCustomMotionEffectTokens = computed(() => {
+  return state.customMotionEffectTokens[state.activeThemeSet]
+})
+
+const currentIconLibraries = computed(() => {
+  return state.iconLibraries[state.activeThemeSet]
+})
+
+const currentIconStrokeWidths = computed(() => {
+  return state.iconStrokeWidths[state.activeThemeSet]
+})
+
+const currentIconStrokeColors = computed(() => {
+  return state.iconStrokeColors[state.activeThemeSet]
+})
+
+const currentSemanticSpacing = computed(() => {
+  return state.semanticSpacing[state.activeThemeSet]
+})
+
+const currentSemanticTypography = computed(() => {
+  return state.semanticTypography[state.activeThemeSet]
+})
+
 const isDirty = computed(() => {
   // Check if customer theme differs from neo defaults
   if (state.activeThemeSet === 'customer') {
@@ -251,16 +456,16 @@ function setActiveThemeSet(themeSet) {
 
 function setPreviewMode(mode) {
   state.previewMode = mode
+  // Merke den Preview Mode fuer die aktuelle Sektion
+  state.sectionPreviewModes[state.activeSection] = mode
 }
 
 function setActiveSection(sectionId) {
   state.activeSection = sectionId
   state.arenaSelection = null
   resetArenaFilters()
-  // Komponenten-Sektionen starten immer im Split View (Light/Dark Vergleich)
-  if (sectionId.startsWith('component-')) {
-    state.previewMode = 'split'
-  }
+  // Gespeicherten Preview Mode der Sektion wiederherstellen, sonst Light als Default
+  state.previewMode = state.sectionPreviewModes[sectionId] || 'light'
 }
 
 function selectToken(token) {
@@ -281,6 +486,14 @@ function clearArenaSelection() {
 
 function setSyncGeometry(val) {
   state.syncGeometry = val
+}
+
+function getFormVariant() {
+  return state.formVariant[state.activeThemeSet] || 'outlined'
+}
+
+function setFormVariant(variant) {
+  state.formVariant[state.activeThemeSet] = variant
 }
 
 function setHighlightedToken(tokenId, property) {
@@ -323,6 +536,122 @@ function updateFoundationToken(category, key, value) {
   state.foundationOverrides[state.activeThemeSet][category][key] = value
 }
 
+// ---------------------------------------------------------------------------
+// Mirror Token Map: Source → Targets
+// Wenn ein Source-Token geaendert wird, werden die Targets automatisch
+// mit dem gleichen Wert aktualisiert (sofern syncGeometry aktiv ist).
+// ---------------------------------------------------------------------------
+const MIRROR_TOKEN_MAP = {
+  'nc-input-height-sm':    ['nc-input-group-height-sm'],
+  'nc-input-height-md':    ['nc-input-group-height-md'],
+  'nc-input-height-lg':    ['nc-input-group-height-lg'],
+  'nc-input-radius':       ['nc-input-group-radius'],
+  'nc-input-border-width': ['nc-input-group-border-width'],
+  // Form Control Shared → Input aliases (cascade via CSS var(), mirror for inspector sync)
+  'nc-form-control-bg':                          ['nc-input-bg'],
+  'nc-form-control-color':                       ['nc-input-color'],
+  'nc-form-control-border-color':                ['nc-input-border'],
+  'nc-form-control-radius':                      ['nc-input-radius', 'nc-input-group-radius'],
+  'nc-form-control-border-width':                ['nc-input-border-width', 'nc-input-group-border-width'],
+  'nc-form-control-placeholder-color':           ['nc-input-placeholder'],
+  'nc-form-control-border-hover':                ['nc-input-border-hover'],
+  'nc-form-control-border-focus':                ['nc-input-border-focus'],
+  'nc-form-control-transition-duration':         ['nc-input-transition-duration'],
+  // Input Label → Switch Label + Rating Count (einheitliche Form-Label-Farbe)
+  'nc-input-label-color':                        ['nc-switch-label-color', 'nc-rating-count-color'],
+  // Slider: Track-Fill-Farbe → Range-Fill-Farbe (Konsistenz)
+  'nc-slider-track-bg-active':                   ['nc-slider-range-fill-bg'],
+  // Dropdown: Separator-Farbe → Footer-Border-Farbe (Konsistenz)
+  'nc-dropdown-separator-color':                 ['nc-dropdown-footer-border-color'],
+  // Dialog/Modal: Header-Border → Footer-Border (Konsistenz bei Scroll-Borders)
+  'nc-dialog-header-border-color':               ['nc-dialog-footer-border-color'],
+  // Popover: Header-Border → Footer-Border (Konsistenz)
+  'nc-popover-header-border':                    ['nc-popover-footer-border'],
+  // Popover: BG → Arrow-BG (Arrow-Hintergrund muss zum Panel passen)
+  // (moved to bottom with nav-menu-viewport-bg)
+  // Toast: Default-Progress-BG folgt Default-Icon-Color (visueller Gleichklang)
+  'nc-toast-default-icon-color':                 ['nc-toast-default-progress-bg'],
+  // Toast: Severity-Progress-BG folgt Severity-Icon-Color (Konsistenz pro Variante)
+  'nc-toast-success-icon-color':                 ['nc-toast-success-progress-bg'],
+  'nc-toast-warning-icon-color':                 ['nc-toast-warning-progress-bg'],
+  'nc-toast-error-icon-color':                   ['nc-toast-error-progress-bg'],
+  'nc-toast-info-icon-color':                    ['nc-toast-info-progress-bg'],
+  // Notification: Radius folgt Card-Radius, Shadow folgt Popover-Shadow
+  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius'],
+  // (moved to bottom with nav-menu-viewport-shadow)
+  // Drawer: BG/Shadow/Overlay folgen Dialog-Tokens
+  'nc-dialog-bg':                                ['nc-drawer-bg'],
+  'nc-dialog-shadow':                            ['nc-drawer-shadow'],
+  'nc-dialog-overlay-bg':                        ['nc-drawer-overlay-bg'],
+  // Alert ↔ Alert-Dialog: Danger-Farben muessen konsistent sein
+  'nc-alert-danger-icon-color':                  ['nc-dialog-danger-icon-color'],
+  'nc-alert-danger-bg':                          ['nc-dialog-danger-action-bg'],
+  // Accordion: Media-Radius erbt von Card-Radius (Konsistenz)
+  'nc-card-radius':                              ['nc-accordion-media-radius'],
+  // Accordion: Item-Radius folgt Card-Radius (Separated Cards = Cards)
+  'nc-accordion-item-radius':                    ['nc-accordion-media-radius'],
+  // Toggle Group: Radius folgt Input-Radius (Formular-Konsistenz)
+  'nc-input-radius':                             ['nc-toggle-group-radius'],
+  // Toggle Group: Underline-Color folgt Selected-BG (visuelle Kohaerenz)
+  'nc-toggle-group-item-selected-bg':            ['nc-toggle-group-underline-color'],
+  // Input-Radius: Item + Toolbar folgen (Formular-Konsistenz)
+  'nc-input-radius':                             ['nc-item-radius', 'nc-toolbar-radius'],
+  // Item: Selected-Border und Accent-Color folgen Interactive-Default (Markenfarbe)
+  'nc-item-selected-border':                     ['nc-item-accent-color'],
+  // Item: Thumbnail-Radius folgt Media-Radius (Konsistenz)
+  'nc-item-media-radius':                        ['nc-item-thumbnail-radius'],
+  // Search: Results-Shadow folgt Dropdown-Shadow (Overlay-Konsistenz)
+  'nc-dropdown-shadow':                          ['nc-search-results-shadow'],
+  // Search: Command-Shadow folgt Dialog-Shadow (Modal-Konsistenz)
+  'nc-dialog-shadow':                            ['nc-search-command-shadow'],
+  // Toolbar: Gap folgt Button-Gap (Hierarchie-Konsistenz)
+  'nc-button-gap':                               ['nc-toolbar-gap'],
+  // Navigation-Menu: Viewport-Shadow folgt Popover-Shadow (Overlay-Konsistenz)
+  'nc-popover-shadow':                           ['nc-notification-shadow', 'nc-nav-menu-viewport-shadow'],
+  // Navigation-Menu: Viewport-BG/Border/Radius folgen Popover (Overlay-Konsistenz)
+  'nc-popover-bg':                               ['nc-popover-arrow-bg', 'nc-nav-menu-viewport-bg'],
+  'nc-popover-border':                           ['nc-nav-menu-viewport-border'],
+  'nc-popover-radius':                           ['nc-nav-menu-viewport-radius'],
+  // Nav Molecules → Navigation Menu: Shared Interaction Tokens
+  'nc-nav-mol-link-hover-bg':                    ['nc-nav-menu-trigger-hover-bg'],
+  'nc-nav-mol-link-active-border':               ['nc-nav-menu-indicator-color'],
+  // Nav Atoms → Nav Molecules: Icon-Color Kaskade
+  'nc-nav-atom-icon-color':                      ['nc-nav-mol-link-color'],
+  // Governance: Label ↔ Tag ↔ Badge — Konsistente Semantik-Farben
+  'nc-tag-success-bg':                           ['nc-label-success-bg', 'nc-badge-success-bg'],
+  'nc-tag-warning-bg':                           ['nc-label-warning-bg', 'nc-badge-warning-bg'],
+  'nc-tag-error-bg':                             ['nc-label-danger-bg', 'nc-badge-error-bg'],
+  'nc-tag-info-bg':                              ['nc-label-info-bg', 'nc-badge-info-bg'],
+  // Badge → Label: Typografie-Konsistenz
+  'nc-badge-font-weight':                        ['nc-label-font-weight'],
+  // Avatar: Badge-Online folgt Success-Farbe (Konsistenz mit Badge/Label)
+  'nc-badge-success-bg':                         ['nc-avatar-badge-online'],
+  // Avatar: Badge-Busy folgt Danger-Farbe
+  'nc-badge-error-bg':                           ['nc-avatar-badge-busy'],
+  // Avatar: Badge-Away folgt Warning-Farbe
+  'nc-badge-warning-bg':                         ['nc-avatar-badge-away'],
+  // Avatar: Square-Radius folgt Card-Radius (Entity-Konsistenz)
+  'nc-card-radius':                              ['nc-avatar-radius-square'],
+  // Chip: Avatar-Size folgt Avatar-XS (Proportionskonsistenz)
+  'nc-avatar-size-xs':                           ['nc-chip-avatar-size'],
+  // Chip: Radius folgt Button-Radius (Systemkonsistenz)
+  'nc-button-radius':                            ['nc-chip-radius'],
+  // Button: Primary-BG → Checkbox Checked-BG (Markenfarbe fuer Auswahl)
+  'nc-button-primary-bg':                        ['nc-checkbox-bg-checked'],
+  // Button: Radius-MD → Input-Radius (Formular-Konsistenz)
+  'nc-button-radius-md':                         ['nc-input-radius'],
+  // TreeView: Gap folgt Item-Gap (Konsistenz Navigations-Elemente)
+  'nc-item-gap':                                 ['nc-treeview-gap'],
+  // TreeView: Badge-Radius folgt globalem Badge-Radius
+  'nc-badge-radius':                             ['nc-treeview-badge-radius'],
+  // Compare-Table: Shadow folgt Card-Shadow (Elevation-Konsistenz)
+  'nc-card-shadow':                              ['nc-table-shadow', 'nc-dt-card-shadow', 'nc-dt-batch-shadow', 'nc-fieldset-card-shadow'],
+  // Compare-Table: Border-Width folgt globalem Border-Width-XS
+  'nc-table-border-width':                       ['nc-table-row-border-width'],
+  // DataTable: Radius folgt Button-Radius (Formular-Konsistenz)
+  'nc-button-radius-sm':                         ['nc-dt-radius', 'nc-pagination-item-radius', 'nc-cs-copy-radius']
+}
+
 function updateComponentToken(tokenId, value) {
   // Guard: check if the component owning this token is locked
   const componentId = extractComponentId(tokenId)
@@ -332,6 +661,17 @@ function updateComponentToken(tokenId, value) {
   }
   pushHistory()
   state.componentOverrides[state.activeThemeSet][tokenId] = value
+
+  // Mirror-Mode: propagiere Aenderungen an abhaengige Tokens
+  if (state.syncGeometry && MIRROR_TOKEN_MAP[tokenId]) {
+    for (const targetId of MIRROR_TOKEN_MAP[tokenId]) {
+      const targetComponent = extractComponentId(targetId)
+      if (!targetComponent || !isComponentLocked(targetComponent)) {
+        state.componentOverrides[state.activeThemeSet][targetId] = value
+      }
+    }
+  }
+
   return true
 }
 
@@ -343,7 +683,212 @@ function resetComponentToken(tokenId) {
   }
   pushHistory()
   delete state.componentOverrides[state.activeThemeSet][tokenId]
+
+  // Mirror-Mode: propagiere Reset an abhaengige Tokens
+  if (state.syncGeometry && MIRROR_TOKEN_MAP[tokenId]) {
+    for (const targetId of MIRROR_TOKEN_MAP[tokenId]) {
+      const targetComponent = extractComponentId(targetId)
+      if (!targetComponent || !isComponentLocked(targetComponent)) {
+        delete state.componentOverrides[state.activeThemeSet][targetId]
+      }
+    }
+  }
+
   return true
+}
+
+// ---------------------------------------------------------------------------
+// Custom Spacing Tokens
+// ---------------------------------------------------------------------------
+
+function addCustomSpacingToken(key, value) {
+  pushHistory()
+  state.customSpacingTokens[state.activeThemeSet][key] = { label: key, value }
+}
+
+function removeCustomSpacingToken(key) {
+  pushHistory()
+  delete state.customSpacingTokens[state.activeThemeSet][key]
+  // Also remove any semantic spacing references to this token
+  const semantic = state.semanticSpacing[state.activeThemeSet]
+  for (const [sKey, sVal] of Object.entries(semantic)) {
+    if (sVal === `var(--fnd-spacing-${key})`) {
+      delete semantic[sKey]
+    }
+  }
+}
+
+function addCustomRadiiToken(key, value) {
+  pushHistory()
+  state.customRadiiTokens[state.activeThemeSet][key] = { label: key, value }
+}
+
+function removeCustomRadiiToken(key) {
+  pushHistory()
+  delete state.customRadiiTokens[state.activeThemeSet][key]
+}
+
+function addCustomBorderWidthToken(key, value) {
+  pushHistory()
+  state.customBorderWidthTokens[state.activeThemeSet][key] = { label: key, value }
+}
+
+function removeCustomBorderWidthToken(key) {
+  pushHistory()
+  delete state.customBorderWidthTokens[state.activeThemeSet][key]
+}
+
+function addCustomMediaRatioToken(key, value, label) {
+  pushHistory()
+  state.customMediaRatioTokens[state.activeThemeSet][key] = { label: label || key, value }
+}
+
+function removeCustomMediaRatioToken(key) {
+  pushHistory()
+  delete state.customMediaRatioTokens[state.activeThemeSet][key]
+}
+
+function addCustomShadowToken(key, value, label) {
+  pushHistory()
+  state.customShadowTokens[state.activeThemeSet][key] = { label: label || key.toUpperCase(), value }
+}
+
+function removeCustomShadowToken(key) {
+  pushHistory()
+  delete state.customShadowTokens[state.activeThemeSet][key]
+  // Remove elevation references pointing to this custom shadow
+  const elevations = state.customElevationTokens[state.activeThemeSet]
+  for (const [eKey, eVal] of Object.entries(elevations)) {
+    if (eVal.value === key) delete elevations[eKey]
+  }
+}
+
+function addCustomElevationToken(key, value, label) {
+  pushHistory()
+  state.customElevationTokens[state.activeThemeSet][key] = { label: label || key, value }
+}
+
+function removeCustomElevationToken(key) {
+  pushHistory()
+  delete state.customElevationTokens[state.activeThemeSet][key]
+}
+
+function addCustomOpacityToken(key, value, label) {
+  pushHistory()
+  state.customOpacityTokens[state.activeThemeSet][key] = { label: label || key, value: Number(value) }
+}
+
+function removeCustomOpacityToken(key) {
+  pushHistory()
+  delete state.customOpacityTokens[state.activeThemeSet][key]
+}
+
+function addCustomZindexToken(key, value, label) {
+  pushHistory()
+  state.customZindexTokens[state.activeThemeSet][key] = { label: label || key, value: Number(value) }
+}
+
+function removeCustomZindexToken(key) {
+  pushHistory()
+  delete state.customZindexTokens[state.activeThemeSet][key]
+}
+
+function addCustomMotionToken(key, value, label, type) {
+  pushHistory()
+  state.customMotionTokens[state.activeThemeSet][key] = { label: label || key, value, type: type || 'duration' }
+}
+
+function removeCustomMotionToken(key) {
+  pushHistory()
+  delete state.customMotionTokens[state.activeThemeSet][key]
+}
+
+function addCustomMotionEffectToken(key, value, label, transition, intent) {
+  pushHistory()
+  state.customMotionEffectTokens[state.activeThemeSet][key] = {
+    label: label || key,
+    value,
+    transition: transition || '',
+    intent: intent || 'state-change'
+  }
+}
+
+function removeCustomMotionEffectToken(key) {
+  pushHistory()
+  delete state.customMotionEffectTokens[state.activeThemeSet][key]
+}
+
+function addIconLibrary(library) {
+  pushHistory()
+  state.iconLibraries[state.activeThemeSet].push(library)
+  // Initialisiere per-Library Stroke Defaults
+  const ts = state.activeThemeSet
+  if (!state.iconStrokeWidths[ts][library.id]) {
+    state.iconStrokeWidths[ts][library.id] = { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+  }
+  if (!state.iconStrokeColors[ts][library.id]) {
+    state.iconStrokeColors[ts][library.id] = { light: 'currentColor', dark: 'currentColor' }
+  }
+}
+
+function removeIconLibrary(id) {
+  pushHistory()
+  const ts = state.activeThemeSet
+  const libs = state.iconLibraries[ts]
+  const idx = libs.findIndex(l => l.id === id)
+  if (idx >= 0 && !libs[idx].builtIn) {
+    libs.splice(idx, 1)
+    // Per-Library Stroke-Daten aufraumen
+    delete state.iconStrokeWidths[ts][id]
+    delete state.iconStrokeColors[ts][id]
+  }
+}
+
+function updateIconStrokeWidth(libraryId, size, value) {
+  pushHistory()
+  const ts = state.activeThemeSet
+  if (!state.iconStrokeWidths[ts][libraryId]) {
+    state.iconStrokeWidths[ts][libraryId] = { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+  }
+  state.iconStrokeWidths[ts][libraryId][size] = value
+}
+
+function updateIconStrokeColor(libraryId, mode, value) {
+  pushHistory()
+  const ts = state.activeThemeSet
+  if (!state.iconStrokeColors[ts][libraryId]) {
+    state.iconStrokeColors[ts][libraryId] = { light: 'currentColor', dark: 'currentColor' }
+  }
+  state.iconStrokeColors[ts][libraryId][mode] = value
+}
+
+function updateSemanticSpacing(key, value) {
+  pushHistory()
+  state.semanticSpacing[state.activeThemeSet][key] = value
+}
+
+function removeSemanticSpacing(key) {
+  pushHistory()
+  delete state.semanticSpacing[state.activeThemeSet][key]
+}
+
+function addSemanticSpacingToken(key, spacingRef) {
+  pushHistory()
+  state.semanticSpacing[state.activeThemeSet][key] = spacingRef
+}
+
+// ---------------------------------------------------------------------------
+// Semantic Typography Tokens
+// ---------------------------------------------------------------------------
+
+function updateSemanticTypography(key, value) {
+  pushHistory()
+  state.semanticTypography[state.activeThemeSet][key] = value
+}
+
+function removeSemanticTypography(key) {
+  pushHistory()
+  delete state.semanticTypography[state.activeThemeSet][key]
 }
 
 // ---------------------------------------------------------------------------
@@ -534,6 +1079,30 @@ function resetToDefaults() {
   state.componentLocks[themeSet] = {}
   state.componentVersions[themeSet] = {}
   state.variantDefinitions[themeSet] = {}
+  state.customSpacingTokens[themeSet] = {}
+  state.customRadiiTokens[themeSet] = {}
+  state.customBorderWidthTokens[themeSet] = {}
+  state.customMediaRatioTokens[themeSet] = {}
+  state.customShadowTokens[themeSet] = {}
+  state.customElevationTokens[themeSet] = {}
+  state.customOpacityTokens[themeSet] = {}
+  state.customZindexTokens[themeSet] = {}
+  state.customMotionTokens[themeSet] = {}
+  state.customMotionEffectTokens[themeSet] = {}
+  state.iconLibraries[themeSet] = [
+    { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+    { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+  ]
+  state.iconStrokeWidths[themeSet] = {
+    tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+    heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+  }
+  state.iconStrokeColors[themeSet] = {
+    tabler: { light: 'currentColor', dark: 'currentColor' },
+    heroicons: { light: 'currentColor', dark: 'currentColor' }
+  }
+  state.semanticSpacing[themeSet] = {}
+  state.semanticTypography[themeSet] = {}
 }
 
 // ---------------------------------------------------------------------------
@@ -839,6 +1408,48 @@ async function loadNeoDefaults() {
   state.componentLocks = { neo: {}, customer: {} }
   state.componentVersions = { neo: {}, customer: {} }
   state.variantDefinitions = { neo: {}, customer: {} }
+  state.customSpacingTokens = { neo: {}, customer: {} }
+  state.customRadiiTokens = { neo: {}, customer: {} }
+  state.customBorderWidthTokens = { neo: {}, customer: {} }
+  state.customMediaRatioTokens = { neo: {}, customer: {} }
+  state.customShadowTokens = { neo: {}, customer: {} }
+  state.customElevationTokens = { neo: {}, customer: {} }
+  state.customOpacityTokens = { neo: {}, customer: {} }
+  state.customZindexTokens = { neo: {}, customer: {} }
+  state.customMotionTokens = { neo: {}, customer: {} }
+  state.customMotionEffectTokens = { neo: {}, customer: {} }
+  state.iconLibraries = {
+    neo: [
+      { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+      { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+    ],
+    customer: [
+      { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+      { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+    ]
+  }
+  state.iconStrokeWidths = {
+    neo: {
+      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    },
+    customer: {
+      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    }
+  }
+  state.iconStrokeColors = {
+    neo: {
+      tabler: { light: 'currentColor', dark: 'currentColor' },
+      heroicons: { light: 'currentColor', dark: 'currentColor' }
+    },
+    customer: {
+      tabler: { light: 'currentColor', dark: 'currentColor' },
+      heroicons: { light: 'currentColor', dark: 'currentColor' }
+    }
+  }
+  state.semanticSpacing = { neo: {}, customer: {} }
+  state.semanticTypography = { neo: {}, customer: {} }
   state.currentThemeMeta = null
   state.version = '1.0.0'
   console.log('[RESET] Loaded NEO defaults from in-memory tokens.js')
@@ -1157,6 +1768,21 @@ function saveToStorage() {
       componentLocks: toRaw(state.componentLocks),
       componentVersions: toRaw(state.componentVersions),
       variantDefinitions: toRaw(state.variantDefinitions),
+      customSpacingTokens: toRaw(state.customSpacingTokens),
+      customRadiiTokens: toRaw(state.customRadiiTokens),
+      customBorderWidthTokens: toRaw(state.customBorderWidthTokens),
+      customMediaRatioTokens: toRaw(state.customMediaRatioTokens),
+      customShadowTokens: toRaw(state.customShadowTokens),
+      customElevationTokens: toRaw(state.customElevationTokens),
+      customOpacityTokens: toRaw(state.customOpacityTokens),
+      customZindexTokens: toRaw(state.customZindexTokens),
+      customMotionTokens: toRaw(state.customMotionTokens),
+      customMotionEffectTokens: toRaw(state.customMotionEffectTokens),
+      iconLibraries: toRaw(state.iconLibraries),
+      iconStrokeWidths: toRaw(state.iconStrokeWidths),
+      iconStrokeColors: toRaw(state.iconStrokeColors),
+      semanticSpacing: toRaw(state.semanticSpacing),
+      semanticTypography: toRaw(state.semanticTypography),
       currentThemeMeta: toRaw(state.currentThemeMeta),
       activeSection: state.activeSection
     }
@@ -1185,6 +1811,21 @@ function saveToStorage() {
           componentLocks: JSON.parse(JSON.stringify(toRaw(state.componentLocks))),
           componentVersions: JSON.parse(JSON.stringify(toRaw(state.componentVersions))),
           variantDefinitions: JSON.parse(JSON.stringify(toRaw(state.variantDefinitions))),
+          customSpacingTokens: JSON.parse(JSON.stringify(toRaw(state.customSpacingTokens))),
+          customRadiiTokens: JSON.parse(JSON.stringify(toRaw(state.customRadiiTokens))),
+          customBorderWidthTokens: JSON.parse(JSON.stringify(toRaw(state.customBorderWidthTokens))),
+          customMediaRatioTokens: JSON.parse(JSON.stringify(toRaw(state.customMediaRatioTokens))),
+          customShadowTokens: JSON.parse(JSON.stringify(toRaw(state.customShadowTokens))),
+          customElevationTokens: JSON.parse(JSON.stringify(toRaw(state.customElevationTokens))),
+          customOpacityTokens: JSON.parse(JSON.stringify(toRaw(state.customOpacityTokens))),
+          customZindexTokens: JSON.parse(JSON.stringify(toRaw(state.customZindexTokens))),
+          customMotionTokens: JSON.parse(JSON.stringify(toRaw(state.customMotionTokens))),
+          customMotionEffectTokens: JSON.parse(JSON.stringify(toRaw(state.customMotionEffectTokens))),
+          iconLibraries: JSON.parse(JSON.stringify(toRaw(state.iconLibraries))),
+          iconStrokeWidths: JSON.parse(JSON.stringify(toRaw(state.iconStrokeWidths))),
+          iconStrokeColors: JSON.parse(JSON.stringify(toRaw(state.iconStrokeColors))),
+          semanticSpacing: JSON.parse(JSON.stringify(toRaw(state.semanticSpacing))),
+          semanticTypography: JSON.parse(JSON.stringify(toRaw(state.semanticTypography))),
           activeThemeSet: state.activeThemeSet,
           meta: JSON.parse(JSON.stringify(toRaw(meta)))
         }
@@ -1216,8 +1857,68 @@ function loadFromStorage() {
       if (data.componentLocks) Object.assign(state.componentLocks, data.componentLocks)
       if (data.componentVersions) Object.assign(state.componentVersions, data.componentVersions)
       if (data.variantDefinitions) Object.assign(state.variantDefinitions, data.variantDefinitions)
+      if (data.customSpacingTokens) Object.assign(state.customSpacingTokens, data.customSpacingTokens)
+      if (data.customRadiiTokens) Object.assign(state.customRadiiTokens, data.customRadiiTokens)
+      if (data.customBorderWidthTokens) Object.assign(state.customBorderWidthTokens, data.customBorderWidthTokens)
+      if (data.customMediaRatioTokens) Object.assign(state.customMediaRatioTokens, data.customMediaRatioTokens)
+      if (data.customShadowTokens) Object.assign(state.customShadowTokens, data.customShadowTokens)
+      if (data.customElevationTokens) Object.assign(state.customElevationTokens, data.customElevationTokens)
+      if (data.customOpacityTokens) Object.assign(state.customOpacityTokens, data.customOpacityTokens)
+      if (data.customZindexTokens) Object.assign(state.customZindexTokens, data.customZindexTokens)
+      if (data.customMotionTokens) Object.assign(state.customMotionTokens, data.customMotionTokens)
+      if (data.customMotionEffectTokens) Object.assign(state.customMotionEffectTokens, data.customMotionEffectTokens)
+      if (data.iconLibraries) Object.assign(state.iconLibraries, data.iconLibraries)
+      if (data.iconStrokeWidths) Object.assign(state.iconStrokeWidths, data.iconStrokeWidths)
+      if (data.iconStrokeColors) Object.assign(state.iconStrokeColors, data.iconStrokeColors)
+
+      // --- Migration: Built-in Icon Libraries sicherstellen ---
+      const builtInLibs = [
+        { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
+        { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
+      ]
+      const defaultStrokes = {
+        tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
+        heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+      }
+      const defaultColors = {
+        tabler: { light: 'currentColor', dark: 'currentColor' },
+        heroicons: { light: 'currentColor', dark: 'currentColor' }
+      }
+      for (const ts of ['neo', 'customer']) {
+        const libs = state.iconLibraries[ts]
+        // Sicherstellen, dass alle Built-in Libraries vorhanden sind + manifestPath haben
+        for (const builtIn of builtInLibs) {
+          const existing = libs.find(l => l.id === builtIn.id)
+          if (!existing) {
+            libs.push(builtIn)
+          } else {
+            if (!existing.manifestPath) existing.manifestPath = builtIn.manifestPath
+            if (!existing.builtIn) existing.builtIn = builtIn.builtIn
+          }
+        }
+        // Per-Library Stroke-Daten migrieren (alte Flat-Struktur → nested)
+        const sw = state.iconStrokeWidths[ts]
+        if (sw && !sw.tabler && sw.xs !== undefined) {
+          // Alte Flat-Struktur: { xs: '1', ... } → { tabler: { xs: '1', ... } }
+          state.iconStrokeWidths[ts] = { tabler: { ...sw }, heroicons: defaultStrokes.heroicons }
+        }
+        // Sicherstellen, dass jede Library Stroke Widths hat
+        if (!state.iconStrokeWidths[ts].tabler) state.iconStrokeWidths[ts].tabler = defaultStrokes.tabler
+        if (!state.iconStrokeWidths[ts].heroicons) state.iconStrokeWidths[ts].heroicons = defaultStrokes.heroicons
+
+        const sc = state.iconStrokeColors[ts]
+        if (sc && !sc.tabler && (sc.light !== undefined || sc.dark !== undefined)) {
+          // Alte Flat-Struktur: { light: '...', dark: '...' } → { tabler: { ... } }
+          state.iconStrokeColors[ts] = { tabler: { ...sc }, heroicons: defaultColors.heroicons }
+        }
+        if (!state.iconStrokeColors[ts].tabler) state.iconStrokeColors[ts].tabler = defaultColors.tabler
+        if (!state.iconStrokeColors[ts].heroicons) state.iconStrokeColors[ts].heroicons = defaultColors.heroicons
+      }
+      if (data.semanticSpacing) Object.assign(state.semanticSpacing, data.semanticSpacing)
+      if (data.semanticTypography) Object.assign(state.semanticTypography, data.semanticTypography)
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
-      if (data.previewMode) state.previewMode = data.previewMode
+      // previewMode wird NICHT restored — startet immer im Light Mode
+      state.previewMode = 'light'
       if (data.currentThemeMeta) state.currentThemeMeta = data.currentThemeMeta
       if (data.activeSection) state.activeSection = data.activeSection
     }
@@ -1282,7 +1983,7 @@ function loadFromStorage() {
 
 // Auto-save on changes
 watch(
-  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode, state.componentLocks, state.componentVersions, state.variantDefinitions],
+  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode, state.componentLocks, state.componentVersions, state.variantDefinitions, state.customSpacingTokens, state.customRadiiTokens, state.customBorderWidthTokens, state.customMediaRatioTokens, state.customShadowTokens, state.customElevationTokens, state.customOpacityTokens, state.customZindexTokens, state.customMotionTokens, state.customMotionEffectTokens, state.iconLibraries, state.iconStrokeWidths, state.iconStrokeColors, state.semanticSpacing, state.semanticTypography],
   () => saveToStorage(),
   { deep: true }
 )
@@ -1316,6 +2017,8 @@ export function useThemeStore() {
     setArenaSelection,
     clearArenaSelection,
     setSyncGeometry,
+    getFormVariant,
+    setFormVariant,
     setHighlightedToken,
     clearHighlightedToken,
     setArenaFilter,
@@ -1337,6 +2040,56 @@ export function useThemeStore() {
     getVariants,
     updatePrimitive,
     setFocusRingMode,
+    // Custom Spacing
+    addCustomSpacingToken,
+    removeCustomSpacingToken,
+    updateSemanticSpacing,
+    removeSemanticSpacing,
+    addSemanticSpacingToken,
+    currentCustomSpacingTokens,
+    currentSemanticSpacing,
+    // Custom Radii
+    addCustomRadiiToken,
+    removeCustomRadiiToken,
+    currentCustomRadiiTokens,
+    addCustomBorderWidthToken,
+    removeCustomBorderWidthToken,
+    currentCustomBorderWidthTokens,
+    addCustomMediaRatioToken,
+    removeCustomMediaRatioToken,
+    currentCustomMediaRatioTokens,
+    // Custom Shadows & Elevation
+    addCustomShadowToken,
+    removeCustomShadowToken,
+    addCustomElevationToken,
+    removeCustomElevationToken,
+    currentCustomShadowTokens,
+    currentCustomElevationTokens,
+    // Custom Opacity, Z-Index, Motion
+    addCustomOpacityToken,
+    removeCustomOpacityToken,
+    currentCustomOpacityTokens,
+    addCustomZindexToken,
+    removeCustomZindexToken,
+    currentCustomZindexTokens,
+    addCustomMotionToken,
+    removeCustomMotionToken,
+    currentCustomMotionTokens,
+    addCustomMotionEffectToken,
+    removeCustomMotionEffectToken,
+    currentCustomMotionEffectTokens,
+    // Icon Libraries
+    addIconLibrary,
+    removeIconLibrary,
+    updateIconStrokeWidth,
+    updateIconStrokeColor,
+    currentIconLibraries,
+    currentIconStrokeWidths,
+    currentIconStrokeColors,
+    currentSemanticTypography,
+    // Semantic Typography
+    updateSemanticTypography,
+    removeSemanticTypography,
     resetToDefaults,
     undo,
     redo,

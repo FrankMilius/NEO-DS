@@ -14,8 +14,28 @@
 //   md → 40px (= Button MD) — DEFAULT
 //   lg → 48px (= Button LG)
 //
+// SLIDING INDICATOR:
+//   Optionaler __indicator Slot — absolutes div das per CSS transform
+//   zum aktiven Segment animiert. JS setzt --_indicator-left und
+//   --_indicator-width. Fallback: normales Background-Toggle pro Item.
+//
+// BADGE:
+//   Optionaler __badge Slot pro Item (z.B. "Inbox (5)").
+//   Farbe wechselt bei Selected-State.
+//
+// RESPONSIVE OVERFLOW:
+//   --scrollable Modifier: Container scrollt horizontal bei Platzmangel.
+//   JS-seitig empfohlen: ab >5 Segmenten oder Overflow → Select-Dropdown.
+//
 // KLASSEN:
-//   .nc-segmented-control (kanonisch, BEM)
+//   .nc-segmented-control                 Block (inline-flex Track)
+//   .nc-segmented-control__item           Segment-Button
+//   .nc-segmented-control__icon           Icon im Segment
+//   .nc-segmented-control__badge          Badge-Counter im Segment
+//   .nc-segmented-control__indicator      Sliding-Indicator (absolut)
+//   .nc-segmented-control--sm / --lg      Groessen-Modifier
+//   .nc-segmented-control--full-width     Gleichmaessige Segmentbreiten
+//   .nc-segmented-control--scrollable     Horizontaler Overflow-Scroll
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -31,6 +51,7 @@
   border-radius: var(--nc-segmented-radius);
   padding: var(--nc-segmented-padding);
   gap: var(--nc-segmented-gap);
+  position: relative;
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +72,8 @@
 
   border: none;
   flex: 0 1 auto;
+  position: relative;
+  z-index: 1; // ueber dem Indicator
 
   // Default size: md
   @include segmented-control-item-size('md');
@@ -114,6 +137,56 @@
 }
 
 // ---------------------------------------------------------------------------
+// Badge Element
+// ---------------------------------------------------------------------------
+
+/// Optionaler Badge-Counter im Segment (z.B. "5", "12").
+/// Farbe wechselt bei Selected-State (Item[aria-checked='true']).
+@mixin segmented-control-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nc-segmented-item-badge-bg);
+  color: var(--nc-segmented-item-badge-color);
+  border-radius: var(--nc-segmented-item-badge-radius);
+  padding: var(--nc-segmented-item-badge-padding);
+  font-size: var(--nc-segmented-item-badge-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: 1;
+  min-width: 1.5em;
+  transition:
+    background-color var(--nc-segmented-transition-duration) ease,
+    color var(--nc-segmented-transition-duration) ease;
+}
+
+// ---------------------------------------------------------------------------
+// Sliding Indicator
+// ---------------------------------------------------------------------------
+
+/// Absolutes div das per CSS custom properties (--_indicator-left,
+/// --_indicator-width) zum aktiven Segment animiert wird.
+/// JS setzt diese Properties bei Selection-Wechsel.
+@mixin segmented-control-indicator {
+  position: absolute;
+  top: var(--nc-segmented-padding);
+  bottom: var(--nc-segmented-padding);
+  left: var(--_indicator-left, 0);
+  width: var(--_indicator-width, 0);
+  background-color: var(--nc-segmented-item-selected-bg);
+  border-radius: var(--nc-segmented-item-radius);
+  box-shadow: var(--nc-segmented-item-selected-shadow);
+  transition:
+    left var(--nc-segmented-indicator-transition) cubic-bezier(0.4, 0, 0.2, 1),
+    width var(--nc-segmented-indicator-transition) cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
 
@@ -129,6 +202,12 @@
       @include segmented-control-item-selected;
     }
 
+    // Badge-Farbe bei Selected-State
+    &[aria-checked='true'] > .nc-segmented-control__badge {
+      background-color: var(--nc-segmented-item-badge-bg-selected);
+      color: var(--nc-segmented-item-badge-color-selected);
+    }
+
     // Disabled
     &:disabled,
     &[aria-disabled='true'] {
@@ -142,6 +221,22 @@
     @include segmented-control-icon-element;
   }
 
+  // Badge Element
+  &__badge {
+    @include segmented-control-badge;
+  }
+
+  // Sliding Indicator (optionaler aktiver Hintergrund)
+  &__indicator {
+    @include segmented-control-indicator;
+  }
+
+  // Wenn Indicator vorhanden: Items verlieren eigenen Selected-BG
+  &:has(&__indicator) &__item[aria-checked='true'] {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
   // Size-Modifier auf Container → propagiert zu Items
   &--sm &__item { @include segmented-control-item-size('sm'); }
   &--lg &__item { @include segmented-control-item-size('lg'); }
@@ -153,5 +248,22 @@
   }
   &--full-width &__item {
     flex: 1 1 0%;
+  }
+
+  // Scrollable-Modifier: horizontaler Scroll bei Overflow
+  &--scrollable {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // Flex-Shrink verhindern damit Items nicht gestaucht werden
+    .nc-segmented-control__item {
+      flex-shrink: 0;
+    }
   }
 }

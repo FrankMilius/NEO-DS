@@ -1,18 +1,40 @@
 // ==========================================================================
-// 05-Atoms: Button
+// 05-Atoms: Button v2.0.0
 // ==========================================================================
 // Token-basiertes Button-System mit 4 Größen, fester Typography,
 // formalisierter Icon-Integration und BEM-Klassen (.nc-button).
 //
 // GRÖSSEN (4 Stufen):
-//   xs → 24px (1.5rem)   font: 12px (compact)
-//   sm → 32px (2rem)     font: 12px (compact)
+//   xs → 24px (1.5rem)   font: 12px (compact) — 44px Touch-Target
+//   sm → 32px (2rem)     font: 12px (compact) — 44px Touch-Target
 //   md → 40px (2.5rem)   font: 16px (expressive) — DEFAULT
 //   lg → 48px (3rem)     font: 16px (expressive)
 //
 // TYPOGRAPHY-TOKENS:
 //   --nc-button-label-compact    → 0.75rem (12px) für XS/SM
 //   --nc-button-label-expressive → 1rem   (16px) für MD/LG
+//
+// NEUE VARIANTEN (v2.0.0):
+//   inverted → Weiss auf dunklen/bildlastigen Hintergruenden
+//   soft     → Blasser Markenfarben-BG (10% Opacity) mit kraeftiger Textfarbe
+//
+// NEUE PATTERNS:
+//   fab      → Floating Action Button (rund, Icon-only, Shadow)
+//
+// NEUE WIDTH:
+//   full     → 100% Containerbreite (Mobile-Footers, Login)
+//
+// TOUCH-TARGET:
+//   XS/SM haben 44px Touch-Target via unsichtbares ::before Pseudo-Element
+//
+// LOADING:
+//   Label wird visibility:hidden, Spinner absolut zentriert.
+//   Button behaelt seine Breite (kein Layout-Shift).
+//   Loading hat Vorrang vor disabled (Spinner bleibt primaere Info).
+//
+// BUTTON-GROUP:
+//   Outline-Buttons: margin-inline-start: -1px ab 2. Button
+//   verhindert doppelt dicke Trennlinien.
 //
 // ICONS:
 //   Nur SVG aus der Icon Foundation. Element: .nc-button__icon
@@ -78,8 +100,11 @@
     transform: none;
   }
 
-  &[data-loading='true'] {
+  // Loading hat Vorrang vor disabled — Spinner bleibt primaere Info
+  &[data-loading='true'],
+  &[aria-busy='true'] {
     pointer-events: none;
+    cursor: wait;
   }
 }
 
@@ -323,6 +348,86 @@
 }
 
 // ---------------------------------------------------------------------------
+// Touch-Target: 44px Minimum fuer XS/SM
+// ---------------------------------------------------------------------------
+
+/// Vergroesserter unsichtbarer Klickbereich fuer kleine Buttons.
+/// Stellt sicher, dass auch bei 24/32px Hoehe das 44px WCAG-Minimum erreicht wird.
+@mixin button-touch-target {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    min-width: var(--nc-button-touch-target-min);
+    min-height: var(--nc-button-touch-target-min);
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// New Variant Mixins (v2.0.0)
+// ---------------------------------------------------------------------------
+
+/// Inverted: Weisser Button fuer dunkle/bildlastige Hintergruende.
+@mixin button-inverted {
+  @include button-base;
+  background-color: var(--nc-button-inverted-bg);
+  color: var(--nc-button-inverted-color);
+  border-color: var(--nc-button-inverted-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-inverted-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-inverted-bg-active);
+  }
+}
+
+/// Soft: Blasser Markenfarben-Hintergrund (10% Opacity) mit kraeftiger Textfarbe.
+/// Mischung aus Ghost und Secondary, ideal fuer sekundaere Aktionen mit Farb-Akzent.
+@mixin button-soft {
+  @include button-base;
+  background-color: var(--nc-button-soft-bg);
+  color: var(--nc-button-soft-color);
+  border-color: var(--nc-button-soft-border);
+
+  &:hover:not(:disabled) {
+    background-color: var(--nc-button-soft-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--nc-button-soft-bg-active);
+  }
+}
+
+/// Full Width: Button nimmt 100% der Containerbreite ein.
+/// Essenziell fuer Mobile-Footers, Login-Masken, modale CTAs.
+@mixin button-full-width {
+  width: 100%;
+}
+
+/// FAB (Floating Action Button): Rundes Icon-Only-Muster mit Shadow.
+/// Fuer primaere Aktionen wie "Neu erstellen".
+@mixin button-fab {
+  width: var(--nc-button-fab-size);
+  height: var(--nc-button-fab-size);
+  min-width: auto;
+  min-height: auto;
+  padding: 0;
+  border-radius: var(--nc-button-fab-radius);
+  box-shadow: var(--nc-button-fab-shadow);
+
+  &:hover:not(:disabled) {
+    box-shadow: var(--nc-button-fab-shadow-hover);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Specialized Mixins
 // ---------------------------------------------------------------------------
 
@@ -333,11 +438,18 @@
   padding: 0;
 }
 
+/// Loading: Label wird visibility:hidden (behaelt Breite), Spinner absolut zentriert.
+/// Verhindert Layout-Shift beim Zustandswechsel.
 @mixin button-loading {
-  &[data-loading='true'] {
+  &[data-loading='true'],
+  &[aria-busy='true'] {
     .button-text,
     .nc-button__label {
-      opacity: 0;
+      visibility: hidden;
+    }
+
+    .nc-button__icon {
+      visibility: hidden;
     }
 
     .button-spinner,
@@ -489,7 +601,11 @@
   .button,
   .nc-button {
     border-radius: var(--fnd-radius-null);
-    border-inline-end: none;
+
+    // Verhindert doppelte Borders bei Outline-Buttons via negativem Margin.
+    &:not(:first-child) {
+      margin-inline-start: calc(-1 * var(--nc-button-border-width-sm));
+    }
 
     &:first-child {
       border-start-start-radius: var(--nc-button-radius-md);
@@ -499,7 +615,12 @@
     &:last-child {
       border-start-end-radius: var(--nc-button-radius-md);
       border-end-end-radius: var(--nc-button-radius-md);
-      border-inline-end: var(--nc-button-border-width-sm) solid currentColor;
+    }
+
+    // Hover/Focus hebt den Button ueber seine Nachbarn (border sichtbar).
+    &:hover,
+    &:focus-visible {
+      z-index: 1;
     }
   }
 }
@@ -601,9 +722,15 @@
   &--destructive,
   &--danger { @include button-error; }
 
+  // -- Neue Varianten (v2.0.0) --
+  &--inverted   { @include button-inverted; }
+  &--soft       { @include button-soft; }
+  &--full-width { @include button-full-width; }
+  &--fab        { @include button-fab; }
+
   // -- Größen --
-  &--xs { @include button-size('xs'); }
-  &--sm { @include button-size('sm'); }
+  &--xs { @include button-size('xs'); @include button-touch-target; }
+  &--sm { @include button-size('sm'); @include button-touch-target; }
   // md = Default (bereits in button-base)
   &--lg { @include button-size('lg'); }
 

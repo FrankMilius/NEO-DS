@@ -1,25 +1,78 @@
 // ==========================================================================
 // 05-Atoms: Navigation Atoms
 // ==========================================================================
-// Basis-Styles für Navigation-Elemente
+// Primitive Bausteine fuer die Navigation: Icon, Label, Badge-Dot.
+// Keine Interaktion — nur visuelles Styling der kleinsten Einheiten.
+//
+// Struktur:
+//   .nc-nav__icon   → Inline-flex Container fuer SVG-Icons
+//   .nc-nav__label  → Text-Label (display: block)
+//   .nc-nav__badge  → Notification-Dot (roter Punkt mit Ring)
+//
+// Tokens: --nc-nav-atom-* (registriert in _component-tokens.scss)
 // ==========================================================================
 
-input[type='search'] {
-  border-radius: var(--fnd-radius-2xl);
-}
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Icon
+// ---------------------------------------------------------------------------
 
 .nc-nav__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  font-size: var(--fs-base);
-  line-height: var(--lh-body);
+  width: var(--nc-nav-atom-icon-size);
+  height: var(--nc-nav-atom-icon-size);
+  color: var(--nc-nav-atom-icon-color);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--nc-nav-atom-icon-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
+
+// ---------------------------------------------------------------------------
+// Label
+// ---------------------------------------------------------------------------
 
 .nc-nav__label {
   display: block;
-  font-size: inherit;
-  font-weight: inherit;
+  font-size: var(--nc-nav-atom-label-size);
+  font-weight: var(--nc-nav-atom-label-weight);
+  color: var(--nc-nav-atom-label-color);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Badge Dot (Notification-Indikator)
+// ---------------------------------------------------------------------------
+// Kleiner roter Punkt — wird relativ zum Eltern-Element positioniert.
+// Typische Verwendung: .nc-nav__icon mit position: relative.
+
+.nc-nav__badge {
+  position: absolute;
+  top: var(--nc-nav-atom-badge-offset);
+  right: var(--nc-nav-atom-badge-offset);
+  width: var(--nc-nav-atom-badge-size);
+  height: var(--nc-nav-atom-badge-size);
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--nc-nav-atom-badge-color);
+  box-shadow: 0 0 0 var(--nc-nav-atom-badge-ring-width) var(--nc-nav-atom-badge-ring-color);
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Search Input Radius (global fuer type=search)
+// ---------------------------------------------------------------------------
+
+input[type='search'] {
+  border-radius: var(--fnd-radius-2xl);
 }

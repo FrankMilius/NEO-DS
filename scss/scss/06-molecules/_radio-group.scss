@@ -14,21 +14,28 @@
 //   .nc-radio-group
 //     <legend> oder verbundenes Label (aria-labelledby)
 //     .nc-radio    (beliebig viele, gleicher name-Attribut)
+//     .nc-radio-group__hint (optional, Gruppen-Hilfetext)
 //     .nc-form-error (optional, bei Gruppen-Validierungsfehler)
 //
 // TOKENS:
 //   --nc-group-gap              Vertikaler Abstand zwischen Optionen
 //   --nc-group-gap-horizontal   Horizontaler Abstand im Horizontal-Layout
+//   --nc-group-gap-sm / --lg    Size-gekoppelter Gap
+//   --nc-group-hint-margin-top  Abstand Optionen → Hint
+//   --nc-radio-segmented-*      Segmented-Variante Tokens
 //
 // BEM-KLASSEN:
 //   .nc-radio-group                Block (flex column container)
+//   .nc-radio-group__hint          Gruppen-Hilfetext Slot
 //   .nc-radio-group--horizontal    Optionen nebeneinander
+//   .nc-radio-group--sm / --lg     Gap an Radio-Groesse koppeln
+//   .nc-radio-group--segmented     Pillen-Design (Segmented Control)
 //   .nc-radio-group--error         Gruppen-Error-State (markiert alle)
 //   .nc-radio-group--disabled      Gesamte Gruppe deaktiviert
 //
 // ACCESSIBILITY:
 //   role="radiogroup" + aria-labelledby → Gruppierung fuer Screen Reader
-//   aria-describedby → verlinkt optionalen Error-Text
+//   aria-describedby → verlinkt optionalen Error-Text oder Hint
 //   Tastatur-Navigation: Arrow Keys wechseln zwischen Radios
 //   Bei --error: visueller Hinweis auf ungueltige Auswahl
 // ==========================================================================
@@ -79,6 +86,70 @@
   }
 }
 
+/// Hint-Bereich unterhalb der Optionen (z.B. Hilfetext via form-hint).
+@mixin radio-group-hint {
+  margin-block-start: var(--nc-group-hint-margin-top);
+}
+
+/// Segmented-Variante: Pillen-artige Button-Gruppe, nahtlos aneinanderliegend.
+/// Versteckt native Radio-Controls, zeigt nur Labels als Segmente.
+@mixin radio-group-segmented {
+  flex-direction: row;
+  gap: 0;
+  border: 1px solid var(--nc-radio-segmented-border);
+  border-radius: var(--nc-radio-segmented-radius);
+  overflow: hidden;
+  width: fit-content;
+
+  > .nc-radio {
+    gap: 0;
+
+    // Radio-Control verstecken — Label IST der Button
+    > .nc-radio__control {
+      @include sr-only;
+    }
+
+    > .nc-radio__label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--nc-radio-segmented-padding);
+      background-color: var(--nc-radio-segmented-bg);
+      color: var(--nc-radio-segmented-color);
+      font-weight: var(--fnd-font-weight-medium, 500);
+      border-inline-end: 1px solid var(--nc-radio-segmented-border);
+      transition:
+        background-color var(--nc-radio-transition-duration) ease,
+        color var(--nc-radio-transition-duration) ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    &:last-child > .nc-radio__label {
+      border-inline-end: none;
+    }
+  }
+
+  // Checked Segment
+  > .nc-radio:has(input:checked) > .nc-radio__label {
+    background-color: var(--nc-radio-segmented-bg-checked);
+    color: var(--nc-radio-segmented-color-checked);
+  }
+
+  // Focus auf Label delegieren
+  > .nc-radio .nc-radio__input:focus-visible ~ .nc-radio__label {
+    @include focus-ring;
+    z-index: 1;
+    position: relative;
+  }
+
+  // Disabled
+  > .nc-radio:has(input:disabled) > .nc-radio__label {
+    opacity: var(--nc-radio-disabled-opacity, 0.5);
+    cursor: not-allowed;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -86,10 +157,32 @@
 .nc-radio-group {
   @include radio-group-base;
 
+  // -- Hint (Gruppenebene Hilfetext) --
+
+  &__hint {
+    @include radio-group-hint;
+  }
+
   // -- Layout-Modifier --
 
   &--horizontal {
     @include radio-group-horizontal;
+  }
+
+  // -- Size-Modifier (koppelt Gap an Radio-Groesse) --
+
+  &--sm {
+    gap: var(--nc-group-gap-sm);
+  }
+
+  &--lg {
+    gap: var(--nc-group-gap-lg);
+  }
+
+  // -- Variant-Modifier --
+
+  &--segmented {
+    @include radio-group-segmented;
   }
 
   // -- State-Modifier --

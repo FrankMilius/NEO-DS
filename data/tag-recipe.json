@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tag",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["interactive", "label", "feedback"],
     "links": {
@@ -70,10 +70,19 @@
 
     "interactive": {
       "label": "Interactive",
-      "description": "Interaktivitaet — static (Standard, nicht klickbar), interactive (Hover/Active/Focus fuer Links/Buttons)",
+      "description": "Interaktivitaet — static (Standard, nicht klickbar), interactive (Hover/Active/Focus mit Shadow fuer Links/Buttons)",
       "values": {
         "static":      { "modifier": null,                      "tokenGroups": [] },
-        "interactive": { "modifier": "nc-tag--interactive",     "tokenGroups": ["animation"] }
+        "interactive": { "modifier": "nc-tag--interactive",     "tokenGroups": ["animation", "interactive-shadow"] }
+      }
+    },
+
+    "selected": {
+      "label": "Selected",
+      "description": "Toggle-State fuer Filter-Chips — false (Standard), true (aktiv, aria-pressed)",
+      "values": {
+        "false": { "modifier": null,                    "tokenGroups": [] },
+        "true":  { "modifier": "nc-tag--selected",      "tokenGroups": ["state-selected"] }
       }
     }
   },
@@ -240,6 +249,21 @@
         "tokens": [
           "nc-tag-transition-duration"
         ]
+      },
+      "interactive-shadow": {
+        "label": "Interactive Shadow",
+        "tokens": [
+          "nc-tag-interactive-shadow-hover"
+        ]
+      },
+      "state-selected": {
+        "label": "Selected State",
+        "tokens": [
+          "nc-tag-selected-bg",
+          "nc-tag-selected-color",
+          "nc-tag-selected-border",
+          "nc-tag-selected-bg-hover"
+        ]
       }
     }
   },
@@ -256,7 +280,8 @@
         "axes.size.values.*.modifier",
         "axes.variant.values.*.modifier",
         "axes.content.values.*.modifier",
-        "axes.interactive.values.*.modifier"
+        "axes.interactive.values.*.modifier",
+        "axes.selected.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -360,6 +385,39 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Remove-Button erbt currentColor. Hover-BG via color-mix(currentColor 15%, transparent). Jeder Remove-Button braucht aria-label."
+      }
+    },
+    {
+      "id": "selectable-filter",
+      "label": "Selectable Tags (Filter-Chips)",
+      "description": "Toggle-Tags mit Selected-State — aria-pressed fuer Filter-Muster",
+      "matrix": {
+        "axes": { "size": ["md"], "variant": ["default", "primary", "success"], "content": ["text"], "interactive": ["interactive"], "selected": "*" },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["state-selected"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant", "colAxis": "selected" },
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Selectable Tags muessen aria-pressed='true'/'false' setzen. Selected-State muss visuell klar unterscheidbar sein."
+      }
+    },
+    {
+      "id": "interactive-shadow",
+      "label": "Interactive Shadow Hover",
+      "description": "Shadow-Indikator auf interaktiven Tags fuer deutlichere Klickbarkeit",
+      "matrix": {
+        "axes": { "size": ["md"], "variant": ["default", "outline", "primary"], "content": ["text"], "interactive": ["interactive"] },
+        "states": ["default", "hover"]
+      },
+      "focusTokenGroups": ["interactive-shadow", "animation"],
+      "layout": "row",
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Shadow-Hover verstaerkt die visuelle Klickbarkeit bei Navigations-Tags."
       }
     }
   ]

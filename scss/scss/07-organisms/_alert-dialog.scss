@@ -13,10 +13,12 @@
 //
 // BEM-KLASSEN:
 //   .nc-alert-dialog               Block (<dialog>, fixed, centered)
+//   .nc-alert-dialog__icon          Optionales Status-Icon im Header (danger/warning)
 //   .nc-alert-dialog__header        Header-Bereich (flex-column, gap)
 //   .nc-alert-dialog__title         <h2> Titel (heading-m, font-weight 600)
 //   .nc-alert-dialog__description   <p> Beschreibung (body-m, color secondary)
 //   .nc-alert-dialog__footer        Footer mit Buttons (flex, justify-end)
+//   .nc-alert-dialog--destructive   Destructive-Intent (danger-icon, danger-action)
 //
 // ACCESSIBILITY:
 //   Natives <dialog> liefert role="dialog", aria-modal="true" automatisch
@@ -94,6 +96,32 @@
   }
 }
 
+/// Optionales Status-Icon (z.B. Warnsymbol bei destructive).
+@mixin alert-dialog-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-dialog-icon-size);
+  height: var(--nc-dialog-icon-size);
+  flex-shrink: 0;
+  color: var(--fnd-color-text-secondary);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  // Destructive Intent: Icon-Farbe rot
+  .nc-alert-dialog--destructive & {
+    color: var(--nc-dialog-danger-icon-color);
+  }
+}
+
 /// Header-Bereich (Title + Description).
 @mixin alert-dialog-header {
   display: flex;
@@ -133,6 +161,10 @@
 .nc-alert-dialog {
   @include alert-dialog-base;
 
+  &__icon {
+    @include alert-dialog-icon;
+  }
+
   &__header {
     @include alert-dialog-header;
   }
@@ -147,6 +179,14 @@
 
   &__footer {
     @include alert-dialog-footer;
+  }
+
+  // Destructive-Intent: Action-Button mit Danger-Farben
+  &--destructive &__footer .nc-button--primary,
+  &--destructive &__footer [data-action] {
+    background-color: var(--nc-dialog-danger-action-bg);
+    color: var(--nc-dialog-danger-action-color);
+    border-color: var(--nc-dialog-danger-action-bg);
   }
 }
 

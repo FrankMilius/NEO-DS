@@ -1,8 +1,8 @@
 // ==========================================================================
 // 05-Atoms: Input
 // ==========================================================================
-// Token-basierte Input-Komponente mit 3 Groessen, State-Varianten,
-// Search/Password-Spezialtypen und Icon-Support.
+// Token-basierte Input-Komponente mit 3 Groessen, 3 Varianten,
+// Floating Labels, Text-Affixen, Content-States und Touch-Target-Validierung.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-input-* Component-Tokens
@@ -14,24 +14,42 @@
 //   md  →  40px    font: sm    — DEFAULT
 //   lg  →  48px    font: base
 //
+// VARIANTEN:
+//   outlined    → Standard mit Rahmen auf allen 4 Seiten (Default)
+//   filled      → Flaeche mit Unterstreichung (Dashboard-Kontext)
+//   borderless  → Minimalistisch, fuer In-Line Editing
+//
 // BEM-KLASSEN:
-//   .nc-input                    Block (default: md)
-//   .nc-input--sm / --lg         Groessen-Modifier
-//   .nc-input--error             Error-Zustand (roter Rand)
-//   .nc-input--success           Success-Zustand (gruener Rand)
-//   .nc-input--search            Search-Typ (Icon links)
-//   .nc-input--password          Password-Typ (Reveal-Toggle rechts)
-//   .nc-input__icon              Icon-Element (Prefix/Suffix)
-//   .nc-input-wrapper            Positionierungs-Container fuer Icons
+//   .nc-input                      Block (default: md, outlined)
+//   .nc-input--sm / --lg           Groessen-Modifier
+//   .nc-input--filled              Filled-Variante
+//   .nc-input--borderless          Borderless-Variante
+//   .nc-input--error               Error-Zustand (roter Rand)
+//   .nc-input--success             Success-Zustand (gruener Rand)
+//   .nc-input--search              Search-Typ (Icon links)
+//   .nc-input--password            Password-Typ (Reveal-Toggle rechts)
+//   .nc-input--has-label           Hat ein Floating Label (padding-top Anpassung)
+//   .nc-input__icon                Icon-Element (Prefix/Suffix)
+//   .nc-input__label               Floating Label
+//   .nc-input__prefix              Text-Praefix (z.B. "https://")
+//   .nc-input__suffix              Text-Suffix (z.B. "€")
+//   .nc-input__clear               Clear-Button (×)
+//   .nc-input-wrapper              Positionierungs-Container
 //
 // HTML-TYPEN (alle verwenden .nc-input):
 //   text, email, url, tel, password, search, number, color
+//
+// CONTENT-STATES:
+//   :placeholder-shown              → Input leer: Label in Ausgangsposition
+//   :not(:placeholder-shown)        → Input gefuellt: Label schwebt, Clear sichtbar
+//   [data-empty="true"|"false"]     → JS-Fallback fuer Typen ohne Placeholder-Support
 //
 // ACCESSIBILITY:
 //   :focus-visible → @include focus-ring
 //   :disabled / [aria-disabled='true'] → disabled styling
 //   [readonly] → readonly styling
 //   [aria-invalid='true'] → error styling (ergaenzt .nc-input--error)
+//   ::after Touch-Target sichert min 44px Klickflaeche
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -111,11 +129,31 @@
 .nc-input {
   @include input-base;
 
+  // -- Touch-Target Validierung (::after Pseudo-Element) --
+  // Sichert 44px Mindest-Klickflaeche auch bei sm-Groesse.
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    transform: translateY(-50%);
+    min-height: var(--nc-input-touch-area-min);
+    width: 100%;
+    pointer-events: none;
+  }
+
   // -- Groessen-Modifier --
 
   &--sm { @include input-size('sm'); }
   // md = Default (bereits in input-base)
   &--lg { @include input-size('lg'); }
+
+  // -- Floating Label Anpassung --
+  // Wenn Input ein Floating Label hat, braucht es padding-top fuer den Label-Platz.
+  &--has-label {
+    padding-block-start: var(--nc-input-label-padding-top);
+  }
 
   // -- State-Modifier --
 
@@ -133,6 +171,38 @@
   &--search { @include input-search; }
   &--password { @include input-password; }
 
+  // -----------------------------------------------------------------------
+  // Variant: Filled
+  // -----------------------------------------------------------------------
+  // Hintergrund-Flaeche mit Unterstreichung statt 4-Seiten-Rahmen.
+  // Typischer Dashboard-Stil (Material-inspired).
+
+  &--filled {
+    @include form-control-filled;
+    @include form-control-filled-validation;
+
+    // Success in Filled
+    &.nc-input--success {
+      border-block-end-color: var(--nc-form-control-border-success);
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Variant: Borderless
+  // -----------------------------------------------------------------------
+  // Minimalistischer Stil ohne sichtbaren Rahmen.
+  // Fuer In-Line Editing und transparente Integration.
+
+  &--borderless {
+    @include form-control-borderless;
+    @include form-control-borderless-validation;
+
+    // Success in Borderless
+    &.nc-input--success {
+      border-block-end: 2px solid var(--nc-form-control-border-success);
+    }
+  }
+
   // -- Icon-Element --
 
   &__icon {
@@ -147,16 +217,156 @@
       inset-inline-end: var(--nc-input-padding-x-md);
     }
   }
+
+  // -----------------------------------------------------------------------
+  // Floating Label
+  // -----------------------------------------------------------------------
+  // Label schwebt bei :focus oder :not(:placeholder-shown) nach oben.
+
+  &__label {
+    position: absolute;
+    inset-inline-start: var(--nc-input-padding-x-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--nc-input-label-font-size);
+    color: var(--nc-input-label-color);
+    pointer-events: none;
+    transform-origin: left top;
+    @include transition-quick((transform, font-size, color));
+  }
+
+  // -----------------------------------------------------------------------
+  // Text-Affixe (Prefix / Suffix)
+  // -----------------------------------------------------------------------
+  // Statische Text-Elemente die nicht als Icon, sondern als Kontext dienen.
+
+  &__prefix,
+  &__suffix {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--nc-input-affix-font-size);
+    color: var(--nc-input-affix-color);
+    padding-inline: var(--nc-input-affix-padding-x);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__prefix {
+    inset-inline-start: 0;
+    border-inline-end: var(--nc-input-border-width) solid var(--nc-input-affix-border);
+    background-color: var(--nc-input-affix-bg);
+    border-start-start-radius: var(--nc-input-radius);
+    border-end-start-radius: var(--nc-input-radius);
+    height: 100%;
+  }
+
+  &__suffix {
+    inset-inline-end: 0;
+    border-inline-start: var(--nc-input-border-width) solid var(--nc-input-affix-border);
+    background-color: var(--nc-input-affix-bg);
+    border-start-end-radius: var(--nc-input-radius);
+    border-end-end-radius: var(--nc-input-radius);
+    height: 100%;
+  }
+
+  // -----------------------------------------------------------------------
+  // Clear-Button (Content-State)
+  // -----------------------------------------------------------------------
+  // Sichtbar nur wenn Input nicht leer.
+
+  &__clear {
+    position: absolute;
+    inset-inline-end: var(--nc-input-padding-x-md);
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-input-clear-size);
+    height: var(--nc-input-clear-size);
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--nc-input-clear-color);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    @include transition-quick((opacity, color));
+
+    &:hover {
+      color: var(--nc-input-clear-color-hover);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
-// Input Wrapper (fuer Icon-Positionierung)
+// Input Wrapper (fuer Icon/Label/Affix-Positionierung)
 // ---------------------------------------------------------------------------
 
 .nc-input-wrapper {
   position: relative;
   display: block;
   width: 100%;
+
+  // -----------------------------------------------------------------------
+  // Floating Label Trigger: Focus oder nicht leer
+  // -----------------------------------------------------------------------
+  // :focus-within + :not(:placeholder-shown) steuern die Label-Position.
+  // [data-empty="false"] ist der JS-Fallback.
+
+  .nc-input:focus ~ .nc-input__label,
+  .nc-input:focus-within ~ .nc-input__label,
+  .nc-input:not(:placeholder-shown) ~ .nc-input__label,
+  .nc-input[data-empty='false'] ~ .nc-input__label {
+    transform: translateY(calc(-100% - var(--nc-input-label-offset-y))) scale(var(--nc-input-label-scale));
+    font-size: var(--nc-input-label-font-size-float);
+  }
+
+  // Focus-Farbe fuer Label
+  .nc-input:focus ~ .nc-input__label,
+  .nc-input:focus-within ~ .nc-input__label {
+    color: var(--nc-input-label-color-focus);
+  }
+
+  // Error-Farbe fuer Label
+  .nc-input--error ~ .nc-input__label,
+  .nc-input[aria-invalid='true'] ~ .nc-input__label {
+    color: var(--nc-input-border-error);
+  }
+
+  // -----------------------------------------------------------------------
+  // Clear-Button Sichtbarkeit (Content-State)
+  // -----------------------------------------------------------------------
+  // Sichtbar sobald Input nicht leer UND nicht disabled.
+
+  .nc-input:not(:placeholder-shown):not(:disabled) ~ .nc-input__clear,
+  .nc-input[data-empty='false']:not(:disabled) ~ .nc-input__clear {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // -----------------------------------------------------------------------
+  // Affix-Padding Kompensation
+  // -----------------------------------------------------------------------
+  // Wenn ein Prefix/Suffix vorhanden ist, bekommt der Input Extra-Padding,
+  // damit der User-Text nicht mit den Affixen ueberlappt.
+
+  &--has-prefix .nc-input {
+    padding-inline-start: calc(var(--nc-input-affix-padding-x) * 2 + 4ch);
+  }
+
+  &--has-suffix .nc-input {
+    padding-inline-end: calc(var(--nc-input-affix-padding-x) * 2 + 3ch);
+  }
+
+  // Clear + Suffix: Clear rueckt weiter nach links
+  &--has-suffix .nc-input__clear {
+    inset-inline-end: calc(var(--nc-input-affix-padding-x) * 2 + 3ch + var(--fnd-spacing-02));
+  }
 }
 
 // ---------------------------------------------------------------------------

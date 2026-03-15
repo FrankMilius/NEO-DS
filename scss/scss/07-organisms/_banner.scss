@@ -5,6 +5,13 @@
 //   - Alert: Inline, innerhalb des Content-Flows
 //   - Banner: Sticky/Fixed, seitenbreit, ober- oder unterhalb des Headers
 //
+// ERWEITERTE FEATURES (v2.0.0):
+//   Border-Accent: Dezente Variante mit subtiler BG + kraeftiger Akzent-Border.
+//   Title-Prefix: Fettgedruckter Titel-Praefix (__title) fuer bessere Scanbarkeit.
+//   Dismiss-Animation: Slide-up Hoehen-Transition beim Schliessen.
+//   Dismiss-Persist: JS speichert Dismiss in localStorage (domNotes).
+//   Layout-Shift-Vermeidung: body padding-top Anpassung bei fixed (domNotes).
+//
 // SEMANTIK:
 //   R1: role="banner" oder role="alert" (je nach Dringlichkeit)
 //   R2: Close-Button: aria-label="Banner schliessen"
@@ -17,11 +24,53 @@
 //   danger         — Kritischer Fehler, Sicherheitswarnung
 //   success        — Bestaetigungsnachricht
 //
-// KLASSEN:
-//   .nc-banner (kanonisch, BEM)
+// STIL-MODI:
+//   Standard (default): Volle Farbflaeche (bg + on-color Text)
+//   Border-Accent (--accent): Dezenter BG + kraeftige Akzent-Border links/unten
+//
+// BEM-KLASSEN:
+//   .nc-banner                  Block (seitenbreite Leiste)
+//   .nc-banner__icon            Icon (16px SVG, aria-hidden)
+//   .nc-banner__content         Content-Wrapper (flex-wrap, zentriert)
+//   .nc-banner__title           Fettgedruckter Titel-Praefix (optional)
+//   .nc-banner__link            CTA-Link (erbt Farbe, bold + underline)
+//   .nc-banner__close           Schliessen-Button (20px, opacity)
+//   .nc-banner--info            Info-Variante (Standard)
+//   .nc-banner--warning         Warning-Variante
+//   .nc-banner--danger          Danger-Variante
+//   .nc-banner--success         Success-Variante
+//   .nc-banner--accent          Border-Accent Stil-Modus
+//   .nc-banner--sticky          Sticky top:0
+//   .nc-banner--fixed           Fixed top:0 left:0 right:0
+//   .nc-banner.is-dismissing    Dismiss-Animation (Hoehe → 0)
+//
+// ACCESSIBILITY:
+//   role="banner" fuer allgemeine Hinweise
+//   role="alert" fuer dringende Meldungen (danger)
+//   Close-Button: aria-label="Banner schliessen"
+//   Farbe nie alleiniges Signal — Icon + Text + Border
+//   Dismiss: localStorage persistiert Entscheidung
+//   Reduced Motion: Dismiss ohne Hoehen-Animation
 // ==========================================================================
 
 @use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+@keyframes nc-banner-dismiss {
+  from {
+    max-height: var(--_banner-height, 100px);
+    padding-block: var(--nc-banner-padding);
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    padding-block: 0;
+    opacity: 0;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Mixins
@@ -37,6 +86,7 @@
   font-size: var(--nc-banner-font-size);
   font-weight: var(--nc-banner-font-weight);
   z-index: var(--nc-banner-z-index);
+  overflow: hidden;
 
   // Default: info
   background-color: var(--_banner-bg, var(--nc-banner-info-bg));
@@ -118,8 +168,8 @@
     flex-shrink: 0;
 
     > svg {
-      width: 16px;
-      height: 16px;
+      width: var(--nc-banner-icon-size);
+      height: var(--nc-banner-icon-size);
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -135,6 +185,11 @@
     gap: var(--nc-banner-gap);
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  // Fettgedruckter Titel-Praefix (z.B. "Wartung:" oder "Achtung:")
+  &__title {
+    font-weight: var(--nc-banner-title-weight);
   }
 
   // CTA-Link innerhalb des Banners
@@ -164,6 +219,20 @@
   &--danger  { @include banner-variant-danger; }
   &--success { @include banner-variant-success; }
 
+  // -- Border-Accent Modus --
+  // Dezentere Darstellung: subtiler Hintergrund + kraeftige Akzent-Border.
+  // Ueberlagert die vollen Farbflaechen der Varianten.
+
+  &--accent {
+    background-color: color-mix(in srgb, var(--_banner-bg) 12%, transparent);
+    color: var(--_banner-color, inherit);
+    border-left: var(--nc-banner-accent-border-width) solid var(--_banner-bg);
+
+    // Fuer accent: Textfarbe ist nicht on-color, sondern die primaere Textfarbe
+    // da der Hintergrund jetzt sehr subtil ist
+    color: var(--fnd-color-text-primary);
+  }
+
   // -- Position --
 
   &--sticky {
@@ -176,5 +245,36 @@
     top: 0;
     left: 0;
     right: 0;
+  }
+
+  // -- Dismiss-Animation --
+  // JS fuegt .is-dismissing hinzu, nach Animation wird das Banner entfernt.
+
+  &.is-dismissing {
+    animation: nc-banner-dismiss var(--nc-banner-dismiss-duration) ease forwards;
+    pointer-events: none;
+  }
+
+  // -- Reduced Motion --
+
+  @media (prefers-reduced-motion: reduce) {
+    &.is-dismissing {
+      animation: none;
+      display: none;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    border: 1px solid ButtonText;
+
+    &__close:focus-visible {
+      outline: 2px solid Highlight;
+    }
+
+    &__link:focus-visible {
+      outline: 2px solid Highlight;
+    }
   }
 }

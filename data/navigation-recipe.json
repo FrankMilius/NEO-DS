@@ -3,68 +3,163 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
-    "tags": ["navigation", "interactive", "layout"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-docs" }
+    "tags": ["navigation", "interactive", "layout", "header"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-docs" },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Centralisierte Tokens: --nc-nav-* in _component-tokens.scss (vorher hardcoded/inline)",
+          "Emphasis: Transparent (Hero-Overlay) und Solid (kein Blur, Performance)",
+          "Intelligent Sticky: .is-hidden beim Runterscrollen, .is-scrolled Shadow + Opacity",
+          "Alignment: --align-center (Landingpage), --align-right (Dashboard)",
+          "Mobile: Hamburger-Toggle → nc-drawer fuer Mobile-Navigation",
+          "Token-Abhaengigkeiten: nc-nav-height → scroll-margin-top fuer Anker-Links"
+        ]
+      },
+      { "version": "1.0.0", "changes": ["Initiale Implementierung: Sticky Header mit Backdrop-Blur, Brand, Nav-List, Actions"] }
+    ]
   },
   "anatomy": {
-    "root": { "element": ".nc-nav" },
+    "root": { "element": ".nc-header" },
     "slots": [
+      { "name": "nav", "element": ".nc-nav", "optional": false },
       { "name": "inner", "element": ".nc-nav__inner", "optional": false },
-      { "name": "header", "element": ".nc-header", "optional": true }
+      { "name": "brand", "element": ".nc-brand", "optional": false },
+      { "name": "list", "element": ".nc-nav__list", "optional": true },
+      { "name": "actions", "element": ".nc-nav__actions", "optional": true },
+      { "name": "navigation-menu", "element": ".nc-navigation-menu", "optional": true }
     ],
     "convenience": [],
     "domNotes": [
-      "nc-header: sticky top, backdrop-filter blur(12px), background-base 90% opacity, border-bottom.",
-      "nc-nav: full-width, font-size base. Inner: flex, space-between, align-items center, gap 1.5rem."
+      "nc-header: sticky top, backdrop-filter blur, bg-base 90% opacity, border-bottom.",
+      "nc-nav: full-width, font-size base. Inner: flex, space-between, align-items center, gap.",
+      "Transparent: Kein Hintergrund, weisse Schrift — ideal ueber Hero-Images auf Landingpages.",
+      "Solid: Voller Hintergrund ohne Blur — besser fuer Performance und einfache Layouts.",
+      "Intelligent Sticky: is-hidden beim Runterscrollen (mehr Content-Platz), is-scrolled beim Hochscrollen.",
+      "Alignment: --align-center zentriert Links (Landingpage), --align-right rechtsbuendig.",
+      "Mobile: Hamburger-Toggle oeffnet nc-drawer mit vertikal gestapelten Links."
     ]
   },
   "axes": {
-    "variant": {
-      "label": "Variant",
-      "description": "Einzige Variante",
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Visueller Modus — default (Blur 90%), transparent (Hero-Overlay), solid (voller Hintergrund)",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "navigation-default" }
+        "default":     { "modifier": null,                         "tokenGroups": ["header"],      "renderHint": "nav-emphasis-default" },
+        "transparent": { "modifier": "nc-header--transparent",      "tokenGroups": ["transparent"], "renderHint": "nav-emphasis-transparent" },
+        "solid":       { "modifier": "nc-header--solid",            "tokenGroups": ["header"],      "renderHint": "nav-emphasis-solid" }
+      }
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Ausrichtung der Links — start (links), center (zentriert), right (rechts)",
+      "values": {
+        "start":  { "modifier": null,                       "tokenGroups": [], "renderHint": "nav-align-start" },
+        "center": { "modifier": "nc-nav--align-center",      "tokenGroups": [], "renderHint": "nav-align-center" },
+        "right":  { "modifier": "nc-nav--align-right",        "tokenGroups": [], "renderHint": "nav-align-right" }
       }
     }
   },
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
-    "rules": [],
+    "supported": ["default", "scrolled", "hidden"],
+    "precedence": ["hidden", "scrolled", "default"],
+    "rules": [
+      { "state": "scrolled", "condition": ".is-scrolled — Shadow + volle Opacity beim Scrollen" },
+      { "state": "hidden", "condition": ".is-hidden — Versteckt beim Runterscrollen (Intelligent Sticky)" }
+    ],
     "interactive": true
   },
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
-      "note": "nav-Element mit aria-label. Keyboard-navigierbar. Skip-Link empfohlen."
+      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "note": "nav-Element mit aria-label. Skip-Link empfohlen. Keyboard-navigierbar."
     },
-    "overrides": []
+    "overrides": [
+      {
+        "when": { "axes": { "emphasis": ["transparent"] } },
+        "suggest": ["contrast-check"],
+        "note": "Transparent: Weisse Schrift auf Hero-Image — Kontrast des Hintergrundbilds pruefen."
+      }
+    ]
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["nav-element", "aria-label"], "notes": ["Semantisches <nav> Element mit aria-label."] },
+      { "when": { "states": ["hidden"] }, "require": ["scroll-listener"], "notes": ["JS: Scroll-Direction-Detection fuer Intelligent Sticky."] }
+    ],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-nav"],
-    "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "baseClasses": ["nc-header"],
+    "baseTokenGroups": ["header"],
+    "tokenGroups": {
+      "header": {
+        "label": "Header",
+        "tokens": [
+          "nc-nav-height", "nc-nav-bg", "nc-nav-bg-solid", "nc-nav-border",
+          "nc-nav-border-width", "nc-nav-blur", "nc-nav-z-index",
+          "nc-nav-padding-block", "nc-nav-gap",
+          "nc-nav-brand-size", "nc-nav-brand-weight",
+          "nc-nav-sticky-shadow"
+        ]
+      },
+      "transparent": {
+        "label": "Transparent (Hero)",
+        "tokens": [
+          "nc-nav-transparent-bg", "nc-nav-transparent-border", "nc-nav-transparent-color"
+        ]
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
     "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": ["styling.baseClasses", "axes.emphasis.values.*.modifier", "axes.alignment.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Navigation",
-      "description": "Sticky Header mit Navigation",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "navigation" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "nav aria-label, keyboard-navigierbar." }
+      "id": "emphasis-comparison",
+      "label": "Emphasis Variants",
+      "description": "Default (Blur), Transparent (Hero), Solid — Visueller Modus",
+      "matrix": { "axes": { "emphasis": "*", "alignment": ["start"] }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "emphasis" },
+      "render": { "label": "{emphasis}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Transparent: Kontrast auf Hero-Image pruefen." }
+    },
+    {
+      "id": "alignment-comparison",
+      "label": "Alignment",
+      "description": "Start, Center, Right — Ausrichtung der Links",
+      "matrix": { "axes": { "emphasis": ["default"], "alignment": "*" }, "states": ["default"] },
+      "layout": "grid", "layoutConfig": { "rowAxis": "alignment" },
+      "render": { "label": "{alignment}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alignment ist dekorativ." }
+    },
+    {
+      "id": "sticky-states",
+      "label": "Sticky States",
+      "description": "Default, Scrolled (Shadow), Hidden (Intelligent Sticky)",
+      "matrix": { "axes": { "emphasis": ["default"], "alignment": ["start"] }, "states": ["default", "scrolled", "hidden"] },
+      "layout": "grid",
+      "render": { "label": "{state}" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Hidden: aria-hidden=false, weiterhin im DOM." }
+    },
+    {
+      "id": "landingpage-header",
+      "label": "Landingpage Header",
+      "description": "Transparent + Center — typischer Hero-Overlay-Header",
+      "matrix": { "axes": { "emphasis": ["transparent"], "alignment": ["center"] }, "states": ["default"] },
+      "layout": "single",
+      "render": { "compositionType": "nav-landingpage", "label": "landingpage" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Kontrast gegen Hero-Image verifizieren." }
     }
   ]
 }

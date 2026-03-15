@@ -1,5 +1,5 @@
 // ==========================================================================
-// 05-Atoms: Code Snippet
+// 05-Atoms: Code Snippet  v2.0.0
 // ==========================================================================
 // Dreifach-Variante Code-Anzeige mit farbigem Syntax-Highlighting.
 // Varianten: inline, single-line, multi-line.
@@ -13,7 +13,17 @@
 //   R5: Show-More-Button erhaelt aria-expanded
 //
 // KLASSEN:
-//   .nc-code-snippet (kanonisch, BEM)
+//   .nc-code-snippet                        Block
+//   .nc-code-snippet--inline                Inline-Variante
+//   .nc-code-snippet--single                Single-Line Block
+//   .nc-code-snippet--multi                 Multi-Line Block (collapsible)
+//   .nc-code-snippet--header-plain          Header mit Dateiname/Label
+//   .nc-code-snippet--header-macos          macOS-Style Header mit Dots
+//   .nc-code-snippet--header-window         Window-Style Header mit Border
+//   .nc-code-snippet--with-line-numbers     Zeilennummern links
+//   .nc-code-snippet--wrap                  Zeilenumbruch statt horizontalem Scroll
+//   .nc-code-snippet--line-highlight        Hervorgehobene Zeilen
+//   .nc-code-snippet--expanded              Multi-Line expanded State
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -130,6 +140,176 @@
 }
 
 // ---------------------------------------------------------------------------
+// Header (optionale Titelleiste)
+// ---------------------------------------------------------------------------
+// Zeigt Dateiname, Sprach-Badge oder macOS-Dots. Border-bottom zum Code.
+
+.nc-code-snippet__header {
+  display: flex;
+  align-items: center;
+  height: var(--nc-cs-header-height);
+  padding: var(--nc-cs-header-padding);
+  background-color: var(--nc-cs-header-bg);
+  color: var(--nc-cs-header-color);
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--nc-cs-header-font-size);
+  font-weight: var(--nc-cs-header-font-weight);
+  border-bottom: var(--nc-cs-border-width) solid var(--nc-cs-header-border);
+  border-radius: var(--nc-cs-radius) var(--nc-cs-radius) 0 0;
+  user-select: none;
+}
+
+.nc-code-snippet__header-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// -- Header: Plain (nur Titel) --
+.nc-code-snippet--header-plain {
+  .nc-code-snippet__header {
+    justify-content: space-between;
+  }
+
+  // Radius nur unten am Pre/Code
+  .nc-code-snippet__pre {
+    border-radius: 0;
+  }
+}
+
+// -- Header: macOS Style (Dots + Titel zentriert) --
+.nc-code-snippet--header-macos {
+  .nc-code-snippet__header {
+    justify-content: flex-start;
+    gap: var(--fnd-spacing-03);
+  }
+
+  .nc-code-snippet__header-title {
+    flex: 1;
+    text-align: center;
+    padding-right: calc(3 * var(--nc-cs-header-dot-size) + 2 * var(--nc-cs-header-dot-gap));
+  }
+
+  .nc-code-snippet__pre {
+    border-radius: 0;
+  }
+}
+
+// macOS Dots
+.nc-code-snippet__header-dots {
+  display: flex;
+  gap: var(--nc-cs-header-dot-gap);
+  flex-shrink: 0;
+}
+
+.nc-code-snippet__header-dot {
+  width: var(--nc-cs-header-dot-size);
+  height: var(--nc-cs-header-dot-size);
+  border-radius: 50%;
+
+  &--close { background-color: var(--nc-cs-header-dot-close); }
+  &--minimize { background-color: var(--nc-cs-header-dot-minimize); }
+  &--maximize { background-color: var(--nc-cs-header-dot-maximize); }
+}
+
+// -- Header: Window Style (Border-Stil, Titel links) --
+.nc-code-snippet--header-window {
+  .nc-code-snippet__header {
+    justify-content: space-between;
+    background-color: var(--nc-cs-header-bg);
+    border-bottom: var(--nc-cs-border-width) solid var(--nc-cs-header-border);
+  }
+
+  .nc-code-snippet__pre {
+    border-radius: 0;
+  }
+}
+
+// Header + Copy-Button Positionsanpassung: Copy neben Header-Titel
+.nc-code-snippet--header-plain,
+.nc-code-snippet--header-macos,
+.nc-code-snippet--header-window {
+  // Copy-Button unter dem Header positionieren statt ueber ihm
+  .nc-code-snippet__copy {
+    top: calc(var(--nc-cs-header-height) + var(--fnd-spacing-03));
+  }
+
+  // Label verstecken wenn Header aktiv (Header ersetzt Label)
+  .nc-code-snippet__label {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Zeilennummern
+// ---------------------------------------------------------------------------
+// Counter-basierte Zeilennummern am linken Rand.
+
+.nc-code-snippet--with-line-numbers {
+  .nc-code-snippet__pre {
+    counter-reset: line;
+    padding-left: calc(var(--nc-cs-line-numbers-width) + var(--nc-cs-padding-inline));
+  }
+
+  .nc-code-snippet__line {
+    display: block;
+    position: relative;
+
+    &::before {
+      counter-increment: line;
+      content: counter(line);
+      position: absolute;
+      left: calc(-1 * var(--nc-cs-line-numbers-width) - var(--nc-cs-padding-inline) + var(--fnd-spacing-04));
+      width: var(--nc-cs-line-numbers-width);
+      padding: var(--nc-cs-line-numbers-padding);
+      text-align: right;
+      color: var(--nc-cs-line-numbers-color);
+      border-right: var(--nc-cs-border-width) solid var(--nc-cs-line-numbers-border);
+      font-variant-numeric: tabular-nums;
+      user-select: none;
+      pointer-events: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Zeilen-Highlight
+// ---------------------------------------------------------------------------
+// Einzelne Zeilen hervorheben (z.B. fuer Erlaeuterungen).
+
+.nc-code-snippet--line-highlight {
+  .nc-code-snippet__line--highlighted {
+    background-color: var(--nc-cs-line-highlight-bg);
+    border-left: var(--nc-cs-line-highlight-width) solid var(--nc-cs-line-highlight-border);
+    margin-left: calc(-1 * var(--nc-cs-padding-inline));
+    margin-right: calc(-1 * var(--nc-cs-padding-inline));
+    padding-left: calc(var(--nc-cs-padding-inline) - var(--nc-cs-line-highlight-width));
+    padding-right: var(--nc-cs-padding-inline);
+  }
+}
+
+// Kombination: Line-Numbers + Line-Highlight
+.nc-code-snippet--with-line-numbers.nc-code-snippet--line-highlight {
+  .nc-code-snippet__line--highlighted {
+    margin-left: calc(-1 * var(--nc-cs-line-numbers-width) - var(--nc-cs-padding-inline));
+    padding-left: calc(var(--nc-cs-line-numbers-width) + var(--nc-cs-padding-inline) - var(--nc-cs-line-highlight-width));
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Zeilenumbruch (Wrap)
+// ---------------------------------------------------------------------------
+// Bricht lange Zeilen um statt horizontal zu scrollen.
+
+.nc-code-snippet--wrap {
+  .nc-code-snippet__pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Copy Button
 // ---------------------------------------------------------------------------
 // Absolut positioniert oben rechts. Zeigt sich bei Hover/Focus.
@@ -186,7 +366,7 @@
 
 .nc-code-snippet__copy--success {
   opacity: 1;
-  color: var(--fnd-color-feedback-success);
+  color: var(--nc-cs-copy-success-color);
 
   .nc-code-snippet__copy-icon--copy {
     display: none;
@@ -194,6 +374,33 @@
 
   .nc-code-snippet__copy-icon--check {
     display: block;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Copy Tooltip
+// ---------------------------------------------------------------------------
+// Tooltip-Feedback unter dem Copy-Button bei Erfolg.
+
+.nc-code-snippet__copy-tooltip {
+  position: absolute;
+  top: calc(100% + var(--fnd-spacing-02));
+  right: 0;
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
+  background-color: var(--nc-cs-copy-tooltip-bg);
+  color: var(--nc-cs-copy-tooltip-color);
+  font-family: var(--nc-cs-font-family);
+  font-size: var(--nc-cs-copy-tooltip-font-size);
+  border-radius: var(--nc-cs-copy-tooltip-radius);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  @include transition-quick((opacity, transform));
+
+  .nc-code-snippet__copy--success & {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

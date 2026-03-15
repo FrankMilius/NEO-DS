@@ -1,37 +1,311 @@
 // ==========================================================================
 // 06-Molecules: Accordion
 // ==========================================================================
-// Accordion/Details-Komponente
-// Migriert von: solutions.css
+// Context-Aware Accordion: Layout-Organisator mit Varianten, Density,
+// Media-Slot und CSS-Grid-Animation.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-accordion-* Component-Tokens.
+//   Varianten-Styles ueber Modifier-Klassen.
+//   CSS-Grid-Animation (grid-template-rows: 0fr → 1fr) fuer flüssige
+//   Hoehen-Animation ohne feste Pixelwerte.
+//
+// BEM-KLASSEN:
+//   .nc-accordion                      Block (Container)
+//   .nc-accordion__item                Item-Container (border-separated)
+//   .nc-accordion__trigger             Klickbarer Header (<summary> oder <button>)
+//   .nc-accordion__icon                Toggle-Icon (Chevron, rotiert bei open)
+//   .nc-accordion__content             Ausklappbarer Inhalt (grid-animation)
+//   .nc-accordion__content-inner       Innerer Wrapper (overflow:hidden bei 0fr)
+//   .nc-accordion__media               Media-Slot (Bild/Video im Content)
+//   .nc-accordion--flush               Kein aeusserer Rahmen, nur Trennlinien
+//   .nc-accordion--ghost               Keine Borders/BG, nur Text + Icon
+//   .nc-accordion--separated           Items als eigenstaendige Cards mit Gap
+//   .nc-accordion--elevated            Geoeffnetes Item bekommt staerkeren Schatten
+//   .nc-accordion--compact             Reduzierte Paddings/Schriftgroessen
+//   .nc-accordion--spacious            Grosszuegige Abstaende
+//   .nc-accordion--media-top           Media ueber dem Text (volle Breite)
+//   .nc-accordion--media-side          Media neben dem Text (flex row)
+//
+// ACCESSIBILITY:
+//   Natives <details>/<summary> ist inhaerent accessible.
+//   Alternativ: button + aria-expanded + aria-controls.
+//   prefers-reduced-motion: Transitions werden deaktiviert.
+//   Disabled: aria-disabled='true', pointer-events: none, opacity reduziert.
 // ==========================================================================
 
 @use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  // -- Item --
+  &__item {
+    border-block-end: 1px solid var(--nc-accordion-border);
+    overflow: visible;
+
+    &:first-child {
+      border-block-start: 1px solid var(--nc-accordion-border);
+    }
+  }
+
+  // -- Trigger --
+  &__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--nc-accordion-padding);
+    font-weight: var(--nc-accordion-trigger-font-weight);
+    color: var(--nc-accordion-trigger-color);
+    cursor: pointer;
+    list-style: none;
+    border: none;
+    background: none;
+    text-align: start;
+    gap: var(--fnd-spacing-03);
+    @include transition(background-color, '200');
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover:not([disabled]):not([aria-disabled='true']) {
+      background-color: var(--nc-accordion-trigger-hover-bg);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &[disabled],
+    &[aria-disabled='true'] {
+      opacity: var(--fnd-opacity-disabled);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  // -- Icon --
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-accordion-icon-size);
+    height: var(--nc-accordion-icon-size);
+    flex-shrink: 0;
+    color: var(--nc-accordion-icon-color);
+    @include transition(transform, '200');
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    // Open-State: Icon rotiert
+    [open] > .nc-accordion__trigger &,
+    [aria-expanded='true'] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  // -- Content (CSS-Grid-Animation) --
+  &__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--nc-accordion-transition-duration) ease;
+
+    [open] > &,
+    &.is-open {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__content-inner {
+    overflow: hidden;
+    padding-inline: var(--nc-accordion-padding);
+    padding-block-end: var(--nc-accordion-padding);
+    color: var(--nc-accordion-content-color);
+    font-size: var(--nc-accordion-content-font-size);
+    line-height: 1.5;
+
+    // Erstes Kind: Abstand zum Trigger
+    > :first-child {
+      margin-top: 0;
+    }
+  }
+
+  // -- Media Slot --
+  &__media {
+    border-radius: var(--nc-accordion-media-radius);
+    overflow: hidden;
+    max-height: var(--nc-accordion-media-max-height);
+
+    > img,
+    > video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Varianten
+  // ═══════════════════════════════════════════════════════════════
+
+  // Flush: Kein aeusserer Rahmen, nur Trennlinien
+  &--flush &__item {
+    &:first-child {
+      border-block-start: none;
+    }
+    &:last-child {
+      border-block-end: none;
+    }
+  }
+
+  // Ghost: Keine Borders, kein BG — nur Text + Icon
+  &--ghost &__item {
+    border: none;
+
+    &:first-child {
+      border: none;
+    }
+  }
+
+  &--ghost &__trigger:hover:not([disabled]) {
+    background-color: var(--nc-accordion-trigger-hover-bg);
+    border-radius: var(--nc-accordion-item-radius);
+  }
+
+  // Separated: Items als eigenstaendige Cards mit Gap
+  &--separated {
+    gap: var(--nc-accordion-item-gap);
+  }
+
+  &--separated &__item {
+    border: 1px solid var(--nc-accordion-border);
+    border-radius: var(--nc-accordion-item-radius);
+    background: var(--nc-accordion-item-bg);
+    box-shadow: var(--nc-accordion-item-shadow);
+
+    &:first-child {
+      border-block-start: 1px solid var(--nc-accordion-border);
+    }
+  }
+
+  &--separated &__trigger {
+    border-radius: var(--nc-accordion-item-radius);
+  }
+
+  // Elevated: Geoeffnetes Item hebt sich visuell hervor
+  &--elevated &__item[open] {
+    box-shadow: var(--nc-accordion-elevated-shadow);
+    z-index: 1;
+    position: relative;
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Density
+  // ═══════════════════════════════════════════════════════════════
+
+  // Compact
+  &--compact &__trigger {
+    padding: var(--nc-accordion-padding-compact);
+  }
+
+  &--compact &__content-inner {
+    padding-inline: var(--nc-accordion-padding-compact);
+    padding-block-end: var(--nc-accordion-padding-compact);
+    font-size: var(--nc-accordion-content-font-size-compact);
+  }
+
+  // Spacious
+  &--spacious &__trigger {
+    padding: var(--nc-accordion-padding-spacious);
+  }
+
+  &--spacious &__content-inner {
+    padding-inline: var(--nc-accordion-padding-spacious);
+    padding-block-end: var(--nc-accordion-padding-spacious);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Media Layout
+  // ═══════════════════════════════════════════════════════════════
+
+  // Media Top: Bild ueber Text (volle Breite)
+  &--media-top &__content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nc-accordion-media-gap);
+  }
+
+  &--media-top &__media {
+    border-radius: var(--nc-accordion-media-radius);
+    width: 100%;
+  }
+
+  // Media Side: Bild neben Text (flex row)
+  &--media-side &__content-inner {
+    display: flex;
+    flex-direction: row;
+    gap: var(--nc-accordion-media-gap);
+    align-items: flex-start;
+  }
+
+  &--media-side &__media {
+    flex-shrink: 0;
+    width: 120px;
+    max-height: 80px;
+    border-radius: var(--nc-accordion-media-radius);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Reduced Motion
+  // ═══════════════════════════════════════════════════════════════
+  @media (prefers-reduced-motion: reduce) {
+    &__content {
+      transition: none;
+    }
+    &__icon {
+      transition: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Legacy (Non-BEM, migriert von solutions.css)
+// ---------------------------------------------------------------------------
 
 .accordion {
   --time-to-wait: 10s;
 }
 
-// ---------------------------------------------------------------------------
-// Accordion Item
-// ---------------------------------------------------------------------------
-
 .accordion-item {
   padding-block: var(--fnd-spacing-07);
   border-block: 1px solid var(--fnd-color-border-secondary);
   overflow-y: clip;
-  
+
   + .accordion-item {
     border-top: none;
   }
-  
+
   p {
     margin: 0;
   }
 }
-
-// ---------------------------------------------------------------------------
-// Accordion Summary (Trigger)
-// ---------------------------------------------------------------------------
 
 .accordion-item-summary {
   @include heading('xs');
@@ -48,21 +322,17 @@
   }
 }
 
-// ---------------------------------------------------------------------------
-// Accordion Summary Icon
-// ---------------------------------------------------------------------------
-
 .accordion-item-summary-icon {
   display: grid;
   background-color: var(--fnd-color-background-secondary);
   color: var(--fnd-color-text-secondary);
   border-radius: var(--fnd-radius-sm);
   padding: var(--fnd-spacing-03);
-  
+
   > * {
     grid-area: 1 / 1;
   }
-  
+
   .icon {
     width: var(--fnd-spacing-04);
     height: var(--fnd-spacing-04);
@@ -70,48 +340,39 @@
     align-content: center;
     @include transition(transform, '200');
   }
-  
+
   .accordion-icon-collapse {
     transform: scaleY(0);
   }
 }
 
-// Open State Icons
 [open] .accordion-item-summary-icon {
   .accordion-icon-collapse {
     transform: scaleY(1);
   }
-  
+
   .accordion-icon-expand {
     transform: scaleY(0);
   }
 }
 
-// ---------------------------------------------------------------------------
-// Accordion Content
-// ---------------------------------------------------------------------------
-
 .accordion-item-content {
   @include paragraph('l');
   color: var(--fnd-color-text-secondary);
   overflow-y: clip;
-  
+
   @include desktop-up {
     margin-inline-end: var(--fnd-spacing-09);
   }
-  
+
   > :first-child {
     padding-block-start: var(--fnd-spacing-04);
   }
 }
 
-// ---------------------------------------------------------------------------
-// Accordion Progress Bar
-// ---------------------------------------------------------------------------
-
 .accordion-progress {
   display: none;
-  
+
   @include desktop-up {
     position: absolute;
     display: block;
@@ -121,20 +382,16 @@
     transform: scaleX(0);
     transform-origin: left;
   }
-  
+
   &.active {
     transform: scaleX(1);
   }
 }
 
-// ---------------------------------------------------------------------------
-// Data Accordion (für Animated Content)
-// ---------------------------------------------------------------------------
-
 [data-accordion] {
   @include transition(opacity, '200');
   transition-delay: var(--fnd-motion-delay-200);
-  
+
   @include desktop-up {
     &:not(.show) {
       opacity: 0;

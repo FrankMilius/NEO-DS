@@ -1,5 +1,5 @@
 // ==========================================================================
-// 05-Atoms: Chip
+// 05-Atoms: Chip v2.0.0
 // ==========================================================================
 // Interaktives Filter-/Auswahl-Element. Immer ein <button> mit aria-pressed.
 //
@@ -11,12 +11,28 @@
 //   R6: Icon-only Chip (selten) braucht aria-label
 //
 // GROESSEN (3 Stufen, versetzt zum Button-Scale):
-//   sm → 24px (= Button XS)
+//   sm → 24px (= Button XS) — Touch-Target auf 44px vergroessert
 //   md → 32px (= Button SM) — DEFAULT
 //   lg → 40px (= Button MD)
 //
+// VARIANTEN:
+//   filled  → Transparenter BG mit Border (Standard / outline)
+//   outline → Identisch, expliziter Name fuer Klarheit
+//   ghost   → Keine Border, sehr dezent fuer dichte Dashboards
+//
+// CONTENT:
+//   text, with-icon, with-avatar, removable, with-count
+//
+// LAYOUT-SHIFT PRAEVENTION:
+//   Transparente Border im Default-State reserviert Platz → kein Sprung
+//   bei Selektion. font-weight bleibt konstant ueber alle States.
+//
 // KLASSEN:
 //   .nc-chip (kanonisch, BEM)
+//   .nc-chip--outline, --ghost (Varianten)
+//   .nc-chip--selected, [aria-pressed='true'] (Selection)
+//   .nc-chip-group (Wrap-Container)
+//   .nc-chip-group--scroll (Horizontal-Scroll ohne Wrap)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -65,6 +81,50 @@
   }
 }
 
+/// Touch-Target: Vergroesserter unsichtbarer Klickbereich fuer SM-Variante.
+/// Stellt sicher, dass auch bei 24px Hoehe das 44px WCAG-Minimum erreicht wird.
+@mixin chip-touch-target {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    min-width: var(--nc-chip-touch-target-min);
+    min-height: var(--nc-chip-touch-target-min);
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Variant Mixins
+// ---------------------------------------------------------------------------
+
+/// Outline: Expliziter Name fuer den Standard-Look (transparent + Border).
+/// Identisch mit Default, da Default bereits outline-artig ist.
+@mixin chip-outline {
+  --_surface-bg: var(--nc-chip-outline-bg);
+  --_surface-color: var(--nc-chip-outline-color);
+  --_surface-border-color: var(--nc-chip-outline-border);
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-chip-outline-bg-hover);
+  }
+}
+
+/// Ghost: Keine Border, minimaler Hintergrund — fuer dichte Dashboards.
+@mixin chip-ghost {
+  --_surface-bg: var(--nc-chip-ghost-bg);
+  --_surface-color: var(--nc-chip-ghost-color);
+  --_surface-border-color: var(--nc-chip-ghost-border);
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--nc-chip-ghost-bg-hover);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Selected State
 // ---------------------------------------------------------------------------
@@ -108,12 +168,29 @@
   border-radius: var(--fnd-radius-full);
   object-fit: cover;
   flex-shrink: 0;
-  margin-inline-start: calc(-1 * var(--fnd-spacing-01));
+  // Reduziertes Padding-Start fuer buendigen Avatar-Abschluss mit Rundung
+  margin-inline-start: calc(-1 * var(--nc-chip-padding-avatar));
 }
 
 @mixin chip-remove-button {
   @include surface-remove-button(var(--nc-chip-remove-size));
   margin-inline-end: calc(-1 * var(--fnd-spacing-01));
+}
+
+/// Count Badge: Kleines numerisches Badge im Chip (z.B. "Inland (12)")
+@mixin chip-count-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--nc-chip-count-min-width);
+  height: var(--nc-chip-count-height);
+  padding: 0 var(--nc-chip-count-padding-x);
+  font-size: var(--nc-chip-count-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: 1;
+  border-radius: var(--nc-chip-count-radius);
+  background: var(--nc-chip-count-bg);
+  flex-shrink: 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -128,10 +205,18 @@
   &__avatar { @include chip-avatar-element; }
   &__label  { display: inline-flex; align-items: center; }
   &__remove { @include chip-remove-button; }
+  &__count  { @include chip-count-element; }
 
   // Sizes
-  &--sm { @include chip-size('sm'); }
+  &--sm {
+    @include chip-size('sm');
+    @include chip-touch-target;
+  }
   &--lg { @include chip-size('lg'); }
+
+  // Variant Modifiers
+  &--outline { @include chip-outline; }
+  &--ghost   { @include chip-ghost; }
 
   // Selected State (CSS-Klasse und/oder aria-pressed)
   &--selected,
@@ -141,12 +226,24 @@
 }
 
 // ---------------------------------------------------------------------------
-// Chip Group (optionaler Container)
+// Chip Group
 // ---------------------------------------------------------------------------
 
 .nc-chip-group {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--fnd-spacing-02);
+  gap: var(--nc-chip-group-gap);
   align-items: center;
+
+  // Horizontal-Scroll Variante (kein Wrap)
+  &--scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome/Safari
+    }
+  }
 }

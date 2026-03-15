@@ -337,155 +337,141 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <h2 class="docs__section-title">Design Tokens</h2>
-          <p class="docs__section-desc">
-            Alle <code class="docs__token">--nc-toast-*</code> Tokens sind auf <code class="docs__token">:root</code> in der Component-Tokens Datei definiert.
-          </p>
-
-          <!-- Layout Tokens -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout Tokens</h3>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Standardwert</th>
-                    <th>Beschreibung</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>--nc-toast-z-index</code></td><td>50</td><td>Z-Index des Toaster-Containers</td></tr>
-                  <tr><td><code>--nc-toast-offset</code></td><td>var(--fnd-spacing-06) (24px)</td><td>Abstand zum Viewport-Rand</td></tr>
-                  <tr><td><code>--nc-toast-gap</code></td><td>var(--fnd-spacing-03) (12px)</td><td>Abstand zwischen gestapelten Toasts</td></tr>
-                  <tr><td><code>--nc-toast-width</code></td><td>356px</td><td>Breite eines Toasts</td></tr>
-                  <tr><td><code>--nc-toast-padding</code></td><td>16px 20px</td><td>Innenabstand</td></tr>
-                  <tr><td><code>--nc-toast-radius</code></td><td>var(--fnd-radius-lg) (8px)</td><td>Eckenradius</td></tr>
-                  <tr><td><code>--nc-toast-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
-                  <tr><td><code>--nc-toast-shadow</code></td><td>0 4px 12px rgba(0,0,0,0.15)</td><td>Schattenwurf</td></tr>
-                  <tr><td><code>--nc-toast-item-gap</code></td><td>12px</td><td>Abstand zwischen Icon und Content</td></tr>
-                  <tr><td><code>--nc-toast-icon-size</code></td><td>20px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
-                  <tr><td><code>--nc-toast-font-size</code></td><td>var(--fs-sm)</td><td>Schriftgr&ouml;&szlig;e</td></tr>
-                  <tr><td><code>--nc-toast-description-font-size</code></td><td>var(--fs-xs)</td><td>Schriftgr&ouml;&szlig;e Beschreibung</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- Animation Tokens -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Animation Tokens</h3>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Standardwert</th>
-                    <th>Beschreibung</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>--nc-toast-animation-duration</code></td><td>0.3s</td><td>Dauer der Slide-Animation</td></tr>
-                  <tr><td><code>--nc-toast-animation-easing</code></td><td>ease-out</td><td>Easing der Animation</td></tr>
-                  <tr><td><code>--nc-toast-progress-height</code></td><td>3px</td><td>H&ouml;he des Fortschrittsbalkens</td></tr>
-                  <tr><td><code>--nc-toast-auto-dismiss-duration</code></td><td>5000</td><td>Auto-Dismiss Dauer in ms (JS)</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- Variant Tokens -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Varianten-Tokens</h3>
-            <p class="docs__section-desc">
-              Jede Variante definiert 5 Tokens: <code>-bg</code>, <code>-color</code>, <code>-border</code>,
-              <code>-icon-color</code>, <code>-progress-bg</code>.
-            </p>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Variante</th>
-                    <th>BG</th>
-                    <th>Color</th>
-                    <th>Border</th>
-                    <th>Icon Color</th>
-                    <th>Progress BG</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>--default</code></td>
-                    <td>background-primary</td>
-                    <td>text-primary</td>
-                    <td>border-primary</td>
-                    <td>text-secondary</td>
-                    <td>text-secondary</td>
-                  </tr>
-                  <tr>
-                    <td><code>--success</code></td>
-                    <td>background-success</td>
-                    <td>text-primary</td>
-                    <td>border-success</td>
-                    <td>feedback-success</td>
-                    <td>feedback-success</td>
-                  </tr>
-                  <tr>
-                    <td><code>--warning</code></td>
-                    <td>warning 12% mix</td>
-                    <td>text-primary</td>
-                    <td>feedback-warning</td>
-                    <td>feedback-warning</td>
-                    <td>feedback-warning</td>
-                  </tr>
-                  <tr>
-                    <td><code>--error</code></td>
-                    <td>background-danger</td>
-                    <td>text-primary</td>
-                    <td>border-danger</td>
-                    <td>feedback-danger</td>
-                    <td>feedback-danger</td>
-                  </tr>
-                  <tr>
-                    <td><code>--info</code></td>
-                    <td>info 12% mix</td>
-                    <td>text-primary</td>
-                    <td>feedback-info</td>
-                    <td>feedback-info</td>
-                    <td>feedback-info</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- BEM Structure -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">BEM-Struktur</h3>
-            <div class="docs-snippet"><pre>.nc-toaster                      // Viewport-Container (fixed)
-  .nc-toaster--top-left          // Position oben links
-  .nc-toaster--top-center        // Position oben mitte
-  .nc-toaster--top-right         // Position oben rechts (Standard)
-  .nc-toaster--bottom-left       // Position unten links
-  .nc-toaster--bottom-center     // Position unten mitte
-  .nc-toaster--bottom-right      // Position unten rechts
-
-.nc-toast                        // Einzelner Toast
-  .nc-toast__icon                // Icon-Container (20px SVG)
-  .nc-toast__content             // Text-Bereich (flex-1)
-  .nc-toast__title               // Titel (font-weight 600)
-  .nc-toast__description         // Beschreibungstext
-  .nc-toast__action              // Action-Button
-  .nc-toast__close               // Schliessen-Button
-  .nc-toast__progress            // Fortschrittsbalken
-  .nc-toast--default             // Default-Variante
-  .nc-toast--success             // Success-Variante
-  .nc-toast--warning             // Warning-Variante
-  .nc-toast--error               // Error-Variante
-  .nc-toast--info                // Info-Variante
-  .nc-toast.is-entering          // Eintritts-Animation
-  .nc-toast.is-leaving           // Austritts-Animation</pre></div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-z-index</code></td><td>var(--fnd-z-toast)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-offset</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-width</code></td><td>356px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td><td>16px 20px</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-shadow</code></td><td>var(--fnd-elevation-raised)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-item-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-icon-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-description-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-progress-height</code></td><td>3px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-auto-dismiss-duration</code></td><td>5000</td><td>ms (JS)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Animation</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-animation-duration</code></td><td>var(--fnd-motion-duration-300)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-animation-easing</code></td><td>ease-out</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-stack-transition</code></td><td>var(--fnd-motion-duration-200)</td><td>Nachrück-Animation beim Entfernen</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Close Button</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-close-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-close-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-close-bg-hover</code></td><td>color-mix(in srgb, currentColor 10%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Action Button</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-action-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-03)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-action-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-action-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Queue &amp; Swipe</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-max-visible</code></td><td>3</td><td>Maximale gleichzeitig sichtbare Toasts</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-swipe-threshold</code></td><td>100</td><td>px — Mindest-Swipe-Distanz zum Dismissen</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Default Severity</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-default-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-border</code></td><td>var(--fnd-color-border-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-icon-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-progress-bg</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Success Severity</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-success-bg</code></td><td>var(--fnd-color-background-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-border</code></td><td>var(--fnd-color-border-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-icon-color</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-progress-bg</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Warning Severity</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-warning-bg</code></td><td>var(--fnd-color-background-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-border</code></td><td>var(--fnd-color-feedback-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-icon-color</code></td><td>var(--fnd-color-feedback-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-progress-bg</code></td><td>var(--fnd-color-feedback-warning)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Error Severity</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-error-bg</code></td><td>var(--fnd-color-background-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-border</code></td><td>var(--fnd-color-border-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-progress-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Info Severity</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-toast-info-bg</code></td><td>var(--fnd-color-background-info)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-border</code></td><td>var(--fnd-color-feedback-info)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-icon-color</code></td><td>var(--fnd-color-feedback-info)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-progress-bg</code></td><td>var(--fnd-color-feedback-info)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -494,144 +480,170 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <h2 class="docs__section-title">Komponenten-&Uuml;bersicht</h2>
-          <p class="docs__section-desc">
-            Die Toast-Komponente besteht aus einem <strong>Toaster</strong> (Viewport-Container) und
-            einzelnen <strong>Toast</strong>-Elementen, die per JS erzeugt und verwaltet werden.
-          </p>
-
-          <!-- CSS Classes -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">CSS-Klassen</h3>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Klasse</th>
-                    <th>Element</th>
-                    <th>Beschreibung</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>.nc-toaster</code></td><td>Container</td><td>Fixed Viewport-Container, h&auml;lt alle Toasts</td></tr>
-                  <tr><td><code>.nc-toaster--top-left</code></td><td>Modifier</td><td>Position: oben links</td></tr>
-                  <tr><td><code>.nc-toaster--top-center</code></td><td>Modifier</td><td>Position: oben mitte</td></tr>
-                  <tr><td><code>.nc-toaster--top-right</code></td><td>Modifier</td><td>Position: oben rechts (Standard)</td></tr>
-                  <tr><td><code>.nc-toaster--bottom-left</code></td><td>Modifier</td><td>Position: unten links</td></tr>
-                  <tr><td><code>.nc-toaster--bottom-center</code></td><td>Modifier</td><td>Position: unten mitte</td></tr>
-                  <tr><td><code>.nc-toaster--bottom-right</code></td><td>Modifier</td><td>Position: unten rechts</td></tr>
-                  <tr><td><code>.nc-toast</code></td><td>Block</td><td>Einzelner Toast</td></tr>
-                  <tr><td><code>.nc-toast__icon</code></td><td>Element</td><td>Icon-Container (20px)</td></tr>
-                  <tr><td><code>.nc-toast__content</code></td><td>Element</td><td>Text-Bereich</td></tr>
-                  <tr><td><code>.nc-toast__title</code></td><td>Element</td><td>Titel (font-weight 600)</td></tr>
-                  <tr><td><code>.nc-toast__description</code></td><td>Element</td><td>Beschreibungstext</td></tr>
-                  <tr><td><code>.nc-toast__action</code></td><td>Element</td><td>Action-Button</td></tr>
-                  <tr><td><code>.nc-toast__close</code></td><td>Element</td><td>Schliessen-Button</td></tr>
-                  <tr><td><code>.nc-toast__progress</code></td><td>Element</td><td>Auto-Dismiss Fortschrittsbalken</td></tr>
-                  <tr><td><code>.nc-toast--default</code></td><td>Modifier</td><td>Default-Variante</td></tr>
-                  <tr><td><code>.nc-toast--success</code></td><td>Modifier</td><td>Success-Variante</td></tr>
-                  <tr><td><code>.nc-toast--warning</code></td><td>Modifier</td><td>Warning-Variante</td></tr>
-                  <tr><td><code>.nc-toast--error</code></td><td>Modifier</td><td>Error/Danger-Variante</td></tr>
-                  <tr><td><code>.nc-toast--info</code></td><td>Modifier</td><td>Info-Variante</td></tr>
-                  <tr><td><code>.nc-toast.is-entering</code></td><td>State</td><td>Eintritts-Animation aktiv</td></tr>
-                  <tr><td><code>.nc-toast.is-leaving</code></td><td>State</td><td>Austritts-Animation aktiv</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- JS API -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">JavaScript API</h3>
-            <p class="docs__section-desc">
-              Die Toast-Komponente bietet eine einfache JS-API mit <code>NcToast.show()</code> und <code>NcToast.dismiss()</code>.
-            </p>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">NcToast.show(options)</h4>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Option</th>
-                    <th>Typ</th>
-                    <th>Standard</th>
-                    <th>Beschreibung</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>variant</code></td><td>string</td><td>'default'</td><td>'default' | 'success' | 'warning' | 'error' | 'info'</td></tr>
-                  <tr><td><code>position</code></td><td>string</td><td>'top-right'</td><td>'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'</td></tr>
-                  <tr><td><code>title</code></td><td>string</td><td>null</td><td>Toast-Titel</td></tr>
-                  <tr><td><code>description</code></td><td>string</td><td>null</td><td>Beschreibungstext</td></tr>
-                  <tr><td><code>duration</code></td><td>number</td><td>5000</td><td>Auto-Dismiss in ms (0 = kein Auto-Dismiss)</td></tr>
-                  <tr><td><code>showClose</code></td><td>boolean</td><td>true</td><td>Schliessen-Button anzeigen</td></tr>
-                  <tr><td><code>showProgress</code></td><td>boolean</td><td>true</td><td>Fortschrittsbalken anzeigen</td></tr>
-                  <tr><td><code>actionLabel</code></td><td>string</td><td>null</td><td>Text des Action-Buttons</td></tr>
-                  <tr><td><code>onAction</code></td><td>function</td><td>null</td><td>Callback bei Action-Klick</td></tr>
-                  <tr><td><code>onDismiss</code></td><td>function</td><td>null</td><td>Callback nach Dismiss</td></tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">NcToast.dismiss(toastId)</h4>
-            <p class="docs__section-desc">
-              Schliesst einen Toast manuell per ID. Die ID wird von <code>NcToast.show()</code> zur&uuml;ckgegeben.
-            </p>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">NcToast.dismissAll()</h4>
-            <p class="docs__section-desc">
-              Schliesst alle aktuell sichtbaren Toasts.
-            </p>
-          </section>
-
-          <!-- Element Structure -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Element-Struktur</h3>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Toaster Container</h4>
-            <div class="docs-snippet"><pre>&lt;!-- Im Body-Tag (einmalig pro Position) --&gt;
-&lt;div class="nc-toaster nc-toaster--top-right"
-     aria-live="polite"
-     role="region"
-     aria-label="Benachrichtigungen"&gt;
-  &lt;!-- Toasts werden hier per JS eingef&uuml;gt --&gt;
-&lt;/div&gt;</pre></div>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Toast mit Titel + Beschreibung + Close</h4>
-            <div class="docs-snippet"><pre>&lt;div class="nc-toast nc-toast--success is-entering"
-     role="status"
-     data-toast-id="toast-1"&gt;
-  &lt;span class="nc-toast__icon" aria-hidden="true"&gt;
-    &lt;svg&gt;&lt;!-- success icon --&gt;&lt;/svg&gt;
-  &lt;/span&gt;
-  &lt;div class="nc-toast__content"&gt;
-    &lt;p class="nc-toast__title"&gt;Gespeichert&lt;/p&gt;
-    &lt;p class="nc-toast__description"&gt;Die &Auml;nderungen wurden gespeichert.&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;button class="nc-toast__close" aria-label="Schlie&szlig;en"&gt;
-    &lt;svg&gt;&lt;!-- close icon --&gt;&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;div class="nc-toast__progress"
-       style="animation: nc-toast-progress 5s linear forwards;"&gt;&lt;/div&gt;
-&lt;/div&gt;</pre></div>
-
-            <h4 style="margin-top: var(--fnd-spacing-04); font-weight: 600;">Toast mit Action Button</h4>
-            <div class="docs-snippet"><pre>&lt;div class="nc-toast nc-toast--default is-entering"
-     role="status"
-     data-toast-id="toast-2"&gt;
-  &lt;span class="nc-toast__icon" aria-hidden="true"&gt;
-    &lt;svg&gt;&lt;!-- icon --&gt;&lt;/svg&gt;
-  &lt;/span&gt;
-  &lt;div class="nc-toast__content"&gt;
-    &lt;p class="nc-toast__title"&gt;Eintrag gel&ouml;scht&lt;/p&gt;
-    &lt;p class="nc-toast__description"&gt;Der Eintrag wurde entfernt.&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;button class="nc-toast__action"&gt;R&uuml;ckg&auml;ngig&lt;/button&gt;
-  &lt;button class="nc-toast__close" aria-label="Schlie&szlig;en"&gt;
-    &lt;svg&gt;&lt;!-- close icon --&gt;&lt;/svg&gt;
-  &lt;/button&gt;
-&lt;/div&gt;</pre></div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-toast</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-toast</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-toast-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-toast</code></td><td>Block</td><td>toast-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__title</code></td><td>Element</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__description</code></td><td>Element (optional)</td><td>description</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__action</code></td><td>Element (optional)</td><td>action</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__close</code></td><td>Element (optional)</td><td>close</td></tr>
+      <tr><td><code class="docs__token">.nc-toast__progress</code></td><td>Element (optional)</td><td>progress</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Severity-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-toast--default</code></td><td>default</td><td>Semantische Variante — default, success, warning, error, info</td></tr>
+      <tr><td><code class="docs__token">.nc-toast--success</code></td><td>success</td><td>Semantische Variante — default, success, warning, error, info</td></tr>
+      <tr><td><code class="docs__token">.nc-toast--warning</code></td><td>warning</td><td>Semantische Variante — default, success, warning, error, info</td></tr>
+      <tr><td><code class="docs__token">.nc-toast--error</code></td><td>error</td><td>Semantische Variante — default, success, warning, error, info</td></tr>
+      <tr><td><code class="docs__token">.nc-toast--info</code></td><td>info</td><td>Semantische Variante — default, success, warning, error, info</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Position-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>top-right</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>top-left</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>top-center</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom-right</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom-left</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom-center</td><td>Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>basic</td><td>Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-description</td><td>Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-action</td><td>Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-undo</td><td>Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-progress</td><td>Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-z-index</code></td><td>var(--fnd-z-toast)</td><td>var(--fnd-z-toast)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-offset</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-width</code></td><td>356px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-padding</code></td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td><td>var(--fnd-spacing-04) var(--fnd-spacing-05)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-shadow</code></td><td>var(--fnd-elevation-raised)</td><td>var(--fnd-elevation-raised)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-item-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-icon-size</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-description-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-progress-height</code></td><td>3px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-auto-dismiss-duration</code></td><td>5000</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Animation</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-animation-duration</code></td><td>var(--fnd-motion-duration-300)</td><td>var(--fnd-motion-duration-300)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-animation-easing</code></td><td>ease-out</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-stack-transition</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Close Button</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-close-size</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-close-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>var(--fnd-opacity-disabled)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-close-bg-hover</code></td><td>color-mix(in srgb, currentColor 10%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Action Button</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-action-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-03)</td><td>var(--fnd-spacing-01) var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-action-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-action-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Queue &amp; Swipe</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-max-visible</code></td><td>3</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-swipe-threshold</code></td><td>100</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Default Severity</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td>var(--fnd-color-surface-elevated)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-border</code></td><td>var(--fnd-color-border-primary)</td><td>var(--fnd-color-border-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-icon-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-default-progress-bg</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Severity</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-bg</code></td><td>var(--fnd-color-background-success)</td><td>var(--fnd-color-background-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-border</code></td><td>var(--fnd-color-border-success)</td><td>var(--fnd-color-border-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-icon-color</code></td><td>var(--fnd-color-feedback-success)</td><td>var(--fnd-color-feedback-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-success-progress-bg</code></td><td>var(--fnd-color-feedback-success)</td><td>var(--fnd-color-feedback-success)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Severity</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-bg</code></td><td>var(--fnd-color-background-warning)</td><td>var(--fnd-color-background-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-border</code></td><td>var(--fnd-color-feedback-warning)</td><td>var(--fnd-color-feedback-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-icon-color</code></td><td>var(--fnd-color-feedback-warning)</td><td>var(--fnd-color-feedback-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-warning-progress-bg</code></td><td>var(--fnd-color-feedback-warning)</td><td>var(--fnd-color-feedback-warning)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Error Severity</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-bg</code></td><td>var(--fnd-color-background-danger)</td><td>var(--fnd-color-background-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-border</code></td><td>var(--fnd-color-border-danger)</td><td>var(--fnd-color-border-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-error-progress-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Severity</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-bg</code></td><td>var(--fnd-color-background-info)</td><td>var(--fnd-color-background-info)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-border</code></td><td>var(--fnd-color-feedback-info)</td><td>var(--fnd-color-feedback-info)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-icon-color</code></td><td>var(--fnd-color-feedback-info)</td><td>var(--fnd-color-feedback-info)</td></tr>
+      <tr><td><code class="docs__token">--nc-toast-info-progress-bg</code></td><td>var(--fnd-color-feedback-info)</td><td>var(--fnd-color-feedback-info)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Toast: flex-row, Icon + Content + Action + Close. Border, Shadow, radius.</li>
+    <li>Toaster (.nc-toaster): fixed Container, 6 Positionen, flex-column, gestapelt.</li>
+    <li>Varianten: default, success, warning, error, info — Farben via Private Props (--_toast-*).</li>
+    <li>Animation: Slide-in/out je nach Position. Reduced Motion: opacity only.</li>
+    <li>Progress: absolut unten, countdown per JS duration. Pausiert bei :hover/:focus-within.</li>
+    <li>Close: Token-gesteuert (--nc-toast-close-size, close-opacity, close-bg-hover).</li>
+    <li>Action: Token-gesteuert (--nc-toast-action-padding, action-radius, action-font-size).</li>
+    <li>Swipe-to-Dismiss: JS setzt --_toast-swipe-x + --_toast-swipe-opacity. CSS: .is-swiping / .is-swipe-out.</li>
+    <li>Stack-Transition: .nc-toaster &gt; .nc-toast nutzt transition fuer sanftes Nachruecken.</li>
+    <li>Queue: JS begrenzt sichtbare Toasts auf --nc-toast-max-visible (Standard: 3).</li>
+    <li>Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -640,102 +652,68 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility</h2>
-          <p class="docs__section-desc">
-            Die Toast-Komponente folgt dem WAI-ARIA Live-Region Pattern und dem
-            <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/" target="_blank">ARIA Alert Pattern</a>.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">role='status' (polite). Toaster: aria-live='polite'. Close: aria-label='Schliessen'. ESC schliesst neuesten Toast. Farbe nie alleiniges Signal — immer mit Icon + Text. Pause on Hover/Focus pausiert Timer + Progress-Animation.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: severity = error, warning</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-alert</code></li>
+      <li>Error/Warning: role='alert' statt role='status' fuer dringende Meldungen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: content = with-undo</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">extended-timeout</code></li>
+      <li>Undo-Toasts: Laengerer Auto-Dismiss (mind. 10s) oder kein Auto-Dismiss. Undo-Aktion muss klar als Button erkennbar sein.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-hidden-during-swipe</code></li>
+      <li>Waehrend Swipe-Geste keine Screenreader-Updates. Erst nach Dismiss oder Abbruch.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- ARIA Rollen -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">ARIA-Rollen &amp; Attribute</h3>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Element</th>
-                    <th>Attribut</th>
-                    <th>Beschreibung</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>Toaster Container</td><td><code>aria-live="polite"</code></td><td>Screen Reader erh&auml;lt Updates ohne Unterbrechung</td></tr>
-                  <tr><td>Toaster Container</td><td><code>role="region"</code></td><td>Landmark f&uuml;r Benachrichtigungsbereich</td></tr>
-                  <tr><td>Toaster Container</td><td><code>aria-label="Benachrichtigungen"</code></td><td>Beschreibt den Bereich</td></tr>
-                  <tr><td>Toast (default/success/info)</td><td><code>role="status"</code></td><td>Polite announcement (unterbricht nicht)</td></tr>
-                  <tr><td>Toast (warning/error)</td><td><code>role="alert"</code></td><td>Assertive announcement (unterbricht Screen Reader)</td></tr>
-                  <tr><td>Toast Icon</td><td><code>aria-hidden="true"</code></td><td>Icon ist dekorativ, Text liefert Information</td></tr>
-                  <tr><td>Close Button</td><td><code>aria-label="Schlie&szlig;en"</code></td><td>Label f&uuml;r Screen Reader</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- Keyboard Navigation -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Tastatur-Navigation</h3>
-            <div style="overflow-x: auto;">
-              <table class="docs-table">
-                <thead>
-                  <tr>
-                    <th>Taste</th>
-                    <th>Aktion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td><kbd>Escape</kbd></td><td>Schliesst den neuesten Toast</td></tr>
-                  <tr><td><kbd>Tab</kbd></td><td>Fokussiert Action- oder Close-Button im Toast</td></tr>
-                  <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Aktiviert fokussierten Button</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- Best Practices -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Best Practices</h3>
-            <ul style="padding-left: var(--fnd-spacing-05); line-height: 1.8;">
-              <li>Verwende <code>role="alert"</code> nur f&uuml;r <strong>dringende</strong> Nachrichten (error, warning).</li>
-              <li>Verwende <code>role="status"</code> f&uuml;r informative Nachrichten (default, success, info).</li>
-              <li>Toast-Inhalte sollten <strong>kurz und pr&auml;gnant</strong> sein (max. 1&ndash;2 S&auml;tze).</li>
-              <li>Farbe ist <strong>nie das alleinige Signal</strong> &mdash; immer mit Icon + Text kombinieren.</li>
-              <li>Auto-Dismiss Dauer sollte <strong>mindestens 5 Sekunden</strong> betragen.</li>
-              <li>Kritische Fehler-Toasts (error) sollten <strong>keinen Auto-Dismiss</strong> verwenden.</li>
-              <li>Bei <code>prefers-reduced-motion: reduce</code> werden Slide-Animationen deaktiviert.</li>
-              <li>Action-Buttons im Toast sollten <strong>eine einzige, klare Aktion</strong> bieten.</li>
-              <li>Der Fortschrittsbalken gibt visuelles Feedback zur verbleibenden Anzeigezeit.</li>
-              <li>Toasts sollten <strong>keine essenziellen Informationen</strong> enthalten &mdash; nur erg&auml;nzendes Feedback.</li>
-            </ul>
-          </section>
-
-          <!-- Anti-Patterns -->
-          <section class="docs__section">
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Anti-Patterns</h3>
-            <div class="docs-snippet"><pre>&lt;!-- RICHTIG: role="status" f&uuml;r success --&gt;
-&lt;div class="nc-toast nc-toast--success" role="status"&gt;
-  &lt;span class="nc-toast__icon" aria-hidden="true"&gt;...&lt;/span&gt;
-  &lt;div class="nc-toast__content"&gt;
-    &lt;p class="nc-toast__title"&gt;Gespeichert&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: role="alert" f&uuml;r harmlose Meldung --&gt;
-&lt;div class="nc-toast nc-toast--success" role="alert"&gt;
-  ...
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Toast ohne Icon (Farbe als einziges Signal) --&gt;
-&lt;div class="nc-toast nc-toast--error" role="alert"&gt;
-  &lt;div class="nc-toast__content"&gt;
-    &lt;p class="nc-toast__description"&gt;Fehler&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Close-Button ohne aria-label --&gt;
-&lt;button class="nc-toast__close"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;</pre></div>
-          </section>
         </div>
 
       </div>

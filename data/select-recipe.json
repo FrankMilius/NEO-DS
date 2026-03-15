@@ -3,14 +3,25 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "select",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["interactive", "form", "selection"],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/select-docs"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "A: Optgroup-Styling via nc-select-optgroup-font-weight und nc-select-optgroup-padding-left Tokens",
+          "B: Multiple-Select Guidance — natives multiple nur als Fallback, Empfehlung fuer Checkbox-Liste/Combobox",
+          "C: Open-State (.is-open am Wrapper) fuer Chevron-Rotation via JS-Hook + focus-within",
+          "D: Placeholder-Color-Hack via :required:invalid fuer dezente Farbe bei leerer Auswahl"
+        ]
+      }
+    ]
   },
 
   "anatomy": {
@@ -19,20 +30,33 @@
       { "name": "indicator", "element": ".nc-select__indicator", "optional": true }
     ],
     "convenience": [
-      { "name": "wrapper", "element": ".nc-select-wrapper", "optional": true, "description": "Positionierungs-Container fuer custom Indicator (position: relative). Wenn vorhanden, wird background-image auf Select entfernt." }
+      { "name": "wrapper", "element": ".nc-select-wrapper", "optional": true, "description": "Positionierungs-Container fuer custom Indicator (position: relative). Pflicht fuer Chevron-Rotation (.is-open). Wenn vorhanden, wird background-image auf Select entfernt." }
     ],
     "domNotes": [
       "Select ist ein natives <select class='nc-select'>. Kein JS fuer Basis-Funktion noetig.",
       "Custom Arrow via background-image (SVG Chevron Down) oder via __indicator im Wrapper.",
       "Nutzt --nc-input-* Tokens als Basis (gleiche form-control Mixins wie Input).",
-      "Eigene --nc-select-* Tokens nur fuer Indicator und Extra-Padding.",
-      "Multi-Select: .nc-select--multiple oder [multiple]. Kein Arrow, height: auto.",
+      "Eigene --nc-select-* Tokens fuer Indicator, Extra-Padding und Optgroup-Styling.",
+      "Optgroup: <optgroup label='...'> wird via nc-select-optgroup-font-weight (semibold) und nc-select-optgroup-padding-left hervorgehoben. Options innerhalb der Gruppe werden zusaetzlich eingerueckt.",
+      "Multi-Select: .nc-select--multiple oder [multiple]. Kein Arrow, height: auto. ACHTUNG: Natives multiple-Select ist schwer bedienbar (Ctrl+Click). Fuer komplexe UIs wird eine Multi-Select-Combobox-Komponente (JS-basiert) mit Tag-Cloud oder Checkbox-Liste empfohlen.",
+      "Open-State: .is-open am Wrapper setzt Chevron transform: rotate(180deg). Benoetigt kleinen JS-Hook (focus/blur oder mousedown). CSS allein reicht nicht, da native Selects keinen :open Pseudo-Klassen-Support haben.",
+      "Placeholder-Color-Hack: select:required:invalid { color: var(--nc-input-placeholder-color) } — funktioniert wenn Select required ist und leere Option <option value='' disabled selected> gewaehlt ist. Sobald eine valide Option gewaehlt wird, greift die normale Textfarbe.",
       "::-ms-expand wird versteckt (IE11 Arrow entfernen).",
       "Error via .nc-select--error ODER [aria-invalid='true']."
     ]
   },
 
   "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — outlined (Standard, Rahmen), filled (Flaeche mit Unterstreichung), borderless (minimalistisch)",
+      "values": {
+        "outlined":   { "modifier": null,                       "tokenGroups": ["core-colors"],          "description": "Standard-Stil mit Rahmen auf allen 4 Seiten." },
+        "filled":     { "modifier": "nc-select--filled",        "tokenGroups": ["core-colors-filled"],   "description": "Hintergrund-Flaeche mit Unterstreichung (border-bottom only). Custom Indicator statt background-image." },
+        "borderless": { "modifier": "nc-select--borderless",    "tokenGroups": ["core-colors-minimal"],  "description": "Minimalistischer Stil ohne sichtbaren Rahmen." }
+      }
+    },
+
     "size": {
       "label": "Size",
       "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px). Nutzt Input-Size-Tokens.",
@@ -45,10 +69,19 @@
 
     "type": {
       "label": "Type",
-      "description": "Auswahl-Typ — single (Standard-Dropdown), multiple (native Mehrfachauswahl)",
+      "description": "Auswahl-Typ — single (Standard-Dropdown), multiple (native Mehrfachauswahl, nur Fallback)",
       "values": {
         "single":   { "modifier": null,                    "tokenGroups": [],              "elementHint": "select", "renderHint": "select-single" },
         "multiple": { "modifier": "nc-select--multiple",   "tokenGroups": [],              "elementHint": "select", "renderHint": "select-multiple" }
+      }
+    },
+
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvarianten — flat (flache Options-Liste), grouped (mit Optgroups)",
+      "values": {
+        "flat":    { "modifier": null, "tokenGroups": [],                  "renderHint": "select-flat" },
+        "grouped": { "modifier": null, "tokenGroups": ["optgroup-styling"], "renderHint": "select-grouped" }
       }
     },
 
@@ -64,11 +97,13 @@
   },
 
   "states": {
-    "supported": ["default", "hover", "focus", "disabled"],
+    "supported": ["default", "hover", "focus", "disabled", "open", "placeholder"],
     "precedence": ["disabled", "focus", "hover", "default"],
     "rules": [
       { "state": "hover", "unless": ["disabled", "focus"], "note": "Hover nur wenn nicht disabled oder fokussiert" },
-      { "state": "focus", "unless": ["disabled"],          "note": "Focus nur wenn nicht disabled" }
+      { "state": "focus", "unless": ["disabled"],          "note": "Focus nur wenn nicht disabled" },
+      { "state": "open", "css": ".is-open", "note": "Wrapper-Klasse .is-open — via JS-Hook (focus/blur oder mousedown). Dreht Chevron via transform: rotate(180deg). Kein nativer CSS-Pseudo-Selektor verfuegbar." },
+      { "state": "placeholder", "css": ":required:invalid", "note": "Placeholder-State: Leere Option gewaehlt (value=''), Select ist required. Zeigt dezente Farbe via --nc-input-placeholder-color. Kein :placeholder-shown verfuegbar." }
     ],
     "interactive": true
   },
@@ -94,7 +129,12 @@
       {
         "when": { "axes": { "type": ["multiple"] } },
         "suggest": ["aria-multiselectable"],
-        "note": "Multiple-Select hat implizit aria-multiselectable. Ctrl+Click fuer Mehrfachauswahl."
+        "note": "Multiple-Select hat implizit aria-multiselectable. Ctrl+Click fuer Mehrfachauswahl ist schwer discoverable — fuer komplexe UIs eine JS-basierte Multi-Select-Combobox mit role='listbox' und aria-multiselectable='true' nutzen."
+      },
+      {
+        "when": { "axes": { "content": ["grouped"] } },
+        "suggest": [],
+        "note": "Optgroups nutzen natives <optgroup label='...'>. Die label-Attribute werden von Screenreadern automatisch vorgelesen. Keine zusaetzliche ARIA-Annotation noetig."
       }
     ]
   },
@@ -102,27 +142,71 @@
   "constraints": {
     "rules": [
       { "when": {}, "require": ["accessible-name"], "notes": ["Select braucht immer <label for='...'> oder aria-label."] },
-      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."] }
+      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."] },
+      {
+        "when": { "axes": { "type": ["multiple"] } },
+        "require": [],
+        "notes": [
+          "Natives multiple-Select nur als Fallback verwenden.",
+          "Fuer produktive UIs: Multi-Select-Combobox (JS) mit Tag-Cloud oder Checkbox-Liste empfohlen.",
+          "Grund: Ctrl+Click ist fuer Endnutzer schwer discoverable und fehleranfaellig (versehentliches Deselektieren)."
+        ]
+      }
     ],
     "copy": {
       "placeholder": {
         "maxChars": 40,
-        "note": "Erste <option> als Placeholder (disabled, selected, value=''). Z.B. 'Bitte waehlen...'."
+        "note": "Erste <option> als Placeholder (disabled, selected, value=''). Z.B. 'Bitte waehlen...'. Bei required+value='' greift :invalid fuer Placeholder-Farbe."
       }
     }
   },
 
   "styling": {
     "baseClasses": ["nc-select"],
-    "baseTokenGroups": ["core-indicator"],
+    "baseTokenGroups": ["core-indicator", "core-geometry", "core-colors"],
 
     "tokenGroups": {
       "core-indicator": {
         "label": "Indicator",
         "tokens": [
           "nc-select-indicator-size",
-          "nc-select-indicator-color",
+          "nc-select-indicator-color"
+        ]
+      },
+      "core-geometry": {
+        "label": "Geometry",
+        "tokens": [
           "nc-select-padding-right"
+        ]
+      },
+      "core-colors": {
+        "label": "Colors (Outlined)",
+        "tokens": [
+          "nc-form-control-bg",
+          "nc-form-control-border-color",
+          "nc-form-control-color"
+        ]
+      },
+      "core-colors-filled": {
+        "label": "Colors (Filled)",
+        "tokens": [
+          "nc-form-control-filled-bg",
+          "nc-form-control-filled-border-bottom",
+          "nc-form-control-filled-color"
+        ]
+      },
+      "core-colors-minimal": {
+        "label": "Colors (Borderless)",
+        "tokens": [
+          "nc-form-control-minimal-bg-hover",
+          "nc-form-control-minimal-border-focus"
+        ]
+      },
+      "optgroup-styling": {
+        "label": "Optgroup",
+        "tokens": [
+          "nc-select-optgroup-font-weight",
+          "nc-select-optgroup-padding-left"
         ]
       },
       "state-error": {
@@ -145,8 +229,10 @@
     "resolution": {
       "classList": [
         "styling.baseClasses",
+        "axes.variant.values.*.modifier",
         "axes.size.values.*.modifier",
         "axes.type.values.*.modifier",
+        "axes.content.values.*.modifier",
         "axes.validation.values.*.modifier"
       ],
       "tokenGroups": [
@@ -162,7 +248,7 @@
       "label": "All States — MD",
       "description": "Select in allen interaktiven Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "validation": ["none"] },
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["flat"], "validation": ["none"] },
         "states": ["default", "hover", "focus", "disabled"]
       },
       "layout": "row",
@@ -173,14 +259,31 @@
       }
     },
     {
+      "id": "variant-comparison",
+      "label": "Variant Comparison",
+      "description": "Outlined vs Filled vs Borderless — alle 3 Varianten im Vergleich",
+      "matrix": {
+        "axes": { "variant": "*", "size": ["md"], "type": ["single"], "content": ["flat"], "validation": ["none"] },
+        "states": ["default", "hover", "focus"]
+      },
+      "focusTokenGroups": ["core-colors", "core-colors-filled", "core-colors-minimal"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant" },
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Borderless muss bei Hover/Focus eine sichtbare Abgrenzung zeigen. Filled-Unterstreichung braucht 3:1 Kontrast. Filled/Borderless verwenden Custom Indicator statt background-image."
+      }
+    },
+    {
       "id": "size-scale",
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "type": ["single"], "validation": ["none"] },
+        "axes": { "variant": ["outlined"], "size": "*", "type": ["single"], "content": ["flat"], "validation": ["none"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["core-indicator"],
+      "focusTokenGroups": ["core-indicator", "core-geometry"],
       "layout": "grid",
       "layoutConfig": { "rowAxis": "size" },
       "render": { "label": "{size}" },
@@ -194,7 +297,7 @@
       "label": "Validation States",
       "description": "Error und Success im Vergleich zu Default",
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "validation": "*" },
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["flat"], "validation": "*" },
         "states": ["default", "focus"]
       },
       "focusTokenGroups": ["state-error", "state-success"],
@@ -209,16 +312,32 @@
     {
       "id": "single-vs-multiple",
       "label": "Single vs Multiple",
-      "description": "Standard-Dropdown vs native Mehrfachauswahl",
+      "description": "Standard-Dropdown vs native Mehrfachauswahl (nur Fallback)",
       "matrix": {
-        "axes": { "size": ["md"], "type": "*", "validation": ["none"] },
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": "*", "content": ["flat"], "validation": ["none"] },
         "states": ["default"]
       },
       "layout": "row",
       "render": { "label": "{type}" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Multiple-Select hat keinen Arrow und auto-Height. Ctrl+Click fuer Mehrfachauswahl — schwer discoverable, ggf. Hinweis geben."
+        "note": "Multiple-Select hat keinen Arrow und auto-Height. Ctrl+Click fuer Mehrfachauswahl — schwer discoverable. Empfehlung: JS-basierte Combobox fuer produktive UIs."
+      }
+    },
+    {
+      "id": "with-optgroups",
+      "label": "With Optgroups",
+      "description": "Select mit gruppierten Optionen (<optgroup>) — Fettdruck und Einrueckung",
+      "matrix": {
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["grouped"], "validation": ["none"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["optgroup-styling"],
+      "layout": "row",
+      "render": { "compositionType": "select-optgroups", "label": "optgroups" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Optgroups nutzen natives <optgroup label='...'>. Screenreader lesen den Label automatisch vor. Einrueckung verbessert visuelle Hierarchie."
       }
     },
     {
@@ -227,7 +346,7 @@
       "description": "Select im Wrapper mit custom SVG-Indicator statt background-image",
       "composes": ["indicator"],
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "validation": ["none"] },
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["flat"], "validation": ["none"] },
         "states": ["default", "focus"]
       },
       "focusTokenGroups": ["core-indicator"],
@@ -239,18 +358,34 @@
       }
     },
     {
-      "id": "with-placeholder",
-      "label": "With Placeholder Option",
-      "description": "Select mit disabled Placeholder-Option als Hinweis",
+      "id": "open-state",
+      "label": "Open State (Chevron Rotation)",
+      "description": "Wrapper mit .is-open Klasse — Chevron rotiert 180 Grad",
+      "composes": ["indicator"],
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "validation": ["none"] },
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["flat"], "validation": ["none"] },
         "states": ["default"]
       },
       "layout": "row",
-      "render": { "label": "placeholder" },
+      "render": { "compositionType": "select-open-state", "label": "open-state" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Placeholder-Option: <option disabled selected value=''>Bitte waehlen...</option>. Placeholder-Farbe via ::placeholder nicht moeglich — nutzt normalen Text-Style."
+        "note": "Chevron-Rotation ist rein visuelles Feedback. Kein ARIA-Attribut noetig — natives Select kommuniziert Open/Closed selbst."
+      }
+    },
+    {
+      "id": "placeholder-hack",
+      "label": "Placeholder Color",
+      "description": "Select mit Placeholder-Farbe via :required:invalid Hack",
+      "matrix": {
+        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["single"], "content": ["flat"], "validation": ["none"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "select-placeholder", "label": "placeholder" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Placeholder-Option: <option disabled selected value=''>Bitte waehlen...</option>. Placeholder-Farbe via :required:invalid muss 4.5:1 Kontrast haben."
       }
     }
   ]

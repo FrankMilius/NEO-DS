@@ -3,14 +3,23 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "checkbox",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["interactive", "form", "selection"],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/checkbox-docs"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "C: Neue Achse variant (default / card) — Card-Variante mit umgebendem Rahmen und Checked-Hintergrund",
+          "Neue Tokens: nc-checkbox-card-bg, nc-checkbox-card-bg-checked, nc-checkbox-card-border, nc-checkbox-card-border-checked, nc-checkbox-card-border-hover, nc-checkbox-card-radius, nc-checkbox-card-padding"
+        ]
+      }
+    ]
   },
 
   "anatomy": {
@@ -27,7 +36,8 @@
       "__control ist ein <span> — zeigt visuellen Zustand (Border, BG, Checkmark/Minus).",
       ":checked → Checkmark SVG via background-image. :indeterminate → Minus-Zeichen.",
       ":focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.",
-      "Error kann per .nc-checkbox--error ODER [aria-invalid='true'] auf dem Input gesetzt werden."
+      "Error kann per .nc-checkbox--error ODER [aria-invalid='true'] auf dem Input gesetzt werden.",
+      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
     ]
   },
 
@@ -39,6 +49,15 @@
         "sm": { "modifier": "nc-checkbox--sm", "tokenGroups": [] },
         "md": { "modifier": null,              "tokenGroups": [] },
         "lg": { "modifier": "nc-checkbox--lg", "tokenGroups": [] }
+      }
+    },
+
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (Standard-Checkbox), card (umgebender Rahmen mit Checked-Hintergrund)",
+      "values": {
+        "default": { "modifier": null,                  "tokenGroups": [] },
+        "card":    { "modifier": "nc-checkbox--card",   "tokenGroups": ["card"] }
       }
     },
 
@@ -160,6 +179,18 @@
           "nc-checkbox-transition-duration",
           "nc-checkbox-focus-ring-offset"
         ]
+      },
+      "card": {
+        "label": "Card Variant",
+        "tokens": [
+          "nc-checkbox-card-bg",
+          "nc-checkbox-card-bg-checked",
+          "nc-checkbox-card-border",
+          "nc-checkbox-card-border-checked",
+          "nc-checkbox-card-border-hover",
+          "nc-checkbox-card-radius",
+          "nc-checkbox-card-padding"
+        ]
       }
     }
   },
@@ -174,6 +205,7 @@
       "classList": [
         "styling.baseClasses",
         "axes.size.values.*.modifier",
+        "axes.variant.values.*.modifier",
         "axes.validation.values.*.modifier"
       ],
       "tokenGroups": [
@@ -189,7 +221,7 @@
       "label": "All States — MD",
       "description": "Checkbox in allen interaktiven Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
+        "axes": { "size": ["md"], "variant": ["default"], "validation": ["none"] },
         "states": ["default", "hover", "checked", "indeterminate", "disabled", "focus"]
       },
       "layout": "row",
@@ -204,7 +236,7 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "validation": ["none"] },
+        "axes": { "size": "*", "variant": ["default"], "validation": ["none"] },
         "states": ["default", "checked"]
       },
       "focusTokenGroups": ["core-geometry"],
@@ -221,7 +253,7 @@
       "label": "Checked vs Indeterminate",
       "description": "Vergleich der beiden aktiven Zustaende",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
+        "axes": { "size": ["md"], "variant": ["default"], "validation": ["none"] },
         "states": ["checked", "indeterminate"]
       },
       "focusTokenGroups": ["state-checked"],
@@ -237,7 +269,7 @@
       "label": "Error State",
       "description": "Error-Validierung in verschiedenen Check-Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["error"] },
+        "axes": { "size": ["md"], "variant": ["default"], "validation": ["error"] },
         "states": ["default", "checked"]
       },
       "focusTokenGroups": ["state-error"],
@@ -253,7 +285,7 @@
       "label": "Disabled States",
       "description": "Disabled in unchecked und checked",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
+        "axes": { "size": ["md"], "variant": ["default"], "validation": ["none"] },
         "states": ["disabled"]
       },
       "focusTokenGroups": ["state-disabled"],
@@ -270,7 +302,7 @@
       "description": "Checkbox mit und ohne Label-Text",
       "composes": ["label"],
       "matrix": {
-        "axes": { "size": "*", "validation": ["none"] },
+        "axes": { "size": "*", "variant": ["default"], "validation": ["none"] },
         "states": ["default", "checked"]
       },
       "focusTokenGroups": ["label"],
@@ -287,7 +319,7 @@
       "label": "Error × Size",
       "description": "Error-State in allen Groessen",
       "matrix": {
-        "axes": { "size": "*", "validation": ["error"] },
+        "axes": { "size": "*", "variant": ["default"], "validation": ["error"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["state-error", "core-geometry"],
@@ -297,6 +329,39 @@
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error-Border muss in allen Groessen sichtbar und kontrastreich sein."
+      }
+    },
+    {
+      "id": "card-variant",
+      "label": "Card Variant",
+      "description": "Checkbox als Card mit umgebendem Rahmen — default, checked, disabled",
+      "matrix": {
+        "axes": { "size": ["md"], "variant": ["card"], "validation": ["none"] },
+        "states": ["default", "checked", "indeterminate", "disabled"]
+      },
+      "focusTokenGroups": ["card"],
+      "layout": "row",
+      "render": { "compositionType": "checkbox-card", "label": "{state}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Card-Border muss 3:1 Kontrast gegen Hintergrund haben. Checked-State zeigt aktiven Hintergrund + akzent-Border."
+      }
+    },
+    {
+      "id": "variant-comparison",
+      "label": "Default vs Card",
+      "description": "Vergleich der Standard-Checkbox mit der Card-Variante",
+      "matrix": {
+        "axes": { "size": ["md"], "variant": "*", "validation": ["none"] },
+        "states": ["default", "checked"]
+      },
+      "focusTokenGroups": ["card", "core-colors"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant" },
+      "render": { "compositionType": "checkbox-with-label", "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Beide Varianten muessen gleiche A11y-Garantien bieten: Focus-Ring, Kontrast, Keyboard-Support."
       }
     }
   ]

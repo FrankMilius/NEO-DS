@@ -3,7 +3,7 @@
 // ==========================================================================
 // Border-Radius Design Tokens
 //
-// SKALA (7+2 Stufen):
+// SKALA (8+2 Stufen):
 //   null = 0px   (sharp)
 //   xs   = 2px   (minimal)
 //   sm   = 4px   (default)
@@ -11,13 +11,14 @@
 //   lg   = 8px   (medium)
 //   xl   = 10px  (pronounced)
 //   2xl  = 12px  (large)
-//   3xl  = 16px  (extra large, Kompatibilität)
+//   3xl  = 14px  (extra large)
+//   4xl  = 16px  (extra large, Kompatibilität)
 //   full = 9999px (pill)
 //
 // BACKWARD COMPATIBILITY:
 //   --fnd-radius-s  → alias für --fnd-radius-sm  (4px)
 //   --fnd-radius-m  → alias für --fnd-radius-lg  (8px)
-//   --fnd-radius-l  → alias für --fnd-radius-3xl (16px)
+//   --fnd-radius-l  → alias für --fnd-radius-4xl (16px)
 // ==========================================================================
 
 @use 'sass:map';
@@ -29,7 +30,7 @@ $radii: tokens.$token-radii;
 $_radii-aliases: (
   's':   'sm',
   'm':   'lg',
-  'l':   '3xl',
+  'l':   '4xl',
   '2xs': 'null',
 );
 
@@ -64,6 +65,6 @@ $_radii-aliases: (
   // Backward-compatibility aliases (deprecated)
   --fnd-radius-s: var(--fnd-radius-sm);     // 4px
   --fnd-radius-m: var(--fnd-radius-lg);     // 8px
-  --fnd-radius-l: var(--fnd-radius-3xl);    // 16px
+  --fnd-radius-l: var(--fnd-radius-4xl);    // 16px
   --fnd-radius-2xs: var(--fnd-radius-null); // 0px
 }

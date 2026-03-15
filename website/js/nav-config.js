@@ -70,7 +70,7 @@ const buildLinkEditor = (lang, link, index) => {
   const header = createEl('div', 'nc-config__card-header');
   header.append(
     createEl('h3', null, `Link ${index + 1}`),
-    createEl('button', 'button outline', 'Entfernen')
+    createEl('button', 'nc-button nc-button--outline', 'Entfernen')
   );
   header.querySelector('button').dataset.action = 'remove-link';
   header.querySelector('button').dataset.lang = lang;
@@ -106,7 +106,7 @@ const buildLinkEditor = (lang, link, index) => {
   const childrenHeader = createEl('div', 'nc-config__children-header');
   childrenHeader.append(
     createEl('h4', null, 'Untermenü'),
-    createEl('button', 'button secondary', 'Unterpunkt hinzufügen')
+    createEl('button', 'nc-button nc-button--secondary', 'Unterpunkt hinzufügen')
   );
   const addChildBtn = childrenHeader.querySelector('button');
   addChildBtn.dataset.action = 'add-child';
@@ -120,7 +120,7 @@ const buildLinkEditor = (lang, link, index) => {
       const childHeader = createEl('div', 'nc-config__child-header');
       childHeader.append(
         createEl('h5', null, `Unterpunkt ${childIndex + 1}`),
-        createEl('button', 'button ghost', 'Entfernen')
+        createEl('button', 'nc-button nc-button--ghost', 'Entfernen')
       );
       const removeChildBtn = childHeader.querySelector('button');
       removeChildBtn.dataset.action = 'remove-child';
@@ -194,7 +194,7 @@ const buildLangSection = (lang, content) => {
   const linksHeader = createEl('div', 'nc-config__links-header');
   linksHeader.append(
     createEl('h3', null, 'Navigation Links'),
-    createEl('button', 'button secondary', 'Link hinzufügen')
+    createEl('button', 'nc-button nc-button--secondary', 'Link hinzufügen')
   );
   const addLinkBtn = linksHeader.querySelector('button');
   addLinkBtn.dataset.action = 'add-link';

@@ -5,8 +5,29 @@
 // Slide-in Panel von unten, oben, links oder rechts mit Overlay, Handle,
 // Header, scrollbarem Content und Footer.
 //
+// ERWEITERTE FEATURES (v2.0.0):
+//   Mobile Prioritaet: Bottom-Sheet als primaere Overlay-Variante fuer
+//   Touch-Geraete. Handle signalisiert Swipe-to-Dismiss.
+//   Light Dismiss: Klick auf Backdrop schliesst den Drawer (JS).
+//   Sticky Header/Footer: Bleiben bei langen Listen sichtbar.
+//   Header Scroll-Border: Subtile Trennlinie bei gescrolltem Content.
+//   Handle-Finesse: 32×4px abgerundeter Balken, nur bei bottom/top sichtbar.
+//   Elevation: elevation-modal (L3) — gleiche Ebene wie Dialog/Modal.
+//   Spring Animation: cubic-bezier(0.175, 0.885, 0.32, 1.275) fuer
+//   physisch-reaktionsschnelles Slide-in.
+//   Close-Button: Sichtbar auf allen Richtungen (nicht nur left/right).
+//   Side-Width als Token: Konfigurierbar ueber Inspector.
+//
+// OVERLAY-HIERARCHIE:
+//   Tooltip: elevation-floating (L1)
+//   Dropdown: elevation-floating (L1)
+//   Popover:  elevation-overlay (L2)
+//   Toast:    elevation-overlay (L2)
+//   Drawer:   elevation-modal (L3) — gleiche Ebene wie Modal
+//   Modal:    elevation-modal (L3)
+//
 // RICHTUNGEN (4):
-//   bottom (default)  — Slide von unten
+//   bottom (default)  — Slide von unten (Bottom-Sheet, bevorzugt fuer Mobile)
 //   top               — Slide von oben
 //   left              — Slide von links
 //   right             — Slide von rechts
@@ -16,18 +37,23 @@
 //   .nc-drawer--top               Modifier: Richtung oben
 //   .nc-drawer--right             Modifier: Richtung rechts
 //   .nc-drawer--left              Modifier: Richtung links
-//   .nc-drawer__handle            Drag-Handle (visueller Indikator)
-//   .nc-drawer__header            Header (Title + Description)
+//   .nc-drawer__handle            Drag-Handle (visueller Indikator, bottom/top)
+//   .nc-drawer__header            Header (sticky, Title + Description + Close)
 //   .nc-drawer__title             Titel
 //   .nc-drawer__description       Beschreibung
 //   .nc-drawer__content           Scrollbarer Inhalt
-//   .nc-drawer__footer            Footer mit Buttons
-//   .nc-drawer__close             Close-Button
+//   .nc-drawer__footer            Footer (sticky, Buttons)
+//   .nc-drawer__close             Close-Button (alle Richtungen)
 //
 // ACCESSIBILITY:
 //   Natives <dialog> + showModal() liefert:
 //   role="dialog", aria-modal="true", Fokus-Trap, ESC-Close.
 //   aria-labelledby → Title, aria-describedby → Description.
+//   Light Dismiss: Klick auf ::backdrop schliesst Drawer (JS).
+//   Handle: aria-hidden="true" (rein dekorativ).
+//   Bottom-Sheet auf Touch: Swipe-to-Dismiss per JS.
+//   Reduced Motion: Keine Slide-Animation.
+//   High Contrast Mode: Forced-border fuer Sichtbarkeit.
 //
 // Inspiriert von shadcn Drawer / Vaul
 // ==========================================================================
@@ -35,44 +61,16 @@
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// Component Tokens
+// Backdrop Animation
 // ---------------------------------------------------------------------------
 
-.nc-drawer {
-  // Dimensions
-  --nc-drawer-max-width: 100%;
-  --nc-drawer-max-height: 85vh;
-  --nc-drawer-width: 100%;
-  --nc-drawer-side-width: 380px;
-
-  // Visual
-  --nc-drawer-padding: var(--fnd-spacing-06);
-  --nc-drawer-radius: var(--fnd-radius-3xl);
-  --nc-drawer-bg: var(--nc-dialog-bg, var(--fnd-color-surface-elevated));
-  --nc-drawer-shadow: var(--fnd-elevation-floating);
-  --nc-drawer-overlay-bg: var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay));
-
-  // Header
-  --nc-drawer-title-font-size: var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size));
-  --nc-drawer-title-font-weight: var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold));
-  --nc-drawer-title-color: var(--nc-dialog-title-color, var(--fnd-color-text-primary));
-  --nc-drawer-desc-font-size: var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size));
-  --nc-drawer-desc-color: var(--nc-dialog-description-color, var(--fnd-color-text-secondary));
-
-  // Spacing
-  --nc-drawer-header-gap: var(--nc-dialog-header-gap, var(--fnd-spacing-02));
-  --nc-drawer-section-gap: var(--nc-dialog-section-gap, var(--fnd-spacing-06));
-  --nc-drawer-footer-gap: var(--nc-dialog-footer-gap, var(--fnd-spacing-03));
-
-  // Handle
-  --nc-drawer-handle-width: 48px;
-  --nc-drawer-handle-height: 4px;
-  --nc-drawer-handle-radius: var(--fnd-radius-full);
-  --nc-drawer-handle-bg: var(--fnd-color-border-primary);
-
-  // Motion
-  --nc-drawer-duration: var(--fnd-motion-duration-300);
-  --nc-drawer-ease: var(--fnd-motion-ease-focused);
+@keyframes nc-drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -103,7 +101,7 @@
     display: flex;
   }
 
-  // Animation: slide from bottom
+  // Animation: Spring-Charakteristik fuer slide-in
   transition:
     opacity var(--nc-drawer-duration) var(--nc-drawer-ease),
     translate var(--nc-drawer-duration) var(--nc-drawer-ease),
@@ -131,6 +129,8 @@
     animation-duration: var(--nc-drawer-duration);
     animation-timing-function: var(--nc-drawer-ease);
     animation-fill-mode: forwards;
+    // Light Dismiss: Cursor signalisiert Klickbarkeit
+    cursor: pointer;
   }
 
   // Reduced Motion
@@ -139,6 +139,15 @@
 
     &::backdrop {
       animation: none;
+    }
+  }
+
+  // High Contrast Mode
+  @media (forced-colors: active) {
+    border: 2px solid ButtonText;
+
+    &__close:focus-visible {
+      outline: 2px solid Highlight;
     }
   }
 }
@@ -150,7 +159,6 @@
 .nc-drawer--top {
   inset: 0 0 auto 0;
   border-radius: 0 0 var(--nc-drawer-radius) var(--nc-drawer-radius);
-  box-shadow: var(--fnd-elevation-floating);
 
   &[open] {
     @starting-style {
@@ -174,7 +182,6 @@
   max-height: 100vh;
   height: 100%;
   border-radius: var(--nc-drawer-radius) 0 0 var(--nc-drawer-radius);
-  box-shadow: var(--fnd-elevation-floating);
 
   &[open] {
     @starting-style {
@@ -198,7 +205,6 @@
   max-height: 100vh;
   height: 100%;
   border-radius: 0 var(--nc-drawer-radius) var(--nc-drawer-radius) 0;
-  box-shadow: var(--fnd-elevation-floating);
 
   &[open] {
     @starting-style {
@@ -240,7 +246,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Header
+// Header (sticky bei scroll)
 // ---------------------------------------------------------------------------
 
 .nc-drawer__header {
@@ -249,11 +255,23 @@
   gap: var(--nc-drawer-header-gap);
   padding: 0 var(--nc-drawer-padding);
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--nc-drawer-bg);
+  // Scroll-Border: erscheint wenn Content gescrollt wird (JS setzt .is-scrolled)
+  border-bottom: 1px solid transparent;
+  @include transition-quick((border-color));
 
   // Wenn kein Handle vorhanden, Top-Padding ergaenzen
   .nc-drawer--left &,
   .nc-drawer--right & {
     padding-top: var(--nc-drawer-padding);
+  }
+
+  // Scroll-Indikator: Header bekommt Border wenn Content gescrollt
+  .nc-drawer.is-scrolled & {
+    border-bottom-color: var(--nc-drawer-header-border-color);
   }
 }
 
@@ -263,6 +281,7 @@
   color: var(--nc-drawer-title-color);
   margin: 0;
   line-height: 1.3;
+  padding-right: 40px; // Platz fuer Close-Button
 }
 
 .nc-drawer__description {
@@ -284,7 +303,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Footer
+// Footer (sticky bei scroll)
 // ---------------------------------------------------------------------------
 
 .nc-drawer__footer {
@@ -294,41 +313,52 @@
   padding: var(--nc-drawer-padding);
   padding-top: 0;
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background-color: var(--nc-drawer-bg);
+  // Scroll-Border: erscheint wenn Content gescrollt wird
+  border-top: 1px solid transparent;
+  @include transition-quick((border-color));
 
   // Bei Side-Drawers Footer am unteren Ende pinnen
   .nc-drawer--left &,
   .nc-drawer--right & {
     margin-top: auto;
     padding-top: var(--nc-drawer-padding);
-    border-top: 1px solid var(--fnd-color-border-secondary);
+  }
+
+  // Scroll-Indikator: Footer bekommt Border wenn Content gescrollt
+  .nc-drawer.is-scrolled & {
+    border-top-color: var(--nc-drawer-footer-border-color);
   }
 }
 
 // ---------------------------------------------------------------------------
-// Close Button
+// Close Button (sichtbar auf allen Richtungen)
 // ---------------------------------------------------------------------------
 
 .nc-drawer__close {
   position: absolute;
-  top: var(--fnd-spacing-04);
-  right: var(--fnd-spacing-04);
+  top: var(--nc-drawer-close-offset);
+  right: var(--nc-drawer-close-offset);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: var(--nc-drawer-close-size);
+  height: var(--nc-drawer-close-size);
   padding: 0;
   border: none;
-  border-radius: var(--fnd-radius-sm);
-  background: var(--fnd-color-background-secondary);
+  border-radius: var(--nc-drawer-close-radius);
+  background: var(--nc-drawer-close-bg);
   color: var(--fnd-color-text-primary);
   cursor: pointer;
   flex-shrink: 0;
-  z-index: var(--fnd-z-base);
+  z-index: 2;
   @include transition-quick((background-color));
 
   &:hover {
-    background: var(--fnd-color-background-tertiary);
+    background: var(--nc-drawer-close-bg-hover);
   }
 
   &:focus-visible {
@@ -336,30 +366,12 @@
   }
 
   > svg {
-    width: 18px;
-    height: 18px;
+    width: var(--nc-drawer-close-icon-size);
+    height: var(--nc-drawer-close-icon-size);
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
     stroke-linecap: round;
-  }
-
-  // Bei Bottom/Top Drawers verstecken (Handle genuegt)
-  .nc-drawer:not(.nc-drawer--left):not(.nc-drawer--right) & {
-    display: none;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Backdrop Animation
-// ---------------------------------------------------------------------------
-
-@keyframes nc-drawer-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 

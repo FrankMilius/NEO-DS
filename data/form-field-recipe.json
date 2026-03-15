@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "form-field",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["form", "layout", "wrapper"],
     "links": {
@@ -31,7 +31,10 @@
       "Disabled-Modifier graut Label und Hint aus (text-disabled, cursor: not-allowed).",
       "Horizontal-Modifier: flex-direction: row ab Tablet, Label 200px breit, Input flex: 1.",
       "Hint kann vor oder nach dem Input platziert werden.",
-      "Input hat aria-describedby mit IDs von Hint und/oder Error (Leerzeichen-getrennt)."
+      "Input hat aria-describedby mit IDs von Hint und/oder Error (Leerzeichen-getrennt).",
+      "Required: .nc-form-label__required zeigt '*' (aria-hidden='true'). Der Input bekommt required oder aria-required='true'.",
+      "Optional: .nc-form-label__optional zeigt '(Optional)' — optionaler visueller Hinweis.",
+      "Fieldset-Gruppierung: Wenn mehrere Form-Fields zusammengehoeren (z.B. Adresse), wird ein <fieldset> mit <legend> statt <div> verwendet. Siehe fieldset-recipe fuer Details."
     ]
   },
 
@@ -42,6 +45,16 @@
       "values": {
         "vertical":   { "modifier": null,                          "tokenGroups": [], "renderHint": "form-field-vertical" },
         "horizontal": { "modifier": "nc-form-field--horizontal",   "tokenGroups": [], "renderHint": "form-field-horizontal" }
+      }
+    },
+
+    "requirement": {
+      "label": "Requirement",
+      "description": "Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)",
+      "values": {
+        "none":     { "modifier": null,                          "tokenGroups": [], "renderHint": "form-field-default" },
+        "required": { "modifier": "nc-form-field--required",     "tokenGroups": ["requirement"], "slotConfig": { "label": true }, "renderHint": "form-field-required" },
+        "optional": { "modifier": "nc-form-field--optional",     "tokenGroups": ["requirement"], "slotConfig": { "label": true }, "renderHint": "form-field-optional" }
       }
     },
 
@@ -62,6 +75,15 @@
         "minimal":   { "modifier": null, "tokenGroups": [], "renderHint": "form-field-minimal" },
         "with-hint": { "modifier": null, "tokenGroups": [], "slotConfig": { "hint-below": true }, "renderHint": "form-field-hint" },
         "full":      { "modifier": null, "tokenGroups": [], "slotConfig": { "hint-below": true, "error": true }, "renderHint": "form-field-full" }
+      }
+    },
+
+    "grouping": {
+      "label": "Grouping",
+      "description": "Element-Typ — div (Standard-Wrapper), fieldset (semantische Gruppierung mit <legend>)",
+      "values": {
+        "div":      { "modifier": null, "tokenGroups": [], "renderHint": "form-field-div", "elementHint": "div" },
+        "fieldset": { "modifier": null, "tokenGroups": [], "renderHint": "form-field-fieldset", "elementHint": "fieldset" }
       }
     }
   },
@@ -84,14 +106,29 @@
     },
     "overrides": [
       {
+        "when": { "axes": { "requirement": ["required"] } },
+        "suggest": ["aria-required", "required"],
+        "note": "Required: Kind-Input braucht required-Attribut oder aria-required='true'. Das Sternchen '*' im Label hat aria-hidden='true' — Screen Reader liest aria-required am Input statt das visuelle Zeichen."
+      },
+      {
         "when": { "axes": { "validation": ["error"] } },
         "suggest": ["aria-invalid"],
         "note": "Error-State: Kind-Input braucht aria-invalid='true'. Error-Message via aria-describedby verknuepft."
       },
       {
+        "when": { "axes": { "validation": ["error"], "requirement": ["required"] } },
+        "suggest": ["aria-invalid", "aria-required"],
+        "note": "Required + Error: Input braucht sowohl aria-invalid='true' als auch required/aria-required='true'. Error-Message erklaert, warum das Pflichtfeld nicht valide ist."
+      },
+      {
         "when": { "states": ["disabled"] },
         "suggest": [],
         "note": "Disabled-State: Kind-Input hat disabled-Attribut oder aria-disabled='true'."
+      },
+      {
+        "when": { "axes": { "grouping": ["fieldset"] } },
+        "suggest": ["fieldset", "legend"],
+        "note": "Fieldset-Gruppierung: Root-Element wird zu <fieldset>, Label-Slot wird zu <legend>. Semantische Gruppierung fuer Screen Reader. Kein aria-labelledby noetig wenn <legend> vorhanden."
       }
     ]
   },
@@ -99,7 +136,25 @@
   "constraints": {
     "rules": [
       { "when": {}, "require": ["accessible-name"], "notes": ["Kind-Input muss via Label (for-Attribut) oder aria-label benannt sein."] },
-      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error-State erfordert aria-invalid='true' und aria-describedby auf dem Input."] }
+      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error-State erfordert aria-invalid='true' und aria-describedby auf dem Input."] },
+      {
+        "when": { "axes": { "requirement": ["required"] } },
+        "require": ["required-attribute"],
+        "notes": [
+          "Required-Felder muessen required oder aria-required='true' auf dem Input haben.",
+          "Das Sternchen '*' ist rein visuell und wird mit aria-hidden='true' vor Screen Readern versteckt.",
+          "HTML-Markup: <span class='nc-form-label__required' aria-hidden='true'>*</span>"
+        ]
+      },
+      {
+        "when": { "axes": { "grouping": ["fieldset"] } },
+        "require": ["native-fieldset", "legend"],
+        "notes": [
+          "Muss natives <fieldset>-Element sein — kein <div role='group'> als Ersatz.",
+          "Label wird als <legend> statt <label> gerendert.",
+          "Fuer volle Fieldset-Styling-Optionen (Border, Borderless, Nested): siehe fieldset-recipe."
+        ]
+      }
     ],
     "copy": {}
   },
@@ -113,6 +168,14 @@
         "label": "Geometry",
         "tokens": [
           "nc-form-field-gap"
+        ]
+      },
+      "requirement": {
+        "label": "Requirement Indicators",
+        "description": "Tokens fuer Pflichtfeld- und Optional-Markierungen im Label",
+        "tokens": [
+          "nc-form-label-required-color",
+          "nc-form-label-optional-color"
         ]
       }
     }
@@ -128,6 +191,7 @@
       "classList": [
         "styling.baseClasses",
         "axes.layout.values.*.modifier",
+        "axes.requirement.values.*.modifier",
         "axes.validation.values.*.modifier",
         "axes.content.values.*.modifier"
       ],
@@ -145,7 +209,7 @@
       "description": "Einfachste Form: Label ueber Input",
       "composes": ["form-label", "input"],
       "matrix": {
-        "axes": { "layout": ["vertical"], "validation": ["none"], "content": ["minimal"] },
+        "axes": { "layout": ["vertical"], "requirement": ["none"], "validation": ["none"], "content": ["minimal"], "grouping": ["div"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -156,12 +220,45 @@
       }
     },
     {
+      "id": "requirement-variants",
+      "label": "Requirement Variants",
+      "description": "None vs Required (*) vs Optional — Label-Indikatoren",
+      "composes": ["form-label", "input"],
+      "matrix": {
+        "axes": { "layout": ["vertical"], "requirement": "*", "validation": ["none"], "content": ["minimal"], "grouping": ["div"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "requirement" },
+      "render": { "compositionType": "form-field-requirement", "label": "{requirement}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Required: '*' hat aria-hidden='true'. Input hat required/aria-required='true'. Optional: '(Optional)' ist rein visuell."
+      }
+    },
+    {
+      "id": "required-with-error",
+      "label": "Required + Error",
+      "description": "Pflichtfeld im Error-State — typisches Pattern wenn Pflichtfeld leer abgeschickt wird",
+      "composes": ["form-label", "input", "form-error"],
+      "matrix": {
+        "axes": { "layout": ["vertical"], "requirement": ["required"], "validation": ["error"], "content": ["full"], "grouping": ["div"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "form-field-required-error", "label": "required + error" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Input: aria-invalid='true' + aria-required='true' + aria-describedby → Error-ID. '*' hat aria-hidden='true'. Error hat role='alert'."
+      }
+    },
+    {
       "id": "validation-states",
       "label": "Validation States",
       "description": "None vs Error vs Success — mit Label, Input und ggf. Error-Message",
       "composes": ["form-label", "input", "form-error"],
       "matrix": {
-        "axes": { "layout": ["vertical"], "validation": "*", "content": ["minimal"] },
+        "axes": { "layout": ["vertical"], "requirement": ["none"], "validation": "*", "content": ["minimal"], "grouping": ["div"] },
         "states": ["default"]
       },
       "layout": "grid",
@@ -178,7 +275,7 @@
       "description": "Label + Input + Hint unterhalb",
       "composes": ["form-label", "input", "form-hint"],
       "matrix": {
-        "axes": { "layout": ["vertical"], "validation": ["none"], "content": ["with-hint"] },
+        "axes": { "layout": ["vertical"], "requirement": ["none"], "validation": ["none"], "content": ["with-hint"], "grouping": ["div"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -194,14 +291,14 @@
       "description": "Vollstaendige Komposition mit allen Slots",
       "composes": ["form-label", "input", "form-hint", "form-error"],
       "matrix": {
-        "axes": { "layout": ["vertical"], "validation": ["error"], "content": ["full"] },
+        "axes": { "layout": ["vertical"], "requirement": ["required"], "validation": ["error"], "content": ["full"], "grouping": ["div"] },
         "states": ["default"]
       },
       "layout": "row",
       "render": { "compositionType": "form-field-full", "label": "full" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "aria-describedby auf Input verweist auf Hint- UND Error-ID (Leerzeichen-getrennt). Error hat role='alert'."
+        "note": "aria-describedby auf Input verweist auf Hint- UND Error-ID (Leerzeichen-getrennt). Error hat role='alert'. '*' hat aria-hidden='true'."
       }
     },
     {
@@ -210,7 +307,7 @@
       "description": "Standard (vertical) vs Horizontal (Label links, Input rechts)",
       "composes": ["form-label", "input"],
       "matrix": {
-        "axes": { "layout": "*", "validation": ["none"], "content": ["minimal"] },
+        "axes": { "layout": "*", "requirement": ["none"], "validation": ["none"], "content": ["minimal"], "grouping": ["div"] },
         "states": ["default"]
       },
       "layout": "grid",
@@ -227,7 +324,7 @@
       "description": "Disabled Form-Field — Label und Hint ausgegraut",
       "composes": ["form-label", "input", "form-hint"],
       "matrix": {
-        "axes": { "layout": ["vertical"], "validation": ["none"], "content": ["with-hint"] },
+        "axes": { "layout": ["vertical"], "requirement": ["none"], "validation": ["none"], "content": ["with-hint"], "grouping": ["div"] },
         "states": ["default", "disabled"]
       },
       "layout": "row",
@@ -235,6 +332,22 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled: Label und Hint erhalten text-disabled Farbe. Kind-Input hat disabled-Attribut."
+      }
+    },
+    {
+      "id": "fieldset-grouping",
+      "label": "Fieldset Grouping",
+      "description": "Form-Field als <fieldset> mit <legend> — fuer zusammengehoerige Felder (z.B. Adresse)",
+      "composes": ["form-label", "input", "fieldset"],
+      "matrix": {
+        "axes": { "layout": ["vertical"], "requirement": ["none"], "validation": ["none"], "content": ["minimal"], "grouping": ["fieldset"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "form-field-fieldset", "label": "fieldset" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Root: <fieldset> statt <div>. Label: <legend> statt <label>. Screen Reader liest Legend als Gruppen-Label. Fuer volle Fieldset-Varianten (Border, Borderless): siehe fieldset-recipe."
       }
     }
   ]

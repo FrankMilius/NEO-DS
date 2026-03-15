@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "button",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["interactive", "control"],
     "links": {
@@ -22,7 +22,9 @@
     ],
     "domNotes": [
       "Buttons muessen immer ein zugaengliches Label haben — entweder sichtbarer Text oder aria-label fuer Icon-Only.",
-      "Spinner wird im State 'loading' angezeigt und blockiert Interaktion."
+      "Spinner wird im State 'loading' angezeigt und blockiert Interaktion.",
+      "XS/SM Buttons haben unsichtbaren ::before Touch-Target (44px Minimum, WCAG 2.5.8).",
+      "Loading nutzt visibility:hidden statt opacity:0 — Label-Breite bleibt erhalten, kein Layout-Shift."
     ]
   },
 
@@ -50,6 +52,8 @@
         "accent": { "modifier": "nc-button--accent", "tokenGroups": ["accent"] },
         "outline": { "modifier": "nc-button--outline", "tokenGroups": ["outline"] },
         "ghost": { "modifier": "nc-button--ghost", "tokenGroups": ["ghost"] },
+        "soft": { "modifier": "nc-button--soft", "tokenGroups": ["soft"] },
+        "inverted": { "modifier": "nc-button--inverted", "tokenGroups": ["inverted"] },
         "success": { "modifier": "nc-button--success", "tokenGroups": ["success"] },
         "warning": { "modifier": "nc-button--warning", "tokenGroups": ["warning"] },
         "error": { "modifier": "nc-button--error", "tokenGroups": ["error"] },
@@ -61,8 +65,8 @@
       "label": "Size",
       "description": "Groessenabstufung des Buttons",
       "values": {
-        "xs": { "modifier": "nc-button--xs", "tokenGroups": ["size-scale"] },
-        "sm": { "modifier": "nc-button--sm", "tokenGroups": ["size-scale"] },
+        "xs": { "modifier": "nc-button--xs", "tokenGroups": ["size-scale", "touch-target"] },
+        "sm": { "modifier": "nc-button--sm", "tokenGroups": ["size-scale", "touch-target"] },
         "md": { "modifier": null, "tokenGroups": [] },
         "lg": { "modifier": "nc-button--lg", "tokenGroups": ["size-scale"] }
       }
@@ -80,6 +84,15 @@
           "slotConfig": { "icon": true, "label": false },
           "renderHint": "icon-only"
         }
+      }
+    },
+
+    "width": {
+      "label": "Width",
+      "description": "Breitenverhalten des Buttons",
+      "values": {
+        "auto": { "modifier": null, "tokenGroups": [] },
+        "full": { "modifier": "nc-button--full-width", "tokenGroups": [] }
       }
     },
 
@@ -108,6 +121,12 @@
             "attributes": { "role": "group", "aria-label": "Formatierung" }
           }
         },
+        "fab": {
+          "modifier": "nc-button--fab",
+          "tokenGroups": ["fab"],
+          "renderHint": "fab",
+          "slotConfig": { "icon": true, "label": false }
+        },
         "link": { "modifier": null, "tokenGroups": [], "elementHint": "a", "renderHint": "link" }
       }
     }
@@ -115,14 +134,15 @@
 
   "states": {
     "supported": ["default", "hover", "active", "focus-visible", "disabled", "loading", "pressed"],
-    "precedence": ["disabled", "loading", "pressed", "active", "hover", "focus-visible", "default"],
+    "precedence": ["loading", "disabled", "pressed", "active", "hover", "focus-visible", "default"],
     "rules": [
       {
         "state": "loading",
         "effects": ["blockInteraction"],
         "attributes": { "aria-busy": true, "aria-disabled": true },
         "slotConfig": { "spinner": true },
-        "tokenGroups": ["spinner"]
+        "tokenGroups": ["spinner"],
+        "note": "Loading hat Vorrang vor disabled — Spinner bleibt primaere Information."
       },
       {
         "state": "disabled",
@@ -154,6 +174,10 @@
         "note": "Icon-Only Buttons benoetigen immer aria-label. Quadratische Flaeche fuer einfaches Treffen."
       },
       {
+        "when": { "axes": { "size": ["xs", "sm"] } },
+        "note": "XS/SM erhalten ::before Touch-Target (44px) fuer WCAG 2.5.8 Target Size."
+      },
+      {
         "when": { "axes": { "composition": ["group"] } },
         "suggest": ["role=group", "aria-label=Aktionen"],
         "note": "Button-Group benoetigt role='group' mit aria-label. Mittlere Buttons haben keinen Radius."
@@ -164,8 +188,18 @@
         "note": "Toggle-Buttons muessen aria-pressed verwenden. Aktiver Zustand kann zu Primary-Farben wechseln (Resolver-Regel)."
       },
       {
+        "when": { "axes": { "composition": ["fab"] } },
+        "require": ["aria-label"],
+        "note": "FAB benoetigt aria-label da kein sichtbarer Text vorhanden. Elevation-Shadow signalisiert interaktive Flaeche."
+      },
+      {
         "when": { "axes": { "composition": ["link"] } },
         "note": "Links als Buttons gestylt benoetigen role='button' und Keyboard-Handling, wenn sie keine Navigation ausloesen."
+      },
+      {
+        "when": { "axes": { "variant": ["inverted"] } },
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverted-Buttons auf dunklen Hintergruenden — Kontrast gegen den tatsaechlichen Hintergrund pruefen, nicht gegen Surface."
       }
     ]
   },
@@ -173,7 +207,8 @@
   "constraints": {
     "rules": [
       { "when": { "axes": { "pattern": ["icon-only"] } }, "require": ["aria-label"] },
-      { "when": { "states": ["loading"] }, "effects": ["blockInteraction"], "notes": ["Loading-Buttons blockieren Interaktion."] },
+      { "when": { "axes": { "composition": ["fab"] } }, "require": ["aria-label"] },
+      { "when": { "states": ["loading"] }, "effects": ["blockInteraction"], "notes": ["Loading-Buttons blockieren Interaktion. Loading hat Vorrang vor disabled."] },
       { "when": { "axes": { "composition": ["toggle"] } }, "require": ["aria-pressed"] }
     ],
     "copy": {
@@ -236,6 +271,13 @@
           "nc-button-transition-duration",
           "nc-button-scale-active",
           "nc-button-opacity-disabled"
+        ]
+      },
+
+      "touch-target": {
+        "label": "Touch Target",
+        "tokens": [
+          "nc-button-touch-target-min"
         ]
       },
 
@@ -315,6 +357,28 @@
         ]
       },
 
+      "soft": {
+        "label": "Soft",
+        "tokens": [
+          "nc-button-soft-bg",
+          "nc-button-soft-bg-hover",
+          "nc-button-soft-bg-active",
+          "nc-button-soft-color",
+          "nc-button-soft-border"
+        ]
+      },
+
+      "inverted": {
+        "label": "Inverted",
+        "tokens": [
+          "nc-button-inverted-bg",
+          "nc-button-inverted-bg-hover",
+          "nc-button-inverted-bg-active",
+          "nc-button-inverted-color",
+          "nc-button-inverted-border"
+        ]
+      },
+
       "accent": {
         "label": "Accent",
         "tokens": [
@@ -380,6 +444,16 @@
         ]
       },
 
+      "fab": {
+        "label": "FAB (Floating Action Button)",
+        "tokens": [
+          "nc-button-fab-size",
+          "nc-button-fab-radius",
+          "nc-button-fab-shadow",
+          "nc-button-fab-shadow-hover"
+        ]
+      },
+
       "icon-button": {
         "label": "Icon Button",
         "tokens": [
@@ -396,7 +470,25 @@
         "label": "Spinner / Loading",
         "tokens": ["nc-button-spinner-size", "nc-button-spinner-border-width"]
       }
-    }
+    },
+
+    "tokenDependencies": [
+      {
+        "source": "nc-button-radius-md",
+        "target": "nc-input-radius",
+        "reason": "Button und Input teilen denselben Radius fuer visuelle Konsistenz in Formularen."
+      },
+      {
+        "source": "nc-button-height-md",
+        "target": "nc-toolbar-height",
+        "reason": "Toolbar-Hoehe orientiert sich an Button-MD-Hoehe fuer Alignment."
+      },
+      {
+        "source": "nc-button-primary-bg",
+        "target": "nc-checkbox-selected-bg",
+        "reason": "Checkbox-Auswahlfarbe nutzt primaere Markenfarbe des Buttons."
+      }
+    ]
   },
 
   "recipes": {
@@ -410,7 +502,9 @@
         "styling.baseClasses",
         "axes.variant.values.*.modifier",
         "axes.size.values.*.modifier",
-        "axes.pattern.values.*.modifier"
+        "axes.pattern.values.*.modifier",
+        "axes.width.values.*.modifier",
+        "axes.composition.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -424,9 +518,9 @@
     {
       "id": "all-variants",
       "label": "All Variants — MD",
-      "description": "Alle 9 Varianten in Standardgroesse",
+      "description": "Alle 11 Varianten in Standardgroesse (inkl. Soft + Inverted)",
       "matrix": {
-        "axes": { "variant": "*", "size": ["md"], "pattern": ["standard"], "composition": ["single"] },
+        "axes": { "variant": "*", "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["single"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -439,17 +533,17 @@
     {
       "id": "size-scale",
       "label": "Size Scale — XS / SM / MD / LG",
-      "description": "Primary-Variante in allen 4 Groessen",
+      "description": "Primary-Variante in allen 4 Groessen. XS/SM mit Touch-Target.",
       "matrix": {
-        "axes": { "variant": ["primary"], "size": "*", "pattern": ["standard"], "composition": ["single"] },
+        "axes": { "variant": ["primary"], "size": "*", "pattern": ["standard"], "width": ["auto"], "composition": ["single"] },
         "states": ["default"]
       },
-      "focusTokenGroups": ["geometry", "typography", "size-scale"],
+      "focusTokenGroups": ["geometry", "typography", "size-scale", "touch-target"],
       "layout": "row",
       "render": { "label": "{size}" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "XS (12px) und SM (12px) muessen trotz kompakter Schrift Mindestkontrast einhalten."
+        "note": "XS/SM haben ::before Touch-Target (44px) fuer WCAG 2.5.8."
       }
     },
     {
@@ -457,7 +551,7 @@
       "label": "With Icon",
       "description": "Alle Varianten mit Leading-Icon",
       "matrix": {
-        "axes": { "variant": "*", "size": ["md"], "pattern": ["with-icon"], "composition": ["single"] },
+        "axes": { "variant": "*", "size": ["md"], "pattern": ["with-icon"], "width": ["auto"], "composition": ["single"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -472,7 +566,7 @@
       "label": "Icon Only",
       "description": "Primary, Secondary, Ghost — alle Groessen",
       "matrix": {
-        "axes": { "variant": ["primary", "secondary", "ghost"], "size": "*", "pattern": ["icon-only"], "composition": ["single"] },
+        "axes": { "variant": ["primary", "secondary", "ghost"], "size": "*", "pattern": ["icon-only"], "width": ["auto"], "composition": ["single"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["geometry", "icon-sizing"],
@@ -485,26 +579,83 @@
       }
     },
     {
-      "id": "loading",
-      "label": "Loading",
-      "description": "Primary und Secondary im Lade-Zustand",
+      "id": "soft-variant",
+      "label": "Soft Variant",
+      "description": "Soft-Buttons (10% Brand-BG) — alle Groessen, mit und ohne Icon",
       "matrix": {
-        "axes": { "variant": ["primary", "secondary"], "size": ["md"], "pattern": ["standard"], "composition": ["single"] },
-        "states": ["loading"]
+        "axes": { "variant": ["soft"], "size": "*", "pattern": ["standard", "with-icon"], "width": ["auto"], "composition": ["single"] },
+        "states": ["default"]
       },
-      "focusTokenGroups": ["spinner", "primary", "secondary"],
+      "focusTokenGroups": ["soft"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "pattern", "colAxis": "size" },
+      "render": { "label": "Soft {size}" }
+    },
+    {
+      "id": "inverted-variant",
+      "label": "Inverted Variant",
+      "description": "Inverted-Buttons auf dunklem Hintergrund",
+      "matrix": {
+        "axes": { "variant": ["inverted"], "size": ["sm", "md", "lg"], "pattern": ["standard", "with-icon"], "width": ["auto"], "composition": ["single"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["inverted"],
       "layout": "row",
-      "render": { "label": "{variant}", "state": "loading" },
+      "render": { "label": "Inverted {size}", "background": "dark" },
       "a11y": {
-        "note": "Loading-Buttons muessen aria-busy='true' und aria-disabled='true' haben."
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverted-Buttons auf dunklen Hintergruenden — Kontrast gegen tatsaechlichen Hintergrund pruefen."
+      }
+    },
+    {
+      "id": "full-width",
+      "label": "Full Width",
+      "description": "Buttons mit voller Containerbreite (Mobile, Login, Modal-Footer)",
+      "matrix": {
+        "axes": { "variant": ["primary", "secondary", "outline"], "size": ["md", "lg"], "pattern": ["standard"], "width": ["full"], "composition": ["single"] },
+        "states": ["default"]
+      },
+      "layout": "stack",
+      "render": { "label": "{variant} Full Width" }
+    },
+    {
+      "id": "fab",
+      "label": "FAB (Floating Action Button)",
+      "description": "Rundes Icon-Only-Muster mit Elevation-Shadow fuer primaere Aktionen",
+      "matrix": {
+        "axes": { "variant": ["primary", "secondary", "accent"], "size": ["md"], "pattern": ["icon-only"], "width": ["auto"], "composition": ["fab"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["fab"],
+      "layout": "row",
+      "render": { "icon": "plus" },
+      "a11y": {
+        "require": ["aria-label"],
+        "note": "FAB benoetigt aria-label da kein sichtbarer Text vorhanden."
+      }
+    },
+    {
+      "id": "loading-stability",
+      "label": "Loading — Layout-Stabilitaet",
+      "description": "Loading vs. Default nebeneinander — gleiche Breite durch visibility:hidden",
+      "matrix": {
+        "axes": { "variant": ["primary", "secondary", "outline"], "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["single"] },
+        "states": ["default", "loading"]
+      },
+      "focusTokenGroups": ["spinner", "primary", "secondary", "outline"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant", "colAxis": "state" },
+      "render": { "label": "{variant}", "state": "{state}" },
+      "a11y": {
+        "note": "Loading-Buttons haben aria-busy='true'. Loading hat Vorrang vor disabled (Spinner bleibt primaere Info)."
       }
     },
     {
       "id": "button-group",
-      "label": "Button Group",
-      "description": "Outline-Buttons als zusammenhaengende Gruppe",
+      "label": "Button Group — Border Fix",
+      "description": "Outline-Buttons als Gruppe — negativer Margin verhindert doppelte Borders",
       "matrix": {
-        "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["standard"], "composition": ["group"] },
+        "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["group"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["outline", "geometry"],
@@ -520,7 +671,7 @@
       "label": "Toggle",
       "description": "Outline-Basis mit aria-pressed An/Aus-Zustand",
       "matrix": {
-        "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["with-icon"], "composition": ["toggle"] },
+        "axes": { "variant": ["outline"], "size": ["md"], "pattern": ["with-icon"], "width": ["auto"], "composition": ["toggle"] },
         "states": ["pressed"]
       },
       "focusTokenGroups": ["outline", "primary"],
@@ -536,7 +687,7 @@
       "label": "Link as Button",
       "description": "Primary, Secondary, Ghost als <a>-Elemente",
       "matrix": {
-        "axes": { "variant": ["primary", "secondary", "ghost"], "size": ["md"], "pattern": ["standard"], "composition": ["link"] },
+        "axes": { "variant": ["primary", "secondary", "ghost"], "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["link"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["primary", "secondary", "ghost"],
@@ -554,7 +705,7 @@
       "label": "QA: Pressed ohne Toggle-Composition",
       "description": "Pressed-State auf Single-Composition — onlyWhen nicht erfuellt, Rule matcht nicht",
       "matrix": {
-        "axes": { "variant": ["primary"], "size": ["md"], "pattern": ["standard"], "composition": ["single"] },
+        "axes": { "variant": ["primary"], "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["single"] },
         "states": ["pressed"]
       },
       "layout": "row",
@@ -567,10 +718,10 @@
     {
       "id": "neg-disabled-loading",
       "type": "negative",
-      "label": "QA: Disabled + Loading Precedence-Konflikt",
-      "description": "Multi-State disabled+loading — blockInteraction aus zwei Rules",
+      "label": "QA: Loading hat Vorrang vor Disabled",
+      "description": "Multi-State loading+disabled — Loading gewinnt, Spinner bleibt sichtbar",
       "matrix": {
-        "axes": { "variant": ["primary"], "size": ["md"], "pattern": ["standard"], "composition": ["single"] },
+        "axes": { "variant": ["primary"], "size": ["md"], "pattern": ["standard"], "width": ["auto"], "composition": ["single"] },
         "states": [["disabled", "loading"]]
       },
       "layout": "row",

@@ -3,14 +3,19 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "alert-dialog",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["overlay", "interactive", "dialog", "confirmation"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/alert-dialog-docs" }
+    "links": { "figma": "", "storybook": "", "docs": "/docs/alert-dialog-docs" },
+    "changelog": [
+      { "version": "2.0.0", "changes": ["Semantisches Icon: Optionaler Icon-Slot im Header (z.B. rotes Warnsymbol bei destructive)", "Destructive-Modifier (.nc-alert-dialog--destructive): CSS-Klasse fuer danger-spezifische Styles", "Destructive Token-Gruppe: danger-icon-color, danger-action-bg, danger-action-color als eigene tokenGroup", "Icon-Token: --nc-dialog-icon-size (24px) fuer konsistente Icon-Groesse", "Visuelle Konsistenz: Danger-Farben identisch mit Alert-Danger fuer semantische Kohaerenz", "Autofocus-Cancel: Best-Practice — Cancel autofocus bei destructive verhindert Slipping-Fehler"] },
+      { "version": "1.0.0", "changes": ["Initiales Recipe: 2 Intents, natives <dialog>, Fokus-Trap, ESC-Close, Body-Scroll-Lock"] }
+    ]
   },
   "anatomy": {
     "root": { "element": ".nc-alert-dialog" },
     "slots": [
+      { "name": "icon", "element": ".nc-alert-dialog__icon", "optional": true },
       { "name": "header", "element": ".nc-alert-dialog__header", "optional": false },
       { "name": "title", "element": ".nc-alert-dialog__title", "optional": false },
       { "name": "description", "element": ".nc-alert-dialog__description", "optional": true },
@@ -19,29 +24,34 @@
     "convenience": [],
     "domNotes": [
       "Root: natives <dialog> Element. showModal() fuer modale Anzeige.",
-      "Verwendet --nc-dialog-* Tokens (geteilt mit Modal).",
+      "Verwendet --nc-dialog-* Tokens (geteilt mit Modal und Drawer).",
+      "Icon-Slot (v2.0): Optionales Status-Icon vor dem Header. Bei destructive: rotes Warnsymbol (nc-dialog-danger-icon-color). Verstaerkt visuelle Dringlichkeit.",
       "Header: flex-column, Title + Description. Gap via header-gap.",
       "Footer: flex, justify-end, Cancel + Action Buttons.",
       "[open]: display:flex. Zentriert via fixed + margin:auto.",
       "Backdrop: ::backdrop mit overlay-bg Fade-in Animation.",
-      "Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }."
+      "Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.",
+      "Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.",
+      "Focus-Management: Bei default: autofocus auf Action-Button (primaere Aktion). Bei destructive: autofocus auf Cancel-Button (verhindert versehentliches Loeschen = Anti-Slipping-Pattern).",
+      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt."
     ]
   },
   "axes": {
     "intent": {
       "label": "Intent",
-      "description": "Intention — default (neutral), destructive (Loeschen/Gefahr)",
+      "description": "Intention — default (neutral, informativ), destructive (Loeschen/Gefahr, visuell hervorgehoben)",
       "values": {
         "default":     { "modifier": null,                            "tokenGroups": [], "renderHint": "alert-dialog-default" },
-        "destructive": { "modifier": "nc-alert-dialog--destructive",  "tokenGroups": [], "renderHint": "alert-dialog-destructive" }
+        "destructive": { "modifier": "nc-alert-dialog--destructive",  "tokenGroups": ["danger"], "renderHint": "alert-dialog-destructive" }
       }
     },
     "content": {
       "label": "Content",
-      "description": "Inhalt — with-description (Title + Description), title-only (nur Title)",
+      "description": "Inhalt — with-description (Title + Description), title-only (nur Title), with-icon (Title + Description + Status-Icon)",
       "values": {
         "with-description": { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true }, "renderHint": "alert-dialog-description" },
-        "title-only":       { "modifier": null, "tokenGroups": [], "renderHint": "alert-dialog-title-only" }
+        "title-only":       { "modifier": null, "tokenGroups": [], "renderHint": "alert-dialog-title-only" },
+        "with-icon":        { "modifier": null, "tokenGroups": ["icon"], "slotConfig": { "icon": true, "description": true }, "renderHint": "alert-dialog-with-icon" }
       }
     }
   },
@@ -57,16 +67,32 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
-      "note": "Natives <dialog> liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. ESC schliesst nativ. Fokus-Trap nativ. Action-Button mit autofocus."
+      "assertions": ["hasAccessibleName", "supportsKeyboard", "focusTrap"],
+      "note": "Natives <dialog> liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. ESC schliesst nativ. Fokus-Trap nativ."
     },
     "overrides": [
-      { "when": { "axes": { "intent": ["destructive"] } }, "suggest": ["autofocus-cancel"], "note": "Destructive: autofocus auf Cancel-Button statt Action, um versehentliches Loeschen zu verhindern." }
+      {
+        "when": { "axes": { "intent": ["default"] } },
+        "suggest": ["autofocus-action"],
+        "note": "Default: autofocus auf Action-Button (primaere Aktion) fuer direkten Keyboard-Zugriff."
+      },
+      {
+        "when": { "axes": { "intent": ["destructive"] } },
+        "require": ["autofocus-cancel"],
+        "note": "Destructive: autofocus auf Cancel-Button statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Best-Practice fuer destruktive Aktionen."
+      },
+      {
+        "when": { "axes": { "content": ["with-icon"] } },
+        "require": ["aria-hidden-icon"],
+        "note": "Status-Icon ist dekorativ (aria-hidden='true'). Semantik kommt aus dem Titel und der Beschreibung."
+      }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["dialog-element", "aria-labelledby", "aria-describedby"], "notes": ["<dialog> mit showModal(). aria-labelledby → Title, aria-describedby → Description."] }
+      { "when": {}, "require": ["dialog-element", "aria-labelledby"], "notes": ["<dialog> mit showModal(). aria-labelledby → Title."] },
+      { "when": { "axes": { "content": ["with-description", "with-icon"] } }, "require": ["aria-describedby"], "notes": ["aria-describedby → Description."] },
+      { "when": { "axes": { "intent": ["destructive"] } }, "require": ["autofocus-cancel"], "notes": ["Cancel-Button autofocus bei destructive (Anti-Slipping)."] }
     ],
     "copy": {
       "title": { "maxChars": 60, "note": "Alert-Titel: 'Eintrag loeschen?', 'Sitzung beenden?', 'Aenderungen verwerfen?'." },
@@ -86,8 +112,16 @@
         "tokens": ["nc-dialog-title-font-size", "nc-dialog-title-font-weight", "nc-dialog-title-color", "nc-dialog-header-gap"]
       },
       "footer": {
-        "label": "Footer",
+        "label": "Footer & Description",
         "tokens": ["nc-dialog-description-font-size", "nc-dialog-description-color", "nc-dialog-footer-gap"]
+      },
+      "icon": {
+        "label": "Status Icon",
+        "tokens": ["nc-dialog-icon-size"]
+      },
+      "danger": {
+        "label": "Destructive Intent",
+        "tokens": ["nc-dialog-danger-icon-color", "nc-dialog-danger-action-bg", "nc-dialog-danger-action-color"]
       }
     }
   },
@@ -109,25 +143,34 @@
     },
     {
       "id": "destructive", "label": "Destructive Alert Dialog",
-      "description": "Loeschen-Bestaetigungsdialog mit Danger-Button",
+      "description": "Loeschen-Bestaetigungsdialog mit Danger-Button und Icon",
       "composes": ["button"],
-      "matrix": { "axes": { "intent": ["destructive"], "content": ["with-description"] }, "states": ["default"] },
+      "matrix": { "axes": { "intent": ["destructive"], "content": ["with-icon"] }, "states": ["default"] },
+      "focusTokenGroups": ["danger", "icon"],
       "layout": "row", "render": { "compositionType": "alert-dialog-destructive", "label": "destructive" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Destructive: Cancel autofocus. Danger-Button visuell hervorgehoben." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Destructive: Cancel autofocus. Danger-Button + Icon visuell hervorgehoben." }
     },
     {
       "id": "intent-comparison", "label": "Intent Comparison",
-      "description": "Default vs Destructive",
-      "matrix": { "axes": { "intent": "*", "content": ["with-description"] }, "states": ["default"] },
+      "description": "Default vs Destructive (mit Icon)",
+      "matrix": { "axes": { "intent": "*", "content": ["with-icon"] }, "states": ["default"] },
       "layout": "grid", "layoutConfig": { "rowAxis": "intent" }, "render": { "label": "{intent}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Default: Action autofocus. Destructive: Cancel autofocus." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Default: Action autofocus. Destructive: Cancel autofocus. Icon verstaerkt Intent." }
     },
     {
       "id": "content-variants", "label": "Content Variants",
-      "description": "With Description vs Title Only",
+      "description": "With Description vs Title Only vs With Icon",
       "matrix": { "axes": { "intent": ["default"], "content": "*" }, "states": ["default"] },
       "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Title-Only: aria-describedby entfaellt. aria-labelledby genuegt." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Title-Only: aria-describedby entfaellt. With-Icon: Icon aria-hidden='true'." }
+    },
+    {
+      "id": "destructive-with-icon", "label": "Destructive with Icon",
+      "description": "Destructive-Dialog mit prominentem Warn-Icon — maximale visuelle Dringlichkeit",
+      "matrix": { "axes": { "intent": ["destructive"], "content": ["with-icon"] }, "states": ["default"] },
+      "focusTokenGroups": ["danger", "icon"],
+      "layout": "row", "render": { "compositionType": "alert-dialog-destructive-icon", "label": "destructive + icon" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Icon in Danger-Farbe. aria-hidden='true'. Cancel autofocus." }
     },
     {
       "id": "session-timeout", "label": "Session Timeout",

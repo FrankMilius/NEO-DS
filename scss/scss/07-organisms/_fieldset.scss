@@ -1,5 +1,5 @@
 // ==========================================================================
-// 07-Organisms: Fieldset
+// 07-Organisms: Fieldset  v2.0.0
 // ==========================================================================
 // Token-basiertes, barrierefreies Fieldset mit gestylter Legend
 // als Abschnitts-Ueberschrift innerhalb von Formularen.
@@ -10,33 +10,51 @@
 //
 // VERSCHACHTELUNGSLOGIK:
 //   .nc-fieldset
-//     .nc-fieldset__legend      (<legend> als Abschnitts-Titel)
-//     .nc-form-field            (beliebig viele)
-//     .nc-checkbox-group        (optional)
-//     .nc-radio-group           (optional)
+//     .nc-fieldset__legend          (<legend> als Abschnitts-Titel)
+//     .nc-fieldset__helper          (optionale Gruppen-Beschreibung)
+//     .nc-form-field                (beliebig viele)
+//     .nc-checkbox-group            (optional)
+//     .nc-radio-group               (optional)
 //
 // TOKENS:
-//   --nc-fieldset-border-width    Randstaerke
-//   --nc-fieldset-border-color    Randfarbe
-//   --nc-fieldset-border-radius   Eckenradius
-//   --nc-fieldset-padding         Innenabstand
-//   --nc-fieldset-gap             Abstand zwischen Kindern
-//   --nc-fieldset-legend-color    Textfarbe der Legend
-//   --nc-fieldset-legend-size     Schriftgroesse der Legend
-//   --nc-fieldset-legend-weight   Schriftstärke der Legend
-//   --nc-fieldset-legend-padding  Seitliches Padding der Legend
+//   --nc-fieldset-border-width       Randstaerke
+//   --nc-fieldset-border-color       Randfarbe
+//   --nc-fieldset-border-radius      Eckenradius
+//   --nc-fieldset-padding            Innenabstand
+//   --nc-fieldset-gap                Abstand zwischen Kindern
+//   --nc-fieldset-legend-color       Textfarbe der Legend
+//   --nc-fieldset-legend-size        Schriftgroesse der Legend
+//   --nc-fieldset-legend-weight      Schriftstärke der Legend
+//   --nc-fieldset-legend-padding     Seitliches Padding der Legend
+//   --nc-fieldset-helper-size        Helper-Text Schriftgroesse
+//   --nc-fieldset-helper-color       Helper-Text Farbe
+//   --nc-fieldset-helper-margin-top  Helper-Text Abstand zur Legend
+//   --nc-fieldset-card-bg            Card-Variante Hintergrund
+//   --nc-fieldset-card-shadow        Card-Variante Schatten
+//   --nc-fieldset-padding-compact    Compact-Density Padding
+//   --nc-fieldset-gap-compact        Compact-Density Gap
+//   --nc-fieldset-padding-loose      Loose-Density Padding
+//   --nc-fieldset-gap-loose          Loose-Density Gap
+//   --nc-fieldset-required-color     Pflicht-Indikator Farbe
 //
 // BEM-KLASSEN:
-//   .nc-fieldset                  Block (gestyltes <fieldset>)
-//   .nc-fieldset__legend          Legend als Abschnitts-Ueberschrift
-//   .nc-fieldset--borderless      Variante ohne sichtbaren Rand
-//   .nc-fieldset--disabled        Deaktiviertes Fieldset
+//   .nc-fieldset                     Block (gestyltes <fieldset>)
+//   .nc-fieldset__legend             Legend als Abschnitts-Ueberschrift
+//   .nc-fieldset__helper             Gruppen-Beschreibung unter Legend
+//   .nc-fieldset__required           Pflicht-Indikator in Legend
+//   .nc-fieldset--borderless         Variante ohne sichtbaren Rand
+//   .nc-fieldset--card               Variante mit Hintergrund + Schatten
+//   .nc-fieldset--compact            Reduzierte Abstände
+//   .nc-fieldset--loose              Groessere Abstände
+//   .nc-fieldset--legend-center      Zentrierte Legend
+//   .nc-fieldset--disabled           Deaktiviertes Fieldset
 //
 // ACCESSIBILITY:
 //   <fieldset> + <legend> gruppiert zusammengehoerige Controls
 //   Screen Reader liest Legend als Gruppen-Label vor
 //   :disabled auf <fieldset> deaktiviert ALLE enthaltenen Controls nativ
 //   Kein aria-labelledby noetig wenn <legend> vorhanden
+//   Helper-Text: aria-describedby auf <fieldset> verweist auf Helper-ID
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -95,6 +113,14 @@
   border-radius: var(--fnd-radius-null);
 }
 
+/// Card-Variante: Hintergrund-Füllung statt Border.
+/// Moderner Look, ideal fuer flache Hintergruende.
+@mixin fieldset-card {
+  border-color: transparent;
+  background-color: var(--nc-fieldset-card-bg);
+  box-shadow: var(--nc-fieldset-card-shadow);
+}
+
 /// Disabled-State: graut das gesamte Fieldset aus.
 /// Native <fieldset disabled> deaktiviert bereits alle enthaltenen
 /// Controls. Dieses Mixin ergaenzt den visuellen Indikator.
@@ -121,11 +147,58 @@
     @include fieldset-legend;
   }
 
-  // -- Modifier --
+  // Gruppen-Beschreibung direkt unter der Legend
+  &__helper {
+    font-size: var(--nc-fieldset-helper-size);
+    color: var(--nc-fieldset-helper-color);
+    line-height: 1.4;
+    margin-top: var(--nc-fieldset-helper-margin-top);
+    margin-bottom: 0;
+  }
+
+  // Pflicht-Indikator (*) in der Legend
+  &__required {
+    color: var(--nc-fieldset-required-color);
+    margin-inline-start: 0.25em;
+  }
+
+  // -- Varianten --
 
   &--borderless {
     @include fieldset-borderless;
   }
+
+  &--card {
+    @include fieldset-card;
+  }
+
+  // -- Density --
+
+  &--compact {
+    padding: var(--nc-fieldset-padding-compact);
+    gap: var(--nc-fieldset-gap-compact);
+  }
+
+  &--loose {
+    padding: var(--nc-fieldset-padding-loose);
+    gap: var(--nc-fieldset-gap-loose);
+  }
+
+  // -- Legend-Ausrichtung --
+
+  &--legend-center {
+    > .nc-fieldset__legend {
+      text-align: center;
+      padding-inline: 0;
+    }
+
+    // Helper ebenfalls zentriert
+    > .nc-fieldset__helper {
+      text-align: center;
+    }
+  }
+
+  // -- States --
 
   &--disabled,
   &:disabled {

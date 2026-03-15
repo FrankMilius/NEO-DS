@@ -1,8 +1,9 @@
 // ==========================================================================
-// 05-Atoms: Avatar
+// 05-Atoms: Avatar v2.0.0
 // ==========================================================================
 // Token-basierte Avatar-Komponente mit 5 Groessen, Image/Fallback-Pattern,
-// Status-Badge, Shape-Varianten, Ring-Border und Gruppen-Layout.
+// Status-Badge, Shape-Varianten, Ring-Border, Gruppen-Layout,
+// Interactive-Mode, Entity-Shape und Hash-Color Fallback.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-avatar-* Component-Tokens
@@ -18,16 +19,19 @@
 //
 // BEM-KLASSEN:
 //   .nc-avatar                      Block (default: md, rund)
-//   .nc-avatar__image               Bild-Element
+//   .nc-avatar__image               Bild-Element (Fade-In bei Laden)
 //   .nc-avatar__fallback            Fallback (Initialen / Icon)
 //   .nc-avatar__badge               Status-Dot
 //   .nc-avatar__badge--online       Gruen  (Success)
 //   .nc-avatar__badge--offline      Grau   (Disabled)
 //   .nc-avatar__badge--busy         Rot    (Danger)
 //   .nc-avatar__badge--away         Gelb   (Warning)
+//   .nc-avatar__badge--verified     Blau   (Interactive) — Haekchen-Icon
 //   .nc-avatar--xs / --sm / --lg / --xl   Groessen (md = Default)
-//   .nc-avatar--square              Quadratische Form mit Radius
+//   .nc-avatar--square              Quadratische Form mit Radius (Entity)
 //   .nc-avatar--ring                Ring-Border zur Abgrenzung
+//   .nc-avatar--interactive         Hover/Active/Focus States (Link/Button)
+//   .nc-avatar--hash                Dynamische Hash-basierte Fallback-Farbe
 //   .nc-avatar-group                Gruppen-Container (ueberlappend)
 //   .nc-avatar-group__count         "+N" Zaehler-Element
 //
@@ -35,6 +39,7 @@
 //   Fallback ist immer im DOM (z-index: 0, position: absolute).
 //   Image liegt darueber (z-index: 1). Wenn Image laedt, ueberdeckt es
 //   den Fallback automatisch. Wenn Image fehlt/bricht → Fallback sichtbar.
+//   Image hat Fade-In Animation beim Laden (opacity 0 → 1).
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -54,7 +59,7 @@
   vertical-align: middle;
   flex-shrink: 0;
   user-select: none;
-  transition: transform var(--nc-avatar-transition-duration) ease;
+  @include transition-quick((transform, box-shadow));
 
   // Default size: md
   @include avatar-size('md');
@@ -98,6 +103,7 @@
 
 /// Image-Element: fuellt den Container, object-fit cover.
 /// z-index 1 → liegt ueber dem Fallback.
+/// Fade-In Animation: opacity 0 → 1 bei erfolgreichem Laden.
 @mixin avatar-image {
   width: 100%;
   height: 100%;
@@ -107,6 +113,19 @@
   display: block;
   position: relative;
   z-index: var(--fnd-z-base);
+
+  // Fade-In: Startet transparent, wird per JS-Klasse oder load-Event eingeblendet
+  opacity: 0;
+  transition: opacity var(--nc-avatar-image-fade-duration) ease;
+
+  &.is-loaded {
+    opacity: 1;
+  }
+
+  // Kein Bild vorhanden? Direkt sichtbar machen (kein Fade noetig)
+  &:not([loading]) {
+    opacity: 1;
+  }
 
   // Safety: verstecke kaputte/leere Images
   &:not([src]),
@@ -131,7 +150,18 @@
   overflow: hidden;
 }
 
+/// Hash-Color Fallback: ueberschreibt Fallback-BG mit dynamischer Farbe.
+/// Die CSS-Custom-Properties --nc-avatar-hash-bg und --nc-avatar-hash-color
+/// werden per inline-style oder JS gesetzt.
+@mixin avatar-hash-fallback {
+  .nc-avatar__fallback {
+    background: var(--nc-avatar-hash-bg);
+    color: var(--nc-avatar-hash-color);
+  }
+}
+
 /// Badge (Status-Indikator): kleiner Dot oben rechts.
+/// Box-Shadow statt Border fuer sauberere Abgrenzung ohne Layout-Shift.
 @mixin avatar-badge {
   position: absolute;
   top: 0;
@@ -140,21 +170,73 @@
   width: var(--nc-avatar-badge-size);
   height: var(--nc-avatar-badge-size);
   border-radius: var(--fnd-radius-full);
-  border: var(--nc-avatar-badge-border-width) solid var(--nc-avatar-badge-border-color);
+  box-shadow: 0 0 0 var(--nc-avatar-badge-border-width) var(--nc-avatar-badge-border-color);
   background-color: var(--nc-avatar-badge-offline); // Default: offline/grau
 }
 
-/// Ring: Box-Shadow Ring fuer Abgrenzung auf aehnlichen Hintergruenden.
-@mixin avatar-ring {
-  box-shadow: 0 0 0 var(--nc-avatar-ring-width) var(--nc-avatar-ring-color);
+/// Verified Badge: Haekchen-Icon statt Status-Dot.
+/// Nutzt Interactive-Farbe (blau) mit weissem Icon.
+@mixin avatar-badge-verified {
+  background-color: var(--nc-avatar-badge-verified);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    width: 60%;
+    height: 60%;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
 
-/// Square Shape: Override border-radius.
+/// Ring: Box-Shadow Ring fuer Abgrenzung auf aehnlichen Hintergruenden.
+/// Optionaler zusaetzlicher Schatten fuer bessere Sichtbarkeit auf hellen Bildern.
+@mixin avatar-ring {
+  box-shadow:
+    0 0 0 var(--nc-avatar-ring-width) var(--nc-avatar-ring-color),
+    var(--nc-avatar-ring-shadow);
+}
+
+/// Interactive Mode: Hover/Active/Focus-States fuer klickbare Avatare.
+@mixin avatar-interactive {
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover:not(:disabled) {
+    transform: scale(var(--nc-avatar-hover-scale));
+    box-shadow: var(--nc-avatar-hover-shadow);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(var(--nc-avatar-active-scale));
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: var(--nc-avatar-focus-ring-width) solid var(--nc-avatar-focus-ring-color);
+    outline-offset: var(--nc-avatar-focus-ring-offset);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: var(--fnd-opacity-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/// Square Shape: Override border-radius (fuer Entity / Firmenlogo).
 @mixin avatar-square {
   border-radius: var(--nc-avatar-radius-square);
 }
 
 /// Avatar-Group: ueberlappende Avatare mit negativem Spacing.
+/// Nutzt box-shadow statt border fuer saubere Ueberlappung.
 @mixin avatar-group {
   display: inline-flex;
   align-items: center;
@@ -201,10 +283,11 @@
   &__badge {
     @include avatar-badge;
 
-    &--online  { background-color: var(--nc-avatar-badge-online); }
-    &--offline { background-color: var(--nc-avatar-badge-offline); }
-    &--busy    { background-color: var(--nc-avatar-badge-busy); }
-    &--away    { background-color: var(--nc-avatar-badge-away); }
+    &--online   { background-color: var(--nc-avatar-badge-online); }
+    &--offline  { background-color: var(--nc-avatar-badge-offline); }
+    &--busy     { background-color: var(--nc-avatar-badge-busy); }
+    &--away     { background-color: var(--nc-avatar-badge-away); }
+    &--verified { @include avatar-badge-verified; }
   }
 
   // -- Groessen-Modifier --
@@ -222,6 +305,14 @@
   // -- Ring-Modifier --
 
   &--ring { @include avatar-ring; }
+
+  // -- Interactive Mode --
+
+  &--interactive { @include avatar-interactive; }
+
+  // -- Hash-Color Fallback --
+
+  &--hash { @include avatar-hash-fallback; }
 }
 
 // ---------------------------------------------------------------------------
@@ -247,6 +338,25 @@
     box-shadow: 0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color);
     user-select: none;
     flex-shrink: 0;
+    cursor: default;
+  }
+
+  // Group-Count als interaktives Element (Popover-Trigger)
+  &__count--interactive {
+    cursor: pointer;
+    @include transition-quick((transform, box-shadow));
+
+    &:hover {
+      transform: scale(var(--nc-avatar-hover-scale));
+      box-shadow:
+        0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color),
+        var(--nc-avatar-hover-shadow);
+    }
+
+    &:focus-visible {
+      outline: var(--nc-avatar-focus-ring-width) solid var(--nc-avatar-focus-ring-color);
+      outline-offset: var(--nc-avatar-focus-ring-offset);
+    }
   }
 
   // Group-Groessen: Count-Element passt sich an Kind-Groesse an

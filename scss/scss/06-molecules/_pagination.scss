@@ -1,5 +1,5 @@
 // ==========================================================================
-// 06-Molecules: Pagination
+// 06-Molecules: Pagination  v2.0.0
 // ==========================================================================
 // Eigenstaendige Seitennavigation fuer Listen, Suchergebnisse, Tabellen.
 //
@@ -18,12 +18,28 @@
 //       li > button.nc-pagination__item (--active)
 //       li > span.nc-pagination__ellipsis
 //     button.nc-pagination__next
+//     .nc-pagination__info            (Minimal: "Seite X von Y")
+//     .nc-pagination__jumper          (Go-to-Page Input)
 //
 // GROESSEN (2 Stufen):
 //   sm → 28px Items, md → 32px Items (default)
 //
 // KLASSEN:
-//   .nc-pagination (kanonisch, BEM)
+//   .nc-pagination                    Block
+//   .nc-pagination__list              Seitenliste
+//   .nc-pagination__item              Seitenbutton (--active)
+//   .nc-pagination__ellipsis          Nicht-interaktives Auslassungszeichen
+//   .nc-pagination__prev / __next     Navigationspfeile
+//   .nc-pagination__info              Minimal-Variante Info-Text
+//   .nc-pagination__jumper            Go-to-Page Input
+//   .nc-pagination--sm                Kleinere Variante (28px)
+//   .nc-pagination--center/--end/--between  Alignment
+//   .nc-pagination--minimal           Nur Prev + Info + Next
+//   .nc-pagination--raised            Shadow auf aktiver Seite
+//   .nc-pagination--pill              Pill-Form (voll abgerundet)
+//   .nc-pagination--outline           Border statt Hintergrund
+//   .nc-pagination--with-indicator    Unterlinie auf aktiver Seite
+//   .nc-pagination--with-jumper       Zeigt Go-to-Page Input
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -59,7 +75,18 @@
   line-height: 1;
   cursor: pointer;
   user-select: none;
-  @include transition-quick((background-color, color));
+  position: relative;
+  @include transition-quick((background-color, color, box-shadow));
+
+  // Touch-Target: unsichtbarer Bereich min. 44px
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    min-width: var(--nc-pagination-touch-min);
+    min-height: var(--nc-pagination-touch-min);
+    transform: translate(-50%, -50%);
+  }
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
     background-color: var(--nc-pagination-item-bg-hover);
@@ -147,17 +174,113 @@
     @include pagination-nav-button;
   }
 
-  // Groesse: sm
+  // Info-Text (Minimal-Variante: "Seite X von Y")
+  &__info {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--nc-pagination-minimal-info-size);
+    color: var(--nc-pagination-minimal-info-color);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    user-select: none;
+    padding: 0 var(--fnd-spacing-02);
+  }
+
+  // Go-to-Page Input
+  &__jumper {
+    width: var(--nc-pagination-jumper-width);
+    height: var(--nc-pagination-jumper-height);
+    border: var(--nc-pagination-jumper-border);
+    border-radius: var(--nc-pagination-jumper-radius);
+    font-size: var(--nc-pagination-jumper-font-size);
+    color: var(--nc-pagination-jumper-color);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    background: transparent;
+    @include transition-quick((border-color));
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &::placeholder {
+      color: var(--nc-pagination-ellipsis-color);
+    }
+  }
+
+  // -- Groesse: sm --
   &--sm {
     --nc-pagination-item-size: 28px;
     font-size: var(--fs-xs);
   }
 
-  // Alignment-Varianten
+  // -- Alignment-Varianten --
   &--center { justify-content: center; }
   &--end    { justify-content: flex-end; }
   &--between {
     justify-content: space-between;
     width: 100%;
+  }
+
+  // -- Minimal: nur Prev + Info + Next --
+  &--minimal {
+    .nc-pagination__list {
+      display: none;
+    }
+  }
+
+  // -- Pill-Form (voll abgerundet) --
+  &--pill {
+    --nc-pagination-item-radius: 9999px;
+  }
+
+  // -- Outline (Border statt Hintergrund) --
+  &--outline {
+    .nc-pagination__item {
+      border: var(--nc-pagination-outline-border);
+      background-color: transparent;
+
+      &--active,
+      &[aria-current='page'] {
+        border: var(--nc-pagination-outline-border-active);
+        background-color: transparent;
+        color: var(--nc-pagination-item-bg-active);
+      }
+    }
+  }
+
+  // -- Raised (Shadow auf aktiver Seite) --
+  &--raised {
+    .nc-pagination__item {
+      &--active,
+      &[aria-current='page'] {
+        box-shadow: var(--nc-pagination-item-shadow-active);
+      }
+    }
+  }
+
+  // -- Active-Indikator (Unterlinie) --
+  &--with-indicator {
+    .nc-pagination__item {
+      &--active,
+      &[aria-current='page'] {
+        &::after {
+          content: '';
+          position: absolute;
+          inset-inline: 4px;
+          bottom: 0;
+          height: var(--nc-pagination-active-indicator-height);
+          background-color: var(--nc-pagination-active-indicator-color);
+          border-radius: var(--nc-pagination-active-indicator-height);
+        }
+      }
+    }
+  }
+
+  // -- With Jumper: zeigt das Input-Feld --
+  &--with-jumper {
+    .nc-pagination__jumper {
+      display: inline-flex;
+    }
   }
 }

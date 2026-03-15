@@ -1,7 +1,8 @@
 // ==========================================================================
-// 06-Molecules: Form Label
+// 06-Molecules: Form Label v2.0.0
 // ==========================================================================
-// Token-basiertes Form-Label mit Required/Optional-Indikator.
+// Token-basiertes Form-Label mit Required/Optional-Indikator,
+// Info-Tooltip-Slot, Typografie-Hierarchie und erweitertem Klickbereich.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-form-label-* Component-Tokens.
@@ -15,6 +16,9 @@
 //   .nc-form-label__text         Label-Text
 //   .nc-form-label__required     "*" Pflichtfeld-Indikator (rot)
 //   .nc-form-label__optional     "(Optional)" Text (grau)
+//   .nc-form-label__info         Info-Icon Button (Tooltip-Trigger)
+//   .nc-form-label--sm           Kompakte Variante (kleinere Schrift)
+//   .nc-form-label--emphasis     Hervorgehobene Variante (Section-Labels)
 //   .nc-form-label--inline       Inline-Label (neben Input)
 //   .nc-form-label--disabled     Disabled-State
 //
@@ -22,6 +26,8 @@
 //   <label for="input-id"> → verlinkt Label mit Input
 //   .nc-form-label__required: aria-hidden="true" (Screen Reader liest
 //   aria-required am Input statt "*" am Label)
+//   .nc-form-label__info: <button aria-label="Hilfe zu {Feld}">
+//   Klickbereich: min-height + padding-block (WCAG 2.5.8 Target Size)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -42,6 +48,10 @@
   line-height: 1.45;
   cursor: pointer;
   user-select: none;
+
+  // Erweiterter Klickbereich (Fitts' Law / WCAG 2.5.8)
+  padding-block: var(--nc-form-label-padding-block);
+  min-height: var(--nc-form-label-min-height);
 }
 
 /// Required-Indikator: rotes Sternchen.
@@ -57,6 +67,40 @@
   font-weight: var(--fnd-font-weight-regular);
   font-size: 0.85em;
   margin-inline-start: var(--fnd-spacing-01);
+}
+
+/// Info-Icon Button: Tooltip-Trigger.
+@mixin form-label-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  margin-inline-start: var(--fnd-spacing-01);
+  border: none;
+  background: none;
+  color: var(--nc-form-label-info-color);
+  cursor: pointer;
+  border-radius: var(--fnd-radius-full, 9999px);
+  @include transition-quick((color, background-color, box-shadow));
+
+  // SVG-Icon Sizing
+  > svg {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: var(--fnd-color-interactive-hover, currentColor);
+    background: color-mix(in srgb, currentColor 8%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -80,16 +124,53 @@
     @include form-label-optional;
   }
 
-  // -- Modifier --
+  &__info {
+    @include form-label-info;
+  }
+
+  // -- Size Modifier --
+
+  &--sm {
+    font-size: var(--nc-form-label-sm-font-size, var(--fs-sm));
+    font-weight: var(--nc-form-label-sm-font-weight, var(--fnd-font-weight-medium));
+  }
+
+  &--emphasis {
+    font-size: var(--nc-form-label-emphasis-font-size, var(--fs-lg));
+    font-weight: var(--nc-form-label-emphasis-font-weight, var(--fnd-font-weight-bold));
+  }
+
+  // -- Layout Modifier --
 
   &--inline {
     display: inline-flex;
     margin-bottom: 0;
     margin-inline-end: var(--fnd-spacing-03);
+
+    // Truncation: verhindert Layout-Brueche bei langen Texten
+    max-width: var(--nc-form-label-inline-max-width, 200px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // Baseline-Alignment: Synchronisiert Label-Hoehe mit Input
+    // padding-top gleicht den vertikalen Offset zum Input-Text aus
+    padding-top: var(--nc-form-label-inline-padding-top, var(--nc-input-padding-y-md, 8px));
+    // Zeile 1: font-size vom Label muss zum Input passen → gemeinsames Token
+    // Empfehlung: nc-form-label-font-size == nc-input-font-size-md
+    align-self: baseline;
   }
+
+  // -- State Modifier --
 
   &--disabled {
     color: var(--fnd-color-text-disabled);
     cursor: not-allowed;
+
+    .nc-form-label__info {
+      color: var(--fnd-color-text-disabled);
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
 }

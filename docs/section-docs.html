@@ -262,134 +262,65 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-section">
-            <h2 class="docs__section-title">.section &mdash; Styles</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>padding-block</td>
-                  <td>clamp(2rem, 4rem, 6rem)</td>
-                  <td>Fluid vertikales Padding: min. 2rem, ideal 4rem, max. 6rem</td>
-                </tr>
-                <tr>
-                  <td>padding-inline</td>
-                  <td>0</td>
-                  <td>Kein horizontales Padding &mdash; wird vom Container &uuml;bernommen</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-            <p class="docs__section-desc" style="margin-block-start: var(--fnd-spacing-04);">
-              Farben, Hintergr&uuml;nde und weitere Stile kommen vom umgebenden Container oder von spezifischen Block-Klassen &mdash; nicht von <code class="docs__token">.section</code> selbst.
-            </p>
-          </section>
-
-          <section class="docs__section" id="style-grids">
-            <h2 class="docs__section-title">Grid-Objekte &mdash; Styles</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>display</th><th>gap</th><th>grid-template-columns</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.nc-feature-grid</code></td>
-                  <td>grid</td>
-                  <td>4rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | 3 Sp. (1024px+)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-benefit-grid</code></td>
-                  <td>grid</td>
-                  <td>1.5rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | 3 Sp. (1024px+)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-usecase-grid</code></td>
-                  <td>grid</td>
-                  <td>1.5rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | 3 Sp. (1024px+)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-news-grid</code></td>
-                  <td>grid</td>
-                  <td>1.5rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | 3 Sp. (1024px+)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-metric-grid</code></td>
-                  <td>grid</td>
-                  <td>2rem</td>
-                  <td>repeat(auto-fit, minmax(200px, 1fr)) &mdash; immer</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-facts-grid</code></td>
-                  <td>grid</td>
-                  <td>1.5rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | &mdash; (kein 3-Sp.-Breakpoint)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-pricing-grid</code></td>
-                  <td>grid</td>
-                  <td>1.5rem</td>
-                  <td>1 Sp. | 2 Sp. (768px+) | 3 Sp. (1024px+)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-breakpoints">
-            <h2 class="docs__section-title">Responsive Breakpoints</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Breakpoint</th><th>Breite</th><th>Grid-Verhalten</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td>Mobile (Default)</td>
-                  <td>&lt; 768px</td>
-                  <td>1 Spalte f&uuml;r alle Grids au&szlig;er nc-metric-grid (auto-fit)</td>
-                </tr>
-                <tr>
-                  <td>Tablet</td>
-                  <td>&ge; 768px</td>
-                  <td>2 Spalten f&uuml;r feature-, benefit-, usecase-, news-, facts-, pricing-grid</td>
-                </tr>
-                <tr>
-                  <td>Desktop</td>
-                  <td>&ge; 1024px</td>
-                  <td>3 Spalten f&uuml;r feature-, benefit-, usecase-, news-, pricing-grid</td>
-                </tr>
-                <tr>
-                  <td>nc-metric-grid (immer)</td>
-                  <td>Alle Breiten</td>
-                  <td>auto-fit: minmax(200px, 1fr) &mdash; fluid Spaltenanzahl</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== Section Objekte =====
-
-.section                   // Vertikales Abstands-Objekt (padding-block: clamp())
-.section--cq               // + Container-Query-Kontext (Opt-in)
-
-// ===== NC Container =====
-.nc-container              // Standard-Container (volle Breite, fluid Padding)
-.nc-container--wide        // Breiter Container (max 1440px)
-
-// ===== Grid-Objekte =====
-.nc-feature-grid           // Feature-Grid (gap 4rem, 1/2/3 Spalten)
-.nc-benefit-grid           // Vorteile-Grid (gap 1.5rem, 1/2/3 Spalten)
-.nc-usecase-grid           // Use-Case-Grid (gap 1.5rem, 1/2/3 Spalten)
-.nc-news-grid              // News-Grid (gap 1.5rem, 1/2/3 Spalten)
-.nc-metric-grid            // Metriken-Grid (gap 2rem, auto-fit minmax 200px)
-.nc-facts-grid             // Fakten-Grid (gap 1.5rem, 1/2 Spalten)
-.nc-pricing-grid           // Preise-Grid (gap 1.5rem, 1/2/3 Spalten)</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-section-padding-block</code></td><td>clamp(2rem, 4vw, 6rem)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-padding-block-sm</code></td><td>var(--fnd-spacing-08)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-padding-block-lg</code></td><td>var(--fnd-spacing-13)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Surface</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-section-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Accent</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-section-accent-bg</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-accent-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-accent-color-secondary</code></td><td>color-mix(in srgb, var(--fnd-color-text-on-interactive) 75%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Divider</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-section-divider-color</code></td><td>var(--fnd-color-border-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-divider-width</code></td><td>1px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-divider-style</code></td><td>solid</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Edge Shape</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-section-edge-height</code></td><td>48px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-edge-angle</code></td><td>3deg</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-section-edge-fill</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -398,174 +329,126 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Prim&auml;re Klassen</strong></td><td><code class="docs__token">.section</code>, <code class="docs__token">.nc-container</code>, Grid-Klassen</td></tr>
-                <tr><td><strong>ITCSS-Schicht</strong></td><td>04-Objects</td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Keine Component-Tokens &mdash; reine Layout-Logik</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/04-objects/_section.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;section&gt;</code>, <code class="docs__token">&lt;div&gt;</code> &mdash; je nach Semantik</td></tr>
-                <tr><td><strong>JavaScript</strong></td><td>Nicht ben&ouml;tigt</td></tr>
-                <tr><td><strong>Dark Mode</strong></td><td>Automatisch (keine Farbwerte in Section/Grid-Objekten)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS-Klassen -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Section &amp; Container</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.section</code></td>
-                  <td>Vertikales Padding-Objekt. <code class="docs__token">padding: clamp(2rem, 4rem, 6rem) 0</code>. Keine Farbe.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.section--cq</code></td>
-                  <td>Erweitert .section um einen CSS Container-Query-Kontext.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-container</code></td>
-                  <td>Container-Objekt. Volle Breite, fluid Padding (aus container-padding Mixin).</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-container--wide</code></td>
-                  <td>Breiter Container. <code class="docs__token">width: min(1440px, 94vw)</code> + container-padding-wide Mixin.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Grid-Objekte</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Gap</th><th>Spalten-Verhalten</th><th>Typische Verwendung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.nc-feature-grid</code></td>
-                  <td>4rem</td>
-                  <td>1 &rarr; 2 (768px) &rarr; 3 (1024px)</td>
-                  <td>Feature-Bl&ouml;cke mit viel Weissraum</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-benefit-grid</code></td>
-                  <td>1.5rem</td>
-                  <td>1 &rarr; 2 (768px) &rarr; 3 (1024px)</td>
-                  <td>Vorteils-Karten</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-usecase-grid</code></td>
-                  <td>1.5rem</td>
-                  <td>1 &rarr; 2 (768px) &rarr; 3 (1024px)</td>
-                  <td>Use-Case-Karten</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-news-grid</code></td>
-                  <td>1.5rem</td>
-                  <td>1 &rarr; 2 (768px) &rarr; 3 (1024px)</td>
-                  <td>News- und Blog-Karten</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-metric-grid</code></td>
-                  <td>2rem</td>
-                  <td>auto-fit minmax(200px, 1fr)</td>
-                  <td>KPI-Zahlen und Statistiken</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-facts-grid</code></td>
-                  <td>1.5rem</td>
-                  <td>1 &rarr; 2 (768px)</td>
-                  <td>Fakten-Eintr&auml;ge (max. 2 Spalten)</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">.nc-pricing-grid</code></td>
-                  <td>1.5rem</td>
-                  <td>1 &rarr; 2 (768px) &rarr; 3 (1024px)</td>
-                  <td>Preis-Karten</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. Verwendungsm&uuml;ster -->
-          <section class="docs__section" id="api-patterns">
-            <h2 class="docs__section-title">Verwendungsm&uuml;ster</h2>
-            <div class="docs__code-block">&lt;!-- Seiten-Sektion mit Container und Grid --&gt;
-&lt;section class="section" aria-label="Unsere Funktionen"&gt;
-  &lt;div class="nc-container"&gt;
-
-    &lt;!-- Sektions-&Uuml;berschrift (optional, ausserhalb des Grids) --&gt;
-    &lt;h2&gt;Funktionen&lt;/h2&gt;
-
-    &lt;!-- Grid f&uuml;r Feature-Karten --&gt;
-    &lt;div class="nc-feature-grid"&gt;
-      &lt;div&gt;&lt;!-- Feature 1 --&gt;&lt;/div&gt;
-      &lt;div&gt;&lt;!-- Feature 2 --&gt;&lt;/div&gt;
-      &lt;div&gt;&lt;!-- Feature 3 --&gt;&lt;/div&gt;
-    &lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- Breite Sektion mit weitem Container --&gt;
-&lt;section class="section"&gt;
-  &lt;div class="nc-container nc-container--wide"&gt;
-    &lt;div class="nc-metric-grid"&gt;
-      &lt;div&gt;&lt;!-- KPI 1 --&gt;&lt;/div&gt;
-      &lt;div&gt;&lt;!-- KPI 2 --&gt;&lt;/div&gt;
-      &lt;div&gt;&lt;!-- KPI 3 --&gt;&lt;/div&gt;
-      &lt;div&gt;&lt;!-- KPI 4 --&gt;&lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- Sektion ohne vertikales Padding (direkt in nc-container) --&gt;
-&lt;div class="nc-container"&gt;
-  &lt;div class="nc-pricing-grid"&gt;
-    &lt;div&gt;&lt;!-- Plan 1 --&gt;&lt;/div&gt;
-    &lt;div&gt;&lt;!-- Plan 2 --&gt;&lt;/div&gt;
-    &lt;div&gt;&lt;!-- Plan 3 --&gt;&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</div>
-          </section>
-
-          <!-- 4. Abgrenzung -->
-          <section class="docs__section" id="api-distinction">
-            <h2 class="docs__section-title">Abgrenzung: .section vs. main &gt; .section</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Kontext</th><th>Verhalten</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">.section</code> (allgemein)</td>
-                  <td>Nur vertikales Padding via clamp(). Keine Farbe.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">main &gt; .section</code></td>
-                  <td>Zus&auml;tzlich in <code class="docs__token">_container.scss</code>: margin: 0, background-color: base, color: text-high.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">main &gt; .section:first-of-type</code></td>
-                  <td>Kein zus&auml;tzlicher margin-top.</td>
-                </tr>
-                <tr>
-                  <td><code class="docs__token">main &gt; .section &gt; div.default-content-wrapper</code></td>
-                  <td>Erh&auml;lt container-padding via Mixin.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.section</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">section</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--section-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.section</code></td><td>Block</td><td>section-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-container</code></td><td>Element</td><td>container</td></tr>
+      <tr><td><code class="docs__token">.nc-container &gt; *</code></td><td>Element</td><td>content</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dichte-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Vertikales Padding der Section.</td></tr>
+      <tr><td><code class="docs__token">.section--compact</code></td><td>compact</td><td>Vertikales Padding der Section.</td></tr>
+      <tr><td><code class="docs__token">.section--spacious</code></td><td>spacious</td><td>Vertikales Padding der Section.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Oberflaeche-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>base</td><td>Hintergrundfarbe und Farbschema der Section.</td></tr>
+      <tr><td><code class="docs__token">.section--elevated</code></td><td>elevated</td><td>Hintergrundfarbe und Farbschema der Section.</td></tr>
+      <tr><td><code class="docs__token">.section--muted</code></td><td>muted</td><td>Hintergrundfarbe und Farbschema der Section.</td></tr>
+      <tr><td><code class="docs__token">.section--accent</code></td><td>accent</td><td>Hintergrundfarbe und Farbschema der Section.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Divider-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.</td></tr>
+      <tr><td><code class="docs__token">.section--divider-top</code></td><td>top</td><td>Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.</td></tr>
+      <tr><td><code class="docs__token">.section--divider-bottom</code></td><td>bottom</td><td>Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.</td></tr>
+      <tr><td><code class="docs__token">.section--divider-both</code></td><td>both</td><td>Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Edge Shape-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>straight</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
+      <tr><td><code class="docs__token">.section--edge-slanted</code></td><td>slanted</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
+      <tr><td><code class="docs__token">.section--edge-curved</code></td><td>curved</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-section-padding-block</code></td><td>clamp(2rem, 4vw, 6rem)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-section-padding-block-sm</code></td><td>var(--fnd-spacing-08)</td><td>var(--fnd-spacing-08)</td></tr>
+      <tr><td><code class="docs__token">--nc-section-padding-block-lg</code></td><td>var(--fnd-spacing-13)</td><td>var(--fnd-spacing-13)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Surface</td></tr>
+      <tr><td><code class="docs__token">--nc-section-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-section-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Accent</td></tr>
+      <tr><td><code class="docs__token">--nc-section-accent-bg</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-section-accent-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>var(--fnd-color-text-on-interactive)</td></tr>
+      <tr><td><code class="docs__token">--nc-section-accent-color-secondary</code></td><td>color-mix(in srgb, var(--fnd-color-text-on-interactive) 75%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Divider</td></tr>
+      <tr><td><code class="docs__token">--nc-section-divider-color</code></td><td>var(--fnd-color-border-primary)</td><td>var(--fnd-color-border-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-section-divider-width</code></td><td>1px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-section-divider-style</code></td><td>solid</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Edge Shape</td></tr>
+      <tr><td><code class="docs__token">--nc-section-edge-height</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-section-edge-angle</code></td><td>3deg</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-section-edge-fill</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Section ist der Orchestrator: setzt Block-Padding, enthaelt Container, konfiguriert Grid.</li>
+    <li>Nesting: .section &gt; .nc-container &gt; .o-grid &gt; .o-col-* &gt; Content</li>
+    <li>Section referenziert Container, Grid und Spacing — nicht umgekehrt.</li>
+    <li>Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.</li>
+    <li>Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.</li>
+    <li>Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.</li>
+    <li>Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -574,109 +457,28 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Section- und Grid-Objekte sind Layout-Primitiven ohne eigene Semantik. Die A11y-Anforderungen entstehen durch die HTML-Element-Wahl und den enthaltenen Inhalt.
-          </p>
-
-          <!-- Semantik von section -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Semantisches HTML-Element w&auml;hlen</h4>
-              <ul>
-                <li><code class="docs__token">&lt;section&gt;</code> verwenden, wenn der Abschnitt eigenst&auml;ndig und benennbar ist &mdash; es braucht dann ein <code class="docs__token">aria-label</code> oder <code class="docs__token">aria-labelledby</code>, um zum Landmark zu werden</li>
-                <li><code class="docs__token">&lt;div&gt;</code> verwenden, wenn der Abschnitt keinen eigenst&auml;ndigen Inhalt hat und kein Landmark sein soll</li>
-                <li>Grid-Wrapper (<code class="docs__token">.nc-feature-grid</code> etc.) sollten <code class="docs__token">&lt;div&gt;</code> sein &mdash; sie sind reine Layout-Container</li>
-                <li>Die Klasse <code class="docs__token">.section</code> ist nicht an ein bestimmtes HTML-Element gebunden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- &Uuml;berschriften-Hierarchie -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h8M4 18h4"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>&Uuml;berschriften-Hierarchie (WCAG 1.3.1)</h4>
-              <ul>
-                <li>Jede Seite-Sektion sollte eine sichtbare oder via <code class="docs__token">aria-label</code> &uuml;bertragene &Uuml;berschrift besitzen</li>
-                <li>Die &Uuml;berschriften-Hierarchie innerhalb von Sektionen muss logisch sein: <code class="docs__token">h2</code> in Sections, <code class="docs__token">h3</code> in Grid-Kacheln</li>
-                <li>&Uuml;berschriften d&uuml;rfen nicht nur aus &auml;sthetischen Gr&uuml;nden ausgew&auml;hlt werden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Grid und Reihenfolge -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Grid-Reihenfolge</h4>
-              <ul>
-                <li>Die visuelle Reihenfolge der Grid-Kacheln muss der DOM-Reihenfolge entsprechen (WCAG 1.3.2)</li>
-                <li>CSS <code class="docs__token">order</code> oder <code class="docs__token">grid-column</code> zur Umsortierung vermeiden, wenn sie die logische Lesereihenfolge &auml;ndern</li>
-                <li>Screenreader folgen der DOM-Reihenfolge, nicht der visuellen CSS-Reihenfolge</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Viewport-Anpassung -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Responsive &amp; 400%-Zoom (WCAG 1.4.10 Reflow)</h4>
-              <ul>
-                <li>Alle Grid-Objekte sind auf Mobilger&auml;ten einspaltig &mdash; kein horizontales Scrollen bei 400% Zoom</li>
-                <li><code class="docs__token">.nc-metric-grid</code> mit auto-fit ist besonders robust bei unterschiedlichen Zoomleveln</li>
-                <li>Grid-Inhalte d&uuml;rfen keine fixen Breiten haben, die den Reflow-Anforderungen widersprechen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: section mit Landmark und &Uuml;berschrift --&gt;
-&lt;section class="section" aria-labelledby="features-heading"&gt;
-  &lt;div class="nc-container"&gt;
-    &lt;h2 id="features-heading"&gt;Unsere Funktionen&lt;/h2&gt;
-    &lt;div class="nc-feature-grid"&gt;
-      &lt;div&gt;
-        &lt;h3&gt;Sicherheit&lt;/h3&gt;
-        &lt;p&gt;Beschreibung&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;div&gt;
-        &lt;h3&gt;Performance&lt;/h3&gt;
-        &lt;p&gt;Beschreibung&lt;/p&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- RICHTIG: Metriken mit verst&auml;ndlichem Label --&gt;
-&lt;section class="section" aria-label="Unternehmenskennzahlen"&gt;
-  &lt;div class="nc-container"&gt;
-    &lt;div class="nc-metric-grid"&gt;
-      &lt;div&gt;
-        &lt;p aria-label="500 Kunden weltweit"&gt;
-          &lt;span aria-hidden="true"&gt;500+&lt;/span&gt; Kunden
-        &lt;/p&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- FALSCH: section ohne Landmark-Name --&gt;
-&lt;section class="section"&gt;
-  &lt;!-- kein aria-label, kein aria-labelledby, kein &lt;h2&gt; --&gt;
-  &lt;div class="nc-feature-grid"&gt;...&lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- FALSCH: Grid mit CSS order --&gt;
-&lt;div class="nc-benefit-grid"&gt;
-  &lt;div style="order: 3"&gt;Erscheint visuell an 3. Stelle, DOM an 1. Stelle&lt;/div&gt;
-  &lt;div style="order: 1"&gt;Erscheint visuell an 1. Stelle, DOM an 2. Stelle&lt;/div&gt;
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: AA</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

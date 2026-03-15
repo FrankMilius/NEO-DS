@@ -38,6 +38,23 @@
         <button class="context-reset" @click="store.clearArenaSelection()">Show All</button>
       </div>
 
+      <!-- Token Search -->
+      <div class="token-search-wrap">
+        <svg class="token-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          v-model="searchQuery"
+          type="search"
+          class="token-search-input"
+          placeholder="Token suchen (z.B. radius, color, font)…"
+          autocomplete="off"
+        />
+        <button v-if="searchQuery" class="token-search-clear" @click="searchQuery = ''" title="Suche löschen">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
       <!-- Token Content (dimmed when locked) -->
       <div :class="{ 'ce-locked': isLocked }">
 
@@ -83,7 +100,70 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════════════════════
-           SEKTION 2: APPEARANCE (Farb-Tokens) — Mirror-Layout Light/Dark
+           SEKTION 2: TYPOGRAPHY (Font-Tokens) — theme-invariant
+           ═══════════════════════════════════════════════════════════════ -->
+      <div v-if="typographySubgroups.length" class="inspector-section" :class="{ collapsed: !typographyOpen }">
+        <button class="inspector-section__header" @click="typographyOpen = !typographyOpen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>
+          </svg>
+          <span class="inspector-section__title">Typography</span>
+          <span class="inspector-section__count">{{ typographyTokenCount }}</span>
+          <span class="inspector-section__hint">Font, Size, Weight</span>
+          <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div v-if="typographyOpen" class="inspector-section__body">
+          <template v-for="sg in typographySubgroups" :key="sg.id">
+            <div class="ce-subgroup">
+              <div class="ce-subgroup-header" @click="toggleSubgroup('typo-' + sg.id)">
+                <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('typo-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+                <span class="ce-subgroup-label">{{ sg.label }}</span>
+                <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
+              </div>
+              <div v-if="expandedSubgroups.has('typo-' + sg.id)" class="ce-subgroup-body">
+                <template v-for="token in sg.tokens" :key="token.id">
+                  <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+                    <div class="token-left">
+                      <div class="token-typo-indicator">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+                      </div>
+                    </div>
+                    <div class="token-info">
+                      <span class="token-label">{{ token.label }}</span>
+                      <code class="token-name">--{{ token.id }}</code>
+                    </div>
+                    <div class="token-value-wrap">
+                      <code class="token-value">{{ getTokenValue(token) }}</code>
+                      <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                      <span v-else-if="token.ref" class="inherited-badge" :title="`--fnd-color-${token.ref}`">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        inherited
+                      </span>
+                    </div>
+                  </div>
+                  <transition name="slide">
+                    <div v-if="selectedId === token.id" class="inline-editor">
+                      <SizeEditor v-if="token.type === 'size'"
+                        :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
+                        :title="token.label" :tokenId="token.id" :max="200" />
+                      <div v-else class="generic-editor">
+                        <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                      </div>
+                      <SemanticTokenPicker v-if="token.ref || token.type === 'size'"
+                        :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
+                    </div>
+                  </transition>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           SEKTION 3: APPEARANCE (Farb-Tokens) — Mirror-Layout Light/Dark
            ═══════════════════════════════════════════════════════════════ -->
       <div v-if="appearanceSubgroups.length" class="inspector-section" :class="{ collapsed: !appearanceOpen }">
         <button class="inspector-section__header" @click="appearanceOpen = !appearanceOpen">
@@ -218,6 +298,10 @@
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
                       <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                      <span v-else-if="token.ref" class="inherited-badge" :title="`--fnd-color-${token.ref}`">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        inherited
+                      </span>
                     </div>
                   </div>
                   <transition name="slide">
@@ -302,6 +386,36 @@
         :recipe="recipe"
         :isLocked="isLocked"
       />
+
+      <!-- ─── Action Bar ──────────────────────────────────────────── -->
+      <div v-if="tokens.length" class="ce-action-bar">
+        <button
+          class="ce-action-btn ce-action-btn--reset"
+          :disabled="overrideCount === 0"
+          @click="resetAllTokens"
+          :title="overrideCount ? `${overrideCount} Override(s) zurücksetzen` : 'Keine Overrides'"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+          </svg>
+          <span>Reset All</span>
+          <span v-if="overrideCount" class="ce-action-badge">{{ overrideCount }}</span>
+        </button>
+        <button
+          :class="['ce-action-btn', 'ce-action-btn--export', { success: exportFeedback }]"
+          :disabled="overrideCount === 0"
+          @click="exportCSS"
+          title="Overrides als CSS-Custom-Properties in Zwischenablage kopieren"
+        >
+          <svg v-if="!exportFeedback" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+          </svg>
+          <svg v-else width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span>{{ exportFeedback ? 'Kopiert!' : 'Export CSS' }}</span>
+        </button>
+      </div>
     </section>
 
   </div>
@@ -330,9 +444,16 @@ const selectedId = computed(() => selectedToken.value?.id || null)
 // Section Collapse State
 // ---------------------------------------------------------------------------
 const anatomyOpen = ref(true)
+const typographyOpen = ref(false)
 const appearanceOpen = ref(true)
 const statesOpen = ref(false)
 const advancedOpen = ref(false)
+
+// ---------------------------------------------------------------------------
+// Token Search
+// ---------------------------------------------------------------------------
+const searchQuery = ref('')
+const exportFeedback = ref(false)
 
 // ---------------------------------------------------------------------------
 // Recipe Loader (lazy, cached)
@@ -457,11 +578,17 @@ function buildSwatches(sgTokens, category) {
 }
 
 // ---------------------------------------------------------------------------
-// Token Classification: Anatomy / Appearance / States / Advanced
+// Token Classification: Anatomy / Typography / Appearance / States / Advanced
 // ---------------------------------------------------------------------------
 
 // Geometrie-IDs: size, typography, interaction tokens
 const ANATOMY_IDS = new Set(['geometry', 'typography', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry'])
+
+// Typography: Tokens mit font-bezogenen Eigenschaften
+const TYPOGRAPHY_PATTERNS = ['font-size', 'font-weight', 'font-family', 'line-height', 'letter-spacing', 'font-variant']
+function isTypographyToken(token) {
+  return TYPOGRAPHY_PATTERNS.some(p => token.id.includes(p))
+}
 
 function isAnatomySubgroup(sg) {
   return ANATOMY_IDS.has(sg.id) || sg.category === 'core'
@@ -475,18 +602,47 @@ function isAppearanceSubgroup(sg) {
   return !isAnatomySubgroup(sg) && !isStateSubgroup(sg)
 }
 
-// Klassifizierte Subgroups (mit Arena-Filter)
+// Klassifizierte Subgroups (mit Arena-Filter + Token-Suche)
 const allFilteredSubgroups = computed(() => {
   if (!hasSubgroups.value) return subgroups.value
 
-  if (!arenaSelection.value || arenaSelection.value.componentId !== props.componentId) {
-    return subgroups.value
+  let groups = subgroups.value
+
+  // Arena-Filter
+  if (arenaSelection.value && arenaSelection.value.componentId === props.componentId) {
+    const activeGroups = new Set(arenaSelection.value.tokenGroups)
+    groups = groups.filter(sg => activeGroups.has(sg.id))
   }
-  const activeGroups = new Set(arenaSelection.value.tokenGroups)
-  return subgroups.value.filter(sg => activeGroups.has(sg.id))
+
+  // Token-Suche
+  if (searchQuery.value.trim()) {
+    const q = searchQuery.value.toLowerCase().trim()
+    groups = groups
+      .map(sg => ({
+        ...sg,
+        tokens: sg.tokens.filter(t =>
+          t.label.toLowerCase().includes(q) || t.id.toLowerCase().includes(q)
+        )
+      }))
+      .filter(sg => sg.tokens.length > 0)
+  }
+
+  return groups
 })
 
 const anatomySubgroups = computed(() => allFilteredSubgroups.value.filter(isAnatomySubgroup))
+
+// Typography: Font-bezogene Tokens aus Appearance-Subgroups extrahiert
+const typographySubgroups = computed(() => {
+  return allFilteredSubgroups.value
+    .filter(isAppearanceSubgroup)
+    .map(sg => ({
+      ...sg,
+      tokens: sg.tokens.filter(t => t.type !== 'color' && isTypographyToken(t))
+    }))
+    .filter(sg => sg.tokens.length > 0)
+})
+
 const appearanceSubgroups = computed(() => {
   // Nur Farb-Tokens in Appearance anzeigen
   return allFilteredSubgroups.value
@@ -499,19 +655,13 @@ const appearanceSubgroups = computed(() => {
 })
 const stateSubgroups = computed(() => allFilteredSubgroups.value.filter(isStateSubgroup))
 
-// Advanced: Tokens die in keine Subgroup fallen oder spezielle Typen
+// Advanced: Nicht-Farb, Nicht-Typography Tokens aus Appearance-Subgroups
 const advancedTokens = computed(() => {
   if (!hasSubgroups.value) return []
-  // Sammel-Tokens die weder Anatomie noch Appearance noch States sind
-  const classified = new Set()
-  for (const sg of allFilteredSubgroups.value) {
-    for (const t of sg.tokens) classified.add(t.id)
-  }
-  // Nicht-Farb-Tokens aus Appearance-Subgroups → Advanced
   const result = []
   for (const sg of allFilteredSubgroups.value.filter(isAppearanceSubgroup)) {
     for (const t of sg.tokens) {
-      if (t.type !== 'color') result.push(t)
+      if (t.type !== 'color' && !isTypographyToken(t)) result.push(t)
     }
   }
   return result
@@ -519,6 +669,7 @@ const advancedTokens = computed(() => {
 
 // Token-Counts
 const anatomyTokenCount = computed(() => anatomySubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
+const typographyTokenCount = computed(() => typographySubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
 const appearanceTokenCount = computed(() => appearanceSubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
 const stateTokenCount = computed(() => stateSubgroups.value.reduce((n, sg) => n + sg.tokens.length, 0))
 
@@ -636,6 +787,29 @@ const palettes = computed(() => {
   groups.push(...palettesToPicker(systemPalettes))
   return groups
 })
+
+// ---------------------------------------------------------------------------
+// Action Bar: Reset All + Export CSS
+// ---------------------------------------------------------------------------
+const overrideCount = computed(() => Object.keys(store.currentComponentOverrides.value).length)
+
+function resetAllTokens() {
+  tokens.value.forEach(token => store.resetComponentToken(token.id))
+}
+
+function exportCSS() {
+  const overrides = store.currentComponentOverrides.value
+  if (!Object.keys(overrides).length) return
+  const lines = [`:root {`]
+  for (const [id, value] of Object.entries(overrides)) {
+    lines.push(`  --${id}: ${value};`)
+  }
+  lines.push(`}`)
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    exportFeedback.value = true
+    setTimeout(() => { exportFeedback.value = false }, 2000)
+  })
+}
 
 // ---------------------------------------------------------------------------
 // WCAG Kontrast Auto-Detect
@@ -1303,4 +1477,176 @@ function getContrastTarget(token) {
 
 .slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }
 .slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(10px); }
+
+/* ═══════════════════════════════════════════════════════════════
+   Token Search
+   ═══════════════════════════════════════════════════════════════ */
+
+.token-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.token-search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--cfg-text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.token-search-input {
+  width: 100%;
+  height: 32px;
+  padding: 0 30px 0 30px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 8px;
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s;
+  /* Reset browser search appearance */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.token-search-input:focus {
+  border-color: var(--cfg-accent);
+  background: var(--fnd-color-background-base, #fff);
+}
+
+.token-search-input::placeholder {
+  color: var(--cfg-text-muted);
+  opacity: 0.6;
+}
+
+/* Remove browser's native clear button */
+.token-search-input::-webkit-search-cancel-button { display: none; }
+
+.token-search-clear {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--cfg-text-muted);
+  color: var(--fnd-color-background-base, #fff);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.token-search-clear:hover { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Typography Section
+   ═══════════════════════════════════════════════════════════════ */
+
+.token-typo-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #8b5cf6 12%, transparent);
+  color: #8b5cf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Inherited Badge (Smart-Link Indicator)
+   ═══════════════════════════════════════════════════════════════ */
+
+.inherited-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, #3b82f6 10%, transparent);
+  color: #3b82f6;
+  border: 1px solid color-mix(in srgb, #3b82f6 20%, transparent);
+  cursor: help;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Action Bar
+   ═══════════════════════════════════════════════════════════════ */
+
+.ce-action-bar {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--cfg-border);
+  margin-top: 4px;
+}
+
+.ce-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--cfg-border);
+  background: transparent;
+  color: var(--cfg-text-muted);
+}
+
+.ce-action-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ce-action-btn:not(:disabled):hover {
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+  border-color: color-mix(in srgb, var(--cfg-text) 30%, transparent);
+}
+
+.ce-action-btn--reset:not(:disabled):hover {
+  color: #d97706;
+  border-color: #fbbf24;
+  background: color-mix(in srgb, #fbbf24 10%, transparent);
+}
+
+.ce-action-btn--export:not(:disabled):hover {
+  color: #2563eb;
+  border-color: #93c5fd;
+  background: color-mix(in srgb, #3b82f6 10%, transparent);
+}
+
+.ce-action-btn--export.success {
+  color: #16a34a;
+  border-color: #86efac;
+  background: color-mix(in srgb, #22c55e 10%, transparent);
+}
+
+.ce-action-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  background: #fbbf24;
+  color: #78350f;
+}
 </style>

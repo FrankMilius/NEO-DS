@@ -7062,7 +7062,7 @@
             "id": "nc-dialog-radius",
             "label": "Radius",
             "type": "size",
-            "default": "var(--fnd-radius-3xl)"
+            "default": "var(--fnd-radius-4xl)"
           },
           {
             "id": "nc-dialog-bg",
@@ -9472,7 +9472,8 @@
         "lg": "8px",
         "xl": "10px",
         "2xl": "12px",
-        "3xl": "16px",
+        "3xl": "14px",
+        "4xl": "16px",
         "full": "9999px"
       }
     },
@@ -9623,6 +9624,43 @@
         "450": "0.45s",
         "600": "0.6s",
         "1000": "1s"
+      },
+      "effects": {
+        "hover-lift": {
+          "transform": "translateY(-8px)",
+          "transition": "transform 0.3s ease",
+          "intent": "state-change"
+        },
+        "fade-in": {
+          "animation": "fadeIn 1s ease-in forwards",
+          "intent": "entrance"
+        },
+        "slide-in": {
+          "transform": "translateX(-100%)",
+          "transition": "transform 0.3s ease-out",
+          "intent": "spatial"
+        },
+        "pulse": {
+          "animation": "pulse 2s ease-in-out infinite",
+          "intent": "attention"
+        },
+        "spin": {
+          "animation": "spin 1s linear infinite",
+          "intent": "attention"
+        },
+        "shake": {
+          "animation": "shake 0.4s ease-in-out",
+          "intent": "feedback"
+        },
+        "scale-press": {
+          "transform": "scale(0.95)",
+          "transition": "transform 0.15s ease-in-out",
+          "intent": "state-change"
+        },
+        "parallax": {
+          "factor": "0.5",
+          "intent": "spatial"
+        }
       }
     },
     "icons": {
@@ -9687,6 +9725,10 @@
           },
           "3xl": {
             "label": "3XL",
+            "value": "14px"
+          },
+          "4xl": {
+            "label": "4XL",
             "value": "16px"
           },
           "full": {
@@ -9990,6 +10032,16 @@
           "style-dotted": {
             "label": "Dotted",
             "value": "dotted",
+            "type": "style"
+          },
+          "style-double": {
+            "label": "Double",
+            "value": "double",
+            "type": "style"
+          },
+          "style-none": {
+            "label": "None (Hidden)",
+            "value": "none",
             "type": "style"
           }
         }

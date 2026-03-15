@@ -3,21 +3,33 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "segmented-control",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["interactive", "navigation", "selection"],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/segmented-control-docs"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "A: Sliding Indicator — optionaler __indicator Slot fuer animierten aktiven Hintergrund (CSS transform, cubic-bezier)",
+          "B: Badge-Support — optionaler __badge Slot pro Item (z.B. 'Inbox (5)'). Neue Tokens: nc-segmented-item-badge-bg, nc-segmented-item-badge-color, nc-segmented-item-badge-bg-selected, nc-segmented-item-badge-color-selected, nc-segmented-item-badge-radius, nc-segmented-item-badge-padding, nc-segmented-item-badge-font-size",
+          "C: Responsive Overflow — --scrollable Modifier fuer horizontalen Scroll. Constraint: >5 Segmente → Select-Dropdown empfohlen"
+        ]
+      }
+    ]
   },
 
   "anatomy": {
     "root": { "element": ".nc-segmented-control" },
     "slots": [
-      { "name": "item", "element": ".nc-segmented-control__item", "optional": false },
-      { "name": "icon", "element": ".nc-segmented-control__icon", "optional": true }
+      { "name": "item",      "element": ".nc-segmented-control__item",      "optional": false },
+      { "name": "icon",      "element": ".nc-segmented-control__icon",      "optional": true },
+      { "name": "badge",     "element": ".nc-segmented-control__badge",     "optional": true },
+      { "name": "indicator", "element": ".nc-segmented-control__indicator", "optional": true }
     ],
     "convenience": [],
     "domNotes": [
@@ -28,7 +40,10 @@
       "Groessen-Modifier am Container (--sm, --lg) propagieren zu allen Items.",
       "Selected State: erhoeht (box-shadow via elevation-base) auf hellem BG innerhalb des Tracks.",
       "--full-width: alle Segments gleichmaessig breit (flex: 1 1 0%).",
-      "Icon-only Segments brauchen aria-label fuer Accessibility."
+      "Icon-only Segments brauchen aria-label fuer Accessibility.",
+      "Badge-Slot: <span class='nc-segmented-control__badge'>5</span> im Item. Farbe wechselt automatisch bei Selected-State.",
+      "Sliding Indicator (optional, empfohlen fuer High-End UIs): Ein <div class='nc-segmented-control__indicator'> als erstes Kind im Container. JS setzt --_indicator-left und --_indicator-width bei Selection-Wechsel. Der Indikator gleitet per CSS transition (cubic-bezier) zum aktiven Segment. Wenn vorhanden: Items verlieren eigenen Selected-BG (transparent) — der Indikator uebernimmt die visuelle Markierung.",
+      "--scrollable: Horizontaler Scroll bei Platzmangel (scrollbar hidden). Items behalten flex-shrink:0. Empfehlung: Bei >5 Segmenten oder Container-Overflow → in ein Select-Dropdown umwandeln (JS/Framework-Logik)."
     ]
   },
 
@@ -45,20 +60,31 @@
 
     "width": {
       "label": "Width",
-      "description": "Layout-Verhalten — auto (Segmente nach Inhalt, Standard), full-width (gleichmaessig verteilt)",
+      "description": "Layout-Verhalten — auto (Segmente nach Inhalt, Standard), full-width (gleichmaessig verteilt), scrollable (horizontal scrollbar bei Overflow)",
       "values": {
-        "auto":       { "modifier": null,                              "tokenGroups": [], "renderHint": "segmented-auto" },
-        "full-width": { "modifier": "nc-segmented-control--full-width", "tokenGroups": [], "renderHint": "segmented-full" }
+        "auto":       { "modifier": null,                                    "tokenGroups": [], "renderHint": "segmented-auto" },
+        "full-width": { "modifier": "nc-segmented-control--full-width",      "tokenGroups": [], "renderHint": "segmented-full" },
+        "scrollable": { "modifier": "nc-segmented-control--scrollable",      "tokenGroups": [], "renderHint": "segmented-scrollable" }
       }
     },
 
     "content": {
       "label": "Content",
-      "description": "Inhalt der Segments — text (nur Text, Standard), icon-text (Icon + Text), icon-only (nur Icon, aria-label noetig)",
+      "description": "Inhalt der Segments — text (nur Text, Standard), icon-text (Icon + Text), icon-only (nur Icon, aria-label noetig), text-badge (Text + Badge-Counter)",
       "values": {
-        "text":      { "modifier": null, "tokenGroups": [],                     "renderHint": "segmented-text" },
-        "icon-text": { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-text" },
-        "icon-only": { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-only" }
+        "text":       { "modifier": null, "tokenGroups": [],                     "renderHint": "segmented-text" },
+        "icon-text":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-text" },
+        "icon-only":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-only" },
+        "text-badge": { "modifier": null, "tokenGroups": ["item-badge"], "slotConfig": { "badge": true }, "renderHint": "segmented-text-badge" }
+      }
+    },
+
+    "indicator": {
+      "label": "Indicator",
+      "description": "Visuelles Feedback fuer den Selected-State — static (Background-Toggle pro Item, Standard), sliding (animierter Hintergrund-Layer)",
+      "values": {
+        "static":  { "modifier": null, "tokenGroups": [] },
+        "sliding": { "modifier": null, "tokenGroups": ["indicator"], "slotConfig": { "indicator": true }, "note": "JS muss --_indicator-left und --_indicator-width setzen." }
       }
     }
   },
@@ -91,6 +117,11 @@
         "when": { "states": ["disabled"] },
         "suggest": ["aria-disabled"],
         "note": "aria-disabled='true' bevorzugt. Einzelne Items oder der gesamte Container koennen disabled sein."
+      },
+      {
+        "when": { "slots": ["badge"] },
+        "suggest": ["aria-label-with-count"],
+        "note": "Badge-Wert sollte im aria-label des Items enthalten sein, z.B. 'Inbox, 5 neue Nachrichten'."
       }
     ]
   },
@@ -99,7 +130,10 @@
     "rules": [
       { "when": {}, "require": ["role-radiogroup", "accessible-name"], "notes": ["Container braucht role='radiogroup' und aria-label."] },
       { "when": {}, "require": ["role-radio", "aria-checked"], "notes": ["Jedes Item braucht role='radio' und aria-checked='true'/'false'."] },
-      { "when": { "axes": { "content": ["icon-only"] } }, "require": ["aria-label"], "notes": ["Icon-only Items brauchen aria-label."] }
+      { "when": { "axes": { "content": ["icon-only"] } }, "require": ["aria-label"], "notes": ["Icon-only Items brauchen aria-label."] },
+      { "when": { "axes": { "content": ["text-badge"] } }, "severity": "warn", "notes": ["Badge-Wert im aria-label des Items kommunizieren (z.B. 'Inbox, 5 ungelesene')."] },
+      { "when": {}, "severity": "warn", "maxSegments": 5, "notes": ["Bei mehr als 5 Segmenten: Overflow-Risiko. Empfehlung: In ein Select-Dropdown umwandeln oder --scrollable Modifier verwenden."] },
+      { "when": { "axes": { "indicator": ["sliding"] } }, "require": ["js-indicator-update"], "notes": ["Sliding Indicator braucht JS: bei Selection-Wechsel --_indicator-left und --_indicator-width auf dem Container aktualisieren."] }
     ],
     "copy": {
       "label": {
@@ -153,6 +187,24 @@
           "nc-segmented-item-disabled-opacity"
         ]
       },
+      "item-badge": {
+        "label": "Badge",
+        "tokens": [
+          "nc-segmented-item-badge-bg",
+          "nc-segmented-item-badge-color",
+          "nc-segmented-item-badge-bg-selected",
+          "nc-segmented-item-badge-color-selected",
+          "nc-segmented-item-badge-radius",
+          "nc-segmented-item-badge-padding",
+          "nc-segmented-item-badge-font-size"
+        ]
+      },
+      "indicator": {
+        "label": "Sliding Indicator",
+        "tokens": [
+          "nc-segmented-indicator-transition"
+        ]
+      },
       "animation": {
         "label": "Animation",
         "tokens": [
@@ -173,7 +225,8 @@
         "styling.baseClasses",
         "axes.size.values.*.modifier",
         "axes.width.values.*.modifier",
-        "axes.content.values.*.modifier"
+        "axes.content.values.*.modifier",
+        "axes.indicator.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -188,7 +241,7 @@
       "label": "All States — MD",
       "description": "Segmented Control mit Items in allen Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"] },
+        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
         "states": ["default", "hover", "selected", "disabled", "focus"]
       },
       "layout": "row",
@@ -203,7 +256,7 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "width": ["auto"], "content": ["text"] },
+        "axes": { "size": "*", "width": ["auto"], "content": ["text"], "indicator": ["static"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["track-geometry"],
@@ -218,16 +271,32 @@
     {
       "id": "content-types",
       "label": "Content Types",
-      "description": "Text-only vs Icon+Text vs Icon-only",
+      "description": "Text-only vs Icon+Text vs Icon-only vs Text+Badge",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": "*" },
+        "axes": { "size": ["md"], "width": ["auto"], "content": "*", "indicator": ["static"] },
         "states": ["default"]
       },
       "layout": "row",
       "render": { "label": "{content}" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Icon-only Segments brauchen aria-label. Icons muessen 3:1 Non-Text-Kontrast einhalten."
+        "note": "Icon-only Segments brauchen aria-label. Badge-Wert im aria-label kommunizieren. Icons muessen 3:1 Non-Text-Kontrast einhalten."
+      }
+    },
+    {
+      "id": "with-badge",
+      "label": "With Badge Counter",
+      "description": "Segmented Control mit Badge-Countern — Farbe wechselt bei Selected-State",
+      "matrix": {
+        "axes": { "size": ["md"], "width": ["auto"], "content": ["text-badge"], "indicator": ["static"] },
+        "states": ["default", "selected"]
+      },
+      "focusTokenGroups": ["item-badge"],
+      "layout": "row",
+      "render": { "compositionType": "segmented-with-badge", "label": "badge" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Badge-Wert muss im aria-label des Items enthalten sein (z.B. 'Inbox, 5 ungelesene')."
       }
     },
     {
@@ -235,7 +304,7 @@
       "label": "Auto vs Full Width",
       "description": "Auto-Width (Inhalt bestimmt Breite) vs Full-Width (gleichmaessig verteilt)",
       "matrix": {
-        "axes": { "size": ["md"], "width": "*", "content": ["text"] },
+        "axes": { "size": ["md"], "width": ["auto", "full-width"], "content": ["text"], "indicator": ["static"] },
         "states": ["default"]
       },
       "layout": "grid",
@@ -247,11 +316,42 @@
       }
     },
     {
+      "id": "sliding-indicator",
+      "label": "Sliding Indicator",
+      "description": "Animierter aktiver Hintergrund — gleitet per CSS transition zum aktiven Segment",
+      "matrix": {
+        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["sliding"] },
+        "states": ["default", "selected"]
+      },
+      "focusTokenGroups": ["indicator", "item-selected"],
+      "layout": "row",
+      "render": { "compositionType": "segmented-sliding", "label": "sliding" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Sliding Indicator ist rein visuell — A11y identisch mit Static. prefers-reduced-motion: transition deaktiviert."
+      }
+    },
+    {
+      "id": "scrollable-overflow",
+      "label": "Scrollable Overflow",
+      "description": "Horizontaler Scroll bei vielen Segmenten",
+      "matrix": {
+        "axes": { "size": ["md"], "width": ["scrollable"], "content": ["text"], "indicator": ["static"] },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "compositionType": "segmented-scrollable", "label": "scrollable" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Scrollbare Container: Keyboard-Navigation per Arrow Keys muss weiterhin funktionieren. Scrollbar ist versteckt."
+      }
+    },
+    {
       "id": "selected-transition",
       "label": "Selected State Detail",
       "description": "Detail-Ansicht des Selected-State mit Shadow und Transition",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"] },
+        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
         "states": ["default", "selected"]
       },
       "focusTokenGroups": ["item-selected", "animation"],
@@ -267,7 +367,7 @@
       "label": "Disabled States",
       "description": "Einzelne disabled Items und komplett disabled Control",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"] },
+        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
         "states": ["default", "disabled"]
       },
       "focusTokenGroups": ["item-disabled"],

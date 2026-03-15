@@ -1,5 +1,5 @@
 // ==========================================================================
-// 05-Atoms: Badge
+// 05-Atoms: Badge v2.2.0
 // ==========================================================================
 // Nicht-interaktiver Status-Indikator / Zaehler / Label.
 // Verwendet static-surface-base (kein Focus, kein Hover, kein Disabled).
@@ -15,6 +15,12 @@
 // VARIANTEN (7 Tones + 3 Emphases):
 //   Tones: default, secondary, success, warning, error, info
 //   Emphases: solid (default), outline, soft
+//
+// SPEZIAL-MODI:
+//   --dot: Minimaler Status-Punkt (8px)
+//   --dot --pulse: Pulsierende Animation fuer kritische Status
+//   --status-string: Reiner Text ohne Hintergrund (fuer Tabellen)
+//   --decorator: Absolute Positionierung auf Parent-Element
 //
 // KLASSEN:
 //   .nc-badge (kanonisch, BEM)
@@ -100,11 +106,11 @@
 // Emphasis
 // ---------------------------------------------------------------------------
 
-/// Soft Emphasis — reduziert die Hintergrund-Deckkraft des aktiven Tons
-/// auf 40 %. Funktioniert kombiniert mit jeder Tone-Variante:
+/// Soft Emphasis — reduziert die Hintergrund-Deckkraft des aktiven Tons.
+/// Funktioniert kombiniert mit jeder Tone-Variante:
 ///   .nc-badge.nc-badge--success.nc-badge--soft
 @mixin badge-emphasis-soft {
-  background-color: color-mix(in srgb, var(--_surface-bg) 40%, transparent);
+  background-color: color-mix(in srgb, var(--_surface-bg) var(--nc-badge-soft-opacity), transparent);
   --_surface-border-color: transparent;
 }
 
@@ -131,6 +137,11 @@
   }
 }
 
+// ---------------------------------------------------------------------------
+// Spezial-Modi
+// ---------------------------------------------------------------------------
+
+/// Dot-Modus: Minimaler Status-Punkt ohne Text.
 @mixin badge-dot {
   width: var(--nc-badge-dot-size);
   height: var(--nc-badge-dot-size);
@@ -139,6 +150,55 @@
   font-size: 0;
   line-height: 0;
   border-radius: var(--nc-badge-dot-radius);
+}
+
+/// Pulse-Animation: Dezentes Pulsieren fuer kritische Status (Error-Dot).
+@mixin badge-pulse {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: badge-pulse var(--nc-badge-pulse-duration) ease-out infinite;
+  }
+}
+
+/// Decorator-Modus: Absolute Positionierung auf Parent-Element.
+/// Parent braucht position: relative.
+@mixin badge-decorator {
+  position: absolute;
+  top: var(--nc-badge-top-offset);
+  right: var(--nc-badge-right-offset);
+  // Ring: Hintergrund-Ring fuer Abgrenzung zum Parent
+  box-shadow: 0 0 0 var(--nc-badge-ring-width) var(--nc-badge-ring-color);
+}
+
+/// Status-String: Reiner Text ohne Hintergrund — fuer Tabellen / dichte UIs.
+@mixin badge-status-string {
+  background: none;
+  border: none;
+  padding: 0;
+  min-height: auto;
+  font-weight: var(--nc-badge-status-font-weight);
+  // Farbe kommt vom aktiven Tone (--_surface-color bleibt erhalten)
+}
+
+// ---------------------------------------------------------------------------
+// Keyframe
+// ---------------------------------------------------------------------------
+
+@keyframes badge-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(var(--nc-badge-pulse-scale));
+    opacity: var(--nc-badge-pulse-opacity);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -170,10 +230,13 @@
   &--outline   { @include badge-variant-outline; }
   &--soft      { @include badge-emphasis-soft; }
 
+  // Spezial-Modi
+  &--dot           { @include badge-dot; }
+  &--dot#{&}--pulse { @include badge-pulse; }
+  &--decorator     { @include badge-decorator; }
+  &--status-string { @include badge-status-string; }
+
   // Deprecated Aliases
   &--destructive,
   &--danger { @include badge-variant-error; }
-
-  // Dot-Modus
-  &--dot { @include badge-dot; }
 }

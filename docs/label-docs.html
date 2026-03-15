@@ -235,88 +235,170 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-geometry">
-            <h2 class="docs__section-title">Geometrie &amp; Typografie</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>Display</td><td><code class="docs__token">inline-flex</code></td><td>Inline-Block mit Flex-Alignment</td></tr>
-                <tr><td>Padding</td><td><code class="docs__token">var(--fnd-spacing-01) var(--fnd-spacing-03)</code></td><td>4px vertikal / 12px horizontal</td></tr>
-                <tr><td>Border-Radius</td><td><code class="docs__token">var(--fnd-radius-sm)</code></td><td>Leicht abgerundete Ecken</td></tr>
-                <tr><td>White-Space</td><td><code class="docs__token">nowrap</code></td><td>Kein Zeilenumbruch</td></tr>
-                <tr><td>Font-Size</td><td><code class="docs__token">paragraph('s')</code> Mixin</td><td>Kleiner Paragraphen-Stil</td></tr>
-                <tr><td>Container-H&ouml;he</td><td>40px</td><td>Nur in <code class="docs__token">.labels-container</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-colors">
-            <h2 class="docs__section-title">Farb-Tokens je Variante</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Variante</th><th>Background</th><th>Color</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><strong>Default</strong></td>
-                  <td><code class="docs__token">--fnd-color-background-secondary</code></td>
-                  <td><code class="docs__token">--fnd-color-text-mid</code></td>
-                </tr>
-                <tr>
-                  <td><strong>Accent</strong></td>
-                  <td><code class="docs__token">--fnd-color-background-accent-green</code></td>
-                  <td><code class="docs__token">--fnd-color-always-dark</code></td>
-                </tr>
-                <tr>
-                  <td><strong>Inverse</strong></td>
-                  <td><code class="docs__token">--fnd-color-background-inverse</code></td>
-                  <td><code class="docs__token">--fnd-color-text-inverse</code></td>
-                </tr>
-                <tr>
-                  <td><strong>Success</strong></td>
-                  <td><code class="docs__token">--fnd-color-semantic-background-success</code></td>
-                  <td><code class="docs__token">--fnd-color-semantic-text-success</code></td>
-                </tr>
-                <tr>
-                  <td><strong>Danger</strong></td>
-                  <td><code class="docs__token">--fnd-color-semantic-background-danger</code></td>
-                  <td><code class="docs__token">--fnd-color-semantic-text-danger</code></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-container">
-            <h2 class="docs__section-title">Labels Container</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert / Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td>Display</td><td><code class="docs__token">flex</code></td><td>Horizontale Anordnung</td></tr>
-                <tr><td>Flex-Wrap</td><td><code class="docs__token">wrap</code></td><td>Umbruch bei Platzmangel</td></tr>
-                <tr><td>Gap</td><td><code class="docs__token">var(--fnd-spacing-02)</code></td><td>8px Abstand zwischen Labels</td></tr>
-                <tr><td>List-Style</td><td><code class="docs__token">none</code></td><td>F&uuml;r semantisches <code class="docs__token">&lt;ul&gt;</code>-Element</td></tr>
-                <tr><td>Label-H&ouml;he</td><td>40px</td><td>Einheitliche H&ouml;he innerhalb des Containers</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">CSS-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== Klassen (keine BEM-Namespaces) =====
-
-.label                         // Block (Default-Variante)
-.label--accent                 // Accent-Gr&uuml;n mit Always-Dark-Text
-.label--inverse                // Invertierter Hintergrund/Text
-.label--success                // Semantisches Gr&uuml;n (Erfolg)
-.label--danger                 // Semantisches Rot (Gefahr/Fehler)
-
-// Container
-.labels-container              // Flex-Liste f&uuml;r mehrere Labels (40px H&ouml;he)</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry (SM Default)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-height-sm</code></td><td>24px</td><td>Standard</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-radius</code></td><td>var(--fnd-radius-xs)</td><td>rounded (Standard)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size</code></td><td>11px</td><td>var(--fs-2xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-gap</code></td><td>4px (Icon-Text)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-letter-spacing</code></td><td>0.01em</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-icon-size</code></td><td>12px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Default)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-default-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry (XS)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-height-xs</code></td><td>20px</td><td>Fuer dichte Listen/Tabellen</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x-xs</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size-xs</code></td><td>10px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry (MD)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-height-md</code></td><td>28px</td><td>Fuer Header/Hero-Bereiche</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x-md</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size-md</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shape (Pill)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-radius-pill</code></td><td>var(--fnd-radius-full)</td><td>pill (9999px)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Accent)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-accent-bg</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Success)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-success-bg</code></td><td>var(--fnd-color-background-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-color</code></td><td>var(--fnd-color-text-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target))</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Warning)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-warning-bg</code></td><td>var(--fnd-color-background-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-color</code></td><td>var(--fnd-color-text-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target))</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Danger)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-danger-bg</code></td><td>var(--fnd-color-background-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-color</code></td><td>var(--fnd-color-text-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target))</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors (Info)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-info-bg</code></td><td>var(--fnd-color-background-info)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-color</code></td><td>var(--fnd-color-text-info)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target))</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Solid Emphasis</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-solid-default-bg</code></td><td>var(--fnd-color-background-inverse)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-solid-default-color</code></td><td>var(--fnd-color-text-inverse)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Outline Emphasis</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-outline-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Interactive</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-remove-size</code></td><td>14px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-remove-hover-bg</code></td><td>color-mix(in srgb, currentColor 15%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-label-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container (Gruppen-Layout)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-label-container-gap</code></td><td>8px (Label-zu-Label)</td><td>var(--fnd-spacing-02)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -325,102 +407,180 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.label</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--fnd-color-*</code> (direkte Foundation-Tokens)</td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_label.scss</code></td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine &mdash; nicht fokussierbar, nicht klickbar</td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;span&gt;</code></td></tr>
-                <tr><td><strong>Container-Element</strong></td><td><code class="docs__token">&lt;ul&gt;</code> mit <code class="docs__token">&lt;li&gt;</code>-Kindknoten</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Varianten</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.label</code></td><td>Block</td><td>Label-Container. Standardm&auml;&szlig;ig neutrale Hintergrundfarbe, kleiner Paragraphen-Stil.</td></tr>
-                <tr><td><code class="docs__token">.label--accent</code></td><td>Variante</td><td>Akzentfarbe Gr&uuml;n mit Always-Dark-Text. F&uuml;r Hervorhebungen.</td></tr>
-                <tr><td><code class="docs__token">.label--inverse</code></td><td>Variante</td><td>Invertierter Hintergrund/Text. Kontrast-betont auf hellen Fl&auml;chen.</td></tr>
-                <tr><td><code class="docs__token">.label--success</code></td><td>Variante</td><td>Semantisches Gr&uuml;n f&uuml;r positive Zust&auml;nde.</td></tr>
-                <tr><td><code class="docs__token">.label--danger</code></td><td>Variante</td><td>Semantisches Rot f&uuml;r Fehler- oder Gefahrenzust&auml;nde.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.labels-container</code></td><td>Flex-Liste f&uuml;r mehrere Labels. Labels erhalten feste H&ouml;he von 40px.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. CSS Custom Properties -->
-          <section class="docs__section" id="api-tokens">
-            <h2 class="docs__section-title">Verwendete Foundation-Tokens</h2>
-            <p class="docs__section-desc">
-              Das Label verwendet direkt Foundation-Tokens ohne eigene Komponenten-Token-Schicht.
-            </p>
-            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Verwendung</th></tr></thead>
-              <tbody>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometrie</td></tr>
-                <tr><td><code class="docs__token">--fnd-spacing-01</code></td><td>Vertikales Padding</td></tr>
-                <tr><td><code class="docs__token">--fnd-spacing-03</code></td><td>Horizontales Padding</td></tr>
-                <tr><td><code class="docs__token">--fnd-spacing-02</code></td><td>Container-Gap</td></tr>
-                <tr><td><code class="docs__token">--fnd-radius-sm</code></td><td>Border-Radius</td></tr>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Default-Variante</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-background-secondary</code></td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-text-mid</code></td><td>Textfarbe</td></tr>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Accent-Variante</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-background-accent-green</code></td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-always-dark</code></td><td>Textfarbe (theme-unabh&auml;ngig dunkel)</td></tr>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Inverse-Variante</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-background-inverse</code></td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-text-inverse</code></td><td>Textfarbe</td></tr>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success-Variante</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-semantic-background-success</code></td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-semantic-text-success</code></td><td>Textfarbe</td></tr>
-                <tr><td colspan="2" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Danger-Variante</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-semantic-background-danger</code></td><td>Hintergrundfarbe</td></tr>
-                <tr><td><code class="docs__token">--fnd-color-semantic-text-danger</code></td><td>Textfarbe</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Element-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Einzelnes Label --&gt;
-&lt;span class="label [label--variant]"&gt;
-  Labeltext
-&lt;/span&gt;
-
-&lt;!-- Labels als Liste --&gt;
-&lt;ul class="labels-container"&gt;
-  &lt;li&gt;&lt;span class="label"&gt;Kategorie&lt;/span&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;span class="label label--accent"&gt;Neu&lt;/span&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;span class="label label--success"&gt;Aktiv&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-label</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-label</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-label-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-label</code></td><td>Block</td><td>label-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-label__icon</code></td><td>Element</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-label__text</code></td><td>Element</td><td>text</td></tr>
+      <tr><td><code class="docs__token">.nc-label__remove</code></td><td>Element</td><td>remove</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+      <tr><td><code class="docs__token">.nc-label--accent</code></td><td>accent</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+      <tr><td><code class="docs__token">.nc-label--success</code></td><td>success</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+      <tr><td><code class="docs__token">.nc-label--warning</code></td><td>warning</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+      <tr><td><code class="docs__token">.nc-label--danger</code></td><td>danger</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+      <tr><td><code class="docs__token">.nc-label--info</code></td><td>info</td><td>Farbvariante — default, accent, success, warning, danger, info</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Emphasis-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>subtle</td><td>Visuelle Gewichtung — subtle (Pastell, Standard), solid (kraeftig), outline (nur Rahmen)</td></tr>
+      <tr><td><code class="docs__token">.nc-label--solid</code></td><td>solid</td><td>Visuelle Gewichtung — subtle (Pastell, Standard), solid (kraeftig), outline (nur Rahmen)</td></tr>
+      <tr><td><code class="docs__token">.nc-label--outline</code></td><td>outline</td><td>Visuelle Gewichtung — subtle (Pastell, Standard), solid (kraeftig), outline (nur Rahmen)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-label--xs</code></td><td>xs</td><td>Groesse — xs (dichte Listen), sm (Standard), md (Header/Hero)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>sm</td><td>Groesse — xs (dichte Listen), sm (Standard), md (Header/Hero)</td></tr>
+      <tr><td><code class="docs__token">.nc-label--md</code></td><td>md</td><td>Groesse — xs (dichte Listen), sm (Standard), md (Header/Hero)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shape-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>rounded</td><td>Form — rounded (System-Radius, Standard), pill (vollstaendig abgerundet)</td></tr>
+      <tr><td><code class="docs__token">.nc-label--pill</code></td><td>pill</td><td>Form — rounded (System-Radius, Standard), pill (vollstaendig abgerundet)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Interactive-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>false</td><td>Interaktivitaet — false (Standard, rein dekorativ), true (Hover + Remove-Button)</td></tr>
+      <tr><td><code class="docs__token">.nc-label--interactive</code></td><td>true</td><td>Interaktivitaet — false (Standard, rein dekorativ), true (Hover + Remove-Button)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry (SM Default)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-height-sm</code></td><td>24px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-radius</code></td><td>var(--fnd-radius-xs)</td><td>var(--fnd-radius-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size</code></td><td>11px</td><td>var(--fs-2xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-gap</code></td><td>4px (Icon-Text)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-letter-spacing</code></td><td>0.01em</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-icon-size</code></td><td>12px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry (XS)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-height-xs</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x-xs</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size-xs</code></td><td>10px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry (MD)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-height-md</code></td><td>28px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-padding-x-md</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-font-size-md</code></td><td>12px</td><td>var(--fs-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Shape (Pill)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-radius-pill</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Default)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-default-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Accent)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-bg</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-accent-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Success)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-bg</code></td><td>var(--fnd-color-background-success)</td><td>var(--fnd-color-background-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-color</code></td><td>var(--fnd-color-text-success)</td><td>var(--fnd-color-text-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-success-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target))</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-bg</code></td><td>var(--fnd-color-background-warning)</td><td>var(--fnd-color-background-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-color</code></td><td>var(--fnd-color-text-warning)</td><td>var(--fnd-color-text-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-warning-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target))</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-bg</code></td><td>var(--fnd-color-background-danger)</td><td>var(--fnd-color-background-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-color</code></td><td>var(--fnd-color-text-danger)</td><td>var(--fnd-color-text-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-danger-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target))</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors (Info)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-bg</code></td><td>var(--fnd-color-background-info)</td><td>var(--fnd-color-background-info)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-color</code></td><td>var(--fnd-color-text-info)</td><td>var(--fnd-color-text-info)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-border</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-info-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target))</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Solid Emphasis</td></tr>
+      <tr><td><code class="docs__token">--nc-label-solid-default-bg</code></td><td>var(--fnd-color-background-inverse)</td><td>var(--fnd-color-background-inverse)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-solid-default-color</code></td><td>var(--fnd-color-text-inverse)</td><td>var(--fnd-color-text-inverse)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Outline Emphasis</td></tr>
+      <tr><td><code class="docs__token">--nc-label-outline-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Interactive</td></tr>
+      <tr><td><code class="docs__token">--nc-label-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-remove-size</code></td><td>14px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-remove-hover-bg</code></td><td>color-mix(in srgb, currentColor 15%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-label-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>var(--fnd-opacity-disabled)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container (Gruppen-Layout)</td></tr>
+      <tr><td><code class="docs__token">--nc-label-container-gap</code></td><td>8px (Label-zu-Label)</td><td>var(--fnd-spacing-02)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Inline-flex Element mit static-surface-base Mixin.</li>
+    <li>Visuell immer leiser als Buttons — subtile Pastelltoene bevorzugen.</li>
+    <li>Emphasis subtle (Standard): Pastellton-BG + dunkler Text gleicher Farbfamilie.</li>
+    <li>Emphasis solid: Kraeftiger BG + heller Text — nur fuer hohe Prioritaet.</li>
+    <li>Emphasis outline: Nur Rahmen, kein BG — fuer sekundaere Metadaten.</li>
+    <li>Shape pill: Vollstaendig abgerundete Seiten — klar abgegrenzt von Buttons.</li>
+    <li>Container: .nc-labels-container (flex-wrap, gap) fuer Gruppen-Layout.</li>
+    <li>Icons beschleunigen Scanbarkeit: Check-Icon bei success, Warn-Dreieck bei danger.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -429,85 +589,38 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Label-Komponenten sind nicht-interaktive Beschriftungen und m&uuml;ssen die WCAG 2.1 AA-Kriterien erf&uuml;llen.
-          </p>
-
-          <!-- Nicht fokussierbar -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Nicht fokussierbar</h4>
-              <ul>
-                <li>Labels d&uuml;rfen <strong>niemals</strong> fokussierbar sein &mdash; kein <code class="docs__token">tabindex</code>, kein <code class="docs__token">&lt;button&gt;</code>, kein <code class="docs__token">&lt;a&gt;</code></li>
-                <li>Das Label-Element ist ein <code class="docs__token">&lt;span&gt;</code> &mdash; rein pr&auml;sentational</li>
-                <li>F&uuml;r klickbare Kategorien stattdessen einen <code class="docs__token">&lt;button&gt;</code> oder <code class="docs__token">&lt;a&gt;</code> mit entsprechendem Styling verwenden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Farbe nie alleiniges Signal -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Farbe nie als alleiniges Signal (WCAG 1.4.1)</h4>
-              <ul>
-                <li>Labels m&uuml;ssen immer einen <strong>Textinhalt</strong> haben, der den Zustand beschreibt</li>
-                <li>Nicht nur Farbe verwenden, um den Unterschied zwischen z.B. Success und Danger darzustellen</li>
-                <li>Beispiel: Nicht nur ein gr&uuml;nes Label &mdash; immer auch &ldquo;Aktiv&rdquo; oder &ldquo;Erfolg&rdquo; als Text</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Screenreader -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Screenreader-Ank&uuml;ndigungen</h4>
-              <ul>
-                <li>Der Textinhalt wird automatisch vom Screenreader vorgelesen</li>
-                <li>Bei <code class="docs__token">.labels-container</code> als <code class="docs__token">&lt;ul&gt;</code> listet der Screenreader die Elemente als Liste auf</li>
-                <li>F&uuml;r kontextlose Labels kann <code class="docs__token">aria-label</code> am umgebenden Container hilfreich sein</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Kontrast -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Farbkontrast (WCAG 1.4.3)</h4>
-              <ul>
-                <li>Label-Text muss mindestens <strong>4.5:1</strong> Kontrast zum Label-Hintergrund haben</li>
-                <li>Die Accent-Variante nutzt <code class="docs__token">--fnd-color-always-dark</code> f&uuml;r garantierten Kontrast auf dem Akzentgr&uuml;n</li>
-                <li>Die Inverse-Variante stellt kontrast-reichen Text auf invertiertem Hintergrund sicher</li>
-                <li>Bei Custom-&Uuml;berschreibungen den Kontrast manuell pr&uuml;fen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Label mit beschreibendem Text --&gt;
-&lt;span class="label label--success"&gt;Ver&ouml;ffentlicht&lt;/span&gt;
-
-&lt;!-- RICHTIG: Labels-Liste mit semantischer Struktur --&gt;
-&lt;ul class="labels-container" aria-label="Kategorien"&gt;
-  &lt;li&gt;&lt;span class="label"&gt;Design&lt;/span&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;span class="label label--accent"&gt;Neu&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- FALSCH: Label ohne Textinhalt --&gt;
-&lt;span class="label label--danger"&gt;&lt;/span&gt;
-&lt;!-- Nur Farbe als Signal --&gt;
-
-&lt;!-- FALSCH: Label als Button missbraucht --&gt;
-&lt;span class="label" onclick="filter()" tabindex="0"&gt;
-  Klick mich
-&lt;/span&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Dekoratives Status-Label. Pastellton-BG + dunkler Text fuer harmonischen Kontrast.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li>Interaktive Labels brauchen focus-visible und Tastatur-Bedienung.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

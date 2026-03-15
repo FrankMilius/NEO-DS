@@ -1,64 +1,285 @@
 // ==========================================================================
-// 05-Atoms: Label
+// 05-Atoms: Label v2.0.0
 // ==========================================================================
-// Label/Tag-Komponenten
-// Migriert von: styles-new.css, cards.css
+// Dekoratives Pill-Label fuer Status, Kategorie, Metadaten.
+// Visuell immer "leiser" als Buttons — bevorzugt subtile Pastelltoene
+// mit dunklerem Text der gleichen Farbfamilie.
+//
+// SEMANTIK:
+//   R5: Statisches Label → <span>, nicht fokussierbar
+//   R1: Interaktives Label → <button> oder <a>, mit --interactive
+//   R7: Farbe nie alleiniges Signal — Icons beschleunigen Scanbarkeit
+//
+// GROESSEN (3 Stufen, kleiner als Tag-Scale):
+//   xs → 20px (dichte Listen/Tabellen)
+//   sm → 24px (Standard)
+//   md → 28px (Header/Hero-Bereiche)
+//
+// EMPHASIS (3):
+//   subtle (Standard): Pastellton-BG + dunkler Text
+//   solid: Kraeftiger BG + heller Text (hohe Prioritaet)
+//   outline: Nur Rahmen, kein BG (sekundaere Metadaten)
+//
+// SHAPE (2):
+//   rounded (Standard): System-Radius
+//   pill: Vollstaendig abgerundete Seiten
+//
+// VARIANTEN (6):
+//   default, accent, success, warning, danger, info
+//
+// KLASSEN:
+//   .nc-label (kanonisch, BEM)
+//
+// LEGACY:
+//   .label, .label--accent etc. bleiben als Aliase erhalten.
 // ==========================================================================
 
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// Label Base
+// Mixins
+// ---------------------------------------------------------------------------
+
+@mixin label-base {
+  @include static-surface-base;
+
+  --_surface-bg: var(--nc-label-default-bg);
+  --_surface-color: var(--nc-label-default-color);
+  --_surface-border-color: var(--nc-label-default-border);
+  --_surface-radius: var(--nc-label-radius);
+  --_surface-font-size: var(--nc-label-font-size);
+  --_surface-font-weight: var(--nc-label-font-weight);
+  --_surface-gap: var(--nc-label-gap);
+  --_surface-border-width: var(--fnd-border-width-xs);
+
+  letter-spacing: var(--nc-label-letter-spacing);
+  white-space: nowrap;
+
+  @include label-size('sm');
+}
+
+@mixin label-size($size: 'sm') {
+  @if $size == 'xs' {
+    min-height: var(--nc-label-height-xs);
+    padding: 0 var(--nc-label-padding-x-xs);
+    font-size: var(--nc-label-font-size-xs);
+  } @else if $size == 'sm' {
+    min-height: var(--nc-label-height-sm);
+    padding: 0 var(--nc-label-padding-x);
+  } @else if $size == 'md' {
+    min-height: var(--nc-label-height-md);
+    padding: 0 var(--nc-label-padding-x-md);
+    font-size: var(--nc-label-font-size-md);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Modifier
+// ---------------------------------------------------------------------------
+// Fuer klickbare Labels (<a> oder <button>). Fuegt Hover/Active/Focus hinzu.
+// Ideal fuer Filter-Tags mit optionalem Remove-Button (X).
+
+@mixin label-interactive {
+  cursor: pointer;
+  @include transition-quick((background-color, border-color, color, transform));
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    background-color: var(--_label-bg-hover, var(--nc-label-default-bg-hover));
+  }
+
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(0.98);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: var(--nc-label-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Emphasis Mixins
+// ---------------------------------------------------------------------------
+
+/// Solid: Kraeftiger BG mit hellem Text — fuer hohe Prioritaet.
+@mixin label-emphasis-solid {
+  --_surface-bg: var(--_label-solid-bg, var(--nc-label-solid-default-bg));
+  --_surface-color: var(--_label-solid-color, var(--nc-label-solid-default-color));
+  --_surface-border-color: transparent;
+}
+
+/// Outline: Nur Rahmen, transparenter BG — fuer sekundaere Metadaten.
+@mixin label-emphasis-outline {
+  --_surface-bg: transparent;
+  --_surface-border-color: var(--_surface-color);
+  border-width: var(--nc-label-outline-border-width);
+}
+
+// ---------------------------------------------------------------------------
+// Varianten
+// ---------------------------------------------------------------------------
+
+@mixin label-variant-accent {
+  --_surface-bg: var(--nc-label-accent-bg);
+  --_surface-color: var(--nc-label-accent-color);
+  --_surface-border-color: var(--nc-label-accent-border);
+  --_label-bg-hover: var(--nc-label-accent-bg-hover);
+  --_label-solid-bg: var(--fnd-color-interactive-default);
+  --_label-solid-color: var(--fnd-color-text-on-interactive);
+}
+
+@mixin label-variant-success {
+  --_surface-bg: var(--nc-label-success-bg);
+  --_surface-color: var(--nc-label-success-color);
+  --_surface-border-color: var(--nc-label-success-border);
+  --_label-bg-hover: var(--nc-label-success-bg-hover);
+  --_label-solid-bg: var(--fnd-color-feedback-success);
+  --_label-solid-color: var(--fnd-color-on-success);
+}
+
+@mixin label-variant-warning {
+  --_surface-bg: var(--nc-label-warning-bg);
+  --_surface-color: var(--nc-label-warning-color);
+  --_surface-border-color: var(--nc-label-warning-border);
+  --_label-bg-hover: var(--nc-label-warning-bg-hover);
+  --_label-solid-bg: var(--fnd-color-feedback-warning);
+  --_label-solid-color: var(--fnd-color-on-warning);
+}
+
+@mixin label-variant-danger {
+  --_surface-bg: var(--nc-label-danger-bg);
+  --_surface-color: var(--nc-label-danger-color);
+  --_surface-border-color: var(--nc-label-danger-border);
+  --_label-bg-hover: var(--nc-label-danger-bg-hover);
+  --_label-solid-bg: var(--fnd-color-feedback-danger);
+  --_label-solid-color: var(--fnd-color-on-danger);
+}
+
+@mixin label-variant-info {
+  --_surface-bg: var(--nc-label-info-bg);
+  --_surface-color: var(--nc-label-info-color);
+  --_surface-border-color: var(--nc-label-info-border);
+  --_label-bg-hover: var(--nc-label-info-bg-hover);
+  --_label-solid-bg: var(--fnd-color-feedback-info);
+  --_label-solid-color: var(--fnd-color-on-info);
+}
+
+// ---------------------------------------------------------------------------
+// Elements
+// ---------------------------------------------------------------------------
+
+@mixin label-icon-element {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-label-icon-size);
+  height: var(--nc-label-icon-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@mixin label-remove-button {
+  @include surface-remove-button(var(--nc-label-remove-size));
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-label {
+  @include label-base;
+
+  // Elements
+  &__icon   { @include label-icon-element; }
+  &__text   { display: inline-flex; align-items: center; }
+  &__remove { @include label-remove-button; }
+
+  // Sizes
+  &--xs { @include label-size('xs'); }
+  &--md { @include label-size('md'); }
+
+  // Shape
+  &--pill {
+    --_surface-radius: var(--nc-label-radius-pill);
+  }
+
+  // Emphasis
+  &--solid   { @include label-emphasis-solid; }
+  &--outline { @include label-emphasis-outline; }
+
+  // Interactive
+  &--interactive { @include label-interactive; }
+
+  // Removable (hat Dismiss-Button)
+  &--removable {
+    padding-inline-end: var(--fnd-spacing-01);
+  }
+
+  // Varianten
+  &--accent  { @include label-variant-accent; }
+  &--success { @include label-variant-success; }
+  &--warning { @include label-variant-warning; }
+  &--danger  { @include label-variant-danger; }
+  &--info    { @include label-variant-info; }
+
+  // Deprecated: inverse → accent--solid
+  &--inverse {
+    @include label-variant-accent;
+    @include label-emphasis-solid;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Labels Container (Gruppen-Layout / Stacking)
+// ---------------------------------------------------------------------------
+// Flex-Wrap mit gap — Labels fliessen bei Platzmangel sauber um.
+
+.nc-labels-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nc-label-container-gap);
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Legacy Aliase (fuer Abwaertskompatibilitaet)
 // ---------------------------------------------------------------------------
 
 .label {
-  @include paragraph('s');
-  display: inline-flex;
-  align-items: center;
-  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
-  border-radius: var(--fnd-radius-sm);
-  background-color: var(--fnd-color-background-secondary);
-  color: var(--fnd-color-text-secondary);
-  white-space: nowrap;
+  @include label-base;
 }
 
-// ---------------------------------------------------------------------------
-// Label Variants
-// ---------------------------------------------------------------------------
-
-.label--accent {
-  background-color: var(--fnd-color-background-accent);
-  color: var(--fnd-color-always-dark);
-}
-
+.label--accent  { @include label-variant-accent; }
 .label--inverse {
-  background-color: var(--fnd-color-background-inverse);
-  color: var(--fnd-color-text-inverse);
+  @include label-variant-accent;
+  @include label-emphasis-solid;
 }
-
-.label--success {
-  background-color: var(--fnd-color-background-success);
-  color: var(--fnd-color-text-success);
-}
-
-.label--danger {
-  background-color: var(--fnd-color-background-danger);
-  color: var(--fnd-color-text-danger);
-}
-
-// ---------------------------------------------------------------------------
-// Labels Container
-// ---------------------------------------------------------------------------
+.label--success { @include label-variant-success; }
+.label--danger  { @include label-variant-danger; }
 
 .labels-container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--fnd-spacing-02);
+  gap: var(--nc-label-container-gap);
   padding: 0;
   list-style: none;
   margin: 0;
-  
-  .label {
-    height: 40px;
-  }
 }

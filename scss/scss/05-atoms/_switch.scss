@@ -56,11 +56,22 @@
   cursor: inherit;
   flex-shrink: 0;
   transition:
-    background-color var(--nc-switch-transition-duration) ease;
+    background-color var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
 
-  // Focus-Ring (wenn Track als <button> oder per :focus-visible)
+  // Touch-Target: Unsichtbares ::after vergroessert den Klickbereich auf min. 44px.
+  // Der sichtbare Track bleibt schlank (z.B. 40x20px), aber der Touch-Bereich
+  // erfuellt WCAG 2.5.8 (44x44px) via symmetrisches Padding.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--nc-switch-touch-padding));
+  }
+
+  // Focus-Ring: outline mit offset — umschliesst den Track sauber,
+  // ohne direkt auf der pill-foermigen Rundung zu klemmen.
   &:focus-visible {
-    @include focus-ring;
+    outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
+    outline-offset: var(--nc-switch-focus-ring-offset);
   }
 
   // Fallback
@@ -71,6 +82,17 @@
   // Hover
   &:hover:not(:disabled):not([aria-disabled='true']) {
     background-color: var(--nc-switch-bg-hover);
+  }
+
+  // Active (Squash & Stretch): Thumb dehnt sich in Bewegungsrichtung
+  &:active:not(:disabled):not([aria-disabled='true']) > .nc-switch__thumb {
+    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+  }
+
+  &[aria-checked='true']:active:not(:disabled):not([aria-disabled='true']) > .nc-switch__thumb {
+    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+    // Kompensiert die Dehnung: Thumb bleibt rechtsbuendig
+    transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
   }
 
   // Checked-State via aria-checked
@@ -112,9 +134,11 @@
   background-color: var(--nc-switch-thumb-color);
   border-radius: var(--nc-switch-radius);
   transform: translateX(0) translateY(-50%);
-  transition: transform var(--nc-switch-transition-duration) ease;
+  transition:
+    transform var(--nc-switch-transition-duration) var(--nc-switch-transition-timing),
+    width var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
   pointer-events: none;
-  box-shadow: var(--fnd-shadow-xs);
+  box-shadow: var(--nc-switch-thumb-shadow);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -171,6 +195,61 @@
     }
   }
 
+  // -- Track-Indikatoren (I/O Labels) --
+  // Modifier: .nc-switch--indicators
+  // Zeigt "I" und "O" (Ein/Aus) innerhalb des Tracks hinter dem Thumb.
+  // Verbessert barrierefreie Erkennbarkeit ueber die reine Farbe hinaus.
+
+  &__indicator-on,
+  &__indicator-off {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.55em;
+    font-weight: var(--fnd-font-weight-bold);
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
+  }
+
+  // "I" — links im Track, sichtbar wenn checked
+  &__indicator-on {
+    inset-inline-start: calc(var(--nc-switch-thumb-offset) + 2px);
+    color: var(--nc-switch-indicator-checked-color);
+  }
+
+  // "O" — rechts im Track, sichtbar wenn unchecked
+  &__indicator-off {
+    inset-inline-end: calc(var(--nc-switch-thumb-offset) + 2px);
+    color: var(--nc-switch-indicator-color);
+  }
+
+  &--indicators {
+    .nc-switch__indicator-off {
+      opacity: 1;
+    }
+
+    .nc-switch__track[aria-checked='true'] .nc-switch__indicator-off {
+      opacity: 0;
+    }
+
+    .nc-switch__track[aria-checked='true'] .nc-switch__indicator-on {
+      opacity: 1;
+    }
+
+    // Input-Pattern
+    .nc-switch__input:checked ~ .nc-switch__track .nc-switch__indicator-off {
+      opacity: 0;
+    }
+    .nc-switch__input:checked ~ .nc-switch__track .nc-switch__indicator-on {
+      opacity: 1;
+    }
+    .nc-switch__input:not(:checked) ~ .nc-switch__track .nc-switch__indicator-off {
+      opacity: 1;
+    }
+  }
+
   // -- Disabled Wrapper --
 
   &:has(.nc-switch__track:disabled),
@@ -200,7 +279,8 @@
   @include sr-only;
 
   &:focus-visible + .nc-switch__track {
-    @include focus-ring;
+    outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
+    outline-offset: var(--nc-switch-focus-ring-offset);
   }
 
   &:checked + .nc-switch__track {
@@ -210,6 +290,16 @@
       // left ist bereits auf thumb-offset gesetzt, daher 2× offset abziehen
       transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
     }
+  }
+
+  // Squash & Stretch (Input-Pattern)
+  &:active:not(:disabled) + .nc-switch__track > .nc-switch__thumb {
+    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+  }
+
+  &:checked:active:not(:disabled) + .nc-switch__track > .nc-switch__thumb {
+    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+    transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
   }
 
   &:disabled + .nc-switch__track {

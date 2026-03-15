@@ -215,57 +215,19 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-container">
-            <h2 class="docs__section-title">Container-Token</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-faq</code></td><td>display</td><td>grid</td><td>Vertikale Rasterstruktur</td></tr>
-                <tr><td><code class="docs__token">.nc-faq</code></td><td>gap</td><td>0.75rem</td><td>Abstand zwischen den Eintr&auml;gen</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-item">
-            <h2 class="docs__section-title">Item-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token / Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">background</code></td><td>var(--fnd-color-background-base)</td><td>Hintergrundfarbe des Eintrags</td></tr>
-                <tr><td><code class="docs__token">border</code></td><td>1px solid var(--fnd-color-border-secondary)</td><td>Rahmen um den Eintrag</td></tr>
-                <tr><td><code class="docs__token">border-radius</code></td><td>var(--fnd-radius-3xl)</td><td>Stark abgerundete Ecken (Pill-Stil)</td></tr>
-                <tr><td><code class="docs__token">padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-04)</td><td>Innenabstand oben/unten &amp; links/rechts</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-typography">
-            <h2 class="docs__section-title">Typografie-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Eigenschaft</th><th>Wert</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-faq__question</code></td><td>font-weight</td><td>var(--fnd-font-weight-semibold)</td></tr>
-                <tr><td><code class="docs__token">.nc-faq__question</code></td><td>cursor</td><td>pointer</td></tr>
-                <tr><td><code class="docs__token">.nc-faq__answer</code></td><td>color</td><td>var(--fnd-color-text-secondary)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-scss">
-            <h2 class="docs__section-title">SCSS-Klassen (Referenz)</h2>
-            <div class="docs__code-block">// ===== FAQ BEM-Klassen =====
-
-.nc-faq              // Block: Grid-Container (gap 0.75rem)
-.nc-faq__item        // Element: &lt;details&gt; - Pill-f&ouml;rmiger Eintrag
-.nc-faq__question    // Element: &lt;summary&gt; - Frage (semibold, cursor pointer)
-.nc-faq__answer      // Element: Antwort-Text (text-secondary)</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -274,72 +236,68 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-faq</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-faq</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_faq.scss</code></td></tr>
-                <tr><td><strong>HTML-Semantik</strong></td><td><code class="docs__token">&lt;details&gt;</code> / <code class="docs__token">&lt;summary&gt;</code></td></tr>
-                <tr><td><strong>JS erforderlich</strong></td><td>Nein &ndash; native Browser-Interaktion</td></tr>
-                <tr><td><strong>Mehrere gleichzeitig ge&ouml;ffnet</strong></td><td>Ja (Standard-Verhalten)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Element</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-faq</code></td><td><code class="docs__token">&lt;div&gt;</code>, <code class="docs__token">&lt;section&gt;</code></td><td>Container-Block. Verwaltet vertikalen Abstand zwischen Eintr&auml;gen.</td></tr>
-                <tr><td><code class="docs__token">.nc-faq__item</code></td><td><code class="docs__token">&lt;details&gt;</code></td><td>Einzelner aufklappbarer Eintrag. Pill-Form, Hintergrund, Border.</td></tr>
-                <tr><td><code class="docs__token">.nc-faq__question</code></td><td><code class="docs__token">&lt;summary&gt;</code></td><td>Klickbare Frage. Semibold, Pointer-Cursor.</td></tr>
-                <tr><td><code class="docs__token">.nc-faq__answer</code></td><td><code class="docs__token">&lt;p&gt;</code>, <code class="docs__token">&lt;div&gt;</code></td><td>Antwortinhalt. Sekund&auml;re Textfarbe.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-attributes">
-            <h2 class="docs__section-title">HTML-Attribute</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Attribut</th><th>Element</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><code class="docs__token">open</code></td>
-                  <td><code class="docs__token">.nc-faq__item</code></td>
-                  <td>Optional</td>
-                  <td>Eintrag wird beim Laden der Seite ge&ouml;ffnet angezeigt.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">HTML-Struktur</h2>
-            <div class="docs__code-block">&lt;div class="nc-faq"&gt;
-
-  &lt;!-- Eintrag geschlossen (Standard) --&gt;
-  &lt;details class="nc-faq__item"&gt;
-    &lt;summary class="nc-faq__question"&gt;Wie lautet die Frage?&lt;/summary&gt;
-    &lt;p class="nc-faq__answer"&gt;Hier steht die Antwort.&lt;/p&gt;
-  &lt;/details&gt;
-
-  &lt;!-- Eintrag vorge&ouml;ffnet --&gt;
-  &lt;details class="nc-faq__item" open&gt;
-    &lt;summary class="nc-faq__question"&gt;Vorge&ouml;ffnete Frage?&lt;/summary&gt;
-    &lt;p class="nc-faq__answer"&gt;Diese Antwort ist sofort sichtbar.&lt;/p&gt;
-  &lt;/details&gt;
-
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-faq</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-faq</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-faq-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-faq</code></td><td>Block</td><td>faq-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-faq__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-faq__question</code></td><td>Element</td><td>question</td></tr>
+      <tr><td><code class="docs__token">.nc-faq__answer</code></td><td>Element</td><td>answer</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Einzige Variante</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.</li>
+    <li>Question: semibold, cursor:pointer. Answer: text-secondary.</li>
+    <li>Aufklappbar via &lt;details&gt;/&lt;summary&gt; oder JS.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -348,73 +306,29 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Die FAQ-Komponente basiert vollst&auml;ndig auf den nativen HTML-Elementen
-            <code class="docs__token">&lt;details&gt;</code> und <code class="docs__token">&lt;summary&gt;</code>,
-            die bereits vollst&auml;ndige Barrierefreiheit durch den Browser mitbringen.
-            Kein zus&auml;tzliches ARIA oder JavaScript notwendig.
-          </p>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Native &lt;details&gt; / &lt;summary&gt;-Semantik</h4>
-              <ul>
-                <li><code class="docs__token">&lt;details&gt;</code> hat nativ die Semantik eines Disclosure-Widgets</li>
-                <li><code class="docs__token">&lt;summary&gt;</code> ist automatisch fokussierbar und hat die Rolle <code class="docs__token">button</code></li>
-                <li>Der Zustand (ge&ouml;ffnet/geschlossen) wird dem Screenreader automatisch mitgeteilt</li>
-                <li>Kein <code class="docs__token">aria-expanded</code> oder <code class="docs__token">aria-controls</code> notwendig</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.001"/><path d="M10 8h.001"/><path d="M14 8h.001"/><path d="M18 8h.001"/><path d="M6 12h.001"/><path d="M10 12h.001"/><path d="M14 12h.001"/><path d="M18 12h.001"/><path d="M8 16h8"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Tastatur-Bedienung</h4>
-              <ul>
-                <li><strong>Tab:</strong> Fokus zum n&auml;chsten <code class="docs__token">&lt;summary&gt;</code> bewegen</li>
-                <li><strong>Enter / Space:</strong> Eintrag &ouml;ffnen oder schlie&szlig;en</li>
-                <li>Alle Eintr&auml;ge sind vollst&auml;ndig per Tastatur bedienbar &ndash; ohne JavaScript</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Strukturierung und Kontext</h4>
-              <ul>
-                <li>Wende eine &uuml;bergeordnete Sektion mit Heading an, wenn die FAQ im Seitenkontext steht</li>
-                <li>Beispiel: <code class="docs__token">&lt;section aria-labelledby="faq-heading"&gt;&lt;h2 id="faq-heading"&gt;H&auml;ufige Fragen&lt;/h2&gt; &lt;div class="nc-faq"&gt;...&lt;/div&gt;&lt;/section&gt;</code></li>
-                <li>Die Antwort (<code class="docs__token">.nc-faq__answer</code>) darf strukturierten Inhalt (Listen, Links) enthalten</li>
-              </ul>
-            </div>
-          </div>
-
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Nativ semantisch --&gt;
-&lt;div class="nc-faq"&gt;
-  &lt;details class="nc-faq__item"&gt;
-    &lt;summary class="nc-faq__question"&gt;Wie lautet die Frage?&lt;/summary&gt;
-    &lt;p class="nc-faq__answer"&gt;Antwort hierauf.&lt;/p&gt;
-  &lt;/details&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Mit Sections-Kontext --&gt;
-&lt;section aria-labelledby="faq-title"&gt;
-  &lt;h2 id="faq-title"&gt;H&auml;ufige Fragen&lt;/h2&gt;
-  &lt;div class="nc-faq"&gt; ... &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;!-- FALSCH: Div statt details/summary --&gt;
-&lt;div class="nc-faq__item"&gt;
-  &lt;div class="nc-faq__question" onclick="toggle()"&gt;Frage?&lt;/div&gt;
-  &lt;div class="nc-faq__answer"&gt;Antwort.&lt;/div&gt;
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">FAQ via &lt;details&gt;/&lt;summary&gt; oder aria-expanded. Keyboard: Enter/Space oeffnet.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

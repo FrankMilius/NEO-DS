@@ -6,7 +6,21 @@
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-tooltip-* Component-Tokens.
 //   Sichtbarkeit per CSS :hover/:focus-within — kein JS noetig fuer
-//   Grundfunktionalitaet. Optional JS fuer ESC-Dismiss.
+//   Grundfunktionalitaet. Optional JS fuer ESC-Dismiss und Hover-Delay.
+//
+// ERWEITERTE FEATURES (v2.0.0):
+//   Hover-Intent Delay: CSS transition-delay (300ms) verhindert "Tooltip-Terror".
+//   Scale+Fade Animation: Kombination aus opacity + scale(0.95→1) + translate(4px→0).
+//   Hoverable Content: pointer-events:auto wenn sichtbar (WCAG 1.4.13).
+//   Arrow-Finesse: Arrow-Size als Token, uebernimmt bg + radius-safe Positionierung.
+//   Elevation: elevation-floating (L1) — subtilster Schatten in der Hierarchie.
+//   Touch: Tooltip per CSS :hover nicht auf Touch-Geraeten (pointer:coarse).
+//
+// OVERLAY-HIERARCHIE:
+//   Tooltip: elevation-floating (L1, subtilster Schatten)
+//   Dropdown: elevation-floating (L1)
+//   Popover:  elevation-overlay (L2)
+//   Modal:    elevation-modal (L3)
 //
 // PATTERN:
 //   Wrapper um Trigger + Content. Content wird absolut positioniert.
@@ -16,7 +30,7 @@
 // BEM-KLASSEN:
 //   .nc-tooltip                    Block (Wrapper, inline-flex, relative)
 //   .nc-tooltip__content           Popup (absolute, z-index tooltip)
-//   .nc-tooltip__arrow             CSS-Pfeil (rotiertes Quadrat)
+//   .nc-tooltip__arrow             CSS-Pfeil (rotiertes Quadrat, uebernimmt bg)
 //   .nc-tooltip--top               Position oben (Standard)
 //   .nc-tooltip--bottom            Position unten
 //   .nc-tooltip--left              Position links
@@ -28,6 +42,10 @@
 //   Erscheint auf :hover UND :focus-within (Keyboard-Support)
 //   Disabled Buttons: Wrapper <span> mit tabindex="0"
 //   Tooltip-Inhalt ist ergaenzend, nie essenziell
+//   ESC schliesst sichtbaren Tooltip (JS, WCAG 1.4.13)
+//   Hoverable: Nutzer kann mit Maus auf Tooltip fahren ohne Schliessung
+//   Touch: Auf pointer:coarse erscheint Tooltip nicht per :hover.
+//          Stattdessen long-press (JS) oder Popover-Fallback.
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -59,81 +77,110 @@
   white-space: normal;
   text-align: center;
 
-  // Hidden by default
+  // Hidden by default — Scale+Fade Animation
   opacity: 0;
   visibility: hidden;
-  @include transition(opacity visibility, '200');
+  transform-origin: var(--_tooltip-origin, center bottom);
+  transition:
+    opacity var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing),
+    visibility var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing),
+    transform var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing);
+
+  // Hover-Intent: Verzoegerung beim Erscheinen, sofortiges Verschwinden
+  transition-delay: var(--nc-tooltip-delay, 300ms);
 }
 
-/// Tooltip sichtbar machen.
+/// Tooltip sichtbar machen (Scale+Fade).
 @mixin tooltip-visible {
   opacity: 1;
   visibility: visible;
+  transform: var(--_tooltip-transform-visible, translateX(-50%) scale(1));
+  // Hoverable Content (WCAG 1.4.13): Nutzer kann auf Tooltip fahren
+  pointer-events: auto;
+  // Kein Delay beim Verschwinden
+  transition-delay: 0ms;
 }
 
 /// Position: oben (Standard).
 @mixin tooltip-position-top {
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + var(--nc-tooltip-offset));
   left: 50%;
-  transform: translateX(-50%);
+  // Scale+Fade: leicht nach unten versetzt + scale
+  --_tooltip-transform-hidden: translateX(-50%) translateY(4px) scale(0.95);
+  --_tooltip-transform-visible: translateX(-50%) translateY(0) scale(1);
+  --_tooltip-origin: center bottom;
+  transform: var(--_tooltip-transform-hidden);
 }
 
 /// Position: unten.
 @mixin tooltip-position-bottom {
-  top: calc(100% + 8px);
+  top: calc(100% + var(--nc-tooltip-offset));
   left: 50%;
-  transform: translateX(-50%);
+  --_tooltip-transform-hidden: translateX(-50%) translateY(-4px) scale(0.95);
+  --_tooltip-transform-visible: translateX(-50%) translateY(0) scale(1);
+  --_tooltip-origin: center top;
+  transform: var(--_tooltip-transform-hidden);
 }
 
 /// Position: links.
 @mixin tooltip-position-left {
-  right: calc(100% + 8px);
+  right: calc(100% + var(--nc-tooltip-offset));
   top: 50%;
-  transform: translateY(-50%);
+  --_tooltip-transform-hidden: translateY(-50%) translateX(4px) scale(0.95);
+  --_tooltip-transform-visible: translateY(-50%) translateX(0) scale(1);
+  --_tooltip-origin: right center;
+  transform: var(--_tooltip-transform-hidden);
 }
 
 /// Position: rechts.
 @mixin tooltip-position-right {
-  left: calc(100% + 8px);
+  left: calc(100% + var(--nc-tooltip-offset));
   top: 50%;
-  transform: translateY(-50%);
+  --_tooltip-transform-hidden: translateY(-50%) translateX(-4px) scale(0.95);
+  --_tooltip-transform-visible: translateY(-50%) translateX(0) scale(1);
+  --_tooltip-origin: left center;
+  transform: var(--_tooltip-transform-hidden);
 }
 
-/// Arrow Basis (rotiertes Quadrat).
+/// Arrow Basis (rotiertes Quadrat — uebernimmt bg von Content).
 @mixin tooltip-arrow-base {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: var(--nc-tooltip-arrow-size);
+  height: var(--nc-tooltip-arrow-size);
   background-color: var(--nc-tooltip-bg);
   transform: rotate(45deg);
 }
 
 /// Arrow fuer Position top (zeigt nach unten).
 @mixin tooltip-arrow-top {
-  bottom: -4px;
+  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  bottom: calc(-1 * #{$half});
   left: 50%;
-  margin-left: -4px;
+  margin-left: calc(-1 * #{$half});
 }
 
 /// Arrow fuer Position bottom (zeigt nach oben).
 @mixin tooltip-arrow-bottom {
-  top: -4px;
+  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  top: calc(-1 * #{$half});
   left: 50%;
-  margin-left: -4px;
+  margin-left: calc(-1 * #{$half});
 }
 
 /// Arrow fuer Position left (zeigt nach rechts).
 @mixin tooltip-arrow-left {
-  right: -4px;
+  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  right: calc(-1 * #{$half});
   top: 50%;
-  margin-top: -4px;
+  margin-top: calc(-1 * #{$half});
 }
 
 /// Arrow fuer Position right (zeigt nach links).
 @mixin tooltip-arrow-right {
-  left: -4px;
+  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  left: calc(-1 * #{$half});
   top: 50%;
-  margin-top: -4px;
+  margin-top: calc(-1 * #{$half});
 }
 
 // ---------------------------------------------------------------------------
@@ -158,6 +205,7 @@
   }
 
   // -- Sichtbarkeit bei Hover/Focus --
+  // Hover-Intent Delay wird per transition-delay in content-base gesetzt.
 
   &:hover > .nc-tooltip__content,
   &:focus-within > .nc-tooltip__content {
@@ -202,11 +250,45 @@
     @include tooltip-arrow-right;
   }
 
+  // -- Touch-Geraete: kein Hover-Tooltip --
+  // Auf Touch-Geraeten erscheint Tooltip nicht per :hover.
+  // Stattdessen: long-press (JS) oder Popover-Fallback.
+
+  @media (pointer: coarse) {
+    &:hover > .nc-tooltip__content {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    // Focus-within bleibt aktiv fuer Keyboard-Accessibility
+    &:focus-within > .nc-tooltip__content {
+      @include tooltip-visible;
+    }
+  }
+
   // -- Reduced Motion --
 
   @media (prefers-reduced-motion: reduce) {
     .nc-tooltip__content {
       transition: none;
+      // Kein Scale/Translate — nur opacity Toggle
+      transform: none !important;
+    }
+
+    &:hover > .nc-tooltip__content,
+    &:focus-within > .nc-tooltip__content {
+      opacity: 1;
+      visibility: visible;
+      transform: none !important;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-tooltip__content {
+      border: 1px solid ButtonText;
     }
   }
 }

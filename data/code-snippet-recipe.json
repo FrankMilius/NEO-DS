@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "code-snippet",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["static", "content", "code"],
     "links": {
@@ -16,23 +16,35 @@
   "anatomy": {
     "root": { "element": ".nc-code-snippet" },
     "slots": [
+      { "name": "header",    "element": ".nc-code-snippet__header",    "optional": true },
       { "name": "pre",       "element": ".nc-code-snippet__pre",       "optional": false },
       { "name": "code",      "element": ".nc-code-snippet__code",      "optional": false },
+      { "name": "line",      "element": ".nc-code-snippet__line",      "optional": true },
       { "name": "copy",      "element": ".nc-code-snippet__copy",      "optional": true },
       { "name": "show-more", "element": ".nc-code-snippet__show-more", "optional": true },
       { "name": "label",     "element": ".nc-code-snippet__label",     "optional": true }
     ],
     "convenience": [
-      { "name": "copy-icon",       "element": ".nc-code-snippet__copy-icon",        "optional": true, "description": "Icon im Copy-Button (Copy/Check)" },
-      { "name": "copy-icon-copy",  "element": ".nc-code-snippet__copy-icon--copy",  "optional": true, "description": "Copy-Icon (Standard)" },
-      { "name": "copy-icon-check", "element": ".nc-code-snippet__copy-icon--check", "optional": true, "description": "Check-Icon (Erfolg)" }
+      { "name": "header-dots",      "element": ".nc-code-snippet__header-dots",       "optional": true, "description": "macOS Traffic-Light Dots" },
+      { "name": "header-dot",       "element": ".nc-code-snippet__header-dot",        "optional": true, "description": "Einzelner Dot (close/minimize/maximize)" },
+      { "name": "header-title",     "element": ".nc-code-snippet__header-title",      "optional": true, "description": "Dateiname/Label im Header" },
+      { "name": "copy-icon",        "element": ".nc-code-snippet__copy-icon",         "optional": true, "description": "Icon im Copy-Button (Copy/Check)" },
+      { "name": "copy-icon-copy",   "element": ".nc-code-snippet__copy-icon--copy",   "optional": true, "description": "Copy-Icon (Standard)" },
+      { "name": "copy-icon-check",  "element": ".nc-code-snippet__copy-icon--check",  "optional": true, "description": "Check-Icon (Erfolg)" },
+      { "name": "copy-tooltip",     "element": ".nc-code-snippet__copy-tooltip",      "optional": true, "description": "Tooltip-Feedback bei Copy-Erfolg" }
     ],
     "domNotes": [
       "Inline: <code class='nc-code-snippet nc-code-snippet--inline'>. Kein Copy-Button.",
       "Single: <div class='nc-code-snippet nc-code-snippet--single'><pre><code>. Copy-Button oben rechts.",
       "Multi:  <div class='nc-code-snippet nc-code-snippet--multi'><pre><code>. Copy-Button + Show-More.",
       "Copy-Button: aria-label='Code kopieren'. Dual-Icon Pattern (Copy → Check bei Erfolg).",
+      "Copy-Tooltip: .nc-code-snippet__copy-tooltip — erscheint bei Erfolg unter dem Copy-Button.",
       "Show-More: aria-expanded='true/false'. Gradient-Fade im collapsed Zustand.",
+      "Header: optionale Titelleiste mit Dateiname. Plain/macOS/Window-Varianten.",
+      "macOS-Dots: .nc-code-snippet__header-dot--close/--minimize/--maximize. Dekorativ.",
+      "Zeilennummern: CSS-Counter auf .nc-code-snippet__line::before. user-select:none.",
+      "Zeilen-Highlight: .nc-code-snippet__line--highlighted — farbige Hervorhebung.",
+      "Wrap: white-space:pre-wrap statt horizontalem Scroll.",
       "Sprach-Label (optional): Badge oben links mit Sprach-Kennung (z.B. 'HTML', 'SCSS').",
       "Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt."
     ]
@@ -59,6 +71,36 @@
           "tokenGroups": ["variant-block", "feature-copy", "feature-show-more"],
           "renderHint": "code-multi"
         }
+      }
+    },
+
+    "header": {
+      "label": "Header",
+      "description": "Titelleisten-Stil — none (kein Header), plain (Dateiname), macos (Traffic-Light Dots), window (Fensterleiste)",
+      "values": {
+        "none":   { "modifier": null,                               "tokenGroups": [] },
+        "plain":  { "modifier": "nc-code-snippet--header-plain",    "tokenGroups": ["header"] },
+        "macos":  { "modifier": "nc-code-snippet--header-macos",    "tokenGroups": ["header", "header-macos"] },
+        "window": { "modifier": "nc-code-snippet--header-window",   "tokenGroups": ["header"] }
+      }
+    },
+
+    "wrap": {
+      "label": "Line Wrapping",
+      "description": "Zeilenumbruch — none (horizontaler Scroll), wrap (Umbruch bei langen Zeilen)",
+      "values": {
+        "none": { "modifier": null,                          "tokenGroups": [] },
+        "wrap": { "modifier": "nc-code-snippet--wrap",       "tokenGroups": [] }
+      }
+    },
+
+    "features": {
+      "label": "Features",
+      "description": "Zusaetzliche Funktionen — default, with-line-numbers (Zeilennummern), line-highlight (Zeilen hervorheben)",
+      "values": {
+        "default":           { "modifier": null,                                    "tokenGroups": [] },
+        "with-line-numbers": { "modifier": "nc-code-snippet--with-line-numbers",    "tokenGroups": ["line-numbers"] },
+        "line-highlight":    { "modifier": "nc-code-snippet--line-highlight",        "tokenGroups": ["line-highlight"] }
       }
     },
 
@@ -102,6 +144,11 @@
         "when": { "states": ["expanded"] },
         "suggest": ["aria-expanded"],
         "note": "Show-More-Button braucht aria-expanded='true/false'. Button-Text wechselt zwischen 'Mehr anzeigen' und 'Weniger anzeigen'."
+      },
+      {
+        "when": { "axes": { "features": ["with-line-numbers"] } },
+        "suggest": [],
+        "note": "Zeilennummern via CSS-Counter sind dekorativ (user-select:none). Screen Reader ignoriert sie."
       }
     ]
   },
@@ -109,12 +156,17 @@
   "constraints": {
     "rules": [
       { "when": { "axes": { "variant": ["single", "multi"] } }, "require": ["aria-label-copy"], "notes": ["Copy-Button braucht aria-label='Code kopieren'."] },
-      { "when": { "axes": { "variant": ["multi"] } }, "require": ["aria-expanded"], "notes": ["Show-More-Button braucht aria-expanded Attribut."] }
+      { "when": { "axes": { "variant": ["multi"] } }, "require": ["aria-expanded"], "notes": ["Show-More-Button braucht aria-expanded Attribut."] },
+      { "when": { "axes": { "features": ["with-line-numbers"] } }, "require": ["line-elements"], "notes": ["Jede Zeile muss in .nc-code-snippet__line gewrappt sein fuer CSS-Counter."] }
     ],
     "copy": {
       "label": {
         "maxChars": 12,
         "note": "Sprach-Label soll kurz sein (z.B. 'HTML', 'SCSS', 'JavaScript'). Uppercase per CSS."
+      },
+      "header-title": {
+        "maxChars": 40,
+        "note": "Header-Titel: Dateiname oder Beschreibung. Overflow: ellipsis."
       }
     }
   },
@@ -157,6 +209,45 @@
           "nc-cs-inline-font-size"
         ]
       },
+      "header": {
+        "label": "Header",
+        "tokens": [
+          "nc-cs-header-bg",
+          "nc-cs-header-color",
+          "nc-cs-header-height",
+          "nc-cs-header-padding",
+          "nc-cs-header-font-size",
+          "nc-cs-header-font-weight",
+          "nc-cs-header-border"
+        ]
+      },
+      "header-macos": {
+        "label": "macOS Dots",
+        "tokens": [
+          "nc-cs-header-dot-size",
+          "nc-cs-header-dot-gap",
+          "nc-cs-header-dot-close",
+          "nc-cs-header-dot-minimize",
+          "nc-cs-header-dot-maximize"
+        ]
+      },
+      "line-numbers": {
+        "label": "Line Numbers",
+        "tokens": [
+          "nc-cs-line-numbers-color",
+          "nc-cs-line-numbers-width",
+          "nc-cs-line-numbers-padding",
+          "nc-cs-line-numbers-border"
+        ]
+      },
+      "line-highlight": {
+        "label": "Line Highlight",
+        "tokens": [
+          "nc-cs-line-highlight-bg",
+          "nc-cs-line-highlight-border",
+          "nc-cs-line-highlight-width"
+        ]
+      },
       "feature-copy": {
         "label": "Copy Button",
         "tokens": [
@@ -167,7 +258,17 @@
           "nc-cs-copy-color-hover",
           "nc-cs-copy-border",
           "nc-cs-copy-radius",
-          "nc-cs-copy-icon-size"
+          "nc-cs-copy-icon-size",
+          "nc-cs-copy-success-color"
+        ]
+      },
+      "copy-tooltip": {
+        "label": "Copy Tooltip",
+        "tokens": [
+          "nc-cs-copy-tooltip-bg",
+          "nc-cs-copy-tooltip-color",
+          "nc-cs-copy-tooltip-radius",
+          "nc-cs-copy-tooltip-font-size"
         ]
       },
       "feature-show-more": {
@@ -211,6 +312,9 @@
       "classList": [
         "styling.baseClasses",
         "axes.variant.values.*.modifier",
+        "axes.header.values.*.modifier",
+        "axes.wrap.values.*.modifier",
+        "axes.features.values.*.modifier",
         "axes.syntax.values.*.modifier"
       ],
       "tokenGroups": [
@@ -226,7 +330,7 @@
       "label": "All Variants",
       "description": "Inline, Single-Line und Multi-Line im Vergleich",
       "matrix": {
-        "axes": { "variant": "*", "syntax": ["highlighted"] },
+        "axes": { "variant": "*", "header": ["none"], "wrap": ["none"], "features": ["default"], "syntax": ["highlighted"] },
         "states": ["default"]
       },
       "layout": "row",
@@ -237,12 +341,84 @@
       }
     },
     {
+      "id": "header-comparison",
+      "label": "Header Styles",
+      "description": "Plain vs macOS vs Window Header",
+      "matrix": {
+        "axes": { "variant": ["multi"], "header": ["plain", "macos", "window"], "wrap": ["none"], "features": ["default"], "syntax": ["highlighted"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "header" },
+      "render": { "label": "{header}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Header-Dots (macOS) sind rein dekorativ. Header-Titel sollte den Dateinamen anzeigen."
+      }
+    },
+    {
+      "id": "with-line-numbers",
+      "label": "With Line Numbers",
+      "description": "CSS-Counter Zeilennummern am linken Rand",
+      "matrix": {
+        "axes": { "variant": ["multi"], "header": ["plain"], "wrap": ["none"], "features": ["with-line-numbers"], "syntax": ["highlighted"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["line-numbers"],
+      "layout": "row",
+      "render": { "compositionType": "code-line-numbers", "label": "line-numbers" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Zeilennummern per CSS-Counter: user-select:none, dekorativ fuer Screen Reader."
+      }
+    },
+    {
+      "id": "line-highlight",
+      "label": "Line Highlight",
+      "description": "Einzelne Zeilen hervorgehoben (z.B. fuer Erlaeuterungen)",
+      "matrix": {
+        "axes": { "variant": ["multi"], "header": ["plain"], "wrap": ["none"], "features": ["line-highlight"], "syntax": ["highlighted"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["line-highlight"],
+      "layout": "row",
+      "render": { "compositionType": "code-line-highlight", "label": "highlight" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Highlight-BG muss Syntax-Farben-Kontrast erhalten. Border-Left als zusaetzlicher visueller Marker."
+      }
+    },
+    {
+      "id": "line-numbers-highlight",
+      "label": "Line Numbers + Highlight",
+      "description": "Kombination: Zeilennummern + hervorgehobene Zeilen",
+      "matrix": {
+        "axes": { "variant": ["multi"], "header": ["macos"], "wrap": ["none"], "features": ["with-line-numbers"], "syntax": ["highlighted"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["line-numbers", "line-highlight"],
+      "layout": "row",
+      "render": { "compositionType": "code-full-featured", "label": "full" }
+    },
+    {
+      "id": "wrap-comparison",
+      "label": "Wrap vs Scroll",
+      "description": "Zeilenumbruch vs horizontaler Scroll bei langen Zeilen",
+      "matrix": {
+        "axes": { "variant": ["multi"], "header": ["none"], "wrap": "*", "features": ["default"], "syntax": ["highlighted"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "wrap" },
+      "render": { "label": "{wrap}" }
+    },
+    {
       "id": "inline-in-context",
       "label": "Inline in Fliesstext",
       "description": "Inline-Code eingebettet in einen Textabsatz",
       "composes": ["paragraph"],
       "matrix": {
-        "axes": { "variant": ["inline"], "syntax": ["none"] },
+        "axes": { "variant": ["inline"], "header": ["none"], "wrap": ["none"], "features": ["default"], "syntax": ["none"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["variant-inline"],
@@ -250,23 +426,7 @@
       "render": { "compositionType": "code-in-paragraph", "label": "inline" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Inline-BG muss vom umgebenden Text-BG unterscheidbar sein. Font erbt line-height vom Fliesstext."
-      }
-    },
-    {
-      "id": "single-line",
-      "label": "Single-Line with Copy",
-      "description": "Einzeilige Code-Anzeige mit Copy-Button",
-      "matrix": {
-        "axes": { "variant": ["single"], "syntax": ["highlighted"] },
-        "states": ["default"]
-      },
-      "focusTokenGroups": ["variant-block", "feature-copy"],
-      "layout": "row",
-      "render": { "label": "single-line" },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Copy-Button wird bei Hover/Focus sichtbar. Braucht aria-label='Code kopieren'."
+        "note": "Inline-BG muss vom umgebenden Text-BG unterscheidbar sein."
       }
     },
     {
@@ -274,22 +434,19 @@
       "label": "Multi-Line: Collapsed vs Expanded",
       "description": "Collapsible Code-Block in beiden Zustaenden",
       "matrix": {
-        "axes": { "variant": ["multi"], "syntax": ["highlighted"] },
+        "axes": { "variant": ["multi"], "header": ["none"], "wrap": ["none"], "features": ["default"], "syntax": ["highlighted"] },
         "states": ["default", "expanded"]
       },
       "focusTokenGroups": ["variant-block", "feature-show-more"],
       "layout": "row",
-      "render": { "label": "{state}" },
-      "a11y": {
-        "note": "Show-More-Button braucht aria-expanded. Gradient-Fade im Collapsed-Zustand ist rein dekorativ."
-      }
+      "render": { "label": "{state}" }
     },
     {
       "id": "syntax-theme",
       "label": "Syntax Highlighting — Light vs Dark",
       "description": "Syntax-Farben im Licht- und Dunkel-Theme",
       "matrix": {
-        "axes": { "variant": ["multi"], "syntax": ["highlighted"] },
+        "axes": { "variant": ["multi"], "header": ["macos"], "wrap": ["none"], "features": ["with-line-numbers"], "syntax": ["highlighted"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["syntax-highlighting"],
@@ -297,40 +454,32 @@
       "render": { "label": "syntax", "themeVariants": ["light", "dark"] },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Alle Syntax-Farben muessen 4.5:1 Kontrast gegen den Code-Hintergrund einhalten — sowohl im Light- als auch im Dark-Theme."
+        "note": "Alle Syntax-Farben muessen 4.5:1 Kontrast gegen den Code-Hintergrund einhalten."
       }
     },
     {
-      "id": "with-language-label",
-      "label": "With Language Label",
-      "description": "Block-Snippet mit Sprach-Badge (z.B. HTML, SCSS)",
-      "composes": ["label"],
+      "id": "macos-full",
+      "label": "macOS Full-Featured",
+      "description": "macOS Header + Zeilennummern + Zeilen-Highlight — IDE-Look",
       "matrix": {
-        "axes": { "variant": ["single", "multi"], "syntax": ["highlighted"] },
+        "axes": { "variant": ["multi"], "header": ["macos"], "wrap": ["none"], "features": ["with-line-numbers"], "syntax": ["highlighted"] },
         "states": ["default"]
       },
       "layout": "row",
-      "render": { "compositionType": "code-with-label", "label": "{variant}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Sprach-Label ist rein informativ. Kein interaktives Element."
-      }
+      "render": { "compositionType": "code-macos-full", "label": "macos-full" }
+    }
+  ],
+
+  "tokenDependencies": [
+    {
+      "source": "nc-button-radius-sm",
+      "target": "nc-cs-copy-radius",
+      "reason": "Copy-Button-Radius konsistent mit Button-Radius"
     },
     {
-      "id": "no-syntax",
-      "label": "Plain Code (No Highlighting)",
-      "description": "Block-Snippet ohne Syntax-Highlighting",
-      "matrix": {
-        "axes": { "variant": ["single", "multi"], "syntax": ["none"] },
-        "states": ["default"]
-      },
-      "focusTokenGroups": ["variant-block", "core-typography"],
-      "layout": "row",
-      "render": { "label": "{variant}" },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Ohne Highlighting nur Basis-Textfarbe. Kontrast muss trotzdem eingehalten werden."
-      }
+      "source": "nc-status-success",
+      "target": "nc-cs-copy-success-color",
+      "reason": "Copy-Check-Icon verwendet konsistente Erfolgsfarbe"
     }
   ]
 }

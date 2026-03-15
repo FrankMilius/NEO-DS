@@ -8,8 +8,10 @@
 //   R1: Trigger: <button aria-haspopup="true" aria-expanded="true|false">
 //   R2: Menu: role="menu" auf dem Container
 //   R3: Items: role="menuitem" auf jedem Eintrag
-//   R4: Keyboard: Arrow Up/Down navigiert, Enter/Space aktiviert, Escape schliesst
-//   R5: Focus-Management: Erstes Item erhaelt Focus beim Oeffnen
+//   R4: Checkable Items: role="menuitemradio" (single) / role="menuitemcheckbox" (multiple)
+//   R5: Keyboard: Arrow Up/Down navigiert, Enter/Space aktiviert, Escape schliesst
+//   R6: Focus-Management: Erstes Item erhaelt Focus beim Oeffnen
+//   R7: Submenu: aria-haspopup="menu" + aria-expanded auf Parent-Item
 //
 // STRUKTUR:
 //   div.nc-dropdown
@@ -18,10 +20,33 @@
 //       div.nc-dropdown__group
 //         span.nc-dropdown__group-label
 //         button.nc-dropdown__item (role="menuitem")
+//           span.nc-dropdown__item-check (Checkable: Haekchen-Icon)
+//           span.nc-dropdown__item-icon
+//           span.nc-dropdown__item-label
+//           span.nc-dropdown__item-shortcut
+//           span.nc-dropdown__submenu-indicator (Submenu: Pfeil rechts)
 //         hr.nc-dropdown__separator
+//       div.nc-dropdown__footer (permanenter Footer-Slot)
 //
-// KLASSEN:
-//   .nc-dropdown (kanonisch, BEM)
+// BEM-KLASSEN:
+//   .nc-dropdown                       Block (inline-flex container)
+//   .nc-dropdown__trigger              Trigger-Button
+//   .nc-dropdown__menu                 Menu-Panel (role="menu")
+//   .nc-dropdown__item                 Einzelner Eintrag (role="menuitem")
+//   .nc-dropdown__item--danger         Destruktive Aktion (rot)
+//   .nc-dropdown__item--checked        Ausgewaehltes Item (Checkable-Modus)
+//   .nc-dropdown__item--has-submenu    Item mit Submenu (Pfeil-Indikator)
+//   .nc-dropdown__item-check           Haekchen-Icon (Checkable-Modus)
+//   .nc-dropdown__item-icon            Dekoratives Icon
+//   .nc-dropdown__item-label           Label-Text
+//   .nc-dropdown__item-shortcut        Tastaturkuerzel
+//   .nc-dropdown__submenu-indicator    Pfeil-Icon fuer Submenus
+//   .nc-dropdown__group                Semantische Gruppe
+//   .nc-dropdown__group-label          Gruppen-Ueberschrift
+//   .nc-dropdown__separator            Horizontale Trennlinie
+//   .nc-dropdown__footer               Permanenter Footer-Bereich
+//   .nc-dropdown__menu--bottom-start   Positionierung (4 Varianten)
+//   .nc-dropdown--checkable            Checkable-Modus (Check-Spalte reserviert)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -116,7 +141,8 @@
     }
   }
 
-  // Positionierung
+  // -- Positionierung --
+
   &__menu--bottom-start {
     top: 100%;
     left: 0;
@@ -141,7 +167,8 @@
     margin-bottom: var(--fnd-spacing-01);
   }
 
-  // Menu Item
+  // -- Menu Item --
+
   &__item {
     @include dropdown-item-base;
   }
@@ -155,7 +182,48 @@
     }
   }
 
-  // Item Icon
+  // Checked Item (Checkable-Modus: single/multiple)
+  &__item--checked {
+    font-weight: var(--fnd-font-weight-medium);
+
+    .nc-dropdown__item-check {
+      opacity: 1;
+    }
+  }
+
+  // Item mit Submenu (Pfeil rechts, kein Klick → Hover oeffnet Submenu)
+  &__item--has-submenu {
+    .nc-dropdown__submenu-indicator {
+      opacity: 1;
+    }
+  }
+
+  // -- Check-Icon (Checkable Items) --
+  // Reserviert Platz links im Item. Unsichtbar wenn nicht checked.
+
+  &__item-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-dropdown-check-size);
+    height: var(--nc-dropdown-check-size);
+    flex-shrink: 0;
+    color: var(--nc-dropdown-check-color);
+    opacity: 0;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // -- Item Icon --
+
   &__item-icon {
     display: inline-flex;
     align-items: center;
@@ -181,13 +249,15 @@
     color: var(--nc-dropdown-item-danger-color);
   }
 
-  // Item Label (flex-1 fuer Shortcut-Anzeige)
+  // -- Item Label (flex-1 fuer Shortcut/Submenu-Indicator) --
+
   &__item-label {
     flex: 1;
     min-width: 0;
   }
 
-  // Shortcut-Anzeige (rechts im Item)
+  // -- Shortcut-Anzeige (rechts im Item) --
+
   &__item-shortcut {
     flex-shrink: 0;
     font-size: var(--fs-xs);
@@ -195,7 +265,33 @@
     font-family: var(--font-mono);
   }
 
-  // Separator
+  // -- Submenu-Indicator (Chevron rechts) --
+  // Zeigt an, dass das Item ein Submenu oeffnet.
+
+  &__submenu-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--nc-dropdown-submenu-indicator-size);
+    height: var(--nc-dropdown-submenu-indicator-size);
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    color: var(--nc-dropdown-submenu-indicator-color);
+    opacity: 1;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  // -- Separator --
+
   &__separator {
     border: none;
     height: 0;
@@ -203,7 +299,8 @@
     margin: var(--nc-dropdown-separator-margin) 0;
   }
 
-  // Group
+  // -- Group --
+
   &__group-label {
     display: block;
     padding: var(--nc-dropdown-group-label-padding);
@@ -213,5 +310,64 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     user-select: none;
+  }
+
+  // -- Footer-Slot --
+  // Permanenter Bereich am unteren Rand des Menus (z.B. "Alle anzeigen" Link,
+  // Aktions-Buttons, Hilfetexte). Getrennt durch eine permanente Border.
+
+  &__footer {
+    padding: var(--nc-dropdown-footer-padding);
+    background-color: var(--nc-dropdown-footer-bg);
+    border-top: var(--nc-dropdown-border-width) solid var(--nc-dropdown-footer-border-color);
+    margin-top: var(--nc-dropdown-separator-margin);
+    border-radius: 0 0 var(--nc-dropdown-radius) var(--nc-dropdown-radius);
+
+    // Ueberschreibt Menu-Padding am unteren Rand
+    margin-inline: calc(-1 * var(--nc-dropdown-padding));
+    margin-bottom: calc(-1 * var(--nc-dropdown-padding));
+    padding-inline: var(--nc-dropdown-padding);
+  }
+
+  // -- Checkable-Modus --
+  // Reserviert Platz fuer Check-Spalte bei allen Items (konsistentes Alignment).
+  // Aktivierung via .nc-dropdown--checkable auf dem Root-Element.
+
+  &--checkable {
+    .nc-dropdown__item {
+      padding-inline-start: calc(var(--nc-dropdown-check-size) + var(--nc-dropdown-check-gap) + #{rem(8px)});
+      position: relative;
+    }
+
+    .nc-dropdown__item-check {
+      position: absolute;
+      left: rem(8px);
+    }
+  }
+
+  // -- Submenu-Positionierung --
+  // Submenu oeffnet sich rechts vom Parent-Item (oder links bei RTL).
+  // Aktivierung via JS: Hover/Focus auf --has-submenu Item.
+
+  &__item--has-submenu > .nc-dropdown__menu {
+    top: calc(-1 * var(--nc-dropdown-padding));
+    left: calc(100% + var(--nc-dropdown-submenu-offset));
+    margin-top: 0;
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    .nc-dropdown__menu {
+      border: 1px solid ButtonText;
+    }
+
+    .nc-dropdown__item:focus-visible {
+      outline: 2px solid Highlight;
+    }
+
+    .nc-dropdown__item--checked .nc-dropdown__item-check {
+      color: Highlight;
+    }
   }
 }

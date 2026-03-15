@@ -1,5 +1,5 @@
 // ==========================================================================
-// 06-Molecules: Form Hint
+// 06-Molecules: Form Hint v2.0.0
 // ==========================================================================
 // Token-basierter Help/Hint-Text fuer Formular-Felder.
 //
@@ -9,10 +9,15 @@
 // BEM-KLASSEN:
 //   .nc-form-hint               Block (Help Text)
 //   .nc-form-hint__icon         Optional Icon links
-//   .nc-form-hint__text         Text-Inhalt
+//   .nc-form-hint__text         Text-Inhalt (kann <ul> enthalten)
+//   .nc-form-hint__link         Optionaler Inline-Link
+//   .nc-form-hint__list         Anforderungsliste (<ul>)
+//   .nc-form-hint--muted        Dezentere Farbvariante
 //
 // ACCESSIBILITY:
 //   id="hint-{name}" → referenziert via aria-describedby am Input
+//   Links: :focus-visible mit focus-ring, 4.5:1 Kontrast
+//   Listen: Semantische <ul><li> Struktur
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -51,6 +56,39 @@
   }
 }
 
+/// Inline-Link im Hint (z.B. "Mehr erfahren", "Passwort vergessen?").
+@mixin form-hint-link {
+  color: var(--nc-form-hint-link-color);
+  font-size: inherit;
+  font-weight: var(--fnd-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+  @include transition-quick((color, text-decoration-color));
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+/// Anforderungsliste im Hint (z.B. Passwort-Regeln).
+@mixin form-hint-list {
+  list-style: disc;
+  padding-inline-start: 1.2em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-form-hint-list-gap);
+
+  > li {
+    line-height: 1.4;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -64,5 +102,19 @@
 
   &__text {
     // Erbt Styles vom Block
+  }
+
+  &__link {
+    @include form-hint-link;
+  }
+
+  &__list {
+    @include form-hint-list;
+  }
+
+  // -- Variant: Muted (dezentere Farbe fuer lange Hilfetexte) --
+
+  &--muted {
+    color: var(--nc-form-hint-muted-color);
   }
 }

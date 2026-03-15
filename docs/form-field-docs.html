@@ -489,100 +489,142 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-form-field">
-            <h2 class="docs__section-title">BEM-Klassen: .nc-form-field</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-form-field</code></td><td>Block</td><td>Flex-Column-Container, der Label + Input + Hint + Error zusammenfasst.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-field--error</code></td><td>Modifier</td><td>Error-State. Propagiert roten Rand auf Kind-Input/Textarea/Select.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-field--success</code></td><td>Modifier</td><td>Success-State. Propagiert gr&uuml;nen Rand auf Kind-Input.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-field--disabled</code></td><td>Modifier</td><td>Disabled-State. Graut Label und Hint aus, cursor: not-allowed.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-field--horizontal</code></td><td>Modifier</td><td>Horizontal-Layout: Label + Input nebeneinander (ab Tablet-Breakpoint).</td></tr>
-                <tr><td><code class="docs__token">.nc-form-field--required</code></td><td>Modifier</td><td>Pflichtfeld-Markierung (optional, zur semantischen Kennzeichnung).</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-field-gap</code></td><td>var(--fnd-spacing-01)</td><td>4px Abstand zw. Elementen</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Requirement Indicators</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-label-required-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-optional-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
-          <section class="docs__section" id="style-form-label">
-            <h2 class="docs__section-title">BEM-Klassen: .nc-form-label</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-form-label</code></td><td>Block</td><td>Flex-Baseline-Container f&uuml;r Label-Text + Indikatoren.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-label__text</code></td><td>Element</td><td>Der eigentliche Label-Text.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-label__required</code></td><td>Element</td><td>Rotes Sternchen &ldquo;*&rdquo; als Pflichtfeld-Indikator.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-label__optional</code></td><td>Element</td><td>Grauer &ldquo;(Optional)&rdquo; Text f&uuml;r nicht-erforderliche Felder.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-label--inline</code></td><td>Modifier</td><td>Inline-Label (neben dem Input, kein margin-bottom).</td></tr>
-                <tr><td><code class="docs__token">.nc-form-label--disabled</code></td><td>Modifier</td><td>Disabled-State: ausgegraut, cursor: not-allowed.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+<!-- AUTO:SUB:form-label:STYLE:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Label</h2>
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-label-font-size</code></td><td>var(--fs-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-gap</code></td><td>var(--fnd-spacing-02)</td><td>8px gap zum Input</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-padding-block</code></td><td>2px</td><td>Erweiterter Klickbereich (Fitts' Law)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-min-height</code></td><td>24px</td><td>WCAG 2.5.8 Target Size Minimum</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-label-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-required-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-optional-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-info-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size SM Overrides</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-label-sm-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-sm-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size Emphasis Overrides</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-label-emphasis-font-size</code></td><td>var(--fs-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-emphasis-font-weight</code></td><td>var(--fnd-font-weight-bold)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:SUB:form-label:STYLE:END -->
 
-          <section class="docs__section" id="style-form-hint">
-            <h2 class="docs__section-title">BEM-Klassen: .nc-form-hint</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Block</td><td>Hilfetext unterhalb oder oberhalb des Inputs.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-hint__icon</code></td><td>Element</td><td>Optionales Info-Icon vor dem Hint-Text.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-hint__text</code></td><td>Element</td><td>Der eigentliche Hint-Text.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+<!-- AUTO:SUB:form-hint:STYLE:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Hint</h2>
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-hint-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-list-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-hint-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-link-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-muted-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:SUB:form-hint:STYLE:END -->
 
-          <section class="docs__section" id="style-form-error">
-            <h2 class="docs__section-title">BEM-Klassen: .nc-form-error</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-form-error</code></td><td>Block</td><td>Validierungs-/Fehlermeldung unterhalb des Inputs.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-error__icon</code></td><td>Element</td><td>Ausrufezeichen-Icon vor dem Fehlertext.</td></tr>
-                <tr><td><code class="docs__token">.nc-form-error__text</code></td><td>Element</td><td>Der eigentliche Fehlertext.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-bem-overview">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== Form Field (kanonisch) =====
-
-.nc-form-field                     // Block (flex column container)
-.nc-form-field--error              // Error-State
-.nc-form-field--success            // Success-State
-.nc-form-field--disabled           // Disabled-State
-.nc-form-field--horizontal         // Label + Input nebeneinander
-.nc-form-field--required           // Pflichtfeld-Kennzeichnung
-
-// ===== Form Label =====
-
-.nc-form-label                     // Block (flex baseline)
-.nc-form-label__text               // Label-Text
-.nc-form-label__required           // "*" Pflichtfeld-Indikator
-.nc-form-label__optional           // "(Optional)" Text
-.nc-form-label--inline             // Inline-Darstellung
-.nc-form-label--disabled           // Disabled-State
-
-// ===== Form Hint =====
-
-.nc-form-hint                      // Block (Hilfetext)
-.nc-form-hint__icon                // Info-Icon
-.nc-form-hint__text                // Hint-Text
-
-// ===== Form Error =====
-
-.nc-form-error                     // Block (Fehlermeldung)
-.nc-form-error__icon               // Error-Icon
-.nc-form-error__text               // Fehlertext</div>
-          </section>
+<!-- AUTO:SUB:form-error:STYLE:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Error</h2>
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-error-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-icon-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:SUB:form-error:STYLE:END -->
 
         </div>
 
@@ -591,94 +633,413 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-field</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-field</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-field-*</code>, <code class="docs__token">--nc-form-label-*</code>, <code class="docs__token">--nc-form-hint-*</code>, <code class="docs__token">--nc-form-error-*</code></td></tr>
-                <tr><td><strong>SCSS-Dateien</strong></td><td><code class="docs__token">scss/06-molecules/_form-field.scss</code>, <code class="docs__token">_form-label.scss</code>, <code class="docs__token">_form-hint.scss</code>, <code class="docs__token">_form-error.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container)</td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Keine direkte &mdash; delegiert an enthaltene Input-Elemente</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-field</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-field</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-field-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-field</code></td><td>Block</td><td>form-field-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label</code></td><td>Element (optional)</td><td>label</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Element (optional)</td><td>hint-above</td></tr>
+      <tr><td><code class="docs__token">.nc-input | .nc-textarea | .nc-select | .nc-checkbox</code></td><td>Element</td><td>control</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error</code></td><td>Element (optional)</td><td>error</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Element (optional)</td><td>hint-below</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>vertical</td><td>Anordnung — vertical (Standard, Label oben), horizontal (Label links, Input rechts, ab Tablet)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-field--horizontal</code></td><td>horizontal</td><td>Anordnung — vertical (Standard, Label oben), horizontal (Label links, Input rechts, ab Tablet)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Requirement-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-field--required</code></td><td>required</td><td>Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-field--optional</code></td><td>optional</td><td>Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Validation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Validierungs-State — none (Standard), error (Fehler), success (Erfolg)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-field--error</code></td><td>error</td><td>Validierungs-State — none (Standard), error (Fehler), success (Erfolg)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-field--success</code></td><td>success</td><td>Validierungs-State — none (Standard), error (Fehler), success (Erfolg)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>minimal</td><td>Inhaltskombination — minimal (Label + Input), with-hint (+ Hint), full (Label + Hint + Input + Error)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-hint</td><td>Inhaltskombination — minimal (Label + Input), with-hint (+ Hint), full (Label + Hint + Input + Error)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>full</td><td>Inhaltskombination — minimal (Label + Input), with-hint (+ Hint), full (Label + Hint + Input + Error)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Grouping-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>div</td><td>Element-Typ — div (Standard-Wrapper), fieldset (semantische Gruppierung mit &lt;legend&gt;)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>fieldset</td><td>Element-Typ — div (Standard-Wrapper), fieldset (semantische Gruppierung mit &lt;legend&gt;)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-form-field-gap</code></td><td>var(--fnd-spacing-01)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Requirement Indicators</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-required-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-optional-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flex-Column-Container der Label, Input, Hint und Error zusammenfasst.</li>
+    <li>gap via --nc-form-field-gap (4px) — Label margin-bottom wird auf 0 gesetzt.</li>
+    <li>Error-Modifier propagiert border-color auf Kind-Inputs (nc-input, nc-textarea, nc-select).</li>
+    <li>Success-Modifier propagiert success-border-color auf Kind-Inputs.</li>
+    <li>Disabled-Modifier graut Label und Hint aus (text-disabled, cursor: not-allowed).</li>
+    <li>Horizontal-Modifier: flex-direction: row ab Tablet, Label 200px breit, Input flex: 1.</li>
+    <li>Hint kann vor oder nach dem Input platziert werden.</li>
+    <li>Input hat aria-describedby mit IDs von Hint und/oder Error (Leerzeichen-getrennt).</li>
+    <li>Required: .nc-form-label__required zeigt '*' (aria-hidden='true'). Der Input bekommt required oder aria-required='true'.</li>
+    <li>Optional: .nc-form-label__optional zeigt '(Optional)' — optionaler visueller Hinweis.</li>
+    <li>Fieldset-Gruppierung: Wenn mehrere Form-Fields zusammengehoeren (z.B. Adresse), wird ein &lt;fieldset&gt; mit &lt;legend&gt; statt &lt;div&gt; verwendet. Siehe fieldset-recipe fuer Details.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
-          <!-- HTML Structure -->
-          <section class="docs__section" id="api-structure">
-            <h2 class="docs__section-title">HTML-Struktur</h2>
+<!-- AUTO:SUB:form-label:API:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Label</h2>
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-label</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-label</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-label-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-label</code></td><td>Block</td><td>form-label-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label__text</code></td><td>Element</td><td>text</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label__required</code></td><td>Element (optional)</td><td>required</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label__optional</code></td><td>Element (optional)</td><td>optional</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label__info</code></td><td>Element (optional)</td><td>info</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Indicator-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>required</td><td>Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>optional</td><td>Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>info</td><td>Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-label--sm</code></td><td>sm</td><td>Typografie-Hierarchie — sm (kompakt), md (Standard), emphasis (hervorgehoben fuer Section-Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>md</td><td>Typografie-Hierarchie — sm (kompakt), md (Standard), emphasis (hervorgehoben fuer Section-Labels)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label--emphasis</code></td><td>emphasis</td><td>Typografie-Hierarchie — sm (kompakt), md (Standard), emphasis (hervorgehoben fuer Section-Labels)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>block</td><td>Layout-Variante — block (Standard, Label ueber Input), inline (Label neben Input)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-label--inline</code></td><td>inline</td><td>Layout-Variante — block (Standard, Label ueber Input), inline (Label neben Input)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-font-size</code></td><td>var(--fs-base)</td><td>var(--fs-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-padding-block</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-min-height</code></td><td>24px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-required-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-optional-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-info-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Size SM Overrides</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-sm-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-sm-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>var(--fnd-font-weight-medium)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Size Emphasis Overrides</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-emphasis-font-size</code></td><td>var(--fs-lg)</td><td>var(--fs-lg)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-label-emphasis-font-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Semantisch ein &lt;label for='input-id'&gt; Element.</li>
+    <li>Flexbox-Layout: Text + Indicator + Info-Icon inline, align-items: baseline.</li>
+    <li>margin-bottom via --nc-form-label-gap — Abstand zum darunterliegenden Input.</li>
+    <li>Required-Sternchen ('*'): aria-hidden='true' — Screen Reader liest aria-required am Input.</li>
+    <li>Optional-Text ('(Optional)'): kleiner, leichteres Gewicht, tertiaere Farbe.</li>
+    <li>Info-Icon: &lt;button&gt; mit aria-label, oeffnet Tooltip bei Click/Hover. Fokussierbar via Tab.</li>
+    <li>cursor: pointer — Klick auf Label fokussiert den verknuepften Input.</li>
+    <li>Klickbereich: padding-block + min-height vergroessern den Touch-Target (Fitts' Law, WCAG 2.5.8 Target Size).</li>
+    <li>Im .nc-form-field Wrapper wird margin-bottom: 0 gesetzt (gap uebernimmt).</li>
+  </ul>
+</section>
+<!-- AUTO:SUB:form-label:API:END -->
 
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Standard Form Field</h3>
-            <div class="docs__code-block">&lt;div class="nc-form-field"&gt;
-  &lt;label class="nc-form-label" for="input-id"&gt;
-    &lt;span class="nc-form-label__text"&gt;Label&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;p class="nc-form-hint" id="hint-id"&gt;Hint text&lt;/p&gt;
-  &lt;input class="nc-input" type="text" id="input-id"
-         aria-describedby="hint-id" /&gt;
-&lt;/div&gt;</div>
+<!-- AUTO:SUB:form-hint:API:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Hint</h2>
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-hint</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-hint</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-hint-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Block</td><td>form-hint-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__text</code></td><td>Element</td><td>text</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__link</code></td><td>Element (optional)</td><td>link</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text-only</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Info-Icon + Text), with-link (Text + Link), list (Anforderungsliste)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-icon</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Info-Icon + Text), with-link (Text + Link), list (Anforderungsliste)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-link</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Info-Icon + Text), with-link (Text + Link), list (Anforderungsliste)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>list</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Info-Icon + Text), with-link (Text + Link), list (Anforderungsliste)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Farbvariante — default (sekundaerer Text), muted (noch dezentere Farbe fuer lange Hilfetexte)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint--muted</code></td><td>muted</td><td>Farbvariante — default (sekundaerer Text), muted (noch dezentere Farbe fuer lange Hilfetexte)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-list-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-link-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-muted-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.</li>
+    <li>Icon ist ein SVG (stroke-basiert, 1em), optisch via margin-top: 0.2em an Text ausgerichtet.</li>
+    <li>Text erbt Styles vom Block (font-size, color, line-height).</li>
+    <li>margin-block: gap oben, spacing-02 unten — Abstand zum Input und zum naechsten Element.</li>
+    <li>Wird via aria-describedby am zugehoerigen Input verknuepft (id='hint-{name}').</li>
+    <li>Kann vor oder nach dem Input im .nc-form-field Wrapper platziert werden.</li>
+    <li>Link-Slot: Inline-Anchor innerhalb des Hints. Erbt font-size, nutzt interactive-default Farbe. Muss :focus-visible mit focus-ring haben.</li>
+    <li>List-Support: .nc-form-hint__text kann eine &lt;ul class='nc-form-hint__list'&gt; enthalten. Listenpunkte werden via gap-Token (nc-form-hint-list-gap) vertikal beabstandet.</li>
+    <li>Muted-Variante: Reduzierte Opazitaet/Farbe fuer sehr dezente Zusatzinformation — soll nicht von der primaeren Hint-Message ablenken.</li>
+  </ul>
+</section>
+<!-- AUTO:SUB:form-hint:API:END -->
 
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Required Field mit Error</h3>
-            <div class="docs__code-block">&lt;div class="nc-form-field nc-form-field--error"&gt;
-  &lt;label class="nc-form-label" for="email-id"&gt;
-    &lt;span class="nc-form-label__text"&gt;E-Mail&lt;/span&gt;
-    &lt;span class="nc-form-label__required" aria-hidden="true"&gt;*&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;input class="nc-input" type="email" id="email-id"
-         aria-invalid="true"
-         aria-required="true"
-         aria-describedby="error-email-id" /&gt;
-  &lt;p class="nc-form-error" role="alert" id="error-email-id"&gt;
-    &lt;span class="nc-form-error__icon"&gt;
-      &lt;svg&gt;...&lt;/svg&gt;
-    &lt;/span&gt;
-    &lt;span class="nc-form-error__text"&gt;Fehlermeldung&lt;/span&gt;
-  &lt;/p&gt;
-&lt;/div&gt;</div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Optional Field mit Hint-Icon</h3>
-            <div class="docs__code-block">&lt;div class="nc-form-field"&gt;
-  &lt;label class="nc-form-label" for="note-id"&gt;
-    &lt;span class="nc-form-label__text"&gt;Anmerkung&lt;/span&gt;
-    &lt;span class="nc-form-label__optional"&gt;(Optional)&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;p class="nc-form-hint" id="hint-note-id"&gt;
-    &lt;span class="nc-form-hint__icon"&gt;
-      &lt;svg&gt;...&lt;/svg&gt;
-    &lt;/span&gt;
-    &lt;span class="nc-form-hint__text"&gt;Hilfetext&lt;/span&gt;
-  &lt;/p&gt;
-  &lt;textarea class="nc-textarea" id="note-id"
-            aria-describedby="hint-note-id"&gt;&lt;/textarea&gt;
-&lt;/div&gt;</div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal Layout</h3>
-            <div class="docs__code-block">&lt;div class="nc-form-field nc-form-field--horizontal"&gt;
-  &lt;label class="nc-form-label" for="horiz-id"&gt;
-    &lt;span class="nc-form-label__text"&gt;Label&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;input class="nc-input" type="text" id="horiz-id" /&gt;
-&lt;/div&gt;</div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">aria-describedby Pattern</h3>
-            <div class="docs__code-block">&lt;!-- Input verlinkt auf Hint UND Error --&gt;
-&lt;div class="nc-form-field nc-form-field--error"&gt;
-  &lt;label class="nc-form-label" for="combo-id"&gt;
-    &lt;span class="nc-form-label__text"&gt;Passwort&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;p class="nc-form-hint" id="hint-combo"&gt;Min. 8 Zeichen&lt;/p&gt;
-  &lt;input class="nc-input" type="password" id="combo-id"
-         aria-invalid="true"
-         aria-describedby="hint-combo error-combo" /&gt;
-  &lt;p class="nc-form-error" role="alert" id="error-combo"&gt;
-    &lt;span class="nc-form-error__text"&gt;Passwort zu kurz.&lt;/span&gt;
-  &lt;/p&gt;
-&lt;/div&gt;</div>
-          </section>
+<!-- AUTO:SUB:form-error:API:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Error</h2>
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-error</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-error</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-error-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-error</code></td><td>Block</td><td>form-error-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error__text</code></td><td>Element</td><td>text</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text-only</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Icon + Text)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-icon</td><td>Inhaltsvarianten — text-only (nur Text), with-icon (Icon + Text)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Severity-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>error</td><td>Schweregrad der Meldung — error (Fehler, Standard), warning (Warnung), success (Erfolg/Bestaetigung)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error--warning</code></td><td>warning</td><td>Schweregrad der Meldung — error (Fehler, Standard), warning (Warnung), success (Erfolg/Bestaetigung)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error--success</code></td><td>success</td><td>Schweregrad der Meldung — error (Fehler, Standard), warning (Warnung), success (Erfolg/Bestaetigung)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>var(--fnd-font-weight-medium)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-icon-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Colors</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.</li>
+    <li>Icon ist ein SVG (stroke-basiert, 16px), optisch via margin-top: 0.1em an Text ausgerichtet.</li>
+    <li>Text erbt Styles vom Block (font-size, color, font-weight).</li>
+    <li>Wird via aria-describedby am zugehoerigen Input verknuepft (id='error-{name}').</li>
+    <li>role='alert' fuer sofortige Screenreader-Ansage, aria-live='polite' fuer sanfte Updates.</li>
+  </ul>
+</section>
+<!-- AUTO:SUB:form-error:API:END -->
 
         </div>
 
@@ -687,108 +1048,276 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Form-Field-Komponenten verbinden Labels, Hints und Errors semantisch mit dem zugeh&ouml;rigen Input-Element.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Form-Field ist ein Layout-Wrapper ohne eigene ARIA-Rolle. Accessibility liegt auf den Kind-Elementen: Label (for), Input (aria-describedby, aria-invalid, aria-required), Error (role='alert'), Hint (id).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: requirement = required</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-required</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">required</code></li>
+      <li>Required: Kind-Input braucht required-Attribut oder aria-required='true'. Das Sternchen '*' im Label hat aria-hidden='true' — Screen Reader liest aria-required am Input statt das visuelle Zeichen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: validation = error</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-invalid</code></li>
+      <li>Error-State: Kind-Input braucht aria-invalid='true'. Error-Message via aria-describedby verknuepft.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: validation = error + requirement = required</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-invalid</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-required</code></li>
+      <li>Required + Error: Input braucht sowohl aria-invalid='true' als auch required/aria-required='true'. Error-Message erklaert, warum das Pflichtfeld nicht valide ist.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li>Disabled-State: Kind-Input hat disabled-Attribut oder aria-disabled='true'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: grouping = fieldset</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">fieldset</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">legend</code></li>
+      <li>Fieldset-Gruppierung: Root-Element wird zu &lt;fieldset&gt;, Label-Slot wird zu &lt;legend&gt;. Semantische Gruppierung fuer Screen Reader. Kein aria-labelledby noetig wenn &lt;legend&gt; vorhanden.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- aria-describedby Linking -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>aria-describedby Verlinkung</h4>
-              <ul>
-                <li>Jeder Input muss &uuml;ber <code class="docs__token">aria-describedby</code> mit seinen Hint- und Error-Elementen verlinkt sein</li>
-                <li>Hint und Error erhalten eindeutige <code class="docs__token">id</code>-Attribute (z.B. <code class="docs__token">hint-email</code>, <code class="docs__token">error-email</code>)</li>
-                <li>Mehrere IDs werden durch Leerzeichen getrennt: <code class="docs__token">aria-describedby="hint-email error-email"</code></li>
-                <li>Das Label wird &uuml;ber <code class="docs__token">for</code>/<code class="docs__token">id</code> verlinkt &mdash; nicht &uuml;ber aria-describedby</li>
-              </ul>
-            </div>
-          </div>
+<!-- AUTO:SUB:form-label:A11Y:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Label</h2>
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">&lt;label for='input-id'&gt; verknuepft Label mit Input. Klick auf Label fokussiert den Input. Required-Sternchen ist aria-hidden='true' — Pflichtfeld wird via aria-required='true' am Input kommuniziert. Klickbereich erfuellt WCAG 2.5.8 Target Size (24x24 Minimum).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: indicator = required</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-hidden</code></li>
+      <li>Required-Indikator ('*') muss aria-hidden='true' haben. Pflichtfeld-Semantik liegt auf dem Input (aria-required='true').</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: indicator = info</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-label</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-describedby</code></li>
+      <li>Info-Icon ist ein &lt;button&gt; mit aria-label='Hilfe zu {Feldname}'. Tooltip-Inhalt ist via aria-describedby verknuepft oder wird als role='tooltip' angezeigt. Icon selbst ist aria-hidden='true' — der Button traegt den Accessible Name.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li>Disabled-Label benoetigt keine eigene ARIA-Annotation — der Disabled-State liegt auf dem Input. Info-Button erhaelt tabindex='-1' und aria-disabled='true'.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:SUB:form-label:A11Y:END -->
 
-          <!-- role="alert" on Errors -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>role="alert" auf Fehlermeldungen</h4>
-              <ul>
-                <li>Jede <code class="docs__token">.nc-form-error</code> muss <code class="docs__token">role="alert"</code> haben, damit Screenreader den Fehler sofort vorlesen</li>
-                <li>Alternativ <code class="docs__token">aria-live="polite"</code> f&uuml;r weniger dringliche Validierung</li>
-                <li>Der Input selbst erh&auml;lt <code class="docs__token">aria-invalid="true"</code> im Error-State</li>
-                <li>Bei dynamischer Validierung: Fehlermeldung erst nach Interaktion einblenden (nicht sofort bei Seitenladung)</li>
-              </ul>
-            </div>
-          </div>
+<!-- AUTO:SUB:form-hint:A11Y:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Hint</h2>
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Hint-Text wird via aria-describedby am Input referenziert (id='hint-{name}'). Rein informativ, kein role noetig. Icon ist dekorativ (aria-hidden='true').</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: content = with-link</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">focusVisible</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">contrast-link</code></li>
+      <li>Links innerhalb des Hints muessen :focus-visible mit focus-ring haben. Link-Farbe (interactive-default) muss WCAG AA 4.5:1 gegen den Hintergrund erfuellen. Underline ist Pflicht oder per :hover sichtbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: content = list</h4>
+    <ul>
+      <li>Listen im Hint benoetigen keine zusaetzliche ARIA-Annotation. Die &lt;ul&gt; Semantik genuegt. Bei dynamischen Listen (z.B. Passwort-Regeln die sich abhaaken) kann aria-live='polite' auf dem Hint-Container sinnvoll sein.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = muted</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">contrast-muted</code></li>
+      <li>Muted-Farbe (text-tertiary) muss trotz reduzierter Prominenz 4.5:1 Kontrast einhalten. Im Dark Mode pruefe, ob die Farbe noch lesbar ist.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:SUB:form-hint:A11Y:END -->
 
-          <!-- Required Indicator -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Required-Indikator</h4>
-              <ul>
-                <li>Das visuelle Sternchen <code class="docs__token">.nc-form-label__required</code> erh&auml;lt <code class="docs__token">aria-hidden="true"</code></li>
-                <li>Die programmatische Pflichtfeld-Information kommt &uuml;ber <code class="docs__token">aria-required="true"</code> am Input-Element</li>
-                <li>Screenreader lesen &ldquo;required&rdquo; automatisch vor &mdash; das Sternchen ist nur visueller Hinweis</li>
-                <li>Alternativ: <code class="docs__token">required</code> HTML-Attribut am Input (native Validierung)</li>
-              </ul>
-            </div>
-          </div>
+<!-- AUTO:SUB:form-error:A11Y:START -->
+<hr style="margin-block: var(--fnd-spacing-08); border-color: var(--fnd-color-border-secondary);">
+<h2 class="docs__section-title">Sub-Komponente: Form Error</h2>
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Error-Message wird via aria-describedby am Input referenziert. role='alert' oder aria-live='polite' fuer dynamische Anzeige. Icon ist dekorativ (aria-hidden='true').</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: severity = error</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-alert</code></li>
+      <li>Error: role='alert' fuer sofortige Screenreader-Ansage bei Validierungsfehlern.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: severity = warning, success</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-live-polite</code></li>
+      <li>Warning/Success: aria-live='polite' fuer sanftes Update ohne Unterbrechung.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:SUB:form-error:A11Y:END -->
 
-          <!-- Label Association -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Label-Zuordnung</h4>
-              <ul>
-                <li>Jeder Input braucht ein zugeordnetes <code class="docs__token">&lt;label&gt;</code> mit <code class="docs__token">for="input-id"</code></li>
-                <li>Das Label muss sichtbar sein &mdash; <code class="docs__token">aria-label</code> allein gen&uuml;gt nicht als Ersatz (WCAG 2.4.6)</li>
-                <li>Klick auf das Label fokussiert den zugeh&ouml;rigen Input (native Browser-Funktionalit&auml;t)</li>
-                <li>Im Horizontal-Layout bleibt die for/id-Verlinkung identisch</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Vollst&auml;ndiges Form Field mit aria-describedby --&gt;
-&lt;div class="nc-form-field"&gt;
-  &lt;label class="nc-form-label" for="name"&gt;
-    &lt;span class="nc-form-label__text"&gt;Name&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;p class="nc-form-hint" id="hint-name"&gt;Vor- und Nachname&lt;/p&gt;
-  &lt;input class="nc-input" type="text" id="name"
-         aria-describedby="hint-name" /&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Error-State mit aria-invalid + role="alert" --&gt;
-&lt;div class="nc-form-field nc-form-field--error"&gt;
-  &lt;label class="nc-form-label" for="pw"&gt;
-    &lt;span class="nc-form-label__text"&gt;Passwort&lt;/span&gt;
-    &lt;span class="nc-form-label__required" aria-hidden="true"&gt;*&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;input class="nc-input" type="password" id="pw"
-         aria-invalid="true" aria-required="true"
-         aria-describedby="error-pw" /&gt;
-  &lt;p class="nc-form-error" role="alert" id="error-pw"&gt;
-    &lt;span class="nc-form-error__text"&gt;Pflichtfeld&lt;/span&gt;
-  &lt;/p&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Kein Label --&gt;
-&lt;div class="nc-form-field"&gt;
-  &lt;input class="nc-input" type="text" placeholder="Name" /&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: aria-describedby fehlt --&gt;
-&lt;div class="nc-form-field nc-form-field--error"&gt;
-  &lt;label class="nc-form-label" for="x"&gt;
-    &lt;span class="nc-form-label__text"&gt;Feld&lt;/span&gt;
-  &lt;/label&gt;
-  &lt;input class="nc-input" id="x" /&gt;
-  &lt;p class="nc-form-error"&gt;Fehler ohne Verlinkung&lt;/p&gt;
-&lt;/div&gt;</div>
-          </section>
         </div>
 
         <!-- ============================================================ -->

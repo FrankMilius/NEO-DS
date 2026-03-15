@@ -2,6 +2,26 @@
 // 07-Organisms: Navigation
 // ==========================================================================
 // Header, Main Navigation, Mega Menu, Search Overlay
+//
+// VARIANTEN:
+//   --transparent   — Kein Hintergrund, fuer Hero-Overlay (Landingpages)
+//   --solid         — Solider Hintergrund ohne Blur (Performance)
+//
+// EMPHASIS:
+//   Default: Backdrop-Blur mit 90% Opacity (Smart-Sticky)
+//   Transparent: Komplett durchsichtig, weisse Schrift
+//   Solid: Voller Hintergrund
+//
+// ALIGNMENT (Links):
+//   --align-center  — Links zentriert (Landingpage-Stil)
+//   --align-right   — Links rechts
+//
+// SCROLL:
+//   .is-scrolled    — Shadow + volle Opacity beim Scrollen
+//   .is-hidden      — Intelligent Sticky: versteckt beim Runterscrollen
+//
+// MOBILE:
+//   Hamburger-Toggle → nc-drawer als Mobile-Navigation
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -9,24 +29,62 @@
 .nc-header {
   position: sticky;
   top: 0;
-  background: color-mix(in srgb, var(--fnd-color-background-base) 90%, transparent);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--fnd-color-border-secondary);
-  z-index: var(--fnd-z-header);
+  min-height: var(--nc-nav-height);
+  background: var(--nc-nav-bg);
+  backdrop-filter: blur(var(--nc-nav-blur));
+  -webkit-backdrop-filter: blur(var(--nc-nav-blur));
+  border-bottom: var(--nc-nav-border-width) solid var(--nc-nav-border);
+  z-index: var(--nc-nav-z-index);
+  @include transition-quick((background-color, box-shadow, transform, border-color));
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // -- Intelligent Sticky: Scroll-Shadow --
+  &.is-scrolled {
+    box-shadow: var(--nc-nav-sticky-shadow);
+  }
+
+  // -- Intelligent Sticky: Hide beim Runterscrollen --
+  &.is-hidden {
+    transform: translateY(-100%);
+    pointer-events: none;
+  }
+
+  // -- Emphasis: Transparent (Hero-Overlay) --
+  &--transparent {
+    background: var(--nc-nav-transparent-bg);
+    border-color: var(--nc-nav-transparent-border);
+    color: var(--nc-nav-transparent-color);
+
+    // Beim Scrollen: Blur einblenden
+    &.is-scrolled {
+      background: var(--nc-nav-bg);
+      border-color: var(--nc-nav-border);
+      color: inherit;
+    }
+  }
+
+  // -- Emphasis: Solid (kein Blur, Performance) --
+  &--solid {
+    background: var(--nc-nav-bg-solid);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 .nc-nav {
   width: 100%;
   font-size: var(--fs-base);
-  //font-weight: var(--fnd-font-weight-bold);
 }
 
 .nc-nav__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--fnd-spacing-06);
-  padding-block: 1rem;
+  gap: var(--nc-nav-gap);
+  padding-block: var(--nc-nav-padding-block);
   margin-inline: auto;
   box-sizing: border-box;
   padding-inline: var(--fnd-spacing-04);
@@ -53,12 +111,22 @@
   }
 }
 
+// -- Alignment: Links zentriert --
+.nc-nav--align-center .nc-nav__list {
+  justify-content: center;
+}
+
+// -- Alignment: Links rechts --
+.nc-nav--align-right .nc-nav__list {
+  margin-inline-start: auto;
+}
+
 .nc-brand {
   font-family: var(--font-heading);
   text-transform: lowercase;
   letter-spacing: 0.06em;
-  font-size: var(--fs-xl);
-  font-weight: var(--fnd-font-weight-bold);
+  font-size: var(--nc-nav-brand-size);
+  font-weight: var(--nc-nav-brand-weight);
 }
 
 .nc-nav__list {
@@ -66,7 +134,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: var(--fnd-spacing-06);
+  gap: var(--nc-nav-gap);
   flex-wrap: wrap;
 }
 
@@ -109,7 +177,7 @@
   box-shadow: var(--fnd-elevation-floating);
   width: 100vw;
   max-width: 100vw;
-  margin: var(--nav-height) 0 0;
+  margin: var(--nc-nav-height) 0 0;
   transform: translateY(-8px);
   @include transition-quick((transform));
 }
@@ -136,7 +204,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  top: var(--nav-height);
+  top: var(--nc-nav-height);
   width: 100vw;
   background: var(--fnd-color-background-base);
   border-top: 1px solid var(--fnd-color-border-secondary);
@@ -191,6 +259,10 @@
   display: inline-block;
   margin-bottom: 0.5rem;
 }
+
+// ---------------------------------------------------------------------------
+// Mobile Toggle
+// ---------------------------------------------------------------------------
 
 @media (min-width: 960px) {
   .nc-mobile-toggle {

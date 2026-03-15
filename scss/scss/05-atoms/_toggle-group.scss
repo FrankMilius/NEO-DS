@@ -15,8 +15,30 @@
 //   md → 40px (= Button MD) — DEFAULT
 //   lg → 48px (= Button LG)
 //
+// VARIANTEN:
+//   filled   — Standard, Selected = interactive-Farbe (kraeftig)
+//   outline  — transparenter BG, subtilere Selektion
+//   soft     — helle Markenfarbe fuer Selected (weniger dominant)
+//
+// INDICATOR:
+//   bg        — Standard, Selected = Background-Wechsel
+//   underline — Dicke Linie unter dem gewaehlten Item (tab-aehnlich)
+//
+// WIDTH:
+//   auto     — Items so breit wie ihr Inhalt (Standard)
+//   equal    — Alle Items exakt gleich breit (flex: 1)
+//
+// DIVIDER:
+//   --divider — Subtile vertikale Trennlinien (50% Hoehe) statt voller Border
+//
 // KLASSEN:
 //   .nc-toggle-group (kanonisch, BEM)
+//   .nc-toggle-group--outline
+//   .nc-toggle-group--soft
+//   .nc-toggle-group--underline
+//   .nc-toggle-group--equal
+//   .nc-toggle-group--divider
+//   .nc-toggle-group--sm / --lg
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -30,6 +52,7 @@
   border-radius: var(--nc-toggle-group-radius);
   background-color: var(--nc-toggle-group-bg);
   border: var(--fnd-border-width-xs) solid var(--nc-toggle-group-border);
+  box-shadow: var(--nc-toggle-group-shadow);
   overflow: hidden;
   gap: var(--nc-toggle-group-gap);
 }
@@ -52,6 +75,7 @@
   border-radius: var(--fnd-radius-null);
   border: none;
   border-inline-end: var(--fnd-border-width-xs) solid var(--nc-toggle-group-item-border);
+  position: relative;
 
   // Default size: md
   @include toggle-group-item-size('md');
@@ -142,7 +166,7 @@
       opacity: var(--nc-toggle-group-item-disabled-opacity);
     }
 
-    // Icon Element (deep BEM: __item__icon → vereinfacht als direktes Kind)
+    // Icon Element
     > .nc-toggle-group__icon {
       @include toggle-group-icon-element;
     }
@@ -157,7 +181,11 @@
   &--sm &__item { @include toggle-group-item-size('sm'); }
   &--lg &__item { @include toggle-group-item-size('lg'); }
 
-  // Outline-Variante
+  // ═══════════════════════════════════════════════════════════════
+  // Varianten
+  // ═══════════════════════════════════════════════════════════════
+
+  // Outline-Variante: transparenter BG, subtile Selektion
   &--outline {
     background-color: transparent;
 
@@ -170,6 +198,103 @@
         color: var(--fnd-color-text-primary);
         border-color: transparent;
       }
+    }
+  }
+
+  // Soft-Variante: helle Markenfarbe fuer Selected (weniger dominant)
+  &--soft {
+    .nc-toggle-group__item {
+      &[aria-pressed='true'],
+      &[aria-checked='true'] {
+        background-color: var(--nc-toggle-group-item-soft-bg);
+        color: var(--nc-toggle-group-item-soft-color);
+        border-color: transparent;
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Selection Indicator: Underline
+  // ═══════════════════════════════════════════════════════════════
+
+  &--underline {
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    border-block-end: var(--fnd-border-width-xs) solid var(--nc-toggle-group-item-border);
+
+    .nc-toggle-group__item {
+      border-inline-end: none;
+      border-radius: 0;
+      position: relative;
+
+      // Underline-Indikator via ::after
+      &::after {
+        content: '';
+        position: absolute;
+        inset-block-end: 0;
+        inset-inline: 0;
+        height: var(--nc-toggle-group-underline-width);
+        background-color: transparent;
+        @include transition(background-color, '200');
+      }
+
+      &[aria-pressed='true'],
+      &[aria-checked='true'] {
+        background-color: transparent;
+        color: var(--nc-toggle-group-underline-color);
+
+        &::after {
+          background-color: var(--nc-toggle-group-underline-color);
+        }
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Width: Equal
+  // ═══════════════════════════════════════════════════════════════
+
+  &--equal &__item {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Divider: Subtile vertikale Trennlinien statt voller Border
+  // ═══════════════════════════════════════════════════════════════
+
+  &--divider &__item {
+    border-inline-end: none;
+
+    // Divider via ::before (vertikale Linie, nicht volle Hoehe)
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      width: var(--nc-toggle-group-divider-width);
+      height: var(--nc-toggle-group-divider-height);
+      margin-block: auto;
+      background-color: var(--nc-toggle-group-divider-color);
+    }
+
+    // Divider ausblenden wenn benachbartes Item selected ist
+    &[aria-pressed='true']::before,
+    &[aria-checked='true']::before {
+      display: none;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Reduced Motion
+  // ═══════════════════════════════════════════════════════════════
+
+  @media (prefers-reduced-motion: reduce) {
+    &__item {
+      transition: none;
     }
   }
 }

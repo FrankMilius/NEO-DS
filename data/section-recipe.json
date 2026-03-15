@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "section",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["layout", "object", "section", "orchestrator"],
     "links": {
@@ -21,7 +21,10 @@
       "Section ist der Orchestrator: setzt Block-Padding, enthaelt Container, konfiguriert Grid.",
       "Nesting: .section > .nc-container > .o-grid > .o-col-* > Content",
       "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
-      "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block."
+      "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
+      "Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.",
+      "Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.",
+      "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
     ]
   },
 
@@ -68,11 +71,103 @@
         },
         "accent": {
           "modifier": "section--accent",
-          "tokenGroups": ["surface"],
-          "description": "Akzent: interactive-default Hintergrund mit On-Accent Text."
+          "tokenGroups": ["surface", "accent"],
+          "description": "Akzent: interactive-default Hintergrund mit On-Accent Text.",
+          "contextualTokens": [
+            "fnd-color-text-on-interactive",
+            "fnd-color-text-on-accent",
+            "fnd-color-on-accent"
+          ]
+        }
+      }
+    },
+    "divider": {
+      "label": "Divider",
+      "description": "Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Keine Trennlinie (Standard)."
+        },
+        "top": {
+          "modifier": "section--divider-top",
+          "tokenGroups": ["geometry", "divider"],
+          "description": "1px Trennlinie am oberen Rand."
+        },
+        "bottom": {
+          "modifier": "section--divider-bottom",
+          "tokenGroups": ["geometry", "divider"],
+          "description": "1px Trennlinie am unteren Rand."
+        },
+        "both": {
+          "modifier": "section--divider-both",
+          "tokenGroups": ["geometry", "divider"],
+          "description": "Trennlinien oben und unten."
+        }
+      }
+    },
+    "edge": {
+      "label": "Edge Shape",
+      "description": "Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.",
+      "values": {
+        "straight": {
+          "modifier": null,
+          "tokenGroups": ["geometry"],
+          "description": "Gerade Kante (Standard)."
+        },
+        "slanted": {
+          "modifier": "section--edge-slanted",
+          "tokenGroups": ["geometry", "edge"],
+          "description": "Diagonaler Schnitt: 2–4° Neigung via clip-path polygon()."
+        },
+        "curved": {
+          "modifier": "section--edge-curved",
+          "tokenGroups": ["geometry", "edge"],
+          "description": "Wellenfoermige Kante via SVG-Mask oder clip-path ellipse."
         }
       }
     }
+  },
+
+  "dependencies": {
+    "description": "Tokens die Section aus anderen Gruppen erbt oder referenziert.",
+    "maps": [
+      {
+        "surface": "base",
+        "inherits": [
+          { "token": "fnd-color-background-base", "role": "Section-Hintergrund" },
+          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
+          { "token": "fnd-color-text-secondary", "role": "Sekundaere Textfarbe" },
+          { "token": "fnd-color-border-primary", "role": "Divider-Farbe" }
+        ]
+      },
+      {
+        "surface": "elevated",
+        "inherits": [
+          { "token": "fnd-color-surface-elevated", "role": "Section-Hintergrund (erhoeht)" },
+          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
+          { "token": "fnd-color-border-secondary", "role": "Divider-Farbe (subtil)" }
+        ]
+      },
+      {
+        "surface": "muted",
+        "inherits": [
+          { "token": "fnd-color-background-secondary", "role": "Section-Hintergrund (gedaempft)" },
+          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
+          { "token": "fnd-color-border-secondary", "role": "Divider-Farbe" }
+        ]
+      },
+      {
+        "surface": "accent",
+        "inherits": [
+          { "token": "fnd-color-interactive-default", "role": "Section-Hintergrund (Akzent)" },
+          { "token": "fnd-color-text-on-interactive", "role": "Primaere Textfarbe (invertiert)" },
+          { "token": "fnd-color-on-accent", "role": "Sekundaere Textfarbe (on-accent)" },
+          { "token": "fnd-color-border-on-accent", "role": "Divider-Farbe auf Akzent" }
+        ]
+      }
+    ]
   },
 
   "states": {
@@ -89,7 +184,9 @@
       "assertions": [
         "Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).",
         "Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.",
-        "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund."
+        "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund.",
+        "Edge-Shapes duerfen keine Inhalte verdecken — clip-path muss den Padding-Bereich respektieren.",
+        "Divider-Linien haben ausreichenden Kontrast (mindestens 3:1) gegen den jeweiligen Hintergrund."
       ]
     },
     "overrides": []
@@ -112,6 +209,30 @@
         "tokens": [
           "nc-section-bg",
           "nc-section-color"
+        ]
+      },
+      "accent": {
+        "label": "Accent",
+        "tokens": [
+          "nc-section-accent-bg",
+          "nc-section-accent-color",
+          "nc-section-accent-color-secondary"
+        ]
+      },
+      "divider": {
+        "label": "Divider",
+        "tokens": [
+          "nc-section-divider-color",
+          "nc-section-divider-width",
+          "nc-section-divider-style"
+        ]
+      },
+      "edge": {
+        "label": "Edge Shape",
+        "tokens": [
+          "nc-section-edge-height",
+          "nc-section-edge-angle",
+          "nc-section-edge-fill"
         ]
       }
     }
@@ -147,9 +268,29 @@
       "layout": "row"
     },
     {
+      "id": "divider-variants",
+      "label": "Divider-Varianten",
+      "description": "Trennlinien-Positionen: top, bottom, both.",
+      "matrix": {
+        "axes": { "divider": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
+      "id": "edge-variants",
+      "label": "Edge Shapes",
+      "description": "Kantenformen: straight, slanted, curved.",
+      "matrix": {
+        "axes": { "edge": "*" },
+        "states": ["default"]
+      },
+      "layout": "row"
+    },
+    {
       "id": "density-x-surface",
       "label": "Dichte × Oberflaeche",
-      "description": "Vollstaendige Matrix aller Kombinationen.",
+      "description": "Vollstaendige Matrix aller Kombinationen — zeigt ob z.B. compact auf accent zu gedraengt wirkt.",
       "matrix": {
         "axes": { "density": "*", "surface": "*" },
         "states": ["default"]
@@ -158,6 +299,20 @@
       "layoutConfig": {
         "rowAxis": "surface",
         "colAxis": "density"
+      }
+    },
+    {
+      "id": "surface-x-divider",
+      "label": "Oberflaeche × Divider",
+      "description": "Welche Divider-Kombinationen auf welchen Surfaces sinnvoll sind.",
+      "matrix": {
+        "axes": { "surface": "*", "divider": ["top", "bottom"] },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "surface",
+        "colAxis": "divider"
       }
     }
   ]

@@ -2,11 +2,11 @@
 // 06-Molecules: Item
 // ==========================================================================
 // Vielseitige Komponente zur Darstellung von Inhalten mit Media, Titel,
-// Beschreibung und Aktionen. Inspiriert von shadcn Item.
+// Beschreibung und Aktionen. Grid-basiertes Content-Layout.
 //
 // VARIANTEN (3):
 //   default   — Transparent, ohne Border
-//   outline   — Mit sichtbarem Border
+//   outline   — Mit sichtbarem Border + Shadow
 //   muted     — Gedaempfter Hintergrund
 //
 // GROESSEN (3):
@@ -14,18 +14,35 @@
 //   sm        — Kompakt  (padding 8px 12px)
 //   xs        — Minimal  (padding 6px 8px)
 //
-// MEDIA-VARIANTEN (4):
+// DENSITY (3):
+//   compact   — Reduzierter Abstand, kleinere Media
+//   default   — Standard-Werte
+//   loose     — Grosszuegiger Abstand, groessere Media
+//
+// ALIGNMENT (2):
+//   start     — Media oben ausgerichtet (default bei langen Inhalten)
+//   center    — Media vertikal zentriert (default)
+//
+// MEDIA-VARIANTEN (5):
 //   default   — Generischer Container
 //   icon      — Icon (24px, zentriert, rund bg)
 //   image     — Bild (abgerundet)
 //   avatar    — Avatar (nutzt bestehende .nc-avatar)
+//   thumbnail — Vorschaubild (16:9 Seitenverhaeltnis)
+//
+// SELECTED STATE:
+//   .is-selected — Dezenter interactive-Hintergrund + Accent-Border links
+//
+// ACCENT BORDER:
+//   Interaktive Items zeigen eine linke Accent-Border bei hover/active.
 //
 // BEM-KLASSEN:
 //   .nc-item                  Block
 //   .nc-item__media           Media-Slot (links)
 //   .nc-item__content         Text-Wrapper (Titel + Description)
-//   .nc-item__title           Titel
-//   .nc-item__description     Beschreibung
+//   .nc-item__title           Titel (font-weight-bold, text-primary)
+//   .nc-item__description     Beschreibung (text-secondary)
+//   .nc-item__meta            Meta-Slot (Shortcuts, Badges)
 //   .nc-item__actions         Aktionen-Slot (rechts)
 //   .nc-item-group            Gruppierungs-Container
 //   .nc-item-separator        Visueller Trenner
@@ -34,55 +51,22 @@
 //   .nc-item--muted           Variante: Muted
 //   .nc-item--sm              Groesse: Small
 //   .nc-item--xs              Groesse: Extra-Small
+//   .nc-item--compact         Density: Kompakt
+//   .nc-item--loose           Density: Grosszuegig
+//   .nc-item--align-start     Alignment: Oben
 //   .nc-item__media--icon     Media: Icon
 //   .nc-item__media--image    Media: Bild
 //   .nc-item__media--avatar   Media: Avatar
-//
-// ANTI-PATTERNS (vermieden):
-//   ✗ Hardcoded Farben / !important
-//   ✗ Verschachtelte interaktive Elemente
-//   ✗ outline: none
+//   .nc-item__media--thumbnail Media: Vorschaubild
 // ==========================================================================
 
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// Component Tokens
+// Base
 // ---------------------------------------------------------------------------
 
 .nc-item {
-  // Layout
-  --nc-item-gap: var(--fnd-spacing-03);
-  --nc-item-padding-x: var(--fnd-spacing-04);
-  --nc-item-padding-y: var(--fnd-spacing-03);
-  --nc-item-radius: var(--fnd-radius-sm);
-  --nc-item-align: center;
-
-  // Typography
-  --nc-item-title-font-size: var(--fs-sm);
-  --nc-item-title-font-weight: var(--fnd-font-weight-medium);
-  --nc-item-title-line-height: 1.4;
-  --nc-item-title-color: var(--fnd-color-text-primary);
-  --nc-item-desc-font-size: var(--fs-xs);
-  --nc-item-desc-line-height: 1.5;
-  --nc-item-desc-color: var(--fnd-color-text-secondary);
-
-  // Colors
-  --nc-item-bg: transparent;
-  --nc-item-border: transparent;
-  --nc-item-border-width: var(--fnd-border-width-xs);
-  --nc-item-hover-bg: var(--fnd-color-background-secondary);
-
-  // Media
-  --nc-item-media-size: 40px;
-  --nc-item-media-radius: var(--fnd-radius-sm);
-  --nc-item-media-bg: var(--fnd-color-background-secondary);
-  --nc-item-media-color: var(--fnd-color-text-secondary);
-
-  // Transition
-  --nc-item-transition: 0.15s ease;
-
-  // Layout
   display: flex;
   align-items: var(--nc-item-align);
   gap: var(--nc-item-gap);
@@ -92,10 +76,8 @@
   border: var(--nc-item-border-width) solid var(--nc-item-border);
   color: inherit;
   text-decoration: none;
-  transition:
-    background-color var(--nc-item-transition),
-    border-color var(--nc-item-transition),
-    box-shadow var(--nc-item-transition);
+  position: relative;
+  @include transition-quick((background-color, border-color, box-shadow));
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -117,13 +99,63 @@ button.nc-item,
     text-decoration: none;
   }
 
+  &:active:not(:disabled) {
+    background-color: var(--nc-item-active-bg);
+    transform: scale(0.99);
+  }
+
   &:focus-visible {
     @include focus-ring;
   }
 
-  &:active:not(:disabled) {
-    transform: scale(0.99);
+  // Accent-Border links bei Hover/Active
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--nc-item-accent-width);
+    background-color: transparent;
+    border-radius: var(--nc-item-radius) 0 0 var(--nc-item-radius);
+    @include transition-quick((background-color));
   }
+
+  &:hover::before {
+    background-color: var(--nc-item-accent-color);
+  }
+
+  &:active:not(:disabled)::before {
+    background-color: var(--nc-item-accent-color);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Selected State
+// ---------------------------------------------------------------------------
+
+.nc-item.is-selected {
+  background-color: var(--nc-item-selected-bg);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--nc-item-selected-accent-width);
+    background-color: var(--nc-item-selected-border);
+    border-radius: var(--nc-item-radius) 0 0 var(--nc-item-radius);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Disabled State
+// ---------------------------------------------------------------------------
+
+.nc-item:disabled,
+.nc-item[aria-disabled='true'],
+.nc-item.is-disabled {
+  opacity: var(--nc-item-disabled-opacity);
+  pointer-events: none;
 }
 
 // ---------------------------------------------------------------------------
@@ -132,12 +164,7 @@ button.nc-item,
 
 .nc-item--outline {
   --nc-item-border: var(--fnd-color-border-secondary);
-
-  &:hover,
-  a#{&}:hover,
-  button#{&}:hover {
-    --nc-item-border: var(--fnd-color-border-secondary);
-  }
+  box-shadow: var(--fnd-shadow-xs);
 }
 
 // ---------------------------------------------------------------------------
@@ -172,6 +199,36 @@ button.nc-item,
   --nc-item-media-size: 24px;
   --nc-item-title-font-size: var(--fs-xs);
   --nc-item-desc-font-size: var(--fs-xs);
+}
+
+// ---------------------------------------------------------------------------
+// Density: Compact
+// ---------------------------------------------------------------------------
+
+.nc-item--compact {
+  --nc-item-padding-x: var(--nc-item-compact-padding-x);
+  --nc-item-padding-y: var(--nc-item-compact-padding-y);
+  --nc-item-gap: var(--nc-item-compact-gap);
+  --nc-item-media-size: var(--nc-item-compact-media-size);
+}
+
+// ---------------------------------------------------------------------------
+// Density: Loose
+// ---------------------------------------------------------------------------
+
+.nc-item--loose {
+  --nc-item-padding-x: var(--nc-item-loose-padding-x);
+  --nc-item-padding-y: var(--nc-item-loose-padding-y);
+  --nc-item-gap: var(--nc-item-loose-gap);
+  --nc-item-media-size: var(--nc-item-loose-media-size);
+}
+
+// ---------------------------------------------------------------------------
+// Alignment: Start (Media oben)
+// ---------------------------------------------------------------------------
+
+.nc-item--align-start {
+  --nc-item-align: flex-start;
 }
 
 // ---------------------------------------------------------------------------
@@ -218,6 +275,22 @@ button.nc-item,
   height: auto;
 }
 
+// Media: Thumbnail — Festes Seitenverhaeltnis (16:9)
+.nc-item__media--thumbnail {
+  width: var(--nc-item-thumbnail-width);
+  height: auto;
+  aspect-ratio: var(--nc-item-thumbnail-ratio);
+  border-radius: var(--nc-item-thumbnail-radius);
+  flex-shrink: 0;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Content (Titel + Description)
 // ---------------------------------------------------------------------------
@@ -256,6 +329,19 @@ button.nc-item,
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Meta Slot (Shortcuts, Badges, Secondary-Info)
+// ---------------------------------------------------------------------------
+
+.nc-item__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  flex-shrink: 0;
+  color: var(--fnd-color-text-tertiary);
+  font-size: var(--fs-xs);
 }
 
 // ---------------------------------------------------------------------------

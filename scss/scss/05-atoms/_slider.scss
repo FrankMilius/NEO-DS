@@ -12,25 +12,30 @@
 // PATTERN:
 //   Verwendet <input type="range"> mit Cross-Browser Custom-Styling
 //   via ::-webkit-slider-*, ::-moz-range-* Pseudo-Elemente.
+//   Range-Modus: Zwei ueberlagerte Inputs fuer Dual-Thumb (min/max).
 //
 // BEM-KLASSEN:
 //   .nc-slider                    Block (Wrapper)
 //   .nc-slider__input             <input type="range"> (Custom-Styled)
-//   .nc-slider__track             Optionaler Track-Container (fuer JS-Fill)
-//   .nc-slider__fill              Gefuellter Track-Bereich (via JS-Width)
-//   .nc-slider__thumb             Optionaler Thumb-Override
+//   .nc-slider__input--max        Zweiter Input fuer Range-Modus
+//   .nc-slider__track             Track-Container (fuer JS-Fill)
+//   .nc-slider__fill              Gefuellter Track-Bereich (via CSS-Variable)
 //   .nc-slider__output            Wert-Anzeige (Tooltip oder Label)
+//   .nc-slider__tooltip           Floating Tooltip ueber dem Thumb
 //   .nc-slider__labels            Min/Max Labels Container
 //   .nc-slider__label-min         Minimum-Label
 //   .nc-slider__label-max         Maximum-Label
 //   .nc-slider--disabled          Disabled-State
 //   .nc-slider--error             Error-State
 //   .nc-slider--vertical          Vertikale Orientierung (optional)
+//   .nc-slider--range             Range-Modus (Dual-Thumb)
+//   .nc-slider--tooltip           Floating-Tooltip-Modus
 //
 // ACCESSIBILITY:
 //   Native <input type="range"> — volle Keyboard/Screen-Reader Unterstuetzung
 //   aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext
-//   :focus-visible → @include focus-ring auf Thumb
+//   :focus-visible → focus-ring mit offset auf dem Thumb (nicht Input)
+//   Min. 44px Touch-Target via unsichtbaren Klickbereich (WCAG 2.5.8)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -59,25 +64,27 @@
 }
 
 /// Gemeinsames Thumb-Styling (Cross-Browser).
+/// Touch-Target: Unsichtbarer Klickbereich von 44px (WCAG 2.5.8).
+/// Focus-Ring: Offset von 2px um den sichtbaren Thumb herum.
 @mixin slider-thumb-styles {
   width: var(--nc-slider-thumb-size);
   height: var(--nc-slider-thumb-size);
   background-color: var(--nc-slider-thumb-bg);
-  border: none;
+  border: var(--nc-slider-thumb-border-width) solid var(--nc-slider-thumb-border);
   border-radius: var(--fnd-radius-full);
   box-shadow: var(--nc-slider-thumb-shadow);
   cursor: pointer;
   appearance: none;
   transition:
-    border-color var(--nc-input-transition-duration) ease,
-    box-shadow var(--nc-input-transition-duration) ease,
-    transform var(--nc-input-transition-duration) ease;
+    border-color var(--nc-slider-transition-duration) var(--nc-slider-transition-timing),
+    box-shadow var(--nc-slider-transition-duration) var(--nc-slider-transition-timing),
+    transform var(--nc-slider-transition-duration) var(--nc-slider-transition-timing);
 }
 
 /// Custom-Styling fuer <input type="range">.
 @mixin slider-input {
   width: 100%;
-  height: var(--nc-slider-thumb-size);
+  height: var(--nc-slider-thumb-touch-size);
   margin: 0;
   padding: 0;
   background: transparent;
@@ -104,7 +111,6 @@
 
   &::-moz-range-thumb {
     @include slider-thumb-styles;
-    // Firefox braucht kein margin-top
   }
 
   // Firefox: Gefuellter Bereich links vom Thumb
@@ -116,18 +122,19 @@
   }
 
   // --- Focus ---
+  // Focus-Ring mit Offset direkt auf dem Thumb (nicht dem gesamten Input).
 
   &:focus-visible {
     outline: none;
 
     &::-webkit-slider-thumb {
-      @include focus-ring;
-      border-color: var(--nc-slider-thumb-border);
+      outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
+      outline-offset: var(--nc-slider-thumb-focus-ring-offset);
     }
 
     &::-moz-range-thumb {
-      @include focus-ring;
-      border-color: var(--nc-slider-thumb-border);
+      outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
+      outline-offset: var(--nc-slider-thumb-focus-ring-offset);
     }
   }
 
@@ -170,7 +177,7 @@
 }
 
 /// JS-gesteuerte Track-Fill Darstellung.
-/// Breite wird via CSS-Variable --nc-slider-fill oder inline-style gesetzt.
+/// Breite wird via CSS-Variable --nc-slider-progress oder inline-style gesetzt.
 @mixin slider-track {
   position: relative;
   width: 100%;
@@ -189,11 +196,43 @@
   background-color: var(--nc-slider-track-bg-active);
   border-radius: inherit;
   pointer-events: none;
-  // Breite via inline-style oder CSS-Variable
-  width: var(--nc-slider-fill, 0%);
+  // Breite via CSS-Variable --nc-slider-progress (0-100)
+  width: calc(var(--nc-slider-progress, 0) * 1%);
 }
 
-/// Wert-Anzeige (Tooltip oder Text).
+/// Floating Tooltip ueber dem Thumb.
+/// Position folgt dem Thumb via --nc-slider-progress CSS-Variable (0-100).
+@mixin slider-tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--nc-slider-tooltip-offset-y));
+  left: calc(var(--nc-slider-progress, 50) * 1%);
+  transform: translateX(-50%);
+  background-color: var(--nc-slider-tooltip-bg);
+  color: var(--nc-slider-tooltip-color);
+  border-radius: var(--nc-slider-tooltip-radius);
+  font-size: var(--nc-slider-tooltip-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  padding: var(--nc-slider-tooltip-padding);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  transition: opacity var(--nc-slider-transition-duration) var(--nc-slider-transition-timing);
+  z-index: 1;
+
+  // Pfeil nach unten
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: var(--nc-slider-tooltip-bg);
+  }
+}
+
+/// Wert-Anzeige (statischer Output).
 @mixin slider-output {
   display: inline-block;
   font-size: var(--nc-input-font-size-sm);
@@ -233,6 +272,10 @@
     @include slider-fill;
   }
 
+  &__tooltip {
+    @include slider-tooltip;
+  }
+
   &__output {
     @include slider-output;
   }
@@ -247,6 +290,56 @@
     color: inherit;
   }
 
+  // -- Floating Tooltip Modifier --
+  // Tooltip sichtbar bei Hover und Focus auf dem Input.
+
+  &--tooltip {
+    .nc-slider__input:hover ~ .nc-slider__tooltip,
+    .nc-slider__input:focus ~ .nc-slider__tooltip,
+    .nc-slider__input:active ~ .nc-slider__tooltip {
+      opacity: 1;
+    }
+  }
+
+  // -- Range Modifier (Dual Thumb) --
+  // Zwei ueberlagerte <input type="range"> fuer Min/Max-Auswahl.
+  // JS steuert --nc-slider-progress-min und --nc-slider-progress-max.
+
+  &--range {
+    .nc-slider__input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+
+      &::-webkit-slider-thumb {
+        pointer-events: auto;
+      }
+
+      &::-moz-range-thumb {
+        pointer-events: auto;
+      }
+
+      // Firefox-Fortschritt deaktivieren im Range-Modus
+      &::-moz-range-progress {
+        background-color: transparent;
+      }
+    }
+
+    // Track-Container ist der sichtbare Bezugsrahmen
+    .nc-slider__track {
+      height: var(--nc-slider-track-height);
+    }
+
+    // Fill-Bereich zwischen den beiden Thumbs
+    .nc-slider__fill {
+      left: calc(var(--nc-slider-progress-min, 0) * 1%);
+      width: calc((var(--nc-slider-progress-max, 100) - var(--nc-slider-progress-min, 0)) * 1%);
+      background-color: var(--nc-slider-range-fill-bg);
+    }
+  }
+
   // -- State-Modifier --
 
   &--disabled {
@@ -255,6 +348,10 @@
 
     .nc-slider__input {
       pointer-events: none;
+    }
+
+    .nc-slider__tooltip {
+      display: none;
     }
   }
 
@@ -285,6 +382,24 @@
     .nc-slider__input {
       writing-mode: vertical-lr;
       direction: rtl;
+    }
+
+    // Tooltip bei Vertikal: rechts neben dem Track
+    .nc-slider__tooltip {
+      bottom: auto;
+      left: calc(100% + var(--nc-slider-tooltip-offset-y));
+      top: calc((100 - var(--nc-slider-progress, 50)) * 1%);
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: auto;
+        right: 100%;
+        transform: translateY(-50%);
+        border: 4px solid transparent;
+        border-right-color: var(--nc-slider-tooltip-bg);
+        border-top-color: transparent;
+      }
     }
   }
 

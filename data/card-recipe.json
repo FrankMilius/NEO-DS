@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "status": "stable",
     "tags": ["container", "surface", "interactive", "layout"],
     "links": {
@@ -125,6 +125,28 @@
         "danger":  { "modifier": "nc-card--status-danger",  "tokenGroups": ["status"] },
         "info":    { "modifier": "nc-card--status-info",     "tokenGroups": ["status"] }
       }
+    },
+
+    "context": {
+      "label": "Layout-Kontext",
+      "description": "Kontextueller Kontext der Card innerhalb eines Grid/Section-Layouts",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Standard-Kontext (Grid mit spacing-06 Gap, 3 Spalten)."
+        },
+        "tight": {
+          "modifier": "nc-card--tight",
+          "tokenGroups": ["context-tight"],
+          "description": "Enger Grid (compact, gap <= spacing-04). Reduziertes Padding, kleinere Title-Size."
+        },
+        "display": {
+          "modifier": "nc-card--display",
+          "tokenGroups": ["context-display"],
+          "description": "Breiter/hervorgehobener Kontext (pair grid, featured). Groesseres Padding und Typografie."
+        }
+      }
     }
   },
 
@@ -171,6 +193,111 @@
         "effects": ["shimmerAnimation"]
       }
     ]
+  },
+
+  "dependencyRules": [
+    {
+      "id": "accent-surface-override",
+      "severity": "warning",
+      "trigger": {
+        "ancestor": "section",
+        "condition": "token-value-matches",
+        "token": "nc-section-bg",
+        "matches": ["var(--fnd-color-accent)", "var(--fnd-color-interactive-default)"]
+      },
+      "effects": {
+        "nc-card-bg": "color-mix(in srgb, var(--fnd-color-always-light) 12%, transparent)",
+        "nc-card-color": "var(--fnd-color-on-accent)",
+        "nc-card-title-color": "var(--fnd-color-on-accent)",
+        "nc-card-description-color": "color-mix(in srgb, var(--fnd-color-on-accent) 80%, transparent)",
+        "nc-card-border": "color-mix(in srgb, var(--fnd-color-always-light) 20%, transparent)"
+      },
+      "label": "Accent Surface Override",
+      "description": "Section mit Akzent-Hintergrund: Card benoetigt Overlay-BG und On-Accent-Text fuer WCAG-Kontrast."
+    },
+    {
+      "id": "muted-surface-blend",
+      "severity": "info",
+      "trigger": {
+        "ancestor": "section",
+        "condition": "token-value-matches",
+        "token": "nc-section-bg",
+        "matches": ["var(--fnd-color-background-muted)", "var(--fnd-color-layer-02)"]
+      },
+      "effects": {
+        "nc-card-bg": "var(--fnd-color-background-base)",
+        "nc-card-shadow": "var(--fnd-elevation-sm)"
+      },
+      "label": "Muted Surface Blend",
+      "description": "Section mit Muted-BG: Card nutzt base-bg + leichte Elevation fuer Abhebung."
+    },
+    {
+      "id": "tight-grid-context",
+      "severity": "info",
+      "trigger": {
+        "ancestor": "grid",
+        "condition": "token-value-lte",
+        "token": "nc-grid-gap",
+        "threshold": "16px"
+      },
+      "effects": {
+        "nc-card-padding": "var(--fnd-spacing-sm)",
+        "nc-card-header-padding": "var(--fnd-spacing-sm)",
+        "nc-card-content-padding": "var(--fnd-spacing-sm)",
+        "nc-card-footer-padding": "var(--fnd-spacing-sm)",
+        "nc-card-title-font-size": "var(--fs-sm)"
+      },
+      "label": "Tight Grid Context",
+      "description": "Grid mit Gap ≤ 16px: Card wechselt zu kompaktem Padding und kleinerer Typografie."
+    },
+    {
+      "id": "few-columns-display",
+      "severity": "info",
+      "trigger": {
+        "ancestor": "grid",
+        "condition": "token-value-lte",
+        "token": "nc-grid-columns",
+        "threshold": "2"
+      },
+      "effects": {
+        "nc-card-padding": "var(--fnd-spacing-xl)",
+        "nc-card-title-font-size": "var(--fs-lg)",
+        "nc-card-title-font-weight": "var(--fnd-font-weight-semibold)"
+      },
+      "label": "Few Columns Display",
+      "description": "Grid mit ≤ 2 Spalten: Card nutzt groesseres Padding und prominentere Typografie."
+    }
+  ],
+
+  "gridLayouts": {
+    "standard": {
+      "label": "Standard",
+      "columns": 3,
+      "minWidth": "280px",
+      "gap": "var(--fnd-spacing-lg)",
+      "class": "nc-card-grid"
+    },
+    "compact": {
+      "label": "Compact",
+      "columns": 6,
+      "minWidth": "160px",
+      "gap": "var(--fnd-spacing-sm)",
+      "class": "nc-card-grid nc-card-grid--compact"
+    },
+    "pair": {
+      "label": "Pair",
+      "columns": 2,
+      "minWidth": "320px",
+      "gap": "var(--fnd-spacing-lg)",
+      "class": "nc-card-grid nc-card-grid--pair"
+    },
+    "links": {
+      "label": "Links",
+      "columns": 4,
+      "minWidth": "200px",
+      "gap": "var(--fnd-spacing-md)",
+      "class": "nc-card-grid nc-card-grid--links"
+    }
   },
 
   "a11y": {
@@ -304,6 +431,22 @@
         "label": "Action",
         "tokens": [
           "nc-card-action-icon-size"
+        ]
+      },
+      "context-tight": {
+        "label": "Tight Context",
+        "description": "Token-Overrides fuer enge Grid-Layouts (Gap ≤ 16px, viele Spalten)",
+        "tokens": [
+          "nc-card-padding", "nc-card-header-padding", "nc-card-content-padding",
+          "nc-card-footer-padding", "nc-card-title-font-size", "nc-card-description-font-size"
+        ]
+      },
+      "context-display": {
+        "label": "Display Context",
+        "description": "Token-Overrides fuer hervorgehobene Darstellung (≤ 2 Spalten, Hero-Bereich)",
+        "tokens": [
+          "nc-card-padding", "nc-card-title-font-size", "nc-card-title-font-weight",
+          "nc-card-title-line-height", "nc-card-shadow"
         ]
       }
     }
@@ -492,6 +635,47 @@
       "render": { "label": "Skeleton", "compositionType": "skeleton" },
       "a11y": {
         "note": "Skeleton-Cards muessen aria-hidden='true' haben. Nicht als interaktiv behandeln."
+      }
+    },
+    {
+      "id": "layout-context",
+      "label": "Layout Context",
+      "description": "Cards in verschiedenen Grid-Kontexten (tight, default, display)",
+      "matrix": {
+        "axes": { "behavior": ["navigational"], "pattern": ["standard"], "statusLevel": ["none"], "context": ["default", "tight", "display"] },
+        "states": ["default"]
+      },
+      "focusTokenGroups": ["basis", "spacing", "typography", "context-tight", "context-display"],
+      "layout": "grid",
+      "render": {
+        "label": "{context}",
+        "compositionType": "context-comparison",
+        "note": "Side-by-side Vergleich: gleiche Card in verschiedenen Layout-Kontexten."
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Kontextuelle Token-Aenderungen duerfen Kontrast nicht brechen."
+      }
+    },
+    {
+      "id": "surface-adaptation",
+      "label": "Surface Adaptation",
+      "description": "Cards auf verschiedenen Section-Hintergruenden (base, muted, accent)",
+      "matrix": {
+        "axes": { "behavior": ["navigational"], "pattern": ["preview"], "statusLevel": ["none"] },
+        "states": ["default", "hover"]
+      },
+      "focusTokenGroups": ["basis", "interactive", "preview"],
+      "layout": "grid",
+      "render": {
+        "label": "Surface Adaptation",
+        "compositionType": "surface-comparison",
+        "surfaces": ["base", "muted", "accent"],
+        "note": "Zeigt wie dependencyRules die Card-Tokens automatisch an den Section-Hintergrund anpassen."
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Auf Accent-Surfaces: Kontrast von on-accent gegen Overlay-BG pruefen."
       }
     }
   ]

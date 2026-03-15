@@ -2,37 +2,58 @@
 // 05-Atoms: Rating
 // ==========================================================================
 // Stern-Bewertungs-Komponente mit interaktivem und read-only Modus.
-// Unterstuetzt 1-5 Sterne (oder beliebige Anzahl), Half-Stars optional.
+// Unterstuetzt 1-5 Sterne (oder beliebige Anzahl), Half-Stars fuer Readonly.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-rating-* Component-Tokens
 //   (registriert in 00-settings/_component-tokens.scss).
 //
 // PATTERN:
-//   Interaktiv: Versteckte Radio-Inputs + Labels mit SVG-Sternen
+//   Interaktiv: Versteckte Radio-Inputs + Labels mit SVG-Icons
 //   Readonly:   Reine visuelle Anzeige ohne Inputs
 //
 // BEM-KLASSEN:
 //   .nc-rating                    Block (inline-flex container)
 //   .nc-rating__input             <input type="radio"> (sr-only)
+//   .nc-rating__input--clear      Versteckter "0 Sterne" Radio (Clear/Reset)
 //   .nc-rating__item              Einzelner Stern (Label oder Span)
 //   .nc-rating__item--active      Gefuellter/Aktiver Stern
-//   .nc-rating__item--half        Halb gefuellter Stern
+//   .nc-rating__item--half        Halb gefuellter Stern (readonly)
 //   .nc-rating__value             Numerischer Wert (z.B. "4.5")
 //   .nc-rating__count             Anzahl Bewertungen (z.B. "(128)")
+//   .nc-rating__clear             Sichtbarer Reset-Button (optional)
 //   .nc-rating--sm                Kleine Variante
 //   .nc-rating--lg                Grosse Variante
 //   .nc-rating--readonly          Nur-Anzeige-Modus
 //   .nc-rating--disabled          Disabled-State
-//   .nc-rating--error             Error-State
+//   .nc-rating--error             Error-State (Pflichtfeld)
+//   .nc-rating--sentiment         Sentiment-Farbskala (Rot/Gelb/Gruen)
+//   .nc-rating--compact           Pill-Variante: 1 Stern + Zahl
+//
+// ICON-TYPES (via data-icon Attribut):
+//   star (default), heart, thumb, smiley
 //
 // ACCESSIBILITY:
 //   Interaktiv: role="radiogroup", aria-label auf Container
 //   Jeder Stern: <input type="radio"> + <label>
-//   Readonly: role="img", aria-label="Bewertung: 4 von 5 Sternen"
+//   Clear-Input: value="0", erreichbar via Tastatur (Arrow Left vom 1. Stern)
+//   Readonly: role="img", aria-label="Bewertung: 4.5 von 5 Sternen"
+//   Touch-Target: min 44x44px via unsichtbares Padding (WCAG 2.5.8)
 // ==========================================================================
 
 @use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+/// Bounce-Animation bei Stern-Auswahl
+@keyframes nc-rating-bounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(var(--nc-rating-bounce-scale, 1.25)); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
 
 // ---------------------------------------------------------------------------
 // Mixins
@@ -46,8 +67,9 @@
 }
 
 /// Einzelner Stern-Item.
-/// Wird als <label> (interaktiv) oder <span> (readonly) verwendet.
+/// Touch-Target: Unsichtbares ::after vergroessert den Klickbereich auf min. 44px.
 @mixin rating-item {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -55,9 +77,17 @@
   height: var(--nc-rating-size);
   color: var(--nc-rating-color-inactive);
   cursor: pointer;
-  transition: color var(--nc-input-transition-duration) ease,
-    transform var(--nc-input-transition-duration) ease;
+  transition:
+    color var(--nc-rating-transition-duration) var(--nc-rating-transition-timing),
+    transform var(--nc-rating-transition-duration) var(--nc-rating-transition-timing);
   user-select: none;
+
+  // Touch-Target: Unsichtbarer Klickbereich fuer 44px WCAG 2.5.8
+  &::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--nc-rating-touch-padding));
+  }
 
   // SVG-Icon innerhalb des Items
   > svg,
@@ -72,6 +102,7 @@
   // Reduced Motion
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+    animation: none !important;
   }
 }
 
@@ -80,33 +111,23 @@
   color: var(--nc-rating-color-active);
 }
 
-/// Halb gefuellter Stern (via Clip-Path oder Gradient).
+/// Halb gefuellter Stern (nur readonly, via Clip-Path).
 @mixin rating-item-half {
   position: relative;
   color: var(--nc-rating-color-inactive);
 
-  &::before {
-    content: '';
+  // Linke Haelfte aktiv via Clip-Path auf dem SVG
+  > svg:first-child {
+    clip-path: inset(0 50% 0 0);
+    color: var(--nc-rating-color-active);
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    color: var(--nc-rating-color-active);
-    // Der Stern-SVG wird ueber das Parent vererbt
-    // Clip auf halbe Breite
-  }
-
-  // Alternative: Gradient-Clip fuer den SVG-Fill
-  > svg {
-    // Linke Haelfte aktiv, rechte Haelfte inaktiv
-    // Wird via CSS-Gradient oder JS-gesteuert
   }
 }
 
 /// Hover-Effekte im interaktiven Modus.
-/// Sterne leuchten auf bei Hover (bis zum Cursor-Stern).
+/// Staggered Animation: Sterne leuchten mit 30ms Versatz auf.
 @mixin rating-hover {
   // Hover auf einzelnem Stern: skalieren
   .nc-rating__item:hover {
@@ -114,15 +135,26 @@
     color: var(--nc-rating-hover-color);
   }
 
-  // Sterne bis zum Hover-Stern einfaerben (via sibling selectors)
-  // NOTE: Erfordert HTML-Reihenfolge oder direction:rtl Trick
-  // In der Praxis wird dies oft via JS gesteuert
+  // Sterne bis zum Hover-Stern einfaerben (via sibling selectors + direction:rtl)
   &:hover .nc-rating__item {
     color: var(--nc-rating-hover-color);
   }
 
   &:hover .nc-rating__item:hover ~ .nc-rating__item {
     color: var(--nc-rating-color-inactive);
+  }
+
+  // Staggered Delay: Jeder Stern bekommt via --nc-rating-item-index einen Versatz.
+  // Index wird via style="--nc-rating-item-index: N" auf jedem Item gesetzt.
+  .nc-rating__item {
+    transition-delay: calc(var(--nc-rating-item-index, 0) * var(--nc-rating-stagger-delay));
+  }
+}
+
+/// Selection-Bounce: Kurze Scale-Animation bei Klick.
+@mixin rating-bounce {
+  .nc-rating__input:checked + .nc-rating__item {
+    animation: nc-rating-bounce 0.3s var(--nc-rating-transition-timing);
   }
 }
 
@@ -131,6 +163,11 @@
   .nc-rating__item {
     cursor: default;
     pointer-events: none;
+
+    // Kein Touch-Target im Readonly-Modus
+    &::after {
+      display: none;
+    }
 
     &:hover {
       transform: none;
@@ -159,11 +196,45 @@
 /// Bewertungs-Anzahl (z.B. "(128 Bewertungen)").
 @mixin rating-count {
   font-size: var(--nc-input-font-size-sm);
-  color: var(--fnd-color-text-secondary);
+  color: var(--nc-rating-count-color);
+}
+
+/// Clear/Reset-Button neben den Sternen.
+@mixin rating-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-rating-size);
+  height: var(--nc-rating-size);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--fnd-color-text-tertiary);
+  opacity: 0;
+  transition: opacity var(--nc-rating-transition-duration) var(--nc-rating-transition-timing);
+  border-radius: var(--fnd-radius-sm);
+
+  // Sichtbar wenn ein Wert ausgewaehlt ist
+  .nc-rating:has(.nc-rating__input:checked) & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: var(--fnd-color-text-primary);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  > svg {
+    width: 60%;
+    height: 60%;
+  }
 }
 
 /// Groessen-Modifier.
-/// @param {String} $size - 'sm' | 'lg'
 @mixin rating-size($size) {
   @if $size == 'sm' {
     .nc-rating__item {
@@ -185,22 +256,23 @@
 .nc-rating {
   @include rating-base;
   @include rating-hover;
+  @include rating-bounce;
 
   // -- Hidden Radio Inputs (interaktiver Modus) --
 
   &__input {
     @include sr-only;
 
-    // Checked-State: Stern und alle vorherigen aktiv
-    &:checked ~ .nc-rating__item,
-    &:checked + .nc-rating__item {
-      // Via JS oder reverse-order geloest
-    }
-
     // Focus auf Label weiterleiten
     &:focus-visible + .nc-rating__item {
-      @include focus-ring;
+      outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
+      outline-offset: 2px;
       border-radius: var(--fnd-radius-sm);
+    }
+
+    // Clear-Input (value=0): Unsichtbar, nur via Tastatur erreichbar
+    &--clear {
+      @include sr-only;
     }
   }
 
@@ -228,6 +300,12 @@
     @include rating-count;
   }
 
+  // -- Clear/Reset-Button --
+
+  &__clear {
+    @include rating-clear;
+  }
+
   // -- Groessen-Modifier --
 
   &--sm {
@@ -250,11 +328,51 @@
 
   &--error {
     .nc-rating__item {
-      color: var(--nc-input-border-error);
+      color: var(--nc-rating-error-color);
 
       &--active {
-        color: var(--nc-input-border-error);
+        color: var(--nc-rating-error-color);
       }
+    }
+  }
+
+  // -- Sentiment-Farbskala --
+  // 1-2 Sterne: Danger (Rot), 3 Sterne: Warning (Gelb), 4-5 Sterne: Success (Gruen).
+  // Steuert die Farbe aller aktiven Sterne basierend auf der Gesamtbewertung.
+  // Aktivierung via data-sentiment auf dem Container oder --sentiment Modifier.
+  // Wert-Klassen: --sentiment-low (1-2), --sentiment-mid (3), --sentiment-high (4-5).
+
+  &--sentiment {
+    &.nc-rating--sentiment-low .nc-rating__item--active {
+      color: var(--nc-rating-sentiment-low);
+    }
+
+    &.nc-rating--sentiment-mid .nc-rating__item--active {
+      color: var(--nc-rating-sentiment-mid);
+    }
+
+    &.nc-rating--sentiment-high .nc-rating__item--active {
+      color: var(--nc-rating-sentiment-high);
+    }
+  }
+
+  // -- Compact/Pill-Variante --
+  // Ein einzelner Stern + numerischer Wert, ideal fuer dichte Listen.
+
+  &--compact {
+    gap: var(--fnd-spacing-02);
+    align-items: center;
+
+    .nc-rating__item {
+      // Nur ein Stern sichtbar — immer aktiv
+      &:not(:first-of-type) {
+        display: none;
+      }
+    }
+
+    .nc-rating__value {
+      margin-inline-start: 0;
+      font-size: var(--nc-input-font-size-sm);
     }
   }
 

@@ -1,18 +1,63 @@
 // ==========================================================================
 // 06-Molecules: Navigation Molecules
 // ==========================================================================
-// Zusammengesetzte Navigation-Komponenten
+// Zusammengesetzte Navigation-Elemente: Nav-Link, Nav-Toggle, Mobile-Panel,
+// Search-Panel, Lang-Toggle.
+//
+// Struktur:
+//   .nc-nav__link         → Icon + Label mit Hover/Active
+//   .nc-nav__toggle       → Button (transparent)
+//   .nc-search-toggle     → Suchfeld-Trigger
+//   .nc-search-panel      → Search Overlay (Full-Width)
+//   .nc-mobile-toggle     → Hamburger-Icon
+//   .nc-mobile-panel      → Mobile-Dropdown (vertikal)
+//   .nc-lang-toggle       → Sprachumschalter
+//
+// Tokens: --nc-nav-mol-* (registriert in _component-tokens.scss)
 // ==========================================================================
 
 @use '../01-tools' as *;
 
+// ---------------------------------------------------------------------------
+// Nav Link (Icon + Label, Hover/Active States)
+// ---------------------------------------------------------------------------
+// Shared Interaction: Hover-BG und Active-Underline werden von
+// navigation-menu__trigger und __link wiederverwendet.
+
 .nc-nav__link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--nc-nav-mol-link-gap);
+  padding: var(--nc-nav-mol-link-padding-y) var(--nc-nav-mol-link-padding-x);
+  border-radius: var(--nc-nav-mol-link-radius);
+  color: var(--nc-nav-mol-link-color);
   font-size: inherit;
   font-weight: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  @include transition-quick((background-color, color));
+
+  &:hover {
+    background-color: var(--nc-nav-mol-link-hover-bg);
+    color: var(--nc-nav-mol-link-hover-color);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Active / Current-Page Link
+  &.is-active,
+  &[aria-current='page'] {
+    font-weight: var(--nc-nav-mol-link-active-weight);
+    border-bottom: var(--nc-nav-mol-link-active-width) solid var(--nc-nav-mol-link-active-border);
+  }
 }
+
+// ---------------------------------------------------------------------------
+// Nav Toggle (generischer Button ohne eigene Styles)
+// ---------------------------------------------------------------------------
 
 .nc-nav__toggle {
   border: none;
@@ -21,9 +66,18 @@
   gap: 0.35rem;
 }
 
-.nc-search-toggle .nc-icon {
-  width: 18px;
-  height: 18px;
+// ---------------------------------------------------------------------------
+// Search Toggle
+// ---------------------------------------------------------------------------
+
+.nc-search-toggle {
+  min-width: 34px;
+  padding: 0;
+
+  .nc-icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .nc-tools .button,
@@ -32,10 +86,9 @@
   height: 48px;
 }
 
-.nc-search-toggle {
-  min-width: 34px;
-  padding: 0;
-}
+// ---------------------------------------------------------------------------
+// Search Panel (Overlay)
+// ---------------------------------------------------------------------------
 
 .nc-search-panel__top {
   display: flex;
@@ -57,12 +110,16 @@
   font-size: var(--fs-base);
   @include transition-quick((background-color, transform));
   flex: 0 0 auto;
-}
 
-.nc-search-panel__close:hover,
-.nc-search-panel__close:focus-visible {
-  background: var(--fnd-color-background-tertiary);
-  transform: scale(1.03);
+  &:hover,
+  &:focus-visible {
+    background: var(--fnd-color-background-tertiary);
+    transform: scale(1.03);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
 }
 
 .nc-search__meta {
@@ -107,12 +164,12 @@
   opacity: 0;
   transform: translateY(-6px);
   @include transition-quick((opacity, transform, max-height));
-}
 
-.nc-search__results.is-open {
-  max-height: 360px;
-  opacity: 1;
-  transform: translateY(0);
+  &.is-open {
+    max-height: 360px;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nc-search__result {
@@ -121,16 +178,16 @@
   padding: 0.65rem 0.75rem;
   border-radius: var(--fnd-radius-2xl);
   border: 1px solid var(--fnd-color-border-secondary);
-}
 
-.nc-search__result:hover,
-.nc-search__result:focus-visible {
-  background: var(--fnd-color-background-secondary);
-  text-decoration: none;
-}
+  &:hover,
+  &:focus-visible {
+    background: var(--fnd-color-background-secondary);
+    text-decoration: none;
+  }
 
-.nc-search__result:focus-visible {
-  @include focus-ring;
+  &:focus-visible {
+    @include focus-ring;
+  }
 }
 
 .nc-search__title {
@@ -147,6 +204,10 @@
   color: var(--fnd-color-text-secondary);
   font-size: var(--fs-sm);
 }
+
+// ---------------------------------------------------------------------------
+// Submenu (Dropdown-Links)
+// ---------------------------------------------------------------------------
 
 .nc-submenu {
   list-style: none;
@@ -167,6 +228,10 @@
   color: var(--fnd-color-text-secondary);
 }
 
+// ---------------------------------------------------------------------------
+// Mobile Toggle (Hamburger-Icon)
+// ---------------------------------------------------------------------------
+
 .nc-mobile-toggle {
   display: inline-flex;
   align-items: center;
@@ -177,16 +242,22 @@
   position: relative;
   display: inline-block;
   width: 18px;
-  height: 2px;
-  border-radius: var(--fnd-radius-xs);
-  background: currentColor;
-  box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+  height: var(--nc-nav-mol-toggle-bar-height);
+  border-radius: var(--nc-nav-mol-toggle-bar-radius);
+  background: var(--nc-nav-mol-toggle-bar-color);
+  box-shadow:
+    0 calc(-1 * var(--nc-nav-mol-toggle-bar-gap)) 0 var(--nc-nav-mol-toggle-bar-color),
+    0 var(--nc-nav-mol-toggle-bar-gap) 0 var(--nc-nav-mol-toggle-bar-color);
 }
+
+// ---------------------------------------------------------------------------
+// Mobile Panel (Dropdown-Navigation)
+// ---------------------------------------------------------------------------
 
 .nc-mobile-panel {
   display: none;
-  border-bottom: 1px solid var(--fnd-color-border-secondary);
-  background: var(--fnd-color-background-base);
+  border-bottom: 1px solid var(--nc-nav-mol-mobile-border);
+  background: var(--nc-nav-mol-mobile-bg);
 }
 
 .nc-header.is-mobile-open .nc-mobile-panel {
@@ -196,7 +267,7 @@
 .nc-mobile-panel__inner {
   padding: 1.5rem 0 2rem;
   display: grid;
-  gap: 1.25rem;
+  gap: var(--nc-nav-mol-mobile-gap);
 }
 
 .nc-mobile-links {
@@ -209,8 +280,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--fnd-color-border-secondary);
+  padding: var(--nc-nav-mol-mobile-link-padding);
+  border-bottom: 1px solid var(--nc-nav-mol-mobile-link-border);
   background: none;
   border: none;
   font-size: var(--fs-base);
@@ -233,13 +304,17 @@
   color: var(--fnd-color-text-secondary);
 }
 
+// ---------------------------------------------------------------------------
+// Lang Toggle (Sprachumschalter)
+// ---------------------------------------------------------------------------
+
 .nc-lang-toggle {
   display: flex;
   align-items: center;
   gap: var(--fnd-spacing-02);
-  background: var(--fnd-color-background-secondary);
-  border-radius: var(--fnd-radius-sm);
-  padding: 0 0.5rem;
+  background: var(--nc-nav-mol-lang-bg);
+  border-radius: var(--nc-nav-mol-lang-radius);
+  padding: var(--nc-nav-mol-lang-padding);
 }
 
 .nc-lang-toggle__label {
@@ -255,11 +330,11 @@
   font-size: var(--fs-xs);
   cursor: pointer;
   @include transition-quick((background-color, color, transform));
-}
 
-.nc-lang-toggle__button.is-active {
-  background: var(--fnd-color-background-inverse);
-  color: var(--fnd-color-text-inverse);
-  border-radius: var(--fnd-radius-sm);
-  transform: translateY(-1px);
+  &.is-active {
+    background: var(--nc-nav-mol-lang-active-bg);
+    color: var(--nc-nav-mol-lang-active-color);
+    border-radius: var(--nc-nav-mol-lang-active-radius);
+    transform: translateY(-1px);
+  }
 }

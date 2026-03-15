@@ -1,8 +1,8 @@
 // ==========================================================================
-// 05-Atoms: Select
+// 05-Atoms: Select v2.0.0
 // ==========================================================================
 // Token-basierte Select-Komponente mit custom Arrow-Indikator,
-// 3 Groessen und State-Varianten.
+// 3 Groessen, State-Varianten, Optgroup-Styling und Placeholder-Hack.
 //
 // ARCHITEKTUR:
 //   Nutzt --nc-input-* Tokens (gleiche Basis wie Input) plus
@@ -18,8 +18,14 @@
 //   .nc-select--error             Error-Zustand (roter Rand)
 //   .nc-select--success           Success-Zustand (gruener Rand)
 //   .nc-select--multiple          Multi-Select (native, kein Arrow)
-//   .nc-select-wrapper            Wrapper fuer custom Indicator
+//   .nc-select--filled            Filled-Variante (Hintergrund + Underline)
+//   .nc-select--borderless        Borderless-Variante (transparent bis Focus)
+//   .nc-select-wrapper            Wrapper fuer custom Indicator + .is-open
 //   .nc-select__indicator         Custom Arrow-Icon
+//
+// STATES:
+//   :invalid (required + leere Option) → Placeholder-Farbe
+//   .is-open (JS-gesteuert)            → Chevron rotiert
 //
 // ACCESSIBILITY:
 //   :focus-visible → @include focus-ring
@@ -50,6 +56,23 @@
   // Browser-Default Arrow entfernen
   &::-ms-expand {
     display: none;
+  }
+
+  // Optgroup-Styling
+  optgroup {
+    font-weight: var(--nc-select-optgroup-font-weight);
+    padding-left: var(--nc-select-optgroup-padding-left);
+  }
+
+  optgroup option {
+    font-weight: normal;
+    padding-left: calc(var(--nc-select-optgroup-padding-left) + var(--fnd-spacing-02));
+  }
+
+  // Placeholder-Color-Hack: Farbe aendern solange leere Option gewaehlt
+  // Funktioniert mit required + <option value="" disabled selected>
+  &:required:invalid {
+    color: var(--nc-input-placeholder-color);
   }
 }
 
@@ -105,6 +128,28 @@
   &[multiple] {
     @include select-multiple;
   }
+
+  // -- Varianten (Shared Form Control) --
+
+  &--filled {
+    @include form-control-filled;
+    @include form-control-filled-validation;
+    background-image: none; // Custom Indicator im Wrapper nutzen
+
+    &.nc-select--success {
+      border-block-end-color: var(--nc-form-control-border-success);
+    }
+  }
+
+  &--borderless {
+    @include form-control-borderless;
+    @include form-control-borderless-validation;
+    background-image: none;
+
+    &.nc-select--success {
+      border-block-end: 2px solid var(--nc-form-control-border-success);
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -129,6 +174,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    @include transition-quick((transform));
 
     > svg {
       width: 100%;
@@ -144,5 +190,12 @@
   // Wenn custom Indicator, kein background-image auf Select
   > .nc-select {
     background-image: none;
+  }
+
+  // Open-State: Chevron rotiert (JS setzt .is-open am Wrapper)
+  &.is-open {
+    .nc-select__indicator {
+      transform: translateY(-50%) rotate(180deg);
+    }
   }
 }

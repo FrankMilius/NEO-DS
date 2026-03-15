@@ -1,0 +1,345 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "navigation-orchestration",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": ["navigation", "orchestration", "composition", "governance"],
+    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-orchestration-docs" },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Kompositionsregeln: 5-Ebenen-Hierarchie (Shell → Navigation → NavigationMenu → NavMolecules → NavAtoms)",
+          "Token-Sync-Map: Single Source of Truth fuer alle Navigations-Tokens",
+          "Responsive Orchestrierung: Desktop-Menu ↔ Mobile-Drawer Handshake",
+          "Z-Index Governance: Shell vergibt, Navigation/Menu erben",
+          "Composition-Specimens: Full Header, Mobile Handoff, Token Cascade"
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": { "element": ".nc-header" },
+    "slots": [
+      { "name": "shell-slot", "element": ".nc-shell__navbar", "optional": false },
+      { "name": "header", "element": ".nc-header", "optional": false },
+      { "name": "nav-inner", "element": ".nc-nav__inner", "optional": false },
+      { "name": "brand", "element": ".nc-brand", "optional": false },
+      { "name": "menu", "element": ".nc-navigation-menu", "optional": true },
+      { "name": "menu-list", "element": ".nc-navigation-menu__list", "optional": true },
+      { "name": "menu-item", "element": ".nc-navigation-menu__item", "optional": true },
+      { "name": "menu-trigger", "element": ".nc-navigation-menu__trigger", "optional": true },
+      { "name": "menu-viewport", "element": ".nc-navigation-menu__viewport", "optional": true },
+      { "name": "nav-link", "element": ".nc-nav__link", "optional": true },
+      { "name": "nav-icon", "element": ".nc-nav__icon", "optional": true },
+      { "name": "nav-label", "element": ".nc-nav__label", "optional": true },
+      { "name": "nav-badge", "element": ".nc-nav__badge", "optional": true },
+      { "name": "mobile-toggle", "element": ".nc-mobile-toggle", "optional": true },
+      { "name": "actions", "element": ".nc-nav__actions", "optional": true },
+      { "name": "tools", "element": ".nc-tools", "optional": true }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Ebene 1 — Shell: .nc-shell__navbar Slot reserviert die Grid-Row. nc-shell-z-navbar bestimmt den Z-Index.",
+      "Ebene 2 — Navigation: .nc-header fuellt den Shell-Slot. Sticky, Blur, Emphasis, Mobile-Toggle.",
+      "Ebene 3 — NavigationMenu: .nc-navigation-menu sitzt in .nc-nav__inner. Steuert Link-Verteilung und Dropdowns.",
+      "Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.",
+      "Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.",
+      "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer."
+    ]
+  },
+  "axes": {
+    "viewport": {
+      "label": "Viewport",
+      "description": "Responsive Modus — desktop (Navigation-Menu sichtbar), mobile (Hamburger → Drawer)",
+      "values": {
+        "desktop": { "modifier": null, "tokenGroups": ["composition", "sync"], "renderHint": "nav-orchestration-desktop" },
+        "mobile":  { "modifier": null, "tokenGroups": ["composition", "mobile"], "renderHint": "nav-orchestration-mobile" }
+      }
+    },
+    "density": {
+      "label": "Density",
+      "description": "Gesamtdichte der Navigation — default, compact (reduzierte Hoehe/Gaps)",
+      "values": {
+        "default": { "modifier": null,               "tokenGroups": [], "renderHint": "nav-density-default" },
+        "compact": { "modifier": "nc-header--compact", "tokenGroups": ["compact"], "renderHint": "nav-density-compact" }
+      }
+    }
+  },
+  "states": {
+    "supported": ["default", "scrolled", "hidden", "mobile-open"],
+    "precedence": ["mobile-open", "hidden", "scrolled", "default"],
+    "rules": [
+      { "state": "scrolled", "condition": ".is-scrolled — Shadow + volle Opacity (Scroll-Direction: up)" },
+      { "state": "hidden", "condition": ".is-hidden — translateY(-100%) (Scroll-Direction: down, Intelligent Sticky)" },
+      { "state": "mobile-open", "condition": ".is-mobile-open — Mobile-Panel sichtbar, Hamburger → X Animation" }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": ["hasAccessibleName", "supportsKeyboard", "hasSkipLink"],
+      "note": "Skip-Link am Anfang. nav mit aria-label. Keyboard: Tab durch alle Links, Arrow-Keys in Menu. Mobile: Focus-Trap im Drawer. Roving Tabindex fuer Menu-Items."
+    },
+    "overrides": [
+      {
+        "when": { "axes": { "viewport": ["mobile"] } },
+        "suggest": ["focus-trap", "aria-expanded"],
+        "note": "Mobile Drawer: Focus-Trap aktiv, Toggle: aria-expanded, Escape schliesst."
+      }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      { "when": {}, "require": ["skip-link"], "notes": ["Skip-Link: 'Zum Inhalt springen' am Anfang des Headers."] },
+      { "when": {}, "require": ["nav-aria-label"], "notes": ["<nav aria-label='Hauptnavigation'> auf .nc-nav."] },
+      { "when": {}, "require": ["z-index-from-shell"], "notes": ["Z-Index MUSS von Shell kommen (nc-shell-z-navbar). Niemals hardcoded."] },
+      { "when": {}, "require": ["height-sync"], "notes": ["nc-nav-height synchronisiert mit Shell Grid-Row und scroll-margin-top fuer Anker-Links."] }
+    ],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": ["nc-header"],
+    "baseTokenGroups": ["composition", "sync"],
+    "tokenGroups": {
+      "composition": {
+        "label": "Composition Map",
+        "description": "Die hierarchische Verschachtelung und ihre Token-Vererbung",
+        "tokens": [
+          "nc-nav-orch-shell-z-index",
+          "nc-nav-orch-height",
+          "nc-nav-orch-gap",
+          "nc-nav-orch-icon-size",
+          "nc-nav-orch-link-hover-bg",
+          "nc-nav-orch-link-active-border",
+          "nc-nav-orch-viewport-shadow"
+        ]
+      },
+      "sync": {
+        "label": "Token Sync Rules",
+        "description": "Single Source of Truth — welcher Master-Token auf welche Abhängigen wirkt",
+        "tokens": [
+          "nc-nav-orch-sync-height",
+          "nc-nav-orch-sync-interaction",
+          "nc-nav-orch-sync-elevation",
+          "nc-nav-orch-sync-spacing"
+        ]
+      },
+      "mobile": {
+        "label": "Mobile Orchestration",
+        "description": "Responsive Handshake: Desktop-Menu ↔ Mobile-Drawer",
+        "tokens": [
+          "nc-nav-orch-mobile-breakpoint",
+          "nc-nav-orch-mobile-drawer-width"
+        ]
+      },
+      "compact": {
+        "label": "Compact Density",
+        "description": "Reduzierte Navigationshoehe fuer kompakte Layouts",
+        "tokens": [
+          "nc-nav-orch-compact-height",
+          "nc-nav-orch-compact-gap",
+          "nc-nav-orch-compact-padding"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "resolution": {
+      "classList": ["styling.baseClasses", "axes.density.values.*.modifier"],
+      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+    }
+  },
+  "orchestration": {
+    "hierarchy": [
+      {
+        "level": 1,
+        "component": "shell",
+        "recipe": "shell-recipe",
+        "slot": ".nc-shell__navbar",
+        "provides": {
+          "z-index": "nc-shell-z-navbar → nc-nav-z-index",
+          "height-slot": "grid-template-rows: var(--nc-nav-height)"
+        },
+        "note": "Die Shell stellt den Slot und den Z-Index bereit. Die Navigation erbt beides."
+      },
+      {
+        "level": 2,
+        "component": "navigation",
+        "recipe": "navigation-recipe",
+        "slot": ".nc-nav__inner",
+        "consumes": ["nc-shell-z-navbar"],
+        "provides": {
+          "container": "Sticky Header mit Backdrop-Blur, Emphasis-Varianten",
+          "mobile-toggle": "Hamburger-Button unterhalb lg → Shell Drawer"
+        },
+        "note": "Verwaltet das globale Header-Verhalten. Emphasis und Sticky sind hier definiert."
+      },
+      {
+        "level": 3,
+        "component": "navigation-menu",
+        "recipe": "navigation-menu-recipe",
+        "slot": ".nc-navigation-menu__list",
+        "consumes": ["nc-nav-gap"],
+        "provides": {
+          "layout": "Link-Verteilung (start/center/right), Dropdown-Viewport, Indicator",
+          "viewport": "Dropdown-Container mit nc-popover-shadow"
+        },
+        "note": "Orchestriert die Link-Liste und die Dropdown-Mechanik. Indicator-Position wird animiert."
+      },
+      {
+        "level": 4,
+        "component": "nav-molecules",
+        "recipe": "nav-molecules-recipe",
+        "consumes": ["nc-nav-mol-link-hover-bg"],
+        "provides": {
+          "interaction": "Hover-BG, Active-Underline, Focus-Ring — wiederverwendbar in Menu-Trigger",
+          "mobile": "Vertikales Link-Stacking im Drawer, Toggle-Button"
+        },
+        "note": "Die interaktiven Einheiten. Hover-BG wird via MIRROR_TOKEN_MAP an navigation-menu__trigger weitergegeben."
+      },
+      {
+        "level": 5,
+        "component": "nav-atoms",
+        "recipe": "nav-atoms-recipe",
+        "provides": {
+          "icon": "24px inline-flex SVG Container — stroke via Token",
+          "label": "Text-Label mit size/weight/color",
+          "badge": "Notification-Dot (roter Punkt mit Ring)"
+        },
+        "note": "Die kleinsten Einheiten. Icon-Size 24px ist die Baseline fuer die gesamte Navigation."
+      }
+    ],
+    "tokenSync": {
+      "description": "Single Source of Truth — Datenfluss der Token-Vererbung",
+      "rules": [
+        {
+          "master": "nc-shell-z-navbar",
+          "targets": ["nc-nav-z-index"],
+          "direction": "shell → navigation",
+          "note": "Z-Index kommt immer von der Shell. Navigation darf keinen eigenen Z-Index hardcoden."
+        },
+        {
+          "master": "nc-nav-height",
+          "targets": ["scroll-margin-top (global)", "nc-mega top-offset", "nc-search-panel margin-top"],
+          "direction": "navigation → global",
+          "note": "Die Header-Hoehe bestimmt scroll-margin-top fuer Anker-Links und den Top-Offset aller Overlays."
+        },
+        {
+          "master": "nc-nav-mol-link-hover-bg",
+          "targets": ["nc-nav-menu-trigger-hover-bg"],
+          "direction": "nav-molecules → navigation-menu",
+          "note": "Hover-BG: Ein Link in der Hauptleiste und ein Trigger im Dropdown haben denselben Hover."
+        },
+        {
+          "master": "nc-nav-mol-link-active-border",
+          "targets": ["nc-nav-menu-indicator-color"],
+          "direction": "nav-molecules → navigation-menu",
+          "note": "Active-Accent: Der Unterstrich am Link und die Indicator-Farbe im Menu sind identisch."
+        },
+        {
+          "master": "nc-nav-atom-icon-color",
+          "targets": ["nc-nav-mol-link-color"],
+          "direction": "nav-atoms → nav-molecules",
+          "note": "Icon-Farbe kaskadiert in die Link-Textfarbe — einheitliches Farbschema."
+        },
+        {
+          "master": "nc-popover-shadow",
+          "targets": ["nc-nav-menu-viewport-shadow"],
+          "direction": "popover → navigation-menu",
+          "note": "Dropdown-Viewport erbt Shadow vom Popover-System fuer Overlay-Konsistenz."
+        },
+        {
+          "master": "nc-nav-gap",
+          "targets": ["nc-navigation-menu__list gap"],
+          "direction": "navigation → navigation-menu",
+          "note": "Der Abstand zwischen Top-Level-Items folgt dem globalen Nav-Gap."
+        }
+      ]
+    },
+    "responsiveHandshake": {
+      "description": "Desktop ↔ Mobile Umschaltung",
+      "breakpoint": "1200px (lg)",
+      "rules": [
+        {
+          "condition": "viewport >= 1200px",
+          "behavior": "Desktop",
+          "visible": [".nc-navigation-menu", ".nc-nav__list", ".nc-nav__actions", ".nc-tools"],
+          "hidden": [".nc-mobile-toggle", ".nc-mobile-panel"],
+          "note": "Vollstaendiges Navigation-Menu mit Dropdowns, Indicator, Mega-Menu."
+        },
+        {
+          "condition": "viewport < 1200px",
+          "behavior": "Mobile",
+          "visible": [".nc-mobile-toggle", ".nc-brand"],
+          "hidden": [".nc-navigation-menu", ".nc-nav__list", ".nc-nav__actions"],
+          "note": "Hamburger-Toggle sichtbar. Klick oeffnet .nc-mobile-panel oder Shell Drawer."
+        },
+        {
+          "condition": "viewport < 960px",
+          "behavior": "Mobile Compact",
+          "note": "Desktop-Hamburger auch auf Tablets ausgeblendet."
+        }
+      ],
+      "drawerIntegration": {
+        "trigger": ".nc-mobile-toggle click",
+        "target": ".nc-header.is-mobile-open .nc-mobile-panel",
+        "alternative": "Shell Drawer via nc-shell--sidebar-left-drawer-open",
+        "contentTransfer": "Nav-Links (Molekuele) werden vertikal gestapelt, nutzen dieselben nav-atoms."
+      }
+    }
+  },
+  "specimens": [
+    {
+      "id": "full-composition",
+      "label": "Full Header Composition",
+      "description": "5-Ebenen-Komposition: Shell-Slot → Header → Menu → Links → Icons",
+      "matrix": { "axes": { "viewport": ["desktop"], "density": ["default"] }, "states": ["default", "scrolled"] },
+      "layout": "single",
+      "render": { "compositionType": "nav-orchestration-full", "label": "full-composition" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Skip-Link, aria-label auf nav, roving tabindex, keyboard-navigation." }
+    },
+    {
+      "id": "token-cascade",
+      "label": "Token Cascade Visualization",
+      "description": "Zeigt den Datenfluss: Shell-Z → Nav-Height → Mol-Hover → Atom-Icon",
+      "matrix": { "axes": { "viewport": ["desktop"], "density": ["default"] }, "states": ["default"] },
+      "layout": "single",
+      "render": { "compositionType": "nav-orchestration-cascade", "label": "token-cascade" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Informationell — keine interaktiven Elemente." }
+    },
+    {
+      "id": "mobile-handoff",
+      "label": "Mobile Handoff",
+      "description": "Desktop-Menu → Hamburger → Drawer mit vertikalen Links",
+      "matrix": { "axes": { "viewport": ["mobile"], "density": ["default"] }, "states": ["default", "mobile-open"] },
+      "layout": "row",
+      "render": { "compositionType": "nav-orchestration-mobile", "label": "mobile" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Focus-Trap im Drawer, aria-expanded auf Toggle." }
+    },
+    {
+      "id": "compact-density",
+      "label": "Compact Density",
+      "description": "Reduzierte Hoehe fuer Dashboard-Layouts",
+      "matrix": { "axes": { "viewport": ["desktop"], "density": ["compact"] }, "states": ["default"] },
+      "layout": "single",
+      "render": { "compositionType": "nav-orchestration-compact", "label": "compact" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Touch-Targets: min 44px trotz compact." }
+    },
+    {
+      "id": "z-index-governance",
+      "label": "Z-Index Governance",
+      "description": "Shell-Z-Schichten: Linkbar < Footerbar < Navbar < Sidebar < Overlay < Drawer",
+      "matrix": { "axes": { "viewport": ["desktop"], "density": ["default"] }, "states": ["default"] },
+      "layout": "single",
+      "render": { "compositionType": "nav-orchestration-z-index", "label": "z-index" },
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Informationell — visuelle Schichtdarstellung." }
+    }
+  ]
+}

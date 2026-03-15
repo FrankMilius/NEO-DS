@@ -250,92 +250,19 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-grid">
-            <h2 class="docs__section-title">Grid-Layout (Desktop)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.solutions grid-template-columns</code></td><td>grid-columns(6) grid-columns(1) grid-columns(5)</td><td>6-1-5 Spaltenverteilung</td></tr>
-                <tr><td><code class="docs__token">.solutions grid-template-areas</code></td><td>'accordion . side' / 'content . side'</td><td>Benannte Grid-Bereiche</td></tr>
-                <tr><td><code class="docs__token">.solutions gap</code></td><td>var(--grid-gap)</td><td>System-Grid-Gap</td></tr>
-                <tr><td><code class="docs__token">.solutions row-gap</code></td><td>0</td><td>Kein Zeilen-Abstand (Side spannt beide Rows)</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-typography">
-            <h2 class="docs__section-title">Typografie-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.solutions h3</code></td><td>@include heading('xs'), var(--fnd-color-text-high)</td><td>Unterabschnitt-&Uuml;berschriften</td></tr>
-                <tr><td><code class="docs__token">.solutions h3 + p</code></td><td>var(--fnd-color-text-mid)</td><td>Folge-Absatz nach h3</td></tr>
-                <tr><td><code class="docs__token">.accordion-item h2 (Desktop)</code></td><td>@include paragraph('xl'), var(--fnd-color-text-low)</td><td>Accordion-Titel, inaktiv</td></tr>
-                <tr><td><code class="docs__token">.accordion-item[open] h2</code></td><td>var(--fnd-color-text-high)</td><td>Aktiver Accordion-Titel</td></tr>
-                <tr><td><code class="docs__token">.accordion-content p:last-child</code></td><td>@include heading('l')</td><td>Letzter Absatz als gro&szlig;es Heading</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-summary (Mobile)</code></td><td>@include heading('xxs')</td><td>Mobile Summary-Typografie</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-accordion">
-            <h2 class="docs__section-title">Accordion (Solutions-Variante)</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.accordion--solutions display (Mobile)</code></td><td>grid, grid-auto-flow: column, grid-auto-columns: 100%</td><td>Horizontales Scroll-Layout</td></tr>
-                <tr><td><code class="docs__token">.accordion--solutions scroll-snap-type</code></td><td>x mandatory</td><td>Snap bei horizontalem Scrollen</td></tr>
-                <tr><td><code class="docs__token">.accordion--solutions overflow</code></td><td>scroll hidden</td><td>Horizontaler Scroll, kein vertikaler</td></tr>
-                <tr><td><code class="docs__token">.accordion--solutions scrollbar-width</code></td><td>none</td><td>Versteckter Scrollbalken</td></tr>
-                <tr><td><code class="docs__token">.accordion-item padding-block (Mobile)</code></td><td>var(--fnd-spacing-08)</td><td>Gro&szlig;z&uuml;giges vertikales Padding</td></tr>
-                <tr><td><code class="docs__token">.accordion-item padding-block (Desktop)</code></td><td>var(--fnd-spacing-05) var(--fnd-spacing-04)</td><td>Kompakteres Padding auf Desktop</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-summary-icon</code></td><td>display: none</td><td>Summary-Icon nicht gezeigt</td></tr>
-                <tr><td><code class="docs__token">.accordion-progress.active transition</code></td><td>transform 12s linear</td><td>Fortschrittsbalken-Animation</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-wrapper">
-            <h2 class="docs__section-title">Wrapper &amp; Mobile Tabs</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token / Wert</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.solutions-wrapper padding-block (Mobile)</code></td><td>var(--fnd-spacing-10) 0</td><td>Oberer Abstand</td></tr>
-                <tr><td><code class="docs__token">.solutions-wrapper padding-block (Desktop)</code></td><td>var(--fnd-spacing-12)</td><td>Symmetrischer Abstand</td></tr>
-                <tr><td><code class="docs__token">Tab-Leiste height</code></td><td>48px</td><td>Fixe Tab-H&ouml;he</td></tr>
-                <tr><td><code class="docs__token">Tab-Leiste mask-image</code></td><td>linear-gradient(90deg, transparent &rarr; black &rarr; transparent)</td><td>Fade-Effekt an den R&auml;ndern</td></tr>
-                <tr><td><code class="docs__token">Tab-Leiste::after border</code></td><td>solid 1px var(--fnd-color-border-low)</td><td>Untere Trennlinie</td></tr>
-                <tr><td><code class="docs__token">Tab-Leiste li span (aktiv) ::after border</code></td><td>solid 1px var(--fnd-color-border-high)</td><td>Aktiver Tab-Indikator</td></tr>
-                <tr><td><code class="docs__token">Tab-Leiste li span color</code></td><td>var(--fnd-color-text-high)</td><td>Tab-Beschriftungsfarbe</td></tr>
-                <tr><td><code class="docs__token">.labels-container .label height</code></td><td>40px</td><td>Fixe Label-H&ouml;he</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <section class="docs__section" id="style-spacing">
-            <h2 class="docs__section-title">Spacing-Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Eigenschaft</th><th>Token</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.solutions p + h3 margin-block-start (Mobile)</code></td><td>var(--fnd-spacing-06)</td><td>Abstand vor wiederholtem h3</td></tr>
-                <tr><td><code class="docs__token">.solutions p + h3 margin-block-start (Desktop)</code></td><td>var(--fnd-spacing-08)</td><td>Gr&ouml;&szlig;erer Abstand auf Desktop</td></tr>
-                <tr><td><code class="docs__token">.button-container margin-block-start (Desktop)</code></td><td>var(--fnd-spacing-10)</td><td>Gro&szlig;er Abstand vor Button</td></tr>
-                <tr><td><code class="docs__token">.labels-container margin-block (Desktop)</code></td><td>var(--fnd-spacing-11) var(--fnd-spacing-06)</td><td>Abstand um Label-Gruppe</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-content p (Mobile)</code></td><td>var(--fnd-spacing-06)</td><td>Abstand unter Content-Absatz</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-summary margin-block-end (Mobile)</code></td><td>var(--fnd-spacing-06)</td><td>Abstand nach Summary</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -344,137 +271,70 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.solutions</code></td></tr>
-                <tr><td><strong>Wrapper</strong></td><td><code class="docs__token">.solutions-wrapper</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/07-organisms/_solutions.scss</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td>Keine eigenen <code class="docs__token">--nc-*</code> Tokens &mdash; verwendet Foundation-Tokens und Grid-System-Variablen</td></tr>
-                <tr><td><strong>Layout (Desktop)</strong></td><td>CSS Grid, 3-spaltig (6-1-5), benannte Areas</td></tr>
-                <tr><td><strong>Layout (Mobile)</strong></td><td>Horizontales Scroll-Accordion mit CSS Scroll Snap</td></tr>
-                <tr><td><strong>Accordion-Variante</strong></td><td><code class="docs__token">.accordion.accordion--solutions</code></td></tr>
-                <tr><td><strong>Grid-Areas</strong></td><td><code class="docs__token">accordion</code>, <code class="docs__token">side</code>, <code class="docs__token">content</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Haupt-Klassen</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.solutions-wrapper</code></td><td>Block</td><td>Outer-Container. Padding-Block, enth&auml;lt Tab-Leiste und .solutions.</td></tr>
-                <tr><td><code class="docs__token">.solutions</code></td><td>Block</td><td>Grid-Container. Desktop: 3-spaltig. Mobile: einfach.</td></tr>
-                <tr><td><code class="docs__token">.accordion.accordion--solutions</code></td><td>Modifier</td><td>Solutions-spezifische Accordion-Variante. Mobile horizontal, Desktop vertikal.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Accordion-Klassen</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.accordion-item</code></td><td>Element (<code class="docs__token">&lt;details&gt;</code>)</td><td>Einzelnes Accordion-Item. Scroll-Snap auf Mobile.</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-summary</code></td><td>Element (<code class="docs__token">&lt;summary&gt;</code>)</td><td>Mobile: Heading-XXS Typografie.</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-content</code></td><td>Element</td><td>Inhalt des Items. Auf Desktop ausgeblendet.</td></tr>
-                <tr><td><code class="docs__token">.accordion-item-summary-icon</code></td><td>Element</td><td>Summary-Icon. Immer ausgeblendet.</td></tr>
-                <tr><td><code class="docs__token">.accordion-content</code></td><td>Element</td><td>Content-Bereich. Letzter <code class="docs__token">p</code> als Heading-L.</td></tr>
-                <tr><td><code class="docs__token">.accordion-progress</code></td><td>Element</td><td>Fortschrittsbalken am unteren Rand des Items.</td></tr>
-                <tr><td><code class="docs__token">.accordion-progress.active</code></td><td>Zustand</td><td>Animiert via transform 12s linear.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Hilfs-Klassen</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.labels-container</code></td><td>Label-Gruppe mit 40px-H&ouml;he und Desktop-Spacing.</td></tr>
-                <tr><td><code class="docs__token">.button-container</code></td><td>Button-Wrapper mit Desktop-Spacing.</td></tr>
-                <tr><td><code class="docs__token">.selected</code></td><td>Aktiver Tab in der mobilen Tab-Leiste. Zeigt Unterstrich-Indikator.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 3. Element-Struktur -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Vollst&auml;ndige Element-Struktur</h2>
-            <div class="docs__code-block">&lt;div class="solutions-wrapper"&gt;
-
-  &lt;!-- 1. Mobile Tab-Leiste (auf Desktop: display:none) --&gt;
-  &lt;div&gt; &lt;!-- Erstes Kind des Wrappers --&gt;
-    &lt;ul&gt;
-      &lt;li class="selected"&gt;&lt;span&gt;L&ouml;sung 1&lt;/span&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;span&gt;L&ouml;sung 2&lt;/span&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;span&gt;L&ouml;sung 3&lt;/span&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-
-  &lt;!-- 2. Solutions-Container --&gt;
-  &lt;div class="solutions"&gt;
-
-    &lt;!-- 1. Kind: Side-Panel (grid-area: side) --&gt;
-    &lt;div&gt;
-      &lt;!-- Gestapelte Panels via grid-area: 1/1 --&gt;
-      &lt;div&gt; ... Side-Content A ... &lt;/div&gt;
-      &lt;div&gt; ... Side-Content B ... &lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Accordion (grid-area: accordion) --&gt;
-    &lt;div class="accordion accordion--solutions"&gt;
-
-      &lt;details class="accordion-item" open&gt;
-        &lt;summary class="accordion-item-summary"&gt;
-          &lt;span class="accordion-item-summary-icon"&gt;&lt;/span&gt;
-          Mobile Summary Text
-        &lt;/summary&gt;
-        &lt;h2&gt;L&ouml;sungs-Titel 1&lt;/h2&gt;
-        &lt;p&gt;Kurzbeschreibung&lt;/p&gt;
-        &lt;div class="accordion-item-content"&gt;
-          &lt;p&gt;Mobile Detail-Content&lt;/p&gt;
-          &lt;div class="button-container"&gt;
-            &lt;button class="button"&gt;Mehr&lt;/button&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class="accordion-progress active"&gt;&lt;/div&gt;
-      &lt;/details&gt;
-
-      &lt;details class="accordion-item"&gt;
-        &lt;summary class="accordion-item-summary"&gt;...&lt;/summary&gt;
-        &lt;h2&gt;L&ouml;sungs-Titel 2&lt;/h2&gt;
-        &lt;div class="accordion-progress"&gt;&lt;/div&gt;
-      &lt;/details&gt;
-
-    &lt;/div&gt; &lt;!-- /.accordion --&gt;
-
-    &lt;!-- Letztes Kind: Content-Panel (grid-area: content) --&gt;
-    &lt;div&gt;
-      &lt;h3&gt;Unterabschnitt&lt;/h3&gt;
-      &lt;p&gt;Beschreibung&lt;/p&gt;
-      &lt;div class="labels-container"&gt;
-        &lt;span class="label"&gt;Tag&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div class="button-container"&gt;
-        &lt;button class="button button--primary"&gt;Mehr erfahren&lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-
-  &lt;/div&gt; &lt;!-- /.solutions --&gt;
-
-&lt;/div&gt; &lt;!-- /.solutions-wrapper --&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.solutions</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">solutions</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--solutions-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.solutions</code></td><td>Block</td><td>solutions-Container</td></tr>
+      <tr><td><code class="docs__token">.accordion--solutions</code></td><td>Element</td><td>accordion</td></tr>
+      <tr><td><code class="docs__token">.solutions &gt; :nth-child(1)</code></td><td>Element (optional)</td><td>side-panel</td></tr>
+      <tr><td><code class="docs__token">.solutions &gt; :last-child</code></td><td>Element (optional)</td><td>content-panel</td></tr>
+      <tr><td><code class="docs__token">.solutions-wrapper</code></td><td>Element (optional)</td><td>wrapper</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Einzige Variante</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Desktop: 3-Spalten Grid (6+1+5) mit grid-areas accordion/side/content.</li>
+    <li>Mobile: Horizontal-Scroll Accordion mit scroll-snap, Tabs oben.</li>
+    <li>Accordion-Items: Details/Summary, progress-bar Animation (12s linear).</li>
+    <li>Side/Content Panels: nur Desktop sichtbar, grid-area overlay.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -483,109 +343,21 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Die Solutions-Komponente ist eine der komplexesten Strukturen im System. Besondere Aufmerksamkeit gilt
-            der synchronisierten Tab/Accordion-Navigation und dem horizontalen Scroll-Verhalten auf Mobile.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Accordion: details/summary nativ. Mobile Tabs: scroll-snap, selected-Indicator. Progress-Animation: reduced-motion.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- native details/summary -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Native &lt;details&gt;/&lt;summary&gt; f&uuml;r das Accordion</h4>
-              <ul>
-                <li>Die Verwendung nativer <code class="docs__token">&lt;details&gt;</code>/<code class="docs__token">&lt;summary&gt;</code>-Elemente gew&auml;hrleistet Screenreader-Kompatibilit&auml;t ohne zus&auml;tzliche ARIA</li>
-                <li>Der ge&ouml;ffnete/geschlossene Zustand wird automatisch angek&uuml;ndigt</li>
-                <li>Die <code class="docs__token">&lt;summary&gt;</code> muss einen aussagekr&auml;ftigen Text enthalten</li>
-                <li>Das <code class="docs__token">h2</code>-Element innerhalb des Items sollte hierarchisch korrekt sein</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Horizontales Scrollen -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Horizontales Scrollen (Mobile)</h4>
-              <ul>
-                <li>Der horizontale Scroll-Bereich (<code class="docs__token">.accordion--solutions</code>) sollte <code class="docs__token">tabindex="0"</code> erhalten, damit Tastaturnutzer scrollen k&ouml;nnen</li>
-                <li><code class="docs__token">scroll-snap-type: x mandatory</code> sorgt f&uuml;r sauberes Scrollen, muss aber bei <code class="docs__token">prefers-reduced-motion</code> beachtet werden</li>
-                <li>Die Mobile Tab-Leiste dient als sichtbares Navigationsmittel und sollte mit dem Accordion-Status synchronisiert sein</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Tab-Leiste -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Mobile Tab-Leiste</h4>
-              <ul>
-                <li>Die Mobile Tab-Leiste ist visuell als Navigation implementiert, sollte aber mit korrekten ARIA-Rollen ausgezeichnet werden</li>
-                <li>Aktive Tabs sollten <code class="docs__token">aria-selected="true"</code> bzw. <code class="docs__token">aria-current="true"</code> erhalten</li>
-                <li>Die <code class="docs__token">&lt;ul&gt;</code>-Liste sollte in einem <code class="docs__token">&lt;nav&gt;</code> oder mit <code class="docs__token">role="tablist"</code> und <code class="docs__token">aria-label</code> umgeben werden</li>
-                <li>Tab-Klicks m&uuml;ssen den entsprechenden Accordion-Eintrag sichtbar scrollen</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Grid-Layout -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Grid-Reihenfolge und DOM-Reihenfolge</h4>
-              <ul>
-                <li>Die CSS Grid-Areas verlagern das Side-Panel visuell nach rechts, obwohl es DOM-first erscheint</li>
-                <li>Screenreader folgen der DOM-Reihenfolge &mdash; stellen Sie sicher, dass die Lese-Reihenfolge logisch ist</li>
-                <li>Das erste Kind wird visuell als Side-Area (rechts) gezeigt, DOM-logisch steht es aber vor dem Accordion</li>
-                <li>Pr&uuml;fen Sie die Tab-Reihenfolge mit einem Screenreader auf Sinnhaftigkeit</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Solutions-Sektion mit Landmark --&gt;
-&lt;section class="solutions-wrapper" aria-labelledby="solutions-heading"&gt;
-  &lt;h2 id="solutions-heading" class="u-sr-only"&gt;Unsere L&ouml;sungen&lt;/h2&gt;
-  ...
-&lt;/section&gt;
-
-&lt;!-- RICHTIG: Mobile Tab-Leiste mit ARIA --&gt;
-&lt;nav aria-label="L&ouml;sungen"&gt;
-  &lt;ul role="tablist"&gt;
-    &lt;li role="presentation"&gt;
-      &lt;span role="tab"
-            aria-selected="true"
-            tabindex="0"&gt;L&ouml;sung 1&lt;/span&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/nav&gt;
-
-&lt;!-- RICHTIG: Accordion-Item mit verst&auml;ndlichem Summary --&gt;
-&lt;details class="accordion-item" open&gt;
-  &lt;summary class="accordion-item-summary"&gt;
-    Cloud-Infrastruktur &lt;!-- Klar und beschreibend --&gt;
-  &lt;/summary&gt;
-  &lt;h2&gt;Cloud-Infrastruktur&lt;/h2&gt;
-  ...
-&lt;/details&gt;
-
-&lt;!-- FALSCH: Accordion ohne lesbare summary --&gt;
-&lt;details class="accordion-item"&gt;
-  &lt;summary class="accordion-item-summary"&gt;
-    &lt;!-- Nur Icon, kein Text --&gt;
-    &lt;span class="accordion-item-summary-icon"&gt;&lt;/span&gt;
-  &lt;/summary&gt;
-&lt;/details&gt;
-
-&lt;!-- FALSCH: Horizontaler Scroll ohne Tastaturzugang --&gt;
-&lt;div class="accordion accordion--solutions"&gt;
-  &lt;!-- Kein tabindex, nicht per Tastatur scrollbar --&gt;
-&lt;/div&gt;</div>
-          </section>
         </div>
 
       </div>

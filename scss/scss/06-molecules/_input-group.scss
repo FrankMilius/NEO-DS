@@ -8,6 +8,8 @@
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-input-group-* Component-Tokens.
 //   Die enthaltenen Inputs verwenden ihre eigenen --nc-input-* Tokens.
+//   Mirror-Tokens (height, radius, border-width) synchronisieren
+//   automatisch mit den Input-Tokens.
 //
 // VERSCHACHTELUNGSLOGIK:
 //   .nc-input-group
@@ -16,23 +18,46 @@
 //     .nc-input-group__append    (optional, Suffix-Addon)
 //
 // TOKENS:
-//   --nc-input-group-addon-bg           Hintergrund der Addon-Bereiche
-//   --nc-input-group-addon-color        Textfarbe der Addon-Bereiche
-//   --nc-input-group-addon-border       Randfarbe der Addon-Bereiche
-//   --nc-input-group-addon-padding-x    Horizontales Padding der Addons
-//   --nc-input-group-addon-font-size    Schriftgroesse der Addons
+//   Mirror-Tokens (synchronisiert mit Input):
+//   --nc-input-group-height-sm             Hoehe SM (= nc-input-height-sm)
+//   --nc-input-group-height-md             Hoehe MD (= nc-input-height-md)
+//   --nc-input-group-height-lg             Hoehe LG (= nc-input-height-lg)
+//   --nc-input-group-radius                Aeusserer Radius (= nc-input-radius)
+//   --nc-input-group-border-width          Border-Breite (= nc-input-border-width)
+//
+//   Addon Base (statische Elemente):
+//   --nc-input-group-addon-bg              Hintergrund der Addon-Bereiche
+//   --nc-input-group-addon-color           Textfarbe der Addon-Bereiche
+//   --nc-input-group-addon-border          Randfarbe der Addon-Bereiche
+//   --nc-input-group-addon-padding-x       Horizontales Padding der Addons
+//   --nc-input-group-addon-font-size       Schriftgroesse der Addons
+//
+//   Addon Interaction (interaktive Elemente wie Buttons):
+//   --nc-input-group-addon-hover-bg        Hintergrund bei Hover
+//   --nc-input-group-addon-active-bg       Hintergrund bei Active/Press
+//
+//   Validation:
+//   --nc-input-group-addon-border-error    Border-Farbe bei Error (rot)
+//   --nc-input-group-addon-border-success  Border-Farbe bei Success (gruen)
+//
+//   Layout:
+//   --nc-input-group-inner-radius          Border-Radius fuer verschachtelte Elemente (0)
 //
 // BEM-KLASSEN:
-//   .nc-input-group               Block (flex row container)
+//   .nc-input-group               Block (flex row container, align-items:center)
 //   .nc-input-group__prepend      Prefix-Addon (links)
 //   .nc-input-group__append       Suffix-Addon (rechts)
-//   .nc-input-group--error        Error-State
+//   .nc-input-group--error        Error-State (border-error auf allen Teilen)
+//   .nc-input-group--success      Success-State (border-success auf allen Teilen)
 //   .nc-input-group--disabled     Disabled-State
+//   .nc-input-group--readonly     Readonly-State (Input readonly, Addons interaktiv)
 //   .nc-input-group--sm / --lg    Groessen-Modifier
 //
 // BORDER-RADIUS-LOGIK:
-//   Erstes Kind bekommt linken Radius, letztes Kind bekommt rechten Radius,
+//   Erstes Kind bekommt linken Radius, letztes Kind rechten Radius,
 //   mittlere Kinder bekommen keinen Radius (nahtloser Uebergang).
+//   Verschachtelte Buttons/Selects in Addons: border-radius via
+//   --nc-input-group-inner-radius (default: 0).
 //
 // ACCESSIBILITY:
 //   Addons mit aria-hidden="true" wenn rein dekorativ
@@ -46,12 +71,12 @@
 // ---------------------------------------------------------------------------
 
 /// Basis-Styling fuer den Input-Group-Container.
-/// Flexbox-Row-Layout, stellt sicher dass alle Kinder
-/// nahtlos aneinander grenzen.
+/// Flexbox-Row-Layout mit vertikaler Zentrierung.
+/// Nutzt Mirror-Tokens fuer Radius und Border-Breite.
 @mixin input-group-base {
   position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   width: 100%;
 
   // Border-Radius-Logik: Alle direkten Kinder verlieren
@@ -62,19 +87,19 @@
   }
 
   > :first-child {
-    border-start-start-radius: var(--nc-input-radius);
-    border-end-start-radius: var(--nc-input-radius);
+    border-start-start-radius: var(--nc-input-group-radius);
+    border-end-start-radius: var(--nc-input-group-radius);
   }
 
   > :last-child {
-    border-start-end-radius: var(--nc-input-radius);
-    border-end-end-radius: var(--nc-input-radius);
+    border-start-end-radius: var(--nc-input-group-radius);
+    border-end-end-radius: var(--nc-input-group-radius);
   }
 
   // Negative Margin um doppelte Borders zu vermeiden
   // (jedes Kind ausser dem ersten ueberlappt die rechte Border des Vorgaengers)
   > :not(:first-child) {
-    margin-inline-start: calc(var(--nc-input-border-width, 1px) * -1);
+    margin-inline-start: calc(var(--nc-input-group-border-width) * -1);
   }
 
   // Z-Index bei Focus: fokussiertes Element liegt ueber seinen Nachbarn
@@ -95,7 +120,7 @@
   line-height: 1.5;
   color: var(--nc-input-group-addon-color);
   background-color: var(--nc-input-group-addon-bg);
-  border: var(--nc-input-border-width) solid var(--nc-input-group-addon-border);
+  border: var(--nc-input-group-border-width) solid var(--nc-input-group-addon-border);
   white-space: nowrap;
   flex-shrink: 0;
 
@@ -107,6 +132,22 @@
     color: inherit;
     flex-shrink: 0;
   }
+
+  // Verschachtelte Buttons/Selects: inner-radius fuer nahtlosen Uebergang
+  > .nc-button,
+  > button,
+  > select {
+    border-radius: var(--nc-input-group-inner-radius);
+
+    // Interaktive Addon-Elemente: Hover/Active mit eigenen Tokens
+    &:hover:not(:disabled) {
+      background-color: var(--nc-input-group-addon-hover-bg);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--nc-input-group-addon-active-bg);
+    }
+  }
 }
 
 /// Error-State: propagiert Error-Border auf alle Kinder.
@@ -114,11 +155,32 @@
   > .nc-input,
   > .nc-input-group__prepend,
   > .nc-input-group__append {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--nc-input-group-addon-border-error);
   }
 
   > .nc-input:focus-visible {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--nc-input-group-addon-border-error);
+  }
+}
+
+/// Success-State: propagiert Success-Border auf alle Kinder.
+@mixin input-group-success {
+  > .nc-input,
+  > .nc-input-group__prepend,
+  > .nc-input-group__append {
+    border-color: var(--nc-input-group-addon-border-success);
+  }
+
+  > .nc-input:focus-visible {
+    border-color: var(--nc-input-group-addon-border-success);
+  }
+}
+
+/// Readonly-State: Input schreibgeschuetzt, Addons bleiben interaktiv.
+@mixin input-group-readonly {
+  > .nc-input {
+    background-color: var(--nc-input-disabled-bg);
+    cursor: default;
   }
 }
 
@@ -193,7 +255,15 @@
     @include input-group-error;
   }
 
+  &--success {
+    @include input-group-success;
+  }
+
   &--disabled {
     @include input-group-disabled;
+  }
+
+  &--readonly {
+    @include input-group-readonly;
   }
 }

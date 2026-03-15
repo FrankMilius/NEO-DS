@@ -1,11 +1,344 @@
 // ==========================================================================
-// 07-Organisms: Notification
+// 07-Organisms: Notification (News-Alert)
 // ==========================================================================
-// Notification Banner (Sticky Top)
-// Migriert von: lazy-styles.css
+// Spezialisiertes News-Alert-Modul fuer In-App-Neuigkeiten,
+// Feature-Updates und System-Ankuendigungen.
+//
+// ARCHITEKTUR:
+//   Floating-Card Surface (surface-elevated + elevation-overlay L2).
+//   Alle Werte kommen aus --nc-notification-* Component-Tokens.
+//
+// ERWEITERTE FEATURES (v2.0.0):
+//   Media-Slot: Thumbnails/Avatare (48×48, konfigurierbar).
+//   Read-Receipt: Unread-Dot + subtiler BG-Akzent fuer ungelesene Items.
+//   Surface-Logik: Floating Card (surface-elevated, overlay-shadow).
+//   Priority-Axis: low (Standard) / high (Akzent-Border links).
+//   Type-Axis: feature / system / promo (Icon-/Akzentfarbe).
+//   Interaction-Axis: dismissible (Close-Button) / permanent (kein Close).
+//   Header/Footer: Strukturierte Slots fuer Titel+Meta und Actions.
+//   Dismiss-Animation: Slide-out + Hoehen-Collapse.
+//
+// OVERLAY-HIERARCHIE:
+//   Notification: elevation-overlay (L2) — gleiche Ebene wie Popover.
+//   In Shell-Integration: z-index notification.
+//
+// BEM-KLASSEN:
+//   .nc-notification                     Block (Floating Card)
+//   .nc-notification__media              Media-Slot (Thumbnail/Avatar, 48×48)
+//   .nc-notification__content            Content-Wrapper (flex-column)
+//   .nc-notification__header             Header (Titel + Meta-Zeile)
+//   .nc-notification__title              Titel (semibold)
+//   .nc-notification__meta               Meta-Info (Zeitstempel, Kategorie)
+//   .nc-notification__body               Body-Text (Beschreibung)
+//   .nc-notification__footer             Footer (Action-Links)
+//   .nc-notification__action             Action-Link (CTA)
+//   .nc-notification__close              Schliessen-Button
+//   .nc-notification__unread             Unread-Dot (8px Kreis)
+//   .nc-notification--unread             Unread-Zustand (subtiler BG)
+//   .nc-notification--priority-high      Hohe Prioritaet (Akzent-Border links)
+//   .nc-notification--feature            Feature-Update (blaue Akzentfarbe)
+//   .nc-notification--system             System-Ankuendigung (gelbe Akzentfarbe)
+//   .nc-notification--promo              Promotion (gruene Akzentfarbe)
+//   .nc-notification--permanent          Kein Close-Button
+//   .nc-notification.is-dismissing       Dismiss-Animation
+//
+// ACCESSIBILITY:
+//   role="article" auf jedem Notification-Item
+//   aria-label mit Titel + Zeitstempel
+//   Unread-Dot: aria-hidden="true" (rein visuell), Status per aria-label
+//   Close-Button: aria-label="Benachrichtigung schliessen"
+//   Action-Links: Normales <a> oder <button>
+//   Keyboard: Tab-Reihenfolge Header → Actions → Close
+//   Reduced Motion: Dismiss ohne Animation
 // ==========================================================================
 
 @use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Keyframes
+// ---------------------------------------------------------------------------
+
+@keyframes nc-notification-dismiss {
+  from {
+    max-height: var(--_notification-height, 200px);
+    padding: var(--nc-notification-padding);
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    padding: 0;
+    opacity: 0;
+    margin: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Notification Card Basis (Floating Surface).
+@mixin notification-card {
+  display: flex;
+  gap: var(--nc-notification-gap);
+  padding: var(--nc-notification-padding);
+  max-width: var(--nc-notification-max-width);
+  background-color: var(--nc-notification-bg);
+  border: var(--nc-notification-border-width) solid var(--nc-notification-border-color);
+  border-radius: var(--nc-notification-radius);
+  box-shadow: var(--nc-notification-shadow);
+  position: relative;
+  overflow: hidden;
+  @include transition-quick((background-color, border-color, box-shadow));
+}
+
+/// Media-Slot (Thumbnail/Avatar).
+@mixin notification-media {
+  width: var(--nc-notification-media-size);
+  height: var(--nc-notification-media-size);
+  border-radius: var(--nc-notification-media-radius);
+  flex-shrink: 0;
+  overflow: hidden;
+  object-fit: cover;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/// Unread-Dot.
+@mixin notification-unread-dot {
+  width: var(--nc-notification-unread-dot-size);
+  height: var(--nc-notification-unread-dot-size);
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--nc-notification-unread-dot-color);
+  flex-shrink: 0;
+}
+
+/// Close Button.
+@mixin notification-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-notification-close-size);
+  height: var(--nc-notification-close-size);
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nc-notification-close-radius);
+  background: none;
+  color: var(--nc-notification-title-color);
+  opacity: var(--nc-notification-close-opacity);
+  cursor: pointer;
+  @include transition-quick((opacity, background-color));
+
+  &:hover {
+    opacity: var(--nc-notification-close-opacity-hover);
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+
+  > svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// BEM-Klassen
+// ---------------------------------------------------------------------------
+
+.nc-notification {
+  @include notification-card;
+
+  // -- Media-Slot --
+
+  &__media {
+    @include notification-media;
+  }
+
+  // -- Content-Wrapper --
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nc-notification-header-gap);
+    flex: 1;
+    min-width: 0;
+  }
+
+  // -- Header --
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--nc-notification-header-gap);
+  }
+
+  // -- Title --
+
+  &__title {
+    font-size: var(--nc-notification-title-size);
+    font-weight: var(--nc-notification-title-weight);
+    color: var(--nc-notification-title-color);
+    line-height: 1.3;
+  }
+
+  // -- Meta (Zeitstempel, Kategorie-Label) --
+
+  &__meta {
+    font-size: var(--nc-notification-meta-size);
+    color: var(--nc-notification-meta-color);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  // -- Body --
+
+  &__body {
+    font-size: var(--nc-notification-body-size);
+    color: var(--nc-notification-body-color);
+    line-height: var(--nc-notification-body-line-height);
+  }
+
+  // -- Footer (Action-Links) --
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-notification-footer-gap);
+  }
+
+  // -- Action-Link --
+
+  &__action {
+    font-size: var(--nc-notification-action-size);
+    font-weight: var(--nc-notification-action-weight);
+    color: var(--nc-notification-action-color);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // -- Close Button --
+
+  &__close {
+    @include notification-close;
+    position: absolute;
+    top: var(--nc-notification-header-gap);
+    right: var(--nc-notification-header-gap);
+  }
+
+  // -- Unread-Dot --
+
+  &__unread {
+    @include notification-unread-dot;
+  }
+
+  // -- Modifier: Unread --
+  // Subtiler BG-Akzent fuer ungelesene Items.
+
+  &--unread {
+    background-color: var(--nc-notification-unread-bg);
+  }
+
+  // -- Modifier: Priority High --
+  // Akzent-Border links fuer wichtige Nachrichten.
+
+  &--priority-high {
+    border-left: var(--nc-notification-priority-border-width) solid var(--nc-notification-priority-border-color);
+  }
+
+  // -- Type-Varianten (Akzent-Farbe) --
+  // Setzen die Akzentfarbe fuer Priority-Border und Unread-Dot.
+
+  &--feature {
+    --nc-notification-unread-dot-color: var(--nc-notification-feature-color);
+    --nc-notification-priority-border-color: var(--nc-notification-feature-color);
+  }
+
+  &--system {
+    --nc-notification-unread-dot-color: var(--nc-notification-system-color);
+    --nc-notification-priority-border-color: var(--nc-notification-system-color);
+  }
+
+  &--promo {
+    --nc-notification-unread-dot-color: var(--nc-notification-promo-color);
+    --nc-notification-priority-border-color: var(--nc-notification-promo-color);
+  }
+
+  // -- Modifier: Permanent (kein Close) --
+
+  &--permanent > .nc-notification__close {
+    display: none;
+  }
+
+  // -- Dismiss-Animation --
+
+  &.is-dismissing {
+    animation: nc-notification-dismiss var(--nc-notification-dismiss-duration) ease forwards;
+    pointer-events: none;
+  }
+
+  // -- Reduced Motion --
+
+  @media (prefers-reduced-motion: reduce) {
+    &.is-dismissing {
+      animation: none;
+      display: none;
+    }
+  }
+
+  // -- High Contrast Mode --
+
+  @media (forced-colors: active) {
+    border: 2px solid ButtonText;
+
+    &__unread {
+      background-color: Highlight;
+    }
+
+    &__close:focus-visible {
+      outline: 2px solid Highlight;
+    }
+
+    &__action:focus-visible {
+      outline: 2px solid Highlight;
+    }
+
+    &--priority-high {
+      border-left-color: Highlight;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Legacy Compatibility
+// ---------------------------------------------------------------------------
+// Bestehende .notification Klasse bleibt vorerst erhalten fuer
+// Abwaertskompatibilitaet. Neue Implementierungen nutzen .nc-notification.
 
 .notification {
   @include paragraph('m');
@@ -21,67 +354,51 @@
   color: var(--fnd-color-text-secondary);
   padding: 0;
   border-bottom: solid 1px var(--fnd-color-border-secondary);
-  
+
   @include desktop-up {
     align-items: center;
   }
-  
-  // ---------------------------------------------------------------------------
-  // Show State
-  // ---------------------------------------------------------------------------
-  
+
   &.show {
     padding: var(--fnd-spacing-04);
     visibility: visible;
     height: auto;
     opacity: 1;
   }
-  
-  // ---------------------------------------------------------------------------
-  // Body
-  // ---------------------------------------------------------------------------
-  
+
   .notification-body {
     width: calc(100% - 32px - var(--fnd-spacing-04));
     min-height: calc(80px - var(--fnd-spacing-04) * 2);
-    
+
     @include desktop-up {
       @include flex-center;
     }
   }
-  
-  // ---------------------------------------------------------------------------
-  // Typography
-  // ---------------------------------------------------------------------------
-  
+
   strong {
     color: var(--fnd-color-text-primary);
   }
-  
+
   p {
     margin: 0;
-    
+
     + .secondary {
       margin-block-start: var(--fnd-spacing-06);
       width: auto;
-      
+
       @include desktop-up {
         margin: 0;
         margin-inline-start: var(--fnd-spacing-08);
       }
     }
   }
-  
-  // ---------------------------------------------------------------------------
-  // Icon Button (Close)
-  // ---------------------------------------------------------------------------
-  
+
   a.icon-button {
     display: inline-block;
     width: 32px;
     height: 32px;
     background: transparent;
-    
+
     &:hover,
     &:focus-visible {
       background: transparent !important;
@@ -90,11 +407,11 @@
     &:focus-visible {
       @include focus-ring;
     }
-    
+
     .icon {
       margin: 0;
     }
-    
+
     .icon-only {
       width: 32px;
       height: 32px;

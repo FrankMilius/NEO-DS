@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "data-table",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": ["data", "interactive", "table", "composite"],
     "links": { "figma": "", "storybook": "", "docs": "/docs/data-table-docs" }
@@ -24,14 +24,18 @@
       { "name": "td", "element": ".nc-data-table__td", "optional": false },
       { "name": "sort-button", "element": ".nc-data-table__sort-button", "optional": true },
       { "name": "checkbox-cell", "element": ".nc-data-table__checkbox-cell", "optional": true },
+      { "name": "radio-cell", "element": ".nc-data-table__radio-cell", "optional": true },
       { "name": "expand-button", "element": ".nc-data-table__expand-button", "optional": true },
       { "name": "expand-panel", "element": ".nc-data-table__expand-panel", "optional": true },
       { "name": "action-menu", "element": ".nc-data-table__action-menu", "optional": true },
       { "name": "batch-bar", "element": ".nc-data-table__batch-bar", "optional": true },
+      { "name": "batch-count", "element": ".nc-data-table__batch-count", "optional": true, "description": "Zaehler mit aria-live='polite': z.B. '12 Eintraege ausgewaehlt'" },
+      { "name": "batch-clear", "element": ".nc-data-table__batch-clear", "optional": true, "description": "Clear All Button neben dem Zaehler" },
       { "name": "pagination", "element": ".nc-data-table__pagination", "optional": true },
       { "name": "empty", "element": ".nc-data-table__empty", "optional": true },
       { "name": "error", "element": ".nc-data-table__error", "optional": true },
-      { "name": "skeleton-bar", "element": ".nc-data-table__skeleton-bar", "optional": true }
+      { "name": "skeleton-bar", "element": ".nc-data-table__skeleton-bar", "optional": true },
+      { "name": "stacked-label", "element": ".nc-data-table__td::before", "optional": true, "description": "data-label Attribut auf td fuer Stacked/Card Layout" }
     ],
     "convenience": [],
     "domNotes": [
@@ -41,10 +45,13 @@
       "Density: default (40px), compact (32px), comfortable (48px).",
       "Striped: nth-child(even of :not(expand-row)). Bordered: border-inline-end.",
       "Sticky Header: position:sticky top:0 auf <th>.",
-      "Expand: Chevron rotiert 90° bei aria-expanded. Panel unter der Zeile.",
-      "Batch-Bar: inverse BG, absolut ueber Toolbar. hidden-Attribut.",
-      "Skeleton: shimmer Animation, verschiedene Breiten.",
-      "Static: Descendant-Selektoren statt BEM auf th/td fuer einfaches Markup."
+      "Sticky Columns: erste/letzte Spalte fixiert mit Schatten-Indikator.",
+      "Stacked Layout: Mobile Card-View via data-label auf <td>.",
+      "Card Variante: erhobene Tabelle mit elevation-raised Shadow.",
+      "Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.",
+      "Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.",
+      "Skeleton Varianten: avatar (rund), numeric (schmal), text (75%).",
+      "Content Wrapping: --wrap Modifier fuer mehrzeiligen Zelleninhalt."
     ]
   },
   "axes": {
@@ -52,9 +59,9 @@
       "label": "Density",
       "description": "Zeilendichte — default (40px), compact (32px), comfortable (48px)",
       "values": {
-        "default":     { "modifier": null,                            "tokenGroups": [], "renderHint": "dt-default" },
-        "compact":     { "modifier": "nc-data-table--compact",       "tokenGroups": [], "renderHint": "dt-compact" },
-        "comfortable": { "modifier": "nc-data-table--comfortable",   "tokenGroups": [], "renderHint": "dt-comfortable" }
+        "default":     { "modifier": null,                            "tokenGroups": ["row"], "renderHint": "dt-default" },
+        "compact":     { "modifier": "nc-data-table--compact",       "tokenGroups": ["row"], "renderHint": "dt-compact" },
+        "comfortable": { "modifier": "nc-data-table--comfortable",   "tokenGroups": ["row"], "renderHint": "dt-comfortable" }
       }
     },
     "feature": {
@@ -67,13 +74,32 @@
         "expandable": { "modifier": "nc-data-table--expandable",    "tokenGroups": ["expand"], "slotConfig": { "expand-button": true, "expand-panel": true }, "renderHint": "dt-expandable" }
       }
     },
+    "selection": {
+      "label": "Selection Mode",
+      "description": "Zeilen-Auswahl — none, checkbox (multi-select), radio (single-select)",
+      "values": {
+        "none":     { "modifier": null,                          "tokenGroups": [] },
+        "checkbox": { "modifier": "nc-data-table--selectable",  "tokenGroups": ["checkbox", "batch"], "slotConfig": { "checkbox-cell": true, "batch-bar": true }, "renderHint": "dt-checkbox" },
+        "radio":    { "modifier": null,                          "tokenGroups": ["radio"], "slotConfig": { "radio-cell": true }, "renderHint": "dt-radio" }
+      }
+    },
     "variant": {
       "label": "Variant",
-      "description": "Visuelle Variante — default, striped, bordered",
+      "description": "Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)",
       "values": {
-        "default":  { "modifier": null,                          "tokenGroups": [], "renderHint": "dt-default-variant" },
-        "striped":  { "modifier": "nc-data-table--striped",     "tokenGroups": [], "renderHint": "dt-striped" },
-        "bordered": { "modifier": "nc-data-table--bordered",    "tokenGroups": [], "renderHint": "dt-bordered" }
+        "flat":     { "modifier": null,                          "tokenGroups": ["container"], "renderHint": "dt-flat" },
+        "striped":  { "modifier": "nc-data-table--striped",     "tokenGroups": ["container"], "renderHint": "dt-striped" },
+        "bordered": { "modifier": "nc-data-table--bordered",    "tokenGroups": ["container"], "renderHint": "dt-bordered" },
+        "card":     { "modifier": "nc-data-table--card",        "tokenGroups": ["container", "card"], "renderHint": "dt-card" },
+        "glass":    { "modifier": "nc-data-table--glass",       "tokenGroups": ["container", "glass"], "renderHint": "dt-glass" }
+      }
+    },
+    "content": {
+      "label": "Content",
+      "description": "Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)",
+      "values": {
+        "truncate": { "modifier": null,                       "tokenGroups": [] },
+        "wrap":     { "modifier": "nc-data-table--wrap",     "tokenGroups": ["content"], "renderHint": "dt-wrap" }
       }
     }
   },
@@ -94,17 +120,19 @@
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": ["hasAccessibleName", "supportsKeyboard"],
-      "note": "aria-sort auf <th> (ascending/descending/none). aria-selected auf <tr>. aria-expanded auf Expand-Button. aria-controls verbindet Expand-Button → Panel. Checkboxen: aria-label mit Zeilenkontext. Batch-Bar: aria-live='polite'. Toolbar: role='toolbar'. Keyboard: Tab, Enter, Space."
+      "note": "aria-sort auf <th>. aria-selected auf <tr>. aria-expanded auf Expand-Button. Checkboxen: aria-label mit Zeilenkontext. Batch-Bar Zaehler: aria-live='polite'. Toolbar: role='toolbar'."
     },
     "overrides": [
       { "when": { "axes": { "feature": ["selectable"] } }, "suggest": ["aria-selected", "aria-live"], "note": "Selectable: aria-selected auf Zeilen. Batch-Bar Zaehler: aria-live='polite'." },
       { "when": { "axes": { "feature": ["sortable"] } }, "suggest": ["aria-sort"], "note": "Sortable: aria-sort='ascending|descending|none' auf sortierte <th>." },
-      { "when": { "axes": { "feature": ["expandable"] } }, "suggest": ["aria-expanded", "aria-controls"], "note": "Expandable: aria-expanded + aria-controls auf Expand-Button." }
+      { "when": { "axes": { "feature": ["expandable"] } }, "suggest": ["aria-expanded", "aria-controls"], "note": "Expandable: aria-expanded + aria-controls auf Expand-Button." },
+      { "when": { "axes": { "selection": ["radio"] } }, "suggest": ["aria-selected"], "note": "Radio-Selection: aria-selected auf ausgewaehlte Zeile. Nur eine Zeile gleichzeitig." }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["caption-or-aria-label"], "notes": ["<table> braucht <caption> oder aria-label fuer Screen Reader."] }
+      { "when": {}, "require": ["caption-or-aria-label"], "notes": ["<table> braucht <caption> oder aria-label fuer Screen Reader."] },
+      { "when": { "variant": "glass" }, "require": ["sufficient-contrast"], "notes": ["Glass-Variante: Auf ausreichenden Kontrast gegen Hintergrund achten (min. 4.5:1)."] }
     ],
     "copy": {
       "title": { "maxChars": 60, "note": "Table-Titel: 'Benutzerverwaltung', 'Bestelluebersicht', 'Audit Log'." }
@@ -146,21 +174,25 @@
         "label": "Checkbox",
         "tokens": ["nc-dt-checkbox-column-width", "nc-dt-checkbox-padding-x"]
       },
+      "radio": {
+        "label": "Radio",
+        "tokens": ["nc-dt-radio-column-width", "nc-dt-radio-padding-x"]
+      },
       "expand": {
         "label": "Expand",
         "tokens": ["nc-dt-expand-icon-size", "nc-dt-expand-column-width", "nc-dt-expand-panel-bg", "nc-dt-expand-panel-padding"]
       },
       "batch": {
         "label": "Batch",
-        "tokens": ["nc-dt-batch-bg", "nc-dt-batch-color", "nc-dt-batch-padding", "nc-dt-batch-height", "nc-dt-batch-radius"]
+        "tokens": ["nc-dt-batch-bg", "nc-dt-batch-color", "nc-dt-batch-padding", "nc-dt-batch-height", "nc-dt-batch-radius", "nc-dt-batch-shadow", "nc-dt-batch-count-font-size", "nc-dt-batch-clear-color"]
       },
       "link": {
-        "label": "Link",
-        "tokens": ["nc-dt-link-color", "nc-dt-link-color-hover", "nc-dt-link-icon-size", "nc-dt-link-gap", "nc-dt-date-font-feature", "nc-dt-actions-gap", "nc-dt-radio-column-width", "nc-dt-radio-padding-x", "nc-dt-action-column-width", "nc-dt-action-icon-size"]
+        "label": "Link & Actions",
+        "tokens": ["nc-dt-link-color", "nc-dt-link-color-hover", "nc-dt-link-icon-size", "nc-dt-link-gap", "nc-dt-date-font-feature", "nc-dt-actions-gap", "nc-dt-action-column-width", "nc-dt-action-icon-size"]
       },
       "skeleton": {
         "label": "Skeleton",
-        "tokens": ["nc-dt-skeleton-bg", "nc-dt-skeleton-radius", "nc-dt-skeleton-shimmer"]
+        "tokens": ["nc-dt-skeleton-bg", "nc-dt-skeleton-radius", "nc-dt-skeleton-shimmer", "nc-dt-skeleton-width-avatar", "nc-dt-skeleton-width-numeric", "nc-dt-skeleton-width-text"]
       },
       "empty-error": {
         "label": "Empty & Error",
@@ -173,6 +205,26 @@
       "progress": {
         "label": "Progress Column",
         "tokens": ["nc-dt-progress-height", "nc-dt-progress-bg", "nc-dt-progress-fill", "nc-dt-progress-fill-success", "nc-dt-progress-fill-warning", "nc-dt-progress-fill-danger", "nc-dt-progress-radius", "nc-dt-progress-gap", "nc-dt-progress-label-width", "nc-dt-progress-label-font-size"]
+      },
+      "stacked": {
+        "label": "Stacked Layout",
+        "tokens": ["nc-dt-stacked-card-gap", "nc-dt-stacked-card-padding", "nc-dt-stacked-card-radius", "nc-dt-stacked-card-border", "nc-dt-stacked-label-width", "nc-dt-stacked-label-color", "nc-dt-stacked-label-font-weight"]
+      },
+      "sticky-columns": {
+        "label": "Sticky Columns",
+        "tokens": ["nc-dt-sticky-col-shadow", "nc-dt-sticky-col-shadow-end", "nc-dt-sticky-col-bg"]
+      },
+      "card": {
+        "label": "Card Variant",
+        "tokens": ["nc-dt-card-shadow", "nc-dt-card-bg"]
+      },
+      "glass": {
+        "label": "Glass Variant",
+        "tokens": ["nc-dt-glass-bg", "nc-dt-glass-header-bg", "nc-dt-glass-border", "nc-dt-glass-backdrop-blur"]
+      },
+      "content": {
+        "label": "Content Wrapping",
+        "tokens": ["nc-dt-cell-line-clamp"]
       }
     }
   },
@@ -180,53 +232,104 @@
     "mode": "derived",
     "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.density.values.*.modifier", "axes.feature.values.*.modifier", "axes.variant.values.*.modifier"],
+      "classList": ["styling.baseClasses", "axes.density.values.*.modifier", "axes.feature.values.*.modifier", "axes.variant.values.*.modifier", "axes.selection.values.*.modifier", "axes.content.values.*.modifier"],
       "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
     }
   },
+  "tokenDependencies": [
+    {
+      "source": "nc-button-radius-sm → nc-dt-radius",
+      "reason": "Eckenradius harmoniert mit restlichen Formular-Elementen."
+    },
+    {
+      "source": "nc-shadow-md → nc-dt-batch-shadow",
+      "reason": "Batch-Aktionsleiste schwebt ueber der Tabelle mit klarer Elevation."
+    },
+    {
+      "source": "nc-status-success → nc-dt-progress-fill-success",
+      "reason": "Fortschrittsbalken nutzen die globale Status-Semantik."
+    }
+  ],
   "specimens": [
     {
       "id": "basic", "label": "Basic Table",
       "description": "Einfache Tabelle ohne interaktive Features",
-      "matrix": { "axes": { "density": ["default"], "feature": ["basic"], "variant": ["default"] }, "states": ["default"] },
+      "matrix": { "axes": { "density": ["default"], "feature": ["basic"], "variant": ["flat"] }, "states": ["default"] },
       "layout": "row", "render": { "compositionType": "dt-basic", "label": "basic" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "caption oder aria-label auf <table>. Header/Body Kontrast." }
+      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "caption oder aria-label auf <table>." }
     },
     {
       "id": "density-variants", "label": "Density Variants",
       "description": "Default (40px), Compact (32px), Comfortable (48px)",
       "matrix": { "axes": { "density": "*", "feature": ["basic"], "variant": ["striped"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "density" }, "render": { "label": "{density}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Min. 32px Zeilenhoehe (Compact). Touch-Targets: 44px fuer interaktive Elemente." }
+      "layout": "grid", "layoutConfig": { "rowAxis": "density" }, "render": { "label": "{density}" }
     },
     {
       "id": "sortable", "label": "Sortable Table",
       "description": "Tabelle mit sortierbaren Spaltenkoepfen",
-      "matrix": { "axes": { "density": ["default"], "feature": ["sortable"], "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "dt-sortable", "label": "sortable" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-sort auf <th>. Sort-Button: Enter/Space. Icon zeigt Richtung." }
+      "matrix": { "axes": { "density": ["default"], "feature": ["sortable"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-sortable", "label": "sortable" }
     },
     {
       "id": "selectable", "label": "Selectable Table",
-      "description": "Tabelle mit Zeilen-Checkboxen und Batch-Actions",
-      "matrix": { "axes": { "density": ["default"], "feature": ["selectable"], "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "dt-selectable", "label": "selectable" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Checkboxen: aria-label mit Zeilenkontext. Batch-Bar: aria-live. Select-all: indeterminate State." }
+      "description": "Tabelle mit Zeilen-Checkboxen und Batch-Actions (Zaehler + Clear All)",
+      "matrix": { "axes": { "density": ["default"], "feature": ["selectable"], "selection": ["checkbox"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-selectable", "label": "selectable" }
+    },
+    {
+      "id": "radio-selection", "label": "Radio Selection",
+      "description": "Einzelauswahl per Radio-Button fuer Prozess-Selektion",
+      "matrix": { "axes": { "density": ["default"], "selection": ["radio"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-radio", "label": "radio" }
     },
     {
       "id": "expandable", "label": "Expandable Table",
       "description": "Tabelle mit aufklappbaren Detail-Zeilen",
-      "matrix": { "axes": { "density": ["default"], "feature": ["expandable"], "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "dt-expandable", "label": "expandable" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Expand-Button: aria-expanded + aria-controls. Panel: hidden-Attribut." }
+      "matrix": { "axes": { "density": ["default"], "feature": ["expandable"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-expandable", "label": "expandable" }
+    },
+    {
+      "id": "card-variant", "label": "Card Variant",
+      "description": "Erhobene Tabelle mit Card-Shadow",
+      "matrix": { "axes": { "density": ["default"], "variant": ["card"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-card", "label": "card" }
+    },
+    {
+      "id": "glass-variant", "label": "Glass Variant",
+      "description": "Transparente Dashboard-Tabelle mit Backdrop-Blur",
+      "matrix": { "axes": { "density": ["default"], "variant": ["glass"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-glass", "label": "glass" }
+    },
+    {
+      "id": "stacked-layout", "label": "Stacked Layout (Mobile)",
+      "description": "Card-basiertes Layout fuer kleine Viewports mit Label-Value-Paaren",
+      "matrix": { "axes": { "density": ["default"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-stacked", "label": "stacked" }
+    },
+    {
+      "id": "sticky-columns", "label": "Sticky Columns",
+      "description": "Fixierte erste und letzte Spalte mit Schatten-Indikatoren",
+      "matrix": { "axes": { "density": ["default"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-sticky-cols", "label": "sticky-columns" }
+    },
+    {
+      "id": "content-wrap", "label": "Content Wrapping",
+      "description": "Mehrzeiliger Zelleninhalt statt Ellipsis-Truncation",
+      "matrix": { "axes": { "density": ["default"], "content": ["wrap"], "variant": ["flat"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-wrap", "label": "wrap" }
+    },
+    {
+      "id": "skeleton-variants", "label": "Skeleton Variants",
+      "description": "Ladezustand mit typspezifischen Skeletons (Avatar/Numeric/Text)",
+      "matrix": { "axes": { "density": ["default"], "variant": ["flat"] }, "states": ["loading"] },
+      "layout": "row", "render": { "compositionType": "dt-skeleton", "label": "skeleton" }
     },
     {
       "id": "full-featured", "label": "Full Featured",
-      "description": "Komplett: Title-Bar + Toolbar + Sortable + Selectable + Pagination",
+      "description": "Komplett: Title-Bar + Toolbar + Sortable + Selectable + Pagination + Striped",
       "composes": ["pagination", "search"],
-      "matrix": { "axes": { "density": ["default"], "feature": ["sortable"], "variant": ["striped"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "dt-full", "label": "full" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Toolbar: role='toolbar'. Pagination: aria-label='Seitenwechsel'. Alle Features kombiniert." }
+      "matrix": { "axes": { "density": ["default"], "feature": ["sortable"], "selection": ["checkbox"], "variant": ["striped"] }, "states": ["default"] },
+      "layout": "row", "render": { "compositionType": "dt-full", "label": "full" }
     }
   ]
 }

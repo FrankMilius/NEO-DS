@@ -248,60 +248,80 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">// ===== BEM-Klasse (kanonisch) =====
-
-.nc-slider                     // Block (Container)
-.nc-slider__input              // Range-Input (type="range")
-.nc-slider__track              // Custom Track (optional, f&uuml;r gestylten Hintergrund)
-.nc-slider__fill               // Gef&uuml;llter Bereich des Tracks
-.nc-slider__output             // Wert-Anzeige (z.B. "50")
-.nc-slider__labels             // Container f&uuml;r Min/Max Labels
-.nc-slider__label-min          // Minimum-Label
-.nc-slider__label-max          // Maximum-Label
-
-// State-Modifier
-.nc-slider--disabled           // Deaktivierter Zustand
-.nc-slider--error              // Fehlerzustand
-
-// Richtungs-Modifier
-.nc-slider--vertical           // Vertikale Ausrichtung</div>
-          </section>
-
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Track</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-track-height</code></td><td>4px</td><td>H&ouml;he des Track-Balkens</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-track-bg</code></td><td>&mdash;</td><td>Hintergrundfarbe des Tracks</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-track-radius</code></td><td>9999px</td><td>Border-Radius des Tracks</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Fill</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-fill-bg</code></td><td>&mdash;</td><td>Farbe des gef&uuml;llten Bereichs</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-fill-bg-error</code></td><td>&mdash;</td><td>Fill-Farbe im Fehlerzustand</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-size</code></td><td>16px</td><td>Breite/H&ouml;he des Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-bg</code></td><td>&mdash;</td><td>Hintergrundfarbe des Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-border</code></td><td>&mdash;</td><td>Rahmenfarbe des Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-border-width</code></td><td>2px</td><td>Rahmenbreite des Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-radius</code></td><td>50%</td><td>Border-Radius des Thumb</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-thumb-shadow</code></td><td>&mdash;</td><td>Box-Shadow des Thumb</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Output</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-output-font-size</code></td><td>0.75rem</td><td>Schriftgr&ouml;&szlig;e der Wertanzeige</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-output-color</code></td><td>&mdash;</td><td>Textfarbe der Wertanzeige</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Labels</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-label-font-size</code></td><td>0.6875rem</td><td>Schriftgr&ouml;&szlig;e der Min/Max-Labels</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-label-color</code></td><td>&mdash;</td><td>Textfarbe der Min/Max-Labels</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">States</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-disabled-opacity</code></td><td>0.5</td><td>Opacity im Disabled-Zustand</td></tr>
-                <tr><td><code class="docs__token">--nc-slider-error-color</code></td><td>&mdash;</td><td>Akzentfarbe im Fehlerzustand</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Track</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-track-height</code></td><td>4px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Thumb</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-thumb-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-touch-size</code></td><td>44px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-focus-ring-offset</code></td><td>2px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Interaction</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Disabled</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Floating Tooltip</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-offset-y</code></td><td>8px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Range (Dual Thumb)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-slider-range-fill-bg</code></td><td>var(--nc-slider-track-bg-active)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
@@ -310,117 +330,146 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <!-- 1. Component Overview -->
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-slider</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-slider</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-slider-*</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/05-atoms/_slider.scss</code></td></tr>
-                <tr><td><strong>Tokens-Datei</strong></td><td><code class="docs__token">scss/00-settings/_component-tokens.scss</code></td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code> (Container) + <code class="docs__token">&lt;input type="range"&gt;</code></td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Nativ &mdash; <code class="docs__token">&lt;input type="range"&gt;</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 2. HTML Structure -->
-          <section class="docs__section" id="api-structure">
-            <h2 class="docs__section-title">HTML-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Einfacher Slider --&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" type="range" min="0" max="100" value="50" /&gt;
-&lt;/div&gt;
-
-&lt;!-- Slider mit Wert-Output --&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" type="range" min="0" max="100" value="65" /&gt;
-  &lt;span class="nc-slider__output"&gt;65&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- Slider mit Min/Max Labels --&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" type="range" min="0" max="100" value="40" /&gt;
-  &lt;span class="nc-slider__output"&gt;40&lt;/span&gt;
-  &lt;div class="nc-slider__labels"&gt;
-    &lt;span class="nc-slider__label-min"&gt;0&lt;/span&gt;
-    &lt;span class="nc-slider__label-max"&gt;100&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Disabled --&gt;
-&lt;div class="nc-slider nc-slider--disabled"&gt;
-  &lt;input class="nc-slider__input" type="range" min="0" max="100" value="30" disabled /&gt;
-&lt;/div&gt;
-
-&lt;!-- Error --&gt;
-&lt;div class="nc-slider nc-slider--error"&gt;
-  &lt;input class="nc-slider__input" type="range" min="0" max="100" value="80" /&gt;
-&lt;/div&gt;</div>
-          </section>
-
-          <!-- 3. CSS Classes -->
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-slider</code></td><td>Block</td><td>Slider-Container. Enth&auml;lt Input, Track, Output und Labels.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__input</code></td><td>Element</td><td>Natives <code class="docs__token">&lt;input type="range"&gt;</code>-Element.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__track</code></td><td>Element</td><td>Optionaler Custom-Track-Hintergrund.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__fill</code></td><td>Element</td><td>Gef&uuml;llter Bereich des Tracks (aktiver Wert).</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__output</code></td><td>Element</td><td>Anzeige des aktuellen Werts.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__labels</code></td><td>Element</td><td>Container f&uuml;r Min/Max-Labels.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__label-min</code></td><td>Element</td><td>Minimum-Wert-Label.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider__label-max</code></td><td>Element</td><td>Maximum-Wert-Label.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Modifier</h3>
-            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-              <table class="nc-data-table__table">
-              <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-slider--disabled</code></td><td>Deaktivierter Zustand. Reduzierte Opacity, kein Pointer.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider--error</code></td><td>Fehlerzustand. Track/Thumb in Fehlerfarbe.</td></tr>
-                <tr><td><code class="docs__token">.nc-slider--vertical</code></td><td>Vertikale Ausrichtung des Sliders.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          </section>
-
-          <!-- 4. Slots/Elements -->
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;div class="nc-slider [--disabled] [--error] [--vertical]"&gt;
-
-  &lt;!-- Slot 1: Range Input (required) --&gt;
-  &lt;input class="nc-slider__input"
-         type="range"
-         min="0"
-         max="100"
-         value="50"
-         step="1" /&gt;
-
-  &lt;!-- Slot 2: Value Output (optional) --&gt;
-  &lt;span class="nc-slider__output"&gt;50&lt;/span&gt;
-
-  &lt;!-- Slot 3: Min/Max Labels (optional) --&gt;
-  &lt;div class="nc-slider__labels"&gt;
-    &lt;span class="nc-slider__label-min"&gt;0&lt;/span&gt;
-    &lt;span class="nc-slider__label-max"&gt;100&lt;/span&gt;
-  &lt;/div&gt;
-
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-slider</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-slider</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-slider-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-slider</code></td><td>Block</td><td>slider-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__input</code></td><td>Element</td><td>input</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__input--max</code></td><td>Element (optional)</td><td>input-max</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__track</code></td><td>Element (optional)</td><td>track</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__fill</code></td><td>Element (optional)</td><td>fill</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__tooltip</code></td><td>Element (optional)</td><td>tooltip</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__output</code></td><td>Element (optional)</td><td>output</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__labels</code></td><td>Element (optional)</td><td>labels</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__label-min</code></td><td>Element (optional)</td><td>label-min</td></tr>
+      <tr><td><code class="docs__token">.nc-slider__label-max</code></td><td>Element (optional)</td><td>label-max</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Orientation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>horizontal</td><td>Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)</td></tr>
+      <tr><td><code class="docs__token">.nc-slider--vertical</code></td><td>vertical</td><td>Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mode-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>single</td><td>Slider-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
+      <tr><td><code class="docs__token">.nc-slider--range</code></td><td>range</td><td>Slider-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Display-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>plain</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><code class="docs__token">.nc-slider--tooltip</code></td><td>with-tooltip</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-output</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-labels</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><code class="docs__token">.nc-slider--tooltip</code></td><td>full</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Validation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)</td></tr>
+      <tr><td><code class="docs__token">.nc-slider--error</code></td><td>error</td><td>Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Track</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-height</code></td><td>4px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-track-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Thumb</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-size</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td>var(--fnd-border-width-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td>var(--fnd-elevation-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-touch-size</code></td><td>44px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-thumb-focus-ring-offset</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Interaction</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Floating Tooltip</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td>var(--fnd-color-background-inverted)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td>var(--fnd-color-text-on-inverted)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-tooltip-offset-y</code></td><td>8px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Range (Dual Thumb)</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-range-fill-bg</code></td><td>var(--nc-slider-track-bg-active)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Disabled</td></tr>
+      <tr><td><code class="docs__token">--nc-slider-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>var(--fnd-opacity-disabled)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Native &lt;input type='range'&gt; mit Cross-Browser Custom-Styling via Pseudo-Elemente.</li>
+    <li>WebKit: ::-webkit-slider-runnable-track + ::-webkit-slider-thumb.</li>
+    <li>Firefox: ::-moz-range-track + ::-moz-range-thumb + ::-moz-range-progress (gefuellter Bereich).</li>
+    <li>Thumb wird via margin-top auf dem Track zentriert (WebKit).</li>
+    <li>CSS-Variable --nc-slider-progress (0-100) steuert Fill-Breite und Tooltip-Position.</li>
+    <li>Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-slider-progress) * 1%). Pfeil zeigt nach unten.</li>
+    <li>Range-Modus: Zwei ueberlagerte &lt;input type='range'&gt; — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-slider-progress-min und --nc-slider-progress-max.</li>
+    <li>Touch-Target: Input-Hoehe = --nc-slider-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-slider-thumb-size.</li>
+    <li>Focus-Ring: outline mit --nc-slider-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.</li>
+    <li>Output zeigt aktuellen Wert (Tooltip oder Text, via JS aktualisiert).</li>
+    <li>Labels zeigen Min/Max-Werte unterhalb des Tracks.</li>
+    <li>Hover: Thumb scale(1.15). Focus: focus-ring + border-color auf Thumb.</li>
+    <li>Vertikale Variante via writing-mode: vertical-lr + direction: rtl.</li>
+    <li>Forced-Colors: Thumb = ButtonText, Track = Canvas + 1px solid ButtonText.</li>
+    <li>prefers-reduced-motion: Thumb-Transitions werden deaktiviert.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
         </div>
 
@@ -429,93 +478,72 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-          <h2 class="docs__section-title">Accessibility Referenz</h2>
-          <p class="docs__section-desc">
-            Der Slider nutzt das native <code class="docs__token">&lt;input type="range"&gt;</code>-Element
-            und erbt dadurch alle nativen Accessibility-Features.
-          </p>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Native &lt;input type='range'&gt; — volle Keyboard-Unterstuetzung (Arrow-Keys, Home/End, Page Up/Down). aria-valuemin, aria-valuemax, aria-valuenow fuer Screen Reader. aria-valuetext fuer menschenlesbare Werte (z.B. '50%'). aria-label oder assoziiertes &lt;label&gt; fuer Benennung. Touch-Target mindestens 44x44px (WCAG 2.5.8). Focus-Ring auf dem Thumb, nicht auf dem Input-Feld.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA non-text (3:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: validation = error</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-invalid</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-describedby</code></li>
+      <li>Error-State: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby verknuepft.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-disabled</code></li>
+      <li>Disabled: disabled-Attribut auf dem Input. Alternativ aria-disabled='true'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: mode = range</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-label-min</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-label-max</code></li>
+      <li>Range-Modus: Jeder Input braucht ein eigenes aria-label, z.B. 'Minimum Preis' und 'Maximum Preis'. aria-valuemin/aria-valuemax unabhaengig setzen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: display = with-tooltip</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-hidden-tooltip</code></li>
+      <li>Floating Tooltip ist rein visuell — aria-hidden='true'. Der Wert wird bereits via aria-valuenow/aria-valuetext kommuniziert.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
-          <!-- Native Range Input -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Natives Range-Input</h4>
-              <ul>
-                <li>Verwendet <code class="docs__token">&lt;input type="range"&gt;</code> &mdash; kein Custom-ARIA n&ouml;tig</li>
-                <li>Tastatur-Navigation ist nativ: Pfeiltasten &auml;ndern den Wert</li>
-                <li>Fokus-Styling wird &uuml;ber <code class="docs__token">:focus-visible</code> auf dem Input gesetzt</li>
-                <li>Das Label sollte &uuml;ber ein <code class="docs__token">&lt;label&gt;</code>-Element oder <code class="docs__token">aria-label</code> zugewiesen werden</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- ARIA Attributes -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>ARIA-Attribute</h4>
-              <ul>
-                <li><code class="docs__token">aria-valuemin</code> &mdash; wird automatisch aus <code class="docs__token">min</code>-Attribut abgeleitet</li>
-                <li><code class="docs__token">aria-valuemax</code> &mdash; wird automatisch aus <code class="docs__token">max</code>-Attribut abgeleitet</li>
-                <li><code class="docs__token">aria-valuenow</code> &mdash; wird automatisch aus <code class="docs__token">value</code>-Attribut abgeleitet</li>
-                <li><code class="docs__token">aria-valuetext</code> &mdash; optional, f&uuml;r zus&auml;tzliche Beschreibung des Werts (z.B. &ldquo;50 Prozent&rdquo;)</li>
-                <li>Bei deaktiviertem Slider: <code class="docs__token">disabled</code>-Attribut auf dem Input setzen (nicht nur CSS-Klasse)</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Keyboard Interaction -->
-          <div class="docs-a11y-block">
-            <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/><line x1="14" y1="8" x2="14.01" y2="8"/><line x1="18" y1="8" x2="18.01" y2="8"/><line x1="6" y1="16" x2="18" y2="16"/></svg>
-            <div class="docs-a11y-block__content">
-              <h4>Tastatur-Bedienung</h4>
-              <ul>
-                <li><kbd>Tab</kbd> &mdash; Fokussiert den Slider</li>
-                <li><kbd>Pfeil rechts / Pfeil oben</kbd> &mdash; Erh&ouml;ht den Wert um einen Schritt</li>
-                <li><kbd>Pfeil links / Pfeil unten</kbd> &mdash; Verringert den Wert um einen Schritt</li>
-                <li><kbd>Home</kbd> &mdash; Setzt auf Minimum</li>
-                <li><kbd>End</kbd> &mdash; Setzt auf Maximum</li>
-                <li><kbd>Page Up / Page Down</kbd> &mdash; &Auml;ndert den Wert in gr&ouml;&szlig;eren Schritten</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Best Practices -->
-          <section class="docs__section" id="a11y-best-practices" style="margin-block-start: var(--fnd-spacing-08);">
-            <h2 class="docs__section-title">Best Practices</h2>
-            <div class="docs__code-block">&lt;!-- RICHTIG: Slider mit Label --&gt;
-&lt;label for="volume-slider"&gt;Lautst&auml;rke&lt;/label&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" id="volume-slider"
-         type="range" min="0" max="100" value="50"
-         aria-valuetext="50 Prozent" /&gt;
-  &lt;span class="nc-slider__output"&gt;50&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Slider mit aria-label --&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" type="range"
-         min="0" max="100" value="75"
-         aria-label="Helligkeit" /&gt;
-&lt;/div&gt;
-
-&lt;!-- RICHTIG: Disabled Slider --&gt;
-&lt;div class="nc-slider nc-slider--disabled"&gt;
-  &lt;input class="nc-slider__input" type="range"
-         min="0" max="100" value="30" disabled
-         aria-label="Einstellung gesperrt" /&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Kein Label --&gt;
-&lt;div class="nc-slider"&gt;
-  &lt;input class="nc-slider__input" type="range" /&gt;
-&lt;/div&gt;
-
-&lt;!-- FALSCH: Nur CSS-Klasse disabled, kein disabled-Attribut --&gt;
-&lt;div class="nc-slider nc-slider--disabled"&gt;
-  &lt;input class="nc-slider__input" type="range" /&gt;
-&lt;/div&gt;</div>
-          </section>
         </div>
 
       </div>

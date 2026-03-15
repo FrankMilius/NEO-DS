@@ -12,12 +12,17 @@
 //           .nc-navigation-menu__link   → Link im Dropdown
 //       .nc-navigation-menu__item
 //         .nc-navigation-menu__link     → Direkter Top-Level-Link
-//     .nc-navigation-menu__indicator    → Animierter Indikator
+//     .nc-navigation-menu__indicator    → Animierter Indikator (Unterstrich)
 //     .nc-navigation-menu__viewport     → Viewport-Container
 //
 // Data-Attributes:
 //   [data-state="open|closed"]  → Trigger + Content State
 //   [data-active]               → Aktiver Navigationslink
+//   [data-trigger="hover|click"] → Trigger-Modus
+//
+// VARIANTEN:
+//   Default: Radix-Dropdown mit Viewport
+//   --mega: Grid-Layout im Content fuer Mega-Menus
 //
 // Inspiriert von shadcn NavigationMenu / Radix NavigationMenu
 // ==========================================================================
@@ -25,46 +30,10 @@
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// Component Tokens
+// Root
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu {
-  --_nav-menu-bg: var(--fnd-color-surface-elevated);
-  --_nav-menu-viewport-bg: var(--fnd-color-surface-elevated);
-  --_nav-menu-border: var(--fnd-color-border-secondary);
-  --_nav-menu-radius: var(--fnd-radius-sm);
-  --_nav-menu-shadow: var(--fnd-elevation-floating);
-
-  // Trigger
-  --_nav-menu-trigger-color: var(--fnd-color-text-primary);
-  --_nav-menu-trigger-hover-bg: var(--fnd-color-background-secondary);
-  --_nav-menu-trigger-active-bg: var(--fnd-color-background-tertiary);
-  --_nav-menu-trigger-radius: var(--fnd-radius-sm);
-  --_nav-menu-trigger-font-size: var(--fs-sm);
-  --_nav-menu-trigger-font-weight: var(--fnd-font-weight-medium);
-  --_nav-menu-trigger-padding-x: 0.75rem;
-  --_nav-menu-trigger-padding-y: 0.5rem;
-
-  // Content
-  --_nav-menu-content-width: 500px;
-  --_nav-menu-content-padding: 1rem;
-
-  // Link
-  --_nav-menu-link-radius: var(--fnd-radius-sm);
-  --_nav-menu-link-hover-bg: var(--fnd-color-background-secondary);
-  --_nav-menu-link-padding: 0.75rem;
-
-  // Viewport
-  --_nav-menu-viewport-width: 500px;
-  --_nav-menu-viewport-radius: var(--fnd-radius-sm);
-
-  // Indicator
-  --_nav-menu-indicator-color: var(--fnd-color-border-secondary);
-
-  // Motion
-  --_nav-menu-duration: 200ms;
-  --_nav-menu-ease: cubic-bezier(0.16, 1, 0.3, 1);
-
   position: relative;
   display: flex;
   z-index: var(--fnd-z-modal-backdrop);
@@ -92,32 +61,32 @@
 }
 
 // ---------------------------------------------------------------------------
-// Trigger (Button mit Chevron für Dropdown-Items)
+// Trigger (Button mit Chevron fuer Dropdown-Items)
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__trigger {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: var(--_nav-menu-trigger-padding-y) var(--_nav-menu-trigger-padding-x);
+  padding: var(--nc-nav-menu-trigger-padding-y) var(--nc-nav-menu-trigger-padding-x);
   border: none;
-  border-radius: var(--_nav-menu-trigger-radius);
+  border-radius: var(--nc-nav-menu-trigger-radius);
   background: transparent;
-  color: var(--_nav-menu-trigger-color);
+  color: var(--nc-nav-menu-trigger-color);
   font-family: inherit;
-  font-size: var(--_nav-menu-trigger-font-size);
-  font-weight: var(--_nav-menu-trigger-font-weight);
+  font-size: var(--nc-nav-menu-trigger-font-size);
+  font-weight: var(--nc-nav-menu-trigger-font-weight);
   line-height: 1.4;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
   outline: none;
   transition:
-    background-color var(--_nav-menu-duration) var(--_nav-menu-ease),
-    color var(--_nav-menu-duration) var(--_nav-menu-ease);
+    background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   &:hover {
-    background-color: var(--_nav-menu-trigger-hover-bg);
+    background-color: var(--nc-nav-menu-trigger-hover-bg);
   }
 
   &:focus-visible {
@@ -125,7 +94,7 @@
   }
 
   &[data-state='open'] {
-    background-color: var(--_nav-menu-trigger-active-bg);
+    background-color: var(--nc-nav-menu-trigger-active-bg);
   }
 }
 
@@ -137,7 +106,7 @@
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  transition: transform var(--_nav-menu-duration) var(--_nav-menu-ease);
+  transition: transform var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   [data-state='open'] > & {
     transform: rotate(180deg);
@@ -161,19 +130,19 @@
 .nc-navigation-menu__link--top {
   display: inline-flex;
   align-items: center;
-  padding: var(--_nav-menu-trigger-padding-y) var(--_nav-menu-trigger-padding-x);
-  border-radius: var(--_nav-menu-trigger-radius);
-  color: var(--_nav-menu-trigger-color);
-  font-size: var(--_nav-menu-trigger-font-size);
-  font-weight: var(--_nav-menu-trigger-font-weight);
+  padding: var(--nc-nav-menu-trigger-padding-y) var(--nc-nav-menu-trigger-padding-x);
+  border-radius: var(--nc-nav-menu-trigger-radius);
+  color: var(--nc-nav-menu-trigger-color);
+  font-size: var(--nc-nav-menu-trigger-font-size);
+  font-weight: var(--nc-nav-menu-trigger-font-weight);
   text-decoration: none;
   white-space: nowrap;
   transition:
-    background-color var(--_nav-menu-duration) var(--_nav-menu-ease),
-    color var(--_nav-menu-duration) var(--_nav-menu-ease);
+    background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   &:hover {
-    background-color: var(--_nav-menu-trigger-hover-bg);
+    background-color: var(--nc-nav-menu-trigger-hover-bg);
     text-decoration: none;
   }
 
@@ -182,7 +151,7 @@
   }
 
   &[data-active] {
-    background-color: var(--_nav-menu-trigger-active-bg);
+    background-color: var(--nc-nav-menu-trigger-active-bg);
   }
 }
 
@@ -191,7 +160,7 @@
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__content {
-  // Im Item versteckt — dient nur als Daten-Template für den Viewport
+  // Im Item versteckt — dient nur als Daten-Template fuer den Viewport
   .nc-navigation-menu__item > & {
     position: absolute;
     width: 0;
@@ -211,13 +180,13 @@
     opacity: 1;
     clip: auto;
     pointer-events: auto;
-    padding: var(--_nav-menu-content-padding);
+    padding: var(--nc-nav-menu-content-padding);
   }
 }
 
-// Content-Layout: Two-Column für Mega-Menü
+// Content-Layout: Two-Column fuer Mega-Menue
 .nc-navigation-menu__content--two-col {
-  --_nav-menu-content-width: 600px;
+  --nc-nav-menu-content-width: 600px;
 
   .nc-navigation-menu__content-grid {
     display: grid;
@@ -226,9 +195,18 @@
   }
 }
 
-// Content-Layout: Full-Width für große Mega-Menüs
+// Content-Layout: Full-Width fuer grosse Mega-Menues
 .nc-navigation-menu__content--full {
-  --_nav-menu-content-width: 700px;
+  --nc-nav-menu-content-width: 700px;
+}
+
+// -- Mega-Menu Grid (flexibles Grid-Layout) --
+.nc-navigation-menu__content--mega {
+  .nc-navigation-menu__content-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--nc-nav-menu-mega-columns), 1fr);
+    gap: var(--nc-nav-menu-mega-gap);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -241,7 +219,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Callout (Highlight-Bereich im Mega-Menü, linke Spalte)
+// Callout (Highlight-Bereich im Mega-Menue, linke Spalte)
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__callout {
@@ -249,16 +227,12 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: var(--fnd-spacing-02);
-  padding: 1rem;
-  border-radius: var(--_nav-menu-link-radius);
-  background: linear-gradient(
-    135deg,
-    var(--fnd-color-background-secondary),
-    var(--fnd-color-background-tertiary, var(--fnd-color-background-secondary))
-  );
+  padding: var(--nc-nav-menu-featured-padding);
+  border-radius: var(--nc-nav-menu-featured-radius);
+  background: var(--nc-nav-menu-featured-bg);
   text-decoration: none;
   color: inherit;
-  transition: background-color var(--_nav-menu-duration) var(--_nav-menu-ease);
+  transition: background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   &:hover {
     text-decoration: none;
@@ -279,6 +253,23 @@
   margin: 0;
 }
 
+// -- Featured Item (grafischer Highlight im Mega-Menu) --
+.nc-navigation-menu__featured {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+  padding: var(--nc-nav-menu-featured-padding);
+  border-radius: var(--nc-nav-menu-featured-radius);
+  background: var(--nc-nav-menu-featured-bg);
+  text-decoration: none;
+  color: inherit;
+  grid-column: 1 / -1; // Volle Breite im Grid
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Link (einzelner Link im Dropdown)
 // ---------------------------------------------------------------------------
@@ -286,15 +277,15 @@
 .nc-navigation-menu__link {
   display: grid;
   gap: 0.15rem;
-  padding: var(--_nav-menu-link-padding);
-  border-radius: var(--_nav-menu-link-radius);
+  padding: var(--nc-nav-menu-link-padding);
+  border-radius: var(--nc-nav-menu-link-radius);
   text-decoration: none;
   color: inherit;
   outline: none;
-  transition: background-color var(--_nav-menu-duration) var(--_nav-menu-ease);
+  transition: background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   &:hover {
-    background-color: var(--_nav-menu-link-hover-bg);
+    background-color: var(--nc-nav-menu-link-hover-bg);
     text-decoration: none;
   }
 
@@ -316,7 +307,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Viewport (Container für Content-Panels)
+// Viewport (Container fuer Content-Panels)
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__viewport-wrapper {
@@ -330,12 +321,12 @@
 
 .nc-navigation-menu__viewport {
   position: relative;
-  width: var(--_nav-menu-viewport-width);
+  width: var(--nc-nav-menu-viewport-width);
   overflow: hidden;
-  border: 1px solid var(--_nav-menu-border);
-  border-radius: var(--_nav-menu-viewport-radius);
-  background-color: var(--_nav-menu-viewport-bg);
-  box-shadow: var(--_nav-menu-shadow);
+  border: 1px solid var(--nc-nav-menu-viewport-border);
+  border-radius: var(--nc-nav-menu-viewport-radius);
+  background-color: var(--nc-nav-menu-viewport-bg);
+  box-shadow: var(--nc-nav-menu-viewport-shadow);
 
   // Sichtbarkeit
   opacity: 0;
@@ -343,10 +334,10 @@
   transform-origin: top center;
   pointer-events: none;
   transition:
-    width var(--_nav-menu-duration) var(--_nav-menu-ease),
-    height var(--_nav-menu-duration) var(--_nav-menu-ease),
-    opacity var(--_nav-menu-duration) var(--_nav-menu-ease),
-    transform var(--_nav-menu-duration) var(--_nav-menu-ease);
+    width var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    height var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    opacity var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    transform var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 
   &[data-state='open'] {
     opacity: 1;
@@ -362,28 +353,38 @@
 }
 
 // ---------------------------------------------------------------------------
-// Indicator (Pfeil-Dreieck das auf aktiven Trigger zeigt)
+// Indicator (animierter Unterstrich unter aktivem Trigger)
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__indicator {
   position: absolute;
+  bottom: 0;
+  height: var(--nc-nav-menu-indicator-height);
+  background-color: var(--nc-nav-menu-indicator-color);
+  border-radius: var(--nc-nav-menu-indicator-height);
+  z-index: var(--fnd-z-base);
+
+  opacity: 0;
+  // Layout-Transition fuer sanftes Hergleiten
+  transition:
+    left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    width var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
+    opacity var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+
+  &[data-state='visible'] {
+    opacity: 1;
+  }
+}
+
+// Pfeil-Variante (optional, alternative zum Unterstrich)
+.nc-navigation-menu__indicator--arrow {
   bottom: -0.5rem;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   height: 0.625rem;
   overflow: hidden;
-  z-index: var(--fnd-z-base);
-
-  opacity: 0;
-  transition:
-    left var(--_nav-menu-duration) var(--_nav-menu-ease),
-    width var(--_nav-menu-duration) var(--_nav-menu-ease),
-    opacity var(--_nav-menu-duration) var(--_nav-menu-ease);
-
-  &[data-state='visible'] {
-    opacity: 1;
-  }
+  background: none;
 }
 
 .nc-navigation-menu__indicator-arrow {
@@ -391,8 +392,8 @@
   top: 70%;
   width: 0.625rem;
   height: 0.625rem;
-  background-color: var(--_nav-menu-viewport-bg);
-  border: 1px solid var(--_nav-menu-border);
+  background-color: var(--nc-nav-menu-viewport-bg);
+  border: 1px solid var(--nc-nav-menu-viewport-border);
   border-bottom: none;
   border-right: none;
   transform: rotate(45deg);
@@ -400,7 +401,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Animations (Keyframes für Viewport Enter/Exit)
+// Animations (Keyframes fuer Viewport Enter/Exit)
 // ---------------------------------------------------------------------------
 
 @keyframes nc-navigation-menu-enter-from-right {
@@ -449,19 +450,32 @@
 
 // Content-Animation bei Wechsel im Viewport
 .nc-navigation-menu__content[data-motion='from-start'] {
-  animation: nc-navigation-menu-enter-from-left var(--_nav-menu-duration) var(--_nav-menu-ease);
+  animation: nc-navigation-menu-enter-from-left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 }
 
 .nc-navigation-menu__content[data-motion='from-end'] {
-  animation: nc-navigation-menu-enter-from-right var(--_nav-menu-duration) var(--_nav-menu-ease);
+  animation: nc-navigation-menu-enter-from-right var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 }
 
 .nc-navigation-menu__content[data-motion='to-start'] {
-  animation: nc-navigation-menu-exit-to-left var(--_nav-menu-duration) var(--_nav-menu-ease);
+  animation: nc-navigation-menu-exit-to-left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
 }
 
 .nc-navigation-menu__content[data-motion='to-end'] {
-  animation: nc-navigation-menu-exit-to-right var(--_nav-menu-duration) var(--_nav-menu-ease);
+  animation: nc-navigation-menu-exit-to-right var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  .nc-navigation-menu__content[data-motion] {
+    animation: none;
+  }
+
+  .nc-navigation-menu__viewport,
+  .nc-navigation-menu__trigger-icon,
+  .nc-navigation-menu__indicator {
+    transition: none;
+  }
 }
 
 // ---------------------------------------------------------------------------

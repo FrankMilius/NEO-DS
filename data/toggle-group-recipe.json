@@ -3,14 +3,27 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "toggle-group",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "selection", "group"],
+    "tags": ["interactive", "selection", "group", "toolbar", "multi-select"],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/toggle-group-docs"
-    }
+    },
+    "changelog": [
+      { "version": "2.0.0", "changes": [
+        "Soft-Variante: Helle Markenfarbe fuer Selected (weniger dominant als filled)",
+        "Underline-Indicator: Dicke Linie unter dem gewaehlten Item (tab-aehnlich, ideal fuer single-select)",
+        "Equal-Width-Modus: Alle Items exakt gleich breit (flex: 1) fuer visuelle Ruhe",
+        "Divider-Modifier: Subtile vertikale Trennlinien (50% Hoehe) statt voller Border-Linien",
+        "Container-Shadow-Token: Optionaler Schatten fuer Filled-Variante",
+        "Neue Tokens: soft-bg, soft-color, underline-width, underline-color, divider-width/height/color, shadow",
+        "prefers-reduced-motion: Transitions werden deaktiviert",
+        "Abgrenzung zu Segmented Control: Toggle-Group = multi-select/toolbar-optimiert, Segmented Control = single-select/navigation"
+      ] },
+      { "version": "1.0.0", "changes": ["Initiales Recipe: filled/outline, single/multiple, 3 Groessen, icon-text/icon-only"] }
+    ]
   },
 
   "anatomy": {
@@ -26,10 +39,13 @@
       "Single-Select: role='radiogroup' auf Container, role='radio' + aria-checked auf Items. Arrow-Key Navigation (roving tabindex).",
       "Multi-Select: role='group' auf Container, aria-pressed='true'/'false' auf Items. Tab-Navigation zwischen Items.",
       "Items haben keinen eigenen border-radius — Container hat overflow: hidden + border-radius.",
-      "Border-Separator: border-inline-end auf Items, letztes Item ohne Border.",
+      "Divider-Modifier (--divider): Subtile vertikale Trennlinien via ::before (50% Hoehe, margin-block: auto). Moderner als volle Border-Linien. Divider wird bei selected-Nachbar ausgeblendet.",
+      "Underline-Modifier (--underline): Container hat keinen Rahmen/BG, nur border-block-end. Selected-Item bekommt ::after Underline.",
+      "Soft-Variante (--soft): Selected = helle Markenfarbe (12% interactive via color-mix). Weniger dominant als filled.",
+      "Equal-Width (--equal): flex: 1 auf Items. Alle gleich breit.",
       "Groessen-Modifier am Container (--sm, --lg) propagieren zu allen Items.",
-      "Outline-Variante (--outline): transparenter BG, Selected = background-secondary statt interactive.",
-      "Icon-only Items brauchen aria-label fuer Accessibility."
+      "Icon-only Items brauchen aria-label fuer Accessibility.",
+      "Abgrenzung zu Segmented Control: Toggle-Group primaer fuer multi-select Toolbars. Segmented Control fuer single-select Navigation mit Sliding Indicator."
     ]
   },
 
@@ -55,10 +71,29 @@
 
     "variant": {
       "label": "Variant",
-      "description": "Visueller Stil — filled (Standard, Selected = interactive-Farbe), outline (transparenter BG, subtilere Selektion)",
+      "description": "Visueller Stil — filled (kraeftige Selektion), outline (transparenter BG, subtil), soft (helle Markenfarbe, weniger dominant)",
       "values": {
         "filled":  { "modifier": null,                       "tokenGroups": [] },
-        "outline": { "modifier": "nc-toggle-group--outline", "tokenGroups": [] }
+        "outline": { "modifier": "nc-toggle-group--outline", "tokenGroups": [] },
+        "soft":    { "modifier": "nc-toggle-group--soft",    "tokenGroups": ["item-soft"] }
+      }
+    },
+
+    "indicator": {
+      "label": "Indicator",
+      "description": "Selektions-Indikator — bg (Background-Wechsel, Standard), underline (dicke Linie unter dem gewaehlten Item, tab-aehnlich)",
+      "values": {
+        "bg":        { "modifier": null,                          "tokenGroups": [] },
+        "underline": { "modifier": "nc-toggle-group--underline",  "tokenGroups": ["underline"] }
+      }
+    },
+
+    "width": {
+      "label": "Width",
+      "description": "Item-Breite — auto (natuerliche Breite), equal (alle gleich breit, flex: 1)",
+      "values": {
+        "auto":  { "modifier": null,                        "tokenGroups": [] },
+        "equal": { "modifier": "nc-toggle-group--equal",    "tokenGroups": [] }
       }
     },
 
@@ -141,7 +176,8 @@
           "nc-toggle-group-gap",
           "nc-toggle-group-radius",
           "nc-toggle-group-border",
-          "nc-toggle-group-bg"
+          "nc-toggle-group-bg",
+          "nc-toggle-group-shadow"
         ]
       },
       "item-default": {
@@ -164,6 +200,28 @@
           "nc-toggle-group-item-selected-bg",
           "nc-toggle-group-item-selected-color",
           "nc-toggle-group-item-selected-border"
+        ]
+      },
+      "item-soft": {
+        "label": "Soft Selected",
+        "tokens": [
+          "nc-toggle-group-item-soft-bg",
+          "nc-toggle-group-item-soft-color"
+        ]
+      },
+      "underline": {
+        "label": "Underline Indicator",
+        "tokens": [
+          "nc-toggle-group-underline-width",
+          "nc-toggle-group-underline-color"
+        ]
+      },
+      "divider": {
+        "label": "Divider",
+        "tokens": [
+          "nc-toggle-group-divider-width",
+          "nc-toggle-group-divider-height",
+          "nc-toggle-group-divider-color"
         ]
       },
       "item-disabled": {
@@ -195,6 +253,8 @@
         "axes.size.values.*.modifier",
         "axes.type.values.*.modifier",
         "axes.variant.values.*.modifier",
+        "axes.indicator.values.*.modifier",
+        "axes.width.values.*.modifier",
         "axes.content.values.*.modifier"
       ],
       "tokenGroups": [
@@ -210,7 +270,7 @@
       "label": "All States — MD, Single",
       "description": "Toggle Group mit Items in allen Zustaenden (Single-Select)",
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "content": ["text"] },
+        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": ["text"] },
         "states": ["default", "hover", "selected", "disabled", "focus"]
       },
       "layout": "row",
@@ -225,7 +285,7 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "type": ["single"], "variant": ["filled"], "content": ["text"] },
+        "axes": { "size": "*", "type": ["single"], "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": ["text"] },
         "states": ["default"]
       },
       "focusTokenGroups": ["container-geometry"],
@@ -238,11 +298,44 @@
       }
     },
     {
+      "id": "variant-comparison",
+      "label": "Filled vs Outline vs Soft",
+      "description": "Alle 3 visuellen Varianten im Vergleich",
+      "matrix": {
+        "axes": { "size": ["md"], "type": ["single"], "variant": "*", "indicator": ["bg"], "width": ["auto"], "content": ["text"] },
+        "states": ["default", "selected"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "variant" },
+      "render": { "label": "{variant}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Filled: Selected = interactive-BG. Outline: Selected = background-secondary. Soft: Selected = helle Markenfarbe (12%)."
+      }
+    },
+    {
+      "id": "indicator-comparison",
+      "label": "BG vs Underline Indicator",
+      "description": "Background-Wechsel vs Underline als Selektions-Indikator",
+      "matrix": {
+        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "indicator": "*", "width": ["auto"], "content": ["text"] },
+        "states": ["default", "selected"]
+      },
+      "focusTokenGroups": ["underline"],
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "indicator" },
+      "render": { "label": "{indicator}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Underline: Dicke Linie (2px) unter dem Item. Kein BG-Wechsel. Ideal fuer tab-aehnliche Single-Select."
+      }
+    },
+    {
       "id": "single-vs-multiple",
       "label": "Single vs Multiple",
       "description": "Radio-Pattern (genau 1) vs Toggle-Pattern (0–n)",
       "matrix": {
-        "axes": { "size": ["md"], "type": "*", "variant": ["filled"], "content": ["text"] },
+        "axes": { "size": ["md"], "type": "*", "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": ["text"] },
         "states": ["default", "selected"]
       },
       "layout": "grid",
@@ -254,19 +347,19 @@
       }
     },
     {
-      "id": "filled-vs-outline",
-      "label": "Filled vs Outline",
-      "description": "Default (filled, interactive-BG bei Selected) vs Outline (subtile Selektion)",
+      "id": "equal-width",
+      "label": "Equal Width",
+      "description": "Auto (natuerliche Breite) vs Equal (alle gleich breit)",
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "variant": "*", "content": ["text"] },
+        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "indicator": ["bg"], "width": "*", "content": ["text"] },
         "states": ["default", "selected"]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": { "rowAxis": "width" },
+      "render": { "label": "{width}" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Filled: Selected = interactive-BG (blau) + weisser Text. Outline: Selected = background-secondary + text-primary. Beide brauchen 4.5:1 Kontrast."
+        "note": "Equal-Width: flex: 1 auf Items. Alle gleich breit fuer visuelle Ruhe."
       }
     },
     {
@@ -274,7 +367,7 @@
       "label": "Content Types",
       "description": "Text-only vs Icon+Text vs Icon-only",
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "content": "*" },
+        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": "*" },
         "states": ["default"]
       },
       "layout": "row",
@@ -285,19 +378,35 @@
       }
     },
     {
-      "id": "disabled-states",
-      "label": "Disabled States",
-      "description": "Einzelne disabled Items und komplett disabled Gruppe",
+      "id": "toolbar-pattern",
+      "label": "Toolbar Pattern",
+      "description": "Multi-Select Icon-Only Toolbar (Text-Formatting, Alignment)",
+      "composes": ["icon"],
       "matrix": {
-        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "content": ["text"] },
-        "states": ["default", "selected", "disabled"]
+        "axes": { "size": ["md"], "type": ["multiple"], "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": ["icon-only"] },
+        "states": ["default", "selected"]
       },
-      "focusTokenGroups": ["item-disabled"],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": { "compositionType": "toggle-toolbar", "label": "toolbar" },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Multi-Select Toolbar: aria-pressed auf Items. Icon-only braucht aria-label. Typisch: Bold/Italic/Underline oder Alignment-Gruppe."
+      }
+    },
+    {
+      "id": "divider-variant",
+      "label": "Divider (subtle separators)",
+      "description": "Subtile vertikale Trennlinien statt voller Border-Linien — moderner, weniger kastig",
+      "matrix": {
+        "axes": { "size": ["md"], "type": ["single"], "variant": ["filled"], "indicator": ["bg"], "width": ["auto"], "content": ["text"] },
+        "states": ["default", "selected"]
+      },
+      "focusTokenGroups": ["divider"],
+      "layout": "row",
+      "render": { "compositionType": "toggle-divider", "label": "divider" },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Disabled Items haben disabled-BG + reduzierte Opacity. Nicht anklickbar. aria-disabled='true' auf dem Item."
+        "note": "Divider sind 50% Hoehe, zentriert. Werden bei selected-Nachbar ausgeblendet."
       }
     }
   ]

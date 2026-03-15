@@ -1,29 +1,255 @@
 // ==========================================================================
-// 05-Atoms: Table
+// 05-Atoms: Compare-Table v2.0.0
 // ==========================================================================
-// Comparison / data table styling.
-// Extracted from _site.scss for proper ITCSS placement.
+// Einfache Vergleichstabelle mit inverser Header-Zeile.
+// Nicht zu verwechseln mit nc-data-table (07-organisms) fuer komplexe Daten.
+//
+// ARCHITEKTUR:
+//   Alle Werte kommen aus --nc-table-* Component-Tokens.
+//   Leichtgewichtige Tabelle fuer Vergleiche, Preise, Features.
+//
+// VARIANTEN (3 Grid-Styles):
+//   lines       – Horizontale Trennlinien (DEFAULT)
+//   borderless  – Nur Weissraum trennt Daten
+//   ghost       – Dezente Optik fuer Card-Integrationen
+//
+// DENSITY (3 Stufen):
+//   compact     – Kleine Paddings fuer datenintensive Dashboards
+//   default     – Standard
+//   expressive  – Grosszuegige Paddings fuer Marketing-Vergleiche
+//
+// FEATURES:
+//   --striped       Zebra-Striping (abwechselnde Zeilenhintergruende)
+//   --hover         Row-Hover-Effekt (Zeilen-Fokussierung)
+//   --sticky-header Sticky Header mit Shadow beim Scrollen
+//   --sortable      Sortier-Icons im Header
+//   --selectable    Checkbox-Spalte fuer Massenaktionen
+//   --numeric       Rechtsbuendige Ausrichtung fuer Zahlenspalten
+//
+// BEM-KLASSEN:
+//   .nc-compare-table                  Block (<table> oder Wrapper)
+//   .nc-compare-table--borderless      Borderless Grid-Style
+//   .nc-compare-table--ghost           Ghost Grid-Style
+//   .nc-compare-table--compact         Compact Density
+//   .nc-compare-table--expressive      Expressive Density
+//   .nc-compare-table--striped         Zebra-Striping
+//   .nc-compare-table--hover           Row-Hover
+//   .nc-compare-table--sticky-header   Sticky Header
+//   .nc-compare-table--sortable        Sortable Headers
+//   .nc-compare-table--selectable      Checkbox Selection
+//   .nc-compare-table__sort-icon       Sort-Icon im Header
+//   .nc-compare-table__checkbox        Checkbox in Selection-Modus
+//   .nc-compare-table__numeric         Rechtsbuendige Zahlenzelle
+//
+// ACCESSIBILITY:
+//   <table> mit <caption> oder aria-label
+//   Semantisches <thead>/<tbody>/<tfoot>
+//   scope="col" auf <th>
+//   aria-sort="ascending|descending|none" fuer sortierbare Spalten
+//   aria-selected="true" fuer selektierte Zeilen
 // ==========================================================================
 
 @use '../01-tools' as *;
 
+// ---------------------------------------------------------------------------
+// Block: .nc-compare-table
+// ---------------------------------------------------------------------------
+
 .nc-compare-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--fnd-color-background-base);
-  border-radius: var(--fnd-radius-3xl);
+  background: var(--nc-table-bg);
+  border-radius: var(--nc-table-radius);
   overflow: hidden;
-  box-shadow: var(--fnd-elevation-raised);
+  box-shadow: var(--nc-table-shadow);
+  font-size: var(--nc-table-font-size);
+  color: var(--nc-table-color);
 }
+
+// ---------------------------------------------------------------------------
+// Header: <thead>
+// ---------------------------------------------------------------------------
+
+.nc-compare-table thead {
+  background: var(--nc-table-header-bg);
+  color: var(--nc-table-header-color);
+}
+
+.nc-compare-table thead th {
+  font-size: var(--nc-table-header-font-size);
+  font-weight: var(--nc-table-header-font-weight);
+  letter-spacing: var(--nc-table-header-letter-spacing);
+  text-align: left;
+  white-space: nowrap;
+}
+
+// ---------------------------------------------------------------------------
+// Cells: <th> und <td>
+// ---------------------------------------------------------------------------
 
 .nc-compare-table th,
 .nc-compare-table td {
-  padding: var(--fnd-spacing-04);
+  padding: var(--nc-table-cell-padding);
   text-align: left;
-  border-block-end: 1px solid var(--fnd-color-border-secondary);
+  border-block-end: var(--nc-table-row-border-width) solid var(--nc-table-row-border-color);
+  @include transition(background-color, '150');
 }
 
-.nc-compare-table thead {
-  background: var(--fnd-color-background-inverse);
-  color: var(--fnd-color-text-inverse);
+// Letzte Zeile: kein Border
+.nc-compare-table tbody tr:last-child td {
+  border-block-end: none;
+}
+
+// ---------------------------------------------------------------------------
+// Numeric: Rechtsbuendige Zahlenzellen
+// ---------------------------------------------------------------------------
+
+.nc-compare-table__numeric,
+.nc-compare-table td[data-align='right'],
+.nc-compare-table th[data-align='right'] {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --striped (Zebra-Striping)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--striped tbody tr:nth-child(even) {
+  background-color: var(--nc-table-stripe-bg);
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --hover (Row-Hover)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--hover tbody tr:hover {
+  background-color: var(--nc-table-row-bg-hover);
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --borderless (kein Trennlinien)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--borderless {
+  box-shadow: none;
+
+  th,
+  td {
+    border-block-end: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --ghost (dezent, fuer Card-Integration)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--ghost {
+  box-shadow: none;
+  background: transparent;
+
+  thead {
+    background: var(--nc-table-ghost-header-bg);
+    color: var(--nc-table-ghost-header-color);
+  }
+
+  th,
+  td {
+    border-block-end-color: var(--nc-table-ghost-border-color);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Density: --compact / --expressive
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--compact {
+  th,
+  td {
+    padding: var(--nc-table-cell-padding-compact);
+  }
+}
+
+.nc-compare-table--expressive {
+  th,
+  td {
+    padding: var(--nc-table-cell-padding-expressive);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --sticky-header
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--sticky-header thead th {
+  position: sticky;
+  top: 0;
+  z-index: var(--nc-table-sticky-z-index);
+  box-shadow: var(--nc-table-sticky-shadow);
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --sortable (interaktive Header)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--sortable thead th {
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--nc-table-header-bg) 90%, var(--fnd-color-always-light));
+  }
+}
+
+.nc-compare-table__sort-icon {
+  display: inline-flex;
+  align-items: center;
+  width: var(--nc-table-sort-icon-size);
+  height: var(--nc-table-sort-icon-size);
+  color: var(--nc-table-sort-icon-color);
+  margin-inline-start: var(--fnd-spacing-01);
+  vertical-align: middle;
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  // Aktive Sortierung
+  [aria-sort='ascending'] &,
+  [aria-sort='descending'] & {
+    color: var(--nc-table-sort-icon-color-active);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: --selectable (Checkbox-Spalte)
+// ---------------------------------------------------------------------------
+
+.nc-compare-table--selectable {
+  .nc-compare-table__checkbox {
+    width: var(--nc-table-checkbox-column-width);
+    text-align: center;
+    padding-inline: var(--fnd-spacing-02);
+  }
+
+  input[type='checkbox'] {
+    width: var(--nc-table-checkbox-size);
+    height: var(--nc-table-checkbox-size);
+    accent-color: var(--nc-table-row-border-selected);
+    cursor: pointer;
+    margin: 0;
+  }
+}
+
+// Selected Row
+.nc-compare-table tbody tr[aria-selected='true'] td,
+.nc-compare-table tbody tr.is-selected td {
+  background-color: var(--nc-table-row-bg-selected);
 }

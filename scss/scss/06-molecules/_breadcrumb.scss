@@ -1,19 +1,43 @@
 // ==========================================================================
-// 06-Molecules: Breadcrumb
+// 06-Molecules: Breadcrumb v2.0.0
 // ==========================================================================
 // Semantische Breadcrumb-Navigation mit <nav> + <ol>.
 //
 // ARCHITEKTUR:
 //   Alle Werte kommen aus --nc-breadcrumb-* Component-Tokens.
 //   Linearer Pfad mit Links, Separatoren und aktuellem Seitenindikator.
-//   Optional Ellipsis fuer abgekuerzte Pfade.
+//   Optional Ellipsis fuer abgekuerzte Pfade (Smart-Truncation).
 //
 // PATTERN:
 //   <nav aria-label="Breadcrumb">
 //     <ol> mit <li> Items, <a> Links, <span> Separatoren/Current
 //
+// GROESSEN (2 Stufen):
+//   sm → Admin-Ebenen, Sidebars (kleinere Schrift)
+//   md → Standard Content-Bereich (DEFAULT)
+//
+// VARIANTEN:
+//   default  → Standard mit Link-Farbe + Hover-Underline
+//   ghost    → Links wirken wie Text, erst bei Hover interaktiv (Artikel-Seiten)
+//   back-link → Mobile-First: nur "← Parent" Link (kein Pfad)
+//
+// SEPARATOR-FINESSE:
+//   Reduzierte Opacity (40%) damit Trennzeichen nicht mit Links konkurrieren.
+//   Feste min-width gegen Layout-Shift beim Icon-Laden.
+//
+// SMART-TRUNCATION:
+//   Home + letzte 2 Items immer sichtbar. Mittlere Ebenen → Ellipsis-Dropdown.
+//   Dropdown nutzt nc-dropdown-* Tokens fuer visuelle Kohaerenz.
+//
+// HOME-ICON:
+//   .nc-breadcrumb__home-icon ersetzt Text "Home" durch Haus-SVG.
+//   Platzersparnis, international verstaendlich.
+//
 // BEM-KLASSEN:
 //   .nc-breadcrumb                 Block (<nav> Wrapper)
+//   .nc-breadcrumb--sm             Size SM (kleinere Schrift)
+//   .nc-breadcrumb--ghost          Ghost Variant (dezente Links)
+//   .nc-breadcrumb--back-link      Back-Link Variant (nur Parent)
 //   .nc-breadcrumb__list           <ol> (flex, wrap, gap)
 //   .nc-breadcrumb__item           <li> (inline-flex, align-center)
 //   .nc-breadcrumb__link           <a> (hover: underline + color)
@@ -22,6 +46,8 @@
 //   .nc-breadcrumb__separator--dot  Gefuellter Punkt (4px Kreis)
 //   .nc-breadcrumb__separator--square  Gefuelltes Quadrat (4px)
 //   .nc-breadcrumb__separator--custom  Benutzerdefiniert via --nc-breadcrumb-separator-custom
+//   .nc-breadcrumb__home-icon      Haus-Icon statt "Home"-Text
+//   .nc-breadcrumb__back-icon      Zurueck-Pfeil im Back-Link Modus
 //   .nc-breadcrumb__ellipsis       Truncation-Button (24x24, hover bg)
 //   .nc-breadcrumb__ellipsis-wrap  Position-Context fuer Dropdown
 //   .nc-breadcrumb__dropdown       Dropdown-Liste (hidden, .is-open zeigt)
@@ -33,6 +59,8 @@
 //   aria-current="page" auf aktuellem Item
 //   Separatoren aria-hidden="true" (dekorativ)
 //   Ellipsis-Button aria-label="Weitere Seiten anzeigen"
+//   Home-Icon braucht aria-label="Home" auf dem Link
+//   Back-Link braucht aria-label="Zurueck zu [Parent]"
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -90,10 +118,14 @@
 }
 
 /// Separator (Chevron, Slash, Dot, Square oder Custom).
+/// Reduzierte Opacity und feste min-width gegen visuelle Konkurrenz und Layout-Shift.
 @mixin breadcrumb-separator {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   color: var(--nc-breadcrumb-separator-color);
+  opacity: var(--nc-breadcrumb-separator-opacity);
+  min-width: var(--nc-breadcrumb-separator-min-width);
   flex-shrink: 0;
   user-select: none;
 
@@ -138,7 +170,46 @@
   }
 }
 
-/// Ellipsis-Button fuer abgekuerzte Pfade.
+/// Home-Icon: Haus-SVG statt "Home"-Text.
+/// Spart Platz, international verstaendlich.
+@mixin breadcrumb-home-icon {
+  display: inline-flex;
+  align-items: center;
+  width: var(--nc-breadcrumb-separator-size);
+  height: var(--nc-breadcrumb-separator-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Back-Icon: Zurueck-Pfeil im Back-Link Modus.
+@mixin breadcrumb-back-icon {
+  display: inline-flex;
+  align-items: center;
+  width: var(--nc-breadcrumb-back-icon-size);
+  height: var(--nc-breadcrumb-back-icon-size);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/// Ellipsis-Button fuer abgekuerzte Pfade (Smart-Truncation).
 @mixin breadcrumb-ellipsis {
   display: inline-flex;
   align-items: center;
@@ -175,7 +246,7 @@
 }
 
 /// Dropdown fuer ausgeblendete Breadcrumb-Ebenen.
-/// Nutzt bestehende --nc-dropdown-* Tokens fuer visuelle Konsistenz.
+/// Nutzt bestehende --nc-dropdown-* Tokens fuer visuelle Konsistenz mit Navigation-Menu.
 @mixin breadcrumb-dropdown {
   display: none;
   position: absolute;
@@ -224,6 +295,51 @@
 }
 
 // ---------------------------------------------------------------------------
+// Size Mixin
+// ---------------------------------------------------------------------------
+
+/// SM-Size: Kleinere Schrift fuer Admin-Ebenen, Sidebars.
+@mixin breadcrumb-size-sm {
+  font-size: var(--nc-breadcrumb-font-size-sm);
+}
+
+// ---------------------------------------------------------------------------
+// Variant Mixins
+// ---------------------------------------------------------------------------
+
+/// Ghost: Links wirken wie normaler Text, erst bei Hover interaktiv.
+/// Ideal fuer minimalistische Artikel-Seiten.
+@mixin breadcrumb-ghost {
+  .nc-breadcrumb__link {
+    color: var(--nc-breadcrumb-ghost-color);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--nc-breadcrumb-ghost-color-hover);
+      text-decoration: underline;
+    }
+  }
+
+  .nc-breadcrumb__separator {
+    opacity: 0.3;
+  }
+}
+
+/// Back-Link: Mobile-First Variante — nur "← Parent" Link statt vollem Pfad.
+/// Spart Platz, ideal fuer schmale Viewports.
+@mixin breadcrumb-back-link {
+  .nc-breadcrumb__list {
+    flex-wrap: nowrap;
+  }
+
+  .nc-breadcrumb__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nc-breadcrumb-back-gap);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
 
@@ -262,6 +378,14 @@
     }
   }
 
+  &__home-icon {
+    @include breadcrumb-home-icon;
+  }
+
+  &__back-icon {
+    @include breadcrumb-back-icon;
+  }
+
   &__ellipsis {
     @include breadcrumb-ellipsis;
   }
@@ -276,5 +400,21 @@
 
   &__dropdown-item {
     @include breadcrumb-dropdown-item;
+  }
+
+  // -- Size Modifiers --
+
+  &--sm {
+    @include breadcrumb-size-sm;
+  }
+
+  // -- Variant Modifiers --
+
+  &--ghost {
+    @include breadcrumb-ghost;
+  }
+
+  &--back-link {
+    @include breadcrumb-back-link;
   }
 }
