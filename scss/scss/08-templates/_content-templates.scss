@@ -5,61 +5,61 @@
 // Jedes Template definiert ein spezifisches Grid/Flow-Pattern fuer
 // gaengige Seitentypen. Kombinierbar mit Shell-Presets.
 //
-// BEM: .ct-{name}  (ct = Content Template)
+// BEM: .t-{name}  (t = Template)
 //
 // TEMPLATES:
-//   ct-dashboard-overview — Auto-fit Grid fuer Metrik-Karten
-//   ct-article            — Prosa-Layout mit optionaler TOC-Sidebar
-//   ct-card-grid          — Auto-fill Karten-Grid
-//   ct-form               — Zentriertes Formular-Layout
-//   ct-split              — 2-Spalten-Layout (50/50 oder 60/40)
+//   t-dashboard-overview — Auto-fit Grid fuer Metrik-Karten
+//   t-article            — Prosa-Layout mit optionaler TOC-Sidebar
+//   t-card-grid          — Auto-fill Karten-Grid
+//   t-form               — Zentriertes Formular-Layout
+//   t-split              — 2-Spalten-Layout (50/50 oder 60/40)
 // ==========================================================================
 
 @use '../01-tools' as *;
 
 // ---------------------------------------------------------------------------
-// ct-dashboard-overview — Metrik-Karten + Content-Cards
+// t-dashboard-overview — Metrik-Karten + Content-Cards
 // ---------------------------------------------------------------------------
 // Verwendung: Dashboard-Startseiten mit KPI-Karten und darunter
 // liegenden Detail-Cards.
 //
 // HTML:
-//   <div class="ct-dashboard-overview">
-//     <div class="ct-dashboard-overview__metrics">
-//       <div class="ct-dashboard-overview__metric">...</div>
+//   <div class="t-dashboard-overview">
+//     <div class="t-dashboard-overview__metrics">
+//       <div class="t-dashboard-overview__metric">...</div>
 //     </div>
-//     <div class="ct-dashboard-overview__cards">
-//       <div class="ct-dashboard-overview__card">...</div>
+//     <div class="t-dashboard-overview__cards">
+//       <div class="t-dashboard-overview__card">...</div>
 //     </div>
 //   </div>
 // ---------------------------------------------------------------------------
 
-.ct-dashboard-overview {
+.t-dashboard-overview {
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-06);
 }
 
-.ct-dashboard-overview__metrics {
+.t-dashboard-overview__metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--fnd-spacing-04);
 }
 
-.ct-dashboard-overview__metric {
+.t-dashboard-overview__metric {
   background: var(--fnd-color-layer-01);
   border-radius: var(--fnd-radius-sm);
   padding: var(--fnd-spacing-05);
   box-shadow: var(--fnd-elevation-base);
 }
 
-.ct-dashboard-overview__cards {
+.t-dashboard-overview__cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--fnd-spacing-04);
 }
 
-.ct-dashboard-overview__card {
+.t-dashboard-overview__card {
   background: var(--fnd-color-layer-01);
   border-radius: var(--fnd-radius-sm);
   padding: var(--fnd-spacing-06);
@@ -67,22 +67,22 @@
 }
 
 // ---------------------------------------------------------------------------
-// ct-article — Prosa-optimiertes Layout
+// t-article — Prosa-optimiertes Layout
 // ---------------------------------------------------------------------------
 // Verwendung: Blog-Posts, Artikel, Dokumentationsseiten.
 // Optional mit Inhaltsverzeichnis-Sidebar (ab lg).
 //
 // HTML:
-//   <div class="ct-article">
-//     <article class="ct-article__prose">
+//   <div class="t-article">
+//     <article class="t-article__prose">
 //       <h1>...</h1>
 //       <p>...</p>
 //     </article>
-//     <aside class="ct-article__toc">...</aside>  <!-- optional -->
+//     <aside class="t-article__toc">...</aside>  <!-- optional -->
 //   </div>
 // ---------------------------------------------------------------------------
 
-.ct-article {
+.t-article {
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-06);
@@ -95,11 +95,11 @@
 }
 
 // Ohne TOC: Artikel allein (volle Breite, Prose-Begrenzung)
-.ct-article--no-toc {
+.t-article--no-toc {
   display: block;
 }
 
-.ct-article__prose {
+.t-article__prose {
   max-width: var(--fnd-prose-max-width);
   color: var(--fnd-color-text-primary);
   line-height: var(--lh-body);
@@ -153,7 +153,7 @@
   }
 }
 
-.ct-article__toc {
+.t-article__toc {
   @include respond-to('lg') {
     position: sticky;
     inset-block-start: calc(var(--nav-height) + var(--fnd-spacing-06));
@@ -165,15 +165,15 @@
 }
 
 // ---------------------------------------------------------------------------
-// ct-card-grid — Auto-fill Karten-Raster
+// t-card-grid — Auto-fill Karten-Raster
 // ---------------------------------------------------------------------------
 // Verwendung: Produkt-Uebersichten, Galerie-Seiten, Feature-Listen.
 // Karten füllen sich automatisch in das Grid ein.
 //
 // HTML:
-//   <div class="ct-card-grid">
-//     <div class="ct-card-grid__item">...</div>
-//     <div class="ct-card-grid__item">...</div>
+//   <div class="t-card-grid">
+//     <div class="t-card-grid__item">...</div>
+//     <div class="t-card-grid__item">...</div>
 //   </div>
 //
 // Modifier:
@@ -181,93 +181,93 @@
 //   --lg: Groessere Karten (min 360px)
 // ---------------------------------------------------------------------------
 
-.ct-card-grid {
-  --ct-card-grid-min: 280px;
+.t-card-grid {
+  --t-card-grid-min: 280px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(var(--ct-card-grid-min), 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--t-card-grid-min), 100%), 1fr));
   gap: var(--fnd-spacing-04);
 }
 
-.ct-card-grid--sm {
-  --ct-card-grid-min: 200px;
+.t-card-grid--sm {
+  --t-card-grid-min: 200px;
 }
 
-.ct-card-grid--lg {
-  --ct-card-grid-min: 360px;
+.t-card-grid--lg {
+  --t-card-grid-min: 360px;
 }
 
-.ct-card-grid__item {
+.t-card-grid__item {
   min-width: 0; // Grid-Blowout verhindern
 }
 
 // ---------------------------------------------------------------------------
-// ct-form — Zentriertes Formular-Layout
+// t-form — Zentriertes Formular-Layout
 // ---------------------------------------------------------------------------
 // Verwendung: Registrierung, Login, Kontaktformular, Checkout-Schritte.
 // Zentriert, schmal (720px), mit optionalem Header und Aktionsleiste.
 //
 // HTML:
-//   <div class="ct-form">
-//     <div class="ct-form__header">
-//       <h1 class="ct-form__title">...</h1>
-//       <p class="ct-form__description">...</p>
+//   <div class="t-form">
+//     <div class="t-form__header">
+//       <h1 class="t-form__title">...</h1>
+//       <p class="t-form__description">...</p>
 //     </div>
-//     <form class="ct-form__body">
-//       <section class="ct-form__section">...</section>
-//       <div class="ct-form__actions">...</div>
+//     <form class="t-form__body">
+//       <section class="t-form__section">...</section>
+//       <div class="t-form__actions">...</div>
 //     </form>
 //   </div>
 // ---------------------------------------------------------------------------
 
-.ct-form {
+.t-form {
   max-width: var(--nc-shell-content-narrow, 720px);
   margin-inline: auto;
 }
 
-.ct-form__header {
+.t-form__header {
   text-align: center;
   margin-block-end: var(--fnd-spacing-08);
 }
 
-.ct-form__title {
+.t-form__title {
   @include heading('l');
   margin: 0 0 var(--fnd-spacing-03);
   color: var(--fnd-color-text-primary);
 }
 
-.ct-form__description {
+.t-form__description {
   color: var(--fnd-color-text-secondary);
   max-width: var(--fnd-prose-max-width);
   margin-inline: auto;
 }
 
-.ct-form__body {
+.t-form__body {
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-06);
 }
 
-.ct-form__section {
+.t-form__section {
   background: var(--fnd-color-layer-01);
   border-radius: var(--fnd-radius-sm);
   padding: var(--fnd-spacing-06);
   box-shadow: var(--fnd-elevation-base);
 }
 
-.ct-form__section-title {
+.t-form__section-title {
   @include heading('s');
   margin: 0 0 var(--fnd-spacing-04);
   color: var(--fnd-color-on-layer-01);
 }
 
-.ct-form__section-fields {
+.t-form__section-fields {
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-04);
 }
 
 // Formular-Zeile (nebeneinander ab Tablet)
-.ct-form__row {
+.t-form__row {
   display: grid;
   gap: var(--fnd-spacing-04);
 
@@ -276,13 +276,13 @@
   }
 }
 
-.ct-form__row--3 {
+.t-form__row--3 {
   @include tablet-up {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.ct-form__actions {
+.t-form__actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -290,22 +290,22 @@
   border-block-start: 1px solid var(--fnd-color-border-secondary);
 }
 
-.ct-form__actions-end {
+.t-form__actions-end {
   display: flex;
   gap: var(--fnd-spacing-03);
   margin-inline-start: auto;
 }
 
 // ---------------------------------------------------------------------------
-// ct-split — 2-Spalten-Layout
+// t-split — 2-Spalten-Layout
 // ---------------------------------------------------------------------------
 // Verwendung: Feature-Beschreibungen, Media + Text, Split-Screens.
 // Mobile: gestapelt. Desktop: nebeneinander.
 //
 // HTML:
-//   <div class="ct-split">
-//     <div class="ct-split__primary">...</div>
-//     <div class="ct-split__secondary">...</div>
+//   <div class="t-split">
+//     <div class="t-split__primary">...</div>
+//     <div class="t-split__secondary">...</div>
 //   </div>
 //
 // Modifier:
@@ -314,7 +314,7 @@
 //   --align-center: Vertikal zentriert
 // ---------------------------------------------------------------------------
 
-.ct-split {
+.t-split {
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-06);
@@ -326,7 +326,7 @@
   }
 }
 
-.ct-split--reverse {
+.t-split--reverse {
   @include respond-to('lg') {
     direction: rtl; // Spalten tauschen
 
@@ -336,19 +336,19 @@
   }
 }
 
-.ct-split--60-40 {
+.t-split--60-40 {
   @include respond-to('lg') {
     grid-template-columns: 3fr 2fr;
   }
 }
 
-.ct-split--align-center {
+.t-split--align-center {
   @include respond-to('lg') {
     align-items: center;
   }
 }
 
-.ct-split__primary,
-.ct-split__secondary {
+.t-split__primary,
+.t-split__secondary {
   min-width: 0; // Grid-Blowout verhindern
 }

@@ -698,7 +698,7 @@ const shell = setupShell(el, {
                 </tr>
                 <tr>
                   <td>Phase 4</td>
-                  <td>Content-Templates (ct-article, ct-card-grid, ...)</td>
+                  <td>Content-Templates (t-article, t-card-grid, ...)</td>
                   <td>Fertig</td>
                 </tr>
               </tbody>
@@ -935,7 +935,7 @@ const shell = setupShell(el, {
             Kombinierbar mit allen Shell-Presets.
           </p>
           <p>
-            <strong>BEM-Praefix:</strong> <code>.ct-{name}</code> (ct = Content Template)
+            <strong>BEM-Praefix:</strong> <code>.t-{name}</code> (ct = Content Template)
           </p>
 
           <h3>Uebersicht</h3>
@@ -946,27 +946,27 @@ const shell = setupShell(el, {
               </thead>
               <tbody>
                 <tr>
-                  <td><code>.ct-dashboard-overview</code></td>
+                  <td><code>.t-dashboard-overview</code></td>
                   <td>Dashboard-Startseiten mit KPI-Karten und Detail-Cards</td>
                   <td>Flex + auto-fit Grid</td>
                 </tr>
                 <tr>
-                  <td><code>.ct-article</code></td>
+                  <td><code>.t-article</code></td>
                   <td>Blog-Posts, Artikel, Dokumentationsseiten</td>
                   <td>Prose + optionale TOC-Sidebar</td>
                 </tr>
                 <tr>
-                  <td><code>.ct-card-grid</code></td>
+                  <td><code>.t-card-grid</code></td>
                   <td>Produkt-Uebersichten, Galerie-Seiten, Feature-Listen</td>
                   <td>auto-fill Grid (responsive)</td>
                 </tr>
                 <tr>
-                  <td><code>.ct-form</code></td>
+                  <td><code>.t-form</code></td>
                   <td>Registrierung, Login, Kontaktformular, Checkout</td>
                   <td>Zentriert, max 720px</td>
                 </tr>
                 <tr>
-                  <td><code>.ct-split</code></td>
+                  <td><code>.t-split</code></td>
                   <td>Feature-Beschreibungen, Media + Text, Split-Screens</td>
                   <td>2-Spalten (50/50 oder 60/40)</td>
                 </tr>
@@ -974,8 +974,8 @@ const shell = setupShell(el, {
             </table>
           </div>
 
-          <!-- ct-dashboard-overview -->
-          <h3>ct-dashboard-overview</h3>
+          <!-- t-dashboard-overview -->
+          <h3>t-dashboard-overview</h3>
           <p>
             Auto-fit Grid fuer Metrik-Karten (min 200px) und darunter liegende Detail-Cards (min 320px).
             Ideal fuer Dashboard-Startseiten mit KPI-Uebersicht.
@@ -984,22 +984,22 @@ const shell = setupShell(el, {
             <div class="nc-code-snippet__header">
               <span class="nc-code-snippet__label">HTML</span>
             </div>
-            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-dashboard-overview"&gt;
-  &lt;div class="ct-dashboard-overview__metrics"&gt;
-    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 1&lt;/div&gt;
-    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 2&lt;/div&gt;
-    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 3&lt;/div&gt;
-    &lt;div class="ct-dashboard-overview__metric"&gt;KPI 4&lt;/div&gt;
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="t-dashboard-overview"&gt;
+  &lt;div class="t-dashboard-overview__metrics"&gt;
+    &lt;div class="t-dashboard-overview__metric"&gt;KPI 1&lt;/div&gt;
+    &lt;div class="t-dashboard-overview__metric"&gt;KPI 2&lt;/div&gt;
+    &lt;div class="t-dashboard-overview__metric"&gt;KPI 3&lt;/div&gt;
+    &lt;div class="t-dashboard-overview__metric"&gt;KPI 4&lt;/div&gt;
   &lt;/div&gt;
-  &lt;div class="ct-dashboard-overview__cards"&gt;
-    &lt;div class="ct-dashboard-overview__card"&gt;Detail-Card 1&lt;/div&gt;
-    &lt;div class="ct-dashboard-overview__card"&gt;Detail-Card 2&lt;/div&gt;
+  &lt;div class="t-dashboard-overview__cards"&gt;
+    &lt;div class="t-dashboard-overview__card"&gt;Detail-Card 1&lt;/div&gt;
+    &lt;div class="t-dashboard-overview__card"&gt;Detail-Card 2&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
           </div>
 
-          <!-- ct-article -->
-          <h3>ct-article</h3>
+          <!-- t-article -->
+          <h3>t-article</h3>
           <p>
             Prosa-optimiertes Layout mit maximaler Lesebreite und optionaler Inhaltsverzeichnis-Sidebar (ab <code>lg</code>).
             Enthalt integrierte Typografie fuer <code>h2</code>, <code>h3</code>, <code>p</code>, <code>ul/ol</code>,
@@ -1009,25 +1009,25 @@ const shell = setupShell(el, {
             <div class="nc-code-snippet__header">
               <span class="nc-code-snippet__label">HTML</span>
             </div>
-            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-article"&gt;
-  &lt;article class="ct-article__prose"&gt;
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="t-article"&gt;
+  &lt;article class="t-article__prose"&gt;
     &lt;h2&gt;Ueberschrift&lt;/h2&gt;
     &lt;p&gt;Absatztext...&lt;/p&gt;
     &lt;blockquote&gt;Zitat...&lt;/blockquote&gt;
   &lt;/article&gt;
-  &lt;aside class="ct-article__toc"&gt;
+  &lt;aside class="t-article__toc"&gt;
     &lt;!-- Inhaltsverzeichnis (optional, ab lg sichtbar) --&gt;
   &lt;/aside&gt;
 &lt;/div&gt;
 
 &lt;!-- Ohne TOC --&gt;
-&lt;div class="ct-article ct-article--no-toc"&gt;
-  &lt;article class="ct-article__prose"&gt;...&lt;/article&gt;
+&lt;div class="t-article t-article--no-toc"&gt;
+  &lt;article class="t-article__prose"&gt;...&lt;/article&gt;
 &lt;/div&gt;</code></pre>
           </div>
 
-          <!-- ct-card-grid -->
-          <h3>ct-card-grid</h3>
+          <!-- t-card-grid -->
+          <h3>t-card-grid</h3>
           <p>
             Responsives auto-fill Karten-Raster mit konfigurierbarer Mindestbreite.
             Drei Groessen-Varianten ueber Modifier.
@@ -1060,15 +1060,15 @@ const shell = setupShell(el, {
             <div class="nc-code-snippet__header">
               <span class="nc-code-snippet__label">HTML</span>
             </div>
-            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-card-grid ct-card-grid--sm"&gt;
-  &lt;div class="ct-card-grid__item"&gt;Karte 1&lt;/div&gt;
-  &lt;div class="ct-card-grid__item"&gt;Karte 2&lt;/div&gt;
-  &lt;div class="ct-card-grid__item"&gt;Karte 3&lt;/div&gt;
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="t-card-grid t-card-grid--sm"&gt;
+  &lt;div class="t-card-grid__item"&gt;Karte 1&lt;/div&gt;
+  &lt;div class="t-card-grid__item"&gt;Karte 2&lt;/div&gt;
+  &lt;div class="t-card-grid__item"&gt;Karte 3&lt;/div&gt;
 &lt;/div&gt;</code></pre>
           </div>
 
-          <!-- ct-form -->
-          <h3>ct-form</h3>
+          <!-- t-form -->
+          <h3>t-form</h3>
           <p>
             Zentriertes Formular-Layout (max 720px) mit optionalem Header, Sektions-Karten und Aktionsleiste.
             Zeilen-Grid (2 oder 3 Spalten ab Tablet).
@@ -1077,26 +1077,26 @@ const shell = setupShell(el, {
             <div class="nc-code-snippet__header">
               <span class="nc-code-snippet__label">HTML</span>
             </div>
-            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-form"&gt;
-  &lt;div class="ct-form__header"&gt;
-    &lt;h1 class="ct-form__title"&gt;Registrierung&lt;/h1&gt;
-    &lt;p class="ct-form__description"&gt;Erstellen Sie Ihr Konto.&lt;/p&gt;
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="t-form"&gt;
+  &lt;div class="t-form__header"&gt;
+    &lt;h1 class="t-form__title"&gt;Registrierung&lt;/h1&gt;
+    &lt;p class="t-form__description"&gt;Erstellen Sie Ihr Konto.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;form class="ct-form__body"&gt;
-    &lt;section class="ct-form__section"&gt;
-      &lt;h2 class="ct-form__section-title"&gt;Persoenliche Daten&lt;/h2&gt;
-      &lt;div class="ct-form__section-fields"&gt;
-        &lt;div class="ct-form__row"&gt;
+  &lt;form class="t-form__body"&gt;
+    &lt;section class="t-form__section"&gt;
+      &lt;h2 class="t-form__section-title"&gt;Persoenliche Daten&lt;/h2&gt;
+      &lt;div class="t-form__section-fields"&gt;
+        &lt;div class="t-form__row"&gt;
           &lt;!-- 2 Felder nebeneinander ab Tablet --&gt;
         &lt;/div&gt;
-        &lt;div class="ct-form__row ct-form__row--3"&gt;
+        &lt;div class="t-form__row t-form__row--3"&gt;
           &lt;!-- 3 Felder nebeneinander ab Tablet --&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/section&gt;
-    &lt;div class="ct-form__actions"&gt;
+    &lt;div class="t-form__actions"&gt;
       &lt;a href="#"&gt;Abbrechen&lt;/a&gt;
-      &lt;div class="ct-form__actions-end"&gt;
+      &lt;div class="t-form__actions-end"&gt;
         &lt;button type="submit"&gt;Speichern&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -1104,8 +1104,8 @@ const shell = setupShell(el, {
 &lt;/div&gt;</code></pre>
           </div>
 
-          <!-- ct-split -->
-          <h3>ct-split</h3>
+          <!-- t-split -->
+          <h3>t-split</h3>
           <p>
             2-Spalten-Layout: Mobile gestapelt, ab <code>lg</code> nebeneinander.
             Drei Modifier fuer Varianten.
@@ -1139,12 +1139,12 @@ const shell = setupShell(el, {
             <div class="nc-code-snippet__header">
               <span class="nc-code-snippet__label">HTML</span>
             </div>
-            <pre class="nc-code-snippet__pre"><code>&lt;div class="ct-split ct-split--60-40 ct-split--align-center"&gt;
-  &lt;div class="ct-split__primary"&gt;
+            <pre class="nc-code-snippet__pre"><code>&lt;div class="t-split t-split--60-40 t-split--align-center"&gt;
+  &lt;div class="t-split__primary"&gt;
     &lt;h2&gt;Feature-Titel&lt;/h2&gt;
     &lt;p&gt;Beschreibungstext...&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class="ct-split__secondary"&gt;
+  &lt;div class="t-split__secondary"&gt;
     &lt;img src="feature.png" alt="Feature-Bild"&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -1157,16 +1157,16 @@ const shell = setupShell(el, {
           </p>
           <div class="nc-code-snippet nc-code-snippet--multi">
             <div class="nc-code-snippet__header">
-              <span class="nc-code-snippet__label">HTML — Dashboard mit ct-dashboard-overview</span>
+              <span class="nc-code-snippet__label">HTML — Dashboard mit t-dashboard-overview</span>
             </div>
             <pre class="nc-code-snippet__pre"><code>&lt;body data-layout="dashboard"&gt;
   &lt;div class="nc-shell"&gt;
     &lt;!-- ... navbar, sidebar ... --&gt;
     &lt;main class="nc-shell__main"&gt;
       &lt;div class="nc-shell__content-body"&gt;
-        &lt;div class="ct-dashboard-overview"&gt;
-          &lt;div class="ct-dashboard-overview__metrics"&gt;...&lt;/div&gt;
-          &lt;div class="ct-dashboard-overview__cards"&gt;...&lt;/div&gt;
+        &lt;div class="t-dashboard-overview"&gt;
+          &lt;div class="t-dashboard-overview__metrics"&gt;...&lt;/div&gt;
+          &lt;div class="t-dashboard-overview__cards"&gt;...&lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/main&gt;

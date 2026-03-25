@@ -1,0 +1,255 @@
+<!-- BODY -->
+    <main class="docs">
+
+
+      <!-- Page Header -->
+            <div class="docs__hero">
+        <h1 class="docs__title">Form Hint</h1>
+        <p class="docs__subtitle">
+        Token-basierter Help/Hint-Text f&uuml;r Formular-Felder.
+        Unterst&uuml;tzt Text-only, Icon, Inline-Link und Anforderungslisten.
+        Kanonische Klasse: <code class="docs__token">.nc-form-hint</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-form-hint-*</code> Component-Tokens.
+      </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Hint-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="form-hint-tabs">
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendung</h2>
+          <p class="docs__section-desc">
+            Der Form-Hint liefert zus&auml;tzliche Hilfestellung unterhalb (oder oberhalb) eines Input-Feldes.
+            Er wird via <code>aria-describedby</code> mit dem zugeh&ouml;rigen Input verkn&uuml;pft.
+          </p>
+
+          <!-- Text Only -->
+          <section class="docs__section" id="text-only">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Text Only (Standard)</h3>
+            <div class="docs-snippet">
+<pre>&lt;span class="nc-form-hint" id="hint-email"&gt;
+  &lt;span class="nc-form-hint__text"&gt;Wir senden Ihnen eine Best&auml;tigung an diese Adresse.&lt;/span&gt;
+&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+          <!-- With Icon -->
+          <section class="docs__section" id="with-icon">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Icon</h3>
+            <div class="docs-snippet">
+<pre>&lt;span class="nc-form-hint" id="hint-name"&gt;
+  &lt;span class="nc-form-hint__icon" aria-hidden="true"&gt;
+    &lt;svg viewBox="0 0 24 24"&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;line x1="12" y1="16" x2="12" y2="12"/&gt;&lt;line x1="12" y1="8" x2="12.01" y2="8"/&gt;&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-form-hint__text"&gt;Vor- und Nachname wie im Ausweis.&lt;/span&gt;
+&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+          <!-- With Link -->
+          <section class="docs__section" id="with-link">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Link</h3>
+            <div class="docs-snippet">
+<pre>&lt;span class="nc-form-hint" id="hint-pw"&gt;
+  &lt;span class="nc-form-hint__text"&gt;
+    Passwort vergessen? &lt;a href="/reset" class="nc-form-hint__link"&gt;Zur&uuml;cksetzen&lt;/a&gt;
+  &lt;/span&gt;
+&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Requirements List -->
+          <section class="docs__section" id="list">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Anforderungsliste</h3>
+            <p class="docs__section-desc">Z.B. Passwort-Regeln als Liste mit Bullet Points.</p>
+            <div class="docs-snippet">
+<pre>&lt;span class="nc-form-hint" id="hint-pw-rules"&gt;
+  &lt;span class="nc-form-hint__text"&gt;
+    &lt;ul class="nc-form-hint__list"&gt;
+      &lt;li&gt;Mindestens 8 Zeichen&lt;/li&gt;
+      &lt;li&gt;Mindestens ein Grossbuchstabe&lt;/li&gt;
+      &lt;li&gt;Mindestens eine Zahl&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/span&gt;
+&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Muted Variant -->
+          <section class="docs__section" id="muted">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Muted (dezente Farbe)</h3>
+            <div class="docs-snippet">
+<pre>&lt;span class="nc-form-hint nc-form-hint--muted" id="hint-optional"&gt;
+  &lt;span class="nc-form-hint__text"&gt;Dieses Feld ist optional.&lt;/span&gt;
+&lt;/span&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <p class="docs__section-desc">
+    Alle visuellen Eigenschaften werden &uuml;ber <code class="docs__token">--nc-form-hint-*</code> Tokens gesteuert.
+  </p>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-hint-font-size</code></td><td>Schriftgr&ouml;&szlig;e des Hint-Textes</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-gap</code></td><td>Abstand zum dar&uuml;berliegenden Element (margin-block-start)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-list-gap</code></td><td>Vertikaler Abstand zwischen Listenpunkten</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-hint-color</code></td><td>Textfarbe (sekund&auml;re Farbe)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-link-color</code></td><td>Farbe f&uuml;r Inline-Links</td></tr>
+      <tr><td><code class="docs__token">--nc-form-hint-muted-color</code></td><td>Farbe f&uuml;r Muted-Variante (terti&auml;r)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-hint</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-hint</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-hint-*</code></td></tr>
+      <tr><td><strong>Layer</strong></td><td>06-Molecules</td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein (kann interaktive Links enthalten)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-hint</code></td><td>Block</td><td>Hint-Container (flex, align-items: flex-start)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__icon</code></td><td>Element (optional)</td><td>Info-Icon (SVG, 1em)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__text</code></td><td>Element</td><td>Text-Inhalt (kann &lt;ul&gt; enthalten)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__link</code></td><td>Element (optional)</td><td>Inline-Link im Hint</td></tr>
+      <tr><td><code class="docs__token">.nc-form-hint__list</code></td><td>Element (optional)</td><td>Anforderungsliste (&lt;ul&gt;)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-hint--muted</code></td><td>Dezentere Farbvariante (terti&auml;re Textfarbe)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flexbox-Layout: Icon + Text nebeneinander, <code>align-items: flex-start</code>.</li>
+    <li>Wird via <code>aria-describedby</code> am zugeh&ouml;rigen Input verkn&uuml;pft (<code>id="hint-{name}"</code>).</li>
+    <li>Kann vor oder nach dem Input im <code>.nc-form-field</code> Wrapper platziert werden.</li>
+    <li>Link-Slot: Inline-Anchor mit <code>:focus-visible</code> und <code>focus-ring</code>.</li>
+    <li>List-Support: <code>.nc-form-hint__text</code> kann eine <code>&lt;ul class="nc-form-hint__list"&gt;</code> enthalten.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Hint-Text wird via <code>aria-describedby</code> am Input referenziert (<code>id="hint-{name}"</code>). Rein informativ, kein <code>role</code> n&ouml;tig. Icon ist dekorativ (<code>aria-hidden="true"</code>).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Sekund&auml;re Textfarbe muss 4.5:1 Kontrast gegen den Hintergrund haben.</li>
+      <li>Muted-Variante (terti&auml;re Farbe) muss trotz reduzierter Prominenz 4.5:1 einhalten.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Pflicht: aria-describedby</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> Hint muss via <code class="docs__token">aria-describedby</code> mit dem zugeh&ouml;rigen Input verkn&uuml;pft sein.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Link im Hint</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> Links m&uuml;ssen <code class="docs__token">:focus-visible</code> mit <code>focus-ring</code> haben.</li>
+      <li>Link-Farbe (interactive-default) muss 4.5:1 Kontrast gegen den Hintergrund erf&uuml;llen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Anforderungsliste</h4>
+    <ul>
+      <li>Listen m&uuml;ssen als semantische <code>&lt;ul&gt;</code> mit <code>&lt;li&gt;</code> strukturiert sein.</li>
+      <li>Keine visuellen Pseudo-Listen mit Bullet-Zeichen im Text.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
+
+        </div>
+
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+
+</main>

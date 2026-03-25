@@ -2,6 +2,7 @@
   "name": "website26",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "tokens": "node scripts/generate-tokens.js",
     "tokens:validate": "node scripts/validate-tokens.js",
@@ -29,20 +30,26 @@
     "docs:sidebar": "node scripts/generate-docs-sidebar.js",
     "docs:index": "node scripts/generate-docs-index.js",
     "docs:sync-recipes": "node scripts/update-docs-from-recipes.js",
+    "tokens:sync": "node scripts/sync-component-tokens.js --fix",
+    "tokens:sync:check": "node scripts/sync-component-tokens.js --check",
     "lint:tokens": "node scripts/lint-tokens.js",
     "lint:docs-tokens": "node scripts/lint-docs-tokens.js",
     "lint:fragments": "node scripts/_audit-fragments.js",
     "lint:docs-scripts": "node scripts/lint-docs-scripts.js",
     "lint:recipes": "node scripts/lint-recipes.mjs",
     "lint:recipes:strict": "node scripts/lint-recipes.mjs --strict",
+    "sync:all": "npm run tokens && npm run build:css && npm run config:build",
+    "pipeline:check": "node scripts/pipeline-guard.js",
     "test:build": "sass scss/scss/main.scss:styles.css --style=compressed --no-source-map",
-    "test": "npm run test:build && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts && npm run lint:recipes",
+    "test:unit": "npx vitest run",
+    "test": "npm run test:build && npm run test:unit && npm run pipeline:check && npm run tokens:sync:check && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts && npm run lint:recipes",
     "dev": "node scripts/dev.js"
   },
   "devDependencies": {
     "@tabler/icons": "^3.36.1",
     "heroicons": "^2.2.0",
     "prismjs": "^1.30.0",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "vitest": "^4.1.1"
   }
 }

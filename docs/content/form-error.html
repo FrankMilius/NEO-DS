@@ -1,0 +1,222 @@
+<!-- BODY -->
+    <main class="docs">
+
+
+      <!-- Page Header -->
+            <div class="docs__hero">
+        <h1 class="docs__title">Form Error</h1>
+        <p class="docs__subtitle">
+        Token-basierte Validation/Error-Message f&uuml;r Formular-Felder.
+        Zeigt Fehlermeldungen mit optionalem Icon an und wird via <code class="docs__token">aria-describedby</code> mit dem zugeh&ouml;rigen Input verkn&uuml;pft.
+        Kanonische Klasse: <code class="docs__token">.nc-form-error</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-form-error-*</code> Component-Tokens.
+      </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Error-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="form-error-tabs">
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendung</h2>
+          <p class="docs__section-desc">
+            Die Form-Error-Komponente zeigt Validierungsfehlermeldungen unterhalb eines Formular-Feldes an.
+            Sie wird via <code>aria-describedby</code> mit dem Input verkn&uuml;pft und nutzt <code>role="alert"</code> f&uuml;r sofortige Screenreader-Ansage.
+          </p>
+
+          <!-- Default with Icon -->
+          <section class="docs__section" id="default">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Standard (mit Icon)</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-error" role="alert" id="error-email"&gt;
+  &lt;span class="nc-form-error__icon" aria-hidden="true"&gt;
+    &lt;svg viewBox="0 0 24 24"&gt;
+      &lt;circle cx="12" cy="12" r="10"/&gt;
+      &lt;line x1="12" y1="8" x2="12" y2="12"/&gt;
+      &lt;line x1="12" y1="16" x2="12.01" y2="16"/&gt;
+    &lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;span class="nc-form-error__text"&gt;Bitte geben Sie eine g&uuml;ltige E-Mail-Adresse ein.&lt;/span&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Text Only -->
+          <section class="docs__section" id="text-only">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Nur Text (ohne Icon)</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-error" role="alert" id="error-name"&gt;
+  &lt;span class="nc-form-error__text"&gt;Dieses Feld ist erforderlich.&lt;/span&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- With Input -->
+          <section class="docs__section" id="with-input">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Input-Feld</h3>
+            <p class="docs__section-desc">Typischer Anwendungsfall: Error-Message unterhalb eines Input-Feldes mit <code>aria-describedby</code>-Verkn&uuml;pfung.</p>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-field nc-form-field--error"&gt;
+  &lt;label class="nc-form-label" for="email"&gt;E-Mail&lt;/label&gt;
+  &lt;input class="nc-input nc-input--error" type="email" id="email"
+         aria-invalid="true" aria-describedby="error-email" /&gt;
+  &lt;div class="nc-form-error" role="alert" id="error-email"&gt;
+    &lt;span class="nc-form-error__icon" aria-hidden="true"&gt;...&lt;/span&gt;
+    &lt;span class="nc-form-error__text"&gt;Bitte geben Sie eine g&uuml;ltige E-Mail-Adresse ein.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <p class="docs__section-desc">
+    Alle visuellen Eigenschaften werden &uuml;ber <code class="docs__token">--nc-form-error-*</code> Tokens gesteuert.
+  </p>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-error-font-size</code></td><td>Schriftgr&ouml;&szlig;e der Fehlermeldung</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-font-weight</code></td><td>Schriftst&auml;rke der Fehlermeldung</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-icon-size</code></td><td>Gr&ouml;&szlig;e des Error-Icons</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-gap</code></td><td>Abstand zum dar&uuml;berliegenden Element (margin-top)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Colors</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>Textfarbe (Danger/Error-Farbe)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-error</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-error</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-error-*</code></td></tr>
+      <tr><td><strong>Layer</strong></td><td>06-Molecules</td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-error</code></td><td>Block</td><td>Error-Message Container (flex, align-items: flex-start)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error__icon</code></td><td>Element (optional)</td><td>Error-Icon (SVG, stroke-basiert)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error__text</code></td><td>Element</td><td>Error-Textinhalt</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flexbox-Layout: Icon + Text nebeneinander, <code>align-items: flex-start</code>.</li>
+    <li>Icon ist ein SVG (stroke-basiert, 16px), optisch via <code>margin-top: 0.1em</code> an Text ausgerichtet.</li>
+    <li>Text erbt Styles vom Block (font-size, color, font-weight).</li>
+    <li>Wird via <code>aria-describedby</code> am zugeh&ouml;rigen Input verkn&uuml;pft (<code>id="error-{name}"</code>).</li>
+    <li><code>role="alert"</code> f&uuml;r sofortige Screenreader-Ansage, <code>aria-live="polite"</code> f&uuml;r sanfte Updates.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Error-Message wird via <code>aria-describedby</code> am Input referenziert. <code>role="alert"</code> oder <code>aria-live="polite"</code> f&uuml;r dynamische Anzeige. Icon ist dekorativ (<code>aria-hidden="true"</code>).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Fehler-Farbe (Danger) muss 4.5:1 Kontrast gegen den Hintergrund haben.</li>
+      <li>Farbe ist nie alleiniges Signal &mdash; Icon und Text erg&auml;nzen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Pflicht: aria-describedby</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> Error-Message muss via <code class="docs__token">aria-describedby</code> mit dem zugeh&ouml;rigen Input verkn&uuml;pft sein.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Severity = Error</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role="alert"</code> f&uuml;r sofortige Screenreader-Ansage bei Validierungsfehlern.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Warning/Success</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-live="polite"</code> f&uuml;r sanftes Update ohne Unterbrechung.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
+
+        </div>
+
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+
+</main>

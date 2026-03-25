@@ -1,0 +1,471 @@
+// ==========================================================================
+// 07-Organisms: Gallery
+// ==========================================================================
+// Full-bleed Bild-Karussell (Apple TV+ Style).
+// Slides mit Background-Image, Logo-Overlay, Tag, Beschreibung, CTA-Button.
+// Auto-Play, Dot-Navigation, Paddle-Arrows, Per-Slide-Theming.
+//
+// ANATOMIE:
+//   .nc-gallery                     Root (position:relative, overflow:hidden)
+//   .nc-gallery__track              Slide-Container (flex, translate3d)
+//   .nc-gallery__slide              Einzelner Slide (100vw, flex-shrink:0)
+//   .nc-gallery__slide-bg           Hintergrundbild (absolute, cover)
+//   .nc-gallery__slide-overlay      Gradient-Overlay fuer Textkontrast
+//   .nc-gallery__slide-content      Content-Wrapper (relative, z-index:2)
+//   .nc-gallery__slide-logo         Show/Brand-Logo (optional)
+//   .nc-gallery__slide-tag          Genre/Kategorie-Tag
+//   .nc-gallery__slide-title        Slide-Titel
+//   .nc-gallery__slide-description  Beschreibungstext
+//   .nc-gallery__slide-actions      CTA-Bereich
+//   .nc-gallery__controls           Paddle-Container (absolute overlay)
+//   .nc-gallery__paddle             Prev/Next Pfeil-Buttons
+//   .nc-gallery__nav                Dot-Navigation (role=tablist)
+//   .nc-gallery__nav-dot            Einzelner Dot (role=tab)
+//   .nc-gallery__autoplay           Play/Pause Toggle
+//
+// TOKEN-GESTEUERT:
+//   Alle visuellen Werte via --nc-gallery-* Custom Properties.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Root
+// ---------------------------------------------------------------------------
+
+.nc-gallery {
+  position: relative;
+  width: 100%;
+  height: var(--nc-gallery-height);
+  min-height: var(--nc-gallery-min-height);
+  max-height: var(--nc-gallery-max-height);
+  overflow: hidden;
+  background-color: var(--fnd-color-always-dark);
+}
+
+// ---------------------------------------------------------------------------
+// Track (Slide-Container)
+// ---------------------------------------------------------------------------
+
+.nc-gallery__track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  transition: transform var(--nc-gallery-animation-duration) var(--nc-gallery-animation-easing);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Slide
+// ---------------------------------------------------------------------------
+
+.nc-gallery__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+// -- Hintergrundbild --
+.nc-gallery__slide-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  > img,
+  > picture,
+  > picture > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// -- Gradient-Overlay --
+.nc-gallery__slide-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    var(--nc-gallery-overlay-direction),
+    var(--nc-gallery-overlay-start),
+    var(--nc-gallery-overlay-end)
+  );
+  pointer-events: none;
+}
+
+// ---------------------------------------------------------------------------
+// Slide Content
+// ---------------------------------------------------------------------------
+
+.nc-gallery__slide-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: var(--nc-gallery-content-align);
+  gap: var(--nc-gallery-content-gap);
+  max-width: var(--nc-gallery-content-max-width);
+  padding-block: var(--nc-gallery-padding-block);
+  padding-inline: var(--nc-gallery-padding-inline);
+  width: 100%;
+}
+
+// -- Logo --
+.nc-gallery__slide-logo {
+  max-height: var(--nc-gallery-logo-max-height);
+  max-width: var(--nc-gallery-logo-max-width);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  // Logo auf voller Breite, Hoehe auto
+  display: block;
+}
+
+// -- Tag (Genre / Kategorie) --
+.nc-gallery__slide-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--nc-gallery-tag-size);
+  font-weight: var(--nc-gallery-tag-weight);
+  color: var(--nc-gallery-tag-color);
+  background-color: var(--nc-gallery-tag-bg);
+  border-radius: var(--nc-gallery-tag-radius);
+  padding: var(--nc-gallery-tag-padding);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+// -- Titel --
+.nc-gallery__slide-title {
+  font-size: var(--nc-gallery-title-size);
+  font-weight: var(--nc-gallery-title-weight);
+  color: var(--nc-gallery-title-color);
+  line-height: var(--nc-gallery-title-line-height);
+  margin: 0;
+}
+
+// -- Beschreibung --
+.nc-gallery__slide-description {
+  font-size: var(--nc-gallery-desc-size);
+  color: var(--nc-gallery-desc-color);
+  max-width: var(--nc-gallery-desc-max-width);
+  line-height: var(--nc-gallery-desc-line-height);
+  margin: 0;
+}
+
+// -- Actions (CTA-Bereich) --
+.nc-gallery__slide-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  margin-top: var(--fnd-spacing-02);
+}
+
+// -- Separator (Genre · Beschreibung) --
+.nc-gallery__slide-separator {
+  color: var(--nc-gallery-desc-color);
+  margin-inline: var(--fnd-spacing-02);
+  user-select: none;
+}
+
+// ---------------------------------------------------------------------------
+// Controls: Paddles (Prev / Next)
+// ---------------------------------------------------------------------------
+
+.nc-gallery__controls {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--fnd-spacing-04);
+  pointer-events: none;
+}
+
+.nc-gallery__paddle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nc-gallery-paddle-size);
+  height: var(--nc-gallery-paddle-size);
+  border: none;
+  border-radius: var(--nc-gallery-paddle-radius);
+  background-color: var(--nc-gallery-paddle-bg);
+  color: var(--nc-gallery-paddle-color);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    background-color: var(--nc-gallery-paddle-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  // Pfeil-Icons via Inline-SVG oder Icon-Font
+  > svg,
+  > .nc-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Navigation: Dots
+// ---------------------------------------------------------------------------
+
+.nc-gallery__nav {
+  position: absolute;
+  bottom: var(--fnd-spacing-06);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--nc-gallery-dot-gap);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nc-gallery__nav-dot {
+  width: var(--nc-gallery-dot-size);
+  height: var(--nc-gallery-dot-size);
+  border: none;
+  border-radius: var(--nc-gallery-dot-radius);
+  background-color: var(--nc-gallery-dot-color);
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &[aria-selected='true'],
+  &.is-active {
+    background-color: var(--nc-gallery-dot-color-active);
+    transform: scale(1.2);
+  }
+
+  &:hover {
+    background-color: var(--nc-gallery-dot-color-active);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Autoplay Toggle
+// ---------------------------------------------------------------------------
+
+.nc-gallery__autoplay {
+  position: absolute;
+  bottom: var(--fnd-spacing-06);
+  right: var(--fnd-spacing-06);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--fnd-color-always-light) 30%, transparent);
+  border-radius: var(--fnd-radius-full);
+  background-color: color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent);
+  color: var(--nc-gallery-autoplay-progress-color);
+  cursor: pointer;
+
+  > svg,
+  > .nc-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Animation-Varianten
+// ---------------------------------------------------------------------------
+
+// -- Fade (anstatt Slide) --
+.nc-gallery--fade {
+  .nc-gallery__track {
+    transition: none;
+  }
+
+  .nc-gallery__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--nc-gallery-animation-duration) var(--nc-gallery-animation-easing);
+
+    &.is-active {
+      position: relative;
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nc-gallery__slide {
+      transition: none;
+    }
+  }
+}
+
+// -- No Animation --
+.nc-gallery--no-anim {
+  .nc-gallery__track {
+    transition: none;
+  }
+
+  .nc-gallery__slide {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Content-Alignment
+// ---------------------------------------------------------------------------
+
+.nc-gallery--center {
+  .nc-gallery__slide-content {
+    --nc-gallery-content-align: center;
+    text-align: center;
+    align-self: center;
+    margin-inline: auto;
+  }
+}
+
+.nc-gallery--end {
+  .nc-gallery__slide-content {
+    --nc-gallery-content-align: flex-end;
+    text-align: right;
+    margin-left: auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Hoehen-Varianten
+// ---------------------------------------------------------------------------
+
+.nc-gallery--svh {
+  --nc-gallery-height: 100svh;
+}
+
+.nc-gallery--fixed {
+  --nc-gallery-height: auto;
+  --nc-gallery-min-height: 500px;
+  --nc-gallery-max-height: 700px;
+
+  .nc-gallery__slide {
+    min-height: var(--nc-gallery-min-height);
+    max-height: var(--nc-gallery-max-height);
+  }
+}
+
+.nc-gallery--aspect {
+  --nc-gallery-height: auto;
+
+  .nc-gallery__slide {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Nav-Style — Lines (statt Dots)
+// ---------------------------------------------------------------------------
+
+.nc-gallery--lines {
+  .nc-gallery__nav-dot {
+    width: 40px;
+    height: 3px;
+    border-radius: var(--fnd-radius-xs);
+  }
+}
+
+// -- Thumbnails --
+.nc-gallery--thumbnails {
+  .nc-gallery__nav {
+    gap: var(--fnd-spacing-03);
+  }
+
+  .nc-gallery__nav-dot {
+    width: 80px;
+    height: 45px;
+    border-radius: var(--fnd-radius-sm);
+    background-size: cover;
+    background-position: center;
+    opacity: var(--fnd-opacity-disabled);
+    transition: opacity 0.2s ease;
+
+    &[aria-selected='true'],
+    &.is-active {
+      opacity: 1;
+      transform: none;
+      outline: 2px solid var(--nc-gallery-dot-color-active);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@media (max-width: 768px) {
+  .nc-gallery {
+    --nc-gallery-padding-block: var(--fnd-spacing-08);
+    --nc-gallery-padding-inline: var(--fnd-spacing-05);
+    --nc-gallery-content-max-width: 100%;
+    --nc-gallery-title-size: var(--fs-2xl);
+    --nc-gallery-desc-size: var(--fs-base);
+    --nc-gallery-paddle-size: 36px;
+  }
+
+  // Paddles ausblenden auf kleinen Screens — nur Dots/Swipe
+  .nc-gallery__controls {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// prefers-reduced-motion
+// ---------------------------------------------------------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-gallery__track {
+    transition: none;
+  }
+
+  // Autoplay deaktivieren
+  .nc-gallery__autoplay {
+    display: none;
+  }
+}

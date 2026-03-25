@@ -1,0 +1,238 @@
+<!-- BODY -->
+    <main class="docs">
+
+
+      <!-- Page Header -->
+            <div class="docs__hero">
+        <h1 class="docs__title">Form Actions</h1>
+        <p class="docs__subtitle">
+        Action-Bar f&uuml;r Formular-Buttons (Submit, Cancel, Reset).
+        Positioniert Buttons am Ende eines Formulars mit verschiedenen Ausrichtungs- und Layout-Optionen.
+        Kanonische Klasse: <code class="docs__token">.nc-form-actions</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-form-actions-*</code> Component-Tokens.
+      </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Actions-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="form-actions-tabs">
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendung</h2>
+          <p class="docs__section-desc">
+            Die Form-Actions-Bar positioniert Formular-Buttons konsistent.
+            Primary Action (Submit) steht immer an erster Stelle im DOM.
+          </p>
+
+          <!-- Default (End) -->
+          <section class="docs__section" id="default">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Rechts ausgerichtet (Standard)</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--end" role="group" aria-label="Formular-Aktionen"&gt;
+  &lt;button class="nc-button nc-button--primary" type="submit"&gt;Speichern&lt;/button&gt;
+  &lt;button class="nc-button nc-button--secondary" type="button"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Alignment Variants -->
+          <section class="docs__section" id="alignment">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ausrichtungs-Varianten</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--start"&gt;...&lt;/div&gt;   &lt;!-- Links --&gt;
+&lt;div class="nc-form-actions nc-form-actions--center"&gt;...&lt;/div&gt;  &lt;!-- Zentriert --&gt;
+&lt;div class="nc-form-actions nc-form-actions--end"&gt;...&lt;/div&gt;     &lt;!-- Rechts --&gt;
+&lt;div class="nc-form-actions nc-form-actions--spread"&gt;...&lt;/div&gt;  &lt;!-- Space-between --&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Spread (typical) -->
+          <section class="docs__section" id="spread">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Spread (Cancel links, Submit rechts)</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--spread nc-form-actions--bordered"
+     role="group" aria-label="Formular-Aktionen"&gt;
+  &lt;button class="nc-button nc-button--primary" type="submit"&gt;Speichern&lt;/button&gt;
+  &lt;button class="nc-button nc-button--ghost" type="button"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Sticky -->
+          <section class="docs__section" id="sticky">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sticky (haftet am unteren Rand)</h3>
+            <p class="docs__section-desc">F&uuml;r lange Formulare: Buttons bleiben am unteren Viewport-Rand sichtbar.</p>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--end nc-form-actions--sticky"&gt;
+  &lt;button class="nc-button nc-button--primary" type="submit"&gt;Speichern&lt;/button&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Stacked -->
+          <section class="docs__section" id="stacked">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Stacked (Mobile)</h3>
+            <p class="docs__section-desc">Vertikal gestapelt mit voller Breite. Auch automatisch via <code>--responsive</code>.</p>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--stacked"&gt;
+  &lt;button class="nc-button nc-button--primary" type="submit"&gt;Speichern&lt;/button&gt;
+  &lt;button class="nc-button nc-button--secondary" type="button"&gt;Abbrechen&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Oder: automatisch stacked unter 479px --&gt;
+&lt;div class="nc-form-actions nc-form-actions--end nc-form-actions--responsive"&gt;...&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Bordered -->
+          <section class="docs__section" id="bordered">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Trennlinie (Bordered)</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-actions nc-form-actions--end nc-form-actions--bordered"&gt;
+  &lt;button class="nc-button nc-button--primary" type="submit"&gt;Speichern&lt;/button&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-actions-gap</code></td><td>Abstand zwischen den Buttons</td></tr>
+      <tr><td><code class="docs__token">--nc-form-divider-color</code></td><td>Farbe der Trennlinie (Bordered/Sticky)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-actions</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-actions</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-actions-*</code></td></tr>
+      <tr><td><strong>Layer</strong></td><td>07-Organisms</td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein (enth&auml;lt interaktive Buttons)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ausrichtungs-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-actions--start</code></td><td>Links ausgerichtet</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--center</code></td><td>Zentriert</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--end</code></td><td>Rechts ausgerichtet</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--spread</code></td><td>Verteilt (space-between)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-actions--sticky</code></td><td>Sticky am unteren Rand + BG + Shadow</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--stacked</code></td><td>Vertikal gestapelt, Buttons volle Breite</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--bordered</code></td><td>Trennlinie oben (border-top)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-actions--responsive</code></td><td>Automatisch stacked unter 479px</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flex-Container mit <code>flex-wrap</code> f&uuml;r Umbruch bei Platzmangel.</li>
+    <li>Primary Action (Submit) an erster Stelle im DOM.</li>
+    <li>Sticky: <code>position: sticky; bottom: 0</code> mit BG + Shadow + border-top.</li>
+    <li>Stacked: Buttons volle Breite, mindestens 44px Touch-Target.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc"><code>role="group"</code> mit <code>aria-label="Formular-Aktionen"</code>. Primary Action an erster Stelle im DOM. Buttons haben eigene A11y.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA non-text (3:1)</h4>
+    <ul>
+      <li>Buttons m&uuml;ssen eigene Kontrastanforderungen erf&uuml;llen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Pflicht: role=&quot;group&quot; + aria-label</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> Container: <code class="docs__token">role="group"</code> + <code class="docs__token">aria-label="Formular-Aktionen"</code>.</li>
+      <li>Primary Action (Submit) an erster Stelle im DOM &mdash; Screen Reader liest Submit zuerst.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Stacked / Mobile</h4>
+    <ul>
+      <li>Buttons volle Breite, mindestens 44px H&ouml;he (Touch-Target).</li>
+      <li>Primary Action oben.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
+
+        </div>
+
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+
+</main>

@@ -5,6 +5,7 @@
 // ==========================================================================
 
 /// Visually hidden (accessible to screen readers)
+.u-visually-hidden,
 .visually-hidden {
   clip-path: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -16,19 +17,81 @@
 }
 
 /// Hidden (display: none)
+.u-hidden,
 .hidden,
 [hidden] {
   display: none !important;
 }
 
 /// Block error state
+.u-block-error,
 .block-error {
   border: 3px dashed var(--fnd-color-border-danger);
 }
 
 /// Scroll blocked (für Modals)
+.u-scroll-blocked,
 .scroll-blocked {
   overflow: hidden;
   position: fixed;
   inset: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive Visibility Utilities
+// ---------------------------------------------------------------------------
+// Breakpoint-basierte show/hide Klassen fuer Layout Builder und Templates.
+
+.u-hide-below-sm {
+  @media (max-width: 767px) { display: none !important; }
+}
+
+.u-hide-below-md {
+  @media (max-width: 959px) { display: none !important; }
+}
+
+.u-hide-below-lg {
+  @media (max-width: 1199px) { display: none !important; }
+}
+
+.u-show-from-sm {
+  @media (max-width: 767px) { display: none !important; }
+}
+
+.u-show-from-md {
+  @media (max-width: 959px) { display: none !important; }
+}
+
+.u-show-from-lg {
+  @media (max-width: 1199px) { display: none !important; }
+}
+
+// ---------------------------------------------------------------------------
+// Max-Width Utilities
+// ---------------------------------------------------------------------------
+
+.u-max-w-prose   { max-width: var(--fnd-prose-max-width); }
+.u-max-w-narrow  { max-width: 768px; }
+.u-max-w-md      { max-width: 960px; }
+.u-max-w-content { max-width: 1200px; }
+
+// ---------------------------------------------------------------------------
+// Prose Wrapper (Readability-optimierter Text-Container)
+// ---------------------------------------------------------------------------
+
+.u-prose {
+  max-width: var(--fnd-prose-max-width);
+
+  p,
+  li {
+    line-height: 1.6;
+  }
+
+  h2 {
+    margin-block-start: 1.5em;
+  }
+
+  h3 {
+    margin-block-start: 1.25em;
+  }
 }
