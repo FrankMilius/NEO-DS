@@ -11,7 +11,7 @@
     </button>
 
     <!-- Dropdown Panel -->
-    <div v-if="isOpen" class="geo-select__dropdown">
+    <div v-if="isOpen" ref="dropdownEl" class="geo-select__dropdown">
       <input
         ref="searchInput"
         class="geo-select__search"
@@ -75,16 +75,34 @@ const searchInput = ref(null)
 const rootEl = ref(null)
 
 // Focus search input when dropdown opens
+const dropdownEl = ref(null)
+
 watch(isOpen, (val) => {
   if (val) {
     searchQuery.value = ''
-    nextTick(() => searchInput.value?.focus())
+    nextTick(() => {
+      searchInput.value?.focus()
+      positionDropdown()
+    })
   }
 })
 
+function positionDropdown() {
+  if (!rootEl.value || !dropdownEl.value) return
+  const trigger = rootEl.value.querySelector('.geo-select__trigger')
+  if (!trigger) return
+  const rect = trigger.getBoundingClientRect()
+  const dropH = 320
+  const spaceBelow = window.innerHeight - rect.bottom - 8
+  const top = spaceBelow >= dropH ? rect.bottom + 4 : rect.top - dropH - 4
+  dropdownEl.value.style.top = Math.max(8, top) + 'px'
+  dropdownEl.value.style.left = rect.left + 'px'
+  dropdownEl.value.style.width = Math.max(260, rect.width) + 'px'
+}
+
 // Click outside to close
 function onClickOutside(e) {
-  if (rootEl.value && !rootEl.value.contains(e.target)) {
+  if (rootEl.value && !rootEl.value.contains(e.target) && (!dropdownEl.value || !dropdownEl.value.contains(e.target))) {
     isOpen.value = false
   }
 }
@@ -149,18 +167,28 @@ const suggestionGroups = computed(() => {
   const groups = []
   const tokenId = props.token.id
 
-  // Determine priority order based on token ID
+  // Determine relevant categories based on token ID
   const isRadius = tokenId.includes('radius')
-  const isHeight = tokenId.includes('height') || tokenId.includes('size')
-  const isPadding = tokenId.includes('padding') || tokenId.includes('gap') || tokenId.includes('spacing')
+  const isHeight = tokenId.includes('height') || tokenId.includes('min-height')
+  const isWidth = tokenId.includes('width') || tokenId.includes('max-width')
+  const isPadding = tokenId.includes('padding') || tokenId.includes('gap') || tokenId.includes('spacing') || tokenId.includes('margin') || tokenId.includes('indent')
+  const isSize = tokenId.includes('-size') && !tokenId.includes('font-size')
+  const isFontSize = tokenId.includes('font-size')
+  const isFontWeight = tokenId.includes('weight')
 
-  // Build ordered category list
+  // Build ordered category list — nur passende Kategorien
   const categoryOrder = []
   if (isRadius) {
-    categoryOrder.push('radius', 'sizes', 'spacing')
+    categoryOrder.push('radius')
+  } else if (isFontSize) {
+    // Font-sizes brauchen keine Foundation-Tokens im Dropdown (die kommen via Typography)
+  } else if (isFontWeight) {
+    // Font-weights brauchen keine Foundation-Tokens
   } else if (isPadding) {
-    categoryOrder.push('spacing', 'sizes')
-  } else if (isHeight) {
+    categoryOrder.push('spacing')
+  } else if (isHeight || isSize) {
+    categoryOrder.push('sizes')
+  } else if (isWidth) {
     categoryOrder.push('sizes', 'spacing')
   } else {
     categoryOrder.push('sizes', 'spacing', 'radius')
@@ -286,18 +314,16 @@ function applyCustom(e) {
   transform: rotate(180deg);
 }
 
-/* Dropdown Panel */
+/* Dropdown Panel — fixed position to escape overflow containers */
 .geo-select__dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
+  position: fixed;
   min-width: 260px;
+  width: 260px;
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
   background: var(--cfg-surface);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  z-index: 50;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
   max-height: 320px;
   display: flex;
   flex-direction: column;

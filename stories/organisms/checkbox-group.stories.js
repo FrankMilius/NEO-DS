@@ -1,0 +1,98 @@
+// ============================================================
+// CheckboxGroup — Auto-generated from checkbox-group-recipe.json
+// Version: 2.0.0 | Status: stable
+// DO NOT EDIT DIRECTLY — run: npm run generate:stories
+// ============================================================
+
+export default {
+  title: 'Organisms/CheckboxGroup',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `**CheckboxGroup** v2.0.0 (stable)
+
+Flex-Column Container fuer mehrere .nc-checkbox Elemente.
+
+
+`,
+      },
+    },
+    status: { type: 'stable' },
+  },
+  argTypes: {},
+};
+
+export const Default = {
+  render: () => `<div class="nc-checkbox-group">
+    checkbox-group
+  </div>`,
+};
+
+export const LayoutVariants = {
+  name: 'Layout Variants',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Vertical vs Horizontal' },
+    },
+  },
+};
+
+export const SizeGap = {
+  name: 'Size × Gap',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-checkbox-group">
+    checkbox-group
+  </div>
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Gap-Abstufung gekoppelt an Checkbox-Groesse: sm (8px), md (12px), lg (16px)' },
+    },
+  },
+};
+
+export const SelectAllMasterCheckbox = {
+  name: 'Select-All (Master-Checkbox)',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-checkbox-group">
+    checkbox-group
+  </div>
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Header mit Master-Checkbox: unchecked (keins), indeterminate (teilweise), checked (alle)' },
+    },
+  },
+};
+
+export const WithGroupHint = {
+  name: 'With Group Hint',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-checkbox-group">
+    checkbox-group
+  </div>
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Gruppen-Hilfetext unterhalb der Optionen via form-hint' },
+    },
+  },
+};
+
+export const States = {
+  name: 'States',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-checkbox-group">
+    checkbox-group
+  </div>
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Default, Error, Disabled' },
+    },
+  },
+};

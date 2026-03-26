@@ -5,15 +5,37 @@
     "component": "input-group",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "composite"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/input-group-docs" }
+    "tags": [
+      "interactive",
+      "form",
+      "composite"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/input-group-docs"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-input-group" },
+    "root": {
+      "element": ".nc-input-group"
+    },
     "slots": [
-      { "name": "prepend", "element": ".nc-input-group__prepend", "optional": true },
-      { "name": "input", "element": ".nc-input", "optional": false },
-      { "name": "append", "element": ".nc-input-group__append", "optional": true }
+      {
+        "name": "prepend",
+        "element": ".nc-input-group__prepend",
+        "optional": true
+      },
+      {
+        "name": "input",
+        "element": ".nc-input",
+        "optional": false
+      },
+      {
+        "name": "append",
+        "element": ".nc-input-group__append",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -38,37 +60,116 @@
       "label": "Size",
       "description": "Groesse — sm, md (Standard), lg",
       "values": {
-        "sm": { "modifier": "nc-input-group--sm", "tokenGroups": [], "renderHint": "input-group-sm" },
-        "md": { "modifier": null,                 "tokenGroups": [], "renderHint": "input-group-md" },
-        "lg": { "modifier": "nc-input-group--lg", "tokenGroups": [], "renderHint": "input-group-lg" }
+        "sm": {
+          "modifier": "nc-input-group--sm",
+          "tokenGroups": [],
+          "renderHint": "input-group-sm"
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "input-group-md"
+        },
+        "lg": {
+          "modifier": "nc-input-group--lg",
+          "tokenGroups": [],
+          "renderHint": "input-group-lg"
+        }
       }
     },
     "content": {
       "label": "Content",
       "description": "Addon-Konfiguration — prepend-only, append-only, both (Prepend + Append)",
       "values": {
-        "prepend-only": { "modifier": null, "tokenGroups": [], "slotConfig": { "prepend": true }, "renderHint": "input-group-prepend" },
-        "append-only":  { "modifier": null, "tokenGroups": [], "slotConfig": { "append": true }, "renderHint": "input-group-append" },
-        "both":         { "modifier": null, "tokenGroups": [], "slotConfig": { "prepend": true, "append": true }, "renderHint": "input-group-both" }
+        "prepend-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "prepend": true
+          },
+          "renderHint": "input-group-prepend"
+        },
+        "append-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "append": true
+          },
+          "renderHint": "input-group-append"
+        },
+        "both": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "prepend": true,
+            "append": true
+          },
+          "renderHint": "input-group-both"
+        }
       }
     },
     "validation": {
       "label": "Validation",
       "description": "Validierungs-State — none, error, success",
       "values": {
-        "none":    { "modifier": null,                        "tokenGroups": [], "renderHint": "input-group-valid" },
-        "error":   { "modifier": "nc-input-group--error",     "tokenGroups": ["validation-error"], "renderHint": "input-group-error" },
-        "success": { "modifier": "nc-input-group--success",   "tokenGroups": ["validation-success"], "renderHint": "input-group-success" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "input-group-valid"
+        },
+        "error": {
+          "modifier": "nc-input-group--error",
+          "tokenGroups": [
+            "validation-error"
+          ],
+          "renderHint": "input-group-error"
+        },
+        "success": {
+          "modifier": "nc-input-group--success",
+          "tokenGroups": [
+            "validation-success"
+          ],
+          "renderHint": "input-group-success"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover", "focus", "disabled", "readonly"],
-    "precedence": ["disabled", "readonly", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled",
+      "readonly"
+    ],
+    "precedence": [
+      "disabled",
+      "readonly",
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "focus", "unless": ["disabled", "readonly"], "note": "Focus: focus-ring + z-index auf dem aktiven Element." },
-      { "state": "disabled", "unless": [], "note": "Disabled: Addons ausgegraut, Input disabled. Kein Hover/Focus." },
-      { "state": "readonly", "unless": ["disabled"], "note": "Readonly: Input readonly (heller bg, kein Cursor). Addons bleiben interaktiv (z.B. Copy-Button erlaubt)." }
+      {
+        "state": "focus",
+        "unless": [
+          "disabled",
+          "readonly"
+        ],
+        "note": "Focus: focus-ring + z-index auf dem aktiven Element."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: Addons ausgegraut, Input disabled. Kein Hover/Focus."
+      },
+      {
+        "state": "readonly",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Readonly: Input readonly (heller bg, kein Cursor). Addons bleiben interaktiv (z.B. Copy-Button erlaubt)."
+      }
     ],
     "interactive": true
   },
@@ -76,22 +177,85 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Input behaelt volle Keyboard-Accessibility. Addons mit aria-hidden='true' wenn rein dekorativ. Bei beschreibenden Addons (z.B. 'https://'): aria-describedby oder ins Label aufnehmen."
     },
     "overrides": [
-      { "when": { "axes": { "validation": ["error"] } }, "suggest": ["aria-invalid", "aria-describedby"], "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby." },
-      { "when": { "axes": { "validation": ["success"] } }, "suggest": ["aria-describedby"], "note": "Success: Erfolgsmeldung via aria-describedby. Kein aria-invalid." },
-      { "when": { "states": ["disabled"] }, "suggest": ["aria-disabled"], "note": "Disabled: disabled-Attribut auf dem Input." },
-      { "when": { "states": ["readonly"] }, "suggest": ["aria-readonly"], "note": "Readonly: readonly-Attribut auf dem Input. aria-readonly='true' fuer assistive Technologien." }
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby."
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "success"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Success: Erfolgsmeldung via aria-describedby. Kein aria-invalid."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf dem Input."
+      },
+      {
+        "when": {
+          "states": [
+            "readonly"
+          ]
+        },
+        "suggest": [
+          "aria-readonly"
+        ],
+        "note": "Readonly: readonly-Attribut auf dem Input. aria-readonly='true' fuer assistive Technologien."
+      }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Input braucht ein Label via <label>, aria-label oder aria-labelledby."] },
       {
-        "when": { "slots": ["prepend", "append"] },
-        "require": ["inner-radius-reset"],
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Input braucht ein Label via <label>, aria-label oder aria-labelledby."
+        ]
+      },
+      {
+        "when": {
+          "slots": [
+            "prepend",
+            "append"
+          ]
+        },
+        "require": [
+          "inner-radius-reset"
+        ],
         "notes": [
           "Verschachtelte Buttons in Addons muessen border-radius: var(--nc-input-group-inner-radius) erhalten.",
           "Der Container setzt > * { border-radius: 0 }, aber Buttons innerhalb von Addons brauchen explizites inner-radius Reset.",
@@ -102,8 +266,14 @@
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-input-group"],
-    "baseTokenGroups": ["mirror", "addon-base", "layout"],
+    "baseClasses": [
+      "nc-input-group"
+    ],
+    "baseTokenGroups": [
+      "mirror",
+      "addon-base",
+      "layout"
+    ],
     "tokenGroups": {
       "mirror": {
         "label": "Mirror (from Input)",
@@ -132,13 +302,17 @@
         "description": "Interaktive Addon-Elemente: Buttons, Selects innerhalb der Group. Separate Hover/Active-Tokens fuer Dark-Mode-Flexibilitaet.",
         "tokens": [
           "nc-input-group-addon-hover-bg",
-          "nc-input-group-addon-active-bg"
+          "nc-input-group-addon-active-bg",
+          "nc-input-group-inner-radius"
         ]
       },
       "layout": {
         "label": "Layout",
         "tokens": [
-          "nc-input-group-inner-radius"
+          "nc-input-group-inner-radius",
+          "nc-input-group-height-sm",
+          "nc-input-group-height-md",
+          "nc-input-group-height-lg"
         ]
       },
       "validation-error": {
@@ -157,71 +331,283 @@
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.size.values.*.modifier", "axes.content.values.*.modifier", "axes.validation.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.size.values.*.modifier",
+        "axes.content.values.*.modifier",
+        "axes.validation.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "all-states", "label": "All States",
+      "id": "all-states",
+      "label": "All States",
       "description": "Input-Group in allen Zustaenden: default, hover, focus, disabled, readonly",
-      "matrix": { "axes": { "size": ["md"], "content": ["prepend-only"], "validation": ["none"] }, "states": ["default", "hover", "focus", "disabled", "readonly"] },
-      "layout": "row", "render": { "label": "{state}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Focus: z-index hebt aktives Element. Disabled: alle Teile ausgegraut. Readonly: Input schreibgeschuetzt, Addons interaktiv." }
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "prepend-only"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "disabled",
+          "readonly"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Focus: z-index hebt aktives Element. Disabled: alle Teile ausgegraut. Readonly: Input schreibgeschuetzt, Addons interaktiv."
+      }
     },
     {
-      "id": "content-variants", "label": "Content Variants",
+      "id": "content-variants",
+      "label": "Content Variants",
       "description": "Prepend-Only, Append-Only, Both",
-      "matrix": { "axes": { "size": ["md"], "content": "*", "validation": ["none"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Addons: aria-hidden wenn dekorativ. Beschreibende Addons: ins Label aufnehmen." }
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": "*",
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Addons: aria-hidden wenn dekorativ. Beschreibende Addons: ins Label aufnehmen."
+      }
     },
     {
-      "id": "size-variants", "label": "Size Variants",
+      "id": "size-variants",
+      "label": "Size Variants",
       "description": "SM, MD, LG",
-      "matrix": { "axes": { "size": "*", "content": ["both"], "validation": ["none"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "size" }, "render": { "label": "{size}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "SM/LG passen Addon-Groesse an. Min. 32px Touch-Target." }
+      "matrix": {
+        "axes": {
+          "size": "*",
+          "content": [
+            "both"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "SM/LG passen Addon-Groesse an. Min. 32px Touch-Target."
+      }
     },
     {
-      "id": "validation", "label": "Validation States",
+      "id": "validation",
+      "label": "Validation States",
       "description": "None vs Error vs Success",
-      "matrix": { "axes": { "size": ["md"], "content": ["prepend-only"], "validation": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "validation" }, "render": { "label": "{validation}" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Error: border-error auf allen Teilen. Success: border-success auf allen Teilen. aria-invalid nur bei Error." }
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "prepend-only"
+          ],
+          "validation": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "validation"
+      },
+      "render": {
+        "label": "{validation}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Error: border-error auf allen Teilen. Success: border-success auf allen Teilen. aria-invalid nur bei Error."
+      }
     },
     {
-      "id": "url-input", "label": "URL Input",
+      "id": "url-input",
+      "label": "URL Input",
       "description": "Typisches Pattern: 'https://' Prefix + URL-Eingabe",
-      "matrix": { "axes": { "size": ["md"], "content": ["prepend-only"], "validation": ["none"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "input-group-url", "label": "url" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Prepend 'https://': aria-hidden='true' oder ins Label aufnehmen (z.B. 'Website URL')." }
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "prepend-only"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "input-group-url",
+        "label": "url"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Prepend 'https://': aria-hidden='true' oder ins Label aufnehmen (z.B. 'Website URL')."
+      }
     },
     {
-      "id": "search-with-button", "label": "Search with Button",
+      "id": "search-with-button",
+      "label": "Search with Button",
       "description": "Suchfeld mit angehaengtem Button — Button bekommt inner-radius (0)",
-      "composes": ["button"],
-      "matrix": { "axes": { "size": ["md"], "content": ["append-only"], "validation": ["none"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "input-group-search", "label": "search" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Append-Button: eigene Keyboard-Accessibility. Button border-radius: inner-radius (0). Enter im Input submitted ggf. das Formular." }
+      "composes": [
+        "button"
+      ],
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "append-only"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "input-group-search",
+        "label": "search"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Append-Button: eigene Keyboard-Accessibility. Button border-radius: inner-radius (0). Enter im Input submitted ggf. das Formular."
+      }
     },
     {
-      "id": "button-in-addon", "label": "Button in Addon",
+      "id": "button-in-addon",
+      "label": "Button in Addon",
       "description": "Button-Addon mit inner-radius Reset — Prepend-Button + Input + Append-Button",
-      "composes": ["button"],
-      "matrix": { "axes": { "size": ["md"], "content": ["both"], "validation": ["none"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "input-group-buttons", "label": "button-addon" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Buttons in Addons: eigene Keyboard-Accessibility. border-radius via --nc-input-group-inner-radius (0)." }
+      "composes": [
+        "button"
+      ],
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "both"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "input-group-buttons",
+        "label": "button-addon"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Buttons in Addons: eigene Keyboard-Accessibility. border-radius via --nc-input-group-inner-radius (0)."
+      }
     },
     {
-      "id": "readonly-with-copy", "label": "Readonly with Copy Button",
+      "id": "readonly-with-copy",
+      "label": "Readonly with Copy Button",
       "description": "Readonly Input mit Copy-Button im Append — typisches API-Key Pattern",
-      "composes": ["button"],
-      "matrix": { "axes": { "size": ["md"], "content": ["append-only"], "validation": ["none"] }, "states": ["readonly"] },
-      "layout": "row", "render": { "compositionType": "input-group-readonly-copy", "label": "readonly-copy" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Input readonly, Append-Button bleibt interaktiv. aria-readonly='true' auf dem Input." }
+      "composes": [
+        "button"
+      ],
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "append-only"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "readonly"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "input-group-readonly-copy",
+        "label": "readonly-copy"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Input readonly, Append-Button bleibt interaktiv. aria-readonly='true' auf dem Input."
+      }
     }
   ]
 }

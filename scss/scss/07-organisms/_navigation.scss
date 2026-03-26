@@ -29,7 +29,7 @@
 .nc-header {
   position: sticky;
   top: 0;
-  min-height: var(--nc-nav-height);
+  height: var(--nc-nav-height);
   background: var(--nc-nav-bg);
   backdrop-filter: blur(var(--nc-nav-blur));
   -webkit-backdrop-filter: blur(var(--nc-nav-blur));
@@ -76,34 +76,20 @@
 
 .nc-nav {
   width: 100%;
+  height: 100%;
   font-size: var(--fs-base);
 }
 
 .nc-nav__inner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: var(--nc-nav-align-items);
+  justify-content: var(--nc-nav-justify-content);
   gap: var(--nc-nav-gap);
-  padding-block: var(--nc-nav-padding-block);
+  height: 100%;
   margin-inline: auto;
   box-sizing: border-box;
-  padding-inline: var(--fnd-spacing-04);
-
-  @include respond-to('sm') {
-    padding-inline: var(--fnd-spacing-06);
-  }
-
-  @include respond-to('md') {
-    padding-inline: var(--fnd-spacing-07);
-  }
-
-  @include respond-to('lg') {
-    padding-inline: var(--fnd-spacing-08);
-  }
-
-  @include respond-to('xl') {
-    padding-inline: var(--fnd-spacing-09);
-  }
+  padding-block: var(--nc-nav-padding-block);
+  padding-inline: var(--nc-nav-padding-inline);
 
   @include respond-to('xxl') {
     padding-inline: 0;
@@ -122,11 +108,24 @@
 }
 
 .nc-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nc-nav-brand-gap);
   font-family: var(--font-heading);
   text-transform: lowercase;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--nc-nav-brand-letter-spacing);
   font-size: var(--nc-nav-brand-size);
   font-weight: var(--nc-nav-brand-weight);
+  color: var(--nc-nav-brand-color);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nc-brand__logo {
+  height: var(--nc-nav-brand-logo-height);
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .nc-nav__list {
@@ -142,7 +141,8 @@
   display: none;
   align-items: center;
   gap: var(--fnd-spacing-03);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
   justify-content: flex-end;
 }
 
@@ -264,7 +264,8 @@
 // Mobile Toggle
 // ---------------------------------------------------------------------------
 
-@media (min-width: 960px) {
+// Burger-Toggle: sichtbar unter 1200px, versteckt ab 1200px (gleicher Breakpoint wie Menu)
+@media (min-width: 1200px) {
   .nc-mobile-toggle {
     display: none !important;
   }

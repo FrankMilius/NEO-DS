@@ -3,70 +3,644 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "footer",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "status": "stable",
-    "tags": ["navigation", "layout", "content"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/footer-docs" }
+    "tags": [
+      "navigation",
+      "layout",
+      "content",
+      "cta"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/footer-docs"
+    },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Layout-Achse: simple (Legal + Social), columns (Sitemap-Grid), cta-active (Engagement-CTA)",
+          "Columns-Achse: 2, 3 oder 4 Spalten fuer das Sitemap-Grid",
+          "Theme-Achse: base (hell) vs inverse (dunkel)",
+          "Neue Slots: cta-area, social-links, legal-area, newsletter",
+          "BEM-Klassen: nc-footer (Root), alle Elemente konsistent",
+          "Token-gesteuert: 24 Custom Properties fuer Farben, Spacing, Typografie",
+          "Mobile: Columns stapeln vertikal, optional Accordion-Transformation",
+          "A11y: role=contentinfo, focus-ring auf allen Links, Social aria-labels"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: Full/Minimal Varianten"
+        ]
+      }
+    ]
   },
   "anatomy": {
-    "root": { "element": ".footer" },
+    "root": {
+      "element": ".nc-footer"
+    },
     "slots": [
-      { "name": "heading", "element": ".footer-heading", "optional": true },
-      { "name": "links-list", "element": ".footer-links-list", "optional": true },
-      { "name": "bottom-links", "element": ".footer-bottom-links", "optional": true },
-      { "name": "separator", "element": ".footer-separator", "optional": true },
-      { "name": "images-section", "element": ".footer-images-section", "optional": true },
-      { "name": "language-selector", "element": ".footer-language-selector", "optional": true }
+      {
+        "name": "cta-area",
+        "element": ".nc-footer__cta",
+        "optional": true,
+        "description": "Engagement-CTA: Kicker, Headline und Button. Nur aktiv bei layout=cta-active."
+      },
+      {
+        "name": "columns",
+        "element": ".nc-footer__columns",
+        "optional": true,
+        "description": "Sitemap-Grid: 2-4 Spalten mit Link-Listen. Nur aktiv bei layout=columns oder cta-active."
+      },
+      {
+        "name": "column",
+        "element": ".nc-footer__column",
+        "optional": true,
+        "description": "Einzelne Spalte im Grid mit Heading + Link-Liste."
+      },
+      {
+        "name": "heading",
+        "element": ".nc-footer__heading",
+        "optional": true,
+        "description": "Spalten-Ueberschrift (uppercase, semibold)."
+      },
+      {
+        "name": "links",
+        "element": ".nc-footer__links",
+        "optional": true,
+        "description": "Link-Liste innerhalb einer Spalte."
+      },
+      {
+        "name": "social-links",
+        "element": ".nc-footer__social",
+        "optional": true,
+        "description": "Social-Media-Icons. Konsistente Hover-States und aria-labels."
+      },
+      {
+        "name": "legal-area",
+        "element": ".nc-footer__legal",
+        "optional": false,
+        "description": "Copyright und rechtliche Links. Immer sichtbar."
+      },
+      {
+        "name": "newsletter",
+        "element": ".nc-footer__newsletter",
+        "optional": true,
+        "description": "Optionales Newsletter-Input-Feld fuer Lead-Generierung."
+      },
+      {
+        "name": "separator",
+        "element": ".nc-footer__separator",
+        "optional": true,
+        "description": "Horizontale Trennlinie zwischen Bereichen."
+      }
     ],
-    "convenience": [],
+    "convenience": [
+      {
+        "name": "cta-kicker",
+        "element": ".nc-footer__cta-kicker",
+        "slot": "cta-area",
+        "description": "Kleiner Text ueber der CTA-Headline."
+      },
+      {
+        "name": "cta-headline",
+        "element": ".nc-footer__cta-headline",
+        "slot": "cta-area",
+        "description": "Grosse Display-Headline im CTA-Bereich."
+      },
+      {
+        "name": "cta-button",
+        "element": ".nc-footer__cta-button",
+        "slot": "cta-area",
+        "description": "Primaerer CTA-Button."
+      }
+    ],
     "domNotes": [
-      "Desktop: flex-wrap, space-between. Link-Listen: uppercase, 3-Spalten ab Tablet.",
-      "Separator: 1px border-secondary. Bottom-Links: flex-wrap row, justify right (desktop).",
-      "Minimal-Variante: kompakter, ohne columns. Language/Country-Selector: background-secondary, min-height 40px.",
-      "nc-footer: BEM-Variante fuer Marketing-Pages, grid gap 2rem, 3-Spalten ab 768px."
+      "Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.",
+      "Simple-Layout: 2-Spalten Flexbox — Legal links, Social rechts.",
+      "Columns-Layout: CSS Grid mit 2-4 Spalten. Headings uppercase. Gap via Token.",
+      "CTA-Layout: Dedizierter CTA-Bereich oberhalb. Kicker + Headline + Button.",
+      "Inverse Theme: background-inverse, text-inverse. Links: text-link auf inversem BG.",
+      "Mobile: Columns stapeln vertikal. Optional Accordion-Transformation.",
+      "Social-Icons: Flex-Row, gap via Token. Jedes Icon: aria-label mit Plattform-Name.",
+      "Legal: Copyright-Text (text-tertiary) + Flex-Row mit Legal-Links.",
+      "Newsletter: Input + Button, form-field-recipe kompatibel.",
+      "Separator: 1px border-secondary horizontal, margin via Token."
     ]
   },
   "axes": {
-    "variant": {
-      "label": "Variant",
-      "description": "Variante — full, minimal",
+    "layout": {
+      "label": "Layout",
+      "description": "Footer-Variante — simple (Legal + Social), columns (Sitemap-Grid), cta-active (Engagement-CTA + Columns)",
       "values": {
-        "full":    { "modifier": null,      "tokenGroups": [], "renderHint": "footer-full" },
-        "minimal": { "modifier": "minimal", "tokenGroups": [], "renderHint": "footer-minimal" }
+        "simple": {
+          "modifier": null,
+          "tokenGroups": [
+            "base",
+            "legal",
+            "social"
+          ],
+          "renderHint": "footer-simple",
+          "slotConfig": {
+            "cta-area": false,
+            "columns": false,
+            "newsletter": false
+          }
+        },
+        "columns": {
+          "modifier": "nc-footer--columns",
+          "tokenGroups": [
+            "base",
+            "columns",
+            "legal",
+            "social"
+          ],
+          "renderHint": "footer-columns",
+          "slotConfig": {
+            "cta-area": false
+          }
+        },
+        "cta-active": {
+          "modifier": "nc-footer--cta",
+          "tokenGroups": [
+            "base",
+            "cta",
+            "columns",
+            "legal",
+            "social"
+          ],
+          "renderHint": "footer-cta",
+          "slotConfig": {
+            "cta-area": true
+          }
+        }
+      }
+    },
+    "columns": {
+      "label": "Columns",
+      "description": "Anzahl der Spalten im Sitemap-Grid (nur bei layout=columns oder cta-active)",
+      "values": {
+        "2": {
+          "modifier": "nc-footer--2-col",
+          "tokenGroups": [],
+          "renderHint": "footer-2col"
+        },
+        "3": {
+          "modifier": "nc-footer--3-col",
+          "tokenGroups": [],
+          "renderHint": "footer-3col"
+        },
+        "4": {
+          "modifier": "nc-footer--4-col",
+          "tokenGroups": [],
+          "renderHint": "footer-4col"
+        }
+      }
+    },
+    "theme": {
+      "label": "Theme",
+      "description": "Farbschema — base (hell), inverse (dunkel)",
+      "values": {
+        "base": {
+          "modifier": null,
+          "tokenGroups": [
+            "base"
+          ],
+          "renderHint": "footer-light"
+        },
+        "inverse": {
+          "modifier": "nc-footer--inverse",
+          "tokenGroups": [
+            "base"
+          ],
+          "renderHint": "footer-dark"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus-visible"
+    ],
+    "precedence": [
+      "focus-visible",
+      "hover",
+      "default"
+    ],
+    "rules": [
+      {
+        "state": "hover",
+        "unless": [
+          "focus-visible"
+        ],
+        "note": "Hover auf Links: color-change + underline."
+      },
+      {
+        "state": "focus-visible",
+        "unless": [],
+        "note": "Focus-Ring auf allen interaktiven Elementen."
+      }
+    ],
+    "interactive": true
+  },
   "a11y": {
     "base": {
-      "interactive": false,
+      "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
-      "note": "Footer-Element: role contentinfo. Links: focus-ring. text-secondary und text-tertiary Kontrast auf background-base pruefen."
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
+      "note": "Footer: role=contentinfo. Links: focus-ring. Social-Icons: aria-label pro Plattform. Inverse-Theme: Kontrast text-inverse auf background-inverse pruefen."
     },
-    "overrides": []
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "theme": [
+              "inverse"
+            ]
+          }
+        },
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Inverse: Kontrast von text-inverse und link-Farben auf dunklem BG pruefen."
+      }
+    ]
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [
+      {
+        "when": {},
+        "require": [
+          "role-contentinfo"
+        ],
+        "notes": [
+          "Footer muss role=contentinfo haben (semantisches <footer> Element)."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "layout": [
+              "columns",
+              "cta-active"
+            ]
+          }
+        },
+        "require": [
+          "heading-hierarchy"
+        ],
+        "notes": [
+          "Spalten-Headings: konsistente Heading-Hierarchie (h3 oder aria-label)."
+        ]
+      }
+    ],
+    "copy": {
+      "ctaKicker": {
+        "maxChars": 40,
+        "note": "Kurzer Eyebrow-Text ueber der CTA-Headline."
+      },
+      "ctaHeadline": {
+        "maxChars": 60,
+        "note": "Display-Headline im CTA-Bereich."
+      },
+      "columnHeading": {
+        "maxChars": 25,
+        "note": "Spalten-Ueberschrift (uppercase)."
+      }
+    }
+  },
   "styling": {
-    "baseClasses": ["footer"],
-    "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "baseClasses": [
+      "nc-footer"
+    ],
+    "baseTokenGroups": [
+      "base",
+      "legal"
+    ],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-footer-bg",
+          "nc-footer-color",
+          "nc-footer-padding-block",
+          "nc-footer-padding-inline",
+          "nc-footer-max-width",
+          "nc-footer-separator-color",
+          "nc-footer-link-color",
+          "nc-footer-link-hover-color"
+        ]
+      },
+      "columns": {
+        "label": "Columns",
+        "tokens": [
+          "nc-footer-col-gap",
+          "nc-footer-heading-size",
+          "nc-footer-heading-weight",
+          "nc-footer-heading-color",
+          "nc-footer-heading-transform",
+          "nc-footer-link-size"
+        ]
+      },
+      "cta": {
+        "label": "CTA Area",
+        "tokens": [
+          "nc-footer-cta-kicker-size",
+          "nc-footer-cta-headline-size",
+          "nc-footer-cta-headline-weight",
+          "nc-footer-cta-gap"
+        ]
+      },
+      "social": {
+        "label": "Social Links",
+        "tokens": [
+          "nc-footer-social-icon-size",
+          "nc-footer-social-gap",
+          "nc-footer-social-color",
+          "nc-footer-social-hover-color"
+        ]
+      },
+      "legal": {
+        "label": "Legal Area",
+        "tokens": [
+          "nc-footer-legal-size",
+          "nc-footer-legal-color"
+        ]
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.layout.values.*.modifier",
+        "axes.columns.values.*.modifier",
+        "axes.theme.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Footer Variants",
-      "description": "Full vs Minimal",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Links: focus-ring. Text-Kontraste pruefen." }
+      "id": "simple-light",
+      "label": "Simple (Legal + Social)",
+      "description": "Minimaler Footer: Copyright links, Social-Icons rechts. Heller Hintergrund.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "simple"
+          ],
+          "columns": [
+            "3"
+          ],
+          "theme": [
+            "base"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "base",
+        "legal",
+        "social"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "footer-simple",
+        "label": "simple light"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Legal-Links: Kontrast text-tertiary auf background-base."
+      }
+    },
+    {
+      "id": "simple-dark",
+      "label": "Simple (Dark)",
+      "description": "Minimaler Footer auf dunklem Hintergrund.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "simple"
+          ],
+          "columns": [
+            "3"
+          ],
+          "theme": [
+            "inverse"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "base"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "footer-simple-dark",
+        "label": "simple dark"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverse: text-inverse Kontrast pruefen."
+      }
+    },
+    {
+      "id": "columns-3",
+      "label": "Sitemap (3 Spalten)",
+      "description": "Sitemap-Footer mit 3-Spalten-Grid. Headings + Link-Listen.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "columns"
+          ],
+          "columns": [
+            "3"
+          ],
+          "theme": [
+            "base"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "columns",
+        "base"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "footer-columns",
+        "label": "3-col sitemap"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Headings: h3 oder aria-label."
+      }
+    },
+    {
+      "id": "columns-4-dark",
+      "label": "Sitemap (4 Spalten, Dark)",
+      "description": "Sitemap-Footer mit 4 Spalten auf dunklem Hintergrund.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "columns"
+          ],
+          "columns": [
+            "4"
+          ],
+          "theme": [
+            "inverse"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "columns",
+        "base"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "footer-columns-dark",
+        "label": "4-col dark"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverse + 4 Spalten: Kontrast und Lesbarkeit pruefen."
+      }
+    },
+    {
+      "id": "cta-engagement",
+      "label": "Engagement (CTA + Columns)",
+      "description": "Footer mit CTA-Bereich oben (Kicker, Headline, Button) + Sitemap-Grid.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "cta-active"
+          ],
+          "columns": [
+            "3"
+          ],
+          "theme": [
+            "inverse"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "cta",
+        "columns",
+        "base"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "footer-cta",
+        "label": "engagement CTA"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "CTA-Button: Kontrast auf inversem BG. Headline: ausreichend gross."
+      }
+    },
+    {
+      "id": "theme-comparison",
+      "label": "Theme Vergleich",
+      "description": "Base vs Inverse Theme im direkten Vergleich.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "columns"
+          ],
+          "columns": [
+            "3"
+          ],
+          "theme": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "base"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "theme"
+      },
+      "render": {
+        "label": "{theme}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Beide Themes: Kontraste pruefen."
+      }
+    },
+    {
+      "id": "columns-comparison",
+      "label": "Spalten-Vergleich",
+      "description": "2 vs 3 vs 4 Spalten im Vergleich.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "columns"
+          ],
+          "columns": "*",
+          "theme": [
+            "base"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "columns"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "columns"
+      },
+      "render": {
+        "label": "{columns} Spalten"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "4-Spalten: auf Mobile stacking testen."
+      }
     }
   ]
 }

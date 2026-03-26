@@ -1,0 +1,161 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "parallax-bg",
+    "version": "1.0.0",
+    "status": "stable",
+    "type": "animation",
+    "tags": [
+      "animation",
+      "decoration",
+      "scroll"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/parallax-bg-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Staircase Grid Reveal mit animierten Quadraten."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-parallax-bg"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Staircase Grid Reveal mit animierten Quadraten."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "core"
+          ],
+          "renderHint": "parallax-bg"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "prefers-reduced-motion: Animation deaktivieren."
+    },
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-parallax-bg"
+    ],
+    "baseTokenGroups": [
+      "core"
+    ],
+    "tokenGroups": {
+      "core": {
+        "label": "Core",
+        "tokens": [
+          "nc-parallax-radius",
+          "nc-parallax-gap",
+          "nc-parallax-bg",
+          "nc-parallax-square-color",
+          "nc-parallax-opacity"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Parallax Background",
+      "description": "Staircase Grid Reveal mit animierten Quadraten.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "core"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "parallax-bg",
+        "label": "parallax-bg"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "prefers-reduced-motion respektieren."
+      }
+    }
+  ]
+}

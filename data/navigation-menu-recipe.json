@@ -5,8 +5,17 @@
     "component": "navigation-menu",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["navigation", "interactive", "dropdown", "mega-menu"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/navigation-menu-docs" },
+    "tags": [
+      "navigation",
+      "interactive",
+      "dropdown",
+      "mega-menu"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/navigation-menu-docs"
+    },
     "changelog": [
       {
         "version": "2.0.0",
@@ -20,21 +29,64 @@
           "Token-Abhaengigkeiten: nc-popover-shadow → nc-nav-menu-viewport-shadow"
         ]
       },
-      { "version": "1.0.0", "changes": ["Initiale Implementierung: Radix-UI Pattern, Trigger/Content/Viewport/Indicator, Two-Col Layout, Callout"] }
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: Radix-UI Pattern, Trigger/Content/Viewport/Indicator, Two-Col Layout, Callout"
+        ]
+      }
     ]
   },
   "anatomy": {
-    "root": { "element": ".nc-navigation-menu" },
+    "root": {
+      "element": ".nc-navigation-menu"
+    },
     "slots": [
-      { "name": "list", "element": ".nc-navigation-menu__list", "optional": false },
-      { "name": "item", "element": ".nc-navigation-menu__item", "optional": false },
-      { "name": "trigger", "element": ".nc-navigation-menu__trigger", "optional": true },
-      { "name": "content", "element": ".nc-navigation-menu__content", "optional": true },
-      { "name": "link", "element": ".nc-navigation-menu__link", "optional": true },
-      { "name": "featured", "element": ".nc-navigation-menu__featured", "optional": true },
-      { "name": "callout", "element": ".nc-navigation-menu__callout", "optional": true },
-      { "name": "indicator", "element": ".nc-navigation-menu__indicator", "optional": true },
-      { "name": "viewport", "element": ".nc-navigation-menu__viewport", "optional": true }
+      {
+        "name": "list",
+        "element": ".nc-navigation-menu__list",
+        "optional": false
+      },
+      {
+        "name": "item",
+        "element": ".nc-navigation-menu__item",
+        "optional": false
+      },
+      {
+        "name": "trigger",
+        "element": ".nc-navigation-menu__trigger",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-navigation-menu__content",
+        "optional": true
+      },
+      {
+        "name": "link",
+        "element": ".nc-navigation-menu__link",
+        "optional": true
+      },
+      {
+        "name": "featured",
+        "element": ".nc-navigation-menu__featured",
+        "optional": true
+      },
+      {
+        "name": "callout",
+        "element": ".nc-navigation-menu__callout",
+        "optional": true
+      },
+      {
+        "name": "indicator",
+        "element": ".nc-navigation-menu__indicator",
+        "optional": true
+      },
+      {
+        "name": "viewport",
+        "element": ".nc-navigation-menu__viewport",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -53,26 +105,75 @@
       "label": "Layout",
       "description": "Content-Layout — default (einfache Liste), two-col (2 Spalten mit Callout), mega (Grid-Layout)",
       "values": {
-        "default":  { "modifier": null,                                     "tokenGroups": ["trigger", "viewport", "link"],  "renderHint": "nav-menu-default" },
-        "two-col":  { "modifier": "nc-navigation-menu__content--two-col",   "tokenGroups": ["trigger", "viewport", "link"],  "renderHint": "nav-menu-two-col" },
-        "mega":     { "modifier": "nc-navigation-menu__content--mega",      "tokenGroups": ["trigger", "viewport", "link", "mega"],  "renderHint": "nav-menu-mega" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "trigger",
+            "viewport",
+            "link"
+          ],
+          "renderHint": "nav-menu-default"
+        },
+        "two-col": {
+          "modifier": "nc-navigation-menu__content--two-col",
+          "tokenGroups": [
+            "trigger",
+            "viewport",
+            "link"
+          ],
+          "renderHint": "nav-menu-two-col"
+        },
+        "mega": {
+          "modifier": "nc-navigation-menu__content--mega",
+          "tokenGroups": [
+            "trigger",
+            "viewport",
+            "link",
+            "mega"
+          ],
+          "renderHint": "nav-menu-mega"
+        }
       }
     },
     "trigger": {
       "label": "Trigger Mode",
       "description": "Ausloeser — hover (Desktop, schnell), click (Touch, sicher fuer komplexe Menus)",
       "values": {
-        "hover": { "modifier": null, "tokenGroups": [], "renderHint": "nav-menu-trigger-hover" },
-        "click": { "modifier": null, "tokenGroups": [], "renderHint": "nav-menu-trigger-click" }
+        "hover": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "nav-menu-trigger-hover"
+        },
+        "click": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "nav-menu-trigger-click"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover", "focus", "open"],
-    "precedence": ["open", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open"
+    ],
+    "precedence": [
+      "open",
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "open", "condition": "[data-state=open] auf Trigger" },
-      { "state": "hover", "condition": "Hover auf Trigger/Link" }
+      {
+        "state": "open",
+        "condition": "[data-state=open] auf Trigger"
+      },
+      {
+        "state": "hover",
+        "condition": "Hover auf Trigger/Link"
+      }
     ],
     "interactive": true
   },
@@ -80,77 +181,156 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "nav mit aria-label. Trigger: aria-expanded, aria-haspopup. Keyboard: Arrow-Keys, Escape, Tab. Focus-Ring auf allen interaktiven Elementen."
     },
     "overrides": [
       {
-        "when": { "axes": { "trigger": ["hover"] } },
-        "suggest": ["hover-delay"],
+        "when": {
+          "axes": {
+            "trigger": [
+              "hover"
+            ]
+          }
+        },
+        "suggest": [
+          "hover-delay"
+        ],
         "note": "Hover: Leichte Verzoegerung (150ms) beim Oeffnen um versehentliches Triggern zu vermeiden."
       }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["aria-expanded", "aria-haspopup"], "notes": ["Trigger: aria-expanded + aria-haspopup='true'."] },
-      { "when": {}, "require": ["keyboard-navigation"], "notes": ["Arrow Left/Right zwischen Top-Level-Items. Arrow Down in offenes Menu. Escape schliesst."] }
+      {
+        "when": {},
+        "require": [
+          "aria-expanded",
+          "aria-haspopup"
+        ],
+        "notes": [
+          "Trigger: aria-expanded + aria-haspopup='true'."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "keyboard-navigation"
+        ],
+        "notes": [
+          "Arrow Left/Right zwischen Top-Level-Items. Arrow Down in offenes Menu. Escape schliesst."
+        ]
+      }
     ],
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-navigation-menu"],
-    "baseTokenGroups": ["trigger", "viewport", "link", "indicator"],
+    "baseClasses": [
+      "nc-navigation-menu"
+    ],
+    "baseTokenGroups": [
+      "list",
+      "trigger",
+      "viewport",
+      "link",
+      "indicator"
+    ],
     "tokenGroups": {
+      "list": {
+        "label": "List / Items",
+        "tokens": [
+          "nc-nav-menu-item-gap",
+          "nc-nav-menu-item-margin"
+        ]
+      },
       "trigger": {
         "label": "Trigger",
         "tokens": [
-          "nc-nav-menu-trigger-color", "nc-nav-menu-trigger-hover-bg", "nc-nav-menu-trigger-active-bg",
-          "nc-nav-menu-trigger-radius", "nc-nav-menu-trigger-font-size", "nc-nav-menu-trigger-font-weight",
-          "nc-nav-menu-trigger-padding-x", "nc-nav-menu-trigger-padding-y"
+          "nc-nav-menu-trigger-color",
+          "nc-nav-menu-trigger-hover-bg",
+          "nc-nav-menu-trigger-active-bg",
+          "nc-nav-menu-trigger-radius",
+          "nc-nav-menu-trigger-font-size",
+          "nc-nav-menu-trigger-font-weight",
+          "nc-nav-menu-trigger-padding-x",
+          "nc-nav-menu-trigger-padding-y"
         ]
       },
       "viewport": {
         "label": "Viewport",
         "tokens": [
-          "nc-nav-menu-viewport-bg", "nc-nav-menu-viewport-border", "nc-nav-menu-viewport-radius",
-          "nc-nav-menu-viewport-shadow", "nc-nav-menu-viewport-width"
+          "nc-nav-menu-viewport-bg",
+          "nc-nav-menu-viewport-border",
+          "nc-nav-menu-viewport-radius",
+          "nc-nav-menu-viewport-shadow",
+          "nc-nav-menu-viewport-width",
+          "nc-nav-menu-content-padding",
+          "nc-nav-menu-content-width"
         ]
       },
       "link": {
         "label": "Link",
         "tokens": [
-          "nc-nav-menu-link-radius", "nc-nav-menu-link-hover-bg", "nc-nav-menu-link-padding",
-          "nc-nav-menu-content-padding", "nc-nav-menu-content-width"
+          "nc-nav-menu-link-radius",
+          "nc-nav-menu-link-hover-bg",
+          "nc-nav-menu-link-padding",
+          "nc-nav-menu-content-padding",
+          "nc-nav-menu-content-width"
         ]
       },
       "indicator": {
         "label": "Indicator",
         "tokens": [
-          "nc-nav-menu-indicator-color", "nc-nav-menu-indicator-height"
+          "nc-nav-menu-indicator-color",
+          "nc-nav-menu-indicator-height"
         ]
       },
       "mega": {
         "label": "Mega Menu",
         "tokens": [
-          "nc-nav-menu-mega-columns", "nc-nav-menu-mega-gap",
-          "nc-nav-menu-featured-bg", "nc-nav-menu-featured-radius", "nc-nav-menu-featured-padding"
+          "nc-nav-menu-mega-columns",
+          "nc-nav-menu-mega-gap",
+          "nc-nav-menu-featured-bg",
+          "nc-nav-menu-featured-radius",
+          "nc-nav-menu-featured-padding"
         ]
       },
       "motion": {
         "label": "Motion",
         "tokens": [
-          "nc-nav-menu-duration", "nc-nav-menu-ease"
+          "nc-nav-menu-duration",
+          "nc-nav-menu-ease"
         ]
       }
     }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.layout.values.*.modifier", "axes.trigger.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.layout.values.*.modifier",
+        "axes.trigger.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
@@ -158,47 +338,143 @@
       "id": "default-dropdown",
       "label": "Default Dropdown",
       "description": "Einfaches Dropdown mit Links-Liste",
-      "matrix": { "axes": { "layout": ["default"], "trigger": ["hover"] }, "states": ["default", "open"] },
+      "matrix": {
+        "axes": {
+          "layout": [
+            "default"
+          ],
+          "trigger": [
+            "hover"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
       "layout": "row",
-      "render": { "compositionType": "nav-menu-simple", "label": "default" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-expanded, keyboard-navigation." }
+      "render": {
+        "compositionType": "nav-menu-simple",
+        "label": "default"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "aria-expanded, keyboard-navigation."
+      }
     },
     {
       "id": "two-col-callout",
       "label": "Two-Column with Callout",
       "description": "Zwei Spalten: Callout links, Links rechts",
-      "matrix": { "axes": { "layout": ["two-col"], "trigger": ["hover"] }, "states": ["default", "open"] },
+      "matrix": {
+        "axes": {
+          "layout": [
+            "two-col"
+          ],
+          "trigger": [
+            "hover"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
       "layout": "row",
-      "render": { "compositionType": "nav-menu-two-col", "label": "two-col" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Callout-Link: fokussierbar, aria-label." }
+      "render": {
+        "compositionType": "nav-menu-two-col",
+        "label": "two-col"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Callout-Link: fokussierbar, aria-label."
+      }
     },
     {
       "id": "mega-menu",
       "label": "Mega Menu",
       "description": "Grid-Layout mit Featured Item und mehreren Spalten",
-      "matrix": { "axes": { "layout": ["mega"], "trigger": ["click"] }, "states": ["default", "open"] },
+      "matrix": {
+        "axes": {
+          "layout": [
+            "mega"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
       "layout": "single",
-      "render": { "compositionType": "nav-menu-mega", "label": "mega" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Mega-Menu: role='menu' optional. Featured Item: dekorativ oder fokussierbar." }
+      "render": {
+        "compositionType": "nav-menu-mega",
+        "label": "mega"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Mega-Menu: role='menu' optional. Featured Item: dekorativ oder fokussierbar."
+      }
     },
     {
       "id": "indicator-states",
       "label": "Indicator States",
       "description": "Indicator-Unterstrich: Default, Hover, Active",
-      "matrix": { "axes": { "layout": ["default"], "trigger": ["hover"] }, "states": ["default", "hover", "open"] },
+      "matrix": {
+        "axes": {
+          "layout": [
+            "default"
+          ],
+          "trigger": [
+            "hover"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "open"
+        ]
+      },
       "layout": "grid",
-      "render": { "label": "{state}" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Indicator: rein dekorativ, kein Informationstraeger." }
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Indicator: rein dekorativ, kein Informationstraeger."
+      }
     },
     {
       "id": "composition-header",
       "label": "Full Header Composition",
       "description": "Navigation + NavigationMenu + Brand + Actions — komplette Shell",
-      "composes": ["navigation"],
-      "matrix": { "axes": { "layout": ["two-col"], "trigger": ["hover"] }, "states": ["default"] },
+      "composes": [
+        "navigation"
+      ],
+      "matrix": {
+        "axes": {
+          "layout": [
+            "two-col"
+          ],
+          "trigger": [
+            "hover"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "single",
-      "render": { "compositionType": "nav-full-header", "label": "full-header" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Skip-Link, aria-label auf nav, roving tabindex." }
+      "render": {
+        "compositionType": "nav-full-header",
+        "label": "full-header"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Skip-Link, aria-label auf nav, roving tabindex."
+      }
     }
   ]
 }

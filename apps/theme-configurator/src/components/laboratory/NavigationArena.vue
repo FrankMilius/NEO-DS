@@ -491,3 +491,12 @@ const NavAlignment = defineComponent({
   }
 })
 </script>
+
+<style>
+.arena-preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+</style>

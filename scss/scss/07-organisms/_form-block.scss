@@ -1,0 +1,155 @@
+// ==========================================================================
+// 07-Organisms: Form Block
+// ==========================================================================
+// Layout-Komponente fuer Formular-Bloecke mit Text-Section + Form-Section.
+// 4 Positionierungsvarianten: text-left, text-right, text-top, text-bottom.
+//
+// ARCHITEKTUR:
+//   .nc-form-block
+//     .nc-form-block__text       (Headline + Subtext)
+//     .nc-form-block__form       (Form-Elemente + Submission)
+//
+// BEM-KLASSEN:
+//   .nc-form-block                    Block
+//   .nc-form-block--text-left         Text links, Form rechts (Default)
+//   .nc-form-block--text-right        Text rechts, Form links
+//   .nc-form-block--text-top          Text oben, Form unten
+//   .nc-form-block--text-bottom       Text unten, Form oben
+//   .nc-form-block__text              Text-Section
+//   .nc-form-block__headline          Headline
+//   .nc-form-block__subtext           Subtext/Description
+//   .nc-form-block__form              Form-Section (Container)
+//   .nc-form-block__submission        Submission-Section (Terms + Hint + CTA)
+//   .nc-form-block__terms             Terms Checkbox-Area
+//   .nc-form-block__hint-text         Hinweistext unter Terms
+//   .nc-form-block__submit            Submit-Button
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+
+.nc-form-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-08);
+  width: 100%;
+
+  // Ab md: Side-by-Side Layouts
+  @include respond-to('md') {
+    &--text-left,
+    &--text-right {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--fnd-spacing-10);
+    }
+
+    &--text-right {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Stacked-Varianten bleiben column
+  &--text-top {
+    flex-direction: column;
+  }
+
+  &--text-bottom {
+    flex-direction: column-reverse;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Text Section
+  // ---------------------------------------------------------------------------
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fnd-spacing-04);
+
+    @include respond-to('md') {
+      .nc-form-block--text-left &,
+      .nc-form-block--text-right & {
+        flex: 0 0 40%;
+        max-width: 40%;
+        position: sticky;
+        top: var(--fnd-spacing-08);
+      }
+    }
+  }
+
+  &__headline {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fnd-font-weight-bold);
+    color: var(--fnd-color-text-primary);
+    line-height: 1.2;
+    margin: 0;
+
+    @include respond-to('md') {
+      font-size: var(--fs-4xl);
+    }
+  }
+
+  &__subtext {
+    font-size: var(--fs-base);
+    color: var(--fnd-color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: var(--fnd-prose-max-width);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Form Section
+  // ---------------------------------------------------------------------------
+
+  &__form {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Submission Section
+  // ---------------------------------------------------------------------------
+  // Terms-Checkbox + Hinweistext + Submit-Button
+
+  &__submission {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fnd-spacing-04);
+    margin-top: var(--fnd-spacing-04);
+  }
+
+  &__terms {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--fnd-spacing-03);
+
+    a {
+      color: var(--fnd-color-interactive-default);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--fnd-color-interactive-hover);
+      }
+    }
+  }
+
+  &__hint-text {
+    font-size: var(--fs-xs);
+    color: var(--fnd-color-text-tertiary);
+    line-height: 1.5;
+    margin: 0;
+
+    a {
+      color: var(--fnd-color-interactive-default);
+      text-decoration: underline;
+    }
+  }
+
+  &__submit {
+    margin-top: var(--fnd-spacing-02);
+    align-self: flex-start;
+  }
+}

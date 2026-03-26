@@ -1,0 +1,159 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "scroll-reveal",
+    "version": "1.0.0",
+    "status": "stable",
+    "type": "animation",
+    "tags": [
+      "animation",
+      "scroll",
+      "fade-in"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/scroll-reveal-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Staggered Fade-In via Intersection Observer."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-scroll-reveal"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Staggered Fade-In via Intersection Observer."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "timing"
+          ],
+          "renderHint": "scroll-reveal"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "prefers-reduced-motion: Animation deaktivieren."
+    },
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-scroll-reveal"
+    ],
+    "baseTokenGroups": [
+      "timing"
+    ],
+    "tokenGroups": {
+      "timing": {
+        "label": "Timing",
+        "tokens": [
+          "nc-anim-fade-duration",
+          "nc-anim-fade-easing",
+          "nc-anim-stagger-delay"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Scroll Reveal",
+      "description": "Staggered Fade-In via Intersection Observer.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "timing"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "scroll-reveal",
+        "label": "scroll-reveal"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "prefers-reduced-motion respektieren."
+      }
+    }
+  ]
+}

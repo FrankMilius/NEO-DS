@@ -297,3 +297,118 @@ Diese Sammlung enthält validierte Prompts für die Generierung komplexer UI-Sze
 3. Integriere einen Trend-Indikator: '+12%' mit einem grünen Aufwärts-Pfeil (success).
 4. Nutze die 'inverse' Hintergrund-Variante.
 5. Platziere die Metrik innerhalb einer Card des shell-recipe."
+
+### hero-recipe
+"Erstelle eine 'SaaS-Landingpage' unter Verwendung des hero-recipe. 
+1. Nutze die 'card' Variante mit einem dunklen radial-gradient Hintergrund. 
+2. Platziere im title-Slot einen prägnanten Slogan ('Analytics in Realtime') in fs-4xl. 
+3. Integriere im highlights-Slot eine Bullet-Liste mit dem accent-Farbe Token. 
+4. Nutze den card-Slot für eine Pulse-Animation, die eine Metric hervorhebt. 
+5. Füge unter den Highlights zwei Buttons (Primary & Ghost) aus dem button-recipe hinzu."
+
+### search-recipe-v2.1 (Optimiert)
+"Erstelle eine 'Global Search' für einen E-Commerce-Header. 
+1. Nutze die 'minimal' Appearance mit einem 'clear-trigger' Icon.
+2. Implementiere das 'Search Under Nav' Pattern: Die Ergebnisse öffnen sich 
+   unterhalb der Navigation, wobei das Menü oben fixiert bleibt.
+3. Aktiviere auf Mobile den 'Full-Screen Takeover' Modus bei Focus.
+4. Zeige im Results-Panel 'grouped' Ergebnisse (Produkte, Kategorien, Hilfe).
+5. Nutze die 'slide-down' Animation für das Erscheinen der Trefferliste."
+
+### parallax-background-recipe
+"Erstelle eine Hintergrund-Animation im Polestar-Stil.
+1. Definiere 5-8 Quadrate als Sub-Elemente.
+2. Kopple die x- und y-Position an den scrollYProgress.
+3. Setze den Startpunkt auf 'Bottom-Left' und den Endpunkt auf 'Top-Right'.
+4. Nutze 'subtle' Opacity-Tokens (10-20%) für die Quadrate.
+5. Implementiere eine automatische Deaktivierung bei prefers-reduced-motion."
+
+### parallax-background-drupal
+"Erstelle ein 'Parallax-Hero-Modul' in Drupal 11. 
+1. Nutze das parallax-bg SDC-Component als Hintergrundlayer. 
+2. Konfiguriere 15 Quadrate mit einem corner-radius von 12px und 40px grid-gap. 
+3. Lege darüber ein hero-recipe mit text-inverse. 
+4. Stelle sicher, dass die GSAP-Animation flüssig an den Scroll-Progress 
+   gekoppelt ist und bei reduced-motion stoppt."
+
+### footer-recipe-v1.1
+"Erstelle einen 'Enterprise-Footer' basierend auf dem footer-recipe.
+1. Aktiviere die 'cta-active' Variante mit dem Slogan 'Ready to Scale?'.
+2. Nutze ein 4-Spalten-Grid für Produkt-Links, Ressourcen und Unternehmen.
+3. Integriere die 'social-links' Sektion mit LinkedIn- und Mail-Icons.
+4. Der Hintergrund muss 'inverse' sein.
+5. Stelle sicher, dass das role='contentinfo' Attribut gesetzt ist und alle Links 
+   den Fokus-Ring aus dem globalen CSS erben."
+
+### accordion-advanced-pattern
+"Erstelle ein 'Service-Konfigurator' Accordion.
+1. Nutze die 'separated' Variante mit 'spacious' density.
+2. Implementiere das 'single' behavior mit einer Grid-Animation (0fr -> 1fr).
+3. Füge im Trigger einen 'trigger-prefix' Slot für ein Icon und einen 
+   'trigger-suffix' Slot für einen Status-Badge ('Aktiv') hinzu.
+4. Nutze im Content den 'media-side' Slot für eine Illustration.
+5. Das erste Item soll initial 'open' sein und 
+   beim Scrollen einen 'sticky' Trigger verwenden."
+
+
+### Erstelle mir einen Verbesserungsvorschlag für mein Design System mit Blick auf:
+- die aktuellen Breakpoints
+- das Zusammenspiel von Grid, Container und Section
+- dem Fluid Design Konzept inbesondere auch der Fluid Typography und dem Einsatz von Display Font Styles und Heading Font Styles sowie die Base Größen von <p> bei unterschiedlichen Bildschirmbreiten.
+1. Analysiere, ob das volle Potenzial die grundlegenden Konzepte derzeit bei der Drupal Installation verwendet wird. Erstelle eine Übersicht mit Schwachstellen und Hinweisen, wie diese zu beseitigen sind.
+2. Ich plane, die maximale Breite für Bildschirmgrößen über 1600px auf 1440px zu erhöhen. Muss ich dazu etwas beachten. Was gibt es an Best Practice Ansätzen, um über die verschiedenen Bildschirmbreiten smooth zu skalieren, die aktuell im Design System noch nicht berücksichtig sind.
+3. Ich würde gerne für Sections die Möglichkeit implementieren, die max-width der Section situativ festlegen zu können. Bsp.:
+- Der Content in einer Section soll für große Bildschirmauflösungen (> 1200px) nur 75% der Breite der Section betragen und am linken Rand der Section ausgerichtet werden. Bei kleineren Bildschirmauflösungen (z.B. < 1200px) soll der Content sich dann fluid an die max-width annähern.
+- Der Content in einer Section soll für große Bildschirmauflösungen (> 1200px) links und rechts jeweils 25% über die max-width hinausgehen, oder auch 40% links über max-width hinausgehen, oder 20% rechts über max-width hinausgehen.
+Wie kann und sollte eine solche Anforderung auf Basis von Best Practice umgesetzt werden.
+4. Weise mich vor allem auch auf noch fehlende Bereich hin, die ich im Design System umsetzen muss und sollte.
+
+
+Hauptnavigation
+├── Lösungen <- Landing Page
+    # Mega Menu Section 1:
+│   ├── Social Intranet → /loesungen/social-intranet <- Landing Page
+│   ├── Mitarbeiter App → /loesungen/mitarbeiter-app <- Landing Page
+│   ├── Magazin → /loesungen/magazin <- Landing Page
+│   ├── Community → /loesungen/community <- Landing Page
+    # Mega Menu Section 2: -> Kicker: Extendet Intranet Solutions
+│   ├── Newsroom → /loesungen/newsroom <- Article Page
+│   ├── Website → /loesungen/website <- Article Page
+│   ├── Onboarding → /loesungen/onboarding <- Article Page
+│   ├── Domänen Portale→ /loesungen/portals <- Article Page
+│   ├── Call Out -> AI Everywhere → /loesungen/ai-everywhere <- Landing Page
+│   └── Call Out -> Branchen & Anwender → /loesungen/industries <- Landing Page
+├── Produkte
+    # Mega Menu Section 1: Kicker: Alle erreichen
+│   ├── Personalisierung → /workplace/personalisierung <- Landing Page
+│   ├── News und Kommunikation → /workplace/news <- Landing Page
+│   ├── Social Features → /workplace/social <- Landing Page
+│   ├── Engagement → /workplace/engagement <- Landing Page
+    # Mega Menu Section 2: Kicker: Immer auf dem neuesten Stand
+│   ├── Inhalte, Infos und Wissen → /workplace/inhalte-wissen <- Landing Page
+│   ├── Veranstaltungen → /workplace/events <- Landing Page
+    # Mega Menu Section 3: Kicker: Anwendungen und digitale Prozesse
+│   ├── Anwendungshub und Toolbar → /workplace/social <- Landing Page
+│   ├── Formulare und digitale Prozesse → /workplace/processes <- Landing Page
+├── Insights
+│   ├── Dokumentation → /insights/docs
+│   ├── Blog → /insights//blog
+│   ├── Webinare → /insights//webinare
+│   └── API Reference → /insights//api
+├── Support
+│   ├── Help Center → /help
+│   ├── Status → /status
+│   ├── Community → /community
+│   └── Schulungen → /schulungen
+└── Unternehmen
+    ├── Über uns → /ueber-uns
+    ├── Karriere → /karriere
+    ├── Partner → /partner
+    └── Kontakt → /kontakt
+
+
+├──────────────────────────────────────     
+│    footer-cta | footer-navigation
+├──────────────────────────────────────
+│   Bottom
+└─────────────────────────────────────

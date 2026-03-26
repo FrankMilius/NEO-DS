@@ -1,0 +1,176 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "card-grid-cta",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "hero",
+      "cta",
+      "grid"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/card-grid-cta-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-card-grid-cta"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout",
+            "title",
+            "overlay",
+            "interaction"
+          ],
+          "renderHint": "card-grid-cta-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": ""
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-card-grid-cta"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "title",
+      "overlay",
+      "interaction"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-card-grid-cta-columns",
+          "nc-card-grid-cta-gap",
+          "nc-card-grid-cta-padding",
+          "nc-card-grid-cta-radius"
+        ]
+      },
+      "title": {
+        "label": "Title",
+        "tokens": [
+          "nc-card-grid-cta-title-size",
+          "nc-card-grid-cta-title-weight",
+          "nc-card-grid-cta-title-color"
+        ]
+      },
+      "overlay": {
+        "label": "Overlay",
+        "tokens": [
+          "nc-card-grid-cta-overlay-start",
+          "nc-card-grid-cta-overlay-end"
+        ]
+      },
+      "interaction": {
+        "label": "Interaction",
+        "tokens": [
+          "nc-card-grid-cta-hover-scale"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Card Grid CTA",
+      "description": "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout",
+        "title",
+        "overlay",
+        "interaction"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "card-grid-cta-default",
+        "label": "card-grid-cta"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    }
+  ]
+}

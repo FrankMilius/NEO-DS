@@ -62,7 +62,32 @@
     margin-top: auto;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--nc-card-footer-gap);
+  }
+
+  // Footer Label — "Mehr darüber erfahren" Text
+  &__footer-label {
+    @include paragraph('s');
+    color: var(--fnd-color-text-secondary);
+    @include transition-quick((color));
+  }
+
+  // Footer Icon — Richtungspfeil (intern/extern)
+  &__footer-icon {
+    flex-shrink: 0;
+    color: var(--fnd-color-text-secondary);
+    @include transition-quick((color, transform));
+  }
+
+  // Navigational Hover: Footer-Label → Accent, Icon → translate
+  &--navigational:hover &__footer-label {
+    color: var(--fnd-color-interactive-default);
+  }
+
+  &--navigational:hover &__footer-icon {
+    color: var(--fnd-color-interactive-default);
+    transform: translateX(4px);
   }
 
   // ---------------------------------------------------------------------------
@@ -99,6 +124,7 @@
 
     &:hover {
       color: var(--nc-card-nav-color-hover);
+      text-decoration: var(--nc-card-link-hover-decoration);
     }
 
     &:focus-visible {
@@ -137,6 +163,7 @@
     cursor: pointer;
 
     &:hover {
+      text-decoration: var(--nc-card-link-hover-decoration);
       box-shadow: var(--nc-card-shadow-hover);
       border-color: var(--nc-card-hover-border);
 
@@ -485,5 +512,31 @@
   // Links — für Quick Links (schmale Cards)
   &--links {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  // ── Animation: Reverse Domino ──
+  // Cards werden nacheinander von unten eingeblendet (staggered slide-up).
+  // Aktivierung per `data-animation="reverse-domino"` + IntersectionObserver im JS.
+
+  &[data-animation="reverse-domino"] > .nc-card {
+    opacity: 0;
+    transform: translateY(var(--nc-card-grid-anim-translate-y, 2rem));
+    transition: opacity var(--nc-card-grid-anim-duration, 0.5s) ease,
+                transform var(--nc-card-grid-anim-duration, 0.5s) ease;
+  }
+
+  &[data-animation="reverse-domino"].is-revealed > .nc-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: var(--card-delay, 0s);
+  }
+
+  // Reduced Motion: sofort einblenden, kein Slide
+  @media (prefers-reduced-motion: reduce) {
+    &[data-animation="reverse-domino"] > .nc-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

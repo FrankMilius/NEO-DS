@@ -1,0 +1,176 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "fade-gallery",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "gallery",
+      "tabs",
+      "fade"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/fade-gallery-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-fade-gallery"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout",
+            "tabs",
+            "caption",
+            "animation"
+          ],
+          "renderHint": "fade-gallery-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": ""
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-fade-gallery"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "tabs",
+      "caption",
+      "animation"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-fade-gallery-radius",
+          "nc-fade-gallery-headline-size"
+        ]
+      },
+      "tabs": {
+        "label": "Tabs",
+        "tokens": [
+          "nc-fade-gallery-tab-size",
+          "nc-fade-gallery-tab-weight",
+          "nc-fade-gallery-tab-color",
+          "nc-fade-gallery-tab-active",
+          "nc-fade-gallery-tab-indicator"
+        ]
+      },
+      "caption": {
+        "label": "Caption",
+        "tokens": [
+          "nc-fade-gallery-desc-size",
+          "nc-fade-gallery-desc-color"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "tokens": [
+          "nc-fade-gallery-fade-duration"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Fade Gallery",
+      "description": "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout",
+        "tabs",
+        "caption",
+        "animation"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "fade-gallery-default",
+        "label": "fade-gallery"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    }
+  ]
+}

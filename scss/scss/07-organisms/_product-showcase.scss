@@ -1,0 +1,248 @@
+// ==========================================================================
+// 07-Organisms: Product Showcase
+// ==========================================================================
+// Options-Liste + Media-Panel mit animiertem Bild/Video-Wechsel.
+// Inspiriert von Polestar-Style Product Configurator.
+// Token-gesteuert via --nc-product-showcase-* Custom Properties.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Root: Horizontal Grid (Options links, Media rechts)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase {
+  display: grid;
+  grid-template-columns: var(--nc-product-showcase-options-width) 1fr;
+  gap: var(--nc-product-showcase-gap);
+  padding-block: var(--nc-product-showcase-padding);
+  padding-inline: var(--nc-nav-padding-inline);
+  margin-inline: auto;
+  box-sizing: border-box;
+  align-items: var(--nc-product-showcase-options-align);
+
+  @include respond-to('xxl') {
+    padding-inline: 0;
+    max-width: var(--container-max-width);
+  }
+}
+
+// Stacked: Options oben, Media darunter
+.nc-product-showcase--stacked {
+  grid-template-columns: 1fr;
+}
+
+// Reversed: Options rechts, Media links
+.nc-product-showcase--right {
+  grid-template-columns: 1fr var(--nc-product-showcase-options-width);
+
+  // Media-Panel zuerst im Grid (visuell links)
+  .nc-product-showcase__media-panel { order: -1; }
+
+  // Slide-Animation von links nach rechts
+  .nc-product-showcase__media-item {
+    transform: translateX(-30%);
+
+    &.is-active {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Responsive: Auf Mobile immer stacked
+@include respond-to-max('md') {
+  .nc-product-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .nc-product-showcase__options {
+    flex-direction: row;
+    overflow-x: auto;
+    @include hide-scrollbar;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Headline (Sektionsueberschrift ueber dem gesamten Showcase)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__headline {
+  font-size: var(--nc-product-showcase-headline-size);
+  font-weight: var(--nc-product-showcase-headline-weight);
+  color: var(--nc-product-showcase-headline-color);
+  text-align: center;
+  margin: 0;
+  padding-block-start: var(--nc-product-showcase-padding);
+  padding-inline: var(--nc-nav-padding-inline);
+}
+
+// ---------------------------------------------------------------------------
+// Label (Kategorie-Text ueber den Optionen)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__label {
+  font-size: var(--nc-product-showcase-label-font-size);
+  font-family: var(--nc-product-showcase-label-font-family);
+  color: var(--nc-product-showcase-label-color);
+  margin-block-end: var(--fnd-spacing-03);
+  font-weight: var(--fnd-font-weight-medium);
+}
+
+// ---------------------------------------------------------------------------
+// Options Liste
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-product-showcase-option-gap);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Einzelne Option (Button / Tab)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__option {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--nc-product-showcase-option-padding);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--nc-product-showcase-option-font-size);
+  font-weight: var(--nc-product-showcase-option-font-weight);
+  font-family: var(--nc-product-showcase-option-font-family);
+  color: var(--nc-product-showcase-option-color);
+  text-align: left;
+  @include transition-quick((color, opacity));
+
+  &:hover {
+    color: var(--nc-product-showcase-option-color-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Selected State
+  &[aria-selected='true'] {
+    color: var(--nc-product-showcase-option-color-active);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Option Indicator (Farbpunkt / Thumbnail)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__option-indicator {
+  width: var(--nc-product-showcase-indicator-size);
+  height: var(--nc-product-showcase-indicator-size);
+  border-radius: var(--nc-product-showcase-indicator-radius);
+  flex-shrink: 0;
+  // background-color wird inline per Option gesetzt
+}
+
+// ---------------------------------------------------------------------------
+// Option Group (Wrapper: Button + Description)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__option-group {
+  display: flex;
+  flex-direction: column;
+}
+
+// ---------------------------------------------------------------------------
+// Description (Akkordeon: aufklappen unter aktiver Option)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__description {
+  display: none;
+  overflow: hidden;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.nc-product-showcase__description-text {
+  font-size: var(--nc-product-showcase-desc-size);
+  color: var(--nc-product-showcase-desc-color);
+  line-height: 1.5;
+  margin: 0;
+  // Fade-In Animation (Apple turntable style)
+  opacity: 0;
+  transform: translateY(4px);
+  animation: nc-ps-desc-fadein 0.35s ease forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes nc-ps-desc-fadein {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Media Panel
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__media-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--nc-product-showcase-media-radius);
+  aspect-ratio: var(--nc-product-showcase-media-aspect-ratio);
+  background: var(--nc-product-showcase-media-bg);
+}
+
+// ---------------------------------------------------------------------------
+// Media Item (Bild oder Video)
+// ---------------------------------------------------------------------------
+
+.nc-product-showcase__media-item {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateX(30%);
+  transition:
+    opacity var(--nc-product-showcase-animation-duration) var(--nc-product-showcase-animation-easing),
+    transform var(--nc-product-showcase-animation-duration) var(--nc-product-showcase-animation-easing);
+  pointer-events: none;
+
+  // Active: sichtbar + zentriert
+  &.is-active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
+
+// Fade-Variante: nur Opacity, kein Slide
+.nc-product-showcase--fade .nc-product-showcase__media-item {
+  transform: none;
+}
+
+// No-Animation: sofortiger Wechsel
+.nc-product-showcase--no-anim .nc-product-showcase__media-item {
+  transition: none;
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  .nc-product-showcase__media-item {
+    transition: none;
+  }
+}

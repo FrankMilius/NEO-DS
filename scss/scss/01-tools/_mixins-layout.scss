@@ -12,9 +12,11 @@
 // Container Padding (eliminiert ~15x Code-Duplizierung)
 // ---------------------------------------------------------------------------
 
-/// Container padding — fluid with clamp()
-/// Scales from 16px (320px viewport) to 48px (1600px viewport).
-/// At xxl (1920px) switches to centered max-width with no padding.
+/// Container padding — 3-Phasen-Modell:
+/// 1. Mobile (0–767px): Full-width, fluid padding clamp(16px, 3.5vw, 48px)
+/// 2. Tablet (768–1199px): Full-width, fluid padding skaliert weiter
+/// 3. Desktop (1200px+): max-width aktiv, zentriert, reduziertes Padding
+/// 4. Ultra-wide (1920px+): kein Padding (max-width allein reicht)
 /// Referenziert --nc-container-* Tokens fuer Overridability.
 @mixin container-padding {
   margin-inline: auto;
@@ -22,9 +24,16 @@
   padding-inline: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
   --container-pad: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
 
+  // Ab lg (1200px): max-width aktivieren + Padding reduzieren
+  @media (min-width: map.get($breakpoints, 'lg')) {
+    max-width: var(--nc-container-max-width, #{$container-max-width});
+    padding-inline: var(--nc-container-padding-inline-constrained, 24px);
+    --container-pad: var(--nc-container-padding-inline-constrained, 24px);
+  }
+
+  // Ab xxl (1920px): kein Padding (max-width allein genuegt)
   @media (min-width: map.get($breakpoints, 'xxl')) {
     padding-inline: var(--nc-container-padding-inline-xxl, 0px);
-    max-width: var(--nc-container-max-width, #{$container-max-width});
     --container-pad: var(--nc-container-padding-inline-xxl, 0px);
   }
 }
@@ -41,11 +50,11 @@
   max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
 }
 
-/// Container padding with wide max-width at XXL
+/// Container padding with wide max-width
 @mixin container-padding-wide {
   @include container-padding;
 
-  @media (min-width: map.get($breakpoints, 'xxl')) {
+  @media (min-width: map.get($breakpoints, 'lg')) {
     max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
   }
 }

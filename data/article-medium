@@ -1,0 +1,3755 @@
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+CLAUDE.md Tips & Tricks for Product Designers
+Nick Babich
+Nick Babich
+
+Following
+5 min read
+·
+5 days ago
+143
+
+
+2
+
+
+
+
+
+CLAUDE.md is a critical file for providing project-specific context to Claude Code. It serves as an onboarding guide for AI to your project requirements and codebase. Whenever Claude’s AI model writes new or modifies existing code in your project, the first thing it will do is check the CLAUDE.md file.
+
+Here are 8 tips and tricks for writing CLAUDE.md that you need to remember:
+
+1. Know the difference between project-based and global CLAUDE.md
+We have two types of CLAUDE.md files:
+
+Project-based
+Located in the root folder of your project.
+Global
+Located at: ~/.claude/CLAUDE.md
+Although both files share the same name, they serve different purposes.
+
+A project-based CLAUDE.md is tightly coupled with a specific project.
+
+
+A project-based CLAUDE.md for a landing page design project.
+Think of project-based CLAUDE.md as project memory + execution guidelines.
+
+For a web design project, this file can include:
+
+Architecture decisions
+Design system rules
+Coding standards
+Product-specific constraints
+Business logic and domain knowledge
+A global CLAUDE.md, on the other hand, defines persistent behaviors across all your projects. It’s ideal for:
+
+Reusable workflows (e.g., “always create a changelog entry in the project”)
+Personal preferences (tone, structure, output format)
+Universal automation rules
+Repetitive setup steps
+Here is an example of instruction in the global CLAUDE.md file that asks Claude to create a timestamp when I started working on the project:
+
+On project start:
+- Create a .txt file in the project root directory
+- File name format: YYYY-MM-DD_HH-NickBabich.txt 
+(use current local date and hour)
+
+File content (exact):
+Project created by Nick Babich
+2. Add essential sections to CLAUDE.md
+A strong CLAUDE.md is not a list of random instructions; its a properly structured file.
+
+Claude performs better when information is grouped semantically. Structured sections reduce ambiguity and improve retrieval.
+
+Typical high-impact sections for product design project include:
+
+Project Overview
+Tech Stack
+Folder Structure
+Coding Guidelines
+UI/UX Principles
+Component Rules
+Accessibility Requirements
+Testing Strategy
+Content/Copy Guidelines
+Deployment Notes
+I’ve dived into all the sections you should include CLAUDE.md in the following article:
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+uxplanet.org
+
+3. Use /init to generate a first draft of CLAUDE.md automatically
+You don’t need to create CLAUDE.md from scratch. Instead, you can run a command in your project folder:
+
+/init
+and Claude Code will scan the project folder and draft a CLAUDE.md file based on the information it finds. This file it will generate won’t be perfect (the generated file is generic by design, and it will lack product intent and nuance), but it will help you avoid a blank-canvas state where you need to articulate all details yourself.
+
+Press enter or click to view image in full size
+
+You can run /init command even when you have an existing CLAUDE.md file. If you do that in Edit mode, Claude Code will update the file based on the recent information about the project.
+4. Keep CLAUDE.md under 200 lines
+Claude Code loads CLAUDE.md into every session it works on, and this consumes tokens. Thus, the shorter your CLAUDE.md is, the better because it leads to better adherence.
+
+Press enter or click to view image in full size
+
+Ideally, you should keep CLAUDE.md under 100 lines, but for many projects this is not possible because they have a lot of relevant details.
+But what to do when you have a lot of relevant information about your project and want Claude to use this information when working on this project? If you put everything you have in CLAUDE.md file, it will be massive. We have an elegant solution for this problem and it’s called routing rules.
+
+Routing rules is basically pointing Claude to other .md files you have in a project.
+
+For design system documentation check @docs/design-system.md
+
+For QA testing workflow check @workflows/qa-testing.md
+This creates a modular knowledge system for Claude Code and AI will know that:
+
+Core CLAUDE.md file → essential information about your project Claude needs to know.
+Linked files → on-demand, detailed instructions that Claude will check when its working with a specific area (i.e., creates QA auto tests for your project).
+5. Be specific when writing instructions
+When you interact with humans and provide vague instructions, you likely get generic results. The same principle applies to AI, but the situation is even worse when you provide vague instructions to AI because Claude doesn’t “assume intent,” it follows patterns.
+
+Thus, the more precise your instructions are, the more deterministic the output will be
+
+For example, when you describe the requirement for coding UI components, its not enough to say:
+
+"Write clean code"
+Its much better to provide specific requirements such as:
+
+- Keep components under 200 lines unless justified
+- Use Tailwind utility classes (no inline styles)
+- Prefer composition over inheritance
+- Use descriptive prop names (no abbreviations)
+💡 Here is a framework I use when writing instructions
+
+Constraint (what AI should do)
+Boundary (what limits AI should consider)
+Example (what examples AI should use as a reference)
+6. Treat CLAUDE.md as a living document
+CLAUDE.md is not a file you create once and forget about it. It should evolve alongside your project.
+
+Update it when:
+
+You notice repeated mistakes that Claude makes when doing something
+You introduce new patterns or tools and want Claude to use them
+Product or business requirements were changed
+Ideally, you should iterate the file on a daily basis by adding rules based on real usage, not theory.
+
+7. Use .claude/rules to create modular rules
+Instead of putting everything into one file, split instructions into topic-specific files. If you have specific rules on how to do things, add this information into topic-specific files:
+
+.claude/rules/
+  ├── ui.md
+  ├── testing.md
+  ├── accessibility.md
+  ├── copywriting.md
+You can then reference them via routing both in CLAUDE.md file:
+
+@.claude/rules/ui.md
+@.claude/rules/testing.md
+and in Claude Code chat. In second case, you will create a perfect context for Claude Code as it will have information from CLAUDE.md file and reference to specific rules in a separate file:
+
+Press enter or click to view image in full size
+
+Input field for the Claude Code.
+8. Commit CLAUDE.md to Git
+Your project-based CLAUDE.md is part of your project’s infrastructure.
+
+By committing it to Git, you will allow the entire team to get a similar AI behavior from Claude Code. What is even more important is that the knowledge becomes versioned and traceable.
+
+Want to master Claude Code?
+Check out my complete guide to Claude Code, packed with highly practical insights on how you can integrate it into your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers the following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Design
+Artificial Intelligence
+Web Development
+UX
+143
+
+
+2
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (2)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Kamrun Nahar
+Kamrun Nahar
+
+she/her
+2 days ago
+
+
+This clicked for me in a way other articles on the topic didn't. Nice work.
+Reply
+
+Anshraj
+Anshraj
+
+he/him
+4 days ago
+
+
+So, basically we're now writing instruction manuals for the AI writing instruction manuals? Feels very…meta, and honestly a little exhausting. Is this what “future-proofing” our jobs looks like – becoming professional AI whisperers?
+Reply
+
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+Claude Skills 2.0 for Product Designers
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Claude Skills 2.0 for Product Designers
+Anthropic has recently improved the process of creating new Claude Skills, and this improvement is so significant that it almost feels like…
+
+Mar 7
+398
+4
+
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+The Complete Guide to Claude Code: CLAUDE.md
+AI Advances
+In
+
+AI Advances
+
+by
+
+zhaozhiming
+
+The Complete Guide to Claude Code: CLAUDE.md
+A comprehensive guide to the CLAUDE.md file in Claude Code, including how it is loaded, how to write it, best practices, and how it…
+
+Mar 17
+532
+4
+
+
+My AI design workflow — what actually works in 2026
+Nurkhon
+Nurkhon
+
+My AI design workflow — what actually works in 2026
+I tested 40+ AI design tools. Most failed. Here’s the simple workflow I actually use.
+
+Feb 6
+559
+18
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+
+
+#############################
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Top highlight
+
+Press enter or click to view image in full size
+
+Member-only story
+
+How to Prevent Claude Code from Creating Generic Web Designs (5 Proven Tips)
+Nick Babich
+Nick Babich
+
+Following
+8 min read
+·
+Mar 18, 2026
+383
+
+
+4
+
+
+
+
+
+If you ask Claude to generate a web page for you, there is a high chance you will get a very generic output. For example, here is what you can get from Claude Code with a single prompt:
+
+Code a landing page of a SaaS service called Roxy that offers
+security solution for small business
+Press enter or click to view image in full size
+
+Landing page for a SaaS service generated by Claude Code. Pretty generic result. The page serves a functional purpose, but it’s not very appealing.
+You can see that this design clearly serves the functional purpose, but doesn’t look very appealing.
+
+But you can easily avoid that and create a more refined, sophisticated design that will be much harder to link to AI-generated stuff.
+
+Here are 5 tips that will help you avoid that:
+
+Start with CLAUDE.md file
+The first thing you need to do when crafting a new web project is to create a CLAUDE.md file. CLAUDE.md will be the first file that Claude will access when working with your project. This file will create a context for Claude about your project. The file should cover everything Claude needs to know about the project, including project objectives and the technical stack you plan to use. You can read about the must-have sections for this file here:
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+uxplanet.org
+
+Here are essential tips for writing CLAUDE.md to get a better web design:
+
+1. Provide instruction to use the ‘frontend-design’ skill
+Claude has a built-in mechanism called Skills that help improve its abilities in a particular area. In a nutshell, a Skill is a set of custom instructions that help improve Claude’s performance for a particular task. When Claude is asked to perform a task, the first thing it will do is to check the Skills library to understand if it has a skill for this task.
+
+Claude Skills for Product Designers
+How to create your first Claude Skill
+uxplanet.org
+
+When it comes to web design, we want to get the most out of Claude in front-end coding. Thus, we want to have a Claude front-end design skill.
+
+Good news is that Claude has a dedicated skill for front-end coding called ‘frontend-design.’ So it’s recommended to provide a clear instruction in the CLAUDE.md for Claude to invoke this skill every time it plans to do front-end coding
+
+## DO THIS FIRST
+**Invoke 'frontend-design' skill before generating any code.** Do it every
+time you want to code front-end. In every session. Never skip this step.
+Quick notes:
+
+Make sure you have the ‘frontend-design’ skill installed in your Claude. You can do it by prompting Claude to show you the skills
+
+show me what skills you have
+Press enter or click to view image in full size
+
+The output that Claude Code generated for me in response to the request to show the skills.
+If you don’t see ‘frontend-design’ skill in the list Claude provides for you, run the following command, and it will be installed in the system:
+
+/plugin install frontend-design@claude-code-plugins
+This command will install frontend-design skill globally, meaning that you will be able to access it across all projects.
+
+Know when to use ‘frontend-design’ skill provided by Claude and when to create your own front-end design skill. frontend-design skill provided by Claude will work fine in 95% of cases; you need to create your own skill for front-end design only when you have a very specific task you want Claude to handle when crafting design (such as you need to implement some unique attributes of visual identity in all web designs you create). But even in this case, you can handle this task by writing custom instructions in CLAUDE.md
+
+2. Put visual references into a directory in the project and instruct Claude to use the references when crafting design
+Having nice visual references during front-end design helps achieve much better results. You can add screenshots of real web pages you want to use as inspiration or you go to webistes like Behance and Dribbble and capture examples of nicely done design concepts.
+
+Put the screenshots in a dedicated folder (in my case, I use a folder called ‘web_design_references’)
+
+## Visual references
+
+- The folder @web_design_references contains visual references I want
+you to use when creating web pages
+- If you see images in this folder: match layout structure, colors, spacing,
+typography choices from the provided examples when coding our web page.
+- If no reference images are provided: design from scratch, following the
+rules provided below in the ‘Anti-Generic Design Guardrails’ section
+- When you finish coding the page, capture a page screenshot of the page
+you’ve generated and compare it against the references provided in the folder
+@web_design_references. Find and fix any mismatches. Do at least two rounds of
+comparison and fix. Keep all screenshots you capture in the folder @screenshots
+Press enter or click to view image in full size
+
+Folder ‘web_design_references’ contains visual inspiration for our future web page. This one in particular is from Dribble.
+Quick note: Try to use no more than 2 visual references. Ideally, you should have only one reference for Claude Code, as it will make it much easier for AI to do a visual audit and refine the design according to the reference you provided.
+
+3. Use a screenshot loop
+Check the last part of this section, where we ask Claude to capture a screenshot of the page and compare it against the references provided.
+
+- When you finish coding the page, capture page screenshot of the page
+you've generated and compare it against references provided in the folder
+@web_design_references. Find and fix any mismatches. Do at least two
+rounds of comparison and fix. Keep all screenshots you capture in png format
+in the the folder @screenshots
+This technique is called screenshot loop, and it helps minimize the number of manual iterations that you need to go through to reach a desirable result. With this technique, you ask Claude to do the visual analysis and fix all issues along the way so the final result will look very close to the references you provide. And the last part of the prompt:
+
+Keep all screenshots you capture in png format
+in the folder @screeshots
+Invite Claude to store all screenshots it took along the way in a separate folder in your project so you can check the process or refer them to Claude if you need to roll back to a certain version.
+
+Press enter or click to view image in full size
+
+‘Screenshot’ folder contains all screeshots that Claude captured during 2 rounds of refinement.
+4. Fill out the ‘’Anti-Generic Design Guardrails’ section
+And now let’s craft a section that prevents Claude from generating a generic design. It’s called Guardrails because it prevents Claude from doing something. The information in this section should be based on the tech stack you’re using. For my web projects, I typically rely on React + Tailwind CSS, so the section listed below contains cliches that we typically see in React/TailwindCSS designs.
+
+## Anti-Generic Design Guardrails 
+
+- **Colors:** Never use default Tailwind palette (`blue-500`, `indigo-600`,
+ etc.). Always define and use custom design tokens from `tailwind.config`
+ (e.g. `brand.primary`). Avoid raw hex values in JSX.
+
+- **Typography:** Never use a single font (`font-sans`) everywhere. 
+Pair fonts intentionally (`font-display` for headings, `font-body` for text).
+Apply tight tracking (`tracking-[-0.03em]`) for headings and generous
+line-height (`leading-[1.7]`) for body text.
+
+- **Shadows:** Never use default utilities like `shadow-md` or `shadow-lg`.
+ Use layered, color-tinted shadows defined in the theme.
+
+- **Gradients & backgrounds:** Avoid flat fills (`bg-white`, `bg-gray-100`).
+ Use layered gradients, overlays, or subtle textures.
+Prefer custom gradients via arbitrary values instead of Tailwind presets.
+
+- **Animations:** Never use `transition-all`. Only animate `transform`
+and `opacity`. Use explicit utilities (`transition-transform`,
+`transition-opacity`) and controlled durations. Prefer spring-like
+motion when using animation libraries.
+
+- **Component styling:** Avoid long, unstructured className strings
+in JSX. Extract reusable components and variants. Use composition
+patterns (`clsx`, `cva`) instead of duplicating styles.
+
+- **Interactive states:** Every interactive element must include `hover`,
+`focus-visible`, and `active` states. No exceptions.
+
+- **Images:** Never use raw images without treatment. Always add overlays
+(e.g. gradient), blending, or color tint to integrate them into the design.
+
+- **Spacing & layout:** Avoid inconsistent spacing. Use a consistent
+spacing scale (`px-6`, `py-12`, `gap-4`). Prefer grid-based layouts
+over ad-hoc stacking.
+
+- **Anti-patterns:** Avoid generic UI patterns like `bg-white + shadow-md +
+rounded-lg`, default Tailwind look, missing states, or flat,
+depth-less layouts.
+Provide brand guidelines
+Every brand has its own unique brand styling. So once you done with CLAUDE.md you need to add your brand assets to your project.
+
+5. Create a dedicated directory for brand assets and ask Claude to use this information in design
+Enrich the Claude context by adding all essential brand details, such as your brand logo, style guide (brand color palette, brand typography choices, icons, tone and voice guidelines, etc), that you want Claude in web design.
+
+Press enter or click to view image in full size
+
+Project folder ‘my_brand_assets’ contains brand assets for my product (Logo)
+Press enter or click to view image in full size
+
+Project folder ‘my_brand_assets’ contains brand assets for my product (Typography).
+After that, you will be able to ask Claude to use this information in design. You can do it in two different ways:
+
+Reference my_brand_assets directory in CLAUDE.md file. For example, you can have a dedicated section called Visual Style where you will provide details on how Claude should use the information in design
+## Vistyle Style
+
+When you need company logo for web page use @my_brand_assets/roxy_logo.png
+2. Use it in the context of interaction with Claude. You can tag assets right in the Claude prompt field when crafting a design. This approach works well when you’re refining a particular section of the page or UI component.
+
+Press enter or click to view image in full size
+
+Following the tips in real web design
+Now lets create a section version of our landing page. This time, using the all 5 tips listed below.
+
+Before showing you the output that Claude generated for me, I want to share the project and the content of a final CLAUDE.md for your reference:
+
+Press enter or click to view image in full size
+
+Final CLAUDE.md file and project structure.
+I will use the same prompt for Claude to code the page:
+
+Code a landing page of a SaaS service called Roxy that offers
+security solution for small business
+And now I want to demonstrate the power of the screenshot loop. Here is the first take that Claude did without screenshot capture:
+
+Press enter or click to view image in full size
+
+Web design generated by Claude Code (without screenshot loop)
+The page is much better than the original design that I’ve created from a pure text prompt at the beginning of the article. This one was created with frontend-design skill, in accordance with the styleguide and the visual references I’ve provided. But it still was very generic.
+
+Then, Claude started to use screenshot loop and created the second version of this design, and this one looks much better in my opinion:
+
+Press enter or click to view image in full size
+
+Web design generated by Claude Code (with screenshot loop)
+Want to master Claude Code?
+Check out my complete guide to Claude Code, packed with highly practical insights on how you can integrate it into your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers the following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Web Development
+Coding
+UI
+Artificial Intelligence
+383
+
+
+4
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (4)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Rehan Pinjari
+Rehan Pinjari
+
+he/him
+4 days ago
+
+
+Good tips, but the real insight here is buried: none of this works without taste. The CLAUDE.md guardrails, the references, the brand assets, someone with good judgment had to define all of that first. AI didn't remove the designer. It just moved where the design thinking happens. Earlier in the process, not later.
+10
+
+Reply
+
+Kamrun Nahar
+Kamrun Nahar
+
+she/her
+2 days ago
+
+
+This is the kind of content that keeps me coming back to Medium.
+1
+
+Reply
+
+Biniyam Kebede
+Biniyam Kebede
+
+6 days ago
+
+
+Nick Babich rules! He's an authority in his own right in the filed/concept of Claude. Thank you for still writing periodically - I really like it. I am learning quite a lot!
+1
+
+Reply
+
+See all responses
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+The Complete Guide to Claude Code: CLAUDE.md
+AI Advances
+In
+
+AI Advances
+
+by
+
+zhaozhiming
+
+The Complete Guide to Claude Code: CLAUDE.md
+A comprehensive guide to the CLAUDE.md file in Claude Code, including how it is loaded, how to write it, best practices, and how it…
+
+Mar 17
+532
+4
+
+
+Claude Skills 2.0 for Product Designers
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Claude Skills 2.0 for Product Designers
+Anthropic has recently improved the process of creating new Claude Skills, and this improvement is so significant that it almost feels like…
+
+Mar 7
+398
+4
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+6 Tools That Made My Life Easier as a Software Engineer
+Let’s Code Future
+In
+
+Let’s Code Future
+
+by
+
+Deep concept
+
+6 Tools That Made My Life Easier as a Software Engineer
+Make your development environment work for you, not against you.
+
+Mar 14
+541
+11
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+###############################################
+
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Claude Code CLAUDE.md vs Skills
+Nick Babich
+Nick Babich
+
+Following
+5 min read
+·
+Mar 17, 2026
+91
+
+
+3
+
+
+
+
+
+“What information should I put in CLAUDE.md, and what information should I put in Skills?” This is actually one of the most important architectural decisions when working with Claude Code at scale.
+
+In this article, I want to go through both concepts and explain when and how to use them.
+
+CLAUDE.md vs Skill
+The way I think about CLAUDE.md and Skill is this
+
+CLAUDE.md = “project brain”
+
+Skills = “reusable capabilities”
+
+📝 CLAUDE.md
+Think of CLAUDE.md as “Everything Claude needs to know about this particular project.”
+
+👉 If, when thinking about a particular detail, you start your thought with “In this project…” or “For this project…” then this information belongs in CLAUDE.md
+
+Where CLAUDE.md is located
+This file is typically located at the root of your project folder
+
+
+Example of project structure (web project in React) with CLAUDE.md file in it
+What goes into CLAUDE.md
+The file itself is structured in markdown format (.md stands for markdown).
+
+## Project Overview
+Short explanation of what the project is.
+
+## Tech Stack
+- TypeScript
+- Next.js
+- Tailwind
+- ShadCN
+
+## Architecture
+Explain folders and patterns.
+
+## Coding Rules
+- Use functional React components
+- Prefer server components
+- Use Tailwind utilities instead of custom CSS
+
+## Design System
+- Follow ShadCN patterns
+- Use tokens from /styles/tokens.ts
+
+## Commands
+npm run dev
+If you want to know which sections to include to your CLAUDE.md, read the following article:
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+uxplanet.org
+
+⚙️ Skills
+Think of Skills as “Executable expertise Claude can apply on demand”
+
+Skills are great for repeatable workflows like
+
+Generate PRD
+Create landing page
+Refactor component
+Design audit
+Write API handler
+Skills can benefit your project design (i.e., for a web design project, you might want to trigger skills that will craft your web design), but they don’t necessarily belong to a particular project (meaning that they can be used in all web design projects you’re working on)
+
+Where Skills are located
+Skills can be local and global. Local skills are a part of your project, and they are typically located in a /skills directory of the project folder:
+
+project-root/
+├── CLAUDE.md
+├── skills/
+│   ├── ux/
+│   │   ├── run-ux-audit.md
+│   │   └── analyze-user-flow.md
+│   ├── coding/
+│   │   ├── build-component.md
+│   │   └── refactor-code.md
+│   ├── research/
+│   │   └── competitor-analysis.md
+│   └── content/
+│       └── write-linkedin-post.md
+Local skills are skills that are used only in this particular project. If you want to use skill for other projects you work on, you should create Global skills. Global skills are located in Claude Code tool directory:
+
+~/claude-skills/
+├── front-end-design/
+├── ux-audit/
+└── content-writing/
+Quick note: If you don’t know what Skills you have in your project, you can prompt Claude to show you available skills. The prompt can be this:
+
+What skills I have 
+Press enter or click to view image in full size
+
+Claude Code output for this command on my local machine.
+What goes into Skill
+Just like CLAUDE.md, Skill is also a markdown file. Every skill needs a SKILL.md file with two parts:
+
+Frontmatter in YAML (between --- markers). It tells Claude when to use the skill.
+Markdown content with instructions Claude follows when the skill is invoked.
+Below is an example of the skill I’ve created for landing page design:
+
+name: create-landing-page
+description: Generate a landing page using project conventions
+
+steps:
+  - Analyze CLAUDE.md for design system
+  - Generate layout
+  - Create components
+  - Apply styling rules
+  - Validate accessibility
+If you’re interested in learning more about using Skills in the product design process, check the following article:
+
+Claude Skills for Product Designers
+How to create your first Claude Skill
+uxplanet.org
+
+🧩 How CLAUDE.md and Skills can work together
+CLAUDE.md and Skills can be used together
+
+CLAUDE.md can set foundational rules or integral constraints
+Skill executes within those rules and constraints
+For example, I can set specific versions of frameworks I use for my project in CLAUDE.md tech stack section:
+
+## Tech Stack
+- React version 19.2
+- Use TypeScript 5.9.3
+And I will also craft a reusable Skill build-component that will help me craft UI components for projects I work on:
+
+Workflow:
+1. Generate component in React
+2. Use TypeScript types
+3. Ensure <200 lines
+4. Document component usage in markdown format
+When the skill build-component will be triggered, it follow the workflow defined in this skill and honor the constraints I’ve defined in the CLAUDE.md
+
+Quick note: You can also invoke or reference Skills in CLAUDE.mdfile. For example, here I provide quick shortcuts for two local skills I have in my project (run-ux-audit and build-component)
+
+## Available Skills
+- run-ux-audit → ./skills/ux/run-ux-audit.md
+- build-component → ./skills/coding/build-component.md
+3 Common Mistakes To Avoid When Crafting CLAUDE.md and Skills
+❌ Putting workflows in CLAUDE.md
+Try to avoid:
+
+To create a landing page:
+1. Do this
+2. Do that
+This should be either a Skill (if you’re planning to reuse it in future) or a dedicated workflow .md file that you can reference when asking Claude to build something.
+
+❌ Putting project rules into Skills
+Try to avoid adding details to Skill that are relevant to only one particular project (such as a specific version of a framework that your project uses):
+
+Use Next.js 16.1.1
+If you need to set constraints, do it in CLAUDE.md
+
+❌ Duplicating logic
+Don’t repeat rules you’ve already defined in CLAUDE.md inside Skills. Skills should read from CLAUDE.md, not redefine it.
+
+Want to master Claude Code?
+Check out my complete guide to Claude Code, packed with highly practical insights on how you can integrate it into your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers the following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Design
+UX
+Coding
+Web Development
+91
+
+
+3
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (3)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+nidhi suman
+nidhi suman
+
+Mar 19
+
+
+check this out https://medium.com/@nidhisuman6623/digital-transformation-services-for-small-businesses-a-complete-guide-c03b9725c13a
+8
+
+Reply
+
+Joshua B
+Joshua B
+
+3 days ago
+
+
+Nothing personal, but I actually joined because I wanted to read the article and Medium had a button that said join to read the rest of the article. I joined and I couldn't finish reading your article. I can appreciate authors making a living, but…more
+Reply
+
+Summer's Notebook
+Summer's Notebook
+
+she
+Mar 18
+
+
+Hi,
+I’m Nmesoma Anijetu, a passionate writer and UI/UX storyteller. I’d love to contribute as an editor and support your publication by curating and refining content. Could you please add me as an editor or let me know the best way to join your team?
+Thanks so much! 🙏
+Reply
+
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+Claude Skills 2.0 for Product Designers
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Claude Skills 2.0 for Product Designers
+Anthropic has recently improved the process of creating new Claude Skills, and this improvement is so significant that it almost feels like…
+
+Mar 7
+398
+4
+
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+The Complete Guide to Claude Code: CLAUDE.md
+AI Advances
+In
+
+AI Advances
+
+by
+
+zhaozhiming
+
+The Complete Guide to Claude Code: CLAUDE.md
+A comprehensive guide to the CLAUDE.md file in Claude Code, including how it is loaded, how to write it, best practices, and how it…
+
+Mar 17
+532
+4
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Towards AI
+In
+
+Towards AI
+
+by
+
+Rick Hightower
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Skills are no longer instructions. They are programs.
+
+Mar 9
+366
+6
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+
+
+###########################
+
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Claude Code Project Structure Best Practices
+Nick Babich
+Nick Babich
+
+Following
+4 min read
+·
+Mar 16, 2026
+296
+
+
+2
+
+
+
+
+
+When you work with Claude Code, organizing projects well makes a huge difference. Claude works best when it has a clear context, consistent structure, and explicit instructions.
+
+Below are 5 integral principles you should follow to create an excellent project structure:
+
+1. Place CLAUDE.md at the root
+CLAUDE.md is a critical file for providing project-specific context to Claude Code. It serves an onboarding guide for AI to your project requirements and codebase.
+
+Claude automatically reads CLAUDE.md file at start.
+
+Here is an example of what to include in this file:
+
+# Project Overview
+Short description of the project.
+
+# Architecture
+Explanation of major components.
+
+# Tech Stack
+Next.js
+TypeScript
+ShadCN UI
+Tailwind
+
+# Coding Conventions
+- Use TypeScript strict mode
+- Prefer functional components
+- Avoid default exports
+
+# Folder Structure
+Explanation of directories.
+
+# Commands
+npm run dev
+npm run build
+
+# Important Rules
+Performance requirements
+Accessibility requirements
+Testing strategy
+I’ve shared best practices for creating CLAUDE.mdin the following article:
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+uxplanet.org
+
+The file should be placed in the root folder of your project
+
+my-project/
+ ├── CLAUDE.md
+ ├── package.json
+ ├── src/
+ ├── docs/
+ └── scripts/
+Quick note: If you have an existing codebase in your project, you don’ t have to start from scratch when crafting CLAUDE.md. Instead, you can type /init command in Claude Code, and it will create a first draft of this file for you
+
+/init
+Here are 10+ hacks to streamline your Claude Code experience:
+
+Claude Code Hacks To Supercharge Your Workflow
+Top 11 Hacks That Streamline Your Work with Claude Code
+uxplanet.org
+
+2. Split large CLAUDE.md instructions into imported files
+CLAUDE.md file can grow fast. Because Claude Code reads this file all the time, and it’s added to the context, it’s not recommended to have very large files. As a rule of thumb, if you notice that the file has more than 200 lines of text, you should split it into a few files.
+
+Claude Code supports imports inside CLAUDE.md
+
+@path/to/import.md
+All you need to do is provide a context for when Claude should perform the import. Here is how our updated file CLAUDE.mdwith add imports will look like:
+
+# CLAUDE.md
+
+# Architecture
+For project architecture check @claude/architecture.md
+
+# Coding Conventions
+For coding conventions check @claude/coding_conventions.md
+
+# UI Guidelines
+For UI guidelines check @claude/ui_guidelines.md
+And in the project directory, the file structure will be:
+
+CLAUDE.md
+claude/
+  architecture.md
+  coding_conventions.md
+  ui_guidelines.md
+This structure will be beneficial both for you and for AI because:
+
+Its easier to maintain (if you want to modify something)
+faster Claude context loading
+reusable across projects (fits all types of web-dev projects)
+3. Add a /docs folder for context
+If you want to help Claude better understand your project and its nuances, you want to add docs/ folder. Claude reads documentation in markdown format extremely well.
+
+For example, you can add information about upcoming features you plan to add to your product this quarter, or about the current API calls your product provides.
+
+docs/
+  project_roadmap.md
+  api.md
+And now you can prompt Claude to check docs when implementing a certain feature (i.e., health check for your web service)
+
+Read docs/api.md and implement our service health monitor available via API calls.
+4. Add a /workflows folder for workflows
+If you want Claude to follow a specific workflow when performing a task, you should put such workflows in a dedicated directory. For example, for web-dev project, this can be
+
+claude/
+  worfklows/
+     build-new-component.md
+     code-refactoring.md
+     write-auto-tests.md
+     migrate-db.md
+And here is how the workflow build-new-component.mdcan looks (note that this is just an example, the actual workflow can be more complex):
+
+# build-component.md
+
+When you are asked to create a new component for a web service,
+create it with following requirements:
+- TypeScript
+- ShadCN UI
+- accessible
+- mobile-first
+- Tailwind styling
+And you can call it like:
+
+Follow claude/prompts/build-component.md to create a dashboard card
+The great thing about this structure is that you can trigger one workflow from another. For example, if Claude codes a new component (following the build-new-component.md) you can trigger writing auto tests that will validate this new code right from the file build-new-component.md
+
+# build-component.md
+
+When you are asked to create a new component for a web service,
+create it with following requirements:
+- TypeScript
+- ShadCN UI
+- accessible
+- mobile-first
+- Tailwind styling
+
+Make sure to write auto tests for this component following the
+@workflows/write-auto-tests.md
+5. Use a /tools folder for Claude service tasks
+The great thing about Claude Code is that it will write specific service scripts to streamline workflows. For example, if you ask it to organize an operation of database migration (that you articulate in the migrate-db.md), Claude will likely write a Python script that will handle some actions. I suggest keeping all service scripts in one folder named ‘/tools.’
+
+tools/
+  migrate-db.py
+  seed-data.py
+  export-data.py
+Quick note: You might wonder why the folder is named /tools and not /scripts. If you are in a web-dev project, you typically associate the name ‘script’ with front-end or back-end scripts that your service uses, not service tools you use. Thus, I use this naming to minimize confusion when project teams check the folder.
+
+Want to master Claude Code?
+Check out my complete guide packed with highly practical information on how you can use Claude Code in your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers the following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Web Development
+Design
+Artificial Intelligence
+UI
+296
+
+
+2
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (2)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Noah Jackson
+Noah Jackson
+
+3 days ago
+
+
+Great article! I would just push back in usage of claude.md files. Research has shown that too many context file can slow claude down and reduce quality of responses.
+13
+
+
+1 reply
+
+Reply
+
+Rehan Pinjari
+Rehan Pinjari
+
+he/him
+4 days ago
+
+
+The reason it's called /tools and not /scripts is such a small thing, but that kind of naming clarity is exactly what separates a project someone else can actually open from one only you understand.
+Reply
+
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+Claude Skills 2.0 for Product Designers
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Claude Skills 2.0 for Product Designers
+Anthropic has recently improved the process of creating new Claude Skills, and this improvement is so significant that it almost feels like…
+
+Mar 7
+398
+4
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Towards AI
+In
+
+Towards AI
+
+by
+
+Rick Hightower
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Skills are no longer instructions. They are programs.
+
+Mar 9
+366
+6
+
+
+The Complete Guide to Claude Code: CLAUDE.md
+AI Advances
+In
+
+AI Advances
+
+by
+
+zhaozhiming
+
+The Complete Guide to Claude Code: CLAUDE.md
+A comprehensive guide to the CLAUDE.md file in Claude Code, including how it is loaded, how to write it, best practices, and how it…
+
+Mar 17
+532
+4
+
+
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+
+
+#############################
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Claude Skills 2.0 for Product Designers
+Nick Babich
+Nick Babich
+
+Following
+8 min read
+·
+Mar 7, 2026
+398
+
+
+4
+
+
+
+
+
+Anthropic has recently improved the process of creating new Claude Skills, and this improvement is so significant that it almost feels like Claude Skills 2.0.
+
+In this article, I will share everything you need to know about Claude Skills 2.0, and how your design process can benefit from Claude Skills 2.0
+
+What is Claude Skill
+Skill is a built-in mechanism in Claude that gives it reusable capabilities or workflows when it works on particular tasks. Skills help you avoid writing repeated long prompts every time you want Claude to do something for you.
+
+A few examples of Claude Skills that are relevant to the product design space:
+
+PRD writer
+Landing page generator
+Brand-compliant document creator
+API integration workflow
+The skill itself is a markdown file (.md) file that contains two things:
+
+YAML frontmatter (between --- markers) that tells Claude when to use the skill
+Markdown content with a set of actions that Claude follows when the skill is invoked (typically, it’s a workflow)
+SKILL.md
+
+name: design-audit
+description: Analyze UI and identify usability problems.
+
+workflow:
+1. Review UI screenshot
+2. Identify issues
+3. Map to UX heuristics
+4. Provide redesign suggestions
+The great thing about Skills is that they can uplift Claude’s existing capabilities (such as streamlining front-end design and enabling it to create more sophisticated web pages) or guide Claude to follow instructions that are relevant only to your organization.
+
+For example, if your organization follows a particular business process when doing something, you can describe this process as a workflow in your skill and Claude will follow the steps.
+
+Quick note: I have a collection of 10 ready-to-use Claude Skills that you should try as a product designer.
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable…
+uxplanet.org
+
+Many people explain the role of a skill as a set of instructions that Claude automatically activates for a particular task. While this is a correct way to describe its behavior, it’s better to think of a skill as a recipe.
+
+Just like when we cook something, we rely on a recipe to do the job correctly, Claude will rely on a dedicated skill.
+
+Press enter or click to view image in full size
+
+Recipe for a French toast.
+What is Claude Skills 2.0
+Claude Skills 2.0 is an informal title for a new tool called Skill-creator. Skill Creator is a meta-skill, a tool that automatically generates new Claude Skills for you.
+
+Press enter or click to view image in full size
+
+Skill-creator in Anthropic repository (Source link)
+Instead of manually writing a skill from scratch and placing it in a SKILL.md file, you can simply describe the capability you want in plain language, and Skill Creator will:
+
+Analyze the requested capability
+Ask clarifying questions
+Design the skill architecture
+Generate the full skill package
+The great thing about Skill Creator is that it triggers a process that evaluates the quality of output a newly created skill will produce. This evaluation is exactly what helps you achieve better results with your skill.
+
+Creating a new front-end skill in 4 simple steps
+To illustrate how Skill Creator works, I will create a new front-end design Claude Skill using this tool. I will do it in VSCode with Claude Code integration.
+
+Step 1: Install ‘skill-creator’
+I will open an empty directory on my local machine and run Claude Code.
+
+Press enter or click to view image in full size
+
+Claude Code view in VSCode.
+The first thing I need to do is install skill-creator. To do that, I will need to type a command:
+
+/manage plugins
+Press enter or click to view image in full size
+
+Type a command ‘/manage plugins’ in Claude
+Next, I need to search for skill-creator and click Install.
+
+Press enter or click to view image in full size
+
+Installing ‘skill-creator’ for your Claude.
+Claude will offer a few options for plugin installation. I suggest choosing “Install for you”, because it will make skill-creator available across all projects you work on your local machine.
+
+Press enter or click to view image in full size
+
+‘Install for you’ means that skill-creator will be available in all Claude project.
+Once you install the skill-creator, you need to restart the Claude session. And I also recommend you submit a prompt.
+
+Do you have skill-creator available for crafting new skills?
+Press enter or click to view image in full size
+
+Make sure we have ‘skill-creator’ available for our task.
+Step 2: Prompt Claude to create a new skill
+Now that we know that we have skill-creator, we can use it to build a new skill. I will create a front-end web design skill that will craft a landing page in the style of Apple products.
+
+To do that, I will prompt Claude:
+
+I want to create a new skill called super-landing-page that will take the page
+requirements as input, analyze them, identify gaps and missing information,
+and ask me clarifying questions. After that, it will use this information
+to code a modern, sophisticated landing page design in the style of Apple.
+Press enter or click to view image in full size
+
+Asking Claude to create a new skill called ‘super-landing-page’
+I want to highlight 3 important things about this prompt:
+
+Skill name. I give the skill the name “super-landing-page.” I will use this name when I ask Claude to use it for my design.
+Workflow. I explain how the skill should work (what input I will provide, what Claude should do with it, and what I expect the skill to build using this information).
+Ultimate goal. I want the skill to create not just a generic page, but a page in the style of Apple products.
+Once I submit this prompt, Claude will create a to-do list of steps that it will follow to build the skill. Notice that one of the steps is “create test cases in evals.” This is where the skill evaluates the quality of the output it produces.
+
+Press enter or click to view image in full size
+
+To do plan created by skill-created for a new skill.
+Step 3: Skill-creator builds a new skill
+This step is done by skill-creator with minimal involvement from you.
+
+During this step, skill-creator will:
+
+Draft a new skill
+Test it with a few inputs
+Analyze the quality of outputs produced by the skill
+At the end of this process, you will see a results table. This table lists results with and without the skill, and you can see that skill-creator helped improve the quality of the output produced by super-landing-page (in this case, the front-end design generated for our landing page).
+
+Press enter or click to view image in full size
+
+Quality of output generated by super-landing-page skill (with skill and without skill).
+Quick note: To be sure that super-landing-page was created using skill-creator, you can ask Claude to confirm.
+
+did you use skill-creator when crafting super-landing-page skill?
+Press enter or click to view image in full size
+
+Step 4: Testing our newly created front-end web design skill
+At this step, skill-creator has finished crafting our new skill, “super-landing-page.” Now we can use it for a real web design task.
+
+use super-landing-page skill to code the following page
+
+[PASTE PAGE DESCRIPTION HERE]
+Press enter or click to view image in full size
+
+Prompting Claude to use ‘super-landing-page’ to code a new page
+Page description will be this:
+
+a modern, responsive landing page for a food delivery mobile app called “Foodiez”.
+
+GOAL
+Create a high-conversion marketing landing page that promotes the app, communicates value instantly, and drives users to download the app.
+
+TECH STACK
+Use:
+- React + TypeScript
+- Tailwind CSS
+- Framer Motion for animations
+- Component-based architecture
+- Mobile-first responsive layout
+- Accessible semantic HTML
+
+The result must be production-ready.
+
+STYLE & VISUAL DIRECTION
+- Clean, modern, premium UI
+- Bright and appetizing food delivery aesthetic
+- Primary color: Orange (#FF6B35)
+- Neutrals: white, light gray backgrounds
+- Soft shadows, large border radius (2xl)
+- Smooth micro-interactions
+- Use high-quality food imagery placeholders
+- Typography: bold, friendly, highly readable
+- Spacious layout with clear visual hierarchy
+
+PAGE STRUCTURE
+
+1) NAVBAR
+- Logo: Foodiez
+- Links: How it works, Restaurants, Reviews, Download
+- Sticky on scroll
+- CTA button: “Get the App”
+
+2) HERO SECTION
+Left:
+- Headline: “Your favorite food, delivered fast”
+- Subtext explaining the core value
+- App Store + Google Play buttons
+- Trust indicators (rating, delivery time, number of restaurants)
+
+Right:
+- iPhone mockup showing the app UI
+- Floating animated food cards or delivery status elements
+
+3) SOCIAL PROOF
+- Row of partner restaurant logos
+- Short testimonial cards with avatar, name, and quote
+- Star ratings
+
+4) HOW IT WORKS (3 STEPS)
+Each step includes:
+- Icon or illustration
+- Title
+- Short description
+
+Steps:
+Browse restaurants → Order in seconds → Fast delivery
+
+5) FEATURE HIGHLIGHTS
+Alternating two-column layout with image + text:
+
+Features:
+- Real-time order tracking
+- Personalized recommendations
+- Lightning-fast checkout
+- Exclusive local restaurants
+
+Include subtle scroll-triggered animations.
+
+6) APP PREVIEW SECTION
+- Horizontal scrollable phone mockups
+- Each screen highlights a key app capability
+
+7) PROMO BANNER
+- “Free delivery on your first order”
+- Strong visual emphasis
+- CTA button
+
+8) FINAL CTA SECTION
+- Large bold text
+- “Download Foodiez and get your food faster than ever”
+- App store buttons
+- Gradient or colored background
+
+9) FOOTER
+- Logo
+- Navigation links
+- Social icons
+- App download buttons
+- Copyright
+
+ANIMATIONS & INTERACTIONS
+- Smooth scroll behavior
+- Fade/slide-in on viewport
+- Hover states for buttons and cards
+- Parallax or floating elements in hero
+- Button press micro-interactions
+
+RESPONSIVENESS
+- Fully optimized for mobile, tablet, and desktop
+- Stack sections vertically on small screens
+- Maintain strong spacing and readability
+
+ACCESSIBILITY
+- Proper heading hierarchy
+- Alt text for images
+- Visible focus states
+- WCAG-compliant color contrast
+
+DELIVERABLE
+Return:
+- Clean structured React components
+- Reusable UI sections
+- Tailwind styling
+- Framer Motion animation implementation
+- No placeholder lorem ipsum — use realistic marketing copy for a food delivery product
+I’ve listed
+
+Page goals
+Tech stack
+Page structure (with sections)
+Responsive behavior
+A11Y
+Deliverables
+Very important moment: Even though I didn’t mention it in the prompt, the landing page will still be created in the style of Apple products. Why? Because the super-landing-page skill contains instructions to generate landing pages in Apple’s design style (check step 2). As a result, Claude understand our ultimate goal and helps us to achieve it.
+
+And here is a final result that Claude generated for us:
+
+Press enter or click to view image in full size
+
+The landing page design was created in Apple’s minimalist style.
+
+Want to master Claude Code?
+Check out my complete guide to Claude Code, packed with highly practical insights on how you can integrate it into your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Design
+Web Development
+UI
+Product Design
+398
+
+
+4
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (4)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Sakshii
+Sakshii
+
+Mar 13
+
+
+this is useful for designers exploring how ai tools can support product workflows. features like reusable prompts and task specific skills can speed up research and early design exploration. many designers now use these tools to generate interface…more
+13
+
+Reply
+
+Kamrun Nahar
+Kamrun Nahar
+
+she/her
+Mar 9
+
+
+Such valuable information packed in here. Thanks for writing this!
+3
+
+Reply
+
+Summer's Notebook
+Summer's Notebook
+
+she
+Mar 18
+
+
+Hi Nick,,
+I’m Nmesoma Anijetu, a passionate writer and UI/UX storyteller. I’d love to contribute as an editor and support your publication by curating and refining content. Could you please add me as an editor or let me know the best way to join your team?
+Thanks so much! 🙏
+2
+
+Reply
+
+See all responses
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Towards AI
+In
+
+Towards AI
+
+by
+
+Rick Hightower
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Skills are no longer instructions. They are programs.
+
+Mar 9
+366
+6
+
+
+My AI design workflow — what actually works in 2026
+Nurkhon
+Nurkhon
+
+My AI design workflow — what actually works in 2026
+I tested 40+ AI design tools. Most failed. Here’s the simple workflow I actually use.
+
+Feb 6
+559
+18
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+
+#################################
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Current State of Claude Code and Figma Two-way Integration
+Nick Babich
+Nick Babich
+
+Following
+4 min read
+·
+Mar 5, 2026
+187
+
+
+2
+
+
+
+
+
+Two-way Claude Code — Figma sync is a magical thing. You can prompt Claude to code your design, push it to Figma, refine it there, and then ask Claude to implement the changes you introduce in Figma! This makes the interactions so much easier.
+
+However, this solution has a few important limitations. And it’s vital to clearly understand these limitations before you start using this tool in production. Based on my experience with this tool, I can identify 4 key limitations.
+
+To illustrate individual issues, I will use the example of a landing page that Claude Code generated for me. You can check the entire process of web page coding, exporting to Figma and refining it in this article:
+
+Claude Code + Figma = 💛
+Did you know that Claude Code and Figma now support two-way communication? It means that you can publish a design from…
+uxplanet.org
+
+Press enter or click to view image in full size
+
+Original design of a landing page that Claude Code generated for me.
+1. Issue with auto layout
+The great thing about exporting production code to Figma design is that design elements in Figma will have auto layout. But this auto layout is not perfect. There are many issues with auto layout that prevent turning UI elements into components right away. For example, in the exported version of the web page design, you can see that the simple UI element, a section “Trusted partners” that has auto-layout enabled, easily falls apart as soon as we change its size.
+
+Press enter or click to view image in full size
+
+As a result, most of the time you have to manually adjust the UI elements and only after that turn them into components.
+
+If you’re building a responsive design (i.e., a landing page), it can easily fall apart as soon as you export it to Figma. Again, because individual components won’t be responsive when you start changing element sizes, the design will start to clash. For example, see what happens when I change individual elements on the page below. The entire frame, with design, is simply not responsive.
+
+Press enter or click to view image in full size
+
+2. Components are not applied
+The second issue is relevant to the previous one. When you export product code from Claude to Figma, you get UI elements in a frame rather than UI components. For example, a collection of cards with testimonials in this design will be a grid of unattached UI elements, not a collection of instances of the same component.
+
+Press enter or click to view image in full size
+
+Card with a testimonial that we’ve exported from Claude Code to Figma. The card is not a component but an unattached element.
+This happens even when you provide a link to design system to Claude Code.
+
+3. Styling defects
+Apart from spacing issues that happen every time,
+
+Press enter or click to view image in full size
+
+Spacing issue in the design exported to Figma.
+another common issue is a style mismatch. For example, in the hero section of a landing page coded by Claude, you can see that the color of text in the hero section ‘ever happen’ has a nice gradient.
+
+Press enter or click to view image in full size
+
+Original design of a landing page that Claude Code generated for me.
+But when we export it to Figma, the text will be pure white. I’ve noticed that this problem is more common for complex styles, such as the gradients mentioned above, but it can still occur in other cases.
+
+Press enter or click to view image in full size
+
+Missing text color in design exported to Figma from Claude.
+4. Missed entire sections
+This issue typically happens for complex designs. When you export a complex design from Claude, some parts may be lost during the export. In my example, you can see that some sections of the original coded design are missing in Figma.
+
+Press enter or click to view image in full size
+
+Figma design: Content in the section “Everything your security team needs” is missing.
+And here is original coded design for the reference.
+
+Press enter or click to view image in full size
+
+Original web design coded by Claude Code.
+Summary
+The two-way connection between Figma and Claude Code has tremendous potential to become an essential tool in a designer’s toolkit. Even today, it’s great to have a tool that lets you modify design not by instructing Claude in plain words, but by making visual changes in the tool we’re all familiar with (Figma).
+
+At the same time, the issues that I’ve listed above prevent the tool from being integrated into real workflows, so to me, two-way integration at its current state feels more like a beta feature rather than a final product.
+
+AI
+Claude
+Figma
+Design
+Artificial Intelligence
+187
+
+
+2
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (2)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Summer's Notebook
+Summer's Notebook
+
+she
+Mar 18
+
+
+Hi nick,
+I’m Nmesoma Anijetu, a passionate writer and UI/UX storyteller. I’d love to contribute as an editor and support your publication by curating and refining content. Could you please add me as an editor or let me know the best way to join your team?
+Thanks so much! 🙏
+Reply
+
+Sol Lavilla
+Sol Lavilla
+
+Mar 6
+
+
+What do you know about Security Issues / Constrains connecting Figma and Claude?
+Reply
+
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+My AI design workflow — what actually works in 2026
+Nurkhon
+Nurkhon
+
+My AI design workflow — what actually works in 2026
+I tested 40+ AI design tools. Most failed. Here’s the simple workflow I actually use.
+
+Feb 6
+559
+18
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Towards AI
+In
+
+Towards AI
+
+by
+
+Rick Hightower
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Skills are no longer instructions. They are programs.
+
+Mar 9
+366
+6
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+
+#####################################
+
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Claude Code for Creating Design System Documentation
+Did you know that you can use Claude Code to document your design system in Figma?
+Nick Babich
+Nick Babich
+
+Following
+4 min read
+·
+Mar 5, 2026
+180
+
+
+4
+
+
+
+
+
+In my previous article, I’ve showed how to establish a two-way connection between Claude Code and Figma and turn production code into editable Figma designs.
+
+Claude Code + Figma = 💛
+Did you know that Claude Code and Figma now support two-way communication? It means that you can publish a design from…
+uxplanet.org
+
+In this article, I will show you how to use a two-way connection to document your existing design system in Figma in 3 simple steps.
+
+Step 1: Choose a selection with a component in your design system in Figma
+For my example, I will use an open-source design system called Simple Design System. I will jump to the Buttons component and choose a selection with all button states.
+
+Press enter or click to view image in full size
+
+Simple design system in Figma file.
+Right mouse click on the selection, choose Copy link to selection.
+
+Press enter or click to view image in full size
+
+Copy link to selection in Figma file.
+Step 2: Ask Claude Code to document this component
+Open a terminal on your local machine and type ‘claude’ in it. This will open a Claude Code session for you. Before writing a command to document a component, be sure to check that you have Figma MCP configured in Claude. If you don’t know how to configure Figma MCP, check the following article:
+
+Claude Code + Figma = 💛
+Did you know that Claude Code and Figma now support two-way communication? It means that you can publish a design from…
+uxplanet.org
+
+The command for documenting a UI component is this
+
+document this component [LINK TO FIGMA SELECTION]
+Press enter or click to view image in full size
+
+Claude Code: Asking Claude to document a button component from Figma.
+Once you submit this command, Claude will reach Figma and extract the component with its properties from the selection. At the end of the process, Claude will provide a nice summary with the attributers it documented.
+
+Press enter or click to view image in full size
+
+Claude Code: Summary of the work that Claude did for documenting the component.
+By default, Claude will provide the output (documentation) as markdown file (*.md). If you open this file in a browser, you will see something like this.
+
+Press enter or click to view image in full size
+
+Button.md file is a result of documenting the button component.
+The great thing about the markdown format is that you can open it in a markdown preview and see it in a nicer way. I’m using Markdown Live Preview service here:
+
+Press enter or click to view image in full size
+
+Markdown file in a preview.
+Step 3: Ask Claude Code to turn this markdown into a web page
+Markdown is a very nice format, but it’s a bit technical. Many times we want to see either a .doc file or an .html page. The good news is that we can ask Claude to turn our Button.md document into an HTML document. Simply write a follow-up prompt
+
+publish it as a web page
+Press enter or click to view image in full size
+
+Claude Code: Asking Claude to turn our markdown document into html page.
+Claude will create a web page with our documentation and it will look like this:
+
+Press enter or click to view image in full size
+
+Output that Claude Code generated for my Button documentation.
+Read more about using Claude in design process
+Claude Skills for Product Designers
+How to create your first Claude Skill
+uxplanet.org
+
+Top 10 Claude Skills You Should Try in Product Design
+Top 10 Claude Skills You Should Try in Product Design Claude, Anthropic's AI assistant, has become one of the most…
+uxplanet.org
+
+Claude Code for Web Design
+Claude Code is one of the hottest products in the design space right now. This tool is amazing because it lets you go…
+uxplanet.org
+
+Claude Code + Figma = 💛
+Did you know that Claude Code and Figma now support two-way communication? It means that you can publish a design from…
+uxplanet.org
+
+UI
+AI
+Design
+UX
+Product Design
+180
+
+
+4
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (4)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Morteza Riahi
+Morteza Riahi
+
+Mar 7
+
+
+In many teams, the biggest problem isn’t creating the design system itself, but keeping documentation and implementation synchronized over time.
+I’m curious — have you seen teams successfully use this approach in larger production environments, or is it still mostly experimental in smaller projects?
+3
+
+Reply
+
+Kamrun Nahar
+Kamrun Nahar
+
+she/her
+Mar 9
+
+
+Really appreciate you sharing this knowledge. Great work!
+1
+
+Reply
+
+rasterfield
+rasterfield
+
+Mar 12
+
+
+Regardless of whether it's connected to the actual product, this would be the first step. We can present it to engineers. 
+I just connected Claude code to Figma MCP, but no context yet😂.
+Reply
+
+See all responses
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+The Complete Guide to Claude Code: CLAUDE.md
+AI Advances
+In
+
+AI Advances
+
+by
+
+zhaozhiming
+
+The Complete Guide to Claude Code: CLAUDE.md
+A comprehensive guide to the CLAUDE.md file in Claude Code, including how it is loaded, how to write it, best practices, and how it…
+
+Mar 17
+532
+4
+
+
+My AI design workflow — what actually works in 2026
+Nurkhon
+Nurkhon
+
+My AI design workflow — what actually works in 2026
+I tested 40+ AI design tools. Most failed. Here’s the simple workflow I actually use.
+
+Feb 6
+559
+18
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+
+######################################
+
+
+Sidebar menu
+Search
+Write
+Notifications
+
+Frank Milius
+Home
+Library
+Profile
+Stories
+Stats
+Following
+Nick Babich
+Nick Babich
+Medium Staff
+Medium Staff
+Fabricio Teixeira
+Fabricio Teixeira
+t3n Backstage Blog
+t3n Backstage Blog
+Microsoft Design
+Microsoft Design
+Kai Wong
+Kai Wong
+H Locke
+H Locke
+Biz Stone
+Biz Stone
+tubik
+tubik
+Noun Project
+Noun Project
+
+More
+UX Planet
+Press enter or click to view image in full size
+
+Member-only story
+
+Claude Code + Figma = 💛
+Nick Babich
+Nick Babich
+
+Following
+7 min read
+·
+Mar 4, 2026
+601
+
+
+14
+
+
+
+
+
+Did you know that Claude Code and Figma now support two-way communication? It means that you can publish a design from Claude to Figma, make changes in Figma, and apply changes to the coded version of your design.
+
+In this article, I will walk you through the entire 4-step process for connecting Claude Code to Figma and using this connection to streamline the design process.
+
+Step 1: Setup
+The first thing we need to do is to set up Figma MCP in Claude Code. MCP is a universal interface for AI models that enables them to read files, execute functions, and handle contextual operations in 3rd-party services. In our case, Claude Code will access Figma via MCP.
+
+I will use Claude Code in a terminal. Launch a terminal on your Mac or PC, and type:
+
+claude
+Next, you will need to set up the MCP connection. I will use a remote MCP server connection (connects directly to Figma’s hosted endpoint). To configure it, you need to type the command:
+
+claude mcp add --transport http figma https://mcp.figma.com/mcp
+Press enter or click to view image in full size
+
+Adding Figma MCP to the list of MCPs that Claude can use.
+Once Claude has configured the server, it’s recommended to restart the Claude session to maximise the chances that everything will work fine. So I will type a command
+
+/exit
+Press enter or click to view image in full size
+
+Restarting Claude Code session.
+And after that, create a new session in the same terminal window by sending a command.
+
+claude
+The first thing I need to do in the new session is configure the MCP server. To do it I will type a command.
+
+/mcp
+Press enter or click to view image in full size
+
+List of MCPs that Claude Code has.
+Claude will show me a list of MCPs I have, and I will see the Figma MCP on that list. I need to choose it from the list and configure it. The process of configuration is straightforward: you need to authenticate your Figma account so MCP will have access to the right Figma space. Choose Authenticate from the list.
+
+Press enter or click to view image in full size
+
+Authenticating Figma MCP.
+And Claude will open a browser window with a request for authentication. You should expect to see a window like this.
+
+❗Important: If you have multiple Figma accounts, make sure that you provide access to the right account. Check email in this window and click “Switch accounts” if you see that the wrong account was used. If you choose the wrong Figma account, Claude won’t be able to access your Figma files, and you will need to start the process over again.
+
+Press enter or click to view image in full size
+
+Providing access to Figma account for Claude.
+After you allow the access, you should see a confirmation message from Claude: “Authentication successful.”
+
+Press enter or click to view image in full size
+
+Figma authentication successful.
+But there is one thing we need to do before starting to use the Figma and Claude connection. Install plugins that Claude will use to access Figma and make contextual operations. To do that, you need to type a command.
+
+/plugin install figma@claude-plugins-official
+Press enter or click to view image in full size
+
+Installing Figma plugins for Claude Code.
+The plugins will enable two-way, AI-powered design-to-code workflows and allow you to generate editable Figma frames from code and vice versa.
+
+Press enter or click to view image in full size
+
+List of plugins that Claude Code has.
+Step 2: Asking Claude to code design
+Now we can start using our Claude and Figma integration. And the first thing that I will do is code a landing page for a SaaS service. The prompt I will use is this:
+
+code a landing page for SaaS service called Roxy (security solution) 
+https://wwww.figma/com/design/[LINK]
+Press enter or click to view image in full size
+
+Coding a first version of our web page design.
+You can notice that I’ve added a link to the Figma page. Right now, I don’t have anything in this Figma file, and I’ll use this link in the future (when I transfer a coded design to Figma).
+
+Press enter or click to view image in full size
+
+Empty Figma file that we will populate with our design.
+Claude will try to reach the Figma file for design (it assumes it should transfer the existing design from Figma to code), but when it doesn’t find a design, it will show us an error message (“You currently have nothing selected”). We can simply ignore this error message right now because we know we have nothing in Figma at this point.
+
+Press enter or click to view image in full size
+
+Claude tells us that Figma link is empty. We know that :)
+It will take Claude a few minutes to create a landing page for our SaaS. And here is a preview of this page in a browser (Claude will show the preview automatically).
+
+Press enter or click to view image in full size
+
+First design that Claude Code generated for us.
+Step 3: Asking Claude to transfer the design to Figma
+After we get the coded design, we can prompt Claude to send it to Figma.
+
+transfer this design into Figma
+Press enter or click to view image in full size
+
+Asking Claude Code to send this design to Figma.
+And after a short wait time, our Figma file will be populated with a real web page design.
+
+❗Important : It’s vital to mention that the design that we got in Figma is not perfect. It has many spacing issues, and some elements of the original page are not visible in Figma. We can fix the issues by writing follow-up prompts to Claude.
+
+Press enter or click to view image in full size
+
+Output that Claude Code sent to Figma. You can easily spot spacing issues (such as “they”).
+Step 4: Modifying desing in Figma and asking Claude to apply changes to the code
+Now is a fun part. We can modify desing in Figma and ask Claude to apply the changes. In my case, I will change the color of the hero section title (from white to red).
+
+Press enter or click to view image in full size
+
+Modifying the color of the text area in the hero section.
+And after that, prompt Claude Code to apply the change.
+
+Press enter or click to view image in full size
+
+Asking Claude Code to apply changes to code.
+Claude will work on this task and will show you the code changes it will plan to introduce.
+
+Press enter or click to view image in full size
+
+Code div for this change.
+And once we accept the changes, we will see the updated coded version of our design. Notice that Claude only changed what we asked it to do. So it’s very good at introducing tailored changes.
+
+Press enter or click to view image in full size
+
+Updated design of a landing page based on what we had in Figma.
+Let’s do another round of changes. And this time, change the section of the page with customer testimonials. To do that, I will click Select element, choose the element on the page (car with a testimonial), and it will be sent to Figma. In Figma, I will modify the elements (get rid of ratings and change spacing).
+
+Quick note: When the two-way connection between Claude and Figma is working, you should see a panel in the top area of your page preview.
+
+Press enter or click to view image in full size
+
+Figma two-way connection is established.
+Press enter or click to view image in full size
+
+Changing the component in Figma.
+And prompt Claude to apply this change (note that I also provide a link to the Figma section with a card.
+
+update the style of user testimonials according to this
+[LINK TO FIGMA SECTION]
+Press enter or click to view image in full size
+
+Asking Claude to apply the change from Figma to code.
+Just like last time, Claude will provide a code div and also list before and after changes in a table format. This format works great for more complex changes when you add/remove content in a complex component like a card for a testimonial.
+
+Press enter or click to view image in full size
+
+Nice summary of changes that Claude introduced.
+Final output from Claude for the Testimonials section will look like this:
+
+Press enter or click to view image in full size
+
+Section that was modified
+And here is a design we’ve modified with Figma
+
+Press enter or click to view image in full size
+
+Want to master Claude Code?
+Check out my complete guide packed with highly practical information on how you can use Claude Code in your design process.
+
+Claude Code: Practical Guide for Product Designers
+Practical guide for product designers who want to master Claude CodeIt covers following topics: Claude Code Best…
+babich.gumroad.com
+
+AI
+Design
+UI
+Web Development
+Product Design
+601
+
+
+14
+
+
+
+
+UX Planet
+Published in UX Planet
+356K followers
+·
+Last published 8 hours ago
+UX Planet is a one-stop resource for everything related to user experience.
+
+
+Follow
+Nick Babich
+Written by Nick Babich
+141K followers
+·
+60 following
+Product designer & editor-in-chief of UX Planet. Twitter https://twitter.com/101babich
+
+
+Following
+
+Responses (14)
+Frank Milius
+Frank Milius
+﻿
+
+Cancel
+Respond
+Chris Blocher
+Chris Blocher
+
+Mar 11 (edited)
+
+
+I couldn't get it to work. As it turns out, it seems that a paid Figma seat is necessary to use the MCP connection with Claude Code. (I have Claude Pro, but, currently, not a Professional seat in Figma.) That's the deal breaker in this flow for me. Would be nice if the prerequisites were noted up front.
+96
+
+Reply
+
+Ennuyer Millvergo
+Ennuyer Millvergo
+
+Mar 9
+
+
+I think this works when you dont have a Design system already defined and work in new projets.
+
+I work in a SaSS enterprise and there are a lot of complexe interactions to do. I want it to use my design sistem to produce mockups but it doesn't work…more
+45
+
+Reply
+
+Okwanimmanuel
+Okwanimmanuel
+
+Mar 5
+
+
+When Figma Feels Like a Burden
+ You can code fast yourself And that can be faster.
+Especially with; Live previews or component libraries.
+True mockups (real working builds) are better than static designs.
+It only makes sense for very UI/UX-heavy products.
+33
+
+Reply
+
+See all responses
+More from Nick Babich and UX Planet
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Top 10 Claude Skills You Should Try in Product Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 10 Claude Skills You Should Try in Product Design
+Claude, Anthropic’s AI assistant, has become one of the most versatile tools in a product designer’s toolkit, capable of far more than…
+
+Feb 19
+250
+
+
+Google Stitch for UI Design
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Google Stitch for UI Design
+“From idea to app” is the slogan Google uses for its AI-powered UI generator, Stitch. I was playing with this tool for a while, and it made…
+Dec 23, 2025
+393
+4
+
+
+Top 7 Claude Code Plugins
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+Top 7 Claude Code Plugins
+Claude Plugins are nice ways to extend what Claude can do. In this article, I want to share my top 7 favorite plugins.
+
+Mar 9
+286
+3
+
+
+See all from Nick Babich
+See all from UX Planet
+Recommended from Medium
+My full web design workflow, toolkit, hardware and software plan
+Michal Malewicz
+Michal Malewicz
+
+My Complete Web design & build workflow for 2026
+25 years of experience condensed into the best process there is.
+
+Mar 12
+519
+10
+
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+unicodeveloper
+unicodeveloper
+
+10 Must-Have Skills for Claude (and Any Coding Agent) in 2026
+The definitive guide to agent skills that change how Claude Code, Cursor, Gemini CLI, and other AI coding assistants perform in production.
+Mar 9
+843
+12
+
+
+CLAUDE.md Best Practices
+UX Planet
+In
+
+UX Planet
+
+by
+
+Nick Babich
+
+CLAUDE.md Best Practices
+10 Sections to Include in your CLAUDE.md
+
+Mar 6
+466
+7
+
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+AI Software Engineer
+In
+
+AI Software Engineer
+
+by
+
+Joe Njenga
+
+Claude Can Now Create Complex Diagrams — I Tested 21 Prompts (Goodbye Canva!)
+We have come along with Canva, but now Claude's new update does the job faster.
+
+Mar 12
+1K
+11
+
+
+My AI design workflow — what actually works in 2026
+Nurkhon
+Nurkhon
+
+My AI design workflow — what actually works in 2026
+I tested 40+ AI design tools. Most failed. Here’s the simple workflow I actually use.
+
+Feb 6
+559
+18
+
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Towards AI
+In
+
+Towards AI
+
+by
+
+Rick Hightower
+
+Claude Code Agent Skills 2.0: From Custom Instructions to Programmable Agents
+Skills are no longer instructions. They are programs.
+
+Mar 9
+366
+6
+
+
+See more recommendations
+Help
+
+Status
+
+About
+
+Careers
+
+Press
+
+Blog
+
+Privacy
+
+Rules
+
+Terms
+
+Text to speech
+

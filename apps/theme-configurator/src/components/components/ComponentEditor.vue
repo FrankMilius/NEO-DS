@@ -74,26 +74,40 @@
         </button>
         <div v-if="anatomyOpen" class="inspector-section__body">
           <template v-for="sg in anatomySubgroups" :key="sg.id">
-            <div v-if="anatomySubgroups.length > 1" class="anatomy-group-label">{{ sg.label }}</div>
-            <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
-              <div class="anatomy-row__label">{{ token.label }}</div>
-              <GeometryTokenSelect
-                :token="token"
-                :modelValue="getTokenValue(token)"
-                :isOverridden="isOverridden(token)"
-                @update:modelValue="updateToken(token, $event)"
-              />
-              <!-- Highlight-Icon: visuelles Feedback im Arena -->
-              <button
-                class="anatomy-highlight-btn"
-                @mouseenter="store.setHighlightedToken(token.id, mapTokenToProperty(token.id))"
-                @mouseleave="store.clearHighlightedToken()"
-                title="Im Preview hervorheben"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"/><path d="M21 12c-2.4 4-5.4 6-9 6-3.6 0-6.6-2-9-6 2.4-4 5.4-6 9-6 3.6 0 6.6 2 9 6"/>
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
+              <div class="ce-subgroup-header" @click="toggleSubgroup('anat-' + sg.id)">
+                <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('anat-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
                 </svg>
-              </button>
+                <span class="ce-subgroup-label">{{ sg.label }}</span>
+                <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
+              </div>
+              <div v-if="expandedSubgroups.has('anat-' + sg.id)" class="ce-subgroup-body">
+                <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
+                  <div class="anatomy-row__label">
+                    {{ token.label }}
+                    <span v-if="resolveInheritance(token)" class="inheritance-link" :title="`Erbt von ${resolveInheritance(token).category} › ${resolveInheritance(token).varName}`">
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                      {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
+                    </span>
+                  </div>
+                  <!-- Color-Tokens: Native Picker + Swatch + Text-Input -->
+                  <div v-if="token.type === 'color'" class="anatomy-color-wrap">
+                    <label class="anatomy-color-picker">
+                      <input type="color" :value="getTokenValue(token)" @input="updateToken(token, $event.target.value)" class="anatomy-color-native" />
+                      <span class="anatomy-color-swatch" :style="{ background: getTokenValue(token) }"></span>
+                    </label>
+                    <input type="text" class="anatomy-color-input" :class="{ modified: isOverridden(token) }" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                  </div>
+                  <!-- Size/Other Tokens: GeometryTokenSelect -->
+                  <GeometryTokenSelect v-else
+                    :token="token"
+                    :modelValue="getTokenValue(token)"
+                    :isOverridden="isOverridden(token)"
+                    @update:modelValue="updateToken(token, $event)"
+                  />
+                </div>
+              </div>
             </div>
           </template>
         </div>
@@ -114,7 +128,7 @@
         </button>
         <div v-if="typographyOpen" class="inspector-section__body">
           <template v-for="sg in typographySubgroups" :key="sg.id">
-            <div class="ce-subgroup">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
               <div class="ce-subgroup-header" @click="toggleSubgroup('typo-' + sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('typo-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -136,10 +150,11 @@
                     </div>
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
+                      <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
                       <span v-if="isOverridden(token)" class="override-badge">modified</span>
-                      <span v-else-if="token.ref" class="inherited-badge" :title="`--fnd-color-${token.ref}`">
+                      <span v-else-if="resolveInheritance(token)" class="inheritance-link" :title="resolveInheritance(token).varName">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        inherited
+                        {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
                       </span>
                     </div>
                   </div>
@@ -194,7 +209,7 @@
           <!-- Varianten-Subgroups -->
           <template v-for="sg in appearanceSubgroups" :key="sg.id">
             <!-- Subgroup Accordion -->
-            <div class="ce-subgroup">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
               <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -211,6 +226,10 @@
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
                     <div class="mirror-row__label">
                       <span class="token-label">{{ token.label }}</span>
+                      <span v-if="resolveInheritance(token)" class="inheritance-link inheritance-link--compact" :title="resolveInheritance(token).varName">
+                        <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
+                      </span>
                     </div>
                     <div class="mirror-row__light">
                       <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'light') }"></div>
@@ -270,7 +289,7 @@
         </button>
         <div v-if="statesOpen" class="inspector-section__body">
           <template v-for="sg in stateSubgroups" :key="sg.id">
-            <div class="ce-subgroup">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
               <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -297,10 +316,11 @@
                     </div>
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
+                      <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
                       <span v-if="isOverridden(token)" class="override-badge">modified</span>
-                      <span v-else-if="token.ref" class="inherited-badge" :title="`--fnd-color-${token.ref}`">
+                      <span v-else-if="resolveInheritance(token)" class="inheritance-link" :title="resolveInheritance(token).varName">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                        inherited
+                        {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
                       </span>
                     </div>
                   </div>
@@ -359,6 +379,7 @@
               </div>
               <div class="token-value-wrap">
                 <code class="token-value">{{ getTokenValue(token) }}</code>
+                <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
                 <span v-if="isOverridden(token)" class="override-badge">modified</span>
               </div>
             </div>
@@ -422,9 +443,9 @@
 </template>
 
 <script setup>
-import { ref, computed, toRef } from 'vue'
+import { ref, computed, toRef, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
-import { componentTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes } from '../../data/tokens.js'
+import { componentTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes, foundationTokens } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 import SizeEditor from '../editors/SizeEditor.vue'
@@ -582,7 +603,14 @@ function buildSwatches(sgTokens, category) {
 // ---------------------------------------------------------------------------
 
 // Geometrie-IDs: size, typography, interaction tokens
-const ANATOMY_IDS = new Set(['geometry', 'typography', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry'])
+const ANATOMY_IDS = new Set([
+  'geometry', 'typography', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry',
+  // Layout-Subgroups die komplett in Anatomy gehoeren (nicht aufgesplittet)
+  'layout', 'kicker', 'title', 'subtitle', 'highlights', 'actions', 'overlay',
+  'input', 'trigger', 'list', 'link', 'indicator', 'header', 'brand',
+  'container', 'content', 'sidebar-density', 'footerbar', 'linkbar', 'sidebars',
+  'toggle', 'mobile', 'links'
+])
 
 // Typography: Tokens mit font-bezogenen Eigenschaften
 const TYPOGRAPHY_PATTERNS = ['font-size', 'font-weight', 'font-family', 'line-height', 'letter-spacing', 'font-variant']
@@ -682,6 +710,50 @@ function toggleSubgroup(id) {
 }
 
 // ---------------------------------------------------------------------------
+// Arena Selection → Auto-Expand + Glow
+// ---------------------------------------------------------------------------
+const glowingSubgroups = ref(new Set())
+
+watch(arenaSelection, async (sel) => {
+  glowingSubgroups.value = new Set()
+
+  if (!sel || sel.componentId !== props.componentId) return
+
+  const activeGroups = new Set(sel.tokenGroups)
+
+  // Oeffne alle passenden Sektionen
+  const allSgs = subgroups.value
+  const matchedIds = allSgs.filter(sg => activeGroups.has(sg.id)).map(sg => sg.id)
+
+  if (matchedIds.length === 0) return
+
+  // Sektionen automatisch oeffnen
+  const hasAnatomy = matchedIds.some(id => anatomySubgroups.value.find(sg => sg.id === id))
+  const hasAppearance = matchedIds.some(id => appearanceSubgroups.value.find(sg => sg.id === id))
+  const hasTypo = matchedIds.some(id => typographySubgroups.value.find(sg => sg.id === id))
+  const hasState = matchedIds.some(id => stateSubgroups.value.find(sg => sg.id === id))
+
+  if (hasAnatomy) anatomyOpen.value = true
+  if (hasAppearance) appearanceOpen.value = true
+  if (hasTypo) typographyOpen.value = true
+  if (hasState) statesOpen.value = true
+
+  // Subgroups aufklappen
+  const s = new Set(expandedSubgroups.value)
+  for (const id of matchedIds) {
+    s.add(id)
+    s.add('anat-' + id)
+    s.add('typo-' + id)
+  }
+  expandedSubgroups.value = s
+
+  // Glow-Effekt aktivieren (entfernt sich nach 2s)
+  await nextTick()
+  glowingSubgroups.value = new Set(matchedIds)
+  setTimeout(() => { glowingSubgroups.value = new Set() }, 2000)
+})
+
+// ---------------------------------------------------------------------------
 // Token Value Resolution
 // ---------------------------------------------------------------------------
 function getTokenValue(token) {
@@ -722,6 +794,115 @@ function resetToSemantic(token) {
 }
 
 // ---------------------------------------------------------------------------
+// Inheritance Map: zeigt woher ein Token-Wert kommt
+// ---------------------------------------------------------------------------
+
+// Category-Key → CSS-Variablen-Praefix Mapping
+// foundationTokens hat z.B. "sizes" als Key, aber CSS-Variable heisst --fnd-size-*
+const _categoryToCssPrefix = {
+  sizes: 'size',
+  radius: 'radius',
+  spacing: 'spacing',
+  shadow: 'shadow',
+  elevation: 'elevation',
+  opacity: 'opacity',
+  typography: 'typography',
+  motion: 'motion',
+  border: 'border',
+  zindex: 'zindex',
+  focus: 'focus',
+  media: 'media'
+}
+
+// Baut eine flache Lookup-Map: "var(--fnd-radius-sm)" → { category: "radius", key: "sm", label: "SM (Default)" }
+const _inheritanceMap = (() => {
+  const map = {}
+  for (const [category, data] of Object.entries(foundationTokens)) {
+    if (!data.tokens) continue
+    const cssPrefix = _categoryToCssPrefix[category] || category
+    for (const [key, token] of Object.entries(data.tokens)) {
+      // Standard foundation tokens: --fnd-{cssPrefix}-{key}
+      map[`var(--fnd-${cssPrefix}-${key})`] = { category: data.label, key, label: token.label, varName: `--fnd-${cssPrefix}-${key}` }
+    }
+  }
+  // Spezialfaelle: spacing, shadow, elevation, radius haben konsistente Namensgebung
+  // Aber manche Tokens nutzen Kurzformen wie var(--fs-sm), var(--fnd-font-weight-bold)
+  // Diese werden separat gemappt
+  const EXTRA_PREFIXES = {
+    'fs': { category: 'Typography', prefix: '--fs' },
+    'font-heading': { category: 'Typography', prefix: '--font-heading' },
+    'font-body': { category: 'Typography', prefix: '--font-body' },
+    'lh-heading': { category: 'Typography', prefix: '--lh-heading' },
+    'lh-body': { category: 'Typography', prefix: '--lh-body' },
+  }
+  // Map typography scale: --fs-xs, --fs-sm, --fs-base, etc.
+  const typoScales = ['2xs','xs','sm','base','lg','xl','2xl','3xl','4xl','5xl','6xl','7xl','8xl','9xl']
+  for (const s of typoScales) {
+    map[`var(--fs-${s})`] = { category: 'Typography', key: s, label: `Font Size ${s.toUpperCase()}`, varName: `--fs-${s}` }
+  }
+  // Font weight tokens
+  const weights = ['light','regular','medium','semibold','bold','black']
+  for (const w of weights) {
+    map[`var(--fnd-font-weight-${w})`] = { category: 'Typography', key: w, label: `Weight ${w}`, varName: `--fnd-font-weight-${w}` }
+  }
+  return map
+})()
+
+/**
+ * Resolves the inheritance chain for a token.
+ * Returns { source, category, label, varName } or null if no inheritance.
+ *
+ * source: 'semantic' | 'foundation'
+ * category: z.B. "Border Radius", "Spacing", "Typography"
+ * label: z.B. "SM (Default)", "04"
+ * varName: z.B. "--fnd-radius-sm"
+ */
+function resolveInheritance(token) {
+  // Overridden tokens have no inheritance (user has set explicit value)
+  if (isOverridden(token)) return null
+
+  // 1) Semantic color inheritance via ref
+  if (token.ref) {
+    return {
+      source: 'semantic',
+      category: 'Semantic',
+      label: token.ref,
+      varName: `--fnd-color-${token.ref}`
+    }
+  }
+
+  // 2) Foundation inheritance via var(--fnd-*) in default
+  const defaultVal = token.default
+  if (!defaultVal || typeof defaultVal !== 'string') return null
+
+  // Direct match: entire default is a var() reference
+  const directMatch = _inheritanceMap[defaultVal]
+  if (directMatch) return { source: 'foundation', ...directMatch }
+
+  // Extract var() from composite values like "var(--fnd-spacing-02) var(--fnd-spacing-04)"
+  const varMatch = defaultVal.match(/var\(--(?:fnd-|fs-)[^)]+\)/)
+  if (varMatch) {
+    const found = _inheritanceMap[varMatch[0]]
+    if (found) return { source: 'foundation', ...found }
+
+    // Fallback: parse the variable name for display
+    const nameMatch = varMatch[0].match(/var\(--(fnd-|fs-)(.+)\)/)
+    if (nameMatch) {
+      const fullName = `--${nameMatch[1]}${nameMatch[2]}`
+      return {
+        source: 'foundation',
+        category: 'Foundations',
+        key: nameMatch[2],
+        label: nameMatch[2],
+        varName: fullName
+      }
+    }
+  }
+
+  return null
+}
+
+// ---------------------------------------------------------------------------
 // Mirror Button: Wert zwischen Light/Dark kopieren
 // ---------------------------------------------------------------------------
 function mirrorValue(token, event) {
@@ -756,6 +937,102 @@ function formatValue(val) {
   // Kuerze lange Hex-Werte oder Token-Referenzen
   if (val.length > 12) return val.substring(0, 10) + '…'
   return val
+}
+
+// ---------------------------------------------------------------------------
+// Concrete Value Resolution: var(--fnd-*) → tatsaechlicher Wert
+// ---------------------------------------------------------------------------
+// Flache Lookup-Map: "var(--fnd-radius-sm)" → "4px"
+const _concreteValueMap = (() => {
+  const map = {}
+  for (const [category, data] of Object.entries(foundationTokens)) {
+    if (!data.tokens) continue
+    const cssPrefix = _categoryToCssPrefix[category] || category
+    for (const [key, token] of Object.entries(data.tokens)) {
+      const val = token.value
+      if (val === undefined || val === null) continue
+      map[`var(--fnd-${cssPrefix}-${key})`] = String(val)
+    }
+  }
+  // Typography: --fs-* (nicht in foundationTokens als eigene Kategorie)
+  const typoScales = { '2xs': '9.7px', 'xs': '11.7px', 'sm': '14px', 'base': '16px', 'lg': '19.2px', 'xl': '23px', '2xl': '27.6px', '3xl': '33.2px', '4xl': '39.8px', '5xl': '47.8px', '6xl': '57.3px', '7xl': '68.8px', '8xl': '82.6px', '9xl': '99.1px' }
+  for (const [s, v] of Object.entries(typoScales)) {
+    map[`var(--fs-${s})`] = `clamp(…${v})`
+  }
+  // Font weights
+  const fwMap = { light: '300', regular: '400', medium: '500', semibold: '600', bold: '700', black: '900' }
+  for (const [w, v] of Object.entries(fwMap)) {
+    map[`var(--fnd-font-weight-${w})`] = v
+  }
+  // Border widths (alias in border category: width-xs, width-sm, etc.)
+  // These are under foundationTokens.border as "width-xs", "width-sm", etc.
+  if (foundationTokens.border?.tokens) {
+    for (const [key, token] of Object.entries(foundationTokens.border.tokens)) {
+      map[`var(--fnd-border-${key})`] = String(token.value)
+    }
+  }
+  return map
+})()
+
+/**
+ * Resolves a token's display value to its concrete form.
+ * Returns the concrete value string if the token references a var(), otherwise null.
+ *
+ * Examples:
+ *   "var(--fnd-radius-sm)" → "4px"
+ *   "var(--fnd-spacing-04)" → "16px"
+ *   "color-mix(in srgb, ...)" → null (too complex)
+ *   "#ff0000" → null (already concrete)
+ */
+function resolveConcreteValue(tokenDefault) {
+  if (!tokenDefault || typeof tokenDefault !== 'string') return null
+  // Skip values that are already concrete (hex, rgb, px, numbers)
+  if (/^(#|rgb|hsl|\d)/.test(tokenDefault)) return null
+  // Skip complex expressions that combine multiple vars
+  if (tokenDefault.includes('color-mix') || tokenDefault.includes('calc(')) return null
+
+  // Direct single var() reference
+  const direct = _concreteValueMap[tokenDefault]
+  if (direct) return direct
+
+  // Composite: "var(--fnd-spacing-02) var(--fnd-spacing-04)" → "8px 16px"
+  const varPattern = /var\(--(?:fnd-|fs-)[^)]+\)/g
+  const matches = tokenDefault.match(varPattern)
+  if (matches && matches.length > 0) {
+    let resolved = tokenDefault
+    let anyResolved = false
+    for (const m of matches) {
+      const val = _concreteValueMap[m]
+      if (val) {
+        resolved = resolved.replace(m, val)
+        anyResolved = true
+      }
+    }
+    if (anyResolved && resolved !== tokenDefault) return resolved
+  }
+
+  return null
+}
+
+/**
+ * Returns the concrete resolved value for a token, considering overrides.
+ * For color tokens with ref: resolves via semantic map.
+ * For size/other tokens: resolves var(--fnd-*) references.
+ */
+function getConcreteDisplay(token) {
+  if (isOverridden(token)) return null
+  // Semantic color tokens: already resolved by getTokenValue
+  if (token.ref) return null
+  return resolveConcreteValue(token.default)
+}
+
+/**
+ * Mode-aware concrete value for mirror rows.
+ */
+function getConcreteDisplayForMode(token, mode) {
+  if (isOverridden(token)) return null
+  if (token.ref) return null
+  return resolveConcreteValue(token.default)
 }
 
 // ---------------------------------------------------------------------------
@@ -966,6 +1243,50 @@ function getContrastTarget(token) {
   align-items: center;
   gap: 6px;
 }
+
+/* Color-Widget in Anatomy-Rows */
+.anatomy-color-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.anatomy-color-picker {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.anatomy-color-native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.anatomy-color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--cfg-border);
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+.anatomy-color-input {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+  font-size: 11px;
+  font-family: monospace;
+}
+.anatomy-color-input.modified { border-color: #d97706; }
+.anatomy-color-input:focus { outline: 1px solid var(--cfg-accent); }
 
 .anatomy-row__bar {
   width: 40px;
@@ -1206,6 +1527,16 @@ function getContrastTarget(token) {
   border-radius: 4px;
 }
 
+.token-concrete {
+  font-size: 10px;
+  color: #059669;
+  background: color-mix(in srgb, #059669 8%, transparent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .ref-badge {
   font-size: 9px;
   padding: 1px 5px;
@@ -1320,7 +1651,21 @@ function getContrastTarget(token) {
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
   margin-bottom: 4px;
-  overflow: hidden;
+  overflow: visible;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.ce-subgroup--glow {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px color-mix(in srgb, #8b5cf6 20%, transparent),
+              0 0 12px color-mix(in srgb, #8b5cf6 15%, transparent);
+  animation: subgroup-glow 2s ease-out;
+}
+
+@keyframes subgroup-glow {
+  0%   { box-shadow: 0 0 0 3px color-mix(in srgb, #8b5cf6 35%, transparent), 0 0 20px color-mix(in srgb, #8b5cf6 25%, transparent); }
+  50%  { box-shadow: 0 0 0 2px color-mix(in srgb, #8b5cf6 25%, transparent), 0 0 14px color-mix(in srgb, #8b5cf6 18%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent, 0 0 0 transparent; border-color: var(--cfg-border); }
 }
 
 .ce-subgroup-header {
@@ -1577,6 +1922,50 @@ function getContrastTarget(token) {
   border: 1px solid color-mix(in srgb, #3b82f6 20%, transparent);
   cursor: help;
   white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Inheritance Link — zeigt Foundation-Vererbung an
+   ═══════════════════════════════════════════════════════════════ */
+
+.inheritance-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, #8b5cf6 8%, transparent);
+  color: #7c3aed;
+  border: 1px solid color-mix(in srgb, #8b5cf6 15%, transparent);
+  cursor: help;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inheritance-link svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.inheritance-link--compact {
+  font-size: 8px;
+  padding: 0 4px;
+  margin-top: 1px;
+}
+
+/* In der Anatomy-Row: unter dem Label */
+.anatomy-row__label .inheritance-link {
+  display: flex;
+  margin-top: 2px;
+}
+
+/* In der Mirror-Row: unter dem Token-Label */
+.mirror-row__label .inheritance-link {
+  display: flex;
 }
 
 /* ═══════════════════════════════════════════════════════════════

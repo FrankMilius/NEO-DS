@@ -259,6 +259,8 @@
 
   // -- Card: Navigational --
   --nc-card-nav-color-hover: var(--fnd-color-interactive-hover);
+  --nc-card-link-decoration: none;
+  --nc-card-link-hover-decoration: none;
 
   // -- Card: Selectable --
   --nc-card-selected-border: var(--fnd-color-interactive-default);
@@ -979,6 +981,29 @@
 
   // Animation
   --nc-accordion-transition-duration: var(--fnd-motion-duration-200);
+
+  // Nested Variant
+  --nc-accordion-nested-indent: var(--fnd-spacing-06);
+  --nc-accordion-nested-border-width: 1px;
+  --nc-accordion-nested-icon-size: 16px;
+
+  // Selection Variant (Checkable)
+  --nc-accordion-selection-border-active: var(--fnd-color-interactive-default);
+  --nc-accordion-selection-bg-active: color-mix(in srgb, var(--fnd-color-interactive-default) 5%, transparent);
+  --nc-accordion-selection-indicator-size: 20px;
+
+  // Header Actions Slot
+  --nc-accordion-actions-gap: var(--fnd-spacing-02);
+  --nc-accordion-actions-color: var(--fnd-color-text-tertiary);
+  --nc-accordion-actions-hover-color: var(--fnd-color-text-primary);
+
+  // Sticky Trigger
+  --nc-accordion-trigger-sticky-z: 2;
+  --nc-accordion-trigger-sticky-bg: var(--fnd-color-background-base);
+
+  // Footer Slot
+  --nc-accordion-footer-padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+  --nc-accordion-footer-border: var(--fnd-color-border-secondary);
 
   // ---------------------------------------------------------------------------
   // Badge Tokens
@@ -2136,6 +2161,63 @@
 }
 
 // ---------------------------------------------------------------------------
+// Logo Wall Tokens
+// ---------------------------------------------------------------------------
+// Grid/Marquee/Cluster von Partner-/Kunden-Logos mit Pill-Containern.
+// Varianten: Grid (statisch), Marquee (Ticker), Cluster (organisch).
+// Groessen: sm (Footer), md (Standard), lg (Feature).
+
+:root {
+  // -- Layout --
+  --nc-logo-wall-gap:                  var(--fnd-spacing-04);
+  --nc-logo-wall-padding-block:        var(--fnd-spacing-08);
+  --nc-logo-wall-padding-inline:       var(--fnd-spacing-06);
+  --nc-logo-wall-grid-min:             200px;
+  --nc-logo-wall-align:                center;
+
+  // -- Item (Pill) --
+  --nc-logo-wall-item-bg:              var(--fnd-color-background-base);
+  --nc-logo-wall-item-border:          var(--fnd-color-border-secondary);
+  --nc-logo-wall-item-border-width:    var(--fnd-border-width-xs);
+  --nc-logo-wall-item-radius:          var(--fnd-radius-full);
+  --nc-logo-wall-item-padding:         0.75rem 1.25rem;
+  --nc-logo-wall-item-aspect-ratio:    auto;
+  --nc-logo-wall-item-shadow:          none;
+
+  // -- Item Sizing --
+  --nc-logo-wall-item-width-sm:        180px;
+  --nc-logo-wall-item-width-md:        240px;
+  --nc-logo-wall-item-width-lg:        340px;
+  --nc-logo-wall-item-height:          auto;
+
+  // -- Logo Image --
+  --nc-logo-wall-logo-max-height:      60px;
+  --nc-logo-wall-logo-opacity:         1;
+  --nc-logo-wall-logo-filter:          none;
+  --nc-logo-wall-logo-filter-hover:    none;
+  --nc-logo-wall-logo-opacity-hover:   1;
+
+  // -- Typography (Text-Fallback wenn kein Bild) --
+  --nc-logo-wall-font-size:            var(--fs-sm);
+  --nc-logo-wall-font-weight:          var(--fnd-font-weight-semibold);
+  --nc-logo-wall-color:                var(--fnd-color-text-secondary);
+
+  // -- Marquee (Ticker) --
+  --nc-logo-wall-marquee-speed:        30s;
+  --nc-logo-wall-marquee-gap:          var(--fnd-spacing-06);
+
+  // -- Animation (Staggered Fade-In) --
+  --nc-logo-wall-fadein-duration:      0.4s;
+  --nc-logo-wall-fadein-delay-step:    0.08s;
+  --nc-logo-wall-fadein-easing:        ease-out;
+
+  // -- Hover --
+  --nc-logo-wall-item-hover-shadow:    var(--fnd-shadow-xs);
+  --nc-logo-wall-item-hover-border:    var(--fnd-color-border-primary);
+  --nc-logo-wall-item-transition:      var(--fnd-motion-duration-200);
+}
+
+// ---------------------------------------------------------------------------
 // Pagination Tokens
 // ---------------------------------------------------------------------------
 // Eigenstaendige Seitennavigation (unabhaengig von DataTable).
@@ -2707,10 +2789,19 @@
   --nc-nav-border-width:          var(--fnd-border-width-xs);
   --nc-nav-blur:                  12px;
   --nc-nav-z-index:               var(--fnd-z-header);
-  --nc-nav-padding-block:         var(--fnd-spacing-04);             // 16px
+  --nc-nav-padding-block:         0;                                 // 0 — height steuert Hoehe
+  --nc-nav-padding-inline:        clamp(16px, 3.5vw, 48px);         // Fluid responsive padding
   --nc-nav-gap:                   var(--fnd-spacing-06);             // 24px
   --nc-nav-brand-size:            var(--fs-xl);
   --nc-nav-brand-weight:          var(--fnd-font-weight-bold);
+  --nc-nav-brand-color:           var(--fnd-color-text-primary);
+  --nc-nav-brand-gap:             var(--fnd-spacing-02);             // 8px Gap zwischen Logo + Text
+  --nc-nav-brand-logo-height:     28px;                              // Logo-Bild max-height
+  --nc-nav-brand-letter-spacing:  0.06em;
+
+  // -- Layout: Flex-Ausrichtung --
+  --nc-nav-justify-content:       space-between;                     // Horizontale Verteilung der Zonen
+  --nc-nav-align-items:           center;                            // Vertikale Ausrichtung der Zonen
 
   // -- Emphasis: Transparent (Hero-Overlay) --
   --nc-nav-transparent-bg:        transparent;
@@ -2727,12 +2818,16 @@
 // Radix-inspiriertes NavigationMenu: Trigger, Viewport, Links, Indicator.
 
 :root {
+  // List (Item-Container)
+  --nc-nav-menu-item-gap:            0.125rem;                        // 2px — Abstand zwischen Items
+  --nc-nav-menu-item-margin:         0;                               // Margin pro Item (oben/unten)
+
   // Trigger (Top-Level Button/Link)
   --nc-nav-menu-trigger-color:       var(--fnd-color-text-primary);
   --nc-nav-menu-trigger-hover-bg:    var(--fnd-color-background-secondary);
   --nc-nav-menu-trigger-active-bg:   var(--fnd-color-background-tertiary);
   --nc-nav-menu-trigger-radius:      var(--fnd-radius-sm);
-  --nc-nav-menu-trigger-font-size:   var(--fs-sm);
+  --nc-nav-menu-trigger-font-size:   var(--fs-base);
   --nc-nav-menu-trigger-font-weight: var(--fnd-font-weight-medium);
   --nc-nav-menu-trigger-padding-x:   0.75rem;
   --nc-nav-menu-trigger-padding-y:   0.5rem;
@@ -2769,6 +2864,216 @@
   // Motion
   --nc-nav-menu-duration:            200ms;
   --nc-nav-menu-ease:                cubic-bezier(0.16, 1, 0.3, 1);
+
+  // Kicker / Leadtext
+  --nc-nav-menu-kicker-font-size:       var(--fs-xs);
+  --nc-nav-menu-kicker-font-weight:     var(--fnd-font-weight-semibold);
+  --nc-nav-menu-kicker-color:           var(--fnd-color-text-tertiary);
+  --nc-nav-menu-kicker-text-transform:  uppercase;
+  --nc-nav-menu-kicker-letter-spacing:  0.06em;
+  --nc-nav-menu-kicker-margin-bottom:   var(--fnd-spacing-04);
+
+  // Callout Card
+  --nc-nav-menu-callout-card-radius:    var(--fnd-radius-md);
+  --nc-nav-menu-callout-card-padding:   var(--fnd-spacing-05);
+  --nc-nav-menu-callout-card-min-height: 200px;
+}
+
+// ---------------------------------------------------------------------------
+// Gallery Tokens
+// ---------------------------------------------------------------------------
+// Full-bleed Bild-Karussell (Apple TV+ Style): Slides mit Background-Image,
+// Logo-Overlay, Tag, Beschreibung, CTA-Button. Auto-Play + Dot-Navigation.
+
+:root {
+  // -- Layout --
+  --nc-gallery-height:                 100dvh;
+  --nc-gallery-min-height:             400px;
+  --nc-gallery-max-height:             none;
+  --nc-gallery-padding-block:          var(--fnd-spacing-10);
+  --nc-gallery-padding-inline:         var(--fnd-spacing-08);
+  --nc-gallery-content-max-width:      600px;
+  --nc-gallery-content-gap:            var(--fnd-spacing-04);
+  --nc-gallery-content-align:          flex-start;
+
+  // -- Overlay --
+  --nc-gallery-overlay-start:          rgba(0, 0, 0, 0.6);
+  --nc-gallery-overlay-end:            rgba(0, 0, 0, 0.1);
+  --nc-gallery-overlay-direction:      to right;
+
+  // -- Title --
+  --nc-gallery-title-size:             var(--fs-4xl);
+  --nc-gallery-title-weight:           var(--fnd-font-weight-bold);
+  --nc-gallery-title-color:            var(--fnd-color-always-light);
+  --nc-gallery-title-line-height:      1.1;
+
+  // -- Description --
+  --nc-gallery-desc-size:              var(--fs-lg);
+  --nc-gallery-desc-color:             color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
+  --nc-gallery-desc-max-width:         50ch;
+  --nc-gallery-desc-line-height:       1.5;
+
+  // -- Tag --
+  --nc-gallery-tag-size:               var(--fs-xs);
+  --nc-gallery-tag-weight:             var(--fnd-font-weight-semibold);
+  --nc-gallery-tag-bg:                 color-mix(in srgb, var(--fnd-color-always-light) 15%, transparent);
+  --nc-gallery-tag-color:              var(--fnd-color-always-light);
+  --nc-gallery-tag-radius:             var(--fnd-radius-sm);
+  --nc-gallery-tag-padding:            var(--fnd-spacing-01) var(--fnd-spacing-03);
+
+  // -- Logo --
+  --nc-gallery-logo-max-height:        48px;
+  --nc-gallery-logo-max-width:         200px;
+
+  // -- Navigation Dots --
+  --nc-gallery-dot-size:               10px;
+  --nc-gallery-dot-gap:                var(--fnd-spacing-02);
+  --nc-gallery-dot-color:              color-mix(in srgb, var(--fnd-color-always-light) 40%, transparent);
+  --nc-gallery-dot-color-active:       var(--fnd-color-always-light);
+  --nc-gallery-dot-radius:             var(--fnd-radius-full);
+
+  // -- Paddles (Prev/Next) --
+  --nc-gallery-paddle-size:            48px;
+  --nc-gallery-paddle-bg:              color-mix(in srgb, var(--fnd-color-always-dark) 30%, transparent);
+  --nc-gallery-paddle-bg-hover:        color-mix(in srgb, var(--fnd-color-always-dark) 50%, transparent);
+  --nc-gallery-paddle-color:           var(--fnd-color-always-light);
+  --nc-gallery-paddle-radius:          var(--fnd-radius-full);
+
+  // -- Animation --
+  --nc-gallery-animation-duration:     0.6s;
+  --nc-gallery-animation-easing:       cubic-bezier(0.16, 1, 0.3, 1);
+
+  // -- Autoplay --
+  --nc-gallery-autoplay-interval:      6s;
+  --nc-gallery-autoplay-progress-color: var(--fnd-color-always-light);
+}
+
+// ---------------------------------------------------------------------------
+// Hero Tokens
+// ---------------------------------------------------------------------------
+// Full-width Hero Section: Overlay, Content, Actions, Subtitle.
+
+:root {
+  // -- Layout --
+  --nc-hero-bg:                    var(--fnd-color-always-dark);
+  --nc-hero-min-height:            60dvh;
+  --nc-hero-padding-block:         var(--fnd-spacing-12);
+  --nc-hero-padding-inline:        var(--fnd-spacing-06);
+  --nc-hero-gap:                   var(--fnd-spacing-08);
+  --nc-hero-radius:                0;
+
+  // -- Overlay --
+  --nc-hero-overlay-visible:       1;                                  // 1 = sichtbar, 0 = ausgeblendet
+  --nc-hero-overlay-start:         rgba(0, 0, 0, 0.7);
+  --nc-hero-overlay-end:           rgba(0, 0, 0, 0.3);
+  --nc-hero-overlay-direction:     135deg;
+
+  // -- Kicker / Badge --
+  --nc-hero-kicker-size:           var(--fs-xs);
+  --nc-hero-kicker-weight:         var(--fnd-font-weight-semibold);
+  --nc-hero-kicker-bg:             var(--fnd-color-background-accent);
+  --nc-hero-kicker-color:          var(--fnd-color-on-accent);
+  --nc-hero-kicker-radius:         var(--fnd-radius-sm);
+  --nc-hero-kicker-padding:        var(--fnd-spacing-01) var(--fnd-spacing-03);
+
+  // -- Highlights (Bullet List) --
+  --nc-hero-highlights-gap:        var(--fnd-spacing-02);
+  --nc-hero-highlights-color:      color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent);
+  --nc-hero-highlights-marker:     var(--fnd-color-background-accent);
+  --nc-hero-highlights-size:       var(--fs-sm);
+
+  // -- Title --
+  --nc-hero-title-size:            var(--fs-4xl);
+  --nc-hero-title-weight:          var(--fnd-font-weight-bold);
+  --nc-hero-title-color:           var(--fnd-color-text-inverse);
+  --nc-hero-title-max-width:       18ch;
+  --nc-hero-title-line-height:     var(--fnd-typography-line-height-heading);
+
+  // -- Subtitle --
+  --nc-hero-subtitle-size:         var(--fs-lg);
+  --nc-hero-subtitle-color:        color-mix(in srgb, var(--fnd-color-text-inverse) 80%, transparent);
+  --nc-hero-subtitle-max-width:    40ch;
+  --nc-hero-subtitle-line-height:  var(--fnd-typography-line-height-body);
+
+  // -- Actions --
+  --nc-hero-actions-gap:           var(--fnd-spacing-04);
+  --nc-hero-actions-margin-top:    var(--fnd-spacing-04);
+}
+
+// ---------------------------------------------------------------------------
+// Text + Media Tokens
+// ---------------------------------------------------------------------------
+// Split-Layout: Video/Bild + Text-Content nebeneinander.
+
+:root {
+  --nc-text-media-gap:             var(--fnd-spacing-08);
+  --nc-text-media-headline-size:   var(--fs-2xl);
+  --nc-text-media-subline-color:   var(--fnd-color-text-secondary);
+  --nc-text-media-content-gap:     var(--fnd-spacing-04);
+  --nc-text-media-video-radius:    var(--fnd-radius-md);
+}
+
+// ---------------------------------------------------------------------------
+// Card Grid Tokens
+// ---------------------------------------------------------------------------
+// Grid-Layout fuer Card-Sammlungen.
+
+:root {
+  --nc-card-grid-columns:          repeat(auto-fill, minmax(300px, 1fr));
+  --nc-card-grid-gap:              var(--fnd-spacing-06);
+  --nc-card-grid-title-size:       var(--fs-2xl);
+  --nc-card-grid-title-margin:     var(--fnd-spacing-06);
+
+  // Animation — Reverse Domino (staggered slide-up)
+  --nc-card-grid-anim-duration:    0.5s;
+  --nc-card-grid-anim-delay:       0.1s;
+  --nc-card-grid-anim-translate-y: 2rem;
+}
+
+// ---------------------------------------------------------------------------
+// Product Showcase Tokens
+// ---------------------------------------------------------------------------
+// Options-Liste + Media-Panel mit animiertem Bild/Video-Wechsel.
+
+:root {
+  // Layout
+  --nc-product-showcase-gap:                    var(--fnd-spacing-08);
+  --nc-product-showcase-options-width:          280px;
+  --nc-product-showcase-padding:                var(--fnd-spacing-08);
+
+  // Options
+  --nc-product-showcase-option-font-family:     var(--fnd-typography-fonts-heading);
+  --nc-product-showcase-option-font-size:       var(--fs-xl);
+  --nc-product-showcase-option-font-weight:     var(--fnd-font-weight-bold);
+  --nc-product-showcase-options-align:          center;  // flex-start | center | flex-end
+  --nc-product-showcase-option-color:           color-mix(in srgb, var(--fnd-color-text-inverse) 40%, transparent);
+  --nc-product-showcase-option-color-active:    var(--fnd-color-text-inverse);
+  --nc-product-showcase-option-color-hover:     color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent);
+  --nc-product-showcase-option-gap:             var(--fnd-spacing-02);
+  --nc-product-showcase-option-padding:         var(--fnd-spacing-02) 0;
+  --nc-product-showcase-label-font-size:        var(--fs-sm);
+  --nc-product-showcase-label-font-family:      var(--fnd-typography-fonts-body);
+  --nc-product-showcase-label-color:            var(--fnd-color-text-secondary);
+  --nc-product-showcase-indicator-size:         12px;
+  --nc-product-showcase-indicator-radius:       var(--fnd-radius-full);
+
+  // Headline (Sektionsueberschrift)
+  --nc-product-showcase-headline-size:          var(--fs-3xl);
+  --nc-product-showcase-headline-weight:        var(--fnd-font-weight-bold);
+  --nc-product-showcase-headline-color:         var(--fnd-color-text-inverse);
+
+  // Description (Akkordeon-Text unter aktiver Option)
+  --nc-product-showcase-desc-size:              var(--fs-sm);
+  --nc-product-showcase-desc-color:             var(--nc-product-showcase-option-color);
+
+  // Media Panel
+  --nc-product-showcase-media-radius:           var(--fnd-radius-md);
+  --nc-product-showcase-media-aspect-ratio:     16 / 9;
+  --nc-product-showcase-media-bg:               transparent;
+
+  // Animation
+  --nc-product-showcase-animation-duration:     0.5s;
+  --nc-product-showcase-animation-easing:       cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 // ---------------------------------------------------------------------------
@@ -2779,6 +3084,8 @@
 :root {
   --nc-search-width:              320px;
   --nc-search-max-width:          100%;
+  --nc-search-input-radius:       var(--nc-input-radius);            // Erbt vom Input (4px), ueberschreibbar
+  --nc-search-input-height:       var(--fnd-size-md);                // 40px
 
   // Ergebnisliste
   --nc-search-results-bg:         var(--fnd-color-background-base);
@@ -2845,6 +3152,24 @@
 
   // -- Ghost / Type-Ahead --
   --nc-search-ghost-color:        var(--fnd-color-text-tertiary);
+
+  // -- Clear Trigger (v3.0) --
+  --nc-search-clear-size:         20px;
+  --nc-search-clear-color:        var(--fnd-color-text-tertiary);
+  --nc-search-clear-color-hover:  var(--fnd-color-text-primary);
+
+  // -- Results Top-Offset (Nav-Integration, v3.0) --
+  --nc-search-results-top-offset: 0;
+
+  // -- Backdrop (Nav-Integration, v3.0) --
+  --nc-search-backdrop-bg:        var(--fnd-color-always-dark);
+  --nc-search-backdrop-opacity:   0.35;
+  --nc-search-backdrop-z-index:   calc(var(--fnd-z-dropdown) - 1);
+
+  // -- Mobile Full-Screen (v3.0) --
+  --nc-search-mobile-header-height: 56px;
+  --nc-search-mobile-results-max-height: calc(100dvh - 56px);
+  --nc-search-mobile-bg:          var(--fnd-color-background-base);
 }
 
 // ---------------------------------------------------------------------------
@@ -3066,6 +3391,12 @@
   --nc-shell-skip-link-bg: var(--fnd-color-background-base);
   --nc-shell-skip-link-color: var(--fnd-color-text-primary);
   --nc-shell-skip-link-z: var(--fnd-z-skip-link);
+
+  // -- Banner (System-Messages ueber Navigation) --
+  --nc-shell-banner-bg: var(--fnd-color-background-info);
+  --nc-shell-banner-color: var(--fnd-color-text-info);
+  --nc-shell-banner-padding: var(--fnd-spacing-02) var(--fnd-spacing-06);
+  --nc-shell-banner-font-size: var(--fs-sm);
 }
 
 // ---------------------------------------------------------------------------
@@ -3127,11 +3458,14 @@
 
 :root {
   // Breite
-  --nc-container-max-width: 1200px;
-  --nc-container-max-width-wide: 1440px;
+  --nc-container-max-width: 1440px;
+  --nc-container-max-width-wide: 1600px;
+  --nc-container-max-width-narrow: 768px;
+  --nc-container-max-width-content: 1200px;
 
   // Fluid Inline Padding (skaliert mit Viewport)
   --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
+  --nc-container-padding-inline-constrained: 24px;
   --nc-container-padding-inline-xxl: 0px;
 
   // Vertical Spacing (padding-block) — fluid per Stufe
@@ -3148,6 +3482,47 @@
   --nc-container-surface-radius: var(--fnd-radius-md);
   --nc-container-surface-shadow: var(--fnd-shadow-sm);
   --nc-container-surface-padding: clamp(16px, 3vw, 32px);
+}
+
+// ---------------------------------------------------------------------------
+// Footer Tokens
+// ---------------------------------------------------------------------------
+// Modularer Footer: Simple (Legal+Social), Columns (Sitemap), CTA (Engagement).
+
+:root {
+  // -- Base --
+  --nc-footer-bg:                    var(--fnd-color-background-base);
+  --nc-footer-color:                 var(--fnd-color-text-primary);
+  --nc-footer-padding-block:         var(--fnd-spacing-10);
+  --nc-footer-padding-inline:        var(--fnd-spacing-06);
+  --nc-footer-max-width:             var(--container-max-width, 1440px);
+  --nc-footer-separator-color:       var(--fnd-color-border-secondary);
+  --nc-footer-link-color:            var(--fnd-color-text-secondary);
+  --nc-footer-link-hover-color:      var(--fnd-color-text-primary);
+
+  // -- Columns --
+  --nc-footer-col-gap:               var(--fnd-spacing-08);
+  --nc-footer-heading-size:          var(--fs-xs);
+  --nc-footer-heading-weight:        var(--fnd-font-weight-semibold);
+  --nc-footer-heading-color:         var(--fnd-color-text-primary);
+  --nc-footer-heading-transform:     uppercase;
+  --nc-footer-link-size:             var(--fs-sm);
+
+  // -- CTA --
+  --nc-footer-cta-kicker-size:       var(--fs-sm);
+  --nc-footer-cta-headline-size:     var(--fs-4xl);
+  --nc-footer-cta-headline-weight:   var(--fnd-font-weight-bold);
+  --nc-footer-cta-gap:               var(--fnd-spacing-06);
+
+  // -- Social --
+  --nc-footer-social-icon-size:      24px;
+  --nc-footer-social-gap:            var(--fnd-spacing-04);
+  --nc-footer-social-color:          var(--fnd-color-text-secondary);
+  --nc-footer-social-hover-color:    var(--fnd-color-text-primary);
+
+  // -- Legal --
+  --nc-footer-legal-size:            var(--fs-xs);
+  --nc-footer-legal-color:           var(--fnd-color-text-tertiary);
 }
 
 // ---------------------------------------------------------------------------
@@ -3231,4 +3606,123 @@
     --nc-shell-sidebar-bg: var(--fnd-color-surface-elevated);
     --nc-shell-footerbar-bg: var(--fnd-color-surface-elevated);
   }
+}
+
+
+// ---------------------------------------------------------------------------
+// Card Grid CTA Tokens
+// ---------------------------------------------------------------------------
+// Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.
+
+:root {
+  --nc-card-grid-cta-columns:        3;
+  --nc-card-grid-cta-gap:            var(--fnd-spacing-04);
+  --nc-card-grid-cta-padding:        var(--fnd-spacing-06);
+  --nc-card-grid-cta-radius:         var(--fnd-radius-md);
+  --nc-card-grid-cta-title-size:     var(--fs-2xl);
+  --nc-card-grid-cta-title-weight:   var(--fnd-font-weight-bold);
+  --nc-card-grid-cta-title-color:    var(--fnd-color-always-light);
+  --nc-card-grid-cta-overlay-start:  rgba(0, 0, 0, 0.6);
+  --nc-card-grid-cta-overlay-end:    transparent;
+  --nc-card-grid-cta-hover-scale:    1.03;
+}
+
+// ---------------------------------------------------------------------------
+// Story Gallery Tokens
+// ---------------------------------------------------------------------------
+// Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
+
+:root {
+  --nc-story-gallery-card-height:    420px;
+  --nc-story-gallery-gap:            var(--fnd-spacing-05);
+  --nc-story-gallery-radius:         var(--fnd-radius-lg);
+  --nc-story-gallery-title-size:     var(--fs-lg);
+  --nc-story-gallery-title-weight:   var(--fnd-font-weight-bold);
+  --nc-story-gallery-title-color:    var(--fnd-color-text-primary);
+  --nc-story-gallery-desc-size:      var(--fs-sm);
+  --nc-story-gallery-desc-color:     var(--fnd-color-text-secondary);
+  --nc-story-gallery-paddle-size:    44px;
+  --nc-story-gallery-paddle-bg:      var(--fnd-color-background-base);
+  --nc-story-gallery-paddle-shadow:  var(--fnd-shadow-md);
+  --nc-story-gallery-headline-size:  var(--fs-2xl);
+}
+
+// ---------------------------------------------------------------------------
+// Fade Gallery Tokens
+// ---------------------------------------------------------------------------
+// Tab-basierte Fade-Gallery (Apple-Style).
+
+:root {
+  --nc-fade-gallery-radius:          var(--fnd-radius-lg);
+  --nc-fade-gallery-tab-size:        var(--fs-base);
+  --nc-fade-gallery-tab-weight:      var(--fnd-font-weight-medium);
+  --nc-fade-gallery-tab-color:       var(--fnd-color-text-secondary);
+  --nc-fade-gallery-tab-active:      var(--fnd-color-text-primary);
+  --nc-fade-gallery-tab-indicator:   var(--fnd-color-interactive-default);
+  --nc-fade-gallery-desc-size:       var(--fs-base);
+  --nc-fade-gallery-desc-color:      var(--fnd-color-text-secondary);
+  --nc-fade-gallery-fade-duration:   0.5s;
+  --nc-fade-gallery-headline-size:   var(--fs-2xl);
+}
+
+// ---------------------------------------------------------------------------
+// Hero TOM Tokens (Text over Media)
+// ---------------------------------------------------------------------------
+// Hero mit Text ueber Hintergrund-Medium. Parallax-Expand Option.
+
+:root {
+  --nc-hero-tom-kicker-size:         var(--fs-sm);
+  --nc-hero-tom-kicker-weight:       var(--fnd-font-weight-semibold);
+  --nc-hero-tom-headline-size:       var(--fs-5xl);
+  --nc-hero-tom-headline-weight:     var(--fnd-font-weight-bold);
+  --nc-hero-tom-subtext-size:        var(--fs-lg);
+  --nc-hero-tom-subtext-opacity:     0.85;
+  --nc-hero-tom-scrim-color:         rgba(0, 0, 0, 0.4);
+  --nc-hero-tom-expand-radius:       var(--fnd-radius-xl);
+  --nc-hero-tom-content-max-width:   800px;
+}
+
+// ---------------------------------------------------------------------------
+// Hero TMOB Tokens (Text + Media over Background)
+// ---------------------------------------------------------------------------
+// Hero mit Headline, Subtext, Media ueber konfigurierbarem BG.
+
+:root {
+  --nc-hero-tmob-headline-size:      var(--fs-5xl);
+  --nc-hero-tmob-headline-weight:    var(--fnd-font-weight-bold);
+  --nc-hero-tmob-subtext-size:       var(--fs-lg);
+  --nc-hero-tmob-subtext-opacity:    0.85;
+  --nc-hero-tmob-subtext-max-width:  600px;
+  --nc-hero-tmob-content-max-width:  800px;
+  --nc-hero-tmob-media-max-width:    960px;
+  --nc-hero-tmob-media-radius:       var(--fnd-radius-lg);
+  --nc-hero-tmob-media-shadow:       var(--fnd-shadow-lg);
+  --nc-hero-tmob-content-gap:        var(--fnd-spacing-08);
+}
+
+// ---------------------------------------------------------------------------
+// Parallax Background Tokens
+// ---------------------------------------------------------------------------
+// Dekorative Scroll-Animation mit Quadraten.
+
+:root {
+  --nc-parallax-radius:              8px;
+  --nc-parallax-gap:                 6px;
+  --nc-parallax-bg:                  var(--fnd-color-always-dark);
+  --nc-parallax-square-color:        var(--fnd-color-always-light);
+  --nc-parallax-opacity:             0.12;
+}
+
+// ---------------------------------------------------------------------------
+// Animation Tokens (Shared)
+// ---------------------------------------------------------------------------
+// Gemeinsame Tokens fuer Scroll-Animationen.
+
+:root {
+  --nc-anim-scroll-duration:         0.6s;
+  --nc-anim-scroll-easing:           cubic-bezier(0.16, 1, 0.3, 1);
+  --nc-anim-fade-duration:           0.5s;
+  --nc-anim-fade-easing:             ease;
+  --nc-anim-stagger-delay:           0.08s;
+  --nc-anim-expand-duration:         0.4s;
 }

@@ -43,13 +43,36 @@
     "test:build": "sass scss/scss/main.scss:styles.css --style=compressed --no-source-map",
     "test:unit": "npx vitest run",
     "test": "npm run test:build && npm run test:unit && npm run pipeline:check && npm run tokens:sync:check && npm run lint:tokens && npm run lint:docs-tokens && npm run lint:fragments && npm run lint:docs-scripts && npm run lint:recipes",
-    "dev": "node scripts/dev.js"
+    "figma:pull": "node scripts/figma-sync.mjs --pull",
+    "figma:diff": "node scripts/figma-sync.mjs --diff",
+    "figma:components": "node scripts/figma-sync.mjs --components",
+    "figma:import": "node scripts/figma-sync.mjs --from-file",
+    "dashboard": "node scripts/dashboard-metrics.mjs",
+    "dashboard:snapshot": "node scripts/dashboard-metrics.mjs --snapshot",
+    "dashboard:json": "node scripts/dashboard-metrics.mjs --json",
+    "agents": "node agents/orchestrator.mjs",
+    "agents:quick": "node agents/orchestrator.mjs --quick",
+    "agents:full": "node agents/orchestrator.mjs --full",
+    "dev": "node scripts/dev.js",
+    "generate:stories": "node scripts/generate-stories.mjs",
+    "storybook": "storybook dev -p 6006",
+    "prestorybook": "npm run generate:stories",
+    "build-storybook": "npm run generate:stories && storybook build"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "8.6.18",
+    "@storybook/addon-interactions": "8.6.18",
+    "@storybook/blocks": "8.6.18",
+    "@storybook/html": "8.6.18",
+    "@storybook/html-vite": "8.6.18",
+    "@storybook/test": "8.6.18",
     "@tabler/icons": "^3.36.1",
     "heroicons": "^2.2.0",
+    "pptxgenjs": "^4.0.1",
     "prismjs": "^1.30.0",
     "sass": "^1.69.5",
+    "storybook": "8.6.18",
     "vitest": "^4.1.1"
   }
 }

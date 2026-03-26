@@ -1,0 +1,195 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "text-media",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "media",
+      "split-layout"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/text-media-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Split-Layout: Video/Bild + Text-Content nebeneinander."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-text-media"
+    },
+    "slots": [
+      {
+        "name": "media",
+        "element": ".nc-text-media__media",
+        "optional": false,
+        "description": "Video oder Bild."
+      },
+      {
+        "name": "content",
+        "element": ".nc-text-media__content",
+        "optional": false,
+        "description": "Headline, Subline, CTA."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Grid: 2 Spalten, media + content. Responsive: stacked auf mobile."
+    ]
+  },
+  "axes": {
+    "layout": {
+      "label": "Layout",
+      "description": "Media links oder rechts",
+      "values": {
+        "media-left": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "text-media-left"
+        },
+        "media-right": {
+          "modifier": "nc-text-media--reversed",
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "text-media-right"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Video: autoplay muted. Bild: alt-Text."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-text-media"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-text-media-gap",
+          "nc-text-media-headline-size",
+          "nc-text-media-subline-color",
+          "nc-text-media-content-gap",
+          "nc-text-media-video-radius"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.layout.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "media-left",
+      "label": "Media Links",
+      "description": "Standard: Media links, Content rechts.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "media-left"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "text-media-left",
+        "label": "media left"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Standard."
+      }
+    },
+    {
+      "id": "media-right",
+      "label": "Media Rechts",
+      "description": "Reversed: Content links, Media rechts.",
+      "matrix": {
+        "axes": {
+          "layout": [
+            "media-right"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "text-media-right",
+        "label": "media right"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Reversed layout."
+      }
+    }
+  ]
+}

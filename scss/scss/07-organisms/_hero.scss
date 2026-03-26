@@ -13,19 +13,62 @@
 // ---------------------------------------------------------------------------
 
 .nc-hero {
+  position: relative;
   display: grid;
-  gap: var(--fnd-spacing-08);
+  gap: var(--nc-hero-gap);
   align-items: center;
+  min-height: var(--nc-hero-min-height);
+  padding-block: var(--nc-hero-padding-block);
+  background-color: var(--nc-hero-bg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: var(--nc-hero-radius);
+  overflow: hidden;
+}
+
+// Background Video (autoplay, loop, muted — hinter dem Overlay)
+.nc-hero__bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nc-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--nc-hero-overlay-direction),
+    var(--nc-hero-overlay-start),
+    var(--nc-hero-overlay-end)
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--nc-hero-overlay-visible);
 }
 
 .nc-hero__content {
+  position: relative;
+  z-index: 2;
   display: grid;
   gap: var(--fnd-spacing-04);
   width: 100%;
-  color: var(--fnd-color-text-inverse);
+  color: var(--nc-hero-title-color);
+  margin-inline: auto;
+  box-sizing: border-box;
+  padding-inline: var(--nc-nav-padding-inline);
+
+  @include respond-to('xxl') {
+    padding-inline: 0;
+    max-width: var(--container-max-width);
+  }
 }
 
-.nc-hero__content,
 .nc-hero__media {
   margin-inline: 0;
   width: auto;
@@ -35,10 +78,50 @@
 // Hero Title
 // ---------------------------------------------------------------------------
 
+// Kicker / Badge
+.nc-hero__kicker,
+.nc-hero .nc-label {
+  font-size: var(--nc-hero-kicker-size);
+  font-weight: var(--nc-hero-kicker-weight);
+  background: var(--nc-hero-kicker-bg);
+  color: var(--nc-hero-kicker-color);
+  border-radius: var(--nc-hero-kicker-radius);
+  padding: var(--nc-hero-kicker-padding);
+  display: inline-block;
+  margin-block-end: var(--fnd-spacing-02);
+}
+
 .nc-hero__title {
-  font-size: var(--fs-4xl);
-  line-height: calc(var(--fs-4xl) * var(--lh-heading));
-  max-width: 18ch;
+  font-size: var(--nc-hero-title-size);
+  font-weight: var(--nc-hero-title-weight);
+  color: var(--nc-hero-title-color);
+  line-height: var(--nc-hero-title-line-height);
+  max-width: var(--nc-hero-title-max-width);
+}
+
+.nc-hero__subtitle {
+  font-size: var(--nc-hero-subtitle-size);
+  color: var(--nc-hero-subtitle-color);
+  max-width: var(--nc-hero-subtitle-max-width);
+  line-height: var(--nc-hero-subtitle-line-height);
+}
+
+.nc-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nc-hero-actions-gap);
+  margin-block-start: var(--nc-hero-actions-margin-top);
+}
+
+// Ghost-Button im Hero-Kontext: helle Farbe auf dunklem Hintergrund
+.nc-hero .nc-button--ghost {
+  color: var(--fnd-color-always-light);
+  border-color: color-mix(in srgb, var(--fnd-color-always-light) 30%, transparent);
+
+  &:hover {
+    background: color-mix(in srgb, var(--fnd-color-always-light) 10%, transparent);
+    border-color: color-mix(in srgb, var(--fnd-color-always-light) 50%, transparent);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -49,13 +132,14 @@
   list-style: none;
   padding: 0;
   display: grid;
-  gap: var(--fnd-spacing-02);
-  color: var(--fnd-color-text-secondary);
+  gap: var(--nc-hero-highlights-gap);
+  color: var(--nc-hero-highlights-color);
+  font-size: var(--nc-hero-highlights-size);
 }
 
 .nc-hero__highlight::before {
   content: '\25CF';
-  color: var(--fnd-color-background-accent);
+  color: var(--nc-hero-highlights-marker);
   margin-inline-end: 0.5rem;
 }
 
@@ -64,8 +148,19 @@
 // ---------------------------------------------------------------------------
 
 .nc-hero__media {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+// Media Bild (rechte Spalte)
+.nc-hero__media-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--fnd-radius-md);
+  object-fit: cover;
 }
 
 .nc-hero__media-spacer {
@@ -147,11 +242,46 @@
 }
 
 // ---------------------------------------------------------------------------
-// Responsive
+// Responsive: Layout je nach Media-Slot
 // ---------------------------------------------------------------------------
 
-@media (min-width: 768px) {
-  .nc-hero {
-    grid-template-columns: repeat(2, 1fr);
+// Hero Section: Background ist IMMER edge-to-edge (vollflaechig).
+// Container-Constraint wird ueber ein inneres Wrapper-Grid gesteuert.
+// padding-inline: 0 auf .nc-hero — Background geht bis zum Viewport-Rand.
+
+// OHNE MEDIA: 1-Spalte, Content hat eigenes Container-Padding
+.nc-hero:not(:has(.nc-hero__media)) {
+  // Content steuert sich selbst (padding-inline + max-width sind dort gesetzt)
+}
+
+// MIT MEDIA: 2-Spalten ab md, Content + Media zentriert
+.nc-hero:has(.nc-hero__media) {
+  // Content braucht kein eigenes Container-Padding, kommt vom inneren Grid
+  .nc-hero__content {
+    padding-inline: 0;
+    max-width: none;
+  }
+}
+
+// Inneres Grid fuer Media-Variante: zentriert mit Container-Constraint
+.nc-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--nc-hero-gap);
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--nc-nav-padding-inline);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+
+  @include respond-to('md') {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  @include respond-to('xxl') {
+    padding-inline: 0;
+    max-width: var(--container-max-width);
   }
 }

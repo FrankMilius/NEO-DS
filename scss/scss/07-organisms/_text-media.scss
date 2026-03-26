@@ -1,0 +1,46 @@
+// ==========================================================================
+// 07-Organisms: Text + Media
+// ==========================================================================
+// Split-Layout: Video/Bild links, Text-Content rechts.
+// Token-gesteuert via --nc-text-media-* Custom Properties.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-text-media {
+  // Grid wird von nc-grid--split (Layout) oder eigenem Grid gesteuert
+}
+
+.nc-text-media__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nc-text-media-content-gap);
+}
+
+.nc-text-media__headline {
+  font-size: var(--nc-text-media-headline-size);
+  line-height: var(--fnd-typography-line-height-heading);
+}
+
+.nc-text-media__subline {
+  color: var(--nc-text-media-subline-color);
+  line-height: var(--fnd-typography-line-height-body);
+}
+
+// Video Container (16:9 aspect ratio)
+.nc-text-media__media .nc-video {
+  position: relative;
+  padding-top: 56.25%;
+  border-radius: var(--nc-text-media-video-radius);
+  overflow: hidden;
+  background: var(--fnd-color-background-secondary);
+}
+
+.nc-video__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

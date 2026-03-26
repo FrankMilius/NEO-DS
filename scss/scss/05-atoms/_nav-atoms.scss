@@ -70,9 +70,16 @@
 }
 
 // ---------------------------------------------------------------------------
-// Search Input Radius (global fuer type=search)
+// Search Input (global fuer type=search)
 // ---------------------------------------------------------------------------
 
 input[type='search'] {
-  border-radius: var(--fnd-radius-2xl);
+  border-radius: var(--nc-search-input-radius, var(--nc-input-radius));
+
+  // Browser-nativen Cancel-Button entfernen (blaues × in Chrome/Safari)
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }

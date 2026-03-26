@@ -1,23 +1,237 @@
 // ==========================================================================
 // 06-Molecules: Logo Wall
 // ==========================================================================
-// Grid of client/partner logos with pill-shaped items.
-// Extracted from _site.scss for proper ITCSS placement.
+// Partner-/Kunden-Logos in verschiedenen Layouts.
+//
+// VARIANTEN (Layout):
+//   Grid (Default)  — Responsives auto-fit Raster
+//   Marquee          — Endlose horizontale Laufschrift (Ticker)
+//   Cluster          — Organisches Flex-Layout mit Wrap
+//
+// VARIANTEN (Darstellung):
+//   Original         — Logos in Originalfarben
+//   Monochrome       — Alle Logos einheitlich grau, hover = Originalfarbe
+//
+// GROESSEN:
+//   sm (120px)  — Footer / kompakte Bereiche
+//   md (160px)  — Standard
+//   lg (220px)  — Feature-Praesentation
+//
+// ANIMATION:
+//   Staggered Fade-In via Intersection Observer (JS)
+//   Marquee: CSS @keyframes infinite scroll
+//
+// TOKEN-GESTEUERT via --nc-logo-wall-* Custom Properties.
 // ==========================================================================
 
 @use '../01-tools' as *;
 
+// ---------------------------------------------------------------------------
+// Root: Grid Layout (Default)
+// ---------------------------------------------------------------------------
+
 .nc-logo-wall {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--fnd-spacing-04);
+  grid-template-columns: repeat(auto-fit, minmax(var(--nc-logo-wall-grid-min), 1fr));
+  gap: var(--nc-logo-wall-gap);
+  align-items: var(--nc-logo-wall-align);
+  padding-block: var(--nc-logo-wall-padding-block);
+  padding-inline: var(--nc-logo-wall-padding-inline);
 }
 
+// ---------------------------------------------------------------------------
+// Pill (einzelnes Logo-Item)
+// ---------------------------------------------------------------------------
+
 .nc-logo-pill {
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--fnd-color-border-secondary);
-  border-radius: var(--fnd-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nc-logo-wall-item-padding);
+  background: var(--nc-logo-wall-item-bg);
+  border: var(--nc-logo-wall-item-border-width) solid var(--nc-logo-wall-item-border);
+  border-radius: var(--nc-logo-wall-item-radius);
+  box-shadow: var(--nc-logo-wall-item-shadow);
+  aspect-ratio: var(--nc-logo-wall-item-aspect-ratio);
   text-align: center;
-  font-size: var(--fs-sm);
-  background: var(--fnd-color-background-base);
+  font-size: var(--nc-logo-wall-font-size);
+  font-weight: var(--nc-logo-wall-font-weight);
+  color: var(--nc-logo-wall-color);
+  transition:
+    box-shadow var(--nc-logo-wall-item-transition) ease,
+    border-color var(--nc-logo-wall-item-transition) ease;
+
+  &:hover {
+    box-shadow: var(--nc-logo-wall-item-hover-shadow);
+    border-color: var(--nc-logo-wall-item-hover-border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// -- Logo-Bild innerhalb der Pill --
+.nc-logo-pill__img {
+  display: block;
+  max-height: var(--nc-logo-wall-logo-max-height);
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: var(--nc-logo-wall-logo-opacity);
+  filter: var(--nc-logo-wall-logo-filter);
+  transition:
+    opacity var(--nc-logo-wall-item-transition) ease,
+    filter var(--nc-logo-wall-item-transition) ease;
+
+  .nc-logo-pill:hover & {
+    opacity: var(--nc-logo-wall-logo-opacity-hover);
+    filter: var(--nc-logo-wall-logo-filter-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Groessen
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--sm {
+  --nc-logo-wall-grid-min: var(--nc-logo-wall-item-width-sm);
+  --nc-logo-wall-item-padding: 0.625rem 1rem;
+  --nc-logo-wall-logo-max-height: 40px;
+  --nc-logo-wall-font-size: var(--fs-xs);
+}
+
+.nc-logo-wall--lg {
+  --nc-logo-wall-grid-min: var(--nc-logo-wall-item-width-lg);
+  --nc-logo-wall-item-padding: 1.25rem 2rem;
+  --nc-logo-wall-logo-max-height: 80px;
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Monochrome (alle Logos grau, hover = Original)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--mono {
+  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0.8);
+  --nc-logo-wall-logo-opacity: 0.6;
+  --nc-logo-wall-logo-filter-hover: none;
+  --nc-logo-wall-logo-opacity-hover: 1;
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Marquee (endlose Laufschrift)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--marquee {
+  display: flex;
+  overflow: hidden;
+  gap: 0;
+  padding-inline: 0;
+  // grid-template-columns nicht benötigt
+  grid-template-columns: none;
+
+  // Die Marquee-Track wird per JS verdoppelt
+  .nc-logo-wall__track {
+    display: flex;
+    gap: var(--nc-logo-wall-marquee-gap);
+    animation: nc-logo-wall-scroll var(--nc-logo-wall-marquee-speed) linear infinite;
+    will-change: transform;
+  }
+
+  .nc-logo-pill {
+    flex-shrink: 0;
+  }
+
+  // Pause bei Hover
+  &:hover .nc-logo-wall__track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nc-logo-wall__track {
+      animation: none;
+    }
+  }
+}
+
+@keyframes nc-logo-wall-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Cluster (organisches Flex-Layout)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--cluster {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--nc-logo-wall-gap);
+  // grid-template-columns nicht benötigt
+  grid-template-columns: none;
+
+  .nc-logo-pill {
+    flex: 0 0 auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Boxed (feste Aspect-Ratio pro Pill)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--boxed {
+  .nc-logo-pill {
+    --nc-logo-wall-item-aspect-ratio: 3 / 2;
+    --nc-logo-wall-item-radius: var(--fnd-radius-md);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Animation: Staggered Fade-In (via Intersection Observer)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall--fadein {
+  .nc-logo-pill {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity var(--nc-logo-wall-fadein-duration) var(--nc-logo-wall-fadein-easing),
+      transform var(--nc-logo-wall-fadein-duration) var(--nc-logo-wall-fadein-easing);
+  }
+
+  // JS setzt data-visible + transition-delay per Index
+  .nc-logo-pill.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nc-logo-pill {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+
+@include respond-to-max('sm') {
+  .nc-logo-wall {
+    --nc-logo-wall-grid-min: 100px;
+    --nc-logo-wall-gap: var(--fnd-spacing-03);
+    --nc-logo-wall-item-padding: 0.5rem 0.75rem;
+  }
 }

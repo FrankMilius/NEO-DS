@@ -98,7 +98,29 @@
 
       <div class="toolbar-divider"></div>
 
-      <!-- 3) Undo -->
+      <!-- 3) Save Theme -->
+      <div class="toolbar-group">
+        <button
+          class="tb-btn tb-btn-save"
+          :class="{ saving: isSaving, saved: showSaved }"
+          @click="handleSaveTheme"
+          :disabled="isSaving"
+          title="Save Theme (Ctrl+S)"
+        >
+          <svg v-if="!isSaving && !showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+          </svg>
+          <svg v-else-if="showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span v-else class="tb-spinner"></span>
+          <span class="tb-label">{{ showSaved ? 'Saved' : 'Save' }}</span>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- 4) Undo -->
       <div class="toolbar-group">
         <button
           class="tb-btn"
@@ -344,11 +366,36 @@ function onDocumentClick(e) {
   }
 }
 
-// Close dropdowns on Escape
+// ---------------------------------------------------------------------------
+// Save Theme (Ctrl+S)
+// ---------------------------------------------------------------------------
+const isSaving = ref(false)
+const showSaved = ref(false)
+
+async function handleSaveTheme() {
+  if (isSaving.value) return
+  isSaving.value = true
+  try {
+    await store.saveToServer()
+    showSaved.value = true
+    setTimeout(() => { showSaved.value = false }, 2000)
+  } catch (err) {
+    console.error('[Save] Failed:', err)
+    alert('Save failed: ' + err.message)
+  } finally {
+    isSaving.value = false
+  }
+}
+
+// Close dropdowns on Escape + Ctrl+S Save shortcut
 function onDocumentKeydown(e) {
   if (e.key === 'Escape') {
     if (dropdownOpen.value) { dropdownOpen.value = false; e.stopPropagation() }
     if (downloadOpen.value) { downloadOpen.value = false; e.stopPropagation() }
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+    e.preventDefault()
+    handleSaveTheme()
   }
 }
 
@@ -762,6 +809,33 @@ function trapFocus(e) {
   color: var(--cfg-danger);
   background: var(--cfg-danger-subtle);
   border-color: var(--cfg-danger-border-subtle);
+}
+
+.tb-btn-save {
+  color: #059669;
+  border-color: color-mix(in srgb, #059669 25%, transparent);
+}
+.tb-btn-save:hover:not(:disabled) {
+  background: color-mix(in srgb, #059669 10%, transparent);
+  border-color: #059669;
+}
+.tb-btn-save.saved {
+  color: #059669;
+  background: color-mix(in srgb, #059669 12%, transparent);
+}
+.tb-btn-save.saving { opacity: 0.6; cursor: wait; }
+
+.tb-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: tb-spin 0.6s linear infinite;
+}
+
+@keyframes tb-spin {
+  to { transform: rotate(360deg); }
 }
 
 .tb-label {

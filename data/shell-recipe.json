@@ -13,6 +13,9 @@
     "root": { "element": ".nc-shell" },
     "slots": [
       { "name": "skip-link",      "element": ".nc-shell__skip-link",      "optional": false, "note": "Erstes Kind der Shell. Unsichtbar, erscheint bei :focus ueber allen Zonen." },
+      { "name": "banner",         "element": ".nc-shell__banner",         "optional": true, "note": "System-Messages und Alerts ueber der gesamten Navigation. Sichtbar wenn :not(:empty). Severity-Varianten: info, success, warning, danger. Dismissable via Close-Button." },
+      { "name": "banner-item",    "element": ".nc-shell__banner-item",    "optional": true, "note": "Einzelne Banner-Nachricht mit Severity-Modifier (--info, --success, --warning, --danger)." },
+      { "name": "banner-close",   "element": ".nc-shell__banner-close",   "optional": true, "note": "Dismiss-Button pro Banner-Item." },
       { "name": "linkbar",        "element": ".nc-shell__linkbar",        "optional": true },
       { "name": "linkbar-left",   "element": ".nc-shell__linkbar-left",   "optional": true },
       { "name": "linkbar-right",  "element": ".nc-shell__linkbar-right",  "optional": true },
@@ -29,7 +32,8 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Aeusseres Grid (.nc-shell): 4 Rows — linkbar, navbar, stage, footerbar. min-height: 100dvh.",
+      "Aeusseres Grid (.nc-shell): 5 Rows — banner, linkbar, navbar, stage, footerbar. min-height: 100dvh.",
+      "Banner: .nc-shell__banner als erste Grid-Row ueber allem. display:none per Default, sichtbar via :not(:empty). Enthaelt .nc-shell__banner-item mit Severity-Modifiern (--info, --success, --warning, --danger). Dismissable via .nc-shell__banner-close Button.",
       "Inneres Grid (.nc-shell__stage): Sidebars + Main-Content. Spalten-Definition per Preset.",
       "Presets via data-layout='...' auf <body>: dashboard, content-page, docs, landing, focused, settings.",
       "Skip-Link: Erstes Element in .nc-shell. <a href='#main-content' class='nc-shell__skip-link'>Zum Inhalt springen</a>. Unsichtbar bis :focus, dann fixed ueber allen Zonen (z-index: skip-link).",
@@ -223,6 +227,15 @@
           "nc-shell-skip-link-bg",
           "nc-shell-skip-link-color",
           "nc-shell-skip-link-z"
+        ]
+      },
+      "banner": {
+        "label": "Banner (Messages)",
+        "tokens": [
+          "nc-shell-banner-bg",
+          "nc-shell-banner-color",
+          "nc-shell-banner-padding",
+          "nc-shell-banner-font-size"
         ]
       }
     }

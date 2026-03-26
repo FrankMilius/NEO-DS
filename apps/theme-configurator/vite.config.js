@@ -52,6 +52,14 @@ export default defineConfig({
       'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js')
     }
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    }
+  },
   build: {
     outDir: '../../config/theme-configurator',
     emptyOutDir: true

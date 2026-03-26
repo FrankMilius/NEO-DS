@@ -1,0 +1,182 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "hero-tom",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "hero",
+      "display",
+      "parallax"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/hero-tom-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-hero-tom"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "kicker",
+            "headline",
+            "subtext",
+            "scrim",
+            "expand"
+          ],
+          "renderHint": "hero-tom-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": ""
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-hero-tom"
+    ],
+    "baseTokenGroups": [
+      "kicker",
+      "headline",
+      "subtext",
+      "scrim",
+      "expand"
+    ],
+    "tokenGroups": {
+      "kicker": {
+        "label": "Kicker",
+        "tokens": [
+          "nc-hero-tom-kicker-size",
+          "nc-hero-tom-kicker-weight"
+        ]
+      },
+      "headline": {
+        "label": "Headline",
+        "tokens": [
+          "nc-hero-tom-headline-size",
+          "nc-hero-tom-headline-weight"
+        ]
+      },
+      "subtext": {
+        "label": "Subtext",
+        "tokens": [
+          "nc-hero-tom-subtext-size",
+          "nc-hero-tom-subtext-opacity",
+          "nc-hero-tom-content-max-width"
+        ]
+      },
+      "scrim": {
+        "label": "Scrim",
+        "tokens": [
+          "nc-hero-tom-scrim-color"
+        ]
+      },
+      "expand": {
+        "label": "Expand",
+        "tokens": [
+          "nc-hero-tom-expand-radius"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Hero — Text over Media",
+      "description": "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "kicker",
+        "headline",
+        "subtext",
+        "scrim",
+        "expand"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "hero-tom-default",
+        "label": "hero-tom"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    }
+  ]
+}

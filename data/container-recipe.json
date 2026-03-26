@@ -5,16 +5,26 @@
     "component": "container",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["layout", "object", "container"],
+    "tags": [
+      "layout",
+      "object",
+      "container"
+    ],
     "links": {
       "docs": "/docs/layout-architecture-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-container" },
+    "root": {
+      "element": ".nc-container"
+    },
     "slots": [
-      { "name": "content", "element": ".nc-container > *", "optional": false, "description": "Beliebiger Inhalt innerhalb des Containers." }
+      {
+        "name": "content",
+        "element": ".nc-container > *",
+        "optional": false,
+        "description": "Beliebiger Inhalt innerhalb des Containers."
+      }
     ],
     "domNotes": [
       "Container zentriert Inhalt horizontal und begrenzt die maximale Breite.",
@@ -26,7 +36,6 @@
       "Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene."
     ]
   },
-
   "axes": {
     "width": {
       "label": "Breite",
@@ -34,22 +43,31 @@
       "values": {
         "standard": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Standard-Container: max-width 1200px."
         },
         "wide": {
           "modifier": "nc-container--wide",
-          "tokenGroups": ["geometry", "wide"],
+          "tokenGroups": [
+            "geometry",
+            "wide"
+          ],
           "description": "Breiter Container: max-width 1440px."
         },
         "narrow": {
           "modifier": "nc-container--narrow",
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Schmaler Container: max-width 768px. Ideal fuer Formulare."
         },
         "full": {
           "modifier": "nc-container--full",
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Volle Breite ohne max-width Begrenzung."
         }
       }
@@ -60,22 +78,33 @@
       "values": {
         "none": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Kein vertikales Padding (Standard)."
         },
         "sm": {
           "modifier": "nc-container--vspace-sm",
-          "tokenGroups": ["geometry", "vertical-spacing"],
+          "tokenGroups": [
+            "geometry",
+            "vertical-spacing"
+          ],
           "description": "Kleiner vertikaler Abstand: 16px – 24px (fluid)."
         },
         "md": {
           "modifier": "nc-container--vspace-md",
-          "tokenGroups": ["geometry", "vertical-spacing"],
+          "tokenGroups": [
+            "geometry",
+            "vertical-spacing"
+          ],
           "description": "Mittlerer vertikaler Abstand: 32px – 48px (fluid)."
         },
         "lg": {
           "modifier": "nc-container--vspace-lg",
-          "tokenGroups": ["geometry", "vertical-spacing"],
+          "tokenGroups": [
+            "geometry",
+            "vertical-spacing"
+          ],
           "description": "Grosser vertikaler Abstand: 48px – 80px (fluid)."
         }
       }
@@ -86,17 +115,25 @@
       "values": {
         "center": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Zentriert (Standard): margin-inline: auto."
         },
         "start": {
           "modifier": "nc-container--align-start",
-          "tokenGroups": ["geometry", "alignment"],
+          "tokenGroups": [
+            "geometry",
+            "alignment"
+          ],
           "description": "Linksbuendig: margin-inline-start: 0; margin-inline-end: auto."
         },
         "end": {
           "modifier": "nc-container--align-end",
-          "tokenGroups": ["geometry", "alignment"],
+          "tokenGroups": [
+            "geometry",
+            "alignment"
+          ],
           "description": "Rechtsbuendig: margin-inline-start: auto; margin-inline-end: 0."
         }
       }
@@ -107,25 +144,32 @@
       "values": {
         "transparent": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Kein Hintergrund (Standard)."
         },
         "elevated": {
           "modifier": "nc-container--surface",
-          "tokenGroups": ["geometry", "surface"],
+          "tokenGroups": [
+            "geometry",
+            "surface"
+          ],
           "description": "Surface-Container mit Hintergrundfarbe, Border-Radius und optionalem Schatten."
         }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "interactive": false,
     "rules": []
   },
-
   "a11y": {
     "base": {
       "interactive": false,
@@ -137,17 +181,21 @@
     },
     "overrides": []
   },
-
   "styling": {
-    "baseClasses": ["nc-container"],
-    "baseTokenGroups": ["geometry"],
+    "baseClasses": [
+      "nc-container"
+    ],
+    "baseTokenGroups": [
+      "geometry"
+    ],
     "tokenGroups": {
       "geometry": {
         "label": "Geometry",
         "tokens": [
           "nc-container-max-width",
           "nc-container-padding-inline",
-          "nc-container-padding-inline-xxl"
+          "nc-container-padding-inline-xxl",
+          "nc-container-max-width-wide"
         ]
       },
       "wide": {
@@ -182,23 +230,30 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes"],
-      "output": ["classList", "tokenGroups"]
+      "from": [
+        "axes"
+      ],
+      "output": [
+        "classList",
+        "tokenGroups"
+      ]
     }
   },
-
   "specimens": [
     {
       "id": "width-scale",
       "label": "Breiten-Varianten",
       "description": "Alle Container-Breiten im Vergleich.",
       "matrix": {
-        "axes": { "width": "*" },
-        "states": ["default"]
+        "axes": {
+          "width": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -207,8 +262,12 @@
       "label": "Vertical Spacing",
       "description": "Vertikales Padding in drei Stufen.",
       "matrix": {
-        "axes": { "vertical-spacing": "*" },
-        "states": ["default"]
+        "axes": {
+          "vertical-spacing": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -217,8 +276,12 @@
       "label": "Alignment",
       "description": "Horizontale Ausrichtung: zentriert, links, rechts.",
       "matrix": {
-        "axes": { "alignment": "*" },
-        "states": ["default"]
+        "axes": {
+          "alignment": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -227,8 +290,12 @@
       "label": "Surface",
       "description": "Transparenter vs. Surface-Container.",
       "matrix": {
-        "axes": { "surface": "*" },
-        "states": ["default"]
+        "axes": {
+          "surface": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     }

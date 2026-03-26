@@ -11,98 +11,98 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Live Preview                                                    -->
+    <!-- Alle Rezepte iterieren                                         -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <div class="arena-category-divider">
-      <span class="arena-category-label">{{ activeRecipe.label }}</span>
-    </div>
-    <div class="arena-specimen">
-      <span class="arena-specimen__label">{{ activeRecipe.description }}</span>
-      <!-- Split View -->
-      <div v-if="isSplit" class="arena-specimen__pair">
-        <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
-          <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
-          <div v-else v-html="activeRecipe.html"></div>
-        </div>
-        <div class="arena-specimen__panel" :style="panelStyle(tDark)">
-          <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
-          <div v-else v-html="activeRecipe.html"></div>
-        </div>
-      </div>
-      <!-- Single View -->
-      <div v-else class="arena-specimen__single">
-        <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
-          <div v-if="showGrid && activeRecipe.grid" :class="activeRecipe.grid" v-html="repeatedHtml"></div>
-          <div v-else v-html="activeRecipe.html"></div>
-        </div>
-      </div>
-    </div>
+    <template v-for="recipe in recipes" :key="recipe.id">
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Status-Varianten (nur bei Status-Rezepten)                    -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <template v-if="activeRecipe.statusLevels">
       <div class="arena-category-divider">
-        <span class="arena-category-label">Status-Varianten</span>
+        <span class="arena-category-label">{{ recipe.label }}</span>
       </div>
       <div class="arena-specimen">
-        <span class="arena-specimen__label">{{ activeRecipe.statusLevels.join(' · ') }}</span>
+        <span class="arena-specimen__label">{{ recipe.description }}</span>
+        <!-- Split View -->
         <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
-            <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-              <div v-for="level in activeRecipe.statusLevels" :key="level"
-                v-html="activeRecipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
-            </div>
+            <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <div v-else v-html="recipe.html"></div>
           </div>
           <div class="arena-specimen__panel" :style="panelStyle(tDark)">
-            <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-              <div v-for="level in activeRecipe.statusLevels" :key="level"
-                v-html="activeRecipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
-            </div>
+            <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <div v-else v-html="recipe.html"></div>
           </div>
         </div>
+        <!-- Single View -->
         <div v-else class="arena-specimen__single">
           <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
-            <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-              <div v-for="level in activeRecipe.statusLevels" :key="level"
-                v-html="activeRecipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
-            </div>
+            <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <div v-else v-html="recipe.html"></div>
           </div>
         </div>
       </div>
-    </template>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- States Preview (hover, focus, selected, disabled)             -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <template v-if="activeRecipe.states && activeRecipe.states.length">
-      <div class="arena-category-divider">
-        <span class="arena-category-label">States</span>
-      </div>
-      <div class="arena-specimen">
-        <span class="arena-specimen__label">{{ activeRecipe.states.join(' · ') }}</span>
-        <div v-if="isSplit" class="arena-specimen__pair">
-          <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
-            <div class="arena-card-states-info">
-              States werden durch die echten CSS-Klassen aus styles.css gesteuert.
-              Interagiere direkt mit der Card oben.
+      <!-- Status-Varianten (nur bei Status-Rezepten) -->
+      <template v-if="recipe.statusLevels">
+        <div class="arena-category-divider">
+          <span class="arena-category-label">Status-Varianten</span>
+        </div>
+        <div class="arena-specimen">
+          <span class="arena-specimen__label">{{ recipe.statusLevels.join(' · ') }}</span>
+          <div v-if="isSplit" class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
+              <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
+                <div v-for="level in recipe.statusLevels" :key="level"
+                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="panelStyle(tDark)">
+              <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
+                <div v-for="level in recipe.statusLevels" :key="level"
+                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+              </div>
             </div>
           </div>
-          <div class="arena-specimen__panel" :style="panelStyle(tDark)">
-            <div class="arena-card-states-info">
-              States: {{ activeRecipe.states.join(', ') }}
+          <div v-else class="arena-specimen__single">
+            <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
+              <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
+                <div v-for="level in recipe.statusLevels" :key="level"
+                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+              </div>
             </div>
           </div>
         </div>
-        <div v-else class="arena-specimen__single">
-          <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
-            <div class="arena-card-states-info">
-              States werden durch die echten CSS-Klassen aus styles.css gesteuert.
-              Interagiere direkt mit der Card oben.
+      </template>
+
+      <!-- States Preview (nur bei States-Rezepten) -->
+      <template v-if="recipe.states && recipe.states.length">
+        <div class="arena-category-divider">
+          <span class="arena-category-label">States</span>
+        </div>
+        <div class="arena-specimen">
+          <span class="arena-specimen__label">{{ recipe.states.join(' · ') }}</span>
+          <div v-if="isSplit" class="arena-specimen__pair">
+            <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
+              <div class="arena-card-states-info">
+                States werden durch die echten CSS-Klassen aus styles.css gesteuert.
+                Interagiere direkt mit der Card oben.
+              </div>
+            </div>
+            <div class="arena-specimen__panel" :style="panelStyle(tDark)">
+              <div class="arena-card-states-info">
+                States: {{ recipe.states.join(', ') }}
+              </div>
+            </div>
+          </div>
+          <div v-else class="arena-specimen__single">
+            <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
+              <div class="arena-card-states-info">
+                States werden durch die echten CSS-Klassen aus styles.css gesteuert.
+                Interagiere direkt mit der Card oben.
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+
     </template>
 
   </div>
@@ -123,19 +123,14 @@ const { isHighlighted, highlightStyle } = useArenaHighlight('card')
 import recipesData from '../../../../../data/card-recipes.json'
 
 const recipes = computed(() => recipesData.recipes || [])
-const activeRecipeId = ref('informational')
-
-const activeRecipe = computed(() =>
-  recipes.value.find(r => r.id === activeRecipeId.value) || recipes.value[0]
-)
 
 const showGrid = ref(false)
 
 // Wiederholtes HTML fuer Grid-Kontext (3 Kopien)
-const repeatedHtml = computed(() => {
-  const html = activeRecipe.value.html
+function repeatedHtml(recipe) {
+  const html = recipe.html
   return html + html + html
-})
+}
 
 // ---------------------------------------------------------------------------
 // Token Data

@@ -5,8 +5,17 @@
     "component": "item",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["display", "content", "list", "media-object"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/item-docs" },
+    "tags": [
+      "display",
+      "content",
+      "list",
+      "media-object"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/item-docs"
+    },
     "changelog": [
       {
         "version": "2.0.0",
@@ -23,18 +32,49 @@
           "Token-Abhaengigkeiten: nc-input-radius → nc-item-radius, nc-spacing-03 → nc-item-gap"
         ]
       },
-      { "version": "1.0.0", "changes": ["Initiale Implementierung: 3 Varianten (default/outline/muted), 3 Groessen, 4 Media-Typen"] }
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: 3 Varianten (default/outline/muted), 3 Groessen, 4 Media-Typen"
+        ]
+      }
     ]
   },
   "anatomy": {
-    "root": { "element": ".nc-item" },
+    "root": {
+      "element": ".nc-item"
+    },
     "slots": [
-      { "name": "media", "element": ".nc-item__media", "optional": true },
-      { "name": "content", "element": ".nc-item__content", "optional": false },
-      { "name": "title", "element": ".nc-item__title", "optional": false },
-      { "name": "description", "element": ".nc-item__description", "optional": true },
-      { "name": "meta", "element": ".nc-item__meta", "optional": true },
-      { "name": "actions", "element": ".nc-item__actions", "optional": true }
+      {
+        "name": "media",
+        "element": ".nc-item__media",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-item__content",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-item__title",
+        "optional": false
+      },
+      {
+        "name": "description",
+        "element": ".nc-item__description",
+        "optional": true
+      },
+      {
+        "name": "meta",
+        "element": ".nc-item__meta",
+        "optional": true
+      },
+      {
+        "name": "actions",
+        "element": ".nc-item__actions",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -51,57 +91,169 @@
       "label": "Variant",
       "description": "Visuelle Variante — default (transparent), outline (Border + Shadow), muted (Hintergrund)",
       "values": {
-        "default": { "modifier": null,               "tokenGroups": ["core-colors"],  "renderHint": "item-default" },
-        "outline": { "modifier": "nc-item--outline",  "tokenGroups": ["core-colors"],  "renderHint": "item-outline" },
-        "muted":   { "modifier": "nc-item--muted",    "tokenGroups": ["core-colors"],  "renderHint": "item-muted" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "core-colors"
+          ],
+          "renderHint": "item-default"
+        },
+        "outline": {
+          "modifier": "nc-item--outline",
+          "tokenGroups": [
+            "core-colors"
+          ],
+          "renderHint": "item-outline"
+        },
+        "muted": {
+          "modifier": "nc-item--muted",
+          "tokenGroups": [
+            "core-colors"
+          ],
+          "renderHint": "item-muted"
+        }
       }
     },
     "size": {
       "label": "Size",
       "description": "Groesse — default, sm, xs",
       "values": {
-        "default": { "modifier": null,          "tokenGroups": ["geometry"],  "renderHint": "item-size-default" },
-        "sm":      { "modifier": "nc-item--sm", "tokenGroups": ["geometry"],  "renderHint": "item-size-sm" },
-        "xs":      { "modifier": "nc-item--xs", "tokenGroups": ["geometry"],  "renderHint": "item-size-xs" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "geometry"
+          ],
+          "renderHint": "item-size-default"
+        },
+        "sm": {
+          "modifier": "nc-item--sm",
+          "tokenGroups": [
+            "geometry"
+          ],
+          "renderHint": "item-size-sm"
+        },
+        "xs": {
+          "modifier": "nc-item--xs",
+          "tokenGroups": [
+            "geometry"
+          ],
+          "renderHint": "item-size-xs"
+        }
       }
     },
     "density": {
       "label": "Density",
       "description": "Informationsdichte — compact (wenig Platz), default (ausgewogen), loose (viel Platz)",
       "values": {
-        "compact": { "modifier": "nc-item--compact",  "tokenGroups": ["density-compact"], "renderHint": "item-density-compact" },
-        "default": { "modifier": null,                 "tokenGroups": [],                   "renderHint": "item-density-default" },
-        "loose":   { "modifier": "nc-item--loose",     "tokenGroups": ["density-loose"],    "renderHint": "item-density-loose" }
+        "compact": {
+          "modifier": "nc-item--compact",
+          "tokenGroups": [
+            "density-compact"
+          ],
+          "renderHint": "item-density-compact"
+        },
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "item-density-default"
+        },
+        "loose": {
+          "modifier": "nc-item--loose",
+          "tokenGroups": [
+            "density-loose"
+          ],
+          "renderHint": "item-density-loose"
+        }
       }
     },
     "alignment": {
       "label": "Alignment",
       "description": "Vertikale Ausrichtung — center (zentriert), start (oben)",
       "values": {
-        "center": { "modifier": null,                     "tokenGroups": [], "renderHint": "item-align-center" },
-        "start":  { "modifier": "nc-item--align-start",   "tokenGroups": [], "renderHint": "item-align-start" }
+        "center": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "item-align-center"
+        },
+        "start": {
+          "modifier": "nc-item--align-start",
+          "tokenGroups": [],
+          "renderHint": "item-align-start"
+        }
       }
     },
     "media": {
       "label": "Media",
       "description": "Media-Typ — none, icon, image, avatar, thumbnail (16:9)",
       "values": {
-        "none":      { "modifier": null,                        "tokenGroups": [],          "renderHint": "item-media-none" },
-        "icon":      { "modifier": "nc-item__media--icon",      "tokenGroups": ["media"],   "renderHint": "item-media-icon" },
-        "image":     { "modifier": "nc-item__media--image",     "tokenGroups": ["media"],   "renderHint": "item-media-image" },
-        "avatar":    { "modifier": "nc-item__media--avatar",    "tokenGroups": ["media"],   "renderHint": "item-media-avatar" },
-        "thumbnail": { "modifier": "nc-item__media--thumbnail", "tokenGroups": ["thumbnail"], "renderHint": "item-media-thumbnail" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "item-media-none"
+        },
+        "icon": {
+          "modifier": "nc-item__media--icon",
+          "tokenGroups": [
+            "media"
+          ],
+          "renderHint": "item-media-icon"
+        },
+        "image": {
+          "modifier": "nc-item__media--image",
+          "tokenGroups": [
+            "media"
+          ],
+          "renderHint": "item-media-image"
+        },
+        "avatar": {
+          "modifier": "nc-item__media--avatar",
+          "tokenGroups": [
+            "media"
+          ],
+          "renderHint": "item-media-avatar"
+        },
+        "thumbnail": {
+          "modifier": "nc-item__media--thumbnail",
+          "tokenGroups": [
+            "thumbnail"
+          ],
+          "renderHint": "item-media-thumbnail"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover", "active", "selected", "disabled"],
-    "precedence": ["disabled", "selected", "active", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "selected",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "selected",
+      "active",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover",    "condition": "Nur bei interactive Items (a, button, role=button, --interactive)" },
-      { "state": "active",   "condition": "Nur bei interactive Items" },
-      { "state": "selected", "condition": ".is-selected — dezenter interactive-Hintergrund + Accent-Border links" },
-      { "state": "disabled", "condition": ":disabled, [aria-disabled=true], .is-disabled — opacity + pointer-events: none" }
+      {
+        "state": "hover",
+        "condition": "Nur bei interactive Items (a, button, role=button, --interactive)"
+      },
+      {
+        "state": "active",
+        "condition": "Nur bei interactive Items"
+      },
+      {
+        "state": "selected",
+        "condition": ".is-selected — dezenter interactive-Hintergrund + Accent-Border links"
+      },
+      {
+        "state": "disabled",
+        "condition": ":disabled, [aria-disabled=true], .is-disabled — opacity + pointer-events: none"
+      }
     ],
     "interactive": true
   },
@@ -120,138 +272,451 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-item"],
-    "baseTokenGroups": ["core-colors", "geometry"],
+    "baseClasses": [
+      "nc-item"
+    ],
+    "baseTokenGroups": [
+      "core-colors",
+      "geometry"
+    ],
     "tokenGroups": {
       "core-colors": {
         "label": "Colors",
         "tokens": [
-          "nc-item-bg", "nc-item-border", "nc-item-hover-bg", "nc-item-active-bg",
-          "nc-item-title-color", "nc-item-desc-color",
-          "nc-item-accent-color", "nc-item-accent-width"
+          "nc-item-bg",
+          "nc-item-border",
+          "nc-item-hover-bg",
+          "nc-item-active-bg",
+          "nc-item-title-color",
+          "nc-item-desc-color",
+          "nc-item-accent-color",
+          "nc-item-accent-width"
         ]
       },
       "geometry": {
         "label": "Geometry",
         "tokens": [
-          "nc-item-gap", "nc-item-padding-x", "nc-item-padding-y",
-          "nc-item-radius", "nc-item-border-width", "nc-item-align"
+          "nc-item-gap",
+          "nc-item-padding-x",
+          "nc-item-padding-y",
+          "nc-item-radius",
+          "nc-item-border-width",
+          "nc-item-align",
+          "nc-item-accent-width"
         ]
       },
       "typography": {
         "label": "Typography",
         "tokens": [
-          "nc-item-title-font-size", "nc-item-title-font-weight", "nc-item-title-line-height",
-          "nc-item-desc-font-size", "nc-item-desc-line-height"
+          "nc-item-title-font-size",
+          "nc-item-title-font-weight",
+          "nc-item-title-line-height",
+          "nc-item-desc-font-size",
+          "nc-item-desc-line-height"
         ]
       },
       "selected": {
         "label": "Selected State",
         "tokens": [
-          "nc-item-selected-bg", "nc-item-selected-border", "nc-item-selected-accent-width"
+          "nc-item-selected-bg",
+          "nc-item-selected-border",
+          "nc-item-selected-accent-width"
         ]
       },
       "media": {
         "label": "Media",
         "tokens": [
-          "nc-item-media-size", "nc-item-media-radius", "nc-item-media-bg", "nc-item-media-color"
+          "nc-item-media-size",
+          "nc-item-media-radius",
+          "nc-item-media-bg",
+          "nc-item-media-color"
         ]
       },
       "thumbnail": {
         "label": "Thumbnail",
         "tokens": [
-          "nc-item-thumbnail-ratio", "nc-item-thumbnail-width", "nc-item-thumbnail-radius"
+          "nc-item-thumbnail-ratio",
+          "nc-item-thumbnail-width",
+          "nc-item-thumbnail-radius"
         ]
       },
       "density-compact": {
         "label": "Density: Compact",
         "tokens": [
-          "nc-item-compact-padding-x", "nc-item-compact-padding-y",
-          "nc-item-compact-gap", "nc-item-compact-media-size"
+          "nc-item-compact-padding-x",
+          "nc-item-compact-padding-y",
+          "nc-item-compact-gap",
+          "nc-item-compact-media-size"
         ]
       },
       "density-loose": {
         "label": "Density: Loose",
         "tokens": [
-          "nc-item-loose-padding-x", "nc-item-loose-padding-y",
-          "nc-item-loose-gap", "nc-item-loose-media-size"
+          "nc-item-loose-padding-x",
+          "nc-item-loose-padding-y",
+          "nc-item-loose-gap",
+          "nc-item-loose-media-size"
         ]
       }
     }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier", "axes.size.values.*.modifier", "axes.density.values.*.modifier", "axes.alignment.values.*.modifier", "axes.media.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier",
+        "axes.size.values.*.modifier",
+        "axes.density.values.*.modifier",
+        "axes.alignment.values.*.modifier",
+        "axes.media.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Variants",
+      "id": "variant-comparison",
+      "label": "Variants",
       "description": "Default, Outline, Muted — mit Icon-Media und Description",
-      "matrix": { "axes": { "variant": "*", "size": ["default"], "density": ["default"], "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Outline: border-Kontrast 3:1, Shadow als visueller Lift." }
+      "matrix": {
+        "axes": {
+          "variant": "*",
+          "size": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Outline: border-Kontrast 3:1, Shadow als visueller Lift."
+      }
     },
     {
-      "id": "size-comparison", "label": "Sizes",
+      "id": "size-comparison",
+      "label": "Sizes",
       "description": "Default, SM, XS — Groessenskala",
-      "matrix": { "axes": { "variant": ["default"], "size": "*", "density": ["default"], "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "size" }, "render": { "label": "{size}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "XS: Mindestgroesse 24px Touch-Target beachten." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": "*",
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "XS: Mindestgroesse 24px Touch-Target beachten."
+      }
     },
     {
-      "id": "density-comparison", "label": "Density",
+      "id": "density-comparison",
+      "label": "Density",
       "description": "Compact, Default, Loose — Informationsdichte",
-      "matrix": { "axes": { "variant": ["default"], "size": ["default"], "density": "*", "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "density" }, "render": { "label": "{density}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Compact: Touch-Target min. 44px einhalten." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "default"
+          ],
+          "density": "*",
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "density"
+      },
+      "render": {
+        "label": "{density}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Compact: Touch-Target min. 44px einhalten."
+      }
     },
     {
-      "id": "media-comparison", "label": "Media Types",
+      "id": "media-comparison",
+      "label": "Media Types",
       "description": "None, Icon, Image, Avatar, Thumbnail",
-      "matrix": { "axes": { "variant": ["default"], "size": ["default"], "density": ["default"], "alignment": ["center"], "media": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "media" }, "render": { "label": "{media}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Thumbnails: alt-Text pflegen. Dekorative Icons: aria-hidden." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "media"
+      },
+      "render": {
+        "label": "{media}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Thumbnails: alt-Text pflegen. Dekorative Icons: aria-hidden."
+      }
     },
     {
-      "id": "interactive-states", "label": "Interactive States",
+      "id": "interactive-states",
+      "label": "Interactive States",
       "description": "Default, Hover (Accent-Border), Active, Selected, Disabled",
-      "matrix": { "axes": { "variant": ["default"], "size": ["default"], "density": ["default"], "alignment": ["center"], "media": ["icon"] }, "states": ["default", "hover", "active", "selected", "disabled"] },
-      "layout": "grid", "render": { "label": "{state}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Selected: aria-selected=true. Disabled: aria-disabled + opacity." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "active",
+          "selected",
+          "disabled"
+        ]
+      },
+      "layout": "grid",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Selected: aria-selected=true. Disabled: aria-disabled + opacity."
+      }
     },
     {
-      "id": "alignment-comparison", "label": "Alignment",
+      "id": "alignment-comparison",
+      "label": "Alignment",
       "description": "Center vs Start — vertikale Ausrichtung bei langem Content",
-      "matrix": { "axes": { "variant": ["default"], "size": ["default"], "density": ["default"], "alignment": "*", "media": ["icon"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "alignment" }, "render": { "label": "{alignment}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alignment ist dekorativ, kein A11y-Einfluss." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": "*",
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "alignment"
+      },
+      "render": {
+        "label": "{alignment}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Alignment ist dekorativ, kein A11y-Einfluss."
+      }
     },
     {
-      "id": "group-outline", "label": "Grouped (Outline)",
+      "id": "group-outline",
+      "label": "Grouped (Outline)",
       "description": "nc-item-group--outline: zusammenhaengende Liste mit Border",
-      "matrix": { "axes": { "variant": ["default"], "size": ["default"], "density": ["default"], "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "single", "render": { "label": "Item Group" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Gruppe: role=list, Items: role=listitem." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "label": "Item Group"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Gruppe: role=list, Items: role=listitem."
+      }
     },
     {
-      "id": "search-integration", "label": "Search Results",
+      "id": "search-integration",
+      "label": "Search Results",
       "description": "Item mit Highlight-Slot fuer Suchvorschlaege",
-      "matrix": { "axes": { "variant": ["default"], "size": ["sm"], "density": ["default"], "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "single", "render": { "label": "Search" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Suchvorschlaege: role=option in role=listbox." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "sm"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "label": "Search"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Suchvorschlaege: role=option in role=listbox."
+      }
     },
     {
-      "id": "dropdown-integration", "label": "Dropdown Menu",
+      "id": "dropdown-integration",
+      "label": "Dropdown Menu",
       "description": "Item mit Meta-Slot fuer Keyboard-Shortcuts",
-      "matrix": { "axes": { "variant": ["default"], "size": ["sm"], "density": ["compact"], "alignment": ["center"], "media": ["icon"] }, "states": ["default"] },
-      "layout": "single", "render": { "label": "Dropdown" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Dropdown: role=menuitem, Shortcuts via aria-keyshortcuts." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "sm"
+          ],
+          "density": [
+            "compact"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "media": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "label": "Dropdown"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Dropdown: role=menuitem, Shortcuts via aria-keyshortcuts."
+      }
     }
   ]
 }

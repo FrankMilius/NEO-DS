@@ -82,6 +82,86 @@
       </div>
     </div>
 
+    <!-- Specimen: Clear Trigger + Escape Behavior -->
+    <div class="arena-category-divider">
+      <span class="arena-category-label">Clear Trigger + Escape (v3.0)</span>
+    </div>
+    <div class="arena-specimen" data-specimen-id="clear-trigger" data-token-groups="clear,input-area">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
+          <SearchClear :tokens="tokensLight" :theme="tLight" />
+        </div>
+        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+          <SearchClear :tokens="tokensDark" :theme="tDark" />
+        </div>
+      </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <SearchClear :tokens="activeTokens" :theme="activeTheme" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Specimen: History-First / Popular -->
+    <div class="arena-category-divider">
+      <span class="arena-category-label">History-First / Popular (v3.0)</span>
+    </div>
+    <div class="arena-specimen" data-specimen-id="history-first" data-token-groups="item,group">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
+          <SearchHistory :tokens="tokensLight" :theme="tLight" />
+        </div>
+        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+          <SearchHistory :tokens="tokensDark" :theme="tDark" />
+        </div>
+      </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <SearchHistory :tokens="activeTokens" :theme="activeTheme" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Specimen: Command Palette -->
+    <div class="arena-category-divider">
+      <span class="arena-category-label">Command Palette (⌘K) (v3.0)</span>
+    </div>
+    <div class="arena-specimen" data-specimen-id="command-palette" data-token-groups="command,backdrop">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
+          <SearchCommand :tokens="tokensLight" :theme="tLight" />
+        </div>
+        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+          <SearchCommand :tokens="tokensDark" :theme="tDark" />
+        </div>
+      </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <SearchCommand :tokens="activeTokens" :theme="activeTheme" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Specimen: Mobile Full-Screen -->
+    <div class="arena-category-divider">
+      <span class="arena-category-label">Mobile Full-Screen Takeover (v3.0)</span>
+    </div>
+    <div class="arena-specimen" data-specimen-id="mobile-fullscreen" data-token-groups="mobile">
+      <div v-if="isSplit" class="arena-specimen__pair">
+        <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'] }">
+          <SearchMobile :tokens="tokensLight" :theme="tLight" />
+        </div>
+        <div class="arena-specimen__panel" :style="{ background: tDark['background-base'] }">
+          <SearchMobile :tokens="tokensDark" :theme="tDark" />
+        </div>
+      </div>
+      <div v-else class="arena-specimen__single">
+        <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg }">
+          <SearchMobile :tokens="activeTokens" :theme="activeTheme" />
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -383,7 +463,7 @@ function renderResultItem(t, theme, { icon = null, label, highlight = null, hove
     : h('span', {}, label)
 
   return h('div', { style: resultItemStyle(t, theme, { hovered }) }, [
-    icon ? h('span', { style: { color: iconColor, display: 'inline-flex' } }, [icon]) : null,
+    icon ? h('span', { style: { color: iconColor, display: 'inline-flex' } }, [typeof icon === 'function' ? icon('14px', iconColor) : icon]) : null,
     labelNode,
     badge
       ? h('span', {
@@ -556,4 +636,182 @@ const SearchSizes = defineComponent({
     }
   }
 })
+
+// ═══════════════════════════════════════════════════════════════
+// v3.0.0 Specimens
+// ═══════════════════════════════════════════════════════════════
+
+// Clear Trigger + Escape Behavior
+const SearchClear = defineComponent({
+  props: { tokens: Object, theme: Object },
+  setup(props) {
+    return () => {
+      const t = props.tokens
+      const theme = props.theme
+      const labelStyle = { fontSize: '11px', fontWeight: '600', color: theme['text-tertiary'] || '#9ca3af', marginBottom: '6px' }
+
+      return h('div', { class: 'arena-preview-stack', style: { padding: '16px', gap: '16px' } }, [
+        // Empty state: no clear button
+        h('div', {}, [
+          h('span', { style: labelStyle }, 'Leer — Clear versteckt'),
+          renderSearchInput(theme, { height: '36px', placeholder: 'Suchen...', focused: false, showClear: false })
+        ]),
+        // With value: clear button visible
+        h('div', {}, [
+          h('span', { style: labelStyle }, 'Mit Eingabe — Clear sichtbar'),
+          h('div', { style: { position: 'relative' } }, [
+            renderSearchInput(theme, { height: '36px', value: 'Dashboard', focused: true, showClear: true }),
+          ])
+        ]),
+        // Escape hint
+        h('div', { style: { padding: '8px 12px', borderRadius: '6px', background: `color-mix(in srgb, ${theme['interactive-default']} 6%, transparent)`, fontSize: '11px', color: theme['text-secondary'] } }, [
+          h('strong', {}, 'Escape (3-stufig): '),
+          h('span', {}, '1× Ghost löschen → 2× Results schließen → 3× Input blur')
+        ])
+      ])
+    }
+  }
+})
+
+// History-First / Popular
+const SearchHistory = defineComponent({
+  props: { tokens: Object, theme: Object },
+  setup(props) {
+    return () => {
+      const t = props.tokens
+      const theme = props.theme
+      const labelStyle = { fontSize: '11px', fontWeight: '600', color: theme['text-tertiary'] || '#9ca3af', marginBottom: '6px' }
+
+      const historyItems = [
+        { icon: iconClock, label: 'Dashboard Einstellungen' },
+        { icon: iconClock, label: 'Benutzer verwalten' },
+        { icon: iconClock, label: 'API Dokumentation' },
+      ]
+      const popularItems = [
+        { icon: iconStar, label: 'Erste Schritte' },
+        { icon: iconStar, label: 'Tastaturkürzel' },
+        { icon: iconStar, label: 'Release Notes' },
+      ]
+
+      return h('div', { class: 'arena-preview-stack', style: { padding: '16px', gap: '20px' } }, [
+        // History
+        h('div', {}, [
+          h('span', { style: labelStyle }, 'History-First (leerer Input)'),
+          h('div', { style: { ...searchInputWrapperStyle(theme, { height: '36px', focused: true }), flexDirection: 'column', height: 'auto', alignItems: 'stretch' } }, [
+            h('div', { style: { display: 'flex', alignItems: 'center', height: '36px', padding: '0 12px 0 36px', position: 'relative' } }, [
+              h('div', { style: { position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' } }, [iconSearch('16px', theme['text-tertiary'])]),
+              h('span', { style: searchPlaceholderStyle(theme) }, 'Suchen...'),
+            ]),
+            h('div', { style: { borderTop: `1px solid ${theme['border-secondary']}`, padding: '4px' } }, [
+              h('div', { style: groupLabelStyle(t) }, 'Letzte Suchen'),
+              ...historyItems.map(item =>
+                renderResultItem(t, theme, { icon: item.icon, label: item.label })
+              ),
+              h('div', { style: { ...groupLabelStyle(t), marginTop: '4px' } }, 'Beliebte Suchbegriffe'),
+              ...popularItems.map(item =>
+                renderResultItem(t, theme, { icon: item.icon, label: item.label })
+              ),
+            ])
+          ])
+        ])
+      ])
+    }
+  }
+})
+
+// Command Palette
+const SearchCommand = defineComponent({
+  props: { tokens: Object, theme: Object },
+  setup(props) {
+    return () => {
+      const t = props.tokens
+      const theme = props.theme
+
+      const groups = [
+        { label: 'Seiten', items: [
+          { icon: iconDoc, label: 'Dashboard' },
+          { icon: iconDoc, label: 'Einstellungen' },
+        ]},
+        { label: 'Aktionen', items: [
+          { icon: iconStar, label: 'Neuen Benutzer anlegen' },
+          { icon: iconStar, label: 'Daten exportieren' },
+        ]},
+      ]
+
+      return h('div', { style: { position: 'relative', minHeight: '240px', borderRadius: '8px', overflow: 'hidden', background: `color-mix(in srgb, ${theme['text-primary']} 40%, transparent)`, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '32px' } }, [
+        h('div', { style: { width: '90%', maxWidth: '500px', background: theme['background-base'], borderRadius: '8px', boxShadow: '0 18px 40px rgba(0,0,0,0.16)', overflow: 'hidden' } }, [
+          // Input
+          h('div', { style: { display: 'flex', alignItems: 'center', padding: '8px 12px', gap: '8px', borderBottom: `1px solid ${theme['border-secondary']}` } }, [
+            iconSearch('16px', theme['text-tertiary']),
+            h('span', { style: { ...searchPlaceholderStyle(theme), flex: '1' } }, 'Befehl oder Suche eingeben...'),
+            h('kbd', { style: { fontSize: '10px', padding: '2px 6px', borderRadius: '3px', border: `1px solid ${theme['border-secondary']}`, color: theme['text-tertiary'] } }, 'ESC'),
+          ]),
+          // Results
+          h('div', { style: { padding: '4px' } }, [
+            ...groups.map(g => h('div', {}, [
+              h('div', { style: groupLabelStyle(t) }, g.label),
+              ...g.items.map(item => renderResultItem(t, theme, { icon: item.icon, label: item.label }))
+            ]))
+          ])
+        ])
+      ])
+    }
+  }
+})
+
+// Mobile Full-Screen
+const SearchMobile = defineComponent({
+  props: { tokens: Object, theme: Object },
+  setup(props) {
+    return () => {
+      const t = props.tokens
+      const theme = props.theme
+
+      const mobileResults = [
+        { icon: iconDoc, label: 'Dashboard Übersicht' },
+        { icon: iconDoc, label: 'Team Management' },
+        { icon: iconDoc, label: 'Workflows erstellen' },
+        { icon: iconDoc, label: 'Dokumentation' },
+      ]
+
+      // Simulate mobile phone frame
+      return h('div', { style: { width: '280px', height: '400px', border: `2px solid ${theme['border-primary']}`, borderRadius: '20px', overflow: 'hidden', background: theme['background-base'], display: 'flex', flexDirection: 'column', margin: '0 auto' } }, [
+        // Status bar
+        h('div', { style: { height: '24px', background: theme['background-secondary'], display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: theme['text-tertiary'] } }, '9:41'),
+        // Mobile Search Header
+        h('div', { style: { display: 'flex', alignItems: 'center', height: '48px', padding: '0 12px', gap: '8px', borderBottom: `1px solid ${theme['border-secondary']}` } }, [
+          // Back button
+          h('button', { style: { background: 'none', border: 'none', color: theme['interactive-default'], cursor: 'pointer', padding: '4px' } }, [
+            h('svg', { attrs: { width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' } }, [
+              h('path', { attrs: { d: 'M19 12H5' } }),
+              h('path', { attrs: { d: 'm12 19-7-7 7-7' } }),
+            ])
+          ]),
+          // Input
+          h('div', { style: { flex: '1', height: '32px', borderRadius: '6px', background: theme['background-secondary'], display: 'flex', alignItems: 'center', padding: '0 8px', gap: '6px' } }, [
+            iconSearch('14px', theme['text-tertiary']),
+            h('span', { style: { fontSize: '13px', color: theme['text-primary'] } }, 'Dashboard'),
+          ]),
+          // Clear
+          h('button', { style: { background: 'none', border: 'none', color: theme['text-tertiary'], cursor: 'pointer', padding: '4px' } }, [
+            iconClose('16px', theme['text-tertiary'])
+          ]),
+        ]),
+        // Scrollable Results
+        h('div', { style: { flex: '1', overflowY: 'auto', padding: '4px' } }, [
+          ...mobileResults.map(item => renderResultItem(t, theme, { icon: item.icon, label: item.label }))
+        ]),
+      ])
+    }
+  }
+})
 </script>
+
+<style>
+.arena-preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+</style>

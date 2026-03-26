@@ -140,11 +140,15 @@
 /// Navigational Entire — Root ist <a>
 @mixin card-navigational {
   @include card-interactive-states;
-  text-decoration: none;
+  text-decoration: var(--nc-card-link-decoration);
   color: inherit;
 
-  &:hover .nc-card__title {
-    color: var(--nc-card-nav-color-hover);
+  &:hover {
+    text-decoration: var(--nc-card-link-hover-decoration);
+
+    .nc-card__title {
+      color: var(--nc-card-nav-color-hover);
+    }
   }
 }
 
@@ -303,7 +307,7 @@
 
     &:hover {
       color: var(--nc-card-nav-color-hover);
-      text-decoration: underline;
+      text-decoration: var(--nc-card-link-hover-decoration);
     }
 
     &:focus-visible {

@@ -46,7 +46,7 @@
 
     <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
 
-      <div class="lab-viewport-inner">
+      <div class="lab-viewport-inner" ref="labViewportRef">
 
       <!-- ═══════════════════════════════════════════════════════════════
            TYPOGRAPHY SHOWCASE (when editing Typography section)
@@ -1235,6 +1235,30 @@
         <DataTableArena />
       </template>
 
+      <template v-else-if="isComponentSection && activeComponentId === 'hero'">
+        <HeroArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'container'">
+        <ContainerArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'section'">
+        <SectionArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'shell'">
+        <ShellArena />
+      </template>
+
+      <template v-else-if="isComponentSection && activeComponentId === 'psychedelic-bg'">
+        <PsychedelicBgArena />
+      </template>
+
+      <template v-else-if="isComponentSection && hasRecipeSpecimens">
+        <RecipeSpecimenArena :componentId="activeComponentId" />
+      </template>
+
       <template v-else-if="isComponentSection">
         <ComponentArena :componentId="activeComponentId" />
       </template>
@@ -1943,6 +1967,12 @@ import ItemArena from './ItemArena.vue'
 import TableArena from './TableArena.vue'
 import DataTableArena from './DataTableArena.vue'
 import GridArena from './GridArena.vue'
+import HeroArena from './HeroArena.vue'
+import RecipeSpecimenArena from './RecipeSpecimenArena.vue'
+import ContainerArena from './ContainerArena.vue'
+import SectionArena from './SectionArena.vue'
+import ShellArena from './ShellArena.vue'
+import PsychedelicBgArena from './PsychedelicBgArena.vue'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import TypographyEditor from '../foundation/TypographyEditor.vue'
 import SpacingInspector from '../foundation/SpacingInspector.vue'
@@ -1957,9 +1987,11 @@ import ElementsOverview from '../foundation/ElementsOverview.vue'
 import ThemesOverview from '../foundation/ThemesOverview.vue'
 import IconsEditor from '../foundation/IconsEditor.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
-import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
+import { useRecipeLoader, hasRecipe } from '../../composables/useRecipeLoader.js'
+import { useSpecimenClick } from '../../composables/useSpecimenClick.js'
 
 const store = useThemeStore()
+const labViewportRef = ref(null)
 const typoTokens = foundationTokens.typography.tokens
 
 // ---------------------------------------------------------------------------
@@ -1986,6 +2018,19 @@ const activeComponentId = computed(() => store.state.activeSection.replace('comp
 // Recipe Filterbar — extrahiert Filteroptionen aus Recipe-Daten
 // ---------------------------------------------------------------------------
 const { recipe: activeRecipe } = useRecipeLoader(activeComponentId)
+
+// Prüfe ob die aktive Komponente ein Recipe mit Specimens hat (fuer Fallback-Rendering)
+const hasRecipeSpecimens = computed(() => {
+  if (!isComponentSection.value) return false
+  const id = activeComponentId.value
+  if (!hasRecipe(id)) return false
+  // Nur als Fallback nutzen wenn KEINE dedizierte Arena existiert
+  // (die dedizierten sind bereits per v-else-if davor geroutet)
+  return activeRecipe.value?.specimens?.length > 0
+})
+
+// Specimen-Click Delegation: Klicks auf .arena-specimen -> Inspector-Filter
+const { selectedSpecimenId } = useSpecimenClick(labViewportRef, activeComponentId, activeRecipe)
 
 const filterOptions = computed(() => {
   if (!activeRecipe.value) return {}
@@ -3897,7 +3942,17 @@ const switchOn = computed(() => ({
   flex-direction: column;
   border: 1.5px solid transparent;
   border-radius: 10px;
-  transition: border-color .2s ease;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  cursor: pointer;
+}
+
+.arena-specimen:hover {
+  border-color: color-mix(in srgb, #8b5cf6 25%, transparent);
+}
+
+.arena-specimen--selected {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #8b5cf6 15%, transparent);
 }
 
 .arena-specimen__label {
