@@ -1,0 +1,304 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "footer",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "layout",
+    "content",
+    "cta"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-footer",
+    "slots": [
+      {
+        "name": "cta-area",
+        "selector": ".nc-footer__cta",
+        "required": false,
+        "description": "Engagement-CTA: Kicker, Headline und Button. Nur aktiv bei layout=cta-active."
+      },
+      {
+        "name": "columns",
+        "selector": ".nc-footer__columns",
+        "required": false,
+        "description": "Sitemap-Grid: 2-4 Spalten mit Link-Listen. Nur aktiv bei layout=columns oder cta-active."
+      },
+      {
+        "name": "column",
+        "selector": ".nc-footer__column",
+        "required": false,
+        "description": "Einzelne Spalte im Grid mit Heading + Link-Liste."
+      },
+      {
+        "name": "heading",
+        "selector": ".nc-footer__heading",
+        "required": false,
+        "description": "Spalten-Ueberschrift (uppercase, semibold)."
+      },
+      {
+        "name": "links",
+        "selector": ".nc-footer__links",
+        "required": false,
+        "description": "Link-Liste innerhalb einer Spalte."
+      },
+      {
+        "name": "social-links",
+        "selector": ".nc-footer__social",
+        "required": false,
+        "description": "Social-Media-Icons. Konsistente Hover-States und aria-labels."
+      },
+      {
+        "name": "legal-area",
+        "selector": ".nc-footer__legal",
+        "required": true,
+        "description": "Copyright und rechtliche Links. Immer sichtbar."
+      },
+      {
+        "name": "newsletter",
+        "selector": ".nc-footer__newsletter",
+        "required": false,
+        "description": "Optionales Newsletter-Input-Feld fuer Lead-Generierung."
+      },
+      {
+        "name": "separator",
+        "selector": ".nc-footer__separator",
+        "required": false,
+        "description": "Horizontale Trennlinie zwischen Bereichen."
+      }
+    ],
+    "notes": [
+      "Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.",
+      "Simple-Layout: 2-Spalten Flexbox — Legal links, Social rechts.",
+      "Columns-Layout: CSS Grid mit 2-4 Spalten. Headings uppercase. Gap via Token.",
+      "CTA-Layout: Dedizierter CTA-Bereich oberhalb. Kicker + Headline + Button.",
+      "Inverse Theme: background-inverse, text-inverse. Links: text-link auf inversem BG.",
+      "Mobile: Columns stapeln vertikal. Optional Accordion-Transformation.",
+      "Social-Icons: Flex-Row, gap via Token. Jedes Icon: aria-label mit Plattform-Name.",
+      "Legal: Copyright-Text (text-tertiary) + Flex-Row mit Legal-Links.",
+      "Newsletter: Input + Button, form-field-recipe kompatibel.",
+      "Separator: 1px border-secondary horizontal, margin via Token."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Footer-Variante — simple (Legal + Social), columns (Sitemap-Grid), cta-active (Engagement-CTA + Columns)",
+      "values": [
+        {
+          "value": "simple",
+          "cssModifier": null,
+          "default": false,
+          "label": "simple"
+        },
+        {
+          "value": "columns",
+          "cssModifier": "nc-footer--columns",
+          "default": false,
+          "label": "columns"
+        },
+        {
+          "value": "cta-active",
+          "cssModifier": "nc-footer--cta",
+          "default": false,
+          "label": "cta-active"
+        }
+      ]
+    },
+    "columns": {
+      "label": "Columns",
+      "description": "Anzahl der Spalten im Sitemap-Grid (nur bei layout=columns oder cta-active)",
+      "values": [
+        {
+          "value": "2",
+          "cssModifier": "nc-footer--2-col",
+          "default": false,
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "cssModifier": "nc-footer--3-col",
+          "default": false,
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "cssModifier": "nc-footer--4-col",
+          "default": false,
+          "label": "4"
+        }
+      ]
+    },
+    "theme": {
+      "label": "Theme",
+      "description": "Farbschema — base (hell), inverse (dunkel)",
+      "values": [
+        {
+          "value": "base",
+          "cssModifier": null,
+          "default": false,
+          "label": "base"
+        },
+        {
+          "value": "inverse",
+          "cssModifier": "nc-footer--inverse",
+          "default": false,
+          "label": "inverse"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus-visible"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus-visible",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-footer"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "nc-footer-bg"
+        },
+        {
+          "token": "nc-footer-color"
+        },
+        {
+          "token": "nc-footer-padding-block"
+        },
+        {
+          "token": "nc-footer-padding-inline"
+        },
+        {
+          "token": "nc-footer-max-width"
+        },
+        {
+          "token": "nc-footer-separator-color"
+        },
+        {
+          "token": "nc-footer-link-color"
+        },
+        {
+          "token": "nc-footer-link-hover-color"
+        }
+      ],
+      "Columns": [
+        {
+          "token": "nc-footer-col-gap"
+        },
+        {
+          "token": "nc-footer-heading-size"
+        },
+        {
+          "token": "nc-footer-heading-weight"
+        },
+        {
+          "token": "nc-footer-heading-color"
+        },
+        {
+          "token": "nc-footer-heading-transform"
+        },
+        {
+          "token": "nc-footer-link-size"
+        }
+      ],
+      "CTA Area": [
+        {
+          "token": "nc-footer-cta-kicker-size"
+        },
+        {
+          "token": "nc-footer-cta-headline-size"
+        },
+        {
+          "token": "nc-footer-cta-headline-weight"
+        },
+        {
+          "token": "nc-footer-cta-gap"
+        }
+      ],
+      "Social Links": [
+        {
+          "token": "nc-footer-social-icon-size"
+        },
+        {
+          "token": "nc-footer-social-gap"
+        },
+        {
+          "token": "nc-footer-social-color"
+        },
+        {
+          "token": "nc-footer-social-hover-color"
+        }
+      ],
+      "Legal Area": [
+        {
+          "token": "nc-footer-legal-size"
+        },
+        {
+          "token": "nc-footer-legal-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "theme": [
+              "inverse"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Inverse: Kontrast von text-inverse und link-Farben auf dunklem BG pruefen."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_footer.scss"
+    ],
+    "story": "stories/organisms/footer.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/footer-docs.html"
+  }
+}

@@ -1,0 +1,297 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "navigation-orchestration",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "orchestration",
+    "composition",
+    "governance"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-header",
+    "slots": [
+      {
+        "name": "shell-slot",
+        "selector": ".nc-shell__navbar",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "header",
+        "selector": ".nc-header",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "nav-inner",
+        "selector": ".nc-nav__inner",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "brand",
+        "selector": ".nc-brand",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "menu",
+        "selector": ".nc-navigation-menu",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "menu-list",
+        "selector": ".nc-navigation-menu__list",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "menu-item",
+        "selector": ".nc-navigation-menu__item",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "menu-trigger",
+        "selector": ".nc-navigation-menu__trigger",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "menu-viewport",
+        "selector": ".nc-navigation-menu__viewport",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nav-link",
+        "selector": ".nc-nav__link",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nav-icon",
+        "selector": ".nc-nav__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nav-label",
+        "selector": ".nc-nav__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nav-badge",
+        "selector": ".nc-nav__badge",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mobile-toggle",
+        "selector": ".nc-mobile-toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-nav__actions",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tools",
+        "selector": ".nc-tools",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Ebene 1 — Shell: .nc-shell__navbar Slot reserviert die Grid-Row. nc-shell-z-navbar bestimmt den Z-Index.",
+      "Ebene 2 — Navigation: .nc-header fuellt den Shell-Slot. Sticky, Blur, Emphasis, Mobile-Toggle.",
+      "Ebene 3 — NavigationMenu: .nc-navigation-menu sitzt in .nc-nav__inner. Steuert Link-Verteilung und Dropdowns.",
+      "Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.",
+      "Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.",
+      "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "viewport": {
+      "label": "Viewport",
+      "description": "Responsive Modus — desktop (Navigation-Menu sichtbar), mobile (Hamburger → Drawer)",
+      "values": [
+        {
+          "value": "desktop",
+          "cssModifier": null,
+          "default": false,
+          "label": "desktop"
+        },
+        {
+          "value": "mobile",
+          "cssModifier": null,
+          "default": false,
+          "label": "mobile"
+        }
+      ]
+    },
+    "density": {
+      "label": "Density",
+      "description": "Gesamtdichte der Navigation — default, compact (reduzierte Hoehe/Gaps)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-header--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "scrolled",
+      "hidden",
+      "mobile-open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "scrolled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hidden",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "mobile-open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-header"
+    ],
+    "tokenGroups": {
+      "Composition Map": [
+        {
+          "token": "nc-nav-orch-shell-z-index"
+        },
+        {
+          "token": "nc-nav-orch-height"
+        },
+        {
+          "token": "nc-nav-orch-gap"
+        },
+        {
+          "token": "nc-nav-orch-icon-size"
+        },
+        {
+          "token": "nc-nav-orch-link-hover-bg"
+        },
+        {
+          "token": "nc-nav-orch-link-active-border"
+        },
+        {
+          "token": "nc-nav-orch-viewport-shadow"
+        }
+      ],
+      "Token Sync Rules": [
+        {
+          "token": "nc-nav-orch-sync-height"
+        },
+        {
+          "token": "nc-nav-orch-sync-interaction"
+        },
+        {
+          "token": "nc-nav-orch-sync-elevation"
+        },
+        {
+          "token": "nc-nav-orch-sync-spacing"
+        }
+      ],
+      "Mobile Orchestration": [
+        {
+          "token": "nc-nav-orch-mobile-breakpoint"
+        },
+        {
+          "token": "nc-nav-orch-mobile-drawer-width"
+        }
+      ],
+      "Compact Density": [
+        {
+          "token": "nc-nav-orch-compact-height"
+        },
+        {
+          "token": "nc-nav-orch-compact-gap"
+        },
+        {
+          "token": "nc-nav-orch-compact-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard",
+      "hasSkipLink"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "viewport": [
+              "mobile"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "focus-trap",
+          "aria-expanded"
+        ],
+        "note": "Mobile Drawer: Focus-Trap aktiv, Toggle: aria-expanded, Escape schliesst."
+      }
+    ]
+  },
+  "dependencies": [
+    "header",
+    "navigation",
+    "shell"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/navigation-orchestration.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

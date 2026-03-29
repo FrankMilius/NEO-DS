@@ -1,0 +1,361 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "banner",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "feedback",
+    "notification",
+    "layout"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-banner",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-banner__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-banner__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-banner__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "link",
+        "selector": ".nc-banner__link",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-banner__close",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.",
+      "Root: flex-Layout, zentriert, volle Breite. Farbe via private Custom Props --_banner-bg/--_banner-color.",
+      "Icon: Token-gesteuert (--nc-banner-icon-size), dekorativ (aria-hidden), optional links.",
+      "Content: flex-wrap, zentriert. Text + optionaler CTA-Link.",
+      "Title: Fettgedruckter Praefix (z.B. 'Wartung:') fuer bessere Scanbarkeit. Token: --nc-banner-title-weight.",
+      "Link: erbt Farbe, bold + underline. Hover: opacity-prominent.",
+      "Close-Button: 20px, opacity medium → 1 bei Hover. BG via color-mix(currentColor 15%).",
+      "Varianten setzen --_banner-bg und --_banner-color auf die jeweiligen Feedback-Farben.",
+      "Border-Accent (--accent): color-mix(bg 12%, transparent) + 4px border-left. Textfarbe wechselt zu text-primary.",
+      "Position: --sticky (sticky top:0) oder --fixed (fixed top:0 left:0 right:0).",
+      "z-index: notification-Ebene fuer Sichtbarkeit ueber anderem Content.",
+      "Dismiss-Animation: .is-dismissing → @keyframes nc-banner-dismiss (max-height + padding + opacity → 0).",
+      "Layout-Shift-Vermeidung: Bei --fixed sollte JS den body/shell padding-top um die Banner-Hoehe erhoehen. Beim Dismiss padding-top zuruecksetzen.",
+      "Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.",
+      "Reduced Motion: Dismiss ohne Animation (display:none).",
+      "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "severity": {
+      "label": "Severity",
+      "description": "Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)",
+      "values": [
+        {
+          "value": "info",
+          "cssModifier": null,
+          "default": false,
+          "label": "info"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-banner--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-banner--danger",
+          "default": false,
+          "label": "danger"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-banner--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    },
+    "position": {
+      "label": "Position",
+      "description": "Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "sticky",
+          "cssModifier": "nc-banner--sticky",
+          "default": false,
+          "label": "sticky"
+        },
+        {
+          "value": "fixed",
+          "cssModifier": "nc-banner--fixed",
+          "default": false,
+          "label": "fixed"
+        }
+      ]
+    },
+    "style": {
+      "label": "Style",
+      "description": "Visueller Stil — solid (volle Farbflaeche), accent (dezente BG + Akzent-Border)",
+      "values": [
+        {
+          "value": "solid",
+          "cssModifier": null,
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "nc-banner--accent",
+          "default": false,
+          "label": "accent"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full",
+      "values": [
+        {
+          "value": "text-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "text-only"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        },
+        {
+          "value": "with-title",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-title"
+        },
+        {
+          "value": "with-link",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-link"
+        },
+        {
+          "value": "with-close",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-close"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "dismissing"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "dismissing",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-banner"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "nc-banner-padding"
+        },
+        {
+          "token": "nc-banner-gap"
+        },
+        {
+          "token": "nc-banner-z-index"
+        },
+        {
+          "token": "nc-banner-font-size"
+        },
+        {
+          "token": "nc-banner-font-weight"
+        },
+        {
+          "token": "nc-banner-icon-size"
+        }
+      ],
+      "Info": [
+        {
+          "token": "nc-banner-info-bg"
+        },
+        {
+          "token": "nc-banner-info-color"
+        }
+      ],
+      "Warning": [
+        {
+          "token": "nc-banner-warning-bg"
+        },
+        {
+          "token": "nc-banner-warning-color"
+        }
+      ],
+      "Danger": [
+        {
+          "token": "nc-banner-danger-bg"
+        },
+        {
+          "token": "nc-banner-danger-color"
+        }
+      ],
+      "Success": [
+        {
+          "token": "nc-banner-success-bg"
+        },
+        {
+          "token": "nc-banner-success-color"
+        }
+      ],
+      "Border-Accent": [
+        {
+          "token": "nc-banner-accent-border-width"
+        },
+        {
+          "token": "nc-banner-accent-border-color"
+        }
+      ],
+      "Close Button": [
+        {
+          "token": "nc-banner-close-size"
+        },
+        {
+          "token": "nc-banner-close-radius"
+        },
+        {
+          "token": "nc-banner-close-opacity"
+        },
+        {
+          "token": "nc-banner-close-opacity-hover"
+        }
+      ],
+      "Link": [
+        {
+          "token": "nc-banner-link-weight"
+        },
+        {
+          "token": "nc-banner-link-underline"
+        }
+      ],
+      "Dismiss Animation": [
+        {
+          "token": "nc-banner-dismiss-duration"
+        },
+        {
+          "token": "nc-banner-title-weight"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "danger"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-alert"
+        ],
+        "note": "Danger: role='alert' fuer sofortige Screen-Reader-Ankuendigung. Oder aria-live='assertive'."
+      },
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "warning"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-alert"
+        ],
+        "note": "Warning: role='alert' oder aria-live='polite' je nach Dringlichkeit."
+      },
+      {
+        "when": {
+          "axes": {
+            "style": [
+              "accent"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-check-accent"
+        ],
+        "note": "Accent-Modus: Textfarbe ist text-primary auf 12%-Mix-BG. Kontrast gegen subtilen Hintergrund pruefen."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_banner.scss"
+    ],
+    "story": "stories/organisms/banner.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/BannerArena.vue",
+    "drupal": [],
+    "docs": "docs/banner-docs.html"
+  }
+}

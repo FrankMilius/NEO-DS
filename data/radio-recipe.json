@@ -5,7 +5,11 @@
     "component": "radio",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "selection"],
+    "tags": [
+      "interactive",
+      "form",
+      "selection"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
@@ -20,15 +24,38 @@
           "Neue Tokens: nc-radio-card-bg, nc-radio-card-bg-checked, nc-radio-card-border, nc-radio-card-border-checked, nc-radio-card-border-hover, nc-radio-card-radius, nc-radio-card-padding"
         ]
       }
-    ]
+    ],
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_radio.scss"
+      ],
+      "story": "stories/atoms/radio.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RadioArena.vue",
+      "drupal": [],
+      "docs": "docs/radio-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-radio" },
+    "root": {
+      "element": ".nc-radio"
+    },
     "slots": [
-      { "name": "input",   "element": ".nc-radio__input",   "optional": false },
-      { "name": "control", "element": ".nc-radio__control", "optional": false },
-      { "name": "label",   "element": ".nc-radio__label",   "optional": true }
+      {
+        "name": "input",
+        "element": ".nc-radio__input",
+        "optional": false
+      },
+      {
+        "name": "control",
+        "element": ".nc-radio__control",
+        "optional": false
+      },
+      {
+        "name": "label",
+        "element": ".nc-radio__label",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -43,81 +70,170 @@
       "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "3 Groessenabstufungen — sm (16px) / md (20px, Standard) / lg (24px)",
       "values": {
-        "sm": { "modifier": "nc-radio--sm", "tokenGroups": [] },
-        "md": { "modifier": null,           "tokenGroups": [] },
-        "lg": { "modifier": "nc-radio--lg", "tokenGroups": [] }
+        "sm": {
+          "modifier": "nc-radio--sm",
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-radio--lg",
+          "tokenGroups": []
+        }
       }
     },
-
     "alignment": {
       "label": "Alignment",
       "description": "Vertikale Ausrichtung des Controls zum Label — center (Standard, zentriert), top (obenbuendig, fuer mehrzeilige Labels)",
       "values": {
-        "center": { "modifier": null,              "tokenGroups": [] },
-        "top":    { "modifier": "nc-radio--top",   "tokenGroups": [] }
+        "center": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "top": {
+          "modifier": "nc-radio--top",
+          "tokenGroups": []
+        }
       }
     },
-
     "variant": {
       "label": "Variant",
       "description": "Visuelle Variante — default (Standard-Radio), card (umgebender Rahmen mit Checked-Hintergrund)",
       "values": {
-        "default": { "modifier": null,               "tokenGroups": [] },
-        "card":    { "modifier": "nc-radio--card",   "tokenGroups": ["card"] }
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "card": {
+          "modifier": "nc-radio--card",
+          "tokenGroups": [
+            "card"
+          ]
+        }
       }
     },
-
     "validation": {
       "label": "Validation",
       "description": "Validierungszustand — none (Standard), error (roter Rand)",
       "values": {
-        "none":  { "modifier": null,                "tokenGroups": [] },
-        "error": { "modifier": "nc-radio--error",   "tokenGroups": ["state-error"] }
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "error": {
+          "modifier": "nc-radio--error",
+          "tokenGroups": [
+            "state-error"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "checked", "disabled", "focus"],
-    "precedence": ["disabled", "focus", "checked", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "checked",
+      "disabled",
+      "focus"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "checked",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["disabled"], "note": "Hover nur wenn nicht disabled" },
-      { "state": "focus", "unless": ["disabled"], "note": "Focus nur wenn nicht disabled" }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Hover nur wenn nicht disabled"
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus nur wenn nicht disabled"
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Native <input type='radio'> bleibt im DOM (sr-only). Label via <label> Wrapper. Pfeil-Tasten navigieren innerhalb der Radio-Gruppe."
     },
     "overrides": [
       {
-        "when": { "axes": { "validation": ["error"] } },
-        "require": ["aria-invalid", "aria-describedby"],
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
         "note": "Error-State braucht aria-invalid='true' auf dem Input und aria-describedby das auf die Fehlermeldung verweist."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "aria-disabled='true' bevorzugt wenn Radio Teil eines sichtbaren Formulars ist."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Radio braucht immer ein <label> (Wrapper oder for/id) oder aria-label."] },
-      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."] }
+      {
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Radio braucht immer ein <label> (Wrapper oder for/id) oder aria-label."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "notes": [
+          "Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."
+        ]
+      }
     ],
     "copy": {
       "label": {
@@ -126,11 +242,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-radio"],
-    "baseTokenGroups": ["core-geometry", "core-colors"],
-
+    "baseClasses": [
+      "nc-radio"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-colors"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -199,12 +318,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -220,18 +346,38 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States — MD",
       "description": "Radio in allen interaktiven Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["default", "hover", "checked", "disabled", "focus"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "checked",
+          "disabled",
+          "focus"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Alle States muessen visuell unterscheidbar sein. Focus braucht sichtbaren Ring. Checked-Dot muss klar erkennbar sein."
@@ -242,13 +388,33 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": "*",
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["core-geometry"],
+      "focusTokenGroups": [
+        "core-geometry"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "SM (16px) muss 44px Touch-Target einhalten (ggf. durch Label-Wrapper oder padding)."
@@ -259,12 +425,30 @@
       "label": "Alignment: Center vs Top",
       "description": "Vergleich der vertikalen Ausrichtung bei mehrzeiligem Label",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": "*", "variant": ["default"], "validation": ["none"] },
-        "states": ["checked"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": "*",
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "checked"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "alignment" },
-      "render": { "compositionType": "radio-multiline-label", "label": "{alignment}" },
+      "layoutConfig": {
+        "rowAxis": "alignment"
+      },
+      "render": {
+        "compositionType": "radio-multiline-label",
+        "label": "{alignment}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Bei top-Alignment: Control bleibt an erster Textzeile ausgerichtet. Touch-Target muss weiterhin 44px erfuellen."
@@ -275,12 +459,32 @@
       "label": "Default vs Checked",
       "description": "Vergleich unchecked und checked mit Dot-Animation",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["state-checked"],
+      "focusTokenGroups": [
+        "state-checked"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Dot muss 3:1 Kontrast gegen bg-checked haben. Dot-Scale (0.4) erzeugt einen visuell klaren Indikator."
@@ -290,14 +494,38 @@
       "id": "radio-group",
       "label": "Radio Group",
       "description": "Mehrere Radios in einer Gruppe — nur einer kann aktiv sein",
-      "composes": ["label", "fieldset"],
+      "composes": [
+        "label",
+        "fieldset"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["label"],
+      "focusTokenGroups": [
+        "label"
+      ],
       "layout": "row",
-      "render": { "compositionType": "radio-group", "label": "group" },
+      "render": {
+        "compositionType": "radio-group",
+        "label": "group"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Radio-Gruppe sollte in <fieldset> mit <legend> stehen. Pfeil-Tasten navigieren zwischen den Optionen."
@@ -308,12 +536,32 @@
       "label": "Error State",
       "description": "Error-Validierung fuer die Radio-Gruppe",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["default"], "validation": ["error"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "error"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["state-error"],
+      "focusTokenGroups": [
+        "state-error"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error-Border muss 3:1 Kontrast zum Hintergrund haben. Farbe nie als einziges Signal — immer mit Fehlermeldung kombinieren."
@@ -324,12 +572,31 @@
       "label": "Disabled States",
       "description": "Disabled in unchecked und checked",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "disabled"
+        ]
       },
-      "focusTokenGroups": ["state-disabled"],
+      "focusTokenGroups": [
+        "state-disabled"
+      ],
       "layout": "row",
-      "render": { "label": "disabled" },
+      "render": {
+        "label": "disabled"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Disabled hat reduzierte Opacity. Label-Farbe wechselt zu text-disabled. Kein Hover/Focus moeglich."
@@ -339,15 +606,38 @@
       "id": "with-label",
       "label": "With Label Text",
       "description": "Radio mit Label-Text in allen Groessen",
-      "composes": ["label"],
+      "composes": [
+        "label"
+      ],
       "matrix": {
-        "axes": { "size": "*", "alignment": ["center"], "variant": ["default"], "validation": ["none"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": "*",
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["label"],
+      "focusTokenGroups": [
+        "label"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "compositionType": "radio-with-label", "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "compositionType": "radio-with-label",
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Label-Text muss 4.5:1 Kontrast einhalten. Klick auf Label toggled das Radio."
@@ -358,12 +648,34 @@
       "label": "Card Variant",
       "description": "Radio als Card mit umgebendem Rahmen — default, checked, disabled",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": ["card"], "validation": ["none"] },
-        "states": ["default", "checked", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": [
+            "card"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked",
+          "disabled"
+        ]
       },
-      "focusTokenGroups": ["card"],
+      "focusTokenGroups": [
+        "card"
+      ],
       "layout": "row",
-      "render": { "compositionType": "radio-card", "label": "{state}" },
+      "render": {
+        "compositionType": "radio-card",
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Card-Border muss 3:1 Kontrast gegen Hintergrund haben. Checked-State zeigt aktiven Hintergrund + Akzent-Border."
@@ -374,13 +686,35 @@
       "label": "Default vs Card",
       "description": "Vergleich der Standard-Radio mit der Card-Variante",
       "matrix": {
-        "axes": { "size": ["md"], "alignment": ["center"], "variant": "*", "validation": ["none"] },
-        "states": ["default", "checked"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "variant": "*",
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "checked"
+        ]
       },
-      "focusTokenGroups": ["card", "core-colors"],
+      "focusTokenGroups": [
+        "card",
+        "core-colors"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "compositionType": "radio-with-label", "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "compositionType": "radio-with-label",
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Beide Varianten muessen gleiche A11y-Garantien bieten: Focus-Ring, Kontrast, Keyboard-Support."

@@ -1,0 +1,537 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "card",
+  "version": "3.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "container",
+    "surface",
+    "interactive",
+    "layout"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-card",
+    "slots": [
+      {
+        "name": "media",
+        "selector": ".nc-card__media",
+        "required": false,
+        "description": "Bild, Video oder Platzhalter. Standard aspect-ratio 3:2."
+      },
+      {
+        "name": "content",
+        "selector": ".nc-card__content",
+        "required": true,
+        "description": "Freier Inhaltsbereich, flex-grow: 1, Padding via Token."
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-card__footer",
+        "required": false,
+        "description": "Aktionen, Meta. margin-top: auto, immer am unteren Rand."
+      }
+    ],
+    "notes": [
+      "Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entire), <label> (selectable), <details> (expandable).",
+      "Title-Link (navigational-partial): ::after { position: absolute; inset: 0 } fuer Stretched Link.",
+      "Selectable: Hidden <input> (sr-only), :has(:checked) fuer Selected-State.",
+      "Footer-Actions haben z-index: 1 ueber dem Stretched Title-Link.",
+      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "behavior": {
+      "label": "Behavior",
+      "description": "Interaktionsmodell der Card",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "navigational",
+          "cssModifier": "nc-card--navigational",
+          "default": false,
+          "label": "navigational"
+        },
+        {
+          "value": "selectable",
+          "cssModifier": "nc-card--selectable",
+          "default": false,
+          "label": "selectable"
+        },
+        {
+          "value": "expandable",
+          "cssModifier": "nc-card--expandable",
+          "default": false,
+          "label": "expandable"
+        },
+        {
+          "value": "action",
+          "cssModifier": "nc-card--action",
+          "default": false,
+          "label": "action"
+        }
+      ]
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Visuelles Layout-Muster der Card",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "preview",
+          "cssModifier": "nc-card--preview",
+          "default": false,
+          "label": "preview"
+        },
+        {
+          "value": "featured",
+          "cssModifier": "nc-card--preview nc-card--featured",
+          "default": false,
+          "label": "featured"
+        },
+        {
+          "value": "summary",
+          "cssModifier": "nc-card--summary",
+          "default": false,
+          "label": "summary"
+        },
+        {
+          "value": "status",
+          "cssModifier": "nc-card--status",
+          "default": false,
+          "label": "status"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": "nc-card--horizontal",
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "statusLevel": {
+      "label": "Status Level",
+      "description": "Farbe des Status-Indikators (nur fuer pattern: status)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-card--status-success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-card--status-warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-card--status-danger",
+          "default": false,
+          "label": "danger"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-card--status-info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "context": {
+      "label": "Layout-Kontext",
+      "description": "Kontextueller Kontext der Card innerhalb eines Grid/Section-Layouts",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "tight",
+          "cssModifier": "nc-card--tight",
+          "default": false,
+          "label": "tight"
+        },
+        {
+          "value": "display",
+          "cssModifier": "nc-card--display",
+          "default": false,
+          "label": "display"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus-visible",
+      "active",
+      "disabled",
+      "selected",
+      "open",
+      "skeleton"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [
+          "shadowElevate",
+          "borderHighlight"
+        ],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus-visible",
+        "effects": [
+          "focusRingInset"
+        ],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [
+          "scaleDown"
+        ],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [
+          "blockInteraction"
+        ],
+        "attributes": {
+          "aria-disabled": "true"
+        },
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [
+          "selectedRing"
+        ],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "open",
+        "effects": [
+          "expandIconRotate"
+        ],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "skeleton",
+        "effects": [
+          "shimmerAnimation"
+        ],
+        "attributes": {
+          "aria-hidden": "true"
+        },
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-card"
+    ],
+    "tokenGroups": {
+      "Basis": [
+        {
+          "token": "nc-card-bg"
+        },
+        {
+          "token": "nc-card-color"
+        },
+        {
+          "token": "nc-card-border"
+        },
+        {
+          "token": "nc-card-radius"
+        },
+        {
+          "token": "nc-card-padding"
+        },
+        {
+          "token": "nc-card-shadow"
+        },
+        {
+          "token": "nc-card-shadow-hover"
+        },
+        {
+          "token": "nc-card-border-width"
+        },
+        {
+          "token": "nc-card-disabled-opacity"
+        }
+      ],
+      "Spacing": [
+        {
+          "token": "nc-card-header-padding"
+        },
+        {
+          "token": "nc-card-header-gap"
+        },
+        {
+          "token": "nc-card-content-padding"
+        },
+        {
+          "token": "nc-card-footer-padding"
+        },
+        {
+          "token": "nc-card-footer-gap"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-card-title-font-size"
+        },
+        {
+          "token": "nc-card-title-font-weight"
+        },
+        {
+          "token": "nc-card-title-color"
+        },
+        {
+          "token": "nc-card-title-line-height"
+        },
+        {
+          "token": "nc-card-description-font-size"
+        },
+        {
+          "token": "nc-card-description-color"
+        },
+        {
+          "token": "nc-card-description-line-height"
+        }
+      ],
+      "Interactive": [
+        {
+          "token": "nc-card-transition-duration"
+        },
+        {
+          "token": "nc-card-hover-border"
+        },
+        {
+          "token": "nc-card-nav-color-hover"
+        },
+        {
+          "token": "nc-card-link-decoration"
+        },
+        {
+          "token": "nc-card-link-hover-decoration"
+        }
+      ],
+      "Selectable": [
+        {
+          "token": "nc-card-selected-border"
+        },
+        {
+          "token": "nc-card-selected-bg"
+        },
+        {
+          "token": "nc-card-selected-ring-width"
+        }
+      ],
+      "Expandable": [
+        {
+          "token": "nc-card-summary-font-weight"
+        },
+        {
+          "token": "nc-card-summary-padding"
+        },
+        {
+          "token": "nc-card-details-content-padding"
+        },
+        {
+          "token": "nc-card-expand-icon-size"
+        }
+      ],
+      "Status": [
+        {
+          "token": "nc-card-status-border-width"
+        },
+        {
+          "token": "nc-card-status-success-border"
+        },
+        {
+          "token": "nc-card-status-warning-border"
+        },
+        {
+          "token": "nc-card-status-danger-border"
+        },
+        {
+          "token": "nc-card-status-info-border"
+        }
+      ],
+      "Preview": [
+        {
+          "token": "nc-card-preview-media-ratio"
+        },
+        {
+          "token": "nc-card-preview-title-size"
+        }
+      ],
+      "Summary": [
+        {
+          "token": "nc-card-summary-avatar-size"
+        },
+        {
+          "token": "nc-card-summary-avatar-radius"
+        }
+      ],
+      "Action": [
+        {
+          "token": "nc-card-action-icon-size"
+        }
+      ],
+      "Tight Context": [
+        {
+          "token": "nc-card-padding"
+        },
+        {
+          "token": "nc-card-header-padding"
+        },
+        {
+          "token": "nc-card-content-padding"
+        },
+        {
+          "token": "nc-card-footer-padding"
+        },
+        {
+          "token": "nc-card-title-font-size"
+        },
+        {
+          "token": "nc-card-description-font-size"
+        }
+      ],
+      "Display Context": [
+        {
+          "token": "nc-card-padding"
+        },
+        {
+          "token": "nc-card-title-font-size"
+        },
+        {
+          "token": "nc-card-title-font-weight"
+        },
+        {
+          "token": "nc-card-title-line-height"
+        },
+        {
+          "token": "nc-card-shadow"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "semanticStructure"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "behavior": [
+              "navigational"
+            ]
+          }
+        },
+        "require": [
+          "href"
+        ],
+        "suggest": [],
+        "note": "Navigational Cards muessen ein gueltiges href-Attribut haben. Bei partial-Navigation: title-link traegt den Link."
+      },
+      {
+        "when": {
+          "axes": {
+            "behavior": [
+              "selectable"
+            ]
+          }
+        },
+        "require": [
+          "name",
+          "value"
+        ],
+        "suggest": [],
+        "note": "Selectable Cards benoetigen name und value auf dem Hidden Input. :has(:checked) steuert den Selected-State."
+      },
+      {
+        "when": {
+          "axes": {
+            "behavior": [
+              "expandable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-expanded"
+        ],
+        "note": "details/summary bietet native Expansion. Falls custom JS: aria-expanded erforderlich."
+      },
+      {
+        "when": {
+          "axes": {
+            "pattern": [
+              "status"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Status-Indikator (Farbe) darf nicht das einzige Signal sein. Textuelle Begleitung oder aria-label noetig."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_card.scss",
+      "scss/scss/06-molecules/_card.scss"
+    ],
+    "story": "stories/molecules/card.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/CardArena.vue",
+    "drupal": [],
+    "docs": "docs/card-docs.html"
+  }
+}

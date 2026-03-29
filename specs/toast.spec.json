@@ -1,0 +1,475 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "toast",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "feedback",
+    "notification",
+    "interactive",
+    "overlay"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-toast",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-toast__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-toast__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-toast__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-toast__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "action",
+        "selector": ".nc-toast__action",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-toast__close",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "progress",
+        "selector": ".nc-toast__progress",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Toast: flex-row, Icon + Content + Action + Close. Border, Shadow, radius.",
+      "Toaster (.nc-toaster): fixed Container, 6 Positionen, flex-column, gestapelt.",
+      "Varianten: default, success, warning, error, info — Farben via Private Props (--_toast-*).",
+      "Animation: Slide-in/out je nach Position. Reduced Motion: opacity only.",
+      "Progress: absolut unten, countdown per JS duration. Pausiert bei :hover/:focus-within.",
+      "Close: Token-gesteuert (--nc-toast-close-size, close-opacity, close-bg-hover).",
+      "Action: Token-gesteuert (--nc-toast-action-padding, action-radius, action-font-size).",
+      "Swipe-to-Dismiss: JS setzt --_toast-swipe-x + --_toast-swipe-opacity. CSS: .is-swiping / .is-swipe-out.",
+      "Stack-Transition: .nc-toaster > .nc-toast nutzt transition fuer sanftes Nachruecken.",
+      "Queue: JS begrenzt sichtbare Toasts auf --nc-toast-max-visible (Standard: 3).",
+      "Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "severity": {
+      "label": "Severity",
+      "description": "Semantische Variante — default, success, warning, error, info",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": "nc-toast--default",
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-toast--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-toast--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-toast--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-toast--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "position": {
+      "label": "Position",
+      "description": "Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right",
+      "values": [
+        {
+          "value": "top-right",
+          "cssModifier": null,
+          "default": false,
+          "label": "top-right"
+        },
+        {
+          "value": "top-left",
+          "cssModifier": null,
+          "default": false,
+          "label": "top-left"
+        },
+        {
+          "value": "top-center",
+          "cssModifier": null,
+          "default": false,
+          "label": "top-center"
+        },
+        {
+          "value": "bottom-right",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom-right"
+        },
+        {
+          "value": "bottom-left",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom-left"
+        },
+        {
+          "value": "bottom-center",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom-center"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress",
+      "values": [
+        {
+          "value": "basic",
+          "cssModifier": null,
+          "default": false,
+          "label": "basic"
+        },
+        {
+          "value": "with-description",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-description"
+        },
+        {
+          "value": "with-action",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-action"
+        },
+        {
+          "value": "with-undo",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-undo"
+        },
+        {
+          "value": "with-progress",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-progress"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "entering",
+      "leaving",
+      "swiping",
+      "swipe-out"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "entering",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "leaving",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "swiping",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "swipe-out",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-toast"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-toast-z-index"
+        },
+        {
+          "token": "nc-toast-offset"
+        },
+        {
+          "token": "nc-toast-gap"
+        },
+        {
+          "token": "nc-toast-width"
+        },
+        {
+          "token": "nc-toast-padding"
+        },
+        {
+          "token": "nc-toast-radius"
+        },
+        {
+          "token": "nc-toast-border-width"
+        },
+        {
+          "token": "nc-toast-shadow"
+        },
+        {
+          "token": "nc-toast-item-gap"
+        },
+        {
+          "token": "nc-toast-icon-size"
+        },
+        {
+          "token": "nc-toast-font-size"
+        },
+        {
+          "token": "nc-toast-description-font-size"
+        },
+        {
+          "token": "nc-toast-progress-height"
+        },
+        {
+          "token": "nc-toast-auto-dismiss-duration"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-toast-animation-duration"
+        },
+        {
+          "token": "nc-toast-animation-easing"
+        },
+        {
+          "token": "nc-toast-stack-transition"
+        }
+      ],
+      "Close Button": [
+        {
+          "token": "nc-toast-close-size"
+        },
+        {
+          "token": "nc-toast-close-opacity"
+        },
+        {
+          "token": "nc-toast-close-bg-hover"
+        }
+      ],
+      "Action Button": [
+        {
+          "token": "nc-toast-action-padding"
+        },
+        {
+          "token": "nc-toast-action-radius"
+        },
+        {
+          "token": "nc-toast-action-font-size"
+        }
+      ],
+      "Queue & Swipe": [
+        {
+          "token": "nc-toast-max-visible"
+        },
+        {
+          "token": "nc-toast-swipe-threshold"
+        }
+      ],
+      "Default Severity": [
+        {
+          "token": "nc-toast-default-bg"
+        },
+        {
+          "token": "nc-toast-default-color"
+        },
+        {
+          "token": "nc-toast-default-border"
+        },
+        {
+          "token": "nc-toast-default-icon-color"
+        },
+        {
+          "token": "nc-toast-default-progress-bg"
+        }
+      ],
+      "Success Severity": [
+        {
+          "token": "nc-toast-success-bg"
+        },
+        {
+          "token": "nc-toast-success-color"
+        },
+        {
+          "token": "nc-toast-success-border"
+        },
+        {
+          "token": "nc-toast-success-icon-color"
+        },
+        {
+          "token": "nc-toast-success-progress-bg"
+        }
+      ],
+      "Warning Severity": [
+        {
+          "token": "nc-toast-warning-bg"
+        },
+        {
+          "token": "nc-toast-warning-color"
+        },
+        {
+          "token": "nc-toast-warning-border"
+        },
+        {
+          "token": "nc-toast-warning-icon-color"
+        },
+        {
+          "token": "nc-toast-warning-progress-bg"
+        }
+      ],
+      "Error Severity": [
+        {
+          "token": "nc-toast-error-bg"
+        },
+        {
+          "token": "nc-toast-error-color"
+        },
+        {
+          "token": "nc-toast-error-border"
+        },
+        {
+          "token": "nc-toast-error-icon-color"
+        },
+        {
+          "token": "nc-toast-error-progress-bg"
+        }
+      ],
+      "Info Severity": [
+        {
+          "token": "nc-toast-info-bg"
+        },
+        {
+          "token": "nc-toast-info-color"
+        },
+        {
+          "token": "nc-toast-info-border"
+        },
+        {
+          "token": "nc-toast-info-icon-color"
+        },
+        {
+          "token": "nc-toast-info-progress-bg"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "error",
+              "warning"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-alert"
+        ],
+        "note": "Error/Warning: role='alert' statt role='status' fuer dringende Meldungen."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-undo"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "extended-timeout"
+        ],
+        "note": "Undo-Toasts: Laengerer Auto-Dismiss (mind. 10s) oder kein Auto-Dismiss. Undo-Aktion muss klar als Button erkennbar sein."
+      },
+      {
+        "when": {
+          "states": [
+            "swiping"
+          ]
+        },
+        "require": [],
+        "suggest": [],
+        "note": null
+      },
+      {
+        "require": [],
+        "suggest": [
+          "aria-hidden-during-swipe"
+        ],
+        "note": "Waehrend Swipe-Geste keine Screenreader-Updates. Erst nach Dismiss oder Abbruch."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_toast.scss"
+    ],
+    "story": "stories/molecules/toast.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ToastArena.vue",
+    "drupal": [],
+    "docs": "docs/toast-docs.html"
+  }
+}

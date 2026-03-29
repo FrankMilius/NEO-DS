@@ -1,0 +1,467 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "avatar",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "interactive",
+    "identity",
+    "media"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-avatar",
+    "slots": [
+      {
+        "name": "image",
+        "selector": ".nc-avatar__image",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "fallback",
+        "selector": ".nc-avatar__fallback",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "badge",
+        "selector": ".nc-avatar__badge",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Image/Fallback-Pattern: Fallback (z-index:0) immer im DOM, Image (z-index:1) ueberdeckt bei Erfolg.",
+      "Image Fade-In: loading='lazy' → opacity:0 → .is-loaded (JS onload) → opacity:1. Verhindert Sprung von Initialen zu Bild.",
+      "Wenn Image fehlt oder bricht → Fallback (Initialen oder Icon) wird automatisch sichtbar.",
+      "Badge nutzt box-shadow statt border fuer saubere Abgrenzung ohne Layout-Shift.",
+      "Badge ist rein dekorativ (aria-hidden='true') — Status muss textuell kommuniziert werden.",
+      "Verified-Badge: Haekchen-SVG als Kind-Element von .nc-avatar__badge--verified.",
+      "Avatar braucht immer alt-Text auf Image oder aria-label auf dem Container.",
+      "Hash-Color: --nc-avatar-hash-bg / --nc-avatar-hash-color per inline-style setzen. JS berechnet Farbe aus Name-Hash.",
+      "Interactive Mode: <a> fuer Links, <button> fuer Aktionen. Immer mit --interactive Modifier.",
+      "Entity (square): Quadratisch mit abgerundeten Ecken fuer Firmenlogos und Projekt-Platzhalter.",
+      "Group: flex-direction: row-reverse — spaetere Avatare erscheinen visuell hinten.",
+      "Group-Count --interactive: oeffnet Popover mit restlichen Mitgliedern als Item-Liste."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "5 Groessenabstufungen — xs (24px) / sm (32px) / md (40px, Standard) / lg (48px) / xl (64px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-avatar--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-avatar--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-avatar--lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "xl",
+          "cssModifier": "nc-avatar--xl",
+          "default": false,
+          "label": "xl"
+        }
+      ]
+    },
+    "shape": {
+      "label": "Shape",
+      "description": "Form — circle (Standard, Personen) oder square (Entity: Firmenlogos, Projekt-Platzhalter)",
+      "values": [
+        {
+          "value": "circle",
+          "cssModifier": null,
+          "default": false,
+          "label": "circle"
+        },
+        {
+          "value": "square",
+          "cssModifier": "nc-avatar--square",
+          "default": false,
+          "label": "square"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltstyp — Image (Foto), Initialen-Fallback oder Icon-Fallback. Hash-Color fuer dynamische Fallback-Faerbung.",
+      "values": [
+        {
+          "value": "image",
+          "cssModifier": null,
+          "default": false,
+          "label": "image"
+        },
+        {
+          "value": "initials",
+          "cssModifier": null,
+          "default": false,
+          "label": "initials"
+        },
+        {
+          "value": "icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon"
+        },
+        {
+          "value": "hash",
+          "cssModifier": "nc-avatar--hash",
+          "default": false,
+          "label": "hash"
+        }
+      ]
+    },
+    "decorator": {
+      "label": "Decorator",
+      "description": "Visuelle Erweiterungen: Ring (Abgrenzung), Status-Badge, Verified-Badge (Haekchen).",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "ring",
+          "cssModifier": "nc-avatar--ring",
+          "default": false,
+          "label": "ring"
+        },
+        {
+          "value": "badge-online",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge-online"
+        },
+        {
+          "value": "badge-offline",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge-offline"
+        },
+        {
+          "value": "badge-busy",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge-busy"
+        },
+        {
+          "value": "badge-away",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge-away"
+        },
+        {
+          "value": "badge-verified",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge-verified"
+        }
+      ]
+    },
+    "interactive": {
+      "label": "Interactive",
+      "description": "Interaktivitaet — static (Standard), link (Profil-Link mit Hover-Scale), button (Upload/Aktion)",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "link",
+          "cssModifier": "nc-avatar--interactive",
+          "default": false,
+          "label": "link"
+        },
+        {
+          "value": "button",
+          "cssModifier": "nc-avatar--interactive",
+          "default": false,
+          "label": "button"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-avatar"
+    ],
+    "tokenGroups": {
+      "Sizing": [
+        {
+          "token": "nc-avatar-size-xs"
+        },
+        {
+          "token": "nc-avatar-size-sm"
+        },
+        {
+          "token": "nc-avatar-size-md"
+        },
+        {
+          "token": "nc-avatar-size-lg"
+        },
+        {
+          "token": "nc-avatar-size-xl"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-avatar-font-size-xs"
+        },
+        {
+          "token": "nc-avatar-font-size-sm"
+        },
+        {
+          "token": "nc-avatar-font-size-md"
+        },
+        {
+          "token": "nc-avatar-font-size-lg"
+        },
+        {
+          "token": "nc-avatar-font-size-xl"
+        },
+        {
+          "token": "nc-avatar-font-weight"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-avatar-bg"
+        },
+        {
+          "token": "nc-avatar-color"
+        },
+        {
+          "token": "nc-avatar-border-color"
+        }
+      ],
+      "Fallback": [],
+      "Hash-Color Fallback": [
+        {
+          "token": "nc-avatar-hash-bg"
+        },
+        {
+          "token": "nc-avatar-hash-color"
+        }
+      ],
+      "Image Loading": [
+        {
+          "token": "nc-avatar-image-fade-duration"
+        }
+      ],
+      "Circle": [
+        {
+          "token": "nc-avatar-radius"
+        }
+      ],
+      "Square (Entity)": [
+        {
+          "token": "nc-avatar-radius-square"
+        }
+      ],
+      "Ring": [
+        {
+          "token": "nc-avatar-ring-width"
+        },
+        {
+          "token": "nc-avatar-ring-color"
+        },
+        {
+          "token": "nc-avatar-ring-shadow"
+        }
+      ],
+      "Badge": [
+        {
+          "token": "nc-avatar-badge-size"
+        },
+        {
+          "token": "nc-avatar-badge-border-width"
+        },
+        {
+          "token": "nc-avatar-badge-border-color"
+        },
+        {
+          "token": "nc-avatar-badge-online"
+        },
+        {
+          "token": "nc-avatar-badge-offline"
+        },
+        {
+          "token": "nc-avatar-badge-busy"
+        },
+        {
+          "token": "nc-avatar-badge-away"
+        },
+        {
+          "token": "nc-avatar-badge-verified"
+        }
+      ],
+      "Interactive (Link/Button)": [
+        {
+          "token": "nc-avatar-hover-scale"
+        },
+        {
+          "token": "nc-avatar-hover-shadow"
+        },
+        {
+          "token": "nc-avatar-active-scale"
+        },
+        {
+          "token": "nc-avatar-focus-ring-width"
+        },
+        {
+          "token": "nc-avatar-focus-ring-color"
+        },
+        {
+          "token": "nc-avatar-focus-ring-offset"
+        },
+        {
+          "token": "nc-avatar-transition-duration"
+        }
+      ],
+      "Group": [
+        {
+          "token": "nc-avatar-group-spacing"
+        },
+        {
+          "token": "nc-avatar-group-ring-width"
+        },
+        {
+          "token": "nc-avatar-group-ring-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "decorator": [
+              "badge-online",
+              "badge-offline",
+              "badge-busy",
+              "badge-away"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Badge ist aria-hidden='true'. Status muss im aria-label des Avatars kommuniziert werden (z.B. 'Max Mustermann, online')."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Icon-Fallback ist rein dekorativ. aria-label auf dem Avatar-Container ist Pflicht."
+      },
+      {
+        "when": {
+          "axes": {
+            "interactive": [
+              "link",
+              "button"
+            ]
+          }
+        },
+        "require": [
+          "hasAccessibleName",
+          "supportsKeyboard"
+        ],
+        "suggest": [],
+        "note": "Interactive Avatare (<a> oder <button>) muessen fokussierbar und per Tastatur bedienbar sein."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_avatar.scss"
+    ],
+    "story": "stories/atoms/avatar.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/AvatarArena.vue",
+    "drupal": [],
+    "docs": "docs/avatar-docs.html"
+  }
+}

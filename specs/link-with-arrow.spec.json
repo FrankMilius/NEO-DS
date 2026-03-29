@@ -1,0 +1,91 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "link-with-arrow",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "navigation",
+    "interactive",
+    "link"
+  ],
+  "anatomy": {
+    "rootElement": ".link-with-arrow",
+    "slots": [],
+    "notes": [
+      "Flex-Row: Text + Pfeil-Icon. Gap spacing-02.",
+      "Hover: text-decoration:none, color secondary.",
+      "Focus: focus-ring."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "link-with-arrow"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_link-with-arrow.scss"
+    ],
+    "story": "stories/molecules/link-with-arrow.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/link-with-arrow-docs.html"
+  }
+}

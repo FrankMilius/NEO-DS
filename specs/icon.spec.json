@@ -1,0 +1,246 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "icon",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "visual",
+    "icon"
+  ],
+  "anatomy": {
+    "rootElement": ".icon",
+    "slots": [],
+    "notes": [
+      "Icon ist ein <span class='icon'> mit inline SVG als Kind-Element.",
+      "Default-Groesse: sm (20px). Kein md-Default — sm ist der Standard.",
+      "SVG nutzt fill: currentColor — Farbe wird via CSS color gesteuert.",
+      "Nicht-BEM Konvention: .icon statt .nc-icon (historisch gewachsen).",
+      "Deprecated: .icon--2xs (12px, altes xs), .icon--high/--mid/--low (alte Farbnamen).",
+      "Interactive-Modifier (.icon--interactive): min 44x44px Touch-Target via Padding, hover + focus-ring.",
+      "Interactive Icons brauchen ein umschliessendes <button> oder role='button' + tabindex.",
+      "Icon-Logo (.icon-logo): Spezialfall mit fester Groesse 88x22px."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "7 Groessenabstufungen — 2xs (12px, deprecated) / xs (16px) / sm (20px, Standard) / md (24px) / lg (28px) / xl (32px) / 2xl (36px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "icon--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "icon--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "icon--md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "icon--lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "xl",
+          "cssModifier": "icon--xl",
+          "default": false,
+          "label": "xl"
+        },
+        {
+          "value": "2xl",
+          "cssModifier": "icon--2xl",
+          "default": false,
+          "label": "2xl"
+        }
+      ]
+    },
+    "color": {
+      "label": "Color",
+      "description": "Semantische Farb-Variante — primary (Standard), secondary, tertiary, inverse, disabled",
+      "values": [
+        {
+          "value": "primary",
+          "cssModifier": "icon--primary",
+          "default": false,
+          "label": "primary"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": "icon--secondary",
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "tertiary",
+          "cssModifier": "icon--tertiary",
+          "default": false,
+          "label": "tertiary"
+        },
+        {
+          "value": "inverse",
+          "cssModifier": "icon--inverse",
+          "default": false,
+          "label": "inverse"
+        },
+        {
+          "value": "disabled",
+          "cssModifier": "icon--disabled",
+          "default": false,
+          "label": "disabled"
+        }
+      ]
+    },
+    "interactive": {
+      "label": "Interactive",
+      "description": "Interaktivitaet — none (Standard, rein dekorativ), interactive (Touch-Target 44px, hover, focus-ring)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "interactive",
+          "cssModifier": "icon--interactive",
+          "default": false,
+          "label": "interactive"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "icon"
+    ],
+    "tokenGroups": {
+      "Sizing": [
+        {
+          "token": "nc-icon-size-xs"
+        },
+        {
+          "token": "nc-icon-size-sm"
+        },
+        {
+          "token": "nc-icon-size-md"
+        },
+        {
+          "token": "nc-icon-size-lg"
+        },
+        {
+          "token": "nc-icon-size-xl"
+        },
+        {
+          "token": "nc-icon-size-2xl"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-icon-color-default"
+        },
+        {
+          "token": "nc-icon-color-secondary"
+        },
+        {
+          "token": "nc-icon-color-tertiary"
+        },
+        {
+          "token": "nc-icon-color-inverse"
+        },
+        {
+          "token": "nc-icon-color-disabled"
+        }
+      ],
+      "Touch Target": [
+        {
+          "token": "nc-icon-touch-target"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "interactive": [
+              "interactive"
+            ]
+          }
+        },
+        "require": [
+          "hasAccessibleName",
+          "supportsKeyboard"
+        ],
+        "suggest": [],
+        "note": "Interactive Icons brauchen aria-label und muessen tastaturzugaenglich sein. Touch-Target mindestens 44x44px (WCAG 2.5.5)."
+      },
+      {
+        "when": {
+          "axes": {
+            "color": [
+              "inverse"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Inverse Icons brauchen dunklen Hintergrund fuer 3:1 Kontrast."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_icon.scss"
+    ],
+    "story": "stories/atoms/icon.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

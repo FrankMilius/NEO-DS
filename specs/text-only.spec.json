@@ -1,0 +1,97 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "text-only",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "text"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-text-only",
+    "slots": [
+      {
+        "name": "title",
+        "selector": ".nc-text-only__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-text-only__text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "scroll-text",
+        "selector": ".nc-text-only__scroll-text",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Container: max-width, padding. Title: heading-Stil.",
+      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, scroll",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "scroll",
+          "cssModifier": "has-scroll",
+          "default": false,
+          "label": "scroll"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-text-only"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_text-only.scss"
+    ],
+    "story": "stories/organisms/text-only.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/text-only-docs.html"
+  }
+}

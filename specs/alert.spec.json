@@ -1,0 +1,358 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "alert",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "feedback",
+    "notification",
+    "inline"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-alert",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-alert__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-alert__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-alert__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-alert__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "details",
+        "selector": ".nc-alert__details",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "action",
+        "selector": ".nc-alert__action",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-alert__close",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Alert ist ein <div class='nc-alert' role='alert|status'>.",
+      "Layout: Flex Row — Icon | Content (Title + Description + Details + Action) | Close.",
+      "4 semantische Varianten: info (Standard), success, warning, danger.",
+      "role='alert' fuer danger/warning (urgent, unterbricht Screen Reader).",
+      "role='status' fuer info/success (polite, unterbricht nicht).",
+      "Icon ist aria-hidden='true' — Text liefert die Information.",
+      "Close-Button braucht aria-label='Schliessen'.",
+      "Details-Slot: Natives <details> Element fuer Progressive Disclosure. Toggle zeigt/verbirgt Zusatzinformationen (z.B. Stacktrace, Validierungsdetails).",
+      "Inline-Variante (--inline): Kein Hintergrund, kein Border, kein Padding. Nur Icon + farbiger Text. Ideal als Alternative zu form-hint direkt an Eingabefeldern.",
+      "Banner-Abgrenzung: Alert ist kontextuell/lokal (innerhalb einer Section). Banner (.nc-banner) ist global (oberer Seitenrand, volle Breite, sticky). Verwende Alert fuer Formular-Feedback, Banner fuer systemweite Meldungen.",
+      "Deprecated: --destructive ist Alias fuer --danger.",
+      "Farbe nie alleiniges Signal — immer mit Icon + Text (R7)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Semantische Feedback-Variante — info (Standard, blau), success (gruen), warning (gelb/orange), danger (rot)",
+      "values": [
+        {
+          "value": "info",
+          "cssModifier": "nc-alert--info",
+          "default": false,
+          "label": "info"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-alert--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-alert--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-alert--danger",
+          "default": false,
+          "label": "danger"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalts-Komposition — title-only, full, with-action, dismissible, with-details",
+      "values": [
+        {
+          "value": "title-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "title-only"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        },
+        {
+          "value": "with-action",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-action"
+        },
+        {
+          "value": "dismissible",
+          "cssModifier": null,
+          "default": false,
+          "label": "dismissible"
+        },
+        {
+          "value": "with-details",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-details"
+        }
+      ]
+    },
+    "display": {
+      "label": "Display",
+      "description": "Darstellungsmodus — block (Standard mit Hintergrund), inline (nur Icon + Text)",
+      "values": [
+        {
+          "value": "block",
+          "cssModifier": null,
+          "default": false,
+          "label": "block"
+        },
+        {
+          "value": "inline",
+          "cssModifier": "nc-alert--inline",
+          "default": false,
+          "label": "inline"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-alert"
+    ],
+    "tokenGroups": {
+      "Geometry & Typography": [
+        {
+          "token": "nc-alert-padding"
+        },
+        {
+          "token": "nc-alert-radius"
+        },
+        {
+          "token": "nc-alert-border-width"
+        },
+        {
+          "token": "nc-alert-icon-size"
+        },
+        {
+          "token": "nc-alert-gap"
+        },
+        {
+          "token": "nc-alert-title-font-weight"
+        },
+        {
+          "token": "nc-alert-description-opacity"
+        },
+        {
+          "token": "nc-alert-close-size"
+        }
+      ],
+      "Info Colors": [
+        {
+          "token": "nc-alert-info-bg"
+        },
+        {
+          "token": "nc-alert-info-color"
+        },
+        {
+          "token": "nc-alert-info-border"
+        },
+        {
+          "token": "nc-alert-info-icon-color"
+        }
+      ],
+      "Success Colors": [
+        {
+          "token": "nc-alert-success-bg"
+        },
+        {
+          "token": "nc-alert-success-color"
+        },
+        {
+          "token": "nc-alert-success-border"
+        },
+        {
+          "token": "nc-alert-success-icon-color"
+        }
+      ],
+      "Warning Colors": [
+        {
+          "token": "nc-alert-warning-bg"
+        },
+        {
+          "token": "nc-alert-warning-color"
+        },
+        {
+          "token": "nc-alert-warning-border"
+        },
+        {
+          "token": "nc-alert-warning-icon-color"
+        }
+      ],
+      "Danger Colors": [
+        {
+          "token": "nc-alert-danger-bg"
+        },
+        {
+          "token": "nc-alert-danger-color"
+        },
+        {
+          "token": "nc-alert-danger-border"
+        },
+        {
+          "token": "nc-alert-danger-icon-color"
+        }
+      ],
+      "Inline Variant": [
+        {
+          "token": "nc-alert-inline-gap"
+        },
+        {
+          "token": "nc-alert-inline-font-size"
+        }
+      ],
+      "Details Toggle": [
+        {
+          "token": "nc-alert-details-margin-top"
+        },
+        {
+          "token": "nc-alert-details-font-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "danger",
+              "warning"
+            ]
+          }
+        },
+        "require": [
+          "role-alert"
+        ],
+        "suggest": [],
+        "note": "role='alert' erzeugt implizit aria-live='assertive' — unterbricht Screen Reader sofort."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "info",
+              "success"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-status"
+        ],
+        "note": "role='status' erzeugt implizit aria-live='polite' — kuendigt an, ohne zu unterbrechen."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "dismissible"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Close-Button braucht aria-label='Schliessen' oder aequivalent."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-details"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-expanded"
+        ],
+        "note": "Details-Toggle: Natives <details> liefert semantisch korrektes Disclosure-Pattern. Zusaetzlich aria-expanded auf <summary> empfohlen fuer aeltere Screen Reader."
+      }
+    ]
+  },
+  "dependencies": [
+    "banner"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_alert.scss"
+    ],
+    "story": "stories/organisms/alert.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/AlertArena.vue",
+    "drupal": [],
+    "docs": "docs/alert-docs.html"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "carousel",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "interactive",
+    "slider"
+  ],
+  "anatomy": {
+    "rootElement": ".carousel",
+    "slots": [
+      {
+        "name": "slides-wrapper",
+        "selector": ".carousel-slides-wrapper",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "bottom-nav",
+        "selector": ".carousel-bottom-nav-wrapper",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "line-wrapper",
+        "selector": ".carousel-line-wrapper",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "navigations",
+        "selector": ".carousel-navigations-wrapper",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Slides: ul/li, flex nowrap, dynamische Breite via carousel-slide-width-{1-12}.",
+      "Progress-Lines: 2px Hoehe, active-Line 112px breit, autoplay mit CSS-Animation.",
+      "Navigation-Buttons: 32×32, icon-only, :disabled state, focus-ring."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, autoplay",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "autoplay",
+          "cssModifier": null,
+          "default": false,
+          "label": "autoplay"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "carousel"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_carousel.scss"
+    ],
+    "story": "stories/organisms/carousel.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/carousel-docs.html"
+  }
+}

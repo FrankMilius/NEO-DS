@@ -1,0 +1,100 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "video",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "unknown",
+  "tags": [
+    "media",
+    "object",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".video-wrap",
+    "slots": [
+      {
+        "name": "media",
+        "selector": "video | iframe",
+        "required": true,
+        "description": "Video-Element oder Embed (YouTube, Vimeo)."
+      },
+      {
+        "name": "play-sign",
+        "selector": ".play-sign",
+        "required": false,
+        "description": "Play-Button Overlay fuer Click-to-Play."
+      },
+      {
+        "name": "open-button",
+        "selector": ".open-button",
+        "required": false,
+        "description": "Button zum Oeffnen des Video-Dialogs."
+      }
+    ],
+    "notes": [
+      "video-wrap als Wrapper fuer alle Video-Formate.",
+      "video-wrap-autoplay fuer Autoplay-Videos (ohne Play-Button).",
+      "Play-Sign ist ein zentrierter Play-Button mit Dark-Overlay.",
+      "Video-Dialog oeffnet sich als Fullscreen-Overlay."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "behavior": {
+      "label": "Verhalten",
+      "description": "Video-Wiedergabeverhalten.",
+      "values": [
+        {
+          "value": "click-to-play",
+          "cssModifier": null,
+          "default": true,
+          "label": "Click to Play (Standard)"
+        },
+        {
+          "value": "autoplay",
+          "cssModifier": "video-wrap-autoplay",
+          "default": false,
+          "label": "Autoplay (Loop, Muted)"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "playing",
+      "paused"
+    ],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      ".video-wrap"
+    ],
+    "tokenGroups": {},
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [
+      "Video-Element muss Untertitel als track-Element haben (WCAG 1.2.2).",
+      "Autoplay-Videos muessen muted sein (WCAG 1.4.2).",
+      "Play-Button muss per Tastatur erreichbar sein."
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": null,
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/video-docs.html"
+  }
+}

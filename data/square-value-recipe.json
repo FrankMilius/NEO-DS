@@ -5,15 +5,47 @@
     "component": "square-value",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "animation", "3d"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/square-value-docs" }
+    "tags": [
+      "display",
+      "animation",
+      "3d"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/square-value-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_square-value.scss"
+      ],
+      "story": "stories/organisms/square-value.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/square-value-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".square-value" },
+    "root": {
+      "element": ".square-value"
+    },
     "slots": [
-      { "name": "wrapper", "element": ".square-value-wrapper", "optional": false },
-      { "name": "square-wrapper", "element": ".square-wrapper", "optional": false },
-      { "name": "square-block", "element": ".square-block", "optional": false }
+      {
+        "name": "wrapper",
+        "element": ".square-value-wrapper",
+        "optional": false
+      },
+      {
+        "name": "square-wrapper",
+        "element": ".square-wrapper",
+        "optional": false
+      },
+      {
+        "name": "square-block",
+        "element": ".square-block",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -28,23 +60,60 @@
       "label": "Orientation",
       "description": "Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical",
       "values": {
-        "horizontal":       { "modifier": null,                "tokenGroups": [], "renderHint": "square-horizontal" },
-        "mobile-vertical":  { "modifier": "mobile-vertical",   "tokenGroups": [], "renderHint": "square-mobile-vertical" },
-        "tablet-vertical":  { "modifier": "tablet-vertical",   "tokenGroups": [], "renderHint": "square-tablet-vertical" },
-        "desktop-vertical": { "modifier": "desktop-vertical",  "tokenGroups": [], "renderHint": "square-desktop-vertical" }
+        "horizontal": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-horizontal"
+        },
+        "mobile-vertical": {
+          "modifier": "mobile-vertical",
+          "tokenGroups": [],
+          "renderHint": "square-mobile-vertical"
+        },
+        "tablet-vertical": {
+          "modifier": "tablet-vertical",
+          "tokenGroups": [],
+          "renderHint": "square-tablet-vertical"
+        },
+        "desktop-vertical": {
+          "modifier": "desktop-vertical",
+          "tokenGroups": [],
+          "renderHint": "square-desktop-vertical"
+        }
       }
     },
     "content": {
       "label": "Content",
       "description": "Inhalt der Wuerfel-Flaechen — text, image, video",
       "values": {
-        "text":  { "modifier": null, "tokenGroups": [], "renderHint": "square-content-text" },
-        "image": { "modifier": null, "tokenGroups": [], "renderHint": "square-content-image" },
-        "video": { "modifier": null, "tokenGroups": [], "renderHint": "square-content-video" }
+        "text": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-content-text"
+        },
+        "image": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-content-image"
+        },
+        "video": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-content-video"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -54,34 +123,100 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["square-value"],
+    "baseClasses": [
+      "square-value"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.orientation.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.orientation.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "orientation-comparison", "label": "Orientations",
+      "id": "orientation-comparison",
+      "label": "Orientations",
       "description": "Horizontal vs Vertical Varianten",
-      "matrix": { "axes": { "orientation": "*", "content": ["text"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "orientation" }, "render": { "label": "{orientation}" },
-      "a11y": { "contrastTarget": "WCAG AA large text (3:1)", "note": "Reduced Motion: 3D-Rotation stoppen." }
+      "matrix": {
+        "axes": {
+          "orientation": "*",
+          "content": [
+            "text"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "orientation"
+      },
+      "render": {
+        "label": "{orientation}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)",
+        "note": "Reduced Motion: 3D-Rotation stoppen."
+      }
     },
     {
-      "id": "content-comparison", "label": "Content Types",
+      "id": "content-comparison",
+      "label": "Content Types",
       "description": "Text, Bild, Video",
-      "matrix": { "axes": { "orientation": ["horizontal"], "content": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA large text (3:1)", "note": "Video/Bild: alt-Text oder aria-label." }
+      "matrix": {
+        "axes": {
+          "orientation": [
+            "horizontal"
+          ],
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)",
+        "note": "Video/Bild: alt-Text oder aria-label."
+      }
     }
   ]
 }

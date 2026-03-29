@@ -1,0 +1,263 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "alert-dialog",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "overlay",
+    "interactive",
+    "dialog",
+    "confirmation"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-alert-dialog",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-alert-dialog__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "header",
+        "selector": ".nc-alert-dialog__header",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-alert-dialog__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-alert-dialog__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-alert-dialog__footer",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: natives <dialog> Element. showModal() fuer modale Anzeige.",
+      "Verwendet --nc-dialog-* Tokens (geteilt mit Modal und Drawer).",
+      "Icon-Slot (v2.0): Optionales Status-Icon vor dem Header. Bei destructive: rotes Warnsymbol (nc-dialog-danger-icon-color). Verstaerkt visuelle Dringlichkeit.",
+      "Header: flex-column, Title + Description. Gap via header-gap.",
+      "Footer: flex, justify-end, Cancel + Action Buttons.",
+      "[open]: display:flex. Zentriert via fixed + margin:auto.",
+      "Backdrop: ::backdrop mit overlay-bg Fade-in Animation.",
+      "Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.",
+      "Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.",
+      "Focus-Management: Bei default: autofocus auf Action-Button (primaere Aktion). Bei destructive: autofocus auf Cancel-Button (verhindert versehentliches Loeschen = Anti-Slipping-Pattern).",
+      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "intent": {
+      "label": "Intent",
+      "description": "Intention — default (neutral, informativ), destructive (Loeschen/Gefahr, visuell hervorgehoben)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "destructive",
+          "cssModifier": "nc-alert-dialog--destructive",
+          "default": false,
+          "label": "destructive"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt — with-description (Title + Description), title-only (nur Title), with-icon (Title + Description + Status-Icon)",
+      "values": [
+        {
+          "value": "with-description",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-description"
+        },
+        {
+          "value": "title-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "title-only"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-alert-dialog"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-dialog-max-width"
+        },
+        {
+          "token": "nc-dialog-padding"
+        },
+        {
+          "token": "nc-dialog-radius"
+        },
+        {
+          "token": "nc-dialog-bg"
+        },
+        {
+          "token": "nc-dialog-shadow"
+        },
+        {
+          "token": "nc-dialog-overlay-bg"
+        },
+        {
+          "token": "nc-dialog-section-gap"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-dialog-title-font-size"
+        },
+        {
+          "token": "nc-dialog-title-font-weight"
+        },
+        {
+          "token": "nc-dialog-title-color"
+        },
+        {
+          "token": "nc-dialog-header-gap"
+        }
+      ],
+      "Footer & Description": [
+        {
+          "token": "nc-dialog-description-font-size"
+        },
+        {
+          "token": "nc-dialog-description-color"
+        },
+        {
+          "token": "nc-dialog-footer-gap"
+        }
+      ],
+      "Status Icon": [
+        {
+          "token": "nc-dialog-icon-size"
+        }
+      ],
+      "Destructive Intent": [
+        {
+          "token": "nc-dialog-danger-icon-color"
+        },
+        {
+          "token": "nc-dialog-danger-action-bg"
+        },
+        {
+          "token": "nc-dialog-danger-action-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard",
+      "focusTrap"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "intent": [
+              "default"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "autofocus-action"
+        ],
+        "note": "Default: autofocus auf Action-Button (primaere Aktion) fuer direkten Keyboard-Zugriff."
+      },
+      {
+        "when": {
+          "axes": {
+            "intent": [
+              "destructive"
+            ]
+          }
+        },
+        "require": [
+          "autofocus-cancel"
+        ],
+        "suggest": [],
+        "note": "Destructive: autofocus auf Cancel-Button statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Best-Practice fuer destruktive Aktionen."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-hidden-icon"
+        ],
+        "suggest": [],
+        "note": "Status-Icon ist dekorativ (aria-hidden='true'). Semantik kommt aus dem Titel und der Beschreibung."
+      }
+    ]
+  },
+  "dependencies": [
+    "alert"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_alert-dialog.scss"
+    ],
+    "story": "stories/organisms/alert-dialog.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/AlertDialogArena.vue",
+    "drupal": [],
+    "docs": "docs/alert-dialog-docs.html"
+  }
+}

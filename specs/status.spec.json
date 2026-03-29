@@ -1,0 +1,212 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "status",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "indicator",
+    "presence"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-status",
+    "slots": [],
+    "notes": [
+      "Status ist rein dekorativ — immer aria-hidden='true' auf dem Dot.",
+      "Begleitender Text ueber .nc-status-label oder .u-sr-only fuer Screen-Reader.",
+      "Farbe nie als einziges Signal — immer mit Text kombinieren (R3).",
+      "Pulse-Animation respektiert prefers-reduced-motion automatisch."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Status-Semantik der Anzeige",
+      "values": [
+        {
+          "value": "neutral",
+          "cssModifier": null,
+          "default": false,
+          "label": "neutral"
+        },
+        {
+          "value": "online",
+          "cssModifier": "nc-status--online",
+          "default": false,
+          "label": "online"
+        },
+        {
+          "value": "offline",
+          "cssModifier": "nc-status--offline",
+          "default": false,
+          "label": "offline"
+        },
+        {
+          "value": "busy",
+          "cssModifier": "nc-status--busy",
+          "default": false,
+          "label": "busy"
+        },
+        {
+          "value": "away",
+          "cssModifier": "nc-status--away",
+          "default": false,
+          "label": "away"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung — xs (6px) / sm (8px, Standard) / md (12px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-status--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": null,
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-status--md",
+          "default": false,
+          "label": "md"
+        }
+      ]
+    },
+    "decorator": {
+      "label": "Decorator",
+      "description": "Visuelle Erweiterungen: Ring (weisser Rand) oder Pulse (Live-Animation)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "ring",
+          "cssModifier": "nc-status--ring",
+          "default": false,
+          "label": "ring"
+        },
+        {
+          "value": "pulse",
+          "cssModifier": "nc-status--pulse",
+          "default": false,
+          "label": "pulse"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-status"
+    ],
+    "tokenGroups": {
+      "Sizing": [
+        {
+          "token": "nc-status-size-xs"
+        },
+        {
+          "token": "nc-status-size-sm"
+        },
+        {
+          "token": "nc-status-size-md"
+        }
+      ],
+      "Online": [
+        {
+          "token": "nc-status-online"
+        }
+      ],
+      "Offline": [
+        {
+          "token": "nc-status-offline"
+        }
+      ],
+      "Busy": [
+        {
+          "token": "nc-status-busy"
+        }
+      ],
+      "Away": [
+        {
+          "token": "nc-status-away"
+        }
+      ],
+      "Neutral": [
+        {
+          "token": "nc-status-neutral"
+        }
+      ],
+      "Ring": [
+        {
+          "token": "nc-status-ring-width"
+        },
+        {
+          "token": "nc-status-ring-color"
+        }
+      ],
+      "Pulse": [
+        {
+          "token": "nc-status-pulse-duration"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "doNotRelyOnColorOnly",
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "decorator": [
+              "pulse"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-live"
+        ],
+        "note": "Pulse signalisiert Live-Status. Aenderungen ueber aria-live='polite' auf dem Container kommunizieren."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_status.scss"
+    ],
+    "story": "stories/organisms/status.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/StatusArena.vue",
+    "drupal": [],
+    "docs": "docs/status-docs.html"
+  }
+}

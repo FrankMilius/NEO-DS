@@ -5,17 +5,57 @@
     "component": "cta",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "conversion"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/cta-docs" }
+    "tags": [
+      "display",
+      "content",
+      "conversion"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/cta-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_cta.scss"
+      ],
+      "story": "stories/organisms/cta.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/cta-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-cta" },
+    "root": {
+      "element": ".nc-cta"
+    },
     "slots": [
-      { "name": "left", "element": ".nc-cta__left", "optional": false },
-      { "name": "mid", "element": ".nc-cta__mid", "optional": true },
-      { "name": "right", "element": ".nc-cta__right", "optional": true },
-      { "name": "form", "element": ".nc-cta__form", "optional": true },
-      { "name": "note", "element": ".nc-cta__note", "optional": true }
+      {
+        "name": "left",
+        "element": ".nc-cta__left",
+        "optional": false
+      },
+      {
+        "name": "mid",
+        "element": ".nc-cta__mid",
+        "optional": true
+      },
+      {
+        "name": "right",
+        "element": ".nc-cta__right",
+        "optional": true
+      },
+      {
+        "name": "form",
+        "element": ".nc-cta__form",
+        "optional": true
+      },
+      {
+        "name": "note",
+        "element": ".nc-cta__note",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -29,11 +69,24 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "cta-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "cta-default"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -43,27 +96,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-cta"],
+    "baseClasses": [
+      "nc-cta"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "CTA Section",
+      "id": "default",
+      "label": "CTA Section",
       "description": "Call-to-Action mit Newsletter und Demo",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "cta" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Heller Text auf dunklem BG kontrastreich." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "cta"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Heller Text auf dunklem BG kontrastreich."
+      }
     }
   ]
 }

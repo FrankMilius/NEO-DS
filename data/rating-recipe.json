@@ -5,23 +5,64 @@
     "component": "rating",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "feedback"],
+    "tags": [
+      "interactive",
+      "form",
+      "feedback"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/rating-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_rating.scss"
+      ],
+      "story": "stories/organisms/rating.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RatingArena.vue",
+      "drupal": [],
+      "docs": "docs/rating-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-rating" },
+    "root": {
+      "element": ".nc-rating"
+    },
     "slots": [
-      { "name": "input-clear", "element": ".nc-rating__input--clear", "optional": true, "note": "Versteckter Radio-Button mit value=0 fuer Zuruecksetzen der Bewertung. Erreichbar via Tastatur (Arrow Left vom 1. Stern) oder expliziten Reset-Button." },
-      { "name": "input", "element": ".nc-rating__input", "optional": true },
-      { "name": "item", "element": ".nc-rating__item", "optional": false },
-      { "name": "value", "element": ".nc-rating__value", "optional": true },
-      { "name": "count", "element": ".nc-rating__count", "optional": true },
-      { "name": "clear", "element": ".nc-rating__clear", "optional": true, "note": "Sichtbarer Reset-Button (X-Icon) — erscheint nur wenn ein Wert gewaehlt ist." }
+      {
+        "name": "input-clear",
+        "element": ".nc-rating__input--clear",
+        "optional": true,
+        "note": "Versteckter Radio-Button mit value=0 fuer Zuruecksetzen der Bewertung. Erreichbar via Tastatur (Arrow Left vom 1. Stern) oder expliziten Reset-Button."
+      },
+      {
+        "name": "input",
+        "element": ".nc-rating__input",
+        "optional": true
+      },
+      {
+        "name": "item",
+        "element": ".nc-rating__item",
+        "optional": false
+      },
+      {
+        "name": "value",
+        "element": ".nc-rating__value",
+        "optional": true
+      },
+      {
+        "name": "count",
+        "element": ".nc-rating__count",
+        "optional": true
+      },
+      {
+        "name": "clear",
+        "element": ".nc-rating__clear",
+        "optional": true,
+        "note": "Sichtbarer Reset-Button (X-Icon) — erscheint nur wenn ein Wert gewaehlt ist."
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -42,108 +83,304 @@
       "prefers-reduced-motion: Stagger, Bounce und Scale-Transitions werden deaktiviert."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "3 Groessenabstufungen — sm (18px) / md (24px, Standard) / lg (36px)",
       "values": {
-        "sm": { "modifier": "nc-rating--sm", "tokenGroups": [] },
-        "md": { "modifier": null,            "tokenGroups": [] },
-        "lg": { "modifier": "nc-rating--lg", "tokenGroups": [] }
+        "sm": {
+          "modifier": "nc-rating--sm",
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-rating--lg",
+          "tokenGroups": []
+        }
       }
     },
-
     "mode": {
       "label": "Mode",
       "description": "Interaktions-Modus — interactive (Radio-Inputs, nur volle Sterne), readonly (nur Anzeige, halbe Sterne moeglich)",
       "values": {
-        "interactive": { "modifier": null,                   "tokenGroups": ["interaction"],  "elementHint": "radiogroup", "renderHint": "rating-interactive", "note": "Nur volle Sterne fuer Eingabe (hohe Fehlertoleranz). Clear-Input (value=0) fuer Zuruecksetzen." },
-        "readonly":    { "modifier": "nc-rating--readonly",  "tokenGroups": [],               "elementHint": "img",        "renderHint": "rating-readonly",    "note": "Halbe Sterne und Prozentwerte fuer exakte Darstellung. Kein Touch-Target." }
+        "interactive": {
+          "modifier": null,
+          "tokenGroups": [
+            "interaction"
+          ],
+          "elementHint": "radiogroup",
+          "renderHint": "rating-interactive",
+          "note": "Nur volle Sterne fuer Eingabe (hohe Fehlertoleranz). Clear-Input (value=0) fuer Zuruecksetzen."
+        },
+        "readonly": {
+          "modifier": "nc-rating--readonly",
+          "tokenGroups": [],
+          "elementHint": "img",
+          "renderHint": "rating-readonly",
+          "note": "Halbe Sterne und Prozentwerte fuer exakte Darstellung. Kein Touch-Target."
+        }
       }
     },
-
     "display": {
       "label": "Display",
       "description": "Anzeige-Optionen — stars-only (nur Sterne), with-value (+ Zahl), with-count (+ Zahl + Anzahl), compact (Pill: 1 Stern + Zahl)",
       "values": {
-        "stars-only": { "modifier": null,                     "tokenGroups": [],                                                               "renderHint": "rating-stars" },
-        "with-value": { "modifier": null,                     "tokenGroups": [], "slotConfig": { "value": true },                              "renderHint": "rating-value" },
-        "with-count": { "modifier": null,                     "tokenGroups": [], "slotConfig": { "value": true, "count": true },               "renderHint": "rating-count" },
-        "compact":    { "modifier": "nc-rating--compact",     "tokenGroups": [], "slotConfig": { "value": true },                              "renderHint": "rating-compact", "note": "Pill-Variante: 1 Stern + numerischer Wert. Ideal fuer dichte Listen." }
+        "stars-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "rating-stars"
+        },
+        "with-value": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "value": true
+          },
+          "renderHint": "rating-value"
+        },
+        "with-count": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "value": true,
+            "count": true
+          },
+          "renderHint": "rating-count"
+        },
+        "compact": {
+          "modifier": "nc-rating--compact",
+          "tokenGroups": [],
+          "slotConfig": {
+            "value": true
+          },
+          "renderHint": "rating-compact",
+          "note": "Pill-Variante: 1 Stern + numerischer Wert. Ideal fuer dichte Listen."
+        }
       }
     },
-
     "iconType": {
       "label": "Icon Type",
       "description": "Symbol-Varianz — star (Standard), heart (Favoriten), thumb (Zustimmung), smiley (Zufriedenheit)",
       "values": {
-        "star":   { "modifier": null, "tokenGroups": [], "note": "Klassischer Stern — Allgemein." },
-        "heart":  { "modifier": null, "tokenGroups": [], "note": "Herz — Favoriten, Social Media.", "dataAttr": "data-icon='heart'" },
-        "thumb":  { "modifier": null, "tokenGroups": [], "note": "Daumen — Funktional, Zustimmung.", "dataAttr": "data-icon='thumb'" },
-        "smiley": { "modifier": null, "tokenGroups": [], "note": "Smiley — Zufriedenheit, Service-Feedback.", "dataAttr": "data-icon='smiley'" }
+        "star": {
+          "modifier": null,
+          "tokenGroups": [],
+          "note": "Klassischer Stern — Allgemein."
+        },
+        "heart": {
+          "modifier": null,
+          "tokenGroups": [],
+          "note": "Herz — Favoriten, Social Media.",
+          "dataAttr": "data-icon='heart'"
+        },
+        "thumb": {
+          "modifier": null,
+          "tokenGroups": [],
+          "note": "Daumen — Funktional, Zustimmung.",
+          "dataAttr": "data-icon='thumb'"
+        },
+        "smiley": {
+          "modifier": null,
+          "tokenGroups": [],
+          "note": "Smiley — Zufriedenheit, Service-Feedback.",
+          "dataAttr": "data-icon='smiley'"
+        }
       }
     },
-
     "sentiment": {
       "label": "Sentiment",
       "description": "Farbkodierung — none (einheitliche Farbe), scale (Rot/Gelb/Gruen je nach Wert)",
       "values": {
-        "none":  { "modifier": null,                    "tokenGroups": [],           "note": "Einheitliche Active-Farbe (Warning/Gold) fuer alle Sterne." },
-        "scale": { "modifier": "nc-rating--sentiment",  "tokenGroups": ["sentiment"], "note": "1-2: Danger (Rot), 3: Warning (Gelb), 4-5: Success (Gruen). Sofortiges visuelles Sentiment-Feedback." }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "note": "Einheitliche Active-Farbe (Warning/Gold) fuer alle Sterne."
+        },
+        "scale": {
+          "modifier": "nc-rating--sentiment",
+          "tokenGroups": [
+            "sentiment"
+          ],
+          "note": "1-2: Danger (Rot), 3: Warning (Gelb), 4-5: Success (Gruen). Sofortiges visuelles Sentiment-Feedback."
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "active", "focus", "disabled"],
-    "precedence": ["disabled", "focus", "active", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "active",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover",  "unless": ["disabled"], "note": "Hover: Staggered Aufleuchten (30ms Versatz pro Stern). Scale(1.15) auf Hover-Stern." },
-      { "state": "active", "unless": ["disabled"], "note": "Active: Bounce-Animation (scale 1→1.25→0.95→1) auf dem gewaehlten Stern." },
-      { "state": "focus",  "unless": ["disabled"], "note": "Focus: outline mit 2px offset auf dem Label des fokussierten Radio-Inputs." },
-      { "state": "disabled", "unless": [],         "note": "Disabled: Reduzierte Opacity, pointer-events: none." }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Hover: Staggered Aufleuchten (30ms Versatz pro Stern). Scale(1.15) auf Hover-Stern."
+      },
+      {
+        "state": "active",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Active: Bounce-Animation (scale 1→1.25→0.95→1) auf dem gewaehlten Stern."
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus: outline mit 2px offset auf dem Label des fokussierten Radio-Inputs."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: Reduzierte Opacity, pointer-events: none."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Interaktiv: role='radiogroup' + aria-label auf Container. Jeder Stern ist ein Radio-Input mit Label. Arrow-Keys navigieren. Clear-Input (value=0) zum Zuruecksetzen. Readonly: role='img' + aria-label='Bewertung: X von Y Sternen'. Touch-Target mindestens 44x44px (WCAG 2.5.8) via ::after Padding."
     },
     "overrides": [
       {
-        "when": { "axes": { "mode": ["readonly"] } },
-        "require": ["role-img", "aria-label"],
+        "when": {
+          "axes": {
+            "mode": [
+              "readonly"
+            ]
+          }
+        },
+        "require": [
+          "role-img",
+          "aria-label"
+        ],
         "note": "Readonly: aria-label muss vollen Kontext liefern: 'Bewertung: 4.5 von 5 Sternen'. Bei Half-Stars den exakten Wert angeben."
       },
       {
-        "when": { "axes": { "mode": ["interactive"] } },
-        "require": ["role-radiogroup", "aria-label", "clear-input"],
+        "when": {
+          "axes": {
+            "mode": [
+              "interactive"
+            ]
+          }
+        },
+        "require": [
+          "role-radiogroup",
+          "aria-label",
+          "clear-input"
+        ],
         "note": "Interaktiv: role='radiogroup' + aria-label='Bewertung abgeben'. Clear-Input (value=0) als erstes Kind fuer Zuruecksetzen."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "aria-disabled='true' auf dem Container. Opacity reduziert, keine Interaktion."
       },
       {
-        "when": { "axes": { "sentiment": ["scale"] } },
-        "suggest": ["aria-valuetext"],
+        "when": {
+          "axes": {
+            "sentiment": [
+              "scale"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-valuetext"
+        ],
         "note": "Sentiment-Skala ist rein visuell. Farbwechsel darf nicht alleiniges Signal sein — Stern-Anzahl bleibt primaerer Indikator."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": { "axes": { "mode": ["interactive"] } }, "require": ["role-radiogroup", "accessible-name", "clear-input"], "notes": ["Interaktiver Modus braucht role='radiogroup', aria-label und einen Clear-Input (value=0)."] },
-      { "when": { "axes": { "mode": ["readonly"] } }, "require": ["role-img", "aria-label"], "notes": ["Readonly braucht role='img' und aria-label='Bewertung: X von Y Sternen'."] },
-      { "when": { "axes": { "size": ["sm"] } }, "severity": "warn", "notes": ["SM-Sterne (18px) brauchen erweiterten Touch-Target (44px via ::after Padding). Abstaende pruefen."] },
-      { "when": { "axes": { "sentiment": ["scale"] } }, "severity": "warn", "notes": ["Sentiment-Farben (Rot/Gelb/Gruen) duerfen nicht alleiniges Signal sein. Stern-Anzahl ist primaerer Indikator."] }
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "interactive"
+            ]
+          }
+        },
+        "require": [
+          "role-radiogroup",
+          "accessible-name",
+          "clear-input"
+        ],
+        "notes": [
+          "Interaktiver Modus braucht role='radiogroup', aria-label und einen Clear-Input (value=0)."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "readonly"
+            ]
+          }
+        },
+        "require": [
+          "role-img",
+          "aria-label"
+        ],
+        "notes": [
+          "Readonly braucht role='img' und aria-label='Bewertung: X von Y Sternen'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "size": [
+              "sm"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "SM-Sterne (18px) brauchen erweiterten Touch-Target (44px via ::after Padding). Abstaende pruefen."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "sentiment": [
+              "scale"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "Sentiment-Farben (Rot/Gelb/Gruen) duerfen nicht alleiniges Signal sein. Stern-Anzahl ist primaerer Indikator."
+        ]
+      }
     ],
     "copy": {
       "ariaLabel": {
@@ -152,11 +389,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-rating"],
-    "baseTokenGroups": ["core-geometry", "core-colors", "state-disabled"],
-
+    "baseClasses": [
+      "nc-rating"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-colors",
+      "state-disabled"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -201,12 +442,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -223,18 +471,41 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "interactive-states",
       "label": "Interactive States",
       "description": "Interaktives Rating in allen Zustaenden: Default, Hover (staggered), Active (bounce), Focus, Disabled",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["interactive"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default", "hover", "active", "focus", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "interactive"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "active",
+          "focus",
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Active-Sterne muessen 3:1 Kontrast gegen BG haben. Focus-Ring mit 2px offset. Hover zeigt staggered Aufleuchten."
@@ -245,12 +516,36 @@
       "label": "Hover-Kaskade (Staggered)",
       "description": "Sterne leuchten mit 30ms Versatz nacheinander auf — von links nach rechts. Klick loest Bounce-Animation aus.",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["interactive"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["hover", "active"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "interactive"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "hover",
+          "active"
+        ]
       },
-      "focusTokenGroups": ["interaction"],
+      "focusTokenGroups": [
+        "interaction"
+      ],
       "layout": "row",
-      "render": { "label": "{state}", "compositionType": "rating-hover-cascade" },
+      "render": {
+        "label": "{state}",
+        "compositionType": "rating-hover-cascade"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Animation respektiert prefers-reduced-motion. Rein visuelles Feedback — keine funktionale Bedeutung."
@@ -261,11 +556,32 @@
       "label": "Clear/Reset (Zero State)",
       "description": "Zuruecksetzen auf 0 Sterne via versteckten Clear-Input (value=0) oder sichtbaren Reset-Button.",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["interactive"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "interactive"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "rating-clear", "label": "clear" },
+      "render": {
+        "compositionType": "rating-clear",
+        "label": "clear"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Clear-Input (value=0) erreichbar via Arrow Left vom 1. Stern. Reset-Button hat eigenes aria-label='Bewertung zuruecksetzen'."
@@ -276,12 +592,32 @@
       "label": "Icon Types",
       "description": "Symbol-Varianz: Star (Standard), Heart (Favoriten), Thumb (Zustimmung), Smiley (Zufriedenheit)",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["readonly"], "display": ["stars-only"], "iconType": "*", "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "readonly"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": "*",
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "iconType" },
-      "render": { "label": "{iconType}" },
+      "layoutConfig": {
+        "rowAxis": "iconType"
+      },
+      "render": {
+        "label": "{iconType}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Icon-Typ ist rein visuell. aria-label beschreibt den Wert, nicht das Symbol."
@@ -292,12 +628,35 @@
       "label": "Sentiment-Farbskala",
       "description": "Dynamische Farbgebung: 1-2 Sterne = Rot (Danger), 3 Sterne = Gelb (Warning), 4-5 Sterne = Gruen (Success)",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["readonly"], "display": ["with-value"], "iconType": ["star"], "sentiment": ["scale"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "readonly"
+          ],
+          "display": [
+            "with-value"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "scale"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["sentiment"],
+      "focusTokenGroups": [
+        "sentiment"
+      ],
       "layout": "row",
-      "render": { "compositionType": "rating-sentiment", "label": "sentiment" },
+      "render": {
+        "compositionType": "rating-sentiment",
+        "label": "sentiment"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Farbwechsel darf nicht alleiniges Signal sein. Stern-Anzahl bleibt primaerer Indikator."
@@ -308,13 +667,35 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen mit Touch-Target Visualisierung",
       "matrix": {
-        "axes": { "size": "*", "mode": ["readonly"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "mode": [
+            "readonly"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-geometry"],
+      "focusTokenGroups": [
+        "core-geometry"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "SM (18px) braucht 44px Touch-Target via ::after. Gap bleibt konstant."
@@ -325,12 +706,32 @@
       "label": "Display Options",
       "description": "Stars-only, mit Wert, mit Wert + Anzahl, Compact/Pill",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["readonly"], "display": "*", "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "readonly"
+          ],
+          "display": "*",
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "display" },
-      "render": { "label": "{display}" },
+      "layoutConfig": {
+        "rowAxis": "display"
+      },
+      "render": {
+        "label": "{display}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Value und Count sind Text-Elemente — brauchen 4.5:1 Kontrast. Compact: 1 Stern + Zahl."
@@ -341,11 +742,31 @@
       "label": "Half Star Values (Readonly)",
       "description": "Verschiedene Bewertungswerte mit halben Sternen (2.5, 3.5, 4.5) — nur im Readonly-Modus",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["readonly"], "display": ["with-value"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "readonly"
+          ],
+          "display": [
+            "with-value"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "half-stars" },
+      "render": {
+        "label": "half-stars"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Halbe Sterne: linke Haelfte aktiv via clip-path. aria-label muss den exakten Wert enthalten."
@@ -356,12 +777,36 @@
       "label": "Touch Target (44px)",
       "description": "Unsichtbarer 44px Klickbereich um die Sterne — besonders wichtig bei SM (18px)",
       "matrix": {
-        "axes": { "size": ["sm", "md"], "mode": ["interactive"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm",
+            "md"
+          ],
+          "mode": [
+            "interactive"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-geometry"],
+      "focusTokenGroups": [
+        "core-geometry"
+      ],
       "layout": "row",
-      "render": { "compositionType": "rating-touch-target", "label": "touch-target" },
+      "render": {
+        "compositionType": "rating-touch-target",
+        "label": "touch-target"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Touch-Target 44x44px via ::after Padding. SM-Items (18px) haben 13px Padding pro Seite."
@@ -372,11 +817,31 @@
       "label": "Error State",
       "description": "Rating mit Error-Markierung (Pflichtfeld nicht ausgefuellt)",
       "matrix": {
-        "axes": { "size": ["md"], "mode": ["interactive"], "display": ["stars-only"], "iconType": ["star"], "sentiment": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "mode": [
+            "interactive"
+          ],
+          "display": [
+            "stars-only"
+          ],
+          "iconType": [
+            "star"
+          ],
+          "sentiment": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "error" },
+      "render": {
+        "label": "error"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error: Alle Sterne in Error-Farbe. aria-invalid='true'. Fehlermeldung via aria-describedby. Farbe nie alleiniges Signal."

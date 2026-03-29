@@ -1,0 +1,306 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "navigation-menu",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "interactive",
+    "dropdown",
+    "mega-menu"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-navigation-menu",
+    "slots": [
+      {
+        "name": "list",
+        "selector": ".nc-navigation-menu__list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-navigation-menu__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "trigger",
+        "selector": ".nc-navigation-menu__trigger",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-navigation-menu__content",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "link",
+        "selector": ".nc-navigation-menu__link",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "featured",
+        "selector": ".nc-navigation-menu__featured",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "callout",
+        "selector": ".nc-navigation-menu__callout",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "indicator",
+        "selector": ".nc-navigation-menu__indicator",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "viewport",
+        "selector": ".nc-navigation-menu__viewport",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Radix-UI Pattern: nav > ul > li > trigger/content.",
+      "Data-Attributes: [data-state=open|closed] auf Trigger/Content, [data-active] auf Links.",
+      "Viewport: animierter Container fuer Dropdown-Inhalte, teilt Tokens mit Popover.",
+      "Indicator: 2px Unterstrich-Balken mit layout-transition (sanftes Hergleiten statt Springen).",
+      "Mega-Menu: --mega Modifier, Grid mit konfigurierbaren Spalten (default 2).",
+      "Featured Item: Grafischer Highlight-Slot, volle Breite im Grid (grid-column: 1 / -1).",
+      "Callout: Highlight-Bereich im Mega-Menu (linke Spalte, Gradient-BG).",
+      "Trigger-Mode: data-trigger='hover' (Desktop) vs 'click' (Touch/komplexe Menus)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Content-Layout — default (einfache Liste), two-col (2 Spalten mit Callout), mega (Grid-Layout)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "two-col",
+          "cssModifier": "nc-navigation-menu__content--two-col",
+          "default": false,
+          "label": "two-col"
+        },
+        {
+          "value": "mega",
+          "cssModifier": "nc-navigation-menu__content--mega",
+          "default": false,
+          "label": "mega"
+        }
+      ]
+    },
+    "trigger": {
+      "label": "Trigger Mode",
+      "description": "Ausloeser — hover (Desktop, schnell), click (Touch, sicher fuer komplexe Menus)",
+      "values": [
+        {
+          "value": "hover",
+          "cssModifier": null,
+          "default": false,
+          "label": "hover"
+        },
+        {
+          "value": "click",
+          "cssModifier": null,
+          "default": false,
+          "label": "click"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-navigation-menu"
+    ],
+    "tokenGroups": {
+      "List / Items": [
+        {
+          "token": "nc-nav-menu-item-gap"
+        },
+        {
+          "token": "nc-nav-menu-item-margin"
+        }
+      ],
+      "Trigger": [
+        {
+          "token": "nc-nav-menu-trigger-color"
+        },
+        {
+          "token": "nc-nav-menu-trigger-hover-bg"
+        },
+        {
+          "token": "nc-nav-menu-trigger-active-bg"
+        },
+        {
+          "token": "nc-nav-menu-trigger-radius"
+        },
+        {
+          "token": "nc-nav-menu-trigger-font-size"
+        },
+        {
+          "token": "nc-nav-menu-trigger-font-weight"
+        },
+        {
+          "token": "nc-nav-menu-trigger-padding-x"
+        },
+        {
+          "token": "nc-nav-menu-trigger-padding-y"
+        }
+      ],
+      "Viewport": [
+        {
+          "token": "nc-nav-menu-viewport-bg"
+        },
+        {
+          "token": "nc-nav-menu-viewport-border"
+        },
+        {
+          "token": "nc-nav-menu-viewport-radius"
+        },
+        {
+          "token": "nc-nav-menu-viewport-shadow"
+        },
+        {
+          "token": "nc-nav-menu-viewport-width"
+        },
+        {
+          "token": "nc-nav-menu-content-padding"
+        },
+        {
+          "token": "nc-nav-menu-content-width"
+        }
+      ],
+      "Link": [
+        {
+          "token": "nc-nav-menu-link-radius"
+        },
+        {
+          "token": "nc-nav-menu-link-hover-bg"
+        },
+        {
+          "token": "nc-nav-menu-link-padding"
+        },
+        {
+          "token": "nc-nav-menu-content-padding"
+        },
+        {
+          "token": "nc-nav-menu-content-width"
+        }
+      ],
+      "Indicator": [
+        {
+          "token": "nc-nav-menu-indicator-color"
+        },
+        {
+          "token": "nc-nav-menu-indicator-height"
+        }
+      ],
+      "Mega Menu": [
+        {
+          "token": "nc-nav-menu-mega-columns"
+        },
+        {
+          "token": "nc-nav-menu-mega-gap"
+        },
+        {
+          "token": "nc-nav-menu-featured-bg"
+        },
+        {
+          "token": "nc-nav-menu-featured-radius"
+        },
+        {
+          "token": "nc-nav-menu-featured-padding"
+        }
+      ],
+      "Motion": [
+        {
+          "token": "nc-nav-menu-duration"
+        },
+        {
+          "token": "nc-nav-menu-ease"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "trigger": [
+              "hover"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "hover-delay"
+        ],
+        "note": "Hover: Leichte Verzoegerung (150ms) beim Oeffnen um versehentliches Triggern zu vermeiden."
+      }
+    ]
+  },
+  "dependencies": [
+    "navigation"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_navigation-menu.scss"
+    ],
+    "story": "stories/organisms/navigation-menu.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/NavigationMenuArena.vue",
+    "drupal": [],
+    "docs": "docs/navigation-menu-docs.html"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "cta",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "content",
+    "conversion"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-cta",
+    "slots": [
+      {
+        "name": "left",
+        "selector": ".nc-cta__left",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "mid",
+        "selector": ".nc-cta__mid",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "right",
+        "selector": ".nc-cta__right",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "form",
+        "selector": ".nc-cta__form",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "note",
+        "selector": ".nc-cta__note",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.",
+      "Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.",
+      "Responsive: Form wird 2fr+1fr ab 768px."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-cta"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_cta.scss"
+    ],
+    "story": "stories/organisms/cta.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/cta-docs.html"
+  }
+}

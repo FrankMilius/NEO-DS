@@ -1,0 +1,135 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "square-value",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "animation",
+    "3d"
+  ],
+  "anatomy": {
+    "rootElement": ".square-value",
+    "slots": [
+      {
+        "name": "wrapper",
+        "selector": ".square-value-wrapper",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "square-wrapper",
+        "selector": ".square-wrapper",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "square-block",
+        "selector": ".square-block",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "3D-Wuerfel: transform-style preserve-3d, rotateX/rotateY fuer Flaechen.",
+      "4 Faces pro Wuerfel: background-inverse, radius-sm, text-inverse.",
+      "Richtungs-Varianten: mobile-vertical, tablet-vertical, desktop-vertical.",
+      "Animationen: enter (scale 0→1), exit (scale→0), rotate-once/-twice/-thrice, char-square Textanimation."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "orientation": {
+      "label": "Orientation",
+      "description": "Wuerfel-Rotation — horizontal (default), mobile-vertical, tablet-vertical, desktop-vertical",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "mobile-vertical",
+          "cssModifier": "mobile-vertical",
+          "default": false,
+          "label": "mobile-vertical"
+        },
+        {
+          "value": "tablet-vertical",
+          "cssModifier": "tablet-vertical",
+          "default": false,
+          "label": "tablet-vertical"
+        },
+        {
+          "value": "desktop-vertical",
+          "cssModifier": "desktop-vertical",
+          "default": false,
+          "label": "desktop-vertical"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt der Wuerfel-Flaechen — text, image, video",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "image",
+          "cssModifier": null,
+          "default": false,
+          "label": "image"
+        },
+        {
+          "value": "video",
+          "cssModifier": null,
+          "default": false,
+          "label": "video"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "square-value"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA large text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_square-value.scss"
+    ],
+    "story": "stories/organisms/square-value.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/square-value-docs.html"
+  }
+}

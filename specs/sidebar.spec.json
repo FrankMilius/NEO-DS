@@ -1,0 +1,343 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "sidebar",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "layout",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-sidebar",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-sidebar__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "logo",
+        "selector": ".nc-sidebar__logo",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "toggle",
+        "selector": ".nc-sidebar__toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nav",
+        "selector": ".nc-sidebar__nav",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "group",
+        "selector": ".nc-sidebar__group",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "group-label",
+        "selector": ".nc-sidebar__group-label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-sidebar__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item-icon",
+        "selector": ".nc-sidebar__item-icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item-label",
+        "selector": ".nc-sidebar__item-label",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item-badge",
+        "selector": ".nc-sidebar__item-badge",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item-chevron",
+        "selector": ".nc-sidebar__item-chevron",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "submenu",
+        "selector": ".nc-sidebar__submenu",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-sidebar__footer",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: <nav aria-label='Seitennavigation'>. Flex-column, volle Hoehe, border-right.",
+      "Header: Logo + Collapse-Toggle. Logo: <a> mit Icon + Text.",
+      "Toggle: 24px Button, steuert Collapsed-State (JS).",
+      "Nav: flex-column, flex:1, enthaelt Groups mit Items.",
+      "Group: flex-column mit gap. Group-Label: uppercase, letter-spacing, user-select:none.",
+      "Item: <a> fuer Navigation, <button> fuer Sub-Menu-Toggle. Flex-row mit Icon + Label + Badge + Chevron.",
+      "Item--active / aria-current='page': active-BG + active-Color (interactive-default).",
+      "Badge: Zaehler (z.B. ungelesene Nachrichten), danger-BG, radius-full.",
+      "Chevron: 16px, rotiert 90° bei aria-expanded='true'.",
+      "Submenu: verschachtelte Items, padding-left: nested-indent. hidden-Attribut.",
+      "Footer: margin-top:auto, border-top. Wird ans Ende gedrueckt.",
+      "Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels hidden, Items zentriert.",
+      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — expanded (voll ausgeklappt), collapsed (nur Icons)",
+      "values": [
+        {
+          "value": "expanded",
+          "cssModifier": null,
+          "default": false,
+          "label": "expanded"
+        },
+        {
+          "value": "collapsed",
+          "cssModifier": "nc-sidebar--collapsed",
+          "default": false,
+          "label": "collapsed"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — flat (nur Items), grouped (Items in Gruppen), nested (Items mit Sub-Menus), with-badges (Items mit Zaehler-Badges), full (Header + Groups + Nested + Badges + Footer)",
+      "values": [
+        {
+          "value": "flat",
+          "cssModifier": null,
+          "default": false,
+          "label": "flat"
+        },
+        {
+          "value": "grouped",
+          "cssModifier": null,
+          "default": false,
+          "label": "grouped"
+        },
+        {
+          "value": "nested",
+          "cssModifier": null,
+          "default": false,
+          "label": "nested"
+        },
+        {
+          "value": "with-badges",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-badges"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-sidebar"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-sidebar-width"
+        },
+        {
+          "token": "nc-sidebar-width-collapsed"
+        },
+        {
+          "token": "nc-sidebar-bg"
+        },
+        {
+          "token": "nc-sidebar-border"
+        },
+        {
+          "token": "nc-sidebar-border-width"
+        },
+        {
+          "token": "nc-sidebar-padding"
+        },
+        {
+          "token": "nc-sidebar-z-index"
+        }
+      ],
+      "Item": [
+        {
+          "token": "nc-sidebar-item-height"
+        },
+        {
+          "token": "nc-sidebar-item-padding"
+        },
+        {
+          "token": "nc-sidebar-item-radius"
+        },
+        {
+          "token": "nc-sidebar-item-gap"
+        },
+        {
+          "token": "nc-sidebar-item-color"
+        },
+        {
+          "token": "nc-sidebar-item-color-hover"
+        },
+        {
+          "token": "nc-sidebar-item-bg-hover"
+        },
+        {
+          "token": "nc-sidebar-item-bg-active"
+        },
+        {
+          "token": "nc-sidebar-item-color-active"
+        },
+        {
+          "token": "nc-sidebar-item-font-size"
+        },
+        {
+          "token": "nc-sidebar-item-font-weight"
+        },
+        {
+          "token": "nc-sidebar-item-icon-size"
+        }
+      ],
+      "Group": [
+        {
+          "token": "nc-sidebar-group-label-color"
+        },
+        {
+          "token": "nc-sidebar-group-label-size"
+        },
+        {
+          "token": "nc-sidebar-group-label-weight"
+        },
+        {
+          "token": "nc-sidebar-group-label-padding"
+        },
+        {
+          "token": "nc-sidebar-group-gap"
+        }
+      ],
+      "Nested": [
+        {
+          "token": "nc-sidebar-nested-indent"
+        }
+      ],
+      "Badge": [
+        {
+          "token": "nc-sidebar-badge-size"
+        },
+        {
+          "token": "nc-sidebar-badge-font-size"
+        },
+        {
+          "token": "nc-sidebar-badge-bg"
+        },
+        {
+          "token": "nc-sidebar-badge-color"
+        },
+        {
+          "token": "nc-sidebar-badge-radius"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "collapsed"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-label"
+        ],
+        "note": "Collapsed: Items zeigen nur Icons — aria-label oder title auf jedem Item fuer Screen Reader."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_sidebar.scss"
+    ],
+    "story": "stories/organisms/sidebar.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SidebarArena.vue",
+    "drupal": [],
+    "docs": "docs/sidebar-docs.html"
+  }
+}

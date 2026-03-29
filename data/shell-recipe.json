@@ -5,30 +5,119 @@
     "component": "shell",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["layout", "scaffold", "template"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/shell-docs" }
+    "tags": [
+      "layout",
+      "scaffold",
+      "template"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/shell-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [],
+      "story": "stories/organisms/shell.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/ShellArena.vue",
+      "drupal": [],
+      "docs": "docs/shell-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-shell" },
+    "root": {
+      "element": ".nc-shell"
+    },
     "slots": [
-      { "name": "skip-link",      "element": ".nc-shell__skip-link",      "optional": false, "note": "Erstes Kind der Shell. Unsichtbar, erscheint bei :focus ueber allen Zonen." },
-      { "name": "banner",         "element": ".nc-shell__banner",         "optional": true, "note": "System-Messages und Alerts ueber der gesamten Navigation. Sichtbar wenn :not(:empty). Severity-Varianten: info, success, warning, danger. Dismissable via Close-Button." },
-      { "name": "banner-item",    "element": ".nc-shell__banner-item",    "optional": true, "note": "Einzelne Banner-Nachricht mit Severity-Modifier (--info, --success, --warning, --danger)." },
-      { "name": "banner-close",   "element": ".nc-shell__banner-close",   "optional": true, "note": "Dismiss-Button pro Banner-Item." },
-      { "name": "linkbar",        "element": ".nc-shell__linkbar",        "optional": true },
-      { "name": "linkbar-left",   "element": ".nc-shell__linkbar-left",   "optional": true },
-      { "name": "linkbar-right",  "element": ".nc-shell__linkbar-right",  "optional": true },
-      { "name": "navbar",         "element": ".nc-shell__navbar",         "optional": false },
-      { "name": "stage",          "element": ".nc-shell__stage",          "optional": false },
-      { "name": "sidebar-left",   "element": ".nc-shell__sidebar-left",   "optional": true },
-      { "name": "sidebar-right",  "element": ".nc-shell__sidebar-right",  "optional": true },
-      { "name": "main",           "element": ".nc-shell__main",           "optional": false },
-      { "name": "content-header", "element": ".nc-shell__content-header", "optional": true },
-      { "name": "content-body",   "element": ".nc-shell__content-body",   "optional": false },
-      { "name": "content-footer", "element": ".nc-shell__content-footer", "optional": true },
-      { "name": "footerbar",      "element": ".nc-shell__footerbar",      "optional": true },
-      { "name": "sidebar-overlay","element": ".nc-shell__sidebar-overlay","optional": true }
+      {
+        "name": "skip-link",
+        "element": ".nc-shell__skip-link",
+        "optional": false,
+        "note": "Erstes Kind der Shell. Unsichtbar, erscheint bei :focus ueber allen Zonen."
+      },
+      {
+        "name": "banner",
+        "element": ".nc-shell__banner",
+        "optional": true,
+        "note": "System-Messages und Alerts ueber der gesamten Navigation. Sichtbar wenn :not(:empty). Severity-Varianten: info, success, warning, danger. Dismissable via Close-Button."
+      },
+      {
+        "name": "banner-item",
+        "element": ".nc-shell__banner-item",
+        "optional": true,
+        "note": "Einzelne Banner-Nachricht mit Severity-Modifier (--info, --success, --warning, --danger)."
+      },
+      {
+        "name": "banner-close",
+        "element": ".nc-shell__banner-close",
+        "optional": true,
+        "note": "Dismiss-Button pro Banner-Item."
+      },
+      {
+        "name": "linkbar",
+        "element": ".nc-shell__linkbar",
+        "optional": true
+      },
+      {
+        "name": "linkbar-left",
+        "element": ".nc-shell__linkbar-left",
+        "optional": true
+      },
+      {
+        "name": "linkbar-right",
+        "element": ".nc-shell__linkbar-right",
+        "optional": true
+      },
+      {
+        "name": "navbar",
+        "element": ".nc-shell__navbar",
+        "optional": false
+      },
+      {
+        "name": "stage",
+        "element": ".nc-shell__stage",
+        "optional": false
+      },
+      {
+        "name": "sidebar-left",
+        "element": ".nc-shell__sidebar-left",
+        "optional": true
+      },
+      {
+        "name": "sidebar-right",
+        "element": ".nc-shell__sidebar-right",
+        "optional": true
+      },
+      {
+        "name": "main",
+        "element": ".nc-shell__main",
+        "optional": false
+      },
+      {
+        "name": "content-header",
+        "element": ".nc-shell__content-header",
+        "optional": true
+      },
+      {
+        "name": "content-body",
+        "element": ".nc-shell__content-body",
+        "optional": false
+      },
+      {
+        "name": "content-footer",
+        "element": ".nc-shell__content-footer",
+        "optional": true
+      },
+      {
+        "name": "footerbar",
+        "element": ".nc-shell__footerbar",
+        "optional": true
+      },
+      {
+        "name": "sidebar-overlay",
+        "element": ".nc-shell__sidebar-overlay",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -51,118 +140,368 @@
       "Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto."
     ]
   },
-
   "axes": {
     "preset": {
       "label": "Preset",
       "description": "Layout-Preset via data-layout Attribut — bestimmt welche Zonen sichtbar sind und wie das Grid konfiguriert wird.",
       "values": {
-        "dashboard":    { "modifier": null, "tokenGroups": ["linkbar", "sidebars", "sidebar-density", "footerbar", "content", "z-index"], "dataAttr": "data-layout='dashboard'",    "note": "Linke Sidebar (260px), Footerbar, volle Content-Breite." },
-        "content-page": { "modifier": null, "tokenGroups": ["footerbar", "content", "z-index"],                                          "dataAttr": "data-layout='content-page'", "note": "Keine Sidebars, Content zentriert (max-width 1200px), Footerbar." },
-        "docs":         { "modifier": null, "tokenGroups": ["sidebars", "sidebar-density", "footerbar", "content", "z-index"],            "dataAttr": "data-layout='docs'",         "note": "Linke Sidebar (240px) + Rechte Sidebar (200px), Footerbar." },
-        "landing":      { "modifier": null, "tokenGroups": ["linkbar", "footerbar", "content", "z-index"],                                "dataAttr": "data-layout='landing'",      "note": "Linkbar sichtbar + sticky, keine Sidebars, volle Breite, Footerbar." },
-        "focused":      { "modifier": null, "tokenGroups": ["content"],                                                                   "dataAttr": "data-layout='focused'",      "note": "Minimal — kein Linkbar, keine Sidebars, kein Footerbar. Content zentriert (720px). Fuer Login, Error, Formulare." },
-        "settings":     { "modifier": null, "tokenGroups": ["sidebars", "sidebar-density", "footerbar", "content", "z-index"],            "dataAttr": "data-layout='settings'",     "note": "Linke Sidebar (220px), Content max 960px, Footerbar." }
+        "dashboard": {
+          "modifier": null,
+          "tokenGroups": [
+            "linkbar",
+            "sidebars",
+            "sidebar-density",
+            "footerbar",
+            "content",
+            "z-index"
+          ],
+          "dataAttr": "data-layout='dashboard'",
+          "note": "Linke Sidebar (260px), Footerbar, volle Content-Breite."
+        },
+        "content-page": {
+          "modifier": null,
+          "tokenGroups": [
+            "footerbar",
+            "content",
+            "z-index"
+          ],
+          "dataAttr": "data-layout='content-page'",
+          "note": "Keine Sidebars, Content zentriert (max-width 1200px), Footerbar."
+        },
+        "docs": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebars",
+            "sidebar-density",
+            "footerbar",
+            "content",
+            "z-index"
+          ],
+          "dataAttr": "data-layout='docs'",
+          "note": "Linke Sidebar (240px) + Rechte Sidebar (200px), Footerbar."
+        },
+        "landing": {
+          "modifier": null,
+          "tokenGroups": [
+            "linkbar",
+            "footerbar",
+            "content",
+            "z-index"
+          ],
+          "dataAttr": "data-layout='landing'",
+          "note": "Linkbar sichtbar + sticky, keine Sidebars, volle Breite, Footerbar."
+        },
+        "focused": {
+          "modifier": null,
+          "tokenGroups": [
+            "content"
+          ],
+          "dataAttr": "data-layout='focused'",
+          "note": "Minimal — kein Linkbar, keine Sidebars, kein Footerbar. Content zentriert (720px). Fuer Login, Error, Formulare."
+        },
+        "settings": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebars",
+            "sidebar-density",
+            "footerbar",
+            "content",
+            "z-index"
+          ],
+          "dataAttr": "data-layout='settings'",
+          "note": "Linke Sidebar (220px), Content max 960px, Footerbar."
+        }
       }
     },
-
     "sidebar": {
       "label": "Sidebar State",
       "description": "Sichtbarkeit und Zustand der Sidebars — expanded (Standard), collapsed (eingeklappt, Desktop), drawer-open (ausgeklappt, Mobile).",
       "values": {
-        "expanded":  { "modifier": null,                                    "tokenGroups": ["sidebars", "sidebar-density"] },
-        "collapsed": { "modifier": "nc-shell--sidebar-left-collapsed",      "tokenGroups": ["sidebars"], "note": "Desktop: Width 0, animierte Transition." },
-        "drawer":    { "modifier": "nc-shell--sidebar-left-drawer-open",    "tokenGroups": ["sidebars", "z-index"], "note": "Mobile: Off-Canvas-Panel mit Overlay-Backdrop. Z-Index: drawer-Stufe." }
+        "expanded": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebars",
+            "sidebar-density"
+          ]
+        },
+        "collapsed": {
+          "modifier": "nc-shell--sidebar-left-collapsed",
+          "tokenGroups": [
+            "sidebars"
+          ],
+          "note": "Desktop: Width 0, animierte Transition."
+        },
+        "drawer": {
+          "modifier": "nc-shell--sidebar-left-drawer-open",
+          "tokenGroups": [
+            "sidebars",
+            "z-index"
+          ],
+          "note": "Mobile: Off-Canvas-Panel mit Overlay-Backdrop. Z-Index: drawer-Stufe."
+        }
       }
     },
-
     "sidebarDensity": {
       "label": "Sidebar Density",
       "description": "Sidebar-Breitenstufe — narrow (kompakt, Icon-Leiste), standard (default), wide (breiter Dateibaum, erweiterte Navigation).",
       "values": {
-        "narrow":   { "modifier": null, "tokenGroups": ["sidebar-density"], "dataAttr": "data-sidebar-density='narrow'",   "note": "Links 200px, Rechts 160px. Fuer Icon-Leisten, kompakte Navigation." },
-        "standard": { "modifier": null, "tokenGroups": ["sidebar-density"], "dataAttr": null,                               "note": "Links 260px, Rechts 260px. Standard-Breite (kein Attribut noetig)." },
-        "wide":     { "modifier": null, "tokenGroups": ["sidebar-density"], "dataAttr": "data-sidebar-density='wide'",     "note": "Links 320px, Rechts 300px. Fuer Dateibaum, erweiterte Navigation." }
+        "narrow": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebar-density"
+          ],
+          "dataAttr": "data-sidebar-density='narrow'",
+          "note": "Links 200px, Rechts 160px. Fuer Icon-Leisten, kompakte Navigation."
+        },
+        "standard": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebar-density"
+          ],
+          "dataAttr": null,
+          "note": "Links 260px, Rechts 260px. Standard-Breite (kein Attribut noetig)."
+        },
+        "wide": {
+          "modifier": null,
+          "tokenGroups": [
+            "sidebar-density"
+          ],
+          "dataAttr": "data-sidebar-density='wide'",
+          "note": "Links 320px, Rechts 300px. Fuer Dateibaum, erweiterte Navigation."
+        }
       }
     },
-
     "contentAlign": {
       "label": "Content Alignment",
       "description": "Horizontale Ausrichtung des Hauptinhalts — full (volle Breite, Standard), center (zentriert, max-width), left (linksbuendig, max-width).",
       "values": {
-        "full":   { "modifier": null,                               "tokenGroups": ["content"] },
-        "center": { "modifier": "nc-shell__content-body--center",   "tokenGroups": ["content"], "note": "max-width + margin-inline: auto." },
-        "left":   { "modifier": "nc-shell__content-body--left",     "tokenGroups": ["content"], "note": "max-width ohne Zentrierung." }
+        "full": {
+          "modifier": null,
+          "tokenGroups": [
+            "content"
+          ]
+        },
+        "center": {
+          "modifier": "nc-shell__content-body--center",
+          "tokenGroups": [
+            "content"
+          ],
+          "note": "max-width + margin-inline: auto."
+        },
+        "left": {
+          "modifier": "nc-shell__content-body--left",
+          "tokenGroups": [
+            "content"
+          ],
+          "note": "max-width ohne Zentrierung."
+        }
       }
     },
-
     "footerbarMobile": {
       "label": "Footerbar Mobile",
       "description": "Verhalten der Footerbar auf Mobile-Viewports (<lg) — sticky (klebrig, Standard), static (am Ende), hide (versteckt).",
       "values": {
-        "sticky": { "modifier": null,                                    "tokenGroups": ["footerbar"], "dataAttr": null,                              "note": "Standard: Footerbar bleibt sticky am unteren Rand. Kann auf kleinen Screens Platz rauben." },
-        "static": { "modifier": null,                                    "tokenGroups": ["footerbar"], "dataAttr": "data-footerbar-mobile='static'",  "note": "Footerbar scrollt mit dem Content, klebt nicht. Spart vertikalen Viewport." },
-        "hide":   { "modifier": null,                                    "tokenGroups": [],            "dataAttr": "data-footerbar-mobile='hide'",    "note": "Footerbar auf Mobile komplett versteckt. Maximaler Platz fuer Content." }
+        "sticky": {
+          "modifier": null,
+          "tokenGroups": [
+            "footerbar"
+          ],
+          "dataAttr": null,
+          "note": "Standard: Footerbar bleibt sticky am unteren Rand. Kann auf kleinen Screens Platz rauben."
+        },
+        "static": {
+          "modifier": null,
+          "tokenGroups": [
+            "footerbar"
+          ],
+          "dataAttr": "data-footerbar-mobile='static'",
+          "note": "Footerbar scrollt mit dem Content, klebt nicht. Spart vertikalen Viewport."
+        },
+        "hide": {
+          "modifier": null,
+          "tokenGroups": [],
+          "dataAttr": "data-footerbar-mobile='hide'",
+          "note": "Footerbar auf Mobile komplett versteckt. Maximaler Platz fuer Content."
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasLandmarks", "hasSkipLink"],
+      "assertions": [
+        "hasLandmarks",
+        "hasSkipLink"
+      ],
       "note": "Shell muss semantische Landmarks enthalten: <nav> in navbar, <main> in main, <aside> in sidebars. Skip-Link ist fester Bestandteil der Anatomie — .nc-shell__skip-link als erstes Kind."
     },
     "overrides": [
       {
-        "when": { "slots": ["skip-link"] },
-        "require": ["href-main-content"],
+        "when": {
+          "slots": [
+            "skip-link"
+          ]
+        },
+        "require": [
+          "href-main-content"
+        ],
         "note": "Skip-Link muss auf #main-content verweisen. Text: 'Zum Inhalt springen' (DE) / 'Skip to content' (EN)."
       },
       {
-        "when": { "slots": ["sidebar-left", "sidebar-right"] },
-        "require": ["aria-label"],
+        "when": {
+          "slots": [
+            "sidebar-left",
+            "sidebar-right"
+          ]
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Sidebars brauchen aria-label zur Unterscheidung (z.B. 'Navigation', 'Inhaltsverzeichnis')."
       },
       {
-        "when": { "slots": ["sidebar-overlay"] },
-        "suggest": ["aria-hidden"],
+        "when": {
+          "slots": [
+            "sidebar-overlay"
+          ]
+        },
+        "suggest": [
+          "aria-hidden"
+        ],
         "note": "Overlay-Backdrop sollte aria-hidden='true' haben. Klick schliesst den Drawer."
       },
       {
-        "when": { "axes": { "sidebar": ["drawer"] } },
-        "require": ["focus-trap", "escape-close"],
+        "when": {
+          "axes": {
+            "sidebar": [
+              "drawer"
+            ]
+          }
+        },
+        "require": [
+          "focus-trap",
+          "escape-close"
+        ],
         "note": "Mobile Drawer braucht Focus-Trap und Escape-Key zum Schliessen."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["skip-link"], "notes": ["Shell muss .nc-shell__skip-link als erstes Kind enthalten. Verlinkt auf #main-content, unsichtbar bis :focus."] },
-      { "when": {}, "require": ["main-landmark"], "notes": ["Shell muss genau ein <main> Landmark enthalten."] },
-      { "when": {}, "require": ["nav-landmark"], "notes": ["Navbar muss ein <nav> Element enthalten."] },
-      { "when": { "slots": ["sidebar-left", "sidebar-right"] }, "require": ["aside-landmark", "aria-label"], "notes": ["Sidebars muessen <aside> mit aria-label verwenden."] },
-      { "when": { "axes": { "sidebar": ["drawer"] } }, "require": ["overlay-close", "focus-management"], "notes": ["Drawer braucht: Overlay-Klick schliesst, Focus-Trap aktiv, Escape schliesst, Focus zurueck zum Trigger."] },
-      { "when": {}, "require": ["z-index-governance"], "notes": ["Z-Index-Werte muessen ueber --nc-shell-z-* Tokens gesteuert werden. Manuelle z-index-Werte in Shell-Zonen sind verboten. Rangfolge: linkbar < footerbar < navbar < sidebar < overlay < drawer."] },
-      { "when": { "axes": { "sidebarDensity": ["narrow"] } }, "severity": "warn", "notes": ["Bei narrow-Density sollte die Sidebar nur Icons oder kompakte Navigation enthalten. Textlastige Inhalte koennen abgeschnitten werden."] },
-      { "when": { "axes": { "footerbarMobile": ["hide"] } }, "severity": "warn", "notes": ["Bei 'hide' werden Footerbar-Inhalte auf Mobile nicht angezeigt. Essentielle Aktionen oder Status-Informationen muessen alternativ erreichbar sein (z.B. im Content oder ueber einen FAB)."] }
+      {
+        "when": {},
+        "require": [
+          "skip-link"
+        ],
+        "notes": [
+          "Shell muss .nc-shell__skip-link als erstes Kind enthalten. Verlinkt auf #main-content, unsichtbar bis :focus."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "main-landmark"
+        ],
+        "notes": [
+          "Shell muss genau ein <main> Landmark enthalten."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "nav-landmark"
+        ],
+        "notes": [
+          "Navbar muss ein <nav> Element enthalten."
+        ]
+      },
+      {
+        "when": {
+          "slots": [
+            "sidebar-left",
+            "sidebar-right"
+          ]
+        },
+        "require": [
+          "aside-landmark",
+          "aria-label"
+        ],
+        "notes": [
+          "Sidebars muessen <aside> mit aria-label verwenden."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "sidebar": [
+              "drawer"
+            ]
+          }
+        },
+        "require": [
+          "overlay-close",
+          "focus-management"
+        ],
+        "notes": [
+          "Drawer braucht: Overlay-Klick schliesst, Focus-Trap aktiv, Escape schliesst, Focus zurueck zum Trigger."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "z-index-governance"
+        ],
+        "notes": [
+          "Z-Index-Werte muessen ueber --nc-shell-z-* Tokens gesteuert werden. Manuelle z-index-Werte in Shell-Zonen sind verboten. Rangfolge: linkbar < footerbar < navbar < sidebar < overlay < drawer."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "sidebarDensity": [
+              "narrow"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "Bei narrow-Density sollte die Sidebar nur Icons oder kompakte Navigation enthalten. Textlastige Inhalte koennen abgeschnitten werden."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "footerbarMobile": [
+              "hide"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "Bei 'hide' werden Footerbar-Inhalte auf Mobile nicht angezeigt. Essentielle Aktionen oder Status-Informationen muessen alternativ erreichbar sein (z.B. im Content oder ueber einen FAB)."
+        ]
+      }
     ],
     "copy": {}
   },
-
   "styling": {
-    "baseClasses": ["nc-shell"],
-    "baseTokenGroups": ["skip-link"],
-
+    "baseClasses": [
+      "nc-shell"
+    ],
+    "baseTokenGroups": [
+      "skip-link"
+    ],
     "tokenGroups": {
       "linkbar": {
         "label": "Linkbar",
@@ -240,12 +579,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -262,19 +608,36 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "preset-overview",
       "label": "Layout Presets",
       "description": "Alle 6 Presets im Ueberblick — Dashboard, Content-Page, Docs, Landing, Focused, Settings",
       "matrix": {
-        "axes": { "preset": "*", "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": "*",
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "preset" },
-      "render": { "compositionType": "shell-miniature", "label": "{preset}" },
+      "layoutConfig": {
+        "rowAxis": "preset"
+      },
+      "render": {
+        "compositionType": "shell-miniature",
+        "label": "{preset}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Jedes Preset muss alle benoetigten Landmarks enthalten."
@@ -285,13 +648,33 @@
       "label": "Sidebar States",
       "description": "Expanded, Collapsed, Drawer (Mobile) — am Beispiel Dashboard-Preset",
       "matrix": {
-        "axes": { "preset": ["dashboard"], "sidebar": "*", "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "dashboard"
+          ],
+          "sidebar": "*",
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["sidebars"],
+      "focusTokenGroups": [
+        "sidebars"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "sidebar" },
-      "render": { "compositionType": "shell-sidebar-states", "label": "{sidebar}" },
+      "layoutConfig": {
+        "rowAxis": "sidebar"
+      },
+      "render": {
+        "compositionType": "shell-sidebar-states",
+        "label": "{sidebar}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Collapsed: Sidebar content hidden (visibility:hidden). Drawer: Focus-Trap aktiv, Escape schliesst."
@@ -302,13 +685,33 @@
       "label": "Sidebar Density",
       "description": "Narrow / Standard / Wide — am Beispiel Dashboard-Preset mit linker Sidebar",
       "matrix": {
-        "axes": { "preset": ["dashboard"], "sidebar": ["expanded"], "sidebarDensity": "*", "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "dashboard"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": "*",
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["sidebar-density"],
+      "focusTokenGroups": [
+        "sidebar-density"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "sidebarDensity" },
-      "render": { "compositionType": "shell-sidebar-density", "label": "{sidebarDensity}" },
+      "layoutConfig": {
+        "rowAxis": "sidebarDensity"
+      },
+      "render": {
+        "compositionType": "shell-sidebar-density",
+        "label": "{sidebarDensity}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Narrow: Nur Icons/kompakte Navigation. Wide: Breiter Dateibaum, erweiterte Menus."
@@ -319,13 +722,33 @@
       "label": "Content Alignment",
       "description": "Full vs Center vs Left — am Beispiel Content-Page-Preset",
       "matrix": {
-        "axes": { "preset": ["content-page"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": "*" },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "content-page"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["content"],
+      "focusTokenGroups": [
+        "content"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "contentAlign" },
-      "render": { "compositionType": "shell-content-align", "label": "{contentAlign}" },
+      "layoutConfig": {
+        "rowAxis": "contentAlign"
+      },
+      "render": {
+        "compositionType": "shell-content-align",
+        "label": "{contentAlign}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Content max-width muss fuer Lesbarkeit sorgen (optimal: 60-80 Zeichen pro Zeile)."
@@ -336,12 +759,32 @@
       "label": "Z-Index Governance",
       "description": "Feste Z-Index-Rangfolge der Shell-Zonen — verhindert Z-Index-Kriege",
       "matrix": {
-        "axes": { "preset": ["docs"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "docs"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["z-index"],
+      "focusTokenGroups": [
+        "z-index"
+      ],
       "layout": "row",
-      "render": { "compositionType": "shell-z-index-table", "label": "z-index" },
+      "render": {
+        "compositionType": "shell-z-index-table",
+        "label": "z-index"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Z-Index-Werte sind per Token festgelegt. Eigene z-index-Werte in Shell-Zonen vermeiden."
@@ -352,12 +795,32 @@
       "label": "Skip-Link",
       "description": "Accessibility Skip-Link — unsichtbar, erscheint bei :focus ganz oben",
       "matrix": {
-        "axes": { "preset": ["docs"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "docs"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["skip-link"],
+      "focusTokenGroups": [
+        "skip-link"
+      ],
       "layout": "row",
-      "render": { "compositionType": "shell-skip-link", "label": "skip-link" },
+      "render": {
+        "compositionType": "shell-skip-link",
+        "label": "skip-link"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Skip-Link muss das allererste fokussierbare Element der Seite sein. Bei Tab-Navigation sofort sichtbar."
@@ -368,12 +831,32 @@
       "label": "Linkbar",
       "description": "32px Leiste ueber der Navigation — Links/Rechts-Bereiche, sticky bei Landing",
       "matrix": {
-        "axes": { "preset": ["landing"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "landing"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["linkbar"],
+      "focusTokenGroups": [
+        "linkbar"
+      ],
       "layout": "row",
-      "render": { "compositionType": "shell-linkbar", "label": "linkbar" },
+      "render": {
+        "compositionType": "shell-linkbar",
+        "label": "linkbar"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Linkbar-Links muessen fokussierbar sein (:focus-visible). Sticky-Verhalten darf Content nicht verdecken."
@@ -384,12 +867,32 @@
       "label": "Footerbar",
       "description": "Sticky-Bottom Footerbar mit 3-Zonen-Grid (left/center/right)",
       "matrix": {
-        "axes": { "preset": ["dashboard"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "dashboard"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["footerbar"],
+      "focusTokenGroups": [
+        "footerbar"
+      ],
       "layout": "row",
-      "render": { "compositionType": "shell-footerbar", "label": "footerbar" },
+      "render": {
+        "compositionType": "shell-footerbar",
+        "label": "footerbar"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Footerbar darf keine essentiellen Aktionen verstecken. Bei Mobile ggf. ausblenden wenn Platz fehlt."
@@ -400,13 +903,36 @@
       "label": "Footerbar Mobile Behavior",
       "description": "Sticky / Static / Hide — Mobile-spezifisches Verhalten der Footerbar",
       "matrix": {
-        "axes": { "preset": ["dashboard"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"], "footerbarMobile": "*" },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "dashboard"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ],
+          "footerbarMobile": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["footerbar"],
+      "focusTokenGroups": [
+        "footerbar"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "footerbarMobile" },
-      "render": { "compositionType": "shell-footerbar-mobile", "label": "{footerbarMobile}" },
+      "layoutConfig": {
+        "rowAxis": "footerbarMobile"
+      },
+      "render": {
+        "compositionType": "shell-footerbar-mobile",
+        "label": "{footerbarMobile}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Bei 'hide' muss sichergestellt sein, dass keine essentiellen Aktionen in der Footerbar verborgen werden. Status-Infos sollten alternativ erreichbar sein."
@@ -417,12 +943,34 @@
       "label": "Dark Mode",
       "description": "Shell-Zonen in Light vs Dark — Linkbar, Sidebars, Footerbar nutzen surface-elevated",
       "matrix": {
-        "axes": { "preset": ["docs"], "sidebar": ["expanded"], "sidebarDensity": ["standard"], "contentAlign": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "preset": [
+            "docs"
+          ],
+          "sidebar": [
+            "expanded"
+          ],
+          "sidebarDensity": [
+            "standard"
+          ],
+          "contentAlign": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["linkbar", "sidebars", "footerbar"],
+      "focusTokenGroups": [
+        "linkbar",
+        "sidebars",
+        "footerbar"
+      ],
       "layout": "row",
-      "render": { "compositionType": "shell-dark-mode", "label": "dark" },
+      "render": {
+        "compositionType": "shell-dark-mode",
+        "label": "dark"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Dark Mode: Linkbar/Sidebars/Footerbar nutzen surface-elevated (nicht background-base) fuer visuellen Lift."

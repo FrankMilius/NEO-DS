@@ -1,0 +1,382 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "slider",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "form",
+    "range"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-slider",
+    "slots": [
+      {
+        "name": "input",
+        "selector": ".nc-slider__input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "input-max",
+        "selector": ".nc-slider__input--max",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "track",
+        "selector": ".nc-slider__track",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "fill",
+        "selector": ".nc-slider__fill",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tooltip",
+        "selector": ".nc-slider__tooltip",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "output",
+        "selector": ".nc-slider__output",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "labels",
+        "selector": ".nc-slider__labels",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label-min",
+        "selector": ".nc-slider__label-min",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label-max",
+        "selector": ".nc-slider__label-max",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Native <input type='range'> mit Cross-Browser Custom-Styling via Pseudo-Elemente.",
+      "WebKit: ::-webkit-slider-runnable-track + ::-webkit-slider-thumb.",
+      "Firefox: ::-moz-range-track + ::-moz-range-thumb + ::-moz-range-progress (gefuellter Bereich).",
+      "Thumb wird via margin-top auf dem Track zentriert (WebKit).",
+      "CSS-Variable --nc-slider-progress (0-100) steuert Fill-Breite und Tooltip-Position.",
+      "Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-slider-progress) * 1%). Pfeil zeigt nach unten.",
+      "Range-Modus: Zwei ueberlagerte <input type='range'> — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-slider-progress-min und --nc-slider-progress-max.",
+      "Touch-Target: Input-Hoehe = --nc-slider-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-slider-thumb-size.",
+      "Focus-Ring: outline mit --nc-slider-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.",
+      "Output zeigt aktuellen Wert (Tooltip oder Text, via JS aktualisiert).",
+      "Labels zeigen Min/Max-Werte unterhalb des Tracks.",
+      "Hover: Thumb scale(1.15). Focus: focus-ring + border-color auf Thumb.",
+      "Vertikale Variante via writing-mode: vertical-lr + direction: rtl.",
+      "Forced-Colors: Thumb = ButtonText, Track = Canvas + 1px solid ButtonText.",
+      "prefers-reduced-motion: Thumb-Transitions werden deaktiviert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "orientation": {
+      "label": "Orientation",
+      "description": "Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "vertical",
+          "cssModifier": "nc-slider--vertical",
+          "default": false,
+          "label": "vertical"
+        }
+      ]
+    },
+    "mode": {
+      "label": "Mode",
+      "description": "Slider-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "range",
+          "cssModifier": "nc-slider--range",
+          "default": false,
+          "label": "range"
+        }
+      ]
+    },
+    "display": {
+      "label": "Display",
+      "description": "Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)",
+      "values": [
+        {
+          "value": "plain",
+          "cssModifier": null,
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "with-tooltip",
+          "cssModifier": "nc-slider--tooltip",
+          "default": false,
+          "label": "with-tooltip"
+        },
+        {
+          "value": "with-output",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-output"
+        },
+        {
+          "value": "with-labels",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-labels"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-slider--tooltip",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-slider--error",
+          "default": false,
+          "label": "error"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-slider"
+    ],
+    "tokenGroups": {
+      "Track": [
+        {
+          "token": "nc-slider-track-height"
+        },
+        {
+          "token": "nc-slider-track-bg"
+        },
+        {
+          "token": "nc-slider-track-bg-active"
+        },
+        {
+          "token": "nc-slider-track-radius"
+        }
+      ],
+      "Thumb": [
+        {
+          "token": "nc-slider-thumb-size"
+        },
+        {
+          "token": "nc-slider-thumb-bg"
+        },
+        {
+          "token": "nc-slider-thumb-border"
+        },
+        {
+          "token": "nc-slider-thumb-border-width"
+        },
+        {
+          "token": "nc-slider-thumb-shadow"
+        },
+        {
+          "token": "nc-slider-thumb-touch-size"
+        },
+        {
+          "token": "nc-slider-thumb-focus-ring-offset"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-slider-transition-duration"
+        },
+        {
+          "token": "nc-slider-transition-timing"
+        }
+      ],
+      "Floating Tooltip": [
+        {
+          "token": "nc-slider-tooltip-bg"
+        },
+        {
+          "token": "nc-slider-tooltip-color"
+        },
+        {
+          "token": "nc-slider-tooltip-radius"
+        },
+        {
+          "token": "nc-slider-tooltip-font-size"
+        },
+        {
+          "token": "nc-slider-tooltip-padding"
+        },
+        {
+          "token": "nc-slider-tooltip-offset-y"
+        }
+      ],
+      "Range (Dual Thumb)": [
+        {
+          "token": "nc-slider-range-fill-bg"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-slider-disabled-opacity"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error-State: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby verknuepft."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf dem Input. Alternativ aria-disabled='true'."
+      },
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "range"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-label-min",
+          "aria-label-max"
+        ],
+        "note": "Range-Modus: Jeder Input braucht ein eigenes aria-label, z.B. 'Minimum Preis' und 'Maximum Preis'. aria-valuemin/aria-valuemax unabhaengig setzen."
+      },
+      {
+        "when": {
+          "axes": {
+            "display": [
+              "with-tooltip"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-hidden-tooltip"
+        ],
+        "note": "Floating Tooltip ist rein visuell — aria-hidden='true'. Der Wert wird bereits via aria-valuenow/aria-valuetext kommuniziert."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_slider.scss",
+      "scss/scss/06-molecules/_slider.scss"
+    ],
+    "story": "stories/atoms/slider.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
+    "drupal": [],
+    "docs": "docs/slider-docs.html"
+  }
+}

@@ -5,15 +5,50 @@
     "component": "table",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["data", "display", "comparison"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/table-docs" }
+    "tags": [
+      "data",
+      "display",
+      "comparison"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/table-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_table.scss"
+      ],
+      "story": "stories/organisms/table.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/TableArena.vue",
+      "drupal": [
+        "block--block-content--neo-table.html.twig",
+        "block--inline-block--neo-table.html.twig"
+      ],
+      "docs": "docs/table-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-compare-table" },
+    "root": {
+      "element": ".nc-compare-table"
+    },
     "slots": [
-      { "name": "sort-icon", "element": ".nc-compare-table__sort-icon", "description": "Sort-Indikator im Header (SVG Chevron)" },
-      { "name": "checkbox", "element": ".nc-compare-table__checkbox", "description": "Checkbox-Zelle fuer Row-Selection" },
-      { "name": "numeric", "element": ".nc-compare-table__numeric", "description": "Rechtsbuendige Zahlenzelle mit tabular-nums" }
+      {
+        "name": "sort-icon",
+        "element": ".nc-compare-table__sort-icon",
+        "description": "Sort-Indikator im Header (SVG Chevron)"
+      },
+      {
+        "name": "checkbox",
+        "element": ".nc-compare-table__checkbox",
+        "description": "Checkbox-Zelle fuer Row-Selection"
+      },
+      {
+        "name": "numeric",
+        "element": ".nc-compare-table__numeric",
+        "description": "Rechtsbuendige Zahlenzelle mit tabular-nums"
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -31,17 +66,34 @@
       "values": {
         "lines": {
           "modifier": null,
-          "tokenGroups": ["container", "header", "cell-default", "row-border", "typography"],
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "row-border",
+            "typography"
+          ],
           "renderHint": "compare-table-lines"
         },
         "borderless": {
           "modifier": "nc-compare-table--borderless",
-          "tokenGroups": ["container", "header", "cell-default", "typography"],
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "typography"
+          ],
           "renderHint": "compare-table-borderless"
         },
         "ghost": {
           "modifier": "nc-compare-table--ghost",
-          "tokenGroups": ["container", "header", "cell-default", "ghost", "typography"],
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "ghost",
+            "typography"
+          ],
           "renderHint": "compare-table-ghost"
         }
       }
@@ -52,17 +104,23 @@
       "values": {
         "compact": {
           "modifier": "nc-compare-table--compact",
-          "tokenGroups": ["cell-compact"],
+          "tokenGroups": [
+            "cell-compact"
+          ],
           "renderHint": "density-compact"
         },
         "default": {
           "modifier": null,
-          "tokenGroups": ["cell-default"],
+          "tokenGroups": [
+            "cell-default"
+          ],
           "renderHint": "density-default"
         },
         "expressive": {
           "modifier": "nc-compare-table--expressive",
-          "tokenGroups": ["cell-expressive"],
+          "tokenGroups": [
+            "cell-expressive"
+          ],
           "renderHint": "density-expressive"
         }
       }
@@ -71,10 +129,15 @@
       "label": "Striping",
       "description": "Zebra-Striping fuer verbesserte Zeilenorientierung",
       "values": {
-        "none": { "modifier": null, "tokenGroups": [] },
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
         "striped": {
           "modifier": "nc-compare-table--striped",
-          "tokenGroups": ["striping"],
+          "tokenGroups": [
+            "striping"
+          ],
           "renderHint": "striped"
         }
       }
@@ -83,10 +146,15 @@
       "label": "Selection",
       "description": "Zeilen-Auswahl per Checkbox fuer Massenaktionen",
       "values": {
-        "none": { "modifier": null, "tokenGroups": [] },
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
         "checkbox": {
           "modifier": "nc-compare-table--selectable",
-          "tokenGroups": ["selection"],
+          "tokenGroups": [
+            "selection"
+          ],
           "renderHint": "selectable"
         }
       }
@@ -95,21 +163,46 @@
       "label": "Sorting",
       "description": "Interaktive Spalten-Sortierung mit Sort-Icons",
       "values": {
-        "static": { "modifier": null, "tokenGroups": [] },
+        "static": {
+          "modifier": null,
+          "tokenGroups": []
+        },
         "sortable": {
           "modifier": "nc-compare-table--sortable",
-          "tokenGroups": ["sortable"],
+          "tokenGroups": [
+            "sortable"
+          ],
           "renderHint": "sortable"
         }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover", "selected"],
-    "precedence": ["selected", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "selected"
+    ],
+    "precedence": [
+      "selected",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "when": { "axis": "striping", "value": "striped" }, "note": "Zebra BG auf geraden Zeilen, Hover ueberschreibt Stripe-BG" },
-      { "when": { "axis": "selection", "value": "checkbox" }, "note": "aria-selected=true auf <tr>, selektierte Zeile erhaelt eigenen BG" }
+      {
+        "when": {
+          "axis": "striping",
+          "value": "striped"
+        },
+        "note": "Zebra BG auf geraden Zeilen, Hover ueberschreibt Stripe-BG"
+      },
+      {
+        "when": {
+          "axis": "selection",
+          "value": "checkbox"
+        },
+        "note": "aria-selected=true auf <tr>, selektierte Zeile erhaelt eigenen BG"
+      }
     ],
     "interactive": true
   },
@@ -117,24 +210,66 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "hasColumnHeaders"],
+      "assertions": [
+        "hasAccessibleName",
+        "hasColumnHeaders"
+      ],
       "note": "<table> mit <caption> oder aria-label. Semantisches <thead>/<tbody>/<tfoot>. scope='col' auf <th>."
     },
     "overrides": [
-      { "when": { "axis": "sorting", "value": "sortable" }, "note": "aria-sort='ascending|descending|none' auf sortierbare <th>" },
-      { "when": { "axis": "selection", "value": "checkbox" }, "note": "aria-selected='true' auf selektierte <tr>" }
+      {
+        "when": {
+          "axis": "sorting",
+          "value": "sortable"
+        },
+        "note": "aria-sort='ascending|descending|none' auf sortierbare <th>"
+      },
+      {
+        "when": {
+          "axis": "selection",
+          "value": "checkbox"
+        },
+        "note": "aria-selected='true' auf selektierte <tr>"
+      }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["caption-or-aria-label"], "notes": ["<table> braucht <caption> oder aria-label."] },
-      { "when": { "axis": "sorting", "value": "sortable" }, "require": ["aria-sort"], "notes": ["Jede sortierbare <th> braucht aria-sort."] }
+      {
+        "when": {},
+        "require": [
+          "caption-or-aria-label"
+        ],
+        "notes": [
+          "<table> braucht <caption> oder aria-label."
+        ]
+      },
+      {
+        "when": {
+          "axis": "sorting",
+          "value": "sortable"
+        },
+        "require": [
+          "aria-sort"
+        ],
+        "notes": [
+          "Jede sortierbare <th> braucht aria-sort."
+        ]
+      }
     ],
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-compare-table"],
-    "baseTokenGroups": ["container", "header", "cell-default", "row-border", "typography"],
+    "baseClasses": [
+      "nc-compare-table"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "header",
+      "cell-default",
+      "row-border",
+      "typography"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -239,10 +374,25 @@
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "tokenDependencies": [
@@ -264,88 +414,250 @@
       "id": "lines-default",
       "label": "Lines (Default)",
       "description": "Standard-Tabelle mit horizontalen Trennlinien und inverser Kopfzeile",
-      "matrix": { "axes": { "variant": ["lines"], "density": ["default"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "compare-table" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Header: inverse Farben 4.5:1. Body: text-primary gegen background-base." }
+      "render": {
+        "label": "compare-table"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Header: inverse Farben 4.5:1. Body: text-primary gegen background-base."
+      }
     },
     {
       "id": "borderless",
       "label": "Borderless",
       "description": "Tabelle ohne Trennlinien — nur Weissraum trennt Daten",
-      "matrix": { "axes": { "variant": ["borderless"], "density": ["default"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "borderless"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "compare-table-borderless" }
+      "render": {
+        "label": "compare-table-borderless"
+      }
     },
     {
       "id": "ghost",
       "label": "Ghost",
       "description": "Dezente Tabelle fuer Card-Integration — transparenter Header, keine Borders",
-      "matrix": { "axes": { "variant": ["ghost"], "density": ["default"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "ghost"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "compare-table-ghost" }
+      "render": {
+        "label": "compare-table-ghost"
+      }
     },
     {
       "id": "density-comparison",
       "label": "Density Comparison",
       "description": "Compact / Default / Expressive nebeneinander",
-      "matrix": { "axes": { "variant": ["lines"], "density": ["compact", "default", "expressive"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "compact",
+            "default",
+            "expressive"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "column",
-      "render": { "label": "density-comparison" }
+      "render": {
+        "label": "density-comparison"
+      }
     },
     {
       "id": "striped-hover",
       "label": "Striped + Hover",
       "description": "Zebra-Striping mit Row-Hover fuer verbesserte Zeilenorientierung",
-      "matrix": { "axes": { "variant": ["lines"], "striping": ["striped"] }, "states": ["default", "hover"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "striping": [
+            "striped"
+          ]
+        },
+        "states": [
+          "default",
+          "hover"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "striped-hover" }
+      "render": {
+        "label": "striped-hover"
+      }
     },
     {
       "id": "sticky-header",
       "label": "Sticky Header",
       "description": "Fixierter Header mit Shadow beim Scrollen",
-      "matrix": { "axes": { "variant": ["lines"], "density": ["default"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "sticky-header" },
-      "a11y": { "note": "Header bleibt sichtbar fuer Orientierung bei langen Tabellen." }
+      "render": {
+        "label": "sticky-header"
+      },
+      "a11y": {
+        "note": "Header bleibt sichtbar fuer Orientierung bei langen Tabellen."
+      }
     },
     {
       "id": "sortable",
       "label": "Sortable Headers",
       "description": "Interaktive Spalten-Sortierung mit Sort-Icons und aria-sort",
-      "matrix": { "axes": { "variant": ["lines"], "sorting": ["sortable"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "sorting": [
+            "sortable"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "sortable" },
-      "a11y": { "contrastTarget": "WCAG AA", "note": "aria-sort auf <th>, cursor:pointer, Hover-Feedback." }
+      "render": {
+        "label": "sortable"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA",
+        "note": "aria-sort auf <th>, cursor:pointer, Hover-Feedback."
+      }
     },
     {
       "id": "selectable",
       "label": "Selectable Rows",
       "description": "Checkbox-Spalte fuer Zeilen-Auswahl und Massenaktionen",
-      "matrix": { "axes": { "variant": ["lines"], "selection": ["checkbox"] }, "states": ["default", "selected"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "selection": [
+            "checkbox"
+          ]
+        },
+        "states": [
+          "default",
+          "selected"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "selectable" },
-      "a11y": { "note": "aria-selected='true' auf <tr>, Checkbox per Zeile." }
+      "render": {
+        "label": "selectable"
+      },
+      "a11y": {
+        "note": "aria-selected='true' auf <tr>, Checkbox per Zeile."
+      }
     },
     {
       "id": "numeric-alignment",
       "label": "Numeric Alignment",
       "description": "Rechtsbuendige Zahlenzellen mit tabular-nums fuer optimale Lesbarkeit",
-      "matrix": { "axes": { "variant": ["lines"], "density": ["default"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "numeric-alignment" }
+      "render": {
+        "label": "numeric-alignment"
+      }
     },
     {
       "id": "full-featured",
       "label": "Full Featured",
       "description": "Alle Features kombiniert: Sortable + Selectable + Striped + Hover + Sticky",
       "matrix": {
-        "axes": { "variant": ["lines"], "density": ["default"], "striping": ["striped"], "selection": ["checkbox"], "sorting": ["sortable"] },
-        "states": ["default", "hover", "selected"]
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ],
+          "striping": [
+            "striped"
+          ],
+          "selection": [
+            "checkbox"
+          ],
+          "sorting": [
+            "sortable"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "selected"
+        ]
       },
       "layout": "row",
-      "render": { "label": "full-featured" }
+      "render": {
+        "label": "full-featured"
+      }
     }
   ]
 }

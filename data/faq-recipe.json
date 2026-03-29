@@ -5,15 +5,47 @@
     "component": "faq",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["content", "interactive", "accordion"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/faq-docs" }
+    "tags": [
+      "content",
+      "interactive",
+      "accordion"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/faq-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_faq.scss"
+      ],
+      "story": "stories/organisms/faq.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/faq-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-faq" },
+    "root": {
+      "element": ".nc-faq"
+    },
     "slots": [
-      { "name": "item", "element": ".nc-faq__item", "optional": false },
-      { "name": "question", "element": ".nc-faq__question", "optional": false },
-      { "name": "answer", "element": ".nc-faq__answer", "optional": false }
+      {
+        "name": "item",
+        "element": ".nc-faq__item",
+        "optional": false
+      },
+      {
+        "name": "question",
+        "element": ".nc-faq__question",
+        "optional": false
+      },
+      {
+        "name": "answer",
+        "element": ".nc-faq__answer",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -27,15 +59,29 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "faq-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "faq-default"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "open"],
-    "precedence": ["open", "default"],
+    "supported": [
+      "default",
+      "open"
+    ],
+    "precedence": [
+      "open",
+      "default"
+    ],
     "rules": [
-      { "state": "open", "unless": [], "note": "Open: Answer sichtbar." }
+      {
+        "state": "open",
+        "unless": [],
+        "note": "Open: Answer sichtbar."
+      }
     ],
     "interactive": true
   },
@@ -43,32 +89,76 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "FAQ via <details>/<summary> oder aria-expanded. Keyboard: Enter/Space oeffnet."
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-faq"],
+    "baseClasses": [
+      "nc-faq"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "FAQ List",
+      "id": "default",
+      "label": "FAQ List",
       "description": "FAQ-Liste mit aufklappbaren Fragen",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "faq" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Question: semibold 4.5:1. Answer: text-secondary 4.5:1." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "faq"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Question: semibold 4.5:1. Answer: text-secondary 4.5:1."
+      }
     }
   ]
 }

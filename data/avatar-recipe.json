@@ -5,24 +5,62 @@
     "component": "avatar",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["static", "interactive", "identity", "media"],
+    "tags": [
+      "static",
+      "interactive",
+      "identity",
+      "media"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/avatar-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_avatar.scss"
+      ],
+      "story": "stories/atoms/avatar.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/AvatarArena.vue",
+      "drupal": [],
+      "docs": "docs/avatar-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-avatar" },
+    "root": {
+      "element": ".nc-avatar"
+    },
     "slots": [
-      { "name": "image",    "element": ".nc-avatar__image",    "optional": true },
-      { "name": "fallback", "element": ".nc-avatar__fallback", "optional": true },
-      { "name": "badge",    "element": ".nc-avatar__badge",    "optional": true }
+      {
+        "name": "image",
+        "element": ".nc-avatar__image",
+        "optional": true
+      },
+      {
+        "name": "fallback",
+        "element": ".nc-avatar__fallback",
+        "optional": true
+      },
+      {
+        "name": "badge",
+        "element": ".nc-avatar__badge",
+        "optional": true
+      }
     ],
     "convenience": [
-      { "name": "group",       "element": ".nc-avatar-group",         "optional": true, "description": "Container fuer ueberlappende Avatar-Gruppe" },
-      { "name": "group-count", "element": ".nc-avatar-group__count",  "optional": true, "description": "'+N' Zaehler-Element in der Gruppe (optional --interactive fuer Popover)" }
+      {
+        "name": "group",
+        "element": ".nc-avatar-group",
+        "optional": true,
+        "description": "Container fuer ueberlappende Avatar-Gruppe"
+      },
+      {
+        "name": "group-count",
+        "element": ".nc-avatar-group__count",
+        "optional": true,
+        "description": "'+N' Zaehler-Element in der Gruppe (optional --interactive fuer Popover)"
+      }
     ],
     "domNotes": [
       "Image/Fallback-Pattern: Fallback (z-index:0) immer im DOM, Image (z-index:1) ueberdeckt bei Erfolg.",
@@ -39,117 +77,363 @@
       "Group-Count --interactive: oeffnet Popover mit restlichen Mitgliedern als Item-Liste."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "5 Groessenabstufungen — xs (24px) / sm (32px) / md (40px, Standard) / lg (48px) / xl (64px)",
       "values": {
-        "xs": { "modifier": "nc-avatar--xs", "tokenGroups": [] },
-        "sm": { "modifier": "nc-avatar--sm", "tokenGroups": [] },
-        "md": { "modifier": null,            "tokenGroups": [] },
-        "lg": { "modifier": "nc-avatar--lg", "tokenGroups": [] },
-        "xl": { "modifier": "nc-avatar--xl", "tokenGroups": [] }
+        "xs": {
+          "modifier": "nc-avatar--xs",
+          "tokenGroups": []
+        },
+        "sm": {
+          "modifier": "nc-avatar--sm",
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-avatar--lg",
+          "tokenGroups": []
+        },
+        "xl": {
+          "modifier": "nc-avatar--xl",
+          "tokenGroups": []
+        }
       }
     },
-
     "shape": {
       "label": "Shape",
       "description": "Form — circle (Standard, Personen) oder square (Entity: Firmenlogos, Projekt-Platzhalter)",
       "values": {
-        "circle": { "modifier": null,                 "tokenGroups": [] },
-        "square": { "modifier": "nc-avatar--square",  "tokenGroups": ["shape-square"] }
+        "circle": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "square": {
+          "modifier": "nc-avatar--square",
+          "tokenGroups": [
+            "shape-square"
+          ]
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltstyp — Image (Foto), Initialen-Fallback oder Icon-Fallback. Hash-Color fuer dynamische Fallback-Faerbung.",
       "values": {
-        "image":    { "modifier": null, "tokenGroups": ["image-loading"],    "slotConfig": { "image": true },    "renderHint": "avatar-image" },
-        "initials": { "modifier": null, "tokenGroups": ["core-fallback"],    "slotConfig": { "fallback": true }, "renderHint": "avatar-initials" },
-        "icon":     { "modifier": null, "tokenGroups": ["core-fallback"],    "slotConfig": { "fallback": true }, "renderHint": "avatar-icon" },
-        "hash":     { "modifier": "nc-avatar--hash", "tokenGroups": ["core-fallback", "hash-color"], "slotConfig": { "fallback": true }, "renderHint": "avatar-hash" }
+        "image": {
+          "modifier": null,
+          "tokenGroups": [
+            "image-loading"
+          ],
+          "slotConfig": {
+            "image": true
+          },
+          "renderHint": "avatar-image"
+        },
+        "initials": {
+          "modifier": null,
+          "tokenGroups": [
+            "core-fallback"
+          ],
+          "slotConfig": {
+            "fallback": true
+          },
+          "renderHint": "avatar-initials"
+        },
+        "icon": {
+          "modifier": null,
+          "tokenGroups": [
+            "core-fallback"
+          ],
+          "slotConfig": {
+            "fallback": true
+          },
+          "renderHint": "avatar-icon"
+        },
+        "hash": {
+          "modifier": "nc-avatar--hash",
+          "tokenGroups": [
+            "core-fallback",
+            "hash-color"
+          ],
+          "slotConfig": {
+            "fallback": true
+          },
+          "renderHint": "avatar-hash"
+        }
       }
     },
-
     "decorator": {
       "label": "Decorator",
       "description": "Visuelle Erweiterungen: Ring (Abgrenzung), Status-Badge, Verified-Badge (Haekchen).",
       "values": {
-        "none":          { "modifier": null,               "tokenGroups": [] },
-        "ring":          { "modifier": "nc-avatar--ring",  "tokenGroups": ["decorator-ring"] },
-        "badge-online":  { "modifier": null,               "tokenGroups": ["decorator-badge"], "slotConfig": { "badge": true }, "renderHint": "badge-online" },
-        "badge-offline": { "modifier": null,               "tokenGroups": ["decorator-badge"], "slotConfig": { "badge": true }, "renderHint": "badge-offline" },
-        "badge-busy":    { "modifier": null,               "tokenGroups": ["decorator-badge"], "slotConfig": { "badge": true }, "renderHint": "badge-busy" },
-        "badge-away":    { "modifier": null,               "tokenGroups": ["decorator-badge"], "slotConfig": { "badge": true }, "renderHint": "badge-away" },
-        "badge-verified": { "modifier": null,              "tokenGroups": ["decorator-badge"], "slotConfig": { "badge": true }, "renderHint": "badge-verified" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "ring": {
+          "modifier": "nc-avatar--ring",
+          "tokenGroups": [
+            "decorator-ring"
+          ]
+        },
+        "badge-online": {
+          "modifier": null,
+          "tokenGroups": [
+            "decorator-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "badge-online"
+        },
+        "badge-offline": {
+          "modifier": null,
+          "tokenGroups": [
+            "decorator-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "badge-offline"
+        },
+        "badge-busy": {
+          "modifier": null,
+          "tokenGroups": [
+            "decorator-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "badge-busy"
+        },
+        "badge-away": {
+          "modifier": null,
+          "tokenGroups": [
+            "decorator-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "badge-away"
+        },
+        "badge-verified": {
+          "modifier": null,
+          "tokenGroups": [
+            "decorator-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "badge-verified"
+        }
       }
     },
-
     "interactive": {
       "label": "Interactive",
       "description": "Interaktivitaet — static (Standard), link (Profil-Link mit Hover-Scale), button (Upload/Aktion)",
       "values": {
-        "static": { "modifier": null,                       "tokenGroups": [] },
-        "link":   { "modifier": "nc-avatar--interactive",   "tokenGroups": ["interactive"] },
-        "button": { "modifier": "nc-avatar--interactive",   "tokenGroups": ["interactive"] }
+        "static": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "link": {
+          "modifier": "nc-avatar--interactive",
+          "tokenGroups": [
+            "interactive"
+          ]
+        },
+        "button": {
+          "modifier": "nc-avatar--interactive",
+          "tokenGroups": [
+            "interactive"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "active", "focus", "disabled"],
-    "precedence": ["disabled", "focus", "active", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "active",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover",    "unless": ["disabled"], "note": "Hover nur auf interactive Avatare (scale + shadow)" },
-      { "state": "active",   "unless": ["disabled"], "note": "Active: scale(0.97) auf interactive Avatare" },
-      { "state": "focus",    "unless": ["disabled"], "note": "Focus-Ring via :focus-visible" },
-      { "state": "disabled", "unless": [],           "note": "Nur auf interactive Avatare anwendbar (opacity + cursor)" }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Hover nur auf interactive Avatare (scale + shadow)"
+      },
+      {
+        "state": "active",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Active: scale(0.97) auf interactive Avatare"
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus-Ring via :focus-visible"
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Nur auf interactive Avatare anwendbar (opacity + cursor)"
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "Avatar braucht immer alt-Text (Image) oder aria-label (Container). Fallback-Initialen sind dekorativ."
     },
     "overrides": [
       {
-        "when": { "axes": { "decorator": ["badge-online", "badge-offline", "badge-busy", "badge-away"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "decorator": [
+              "badge-online",
+              "badge-offline",
+              "badge-busy",
+              "badge-away"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Badge ist aria-hidden='true'. Status muss im aria-label des Avatars kommuniziert werden (z.B. 'Max Mustermann, online')."
       },
       {
-        "when": { "axes": { "content": ["icon"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "content": [
+              "icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Icon-Fallback ist rein dekorativ. aria-label auf dem Avatar-Container ist Pflicht."
       },
       {
-        "when": { "axes": { "interactive": ["link", "button"] } },
-        "require": ["hasAccessibleName", "supportsKeyboard"],
+        "when": {
+          "axes": {
+            "interactive": [
+              "link",
+              "button"
+            ]
+          }
+        },
+        "require": [
+          "hasAccessibleName",
+          "supportsKeyboard"
+        ],
         "note": "Interactive Avatare (<a> oder <button>) muessen fokussierbar und per Tastatur bedienbar sein."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": { "axes": { "content": ["image"] } }, "require": ["alt-text"], "notes": ["Image braucht alt-Attribut mit Name der Person."] },
-      { "when": { "axes": { "decorator": ["badge-online", "badge-offline", "badge-busy", "badge-away"] } }, "require": ["aria-label"], "notes": ["Badge-Status muss im aria-label des Avatars enthalten sein."] },
-      { "when": { "axes": { "interactive": ["link"] } }, "require": ["href"], "notes": ["Link-Avatare brauchen href-Attribut."] },
-      { "when": { "axes": { "interactive": ["button"] } }, "require": ["aria-label"], "notes": ["Button-Avatare brauchen aria-label (z.B. 'Profil-Bild aendern')."] }
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "image"
+            ]
+          }
+        },
+        "require": [
+          "alt-text"
+        ],
+        "notes": [
+          "Image braucht alt-Attribut mit Name der Person."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "decorator": [
+              "badge-online",
+              "badge-offline",
+              "badge-busy",
+              "badge-away"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Badge-Status muss im aria-label des Avatars enthalten sein."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "interactive": [
+              "link"
+            ]
+          }
+        },
+        "require": [
+          "href"
+        ],
+        "notes": [
+          "Link-Avatare brauchen href-Attribut."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "interactive": [
+              "button"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Button-Avatare brauchen aria-label (z.B. 'Profil-Bild aendern')."
+        ]
+      }
     ],
     "copy": {}
   },
-
   "styling": {
-    "baseClasses": ["nc-avatar"],
-    "baseTokenGroups": ["core-sizing", "core-typography", "core-colors"],
-
+    "baseClasses": [
+      "nc-avatar"
+    ],
+    "baseTokenGroups": [
+      "core-sizing",
+      "core-typography",
+      "core-colors"
+    ],
     "tokenGroups": {
       "core-sizing": {
         "label": "Sizing",
@@ -252,12 +536,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -274,34 +565,59 @@
       ]
     }
   },
-
   "tokenDependencies": {
     "nc-avatar-badge-online": {
-      "syncsWith": ["nc-badge-success-bg", "nc-label-success-bg"],
+      "syncsWith": [
+        "nc-badge-success-bg",
+        "nc-label-success-bg"
+      ],
       "note": "Online-Status muss exakt der Success-Farbe von Badge und Label entsprechen."
     },
     "nc-avatar-radius-square": {
-      "syncsWith": ["nc-card-radius"],
+      "syncsWith": [
+        "nc-card-radius"
+      ],
       "note": "Entity-Radius sollte konsistent mit Card/Button-Radius im System sein."
     },
     "nc-avatar-ring-shadow": {
-      "syncsWith": ["nc-avatar-hover-shadow"],
+      "syncsWith": [
+        "nc-avatar-hover-shadow"
+      ],
       "note": "Feiner Schatten unterstuetzt Ring-Sichtbarkeit auf hellen Bildern."
     }
   },
-
   "specimens": [
     {
       "id": "all-sizes",
       "label": "All Sizes — Image",
       "description": "Alle 5 Groessen mit Image-Content",
       "matrix": {
-        "axes": { "size": "*", "shape": ["circle"], "content": ["image"], "decorator": ["none"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-sizing"],
+      "focusTokenGroups": [
+        "core-sizing"
+      ],
       "layout": "row",
-      "render": { "label": "{size}" },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "XS (24px) ist der kleinste zulaessige Avatar. Alle Groessen brauchen alt-Text."
@@ -312,12 +628,34 @@
       "label": "Content Types — MD",
       "description": "Image, Initialen, Icon-Fallback und Hash-Color im Vergleich",
       "matrix": {
-        "axes": { "size": ["md"], "shape": ["circle"], "content": "*", "decorator": ["none"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": "*",
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-colors", "core-fallback", "hash-color"],
+      "focusTokenGroups": [
+        "core-colors",
+        "core-fallback",
+        "hash-color"
+      ],
       "layout": "row",
-      "render": { "label": "{content}" },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Fallback-Initialen muessen 4.5:1 Kontrast einhalten. Icon-Fallback braucht aria-label."
@@ -328,12 +666,45 @@
       "label": "Hash-Color Fallback",
       "description": "Dynamische Hintergrundfarben basierend auf Name-Hash — visuell unterscheidbar in Listen",
       "matrix": {
-        "axes": { "size": ["md"], "shape": ["circle"], "content": ["hash"], "decorator": ["none"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "hash"
+          ],
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["hash-color", "core-fallback"],
+      "focusTokenGroups": [
+        "hash-color",
+        "core-fallback"
+      ],
       "layout": "row",
-      "render": { "label": "hash", "names": ["Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "Grace", "Heidi"] },
+      "render": {
+        "label": "hash",
+        "names": [
+          "Alice",
+          "Bob",
+          "Carol",
+          "Dave",
+          "Eve",
+          "Frank",
+          "Grace",
+          "Heidi"
+        ]
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Hash-Farben muessen mindestens 4.5:1 Kontrast fuer weisse Initialen garantieren. Pastel-Palette mit dunklen Toenen bevorzugen."
@@ -344,13 +715,35 @@
       "label": "Shape — Circle vs Square (Entity)",
       "description": "Person (rund) vs Entity (quadratisch) in allen Groessen",
       "matrix": {
-        "axes": { "size": "*", "shape": "*", "content": ["initials"], "decorator": ["none"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "shape": "*",
+          "content": [
+            "initials"
+          ],
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["shape-default", "shape-square"],
+      "focusTokenGroups": [
+        "shape-default",
+        "shape-square"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "shape", "colAxis": "size" },
-      "render": { "label": "{shape}" },
+      "layoutConfig": {
+        "rowAxis": "shape",
+        "colAxis": "size"
+      },
+      "render": {
+        "label": "{shape}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Square-Variante nutzt radius-sm (konsistent mit Card-Radius). Circle nutzt radius-full."
@@ -361,12 +754,36 @@
       "label": "Ring Modifier",
       "description": "Ring-Border via box-shadow fuer saubere Abgrenzung ohne Layout-Shift",
       "matrix": {
-        "axes": { "size": ["md", "lg"], "shape": ["circle"], "content": ["image"], "decorator": ["ring"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md",
+            "lg"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "ring"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["decorator-ring"],
+      "focusTokenGroups": [
+        "decorator-ring"
+      ],
       "layout": "row",
-      "render": { "label": "{size}", "stage": "colored" },
+      "render": {
+        "label": "{size}",
+        "stage": "colored"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Ring stellt Erkennbarkeit auf farbigen Hintergruenden sicher. Shadow-Verstaerkung auf hellen Bildern."
@@ -377,12 +794,38 @@
       "label": "Badge Status Variants",
       "description": "Alle 5 Badge-Varianten inkl. Verified",
       "matrix": {
-        "axes": { "size": ["md"], "shape": ["circle"], "content": ["image"], "decorator": ["badge-online", "badge-offline", "badge-busy", "badge-away", "badge-verified"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "badge-online",
+            "badge-offline",
+            "badge-busy",
+            "badge-away",
+            "badge-verified"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["decorator-badge"],
+      "focusTokenGroups": [
+        "decorator-badge"
+      ],
       "layout": "row",
-      "render": { "label": "{decorator}" },
+      "render": {
+        "label": "{decorator}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Badge ist aria-hidden='true'. Status muss im aria-label des Avatars enthalten sein. Farbe nie als einziges Signal."
@@ -393,12 +836,39 @@
       "label": "Badge × Size",
       "description": "Badge-Online in verschiedenen Groessen — Badge-Border-Width sichert Sichtbarkeit",
       "matrix": {
-        "axes": { "size": ["xs", "sm", "md", "lg", "xl"], "shape": ["circle"], "content": ["image"], "decorator": ["badge-online"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "badge-online"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["decorator-badge", "core-sizing"],
+      "focusTokenGroups": [
+        "decorator-badge",
+        "core-sizing"
+      ],
       "layout": "row",
-      "render": { "label": "{size}" },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Badge muss proportional zur Avatar-Groesse erkennbar bleiben. XS-Badge sehr klein — border-width sichert Kontrast."
@@ -409,12 +879,38 @@
       "label": "Interactive States",
       "description": "Hover (scale + shadow), Active (scale down), Focus (ring), Disabled",
       "matrix": {
-        "axes": { "size": ["md"], "shape": ["circle"], "content": ["image"], "decorator": ["none"], "interactive": ["link"] },
-        "states": ["default", "hover", "active", "focus", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "link"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "active",
+          "focus",
+          "disabled"
+        ]
       },
-      "focusTokenGroups": ["interactive"],
+      "focusTokenGroups": [
+        "interactive"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Interactive Avatare muessen fokussierbar und per Tastatur bedienbar sein. Focus-Ring via :focus-visible."
@@ -425,13 +921,44 @@
       "label": "Person vs Entity",
       "description": "Runder Person-Avatar vs quadratischer Entity-Avatar (Firmenlogo)",
       "matrix": {
-        "axes": { "size": ["sm", "md", "lg"], "shape": "*", "content": ["initials"], "decorator": ["none"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "shape": "*",
+          "content": [
+            "initials"
+          ],
+          "decorator": [
+            "none"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["shape-default", "shape-square"],
+      "focusTokenGroups": [
+        "shape-default",
+        "shape-square"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "shape", "colAxis": "size" },
-      "render": { "label": "{shape}", "entityLabels": ["AC", "PR", "CO"] },
+      "layoutConfig": {
+        "rowAxis": "shape",
+        "colAxis": "size"
+      },
+      "render": {
+        "label": "{shape}",
+        "entityLabels": [
+          "AC",
+          "PR",
+          "CO"
+        ]
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Entity-Shape hilft visuell zwischen Personen und Organisationen zu unterscheiden."
@@ -441,14 +968,40 @@
       "id": "group",
       "label": "Avatar Group",
       "description": "Ueberlappende Avatar-Gruppe mit Count-Element und Ring-Abgrenzung",
-      "composes": ["group"],
+      "composes": [
+        "group"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "shape": ["circle"], "content": ["image"], "decorator": ["ring"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "ring"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["composition-group", "decorator-ring"],
+      "focusTokenGroups": [
+        "composition-group",
+        "decorator-ring"
+      ],
       "layout": "row",
-      "render": { "compositionType": "avatar-group", "label": "group" },
+      "render": {
+        "compositionType": "avatar-group",
+        "label": "group"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Gruppe braucht role='group' und aria-label (z.B. 'Team-Mitglieder'). Ring via box-shadow fuer saubere Ueberlappung."
@@ -458,14 +1011,42 @@
       "id": "group-sizes",
       "label": "Avatar Group — Size Variants",
       "description": "Gruppen in SM, MD und LG",
-      "composes": ["group"],
+      "composes": [
+        "group"
+      ],
       "matrix": {
-        "axes": { "size": ["sm", "md", "lg"], "shape": ["circle"], "content": ["image"], "decorator": ["ring"], "interactive": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "shape": [
+            "circle"
+          ],
+          "content": [
+            "image"
+          ],
+          "decorator": [
+            "ring"
+          ],
+          "interactive": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["composition-group", "core-sizing"],
+      "focusTokenGroups": [
+        "composition-group",
+        "core-sizing"
+      ],
       "layout": "row",
-      "render": { "compositionType": "avatar-group", "label": "{size}" },
+      "render": {
+        "compositionType": "avatar-group",
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Group-Groesse wird ueber --sm/--lg Modifier auf .nc-avatar-group gesteuert."

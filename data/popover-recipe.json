@@ -5,24 +5,68 @@
     "component": "popover",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "overlay", "dialog", "filter"],
+    "tags": [
+      "interactive",
+      "overlay",
+      "dialog",
+      "filter"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/popover-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_popover.scss"
+      ],
+      "story": "stories/molecules/popover.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/PopoverArena.vue",
+      "drupal": [],
+      "docs": "docs/popover-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-popover" },
+    "root": {
+      "element": ".nc-popover"
+    },
     "slots": [
-      { "name": "trigger", "element": ".nc-popover__trigger", "optional": false },
-      { "name": "panel", "element": ".nc-popover__panel", "optional": false },
-      { "name": "arrow", "element": ".nc-popover__arrow", "optional": true },
-      { "name": "header", "element": ".nc-popover__header", "optional": true },
-      { "name": "body", "element": ".nc-popover__body", "optional": false },
-      { "name": "footer", "element": ".nc-popover__footer", "optional": true },
-      { "name": "close", "element": ".nc-popover__close", "optional": true }
+      {
+        "name": "trigger",
+        "element": ".nc-popover__trigger",
+        "optional": false
+      },
+      {
+        "name": "panel",
+        "element": ".nc-popover__panel",
+        "optional": false
+      },
+      {
+        "name": "arrow",
+        "element": ".nc-popover__arrow",
+        "optional": true
+      },
+      {
+        "name": "header",
+        "element": ".nc-popover__header",
+        "optional": true
+      },
+      {
+        "name": "body",
+        "element": ".nc-popover__body",
+        "optional": false
+      },
+      {
+        "name": "footer",
+        "element": ".nc-popover__footer",
+        "optional": true
+      },
+      {
+        "name": "close",
+        "element": ".nc-popover__close",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -47,79 +91,220 @@
       "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible."
     ]
   },
-
   "axes": {
     "placement": {
       "label": "Placement",
       "description": "Positionierung des Panels relativ zum Trigger — bottom (Standard), top, left, right, bottom-start, bottom-end. Auto-Placement via Floating UI empfohlen.",
       "values": {
-        "bottom":       { "modifier": null,                              "tokenGroups": [], "renderHint": "popover-bottom" },
-        "top":          { "modifier": "nc-popover__panel--top",          "tokenGroups": [], "renderHint": "popover-top" },
-        "left":         { "modifier": "nc-popover__panel--left",         "tokenGroups": [], "renderHint": "popover-left" },
-        "right":        { "modifier": "nc-popover__panel--right",        "tokenGroups": [], "renderHint": "popover-right" },
-        "bottom-start": { "modifier": "nc-popover__panel--bottom-start", "tokenGroups": [], "renderHint": "popover-bottom-start" },
-        "bottom-end":   { "modifier": "nc-popover__panel--bottom-end",   "tokenGroups": [], "renderHint": "popover-bottom-end" }
+        "bottom": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "popover-bottom"
+        },
+        "top": {
+          "modifier": "nc-popover__panel--top",
+          "tokenGroups": [],
+          "renderHint": "popover-top"
+        },
+        "left": {
+          "modifier": "nc-popover__panel--left",
+          "tokenGroups": [],
+          "renderHint": "popover-left"
+        },
+        "right": {
+          "modifier": "nc-popover__panel--right",
+          "tokenGroups": [],
+          "renderHint": "popover-right"
+        },
+        "bottom-start": {
+          "modifier": "nc-popover__panel--bottom-start",
+          "tokenGroups": [],
+          "renderHint": "popover-bottom-start"
+        },
+        "bottom-end": {
+          "modifier": "nc-popover__panel--bottom-end",
+          "tokenGroups": [],
+          "renderHint": "popover-bottom-end"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — body-only (minimal), with-header (Header + Body), with-footer (Body + Footer), full (Header + Body + Footer), with-arrow (Body + Arrow), form (Header + Form-Fields + Footer)",
       "values": {
-        "body-only":   { "modifier": null, "tokenGroups": [],                  "renderHint": "popover-body-only" },
-        "with-header": { "modifier": null, "tokenGroups": [],                  "slotConfig": { "header": true, "close": true }, "renderHint": "popover-with-header" },
-        "with-footer": { "modifier": null, "tokenGroups": [],                  "slotConfig": { "footer": true }, "renderHint": "popover-with-footer" },
-        "full":        { "modifier": null, "tokenGroups": [],                  "slotConfig": { "header": true, "close": true, "footer": true }, "renderHint": "popover-full" },
-        "with-arrow":  { "modifier": null, "tokenGroups": ["arrow"],           "slotConfig": { "arrow": true }, "renderHint": "popover-with-arrow" },
-        "form":        { "modifier": null, "tokenGroups": ["close-button"],    "slotConfig": { "header": true, "close": true, "footer": true }, "renderHint": "popover-form" }
+        "body-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "popover-body-only"
+        },
+        "with-header": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "header": true,
+            "close": true
+          },
+          "renderHint": "popover-with-header"
+        },
+        "with-footer": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "footer": true
+          },
+          "renderHint": "popover-with-footer"
+        },
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "header": true,
+            "close": true,
+            "footer": true
+          },
+          "renderHint": "popover-full"
+        },
+        "with-arrow": {
+          "modifier": null,
+          "tokenGroups": [
+            "arrow"
+          ],
+          "slotConfig": {
+            "arrow": true
+          },
+          "renderHint": "popover-with-arrow"
+        },
+        "form": {
+          "modifier": null,
+          "tokenGroups": [
+            "close-button"
+          ],
+          "slotConfig": {
+            "header": true,
+            "close": true,
+            "footer": true
+          },
+          "renderHint": "popover-form"
+        }
       }
     },
-
     "trigger": {
       "label": "Trigger",
       "description": "Interaktionsmodus — click (Standard: Toggle bei Klick), hover (oeffnet nach 300ms Delay, nur fuer nicht-interaktive Vorschau)",
       "values": {
-        "click": { "modifier": null,                       "tokenGroups": [], "renderHint": "trigger-click" },
-        "hover": { "modifier": "nc-popover--hover-trigger", "tokenGroups": [], "renderHint": "trigger-hover" }
+        "click": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "trigger-click"
+        },
+        "hover": {
+          "modifier": "nc-popover--hover-trigger",
+          "tokenGroups": [],
+          "renderHint": "trigger-hover"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Trigger: aria-haspopup='dialog', aria-expanded='true|false'. Panel: role='dialog', aria-labelledby zeigt auf Header-Titel oder aria-label. Focus-Trap: Tab bleibt im Popover (JS). Escape schliesst. Light Dismiss: Klick ausserhalb schliesst (JS). Close-Button: aria-label='Schliessen'. Arrow: aria-hidden='true'."
     },
     "overrides": [
       {
-        "when": { "axes": { "trigger": ["hover"] } },
+        "when": {
+          "axes": {
+            "trigger": [
+              "hover"
+            ]
+          }
+        },
         "suggest": [],
         "note": "Hover-Trigger: Popover muss auch per Focus erreichbar sein (keyboard-aequivalent). Oeffnungs-Delay mindestens 300ms. Schliessungs-Delay mindestens 200ms fuer Mauswechsel ins Panel. Nicht fuer interaktive Inhalte — dafuer click verwenden."
       },
       {
-        "when": { "axes": { "content": ["form"] } },
+        "when": {
+          "axes": {
+            "content": [
+              "form"
+            ]
+          }
+        },
         "suggest": [],
         "note": "Form-Popover: Focus startet auf erstem Formularfeld. Tab-Navigation durch Fields. Submit-Button im Footer. Light Dismiss deaktivieren (Datenverlust). aria-describedby fuer Formularbeschreibung."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["aria-haspopup", "aria-expanded"], "notes": ["Trigger braucht aria-haspopup='dialog' und aria-expanded State."] },
-      { "when": {}, "require": ["role-dialog", "aria-labelledby"], "notes": ["Panel: role='dialog' + aria-labelledby oder aria-label fuer Screen Reader."] },
-      { "when": {}, "require": ["focus-trap"], "notes": ["Focus muss im Popover bleiben (Tab-Trap via JS). Escape schliesst."] },
-      { "when": {}, "require": ["viewport-constraint"], "notes": ["Panel max-width: min(nc-popover-max-width, calc(100vw - 32px)). Darf niemals aus dem Viewport ragen."] },
-      { "when": { "axes": { "trigger": ["hover"] } }, "require": ["keyboard-equivalent"], "notes": ["Hover-Trigger muss auch per Focus erreichbar sein. Delay: open 300ms, close 200ms."] }
+      {
+        "when": {},
+        "require": [
+          "aria-haspopup",
+          "aria-expanded"
+        ],
+        "notes": [
+          "Trigger braucht aria-haspopup='dialog' und aria-expanded State."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "role-dialog",
+          "aria-labelledby"
+        ],
+        "notes": [
+          "Panel: role='dialog' + aria-labelledby oder aria-label fuer Screen Reader."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "focus-trap"
+        ],
+        "notes": [
+          "Focus muss im Popover bleiben (Tab-Trap via JS). Escape schliesst."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "viewport-constraint"
+        ],
+        "notes": [
+          "Panel max-width: min(nc-popover-max-width, calc(100vw - 32px)). Darf niemals aus dem Viewport ragen."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "trigger": [
+              "hover"
+            ]
+          }
+        },
+        "require": [
+          "keyboard-equivalent"
+        ],
+        "notes": [
+          "Hover-Trigger muss auch per Focus erreichbar sein. Delay: open 300ms, close 200ms."
+        ]
+      }
     ],
     "copy": {
       "headerTitle": {
@@ -128,11 +313,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-popover"],
-    "baseTokenGroups": ["container", "header", "footer"],
-
+    "baseClasses": [
+      "nc-popover"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "header",
+      "footer"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -186,12 +375,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -206,18 +402,32 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default Popover",
       "description": "Einfaches Popover mit Body-Inhalt, bottom-Positionierung",
       "matrix": {
-        "axes": { "placement": ["bottom"], "content": ["body-only"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "body-only"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "popover-simple", "label": "default" },
+      "render": {
+        "compositionType": "popover-simple",
+        "label": "default"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Text 4.5:1 gegen popover-bg. Border 3:1 gegen Hintergrund. Shadow dekorativ."
@@ -228,12 +438,31 @@
       "label": "Placement Variants",
       "description": "Bottom, Top, Left, Right Positionierungen",
       "matrix": {
-        "axes": { "placement": ["bottom", "top", "left", "right"], "content": ["body-only"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom",
+            "top",
+            "left",
+            "right"
+          ],
+          "content": [
+            "body-only"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "placement" },
-      "render": { "label": "{placement}" },
+      "layoutConfig": {
+        "rowAxis": "placement"
+      },
+      "render": {
+        "label": "{placement}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Positionierung hat keine A11y-Auswirkung. Alle Varianten identisch zugaenglich."
@@ -244,12 +473,32 @@
       "label": "Content Variants",
       "description": "Body-Only, With Header, With Footer, Full (Header+Body+Footer), With Arrow",
       "matrix": {
-        "axes": { "placement": ["bottom"], "content": ["body-only", "with-header", "with-footer", "full", "with-arrow"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "body-only",
+            "with-header",
+            "with-footer",
+            "full",
+            "with-arrow"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Header: aria-labelledby verweist auf den Titel. Close-Button: aria-label='Schliessen'. Footer: Buttons muessen eigene Labels haben."
@@ -260,11 +509,28 @@
       "label": "With Arrow",
       "description": "Popover mit dekorativem Pfeil, der auf den Trigger zeigt. Optional — Select/Dropdown haben keinen Pfeil.",
       "matrix": {
-        "axes": { "placement": ["bottom", "top", "left", "right"], "content": ["with-arrow"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom",
+            "top",
+            "left",
+            "right"
+          ],
+          "content": [
+            "with-arrow"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "arrow-{placement}" },
+      "render": {
+        "label": "arrow-{placement}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Arrow ist rein dekorativ — aria-hidden='true'. Arrow-Border muss zur Panel-Border passen."
@@ -275,11 +541,26 @@
       "label": "Full Popover",
       "description": "Komplettes Popover mit Header (Titel + Close), Body und Footer (Aktions-Buttons)",
       "matrix": {
-        "axes": { "placement": ["bottom"], "content": ["full"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "full"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "popover-full", "label": "full" },
+      "render": {
+        "compositionType": "popover-full",
+        "label": "full"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Focus-Trap: Tab zirkuliert Header → Body → Footer → Close. Escape schliesst. aria-labelledby auf Header-Titel."
@@ -290,11 +571,26 @@
       "label": "Alignment Variants",
       "description": "Bottom-Start und Bottom-End Ausrichtung fuer nicht-zentrierte Panels",
       "matrix": {
-        "axes": { "placement": ["bottom-start", "bottom-end"], "content": ["with-header"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom-start",
+            "bottom-end"
+          ],
+          "content": [
+            "with-header"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{placement}" },
+      "render": {
+        "label": "{placement}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Alignment ist rein visuell — keine A11y-Auswirkung."
@@ -304,13 +600,31 @@
       "id": "inline-filter",
       "label": "Inline Filter Popover",
       "description": "Mini-Editor/Filter-Popover mit Formularfeldern. Testet Typografie-Dichte im kleinen Panel.",
-      "composes": ["form-field", "button"],
+      "composes": [
+        "form-field",
+        "button"
+      ],
       "matrix": {
-        "axes": { "placement": ["bottom-start"], "content": ["form"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom-start"
+          ],
+          "content": [
+            "form"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "popover-filter", "label": "inline-filter" },
+      "render": {
+        "compositionType": "popover-filter",
+        "label": "inline-filter"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Form-Popover: Focus startet auf erstem Feld. Tab-Reihenfolge: Fields → Apply → Close. Light Dismiss deaktivieren (Datenverlust). Submit im Footer."
@@ -321,11 +635,26 @@
       "label": "Light Dismiss",
       "description": "Popover mit Light-Dismiss: Klick ausserhalb oder Scroll des Eltern-Containers schliesst. Nicht fuer Formulare.",
       "matrix": {
-        "axes": { "placement": ["bottom"], "content": ["body-only"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "body-only"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "popover-light-dismiss", "label": "light-dismiss" },
+      "render": {
+        "compositionType": "popover-light-dismiss",
+        "label": "light-dismiss"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Light Dismiss: Klick ausserhalb schliesst. ESC schliesst. Close-Button als Alternative. Nicht bei Form-Inhalten (Datenverlust)."
@@ -336,11 +665,26 @@
       "label": "Overlay Hierarchy",
       "description": "Vergleich der Schatten-Hierarchie: Dropdown (Level 1) → Popover (Level 2) → Modal (Level 3)",
       "matrix": {
-        "axes": { "placement": ["bottom"], "content": ["body-only"], "trigger": ["click"] },
-        "states": ["default"]
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "body-only"
+          ],
+          "trigger": [
+            "click"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "popover-overlay-hierarchy", "label": "elevation-hierarchy" },
+      "render": {
+        "compositionType": "popover-overlay-hierarchy",
+        "label": "elevation-hierarchy"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Schattenstufen signalisieren z-Ebene. Popover (Level 2) liegt zwischen Dropdown und Modal."

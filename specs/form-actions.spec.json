@@ -1,0 +1,133 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-actions",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "form",
+    "layout",
+    "action"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-actions",
+    "slots": [],
+    "notes": [
+      "Flex-Container fuer Formular-Buttons (Submit, Cancel, Reset).",
+      "Default: flex-start. Modifier: --center, --end, --spread (space-between).",
+      "--sticky: sticky bottom:0 mit BG + Shadow + border-top. Fuer lange Formulare.",
+      "--stacked: flex-column, Buttons volle Breite. Fuer Mobile.",
+      "--bordered: border-top Trennlinie, margin-top.",
+      "--responsive: automatisch stacked unter 479px.",
+      "Primary Action an erster Stelle im DOM."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "alignment": {
+      "label": "Alignment",
+      "description": "Ausrichtung — start (links), center, end (rechts), spread (space-between)",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": "nc-form-actions--start",
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-form-actions--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-form-actions--end",
+          "default": false,
+          "label": "end"
+        },
+        {
+          "value": "spread",
+          "cssModifier": "nc-form-actions--spread",
+          "default": false,
+          "label": "spread"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Layout-Variante — default (inline), sticky (haftet unten), stacked (vertikal), bordered (Trennlinie)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "sticky",
+          "cssModifier": "nc-form-actions--sticky",
+          "default": false,
+          "label": "sticky"
+        },
+        {
+          "value": "stacked",
+          "cssModifier": "nc-form-actions--stacked",
+          "default": false,
+          "label": "stacked"
+        },
+        {
+          "value": "bordered",
+          "cssModifier": "nc-form-actions--bordered",
+          "default": false,
+          "label": "bordered"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-actions"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-form-actions-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": []
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_form-actions.scss"
+    ],
+    "story": "stories/organisms/form-actions.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

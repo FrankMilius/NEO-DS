@@ -5,21 +5,45 @@
     "component": "progress",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["static", "feedback", "indicator"],
+    "tags": [
+      "static",
+      "feedback",
+      "indicator"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/progress-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_progress.scss"
+      ],
+      "story": "stories/organisms/progress.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/ProgressArena.vue",
+      "drupal": [],
+      "docs": "docs/progress-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-progress" },
+    "root": {
+      "element": ".nc-progress"
+    },
     "slots": [
-      { "name": "fill", "element": ".nc-progress__fill", "optional": false }
+      {
+        "name": "fill",
+        "element": ".nc-progress__fill",
+        "optional": false
+      }
     ],
     "convenience": [
-      { "name": "labeled", "element": ".nc-progress-labeled", "optional": true, "description": "Wrapper mit Header (Label + Value) ueber dem Progress-Balken." }
+      {
+        "name": "labeled",
+        "element": ".nc-progress-labeled",
+        "optional": true,
+        "description": "Wrapper mit Header (Label + Value) ueber dem Progress-Balken."
+      }
     ],
     "domNotes": [
       "Progress ist ein <div class='nc-progress' role='progressbar' aria-valuenow='X' aria-valuemin='0' aria-valuemax='100'>.",
@@ -32,81 +56,168 @@
       "Pill-Shape via --fnd-radius-full (border-radius: 9999px)."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "4 Hoehenstufen — xs (2px) / sm (4px, Standard) / md (8px) / lg (12px)",
       "values": {
-        "xs": { "modifier": "nc-progress--xs", "tokenGroups": [] },
-        "sm": { "modifier": null,              "tokenGroups": [] },
-        "md": { "modifier": "nc-progress--md", "tokenGroups": [] },
-        "lg": { "modifier": "nc-progress--lg", "tokenGroups": [] }
+        "xs": {
+          "modifier": "nc-progress--xs",
+          "tokenGroups": []
+        },
+        "sm": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": "nc-progress--md",
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-progress--lg",
+          "tokenGroups": []
+        }
       }
     },
-
     "color": {
       "label": "Color",
       "description": "Feedback-Variante — default (interactive), success, warning, danger, info",
       "values": {
-        "default": { "modifier": null,                    "tokenGroups": [] },
-        "success": { "modifier": "nc-progress--success",  "tokenGroups": ["feedback-colors"] },
-        "warning": { "modifier": "nc-progress--warning",  "tokenGroups": ["feedback-colors"] },
-        "danger":  { "modifier": "nc-progress--danger",   "tokenGroups": ["feedback-colors"] },
-        "info":    { "modifier": "nc-progress--info",      "tokenGroups": ["feedback-colors"] }
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "success": {
+          "modifier": "nc-progress--success",
+          "tokenGroups": [
+            "feedback-colors"
+          ]
+        },
+        "warning": {
+          "modifier": "nc-progress--warning",
+          "tokenGroups": [
+            "feedback-colors"
+          ]
+        },
+        "danger": {
+          "modifier": "nc-progress--danger",
+          "tokenGroups": [
+            "feedback-colors"
+          ]
+        },
+        "info": {
+          "modifier": "nc-progress--info",
+          "tokenGroups": [
+            "feedback-colors"
+          ]
+        }
       }
     },
-
     "mode": {
       "label": "Mode",
       "description": "Fortschritts-Modus — determinate (fester Wert 0–100%, Standard), indeterminate (unbekannter Fortschritt, Animation)",
       "values": {
-        "determinate":   { "modifier": null,                           "tokenGroups": [],            "renderHint": "progress-determinate" },
-        "indeterminate": { "modifier": "nc-progress--indeterminate",   "tokenGroups": ["animation"], "renderHint": "progress-indeterminate" }
+        "determinate": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "progress-determinate"
+        },
+        "indeterminate": {
+          "modifier": "nc-progress--indeterminate",
+          "tokenGroups": [
+            "animation"
+          ],
+          "renderHint": "progress-indeterminate"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "role='progressbar' mit aria-valuenow (0–100), aria-valuemin='0', aria-valuemax='100'. Braucht aria-label oder sichtbares Label via aria-labelledby."
     },
     "overrides": [
       {
-        "when": { "axes": { "mode": ["indeterminate"] } },
-        "require": ["accessible-name"],
+        "when": {
+          "axes": {
+            "mode": [
+              "indeterminate"
+            ]
+          }
+        },
+        "require": [
+          "accessible-name"
+        ],
         "note": "Indeterminiert: KEIN aria-valuenow setzen — Screen Reader kuendigt 'unbekannter Fortschritt' an. aria-label bleibt Pflicht."
       },
       {
-        "when": { "axes": { "color": ["danger"] } },
+        "when": {
+          "axes": {
+            "color": [
+              "danger"
+            ]
+          }
+        },
         "suggest": [],
         "note": "Danger-Farbe nie als einziges Signal. Zusaetzlich Text oder Icon fuer Fehlerzustand."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-progressbar", "accessible-name", "aria-valuemin", "aria-valuemax"], "notes": ["Braucht role='progressbar', aria-label, aria-valuemin='0', aria-valuemax='100'."] },
-      { "when": { "axes": { "mode": ["determinate"] } }, "require": ["aria-valuenow"], "notes": ["Determiniert braucht aria-valuenow (0–100)."] }
+      {
+        "when": {},
+        "require": [
+          "role-progressbar",
+          "accessible-name",
+          "aria-valuemin",
+          "aria-valuemax"
+        ],
+        "notes": [
+          "Braucht role='progressbar', aria-label, aria-valuemin='0', aria-valuemax='100'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "determinate"
+            ]
+          }
+        },
+        "require": [
+          "aria-valuenow"
+        ],
+        "notes": [
+          "Determiniert braucht aria-valuenow (0–100)."
+        ]
+      }
     ],
     "copy": {}
   },
-
   "styling": {
-    "baseClasses": ["nc-progress"],
-    "baseTokenGroups": ["core-appearance", "core-sizing"],
-
+    "baseClasses": [
+      "nc-progress"
+    ],
+    "baseTokenGroups": [
+      "core-appearance",
+      "core-sizing"
+    ],
     "tokenGroups": {
       "core-appearance": {
         "label": "Appearance",
@@ -152,12 +263,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -172,20 +290,35 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "size-scale",
       "label": "Size Scale — XS / SM / MD / LG",
       "description": "Alle 4 Hoehen im Vergleich bei 60% Fortschritt",
       "matrix": {
-        "axes": { "size": "*", "color": ["default"], "mode": ["determinate"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "color": [
+            "default"
+          ],
+          "mode": [
+            "determinate"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-sizing"],
+      "focusTokenGroups": [
+        "core-sizing"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Fill-Farbe muss 3:1 Kontrast gegen Track-BG haben. XS (2px) ist sehr duenn — ergaenzend Label empfohlen."
@@ -196,13 +329,30 @@
       "label": "Feedback Color Variants",
       "description": "Alle 5 Farbvarianten in SM-Groesse",
       "matrix": {
-        "axes": { "size": ["sm"], "color": "*", "mode": ["determinate"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "color": "*",
+          "mode": [
+            "determinate"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["feedback-colors", "core-appearance"],
+      "focusTokenGroups": [
+        "feedback-colors",
+        "core-appearance"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "color" },
-      "render": { "label": "{color}" },
+      "layoutConfig": {
+        "rowAxis": "color"
+      },
+      "render": {
+        "label": "{color}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Jede Feedback-Farbe muss 3:1 Kontrast gegen Track-BG einhalten. Farbe nie als einziges Signal."
@@ -213,13 +363,29 @@
       "label": "Determinate vs Indeterminate",
       "description": "Fester Fortschritt vs endlose Animation",
       "matrix": {
-        "axes": { "size": ["sm"], "color": ["default"], "mode": "*" },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "color": [
+            "default"
+          ],
+          "mode": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["animation"],
+      "focusTokenGroups": [
+        "animation"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "mode" },
-      "render": { "label": "{mode}" },
+      "layoutConfig": {
+        "rowAxis": "mode"
+      },
+      "render": {
+        "label": "{mode}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Indeterminiert: kein aria-valuenow. prefers-reduced-motion stoppt Animation, zeigt 100% mit reduzierter Opacity."
@@ -229,14 +395,33 @@
       "id": "with-label",
       "label": "With Label + Value",
       "description": "Progress im Labeled-Wrapper mit Titel und Prozentwert",
-      "composes": ["labeled"],
+      "composes": [
+        "labeled"
+      ],
       "matrix": {
-        "axes": { "size": ["sm"], "color": ["default"], "mode": ["determinate"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "color": [
+            "default"
+          ],
+          "mode": [
+            "determinate"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["label-tokens"],
+      "focusTokenGroups": [
+        "label-tokens"
+      ],
       "layout": "row",
-      "render": { "compositionType": "progress-labeled", "label": "labeled" },
+      "render": {
+        "compositionType": "progress-labeled",
+        "label": "labeled"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Label-Text braucht 4.5:1 Kontrast. Value nutzt tabular-nums fuer stabile Breite. aria-labelledby verweist auf das sichtbare Label."
@@ -247,12 +432,26 @@
       "label": "Feedback Colors × Sizes",
       "description": "Farbvarianten in MD-Groesse fuer bessere Sichtbarkeit",
       "matrix": {
-        "axes": { "size": ["md"], "color": "*", "mode": ["determinate"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "color": "*",
+          "mode": [
+            "determinate"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "color" },
-      "render": { "label": "{color}" },
+      "layoutConfig": {
+        "rowAxis": "color"
+      },
+      "render": {
+        "label": "{color}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "MD-Groesse (8px) bietet bessere Farberkennung als SM (4px). Warning-Gelb auf hellem Track schwerer zu erkennen."
@@ -263,12 +462,30 @@
       "label": "Reduced Motion",
       "description": "Verhalten bei prefers-reduced-motion (Indeterminate + Determinate)",
       "matrix": {
-        "axes": { "size": ["sm"], "color": ["default"], "mode": "*" },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "color": [
+            "default"
+          ],
+          "mode": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["animation"],
+      "focusTokenGroups": [
+        "animation"
+      ],
       "layout": "row",
-      "render": { "label": "{mode}", "motionVariants": ["default", "reduced"] },
+      "render": {
+        "label": "{mode}",
+        "motionVariants": [
+          "default",
+          "reduced"
+        ]
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Determinate: Transition entfaellt. Indeterminate: Animation stoppt, 100% Breite mit reduzierter Opacity. Fortschritt bleibt erkennbar."

@@ -1,0 +1,170 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "skeleton",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "loading",
+    "placeholder"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-skeleton",
+    "slots": [],
+    "notes": [
+      "Skeleton ist ein <div class='nc-skeleton'> mit aria-hidden='true'.",
+      "Begleitend ein .u-sr-only Element mit 'Inhalt wird geladen...' fuer Screen Reader.",
+      "Shimmer-Animation via linear-gradient + @keyframes nc-skeleton-shimmer.",
+      "prefers-reduced-motion deaktiviert Shimmer — nur statischer Hintergrund.",
+      "Skeleton-Group (.nc-skeleton-group) stapelt Zeilen vertikal. Letzte Zeile automatisch kuerzer (80%).",
+      "Varianten: --text (default), --heading (60% Breite, md Hoehe), --circle (Kreis), --rect (Flaeche)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "shape": {
+      "label": "Shape",
+      "description": "Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "heading",
+          "cssModifier": "nc-skeleton--heading",
+          "default": false,
+          "label": "heading"
+        },
+        {
+          "value": "circle",
+          "cssModifier": "nc-skeleton--circle",
+          "default": false,
+          "label": "circle"
+        },
+        {
+          "value": "rect",
+          "cssModifier": "nc-skeleton--rect",
+          "default": false,
+          "label": "rect"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-skeleton--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": null,
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-skeleton--md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-skeleton--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-skeleton"
+    ],
+    "tokenGroups": {
+      "Appearance": [
+        {
+          "token": "nc-skeleton-bg"
+        },
+        {
+          "token": "nc-skeleton-shimmer"
+        },
+        {
+          "token": "nc-skeleton-radius"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-skeleton-duration"
+        },
+        {
+          "token": "nc-skeleton-ease"
+        }
+      ],
+      "Sizing": [
+        {
+          "token": "nc-skeleton-height-xs"
+        },
+        {
+          "token": "nc-skeleton-height-sm"
+        },
+        {
+          "token": "nc-skeleton-height-md"
+        },
+        {
+          "token": "nc-skeleton-height-lg"
+        }
+      ],
+      "Circle": [
+        {
+          "token": "nc-skeleton-radius-circle"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {},
+        "require": [
+          "aria-hidden"
+        ],
+        "suggest": [],
+        "note": "Skeleton-Container braucht aria-hidden='true'. Ladehinweis ueber separates .u-sr-only oder aria-live Region."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_skeleton.scss"
+    ],
+    "story": "stories/organisms/skeleton.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SkeletonArena.vue",
+    "drupal": [],
+    "docs": "docs/skeleton-docs.html"
+  }
+}

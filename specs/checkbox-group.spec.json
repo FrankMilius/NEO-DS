@@ -1,0 +1,205 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "checkbox-group",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "interactive",
+    "grouping"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-checkbox-group",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-checkbox-group__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "hint",
+        "selector": ".nc-checkbox-group__hint",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Column Container fuer mehrere .nc-checkbox Elemente.",
+      "Gap via --nc-group-gap. Horizontal: flex-row, flex-wrap, --nc-group-gap-horizontal.",
+      "Size-Modifier (--sm / --lg) koppelt Gap an Checkbox-Groesse: sm=8px, md=12px (default), lg=16px.",
+      "Header-Slot: Enthaelt Master-Checkbox (.nc-checkbox) fuer Select-All. Separator via border-bottom.",
+      "Master-Checkbox nutzt :indeterminate wenn nur Teilmenge ausgewaehlt (JS: input.indeterminate = true).",
+      "Hint-Slot: Enthaelt .nc-form-hint fuer Gruppen-Hilfetext. Verknuepft via aria-describedby auf dem Gruppen-Container.",
+      "Error: propagiert border-error auf alle Checkbox-Controls.",
+      "Disabled: opacity + pointer-events:none auf gesamte Gruppe."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Layout — vertical (Standard), horizontal (nebeneinander)",
+      "values": [
+        {
+          "value": "vertical",
+          "cssModifier": null,
+          "default": false,
+          "label": "vertical"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": "nc-checkbox-group--horizontal",
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Koppelt den Gruppen-Gap an die Checkbox-Groesse — sm (8px), md (12px, Standard), lg (16px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-checkbox-group--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-checkbox-group--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "error",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "error",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-checkbox-group"
+    ],
+    "tokenGroups": {
+      "Geometry (Gap)": [
+        {
+          "token": "nc-group-gap"
+        },
+        {
+          "token": "nc-group-gap-sm"
+        },
+        {
+          "token": "nc-group-gap-lg"
+        },
+        {
+          "token": "nc-group-gap-horizontal"
+        }
+      ],
+      "Header (Select-All)": [
+        {
+          "token": "nc-group-header-gap"
+        },
+        {
+          "token": "nc-group-header-border"
+        }
+      ],
+      "Hint": [
+        {
+          "token": "nc-group-hint-margin-top"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "error"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Error: aria-describedby auf Gruppen-Error-Text."
+      },
+      {
+        "when": {
+          "slots": [
+            "header"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-checked-mixed"
+        ],
+        "note": "Master-Checkbox im Header: Bei Teilauswahl input.indeterminate=true + aria-checked='mixed'. JS muss Zustand synchronisieren: alle gecheckt→checked, keins→unchecked, teilweise→indeterminate."
+      },
+      {
+        "when": {
+          "slots": [
+            "hint"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Hint wird via aria-describedby auf dem Gruppen-Container verknuepft (id='hint-{groupname}')."
+      }
+    ]
+  },
+  "dependencies": [
+    "checkbox",
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_checkbox-group.scss"
+    ],
+    "story": "stories/organisms/checkbox-group.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

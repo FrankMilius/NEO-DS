@@ -5,28 +5,87 @@
     "component": "breadcrumb",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "navigation", "wayfinding"],
+    "tags": [
+      "interactive",
+      "navigation",
+      "wayfinding"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/breadcrumb-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_breadcrumb.scss"
+      ],
+      "story": "stories/molecules/breadcrumb.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/BreadcrumbArena.vue",
+      "drupal": [],
+      "docs": "docs/breadcrumb-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-breadcrumb" },
+    "root": {
+      "element": ".nc-breadcrumb"
+    },
     "slots": [
-      { "name": "list", "element": ".nc-breadcrumb__list", "optional": false },
-      { "name": "item", "element": ".nc-breadcrumb__item", "optional": false },
-      { "name": "link", "element": ".nc-breadcrumb__link", "optional": false },
-      { "name": "page", "element": ".nc-breadcrumb__page", "optional": true },
-      { "name": "separator", "element": ".nc-breadcrumb__separator", "optional": true },
-      { "name": "home-icon", "element": ".nc-breadcrumb__home-icon", "optional": true },
-      { "name": "back-icon", "element": ".nc-breadcrumb__back-icon", "optional": true },
-      { "name": "ellipsis", "element": ".nc-breadcrumb__ellipsis", "optional": true },
-      { "name": "ellipsis-wrap", "element": ".nc-breadcrumb__ellipsis-wrap", "optional": true },
-      { "name": "dropdown", "element": ".nc-breadcrumb__dropdown", "optional": true },
-      { "name": "dropdown-item", "element": ".nc-breadcrumb__dropdown-item", "optional": true }
+      {
+        "name": "list",
+        "element": ".nc-breadcrumb__list",
+        "optional": false
+      },
+      {
+        "name": "item",
+        "element": ".nc-breadcrumb__item",
+        "optional": false
+      },
+      {
+        "name": "link",
+        "element": ".nc-breadcrumb__link",
+        "optional": false
+      },
+      {
+        "name": "page",
+        "element": ".nc-breadcrumb__page",
+        "optional": true
+      },
+      {
+        "name": "separator",
+        "element": ".nc-breadcrumb__separator",
+        "optional": true
+      },
+      {
+        "name": "home-icon",
+        "element": ".nc-breadcrumb__home-icon",
+        "optional": true
+      },
+      {
+        "name": "back-icon",
+        "element": ".nc-breadcrumb__back-icon",
+        "optional": true
+      },
+      {
+        "name": "ellipsis",
+        "element": ".nc-breadcrumb__ellipsis",
+        "optional": true
+      },
+      {
+        "name": "ellipsis-wrap",
+        "element": ".nc-breadcrumb__ellipsis-wrap",
+        "optional": true
+      },
+      {
+        "name": "dropdown",
+        "element": ".nc-breadcrumb__dropdown",
+        "optional": true
+      },
+      {
+        "name": "dropdown-item",
+        "element": ".nc-breadcrumb__dropdown-item",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -48,106 +107,294 @@
       "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "2 Groessenabstufungen — sm (Admin/Sidebar) / md (Standard, DEFAULT)",
       "values": {
-        "sm": { "modifier": "nc-breadcrumb--sm", "tokenGroups": ["size-sm"] },
-        "md": { "modifier": null,                "tokenGroups": [] }
+        "sm": {
+          "modifier": "nc-breadcrumb--sm",
+          "tokenGroups": [
+            "size-sm"
+          ]
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        }
       }
     },
-
     "appearance": {
       "label": "Appearance",
       "description": "Visueller Stil — default (Link-Farbe + Hover-Underline), ghost (dezente Links wie Text, erst bei Hover interaktiv)",
       "values": {
-        "default": { "modifier": null,                    "tokenGroups": ["core-colors"] },
-        "ghost":   { "modifier": "nc-breadcrumb--ghost",  "tokenGroups": ["variant-ghost"] }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "core-colors"
+          ]
+        },
+        "ghost": {
+          "modifier": "nc-breadcrumb--ghost",
+          "tokenGroups": [
+            "variant-ghost"
+          ]
+        }
       }
     },
-
     "variant": {
       "label": "Variant",
       "description": "Darstellung — full (alle Items sichtbar), truncated (Smart-Truncation mit Ellipsis-Dropdown), back-link (nur Parent-Link fuer Mobile)",
       "values": {
-        "full":      { "modifier": null,                        "tokenGroups": [],                                          "renderHint": "breadcrumb-full" },
-        "truncated": { "modifier": null,                        "tokenGroups": ["dropdown"], "slotConfig": { "ellipsis": true }, "renderHint": "breadcrumb-truncated" },
-        "back-link": { "modifier": "nc-breadcrumb--back-link",  "tokenGroups": ["back-link"],                               "renderHint": "breadcrumb-back-link" }
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "breadcrumb-full"
+        },
+        "truncated": {
+          "modifier": null,
+          "tokenGroups": [
+            "dropdown"
+          ],
+          "slotConfig": {
+            "ellipsis": true
+          },
+          "renderHint": "breadcrumb-truncated"
+        },
+        "back-link": {
+          "modifier": "nc-breadcrumb--back-link",
+          "tokenGroups": [
+            "back-link"
+          ],
+          "renderHint": "breadcrumb-back-link"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Home-Element — text ('Home' als Wort) oder home-icon (Haus-SVG, platzsparend + international)",
       "values": {
-        "text":      { "modifier": null, "tokenGroups": [],            "renderHint": "breadcrumb-text-home" },
-        "home-icon": { "modifier": null, "tokenGroups": ["home-icon"], "slotConfig": { "home-icon": true }, "renderHint": "breadcrumb-icon-home" }
+        "text": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "breadcrumb-text-home"
+        },
+        "home-icon": {
+          "modifier": null,
+          "tokenGroups": [
+            "home-icon"
+          ],
+          "slotConfig": {
+            "home-icon": true
+          },
+          "renderHint": "breadcrumb-icon-home"
+        }
       }
     },
-
     "separator": {
       "label": "Separator",
       "description": "Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)",
       "values": {
-        "chevron": { "modifier": null,                            "tokenGroups": ["separator"], "renderHint": "breadcrumb-chevron" },
-        "slash":   { "modifier": null,                            "tokenGroups": ["separator"], "renderHint": "breadcrumb-slash" },
-        "dot":     { "modifier": "nc-breadcrumb__separator--dot",    "tokenGroups": ["separator"], "renderHint": "breadcrumb-dot" },
-        "square":  { "modifier": "nc-breadcrumb__separator--square", "tokenGroups": ["separator"], "renderHint": "breadcrumb-square" },
-        "custom":  { "modifier": "nc-breadcrumb__separator--custom", "tokenGroups": ["separator"], "renderHint": "breadcrumb-custom" }
+        "chevron": {
+          "modifier": null,
+          "tokenGroups": [
+            "separator"
+          ],
+          "renderHint": "breadcrumb-chevron"
+        },
+        "slash": {
+          "modifier": null,
+          "tokenGroups": [
+            "separator"
+          ],
+          "renderHint": "breadcrumb-slash"
+        },
+        "dot": {
+          "modifier": "nc-breadcrumb__separator--dot",
+          "tokenGroups": [
+            "separator"
+          ],
+          "renderHint": "breadcrumb-dot"
+        },
+        "square": {
+          "modifier": "nc-breadcrumb__separator--square",
+          "tokenGroups": [
+            "separator"
+          ],
+          "renderHint": "breadcrumb-square"
+        },
+        "custom": {
+          "modifier": "nc-breadcrumb__separator--custom",
+          "tokenGroups": [
+            "separator"
+          ],
+          "renderHint": "breadcrumb-custom"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus", "open"],
-    "precedence": ["open", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open"
+    ],
+    "precedence": [
+      "open",
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": [],  "note": "Hover auf Links: underline + Farbwechsel. Ghost: text-tertiary → text-primary. Nicht auf __page." },
-      { "state": "focus", "unless": [],  "note": "Focus-Ring auf Links und Ellipsis-Button via :focus-visible." },
-      { "state": "open",  "unless": [],  "note": "aria-expanded=true auf Ellipsis-Button, Dropdown (.is-open) sichtbar mit versteckten Ebenen." }
+      {
+        "state": "hover",
+        "unless": [],
+        "note": "Hover auf Links: underline + Farbwechsel. Ghost: text-tertiary → text-primary. Nicht auf __page."
+      },
+      {
+        "state": "focus",
+        "unless": [],
+        "note": "Focus-Ring auf Links und Ellipsis-Button via :focus-visible."
+      },
+      {
+        "state": "open",
+        "unless": [],
+        "note": "aria-expanded=true auf Ellipsis-Button, Dropdown (.is-open) sichtbar mit versteckten Ebenen."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "<nav aria-label='Breadcrumb'> auf Wrapper. <ol> fuer geordnete Semantik. aria-current='page' auf aktuellem Item. Separatoren sind aria-hidden='true'. Labels muessen mit Seiten-Ueberschriften uebereinstimmen."
     },
     "overrides": [
       {
-        "when": { "axes": { "variant": ["truncated"] } },
-        "require": ["aria-label", "aria-haspopup", "aria-expanded"],
+        "when": {
+          "axes": {
+            "variant": [
+              "truncated"
+            ]
+          }
+        },
+        "require": [
+          "aria-label",
+          "aria-haspopup",
+          "aria-expanded"
+        ],
         "note": "Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen', aria-haspopup='true', aria-expanded='true|false'."
       },
       {
-        "when": { "axes": { "variant": ["truncated"] }, "states": ["open"] },
-        "require": ["role-menu", "role-menuitem", "keyboard-navigation"],
+        "when": {
+          "axes": {
+            "variant": [
+              "truncated"
+            ]
+          },
+          "states": [
+            "open"
+          ]
+        },
+        "require": [
+          "role-menu",
+          "role-menuitem",
+          "keyboard-navigation"
+        ],
         "note": "Dropdown: role='menu', Items: role='menuitem'. Keyboard: ArrowDown/Up navigiert, Escape schliesst, Tab verlaesst."
       },
       {
-        "when": { "axes": { "content": ["home-icon"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "content": [
+              "home-icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Home-Icon Link braucht aria-label='Home' da kein sichtbarer Text vorhanden."
       },
       {
-        "when": { "axes": { "variant": ["back-link"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "variant": [
+              "back-link"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["nav-landmark", "aria-label", "aria-current-page"], "notes": ["<nav aria-label='Breadcrumb'>. Letztes Item braucht aria-current='page'."] },
-      { "when": { "axes": { "variant": ["truncated"] } }, "require": ["aria-label"], "notes": ["Ellipsis-Button braucht aria-label."] },
-      { "when": { "axes": { "content": ["home-icon"] } }, "require": ["aria-label"], "notes": ["Home-Icon Link braucht aria-label='Home'."] },
-      { "when": { "axes": { "variant": ["back-link"] } }, "require": ["aria-label"], "notes": ["Back-Link braucht aria-label mit Parent-Name."] }
+      {
+        "when": {},
+        "require": [
+          "nav-landmark",
+          "aria-label",
+          "aria-current-page"
+        ],
+        "notes": [
+          "<nav aria-label='Breadcrumb'>. Letztes Item braucht aria-current='page'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "truncated"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Ellipsis-Button braucht aria-label."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "home-icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Home-Icon Link braucht aria-label='Home'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "back-link"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Back-Link braucht aria-label mit Parent-Name."
+        ]
+      }
     ],
     "copy": {
       "label": {
@@ -156,11 +403,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-breadcrumb"],
-    "baseTokenGroups": ["core-geometry", "core-colors"],
-
+    "baseClasses": [
+      "nc-breadcrumb"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-colors"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -221,12 +471,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -243,33 +500,57 @@
       ]
     }
   },
-
   "tokenDependencies": {
     "nc-breadcrumb-color": {
-      "syncsWith": ["nc-link-color"],
+      "syncsWith": [
+        "nc-link-color"
+      ],
       "note": "Breadcrumb-Links sollten die globale Link-Farbe oder eine dezentere Variante nutzen."
     },
     "nc-breadcrumb-color-current": {
-      "syncsWith": ["nc-text-primary"],
+      "syncsWith": [
+        "nc-text-primary"
+      ],
       "note": "Die aktuelle Seite (aria-current='page') nutzt die kraeftigste Textfarbe des Systems."
     },
     "nc-breadcrumb-gap": {
-      "syncsWith": ["nc-spacing-02"],
+      "syncsWith": [
+        "nc-spacing-02"
+      ],
       "note": "Kompakter Gap fuer zusammenhaengenden Pfad-Charakter."
     }
   },
-
   "specimens": [
     {
       "id": "default-full",
       "label": "Full Path — Chevron",
       "description": "Vollstaendiger Breadcrumb-Pfad mit Chevron-Separatoren",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "full" },
+      "render": {
+        "label": "full"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Link-Farbe (secondary) muss 4.5:1 Kontrast haben. Current-Page (primary) ist visuell hervorgehoben via font-weight. Separatoren sind aria-hidden."
@@ -280,13 +561,35 @@
       "label": "Separator-Varianten",
       "description": "Vergleich aller 5 Separator-Typen mit reduzierter Opacity",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": "*" },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["separator"],
+      "focusTokenGroups": [
+        "separator"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "separator" },
-      "render": { "label": "{separator}" },
+      "layoutConfig": {
+        "rowAxis": "separator"
+      },
+      "render": {
+        "label": "{separator}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Separatoren haben 40% Opacity. SVG-Chevron: 3:1 Non-Text-Kontrast. Feste min-width verhindert Layout-Shift."
@@ -297,13 +600,36 @@
       "label": "Size — SM / MD",
       "description": "SM fuer Admin/Sidebar, MD fuer Haupt-Content",
       "matrix": {
-        "axes": { "size": "*", "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-geometry", "size-sm"],
+      "focusTokenGroups": [
+        "core-geometry",
+        "size-sm"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "SM hat kleinere Schrift fuer dichte UIs. Kontrast muss auch bei kleinerer Schrift eingehalten werden."
@@ -314,12 +640,35 @@
       "label": "Ghost Appearance",
       "description": "Dezente Links wie normaler Text — erst bei Hover interaktiv. Fuer minimalistische Artikel-Seiten.",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["ghost"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default", "hover"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "ghost"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default",
+          "hover"
+        ]
       },
-      "focusTokenGroups": ["variant-ghost"],
+      "focusTokenGroups": [
+        "variant-ghost"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Ghost-Links muessen auch in text-tertiary Farbe 4.5:1 Kontrast einhalten. Hover zeigt Underline fuer Interaktivitaet."
@@ -330,12 +679,34 @@
       "label": "Home Icon",
       "description": "Haus-SVG statt 'Home'-Text — platzsparend und international verstaendlich",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["home-icon"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "home-icon"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["home-icon"],
+      "focusTokenGroups": [
+        "home-icon"
+      ],
       "layout": "row",
-      "render": { "label": "home-icon" },
+      "render": {
+        "label": "home-icon"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Home-Icon Link braucht aria-label='Home'. Icon muss 3:1 Non-Text-Kontrast haben."
@@ -345,14 +716,39 @@
       "id": "truncated",
       "label": "Smart Truncation",
       "description": "Home + letzte 2 Items sichtbar. Mittlere Ebenen im Ellipsis-Dropdown.",
-      "composes": ["ellipsis"],
+      "composes": [
+        "ellipsis"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["truncated"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "truncated"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["dropdown"],
+      "focusTokenGroups": [
+        "dropdown"
+      ],
       "layout": "row",
-      "render": { "compositionType": "breadcrumb-truncated", "label": "truncated" },
+      "render": {
+        "compositionType": "breadcrumb-truncated",
+        "label": "truncated"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Ellipsis-Button: aria-label='Weitere Seiten anzeigen'. Smart-Truncation bewahrt Kontext: Home (Woher?) + letzte 2 (Wo bin ich?)."
@@ -362,14 +758,41 @@
       "id": "truncated-dropdown",
       "label": "Truncation — Dropdown Open",
       "description": "Ellipsis-Dropdown zeigt versteckte Ebenen. Nutzt nc-dropdown-* Tokens fuer Kohaerenz mit Navigation-Menu.",
-      "composes": ["ellipsis", "dropdown", "dropdown-item"],
+      "composes": [
+        "ellipsis",
+        "dropdown",
+        "dropdown-item"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["truncated"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["open"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "truncated"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "open"
+        ]
       },
-      "focusTokenGroups": ["dropdown"],
+      "focusTokenGroups": [
+        "dropdown"
+      ],
       "layout": "row",
-      "render": { "compositionType": "breadcrumb-truncated-dropdown", "label": "dropdown open" },
+      "render": {
+        "compositionType": "breadcrumb-truncated-dropdown",
+        "label": "dropdown open"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Dropdown: role='menu', Items: role='menuitem'. Keyboard: ArrowDown/Up, Escape, Tab. shadow/radius identisch mit Navigation-Menu."
@@ -380,12 +803,35 @@
       "label": "Back-Link (Mobile)",
       "description": "Mobile-First: Nur '← Parent' Link statt vollem Pfad. Maximale Platzersparnis.",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["back-link"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "back-link"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["back-link"],
+      "focusTokenGroups": [
+        "back-link"
+      ],
       "layout": "row",
-      "render": { "compositionType": "breadcrumb-back-link", "label": "back-link" },
+      "render": {
+        "compositionType": "breadcrumb-back-link",
+        "label": "back-link"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Back-Link braucht aria-label='Zurueck zu [Parent-Name]'. Pfeil-Icon ist dekorativ (aria-hidden)."
@@ -396,12 +842,36 @@
       "label": "Link States",
       "description": "Links in Default, Hover und Focus",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default", "hover", "focus"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["core-colors"],
+      "focusTokenGroups": [
+        "core-colors"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Hover: underline + primary-Farbe. Focus: sichtbarer Ring. Alle Zustaende muessen unterscheidbar sein."
@@ -412,13 +882,36 @@
       "label": "Default vs Ghost",
       "description": "Vergleich beider Appearance-Varianten",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": "*", "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": "*",
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["core-colors", "variant-ghost"],
+      "focusTokenGroups": [
+        "core-colors",
+        "variant-ghost"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "appearance" },
-      "render": { "label": "{appearance}" },
+      "layoutConfig": {
+        "rowAxis": "appearance"
+      },
+      "render": {
+        "label": "{appearance}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Ghost hat reduziertere Farben als Default. Beide muessen Kontrastanforderungen erfuellen."
@@ -429,11 +922,32 @@
       "label": "Long Path — Wrapping",
       "description": "Langer Pfad der auf mehrere Zeilen umbricht",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "breadcrumb-long", "label": "wrapping" },
+      "render": {
+        "compositionType": "breadcrumb-long",
+        "label": "wrapping"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "flex-wrap sorgt fuer sauberen Umbruch. Gap bleibt konstant."
@@ -444,11 +958,32 @@
       "label": "Single Level",
       "description": "Minimaler Breadcrumb mit nur Home + aktueller Seite",
       "matrix": {
-        "axes": { "size": ["md"], "appearance": ["default"], "variant": ["full"], "content": ["text"], "separator": ["chevron"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "variant": [
+            "full"
+          ],
+          "content": [
+            "text"
+          ],
+          "separator": [
+            "chevron"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "breadcrumb-minimal", "label": "minimal" },
+      "render": {
+        "compositionType": "breadcrumb-minimal",
+        "label": "minimal"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Minimal-Form: Home-Link + Separator + Current-Page. Auch bei nur 2 Items ist die <ol>-Struktur korrekt."

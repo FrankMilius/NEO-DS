@@ -1,0 +1,380 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "pagination",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "navigation",
+    "list",
+    "data"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-pagination",
+    "slots": [
+      {
+        "name": "prev",
+        "selector": ".nc-pagination__prev",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nc-pagination__list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-pagination__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "ellipsis",
+        "selector": ".nc-pagination__ellipsis",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "next",
+        "selector": ".nc-pagination__next",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "info",
+        "selector": ".nc-pagination__info",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "jumper",
+        "selector": ".nc-pagination__jumper",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: <nav aria-label='Seitennavigation'> — landmark fuer Screen Reader.",
+      "Seitenzahlen als <button> oder <a>. Aktive Seite: aria-current='page'.",
+      "Prev/Next: <button> mit SVG-Chevron. Am Rand: aria-disabled='true'.",
+      "Ellipsis: <span> mit .u-sr-only 'Weitere Seiten'.",
+      "Info: Minimal-Variante zeigt 'Seite X von Y' statt Seitenzahlen.",
+      "Jumper: <input type='number'> fuer direkte Seiteneingabe.",
+      "Touch-Target: unsichtbarer ::before min. 44px fuer Mobile-Tap.",
+      "tabular-nums: Gleichbreite Ziffern verhindern Layout-Sprung bei Seitenwechsel."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groesse der Seitenbuttons — md (32px, default), sm (28px, kompakt)",
+      "values": [
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-pagination--sm",
+          "default": false,
+          "label": "sm"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Horizontale Ausrichtung der Pagination",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-pagination--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-pagination--end",
+          "default": false,
+          "label": "end"
+        },
+        {
+          "value": "between",
+          "cssModifier": "nc-pagination--between",
+          "default": false,
+          "label": "between"
+        }
+      ]
+    },
+    "appearance": {
+      "label": "Appearance",
+      "description": "Visueller Stil — default (Hintergrund), pill (abgerundet), outline (Border), minimal (nur Prev/Next + Info)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "pill",
+          "cssModifier": "nc-pagination--pill",
+          "default": false,
+          "label": "pill"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-pagination--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "minimal",
+          "cssModifier": "nc-pagination--minimal",
+          "default": false,
+          "label": "minimal"
+        }
+      ]
+    },
+    "elevation": {
+      "label": "Elevation",
+      "description": "Shadow auf aktiver Seite — none (flach), raised (Schatten)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "raised",
+          "cssModifier": "nc-pagination--raised",
+          "default": false,
+          "label": "raised"
+        }
+      ]
+    },
+    "features": {
+      "label": "Features",
+      "description": "Zusaetzliche Funktionen — default, with-indicator (Unterlinie), with-jumper (Go-to Input)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "with-indicator",
+          "cssModifier": "nc-pagination--with-indicator",
+          "default": false,
+          "label": "with-indicator"
+        },
+        {
+          "value": "with-jumper",
+          "cssModifier": "nc-pagination--with-jumper",
+          "default": false,
+          "label": "with-jumper"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-pagination"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-pagination-gap"
+        },
+        {
+          "token": "nc-pagination-padding"
+        },
+        {
+          "token": "nc-pagination-color"
+        },
+        {
+          "token": "nc-pagination-font-size"
+        }
+      ],
+      "Page Item": [
+        {
+          "token": "nc-pagination-item-size"
+        },
+        {
+          "token": "nc-pagination-item-radius"
+        },
+        {
+          "token": "nc-pagination-item-bg"
+        },
+        {
+          "token": "nc-pagination-item-bg-hover"
+        },
+        {
+          "token": "nc-pagination-item-bg-active"
+        },
+        {
+          "token": "nc-pagination-item-color"
+        },
+        {
+          "token": "nc-pagination-item-color-active"
+        },
+        {
+          "token": "nc-pagination-item-font-weight"
+        }
+      ],
+      "Navigation (Prev/Next)": [
+        {
+          "token": "nc-pagination-nav-color"
+        },
+        {
+          "token": "nc-pagination-nav-color-disabled"
+        }
+      ],
+      "Ellipsis": [
+        {
+          "token": "nc-pagination-ellipsis-color"
+        }
+      ],
+      "Active Indicator": [
+        {
+          "token": "nc-pagination-active-indicator-height"
+        },
+        {
+          "token": "nc-pagination-active-indicator-color"
+        }
+      ],
+      "Raised (Shadow)": [
+        {
+          "token": "nc-pagination-item-shadow-active"
+        }
+      ],
+      "Touch Target": [
+        {
+          "token": "nc-pagination-touch-min"
+        }
+      ],
+      "Minimal-Variante": [
+        {
+          "token": "nc-pagination-minimal-info-color"
+        },
+        {
+          "token": "nc-pagination-minimal-info-size"
+        }
+      ],
+      "Jumper (Go-to-Page)": [
+        {
+          "token": "nc-pagination-jumper-width"
+        },
+        {
+          "token": "nc-pagination-jumper-height"
+        },
+        {
+          "token": "nc-pagination-jumper-radius"
+        },
+        {
+          "token": "nc-pagination-jumper-border"
+        },
+        {
+          "token": "nc-pagination-jumper-font-size"
+        },
+        {
+          "token": "nc-pagination-jumper-color"
+        }
+      ],
+      "Outline-Variante": [
+        {
+          "token": "nc-pagination-outline-border"
+        },
+        {
+          "token": "nc-pagination-outline-border-active"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled=\"true\""
+        ],
+        "note": "Prev/Next am Rand: aria-disabled='true' statt disabled-Attribut fuer Screen-Reader-Ankuendigung."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_pagination.scss"
+    ],
+    "story": "stories/organisms/pagination.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/PaginationArena.vue",
+    "drupal": [],
+    "docs": "docs/pagination-docs.html"
+  }
+}

@@ -5,7 +5,11 @@
     "component": "input",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "text-input"],
+    "tags": [
+      "interactive",
+      "form",
+      "text-input"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
@@ -13,21 +17,65 @@
     },
     "changelog": {
       "2.0.0": "Variant-Achse (outlined/filled/borderless), Floating Labels, Content-States, Affixe, Touch-Target-Validierung"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_input.scss"
+      ],
+      "story": "stories/atoms/input.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/InputArena.vue",
+      "drupal": [],
+      "docs": "docs/input-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-input" },
+    "root": {
+      "element": ".nc-input"
+    },
     "slots": [
-      { "name": "label",       "element": ".nc-input__label",       "optional": false, "description": "Floating Label — bewegt sich beim Focus/Not-Empty nach oben. Pflicht fuer Accessibility." },
-      { "name": "icon",        "element": ".nc-input__icon",        "optional": true },
-      { "name": "icon-end",    "element": ".nc-input__icon--end",   "optional": true },
-      { "name": "prefix-text", "element": ".nc-input__prefix",      "optional": true, "description": "Text-Praefix (z.B. 'https://', 'EUR'). Nicht klickbar, rein dekorativ." },
-      { "name": "suffix-text", "element": ".nc-input__suffix",      "optional": true, "description": "Text-Suffix (z.B. '€', 'kg', '.com'). Nicht klickbar, rein dekorativ." },
-      { "name": "clear",       "element": ".nc-input__clear",       "optional": true, "description": "Clear-Button (×). Sichtbar nur wenn Input nicht leer (:not(:placeholder-shown))." }
+      {
+        "name": "label",
+        "element": ".nc-input__label",
+        "optional": false,
+        "description": "Floating Label — bewegt sich beim Focus/Not-Empty nach oben. Pflicht fuer Accessibility."
+      },
+      {
+        "name": "icon",
+        "element": ".nc-input__icon",
+        "optional": true
+      },
+      {
+        "name": "icon-end",
+        "element": ".nc-input__icon--end",
+        "optional": true
+      },
+      {
+        "name": "prefix-text",
+        "element": ".nc-input__prefix",
+        "optional": true,
+        "description": "Text-Praefix (z.B. 'https://', 'EUR'). Nicht klickbar, rein dekorativ."
+      },
+      {
+        "name": "suffix-text",
+        "element": ".nc-input__suffix",
+        "optional": true,
+        "description": "Text-Suffix (z.B. '€', 'kg', '.com'). Nicht klickbar, rein dekorativ."
+      },
+      {
+        "name": "clear",
+        "element": ".nc-input__clear",
+        "optional": true,
+        "description": "Clear-Button (×). Sichtbar nur wenn Input nicht leer (:not(:placeholder-shown))."
+      }
     ],
     "convenience": [
-      { "name": "wrapper", "element": ".nc-input-wrapper", "optional": true, "description": "Positionierungs-Container fuer Icon/Label/Affix-Kombination (position: relative)" }
+      {
+        "name": "wrapper",
+        "element": ".nc-input-wrapper",
+        "optional": true,
+        "description": "Positionierungs-Container fuer Icon/Label/Affix-Kombination (position: relative)"
+      }
     ],
     "domNotes": [
       "Input ist immer ein <input> Element mit type='text|email|url|tel|password|search|number|color'.",
@@ -42,52 +90,119 @@
       "Touch-Target: Ein ::after Pseudo-Element auf .nc-input sichert min 44x44px Klickflaeche, auch bei sm-Groesse."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Visuelle Variante — outlined (Standard, Rahmen), filled (Flaeche mit Unterstreichung), borderless (minimalistisch, In-Line Editing)",
       "values": {
-        "outlined":   { "modifier": null,                       "tokenGroups": ["core-colors"],          "description": "Standard-Stil mit Rahmen auf allen 4 Seiten." },
-        "filled":     { "modifier": "nc-input--filled",         "tokenGroups": ["core-colors-filled"],   "description": "Hintergrund-Flaeche mit Unterstreichung (border-bottom only). Oft in Dashboards genutzt." },
-        "borderless": { "modifier": "nc-input--borderless",     "tokenGroups": ["core-colors-minimal"],  "description": "Minimalistischer Stil ohne sichtbaren Rahmen. Fuer In-Line Editing und transparente Integration in Layouts." }
+        "outlined": {
+          "modifier": null,
+          "tokenGroups": [
+            "core-colors"
+          ],
+          "description": "Standard-Stil mit Rahmen auf allen 4 Seiten."
+        },
+        "filled": {
+          "modifier": "nc-input--filled",
+          "tokenGroups": [
+            "core-colors-filled"
+          ],
+          "description": "Hintergrund-Flaeche mit Unterstreichung (border-bottom only). Oft in Dashboards genutzt."
+        },
+        "borderless": {
+          "modifier": "nc-input--borderless",
+          "tokenGroups": [
+            "core-colors-minimal"
+          ],
+          "description": "Minimalistischer Stil ohne sichtbaren Rahmen. Fuer In-Line Editing und transparente Integration in Layouts."
+        }
       }
     },
-
     "size": {
       "label": "Size",
       "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px)",
       "values": {
-        "sm": { "modifier": "nc-input--sm", "tokenGroups": [] },
-        "md": { "modifier": null,           "tokenGroups": [] },
-        "lg": { "modifier": "nc-input--lg", "tokenGroups": [] }
+        "sm": {
+          "modifier": "nc-input--sm",
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-input--lg",
+          "tokenGroups": []
+        }
       }
     },
-
     "type": {
       "label": "Type",
       "description": "Input-Typ — text (Standard), search (Lupe links), password (Reveal rechts)",
       "values": {
-        "text":     { "modifier": null,                   "tokenGroups": [],            "elementHint": "input", "renderHint": "input-text" },
-        "search":   { "modifier": "nc-input--search",     "tokenGroups": ["icon-slot"], "elementHint": "input", "renderHint": "input-search" },
-        "password": { "modifier": "nc-input--password",   "tokenGroups": ["icon-slot"], "elementHint": "input", "renderHint": "input-password" }
+        "text": {
+          "modifier": null,
+          "tokenGroups": [],
+          "elementHint": "input",
+          "renderHint": "input-text"
+        },
+        "search": {
+          "modifier": "nc-input--search",
+          "tokenGroups": [
+            "icon-slot"
+          ],
+          "elementHint": "input",
+          "renderHint": "input-search"
+        },
+        "password": {
+          "modifier": "nc-input--password",
+          "tokenGroups": [
+            "icon-slot"
+          ],
+          "elementHint": "input",
+          "renderHint": "input-password"
+        }
       }
     },
-
     "validation": {
       "label": "Validation",
       "description": "Validierungszustand — none (Standard), error (roter Rand), success (gruener Rand)",
       "values": {
-        "none":    { "modifier": null,                "tokenGroups": [] },
-        "error":   { "modifier": "nc-input--error",   "tokenGroups": ["state-error"] },
-        "success": { "modifier": "nc-input--success", "tokenGroups": ["state-success"] }
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "error": {
+          "modifier": "nc-input--error",
+          "tokenGroups": [
+            "state-error"
+          ]
+        },
+        "success": {
+          "modifier": "nc-input--success",
+          "tokenGroups": [
+            "state-success"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus", "disabled", "readonly", "not-empty"],
-    "precedence": ["disabled", "readonly", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled",
+      "readonly",
+      "not-empty"
+    ],
+    "precedence": [
+      "disabled",
+      "readonly",
+      "focus",
+      "hover",
+      "default"
+    ],
     "contentStates": {
       "empty": {
         "selector": ":placeholder-shown",
@@ -101,50 +216,115 @@
       }
     },
     "rules": [
-      { "state": "hover",     "unless": ["disabled", "readonly", "focus"], "note": "Hover nur wenn nicht disabled, readonly oder fokussiert" },
-      { "state": "focus",     "unless": ["disabled"],                      "note": "Focus nur wenn nicht disabled" },
-      { "state": "readonly",  "unless": ["disabled"],                      "note": "Readonly und disabled sind mutually exclusive" },
-      { "state": "not-empty", "unless": [],                                "note": "Content-State — unabhaengig von interaktiven States. Steuert Label-Position und Clear-Button-Sichtbarkeit." }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled",
+          "readonly",
+          "focus"
+        ],
+        "note": "Hover nur wenn nicht disabled, readonly oder fokussiert"
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus nur wenn nicht disabled"
+      },
+      {
+        "state": "readonly",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Readonly und disabled sind mutually exclusive"
+      },
+      {
+        "state": "not-empty",
+        "unless": [],
+        "note": "Content-State — unabhaengig von interaktiven States. Steuert Label-Position und Clear-Button-Sichtbarkeit."
+      }
     ],
     "interactive": true,
     "floatingLabel": {
-      "trigger": ["focus", "not-empty"],
+      "trigger": [
+        "focus",
+        "not-empty"
+      ],
       "transform": "translateY(calc(-100% - var(--nc-input-label-offset-y))) scale(var(--nc-input-label-scale))",
       "note": "Label schwebt bei :focus oder :not(:placeholder-shown) nach oben. Transition via nc-input-transition-duration."
     }
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Input braucht immer ein zugehoeriges <label> (via for/id) oder aria-label. Placeholder ist KEIN Label-Ersatz."
     },
     "overrides": [
       {
-        "when": { "axes": { "validation": ["error"] } },
-        "require": ["aria-invalid", "aria-describedby"],
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
         "note": "Error-State braucht aria-invalid='true' und aria-describedby das auf die Fehlermeldung verweist."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "aria-disabled='true' bevorzugt, wenn Input Teil eines Formulars ist das noch sichtbar bleiben soll."
       },
       {
-        "when": { "axes": { "type": ["search"] } },
-        "suggest": ["role-search"],
+        "when": {
+          "axes": {
+            "type": [
+              "search"
+            ]
+          }
+        },
+        "suggest": [
+          "role-search"
+        ],
         "note": "Search-Input sollte in einem <form role='search'> oder <search> Element stehen."
       },
       {
-        "when": { "slots": ["clear"] },
-        "require": ["aria-label"],
+        "when": {
+          "slots": [
+            "clear"
+          ]
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Clear-Button braucht aria-label (z.B. 'Eingabe loeschen'). Typ button, nicht submit."
       },
       {
-        "when": { "slots": ["prefix-text", "suffix-text"] },
-        "suggest": ["aria-describedby"],
+        "when": {
+          "slots": [
+            "prefix-text",
+            "suffix-text"
+          ]
+        },
+        "suggest": [
+          "aria-describedby"
+        ],
         "note": "Text-Affixe sollten per aria-describedby mit dem Input verknuepft sein, damit Screenreader den Kontext vermitteln."
       }
     ],
@@ -155,13 +335,65 @@
       "note": "Unsichtbares ::after sichert 44x44px Mindest-Touch-Target auch bei sm (32px). Kontrollierbar ueber Token."
     }
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Input braucht immer <label for='...'>  oder aria-label. Placeholder ist kein Label-Ersatz."] },
-      { "when": { "axes": { "validation": ["error"] } }, "require": ["aria-invalid", "aria-describedby"], "notes": ["Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."] },
-      { "when": { "axes": { "variant": ["borderless"] }, "states": ["default"] }, "require": ["visual-affordance"], "notes": ["Borderless-Variante muss bei Hover/Focus eine sichtbare Abgrenzung zeigen, damit der User erkennt, dass das Feld editierbar ist."] },
-      { "when": { "slots": ["prefix-text", "suffix-text"] }, "forbid": ["icon-same-side"], "notes": ["Icon und Text-Affix duerfen nicht auf derselben Seite platziert werden — entweder Icon ODER Text-Affix pro Seite."] }
+      {
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Input braucht immer <label for='...'>  oder aria-label. Placeholder ist kein Label-Ersatz."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "notes": [
+          "Error braucht aria-invalid='true' + Verweis auf Fehlermeldung."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "borderless"
+            ]
+          },
+          "states": [
+            "default"
+          ]
+        },
+        "require": [
+          "visual-affordance"
+        ],
+        "notes": [
+          "Borderless-Variante muss bei Hover/Focus eine sichtbare Abgrenzung zeigen, damit der User erkennt, dass das Feld editierbar ist."
+        ]
+      },
+      {
+        "when": {
+          "slots": [
+            "prefix-text",
+            "suffix-text"
+          ]
+        },
+        "forbid": [
+          "icon-same-side"
+        ],
+        "notes": [
+          "Icon und Text-Affix duerfen nicht auf derselben Seite platziert werden — entweder Icon ODER Text-Affix pro Seite."
+        ]
+      }
     ],
     "copy": {
       "placeholder": {
@@ -178,11 +410,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-input"],
-    "baseTokenGroups": ["core-geometry", "core-colors", "touch-target"],
-
+    "baseClasses": [
+      "nc-input"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-colors",
+      "touch-target"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -305,12 +541,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -326,18 +569,38 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States — MD",
       "description": "Input in allen interaktiven Zustaenden",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "hover", "focus", "disabled", "readonly"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "disabled",
+          "readonly"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Alle States muessen visuell unterscheidbar sein. Focus braucht sichtbaren Ring."
@@ -348,13 +611,35 @@
       "label": "Variant Comparison",
       "description": "Outlined vs Filled vs Borderless — alle 3 Varianten im Vergleich",
       "matrix": {
-        "axes": { "variant": "*", "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "hover", "focus"]
+        "axes": {
+          "variant": "*",
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["variant-filled", "variant-borderless"],
+      "focusTokenGroups": [
+        "variant-filled",
+        "variant-borderless"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Borderless muss bei Hover/Focus eine sichtbare Abgrenzung zeigen. Filled-Unterstreichung braucht 3:1 Kontrast."
@@ -365,13 +650,38 @@
       "label": "Floating Label",
       "description": "Label-Verhalten: empty → focus → not-empty",
       "matrix": {
-        "axes": { "variant": ["outlined", "filled"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "focus", "not-empty"]
+        "axes": {
+          "variant": [
+            "outlined",
+            "filled"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "focus",
+          "not-empty"
+        ]
       },
-      "focusTokenGroups": ["floating-label"],
+      "focusTokenGroups": [
+        "floating-label"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{state}", "compositionType": "input-with-label" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{state}",
+        "compositionType": "input-with-label"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Floating Label darf nie verschwinden — muss im float-Zustand lesbar bleiben (font-size-float >= 10px)."
@@ -382,12 +692,33 @@
       "label": "Content States (Empty vs Not-Empty)",
       "description": "Clear-Button und Label-Position bei leerem vs. gefuelltem Input",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "not-empty"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "not-empty"
+        ]
       },
-      "focusTokenGroups": ["content-state"],
+      "focusTokenGroups": [
+        "content-state"
+      ],
       "layout": "row",
-      "render": { "label": "{state}", "compositionType": "input-with-clear" },
+      "render": {
+        "label": "{state}",
+        "compositionType": "input-with-clear"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Clear-Button braucht aria-label. Darf bei empty nicht per Tab erreichbar sein (tabindex=-1 oder display:none)."
@@ -397,14 +728,38 @@
       "id": "with-affixes",
       "label": "Text Affixes (Prefix / Suffix)",
       "description": "Input mit Text-Praefix (https://) und/oder Text-Suffix (€, kg)",
-      "composes": ["prefix-text", "suffix-text"],
+      "composes": [
+        "prefix-text",
+        "suffix-text"
+      ],
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "focus"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["affix"],
+      "focusTokenGroups": [
+        "affix"
+      ],
       "layout": "row",
-      "render": { "compositionType": "input-with-affix", "label": "affix" },
+      "render": {
+        "compositionType": "input-with-affix",
+        "label": "affix"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Affixe per aria-describedby verknuepfen. Affix-Text darf nicht mit User-Input ueberlappen — eigenes Padding reserviert."
@@ -415,13 +770,34 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich mit Touch-Target-Visualisierung",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": "*", "type": ["text"], "validation": ["none"] },
-        "states": ["default", "focus"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": "*",
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["core-geometry", "touch-target"],
+      "focusTokenGroups": [
+        "core-geometry",
+        "touch-target"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "SM (32px) hat 44px Touch-Target via ::after Pseudo-Element. Token nc-input-touch-area-min steuert den Wert."
@@ -432,13 +808,34 @@
       "label": "Validation States",
       "description": "Error und Success im Vergleich zu Default",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": "*" },
-        "states": ["default", "focus"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": "*"
+        },
+        "states": [
+          "default",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["state-error", "state-success"],
+      "focusTokenGroups": [
+        "state-error",
+        "state-success"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "validation" },
-      "render": { "label": "{validation}" },
+      "layoutConfig": {
+        "rowAxis": "validation"
+      },
+      "render": {
+        "label": "{validation}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error-Rand muss 3:1 Kontrast zum Hintergrund haben. Farbe nie als einziges Signal — immer mit Fehlermeldung kombinieren."
@@ -449,12 +846,29 @@
       "label": "Input Types",
       "description": "Text, Search und Password im Vergleich",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": "*", "validation": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": "*",
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["icon-slot"],
+      "focusTokenGroups": [
+        "icon-slot"
+      ],
       "layout": "row",
-      "render": { "label": "{type}" },
+      "render": {
+        "label": "{type}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Search sollte in <search> oder role='search' stehen. Password-Reveal braucht aria-label."
@@ -464,14 +878,37 @@
       "id": "with-icons",
       "label": "With Prefix/Suffix Icon",
       "description": "Input mit Icon-Prefix und/oder -Suffix im Wrapper",
-      "composes": ["icon"],
+      "composes": [
+        "icon"
+      ],
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "focus"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["icon-slot"],
+      "focusTokenGroups": [
+        "icon-slot"
+      ],
       "layout": "row",
-      "render": { "compositionType": "input-with-icon", "label": "icon" },
+      "render": {
+        "compositionType": "input-with-icon",
+        "label": "icon"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Icons sind dekorativ (aria-hidden='true'). pointer-events: none verhindert Klick auf Icon."
@@ -482,12 +919,33 @@
       "label": "Disabled vs Readonly",
       "description": "Vergleich der nicht-editierbaren Zustaende",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["disabled", "readonly"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "disabled",
+          "readonly"
+        ]
       },
-      "focusTokenGroups": ["state-disabled", "state-readonly"],
+      "focusTokenGroups": [
+        "state-disabled",
+        "state-readonly"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled hat Opacity-Reduktion. Readonly hat eigene BG/Border-Farben aber volle Opacity — Text bleibt lesbar und selektierbar."
@@ -498,13 +956,34 @@
       "label": "Error × Size",
       "description": "Error-State in allen Groessen",
       "matrix": {
-        "axes": { "variant": ["outlined"], "size": "*", "type": ["text"], "validation": ["error"] },
-        "states": ["default", "focus"]
+        "axes": {
+          "variant": [
+            "outlined"
+          ],
+          "size": "*",
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "error"
+          ]
+        },
+        "states": [
+          "default",
+          "focus"
+        ]
       },
-      "focusTokenGroups": ["state-error", "core-geometry"],
+      "focusTokenGroups": [
+        "state-error",
+        "core-geometry"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error-Border muss in allen Groessen sichtbar und kontrastreich sein."
@@ -515,13 +994,40 @@
       "label": "Filled — Dashboard Context",
       "description": "Filled-Variante in verschiedenen Zustaenden fuer Dashboard-Einsatz",
       "matrix": {
-        "axes": { "variant": ["filled"], "size": ["md"], "type": ["text"], "validation": ["none", "error"] },
-        "states": ["default", "hover", "focus", "not-empty"]
+        "axes": {
+          "variant": [
+            "filled"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none",
+            "error"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "not-empty"
+        ]
       },
-      "focusTokenGroups": ["variant-filled", "floating-label"],
+      "focusTokenGroups": [
+        "variant-filled",
+        "floating-label"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "validation" },
-      "render": { "label": "{state}", "compositionType": "input-with-label" },
+      "layoutConfig": {
+        "rowAxis": "validation"
+      },
+      "render": {
+        "label": "{state}",
+        "compositionType": "input-with-label"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Filled-BG muss 3:1 Kontrast zur umgebenden Flaeche haben. Unterstreichung als primaere Affordance."
@@ -532,12 +1038,34 @@
       "label": "Borderless — Inline Editing",
       "description": "Borderless-Variante fuer transparente In-Line-Bearbeitung",
       "matrix": {
-        "axes": { "variant": ["borderless"], "size": ["md"], "type": ["text"], "validation": ["none"] },
-        "states": ["default", "hover", "focus", "not-empty"]
+        "axes": {
+          "variant": [
+            "borderless"
+          ],
+          "size": [
+            "md"
+          ],
+          "type": [
+            "text"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "not-empty"
+        ]
       },
-      "focusTokenGroups": ["variant-borderless"],
+      "focusTokenGroups": [
+        "variant-borderless"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Borderless MUSS bei Hover eine sichtbare Abgrenzung zeigen (BG-Change). Focus braucht Unterstreichung oder Ring."

@@ -1,0 +1,475 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "input",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "form",
+    "text-input"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-input",
+    "slots": [
+      {
+        "name": "label",
+        "selector": ".nc-input__label",
+        "required": true,
+        "description": "Floating Label — bewegt sich beim Focus/Not-Empty nach oben. Pflicht fuer Accessibility."
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-input__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "icon-end",
+        "selector": ".nc-input__icon--end",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "prefix-text",
+        "selector": ".nc-input__prefix",
+        "required": false,
+        "description": "Text-Praefix (z.B. 'https://', 'EUR'). Nicht klickbar, rein dekorativ."
+      },
+      {
+        "name": "suffix-text",
+        "selector": ".nc-input__suffix",
+        "required": false,
+        "description": "Text-Suffix (z.B. '€', 'kg', '.com'). Nicht klickbar, rein dekorativ."
+      },
+      {
+        "name": "clear",
+        "selector": ".nc-input__clear",
+        "required": false,
+        "description": "Clear-Button (×). Sichtbar nur wenn Input nicht leer (:not(:placeholder-shown))."
+      }
+    ],
+    "notes": [
+      "Input ist immer ein <input> Element mit type='text|email|url|tel|password|search|number|color'.",
+      "Icon-Prefix/Suffix, Label und Text-Affixe erfordern .nc-input-wrapper als Container.",
+      "Search-Typ: padding-left fuer Lupe. Password-Typ: padding-right fuer Reveal-Toggle.",
+      ":focus-visible triggert Focus-Ring. :disabled und [aria-disabled] haben eigenes Styling.",
+      "[readonly] hat eigene BG/Border-Tokens — kein disabled-Opacity.",
+      "Error kann per .nc-input--error ODER [aria-invalid='true'] gesetzt werden.",
+      "Floating Label: Label steht initial ueber dem Placeholder. Bei :focus oder :not(:placeholder-shown) schwebt es nach oben (transform + font-size).",
+      "Text-Affixe (.nc-input__prefix / .nc-input__suffix) sind inline-flex Elemente mit eigener Geometrie. Input-Padding wird automatisch angepasst.",
+      "Clear-Button ist per CSS unsichtbar wenn :placeholder-shown aktiv ist. Sichtbar sobald Inhalt vorhanden.",
+      "Touch-Target: Ein ::after Pseudo-Element auf .nc-input sichert min 44x44px Klickflaeche, auch bei sm-Groesse."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — outlined (Standard, Rahmen), filled (Flaeche mit Unterstreichung), borderless (minimalistisch, In-Line Editing)",
+      "values": [
+        {
+          "value": "outlined",
+          "cssModifier": null,
+          "default": false,
+          "label": "outlined"
+        },
+        {
+          "value": "filled",
+          "cssModifier": "nc-input--filled",
+          "default": false,
+          "label": "filled"
+        },
+        {
+          "value": "borderless",
+          "cssModifier": "nc-input--borderless",
+          "default": false,
+          "label": "borderless"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-input--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-input--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "type": {
+      "label": "Type",
+      "description": "Input-Typ — text (Standard), search (Lupe links), password (Reveal rechts)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "search",
+          "cssModifier": "nc-input--search",
+          "default": false,
+          "label": "search"
+        },
+        {
+          "value": "password",
+          "cssModifier": "nc-input--password",
+          "default": false,
+          "label": "password"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungszustand — none (Standard), error (roter Rand), success (gruener Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-input--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-input--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled",
+      "readonly",
+      "not-empty"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "readonly",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "not-empty",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-input"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-input-height-sm"
+        },
+        {
+          "token": "nc-input-height-md"
+        },
+        {
+          "token": "nc-input-height-lg"
+        },
+        {
+          "token": "nc-input-padding-x-sm"
+        },
+        {
+          "token": "nc-input-padding-x-md"
+        },
+        {
+          "token": "nc-input-padding-x-lg"
+        },
+        {
+          "token": "nc-input-padding-y-sm"
+        },
+        {
+          "token": "nc-input-padding-y-md"
+        },
+        {
+          "token": "nc-input-padding-y-lg"
+        },
+        {
+          "token": "nc-input-font-size-sm"
+        },
+        {
+          "token": "nc-input-font-size-md"
+        },
+        {
+          "token": "nc-input-font-size-lg"
+        },
+        {
+          "token": "nc-input-radius"
+        },
+        {
+          "token": "nc-input-border-width"
+        }
+      ],
+      "Colors (Outlined)": [
+        {
+          "token": "nc-form-control-bg"
+        },
+        {
+          "token": "nc-form-control-border-color"
+        },
+        {
+          "token": "nc-form-control-color"
+        }
+      ],
+      "Colors (Filled)": [
+        {
+          "token": "nc-form-control-filled-bg"
+        },
+        {
+          "token": "nc-form-control-filled-border-bottom"
+        },
+        {
+          "token": "nc-form-control-filled-color"
+        }
+      ],
+      "Colors (Borderless)": [
+        {
+          "token": "nc-form-control-minimal-bg-hover"
+        },
+        {
+          "token": "nc-form-control-minimal-border-focus"
+        }
+      ],
+      "Floating Label": [
+        {
+          "token": "nc-input-label-color"
+        },
+        {
+          "token": "nc-input-label-color-focus"
+        },
+        {
+          "token": "nc-input-label-font-size"
+        },
+        {
+          "token": "nc-input-label-font-size-float"
+        },
+        {
+          "token": "nc-input-label-offset-y"
+        },
+        {
+          "token": "nc-input-label-scale"
+        },
+        {
+          "token": "nc-input-label-padding-top"
+        }
+      ],
+      "Affix (Prefix/Suffix Text)": [
+        {
+          "token": "nc-input-affix-color"
+        },
+        {
+          "token": "nc-input-affix-font-size"
+        },
+        {
+          "token": "nc-input-affix-padding-x"
+        },
+        {
+          "token": "nc-input-affix-bg"
+        },
+        {
+          "token": "nc-input-affix-border"
+        }
+      ],
+      "Touch Target": [
+        {
+          "token": "nc-input-touch-area-min"
+        }
+      ],
+      "Error": [
+        {
+          "token": "nc-input-border-error"
+        }
+      ],
+      "Success": [
+        {
+          "token": "nc-input-border-success"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-input-disabled-bg"
+        },
+        {
+          "token": "nc-input-disabled-color"
+        },
+        {
+          "token": "nc-input-disabled-border"
+        },
+        {
+          "token": "nc-input-disabled-opacity"
+        }
+      ],
+      "Readonly": [
+        {
+          "token": "nc-input-bg-readonly"
+        },
+        {
+          "token": "nc-input-border-readonly"
+        }
+      ],
+      "Icon": [
+        {
+          "token": "nc-input-icon-size"
+        },
+        {
+          "token": "nc-input-icon-color"
+        }
+      ],
+      "Content State": [
+        {
+          "token": "nc-input-clear-size"
+        },
+        {
+          "token": "nc-input-clear-color"
+        },
+        {
+          "token": "nc-input-clear-color-hover"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-input-transition-duration"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "suggest": [],
+        "note": "Error-State braucht aria-invalid='true' und aria-describedby das auf die Fehlermeldung verweist."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt, wenn Input Teil eines Formulars ist das noch sichtbar bleiben soll."
+      },
+      {
+        "when": {
+          "axes": {
+            "type": [
+              "search"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-search"
+        ],
+        "note": "Search-Input sollte in einem <form role='search'> oder <search> Element stehen."
+      },
+      {
+        "when": {
+          "slots": [
+            "clear"
+          ]
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Clear-Button braucht aria-label (z.B. 'Eingabe loeschen'). Typ button, nicht submit."
+      },
+      {
+        "when": {
+          "slots": [
+            "prefix-text",
+            "suffix-text"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Text-Affixe sollten per aria-describedby mit dem Input verknuepft sein, damit Screenreader den Kontext vermitteln."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_input.scss"
+    ],
+    "story": "stories/atoms/input.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/InputArena.vue",
+    "drupal": [],
+    "docs": "docs/input-docs.html"
+  }
+}

@@ -5,21 +5,45 @@
     "component": "kbd",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["static", "typography", "keyboard"],
+    "tags": [
+      "static",
+      "typography",
+      "keyboard"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/kbd-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_kbd.scss"
+      ],
+      "story": "stories/organisms/kbd.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/kbd-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-kbd" },
+    "root": {
+      "element": ".nc-kbd"
+    },
     "slots": [
-      { "name": "separator", "element": ".nc-kbd__separator", "optional": true }
+      {
+        "name": "separator",
+        "element": ".nc-kbd__separator",
+        "optional": true
+      }
     ],
     "convenience": [
-      { "name": "group", "element": ".nc-kbd-group", "optional": true, "description": "Inline-Flex-Container fuer mehrere Shortcuts nebeneinander mit gap" }
+      {
+        "name": "group",
+        "element": ".nc-kbd-group",
+        "optional": true,
+        "description": "Inline-Flex-Container fuer mehrere Shortcuts nebeneinander mit gap"
+      }
     ],
     "domNotes": [
       "Kbd ist ein natives <kbd class='nc-kbd'> Element — semantisch korrekt fuer Tastatur-Eingaben.",
@@ -30,25 +54,37 @@
       "box-shadow via elevation-base erzeugt subtilen 3D-Effekt (Tasten-Look)."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Darstellungs-Variante — single (einzelne Taste, Standard), combination (Tastenkombination mit Separator)",
       "values": {
-        "single":      { "modifier": null, "tokenGroups": [], "renderHint": "kbd-single" },
-        "combination": { "modifier": null, "tokenGroups": [], "renderHint": "kbd-combination", "slotConfig": { "separator": true } }
+        "single": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "kbd-single"
+        },
+        "combination": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "kbd-combination",
+          "slotConfig": {
+            "separator": true
+          }
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
@@ -58,7 +94,6 @@
     },
     "overrides": []
   },
-
   "constraints": {
     "rules": [],
     "copy": {
@@ -68,11 +103,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-kbd"],
-    "baseTokenGroups": ["core-colors", "core-geometry", "core-typography"],
-
+    "baseClasses": [
+      "nc-kbd"
+    ],
+    "baseTokenGroups": [
+      "core-colors",
+      "core-geometry",
+      "core-typography"
+    ],
     "tokenGroups": {
       "core-colors": {
         "label": "Colors",
@@ -103,12 +142,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -121,18 +167,25 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "single-key",
       "label": "Single Key",
       "description": "Einzelne Taste in verschiedenen Laengen",
       "matrix": {
-        "axes": { "variant": ["single"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "single"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "single" },
+      "render": {
+        "label": "single"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Text muss 4.5:1 Kontrast gegen den Kbd-Hintergrund haben. min-width sorgt fuer quadratisches Aussehen."
@@ -142,13 +195,25 @@
       "id": "key-combination",
       "label": "Key Combination",
       "description": "Tastenkombination mit Separator (z.B. Ctrl+S, Cmd+Shift+P)",
-      "composes": ["separator", "group"],
+      "composes": [
+        "separator",
+        "group"
+      ],
       "matrix": {
-        "axes": { "variant": ["combination"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "combination"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "kbd-combination", "label": "combination" },
+      "render": {
+        "compositionType": "kbd-combination",
+        "label": "combination"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Verschachtelte <kbd> Elemente. Separator hat reduzierte Opacity. Screen Reader liest jede Taste einzeln."
@@ -158,13 +223,24 @@
       "id": "in-context",
       "label": "Kbd in Fliesstext",
       "description": "Kbd eingebettet in einen Textabsatz",
-      "composes": ["paragraph"],
+      "composes": [
+        "paragraph"
+      ],
       "matrix": {
-        "axes": { "variant": ["single"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "single"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "kbd-in-paragraph", "label": "inline" },
+      "render": {
+        "compositionType": "kbd-in-paragraph",
+        "label": "inline"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Kbd muss vom umgebenden Text unterscheidbar sein (Border, BG, Mono-Font). vertical-align: baseline haelt die Zeilenhoehe."
@@ -174,13 +250,24 @@
       "id": "in-tooltip",
       "label": "Kbd in Tooltip",
       "description": "Shortcut-Anzeige innerhalb eines Tooltips",
-      "composes": ["tooltip"],
+      "composes": [
+        "tooltip"
+      ],
       "matrix": {
-        "axes": { "variant": ["combination"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "combination"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "kbd-in-tooltip", "label": "tooltip" },
+      "render": {
+        "compositionType": "kbd-in-tooltip",
+        "label": "tooltip"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Kbd in Tooltip braucht ausreichend Kontrast gegen den Tooltip-Hintergrund (dark). Shadow ggf. nicht sichtbar."
@@ -191,11 +278,19 @@
       "label": "Modifier Keys",
       "description": "Gaengige Modifikator-Tasten (Ctrl, Shift, Alt, Cmd, Enter, Esc, Tab)",
       "matrix": {
-        "axes": { "variant": ["single"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "single"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "modifiers" },
+      "render": {
+        "label": "modifiers"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Laengere Tasten-Labels (Shift, Enter) skalieren horizontal. min-width greift nur bei kurzen Labels."

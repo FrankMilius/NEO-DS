@@ -1,0 +1,93 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "header",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "layout",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".header",
+    "slots": [
+      {
+        "name": "nav-wrapper",
+        "selector": ".nav-wrapper",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "conversion",
+        "selector": ".conversion",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Relative positioned, z-index header. Nav-Wrapper: fixed, background-base, border-bottom.",
+      "nav-hidden: opacity 0, pointer-events none. Conversion: fixed Button, right 0, z-index dropdown."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hidden"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hidden",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "header"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_header.scss"
+    ],
+    "story": "stories/organisms/header.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/header-docs.html"
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "badge",
+  "version": "2.2.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "indicator",
+    "label"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-badge",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-badge__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-badge__label",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Badge ist NIEMALS fokussierbar — immer <span>, kein role='button', kein tabindex.",
+      "Farbe nie als einziges Signal verwenden — immer mit Text oder Icon kombinieren.",
+      "Dot-Mode: slot-loses Display, zeigt nur Farbe ohne Text. Benoetigt begleitendes aria-label.",
+      "Counter-Mode: numerischer Inhalt mit min-width fuer gleichmaessige Kreise.",
+      "Decorator-Mode: position:absolute auf Parent (braucht position:relative). Ring-Shadow fuer Abgrenzung.",
+      "Pulse-Animation: --dot.--pulse fuer kritische Status (error). Dezentes Pulsieren.",
+      "Status-String: --status-string — reiner Text ohne BG, fuer Tabellen / dichte UIs."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "tone": {
+      "label": "Tone",
+      "description": "Farb-Semantik der Badge",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": "nc-badge--secondary",
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-badge--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-badge--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-badge--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-badge--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Visuelle Gewichtung — Solid (Standard), Outline (Rand), Soft (reduzierte Deckkraft)",
+      "values": [
+        {
+          "value": "solid",
+          "cssModifier": null,
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-badge--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "soft",
+          "cssModifier": "nc-badge--soft",
+          "default": false,
+          "label": "soft"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung — SM (20px) / MD (24px, Standard)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-badge--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        }
+      ]
+    },
+    "decorator": {
+      "label": "Decorator",
+      "description": "Zusaetzliche visuelle Elemente oder Render-Modi",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon"
+        },
+        {
+          "value": "dot",
+          "cssModifier": "nc-badge--dot",
+          "default": false,
+          "label": "dot"
+        },
+        {
+          "value": "counter",
+          "cssModifier": null,
+          "default": false,
+          "label": "counter"
+        },
+        {
+          "value": "decorator",
+          "cssModifier": "nc-badge--decorator",
+          "default": false,
+          "label": "decorator"
+        },
+        {
+          "value": "pulse",
+          "cssModifier": "nc-badge--dot nc-badge--pulse",
+          "default": false,
+          "label": "pulse"
+        },
+        {
+          "value": "status-string",
+          "cssModifier": "nc-badge--status-string",
+          "default": false,
+          "label": "status-string"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-badge"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-badge-height-sm"
+        },
+        {
+          "token": "nc-badge-height-md"
+        },
+        {
+          "token": "nc-badge-radius"
+        },
+        {
+          "token": "nc-badge-padding-x-sm"
+        },
+        {
+          "token": "nc-badge-padding-x-md"
+        },
+        {
+          "token": "nc-badge-gap"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-badge-font-size-sm"
+        },
+        {
+          "token": "nc-badge-font-size-md"
+        },
+        {
+          "token": "nc-badge-font-weight"
+        },
+        {
+          "token": "nc-badge-letter-spacing"
+        },
+        {
+          "token": "nc-badge-line-height"
+        },
+        {
+          "token": "nc-badge-label-max-width"
+        }
+      ],
+      "Extras (Dot / Icon)": [
+        {
+          "token": "nc-badge-dot-size"
+        },
+        {
+          "token": "nc-badge-dot-radius"
+        },
+        {
+          "token": "nc-badge-icon-size"
+        }
+      ],
+      "Default": [
+        {
+          "token": "nc-badge-default-bg"
+        },
+        {
+          "token": "nc-badge-default-color"
+        },
+        {
+          "token": "nc-badge-default-border"
+        }
+      ],
+      "Secondary": [
+        {
+          "token": "nc-badge-secondary-bg"
+        },
+        {
+          "token": "nc-badge-secondary-color"
+        },
+        {
+          "token": "nc-badge-secondary-border"
+        }
+      ],
+      "Success": [
+        {
+          "token": "nc-badge-success-bg"
+        },
+        {
+          "token": "nc-badge-success-color"
+        },
+        {
+          "token": "nc-badge-success-border"
+        }
+      ],
+      "Warning": [
+        {
+          "token": "nc-badge-warning-bg"
+        },
+        {
+          "token": "nc-badge-warning-color"
+        },
+        {
+          "token": "nc-badge-warning-border"
+        }
+      ],
+      "Error": [
+        {
+          "token": "nc-badge-error-bg"
+        },
+        {
+          "token": "nc-badge-error-color"
+        },
+        {
+          "token": "nc-badge-error-border"
+        }
+      ],
+      "Info": [
+        {
+          "token": "nc-badge-info-bg"
+        },
+        {
+          "token": "nc-badge-info-color"
+        },
+        {
+          "token": "nc-badge-info-border"
+        }
+      ],
+      "Outline": [
+        {
+          "token": "nc-badge-outline-bg"
+        },
+        {
+          "token": "nc-badge-outline-color"
+        },
+        {
+          "token": "nc-badge-outline-border"
+        },
+        {
+          "token": "nc-badge-border-width"
+        }
+      ],
+      "Soft": [
+        {
+          "token": "nc-badge-soft-opacity"
+        }
+      ],
+      "Positioning (Decorator)": [
+        {
+          "token": "nc-badge-top-offset"
+        },
+        {
+          "token": "nc-badge-right-offset"
+        },
+        {
+          "token": "nc-badge-ring-width"
+        },
+        {
+          "token": "nc-badge-ring-color"
+        }
+      ],
+      "Pulse Animation": [
+        {
+          "token": "nc-badge-pulse-duration"
+        },
+        {
+          "token": "nc-badge-pulse-scale"
+        },
+        {
+          "token": "nc-badge-pulse-opacity"
+        }
+      ],
+      "Status String": [
+        {
+          "token": "nc-badge-status-font-weight"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "doNotRelyOnColorOnly"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "decorator": [
+              "dot"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Dot-Mode benoetigt immer ein begleitendes Text-Label oder aria-label. Dot allein ist nicht zugaenglich."
+      },
+      {
+        "when": {
+          "axes": {
+            "decorator": [
+              "counter"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-label"
+        ],
+        "note": "Counter zeigt visuell '99+', aber aria-label muss den echten Wert enthalten (z.B. aria-label='142 Benachrichtigungen')."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_badge.scss"
+    ],
+    "story": "stories/atoms/badge.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/BadgeArena.vue",
+    "drupal": [],
+    "docs": "docs/badge-docs.html"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-error",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "validation",
+    "feedback"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-error",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-form-error__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-form-error__text",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.",
+      "Icon ist ein SVG (stroke-basiert, 16px), optisch via margin-top: 0.1em an Text ausgerichtet.",
+      "Text erbt Styles vom Block (font-size, color, font-weight).",
+      "Wird via aria-describedby am zugehoerigen Input verknuepft (id='error-{name}').",
+      "role='alert' fuer sofortige Screenreader-Ansage, aria-live='polite' fuer sanfte Updates."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvarianten — text-only (nur Text), with-icon (Icon + Text)",
+      "values": [
+        {
+          "value": "text-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "text-only"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        }
+      ]
+    },
+    "severity": {
+      "label": "Severity",
+      "description": "Schweregrad der Meldung — error (Fehler, Standard), warning (Warnung), success (Erfolg/Bestaetigung)",
+      "values": [
+        {
+          "value": "error",
+          "cssModifier": null,
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-form-error--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-form-error--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-error"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-form-error-font-size"
+        },
+        {
+          "token": "nc-form-error-font-weight"
+        },
+        {
+          "token": "nc-form-error-icon-size"
+        },
+        {
+          "token": "nc-form-error-gap"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-form-error-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-alert"
+        ],
+        "note": "Error: role='alert' fuer sofortige Screenreader-Ansage bei Validierungsfehlern."
+      },
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "warning",
+              "success"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-live-polite"
+        ],
+        "note": "Warning/Success: aria-live='polite' fuer sanftes Update ohne Unterbrechung."
+      }
+    ]
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_form-error.scss"
+    ],
+    "story": "stories/molecules/form-error.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

@@ -5,17 +5,57 @@
     "component": "testimonial",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "social-proof"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/testimonial-docs" }
+    "tags": [
+      "display",
+      "content",
+      "social-proof"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/testimonial-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_testimonial.scss"
+      ],
+      "story": "stories/organisms/testimonial.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/testimonial-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-testimonial" },
+    "root": {
+      "element": ".nc-testimonial"
+    },
     "slots": [
-      { "name": "quote", "element": ".nc-testimonial__quote", "optional": false },
-      { "name": "author", "element": ".nc-testimonial__author", "optional": false },
-      { "name": "meta", "element": ".nc-testimonial__meta", "optional": true },
-      { "name": "name", "element": ".nc-testimonial__name", "optional": false },
-      { "name": "role", "element": ".nc-testimonial__role", "optional": true }
+      {
+        "name": "quote",
+        "element": ".nc-testimonial__quote",
+        "optional": false
+      },
+      {
+        "name": "author",
+        "element": ".nc-testimonial__author",
+        "optional": false
+      },
+      {
+        "name": "meta",
+        "element": ".nc-testimonial__meta",
+        "optional": true
+      },
+      {
+        "name": "name",
+        "element": ".nc-testimonial__name",
+        "optional": false
+      },
+      {
+        "name": "role",
+        "element": ".nc-testimonial__role",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -28,11 +68,24 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "testimonial-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "testimonial-default"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -42,27 +95,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-testimonial"],
+    "baseClasses": [
+      "nc-testimonial"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Testimonial",
+      "id": "default",
+      "label": "Testimonial",
       "description": "Zitat-Karte mit Autor und Rolle",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "testimonial" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Quote und Author kontrastreich auf secondary BG." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "testimonial"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Quote und Author kontrastreich auf secondary BG."
+      }
     }
   ]
 }

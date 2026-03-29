@@ -1,0 +1,298 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "file-upload",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "form",
+    "upload"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-file-upload",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-file-upload__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-file-upload__text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "subtext",
+        "selector": ".nc-file-upload__subtext",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "button",
+        "selector": ".nc-file-upload__button",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "input",
+        "selector": ".nc-file-upload__input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nc-file-upload-list",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-item",
+        "selector": ".nc-file-upload-list__item",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-icon",
+        "selector": ".nc-file-upload-list__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-name",
+        "selector": ".nc-file-upload-list__name",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-size",
+        "selector": ".nc-file-upload-list__size",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-remove",
+        "selector": ".nc-file-upload-list__remove",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list-progress",
+        "selector": ".nc-file-upload-list__progress",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Dropzone: flex-column zentriert, gestrichelte Border (dashed), Hover wechselt Border + BG.",
+      "Icon: 40px Upload-Icon, dekorativ (aria-hidden).",
+      "Text: Hauptanweisung (z.B. 'Dateien hierher ziehen').",
+      "Subtext: Erlaubte Typen/Groesse (z.B. 'PNG, JPG bis 5MB').",
+      "Button: Optionaler Browse-Button, nutzt .nc-button Styling.",
+      "Input: <input type='file'> ist sr-only — visuell versteckt aber zugaenglich.",
+      "Compact-Variante: flex-row, solid Border, kleineres Icon, Subtext hidden.",
+      "Dragging-State: border-hover + bg-hover + 2px Border (JS via Drag-Events).",
+      "Error-State: border-error Farbe auf der Dropzone.",
+      "Disabled-State: opacity-disabled, not-allowed, pointer-events:none.",
+      "Dateiliste: Separate Komponente (.nc-file-upload-list), flex-column.",
+      "List-Item: flex-row mit Icon, Name (ellipsis), Size, Remove-Button.",
+      "Item--error: border-error + bg-danger auf einzelne fehlerhafte Datei.",
+      "Item--uploading: opacity-medium waehrend Upload.",
+      "Progress-Bar: 3px, interactive-default Farbe, border-radius-full."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default (Dropzone mit Icon/Text), compact (kompakte Zeile mit Button)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-file-upload--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none (Standard), error (roter Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-file-upload--error",
+          "default": false,
+          "label": "error"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — dropzone-only (nur Dropzone), with-list (Dropzone + Dateiliste), with-progress (Dateiliste mit Upload-Fortschritt)",
+      "values": [
+        {
+          "value": "dropzone-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "dropzone-only"
+        },
+        {
+          "value": "with-list",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-list"
+        },
+        {
+          "value": "with-progress",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-progress"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "dragging",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "dragging",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-file-upload"
+    ],
+    "tokenGroups": {
+      "Dropzone": [
+        {
+          "token": "nc-file-upload-border"
+        },
+        {
+          "token": "nc-file-upload-border-style"
+        },
+        {
+          "token": "nc-file-upload-border-hover"
+        },
+        {
+          "token": "nc-file-upload-bg"
+        },
+        {
+          "token": "nc-file-upload-bg-hover"
+        },
+        {
+          "token": "nc-file-upload-radius"
+        },
+        {
+          "token": "nc-file-upload-padding"
+        }
+      ],
+      "Icon": [
+        {
+          "token": "nc-file-upload-icon-size"
+        },
+        {
+          "token": "nc-file-upload-icon-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby (z.B. 'Datei zu gross')."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf dem Input. Dropzone: aria-disabled='true'."
+      }
+    ]
+  },
+  "dependencies": [
+    "button"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_file-upload.scss"
+    ],
+    "story": "stories/organisms/file-upload.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/file-upload-docs.html"
+  }
+}

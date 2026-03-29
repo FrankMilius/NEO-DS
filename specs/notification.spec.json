@@ -1,0 +1,356 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "notification",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "feedback",
+    "news-alert",
+    "floating-card",
+    "in-app"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-notification",
+    "slots": [
+      {
+        "name": "media",
+        "selector": ".nc-notification__media",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-notification__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "header",
+        "selector": ".nc-notification__header",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-notification__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "meta",
+        "selector": ".nc-notification__meta",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "body",
+        "selector": ".nc-notification__body",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-notification__footer",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "action",
+        "selector": ".nc-notification__action",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-notification__close",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "unread",
+        "selector": ".nc-notification__unread",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Floating-Card Surface: surface-elevated BG + elevation-overlay Schatten (L2). Gleiche Ebene wie Popover.",
+      "role='article' auf jedem Notification-Item. aria-label mit Titel + Zeitstempel.",
+      "Media-Slot: 48×48 Thumbnail oder Avatar. Optional. Flexibles img/svg/div.",
+      "Header: Titel (semibold) + Meta-Zeile (Zeitstempel, Kategorie). Auf gleicher Zeile mit space-between.",
+      "Footer: Action-Links (CTA). Optional. Horizontale Anordnung mit gap.",
+      "Unread-Dot: 8px Kreis in Akzentfarbe. aria-hidden='true' — Status per aria-label am Root.",
+      "Unread-BG: Subtiler Akzent-Hintergrund (6% Mix der interaktiven Farbe) bei --unread Modifier.",
+      "Priority High: 4px Akzent-Border links. Farbe per Type-Variante steuerbar.",
+      "Type-Varianten setzen Akzentfarbe fuer Unread-Dot UND Priority-Border: feature (blau), system (gelb), promo (gruen).",
+      "Interaction: 'dismissible' zeigt Close-Button, 'permanent' versteckt ihn.",
+      "Close-Button: Absolut positioniert oben-rechts. aria-label='Benachrichtigung schliessen'.",
+      "Dismiss-Animation: max-height + padding + opacity → 0. JS fuegt .is-dismissing hinzu.",
+      "Shell-Integration: In Notification-Panel (Popover/Drawer) als Liste von .nc-notification Items.",
+      "Read-Receipt JS: Unread-Status per localStorage oder API. JS entfernt --unread Modifier nach Klick/Lesen.",
+      "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "priority": {
+      "label": "Priority",
+      "description": "Prioritaet — low (Standard, kein Akzent) oder high (Akzent-Border links)",
+      "values": [
+        {
+          "value": "low",
+          "cssModifier": null,
+          "default": false,
+          "label": "low"
+        },
+        {
+          "value": "high",
+          "cssModifier": "nc-notification--priority-high",
+          "default": false,
+          "label": "high"
+        }
+      ]
+    },
+    "type": {
+      "label": "Type",
+      "description": "Inhaltskategorie — feature (blau), system (gelb), promo (gruen)",
+      "values": [
+        {
+          "value": "feature",
+          "cssModifier": "nc-notification--feature",
+          "default": false,
+          "label": "feature"
+        },
+        {
+          "value": "system",
+          "cssModifier": "nc-notification--system",
+          "default": false,
+          "label": "system"
+        },
+        {
+          "value": "promo",
+          "cssModifier": "nc-notification--promo",
+          "default": false,
+          "label": "promo"
+        }
+      ]
+    },
+    "interaction": {
+      "label": "Interaction",
+      "description": "Interaktionsmodell — dismissible (Close-Button) oder permanent (kein Close)",
+      "values": [
+        {
+          "value": "dismissible",
+          "cssModifier": null,
+          "default": false,
+          "label": "dismissible"
+        },
+        {
+          "value": "permanent",
+          "cssModifier": "nc-notification--permanent",
+          "default": false,
+          "label": "permanent"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "unread",
+      "dismissing"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "unread",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "dismissing",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-notification"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-notification-padding"
+        },
+        {
+          "token": "nc-notification-radius"
+        },
+        {
+          "token": "nc-notification-shadow"
+        },
+        {
+          "token": "nc-notification-bg"
+        },
+        {
+          "token": "nc-notification-border-width"
+        },
+        {
+          "token": "nc-notification-border-color"
+        },
+        {
+          "token": "nc-notification-max-width"
+        },
+        {
+          "token": "nc-notification-gap"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-notification-header-gap"
+        },
+        {
+          "token": "nc-notification-title-size"
+        },
+        {
+          "token": "nc-notification-title-weight"
+        },
+        {
+          "token": "nc-notification-title-color"
+        },
+        {
+          "token": "nc-notification-meta-size"
+        },
+        {
+          "token": "nc-notification-meta-color"
+        }
+      ],
+      "Body": [
+        {
+          "token": "nc-notification-body-size"
+        },
+        {
+          "token": "nc-notification-body-color"
+        },
+        {
+          "token": "nc-notification-body-line-height"
+        }
+      ],
+      "Media Slot": [
+        {
+          "token": "nc-notification-media-size"
+        },
+        {
+          "token": "nc-notification-media-radius"
+        }
+      ],
+      "Unread Indicator": [
+        {
+          "token": "nc-notification-unread-dot-size"
+        },
+        {
+          "token": "nc-notification-unread-dot-color"
+        },
+        {
+          "token": "nc-notification-unread-bg"
+        }
+      ],
+      "Close Button": [
+        {
+          "token": "nc-notification-close-size"
+        },
+        {
+          "token": "nc-notification-close-radius"
+        },
+        {
+          "token": "nc-notification-close-opacity"
+        },
+        {
+          "token": "nc-notification-close-opacity-hover"
+        }
+      ],
+      "Footer / Actions": [
+        {
+          "token": "nc-notification-footer-gap"
+        },
+        {
+          "token": "nc-notification-action-size"
+        },
+        {
+          "token": "nc-notification-action-weight"
+        },
+        {
+          "token": "nc-notification-action-color"
+        }
+      ],
+      "Priority (High)": [
+        {
+          "token": "nc-notification-priority-border-width"
+        },
+        {
+          "token": "nc-notification-priority-border-color"
+        }
+      ],
+      "Type Colors": [
+        {
+          "token": "nc-notification-feature-color"
+        },
+        {
+          "token": "nc-notification-system-color"
+        },
+        {
+          "token": "nc-notification-promo-color"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-notification-transition-duration"
+        },
+        {
+          "token": "nc-notification-dismiss-duration"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "unread"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-label-unread"
+        ],
+        "note": "Ungelesene Items: aria-label enthaelt 'Ungelesen:' Praefix oder aria-live Region fuer Zaehler-Update."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_notification.scss"
+    ],
+    "story": "stories/organisms/notification.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/NotificationArena.vue",
+    "drupal": [],
+    "docs": "docs/notification-docs.html"
+  }
+}

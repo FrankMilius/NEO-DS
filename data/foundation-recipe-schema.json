@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NEO Foundation Recipe Schema",
+  "description": "Schema fuer Foundation Token Spezifikationen — maschinenlesbare Specs fuer Token-Kategorien wie Farben, Typografie, Spacing, etc.",
+  "type": "object",
+  "required": ["$schema", "meta", "tokens"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "required": ["category", "version", "status"],
+      "properties": {
+        "category": { "type": "string", "description": "Foundation-Kategorie (z.B. spacing, typography, color-primitives)" },
+        "version": { "type": "string" },
+        "status": { "enum": ["stable", "beta", "deprecated"] },
+        "tokenSource": { "type": "string", "description": "Pfad in design-tokens.json (z.B. foundation.spacing)" },
+        "pipeline": {
+          "type": "object",
+          "properties": {
+            "scss": { "type": "array", "items": { "type": "string" } },
+            "generatedScss": { "type": "array", "items": { "type": "string" } },
+            "docs": { "type": "string" },
+            "editor": { "type": "string" },
+            "story": { "type": "string" }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["token", "value"],
+        "properties": {
+          "token": { "type": "string", "description": "CSS Custom Property Name (z.B. --fnd-spacing-04)" },
+          "value": { "type": "string", "description": "Konkreter Wert oder clamp()-Ausdruck" },
+          "category": { "type": "string", "description": "Unterkategorie (z.B. static, fluid)" },
+          "description": { "type": "string" },
+          "usage": { "type": "string", "description": "Typische Verwendung" }
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "do": { "type": "array", "items": { "type": "string" } },
+        "dont": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "relatedComponents": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Komponenten die diese Foundation-Tokens konsumieren"
+    },
+    "a11y": {
+      "type": "object",
+      "properties": {
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

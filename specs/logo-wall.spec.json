@@ -1,0 +1,318 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "logo-wall",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "branding",
+    "logos",
+    "partner",
+    "marquee"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-logo-wall",
+    "slots": [
+      {
+        "name": "pill",
+        "selector": ".nc-logo-pill",
+        "required": true,
+        "description": "Einzelnes Logo-Item. Flex-Container mit Border, Radius, Padding."
+      },
+      {
+        "name": "track",
+        "selector": ".nc-logo-wall__track",
+        "required": false,
+        "description": "Marquee-Track. Flex-Container mit verdoppeltem Inhalt fuer Endlosschleife."
+      }
+    ],
+    "notes": [
+      "Root: display:grid (default), display:flex (marquee/cluster). Gap via Token.",
+      "Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.",
+      "Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.",
+      "Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.",
+      "Marquee: Track mit dupliziertem Inhalt. @keyframes translateX(-50%). pause-on-hover.",
+      "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
+      "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
+      "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Anordnung — grid (responsives Raster), marquee (Endlos-Ticker), cluster (organisch)",
+      "values": [
+        {
+          "value": "grid",
+          "cssModifier": null,
+          "default": false,
+          "label": "grid"
+        },
+        {
+          "value": "marquee",
+          "cssModifier": "nc-logo-wall--marquee",
+          "default": false,
+          "label": "marquee"
+        },
+        {
+          "value": "cluster",
+          "cssModifier": "nc-logo-wall--cluster",
+          "default": false,
+          "label": "cluster"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groesse der Logo-Boxen — sm (kompakt/Footer), md (Standard), lg (Feature)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-logo-wall--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-logo-wall--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "appearance": {
+      "label": "Appearance",
+      "description": "Darstellung — original (Markenfarben), mono (Grayscale, Hover = Farbe)",
+      "values": [
+        {
+          "value": "original",
+          "cssModifier": null,
+          "default": false,
+          "label": "original"
+        },
+        {
+          "value": "mono",
+          "cssModifier": "nc-logo-wall--mono",
+          "default": false,
+          "label": "mono"
+        }
+      ]
+    },
+    "animation": {
+      "label": "Animation",
+      "description": "Einblendung — none (sofort), fadein (gestaffeltes Einblenden per Intersection Observer)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "fadein",
+          "cssModifier": "nc-logo-wall--fadein",
+          "default": false,
+          "label": "fadein"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-logo-wall"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-logo-wall-gap"
+        },
+        {
+          "token": "nc-logo-wall-padding-block"
+        },
+        {
+          "token": "nc-logo-wall-padding-inline"
+        },
+        {
+          "token": "nc-logo-wall-grid-min"
+        },
+        {
+          "token": "nc-logo-wall-align"
+        }
+      ],
+      "Item (Pill)": [
+        {
+          "token": "nc-logo-wall-item-bg"
+        },
+        {
+          "token": "nc-logo-wall-item-border"
+        },
+        {
+          "token": "nc-logo-wall-item-border-width"
+        },
+        {
+          "token": "nc-logo-wall-item-radius"
+        },
+        {
+          "token": "nc-logo-wall-item-padding"
+        },
+        {
+          "token": "nc-logo-wall-item-aspect-ratio"
+        },
+        {
+          "token": "nc-logo-wall-item-shadow"
+        },
+        {
+          "token": "nc-logo-wall-item-transition"
+        }
+      ],
+      "Sizing": [
+        {
+          "token": "nc-logo-wall-item-width-sm"
+        },
+        {
+          "token": "nc-logo-wall-item-width-md"
+        },
+        {
+          "token": "nc-logo-wall-item-width-lg"
+        },
+        {
+          "token": "nc-logo-wall-item-height"
+        },
+        {
+          "token": "nc-logo-wall-logo-max-height"
+        }
+      ],
+      "Logo Image": [
+        {
+          "token": "nc-logo-wall-logo-opacity"
+        },
+        {
+          "token": "nc-logo-wall-logo-filter"
+        },
+        {
+          "token": "nc-logo-wall-logo-filter-hover"
+        },
+        {
+          "token": "nc-logo-wall-logo-opacity-hover"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-logo-wall-font-size"
+        },
+        {
+          "token": "nc-logo-wall-font-weight"
+        },
+        {
+          "token": "nc-logo-wall-color"
+        }
+      ],
+      "Marquee": [
+        {
+          "token": "nc-logo-wall-marquee-speed"
+        },
+        {
+          "token": "nc-logo-wall-marquee-gap"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-logo-wall-fadein-duration"
+        },
+        {
+          "token": "nc-logo-wall-fadein-delay-step"
+        },
+        {
+          "token": "nc-logo-wall-fadein-easing"
+        }
+      ],
+      "Hover": [
+        {
+          "token": "nc-logo-wall-item-hover-shadow"
+        },
+        {
+          "token": "nc-logo-wall-item-hover-border"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "layout": [
+              "marquee"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Marquee muss bei prefers-reduced-motion pausieren."
+      },
+      {
+        "when": {
+          "axes": {
+            "animation": [
+              "fadein"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Fade-In bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_logo-wall.scss"
+    ],
+    "story": "stories/molecules/logo-wall.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-logo-wall.html.twig",
+      "block--inline-block--neo-logo-wall.html.twig"
+    ],
+    "docs": "docs/logo-wall-docs.html"
+  }
+}

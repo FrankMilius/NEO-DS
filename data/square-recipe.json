@@ -5,11 +5,30 @@
     "component": "square",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["decorative", "display"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/square-docs" }
+    "tags": [
+      "decorative",
+      "display"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/square-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_square.scss"
+      ],
+      "story": "stories/organisms/square.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/square-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".square" },
+    "root": {
+      "element": ".square"
+    },
     "slots": [],
     "convenience": [],
     "domNotes": [
@@ -23,24 +42,65 @@
       "label": "Variant",
       "description": "Farbvariante — default (accent), white, dark, adaptive, blinking",
       "values": {
-        "default":  { "modifier": null,    "tokenGroups": [], "renderHint": "square-default" },
-        "white":    { "modifier": null,    "tokenGroups": [], "renderHint": "square-white" },
-        "dark":     { "modifier": null,    "tokenGroups": [], "renderHint": "square-dark" },
-        "adaptive": { "modifier": null,    "tokenGroups": [], "renderHint": "square-adaptive" },
-        "blinking": { "modifier": null,    "tokenGroups": [], "renderHint": "square-blinking" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-default"
+        },
+        "white": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-white"
+        },
+        "dark": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-dark"
+        },
+        "adaptive": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-adaptive"
+        },
+        "blinking": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-blinking"
+        }
       }
     },
     "size": {
       "label": "Size",
       "description": "Groesse — sm (8px), md (10px Standard), lg (12px)",
       "values": {
-        "sm": { "modifier": "square-s",  "tokenGroups": [], "renderHint": "square-sm" },
-        "md": { "modifier": null,        "tokenGroups": [], "renderHint": "square-md" },
-        "lg": { "modifier": "square-l",  "tokenGroups": [], "renderHint": "square-lg" }
+        "sm": {
+          "modifier": "square-s",
+          "tokenGroups": [],
+          "renderHint": "square-sm"
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "square-md"
+        },
+        "lg": {
+          "modifier": "square-l",
+          "tokenGroups": [],
+          "renderHint": "square-lg"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -50,27 +110,74 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["square"],
+    "baseClasses": [
+      "square"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier", "axes.size.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier",
+        "axes.size.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Variant Comparison",
+      "id": "variant-comparison",
+      "label": "Variant Comparison",
       "description": "Default, White, Dark, Adaptive, Blinking",
-      "matrix": { "axes": { "variant": "*", "size": ["md"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Dekorativ — kein Kontrastziel erforderlich." }
+      "matrix": {
+        "axes": {
+          "variant": "*",
+          "size": [
+            "md"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Dekorativ — kein Kontrastziel erforderlich."
+      }
     }
   ]
 }

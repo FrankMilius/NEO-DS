@@ -1,0 +1,88 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "text-blocks",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "typography",
+    "display",
+    "content"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-section-title",
+    "slots": [],
+    "notes": [
+      "Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead (.nc-lead).",
+      "Section-Title: font-heading, fs-3xl, margin-bottom 4rem.",
+      "Eyebrow: uppercase, fs-xs, letter-spacing 0.2em, text-secondary.",
+      "Lead: fs-lg, text-secondary, max-width 56ch."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Text-Block-Typ — section-title, eyebrow, lead",
+      "values": [
+        {
+          "value": "section-title",
+          "cssModifier": null,
+          "default": false,
+          "label": "section-title"
+        },
+        {
+          "value": "eyebrow",
+          "cssModifier": null,
+          "default": false,
+          "label": "eyebrow"
+        },
+        {
+          "value": "lead",
+          "cssModifier": null,
+          "default": false,
+          "label": "lead"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-section-title"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [
+    "section"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_text-blocks.scss"
+    ],
+    "story": "stories/organisms/text-blocks.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/text-blocks-docs.html"
+  }
+}

@@ -1,0 +1,419 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "label",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "display",
+    "tag",
+    "decorative",
+    "status",
+    "metadata"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-label",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-label__icon",
+        "required": true,
+        "description": "Optionales Status-Icon links vom Text (z.B. Check bei success, Warn-Dreieck bei danger)"
+      },
+      {
+        "name": "text",
+        "selector": ".nc-label__text",
+        "required": true,
+        "description": "Label-Text"
+      },
+      {
+        "name": "remove",
+        "selector": ".nc-label__remove",
+        "required": true,
+        "description": "Dismiss-Button (X) bei interaktiven Filter-Labels"
+      }
+    ],
+    "notes": [
+      "Inline-flex Element mit static-surface-base Mixin.",
+      "Visuell immer leiser als Buttons — subtile Pastelltoene bevorzugen.",
+      "Emphasis subtle (Standard): Pastellton-BG + dunkler Text gleicher Farbfamilie.",
+      "Emphasis solid: Kraeftiger BG + heller Text — nur fuer hohe Prioritaet.",
+      "Emphasis outline: Nur Rahmen, kein BG — fuer sekundaere Metadaten.",
+      "Shape pill: Vollstaendig abgerundete Seiten — klar abgegrenzt von Buttons.",
+      "Container: .nc-labels-container (flex-wrap, gap) fuer Gruppen-Layout.",
+      "Icons beschleunigen Scanbarkeit: Check-Icon bei success, Warn-Dreieck bei danger."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Farbvariante — default, accent, success, warning, danger, info",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "nc-label--accent",
+          "default": false,
+          "label": "accent"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-label--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-label--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-label--danger",
+          "default": false,
+          "label": "danger"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-label--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Visuelle Gewichtung — subtle (Pastell, Standard), solid (kraeftig), outline (nur Rahmen)",
+      "values": [
+        {
+          "value": "subtle",
+          "cssModifier": null,
+          "default": false,
+          "label": "subtle"
+        },
+        {
+          "value": "solid",
+          "cssModifier": "nc-label--solid",
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-label--outline",
+          "default": false,
+          "label": "outline"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groesse — xs (dichte Listen), sm (Standard), md (Header/Hero)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-label--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": null,
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-label--md",
+          "default": false,
+          "label": "md"
+        }
+      ]
+    },
+    "shape": {
+      "label": "Shape",
+      "description": "Form — rounded (System-Radius, Standard), pill (vollstaendig abgerundet)",
+      "values": [
+        {
+          "value": "rounded",
+          "cssModifier": null,
+          "default": false,
+          "label": "rounded"
+        },
+        {
+          "value": "pill",
+          "cssModifier": "nc-label--pill",
+          "default": false,
+          "label": "pill"
+        }
+      ]
+    },
+    "interactive": {
+      "label": "Interactive",
+      "description": "Interaktivitaet — false (Standard, rein dekorativ), true (Hover + Remove-Button)",
+      "values": [
+        {
+          "value": "false",
+          "cssModifier": null,
+          "default": false,
+          "label": "false"
+        },
+        {
+          "value": "true",
+          "cssModifier": "nc-label--interactive",
+          "default": false,
+          "label": "true"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-label"
+    ],
+    "tokenGroups": {
+      "Geometry (SM Default)": [
+        {
+          "token": "nc-label-height-sm"
+        },
+        {
+          "token": "nc-label-padding-x"
+        },
+        {
+          "token": "nc-label-radius"
+        },
+        {
+          "token": "nc-label-font-size"
+        },
+        {
+          "token": "nc-label-font-weight"
+        },
+        {
+          "token": "nc-label-gap"
+        },
+        {
+          "token": "nc-label-letter-spacing"
+        },
+        {
+          "token": "nc-label-icon-size"
+        }
+      ],
+      "Geometry (XS)": [
+        {
+          "token": "nc-label-height-xs"
+        },
+        {
+          "token": "nc-label-padding-x-xs"
+        },
+        {
+          "token": "nc-label-font-size-xs"
+        }
+      ],
+      "Geometry (MD)": [
+        {
+          "token": "nc-label-height-md"
+        },
+        {
+          "token": "nc-label-padding-x-md"
+        },
+        {
+          "token": "nc-label-font-size-md"
+        }
+      ],
+      "Shape (Pill)": [
+        {
+          "token": "nc-label-radius-pill"
+        },
+        {
+          "token": "nc-label-radius"
+        }
+      ],
+      "Colors (Default)": [
+        {
+          "token": "nc-label-default-bg"
+        },
+        {
+          "token": "nc-label-default-color"
+        },
+        {
+          "token": "nc-label-default-border"
+        },
+        {
+          "token": "nc-label-default-bg-hover"
+        }
+      ],
+      "Colors (Accent)": [
+        {
+          "token": "nc-label-accent-bg"
+        },
+        {
+          "token": "nc-label-accent-color"
+        },
+        {
+          "token": "nc-label-accent-border"
+        },
+        {
+          "token": "nc-label-accent-bg-hover"
+        }
+      ],
+      "Colors (Success)": [
+        {
+          "token": "nc-label-success-bg"
+        },
+        {
+          "token": "nc-label-success-color"
+        },
+        {
+          "token": "nc-label-success-border"
+        },
+        {
+          "token": "nc-label-success-bg-hover"
+        }
+      ],
+      "Colors (Warning)": [
+        {
+          "token": "nc-label-warning-bg"
+        },
+        {
+          "token": "nc-label-warning-color"
+        },
+        {
+          "token": "nc-label-warning-border"
+        },
+        {
+          "token": "nc-label-warning-bg-hover"
+        }
+      ],
+      "Colors (Danger)": [
+        {
+          "token": "nc-label-danger-bg"
+        },
+        {
+          "token": "nc-label-danger-color"
+        },
+        {
+          "token": "nc-label-danger-border"
+        },
+        {
+          "token": "nc-label-danger-bg-hover"
+        }
+      ],
+      "Colors (Info)": [
+        {
+          "token": "nc-label-info-bg"
+        },
+        {
+          "token": "nc-label-info-color"
+        },
+        {
+          "token": "nc-label-info-border"
+        },
+        {
+          "token": "nc-label-info-bg-hover"
+        }
+      ],
+      "Solid Emphasis": [
+        {
+          "token": "nc-label-solid-default-bg"
+        },
+        {
+          "token": "nc-label-solid-default-color"
+        }
+      ],
+      "Outline Emphasis": [
+        {
+          "token": "nc-label-outline-border-width"
+        }
+      ],
+      "Interactive": [
+        {
+          "token": "nc-label-transition-duration"
+        },
+        {
+          "token": "nc-label-remove-size"
+        },
+        {
+          "token": "nc-label-remove-hover-bg"
+        },
+        {
+          "token": "nc-label-disabled-opacity"
+        }
+      ],
+      "Container (Gruppen-Layout)": [
+        {
+          "token": "nc-label-container-gap"
+        },
+        {
+          "token": "nc-label-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "Farbe nie alleiniges Signal — Icon oder Text muss Bedeutung vermitteln.",
+      "Interaktive Labels: <button> oder <a> verwenden, nicht <span>.",
+      "Remove-Button: aria-label='Entfernen: {Label-Text}' am X-Button."
+    ],
+    "overrides": [
+      {
+        "require": [],
+        "suggest": [],
+        "note": "Interaktive Labels brauchen focus-visible und Tastatur-Bedienung."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_label.scss"
+    ],
+    "story": "stories/atoms/label.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/LabelArena.vue",
+    "drupal": [],
+    "docs": "docs/label-docs.html"
+  }
+}

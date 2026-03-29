@@ -5,20 +5,52 @@
     "component": "fieldset",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["form", "layout", "grouping"],
+    "tags": [
+      "form",
+      "layout",
+      "grouping"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/fieldset-docs"
-    }
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_fieldset.scss"
+      ],
+      "story": "stories/organisms/fieldset.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/FieldsetArena.vue",
+      "drupal": [],
+      "docs": null
+    },
+    "dependencies": [
+      "checkbox",
+      "form",
+      "radio"
+    ]
   },
-
   "anatomy": {
-    "root": { "element": ".nc-fieldset" },
+    "root": {
+      "element": ".nc-fieldset"
+    },
     "slots": [
-      { "name": "legend", "element": ".nc-fieldset__legend", "optional": false },
-      { "name": "helper", "element": ".nc-fieldset__helper", "optional": true },
-      { "name": "required", "element": ".nc-fieldset__required", "optional": true }
+      {
+        "name": "legend",
+        "element": ".nc-fieldset__legend",
+        "optional": false
+      },
+      {
+        "name": "helper",
+        "element": ".nc-fieldset__helper",
+        "optional": true
+      },
+      {
+        "name": "required",
+        "element": ".nc-fieldset__required",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -38,66 +70,141 @@
       "Enthaltene Kinder: .nc-form-field, .nc-checkbox-group, .nc-radio-group — eigene Tokens."
     ]
   },
-
   "axes": {
     "appearance": {
       "label": "Appearance",
       "description": "Section-Style — plain (Border), card (Hintergrund + Schatten), borderless (nur semantisch)",
       "values": {
-        "plain":      { "modifier": null,                          "tokenGroups": ["container"],   "renderHint": "fieldset-plain" },
-        "card":       { "modifier": "nc-fieldset--card",           "tokenGroups": ["card"],        "renderHint": "fieldset-card" },
-        "borderless": { "modifier": "nc-fieldset--borderless",     "tokenGroups": [],              "renderHint": "fieldset-borderless" }
+        "plain": {
+          "modifier": null,
+          "tokenGroups": [
+            "container"
+          ],
+          "renderHint": "fieldset-plain"
+        },
+        "card": {
+          "modifier": "nc-fieldset--card",
+          "tokenGroups": [
+            "card"
+          ],
+          "renderHint": "fieldset-card"
+        },
+        "borderless": {
+          "modifier": "nc-fieldset--borderless",
+          "tokenGroups": [],
+          "renderHint": "fieldset-borderless"
+        }
       }
     },
     "density": {
       "label": "Density",
       "description": "Steuert Padding und Gap — compact fuer schmale Sidebars, loose fuer Full-Page-Formulare",
       "values": {
-        "default": { "modifier": null,                        "tokenGroups": [] },
-        "compact": { "modifier": "nc-fieldset--compact",      "tokenGroups": ["density-compact"] },
-        "loose":   { "modifier": "nc-fieldset--loose",        "tokenGroups": ["density-loose"] }
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "compact": {
+          "modifier": "nc-fieldset--compact",
+          "tokenGroups": [
+            "density-compact"
+          ]
+        },
+        "loose": {
+          "modifier": "nc-fieldset--loose",
+          "tokenGroups": [
+            "density-loose"
+          ]
+        }
       }
     },
     "legend-align": {
       "label": "Legend Alignment",
       "description": "Ausrichtung der Legend — start (Standard), center (zentriert fuer Login/Registrierung)",
       "values": {
-        "start":  { "modifier": null,                            "tokenGroups": [] },
-        "center": { "modifier": "nc-fieldset--legend-center",   "tokenGroups": [] }
+        "start": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "center": {
+          "modifier": "nc-fieldset--legend-center",
+          "tokenGroups": []
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "disabled"],
-    "precedence": ["disabled", "default"],
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "default"
+    ],
     "rules": [
-      { "state": "disabled", "unless": [], "note": "Disabled: <fieldset disabled> deaktiviert alle Controls nativ. Visuell: opacity-disabled, legend text-disabled." }
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: <fieldset disabled> deaktiviert alle Controls nativ. Visuell: opacity-disabled, legend text-disabled."
+      }
     ],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "<fieldset> + <legend> gruppiert zusammengehoerige Controls. Screen Reader liest Legend als Gruppen-Label. Kein aria-labelledby noetig wenn <legend> vorhanden. Native :disabled propagiert auf alle enthaltenen Controls. Helper-Text per aria-describedby verknuepft."
     },
     "overrides": [
       {
-        "when": { "states": ["disabled"] },
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
         "suggest": [],
         "note": "Disabled: Native <fieldset disabled> reicht — kein zusaetzliches ARIA noetig. Alle enthaltenen Inputs werden automatisch disabled."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["fieldset-legend"], "notes": ["Jedes <fieldset> braucht eine <legend> als Gruppen-Label fuer Screen Reader."] },
-      { "when": {}, "require": ["native-fieldset"], "notes": ["Muss natives <fieldset>-Element sein — kein <div role='group'> als Ersatz."] },
-      { "when": { "slots": ["helper"] }, "require": ["aria-describedby"], "notes": ["Helper-Text muss per aria-describedby auf dem <fieldset> verknuepft sein."] }
+      {
+        "when": {},
+        "require": [
+          "fieldset-legend"
+        ],
+        "notes": [
+          "Jedes <fieldset> braucht eine <legend> als Gruppen-Label fuer Screen Reader."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "native-fieldset"
+        ],
+        "notes": [
+          "Muss natives <fieldset>-Element sein — kein <div role='group'> als Ersatz."
+        ]
+      },
+      {
+        "when": {
+          "slots": [
+            "helper"
+          ]
+        },
+        "require": [
+          "aria-describedby"
+        ],
+        "notes": [
+          "Helper-Text muss per aria-describedby auf dem <fieldset> verknuepft sein."
+        ]
+      }
     ],
     "copy": {
       "legend": {
@@ -110,11 +217,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-fieldset"],
-    "baseTokenGroups": ["container", "legend"],
-
+    "baseClasses": [
+      "nc-fieldset"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "legend"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -172,12 +282,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -192,18 +309,32 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default (Plain)",
       "description": "Fieldset mit Border, Legend und Form-Fields",
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-with-fields", "label": "default" },
+      "render": {
+        "compositionType": "fieldset-with-fields",
+        "label": "default"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Legend 4.5:1 gegen Hintergrund. Border 3:1 gegen Hintergrund. <fieldset>+<legend> semantisch korrekt."
@@ -214,11 +345,26 @@
       "label": "Card Variant",
       "description": "Fieldset mit Hintergrund-Fuellung und Schatten statt Border",
       "matrix": {
-        "axes": { "appearance": ["card"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "card"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-card", "label": "card" },
+      "render": {
+        "compositionType": "fieldset-card",
+        "label": "card"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Card-Hintergrund muss 3:1 Kontrast zum umgebenden Hintergrund haben."
@@ -229,12 +375,26 @@
       "label": "Appearance Comparison",
       "description": "Plain vs Card vs Borderless — alle drei Section-Styles",
       "matrix": {
-        "axes": { "appearance": "*", "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": "*",
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "appearance" },
-      "render": { "label": "{appearance}" },
+      "layoutConfig": {
+        "rowAxis": "appearance"
+      },
+      "render": {
+        "label": "{appearance}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Borderless: gleiche Semantik, keine visuelle Abgrenzung. Card: Hintergrund hebt Abschnitt hervor."
@@ -245,12 +405,26 @@
       "label": "Density Comparison",
       "description": "Default vs Compact vs Loose — Abstände im Vergleich",
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": "*", "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": "*",
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "density" },
-      "render": { "label": "{density}" },
+      "layoutConfig": {
+        "rowAxis": "density"
+      },
+      "render": {
+        "label": "{density}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Compact: weniger Abstand, gleiche Semantik. Loose: grosszuegiger Abstand fuer Full-Page-Formulare."
@@ -261,11 +435,26 @@
       "label": "Centered Legend",
       "description": "Zentrierte Legend fuer symmetrische Formulare (Login, Registrierung)",
       "matrix": {
-        "axes": { "appearance": ["card"], "density": ["default"], "legend-align": ["center"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "card"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "center"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-centered", "label": "centered" },
+      "render": {
+        "compositionType": "fieldset-centered",
+        "label": "centered"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Zentrierte Legend: gleiche Semantik, rein visuell."
@@ -276,11 +465,26 @@
       "label": "With Helper Text",
       "description": "Fieldset mit Gruppen-Beschreibung unter der Legend",
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-with-helper", "label": "helper" },
+      "render": {
+        "compositionType": "fieldset-with-helper",
+        "label": "helper"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Helper-Text per aria-describedby verknuepft. Screen Reader liest Legend + Helper."
@@ -291,11 +495,26 @@
       "label": "Required Group",
       "description": "Fieldset mit Pflicht-Indikator in der Legend",
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-required", "label": "required" },
+      "render": {
+        "compositionType": "fieldset-required",
+        "label": "required"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Pflicht-Indikator (*) visuell in der Legend. Screen Reader: aria-required auf den enthaltenen Controls."
@@ -306,11 +525,26 @@
       "label": "Disabled Fieldset",
       "description": "Deaktiviertes Fieldset — alle enthaltenen Controls deaktiviert",
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["disabled"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-disabled", "label": "disabled" },
+      "render": {
+        "compositionType": "fieldset-disabled",
+        "label": "disabled"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Native <fieldset disabled> propagiert auf alle Controls. Opacity-disabled visuelles Feedback."
@@ -320,13 +554,30 @@
       "id": "with-checkboxes",
       "label": "With Checkbox Group",
       "description": "Fieldset mit Checkbox-Gruppe und Helper-Text",
-      "composes": ["checkbox"],
+      "composes": [
+        "checkbox"
+      ],
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-checkboxes", "label": "checkboxes" },
+      "render": {
+        "compositionType": "fieldset-checkboxes",
+        "label": "checkboxes"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Legend gruppiert die Checkboxen semantisch. Jede Checkbox hat eigenes Label."
@@ -336,13 +587,30 @@
       "id": "with-radios",
       "label": "With Radio Group",
       "description": "Fieldset mit Radio-Gruppe — exklusive Auswahl",
-      "composes": ["radio"],
+      "composes": [
+        "radio"
+      ],
       "matrix": {
-        "axes": { "appearance": ["plain"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "plain"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-radios", "label": "radios" },
+      "render": {
+        "compositionType": "fieldset-radios",
+        "label": "radios"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Legend beschreibt die Auswahl. Radio-Buttons: name-Attribut gruppiert, Keyboard Arrow navigiert."
@@ -352,20 +620,37 @@
       "id": "nested-form",
       "label": "Multi-Section Form",
       "description": "Mehrere Fieldsets in einem Formular mit verschiedenen Appearances",
-      "composes": ["form-field", "form-label"],
+      "composes": [
+        "form-field",
+        "form-label"
+      ],
       "matrix": {
-        "axes": { "appearance": ["card"], "density": ["default"], "legend-align": ["start"] },
-        "states": ["default"]
+        "axes": {
+          "appearance": [
+            "card"
+          ],
+          "density": [
+            "default"
+          ],
+          "legend-align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "fieldset-nested-form", "label": "nested" },
+      "render": {
+        "compositionType": "fieldset-nested-form",
+        "label": "nested"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Fieldsets als logische Abschnitte. Screen Reader liest Legend pro Abschnitt."
       }
     }
   ],
-
   "tokenDependencies": [
     {
       "source": "nc-card-shadow",

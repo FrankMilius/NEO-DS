@@ -1,0 +1,143 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "card-grid",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "content",
+    "grid",
+    "cards"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-card-grid",
+    "slots": [
+      {
+        "name": "card",
+        "selector": ".nc-card",
+        "required": true,
+        "description": "Einzelne Card im Grid."
+      }
+    ],
+    "notes": [
+      "CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "pattern": {
+      "label": "Pattern",
+      "description": "Card-Variante",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "preview",
+          "cssModifier": null,
+          "default": false,
+          "label": "preview"
+        },
+        {
+          "value": "featured",
+          "cssModifier": null,
+          "default": false,
+          "label": "featured"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "animation": {
+      "label": "Animation",
+      "description": "Scroll-basierte Einblendanimation",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "reverse-domino",
+          "cssModifier": null,
+          "default": false,
+          "label": "reverse-domino"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-card-grid"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-card-grid-columns"
+        },
+        {
+          "token": "nc-card-grid-gap"
+        },
+        {
+          "token": "nc-card-grid-title-size"
+        },
+        {
+          "token": "nc-card-grid-title-margin"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-card-grid-anim-duration"
+        },
+        {
+          "token": "nc-card-grid-anim-delay"
+        },
+        {
+          "token": "nc-card-grid-anim-translate-y"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [
+    "card"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/card-grid.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-card-grid.html.twig",
+      "block--inline-block--neo-card-grid.html.twig"
+    ],
+    "docs": null
+  }
+}

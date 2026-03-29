@@ -5,11 +5,31 @@
     "component": "link-with-arrow",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["navigation", "interactive", "link"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/link-with-arrow-docs" }
+    "tags": [
+      "navigation",
+      "interactive",
+      "link"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/link-with-arrow-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_link-with-arrow.scss"
+      ],
+      "story": "stories/molecules/link-with-arrow.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/link-with-arrow-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".link-with-arrow" },
+    "root": {
+      "element": ".link-with-arrow"
+    },
     "slots": [],
     "convenience": [],
     "domNotes": [
@@ -23,16 +43,36 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "link-with-arrow-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "link-with-arrow-default"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover", "focus"],
-    "precedence": ["focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": [], "note": "Hover: Farbe wechselt zu text-secondary." },
-      { "state": "focus", "unless": [], "note": "Focus: focus-ring." }
+      {
+        "state": "hover",
+        "unless": [],
+        "note": "Hover: Farbe wechselt zu text-secondary."
+      },
+      {
+        "state": "focus",
+        "unless": [],
+        "note": "Focus: focus-ring."
+      }
     ],
     "interactive": true
   },
@@ -40,37 +80,88 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "<a> Element mit Linktext + dekorativem Pfeil-Icon (aria-hidden)."
     },
     "overrides": []
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Link braucht sichtbaren Linktext."] }
+      {
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Link braucht sichtbaren Linktext."
+        ]
+      }
     ],
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["link-with-arrow"],
+    "baseClasses": [
+      "link-with-arrow"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Link with Arrow",
+      "id": "default",
+      "label": "Link with Arrow",
       "description": "Standard Link mit Pfeil-Icon",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default", "hover", "focus"] },
-      "layout": "row", "render": { "label": "link-with-arrow" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Link-Text 4.5:1 gegen Hintergrund. Pfeil-Icon dekorativ." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "link-with-arrow"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Link-Text 4.5:1 gegen Hintergrund. Pfeil-Icon dekorativ."
+      }
     }
   ]
 }

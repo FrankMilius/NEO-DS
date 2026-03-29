@@ -1,0 +1,244 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "section",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "layout",
+    "object",
+    "section",
+    "orchestrator"
+  ],
+  "anatomy": {
+    "rootElement": ".section",
+    "slots": [
+      {
+        "name": "container",
+        "selector": ".nc-container",
+        "required": true,
+        "description": "Container der den Inhalt horizontal begrenzt."
+      },
+      {
+        "name": "content",
+        "selector": ".nc-container > *",
+        "required": true,
+        "description": "Beliebiger Inhalt innerhalb des Containers."
+      }
+    ],
+    "notes": [
+      "Section ist der Orchestrator: setzt Block-Padding, enthaelt Container, konfiguriert Grid.",
+      "Nesting: .section > .nc-container > .o-grid > .o-col-* > Content",
+      "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
+      "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
+      "Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.",
+      "Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.",
+      "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "density": {
+      "label": "Dichte",
+      "description": "Vertikales Padding der Section.",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "section--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "spacious",
+          "cssModifier": "section--spacious",
+          "default": false,
+          "label": "spacious"
+        }
+      ]
+    },
+    "surface": {
+      "label": "Oberflaeche",
+      "description": "Hintergrundfarbe und Farbschema der Section.",
+      "values": [
+        {
+          "value": "base",
+          "cssModifier": null,
+          "default": false,
+          "label": "base"
+        },
+        {
+          "value": "elevated",
+          "cssModifier": "section--elevated",
+          "default": false,
+          "label": "elevated"
+        },
+        {
+          "value": "muted",
+          "cssModifier": "section--muted",
+          "default": false,
+          "label": "muted"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "section--accent",
+          "default": false,
+          "label": "accent"
+        }
+      ]
+    },
+    "divider": {
+      "label": "Divider",
+      "description": "Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders noetig bei identischen Surface-Kombinationen benachbarter Sections.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "top",
+          "cssModifier": "section--divider-top",
+          "default": false,
+          "label": "top"
+        },
+        {
+          "value": "bottom",
+          "cssModifier": "section--divider-bottom",
+          "default": false,
+          "label": "bottom"
+        },
+        {
+          "value": "both",
+          "cssModifier": "section--divider-both",
+          "default": false,
+          "label": "both"
+        }
+      ]
+    },
+    "edge": {
+      "label": "Edge Shape",
+      "description": "Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.",
+      "values": [
+        {
+          "value": "straight",
+          "cssModifier": null,
+          "default": false,
+          "label": "straight"
+        },
+        {
+          "value": "slanted",
+          "cssModifier": "section--edge-slanted",
+          "default": false,
+          "label": "slanted"
+        },
+        {
+          "value": "curved",
+          "cssModifier": "section--edge-curved",
+          "default": false,
+          "label": "curved"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "section"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-section-padding-block"
+        },
+        {
+          "token": "nc-section-padding-block-sm"
+        },
+        {
+          "token": "nc-section-padding-block-lg"
+        }
+      ],
+      "Surface": [
+        {
+          "token": "nc-section-bg"
+        },
+        {
+          "token": "nc-section-color"
+        }
+      ],
+      "Accent": [
+        {
+          "token": "nc-section-accent-bg"
+        },
+        {
+          "token": "nc-section-accent-color"
+        },
+        {
+          "token": "nc-section-accent-color-secondary"
+        }
+      ],
+      "Divider": [
+        {
+          "token": "nc-section-divider-color"
+        },
+        {
+          "token": "nc-section-divider-width"
+        },
+        {
+          "token": "nc-section-divider-style"
+        }
+      ],
+      "Edge Shape": [
+        {
+          "token": "nc-section-edge-height"
+        },
+        {
+          "token": "nc-section-edge-angle"
+        },
+        {
+          "token": "nc-section-edge-fill"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "AA",
+    "focusIndicator": null,
+    "assertions": [
+      "Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).",
+      "Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.",
+      "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund.",
+      "Edge-Shapes duerfen keine Inhalte verdecken — clip-path muss den Padding-Bereich respektieren.",
+      "Divider-Linien haben ausreichenden Kontrast (mindestens 3:1) gegen den jeweiligen Hintergrund."
+    ],
+    "overrides": []
+  },
+  "dependencies": [
+    "container"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/section.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SectionArena.vue",
+    "drupal": [],
+    "docs": "docs/section-docs.html"
+  }
+}

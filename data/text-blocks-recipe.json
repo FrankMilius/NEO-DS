@@ -5,11 +5,34 @@
     "component": "text-blocks",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["typography", "display", "content"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/text-blocks-docs" }
+    "tags": [
+      "typography",
+      "display",
+      "content"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/text-blocks-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_text-blocks.scss"
+      ],
+      "story": "stories/organisms/text-blocks.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/text-blocks-docs.html"
+    },
+    "dependencies": [
+      "section"
+    ]
   },
   "anatomy": {
-    "root": { "element": ".nc-section-title" },
+    "root": {
+      "element": ".nc-section-title"
+    },
     "slots": [],
     "convenience": [],
     "domNotes": [
@@ -24,13 +47,34 @@
       "label": "Variant",
       "description": "Text-Block-Typ — section-title, eyebrow, lead",
       "values": {
-        "section-title": { "modifier": null, "tokenGroups": [], "renderHint": "text-section-title" },
-        "eyebrow":       { "modifier": null, "tokenGroups": [], "renderHint": "text-eyebrow" },
-        "lead":          { "modifier": null, "tokenGroups": [], "renderHint": "text-lead" }
+        "section-title": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "text-section-title"
+        },
+        "eyebrow": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "text-eyebrow"
+        },
+        "lead": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "text-lead"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -40,27 +84,69 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-section-title"],
+    "baseClasses": [
+      "nc-section-title"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "all-variants", "label": "Text Block Variants",
+      "id": "all-variants",
+      "label": "Text Block Variants",
       "description": "Section Title, Eyebrow, Lead",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alle Varianten: Text 4.5:1 gegen Hintergrund." }
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Alle Varianten: Text 4.5:1 gegen Hintergrund."
+      }
     }
   ]
 }

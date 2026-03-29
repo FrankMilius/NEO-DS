@@ -5,21 +5,52 @@
     "component": "empty-state",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["feedback", "layout", "placeholder"],
+    "tags": [
+      "feedback",
+      "layout",
+      "placeholder"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/empty-state-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_empty-state.scss"
+      ],
+      "story": "stories/organisms/empty-state.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/empty-state-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-empty-state" },
+    "root": {
+      "element": ".nc-empty-state"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-empty-state__icon", "optional": true },
-      { "name": "title", "element": ".nc-empty-state__title", "optional": false },
-      { "name": "description", "element": ".nc-empty-state__description", "optional": true },
-      { "name": "actions", "element": ".nc-empty-state__actions", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-empty-state__icon",
+        "optional": true
+      },
+      {
+        "name": "title",
+        "element": ".nc-empty-state__title",
+        "optional": false
+      },
+      {
+        "name": "description",
+        "element": ".nc-empty-state__description",
+        "optional": true
+      },
+      {
+        "name": "actions",
+        "element": ".nc-empty-state__actions",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -33,58 +64,110 @@
       "Full-Modifier: min-height: 100% — fuellt den gesamten Container."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Groessen-Variante — default (grosszuegiges Padding, grosse Elemente), compact (weniger Padding, kleinere Elemente)",
       "values": {
-        "default": { "modifier": null,                          "tokenGroups": [], "renderHint": "empty-state-default" },
-        "compact": { "modifier": "nc-empty-state--compact",     "tokenGroups": [], "renderHint": "empty-state-compact" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "empty-state-default"
+        },
+        "compact": {
+          "modifier": "nc-empty-state--compact",
+          "tokenGroups": [],
+          "renderHint": "empty-state-compact"
+        }
       }
     },
-
     "height": {
       "label": "Height",
       "description": "Hoehen-Verhalten — auto (natuerliche Hoehe), full (fuellt Container, min-height: 100%)",
       "values": {
-        "auto": { "modifier": null,                        "tokenGroups": [], "renderHint": "empty-state-auto" },
-        "full": { "modifier": "nc-empty-state--full",      "tokenGroups": [], "renderHint": "empty-state-full" }
+        "auto": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "empty-state-auto"
+        },
+        "full": {
+          "modifier": "nc-empty-state--full",
+          "tokenGroups": [],
+          "renderHint": "empty-state-full"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltskombination — minimal (nur Title), with-description (Title + Beschreibung), with-action (Title + Beschreibung + Button), full (Icon + Title + Beschreibung + Button)",
       "values": {
-        "minimal":          { "modifier": null, "tokenGroups": [], "renderHint": "empty-state-minimal" },
-        "with-description": { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true }, "renderHint": "empty-state-desc" },
-        "with-action":      { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true, "actions": true }, "renderHint": "empty-state-action" },
-        "full":             { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true, "description": true, "actions": true }, "renderHint": "empty-state-full-content" }
+        "minimal": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "empty-state-minimal"
+        },
+        "with-description": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "description": true
+          },
+          "renderHint": "empty-state-desc"
+        },
+        "with-action": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "description": true,
+            "actions": true
+          },
+          "renderHint": "empty-state-action"
+        },
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true,
+            "description": true,
+            "actions": true
+          },
+          "renderHint": "empty-state-full-content"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "Informatives Pattern, nicht interaktiv. Icon ist dekorativ (aria-hidden='true'). Heading muss hierarchisch korrekt sein (h2/h3 je nach Seitenstruktur). CTA-Button folgt normalen Button-A11y-Regeln."
     },
     "overrides": []
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["heading-hierarchy"], "notes": ["Title-Heading muss hierarchisch korrekt in die Seitenstruktur passen (h2/h3)."] }
+      {
+        "when": {},
+        "require": [
+          "heading-hierarchy"
+        ],
+        "notes": [
+          "Title-Heading muss hierarchisch korrekt in die Seitenstruktur passen (h2/h3)."
+        ]
+      }
     ],
     "copy": {
       "title": {
@@ -97,11 +180,16 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-empty-state"],
-    "baseTokenGroups": ["core-geometry", "icon", "typography", "action"],
-
+    "baseClasses": [
+      "nc-empty-state"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "icon",
+      "typography",
+      "action"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -136,12 +224,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -156,18 +251,31 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "full-content",
       "label": "Full Content",
       "description": "Vollstaendiger Empty-State mit Icon, Title, Description und CTA-Button",
       "matrix": {
-        "axes": { "variant": ["default"], "height": ["auto"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "height": [
+            "auto"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "full" },
+      "render": {
+        "label": "full"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Icon ist aria-hidden. Title als Heading. Description als Paragraph. Button folgt Button-A11y."
@@ -178,12 +286,26 @@
       "label": "Content Variants",
       "description": "Alle Inhaltskombinationen im Vergleich",
       "matrix": {
-        "axes": { "variant": ["default"], "height": ["auto"], "content": "*" },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "height": [
+            "auto"
+          ],
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Minimal reicht fuer einfache Faelle. Full fuer Onboarding oder wichtige leere Zustaende."
@@ -194,12 +316,26 @@
       "label": "Default vs Compact",
       "description": "Standard-Groesse vs kompakte Variante",
       "matrix": {
-        "axes": { "variant": "*", "height": ["auto"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "height": [
+            "auto"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Compact: Icon 48px statt 64px, Title base statt lg, Desc xs statt sm. Weniger Padding."
@@ -210,11 +346,26 @@
       "label": "No Search Results",
       "description": "Typischer Anwendungsfall: Suche ohne Treffer",
       "matrix": {
-        "axes": { "variant": ["default"], "height": ["auto"], "content": ["with-description"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "height": [
+            "auto"
+          ],
+          "content": [
+            "with-description"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "empty-state-search", "label": "no results" },
+      "render": {
+        "compositionType": "empty-state-search",
+        "label": "no results"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Beschreibung gibt Hinweis auf Suchbegriff-Aenderung. Kein Button noetig wenn Suchfeld sichtbar."
@@ -224,13 +375,30 @@
       "id": "onboarding",
       "label": "Onboarding / First Use",
       "description": "Erstnutzung — mit Icon, Erklaerung und CTA zum Anlegen",
-      "composes": ["button"],
+      "composes": [
+        "button"
+      ],
       "matrix": {
-        "axes": { "variant": ["default"], "height": ["auto"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "height": [
+            "auto"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "empty-state-onboarding", "label": "onboarding" },
+      "render": {
+        "compositionType": "empty-state-onboarding",
+        "label": "onboarding"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "CTA-Button ist primaer (nc-button--primary). Beschreibung erklaert den naechsten Schritt."
@@ -241,11 +409,26 @@
       "label": "Full Height Container",
       "description": "Empty-State fuellt den gesamten Container (min-height: 100%)",
       "matrix": {
-        "axes": { "variant": ["default"], "height": ["full"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "height": [
+            "full"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "empty-state-full-height", "label": "full-height" },
+      "render": {
+        "compositionType": "empty-state-full-height",
+        "label": "full-height"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Vertikal zentriert im Container. Nützlich fuer Dashboard-Cards oder Hauptinhaltsbereich."

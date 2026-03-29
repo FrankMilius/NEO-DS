@@ -1,0 +1,262 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "nav-molecules",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "navigation",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-nav__link",
+    "slots": [
+      {
+        "name": "nav-link",
+        "selector": ".nc-nav__link",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "nav-toggle",
+        "selector": ".nc-nav__toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mobile-toggle",
+        "selector": ".nc-mobile-toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mobile-panel",
+        "selector": ".nc-mobile-panel",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "lang-toggle",
+        "selector": ".nc-lang-toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "search-panel",
+        "selector": ".nc-search-panel",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Nav-Link: inline-flex, gap, padding, radius — Hover: BG-Wechsel + Textfarbe. Active: border-bottom accent.",
+      "Shared Interaction: Hover-BG und Active-Underline werden von navigation-menu__trigger wiederverwendet.",
+      "Mobile Toggle: Hamburger-Icon (3 Balken via box-shadow). Steuert .nc-mobile-panel Sichtbarkeit.",
+      "Mobile Panel: Vertikal gestapelte Links. Sichtbar via .nc-header.is-mobile-open.",
+      "Lang Toggle: Segmented Control fuer Sprachen. Active via .is-active (inverse colors).",
+      "Search Panel: Full-Width Overlay — Search-Component (06-molecules/_search.scss) nutzen fuer fortgeschrittene Suche."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "element": {
+      "label": "Element",
+      "description": "Nav-Molekuel-Typ — link (Icon+Label+Interaktion), toggle (Hamburger), mobile (Dropdown), lang (Sprachumschalter)",
+      "values": [
+        {
+          "value": "link",
+          "cssModifier": null,
+          "default": false,
+          "label": "link"
+        },
+        {
+          "value": "toggle",
+          "cssModifier": null,
+          "default": false,
+          "label": "toggle"
+        },
+        {
+          "value": "mobile",
+          "cssModifier": null,
+          "default": false,
+          "label": "mobile"
+        },
+        {
+          "value": "lang",
+          "cssModifier": null,
+          "default": false,
+          "label": "lang"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-nav__link"
+    ],
+    "tokenGroups": {
+      "Nav Link": [
+        {
+          "token": "nc-nav-mol-link-gap"
+        },
+        {
+          "token": "nc-nav-mol-link-padding-x"
+        },
+        {
+          "token": "nc-nav-mol-link-padding-y"
+        },
+        {
+          "token": "nc-nav-mol-link-radius"
+        },
+        {
+          "token": "nc-nav-mol-link-color"
+        },
+        {
+          "token": "nc-nav-mol-link-hover-bg"
+        },
+        {
+          "token": "nc-nav-mol-link-hover-color"
+        },
+        {
+          "token": "nc-nav-mol-link-active-weight"
+        },
+        {
+          "token": "nc-nav-mol-link-active-border"
+        },
+        {
+          "token": "nc-nav-mol-link-active-width"
+        }
+      ],
+      "Mobile Toggle": [
+        {
+          "token": "nc-nav-mol-toggle-size"
+        },
+        {
+          "token": "nc-nav-mol-toggle-bar-height"
+        },
+        {
+          "token": "nc-nav-mol-toggle-bar-gap"
+        },
+        {
+          "token": "nc-nav-mol-toggle-bar-radius"
+        },
+        {
+          "token": "nc-nav-mol-toggle-bar-color"
+        }
+      ],
+      "Mobile Panel": [
+        {
+          "token": "nc-nav-mol-mobile-bg"
+        },
+        {
+          "token": "nc-nav-mol-mobile-border"
+        },
+        {
+          "token": "nc-nav-mol-mobile-padding"
+        },
+        {
+          "token": "nc-nav-mol-mobile-gap"
+        },
+        {
+          "token": "nc-nav-mol-mobile-link-padding"
+        },
+        {
+          "token": "nc-nav-mol-mobile-link-border"
+        }
+      ],
+      "Lang Toggle": [
+        {
+          "token": "nc-nav-mol-lang-bg"
+        },
+        {
+          "token": "nc-nav-mol-lang-radius"
+        },
+        {
+          "token": "nc-nav-mol-lang-padding"
+        },
+        {
+          "token": "nc-nav-mol-lang-active-bg"
+        },
+        {
+          "token": "nc-nav-mol-lang-active-color"
+        },
+        {
+          "token": "nc-nav-mol-lang-active-radius"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "element": [
+              "toggle"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-expanded",
+          "aria-controls"
+        ],
+        "note": "Mobile Toggle: aria-expanded='true|false', aria-controls='mobile-panel-id'."
+      }
+    ]
+  },
+  "dependencies": [
+    "header",
+    "search"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_nav-molecules.scss"
+    ],
+    "story": "stories/organisms/nav-molecules.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

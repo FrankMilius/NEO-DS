@@ -1,0 +1,339 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "segmented-control",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "navigation",
+    "selection"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-segmented-control",
+    "slots": [
+      {
+        "name": "item",
+        "selector": ".nc-segmented-control__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-segmented-control__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "badge",
+        "selector": ".nc-segmented-control__badge",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "indicator",
+        "selector": ".nc-segmented-control__indicator",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Container ist ein <div class='nc-segmented-control' role='radiogroup'> mit aria-label.",
+      "Items sind <button class='nc-segmented-control__item' role='radio' aria-checked='true|false'>.",
+      "Immer Single-Select — genau ein Item ist aria-checked='true'.",
+      "Arrow-Key Navigation via roving tabindex (tabindex='-1' auf inaktive, '0' auf aktives).",
+      "Groessen-Modifier am Container (--sm, --lg) propagieren zu allen Items.",
+      "Selected State: erhoeht (box-shadow via elevation-base) auf hellem BG innerhalb des Tracks.",
+      "--full-width: alle Segments gleichmaessig breit (flex: 1 1 0%).",
+      "Icon-only Segments brauchen aria-label fuer Accessibility.",
+      "Badge-Slot: <span class='nc-segmented-control__badge'>5</span> im Item. Farbe wechselt automatisch bei Selected-State.",
+      "Sliding Indicator (optional, empfohlen fuer High-End UIs): Ein <div class='nc-segmented-control__indicator'> als erstes Kind im Container. JS setzt --_indicator-left und --_indicator-width bei Selection-Wechsel. Der Indikator gleitet per CSS transition (cubic-bezier) zum aktiven Segment. Wenn vorhanden: Items verlieren eigenen Selected-BG (transparent) — der Indikator uebernimmt die visuelle Markierung.",
+      "--scrollable: Horizontaler Scroll bei Platzmangel (scrollbar hidden). Items behalten flex-shrink:0. Empfehlung: Bei >5 Segmenten oder Container-Overflow → in ein Select-Dropdown umwandeln (JS/Framework-Logik)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px). Nutzt Button-Size-Tokens fuer min-height, padding, font-size.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-segmented-control--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-segmented-control--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "width": {
+      "label": "Width",
+      "description": "Layout-Verhalten — auto (Segmente nach Inhalt, Standard), full-width (gleichmaessig verteilt), scrollable (horizontal scrollbar bei Overflow)",
+      "values": [
+        {
+          "value": "auto",
+          "cssModifier": null,
+          "default": false,
+          "label": "auto"
+        },
+        {
+          "value": "full-width",
+          "cssModifier": "nc-segmented-control--full-width",
+          "default": false,
+          "label": "full-width"
+        },
+        {
+          "value": "scrollable",
+          "cssModifier": "nc-segmented-control--scrollable",
+          "default": false,
+          "label": "scrollable"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt der Segments — text (nur Text, Standard), icon-text (Icon + Text), icon-only (nur Icon, aria-label noetig), text-badge (Text + Badge-Counter)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "icon-text",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon-text"
+        },
+        {
+          "value": "icon-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon-only"
+        },
+        {
+          "value": "text-badge",
+          "cssModifier": null,
+          "default": false,
+          "label": "text-badge"
+        }
+      ]
+    },
+    "indicator": {
+      "label": "Indicator",
+      "description": "Visuelles Feedback fuer den Selected-State — static (Background-Toggle pro Item, Standard), sliding (animierter Hintergrund-Layer)",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "sliding",
+          "cssModifier": null,
+          "default": false,
+          "label": "sliding"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "selected",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-segmented-control"
+    ],
+    "tokenGroups": {
+      "Track": [
+        {
+          "token": "nc-segmented-bg"
+        },
+        {
+          "token": "nc-segmented-radius"
+        },
+        {
+          "token": "nc-segmented-padding"
+        },
+        {
+          "token": "nc-segmented-gap"
+        }
+      ],
+      "Item Default": [
+        {
+          "token": "nc-segmented-item-bg"
+        },
+        {
+          "token": "nc-segmented-item-color"
+        },
+        {
+          "token": "nc-segmented-item-radius"
+        }
+      ],
+      "Item Hover": [
+        {
+          "token": "nc-segmented-item-bg-hover"
+        },
+        {
+          "token": "nc-segmented-item-color-hover"
+        }
+      ],
+      "Item Selected": [
+        {
+          "token": "nc-segmented-item-selected-bg"
+        },
+        {
+          "token": "nc-segmented-item-selected-color"
+        },
+        {
+          "token": "nc-segmented-item-selected-shadow"
+        }
+      ],
+      "Item Disabled": [
+        {
+          "token": "nc-segmented-item-disabled-color"
+        },
+        {
+          "token": "nc-segmented-item-disabled-opacity"
+        }
+      ],
+      "Badge": [
+        {
+          "token": "nc-segmented-item-badge-bg"
+        },
+        {
+          "token": "nc-segmented-item-badge-color"
+        },
+        {
+          "token": "nc-segmented-item-badge-bg-selected"
+        },
+        {
+          "token": "nc-segmented-item-badge-color-selected"
+        },
+        {
+          "token": "nc-segmented-item-badge-radius"
+        },
+        {
+          "token": "nc-segmented-item-badge-padding"
+        },
+        {
+          "token": "nc-segmented-item-badge-font-size"
+        }
+      ],
+      "Sliding Indicator": [
+        {
+          "token": "nc-segmented-indicator-transition"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-segmented-transition-duration"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "icon-only"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Icon-only Segments brauchen aria-label auf jedem Item — kein sichtbarer Text vorhanden."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt. Einzelne Items oder der gesamte Container koennen disabled sein."
+      },
+      {
+        "when": {
+          "slots": [
+            "badge"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-label-with-count"
+        ],
+        "note": "Badge-Wert sollte im aria-label des Items enthalten sein, z.B. 'Inbox, 5 neue Nachrichten'."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_segmented-control.scss"
+    ],
+    "story": "stories/organisms/segmented-control.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SegmentedControlArena.vue",
+    "drupal": [],
+    "docs": "docs/segmented-control-docs.html"
+  }
+}

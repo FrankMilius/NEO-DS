@@ -5,14 +5,42 @@
     "component": "pricing",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "commerce"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/pricing-docs" }
+    "tags": [
+      "display",
+      "content",
+      "commerce"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/pricing-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_pricing.scss"
+      ],
+      "story": "stories/organisms/pricing.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/pricing-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-pricing-card" },
+    "root": {
+      "element": ".nc-pricing-card"
+    },
     "slots": [
-      { "name": "price", "element": ".nc-price", "optional": false },
-      { "name": "feature-list", "element": ".nc-feature-list", "optional": true }
+      {
+        "name": "price",
+        "element": ".nc-price",
+        "optional": false
+      },
+      {
+        "name": "feature-list",
+        "element": ".nc-feature-list",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -26,12 +54,29 @@
       "label": "Variant",
       "description": "Variante — default, featured",
       "values": {
-        "default":  { "modifier": null,           "tokenGroups": [], "renderHint": "pricing-default" },
-        "featured": { "modifier": "is-featured",  "tokenGroups": [], "renderHint": "pricing-featured" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "pricing-default"
+        },
+        "featured": {
+          "modifier": "is-featured",
+          "tokenGroups": [],
+          "renderHint": "pricing-featured"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -41,27 +86,70 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-pricing-card"],
+    "baseClasses": [
+      "nc-pricing-card"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Pricing Variants",
+      "id": "variant-comparison",
+      "label": "Pricing Variants",
       "description": "Default vs Featured",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Featured: accent Border 3:1 gegen BG." }
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Featured: accent Border 3:1 gegen BG."
+      }
     }
   ]
 }

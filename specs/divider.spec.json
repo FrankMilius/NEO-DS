@@ -1,0 +1,225 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "divider",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "layout",
+    "separator"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-divider",
+    "slots": [],
+    "notes": [
+      "Standard: <hr class='nc-divider'>. Nativer role='separator' ist implizit.",
+      "Vertikal: .nc-divider--vertical. Braucht aria-orientation='vertical'.",
+      "Label-Variante: <div class='nc-divider-label' role='separator'><span>Text</span></div>.",
+      "Label-Variante nutzt ::before/::after Pseudo-Elemente fuer die Linien links und rechts.",
+      "Spacing-Modifier: --sm (8px), --lg (24px), --none (0).",
+      "Style-Modifier: --dashed, --dotted (aendert border-style).",
+      "Strong-Modifier: --strong (dickere Linie, staerkere Farbe)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "orientation": {
+      "label": "Orientation",
+      "description": "Ausrichtung — horizontal (Standard) oder vertikal",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "vertical",
+          "cssModifier": "nc-divider--vertical",
+          "default": false,
+          "label": "vertical"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default, strong (dickere Linie), with-label (Text in der Mitte)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "strong",
+          "cssModifier": "nc-divider--strong",
+          "default": false,
+          "label": "strong"
+        },
+        {
+          "value": "with-label",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-label"
+        }
+      ]
+    },
+    "style": {
+      "label": "Style",
+      "description": "Linien-Stil — solid (Standard), dashed, dotted",
+      "values": [
+        {
+          "value": "solid",
+          "cssModifier": null,
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "dashed",
+          "cssModifier": "nc-divider--dashed",
+          "default": false,
+          "label": "dashed"
+        },
+        {
+          "value": "dotted",
+          "cssModifier": "nc-divider--dotted",
+          "default": false,
+          "label": "dotted"
+        }
+      ]
+    },
+    "spacing": {
+      "label": "Spacing",
+      "description": "Abstand ober-/unterhalb — sm (8px), md (16px, Standard), lg (24px), none (0)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-divider--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-divider--lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "none",
+          "cssModifier": "nc-divider--none",
+          "default": false,
+          "label": "none"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-divider"
+    ],
+    "tokenGroups": {
+      "Line": [
+        {
+          "token": "nc-divider-color"
+        },
+        {
+          "token": "nc-divider-width"
+        },
+        {
+          "token": "nc-divider-style"
+        },
+        {
+          "token": "nc-divider-spacing"
+        }
+      ],
+      "Strong": [
+        {
+          "token": "nc-divider-strong-color"
+        },
+        {
+          "token": "nc-divider-strong-width"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-divider-label-color"
+        },
+        {
+          "token": "nc-divider-label-size"
+        },
+        {
+          "token": "nc-divider-label-weight"
+        },
+        {
+          "token": "nc-divider-label-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "orientation": [
+              "vertical"
+            ]
+          }
+        },
+        "require": [
+          "aria-orientation"
+        ],
+        "suggest": [],
+        "note": "Vertikaler Divider braucht aria-orientation='vertical' fuer korrekte Screen-Reader-Semantik."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "with-label"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-separator"
+        ],
+        "note": "Label-Variante nutzt <div> statt <hr> — braucht explizites role='separator'. Label-Text ist rein dekorativ."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_divider.scss"
+    ],
+    "story": "stories/organisms/divider.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/divider-docs.html"
+  }
+}

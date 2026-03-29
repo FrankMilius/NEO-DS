@@ -1,0 +1,254 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "grid",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "layout",
+    "object",
+    "grid"
+  ],
+  "anatomy": {
+    "rootElement": ".o-grid",
+    "slots": [
+      {
+        "name": "column",
+        "selector": ".o-col-*",
+        "required": true,
+        "description": "Grid-Spalte mit konfigurierter Breite (1-12)."
+      }
+    ],
+    "notes": [
+      "12-Spalten-Grid basierend auf CSS Grid.",
+      "Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).",
+      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 2 oder 6 Spalten.",
+      "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).",
+      "Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.",
+      "Subgrid erlaubt verschachtelte Grids die das Eltern-Raster uebernehmen (z.B. fuer Header-Alignment in Cards).",
+      "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "gap": {
+      "label": "Gap",
+      "description": "Abstand zwischen Grid-Spalten.",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "o-grid--gap-sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "o-grid--gap-lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "layout": {
+      "label": "Layout-Modus",
+      "description": "Grid-Template-Strategie.",
+      "values": [
+        {
+          "value": "fixed",
+          "cssModifier": null,
+          "default": false,
+          "label": "fixed"
+        },
+        {
+          "value": "auto-fit",
+          "cssModifier": "o-grid--auto-fit",
+          "default": false,
+          "label": "auto-fit"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Vertikale Ausrichtung der Grid-Items.",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "o-grid--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "end",
+          "cssModifier": "o-grid--end",
+          "default": false,
+          "label": "end"
+        }
+      ]
+    },
+    "flow": {
+      "label": "Flow",
+      "description": "Automatische Platzierung von Items im Grid.",
+      "values": [
+        {
+          "value": "row",
+          "cssModifier": null,
+          "default": false,
+          "label": "row"
+        },
+        {
+          "value": "column",
+          "cssModifier": "o-grid--flow-col",
+          "default": false,
+          "label": "column"
+        },
+        {
+          "value": "dense",
+          "cssModifier": "o-grid--dense",
+          "default": false,
+          "label": "dense"
+        }
+      ]
+    },
+    "mobile-columns": {
+      "label": "Mobile Spalten",
+      "description": "Spaltenanzahl auf Mobile-Viewports (< 768px). Standard: 4 Spalten.",
+      "values": [
+        {
+          "value": "1",
+          "cssModifier": "o-grid--mobile-1",
+          "default": false,
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "cssModifier": "o-grid--mobile-2",
+          "default": false,
+          "label": "2"
+        },
+        {
+          "value": "4",
+          "cssModifier": null,
+          "default": false,
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "cssModifier": "o-grid--mobile-6",
+          "default": false,
+          "label": "6"
+        }
+      ]
+    },
+    "subgrid": {
+      "label": "Subgrid",
+      "description": "Verschachteltes Grid das das Spaltenraster des Eltern-Grids uebernimmt.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "columns",
+          "cssModifier": "o-grid--subgrid",
+          "default": false,
+          "label": "columns"
+        },
+        {
+          "value": "rows",
+          "cssModifier": "o-grid--subgrid-rows",
+          "default": false,
+          "label": "rows"
+        },
+        {
+          "value": "both",
+          "cssModifier": "o-grid--subgrid-both",
+          "default": false,
+          "label": "both"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "o-grid"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-grid-columns"
+        },
+        {
+          "token": "nc-grid-gap"
+        },
+        {
+          "token": "nc-grid-gap-sm"
+        },
+        {
+          "token": "nc-grid-gap-lg"
+        }
+      ],
+      "Gap-Varianten": [
+        {
+          "token": "nc-grid-gap-sm"
+        },
+        {
+          "token": "nc-grid-gap-lg"
+        }
+      ],
+      "Responsive": [
+        {
+          "token": "nc-grid-mobile-columns"
+        },
+        {
+          "token": "nc-grid-tablet-columns"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [
+      "Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.",
+      "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt.",
+      "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch.",
+      "Subgrid aendert keine Semantik — nur das visuelle Raster wird geteilt."
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/grid.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/GridArena.vue",
+    "drupal": [],
+    "docs": "docs/grid-docs.html"
+  }
+}

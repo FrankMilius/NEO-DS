@@ -1,0 +1,377 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "rating",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "form",
+    "feedback"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-rating",
+    "slots": [
+      {
+        "name": "input-clear",
+        "selector": ".nc-rating__input--clear",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "input",
+        "selector": ".nc-rating__input",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-rating__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "value",
+        "selector": ".nc-rating__value",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "count",
+        "selector": ".nc-rating__count",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "clear",
+        "selector": ".nc-rating__clear",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Interaktiv: <div class='nc-rating' role='radiogroup' aria-label='Bewertung'> mit versteckten Radio-Inputs + Labels.",
+      "Clear-Input: <input type='radio' class='nc-rating__input--clear' name='rating' value='0'> als erstes Kind — erreichbar via Arrow Left vom 1. Stern. Loest Zuruecksetzen auf 0 Sterne aus.",
+      "Clear-Button: Optionaler sichtbarer Reset-Button (.nc-rating__clear) — erscheint nur wenn ein Wert gewaehlt ist (via :has(.nc-rating__input:checked)). Klickt den Clear-Input.",
+      "Jeder Stern: <input type='radio' class='nc-rating__input' name='rating' value='N'> + <label class='nc-rating__item'>.",
+      "Touch-Target: Items erhalten ::after mit inset: calc(-1 * --nc-rating-touch-padding) fuer min. 44px Klickbereich (WCAG 2.5.8). Im SM-Modus (18px) besonders kritisch.",
+      "Hover-Kaskade: Sterne leuchten mit staggered delay (--nc-rating-stagger-delay: 30ms) nacheinander auf. Jedes Item benoetigt style='--nc-rating-item-index: N'.",
+      "Selection-Bounce: Bei Auswahl spielt der gewahlte Stern eine nc-rating-bounce Keyframe-Animation (scale 1 → 1.25 → 0.95 → 1).",
+      "Readonly: role='img', aria-label='Bewertung: 4.5 von 5 Sternen'. Halbe Sterne via clip-path. Kein Touch-Target (::after display:none).",
+      "Interaktiv: Nur volle Sterne (Full-Star-Selection) — keine halben Sterne im Eingabemodus fuer hohe Fehlertoleranz.",
+      "Sentiment-Farbskala: --sentiment Modifier + --sentiment-low/mid/high Klasse. 1-2: Rot, 3: Gelb, 4-5: Gruen. JS setzt die Klasse basierend auf dem Wert.",
+      "Compact/Pill: --compact Modifier — nur 1 Stern + Zahl sichtbar. Ideal fuer dichte Listen.",
+      "Icon-Types: data-icon='star|heart|thumb|smiley' auf dem Container. SVG wird via JS oder Template gewechselt.",
+      "Focus-Ring: outline mit 2px offset auf dem Label des fokussierten Radio-Inputs.",
+      "Forced-Colors: active = Highlight, inactive = ButtonText (High Contrast Mode).",
+      "prefers-reduced-motion: Stagger, Bounce und Scale-Transitions werden deaktiviert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (18px) / md (24px, Standard) / lg (36px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-rating--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-rating--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "mode": {
+      "label": "Mode",
+      "description": "Interaktions-Modus — interactive (Radio-Inputs, nur volle Sterne), readonly (nur Anzeige, halbe Sterne moeglich)",
+      "values": [
+        {
+          "value": "interactive",
+          "cssModifier": null,
+          "default": false,
+          "label": "interactive"
+        },
+        {
+          "value": "readonly",
+          "cssModifier": "nc-rating--readonly",
+          "default": false,
+          "label": "readonly"
+        }
+      ]
+    },
+    "display": {
+      "label": "Display",
+      "description": "Anzeige-Optionen — stars-only (nur Sterne), with-value (+ Zahl), with-count (+ Zahl + Anzahl), compact (Pill: 1 Stern + Zahl)",
+      "values": [
+        {
+          "value": "stars-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "stars-only"
+        },
+        {
+          "value": "with-value",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-value"
+        },
+        {
+          "value": "with-count",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-count"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-rating--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "iconType": {
+      "label": "Icon Type",
+      "description": "Symbol-Varianz — star (Standard), heart (Favoriten), thumb (Zustimmung), smiley (Zufriedenheit)",
+      "values": [
+        {
+          "value": "star",
+          "cssModifier": null,
+          "default": false,
+          "label": "star"
+        },
+        {
+          "value": "heart",
+          "cssModifier": null,
+          "default": false,
+          "label": "heart"
+        },
+        {
+          "value": "thumb",
+          "cssModifier": null,
+          "default": false,
+          "label": "thumb"
+        },
+        {
+          "value": "smiley",
+          "cssModifier": null,
+          "default": false,
+          "label": "smiley"
+        }
+      ]
+    },
+    "sentiment": {
+      "label": "Sentiment",
+      "description": "Farbkodierung — none (einheitliche Farbe), scale (Rot/Gelb/Gruen je nach Wert)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "scale",
+          "cssModifier": "nc-rating--sentiment",
+          "default": false,
+          "label": "scale"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-rating"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-rating-size"
+        },
+        {
+          "token": "nc-rating-gap"
+        },
+        {
+          "token": "nc-rating-touch-padding"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-rating-color-active"
+        },
+        {
+          "token": "nc-rating-color-inactive"
+        },
+        {
+          "token": "nc-rating-hover-color"
+        },
+        {
+          "token": "nc-rating-count-color"
+        },
+        {
+          "token": "nc-rating-error-color"
+        }
+      ],
+      "Sentiment Colors": [
+        {
+          "token": "nc-rating-sentiment-low"
+        },
+        {
+          "token": "nc-rating-sentiment-mid"
+        },
+        {
+          "token": "nc-rating-sentiment-high"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-rating-transition-duration"
+        },
+        {
+          "token": "nc-rating-transition-timing"
+        },
+        {
+          "token": "nc-rating-stagger-delay"
+        },
+        {
+          "token": "nc-rating-bounce-scale"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-rating-disabled-opacity"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "readonly"
+            ]
+          }
+        },
+        "require": [
+          "role-img",
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Readonly: aria-label muss vollen Kontext liefern: 'Bewertung: 4.5 von 5 Sternen'. Bei Half-Stars den exakten Wert angeben."
+      },
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "interactive"
+            ]
+          }
+        },
+        "require": [
+          "role-radiogroup",
+          "aria-label",
+          "clear-input"
+        ],
+        "suggest": [],
+        "note": "Interaktiv: role='radiogroup' + aria-label='Bewertung abgeben'. Clear-Input (value=0) als erstes Kind fuer Zuruecksetzen."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' auf dem Container. Opacity reduziert, keine Interaktion."
+      },
+      {
+        "when": {
+          "axes": {
+            "sentiment": [
+              "scale"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-valuetext"
+        ],
+        "note": "Sentiment-Skala ist rein visuell. Farbwechsel darf nicht alleiniges Signal sein — Stern-Anzahl bleibt primaerer Indikator."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_rating.scss"
+    ],
+    "story": "stories/organisms/rating.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RatingArena.vue",
+    "drupal": [],
+    "docs": "docs/rating-docs.html"
+  }
+}

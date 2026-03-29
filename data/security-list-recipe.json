@@ -5,15 +5,47 @@
     "component": "security-list",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "trust"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/security-list-docs" }
+    "tags": [
+      "display",
+      "content",
+      "trust"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/security-list-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_security-list.scss"
+      ],
+      "story": "stories/organisms/security-list.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/security-list-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-security-list" },
+    "root": {
+      "element": ".nc-security-list"
+    },
     "slots": [
-      { "name": "item", "element": ".nc-security-list__item", "optional": false },
-      { "name": "icon", "element": ".nc-security-list__icon", "optional": true },
-      { "name": "text", "element": ".nc-security-list__text", "optional": false }
+      {
+        "name": "item",
+        "element": ".nc-security-list__item",
+        "optional": false
+      },
+      {
+        "name": "icon",
+        "element": ".nc-security-list__icon",
+        "optional": true
+      },
+      {
+        "name": "text",
+        "element": ".nc-security-list__text",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -26,11 +58,24 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "security-list-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "security-list-default"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -40,27 +85,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-security-list"],
+    "baseClasses": [
+      "nc-security-list"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Security List",
+      "id": "default",
+      "label": "Security List",
       "description": "Liste mit Sicherheits-Features und Icons",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "security-list" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Icons dekorativ, Text kontrastreich." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "security-list"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Icons dekorativ, Text kontrastreich."
+      }
     }
   ]
 }

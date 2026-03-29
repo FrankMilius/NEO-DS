@@ -1,0 +1,130 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "kbd",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "typography",
+    "keyboard"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-kbd",
+    "slots": [
+      {
+        "name": "separator",
+        "selector": ".nc-kbd__separator",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Kbd ist ein natives <kbd class='nc-kbd'> Element — semantisch korrekt fuer Tastatur-Eingaben.",
+      "Verschachtelt fuer Kombinationen: <kbd class='nc-kbd-group'><kbd class='nc-kbd'>Ctrl</kbd><span class='nc-kbd__separator'>+</span><kbd class='nc-kbd'>S</kbd></kbd>.",
+      "__separator ist ein <span> zwischen den Tasten (z.B. '+', 'dann').",
+      "Rein informativ — kein interaktives Element.",
+      "min-width: 1.5em sorgt fuer quadratisches Aussehen bei einzelnen Zeichen.",
+      "box-shadow via elevation-base erzeugt subtilen 3D-Effekt (Tasten-Look)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Darstellungs-Variante — single (einzelne Taste, Standard), combination (Tastenkombination mit Separator)",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "combination",
+          "cssModifier": null,
+          "default": false,
+          "label": "combination"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-kbd"
+    ],
+    "tokenGroups": {
+      "Colors": [
+        {
+          "token": "nc-kbd-bg"
+        },
+        {
+          "token": "nc-kbd-color"
+        },
+        {
+          "token": "nc-kbd-border"
+        }
+      ],
+      "Geometry": [
+        {
+          "token": "nc-kbd-border-width"
+        },
+        {
+          "token": "nc-kbd-radius"
+        },
+        {
+          "token": "nc-kbd-padding-x"
+        },
+        {
+          "token": "nc-kbd-padding-y"
+        },
+        {
+          "token": "nc-kbd-shadow"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-kbd-font-family"
+        },
+        {
+          "token": "nc-kbd-font-size"
+        },
+        {
+          "token": "nc-kbd-font-weight"
+        },
+        {
+          "token": "nc-kbd-line-height"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_kbd.scss"
+    ],
+    "story": "stories/organisms/kbd.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/kbd-docs.html"
+  }
+}

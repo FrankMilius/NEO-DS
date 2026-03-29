@@ -5,22 +5,77 @@
     "component": "treeview",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["navigation", "interactive", "hierarchy"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/treeview-docs" }
+    "tags": [
+      "navigation",
+      "interactive",
+      "hierarchy"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/treeview-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_treeview.scss"
+      ],
+      "story": "stories/organisms/treeview.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/TreeviewArena.vue",
+      "drupal": [],
+      "docs": "docs/treeview-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-treeview" },
+    "root": {
+      "element": ".nc-treeview"
+    },
     "slots": [
-      { "name": "node", "element": ".nc-treeview__node", "optional": false },
-      { "name": "toggle", "element": ".nc-treeview__toggle", "optional": true },
-      { "name": "checkbox", "element": ".nc-treeview__checkbox", "optional": true },
-      { "name": "icon", "element": ".nc-treeview__icon", "optional": true },
-      { "name": "label", "element": ".nc-treeview__label", "optional": false },
-      { "name": "badge", "element": ".nc-treeview__badge", "optional": true },
-      { "name": "actions", "element": ".nc-treeview__actions", "optional": true },
-      { "name": "drag-handle", "element": ".nc-treeview__drag-handle", "optional": true },
-      { "name": "children", "element": ".nc-treeview__children", "optional": true }
+      {
+        "name": "node",
+        "element": ".nc-treeview__node",
+        "optional": false
+      },
+      {
+        "name": "toggle",
+        "element": ".nc-treeview__toggle",
+        "optional": true
+      },
+      {
+        "name": "checkbox",
+        "element": ".nc-treeview__checkbox",
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "element": ".nc-treeview__icon",
+        "optional": true
+      },
+      {
+        "name": "label",
+        "element": ".nc-treeview__label",
+        "optional": false
+      },
+      {
+        "name": "badge",
+        "element": ".nc-treeview__badge",
+        "optional": true
+      },
+      {
+        "name": "actions",
+        "element": ".nc-treeview__actions",
+        "optional": true
+      },
+      {
+        "name": "drag-handle",
+        "element": ".nc-treeview__drag-handle",
+        "optional": true
+      },
+      {
+        "name": "children",
+        "element": ".nc-treeview__children",
+        "optional": true
+      }
     ],
     "domNotes": [
       "Hierarchische Baumstruktur mit role=tree und role=treeitem.",
@@ -32,114 +87,292 @@
       "Drag-Handle: 6-dots Griff, nur bei --draggable Modifier sichtbar."
     ]
   },
-
   "api": {
     "elements": {
-      "default": { "element": "nav", "attributes": ["aria-label?"] }
+      "default": {
+        "element": "nav",
+        "attributes": [
+          "aria-label?"
+        ]
+      }
     },
     "attributes": [
-      { "name": "role", "appliesTo": ["ul"], "type": "string", "values": ["tree", "group"] },
-      { "name": "role", "appliesTo": ["li"], "type": "string", "values": ["treeitem"] },
-      { "name": "aria-expanded", "appliesTo": ["li"], "type": "boolean" },
-      { "name": "aria-selected", "appliesTo": ["li"], "type": "boolean" },
-      { "name": "aria-checked", "appliesTo": ["li"], "type": "string", "values": ["true", "false", "mixed"] },
-      { "name": "aria-disabled", "appliesTo": ["li"], "type": "boolean" },
-      { "name": "aria-level", "appliesTo": ["li"], "type": "number" },
-      { "name": "aria-setsize", "appliesTo": ["li"], "type": "number" },
-      { "name": "aria-posinset", "appliesTo": ["li"], "type": "number" }
+      {
+        "name": "role",
+        "appliesTo": [
+          "ul"
+        ],
+        "type": "string",
+        "values": [
+          "tree",
+          "group"
+        ]
+      },
+      {
+        "name": "role",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "string",
+        "values": [
+          "treeitem"
+        ]
+      },
+      {
+        "name": "aria-expanded",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "boolean"
+      },
+      {
+        "name": "aria-selected",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "boolean"
+      },
+      {
+        "name": "aria-checked",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "string",
+        "values": [
+          "true",
+          "false",
+          "mixed"
+        ]
+      },
+      {
+        "name": "aria-disabled",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "boolean"
+      },
+      {
+        "name": "aria-level",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "number"
+      },
+      {
+        "name": "aria-setsize",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "number"
+      },
+      {
+        "name": "aria-posinset",
+        "appliesTo": [
+          "li"
+        ],
+        "type": "number"
+      }
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Visuelle Variante — default, bordered, compact, flush",
       "values": {
-        "default":  { "modifier": null,                     "tokenGroups": ["layout", "colors"] },
-        "bordered": { "modifier": "nc-treeview--bordered",  "tokenGroups": ["layout", "colors", "bordered"] },
-        "compact":  { "modifier": "nc-treeview--compact",   "tokenGroups": ["layout", "colors"] },
-        "flush":    { "modifier": "nc-treeview--flush",     "tokenGroups": ["layout", "colors"] }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout",
+            "colors"
+          ]
+        },
+        "bordered": {
+          "modifier": "nc-treeview--bordered",
+          "tokenGroups": [
+            "layout",
+            "colors",
+            "bordered"
+          ]
+        },
+        "compact": {
+          "modifier": "nc-treeview--compact",
+          "tokenGroups": [
+            "layout",
+            "colors"
+          ]
+        },
+        "flush": {
+          "modifier": "nc-treeview--flush",
+          "tokenGroups": [
+            "layout",
+            "colors"
+          ]
+        }
       }
     },
-
     "selection": {
       "label": "Selection Mode",
       "description": "Selektionsmodus — single (aria-selected) oder multiple (Checkboxen)",
       "values": {
-        "single":   { "modifier": null, "tokenGroups": [] },
-        "multiple": { "modifier": "nc-treeview--checkboxes", "tokenGroups": ["checkbox"] }
+        "single": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "multiple": {
+          "modifier": "nc-treeview--checkboxes",
+          "tokenGroups": [
+            "checkbox"
+          ]
+        }
       }
     },
-
     "lines": {
       "label": "Line Style",
       "description": "Vertikale Guide-Lines zur Orientierung in tiefen Baeumen",
       "values": {
-        "none":   { "modifier": null, "tokenGroups": [] },
-        "solid":  { "modifier": "nc-treeview--lines-solid", "tokenGroups": ["guide-lines"] },
-        "dashed": { "modifier": "nc-treeview--lines-dashed", "tokenGroups": ["guide-lines"] }
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "solid": {
+          "modifier": "nc-treeview--lines-solid",
+          "tokenGroups": [
+            "guide-lines"
+          ]
+        },
+        "dashed": {
+          "modifier": "nc-treeview--lines-dashed",
+          "tokenGroups": [
+            "guide-lines"
+          ]
+        }
       }
     },
-
     "interaction": {
       "label": "Interaction",
       "description": "Interaktionsmodus — static (nur Expand/Select) oder draggable (Drag & Drop)",
       "values": {
-        "static":    { "modifier": null, "tokenGroups": [] },
-        "draggable": { "modifier": "nc-treeview--draggable", "tokenGroups": ["drag-drop"] }
+        "static": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "draggable": {
+          "modifier": "nc-treeview--draggable",
+          "tokenGroups": [
+            "drag-drop"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "active", "focus-visible", "expanded", "selected", "disabled"],
-    "precedence": ["disabled", "active", "focus-visible", "selected", "expanded", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus-visible",
+      "expanded",
+      "selected",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "active",
+      "focus-visible",
+      "selected",
+      "expanded",
+      "hover",
+      "default"
+    ],
     "rules": [
       {
         "state": "expanded",
-        "attributes": { "aria-expanded": true },
+        "attributes": {
+          "aria-expanded": true
+        },
         "note": "Children werden sichtbar. Toggle-Chevron rotiert 90°. CSS-Grid slide-down Animation."
       },
       {
         "state": "selected",
-        "attributes": { "aria-selected": true },
+        "attributes": {
+          "aria-selected": true
+        },
         "note": "Kraeftigere Hintergrundfarbe + Akzent-Border (border-inline-start). Font-weight medium."
       },
       {
         "state": "disabled",
-        "effects": ["blockInteraction"],
-        "attributes": { "aria-disabled": true },
+        "effects": [
+          "blockInteraction"
+        ],
+        "attributes": {
+          "aria-disabled": true
+        },
         "note": "Opacity reduziert, pointer-events: none."
       }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "focusIndicator": "focus-ring mixin, :focus-visible",
-      "assertions": ["hasAccessibleName", "focusIndicatorVisible"],
+      "assertions": [
+        "hasAccessibleName",
+        "focusIndicatorVisible"
+      ],
       "note": "role=tree auf Root-<ul>. role=treeitem auf <li>. role=group auf verschachtelten <ul>. aria-expanded fuer Branch-Items. Keyboard: ArrowUp/Down navigiert, ArrowLeft/Right collapsed/expanded, Home/End springt, Enter/Space selektiert."
     },
     "overrides": [
       {
-        "when": { "axes": { "selection": ["multiple"] } },
-        "require": ["aria-checked"],
+        "when": {
+          "axes": {
+            "selection": [
+              "multiple"
+            ]
+          }
+        },
+        "require": [
+          "aria-checked"
+        ],
         "note": "Im Checkbox-Mode: aria-checked='true|false|mixed'. Eltern-Checkbox nutzt 'mixed' wenn nur einige Kinder ausgewaehlt."
       },
       {
-        "when": { "axes": { "interaction": ["draggable"] } },
+        "when": {
+          "axes": {
+            "interaction": [
+              "draggable"
+            ]
+          }
+        },
         "note": "Drag-Handle benoetigt aria-label='Element verschieben'. Drop-Targets brauchen aria-dropeffect='move'. aria-grabbed auf gezogenem Item."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": { "axes": { "selection": ["multiple"] } }, "require": ["aria-checked"] },
-      { "when": { "states": ["disabled"] }, "effects": ["blockInteraction"] }
+      {
+        "when": {
+          "axes": {
+            "selection": [
+              "multiple"
+            ]
+          }
+        },
+        "require": [
+          "aria-checked"
+        ]
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "effects": [
+          "blockInteraction"
+        ]
+      }
     ],
     "copy": {
       "label": {
@@ -148,11 +381,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-treeview"],
-    "baseTokenGroups": ["layout", "typography", "colors"],
-
+    "baseClasses": [
+      "nc-treeview"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "typography",
+      "colors"
+    ],
     "tokenGroups": {
       "layout": {
         "label": "Layout",
@@ -165,7 +402,6 @@
           "nc-treeview-radius"
         ]
       },
-
       "toggle": {
         "label": "Toggle",
         "tokens": [
@@ -175,7 +411,6 @@
           "nc-treeview-toggle-transition"
         ]
       },
-
       "typography": {
         "label": "Typography",
         "tokens": [
@@ -187,7 +422,6 @@
           "nc-treeview-icon-color"
         ]
       },
-
       "colors": {
         "label": "Colors",
         "tokens": [
@@ -200,7 +434,6 @@
           "nc-treeview-transition-duration"
         ]
       },
-
       "links": {
         "label": "Links",
         "tokens": [
@@ -208,7 +441,6 @@
           "nc-treeview-link-color-hover"
         ]
       },
-
       "guide-lines": {
         "label": "Guide-Lines",
         "tokens": [
@@ -218,7 +450,6 @@
           "nc-treeview-guide-opacity"
         ]
       },
-
       "actions": {
         "label": "Action-Slot",
         "tokens": [
@@ -228,7 +459,6 @@
           "nc-treeview-action-size"
         ]
       },
-
       "checkbox": {
         "label": "Checkbox",
         "tokens": [
@@ -236,7 +466,6 @@
           "nc-treeview-checkbox-gap"
         ]
       },
-
       "badge": {
         "label": "Badge",
         "tokens": [
@@ -247,7 +476,6 @@
           "nc-treeview-badge-color"
         ]
       },
-
       "drag-drop": {
         "label": "Drag & Drop",
         "tokens": [
@@ -256,14 +484,12 @@
           "nc-treeview-drag-opacity"
         ]
       },
-
       "animation": {
         "label": "Animation",
         "tokens": [
           "nc-treeview-expand-duration"
         ]
       },
-
       "bordered": {
         "label": "Bordered Variant",
         "tokens": [
@@ -274,7 +500,6 @@
         ]
       }
     },
-
     "tokenDependencies": [
       {
         "source": "nc-item-gap",
@@ -288,12 +513,19 @@
       }
     ]
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -310,19 +542,35 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "variant-comparison",
       "label": "Variants",
       "description": "Default, Bordered, Compact, Flush — je mit 3 Ebenen",
       "matrix": {
-        "axes": { "variant": "*", "selection": ["single"], "lines": ["none"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "none"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Bordered: Border-Kontrast 3:1. Alle: focus-ring auf Nodes."
@@ -333,11 +581,32 @@
       "label": "Interactive States",
       "description": "Hover, Selected, Expanded, Disabled nebeneinander",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": ["none"], "interaction": ["static"] },
-        "states": ["default", "hover", "selected", "expanded", "disabled"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "none"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "selected",
+          "expanded",
+          "disabled"
+        ]
       },
       "layout": "grid",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled: opacity + aria-disabled. Selected: kraeftige Hervorhebung."
@@ -348,25 +617,63 @@
       "label": "Guide-Lines",
       "description": "Vertikale Verbindungslinien: none vs. solid vs. dashed",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": "*", "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": "*",
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["guide-lines"],
+      "focusTokenGroups": [
+        "guide-lines"
+      ],
       "layout": "grid",
-      "layoutConfig": { "colAxis": "lines" },
-      "render": { "label": "{lines}" }
+      "layoutConfig": {
+        "colAxis": "lines"
+      },
+      "render": {
+        "label": "{lines}"
+      }
     },
     {
       "id": "checkbox-mode",
       "label": "Checkbox Multi-Select",
       "description": "Checkboxen pro Node mit Mixed-State auf Eltern",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["multiple"], "lines": ["solid"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "multiple"
+          ],
+          "lines": [
+            "solid"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["checkbox"],
+      "focusTokenGroups": [
+        "checkbox"
+      ],
       "layout": "row",
-      "render": { "label": "Multi-Select Tree" },
+      "render": {
+        "label": "Multi-Select Tree"
+      },
       "a11y": {
         "note": "aria-checked='true|false|mixed'. Eltern mit teilweise ausgewaehlten Kindern nutzen 'mixed'."
       }
@@ -376,36 +683,99 @@
       "label": "With Actions",
       "description": "Kontextuelle Aktionen (Drei-Punkte-Menue, Loeschen) bei Hover sichtbar",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": ["none"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "none"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["actions"],
+      "focusTokenGroups": [
+        "actions"
+      ],
       "layout": "row",
-      "render": { "label": "Tree with Actions", "slotConfig": { "actions": true } }
+      "render": {
+        "label": "Tree with Actions",
+        "slotConfig": {
+          "actions": true
+        }
+      }
     },
     {
       "id": "with-badges",
       "label": "With Badges",
       "description": "Count-Badges an Nodes (z.B. Anzahl Kinder, ungelesene Items)",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": ["none"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "none"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["badge"],
+      "focusTokenGroups": [
+        "badge"
+      ],
       "layout": "row",
-      "render": { "label": "Tree with Badges", "slotConfig": { "badge": true } }
+      "render": {
+        "label": "Tree with Badges",
+        "slotConfig": {
+          "badge": true
+        }
+      }
     },
     {
       "id": "drag-drop",
       "label": "Drag & Drop",
       "description": "Draggable Nodes mit Drop-Indikatoren (before/inside/after)",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": ["solid"], "interaction": ["draggable"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "solid"
+          ],
+          "interaction": [
+            "draggable"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["drag-drop"],
+      "focusTokenGroups": [
+        "drag-drop"
+      ],
       "layout": "row",
-      "render": { "label": "Draggable Tree" },
+      "render": {
+        "label": "Draggable Tree"
+      },
       "a11y": {
         "note": "Drag-Handle: aria-label='Element verschieben'. aria-grabbed auf gezogenem Item."
       }
@@ -415,24 +785,70 @@
       "label": "Deep Hierarchy (5 Levels)",
       "description": "Tiefer Baum mit Guide-Lines und Compact-Density",
       "matrix": {
-        "axes": { "variant": ["compact"], "selection": ["single"], "lines": ["solid"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "compact"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "solid"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["layout", "guide-lines"],
+      "focusTokenGroups": [
+        "layout",
+        "guide-lines"
+      ],
       "layout": "row",
-      "render": { "label": "5-Level Deep Tree" }
+      "render": {
+        "label": "5-Level Deep Tree"
+      }
     },
     {
       "id": "file-explorer",
       "label": "File Explorer Pattern",
       "description": "Icons + Actions + Badges — typisches File-Explorer Layout",
       "matrix": {
-        "axes": { "variant": ["default"], "selection": ["single"], "lines": ["solid"], "interaction": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "selection": [
+            "single"
+          ],
+          "lines": [
+            "solid"
+          ],
+          "interaction": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["actions", "badge", "guide-lines"],
+      "focusTokenGroups": [
+        "actions",
+        "badge",
+        "guide-lines"
+      ],
       "layout": "row",
-      "render": { "label": "File Explorer", "slotConfig": { "icon": true, "actions": true, "badge": true } }
+      "render": {
+        "label": "File Explorer",
+        "slotConfig": {
+          "icon": true,
+          "actions": true,
+          "badge": true
+        }
+      }
     }
   ]
 }

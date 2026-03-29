@@ -1,0 +1,410 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "breadcrumb",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "navigation",
+    "wayfinding"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-breadcrumb",
+    "slots": [
+      {
+        "name": "list",
+        "selector": ".nc-breadcrumb__list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-breadcrumb__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "link",
+        "selector": ".nc-breadcrumb__link",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "page",
+        "selector": ".nc-breadcrumb__page",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "separator",
+        "selector": ".nc-breadcrumb__separator",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "home-icon",
+        "selector": ".nc-breadcrumb__home-icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "back-icon",
+        "selector": ".nc-breadcrumb__back-icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "ellipsis",
+        "selector": ".nc-breadcrumb__ellipsis",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "ellipsis-wrap",
+        "selector": ".nc-breadcrumb__ellipsis-wrap",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "dropdown",
+        "selector": ".nc-breadcrumb__dropdown",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "dropdown-item",
+        "selector": ".nc-breadcrumb__dropdown-item",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.",
+      "Liste ist <ol class='nc-breadcrumb__list'> — geordnete Semantik fuer den Pfad.",
+      "Items sind <li class='nc-breadcrumb__item'> mit <a class='nc-breadcrumb__link'> oder <span class='nc-breadcrumb__page'>.",
+      "Letztes Item: <span class='nc-breadcrumb__page' aria-current='page'> — nicht klickbar, font-weight medium.",
+      "Breadcrumb-Labels muessen exakt mit den <h1>-Ueberschriften der Zielseiten uebereinstimmen (kognitive Konsistenz).",
+      "Separator: <span class='nc-breadcrumb__separator' aria-hidden='true'> mit Chevron-SVG oder '/'.",
+      "Separatoren haben reduzierte Opacity (40%) und feste min-width gegen Layout-Shift.",
+      "Home-Icon: <span class='nc-breadcrumb__home-icon'> mit Haus-SVG ersetzt 'Home'-Text. Link braucht aria-label='Home'.",
+      "Smart-Truncation: Home + letzte 2 Items immer sichtbar. Mittlere Ebenen → Ellipsis-Dropdown.",
+      "Ellipsis: <button class='nc-breadcrumb__ellipsis' aria-label='Weitere Seiten anzeigen'> fuer abgekuerzte Pfade.",
+      "Ellipsis-Wrap: <li class='nc-breadcrumb__ellipsis-wrap'> ist Position-Context fuer Dropdown.",
+      "Dropdown: <ul class='nc-breadcrumb__dropdown' role='menu'> nutzt nc-dropdown-* Tokens (gleicher shadow/radius wie Navigation-Menu).",
+      "Dropdown-Item: <a class='nc-breadcrumb__dropdown-item' role='menuitem'> — einzelner Link.",
+      "Ghost: Links wirken wie normaler Text (text-tertiary), erst bei Hover interaktiv. Ideal fuer Artikel-Seiten.",
+      "Back-Link: Mobile-First — nur '← Parent' Link. Spart Platz fuer Content auf schmalen Viewports.",
+      "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "2 Groessenabstufungen — sm (Admin/Sidebar) / md (Standard, DEFAULT)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-breadcrumb--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        }
+      ]
+    },
+    "appearance": {
+      "label": "Appearance",
+      "description": "Visueller Stil — default (Link-Farbe + Hover-Underline), ghost (dezente Links wie Text, erst bei Hover interaktiv)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": "nc-breadcrumb--ghost",
+          "default": false,
+          "label": "ghost"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Darstellung — full (alle Items sichtbar), truncated (Smart-Truncation mit Ellipsis-Dropdown), back-link (nur Parent-Link fuer Mobile)",
+      "values": [
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        },
+        {
+          "value": "truncated",
+          "cssModifier": null,
+          "default": false,
+          "label": "truncated"
+        },
+        {
+          "value": "back-link",
+          "cssModifier": "nc-breadcrumb--back-link",
+          "default": false,
+          "label": "back-link"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Home-Element — text ('Home' als Wort) oder home-icon (Haus-SVG, platzsparend + international)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "home-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "home-icon"
+        }
+      ]
+    },
+    "separator": {
+      "label": "Separator",
+      "description": "Trennzeichen — chevron (SVG, Standard), slash ('/'), dot (Punkt), square (Quadrat), custom (via Token)",
+      "values": [
+        {
+          "value": "chevron",
+          "cssModifier": null,
+          "default": false,
+          "label": "chevron"
+        },
+        {
+          "value": "slash",
+          "cssModifier": null,
+          "default": false,
+          "label": "slash"
+        },
+        {
+          "value": "dot",
+          "cssModifier": "nc-breadcrumb__separator--dot",
+          "default": false,
+          "label": "dot"
+        },
+        {
+          "value": "square",
+          "cssModifier": "nc-breadcrumb__separator--square",
+          "default": false,
+          "label": "square"
+        },
+        {
+          "value": "custom",
+          "cssModifier": "nc-breadcrumb__separator--custom",
+          "default": false,
+          "label": "custom"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-breadcrumb"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-breadcrumb-gap"
+        },
+        {
+          "token": "nc-breadcrumb-font-size"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-breadcrumb-color"
+        },
+        {
+          "token": "nc-breadcrumb-color-current"
+        },
+        {
+          "token": "nc-breadcrumb-color-hover"
+        }
+      ],
+      "Separator": [
+        {
+          "token": "nc-breadcrumb-separator-color"
+        },
+        {
+          "token": "nc-breadcrumb-separator-opacity"
+        },
+        {
+          "token": "nc-breadcrumb-separator-size"
+        },
+        {
+          "token": "nc-breadcrumb-separator-min-width"
+        },
+        {
+          "token": "nc-breadcrumb-separator-custom"
+        }
+      ],
+      "Size SM": [
+        {
+          "token": "nc-breadcrumb-font-size-sm"
+        }
+      ],
+      "Ghost Variant": [
+        {
+          "token": "nc-breadcrumb-ghost-color"
+        },
+        {
+          "token": "nc-breadcrumb-ghost-color-hover"
+        }
+      ],
+      "Back-Link": [
+        {
+          "token": "nc-breadcrumb-back-icon-size"
+        },
+        {
+          "token": "nc-breadcrumb-back-gap"
+        }
+      ],
+      "Home Icon": [
+        {
+          "token": "nc-breadcrumb-separator-size"
+        }
+      ],
+      "Dropdown": [
+        {
+          "token": "nc-breadcrumb-dropdown-min-width"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "truncated"
+            ]
+          }
+        },
+        "require": [
+          "aria-label",
+          "aria-haspopup",
+          "aria-expanded"
+        ],
+        "suggest": [],
+        "note": "Ellipsis-Button braucht aria-label='Weitere Seiten anzeigen', aria-haspopup='true', aria-expanded='true|false'."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "truncated"
+            ]
+          },
+          "states": [
+            "open"
+          ]
+        },
+        "require": [
+          "role-menu",
+          "role-menuitem",
+          "keyboard-navigation"
+        ],
+        "suggest": [],
+        "note": "Dropdown: role='menu', Items: role='menuitem'. Keyboard: ArrowDown/Up navigiert, Escape schliesst, Tab verlaesst."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "home-icon"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Home-Icon Link braucht aria-label='Home' da kein sichtbarer Text vorhanden."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "back-link"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_breadcrumb.scss"
+    ],
+    "story": "stories/molecules/breadcrumb.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/BreadcrumbArena.vue",
+    "drupal": [],
+    "docs": "docs/breadcrumb-docs.html"
+  }
+}

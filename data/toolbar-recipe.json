@@ -5,7 +5,12 @@
     "component": "toolbar",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "layout", "action", "editor"],
+    "tags": [
+      "interactive",
+      "layout",
+      "action",
+      "editor"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
@@ -25,18 +30,54 @@
           "Token-Abhaengigkeiten: nc-input-radius → nc-toolbar-radius, nc-button-gap → nc-toolbar-gap"
         ]
       },
-      { "version": "1.0.0", "changes": ["Initiale Implementierung: Bordered/Border-Bottom/Compact, Groups, Separator, Spacer, Label, Responsive Wrapping"] }
-    ]
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: Bordered/Border-Bottom/Compact, Groups, Separator, Spacer, Label, Responsive Wrapping"
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_toolbar.scss"
+      ],
+      "story": "stories/organisms/toolbar.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/ToolbarArena.vue",
+      "drupal": [],
+      "docs": "docs/toolbar-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-toolbar" },
+    "root": {
+      "element": ".nc-toolbar"
+    },
     "slots": [
-      { "name": "group", "element": ".nc-toolbar__group", "optional": false },
-      { "name": "separator", "element": ".nc-toolbar__separator", "optional": true },
-      { "name": "spacer", "element": ".nc-toolbar__spacer", "optional": true },
-      { "name": "label", "element": ".nc-toolbar__label", "optional": true },
-      { "name": "overflow-trigger", "element": ".nc-toolbar__overflow-trigger", "optional": true }
+      {
+        "name": "group",
+        "element": ".nc-toolbar__group",
+        "optional": false
+      },
+      {
+        "name": "separator",
+        "element": ".nc-toolbar__separator",
+        "optional": true
+      },
+      {
+        "name": "spacer",
+        "element": ".nc-toolbar__spacer",
+        "optional": true
+      },
+      {
+        "name": "label",
+        "element": ".nc-toolbar__label",
+        "optional": true
+      },
+      {
+        "name": "overflow-trigger",
+        "element": ".nc-toolbar__overflow-trigger",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -56,96 +97,243 @@
       "Alignment: --align-center (zentriert), --align-justify (space-between)."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Visuelle Variante — default (ohne Border), bordered (Rahmen), border-bottom (untere Linie), floating (Card mit Shadow), blurred (Glassmorphism)",
       "values": {
-        "default":       { "modifier": null,                           "tokenGroups": ["container"],   "renderHint": "toolbar-default" },
-        "bordered":      { "modifier": "nc-toolbar--bordered",         "tokenGroups": ["container"],   "renderHint": "toolbar-bordered" },
-        "border-bottom": { "modifier": "nc-toolbar--border-bottom",    "tokenGroups": ["container"],   "renderHint": "toolbar-border-bottom" },
-        "floating":      { "modifier": "nc-toolbar--floating",         "tokenGroups": ["floating"],    "renderHint": "toolbar-floating" },
-        "blurred":       { "modifier": "nc-toolbar--blurred",          "tokenGroups": ["blurred"],     "renderHint": "toolbar-blurred" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "container"
+          ],
+          "renderHint": "toolbar-default"
+        },
+        "bordered": {
+          "modifier": "nc-toolbar--bordered",
+          "tokenGroups": [
+            "container"
+          ],
+          "renderHint": "toolbar-bordered"
+        },
+        "border-bottom": {
+          "modifier": "nc-toolbar--border-bottom",
+          "tokenGroups": [
+            "container"
+          ],
+          "renderHint": "toolbar-border-bottom"
+        },
+        "floating": {
+          "modifier": "nc-toolbar--floating",
+          "tokenGroups": [
+            "floating"
+          ],
+          "renderHint": "toolbar-floating"
+        },
+        "blurred": {
+          "modifier": "nc-toolbar--blurred",
+          "tokenGroups": [
+            "blurred"
+          ],
+          "renderHint": "toolbar-blurred"
+        }
       }
     },
-
     "density": {
       "label": "Density",
       "description": "Informationsdichte — default (48px), compact (32px Desktop / 48px Mobile)",
       "values": {
-        "default": { "modifier": null,                     "tokenGroups": [],          "renderHint": "toolbar-density-default" },
-        "compact": { "modifier": "nc-toolbar--compact",    "tokenGroups": ["compact"], "renderHint": "toolbar-density-compact" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toolbar-density-default"
+        },
+        "compact": {
+          "modifier": "nc-toolbar--compact",
+          "tokenGroups": [
+            "compact"
+          ],
+          "renderHint": "toolbar-density-compact"
+        }
       }
     },
-
     "alignment": {
       "label": "Alignment",
       "description": "Ausrichtung der Gruppen — start (links), center (zentriert), justify (gleichmaessig verteilt)",
       "values": {
-        "start":   { "modifier": null,                          "tokenGroups": [], "renderHint": "toolbar-align-start" },
-        "center":  { "modifier": "nc-toolbar--align-center",    "tokenGroups": [], "renderHint": "toolbar-align-center" },
-        "justify": { "modifier": "nc-toolbar--align-justify",   "tokenGroups": [], "renderHint": "toolbar-align-justify" }
+        "start": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toolbar-align-start"
+        },
+        "center": {
+          "modifier": "nc-toolbar--align-center",
+          "tokenGroups": [],
+          "renderHint": "toolbar-align-center"
+        },
+        "justify": {
+          "modifier": "nc-toolbar--align-justify",
+          "tokenGroups": [],
+          "renderHint": "toolbar-align-justify"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — buttons-only, with-separator, with-spacer, with-label, full (alle Elemente)",
       "values": {
-        "buttons-only":   { "modifier": null, "tokenGroups": [],          "renderHint": "toolbar-buttons" },
-        "with-separator": { "modifier": null, "tokenGroups": [],          "slotConfig": { "separator": true }, "renderHint": "toolbar-separator" },
-        "with-spacer":    { "modifier": null, "tokenGroups": [],          "slotConfig": { "spacer": true }, "renderHint": "toolbar-spacer" },
-        "with-label":     { "modifier": null, "tokenGroups": [],          "slotConfig": { "label": true }, "renderHint": "toolbar-label" },
-        "full":           { "modifier": null, "tokenGroups": [],          "slotConfig": { "separator": true, "spacer": true, "label": true }, "renderHint": "toolbar-full" }
+        "buttons-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toolbar-buttons"
+        },
+        "with-separator": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "separator": true
+          },
+          "renderHint": "toolbar-separator"
+        },
+        "with-spacer": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "spacer": true
+          },
+          "renderHint": "toolbar-spacer"
+        },
+        "with-label": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "label": true
+          },
+          "renderHint": "toolbar-label"
+        },
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "separator": true,
+            "spacer": true,
+            "label": true
+          },
+          "renderHint": "toolbar-full"
+        }
       }
     },
-
     "sticky": {
       "label": "Sticky",
       "description": "Sticky-Verhalten — none (normal), sticky (haftet unter Navbar mit Scroll-Shadow)",
       "values": {
-        "none":   { "modifier": null,                       "tokenGroups": [],          "renderHint": "toolbar-sticky-none" },
-        "sticky": { "modifier": "nc-toolbar--sticky",       "tokenGroups": ["sticky"],  "renderHint": "toolbar-sticky" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toolbar-sticky-none"
+        },
+        "sticky": {
+          "modifier": "nc-toolbar--sticky",
+          "tokenGroups": [
+            "sticky"
+          ],
+          "renderHint": "toolbar-sticky"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "scrolled"],
-    "precedence": ["scrolled", "default"],
+    "supported": [
+      "default",
+      "scrolled"
+    ],
+    "precedence": [
+      "scrolled",
+      "default"
+    ],
     "rules": [
-      { "state": "scrolled", "condition": ".is-scrolled — Sticky-Toolbar nach Scroll: Shadow + Border-Bottom" }
+      {
+        "state": "scrolled",
+        "condition": ".is-scrolled — Sticky-Toolbar nach Scroll: Shadow + Border-Bottom"
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Root: role='toolbar', aria-label (z.B. 'Tabellen-Aktionen'). Keyboard: Roving tabindex — Arrow Left/Right navigiert zwischen Items, auch komplexe Elemente (Search-Input). Nur ein Item im Tab-Index (tabindex='0'), Rest tabindex='-1'. Separator dekorativ (aria-hidden). Label: rein visuell, nicht fokussierbar."
     },
     "overrides": [
       {
-        "when": { "axes": { "density": ["compact"] } },
-        "suggest": ["touch-target"],
+        "when": {
+          "axes": {
+            "density": [
+              "compact"
+            ]
+          }
+        },
+        "suggest": [
+          "touch-target"
+        ],
         "note": "Compact: Buttons mindestens 24px Target auf Desktop. Mobile: automatisch 48px via CSS Override."
       },
       {
-        "when": { "axes": { "variant": ["blurred"] } },
-        "suggest": ["contrast-check"],
+        "when": {
+          "axes": {
+            "variant": [
+              "blurred"
+            ]
+          }
+        },
+        "suggest": [
+          "contrast-check"
+        ],
         "note": "Blurred: Kontrast der Inhalte gegen wechselnden Hintergrund pruefen. Fallback auf solide Farbe bei prefers-contrast:more."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-toolbar", "aria-label"], "notes": ["Root braucht role='toolbar' und aria-label fuer Screen Reader."] },
-      { "when": {}, "require": ["roving-tabindex"], "notes": ["Keyboard: Roving tabindex — Arrow Left/Right navigiert. Home/End springt zu erstem/letztem Item. Komplexe Elemente (Inputs) werden in die Fokus-Kette integriert."] },
-      { "when": { "axes": { "sticky": ["sticky"] } }, "require": ["scroll-listener"], "notes": ["JS: IntersectionObserver oder Scroll-Listener fuer .is-scrolled Toggle."] }
+      {
+        "when": {},
+        "require": [
+          "role-toolbar",
+          "aria-label"
+        ],
+        "notes": [
+          "Root braucht role='toolbar' und aria-label fuer Screen Reader."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "roving-tabindex"
+        ],
+        "notes": [
+          "Keyboard: Roving tabindex — Arrow Left/Right navigiert. Home/End springt zu erstem/letztem Item. Komplexe Elemente (Inputs) werden in die Fokus-Kette integriert."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "sticky": [
+              "sticky"
+            ]
+          }
+        },
+        "require": [
+          "scroll-listener"
+        ],
+        "notes": [
+          "JS: IntersectionObserver oder Scroll-Listener fuer .is-scrolled Toggle."
+        ]
+      }
     ],
     "copy": {
       "ariaLabel": {
@@ -154,11 +342,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-toolbar"],
-    "baseTokenGroups": ["container", "separator", "label"],
-
+    "baseClasses": [
+      "nc-toolbar"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "separator",
+      "label"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -229,12 +421,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -251,19 +450,38 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "variant-comparison",
       "label": "Variants",
       "description": "Default, Bordered, Border-Bottom, Floating, Blurred im Vergleich",
       "matrix": {
-        "axes": { "variant": "*", "density": ["default"], "alignment": ["start"], "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Border 3:1 gegen Hintergrund. Floating: Shadow als visueller Lift. Blurred: Kontrast pruefen."
@@ -274,12 +492,32 @@
       "label": "Alignment",
       "description": "Start, Center, Justify — Ausrichtung der Gruppen",
       "matrix": {
-        "axes": { "variant": ["bordered"], "density": ["default"], "alignment": "*", "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "bordered"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": "*",
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "alignment" },
-      "render": { "label": "{alignment}" },
+      "layoutConfig": {
+        "rowAxis": "alignment"
+      },
+      "render": {
+        "label": "{alignment}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Alignment ist dekorativ, kein A11y-Einfluss."
@@ -290,12 +528,32 @@
       "label": "Density",
       "description": "Default (48px) vs Compact (32px Desktop / 48px Mobile)",
       "matrix": {
-        "axes": { "variant": ["bordered"], "density": "*", "alignment": ["start"], "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "bordered"
+          ],
+          "density": "*",
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "density" },
-      "render": { "label": "{density}" },
+      "layoutConfig": {
+        "rowAxis": "density"
+      },
+      "render": {
+        "label": "{density}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Compact: Touch-Target min. 24px Desktop, 48px Mobile."
@@ -306,12 +564,32 @@
       "label": "Content",
       "description": "Buttons-Only, Separator, Spacer, Label, Full",
       "matrix": {
-        "axes": { "variant": ["bordered"], "density": ["default"], "alignment": ["start"], "content": "*", "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "bordered"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": "*",
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Separator: aria-hidden. Label: nicht fokussierbar. Spacer: kein DOM-Impact."
@@ -321,13 +599,37 @@
       "id": "floating-editor",
       "label": "Floating (Canvas Editor)",
       "description": "Schwebende Toolbar fuer Canvas-/Grafik-Editoren",
-      "composes": ["button", "toggle-group"],
+      "composes": [
+        "button",
+        "toggle-group"
+      ],
       "matrix": {
-        "axes": { "variant": ["floating"], "density": ["default"], "alignment": ["center"], "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "floating"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "center"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "single",
-      "render": { "compositionType": "toolbar-floating", "label": "floating" },
+      "render": {
+        "compositionType": "toolbar-floating",
+        "label": "floating"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Floating: Shadow als visueller Lift. Surface-elevated fuer Dark-Mode."
@@ -338,11 +640,32 @@
       "label": "Blurred (Shell)",
       "description": "Glassmorphism-Toolbar fuer Shell-/App-Frames",
       "matrix": {
-        "axes": { "variant": ["blurred"], "density": ["default"], "alignment": ["start"], "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "blurred"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "single",
-      "render": { "compositionType": "toolbar-blurred", "label": "blurred" },
+      "render": {
+        "compositionType": "toolbar-blurred",
+        "label": "blurred"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Blurred: Kontrast gegen wechselnden Hintergrund pruefen."
@@ -352,13 +675,37 @@
       "id": "table-toolbar",
       "label": "Table Toolbar",
       "description": "Typische Toolbar ueber einer Datentabelle — Filter, Suche, Aktionen",
-      "composes": ["button", "search"],
+      "composes": [
+        "button",
+        "search"
+      ],
       "matrix": {
-        "axes": { "variant": ["bordered"], "density": ["default"], "alignment": ["start"], "content": ["full"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "bordered"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "full"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "toolbar-table", "label": "table-toolbar" },
+      "render": {
+        "compositionType": "toolbar-table",
+        "label": "table-toolbar"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "aria-label='Tabellen-Aktionen'. Roving tabindex ueber alle fokussierbaren Elemente inkl. Search-Input."
@@ -368,13 +715,37 @@
       "id": "editor-toolbar",
       "label": "Editor Toolbar",
       "description": "Formatting-Toolbar fuer Text-Editor — Bold, Italic, Alignment via Toggle-Group",
-      "composes": ["button", "toggle-group"],
+      "composes": [
+        "button",
+        "toggle-group"
+      ],
       "matrix": {
-        "axes": { "variant": ["border-bottom"], "density": ["default"], "alignment": ["start"], "content": ["with-separator"], "sticky": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "border-bottom"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "toolbar-editor", "label": "editor-toolbar" },
+      "render": {
+        "compositionType": "toolbar-editor",
+        "label": "editor-toolbar"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "aria-label='Text-Formatierung'. Toggle-Buttons: aria-pressed. Separator trennt logische Gruppen."
@@ -385,11 +756,33 @@
       "label": "Sticky (Scrolled)",
       "description": "Sticky-Toolbar mit Scroll-Shadow (.is-scrolled)",
       "matrix": {
-        "axes": { "variant": ["default"], "density": ["default"], "alignment": ["start"], "content": ["with-separator"], "sticky": ["sticky"] },
-        "states": ["default", "scrolled"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "density": [
+            "default"
+          ],
+          "alignment": [
+            "start"
+          ],
+          "content": [
+            "with-separator"
+          ],
+          "sticky": [
+            "sticky"
+          ]
+        },
+        "states": [
+          "default",
+          "scrolled"
+        ]
       },
       "layout": "single",
-      "render": { "compositionType": "toolbar-sticky", "label": "sticky" },
+      "render": {
+        "compositionType": "toolbar-sticky",
+        "label": "sticky"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Sticky: z-index ueber Content. Shadow ist rein dekorativ."

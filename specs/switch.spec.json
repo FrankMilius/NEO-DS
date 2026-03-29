@@ -1,0 +1,299 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "switch",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "toggle",
+    "form"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-switch",
+    "slots": [
+      {
+        "name": "track",
+        "selector": ".nc-switch__track",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "thumb",
+        "selector": ".nc-switch__thumb",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "indicator-on",
+        "selector": ".nc-switch__indicator-on",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "indicator-off",
+        "selector": ".nc-switch__indicator-off",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-switch__label",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Button-Pattern: <button role='switch' aria-checked='true/false'> als Track.",
+      "Input-Pattern: <input type='checkbox' role='switch'> + <span> Track + Thumb.",
+      "Switch braucht IMMER ein sichtbares Label oder aria-label.",
+      "Touch-Target: Der Track erhaelt ein unsichtbares ::after Pseudo-Element mit inset: calc(-1 * --nc-switch-touch-padding). Dadurch wird der Klickbereich auf mindestens 44x44px erweitert (WCAG 2.5.8), ohne das visuelle Design (z.B. 40x20px) zu veraendern.",
+      "Focus-Ring: outline mit --nc-switch-focus-ring-offset (3px) auf dem Track. Der Ring umschliesst den Switch sauber mit Abstand — klemmt nicht direkt auf der pill-foermigen Rundung.",
+      "Thumb-Bewegung per transform: translateX — timing via --nc-switch-transition-timing (cubic-bezier). Respektiert prefers-reduced-motion.",
+      "Squash & Stretch: Bei :active dehnt sich der Thumb in Bewegungsrichtung (scaleX via width-Aenderung). Loslassen loest snap-back mit cubic-bezier Easing aus.",
+      "Track-Indikatoren: .nc-switch--indicators aktiviert I/O Labels im Track. 'O' sichtbar bei unchecked, 'I' sichtbar bei checked. Fade-Transition synced mit Thumb-Bewegung.",
+      "Thumb-Shadow: --nc-switch-thumb-shadow kontrolliert die Elevation. Standard: fnd-shadow-xs fuer plastischen Effekt auf farbigem Track."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung — md (44x24px, Standard) / sm (36x20px, kompakt)",
+      "values": [
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-switch--sm",
+          "default": false,
+          "label": "sm"
+        }
+      ]
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Implementierungs-Muster: Button-Track (Standard) oder native Checkbox",
+      "values": [
+        {
+          "value": "button",
+          "cssModifier": null,
+          "default": false,
+          "label": "button"
+        },
+        {
+          "value": "checkbox",
+          "cssModifier": null,
+          "default": false,
+          "label": "checkbox"
+        }
+      ]
+    },
+    "indicators": {
+      "label": "Track Indicators",
+      "description": "Zustandsindikatoren innerhalb des Tracks — none (rein farblich) oder labels (I/O Symbole fuer verbesserte a11y-Erkennbarkeit).",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "labels",
+          "cssModifier": "nc-switch--indicators",
+          "default": false,
+          "label": "labels"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "checked",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-switch"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-switch-width"
+        },
+        {
+          "token": "nc-switch-height"
+        },
+        {
+          "token": "nc-switch-radius"
+        },
+        {
+          "token": "nc-switch-touch-padding"
+        },
+        {
+          "token": "nc-switch-focus-ring-offset"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-switch-bg"
+        },
+        {
+          "token": "nc-switch-bg-hover"
+        },
+        {
+          "token": "nc-switch-bg-checked"
+        }
+      ],
+      "Thumb": [
+        {
+          "token": "nc-switch-thumb-size"
+        },
+        {
+          "token": "nc-switch-thumb-color"
+        },
+        {
+          "token": "nc-switch-thumb-offset"
+        },
+        {
+          "token": "nc-switch-thumb-shadow"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-switch-disabled-bg"
+        },
+        {
+          "token": "nc-switch-disabled-thumb"
+        },
+        {
+          "token": "nc-switch-disabled-opacity"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-switch-label-gap"
+        },
+        {
+          "token": "nc-switch-label-color"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-switch-transition-duration"
+        },
+        {
+          "token": "nc-switch-transition-timing"
+        },
+        {
+          "token": "nc-switch-thumb-active-scale"
+        }
+      ],
+      "Track Indicators": [
+        {
+          "token": "nc-switch-indicator-color"
+        },
+        {
+          "token": "nc-switch-indicator-checked-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "pattern": [
+              "checkbox"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-switch"
+        ],
+        "note": "Native Checkbox sollte role='switch' erhalten, damit Screen Reader den Toggle-Charakter erkennen."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt gegenueber disabled-Attribut fuer bessere Screen-Reader-Erkennung."
+      },
+      {
+        "when": {
+          "axes": {
+            "indicators": [
+              "labels"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-hidden-indicators"
+        ],
+        "note": "I/O Indikatoren sollten aria-hidden='true' haben, da der Zustand bereits per aria-checked kommuniziert wird."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_switch.scss"
+    ],
+    "story": "stories/atoms/switch.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SwitchArena.vue",
+    "drupal": [],
+    "docs": "docs/switch-docs.html"
+  }
+}

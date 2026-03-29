@@ -1,0 +1,304 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "checkbox",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "form",
+    "selection"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-checkbox",
+    "slots": [
+      {
+        "name": "input",
+        "selector": ".nc-checkbox__input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "control",
+        "selector": ".nc-checkbox__control",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-checkbox__label",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Wrapper ist ein <label class='nc-checkbox'> — Klick auf Label aktiviert Input.",
+      "Native <input type='checkbox'> wird via sr-only versteckt, bleibt aber im DOM fuer Accessibility.",
+      "__control ist ein <span> — zeigt visuellen Zustand (Border, BG, Checkmark/Minus).",
+      ":checked → Checkmark SVG via background-image. :indeterminate → Minus-Zeichen.",
+      ":focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.",
+      "Error kann per .nc-checkbox--error ODER [aria-invalid='true'] auf dem Input gesetzt werden.",
+      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (16px) / md (20px, Standard) / lg (24px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-checkbox--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-checkbox--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (Standard-Checkbox), card (umgebender Rahmen mit Checked-Hintergrund)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "card",
+          "cssModifier": "nc-checkbox--card",
+          "default": false,
+          "label": "card"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungszustand — none (Standard), error (roter Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-checkbox--error",
+          "default": false,
+          "label": "error"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "checked",
+      "indeterminate",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "indeterminate",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-checkbox"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-checkbox-size-sm"
+        },
+        {
+          "token": "nc-checkbox-size-md"
+        },
+        {
+          "token": "nc-checkbox-size-lg"
+        },
+        {
+          "token": "nc-checkbox-radius"
+        },
+        {
+          "token": "nc-checkbox-border-width"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-checkbox-bg"
+        },
+        {
+          "token": "nc-checkbox-border"
+        },
+        {
+          "token": "nc-checkbox-border-hover"
+        }
+      ],
+      "Checked": [
+        {
+          "token": "nc-checkbox-bg-checked"
+        },
+        {
+          "token": "nc-checkbox-border-checked"
+        },
+        {
+          "token": "nc-checkbox-bg-indeterminate"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-checkbox-disabled-bg"
+        },
+        {
+          "token": "nc-checkbox-disabled-border"
+        },
+        {
+          "token": "nc-checkbox-disabled-opacity"
+        }
+      ],
+      "Error": [
+        {
+          "token": "nc-checkbox-border-error"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-checkbox-label-gap"
+        },
+        {
+          "token": "nc-checkbox-label-color"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-checkbox-transition-duration"
+        },
+        {
+          "token": "nc-checkbox-focus-ring-offset"
+        }
+      ],
+      "Card Variant": [
+        {
+          "token": "nc-checkbox-card-bg"
+        },
+        {
+          "token": "nc-checkbox-card-bg-checked"
+        },
+        {
+          "token": "nc-checkbox-card-border"
+        },
+        {
+          "token": "nc-checkbox-card-border-checked"
+        },
+        {
+          "token": "nc-checkbox-card-border-hover"
+        },
+        {
+          "token": "nc-checkbox-card-radius"
+        },
+        {
+          "token": "nc-checkbox-card-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "suggest": [],
+        "note": "Error-State braucht aria-invalid='true' auf dem Input und aria-describedby das auf die Fehlermeldung verweist."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt wenn Checkbox Teil eines sichtbaren Formulars ist."
+      },
+      {
+        "when": {
+          "states": [
+            "indeterminate"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-checked-mixed"
+        ],
+        "note": "Indeterminate braucht aria-checked='mixed' fuer korrekte Screen-Reader-Ausgabe."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_checkbox.scss"
+    ],
+    "story": "stories/atoms/checkbox.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/CheckboxArena.vue",
+    "drupal": [],
+    "docs": "docs/checkbox-docs.html"
+  }
+}

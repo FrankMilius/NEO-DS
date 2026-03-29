@@ -5,8 +5,16 @@
     "component": "nav-atoms",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["navigation", "display", "primitive"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/nav-atoms-docs" },
+    "tags": [
+      "navigation",
+      "display",
+      "primitive"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/nav-atoms-docs"
+    },
     "changelog": [
       {
         "version": "2.0.0",
@@ -18,15 +26,44 @@
           "SVG-Defaults: fill:none, stroke:currentColor, linecap/linejoin round"
         ]
       },
-      { "version": "1.0.0", "changes": ["Initiale Implementierung: Icon 24px inline-flex, Label display:block"] }
-    ]
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: Icon 24px inline-flex, Label display:block"
+        ]
+      }
+    ],
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_nav-atoms.scss"
+      ],
+      "story": "stories/organisms/nav-atoms.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/nav-atoms-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-nav__icon" },
+    "root": {
+      "element": ".nc-nav__icon"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-nav__icon", "optional": false },
-      { "name": "label", "element": ".nc-nav__label", "optional": false },
-      { "name": "badge", "element": ".nc-nav__badge", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-nav__icon",
+        "optional": false
+      },
+      {
+        "name": "label",
+        "element": ".nc-nav__label",
+        "optional": false
+      },
+      {
+        "name": "badge",
+        "element": ".nc-nav__badge",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -42,13 +79,40 @@
       "label": "Element",
       "description": "Nav-Atom-Typ — icon (SVG-Container), label (Text), badge (Notification-Dot)",
       "values": {
-        "icon":  { "modifier": null, "tokenGroups": ["icon"],  "renderHint": "nav-icon" },
-        "label": { "modifier": null, "tokenGroups": ["label"], "renderHint": "nav-label" },
-        "badge": { "modifier": null, "tokenGroups": ["badge"], "renderHint": "nav-badge" }
+        "icon": {
+          "modifier": null,
+          "tokenGroups": [
+            "icon"
+          ],
+          "renderHint": "nav-icon"
+        },
+        "label": {
+          "modifier": null,
+          "tokenGroups": [
+            "label"
+          ],
+          "renderHint": "nav-label"
+        },
+        "badge": {
+          "modifier": null,
+          "tokenGroups": [
+            "badge"
+          ],
+          "renderHint": "nav-badge"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -60,41 +124,82 @@
   },
   "constraints": {
     "rules": [
-      { "when": { "axes": { "element": ["badge"] } }, "require": ["position-relative-parent"], "notes": ["Badge benoetigt position:relative auf dem Elternelement."] }
+      {
+        "when": {
+          "axes": {
+            "element": [
+              "badge"
+            ]
+          }
+        },
+        "require": [
+          "position-relative-parent"
+        ],
+        "notes": [
+          "Badge benoetigt position:relative auf dem Elternelement."
+        ]
+      }
     ],
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-nav__icon"],
-    "baseTokenGroups": ["icon"],
+    "baseClasses": [
+      "nc-nav__icon"
+    ],
+    "baseTokenGroups": [
+      "icon"
+    ],
     "tokenGroups": {
       "icon": {
         "label": "Icon",
         "tokens": [
-          "nc-nav-atom-icon-size", "nc-nav-atom-icon-color", "nc-nav-atom-icon-stroke"
+          "nc-nav-atom-icon-size",
+          "nc-nav-atom-icon-color",
+          "nc-nav-atom-icon-stroke"
         ]
       },
       "label": {
         "label": "Label",
         "tokens": [
-          "nc-nav-atom-label-size", "nc-nav-atom-label-weight", "nc-nav-atom-label-color"
+          "nc-nav-atom-label-size",
+          "nc-nav-atom-label-weight",
+          "nc-nav-atom-label-color"
         ]
       },
       "badge": {
         "label": "Badge Dot",
         "tokens": [
-          "nc-nav-atom-badge-size", "nc-nav-atom-badge-color",
-          "nc-nav-atom-badge-offset", "nc-nav-atom-badge-ring-width", "nc-nav-atom-badge-ring-color"
+          "nc-nav-atom-badge-size",
+          "nc-nav-atom-badge-color",
+          "nc-nav-atom-badge-offset",
+          "nc-nav-atom-badge-ring-width",
+          "nc-nav-atom-badge-ring-color"
         ]
       }
     }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
@@ -102,28 +207,71 @@
       "id": "icon-sizes",
       "label": "Icon Primitives",
       "description": "Nav-Icon in verschiedenen Groessen und Farben",
-      "matrix": { "axes": { "element": ["icon"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "element": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "icon" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Icon: rein dekorativ oder via aria-label benannt." }
+      "render": {
+        "label": "icon"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Icon: rein dekorativ oder via aria-label benannt."
+      }
     },
     {
       "id": "label-variants",
       "label": "Label Primitives",
       "description": "Nav-Label mit unterschiedlichen Gewichtungen",
-      "matrix": { "axes": { "element": ["label"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "element": [
+            "label"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "label": "label" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Text-Kontrast gegen Hintergrund pruefen." }
+      "render": {
+        "label": "label"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Text-Kontrast gegen Hintergrund pruefen."
+      }
     },
     {
       "id": "badge-dot",
       "label": "Badge Dot",
       "description": "Notification-Indikator an Icon",
-      "matrix": { "axes": { "element": ["badge"] }, "states": ["default"] },
+      "matrix": {
+        "axes": {
+          "element": [
+            "badge"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
       "layout": "row",
-      "render": { "compositionType": "nav-icon-badge", "label": "badge" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Badge: aria-hidden, Semantik via aria-label am Eltern." }
+      "render": {
+        "compositionType": "nav-icon-badge",
+        "label": "badge"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Badge: aria-hidden, Semantik via aria-label am Eltern."
+      }
     }
   ]
 }

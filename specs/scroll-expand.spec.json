@@ -1,0 +1,91 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "scroll-expand",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "animation",
+    "scroll",
+    "parallax"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-scroll-expand",
+    "slots": [],
+    "notes": [
+      "Element expandiert von Content-Breite zum Viewport beim Scrollen."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-scroll-expand"
+    ],
+    "tokenGroups": {
+      "Timing": [
+        {
+          "token": "nc-anim-expand-duration"
+        },
+        {
+          "token": "nc-anim-scroll-easing"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/scroll-expand.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

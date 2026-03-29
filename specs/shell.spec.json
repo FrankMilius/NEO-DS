@@ -1,0 +1,487 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "shell",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "layout",
+    "scaffold",
+    "template"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-shell",
+    "slots": [
+      {
+        "name": "skip-link",
+        "selector": ".nc-shell__skip-link",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "banner",
+        "selector": ".nc-shell__banner",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "banner-item",
+        "selector": ".nc-shell__banner-item",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "banner-close",
+        "selector": ".nc-shell__banner-close",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "linkbar",
+        "selector": ".nc-shell__linkbar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "linkbar-left",
+        "selector": ".nc-shell__linkbar-left",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "linkbar-right",
+        "selector": ".nc-shell__linkbar-right",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "navbar",
+        "selector": ".nc-shell__navbar",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "stage",
+        "selector": ".nc-shell__stage",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "sidebar-left",
+        "selector": ".nc-shell__sidebar-left",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "sidebar-right",
+        "selector": ".nc-shell__sidebar-right",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "main",
+        "selector": ".nc-shell__main",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "content-header",
+        "selector": ".nc-shell__content-header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content-body",
+        "selector": ".nc-shell__content-body",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "content-footer",
+        "selector": ".nc-shell__content-footer",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footerbar",
+        "selector": ".nc-shell__footerbar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "sidebar-overlay",
+        "selector": ".nc-shell__sidebar-overlay",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Aeusseres Grid (.nc-shell): 5 Rows — banner, linkbar, navbar, stage, footerbar. min-height: 100dvh.",
+      "Banner: .nc-shell__banner als erste Grid-Row ueber allem. display:none per Default, sichtbar via :not(:empty). Enthaelt .nc-shell__banner-item mit Severity-Modifiern (--info, --success, --warning, --danger). Dismissable via .nc-shell__banner-close Button.",
+      "Inneres Grid (.nc-shell__stage): Sidebars + Main-Content. Spalten-Definition per Preset.",
+      "Presets via data-layout='...' auf <body>: dashboard, content-page, docs, landing, focused, settings.",
+      "Skip-Link: Erstes Element in .nc-shell. <a href='#main-content' class='nc-shell__skip-link'>Zum Inhalt springen</a>. Unsichtbar bis :focus, dann fixed ueber allen Zonen (z-index: skip-link).",
+      "Linkbar: 32px Leiste ueber der Navigation. Default: display:none, Preset schaltet ein.",
+      "Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).",
+      "Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.",
+      "Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts.",
+      "Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar fuer Collapse/Drawer.",
+      "Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.",
+      "Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.",
+      "Content-Body Alignment: --left (max-width links), --center (max-width zentriert), Default: volle Breite.",
+      "Footerbar: sticky-bottom, 3-Zonen-Grid (left/center/right). Default: display:none. Mobile-Verhalten per data-footerbar-mobile='hide|static' steuerbar (Default: sticky).",
+      "Z-Index Governance: Feste Rangfolge ueber --nc-shell-z-* Tokens. linkbar (base) < footerbar (sticky) < navbar (header) < sidebar (sidebar) < overlay (drawer-1) < drawer (drawer). Verhindert Z-Index-Kriege.",
+      "RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.",
+      "Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "preset": {
+      "label": "Preset",
+      "description": "Layout-Preset via data-layout Attribut — bestimmt welche Zonen sichtbar sind und wie das Grid konfiguriert wird.",
+      "values": [
+        {
+          "value": "dashboard",
+          "cssModifier": null,
+          "default": false,
+          "label": "dashboard"
+        },
+        {
+          "value": "content-page",
+          "cssModifier": null,
+          "default": false,
+          "label": "content-page"
+        },
+        {
+          "value": "docs",
+          "cssModifier": null,
+          "default": false,
+          "label": "docs"
+        },
+        {
+          "value": "landing",
+          "cssModifier": null,
+          "default": false,
+          "label": "landing"
+        },
+        {
+          "value": "focused",
+          "cssModifier": null,
+          "default": false,
+          "label": "focused"
+        },
+        {
+          "value": "settings",
+          "cssModifier": null,
+          "default": false,
+          "label": "settings"
+        }
+      ]
+    },
+    "sidebar": {
+      "label": "Sidebar State",
+      "description": "Sichtbarkeit und Zustand der Sidebars — expanded (Standard), collapsed (eingeklappt, Desktop), drawer-open (ausgeklappt, Mobile).",
+      "values": [
+        {
+          "value": "expanded",
+          "cssModifier": null,
+          "default": false,
+          "label": "expanded"
+        },
+        {
+          "value": "collapsed",
+          "cssModifier": "nc-shell--sidebar-left-collapsed",
+          "default": false,
+          "label": "collapsed"
+        },
+        {
+          "value": "drawer",
+          "cssModifier": "nc-shell--sidebar-left-drawer-open",
+          "default": false,
+          "label": "drawer"
+        }
+      ]
+    },
+    "sidebarDensity": {
+      "label": "Sidebar Density",
+      "description": "Sidebar-Breitenstufe — narrow (kompakt, Icon-Leiste), standard (default), wide (breiter Dateibaum, erweiterte Navigation).",
+      "values": [
+        {
+          "value": "narrow",
+          "cssModifier": null,
+          "default": false,
+          "label": "narrow"
+        },
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "wide",
+          "cssModifier": null,
+          "default": false,
+          "label": "wide"
+        }
+      ]
+    },
+    "contentAlign": {
+      "label": "Content Alignment",
+      "description": "Horizontale Ausrichtung des Hauptinhalts — full (volle Breite, Standard), center (zentriert, max-width), left (linksbuendig, max-width).",
+      "values": [
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-shell__content-body--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "left",
+          "cssModifier": "nc-shell__content-body--left",
+          "default": false,
+          "label": "left"
+        }
+      ]
+    },
+    "footerbarMobile": {
+      "label": "Footerbar Mobile",
+      "description": "Verhalten der Footerbar auf Mobile-Viewports (<lg) — sticky (klebrig, Standard), static (am Ende), hide (versteckt).",
+      "values": [
+        {
+          "value": "sticky",
+          "cssModifier": null,
+          "default": false,
+          "label": "sticky"
+        },
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "hide",
+          "cssModifier": null,
+          "default": false,
+          "label": "hide"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-shell"
+    ],
+    "tokenGroups": {
+      "Linkbar": [
+        {
+          "token": "nc-shell-linkbar-height"
+        },
+        {
+          "token": "nc-shell-linkbar-bg"
+        },
+        {
+          "token": "nc-shell-linkbar-color"
+        },
+        {
+          "token": "nc-shell-linkbar-border"
+        }
+      ],
+      "Sidebars": [
+        {
+          "token": "nc-shell-sidebar-left-width"
+        },
+        {
+          "token": "nc-shell-sidebar-right-width"
+        },
+        {
+          "token": "nc-shell-sidebar-bg"
+        },
+        {
+          "token": "nc-shell-sidebar-border"
+        }
+      ],
+      "Sidebar Density": [
+        {
+          "token": "nc-shell-sidebar-left-width-narrow"
+        },
+        {
+          "token": "nc-shell-sidebar-left-width-standard"
+        },
+        {
+          "token": "nc-shell-sidebar-left-width-wide"
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-narrow"
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-standard"
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-wide"
+        }
+      ],
+      "Footerbar": [
+        {
+          "token": "nc-shell-footerbar-height"
+        },
+        {
+          "token": "nc-shell-footerbar-bg"
+        },
+        {
+          "token": "nc-shell-footerbar-color"
+        },
+        {
+          "token": "nc-shell-footerbar-border"
+        }
+      ],
+      "Content Area": [
+        {
+          "token": "nc-shell-content-max-width"
+        },
+        {
+          "token": "nc-shell-content-narrow"
+        },
+        {
+          "token": "nc-shell-content-padding"
+        }
+      ],
+      "Z-Index Governance": [
+        {
+          "token": "nc-shell-z-linkbar"
+        },
+        {
+          "token": "nc-shell-z-footerbar"
+        },
+        {
+          "token": "nc-shell-z-navbar"
+        },
+        {
+          "token": "nc-shell-z-sidebar"
+        },
+        {
+          "token": "nc-shell-z-overlay"
+        },
+        {
+          "token": "nc-shell-z-drawer"
+        }
+      ],
+      "Skip-Link": [
+        {
+          "token": "nc-shell-skip-link-bg"
+        },
+        {
+          "token": "nc-shell-skip-link-color"
+        },
+        {
+          "token": "nc-shell-skip-link-z"
+        }
+      ],
+      "Banner (Messages)": [
+        {
+          "token": "nc-shell-banner-bg"
+        },
+        {
+          "token": "nc-shell-banner-color"
+        },
+        {
+          "token": "nc-shell-banner-padding"
+        },
+        {
+          "token": "nc-shell-banner-font-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasLandmarks",
+      "hasSkipLink"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "slots": [
+            "skip-link"
+          ]
+        },
+        "require": [
+          "href-main-content"
+        ],
+        "suggest": [],
+        "note": "Skip-Link muss auf #main-content verweisen. Text: 'Zum Inhalt springen' (DE) / 'Skip to content' (EN)."
+      },
+      {
+        "when": {
+          "slots": [
+            "sidebar-left",
+            "sidebar-right"
+          ]
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Sidebars brauchen aria-label zur Unterscheidung (z.B. 'Navigation', 'Inhaltsverzeichnis')."
+      },
+      {
+        "when": {
+          "slots": [
+            "sidebar-overlay"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-hidden"
+        ],
+        "note": "Overlay-Backdrop sollte aria-hidden='true' haben. Klick schliesst den Drawer."
+      },
+      {
+        "when": {
+          "axes": {
+            "sidebar": [
+              "drawer"
+            ]
+          }
+        },
+        "require": [
+          "focus-trap",
+          "escape-close"
+        ],
+        "suggest": [],
+        "note": "Mobile Drawer braucht Focus-Trap und Escape-Key zum Schliessen."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/shell.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ShellArena.vue",
+    "drupal": [],
+    "docs": "docs/shell-docs.html"
+  }
+}

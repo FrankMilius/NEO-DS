@@ -5,16 +5,52 @@
     "component": "question",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "animation", "marquee"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/question-docs" }
+    "tags": [
+      "display",
+      "animation",
+      "marquee"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/question-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_question.scss"
+      ],
+      "story": "stories/organisms/question.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/question-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".question" },
+    "root": {
+      "element": ".question"
+    },
     "slots": [
-      { "name": "text-row", "element": ".question-text-row", "optional": false },
-      { "name": "text", "element": ".question-text", "optional": false },
-      { "name": "text-container", "element": ".question-text-container", "optional": true },
-      { "name": "action-section", "element": ".question-action-section", "optional": true }
+      {
+        "name": "text-row",
+        "element": ".question-text-row",
+        "optional": false
+      },
+      {
+        "name": "text",
+        "element": ".question-text",
+        "optional": false
+      },
+      {
+        "name": "text-container",
+        "element": ".question-text-container",
+        "optional": true
+      },
+      {
+        "name": "action-section",
+        "element": ".question-action-section",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -28,12 +64,29 @@
       "label": "Variant",
       "description": "Variante — default, with-text",
       "values": {
-        "default":   { "modifier": null,        "tokenGroups": [], "renderHint": "question-default" },
-        "with-text": { "modifier": "with-text",  "tokenGroups": [], "renderHint": "question-with-text" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "question-default"
+        },
+        "with-text": {
+          "modifier": "with-text",
+          "tokenGroups": [],
+          "renderHint": "question-with-text"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -43,27 +96,69 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["question"],
+    "baseClasses": [
+      "question"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Question Variants",
+      "id": "variant-comparison",
+      "label": "Question Variants",
       "description": "Default vs With-Text",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Reduced Motion: Marquee stoppen." }
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Reduced Motion: Marquee stoppen."
+      }
     }
   ]
 }

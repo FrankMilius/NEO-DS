@@ -1,0 +1,347 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "metric",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "data",
+    "content",
+    "dashboard"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-metric",
+    "slots": [
+      {
+        "name": "label",
+        "selector": ".nc-metric__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "value-row",
+        "selector": ".nc-metric__value-row",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "value",
+        "selector": ".nc-metric__value",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "unit",
+        "selector": ".nc-metric__unit",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "trend",
+        "selector": ".nc-metric__trend",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-metric__footer",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Container: Flex-Column mit gap. Solid: inverse BG + inverse Text. Subtle: helle BG + primaere Farben.",
+      "Label: Dezente Beschriftung ueber dem Wert (z.B. 'Gesamtumsatz', 'Aktive Nutzer').",
+      "Value-Row: Flex align-baseline Zeile fuer Value + Unit nebeneinander.",
+      "Value: Grosse Zahl — font-heading, font-weight-black, accent-Farbe. tabular-nums fuer stabile Breite.",
+      "Unit: Einheit neben dem Wert ($, %, kg). Gleiche accent-Farbe, kleinere Schrift.",
+      "Trend: Inline-Flex mit Icon + Prozentwert. Farbe via Modifier: --trend-up (Success), --trend-down (Danger), --trend-neutral.",
+      "Trend-Icon: SVG 16px, stroke: currentColor. Arrow-up fuer positiv, arrow-down fuer negativ, minus fuer neutral.",
+      "Footer: Vergleichszeitraum (z.B. 'vs. Vorjahr', 'letzte 30 Tage'). Gedaempfte Opazitaet.",
+      "Size md: Kompakt fuer Sidebar-Cards und Dense-Grids. Reduzierte Font-Sizes und Padding.",
+      "Size xl: Hero-Groesse fuer Marketing-Sektionen. Uebergrosse Zahl (fs-8xl)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Hintergrund-Stil — solid (inverse, dunkel) oder subtle (hell, dezent)",
+      "values": [
+        {
+          "value": "solid",
+          "cssModifier": null,
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "subtle",
+          "cssModifier": "nc-metric--subtle",
+          "default": false,
+          "label": "subtle"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groesse — md (kompakt), lg (Standard), xl (Hero)",
+      "values": [
+        {
+          "value": "md",
+          "cssModifier": "nc-metric--md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": null,
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "xl",
+          "cssModifier": "nc-metric--xl",
+          "default": false,
+          "label": "xl"
+        }
+      ]
+    },
+    "trend": {
+      "label": "Trend",
+      "description": "Richtungsindikator — up (positiv/Success), down (negativ/Danger), neutral (unveraendert)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "up",
+          "cssModifier": "nc-metric--trend-up",
+          "default": false,
+          "label": "up"
+        },
+        {
+          "value": "down",
+          "cssModifier": "nc-metric--trend-down",
+          "default": false,
+          "label": "down"
+        },
+        {
+          "value": "neutral",
+          "cssModifier": "nc-metric--trend-neutral",
+          "default": false,
+          "label": "neutral"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-metric"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-metric-bg"
+        },
+        {
+          "token": "nc-metric-color"
+        },
+        {
+          "token": "nc-metric-radius"
+        },
+        {
+          "token": "nc-metric-padding"
+        },
+        {
+          "token": "nc-metric-gap"
+        }
+      ],
+      "Value (Big Number)": [
+        {
+          "token": "nc-metric-value-font-family"
+        },
+        {
+          "token": "nc-metric-value-font-size"
+        },
+        {
+          "token": "nc-metric-value-font-weight"
+        },
+        {
+          "token": "nc-metric-value-color"
+        },
+        {
+          "token": "nc-metric-value-line-height"
+        }
+      ],
+      "Unit": [
+        {
+          "token": "nc-metric-unit-font-size"
+        },
+        {
+          "token": "nc-metric-unit-color"
+        },
+        {
+          "token": "nc-metric-unit-font-weight"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-metric-label-font-size"
+        },
+        {
+          "token": "nc-metric-label-color"
+        },
+        {
+          "token": "nc-metric-label-font-weight"
+        },
+        {
+          "token": "nc-metric-label-opacity"
+        }
+      ],
+      "Trend Indicator": [
+        {
+          "token": "nc-metric-trend-font-size"
+        },
+        {
+          "token": "nc-metric-trend-font-weight"
+        },
+        {
+          "token": "nc-metric-trend-gap"
+        },
+        {
+          "token": "nc-metric-trend-icon-size"
+        },
+        {
+          "token": "nc-metric-trend-up-color"
+        },
+        {
+          "token": "nc-metric-trend-down-color"
+        },
+        {
+          "token": "nc-metric-trend-neutral-color"
+        }
+      ],
+      "Footer": [
+        {
+          "token": "nc-metric-footer-font-size"
+        },
+        {
+          "token": "nc-metric-footer-color"
+        },
+        {
+          "token": "nc-metric-footer-opacity"
+        }
+      ],
+      "Subtle Emphasis": [
+        {
+          "token": "nc-metric-subtle-bg"
+        },
+        {
+          "token": "nc-metric-subtle-color"
+        },
+        {
+          "token": "nc-metric-subtle-value-color"
+        },
+        {
+          "token": "nc-metric-subtle-label-color"
+        },
+        {
+          "token": "nc-metric-subtle-label-opacity"
+        },
+        {
+          "token": "nc-metric-subtle-footer-color"
+        },
+        {
+          "token": "nc-metric-subtle-footer-opacity"
+        }
+      ],
+      "Size MD": [
+        {
+          "token": "nc-metric-md-padding"
+        },
+        {
+          "token": "nc-metric-md-value-font-size"
+        },
+        {
+          "token": "nc-metric-md-unit-font-size"
+        },
+        {
+          "token": "nc-metric-md-label-font-size"
+        }
+      ],
+      "Size XL": [
+        {
+          "token": "nc-metric-xl-padding"
+        },
+        {
+          "token": "nc-metric-xl-value-font-size"
+        },
+        {
+          "token": "nc-metric-xl-unit-font-size"
+        },
+        {
+          "token": "nc-metric-xl-label-font-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA large text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "emphasis": [
+              "subtle"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Subtle: Value-Color und Label-Color muessen 4.5:1 gegen helle BG einhalten."
+      },
+      {
+        "when": {
+          "axes": {
+            "trend": [
+              "up",
+              "down"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Trend-Farben: Success (#16a34a) und Danger (#dc2626) muessen 3:1 gegen BG einhalten. Nicht nur auf Farbe verlassen — Icon als zusaetzlicher Indikator."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_metric.scss"
+    ],
+    "story": "stories/organisms/metric.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/MetricArena.vue",
+    "drupal": [],
+    "docs": "docs/metric-docs.html"
+  }
+}

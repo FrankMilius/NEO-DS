@@ -5,8 +5,17 @@
     "component": "search",
     "version": "3.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "navigation", "combobox"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/search-docs" },
+    "tags": [
+      "interactive",
+      "form",
+      "navigation",
+      "combobox"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/search-docs"
+    },
     "changelog": [
       {
         "version": "3.0.0",
@@ -28,34 +37,139 @@
           "Scoped Search, Command Palette, Type-Ahead, Appearance (Minimal/XL), Mode (instant/manual), Scope (global/scoped)"
         ]
       },
-      { "version": "1.0.0", "changes": ["Initiale Implementierung"] }
-    ]
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung"
+        ]
+      }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_search.scss"
+      ],
+      "story": "stories/organisms/search.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/SearchArena.vue",
+      "drupal": [],
+      "docs": "docs/search-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-search" },
+    "root": {
+      "element": ".nc-search"
+    },
     "slots": [
-      { "name": "input-wrapper", "element": ".nc-search__input-wrapper", "optional": false },
-      { "name": "scope-trigger", "element": ".nc-search__scope-trigger", "optional": true },
-      { "name": "icon", "element": ".nc-search__icon", "optional": false },
-      { "name": "input", "element": ".nc-search__input", "optional": false },
-      { "name": "ghost", "element": ".nc-search__ghost", "optional": true },
-      { "name": "clear-trigger", "element": ".nc-search__clear", "optional": true, "description": "Sichtbar bei value.length > 0. Loescht Input und setzt Focus zurueck." },
-      { "name": "shortcut", "element": ".nc-search__shortcut", "optional": true },
-      { "name": "scope-menu", "element": ".nc-search__scope-menu", "optional": true },
-      { "name": "results", "element": ".nc-search__results", "optional": false },
-      { "name": "group", "element": ".nc-search__group", "optional": true },
-      { "name": "group-label", "element": ".nc-search__group-label", "optional": true },
-      { "name": "item", "element": ".nc-search__item", "optional": false },
-      { "name": "item-icon", "element": ".nc-search__item-icon", "optional": true },
-      { "name": "item-label", "element": ".nc-search__item-label", "optional": false },
-      { "name": "highlight", "element": ".nc-search__highlight", "optional": true },
-      { "name": "empty", "element": ".nc-search__empty", "optional": true },
-      { "name": "loading", "element": ".nc-search__loading", "optional": true },
-      { "name": "history", "element": ".nc-search__history", "optional": true, "description": "Letzte Suchanfragen bei leerem Input (History-First Pattern)." },
-      { "name": "popular", "element": ".nc-search__popular", "optional": true, "description": "Beliebte Suchbegriffe als Kaltstart-Fallback." },
-      { "name": "backdrop", "element": ".nc-search__backdrop", "optional": true, "description": "Semi-transparenter Layer hinter der Suche fuer Navigation-Integration." },
-      { "name": "mobile-header", "element": ".nc-search__mobile-header", "optional": true, "description": "Mobile Full-Screen: [Zurueck] [Input] [Clear] ersetzt den Header." }
+      {
+        "name": "input-wrapper",
+        "element": ".nc-search__input-wrapper",
+        "optional": false
+      },
+      {
+        "name": "scope-trigger",
+        "element": ".nc-search__scope-trigger",
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "element": ".nc-search__icon",
+        "optional": false
+      },
+      {
+        "name": "input",
+        "element": ".nc-search__input",
+        "optional": false
+      },
+      {
+        "name": "ghost",
+        "element": ".nc-search__ghost",
+        "optional": true
+      },
+      {
+        "name": "clear-trigger",
+        "element": ".nc-search__clear",
+        "optional": true,
+        "description": "Sichtbar bei value.length > 0. Loescht Input und setzt Focus zurueck."
+      },
+      {
+        "name": "shortcut",
+        "element": ".nc-search__shortcut",
+        "optional": true
+      },
+      {
+        "name": "scope-menu",
+        "element": ".nc-search__scope-menu",
+        "optional": true
+      },
+      {
+        "name": "results",
+        "element": ".nc-search__results",
+        "optional": false
+      },
+      {
+        "name": "group",
+        "element": ".nc-search__group",
+        "optional": true
+      },
+      {
+        "name": "group-label",
+        "element": ".nc-search__group-label",
+        "optional": true
+      },
+      {
+        "name": "item",
+        "element": ".nc-search__item",
+        "optional": false
+      },
+      {
+        "name": "item-icon",
+        "element": ".nc-search__item-icon",
+        "optional": true
+      },
+      {
+        "name": "item-label",
+        "element": ".nc-search__item-label",
+        "optional": false
+      },
+      {
+        "name": "highlight",
+        "element": ".nc-search__highlight",
+        "optional": true
+      },
+      {
+        "name": "empty",
+        "element": ".nc-search__empty",
+        "optional": true
+      },
+      {
+        "name": "loading",
+        "element": ".nc-search__loading",
+        "optional": true
+      },
+      {
+        "name": "history",
+        "element": ".nc-search__history",
+        "optional": true,
+        "description": "Letzte Suchanfragen bei leerem Input (History-First Pattern)."
+      },
+      {
+        "name": "popular",
+        "element": ".nc-search__popular",
+        "optional": true,
+        "description": "Beliebte Suchbegriffe als Kaltstart-Fallback."
+      },
+      {
+        "name": "backdrop",
+        "element": ".nc-search__backdrop",
+        "optional": true,
+        "description": "Semi-transparenter Layer hinter der Suche fuer Navigation-Integration."
+      },
+      {
+        "name": "mobile-header",
+        "element": ".nc-search__mobile-header",
+        "optional": true,
+        "description": "Mobile Full-Screen: [Zurueck] [Input] [Clear] ersetzt den Header."
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -74,149 +188,425 @@
       "Backdrop: position:fixed, inset:0, bg:rgba(0,0,0,var(--nc-search-backdrop-opacity)). Klick = Close."
     ]
   },
-
   "axes": {
     "width": {
       "label": "Width",
       "description": "Breite — default (320px fest), full (100% Container), viewport (volle Viewport-Breite / Mobile Overlay)",
       "values": {
-        "default":  { "modifier": null,                  "tokenGroups": [],         "renderHint": "search-default" },
-        "full":     { "modifier": "nc-search--full",      "tokenGroups": [],         "renderHint": "search-full" },
-        "viewport": { "modifier": "nc-search--viewport",  "tokenGroups": ["mobile"], "renderHint": "search-viewport", "description": "position:absolute/fixed, volle Viewport-Breite. Fuer Mobile Full-Screen oder Header-Takeover." }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-default"
+        },
+        "full": {
+          "modifier": "nc-search--full",
+          "tokenGroups": [],
+          "renderHint": "search-full"
+        },
+        "viewport": {
+          "modifier": "nc-search--viewport",
+          "tokenGroups": [
+            "mobile"
+          ],
+          "renderHint": "search-viewport",
+          "description": "position:absolute/fixed, volle Viewport-Breite. Fuer Mobile Full-Screen oder Header-Takeover."
+        }
       }
     },
-
     "appearance": {
       "label": "Appearance",
       "description": "Visuelle Variante — default (Standard), minimal (Header, transparent), xl (Hero, 64px)",
       "values": {
-        "default": { "modifier": null,                 "tokenGroups": ["input-area"],  "renderHint": "search-appearance-default" },
-        "minimal": { "modifier": "nc-search--minimal",  "tokenGroups": ["minimal"],    "renderHint": "search-appearance-minimal" },
-        "xl":      { "modifier": "nc-search--xl",       "tokenGroups": ["xl"],         "renderHint": "search-appearance-xl" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "input-area"
+          ],
+          "renderHint": "search-appearance-default"
+        },
+        "minimal": {
+          "modifier": "nc-search--minimal",
+          "tokenGroups": [
+            "minimal"
+          ],
+          "renderHint": "search-appearance-minimal"
+        },
+        "xl": {
+          "modifier": "nc-search--xl",
+          "tokenGroups": [
+            "xl"
+          ],
+          "renderHint": "search-appearance-xl"
+        }
       }
     },
-
     "scope": {
       "label": "Scope",
       "description": "Suchbereich — global (alles), scoped (eingeschraenkt)",
       "values": {
-        "global": { "modifier": null, "tokenGroups": [],       "renderHint": "search-scope-global" },
-        "scoped": { "modifier": null, "tokenGroups": ["scope"], "slotConfig": { "scope-trigger": true, "scope-menu": true }, "renderHint": "search-scope-scoped" }
+        "global": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-scope-global"
+        },
+        "scoped": {
+          "modifier": null,
+          "tokenGroups": [
+            "scope"
+          ],
+          "slotConfig": {
+            "scope-trigger": true,
+            "scope-menu": true
+          },
+          "renderHint": "search-scope-scoped"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — plain, with-icons, grouped, with-shortcut",
       "values": {
-        "plain":         { "modifier": null, "tokenGroups": [],  "renderHint": "search-plain" },
-        "with-icons":    { "modifier": null, "tokenGroups": [],  "slotConfig": { "item-icon": true }, "renderHint": "search-with-icons" },
-        "grouped":       { "modifier": null, "tokenGroups": [],  "slotConfig": { "group": true, "group-label": true }, "renderHint": "search-grouped" },
-        "with-shortcut": { "modifier": null, "tokenGroups": [],  "slotConfig": { "shortcut": true }, "renderHint": "search-with-shortcut" }
+        "plain": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-plain"
+        },
+        "with-icons": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "item-icon": true
+          },
+          "renderHint": "search-with-icons"
+        },
+        "grouped": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "group": true,
+            "group-label": true
+          },
+          "renderHint": "search-grouped"
+        },
+        "with-shortcut": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "shortcut": true
+          },
+          "renderHint": "search-with-shortcut"
+        }
       }
     },
-
     "mode": {
       "label": "Mode",
       "description": "Suchverhalten — instant (sofort bei Eingabe), manual (bei Enter/Button)",
       "values": {
-        "instant": { "modifier": null, "tokenGroups": [], "renderHint": "search-mode-instant" },
-        "manual":  { "modifier": null, "tokenGroups": [], "renderHint": "search-mode-manual" }
+        "instant": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-mode-instant"
+        },
+        "manual": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-mode-manual"
+        }
       }
     },
-
     "animation": {
       "label": "Animation",
       "description": "Results-Panel Animation — slide-down (Standard), fade (performant), expand (Input weitet sich)",
       "values": {
-        "slide-down": { "modifier": null,                         "tokenGroups": [], "renderHint": "search-anim-slide", "description": "Panel waechst sanft von oben nach unten (Default, ideal fuer Header)." },
-        "fade":       { "modifier": "nc-search--anim-fade",       "tokenGroups": [], "renderHint": "search-anim-fade", "description": "Einfaches Einblenden (performant fuer schwache Geraete)." },
-        "expand":     { "modifier": "nc-search--anim-expand",     "tokenGroups": [], "renderHint": "search-anim-expand", "description": "Input weitet sich in der Breite bevor Results erscheinen." }
+        "slide-down": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-anim-slide",
+          "description": "Panel waechst sanft von oben nach unten (Default, ideal fuer Header)."
+        },
+        "fade": {
+          "modifier": "nc-search--anim-fade",
+          "tokenGroups": [],
+          "renderHint": "search-anim-fade",
+          "description": "Einfaches Einblenden (performant fuer schwache Geraete)."
+        },
+        "expand": {
+          "modifier": "nc-search--anim-expand",
+          "tokenGroups": [],
+          "renderHint": "search-anim-expand",
+          "description": "Input weitet sich in der Breite bevor Results erscheinen."
+        }
       }
     },
-
     "resultsState": {
       "label": "Results State",
       "description": "Zustand der Ergebnisliste",
       "values": {
-        "results":  { "modifier": null, "tokenGroups": [],  "renderHint": "search-results" },
-        "empty":    { "modifier": null, "tokenGroups": [],  "slotConfig": { "empty": true }, "renderHint": "search-empty" },
-        "loading":  { "modifier": null, "tokenGroups": [],  "slotConfig": { "loading": true }, "renderHint": "search-loading" },
-        "closed":   { "modifier": null, "tokenGroups": [],  "renderHint": "search-closed" },
-        "history":  { "modifier": null, "tokenGroups": [],  "slotConfig": { "history": true }, "renderHint": "search-history", "description": "Letzte 5 Suchanfragen bei leerem Input." },
-        "popular":  { "modifier": null, "tokenGroups": [],  "slotConfig": { "popular": true }, "renderHint": "search-popular", "description": "Beliebte Suchbegriffe als Kaltstart." }
+        "results": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-results"
+        },
+        "empty": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "empty": true
+          },
+          "renderHint": "search-empty"
+        },
+        "loading": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "loading": true
+          },
+          "renderHint": "search-loading"
+        },
+        "closed": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "search-closed"
+        },
+        "history": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "history": true
+          },
+          "renderHint": "search-history",
+          "description": "Letzte 5 Suchanfragen bei leerem Input."
+        },
+        "popular": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "popular": true
+          },
+          "renderHint": "search-popular",
+          "description": "Beliebte Suchbegriffe als Kaltstart."
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus"],
-    "precedence": ["focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["focus"], "note": "Hover: bg-hover auf Ergebnis-Item." },
-      { "state": "focus", "unless": [], "note": "Focus: focus-ring auf Input oder aktivem Item. aria-selected='true' auf navigiertem Item." }
+      {
+        "state": "hover",
+        "unless": [
+          "focus"
+        ],
+        "note": "Hover: bg-hover auf Ergebnis-Item."
+      },
+      {
+        "state": "focus",
+        "unless": [],
+        "note": "Focus: focus-ring auf Input oder aktivem Item. aria-selected='true' auf navigiertem Item."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Root: role='combobox', aria-haspopup='listbox', aria-expanded. Input: aria-autocomplete='list', aria-controls. Results: role='listbox'. Items: role='option', aria-selected. Clear-Trigger: aria-label='Suche zuruecksetzen'. Keyboard: ArrowDown/Up navigiert, Enter waehlt, Escape schliesst (3-stufig: Ghost → Results → Blur)."
     },
     "overrides": [
       {
-        "when": { "axes": { "resultsState": ["empty"] } },
-        "suggest": ["aria-live"],
+        "when": {
+          "axes": {
+            "resultsState": [
+              "empty"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-live"
+        ],
         "note": "Empty-State: 'Keine Ergebnisse' via aria-live='polite' ankuendigen."
       },
       {
-        "when": { "axes": { "resultsState": ["loading"] } },
-        "suggest": ["aria-busy"],
+        "when": {
+          "axes": {
+            "resultsState": [
+              "loading"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-busy"
+        ],
         "note": "Loading-State: aria-busy='true' auf dem Results-Container."
       },
       {
-        "when": { "axes": { "scope": ["scoped"] } },
-        "suggest": ["aria-label"],
+        "when": {
+          "axes": {
+            "scope": [
+              "scoped"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-label"
+        ],
         "note": "Scope-Trigger: aria-label beschreibt aktuellen Suchbereich."
       },
       {
-        "when": { "axes": { "width": ["viewport"] } },
-        "require": ["focus-trap", "aria-modal"],
+        "when": {
+          "axes": {
+            "width": [
+              "viewport"
+            ]
+          }
+        },
+        "require": [
+          "focus-trap",
+          "aria-modal"
+        ],
         "note": "Mobile Full-Screen: Focus-Trap aktiv, aria-modal='true', Escape schliesst."
       },
       {
-        "when": { "slots": ["clear-trigger"] },
-        "require": ["aria-label"],
+        "when": {
+          "slots": [
+            "clear-trigger"
+          ]
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Clear-Trigger: aria-label='Suche zuruecksetzen'. Nur sichtbar bei value.length > 0."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-combobox", "aria-haspopup"], "notes": ["Root braucht role='combobox' und aria-haspopup='listbox'."] },
-      { "when": {}, "require": ["aria-autocomplete", "aria-controls"], "notes": ["Input: aria-autocomplete='list' und aria-controls zeigt auf Results-ID."] },
-      { "when": {}, "require": ["role-listbox", "role-option"], "notes": ["Results: role='listbox'. Items: role='option'."] },
-      { "when": { "slots": ["clear-trigger"] }, "require": ["aria-label", "conditional-visibility"], "notes": ["Clear-Trigger nur anzeigen wenn input.value.length > 0. Muss aria-label haben."] },
-      { "when": { "axes": { "width": ["viewport"] } }, "require": ["focus-trap", "escape-close"], "notes": ["Mobile Full-Screen braucht Focus-Trap und Escape zum Schliessen."] },
-      { "when": { "axes": { "scope": ["scoped"] } }, "require": ["aria-label-scope"], "notes": ["Scope-Trigger braucht aria-label mit aktuellem Bereichsnamen."] }
+      {
+        "when": {},
+        "require": [
+          "role-combobox",
+          "aria-haspopup"
+        ],
+        "notes": [
+          "Root braucht role='combobox' und aria-haspopup='listbox'."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "aria-autocomplete",
+          "aria-controls"
+        ],
+        "notes": [
+          "Input: aria-autocomplete='list' und aria-controls zeigt auf Results-ID."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "role-listbox",
+          "role-option"
+        ],
+        "notes": [
+          "Results: role='listbox'. Items: role='option'."
+        ]
+      },
+      {
+        "when": {
+          "slots": [
+            "clear-trigger"
+          ]
+        },
+        "require": [
+          "aria-label",
+          "conditional-visibility"
+        ],
+        "notes": [
+          "Clear-Trigger nur anzeigen wenn input.value.length > 0. Muss aria-label haben."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "width": [
+              "viewport"
+            ]
+          }
+        },
+        "require": [
+          "focus-trap",
+          "escape-close"
+        ],
+        "notes": [
+          "Mobile Full-Screen braucht Focus-Trap und Escape zum Schliessen."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "scope": [
+              "scoped"
+            ]
+          }
+        },
+        "require": [
+          "aria-label-scope"
+        ],
+        "notes": [
+          "Scope-Trigger braucht aria-label mit aktuellem Bereichsnamen."
+        ]
+      }
     ],
     "copy": {
-      "placeholder": { "maxChars": 40, "note": "Placeholder beschreibt den Suchkontext." },
-      "emptyMessage": { "maxChars": 80, "note": "Leerzustands-Text." },
-      "ghostText": { "maxChars": 60, "note": "Type-Ahead Vorschlag, muss mit Eingabe beginnen." },
-      "historyLabel": { "maxChars": 30, "note": "Label fuer History-Sektion (z.B. 'Letzte Suchen')." },
-      "popularLabel": { "maxChars": 30, "note": "Label fuer Popular-Sektion (z.B. 'Beliebte Suchbegriffe')." }
+      "placeholder": {
+        "maxChars": 40,
+        "note": "Placeholder beschreibt den Suchkontext."
+      },
+      "emptyMessage": {
+        "maxChars": 80,
+        "note": "Leerzustands-Text."
+      },
+      "ghostText": {
+        "maxChars": 60,
+        "note": "Type-Ahead Vorschlag, muss mit Eingabe beginnen."
+      },
+      "historyLabel": {
+        "maxChars": 30,
+        "note": "Label fuer History-Sektion (z.B. 'Letzte Suchen')."
+      },
+      "popularLabel": {
+        "maxChars": 30,
+        "note": "Label fuer Popular-Sektion (z.B. 'Beliebte Suchbegriffe')."
+      }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-search"],
-    "baseTokenGroups": ["input-area", "results-panel", "item", "highlight", "group", "shortcut", "clear"],
-
+    "baseClasses": [
+      "nc-search"
+    ],
+    "baseTokenGroups": [
+      "input-area",
+      "results-panel",
+      "item",
+      "highlight",
+      "group",
+      "shortcut",
+      "clear"
+    ],
     "tokenGroups": {
       "input-area": {
         "label": "Input Area",
@@ -350,12 +740,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -374,138 +771,456 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default Search",
       "description": "Standard-Suchfeld mit einfacher Ergebnisliste und Clear-Trigger",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["global"], "content": ["with-icons"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "with-icons"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["input-area", "clear"],
+      "focusTokenGroups": [
+        "input-area",
+        "clear"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-simple", "label": "default" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Clear-Trigger nur sichtbar bei value.length > 0." }
+      "render": {
+        "compositionType": "search-simple",
+        "label": "default"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Clear-Trigger nur sichtbar bei value.length > 0."
+      }
     },
     {
       "id": "scoped-search",
       "label": "Scoped Search",
       "description": "Suchfeld mit Bereichsfilter (Scope-Trigger + Scope-Menu)",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["scoped"], "content": ["with-icons"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "scoped"
+          ],
+          "content": [
+            "with-icons"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["scope"],
+      "focusTokenGroups": [
+        "scope"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-scoped", "label": "scoped" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Scope-Trigger: aria-label mit aktuellem Bereich." }
+      "render": {
+        "compositionType": "search-scoped",
+        "label": "scoped"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Scope-Trigger: aria-label mit aktuellem Bereich."
+      }
     },
     {
       "id": "command-palette",
       "label": "Command Palette",
       "description": "Modales Overlay (Cmd+K) — zentriert, grouped, mit Backdrop",
       "matrix": {
-        "axes": { "width": ["full"], "appearance": ["default"], "scope": ["global"], "content": ["grouped"], "mode": ["instant"], "animation": ["fade"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "full"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "grouped"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "fade"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["command", "backdrop"],
+      "focusTokenGroups": [
+        "command",
+        "backdrop"
+      ],
       "layout": "single",
-      "render": { "compositionType": "search-command", "label": "command-palette" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "role='dialog', aria-modal='true'. Focus-Trap." }
+      "render": {
+        "compositionType": "search-command",
+        "label": "command-palette"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "role='dialog', aria-modal='true'. Focus-Trap."
+      }
     },
     {
       "id": "appearance-minimal",
       "label": "Minimal (Header)",
       "description": "Transparenter Header-Search mit Expand-Animation",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["minimal"], "scope": ["global"], "content": ["plain"], "mode": ["instant"], "animation": ["expand"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "minimal"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "plain"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "expand"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["minimal"],
+      "focusTokenGroups": [
+        "minimal"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-minimal", "label": "minimal" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Focus-Indikator trotz fehlender Border." }
+      "render": {
+        "compositionType": "search-minimal",
+        "label": "minimal"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Focus-Indikator trotz fehlender Border."
+      }
     },
     {
       "id": "appearance-xl",
       "label": "XL (Hero)",
       "description": "Hero-Suchfeld mit 64px Hoehe, breiter Darstellung",
       "matrix": {
-        "axes": { "width": ["full"], "appearance": ["xl"], "scope": ["global"], "content": ["with-shortcut"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "full"
+          ],
+          "appearance": [
+            "xl"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "with-shortcut"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["xl"],
+      "focusTokenGroups": [
+        "xl"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-xl", "label": "xl" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "aria-label statt Placeholder." }
+      "render": {
+        "compositionType": "search-xl",
+        "label": "xl"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "aria-label statt Placeholder."
+      }
     },
     {
       "id": "type-ahead",
       "label": "Type-Ahead",
       "description": "Ghost-Text Vorschlag waehrend der Eingabe, ArrowRight uebernimmt",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["global"], "content": ["with-icons"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "with-icons"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["ghost"],
+      "focusTokenGroups": [
+        "ghost"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-ghost", "label": "type-ahead" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Ghost rein visuell. Tab/ArrowRight uebernimmt." }
+      "render": {
+        "compositionType": "search-ghost",
+        "label": "type-ahead"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ghost rein visuell. Tab/ArrowRight uebernimmt."
+      }
     },
     {
       "id": "history-first",
       "label": "History-First",
       "description": "Letzte Suchanfragen bei leerem Input, Beliebte als Fallback",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["global"], "content": ["with-icons"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": ["history"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "with-icons"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": [
+            "history"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["item", "group"],
+      "focusTokenGroups": [
+        "item",
+        "group"
+      ],
       "layout": "row",
-      "render": { "compositionType": "search-history", "label": "history-first" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "History-Items muessen loeschbar sein (Dismiss-Button pro Item)." }
+      "render": {
+        "compositionType": "search-history",
+        "label": "history-first"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "History-Items muessen loeschbar sein (Dismiss-Button pro Item)."
+      }
     },
     {
       "id": "animation-comparison",
       "label": "Animation Variants",
       "description": "slide-down vs fade vs expand — Results-Panel Animationen",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["global"], "content": ["plain"], "mode": ["instant"], "animation": "*", "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "plain"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": "*",
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["results-panel"],
+      "focusTokenGroups": [
+        "results-panel"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "animation" },
-      "render": { "label": "{animation}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "prefers-reduced-motion: Animationen deaktivieren." }
+      "layoutConfig": {
+        "rowAxis": "animation"
+      },
+      "render": {
+        "label": "{animation}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "prefers-reduced-motion: Animationen deaktivieren."
+      }
     },
     {
       "id": "mobile-fullscreen",
       "label": "Mobile Full-Screen",
       "description": "Full-Screen Takeover (< 768px): Modale Suche mit Zurueck + Input + Clear",
       "matrix": {
-        "axes": { "width": ["viewport"], "appearance": ["default"], "scope": ["global"], "content": ["with-icons"], "mode": ["instant"], "animation": ["fade"], "resultsState": ["results"] },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "viewport"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "with-icons"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "fade"
+          ],
+          "resultsState": [
+            "results"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["mobile"],
+      "focusTokenGroups": [
+        "mobile"
+      ],
       "layout": "single",
-      "render": { "compositionType": "search-mobile-fullscreen", "label": "mobile" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Focus-Trap, Escape schliesst, aria-modal='true'." }
+      "render": {
+        "compositionType": "search-mobile-fullscreen",
+        "label": "mobile"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Focus-Trap, Escape schliesst, aria-modal='true'."
+      }
     },
     {
       "id": "results-states",
       "label": "Results States",
       "description": "Alle Zustaende: Results, Empty, Loading, History, Popular, Closed",
       "matrix": {
-        "axes": { "width": ["default"], "appearance": ["default"], "scope": ["global"], "content": ["plain"], "mode": ["instant"], "animation": ["slide-down"], "resultsState": "*" },
-        "states": ["default"]
+        "axes": {
+          "width": [
+            "default"
+          ],
+          "appearance": [
+            "default"
+          ],
+          "scope": [
+            "global"
+          ],
+          "content": [
+            "plain"
+          ],
+          "mode": [
+            "instant"
+          ],
+          "animation": [
+            "slide-down"
+          ],
+          "resultsState": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "resultsState" },
-      "render": { "label": "{resultsState}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Empty: aria-live. Loading: aria-busy. Closed: aria-expanded='false'." }
+      "layoutConfig": {
+        "rowAxis": "resultsState"
+      },
+      "render": {
+        "label": "{resultsState}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Empty: aria-live. Loading: aria-busy. Closed: aria-expanded='false'."
+      }
     }
   ]
 }

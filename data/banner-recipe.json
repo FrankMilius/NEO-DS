@@ -5,22 +5,78 @@
     "component": "banner",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["feedback", "notification", "layout"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/banner-docs" },
+    "tags": [
+      "feedback",
+      "notification",
+      "layout"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/banner-docs"
+    },
     "changelog": [
-      { "version": "2.0.0", "changes": ["Border-Accent Stil-Modus (dezente BG + Akzent-Border)", "Title-Prefix Element (__title) fuer bessere Scanbarkeit", "Dismiss-Animation (slide-up mit Hoehen-Transition)", "Dismiss-Persist (localStorage domNotes)", "Layout-Shift-Vermeidung (body padding-top domNotes)", "Icon-Size Token", "High Contrast Mode", "Neue Specimens: accent-variants, with-title, dismiss-animation"] },
-      { "version": "1.0.0", "changes": ["Initiales Recipe: 4 Severity-Varianten, 3 Positionen, Close-Button, CTA-Link"] }
-    ]
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Border-Accent Stil-Modus (dezente BG + Akzent-Border)",
+          "Title-Prefix Element (__title) fuer bessere Scanbarkeit",
+          "Dismiss-Animation (slide-up mit Hoehen-Transition)",
+          "Dismiss-Persist (localStorage domNotes)",
+          "Layout-Shift-Vermeidung (body padding-top domNotes)",
+          "Icon-Size Token",
+          "High Contrast Mode",
+          "Neue Specimens: accent-variants, with-title, dismiss-animation"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiales Recipe: 4 Severity-Varianten, 3 Positionen, Close-Button, CTA-Link"
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_banner.scss"
+      ],
+      "story": "stories/organisms/banner.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/BannerArena.vue",
+      "drupal": [],
+      "docs": "docs/banner-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-banner" },
+    "root": {
+      "element": ".nc-banner"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-banner__icon", "optional": true },
-      { "name": "content", "element": ".nc-banner__content", "optional": false },
-      { "name": "title", "element": ".nc-banner__title", "optional": true },
-      { "name": "link", "element": ".nc-banner__link", "optional": true },
-      { "name": "close", "element": ".nc-banner__close", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-banner__icon",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-banner__content",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-banner__title",
+        "optional": true
+      },
+      {
+        "name": "link",
+        "element": ".nc-banner__link",
+        "optional": true
+      },
+      {
+        "name": "close",
+        "element": ".nc-banner__close",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -42,92 +98,239 @@
       "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight."
     ]
   },
-
   "axes": {
     "severity": {
       "label": "Severity",
       "description": "Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)",
       "values": {
-        "info":    { "modifier": null,                     "tokenGroups": ["severity-info"],    "renderHint": "banner-info" },
-        "warning": { "modifier": "nc-banner--warning",     "tokenGroups": ["severity-warning"], "renderHint": "banner-warning" },
-        "danger":  { "modifier": "nc-banner--danger",      "tokenGroups": ["severity-danger"],  "renderHint": "banner-danger" },
-        "success": { "modifier": "nc-banner--success",     "tokenGroups": ["severity-success"], "renderHint": "banner-success" }
+        "info": {
+          "modifier": null,
+          "tokenGroups": [
+            "severity-info"
+          ],
+          "renderHint": "banner-info"
+        },
+        "warning": {
+          "modifier": "nc-banner--warning",
+          "tokenGroups": [
+            "severity-warning"
+          ],
+          "renderHint": "banner-warning"
+        },
+        "danger": {
+          "modifier": "nc-banner--danger",
+          "tokenGroups": [
+            "severity-danger"
+          ],
+          "renderHint": "banner-danger"
+        },
+        "success": {
+          "modifier": "nc-banner--success",
+          "tokenGroups": [
+            "severity-success"
+          ],
+          "renderHint": "banner-success"
+        }
       }
     },
-
     "position": {
       "label": "Position",
       "description": "Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)",
       "values": {
-        "static": { "modifier": null,                     "tokenGroups": [], "renderHint": "banner-static" },
-        "sticky": { "modifier": "nc-banner--sticky",      "tokenGroups": [], "renderHint": "banner-sticky" },
-        "fixed":  { "modifier": "nc-banner--fixed",        "tokenGroups": [], "renderHint": "banner-fixed" }
+        "static": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "banner-static"
+        },
+        "sticky": {
+          "modifier": "nc-banner--sticky",
+          "tokenGroups": [],
+          "renderHint": "banner-sticky"
+        },
+        "fixed": {
+          "modifier": "nc-banner--fixed",
+          "tokenGroups": [],
+          "renderHint": "banner-fixed"
+        }
       }
     },
-
     "style": {
       "label": "Style",
       "description": "Visueller Stil — solid (volle Farbflaeche), accent (dezente BG + Akzent-Border)",
       "values": {
-        "solid":  { "modifier": null,                     "tokenGroups": [],              "renderHint": "banner-solid" },
-        "accent": { "modifier": "nc-banner--accent",      "tokenGroups": ["accent"],       "renderHint": "banner-accent" }
+        "solid": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "banner-solid"
+        },
+        "accent": {
+          "modifier": "nc-banner--accent",
+          "tokenGroups": [
+            "accent"
+          ],
+          "renderHint": "banner-accent"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full",
       "values": {
-        "text-only":  { "modifier": null, "tokenGroups": [], "renderHint": "banner-text-only" },
-        "with-icon":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "banner-with-icon" },
-        "with-title": { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true }, "renderHint": "banner-with-title" },
-        "with-link":  { "modifier": null, "tokenGroups": [], "slotConfig": { "link": true }, "renderHint": "banner-with-link" },
-        "with-close": { "modifier": null, "tokenGroups": [], "slotConfig": { "close": true }, "renderHint": "banner-with-close" },
-        "full":       { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true, "title": true, "link": true, "close": true }, "renderHint": "banner-full" }
+        "text-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "banner-text-only"
+        },
+        "with-icon": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true
+          },
+          "renderHint": "banner-with-icon"
+        },
+        "with-title": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true
+          },
+          "renderHint": "banner-with-title"
+        },
+        "with-link": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "link": true
+          },
+          "renderHint": "banner-with-link"
+        },
+        "with-close": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "close": true
+          },
+          "renderHint": "banner-with-close"
+        },
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true,
+            "title": true,
+            "link": true,
+            "close": true
+          },
+          "renderHint": "banner-full"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "dismissing"],
-    "precedence": ["dismissing", "default"],
+    "supported": [
+      "default",
+      "dismissing"
+    ],
+    "precedence": [
+      "dismissing",
+      "default"
+    ],
     "rules": [
-      { "state": "dismissing", "unless": [], "note": "Dismissing: Slide-up Animation, danach Banner aus dem DOM entfernen." }
+      {
+        "state": "dismissing",
+        "unless": [],
+        "note": "Dismissing: Slide-up Animation, danach Banner aus dem DOM entfernen."
+      }
     ],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "role='banner' fuer allgemeine Hinweise, role='alert' fuer dringende Meldungen (danger). Close-Button: aria-label='Banner schliessen'. Link: normales <a> oder <button>. Wird als erstes im DOM platziert fuer korrekte Screen-Reader-Reihenfolge."
     },
     "overrides": [
       {
-        "when": { "axes": { "severity": ["danger"] } },
-        "suggest": ["role-alert"],
+        "when": {
+          "axes": {
+            "severity": [
+              "danger"
+            ]
+          }
+        },
+        "suggest": [
+          "role-alert"
+        ],
         "note": "Danger: role='alert' fuer sofortige Screen-Reader-Ankuendigung. Oder aria-live='assertive'."
       },
       {
-        "when": { "axes": { "severity": ["warning"] } },
-        "suggest": ["role-alert"],
+        "when": {
+          "axes": {
+            "severity": [
+              "warning"
+            ]
+          }
+        },
+        "suggest": [
+          "role-alert"
+        ],
         "note": "Warning: role='alert' oder aria-live='polite' je nach Dringlichkeit."
       },
       {
-        "when": { "axes": { "style": ["accent"] } },
-        "suggest": ["contrast-check-accent"],
+        "when": {
+          "axes": {
+            "style": [
+              "accent"
+            ]
+          }
+        },
+        "suggest": [
+          "contrast-check-accent"
+        ],
         "note": "Accent-Modus: Textfarbe ist text-primary auf 12%-Mix-BG. Kontrast gegen subtilen Hintergrund pruefen."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-banner-or-alert"], "notes": ["Banner braucht role='banner' (allgemein) oder role='alert' (dringend)."] },
-      { "when": {}, "require": ["close-aria-label"], "notes": ["Close-Button: aria-label='Banner schliessen' fuer Screen Reader."] },
-      { "when": { "axes": { "position": ["fixed"] } }, "require": ["layout-shift-prevention"], "notes": ["Bei --fixed: body/shell padding-top dynamisch anpassen, damit Content nicht verdeckt wird."] }
+      {
+        "when": {},
+        "require": [
+          "role-banner-or-alert"
+        ],
+        "notes": [
+          "Banner braucht role='banner' (allgemein) oder role='alert' (dringend)."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "close-aria-label"
+        ],
+        "notes": [
+          "Close-Button: aria-label='Banner schliessen' fuer Screen Reader."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "position": [
+              "fixed"
+            ]
+          }
+        },
+        "require": [
+          "layout-shift-prevention"
+        ],
+        "notes": [
+          "Bei --fixed: body/shell padding-top dynamisch anpassen, damit Content nicht verdeckt wird."
+        ]
+      }
     ],
     "copy": {
       "text": {
@@ -144,11 +347,21 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-banner"],
-    "baseTokenGroups": ["base", "severity-info", "severity-warning", "severity-danger", "severity-success", "accent", "close", "link", "dismiss"],
-
+    "baseClasses": [
+      "nc-banner"
+    ],
+    "baseTokenGroups": [
+      "base",
+      "severity-info",
+      "severity-warning",
+      "severity-danger",
+      "severity-success",
+      "accent",
+      "close",
+      "link",
+      "dismiss"
+    ],
     "tokenGroups": {
       "base": {
         "label": "Base",
@@ -163,44 +376,77 @@
       },
       "severity-info": {
         "label": "Info",
-        "tokens": ["nc-banner-info-bg", "nc-banner-info-color"]
+        "tokens": [
+          "nc-banner-info-bg",
+          "nc-banner-info-color"
+        ]
       },
       "severity-warning": {
         "label": "Warning",
-        "tokens": ["nc-banner-warning-bg", "nc-banner-warning-color"]
+        "tokens": [
+          "nc-banner-warning-bg",
+          "nc-banner-warning-color"
+        ]
       },
       "severity-danger": {
         "label": "Danger",
-        "tokens": ["nc-banner-danger-bg", "nc-banner-danger-color"]
+        "tokens": [
+          "nc-banner-danger-bg",
+          "nc-banner-danger-color"
+        ]
       },
       "severity-success": {
         "label": "Success",
-        "tokens": ["nc-banner-success-bg", "nc-banner-success-color"]
+        "tokens": [
+          "nc-banner-success-bg",
+          "nc-banner-success-color"
+        ]
       },
       "accent": {
         "label": "Border-Accent",
-        "tokens": ["nc-banner-accent-border-width", "nc-banner-accent-border-color"]
+        "tokens": [
+          "nc-banner-accent-border-width",
+          "nc-banner-accent-border-color"
+        ]
       },
       "close": {
         "label": "Close Button",
-        "tokens": ["nc-banner-close-size", "nc-banner-close-radius", "nc-banner-close-opacity", "nc-banner-close-opacity-hover"]
+        "tokens": [
+          "nc-banner-close-size",
+          "nc-banner-close-radius",
+          "nc-banner-close-opacity",
+          "nc-banner-close-opacity-hover"
+        ]
       },
       "link": {
         "label": "Link",
-        "tokens": ["nc-banner-link-weight", "nc-banner-link-underline"]
+        "tokens": [
+          "nc-banner-link-weight",
+          "nc-banner-link-underline"
+        ]
       },
       "dismiss": {
         "label": "Dismiss Animation",
-        "tokens": ["nc-banner-dismiss-duration", "nc-banner-title-weight"]
+        "tokens": [
+          "nc-banner-dismiss-duration",
+          "nc-banner-title-weight"
+        ]
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -216,19 +462,35 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "severity-variants",
       "label": "Severity Variants",
       "description": "Info, Warning, Danger, Success — volle Farbflaeche",
       "matrix": {
-        "axes": { "severity": "*", "position": ["static"], "style": ["solid"], "content": ["with-close"] },
-        "states": ["default"]
+        "axes": {
+          "severity": "*",
+          "position": [
+            "static"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "with-close"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "severity" },
-      "render": { "label": "{severity}" },
+      "layoutConfig": {
+        "rowAxis": "severity"
+      },
+      "render": {
+        "label": "{severity}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Text-on-Color muss 4.5:1 Kontrast gegen Severity-BG haben."
@@ -239,12 +501,29 @@
       "label": "Border-Accent Variants",
       "description": "Info, Warning, Danger, Success — dezente BG + Akzent-Border",
       "matrix": {
-        "axes": { "severity": "*", "position": ["static"], "style": ["accent"], "content": ["with-close"] },
-        "states": ["default"]
+        "axes": {
+          "severity": "*",
+          "position": [
+            "static"
+          ],
+          "style": [
+            "accent"
+          ],
+          "content": [
+            "with-close"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "severity" },
-      "render": { "label": "{severity} (accent)" },
+      "layoutConfig": {
+        "rowAxis": "severity"
+      },
+      "render": {
+        "label": "{severity} (accent)"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Accent-Modus: text-primary auf 12%-Mix-BG. Kontrast pruefen."
@@ -255,11 +534,29 @@
       "label": "With Title Prefix",
       "description": "Banner mit fettgedrucktem Titel-Praefix fuer bessere Scanbarkeit",
       "matrix": {
-        "axes": { "severity": ["warning"], "position": ["static"], "style": ["solid"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "warning"
+          ],
+          "position": [
+            "static"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "banner-with-title", "label": "with-title" },
+      "render": {
+        "compositionType": "banner-with-title",
+        "label": "with-title"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Titel-Praefix: Erhoht Scanbarkeit. Kein eigenes ARIA-Label noetig — Text reicht."
@@ -270,12 +567,29 @@
       "label": "Content Variants",
       "description": "Text-Only, With Icon, With Title, With Link, With Close, Full",
       "matrix": {
-        "axes": { "severity": ["info"], "position": ["static"], "style": ["solid"], "content": "*" },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "info"
+          ],
+          "position": [
+            "static"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Icon dekorativ (aria-hidden). Link: Standard-<a>-Semantik. Close: aria-label='Banner schliessen'."
@@ -286,11 +600,29 @@
       "label": "Dismiss Animation",
       "description": "Slide-up Animation beim Schliessen — Hoehe schrumpft auf 0",
       "matrix": {
-        "axes": { "severity": ["info"], "position": ["static"], "style": ["solid"], "content": ["with-close"] },
-        "states": ["dismissing"]
+        "axes": {
+          "severity": [
+            "info"
+          ],
+          "position": [
+            "static"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "with-close"
+          ]
+        },
+        "states": [
+          "dismissing"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "banner-dismiss", "label": "dismiss" },
+      "render": {
+        "compositionType": "banner-dismiss",
+        "label": "dismiss"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Dismiss: Reduced Motion → sofortiges display:none. localStorage persistiert Entscheidung."
@@ -301,12 +633,29 @@
       "label": "Position Variants",
       "description": "Static, Sticky, Fixed — Positionierung des Banners",
       "matrix": {
-        "axes": { "severity": ["info"], "position": "*", "style": ["solid"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "info"
+          ],
+          "position": "*",
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "position" },
-      "render": { "label": "{position}" },
+      "layoutConfig": {
+        "rowAxis": "position"
+      },
+      "render": {
+        "label": "{position}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Fixed: z-index notification. body padding-top dynamisch anpassen."
@@ -317,11 +666,29 @@
       "label": "Danger Alert Banner",
       "description": "Kritisches Banner mit role='alert' fuer sofortige Ankuendigung",
       "matrix": {
-        "axes": { "severity": ["danger"], "position": ["fixed"], "style": ["solid"], "content": ["full"] },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "danger"
+          ],
+          "position": [
+            "fixed"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "full"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "banner-danger-alert", "label": "danger-alert" },
+      "render": {
+        "compositionType": "banner-danger-alert",
+        "label": "danger-alert"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "role='alert' fuer sofortige Screen-Reader-Ankuendigung. on-danger muss 4.5:1 gegen danger-bg."
@@ -332,11 +699,29 @@
       "label": "With CTA Link",
       "description": "Banner mit eingebettetem Call-to-Action Link",
       "matrix": {
-        "axes": { "severity": ["info"], "position": ["sticky"], "style": ["solid"], "content": ["with-link"] },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "info"
+          ],
+          "position": [
+            "sticky"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "with-link"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "banner-cta", "label": "with-cta" },
+      "render": {
+        "compositionType": "banner-cta",
+        "label": "with-cta"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Link erbt Farbe — underline + bold fuer visuelle Unterscheidung. Focus-Ring auf dem Link."
@@ -347,11 +732,29 @@
       "label": "Dismissible Banner",
       "description": "Banner mit Close-Button — Dismiss wird in localStorage gespeichert",
       "matrix": {
-        "axes": { "severity": ["warning"], "position": ["static"], "style": ["solid"], "content": ["with-close"] },
-        "states": ["default"]
+        "axes": {
+          "severity": [
+            "warning"
+          ],
+          "position": [
+            "static"
+          ],
+          "style": [
+            "solid"
+          ],
+          "content": [
+            "with-close"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "banner-dismissible", "label": "dismissible" },
+      "render": {
+        "compositionType": "banner-dismissible",
+        "label": "dismissible"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Close-Button: aria-label='Banner schliessen'. localStorage: Banner nicht erneut anzeigen."

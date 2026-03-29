@@ -5,19 +5,42 @@
     "component": "otp-input",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "verification"],
+    "tags": [
+      "interactive",
+      "form",
+      "verification"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/otp-input-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_otp-input.scss"
+      ],
+      "story": "stories/molecules/otp-input.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/otp-input-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-otp-input" },
+    "root": {
+      "element": ".nc-otp-input"
+    },
     "slots": [
-      { "name": "cell", "element": ".nc-otp-input__cell", "optional": false },
-      { "name": "separator", "element": ".nc-otp-input__separator", "optional": true }
+      {
+        "name": "cell",
+        "element": ".nc-otp-input__cell",
+        "optional": false
+      },
+      {
+        "name": "separator",
+        "element": ".nc-otp-input__separator",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -33,75 +56,174 @@
       "prefers-reduced-motion: Transitions deaktiviert."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "Groesse der Zellen — sm (Input-Height-MD), md (48px, Standard), lg (60px)",
       "values": {
-        "sm": { "modifier": "nc-otp-input--sm", "tokenGroups": [], "renderHint": "otp-sm" },
-        "md": { "modifier": null,               "tokenGroups": [], "renderHint": "otp-md" },
-        "lg": { "modifier": "nc-otp-input--lg", "tokenGroups": [], "renderHint": "otp-lg" }
+        "sm": {
+          "modifier": "nc-otp-input--sm",
+          "tokenGroups": [],
+          "renderHint": "otp-sm"
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "otp-md"
+        },
+        "lg": {
+          "modifier": "nc-otp-input--lg",
+          "tokenGroups": [],
+          "renderHint": "otp-lg"
+        }
       }
     },
-
     "validation": {
       "label": "Validation",
       "description": "Validierungs-State — none (Standard), error (roter Rand), success (gruener Rand)",
       "values": {
-        "none":    { "modifier": null,                        "tokenGroups": [], "renderHint": "otp-default" },
-        "error":   { "modifier": "nc-otp-input--error",       "tokenGroups": [], "renderHint": "otp-error" },
-        "success": { "modifier": "nc-otp-input--success",     "tokenGroups": [], "renderHint": "otp-success" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "otp-default"
+        },
+        "error": {
+          "modifier": "nc-otp-input--error",
+          "tokenGroups": [],
+          "renderHint": "otp-error"
+        },
+        "success": {
+          "modifier": "nc-otp-input--success",
+          "tokenGroups": [],
+          "renderHint": "otp-success"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — plain (nur Zellen), with-separator (Zellen mit Trennzeichen)",
       "values": {
-        "plain":          { "modifier": null, "tokenGroups": [], "renderHint": "otp-plain" },
-        "with-separator": { "modifier": null, "tokenGroups": [], "slotConfig": { "separator": true }, "renderHint": "otp-separator" }
+        "plain": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "otp-plain"
+        },
+        "with-separator": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "separator": true
+          },
+          "renderHint": "otp-separator"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus", "filled", "disabled"],
-    "precedence": ["disabled", "focus", "filled", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "filled",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "filled",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["disabled", "focus"],  "note": "Hover: border-hover auf einzelner Zelle. Nicht bei Focus oder Disabled." },
-      { "state": "focus", "unless": ["disabled"],            "note": "Focus: focus-ring + border-focus auf der aktiven Zelle via :focus-visible." },
-      { "state": "filled", "unless": ["disabled"],           "note": "Filled: Zelle hat Wert — border-color wechselt zu focus-Farbe (via JS __cell--filled)." },
-      { "state": "disabled", "unless": [],                   "note": "Disabled: Alle Zellen ausgegraut, pointer-events: none, cursor: not-allowed." }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled",
+          "focus"
+        ],
+        "note": "Hover: border-hover auf einzelner Zelle. Nicht bei Focus oder Disabled."
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus: focus-ring + border-focus auf der aktiven Zelle via :focus-visible."
+      },
+      {
+        "state": "filled",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Filled: Zelle hat Wert — border-color wechselt zu focus-Farbe (via JS __cell--filled)."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: Alle Zellen ausgegraut, pointer-events: none, cursor: not-allowed."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Container: role='group' + aria-label='Verifizierungscode'. Jede Zelle: input mit inputmode='numeric', autocomplete='one-time-code', aria-label='Ziffer N von M'. Auto-Focus via JS. Backspace springt zurueck."
     },
     "overrides": [
       {
-        "when": { "axes": { "validation": ["error"] } },
-        "suggest": ["aria-invalid", "aria-describedby"],
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
         "note": "Error: aria-invalid='true' auf dem Container oder jeder Zelle. Fehlermeldung via aria-describedby."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "Disabled: disabled-Attribut auf jeder Zelle. Container ggf. aria-disabled='true'."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-group", "aria-label"], "notes": ["Container braucht role='group' und aria-label (z.B. 'Verifizierungscode')."] },
-      { "when": {}, "require": ["inputmode-numeric"], "notes": ["Zellen brauchen inputmode='numeric' fuer numerische Tastatur auf Mobile."] }
+      {
+        "when": {},
+        "require": [
+          "role-group",
+          "aria-label"
+        ],
+        "notes": [
+          "Container braucht role='group' und aria-label (z.B. 'Verifizierungscode')."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "inputmode-numeric"
+        ],
+        "notes": [
+          "Zellen brauchen inputmode='numeric' fuer numerische Tastatur auf Mobile."
+        ]
+      }
     ],
     "copy": {
       "ariaLabel": {
@@ -110,11 +232,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-otp-input"],
-    "baseTokenGroups": ["core-geometry", "core-typography"],
-
+    "baseClasses": [
+      "nc-otp-input"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-typography"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -140,12 +265,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -160,18 +292,35 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States",
       "description": "OTP-Zelle in allen Zustaenden: default, hover, focus, filled, disabled",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"], "content": ["plain"] },
-        "states": ["default", "hover", "focus", "filled", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "plain"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "filled",
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Focus: focus-ring auf aktiver Zelle. Filled: visuelles Feedback bei eingegebener Ziffer. Disabled: opacity reduziert."
@@ -182,12 +331,26 @@
       "label": "Size Variants",
       "description": "SM, MD, LG Zellen-Groessen",
       "matrix": {
-        "axes": { "size": "*", "validation": ["none"], "content": ["plain"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "plain"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Alle Groessen muessen min. 44px Touch-Target bieten. SM nutzt Input-Height-MD als Fallback."
@@ -198,12 +361,26 @@
       "label": "Validation States",
       "description": "None, Error, Success",
       "matrix": {
-        "axes": { "size": ["md"], "validation": "*", "content": ["plain"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": "*",
+          "content": [
+            "plain"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "validation" },
-      "render": { "label": "{validation}" },
+      "layoutConfig": {
+        "rowAxis": "validation"
+      },
+      "render": {
+        "label": "{validation}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error: roter Rand (danger). Success: gruener Rand (success). Farbe nie alleiniges Signal — Fehlermeldung via aria-describedby."
@@ -214,11 +391,26 @@
       "label": "With Separator",
       "description": "6-stelliger OTP-Code mit Bindestrich-Separator (3+3 Format)",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"], "content": ["with-separator"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "with-separator"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "otp-with-separator", "label": "separator" },
+      "render": {
+        "compositionType": "otp-with-separator",
+        "label": "separator"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Separator ist dekorativ — nicht fokussierbar, aria-hidden='true'. Screen Reader ueberspringt."
@@ -229,11 +421,26 @@
       "label": "4-Digit PIN",
       "description": "Typischer 4-stelliger PIN-Code",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"], "content": ["plain"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "plain"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "otp-4-digit", "label": "4-digit" },
+      "render": {
+        "compositionType": "otp-4-digit",
+        "label": "4-digit"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "4 Zellen, inputmode='numeric'. aria-label='PIN Code' auf Container. Jede Zelle: 'Ziffer N von 4'."
@@ -243,13 +450,32 @@
       "id": "in-form-field",
       "label": "In Form Field",
       "description": "OTP-Input im Form-Field Wrapper mit Label und Fehlermeldung",
-      "composes": ["form-field", "form-label", "form-error"],
+      "composes": [
+        "form-field",
+        "form-label",
+        "form-error"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["error"], "content": ["plain"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "error"
+          ],
+          "content": [
+            "plain"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "otp-form-field", "label": "form-field" },
+      "render": {
+        "compositionType": "otp-form-field",
+        "label": "form-field"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Label via aria-labelledby auf dem Container. Error-Message via aria-describedby. aria-invalid='true'."

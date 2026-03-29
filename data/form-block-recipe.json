@@ -1,0 +1,176 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "form-block",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "form",
+      "content"
+    ],
+    "links": {
+      "docs": "/docs/form-layout-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_form-block.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [],
+      "docs": null
+    },
+    "dependencies": [
+      "form"
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-form-block"
+    },
+    "slots": [
+      {
+        "name": "text",
+        "element": ".nc-form-block__text",
+        "optional": false,
+        "description": "Text-Section mit Headline und Subtext."
+      },
+      {
+        "name": "form",
+        "element": ".nc-form-block__form",
+        "optional": false,
+        "description": "Form-Section (Container fuer Formular-Elemente)."
+      },
+      {
+        "name": "headline",
+        "element": ".nc-form-block__headline",
+        "optional": false,
+        "description": "Headline der Text-Section."
+      },
+      {
+        "name": "subtext",
+        "element": ".nc-form-block__subtext",
+        "optional": true,
+        "description": "Beschreibungstext unter der Headline."
+      },
+      {
+        "name": "submission",
+        "element": ".nc-form-block__submission",
+        "optional": true,
+        "description": "Submission-Bereich (Terms + Hint + CTA)."
+      },
+      {
+        "name": "terms",
+        "element": ".nc-form-block__terms",
+        "optional": true,
+        "description": "Terms Checkbox-Area."
+      },
+      {
+        "name": "hint-text",
+        "element": ".nc-form-block__hint-text",
+        "optional": true,
+        "description": "Hinweistext unter Terms."
+      },
+      {
+        "name": "submit",
+        "element": ".nc-form-block__submit",
+        "optional": true,
+        "description": "Submit-Button."
+      }
+    ],
+    "domNotes": [
+      "4 Positionierungsvarianten: text-left, text-right, text-top, text-bottom.",
+      "Ab md: Side-by-Side Layouts (text-left, text-right), Text-Section 40%, sticky.",
+      "Stacked-Varianten bleiben column.",
+      "Form-Section enthaelt beliebige Formular-Komponenten (form-field, input-group, etc.)."
+    ]
+  },
+  "axes": {
+    "position": {
+      "label": "Text-Position",
+      "description": "Position der Text-Section relativ zur Form.",
+      "values": [
+        {
+          "value": "text-left",
+          "modifier": "nc-form-block--text-left",
+          "label": "Text links, Form rechts",
+          "default": true
+        },
+        {
+          "value": "text-right",
+          "modifier": "nc-form-block--text-right",
+          "label": "Text rechts, Form links"
+        },
+        {
+          "value": "text-top",
+          "modifier": "nc-form-block--text-top",
+          "label": "Text oben, Form unten"
+        },
+        {
+          "value": "text-bottom",
+          "modifier": "nc-form-block--text-bottom",
+          "label": "Text unten, Form oben"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [],
+    "rules": []
+  },
+  "styling": {
+    "baseClasses": [
+      ".nc-form-block"
+    ],
+    "tokenGroups": []
+  },
+  "specimens": [
+    {
+      "id": "text-left",
+      "label": "Text Links (Default)",
+      "matrix": {
+        "axes": {
+          "position": [
+            "text-left"
+          ]
+        }
+      }
+    },
+    {
+      "id": "text-right",
+      "label": "Text Rechts",
+      "matrix": {
+        "axes": {
+          "position": [
+            "text-right"
+          ]
+        }
+      }
+    },
+    {
+      "id": "stacked",
+      "label": "Gestapelt",
+      "matrix": {
+        "axes": {
+          "position": [
+            "text-top",
+            "text-bottom"
+          ]
+        }
+      }
+    }
+  ],
+  "a11y": {
+    "base": {
+      "role": null,
+      "assertions": [
+        "Form-Block ist ein Layout-Container, keine eigene ARIA-Rolle.",
+        "Formular innerhalb der Form-Section sollte eigenes <form> Element verwenden.",
+        "Headline und Subtext sollten per aria-describedby mit dem Formular verknuepft werden."
+      ]
+    }
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "drawer",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "overlay",
+    "interactive",
+    "dialog",
+    "bottom-sheet",
+    "side-panel"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-drawer",
+    "slots": [
+      {
+        "name": "handle",
+        "selector": ".nc-drawer__handle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "header",
+        "selector": ".nc-drawer__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-drawer__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-drawer__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-drawer__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-drawer__footer",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-drawer__close",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Natives <dialog> mit showModal(). Slide-in von 4 Richtungen mit Spring-Animation.",
+      "Modifiers: --top, --right, --left (default: bottom).",
+      "Handle: 32×4px abgerundeter Balken, aria-hidden='true'. Nur bei bottom/top sichtbar. Signalisiert Swipe-to-Dismiss.",
+      "Content: scrollbar. Header und Footer bleiben sticky bei langen Listen.",
+      "Header Scroll-Border: JS setzt .is-scrolled Klasse bei gescrolltem Content — Header bekommt subtile Trennlinie.",
+      "Footer Scroll-Border: Gleiche Logik — Footer bekommt obere Trennlinie bei gescrolltem Content.",
+      "Light Dismiss: Klick auf ::backdrop schliesst Drawer. JS: dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close() }).",
+      "Close-Button: Sichtbar auf allen Richtungen (v2.0: nicht mehr nur bei left/right). Absolut positioniert oben-rechts.",
+      "Mobile Prioritaet: Bottom-Sheet (direction=bottom) ist die bevorzugte Overlay-Variante fuer Touch-Geraete (Daumenzone).",
+      "Elevation: elevation-modal (L3) — gleiche Schattenstufe wie Modal. Ueberlagert gesamte Anwendungsebene.",
+      "Spring Animation: cubic-bezier(0.175, 0.885, 0.32, 1.275) fuer physisch-reaktionsschnelles Slide-in.",
+      "Body Scroll Lock: body:has(.nc-drawer[open]) { overflow: hidden }.",
+      "Side-Width: 380px (mobile) → 440px (tablet) → 500px (desktop) — responsive Breakpoints."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "direction": {
+      "label": "Direction",
+      "description": "Slide-Richtung — bottom (Standard, Bottom-Sheet), top, left, right (Side-Panel)",
+      "values": [
+        {
+          "value": "bottom",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom"
+        },
+        {
+          "value": "top",
+          "cssModifier": "nc-drawer--top",
+          "default": false,
+          "label": "top"
+        },
+        {
+          "value": "left",
+          "cssModifier": "nc-drawer--left",
+          "default": false,
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-drawer--right",
+          "default": false,
+          "label": "right"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open",
+      "scrolled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "scrolled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-drawer"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-drawer-max-width"
+        },
+        {
+          "token": "nc-drawer-max-height"
+        },
+        {
+          "token": "nc-drawer-width"
+        },
+        {
+          "token": "nc-drawer-side-width"
+        },
+        {
+          "token": "nc-drawer-padding"
+        },
+        {
+          "token": "nc-drawer-radius"
+        },
+        {
+          "token": "nc-drawer-bg"
+        },
+        {
+          "token": "nc-drawer-shadow"
+        },
+        {
+          "token": "nc-drawer-overlay-bg"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-drawer-title-font-size"
+        },
+        {
+          "token": "nc-drawer-title-font-weight"
+        },
+        {
+          "token": "nc-drawer-title-color"
+        },
+        {
+          "token": "nc-drawer-desc-font-size"
+        },
+        {
+          "token": "nc-drawer-desc-color"
+        },
+        {
+          "token": "nc-drawer-header-gap"
+        },
+        {
+          "token": "nc-drawer-header-border-color"
+        }
+      ],
+      "Content & Footer": [
+        {
+          "token": "nc-drawer-section-gap"
+        },
+        {
+          "token": "nc-drawer-footer-gap"
+        },
+        {
+          "token": "nc-drawer-footer-border-color"
+        }
+      ],
+      "Handle (Bottom-Sheet)": [
+        {
+          "token": "nc-drawer-handle-width"
+        },
+        {
+          "token": "nc-drawer-handle-height"
+        },
+        {
+          "token": "nc-drawer-handle-radius"
+        },
+        {
+          "token": "nc-drawer-handle-bg"
+        }
+      ],
+      "Close Button": [
+        {
+          "token": "nc-drawer-close-size"
+        },
+        {
+          "token": "nc-drawer-close-radius"
+        },
+        {
+          "token": "nc-drawer-close-bg"
+        },
+        {
+          "token": "nc-drawer-close-bg-hover"
+        },
+        {
+          "token": "nc-drawer-close-icon-size"
+        },
+        {
+          "token": "nc-drawer-close-offset"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-drawer-duration"
+        },
+        {
+          "token": "nc-drawer-ease"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard",
+      "focusTrap"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "direction": [
+            "bottom",
+            "top"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "swipe-to-dismiss"
+        ],
+        "note": "Bottom/Top Drawers: Handle signalisiert Swipe-to-Dismiss. JS: Touch-Geste erkennen und Drawer schliessen."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_drawer.scss"
+    ],
+    "story": "stories/organisms/drawer.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/DrawerArena.vue",
+    "drupal": [],
+    "docs": "docs/drawer-docs.html"
+  }
+}

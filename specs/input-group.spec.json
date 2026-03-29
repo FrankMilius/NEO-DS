@@ -1,0 +1,313 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "input-group",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "form",
+    "composite"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-input-group",
+    "slots": [
+      {
+        "name": "prepend",
+        "selector": ".nc-input-group__prepend",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "input",
+        "selector": ".nc-input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "append",
+        "selector": ".nc-input-group__append",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Row Container: display:flex, align-items:center. Prepend | Input | Append.",
+      "Vertical Alignment: align-items:center statt stretch — Addons und Input sind vertikal zentriert, auch bei unterschiedlicher Hoehe.",
+      "Border-Radius-Logik: erstes Kind linker Radius, letztes Kind rechter Radius, Mitte 0.",
+      "Inner Radius: Verschachtelte Buttons/Selects in Addons bekommen --nc-input-group-inner-radius (0) — nahtloser Uebergang zum Container.",
+      "Negative margin-inline-start auf nicht-erstes Kind vermeidet doppelte Borders.",
+      "Focus: z-index:base auf fokussiertem Element (ueberlappt Nachbarn).",
+      "Addon: statischer Text, Icons oder kleine Buttons. bg-secondary, border-primary.",
+      "Button in Addon: border-radius wird auf inner-radius (0) gesetzt. Button-Groesse passt sich der Input-Group-Size an.",
+      "Input: flex:1, min-width:0 (Overflow-Fix).",
+      "SM/LG: Addon-Padding und Font-Size passen sich an.",
+      "Error: border-error auf allen Teilen (Input + Addons).",
+      "Success: border-success auf allen Teilen (Input + Addons).",
+      "Disabled: Addons ausgegraut (disabled-bg, disabled-color, opacity). Cursor: not-allowed.",
+      "Readonly: Input-Styling readonly (heller Hintergrund, no-cursor). Addons bleiben interaktiv (z.B. Copy-Button)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groesse — sm, md (Standard), lg",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-input-group--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-input-group--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Addon-Konfiguration — prepend-only, append-only, both (Prepend + Append)",
+      "values": [
+        {
+          "value": "prepend-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "prepend-only"
+        },
+        {
+          "value": "append-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "append-only"
+        },
+        {
+          "value": "both",
+          "cssModifier": null,
+          "default": false,
+          "label": "both"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none, error, success",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-input-group--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-input-group--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled",
+      "readonly"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "readonly",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-input-group"
+    ],
+    "tokenGroups": {
+      "Mirror (from Input)": [
+        {
+          "token": "nc-input-group-height-sm"
+        },
+        {
+          "token": "nc-input-group-height-md"
+        },
+        {
+          "token": "nc-input-group-height-lg"
+        },
+        {
+          "token": "nc-input-group-radius"
+        },
+        {
+          "token": "nc-input-group-border-width"
+        }
+      ],
+      "Addon Base": [
+        {
+          "token": "nc-input-group-addon-bg"
+        },
+        {
+          "token": "nc-input-group-addon-color"
+        },
+        {
+          "token": "nc-input-group-addon-border"
+        },
+        {
+          "token": "nc-input-group-addon-padding-x"
+        },
+        {
+          "token": "nc-input-group-addon-font-size"
+        }
+      ],
+      "Addon Interaction": [
+        {
+          "token": "nc-input-group-addon-hover-bg"
+        },
+        {
+          "token": "nc-input-group-addon-active-bg"
+        },
+        {
+          "token": "nc-input-group-inner-radius"
+        }
+      ],
+      "Layout": [
+        {
+          "token": "nc-input-group-inner-radius"
+        },
+        {
+          "token": "nc-input-group-height-sm"
+        },
+        {
+          "token": "nc-input-group-height-md"
+        },
+        {
+          "token": "nc-input-group-height-lg"
+        }
+      ],
+      "Validation Error": [
+        {
+          "token": "nc-input-group-addon-border-error"
+        }
+      ],
+      "Validation Success": [
+        {
+          "token": "nc-input-group-addon-border-success"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby."
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "success"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Success: Erfolgsmeldung via aria-describedby. Kein aria-invalid."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf dem Input."
+      },
+      {
+        "when": {
+          "states": [
+            "readonly"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-readonly"
+        ],
+        "note": "Readonly: readonly-Attribut auf dem Input. aria-readonly='true' fuer assistive Technologien."
+      }
+    ]
+  },
+  "dependencies": [
+    "input"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_input-group.scss"
+    ],
+    "story": "stories/molecules/input-group.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/InputGroupArena.vue",
+    "drupal": [],
+    "docs": "docs/input-group-docs.html"
+  }
+}

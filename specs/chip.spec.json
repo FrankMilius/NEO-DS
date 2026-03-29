@@ -1,0 +1,424 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "chip",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "filter",
+    "selection",
+    "toggle"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-chip",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-chip__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "avatar",
+        "selector": ".nc-chip__avatar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-chip__label",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "count",
+        "selector": ".nc-chip__count",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "remove",
+        "selector": ".nc-chip__remove",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Chip ist immer ein <button> — interaktiv, toggled Filter.",
+      "Toggle-State via aria-pressed='true|false' (NICHT aria-selected).",
+      "Selected-State via .nc-chip--selected UND/ODER aria-pressed='true'.",
+      "Icon-Slot links (dekorativ, aria-hidden='true'). Avatar-Slot links (rundes Bild).",
+      "Count-Badge (__count): Numerisches Badge im Chip (z.B. 'Inland (12)').",
+      "Remove-Button (__remove) ist ein separater <button> mit aria-label='Entfernen'.",
+      "SM-Chips (24px) haben 44px Touch-Target via unsichtbares ::before Pseudo-Element.",
+      "Transparente Border im Default-State reserviert Platz — kein Layout-Shift bei Selektion.",
+      "font-weight bleibt konstant ueber alle States (kein Sprung bei Bold-Wechsel).",
+      "Chip-Group (.nc-chip-group) ist ein flex-wrap Container mit gap.",
+      "Chip-Group--scroll hat nowrap + overflow-x: auto + versteckte Scrollbar.",
+      "Avatar-Element hat reduziertes Padding-Start fuer buendigen Abschluss mit Chip-Rundung.",
+      "Choice-Gruppen: role='radiogroup' (single) oder role='group' (multiple) mit aria-label."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (24px, 44px Touch-Target) / md (32px, Standard) / lg (40px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-chip--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-chip--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — filled (Standard, transparent BG + Border), outline (explizit), ghost (keine Border, dezent fuer Dashboards)",
+      "values": [
+        {
+          "value": "filled",
+          "cssModifier": null,
+          "default": false,
+          "label": "filled"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-chip--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": "nc-chip--ghost",
+          "default": false,
+          "label": "ghost"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt-Typ — text-only, mit Icon, mit Avatar, mit Remove-Button, mit Count-Badge",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        },
+        {
+          "value": "with-avatar",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-avatar"
+        },
+        {
+          "value": "with-count",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-count"
+        },
+        {
+          "value": "removable",
+          "cssModifier": null,
+          "default": false,
+          "label": "removable"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "selected",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-chip"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-chip-height-sm"
+        },
+        {
+          "token": "nc-chip-height-md"
+        },
+        {
+          "token": "nc-chip-height-lg"
+        },
+        {
+          "token": "nc-chip-padding-x"
+        },
+        {
+          "token": "nc-chip-padding-y"
+        },
+        {
+          "token": "nc-chip-radius"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-chip-font-size"
+        },
+        {
+          "token": "nc-chip-font-size-sm"
+        },
+        {
+          "token": "nc-chip-font-size-lg"
+        },
+        {
+          "token": "nc-chip-font-weight"
+        }
+      ],
+      "Default Colors (Filled)": [
+        {
+          "token": "nc-chip-default-bg"
+        },
+        {
+          "token": "nc-chip-default-color"
+        },
+        {
+          "token": "nc-chip-default-border"
+        },
+        {
+          "token": "nc-chip-default-bg-hover"
+        }
+      ],
+      "Outline Variant": [
+        {
+          "token": "nc-chip-outline-bg"
+        },
+        {
+          "token": "nc-chip-outline-color"
+        },
+        {
+          "token": "nc-chip-outline-border"
+        },
+        {
+          "token": "nc-chip-outline-bg-hover"
+        }
+      ],
+      "Ghost Variant": [
+        {
+          "token": "nc-chip-ghost-bg"
+        },
+        {
+          "token": "nc-chip-ghost-color"
+        },
+        {
+          "token": "nc-chip-ghost-border"
+        },
+        {
+          "token": "nc-chip-ghost-bg-hover"
+        }
+      ],
+      "Selected": [
+        {
+          "token": "nc-chip-selected-bg"
+        },
+        {
+          "token": "nc-chip-selected-color"
+        },
+        {
+          "token": "nc-chip-selected-border"
+        },
+        {
+          "token": "nc-chip-selected-bg-hover"
+        }
+      ],
+      "Elements": [
+        {
+          "token": "nc-chip-icon-size"
+        },
+        {
+          "token": "nc-chip-avatar-size"
+        },
+        {
+          "token": "nc-chip-remove-size"
+        },
+        {
+          "token": "nc-chip-padding-avatar"
+        }
+      ],
+      "Count Badge": [
+        {
+          "token": "nc-chip-count-font-size"
+        },
+        {
+          "token": "nc-chip-count-height"
+        },
+        {
+          "token": "nc-chip-count-min-width"
+        },
+        {
+          "token": "nc-chip-count-padding-x"
+        },
+        {
+          "token": "nc-chip-count-bg"
+        },
+        {
+          "token": "nc-chip-count-radius"
+        }
+      ],
+      "Touch Target": [
+        {
+          "token": "nc-chip-touch-target-min"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-chip-disabled-bg"
+        },
+        {
+          "token": "nc-chip-disabled-color"
+        },
+        {
+          "token": "nc-chip-disabled-border"
+        },
+        {
+          "token": "nc-chip-opacity-disabled"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-chip-gap"
+        },
+        {
+          "token": "nc-chip-transition-duration"
+        },
+        {
+          "token": "nc-chip-scale-active"
+        }
+      ],
+      "Group": [
+        {
+          "token": "nc-chip-group-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "selected"
+          ]
+        },
+        "require": [
+          "aria-pressed"
+        ],
+        "suggest": [],
+        "note": "Selected braucht aria-pressed='true'. Deselected: aria-pressed='false'. NICHT aria-selected verwenden."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt wenn Chip noch sichtbar bleiben soll."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "removable"
+            ]
+          }
+        },
+        "require": [
+          "aria-label-remove"
+        ],
+        "suggest": [],
+        "note": "Remove-Button braucht aria-label='Entfernen' oder aehnlich."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-count"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Count-Badge kann per aria-describedby mit dem Chip verknuepft werden fuer Screen-Reader-Kontext."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_chip.scss"
+    ],
+    "story": "stories/atoms/chip.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ChipArena.vue",
+    "drupal": [],
+    "docs": "docs/chip-docs.html"
+  }
+}

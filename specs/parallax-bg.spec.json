@@ -1,0 +1,100 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "parallax-bg",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "animation",
+    "decoration",
+    "scroll"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-parallax-bg",
+    "slots": [],
+    "notes": [
+      "Staircase Grid Reveal mit animierten Quadraten."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-parallax-bg"
+    ],
+    "tokenGroups": {
+      "Core": [
+        {
+          "token": "nc-parallax-radius"
+        },
+        {
+          "token": "nc-parallax-gap"
+        },
+        {
+          "token": "nc-parallax-bg"
+        },
+        {
+          "token": "nc-parallax-square-color"
+        },
+        {
+          "token": "nc-parallax-opacity"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/parallax-bg.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

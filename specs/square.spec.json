@@ -1,0 +1,120 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "square",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "decorative",
+    "display"
+  ],
+  "anatomy": {
+    "rootElement": ".square",
+    "slots": [],
+    "notes": [
+      "Dekoratives Quadrat via ::before Pseudo-Element.",
+      "Varianten: default (accent/gruen), white, dark, adaptive (inverse), blinking.",
+      "Groessen: default (10px), square-l (12px), square-s (8px)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Farbvariante — default (accent), white, dark, adaptive, blinking",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "white",
+          "cssModifier": null,
+          "default": false,
+          "label": "white"
+        },
+        {
+          "value": "dark",
+          "cssModifier": null,
+          "default": false,
+          "label": "dark"
+        },
+        {
+          "value": "adaptive",
+          "cssModifier": null,
+          "default": false,
+          "label": "adaptive"
+        },
+        {
+          "value": "blinking",
+          "cssModifier": null,
+          "default": false,
+          "label": "blinking"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groesse — sm (8px), md (10px Standard), lg (12px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "square-s",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "square-l",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "square"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_square.scss"
+    ],
+    "story": "stories/organisms/square.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/square-docs.html"
+  }
+}

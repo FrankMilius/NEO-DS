@@ -1,0 +1,202 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-hint",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "text",
+    "help",
+    "accessibility"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-hint",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-form-hint__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-form-hint__text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "link",
+        "selector": ".nc-form-hint__link",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.",
+      "Icon ist ein SVG (stroke-basiert, 1em), optisch via margin-top: 0.2em an Text ausgerichtet.",
+      "Text erbt Styles vom Block (font-size, color, line-height).",
+      "margin-block: gap oben, spacing-02 unten — Abstand zum Input und zum naechsten Element.",
+      "Wird via aria-describedby am zugehoerigen Input verknuepft (id='hint-{name}').",
+      "Kann vor oder nach dem Input im .nc-form-field Wrapper platziert werden.",
+      "Link-Slot: Inline-Anchor innerhalb des Hints. Erbt font-size, nutzt interactive-default Farbe. Muss :focus-visible mit focus-ring haben.",
+      "List-Support: .nc-form-hint__text kann eine <ul class='nc-form-hint__list'> enthalten. Listenpunkte werden via gap-Token (nc-form-hint-list-gap) vertikal beabstandet.",
+      "Muted-Variante: Reduzierte Opazitaet/Farbe fuer sehr dezente Zusatzinformation — soll nicht von der primaeren Hint-Message ablenken."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvarianten — text-only (nur Text), with-icon (Info-Icon + Text), with-link (Text + Link), list (Anforderungsliste)",
+      "values": [
+        {
+          "value": "text-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "text-only"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        },
+        {
+          "value": "with-link",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-link"
+        },
+        {
+          "value": "list",
+          "cssModifier": null,
+          "default": false,
+          "label": "list"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Farbvariante — default (sekundaerer Text), muted (noch dezentere Farbe fuer lange Hilfetexte)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "muted",
+          "cssModifier": "nc-form-hint--muted",
+          "default": false,
+          "label": "muted"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-hint"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-form-hint-font-size"
+        },
+        {
+          "token": "nc-form-hint-gap"
+        },
+        {
+          "token": "nc-form-hint-list-gap"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-form-hint-color"
+        },
+        {
+          "token": "nc-form-hint-link-color"
+        },
+        {
+          "token": "nc-form-hint-muted-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-link"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "focusVisible",
+          "contrast-link"
+        ],
+        "note": "Links innerhalb des Hints muessen :focus-visible mit focus-ring haben. Link-Farbe (interactive-default) muss WCAG AA 4.5:1 gegen den Hintergrund erfuellen. Underline ist Pflicht oder per :hover sichtbar."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "list"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Listen im Hint benoetigen keine zusaetzliche ARIA-Annotation. Die <ul> Semantik genuegt. Bei dynamischen Listen (z.B. Passwort-Regeln die sich abhaaken) kann aria-live='polite' auf dem Hint-Container sinnvoll sein."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "muted"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-muted"
+        ],
+        "note": "Muted-Farbe (text-tertiary) muss trotz reduzierter Prominenz 4.5:1 Kontrast einhalten. Im Dark Mode pruefe, ob die Farbe noch lesbar ist."
+      }
+    ]
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_form-hint.scss"
+    ],
+    "story": "stories/molecules/form-hint.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "gallery",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "interactive",
+    "display",
+    "carousel",
+    "hero",
+    "media"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-gallery",
+    "slots": [
+      {
+        "name": "track",
+        "selector": ".nc-gallery__track",
+        "required": true,
+        "description": "Flex-Container fuer Slides. Horizontal via translate3d animiert."
+      },
+      {
+        "name": "slide",
+        "selector": ".nc-gallery__slide",
+        "required": true,
+        "description": "Einzelner Slide. 100% Breite, flex-shrink:0. Enthaelt BG + Content."
+      },
+      {
+        "name": "slide-bg",
+        "selector": ".nc-gallery__slide-bg",
+        "required": true,
+        "description": "Hintergrundbild-Container. Absolute positioniert, object-fit:cover."
+      },
+      {
+        "name": "slide-overlay",
+        "selector": ".nc-gallery__slide-overlay",
+        "required": false,
+        "description": "Gradient-Overlay fuer Textkontrast. Richtung + Opazitaet via Tokens."
+      },
+      {
+        "name": "slide-content",
+        "selector": ".nc-gallery__slide-content",
+        "required": true,
+        "description": "Content-Wrapper: Logo, Tag, Titel, Beschreibung, Actions."
+      },
+      {
+        "name": "controls",
+        "selector": ".nc-gallery__controls",
+        "required": false,
+        "description": "Container fuer Prev/Next Paddle-Buttons. Absolute overlay."
+      },
+      {
+        "name": "paddle",
+        "selector": ".nc-gallery__paddle",
+        "required": false,
+        "description": "Prev/Next Pfeil-Button. Runder Button mit Pfeil-Icon."
+      },
+      {
+        "name": "nav",
+        "selector": ".nc-gallery__nav",
+        "required": false,
+        "description": "Dot-Navigation. role=tablist. Position unten zentriert."
+      },
+      {
+        "name": "nav-dot",
+        "selector": ".nc-gallery__nav-dot",
+        "required": false,
+        "description": "Einzelner Dot/Indikator. role=tab, aria-selected."
+      },
+      {
+        "name": "autoplay",
+        "selector": ".nc-gallery__autoplay",
+        "required": false,
+        "description": "Play/Pause Toggle-Button. Deaktiviert bei prefers-reduced-motion."
+      }
+    ],
+    "notes": [
+      "Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-height.",
+      "Track: display:flex, transform:translate3d(-Nx100%, 0, 0). will-change:transform.",
+      "Slide: flex:0 0 100%, position:relative. Aktiver Slide via JS-Klasse .is-active.",
+      "Slide-BG: position:absolute, inset:0. img mit object-fit:cover.",
+      "Overlay: linear-gradient(direction, start, end). pointer-events:none.",
+      "Content: position:relative, z-index:2. Flex-Column mit gap.",
+      "Nav: role='tablist'. Dots: button[role='tab'], aria-selected='true|false', aria-controls.",
+      "Paddles: button mit aria-label ('Vorheriger Slide', 'Naechster Slide').",
+      "Autoplay: button mit dynamischem aria-label ('Galerie pausieren' / 'Galerie abspielen').",
+      "Per-Slide-Theme: data-slide-theme='light|dark' auf .nc-gallery__slide.",
+      "Animation: Slide = translate3d auf Track. Fade = opacity auf Slides (position:absolute).",
+      "Keyboard: ArrowLeft/Right navigiert, Enter/Space aktiviert Dot, Escape pausiert Autoplay.",
+      "prefers-reduced-motion: Autoplay deaktiviert, Transitionen entfernt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "animation": {
+      "label": "Animation",
+      "description": "Uebergangs-Animation — slide (translate3d), fade (opacity), none (sofort)",
+      "values": [
+        {
+          "value": "slide",
+          "cssModifier": null,
+          "default": false,
+          "label": "slide"
+        },
+        {
+          "value": "fade",
+          "cssModifier": "nc-gallery--fade",
+          "default": false,
+          "label": "fade"
+        },
+        {
+          "value": "none",
+          "cssModifier": "nc-gallery--no-anim",
+          "default": false,
+          "label": "none"
+        }
+      ]
+    },
+    "navStyle": {
+      "label": "Nav Style",
+      "description": "Navigations-Indikator — dots (Punkte), lines (Balken), thumbnails (Mini-Bilder)",
+      "values": [
+        {
+          "value": "dots",
+          "cssModifier": null,
+          "default": false,
+          "label": "dots"
+        },
+        {
+          "value": "lines",
+          "cssModifier": "nc-gallery--lines",
+          "default": false,
+          "label": "lines"
+        },
+        {
+          "value": "thumbnails",
+          "cssModifier": "nc-gallery--thumbnails",
+          "default": false,
+          "label": "thumbnails"
+        }
+      ]
+    },
+    "height": {
+      "label": "Height",
+      "description": "Slide-Hoehe — viewport (100dvh), fixed (500-700px), aspect (16:9)",
+      "values": [
+        {
+          "value": "viewport",
+          "cssModifier": null,
+          "default": false,
+          "label": "viewport"
+        },
+        {
+          "value": "fixed",
+          "cssModifier": "nc-gallery--fixed",
+          "default": false,
+          "label": "fixed"
+        },
+        {
+          "value": "aspect",
+          "cssModifier": "nc-gallery--aspect",
+          "default": false,
+          "label": "aspect"
+        }
+      ]
+    },
+    "contentAlign": {
+      "label": "Content Align",
+      "description": "Content-Ausrichtung — start (links), center (zentriert), end (rechts)",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-gallery--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-gallery--end",
+          "default": false,
+          "label": "end"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus-visible",
+      "playing",
+      "paused"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus-visible",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-gallery"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-gallery-height"
+        },
+        {
+          "token": "nc-gallery-min-height"
+        },
+        {
+          "token": "nc-gallery-max-height"
+        },
+        {
+          "token": "nc-gallery-padding-block"
+        },
+        {
+          "token": "nc-gallery-padding-inline"
+        },
+        {
+          "token": "nc-gallery-content-max-width"
+        },
+        {
+          "token": "nc-gallery-content-gap"
+        },
+        {
+          "token": "nc-gallery-content-align"
+        }
+      ],
+      "Overlay": [
+        {
+          "token": "nc-gallery-overlay-start"
+        },
+        {
+          "token": "nc-gallery-overlay-end"
+        },
+        {
+          "token": "nc-gallery-overlay-direction"
+        }
+      ],
+      "Title": [
+        {
+          "token": "nc-gallery-title-size"
+        },
+        {
+          "token": "nc-gallery-title-weight"
+        },
+        {
+          "token": "nc-gallery-title-color"
+        },
+        {
+          "token": "nc-gallery-title-line-height"
+        }
+      ],
+      "Description": [
+        {
+          "token": "nc-gallery-desc-size"
+        },
+        {
+          "token": "nc-gallery-desc-color"
+        },
+        {
+          "token": "nc-gallery-desc-max-width"
+        },
+        {
+          "token": "nc-gallery-desc-line-height"
+        }
+      ],
+      "Tag": [
+        {
+          "token": "nc-gallery-tag-size"
+        },
+        {
+          "token": "nc-gallery-tag-weight"
+        },
+        {
+          "token": "nc-gallery-tag-bg"
+        },
+        {
+          "token": "nc-gallery-tag-color"
+        },
+        {
+          "token": "nc-gallery-tag-radius"
+        },
+        {
+          "token": "nc-gallery-tag-padding"
+        }
+      ],
+      "Logo": [
+        {
+          "token": "nc-gallery-logo-max-height"
+        },
+        {
+          "token": "nc-gallery-logo-max-width"
+        }
+      ],
+      "Navigation Dots": [
+        {
+          "token": "nc-gallery-dot-size"
+        },
+        {
+          "token": "nc-gallery-dot-gap"
+        },
+        {
+          "token": "nc-gallery-dot-color"
+        },
+        {
+          "token": "nc-gallery-dot-color-active"
+        },
+        {
+          "token": "nc-gallery-dot-radius"
+        }
+      ],
+      "Paddles": [
+        {
+          "token": "nc-gallery-paddle-size"
+        },
+        {
+          "token": "nc-gallery-paddle-bg"
+        },
+        {
+          "token": "nc-gallery-paddle-bg-hover"
+        },
+        {
+          "token": "nc-gallery-paddle-color"
+        },
+        {
+          "token": "nc-gallery-paddle-radius"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-gallery-animation-duration"
+        },
+        {
+          "token": "nc-gallery-animation-easing"
+        }
+      ],
+      "Autoplay": [
+        {
+          "token": "nc-gallery-autoplay-interval"
+        },
+        {
+          "token": "nc-gallery-autoplay-progress-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "animation": [
+              "slide",
+              "fade"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation muss bei prefers-reduced-motion deaktivierbar sein. Autoplay automatisch pausiert."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_gallery.scss"
+    ],
+    "story": "stories/organisms/gallery.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-gallery.html.twig",
+      "block--inline-block--neo-gallery.html.twig"
+    ],
+    "docs": null
+  }
+}

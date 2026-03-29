@@ -1,0 +1,134 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "validation-summary",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "feedback",
+    "form",
+    "validation"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-validation-summary",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-validation-summary__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-validation-summary__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nc-validation-summary__list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-validation-summary__item",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Error-Summary-Box am Anfang eines Formulars — zeigt alle Fehler gesammelt.",
+      "Root: flex-column, gap, danger-BG + danger-Border. Focus-visible fuer JS-Fokus.",
+      "Icon: 20px Error-Icon, dekorativ (aria-hidden). Optional neben dem Titel.",
+      "Title: flex-row mit Icon + Text. 'Es gibt X Fehler im Formular'.",
+      "List: <ol> oder <ul> mit disc-Marker, padding-inline-start.",
+      "Item: Einzelner Fehler — kann <a href='#field-id'> sein fuer direkten Sprung.",
+      "Item-Links: underline, hover: thickness 2px, focus-ring.",
+      "Hidden-Modifier: display:none — JS entfernt wenn Fehler vorhanden.",
+      "Forced-Colors: 2px solid Mark, Canvas-BG, CanvasText fuer High Contrast."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — with-links (Fehler als Links zum Feld), text-only (Fehler als Text ohne Links), with-icon (mit Error-Icon im Titel)",
+      "values": [
+        {
+          "value": "with-links",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-links"
+        },
+        {
+          "value": "text-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "text-only"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-validation-summary"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-validation-summary-bg"
+        },
+        {
+          "token": "nc-validation-summary-border"
+        },
+        {
+          "token": "nc-validation-summary-color"
+        },
+        {
+          "token": "nc-validation-summary-radius"
+        },
+        {
+          "token": "nc-validation-summary-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_validation-summary.scss"
+    ],
+    "story": "stories/organisms/validation-summary.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

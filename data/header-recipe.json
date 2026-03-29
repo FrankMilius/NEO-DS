@@ -5,14 +5,42 @@
     "component": "header",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["navigation", "layout", "interactive"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/header-docs" }
+    "tags": [
+      "navigation",
+      "layout",
+      "interactive"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/header-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_header.scss"
+      ],
+      "story": "stories/organisms/header.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/header-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".header" },
+    "root": {
+      "element": ".header"
+    },
     "slots": [
-      { "name": "nav-wrapper", "element": ".nav-wrapper", "optional": false },
-      { "name": "conversion", "element": ".conversion", "optional": true }
+      {
+        "name": "nav-wrapper",
+        "element": ".nav-wrapper",
+        "optional": false
+      },
+      {
+        "name": "conversion",
+        "element": ".conversion",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -25,15 +53,28 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "header-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "header-default"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "hidden"],
-    "precedence": ["hidden", "default"],
+    "supported": [
+      "default",
+      "hidden"
+    ],
+    "precedence": [
+      "hidden",
+      "default"
+    ],
     "rules": [
-      { "state": "hidden", "condition": ".nav-hidden auf nav-wrapper" }
+      {
+        "state": "hidden",
+        "condition": ".nav-hidden auf nav-wrapper"
+      }
     ],
     "interactive": true
   },
@@ -46,27 +87,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["header"],
+    "baseClasses": [
+      "header"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Header",
+      "id": "default",
+      "label": "Header",
       "description": "Fixed Header mit Navigation und Conversion-Button",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "header" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "role banner, nav aria-label, skip-link." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "header"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "role banner, nav aria-label, skip-link."
+      }
     }
   ]
 }

@@ -5,22 +5,71 @@
     "component": "metric",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["display", "data", "content", "dashboard"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/metric-docs" }
+    "tags": [
+      "display",
+      "data",
+      "content",
+      "dashboard"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/metric-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_metric.scss"
+      ],
+      "story": "stories/organisms/metric.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/MetricArena.vue",
+      "drupal": [],
+      "docs": "docs/metric-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-metric" },
+    "root": {
+      "element": ".nc-metric"
+    },
     "slots": [
-      { "name": "label",     "element": ".nc-metric__label",     "optional": true },
-      { "name": "value-row", "element": ".nc-metric__value-row", "optional": false },
-      { "name": "value",     "element": ".nc-metric__value",     "optional": false },
-      { "name": "unit",      "element": ".nc-metric__unit",      "optional": true },
-      { "name": "trend",     "element": ".nc-metric__trend",     "optional": true },
-      { "name": "footer",    "element": ".nc-metric__footer",    "optional": true }
+      {
+        "name": "label",
+        "element": ".nc-metric__label",
+        "optional": true
+      },
+      {
+        "name": "value-row",
+        "element": ".nc-metric__value-row",
+        "optional": false
+      },
+      {
+        "name": "value",
+        "element": ".nc-metric__value",
+        "optional": false
+      },
+      {
+        "name": "unit",
+        "element": ".nc-metric__unit",
+        "optional": true
+      },
+      {
+        "name": "trend",
+        "element": ".nc-metric__trend",
+        "optional": true
+      },
+      {
+        "name": "footer",
+        "element": ".nc-metric__footer",
+        "optional": true
+      }
     ],
     "convenience": [
-      { "name": "trend-icon", "element": ".nc-metric__trend-icon", "optional": true, "description": "Pfeil-Icon im Trend-Slot (SVG arrow-up/arrow-down/minus)" }
+      {
+        "name": "trend-icon",
+        "element": ".nc-metric__trend-icon",
+        "optional": true,
+        "description": "Pfeil-Icon im Trend-Slot (SVG arrow-up/arrow-down/minus)"
+      }
     ],
     "domNotes": [
       "Container: Flex-Column mit gap. Solid: inverse BG + inverse Text. Subtle: helle BG + primaere Farben.",
@@ -35,44 +84,89 @@
       "Size xl: Hero-Groesse fuer Marketing-Sektionen. Uebergrosse Zahl (fs-8xl)."
     ]
   },
-
   "axes": {
     "emphasis": {
       "label": "Emphasis",
       "description": "Hintergrund-Stil — solid (inverse, dunkel) oder subtle (hell, dezent)",
       "values": {
-        "solid":  { "modifier": null,                    "tokenGroups": ["container", "value", "label", "footer"] },
-        "subtle": { "modifier": "nc-metric--subtle",     "tokenGroups": ["subtle"] }
+        "solid": {
+          "modifier": null,
+          "tokenGroups": [
+            "container",
+            "value",
+            "label",
+            "footer"
+          ]
+        },
+        "subtle": {
+          "modifier": "nc-metric--subtle",
+          "tokenGroups": [
+            "subtle"
+          ]
+        }
       }
     },
     "size": {
       "label": "Size",
       "description": "Groesse — md (kompakt), lg (Standard), xl (Hero)",
       "values": {
-        "md": { "modifier": "nc-metric--md",  "tokenGroups": ["size-md"] },
-        "lg": { "modifier": null,             "tokenGroups": [] },
-        "xl": { "modifier": "nc-metric--xl",  "tokenGroups": ["size-xl"] }
+        "md": {
+          "modifier": "nc-metric--md",
+          "tokenGroups": [
+            "size-md"
+          ]
+        },
+        "lg": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "xl": {
+          "modifier": "nc-metric--xl",
+          "tokenGroups": [
+            "size-xl"
+          ]
+        }
       }
     },
     "trend": {
       "label": "Trend",
       "description": "Richtungsindikator — up (positiv/Success), down (negativ/Danger), neutral (unveraendert)",
       "values": {
-        "none":    { "modifier": null,                         "tokenGroups": [] },
-        "up":      { "modifier": "nc-metric--trend-up",        "tokenGroups": ["trend"] },
-        "down":    { "modifier": "nc-metric--trend-down",      "tokenGroups": ["trend"] },
-        "neutral": { "modifier": "nc-metric--trend-neutral",   "tokenGroups": ["trend"] }
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "up": {
+          "modifier": "nc-metric--trend-up",
+          "tokenGroups": [
+            "trend"
+          ]
+        },
+        "down": {
+          "modifier": "nc-metric--trend-down",
+          "tokenGroups": [
+            "trend"
+          ]
+        },
+        "neutral": {
+          "modifier": "nc-metric--trend-neutral",
+          "tokenGroups": [
+            "trend"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
@@ -82,21 +176,41 @@
     },
     "overrides": [
       {
-        "when": { "axes": { "emphasis": ["subtle"] } },
+        "when": {
+          "axes": {
+            "emphasis": [
+              "subtle"
+            ]
+          }
+        },
         "suggest": [],
         "note": "Subtle: Value-Color und Label-Color muessen 4.5:1 gegen helle BG einhalten."
       },
       {
-        "when": { "axes": { "trend": ["up", "down"] } },
+        "when": {
+          "axes": {
+            "trend": [
+              "up",
+              "down"
+            ]
+          }
+        },
         "suggest": [],
         "note": "Trend-Farben: Success (#16a34a) und Danger (#dc2626) muessen 3:1 gegen BG einhalten. Nicht nur auf Farbe verlassen — Icon als zusaetzlicher Indikator."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["value-present"], "notes": ["Jede Metric braucht mindestens einen Value."] }
+      {
+        "when": {},
+        "require": [
+          "value-present"
+        ],
+        "notes": [
+          "Jede Metric braucht mindestens einen Value."
+        ]
+      }
     ],
     "copy": {
       "label": {
@@ -113,11 +227,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-metric"],
-    "baseTokenGroups": ["container", "value"],
-
+    "baseClasses": [
+      "nc-metric"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "value"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -208,12 +325,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -228,18 +352,32 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default (Solid)",
       "description": "Kennzahl mit Label, Value, Trend und Footer auf inversem Hintergrund",
       "matrix": {
-        "axes": { "emphasis": ["solid"], "size": ["lg"], "trend": ["up"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "solid"
+          ],
+          "size": [
+            "lg"
+          ],
+          "trend": [
+            "up"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "metric-full", "label": "solid" },
+      "render": {
+        "compositionType": "metric-full",
+        "label": "solid"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)",
         "note": "Value: accent gegen inverse BG. Label: text-inverse gegen inverse BG."
@@ -250,84 +388,192 @@
       "label": "Solid vs Subtle",
       "description": "Vergleich: inverse (solid) vs helle (subtle) Variante",
       "matrix": {
-        "axes": { "emphasis": "*", "size": ["lg"], "trend": ["up"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": "*",
+          "size": [
+            "lg"
+          ],
+          "trend": [
+            "up"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "emphasis" },
-      "render": { "label": "{emphasis}" }
+      "layoutConfig": {
+        "rowAxis": "emphasis"
+      },
+      "render": {
+        "label": "{emphasis}"
+      }
     },
     {
       "id": "size-comparison",
       "label": "Size Comparison",
       "description": "MD (kompakt) vs LG (Standard) vs XL (Hero)",
       "matrix": {
-        "axes": { "emphasis": ["solid"], "size": "*", "trend": ["up"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "solid"
+          ],
+          "size": "*",
+          "trend": [
+            "up"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" }
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      }
     },
     {
       "id": "trend-variants",
       "label": "Trend Variants",
       "description": "Up (Success), Down (Danger), Neutral — Richtungsindikatoren",
       "matrix": {
-        "axes": { "emphasis": ["solid"], "size": ["lg"], "trend": ["up", "down", "neutral"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "solid"
+          ],
+          "size": [
+            "lg"
+          ],
+          "trend": [
+            "up",
+            "down",
+            "neutral"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "trend" },
-      "render": { "label": "{trend}" }
+      "layoutConfig": {
+        "rowAxis": "trend"
+      },
+      "render": {
+        "label": "{trend}"
+      }
     },
     {
       "id": "subtle-trends",
       "label": "Subtle + Trends",
       "description": "Helle Variante mit verschiedenen Trend-Richtungen",
       "matrix": {
-        "axes": { "emphasis": ["subtle"], "size": ["lg"], "trend": ["up", "down", "neutral"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "subtle"
+          ],
+          "size": [
+            "lg"
+          ],
+          "trend": [
+            "up",
+            "down",
+            "neutral"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "trend" },
-      "render": { "label": "{trend}" }
+      "layoutConfig": {
+        "rowAxis": "trend"
+      },
+      "render": {
+        "label": "{trend}"
+      }
     },
     {
       "id": "dashboard-grid",
       "label": "Dashboard Grid",
       "description": "4 Metriken nebeneinander — typisches Dashboard-Layout",
       "matrix": {
-        "axes": { "emphasis": ["subtle"], "size": ["md"], "trend": ["up"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "subtle"
+          ],
+          "size": [
+            "md"
+          ],
+          "trend": [
+            "up"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "metric-grid", "label": "grid" }
+      "render": {
+        "compositionType": "metric-grid",
+        "label": "grid"
+      }
     },
     {
       "id": "hero-metric",
       "label": "Hero Metric",
       "description": "XL Hero-Kennzahl fuer Marketing-Sektionen",
       "matrix": {
-        "axes": { "emphasis": ["solid"], "size": ["xl"], "trend": ["up"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "solid"
+          ],
+          "size": [
+            "xl"
+          ],
+          "trend": [
+            "up"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "metric-hero", "label": "hero" }
+      "render": {
+        "compositionType": "metric-hero",
+        "label": "hero"
+      }
     },
     {
       "id": "value-only",
       "label": "Value Only",
       "description": "Minimale Variante: nur Wert ohne Label/Trend/Footer",
       "matrix": {
-        "axes": { "emphasis": ["solid"], "size": ["lg"], "trend": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "emphasis": [
+            "solid"
+          ],
+          "size": [
+            "lg"
+          ],
+          "trend": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "metric-minimal", "label": "minimal" }
+      "render": {
+        "compositionType": "metric-minimal",
+        "label": "minimal"
+      }
     }
   ],
-
   "tokenDependencies": [
     {
       "source": "nc-card-radius",

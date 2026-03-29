@@ -1,0 +1,882 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "button",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "control"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-button",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-button__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-button__label",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "spinner",
+        "selector": ".nc-button__spinner",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Buttons muessen immer ein zugaengliches Label haben — entweder sichtbarer Text oder aria-label fuer Icon-Only.",
+      "Spinner wird im State 'loading' angezeigt und blockiert Interaktion.",
+      "XS/SM Buttons haben unsichtbaren ::before Touch-Target (44px Minimum, WCAG 2.5.8).",
+      "Loading nutzt visibility:hidden statt opacity:0 — Label-Breite bleibt erhalten, kein Layout-Shift."
+    ]
+  },
+  "api": {
+    "elements": {
+      "default": {
+        "element": "button",
+        "attributes": [
+          "type=button"
+        ]
+      },
+      "link": {
+        "element": "a",
+        "attributes": [
+          "href?"
+        ]
+      }
+    },
+    "attributes": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "appliesTo": [
+          "button"
+        ]
+      },
+      {
+        "name": "aria-disabled",
+        "type": "boolean",
+        "appliesTo": [
+          "a"
+        ]
+      },
+      {
+        "name": "aria-busy",
+        "type": "boolean",
+        "appliesTo": [
+          "button",
+          "a"
+        ]
+      },
+      {
+        "name": "aria-pressed",
+        "type": "boolean",
+        "appliesTo": [
+          "button",
+          "a"
+        ]
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "appliesTo": [
+          "button",
+          "a"
+        ]
+      }
+    ]
+  },
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante / Semantik des Buttons",
+      "values": [
+        {
+          "value": "primary",
+          "cssModifier": null,
+          "default": false,
+          "label": "primary"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": "nc-button--secondary",
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "nc-button--accent",
+          "default": false,
+          "label": "accent"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-button--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": "nc-button--ghost",
+          "default": false,
+          "label": "ghost"
+        },
+        {
+          "value": "soft",
+          "cssModifier": "nc-button--soft",
+          "default": false,
+          "label": "soft"
+        },
+        {
+          "value": "inverted",
+          "cssModifier": "nc-button--inverted",
+          "default": false,
+          "label": "inverted"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-button--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-button--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-button--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-button--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groessenabstufung des Buttons",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-button--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-button--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-button--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "pattern": {
+      "label": "Pattern",
+      "description": "Render-Muster / Slot-Konfiguration",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "with-icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icon"
+        },
+        {
+          "value": "icon-only",
+          "cssModifier": "nc-button--icon-only",
+          "default": false,
+          "label": "icon-only"
+        }
+      ]
+    },
+    "width": {
+      "label": "Width",
+      "description": "Breitenverhalten des Buttons",
+      "values": [
+        {
+          "value": "auto",
+          "cssModifier": null,
+          "default": false,
+          "label": "auto"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-button--full-width",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "composition": {
+      "label": "Composition",
+      "description": "Kompositions-/Verwendungsform",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "group",
+          "cssModifier": null,
+          "default": false,
+          "label": "group"
+        },
+        {
+          "value": "toggle",
+          "cssModifier": null,
+          "default": false,
+          "label": "toggle"
+        },
+        {
+          "value": "fab",
+          "cssModifier": "nc-button--fab",
+          "default": false,
+          "label": "fab"
+        },
+        {
+          "value": "link",
+          "cssModifier": null,
+          "default": false,
+          "label": "link"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus-visible",
+      "disabled",
+      "loading",
+      "pressed"
+    ],
+    "interactive": null,
+    "rules": [
+      {
+        "state": "loading",
+        "effects": [
+          "blockInteraction"
+        ],
+        "attributes": {
+          "aria-busy": true,
+          "aria-disabled": true
+        },
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [
+          "blockInteraction"
+        ],
+        "attributes": {
+          "disabled?": true,
+          "aria-disabled": true
+        },
+        "description": null
+      },
+      {
+        "state": "pressed",
+        "effects": [],
+        "attributes": {
+          "aria-pressed": "true|false"
+        },
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-button"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-button-height-xs"
+        },
+        {
+          "token": "nc-button-height-sm"
+        },
+        {
+          "token": "nc-button-height-md"
+        },
+        {
+          "token": "nc-button-height-lg"
+        },
+        {
+          "token": "nc-button-padding-x-xs"
+        },
+        {
+          "token": "nc-button-padding-x-sm"
+        },
+        {
+          "token": "nc-button-padding-x-md"
+        },
+        {
+          "token": "nc-button-padding-x-lg"
+        },
+        {
+          "token": "nc-button-padding-y-xs"
+        },
+        {
+          "token": "nc-button-padding-y-sm"
+        },
+        {
+          "token": "nc-button-padding-y-md"
+        },
+        {
+          "token": "nc-button-padding-y-lg"
+        },
+        {
+          "token": "nc-button-radius-xs"
+        },
+        {
+          "token": "nc-button-radius-sm"
+        },
+        {
+          "token": "nc-button-radius-md"
+        },
+        {
+          "token": "nc-button-radius-lg"
+        },
+        {
+          "token": "nc-button-radius-full"
+        },
+        {
+          "token": "nc-button-border-width-sm"
+        },
+        {
+          "token": "nc-button-border-width-lg"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-button-font-size-xs"
+        },
+        {
+          "token": "nc-button-font-size-sm"
+        },
+        {
+          "token": "nc-button-font-size-md"
+        },
+        {
+          "token": "nc-button-font-size-lg"
+        },
+        {
+          "token": "nc-button-line-height"
+        },
+        {
+          "token": "nc-button-font-weight"
+        },
+        {
+          "token": "nc-button-gap"
+        },
+        {
+          "token": "nc-button-min-width"
+        },
+        {
+          "token": "nc-button-label-compact"
+        },
+        {
+          "token": "nc-button-label-expressive"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-button-transition-duration"
+        },
+        {
+          "token": "nc-button-scale-active"
+        },
+        {
+          "token": "nc-button-opacity-disabled"
+        }
+      ],
+      "Touch Target": [
+        {
+          "token": "nc-button-touch-target-min"
+        }
+      ],
+      "Icon Sizing": [
+        {
+          "token": "nc-button-icon-gap-xs"
+        },
+        {
+          "token": "nc-button-icon-gap-sm"
+        },
+        {
+          "token": "nc-button-icon-gap-md"
+        },
+        {
+          "token": "nc-button-icon-gap-lg"
+        },
+        {
+          "token": "nc-button-icon-size-xs"
+        },
+        {
+          "token": "nc-button-icon-size-sm"
+        },
+        {
+          "token": "nc-button-icon-size-md"
+        },
+        {
+          "token": "nc-button-icon-size-lg"
+        }
+      ],
+      "Size Scale": [
+        {
+          "token": "nc-button-height-xs"
+        },
+        {
+          "token": "nc-button-height-sm"
+        },
+        {
+          "token": "nc-button-height-md"
+        },
+        {
+          "token": "nc-button-height-lg"
+        },
+        {
+          "token": "nc-button-padding-x-xs"
+        },
+        {
+          "token": "nc-button-padding-x-sm"
+        },
+        {
+          "token": "nc-button-padding-x-md"
+        },
+        {
+          "token": "nc-button-padding-x-lg"
+        },
+        {
+          "token": "nc-button-font-size-xs"
+        },
+        {
+          "token": "nc-button-font-size-sm"
+        },
+        {
+          "token": "nc-button-font-size-md"
+        },
+        {
+          "token": "nc-button-font-size-lg"
+        }
+      ],
+      "Primary": [
+        {
+          "token": "nc-button-primary-bg"
+        },
+        {
+          "token": "nc-button-primary-bg-hover"
+        },
+        {
+          "token": "nc-button-primary-bg-active"
+        },
+        {
+          "token": "nc-button-primary-color"
+        },
+        {
+          "token": "nc-button-primary-border"
+        }
+      ],
+      "Secondary": [
+        {
+          "token": "nc-button-secondary-bg"
+        },
+        {
+          "token": "nc-button-secondary-bg-hover"
+        },
+        {
+          "token": "nc-button-secondary-bg-active"
+        },
+        {
+          "token": "nc-button-secondary-color"
+        },
+        {
+          "token": "nc-button-secondary-border"
+        }
+      ],
+      "Outline": [
+        {
+          "token": "nc-button-outline-bg"
+        },
+        {
+          "token": "nc-button-outline-bg-hover"
+        },
+        {
+          "token": "nc-button-outline-bg-active"
+        },
+        {
+          "token": "nc-button-outline-color"
+        },
+        {
+          "token": "nc-button-outline-border"
+        }
+      ],
+      "Ghost": [
+        {
+          "token": "nc-button-ghost-bg"
+        },
+        {
+          "token": "nc-button-ghost-bg-hover"
+        },
+        {
+          "token": "nc-button-ghost-bg-active"
+        },
+        {
+          "token": "nc-button-ghost-color"
+        },
+        {
+          "token": "nc-button-ghost-border"
+        }
+      ],
+      "Soft": [
+        {
+          "token": "nc-button-soft-bg"
+        },
+        {
+          "token": "nc-button-soft-bg-hover"
+        },
+        {
+          "token": "nc-button-soft-bg-active"
+        },
+        {
+          "token": "nc-button-soft-color"
+        },
+        {
+          "token": "nc-button-soft-border"
+        }
+      ],
+      "Inverted": [
+        {
+          "token": "nc-button-inverted-bg"
+        },
+        {
+          "token": "nc-button-inverted-bg-hover"
+        },
+        {
+          "token": "nc-button-inverted-bg-active"
+        },
+        {
+          "token": "nc-button-inverted-color"
+        },
+        {
+          "token": "nc-button-inverted-border"
+        }
+      ],
+      "Accent": [
+        {
+          "token": "nc-button-accent-bg"
+        },
+        {
+          "token": "nc-button-accent-bg-hover"
+        },
+        {
+          "token": "nc-button-accent-bg-active"
+        },
+        {
+          "token": "nc-button-accent-color"
+        },
+        {
+          "token": "nc-button-accent-border"
+        }
+      ],
+      "Success": [
+        {
+          "token": "nc-button-success-bg"
+        },
+        {
+          "token": "nc-button-success-bg-hover"
+        },
+        {
+          "token": "nc-button-success-bg-active"
+        },
+        {
+          "token": "nc-button-success-color"
+        },
+        {
+          "token": "nc-button-success-border"
+        }
+      ],
+      "Warning": [
+        {
+          "token": "nc-button-warning-bg"
+        },
+        {
+          "token": "nc-button-warning-bg-hover"
+        },
+        {
+          "token": "nc-button-warning-bg-active"
+        },
+        {
+          "token": "nc-button-warning-color"
+        },
+        {
+          "token": "nc-button-warning-border"
+        }
+      ],
+      "Error": [
+        {
+          "token": "nc-button-error-bg"
+        },
+        {
+          "token": "nc-button-error-bg-hover"
+        },
+        {
+          "token": "nc-button-error-bg-active"
+        },
+        {
+          "token": "nc-button-error-color"
+        },
+        {
+          "token": "nc-button-error-border"
+        }
+      ],
+      "Info": [
+        {
+          "token": "nc-button-info-bg"
+        },
+        {
+          "token": "nc-button-info-bg-hover"
+        },
+        {
+          "token": "nc-button-info-bg-active"
+        },
+        {
+          "token": "nc-button-info-color"
+        },
+        {
+          "token": "nc-button-info-border"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-button-disabled-bg"
+        },
+        {
+          "token": "nc-button-disabled-color"
+        },
+        {
+          "token": "nc-button-disabled-border"
+        },
+        {
+          "token": "nc-button-opacity-disabled"
+        }
+      ],
+      "FAB (Floating Action Button)": [
+        {
+          "token": "nc-button-fab-size"
+        },
+        {
+          "token": "nc-button-fab-radius"
+        },
+        {
+          "token": "nc-button-fab-shadow"
+        },
+        {
+          "token": "nc-button-fab-shadow-hover"
+        }
+      ],
+      "Icon Button": [
+        {
+          "token": "nc-icon-button-size"
+        },
+        {
+          "token": "nc-icon-button-padding"
+        },
+        {
+          "token": "nc-icon-button-radius"
+        },
+        {
+          "token": "nc-icon-button-bg"
+        },
+        {
+          "token": "nc-icon-button-bg-hover"
+        },
+        {
+          "token": "nc-icon-button-color"
+        }
+      ],
+      "Spinner / Loading": [
+        {
+          "token": "nc-button-spinner-size"
+        },
+        {
+          "token": "nc-button-spinner-border-width"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "activate",
+      "note": "Loest den Click-Handler aus."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Loest den Click-Handler aus. Verhindert Page-Scroll."
+    }
+  },
+  "testSelectors": {
+    "root": "[data-testid='button']",
+    "label": "[data-testid='button-label']",
+    "icon": "[data-testid='button-icon']",
+    "spinner": "[data-testid='button-spinner']"
+  },
+  "events": {
+    "click": {
+      "bubbles": true,
+      "note": "Standard DOM click Event."
+    }
+  },
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "focus-ring mixin, :focus-visible",
+    "assertions": [
+      "hasAccessibleName",
+      "focusIndicatorVisible"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "pattern": [
+              "icon-only"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Icon-Only Buttons benoetigen immer aria-label. Quadratische Flaeche fuer einfaches Treffen."
+      },
+      {
+        "when": {
+          "axes": {
+            "size": [
+              "xs",
+              "sm"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "XS/SM erhalten ::before Touch-Target (44px) fuer WCAG 2.5.8 Target Size."
+      },
+      {
+        "when": {
+          "axes": {
+            "composition": [
+              "group"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role=group",
+          "aria-label=Aktionen"
+        ],
+        "note": "Button-Group benoetigt role='group' mit aria-label. Mittlere Buttons haben keinen Radius."
+      },
+      {
+        "when": {
+          "axes": {
+            "composition": [
+              "toggle"
+            ]
+          }
+        },
+        "require": [
+          "aria-pressed"
+        ],
+        "suggest": [],
+        "note": "Toggle-Buttons muessen aria-pressed verwenden. Aktiver Zustand kann zu Primary-Farben wechseln (Resolver-Regel)."
+      },
+      {
+        "when": {
+          "axes": {
+            "composition": [
+              "fab"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "FAB benoetigt aria-label da kein sichtbarer Text vorhanden. Elevation-Shadow signalisiert interaktive Flaeche."
+      },
+      {
+        "when": {
+          "axes": {
+            "composition": [
+              "link"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Links als Buttons gestylt benoetigen role='button' und Keyboard-Handling, wenn sie keine Navigation ausloesen."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "inverted"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Inverted-Buttons auf dunklen Hintergruenden — Kontrast gegen den tatsaechlichen Hintergrund pruefen, nicht gegen Surface."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_button.scss"
+    ],
+    "story": "stories/atoms/button.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ButtonArena.vue",
+    "drupal": [],
+    "docs": "docs/button-docs.html"
+  }
+}

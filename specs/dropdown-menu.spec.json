@@ -1,0 +1,502 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "dropdown-menu",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "navigation",
+    "action",
+    "selection"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-dropdown",
+    "slots": [
+      {
+        "name": "trigger",
+        "selector": ".nc-dropdown__trigger",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "menu",
+        "selector": ".nc-dropdown__menu",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item",
+        "selector": ".nc-dropdown__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "item-check",
+        "selector": ".nc-dropdown__item-check",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item-icon",
+        "selector": ".nc-dropdown__item-icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item-label",
+        "selector": ".nc-dropdown__item-label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "item-shortcut",
+        "selector": ".nc-dropdown__item-shortcut",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "submenu-indicator",
+        "selector": ".nc-dropdown__submenu-indicator",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "group",
+        "selector": ".nc-dropdown__group",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "group-label",
+        "selector": ".nc-dropdown__group-label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "separator",
+        "selector": ".nc-dropdown__separator",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-dropdown__footer",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: inline-flex Wrapper mit Trigger-Button und Menu-Panel.",
+      "Trigger: <button aria-haspopup='true' aria-expanded='true|false'>.",
+      "Menu: position:absolute, role='menu'. Versteckt via [hidden].",
+      "Positionierung: --bottom-start, --bottom-end, --top-start, --top-end Modifier. Empfehlung: Auto-Placement via Floating UI (computePosition + flip + shift + offset) fuer viewportabhaengige Positionierung. CSS-Modifier als Fallback fuer statische Anwendungsfaelle.",
+      "Auto-Placement Pattern: import { computePosition, flip, shift, offset } from '@floating-ui/dom'; computePosition(trigger, menu, { placement: 'bottom-start', middleware: [offset(4), flip(), shift({ padding: 8 })] });",
+      "Items: role='menuitem', flex-Layout mit gap fuer Check + Icon + Label + Shortcut + Submenu-Indicator.",
+      "Checkable Items (single): role='menuitemradio', aria-checked='true|false'. Nur ein Item gleichzeitig checked. Check-Icon (Haekchen) links im Item, reservierte Spalte via .nc-dropdown--checkable.",
+      "Checkable Items (multiple): role='menuitemcheckbox', aria-checked='true|false'. Mehrere Items gleichzeitig checked.",
+      "Submenu: Parent-Item hat aria-haspopup='menu' + aria-expanded='true|false'. Submenu oeffnet sich rechts (LTR) oder links (RTL). Oeffnung via Hover (300ms Delay) oder ArrowRight. Schliessung via ArrowLeft oder Hover-out. Chevron-Icon (.nc-dropdown__submenu-indicator) zeigt Submenu-Existenz an.",
+      "Footer: Permanenter Bereich am unteren Rand mit eigener Border-Top. Nicht scrollbar (sticky). Typisch: 'Alle anzeigen'-Link, Hilfetext, Aktions-Buttons.",
+      "Danger-Item: Rote Farbe (feedback-danger), eigener Hover-BG.",
+      "Icons: 16px, dekorativ. Shortcut: monospace, rechtsbuendig.",
+      "Group-Label: uppercase, letter-spacing, user-select:none.",
+      "Separator: border-top, horizontale Trennlinie zwischen Gruppen.",
+      "Animation: fnd-dropdown-enter Keyframe, reduced-motion: none."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "placement": {
+      "label": "Placement",
+      "description": "Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.",
+      "values": [
+        {
+          "value": "bottom-start",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom-start"
+        },
+        {
+          "value": "bottom-end",
+          "cssModifier": "nc-dropdown__menu--bottom-end",
+          "default": false,
+          "label": "bottom-end"
+        },
+        {
+          "value": "top-start",
+          "cssModifier": "nc-dropdown__menu--top-start",
+          "default": false,
+          "label": "top-start"
+        },
+        {
+          "value": "top-end",
+          "cssModifier": "nc-dropdown__menu--top-end",
+          "default": false,
+          "label": "top-end"
+        }
+      ]
+    },
+    "selectionMode": {
+      "label": "Selection Mode",
+      "description": "Auswahl-Modus: none (Standard, reine Aktionen), single (Radio-Auswahl, nur ein Item aktiv), multiple (Checkbox-Auswahl, mehrere Items aktiv)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "single",
+          "cssModifier": "nc-dropdown--checkable",
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "multiple",
+          "cssModifier": "nc-dropdown--checkable",
+          "default": false,
+          "label": "multiple"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)",
+      "values": [
+        {
+          "value": "plain",
+          "cssModifier": null,
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "with-icons",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-icons"
+        },
+        {
+          "value": "grouped",
+          "cssModifier": null,
+          "default": false,
+          "label": "grouped"
+        },
+        {
+          "value": "with-shortcuts",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-shortcuts"
+        },
+        {
+          "value": "with-submenu",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-submenu"
+        },
+        {
+          "value": "with-footer",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-footer"
+        }
+      ]
+    },
+    "itemVariant": {
+      "label": "Item Variant",
+      "description": "Variante des einzelnen Items — default (neutral), danger (destruktive Aktion)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-dropdown__item--danger",
+          "default": false,
+          "label": "danger"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled",
+      "checked"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "checked",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-dropdown"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-dropdown-bg"
+        },
+        {
+          "token": "nc-dropdown-border"
+        },
+        {
+          "token": "nc-dropdown-border-width"
+        },
+        {
+          "token": "nc-dropdown-radius"
+        },
+        {
+          "token": "nc-dropdown-shadow"
+        },
+        {
+          "token": "nc-dropdown-padding"
+        },
+        {
+          "token": "nc-dropdown-min-width"
+        },
+        {
+          "token": "nc-dropdown-max-height"
+        },
+        {
+          "token": "nc-dropdown-z-index"
+        },
+        {
+          "token": "nc-dropdown-animation-duration"
+        }
+      ],
+      "Item": [
+        {
+          "token": "nc-dropdown-item-height"
+        },
+        {
+          "token": "nc-dropdown-item-padding"
+        },
+        {
+          "token": "nc-dropdown-item-radius"
+        },
+        {
+          "token": "nc-dropdown-item-color"
+        },
+        {
+          "token": "nc-dropdown-item-bg-hover"
+        },
+        {
+          "token": "nc-dropdown-item-bg-active"
+        },
+        {
+          "token": "nc-dropdown-item-color-disabled"
+        },
+        {
+          "token": "nc-dropdown-item-icon-size"
+        },
+        {
+          "token": "nc-dropdown-item-icon-color"
+        },
+        {
+          "token": "nc-dropdown-item-gap"
+        },
+        {
+          "token": "nc-dropdown-item-font-size"
+        },
+        {
+          "token": "nc-dropdown-item-font-weight"
+        }
+      ],
+      "Danger Item": [
+        {
+          "token": "nc-dropdown-item-danger-color"
+        },
+        {
+          "token": "nc-dropdown-item-danger-bg-hover"
+        }
+      ],
+      "Checkable Items": [
+        {
+          "token": "nc-dropdown-check-size"
+        },
+        {
+          "token": "nc-dropdown-check-color"
+        },
+        {
+          "token": "nc-dropdown-check-gap"
+        }
+      ],
+      "Submenu": [
+        {
+          "token": "nc-dropdown-submenu-indicator-size"
+        },
+        {
+          "token": "nc-dropdown-submenu-indicator-color"
+        },
+        {
+          "token": "nc-dropdown-submenu-offset"
+        }
+      ],
+      "Footer": [
+        {
+          "token": "nc-dropdown-footer-padding"
+        },
+        {
+          "token": "nc-dropdown-footer-bg"
+        },
+        {
+          "token": "nc-dropdown-footer-border-color"
+        }
+      ],
+      "Group Label": [
+        {
+          "token": "nc-dropdown-group-label-color"
+        },
+        {
+          "token": "nc-dropdown-group-label-size"
+        },
+        {
+          "token": "nc-dropdown-group-label-weight"
+        },
+        {
+          "token": "nc-dropdown-group-label-padding"
+        }
+      ],
+      "Separator": [
+        {
+          "token": "nc-dropdown-separator-color"
+        },
+        {
+          "token": "nc-dropdown-separator-margin"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled Items: aria-disabled='true' oder disabled-Attribut. Nicht fokussierbar."
+      },
+      {
+        "when": {
+          "axes": {
+            "itemVariant": [
+              "danger"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Danger-Items: Farbe allein ist kein Signal — Label muss die destruktive Aktion beschreiben (z.B. 'Loeschen')."
+      },
+      {
+        "when": {
+          "axes": {
+            "selectionMode": [
+              "single"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-menuitemradio",
+          "aria-checked"
+        ],
+        "note": "Single-Select: Items muessen role='menuitemradio' und aria-checked='true|false' haben. Screen Reader meldet 'Radiobutton, aktiviert'."
+      },
+      {
+        "when": {
+          "axes": {
+            "selectionMode": [
+              "multiple"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "role-menuitemcheckbox",
+          "aria-checked"
+        ],
+        "note": "Multi-Select: Items muessen role='menuitemcheckbox' und aria-checked='true|false' haben. Screen Reader meldet 'Kontrollkaestchen, aktiviert'."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-submenu"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-haspopup-menu",
+          "aria-expanded"
+        ],
+        "note": "Submenu-Item: aria-haspopup='menu', aria-expanded='true|false'. Keyboard: ArrowRight oeffnet Submenu, ArrowLeft/Escape schliesst es."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_dropdown-menu.scss"
+    ],
+    "story": "stories/molecules/dropdown-menu.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/DropdownMenuArena.vue",
+    "drupal": [],
+    "docs": "docs/dropdown-menu-docs.html"
+  }
+}

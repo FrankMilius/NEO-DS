@@ -1,0 +1,91 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "security-list",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "trust"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-security-list",
+    "slots": [
+      {
+        "name": "item",
+        "selector": ".nc-security-list__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-security-list__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-security-list__text",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Grid-Layout mit gap. Items: flex, align-items center, border-bottom.",
+      "Icon: accent-Farbe. Text: font-size base."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-security-list"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_security-list.scss"
+    ],
+    "story": "stories/organisms/security-list.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/security-list-docs.html"
+  }
+}

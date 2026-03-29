@@ -1,0 +1,112 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "hero-tmob",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "hero",
+    "display",
+    "parallax",
+    "media"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-hero-tmob",
+    "slots": [],
+    "notes": [
+      "Headline + Subtext + Media ueber konfigurierbarem Hintergrund."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-hero-tmob"
+    ],
+    "tokenGroups": {
+      "Headline": [
+        {
+          "token": "nc-hero-tmob-headline-size"
+        },
+        {
+          "token": "nc-hero-tmob-headline-weight"
+        }
+      ],
+      "Subtext": [
+        {
+          "token": "nc-hero-tmob-subtext-size"
+        },
+        {
+          "token": "nc-hero-tmob-subtext-opacity"
+        },
+        {
+          "token": "nc-hero-tmob-subtext-max-width"
+        }
+      ],
+      "Content": [
+        {
+          "token": "nc-hero-tmob-content-max-width"
+        },
+        {
+          "token": "nc-hero-tmob-content-gap"
+        }
+      ],
+      "Media": [
+        {
+          "token": "nc-hero-tmob-media-max-width"
+        },
+        {
+          "token": "nc-hero-tmob-media-radius"
+        },
+        {
+          "token": "nc-hero-tmob-media-shadow"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [
+    "hero"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/hero-tmob.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-hero-tmob.html.twig",
+      "block--inline-block--neo-hero-tmob.html.twig"
+    ],
+    "docs": null
+  }
+}

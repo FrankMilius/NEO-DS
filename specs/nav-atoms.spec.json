@@ -1,0 +1,144 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "nav-atoms",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "navigation",
+    "display",
+    "primitive"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-nav__icon",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-nav__icon",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-nav__label",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "badge",
+        "selector": ".nc-nav__badge",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Icon: inline-flex Container, width/height via --nc-nav-atom-icon-size (default 24px).",
+      "SVG-Kinder: fill:none, stroke:currentColor, stroke-width via Token.",
+      "Label: display:block, font-size/weight/color via Tokens.",
+      "Badge: Absolut positioniert relativ zum Elternelement. Roter Punkt mit weissem Ring.",
+      "Werden in Nav-Molecules (06) und Organisms (07) zusammengesetzt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "element": {
+      "label": "Element",
+      "description": "Nav-Atom-Typ — icon (SVG-Container), label (Text), badge (Notification-Dot)",
+      "values": [
+        {
+          "value": "icon",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon"
+        },
+        {
+          "value": "label",
+          "cssModifier": null,
+          "default": false,
+          "label": "label"
+        },
+        {
+          "value": "badge",
+          "cssModifier": null,
+          "default": false,
+          "label": "badge"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-nav__icon"
+    ],
+    "tokenGroups": {
+      "Icon": [
+        {
+          "token": "nc-nav-atom-icon-size"
+        },
+        {
+          "token": "nc-nav-atom-icon-color"
+        },
+        {
+          "token": "nc-nav-atom-icon-stroke"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-nav-atom-label-size"
+        },
+        {
+          "token": "nc-nav-atom-label-weight"
+        },
+        {
+          "token": "nc-nav-atom-label-color"
+        }
+      ],
+      "Badge Dot": [
+        {
+          "token": "nc-nav-atom-badge-size"
+        },
+        {
+          "token": "nc-nav-atom-badge-color"
+        },
+        {
+          "token": "nc-nav-atom-badge-offset"
+        },
+        {
+          "token": "nc-nav-atom-badge-ring-width"
+        },
+        {
+          "token": "nc-nav-atom-badge-ring-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_nav-atoms.scss"
+    ],
+    "story": "stories/organisms/nav-atoms.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/nav-atoms-docs.html"
+  }
+}

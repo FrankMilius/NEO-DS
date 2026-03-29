@@ -1,0 +1,514 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "treeview",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "navigation",
+    "interactive",
+    "hierarchy"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-treeview",
+    "slots": [
+      {
+        "name": "node",
+        "selector": ".nc-treeview__node",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "toggle",
+        "selector": ".nc-treeview__toggle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "checkbox",
+        "selector": ".nc-treeview__checkbox",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-treeview__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-treeview__label",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "badge",
+        "selector": ".nc-treeview__badge",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-treeview__actions",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drag-handle",
+        "selector": ".nc-treeview__drag-handle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "children",
+        "selector": ".nc-treeview__children",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Hierarchische Baumstruktur mit role=tree und role=treeitem.",
+      "Toggle-Chevron rotiert sanft 0° auf 90° bei Expand (CSS transition).",
+      "Children-Slot nutzt CSS-Grid 0fr→1fr Animation fuer Slide-Down.",
+      "Action-Slot (rechts) wird nur bei Hover/Focus-within sichtbar.",
+      "Guide-Lines: Vertikale Linien verbinden Eltern mit Kindern (optional).",
+      "Checkbox-Mode: Checkboxen pro Node fuer Multi-Select (aria-checked).",
+      "Drag-Handle: 6-dots Griff, nur bei --draggable Modifier sichtbar."
+    ]
+  },
+  "api": {
+    "elements": {
+      "default": {
+        "element": "nav",
+        "attributes": [
+          "aria-label?"
+        ]
+      }
+    },
+    "attributes": [
+      {
+        "name": "role",
+        "type": "string",
+        "appliesTo": [
+          "ul"
+        ]
+      },
+      {
+        "name": "role",
+        "type": "string",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-expanded",
+        "type": "boolean",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-selected",
+        "type": "boolean",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-checked",
+        "type": "string",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-disabled",
+        "type": "boolean",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-level",
+        "type": "number",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-setsize",
+        "type": "number",
+        "appliesTo": [
+          "li"
+        ]
+      },
+      {
+        "name": "aria-posinset",
+        "type": "number",
+        "appliesTo": [
+          "li"
+        ]
+      }
+    ]
+  },
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default, bordered, compact, flush",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "bordered",
+          "cssModifier": "nc-treeview--bordered",
+          "default": false,
+          "label": "bordered"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-treeview--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "flush",
+          "cssModifier": "nc-treeview--flush",
+          "default": false,
+          "label": "flush"
+        }
+      ]
+    },
+    "selection": {
+      "label": "Selection Mode",
+      "description": "Selektionsmodus — single (aria-selected) oder multiple (Checkboxen)",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "multiple",
+          "cssModifier": "nc-treeview--checkboxes",
+          "default": false,
+          "label": "multiple"
+        }
+      ]
+    },
+    "lines": {
+      "label": "Line Style",
+      "description": "Vertikale Guide-Lines zur Orientierung in tiefen Baeumen",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "solid",
+          "cssModifier": "nc-treeview--lines-solid",
+          "default": false,
+          "label": "solid"
+        },
+        {
+          "value": "dashed",
+          "cssModifier": "nc-treeview--lines-dashed",
+          "default": false,
+          "label": "dashed"
+        }
+      ]
+    },
+    "interaction": {
+      "label": "Interaction",
+      "description": "Interaktionsmodus — static (nur Expand/Select) oder draggable (Drag & Drop)",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "draggable",
+          "cssModifier": "nc-treeview--draggable",
+          "default": false,
+          "label": "draggable"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus-visible",
+      "expanded",
+      "selected",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "expanded",
+        "effects": [],
+        "attributes": {
+          "aria-expanded": true
+        },
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {
+          "aria-selected": true
+        },
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [
+          "blockInteraction"
+        ],
+        "attributes": {
+          "aria-disabled": true
+        },
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-treeview"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-treeview-indent"
+        },
+        {
+          "token": "nc-treeview-item-height"
+        },
+        {
+          "token": "nc-treeview-item-height-compact"
+        },
+        {
+          "token": "nc-treeview-item-padding-x"
+        },
+        {
+          "token": "nc-treeview-gap"
+        },
+        {
+          "token": "nc-treeview-radius"
+        }
+      ],
+      "Toggle": [
+        {
+          "token": "nc-treeview-toggle-size"
+        },
+        {
+          "token": "nc-treeview-toggle-color"
+        },
+        {
+          "token": "nc-treeview-toggle-color-hover"
+        },
+        {
+          "token": "nc-treeview-toggle-transition"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-treeview-label-font-size"
+        },
+        {
+          "token": "nc-treeview-label-color"
+        },
+        {
+          "token": "nc-treeview-label-font-weight"
+        },
+        {
+          "token": "nc-treeview-label-font-weight-selected"
+        },
+        {
+          "token": "nc-treeview-icon-size"
+        },
+        {
+          "token": "nc-treeview-icon-color"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-treeview-bg-hover"
+        },
+        {
+          "token": "nc-treeview-bg-selected"
+        },
+        {
+          "token": "nc-treeview-bg-active"
+        },
+        {
+          "token": "nc-treeview-border-selected"
+        },
+        {
+          "token": "nc-treeview-border-selected-width"
+        },
+        {
+          "token": "nc-treeview-disabled-opacity"
+        },
+        {
+          "token": "nc-treeview-transition-duration"
+        }
+      ],
+      "Links": [
+        {
+          "token": "nc-treeview-link-color"
+        },
+        {
+          "token": "nc-treeview-link-color-hover"
+        }
+      ],
+      "Guide-Lines": [
+        {
+          "token": "nc-treeview-guide-color"
+        },
+        {
+          "token": "nc-treeview-guide-width"
+        },
+        {
+          "token": "nc-treeview-guide-style"
+        },
+        {
+          "token": "nc-treeview-guide-opacity"
+        }
+      ],
+      "Action-Slot": [
+        {
+          "token": "nc-treeview-action-gap"
+        },
+        {
+          "token": "nc-treeview-action-color"
+        },
+        {
+          "token": "nc-treeview-action-color-hover"
+        },
+        {
+          "token": "nc-treeview-action-size"
+        }
+      ],
+      "Checkbox": [
+        {
+          "token": "nc-treeview-checkbox-size"
+        },
+        {
+          "token": "nc-treeview-checkbox-gap"
+        }
+      ],
+      "Badge": [
+        {
+          "token": "nc-treeview-badge-font-size"
+        },
+        {
+          "token": "nc-treeview-badge-radius"
+        },
+        {
+          "token": "nc-treeview-badge-padding"
+        },
+        {
+          "token": "nc-treeview-badge-bg"
+        },
+        {
+          "token": "nc-treeview-badge-color"
+        }
+      ],
+      "Drag & Drop": [
+        {
+          "token": "nc-treeview-drop-indicator-color"
+        },
+        {
+          "token": "nc-treeview-drop-indicator-width"
+        },
+        {
+          "token": "nc-treeview-drag-opacity"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-treeview-expand-duration"
+        }
+      ],
+      "Bordered Variant": [
+        {
+          "token": "nc-treeview-bordered-border-color"
+        },
+        {
+          "token": "nc-treeview-bordered-border-width"
+        },
+        {
+          "token": "nc-treeview-bordered-radius"
+        },
+        {
+          "token": "nc-treeview-bordered-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "focus-ring mixin, :focus-visible",
+    "assertions": [
+      "hasAccessibleName",
+      "focusIndicatorVisible"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "selection": [
+              "multiple"
+            ]
+          }
+        },
+        "require": [
+          "aria-checked"
+        ],
+        "suggest": [],
+        "note": "Im Checkbox-Mode: aria-checked='true|false|mixed'. Eltern-Checkbox nutzt 'mixed' wenn nur einige Kinder ausgewaehlt."
+      },
+      {
+        "when": {
+          "axes": {
+            "interaction": [
+              "draggable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Drag-Handle benoetigt aria-label='Element verschieben'. Drop-Targets brauchen aria-dropeffect='move'. aria-grabbed auf gezogenem Item."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_treeview.scss"
+    ],
+    "story": "stories/organisms/treeview.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/TreeviewArena.vue",
+    "drupal": [],
+    "docs": "docs/treeview-docs.html"
+  }
+}

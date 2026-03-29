@@ -1,0 +1,94 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "scroll-reveal",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "animation",
+    "scroll",
+    "fade-in"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-scroll-reveal",
+    "slots": [],
+    "notes": [
+      "Staggered Fade-In via Intersection Observer."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-scroll-reveal"
+    ],
+    "tokenGroups": {
+      "Timing": [
+        {
+          "token": "nc-anim-fade-duration"
+        },
+        {
+          "token": "nc-anim-fade-easing"
+        },
+        {
+          "token": "nc-anim-stagger-delay"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation bei reduced-motion deaktivieren."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/scroll-reveal.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

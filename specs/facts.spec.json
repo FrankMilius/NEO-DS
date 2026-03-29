@@ -1,0 +1,103 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "facts",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "data"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-facts-block",
+    "slots": [
+      {
+        "name": "title",
+        "selector": ".nc-facts-title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nc-facts-list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "term",
+        "selector": ".nc-facts-term",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "desc",
+        "selector": ".nc-facts-desc",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Block: background-base, radius-xl, elevation-raised.",
+      "List: CSS Grid 2-Spalten (auto 1fr). Term: semibold. Desc: text-secondary."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "content": {
+      "label": "Content",
+      "description": "Inhalt — with-title, without-title",
+      "values": [
+        {
+          "value": "with-title",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-title"
+        },
+        {
+          "value": "without-title",
+          "cssModifier": null,
+          "default": false,
+          "label": "without-title"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-facts-block"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_facts.scss"
+    ],
+    "story": "stories/organisms/facts.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/facts-docs.html"
+  }
+}

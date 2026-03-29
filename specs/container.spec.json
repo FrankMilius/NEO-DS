@@ -1,0 +1,229 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "container",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "layout",
+    "object",
+    "container"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-container",
+    "slots": [
+      {
+        "name": "content",
+        "selector": ".nc-container > *",
+        "required": true,
+        "description": "Beliebiger Inhalt innerhalb des Containers."
+      }
+    ],
+    "notes": [
+      "Container zentriert Inhalt horizontal und begrenzt die maximale Breite.",
+      "Fluid Padding Inline skaliert von 16px (320px Viewport) bis 48px (1600px) via clamp().",
+      "Ab XXL (1920px) entfaellt das Inline-Padding, stattdessen greift max-width.",
+      "Full-bleed Kinder (z.B. .nc-hero) brechen per negativem Margin aus dem Container aus.",
+      "Vertical Spacing (padding-block) definiert den Abstand zur umgebenden Section/Shell.",
+      "Alignment steuert die horizontale Ausrichtung (zentriert, links, rechts).",
+      "Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "width": {
+      "label": "Breite",
+      "description": "Maximale Breite des Containers ab XXL-Breakpoint.",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "wide",
+          "cssModifier": "nc-container--wide",
+          "default": false,
+          "label": "wide"
+        },
+        {
+          "value": "narrow",
+          "cssModifier": "nc-container--narrow",
+          "default": false,
+          "label": "narrow"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-container--full",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "vertical-spacing": {
+      "label": "Vertical Spacing",
+      "description": "Vertikales Padding (padding-block) fuer den Abstand zur umgebenden Section oder Shell.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-container--vspace-sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-container--vspace-md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-container--vspace-lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Horizontale Ausrichtung des Containers innerhalb des Viewports.",
+      "values": [
+        {
+          "value": "center",
+          "cssModifier": null,
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "start",
+          "cssModifier": "nc-container--align-start",
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-container--align-end",
+          "default": false,
+          "label": "end"
+        }
+      ]
+    },
+    "surface": {
+      "label": "Surface",
+      "description": "Optionale Hintergrund-Surface auf Layout-Ebene (aehnlich Card, aber als Container).",
+      "values": [
+        {
+          "value": "transparent",
+          "cssModifier": null,
+          "default": false,
+          "label": "transparent"
+        },
+        {
+          "value": "elevated",
+          "cssModifier": "nc-container--surface",
+          "default": false,
+          "label": "elevated"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-container"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-container-max-width"
+        },
+        {
+          "token": "nc-container-padding-inline"
+        },
+        {
+          "token": "nc-container-padding-inline-xxl"
+        },
+        {
+          "token": "nc-container-max-width-wide"
+        }
+      ],
+      "Wide": [
+        {
+          "token": "nc-container-max-width-wide"
+        }
+      ],
+      "Vertical Spacing": [
+        {
+          "token": "nc-container-padding-block-sm"
+        },
+        {
+          "token": "nc-container-padding-block-md"
+        },
+        {
+          "token": "nc-container-padding-block-lg"
+        }
+      ],
+      "Alignment": [
+        {
+          "token": "nc-container-margin-start"
+        },
+        {
+          "token": "nc-container-margin-end"
+        }
+      ],
+      "Surface": [
+        {
+          "token": "nc-container-surface-bg"
+        },
+        {
+          "token": "nc-container-surface-radius"
+        },
+        {
+          "token": "nc-container-surface-shadow"
+        },
+        {
+          "token": "nc-container-surface-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [
+      "Container ist ein reines Layout-Element ohne semantische Rolle.",
+      "Inhalt innerhalb des Containers muss eigenstaendig zugaenglich sein.",
+      "Surface-Container sollten als <section> oder <article> mit aria-label genutzt werden."
+    ],
+    "overrides": []
+  },
+  "dependencies": [
+    "hero"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/container.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ContainerArena.vue",
+    "drupal": [],
+    "docs": "docs/container-docs.html"
+  }
+}

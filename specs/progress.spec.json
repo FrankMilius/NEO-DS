@@ -1,0 +1,246 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "progress",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "feedback",
+    "indicator"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-progress",
+    "slots": [
+      {
+        "name": "fill",
+        "selector": ".nc-progress__fill",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Progress ist ein <div class='nc-progress' role='progressbar' aria-valuenow='X' aria-valuemin='0' aria-valuemax='100'>.",
+      "Fill ist ein Kind-Element <div class='nc-progress__fill' style='width: X%'>.",
+      "Fortschritt wird via inline style width auf __fill gesteuert — kein JS-Framework noetig.",
+      "Indeterminiert (.nc-progress--indeterminate): kein aria-valuenow, endlose Slide-Animation.",
+      "prefers-reduced-motion: Indeterminate-Animation stoppt, Fill wird 100% mit reduzierter Opacity.",
+      "Labeled Wrapper (.nc-progress-labeled): Flex-Column mit Header (Label + Value) und Gap.",
+      "Value-Anzeige nutzt font-variant-numeric: tabular-nums fuer stabile Breite.",
+      "Pill-Shape via --fnd-radius-full (border-radius: 9999px)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "4 Hoehenstufen — xs (2px) / sm (4px, Standard) / md (8px) / lg (12px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-progress--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": null,
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-progress--md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-progress--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "color": {
+      "label": "Color",
+      "description": "Feedback-Variante — default (interactive), success, warning, danger, info",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-progress--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-progress--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-progress--danger",
+          "default": false,
+          "label": "danger"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-progress--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "mode": {
+      "label": "Mode",
+      "description": "Fortschritts-Modus — determinate (fester Wert 0–100%, Standard), indeterminate (unbekannter Fortschritt, Animation)",
+      "values": [
+        {
+          "value": "determinate",
+          "cssModifier": null,
+          "default": false,
+          "label": "determinate"
+        },
+        {
+          "value": "indeterminate",
+          "cssModifier": "nc-progress--indeterminate",
+          "default": false,
+          "label": "indeterminate"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-progress"
+    ],
+    "tokenGroups": {
+      "Appearance": [
+        {
+          "token": "nc-progress-bg"
+        },
+        {
+          "token": "nc-progress-fill"
+        },
+        {
+          "token": "nc-progress-radius"
+        }
+      ],
+      "Sizing": [
+        {
+          "token": "nc-progress-height-xs"
+        },
+        {
+          "token": "nc-progress-height-sm"
+        },
+        {
+          "token": "nc-progress-height-md"
+        },
+        {
+          "token": "nc-progress-height-lg"
+        }
+      ],
+      "Feedback Colors": [
+        {
+          "token": "nc-progress-fill-success"
+        },
+        {
+          "token": "nc-progress-fill-warning"
+        },
+        {
+          "token": "nc-progress-fill-danger"
+        },
+        {
+          "token": "nc-progress-fill-info"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-progress-label-color"
+        },
+        {
+          "token": "nc-progress-label-size"
+        },
+        {
+          "token": "nc-progress-label-weight"
+        },
+        {
+          "token": "nc-progress-label-gap"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-progress-transition"
+        },
+        {
+          "token": "nc-progress-ease"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "mode": [
+              "indeterminate"
+            ]
+          }
+        },
+        "require": [
+          "accessible-name"
+        ],
+        "suggest": [],
+        "note": "Indeterminiert: KEIN aria-valuenow setzen — Screen Reader kuendigt 'unbekannter Fortschritt' an. aria-label bleibt Pflicht."
+      },
+      {
+        "when": {
+          "axes": {
+            "color": [
+              "danger"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Danger-Farbe nie als einziges Signal. Zusaetzlich Text oder Icon fuer Fehlerzustand."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_progress.scss"
+    ],
+    "story": "stories/organisms/progress.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ProgressArena.vue",
+    "drupal": [],
+    "docs": "docs/progress-docs.html"
+  }
+}

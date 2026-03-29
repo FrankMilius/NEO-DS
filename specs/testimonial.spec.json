@@ -1,0 +1,103 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "testimonial",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "social-proof"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-testimonial",
+    "slots": [
+      {
+        "name": "quote",
+        "selector": ".nc-testimonial__quote",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "author",
+        "selector": ".nc-testimonial__author",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "meta",
+        "selector": ".nc-testimonial__meta",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "name",
+        "selector": ".nc-testimonial__name",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "role",
+        "selector": ".nc-testimonial__role",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap-align.",
+      "Quote: fs-lg, line-height 1.25. Author: flex, gap 0.75rem. Name: semibold. Role: fs-xs, text-secondary."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-testimonial"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_testimonial.scss"
+    ],
+    "story": "stories/organisms/testimonial.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/testimonial-docs.html"
+  }
+}

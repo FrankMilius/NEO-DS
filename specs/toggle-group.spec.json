@@ -1,0 +1,380 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "toggle-group",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "selection",
+    "group",
+    "toolbar",
+    "multi-select"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-toggle-group",
+    "slots": [
+      {
+        "name": "item",
+        "selector": ".nc-toggle-group__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-toggle-group__icon",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Container ist ein <div class='nc-toggle-group'>.",
+      "Items sind <button class='nc-toggle-group__item'>.",
+      "Single-Select: role='radiogroup' auf Container, role='radio' + aria-checked auf Items. Arrow-Key Navigation (roving tabindex).",
+      "Multi-Select: role='group' auf Container, aria-pressed='true'/'false' auf Items. Tab-Navigation zwischen Items.",
+      "Items haben keinen eigenen border-radius — Container hat overflow: hidden + border-radius.",
+      "Divider-Modifier (--divider): Subtile vertikale Trennlinien via ::before (50% Hoehe, margin-block: auto). Moderner als volle Border-Linien. Divider wird bei selected-Nachbar ausgeblendet.",
+      "Underline-Modifier (--underline): Container hat keinen Rahmen/BG, nur border-block-end. Selected-Item bekommt ::after Underline.",
+      "Soft-Variante (--soft): Selected = helle Markenfarbe (12% interactive via color-mix). Weniger dominant als filled.",
+      "Equal-Width (--equal): flex: 1 auf Items. Alle gleich breit.",
+      "Groessen-Modifier am Container (--sm, --lg) propagieren zu allen Items.",
+      "Icon-only Items brauchen aria-label fuer Accessibility.",
+      "Abgrenzung zu Segmented Control: Toggle-Group primaer fuer multi-select Toolbars. Segmented Control fuer single-select Navigation mit Sliding Indicator."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px). Nutzt Button-Size-Tokens.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-toggle-group--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-toggle-group--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "type": {
+      "label": "Type",
+      "description": "Auswahl-Modus — single (Radio-Pattern, genau 1 selektiert), multiple (Toggle-Pattern, 0–n selektiert)",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "multiple",
+          "cssModifier": null,
+          "default": false,
+          "label": "multiple"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visueller Stil — filled (kraeftige Selektion), outline (transparenter BG, subtil), soft (helle Markenfarbe, weniger dominant)",
+      "values": [
+        {
+          "value": "filled",
+          "cssModifier": null,
+          "default": false,
+          "label": "filled"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-toggle-group--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "soft",
+          "cssModifier": "nc-toggle-group--soft",
+          "default": false,
+          "label": "soft"
+        }
+      ]
+    },
+    "indicator": {
+      "label": "Indicator",
+      "description": "Selektions-Indikator — bg (Background-Wechsel, Standard), underline (dicke Linie unter dem gewaehlten Item, tab-aehnlich)",
+      "values": [
+        {
+          "value": "bg",
+          "cssModifier": null,
+          "default": false,
+          "label": "bg"
+        },
+        {
+          "value": "underline",
+          "cssModifier": "nc-toggle-group--underline",
+          "default": false,
+          "label": "underline"
+        }
+      ]
+    },
+    "width": {
+      "label": "Width",
+      "description": "Item-Breite — auto (natuerliche Breite), equal (alle gleich breit, flex: 1)",
+      "values": [
+        {
+          "value": "auto",
+          "cssModifier": null,
+          "default": false,
+          "label": "auto"
+        },
+        {
+          "value": "equal",
+          "cssModifier": "nc-toggle-group--equal",
+          "default": false,
+          "label": "equal"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt der Items — text (nur Text), icon-text (Icon + Text), icon-only (nur Icon, aria-label noetig)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "icon-text",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon-text"
+        },
+        {
+          "value": "icon-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon-only"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "selected",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-toggle-group"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-toggle-group-gap"
+        },
+        {
+          "token": "nc-toggle-group-radius"
+        },
+        {
+          "token": "nc-toggle-group-border"
+        },
+        {
+          "token": "nc-toggle-group-bg"
+        },
+        {
+          "token": "nc-toggle-group-shadow"
+        }
+      ],
+      "Item Default": [
+        {
+          "token": "nc-toggle-group-item-bg"
+        },
+        {
+          "token": "nc-toggle-group-item-color"
+        },
+        {
+          "token": "nc-toggle-group-item-border"
+        }
+      ],
+      "Item Hover": [
+        {
+          "token": "nc-toggle-group-item-bg-hover"
+        }
+      ],
+      "Item Selected": [
+        {
+          "token": "nc-toggle-group-item-selected-bg"
+        },
+        {
+          "token": "nc-toggle-group-item-selected-color"
+        },
+        {
+          "token": "nc-toggle-group-item-selected-border"
+        }
+      ],
+      "Soft Selected": [
+        {
+          "token": "nc-toggle-group-item-soft-bg"
+        },
+        {
+          "token": "nc-toggle-group-item-soft-color"
+        }
+      ],
+      "Underline Indicator": [
+        {
+          "token": "nc-toggle-group-underline-width"
+        },
+        {
+          "token": "nc-toggle-group-underline-color"
+        }
+      ],
+      "Divider": [
+        {
+          "token": "nc-toggle-group-divider-width"
+        },
+        {
+          "token": "nc-toggle-group-divider-height"
+        },
+        {
+          "token": "nc-toggle-group-divider-color"
+        }
+      ],
+      "Item Disabled": [
+        {
+          "token": "nc-toggle-group-item-disabled-bg"
+        },
+        {
+          "token": "nc-toggle-group-item-disabled-color"
+        },
+        {
+          "token": "nc-toggle-group-item-disabled-opacity"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-toggle-group-transition-duration"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "type": [
+              "single"
+            ]
+          }
+        },
+        "require": [
+          "role-radiogroup",
+          "aria-checked"
+        ],
+        "suggest": [],
+        "note": "Single-Select braucht role='radiogroup' auf Container und role='radio' + aria-checked auf Items."
+      },
+      {
+        "when": {
+          "axes": {
+            "type": [
+              "multiple"
+            ]
+          }
+        },
+        "require": [
+          "role-group",
+          "aria-pressed"
+        ],
+        "suggest": [],
+        "note": "Multi-Select braucht role='group' auf Container und aria-pressed auf Items."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "icon-only"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Icon-only Items brauchen aria-label — kein sichtbarer Text vorhanden."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt. Einzelne Items oder gesamte Gruppe koennen disabled sein."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_toggle-group.scss"
+    ],
+    "story": "stories/organisms/toggle-group.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ToggleGroupArena.vue",
+    "drupal": [],
+    "docs": null
+  }
+}

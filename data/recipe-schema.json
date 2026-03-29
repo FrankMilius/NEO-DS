@@ -170,6 +170,46 @@
       }
     },
 
+    "keyboard": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["action"],
+        "additionalProperties": true,
+        "properties": {
+          "action": { "type": "string", "description": "Aktion die durch die Taste ausgeloest wird." },
+          "note": { "type": "string", "description": "Ergaenzende Hinweise." },
+          "onlyWhen": { "$ref": "#/$defs/condition", "description": "Bedingung unter der die Taste aktiv ist." }
+        }
+      },
+      "description": "Keyboard-Interaktionen. Keys = Tastennamen (Enter, Space, ArrowDown, Tab, Escape, Home, End)."
+    },
+
+    "testSelectors": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "data-testid Selektoren pro Slot fuer automatisierte Tests. Keys = Slot-Namen, Values = CSS-Selektor."
+    },
+
+    "events": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "bubbles": { "type": "boolean", "default": true },
+          "detail": {
+            "type": "object",
+            "additionalProperties": { "type": "string" },
+            "description": "Struktur des Event-Details (Key = Feldname, Value = Typ)."
+          },
+          "note": { "type": "string" },
+          "onlyWhen": { "$ref": "#/$defs/condition" }
+        }
+      },
+      "description": "DOM-Events die die Komponente feuert. Keys = Event-Namen."
+    },
+
     "styling": {
       "type": "object",
       "required": ["baseClasses", "baseTokenGroups", "tokenGroups"],

@@ -1,0 +1,515 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "accordion",
+  "version": "3.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "disclosure",
+    "content",
+    "navigation",
+    "faq",
+    "selection"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-accordion",
+    "slots": [
+      {
+        "name": "item",
+        "selector": ".nc-accordion__item",
+        "required": true,
+        "description": "Einzelnes Accordion-Item (details Element)."
+      },
+      {
+        "name": "trigger",
+        "selector": ".nc-accordion__trigger",
+        "required": true,
+        "description": "Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix."
+      },
+      {
+        "name": "icon",
+        "selector": ".nc-accordion__icon",
+        "required": false,
+        "description": "Toggle-Icon (Chevron). Rotiert bei Open."
+      },
+      {
+        "name": "content",
+        "selector": ".nc-accordion__content",
+        "required": true,
+        "description": "Content-Container. grid-template-rows: 0fr/1fr Animation."
+      },
+      {
+        "name": "content-inner",
+        "selector": ".nc-accordion__content-inner",
+        "required": true,
+        "description": "Innerer Content mit overflow:hidden."
+      },
+      {
+        "name": "media",
+        "selector": ".nc-accordion__media",
+        "required": false,
+        "description": "Optionaler Bild/Video-Container."
+      },
+      {
+        "name": "trigger-prefix",
+        "selector": ".nc-accordion__trigger-prefix",
+        "required": false,
+        "description": "Platz fuer Checkbox, Radio oder Status-Icon links im Trigger."
+      },
+      {
+        "name": "trigger-suffix",
+        "selector": ".nc-accordion__trigger-suffix",
+        "required": false,
+        "description": "Platz fuer Badges oder Action-Buttons rechts im Trigger (vor dem Toggle-Icon)."
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-accordion__footer",
+        "required": false,
+        "description": "Optionaler Footer am Ende des Contents fuer Buttons/Actions."
+      }
+    ],
+    "notes": [
+      "Natives <details>/<summary> oder ARIA-Pattern (role='region').",
+      "BEM: .nc-accordion > __item > __trigger + __content > __content-inner.",
+      "CSS-Grid-Animation: grid-template-rows 0fr→1fr fuer fluessige Hoehen-Animation.",
+      "Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox.",
+      "Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Eingerueckt via padding-left.",
+      "Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
+      "Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon).",
+      "Sticky Trigger: position:sticky auf dem Trigger bei offenem Item (nur bei langem Content).",
+      "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
+      "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
+      "Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button).",
+      "prefers-reduced-motion: Transitions deaktiviert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visueller Stil — default, flush, ghost, separated, elevated, nested, selection",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "flush",
+          "cssModifier": "nc-accordion--flush",
+          "default": false,
+          "label": "flush"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": "nc-accordion--ghost",
+          "default": false,
+          "label": "ghost"
+        },
+        {
+          "value": "separated",
+          "cssModifier": "nc-accordion--separated",
+          "default": false,
+          "label": "separated"
+        },
+        {
+          "value": "elevated",
+          "cssModifier": "nc-accordion--elevated",
+          "default": false,
+          "label": "elevated"
+        },
+        {
+          "value": "nested",
+          "cssModifier": "nc-accordion--nested",
+          "default": false,
+          "label": "nested"
+        },
+        {
+          "value": "selection",
+          "cssModifier": "nc-accordion--selection",
+          "default": false,
+          "label": "selection"
+        }
+      ]
+    },
+    "density": {
+      "label": "Density",
+      "description": "Platzbedarf — default, compact, spacious",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-accordion--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "spacious",
+          "cssModifier": "nc-accordion--spacious",
+          "default": false,
+          "label": "spacious"
+        }
+      ]
+    },
+    "behavior": {
+      "label": "Behavior",
+      "description": "Oeffnungs-Verhalten — multiple, single, single-scroll (mit Scroll-Into-View)",
+      "values": [
+        {
+          "value": "multiple",
+          "cssModifier": null,
+          "default": false,
+          "label": "multiple"
+        },
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "single-scroll",
+          "cssModifier": null,
+          "default": false,
+          "label": "single-scroll"
+        }
+      ]
+    },
+    "media-layout": {
+      "label": "Media Layout",
+      "description": "Medien-Positionierung — none, top, side",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "top",
+          "cssModifier": "nc-accordion--media-top",
+          "default": false,
+          "label": "top"
+        },
+        {
+          "value": "side",
+          "cssModifier": "nc-accordion--media-side",
+          "default": false,
+          "label": "side"
+        }
+      ]
+    },
+    "sticky": {
+      "label": "Sticky Trigger",
+      "description": "Trigger bleibt am oberen Rand bei langem Content",
+      "values": [
+        {
+          "value": "off",
+          "cssModifier": null,
+          "default": false,
+          "label": "off"
+        },
+        {
+          "value": "on",
+          "cssModifier": "nc-accordion--sticky",
+          "default": false,
+          "label": "on"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open",
+      "hover",
+      "focus",
+      "disabled",
+      "selected"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-accordion"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-accordion-border"
+        },
+        {
+          "token": "nc-accordion-padding"
+        },
+        {
+          "token": "nc-accordion-icon-size"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-accordion-trigger-font-weight"
+        },
+        {
+          "token": "nc-accordion-trigger-color"
+        },
+        {
+          "token": "nc-accordion-content-color"
+        },
+        {
+          "token": "nc-accordion-icon-color"
+        },
+        {
+          "token": "nc-accordion-trigger-hover-bg"
+        },
+        {
+          "token": "nc-accordion-content-font-size"
+        }
+      ],
+      "Separated": [
+        {
+          "token": "nc-accordion-item-gap"
+        },
+        {
+          "token": "nc-accordion-item-radius"
+        },
+        {
+          "token": "nc-accordion-item-shadow"
+        },
+        {
+          "token": "nc-accordion-item-bg"
+        }
+      ],
+      "Elevated": [
+        {
+          "token": "nc-accordion-elevated-shadow"
+        }
+      ],
+      "Compact": [
+        {
+          "token": "nc-accordion-padding-compact"
+        },
+        {
+          "token": "nc-accordion-content-font-size-compact"
+        }
+      ],
+      "Spacious": [
+        {
+          "token": "nc-accordion-padding-spacious"
+        }
+      ],
+      "Media": [
+        {
+          "token": "nc-accordion-media-radius"
+        },
+        {
+          "token": "nc-accordion-media-max-height"
+        },
+        {
+          "token": "nc-accordion-media-gap"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-accordion-transition-duration"
+        }
+      ],
+      "Nested": [
+        {
+          "token": "nc-accordion-nested-indent"
+        },
+        {
+          "token": "nc-accordion-nested-border-width"
+        },
+        {
+          "token": "nc-accordion-nested-icon-size"
+        }
+      ],
+      "Selection": [
+        {
+          "token": "nc-accordion-selection-border-active"
+        },
+        {
+          "token": "nc-accordion-selection-bg-active"
+        },
+        {
+          "token": "nc-accordion-selection-indicator-size"
+        }
+      ],
+      "Header Actions": [
+        {
+          "token": "nc-accordion-actions-gap"
+        },
+        {
+          "token": "nc-accordion-actions-color"
+        },
+        {
+          "token": "nc-accordion-actions-hover-color"
+        }
+      ],
+      "Sticky Trigger": [
+        {
+          "token": "nc-accordion-trigger-sticky-z"
+        },
+        {
+          "token": "nc-accordion-trigger-sticky-bg"
+        }
+      ],
+      "Footer": [
+        {
+          "token": "nc-accordion-footer-padding"
+        },
+        {
+          "token": "nc-accordion-footer-border"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-item",
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+    },
+    "Space": {
+      "action": "toggle-item",
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+    },
+    "ArrowDown": {
+      "action": "focus-next-trigger",
+      "note": "Fokussiert naechsten Accordion-Trigger."
+    },
+    "ArrowUp": {
+      "action": "focus-prev-trigger",
+      "note": "Fokussiert vorherigen Accordion-Trigger."
+    },
+    "Home": {
+      "action": "focus-first-trigger",
+      "note": "Springt zum ersten Trigger."
+    },
+    "End": {
+      "action": "focus-last-trigger",
+      "note": "Springt zum letzten Trigger."
+    }
+  },
+  "testSelectors": {
+    "root": "[data-testid='accordion']",
+    "item": "[data-testid='accordion-item']",
+    "trigger": "[data-testid='accordion-trigger']",
+    "content": "[data-testid='accordion-content']"
+  },
+  "events": {
+    "accordion-toggle": {
+      "bubbles": true,
+      "detail": {
+        "itemId": "string",
+        "open": "boolean"
+      },
+      "note": "Gefeuert wenn ein Item geoeffnet/geschlossen wird."
+    }
+  },
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "selection"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-checked"
+        ],
+        "note": "Selection: Checkbox/Radio braucht aria-checked State."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "nested"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-level"
+        ],
+        "note": "Nested: aria-level fuer Hierarchie-Ebene."
+      },
+      {
+        "when": {
+          "axes": {
+            "sticky": [
+              "on"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Sticky: Trigger muss nach dem Scrollen noch interagierbar sein."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_accordion.scss"
+    ],
+    "story": "stories/molecules/accordion.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/AccordionArena.vue",
+    "drupal": [
+      "block--block-content--neo-accordion.html.twig",
+      "block--inline-block--neo-accordion.html.twig"
+    ],
+    "docs": "docs/accordion-docs.html"
+  }
+}

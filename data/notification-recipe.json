@@ -5,27 +5,108 @@
     "component": "notification",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["feedback", "news-alert", "floating-card", "in-app"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/notification-docs" },
+    "tags": [
+      "feedback",
+      "news-alert",
+      "floating-card",
+      "in-app"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/notification-docs"
+    },
     "changelog": [
-      { "version": "2.0.0", "changes": ["News-Alert Spezialisierung", "Media-Slot (Thumbnails/Avatare, 48×48)", "Read-Receipt Logik (Unread-Dot + BG-Akzent)", "Floating Card Surface (surface-elevated + elevation-overlay L2)", "Header/Footer Slots (strukturierte Anatomie)", "Priority-Axis (low/high mit Akzent-Border)", "Type-Axis (feature/system/promo mit Akzentfarbe)", "Interaction-Axis (dismissible/permanent)", "Dismiss-Animation (Hoehen-Collapse)", "BEM-Refactoring (.nc-notification)", "High Contrast Mode", "Reduced Motion Support"] },
-      { "version": "1.0.0", "changes": ["Initiales Recipe: Sticky-Top Notification Banner mit Show/Hide und Close-Button"] }
-    ]
+      {
+        "version": "2.0.0",
+        "changes": [
+          "News-Alert Spezialisierung",
+          "Media-Slot (Thumbnails/Avatare, 48×48)",
+          "Read-Receipt Logik (Unread-Dot + BG-Akzent)",
+          "Floating Card Surface (surface-elevated + elevation-overlay L2)",
+          "Header/Footer Slots (strukturierte Anatomie)",
+          "Priority-Axis (low/high mit Akzent-Border)",
+          "Type-Axis (feature/system/promo mit Akzentfarbe)",
+          "Interaction-Axis (dismissible/permanent)",
+          "Dismiss-Animation (Hoehen-Collapse)",
+          "BEM-Refactoring (.nc-notification)",
+          "High Contrast Mode",
+          "Reduced Motion Support"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiales Recipe: Sticky-Top Notification Banner mit Show/Hide und Close-Button"
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_notification.scss"
+      ],
+      "story": "stories/organisms/notification.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/NotificationArena.vue",
+      "drupal": [],
+      "docs": "docs/notification-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-notification" },
+    "root": {
+      "element": ".nc-notification"
+    },
     "slots": [
-      { "name": "media",   "element": ".nc-notification__media",   "optional": true },
-      { "name": "content", "element": ".nc-notification__content", "optional": false },
-      { "name": "header",  "element": ".nc-notification__header",  "optional": false },
-      { "name": "title",   "element": ".nc-notification__title",   "optional": false },
-      { "name": "meta",    "element": ".nc-notification__meta",    "optional": true },
-      { "name": "body",    "element": ".nc-notification__body",    "optional": true },
-      { "name": "footer",  "element": ".nc-notification__footer",  "optional": true },
-      { "name": "action",  "element": ".nc-notification__action",  "optional": true },
-      { "name": "close",   "element": ".nc-notification__close",   "optional": true },
-      { "name": "unread",  "element": ".nc-notification__unread",  "optional": true }
+      {
+        "name": "media",
+        "element": ".nc-notification__media",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-notification__content",
+        "optional": false
+      },
+      {
+        "name": "header",
+        "element": ".nc-notification__header",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-notification__title",
+        "optional": false
+      },
+      {
+        "name": "meta",
+        "element": ".nc-notification__meta",
+        "optional": true
+      },
+      {
+        "name": "body",
+        "element": ".nc-notification__body",
+        "optional": true
+      },
+      {
+        "name": "footer",
+        "element": ".nc-notification__footer",
+        "optional": true
+      },
+      {
+        "name": "action",
+        "element": ".nc-notification__action",
+        "optional": true
+      },
+      {
+        "name": "close",
+        "element": ".nc-notification__close",
+        "optional": true
+      },
+      {
+        "name": "unread",
+        "element": ".nc-notification__unread",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -46,66 +127,142 @@
       "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen."
     ]
   },
-
   "axes": {
     "priority": {
       "label": "Priority",
       "description": "Prioritaet — low (Standard, kein Akzent) oder high (Akzent-Border links)",
       "values": {
-        "low":  { "modifier": null,                                "tokenGroups": [] },
-        "high": { "modifier": "nc-notification--priority-high",    "tokenGroups": ["priority"] }
+        "low": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "high": {
+          "modifier": "nc-notification--priority-high",
+          "tokenGroups": [
+            "priority"
+          ]
+        }
       }
     },
     "type": {
       "label": "Type",
       "description": "Inhaltskategorie — feature (blau), system (gelb), promo (gruen)",
       "values": {
-        "feature": { "modifier": "nc-notification--feature", "tokenGroups": ["type-colors"] },
-        "system":  { "modifier": "nc-notification--system",  "tokenGroups": ["type-colors"] },
-        "promo":   { "modifier": "nc-notification--promo",   "tokenGroups": ["type-colors"] }
+        "feature": {
+          "modifier": "nc-notification--feature",
+          "tokenGroups": [
+            "type-colors"
+          ]
+        },
+        "system": {
+          "modifier": "nc-notification--system",
+          "tokenGroups": [
+            "type-colors"
+          ]
+        },
+        "promo": {
+          "modifier": "nc-notification--promo",
+          "tokenGroups": [
+            "type-colors"
+          ]
+        }
       }
     },
     "interaction": {
       "label": "Interaction",
       "description": "Interaktionsmodell — dismissible (Close-Button) oder permanent (kein Close)",
       "values": {
-        "dismissible": { "modifier": null,                            "tokenGroups": ["close-button"] },
-        "permanent":   { "modifier": "nc-notification--permanent",    "tokenGroups": [] }
+        "dismissible": {
+          "modifier": null,
+          "tokenGroups": [
+            "close-button"
+          ]
+        },
+        "permanent": {
+          "modifier": "nc-notification--permanent",
+          "tokenGroups": []
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "unread", "dismissing"],
-    "precedence": ["dismissing", "unread", "default"],
+    "supported": [
+      "default",
+      "unread",
+      "dismissing"
+    ],
+    "precedence": [
+      "dismissing",
+      "unread",
+      "default"
+    ],
     "rules": [
-      { "state": "unread", "condition": "--unread Modifier aktiv. Subtiler BG-Akzent + Unread-Dot sichtbar." },
-      { "state": "dismissing", "condition": ".is-dismissing Klasse. Hoehen-Collapse Animation." }
+      {
+        "state": "unread",
+        "condition": "--unread Modifier aktiv. Subtiler BG-Akzent + Unread-Dot sichtbar."
+      },
+      {
+        "state": "dismissing",
+        "condition": ".is-dismissing Klasse. Hoehen-Collapse Animation."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "role='article' auf jedem Item. aria-label mit Titel. Unread-Dot ist aria-hidden — Status wird per aria-label am Root kommuniziert. Close: aria-label. Actions: fokussierbar mit focus-ring."
     },
     "overrides": [
       {
-        "when": { "states": ["unread"] },
-        "suggest": ["aria-label-unread"],
+        "when": {
+          "states": [
+            "unread"
+          ]
+        },
+        "suggest": [
+          "aria-label-unread"
+        ],
         "note": "Ungelesene Items: aria-label enthaelt 'Ungelesen:' Praefix oder aria-live Region fuer Zaehler-Update."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-article"], "notes": ["Jedes Notification-Item braucht role='article' mit aria-label."] },
-      { "when": { "interaction": "dismissible" }, "require": ["close-aria-label"], "notes": ["Close-Button braucht aria-label='Benachrichtigung schliessen'."] },
-      { "when": {}, "require": ["keyboard-navigation"], "notes": ["Tab-Reihenfolge: Header → Actions → Close. Focus-Ring auf allen interaktiven Elementen."] }
+      {
+        "when": {},
+        "require": [
+          "role-article"
+        ],
+        "notes": [
+          "Jedes Notification-Item braucht role='article' mit aria-label."
+        ]
+      },
+      {
+        "when": {
+          "interaction": "dismissible"
+        },
+        "require": [
+          "close-aria-label"
+        ],
+        "notes": [
+          "Close-Button braucht aria-label='Benachrichtigung schliessen'."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "keyboard-navigation"
+        ],
+        "notes": [
+          "Tab-Reihenfolge: Header → Actions → Close. Focus-Ring auf allen interaktiven Elementen."
+        ]
+      }
     ],
     "copy": {
       "title": {
@@ -118,11 +275,15 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-notification"],
-    "baseTokenGroups": ["container", "header", "body"],
-
+    "baseClasses": [
+      "nc-notification"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "header",
+      "body"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -213,12 +374,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -233,18 +401,32 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "basic",
       "label": "Basic Notification",
       "description": "Standard News-Alert mit Titel, Body und Meta-Info",
       "matrix": {
-        "axes": { "type": ["feature"], "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["default"]
+        "axes": {
+          "type": [
+            "feature"
+          ],
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "basic", "compositionType": "notification-basic" },
+      "render": {
+        "label": "basic",
+        "compositionType": "notification-basic"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Floating Card mit surface-elevated BG. Text-Primary Titel auf surface-elevated Hintergrund."
@@ -255,12 +437,27 @@
       "label": "With Media Slot",
       "description": "Notification mit Thumbnail/Avatar (48×48)",
       "matrix": {
-        "axes": { "type": "feature", "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["default"]
+        "axes": {
+          "type": "feature",
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["media"],
+      "focusTokenGroups": [
+        "media"
+      ],
       "layout": "row",
-      "render": { "label": "with-media", "compositionType": "notification-media" },
+      "render": {
+        "label": "with-media",
+        "compositionType": "notification-media"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Media-Slot: img mit alt-Text oder dekoratives SVG mit aria-hidden."
@@ -271,13 +468,34 @@
       "label": "Unread State",
       "description": "Ungelesene Notification mit Dot und subtiler BG-Hervorhebung",
       "matrix": {
-        "axes": { "type": ["feature", "system", "promo"], "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["unread"]
+        "axes": {
+          "type": [
+            "feature",
+            "system",
+            "promo"
+          ],
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "unread"
+        ]
       },
-      "focusTokenGroups": ["unread"],
+      "focusTokenGroups": [
+        "unread"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "type" },
-      "render": { "label": "{type}", "compositionType": "notification-unread" },
+      "layoutConfig": {
+        "rowAxis": "type"
+      },
+      "render": {
+        "label": "{type}",
+        "compositionType": "notification-unread"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Unread-Dot: aria-hidden='true'. Status per aria-label am Root: 'Ungelesen: [Titel]'."
@@ -288,13 +506,35 @@
       "label": "Priority High",
       "description": "Hohe Prioritaet mit Akzent-Border links",
       "matrix": {
-        "axes": { "type": ["feature", "system", "promo"], "priority": ["high"], "interaction": ["dismissible"] },
-        "states": ["default"]
+        "axes": {
+          "type": [
+            "feature",
+            "system",
+            "promo"
+          ],
+          "priority": [
+            "high"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["priority", "type-colors"],
+      "focusTokenGroups": [
+        "priority",
+        "type-colors"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "type" },
-      "render": { "label": "{type}", "compositionType": "notification-priority" },
+      "layoutConfig": {
+        "rowAxis": "type"
+      },
+      "render": {
+        "label": "{type}",
+        "compositionType": "notification-priority"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Akzent-Border links signalisiert Wichtigkeit. Nicht alleiniges Signal — Titel kommuniziert Dringlichkeit."
@@ -305,13 +545,29 @@
       "label": "Type Variants",
       "description": "Drei Inhaltskategorien mit unterschiedlichen Akzentfarben",
       "matrix": {
-        "axes": { "type": "*", "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["default"]
+        "axes": {
+          "type": "*",
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["type-colors"],
+      "focusTokenGroups": [
+        "type-colors"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "type" },
-      "render": { "label": "{type}" },
+      "layoutConfig": {
+        "rowAxis": "type"
+      },
+      "render": {
+        "label": "{type}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Farbe nie alleiniges Signal. Type-Label oder Icon kommuniziert Kategorie."
@@ -322,12 +578,29 @@
       "label": "With Footer Actions",
       "description": "Notification mit Action-Links im Footer",
       "matrix": {
-        "axes": { "type": ["feature"], "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["default"]
+        "axes": {
+          "type": [
+            "feature"
+          ],
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["footer"],
+      "focusTokenGroups": [
+        "footer"
+      ],
       "layout": "row",
-      "render": { "label": "with-actions", "compositionType": "notification-actions" },
+      "render": {
+        "label": "with-actions",
+        "compositionType": "notification-actions"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Action-Links fokussierbar. Tab-Reihenfolge: Actions vor Close-Button."
@@ -338,11 +611,26 @@
       "label": "Permanent (No Close)",
       "description": "Nicht-schliessbare Notification fuer permanente Hinweise",
       "matrix": {
-        "axes": { "type": ["system"], "priority": ["high"], "interaction": ["permanent"] },
-        "states": ["default"]
+        "axes": {
+          "type": [
+            "system"
+          ],
+          "priority": [
+            "high"
+          ],
+          "interaction": [
+            "permanent"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "permanent", "compositionType": "notification-permanent" },
+      "render": {
+        "label": "permanent",
+        "compositionType": "notification-permanent"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Kein Close-Button. Notification bleibt sichtbar bis externer Trigger sie entfernt."
@@ -353,12 +641,29 @@
       "label": "Dismiss Animation",
       "description": "Hoehen-Collapse beim Schliessen",
       "matrix": {
-        "axes": { "type": ["feature"], "priority": ["low"], "interaction": ["dismissible"] },
-        "states": ["dismissing"]
+        "axes": {
+          "type": [
+            "feature"
+          ],
+          "priority": [
+            "low"
+          ],
+          "interaction": [
+            "dismissible"
+          ]
+        },
+        "states": [
+          "dismissing"
+        ]
       },
-      "focusTokenGroups": ["animation"],
+      "focusTokenGroups": [
+        "animation"
+      ],
       "layout": "row",
-      "render": { "label": "dismissing", "compositionType": "notification-dismiss" },
+      "render": {
+        "label": "dismissing",
+        "compositionType": "notification-dismiss"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Reduced Motion: Dismiss ohne Animation (display:none). pointer-events:none waehrend Animation."

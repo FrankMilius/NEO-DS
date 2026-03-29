@@ -1,0 +1,347 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "tabs",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "navigation",
+    "interactive",
+    "disclosure"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-tabs",
+    "slots": [
+      {
+        "name": "list",
+        "selector": ".nc-tabs__list",
+        "required": true,
+        "description": "Container fuer Tab-Trigger (role=tablist)."
+      },
+      {
+        "name": "trigger",
+        "selector": ".nc-tabs__trigger",
+        "required": true,
+        "description": "Einzelner Tab-Button (role=tab)."
+      },
+      {
+        "name": "trigger-icon",
+        "selector": ".nc-tabs__trigger-icon",
+        "required": false,
+        "description": "Icon innerhalb des Triggers."
+      },
+      {
+        "name": "trigger-label",
+        "selector": ".nc-tabs__trigger-label",
+        "required": false,
+        "description": "Text-Label im Trigger."
+      },
+      {
+        "name": "panel",
+        "selector": ".nc-tabs__panel",
+        "required": true,
+        "description": "Inhaltspanel (role=tabpanel), per aria-labelledby verknuepft."
+      },
+      {
+        "name": "scroll-btn",
+        "selector": ".nc-tabs__scroll-btn",
+        "required": false,
+        "description": "Scroll-Buttons bei Overflow (--scrollable)."
+      }
+    ],
+    "notes": [
+      "Tabs verwenden WAI-ARIA Tabs Pattern (role=tablist/tab/tabpanel).",
+      "aria-selected markiert den aktiven Tab, aria-controls verknuepft Tab mit Panel.",
+      "Keyboard: Arrow Left/Right navigiert Tabs, Home/End springt zum ersten/letzten.",
+      "Line-Variante (Default): Underline-Indikator unter dem aktiven Tab.",
+      "Contained-Variante: Gefuellter Hintergrund mit Shadow fuer aktiven Tab.",
+      "Groessen nutzen die Button-Scale (SM=32px, MD=40px, LG=48px)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Visuelle Darstellung der Tabs.",
+      "values": [
+        {
+          "value": "line",
+          "cssModifier": "nc-tabs--line",
+          "default": true,
+          "label": "Line (Underline-Indikator)"
+        },
+        {
+          "value": "contained",
+          "cssModifier": "nc-tabs--contained",
+          "default": false,
+          "label": "Contained (gefuellter Hintergrund)"
+        }
+      ]
+    },
+    "orientation": {
+      "label": "Orientierung",
+      "description": "Anordnung der Tab-Leiste.",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": true,
+          "label": "Horizontal (Standard)"
+        },
+        {
+          "value": "vertical",
+          "cssModifier": "nc-tabs--vertical",
+          "default": false,
+          "label": "Vertikal (seitlich)"
+        }
+      ]
+    },
+    "size": {
+      "label": "Groesse",
+      "description": "Hoehe der Tab-Trigger.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-tabs--sm",
+          "default": false,
+          "label": "Small (32px)"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-tabs--md",
+          "default": true,
+          "label": "Medium (40px, Default)"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-tabs--lg",
+          "default": false,
+          "label": "Large (48px)"
+        }
+      ]
+    },
+    "overflow": {
+      "label": "Overflow",
+      "description": "Verhalten bei zu vielen Tabs.",
+      "values": [
+        {
+          "value": "wrap",
+          "cssModifier": null,
+          "default": true,
+          "label": "Wrap (Zeilenumbruch)"
+        },
+        {
+          "value": "scrollable",
+          "cssModifier": "nc-tabs--scrollable",
+          "default": false,
+          "label": "Scrollable (Scroll-Buttons)"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "interactive": null,
+    "rules": [
+      {
+        "description": "Genau ein Tab ist immer aktiv (aria-selected=true)."
+      },
+      {
+        "description": "Disabled Tabs sind nicht anklickbar (aria-disabled=true, opacity: --fnd-opacity-disabled)."
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      ".nc-tabs"
+    ],
+    "tokenGroups": {
+      "Trigger": [
+        {
+          "token": "--nc-tabs-trigger-color",
+          "property": "color",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-trigger-color-hover",
+          "property": "color",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-trigger-color-active",
+          "property": "color",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-trigger-font-weight",
+          "property": "font-weight",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-trigger-font-weight-active",
+          "property": "font-weight",
+          "description": null
+        }
+      ],
+      "Line Variant": [
+        {
+          "token": "--nc-tabs-line-border-color",
+          "property": "border-color",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-line-indicator-color",
+          "property": "border-color (active)",
+          "description": null
+        }
+      ],
+      "Contained Variant": [
+        {
+          "token": "--nc-tabs-contained-bg",
+          "property": "background",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-contained-trigger-bg-active",
+          "property": "background (active)",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-contained-trigger-shadow",
+          "property": "box-shadow (active)",
+          "description": null
+        }
+      ],
+      "Sizes": [
+        {
+          "token": "--nc-tabs-height-sm",
+          "property": "height",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-height-md",
+          "property": "height",
+          "description": null
+        },
+        {
+          "token": "--nc-tabs-height-lg",
+          "property": "height",
+          "description": null
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-tabs-trigger-color",
+      "--mod-tabs-trigger-color-hover",
+      "--mod-tabs-trigger-color-active",
+      "--mod-tabs-trigger-font-weight",
+      "--mod-tabs-trigger-font-weight-active",
+      "--mod-tabs-line-border-color",
+      "--mod-tabs-line-indicator-color",
+      "--mod-tabs-contained-bg",
+      "--mod-tabs-contained-trigger-bg-active",
+      "--mod-tabs-contained-trigger-shadow",
+      "--mod-tabs-height-sm",
+      "--mod-tabs-height-md",
+      "--mod-tabs-height-lg"
+    ]
+  },
+  "keyboard": {
+    "ArrowRight": {
+      "action": "focus-next-tab",
+      "note": "Fokussiert naechsten Tab (horizontal)."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-tab",
+      "note": "Fokussiert vorherigen Tab (horizontal)."
+    },
+    "ArrowDown": {
+      "action": "focus-next-tab",
+      "note": "Fokussiert naechsten Tab (vertikal).",
+      "onlyWhen": {
+        "axes": {
+          "orientation": [
+            "vertical"
+          ]
+        }
+      }
+    },
+    "ArrowUp": {
+      "action": "focus-prev-tab",
+      "note": "Fokussiert vorherigen Tab (vertikal).",
+      "onlyWhen": {
+        "axes": {
+          "orientation": [
+            "vertical"
+          ]
+        }
+      }
+    },
+    "Home": {
+      "action": "focus-first-tab",
+      "note": "Springt zum ersten Tab."
+    },
+    "End": {
+      "action": "focus-last-tab",
+      "note": "Springt zum letzten Tab."
+    },
+    "Enter": {
+      "action": "activate-tab",
+      "note": "Aktiviert den fokussierten Tab (falls nicht auto-activate)."
+    },
+    "Space": {
+      "action": "activate-tab",
+      "note": "Aktiviert den fokussierten Tab."
+    },
+    "Tab": {
+      "action": "focus-panel",
+      "note": "Springt direkt zum aktiven Panel-Inhalt (nicht durch alle Tabs)."
+    }
+  },
+  "testSelectors": {
+    "root": "[data-testid='tabs']",
+    "list": "[data-testid='tabs-list']",
+    "trigger": "[data-testid='tabs-trigger']",
+    "panel": "[data-testid='tabs-panel']"
+  },
+  "events": {
+    "tab-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn der aktive Tab wechselt."
+    }
+  },
+  "a11y": {
+    "role": "tablist",
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [
+      "Tab-Leiste hat role=tablist, Tabs haben role=tab, Panels haben role=tabpanel.",
+      "aria-selected=true auf aktivem Tab.",
+      "aria-controls auf Tab verweist auf Panel-ID, aria-labelledby auf Panel verweist auf Tab-ID.",
+      "Arrow Keys navigieren horizontal, Home/End springen zum Anfang/Ende.",
+      "Tab-Key springt direkt zum aktiven Panel-Inhalt (nicht durch alle Tabs)."
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_tabs.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/tabs-docs.html"
+  }
+}

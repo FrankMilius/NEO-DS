@@ -1,0 +1,199 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "empty-state",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "feedback",
+    "layout",
+    "placeholder"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-empty-state",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-empty-state__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-empty-state__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-empty-state__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-empty-state__actions",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Column-Container, zentriert (align-items + text-align: center).",
+      "max-width: 400px + margin-inline: auto — begrenzt die Breite und zentriert horizontal.",
+      "Icon: grosses dekoratives SVG (64px Standard), stroke-basiert, aria-hidden='true'.",
+      "Title: Heading (h2/h3 je nach Kontext), font-heading Familie.",
+      "Description: sekundaere Farbe, max-width via prose-max-width fuer Lesbarkeit.",
+      "Actions: Flex-Row mit gap fuer Button(s), margin-top fuer Abstand.",
+      "Compact-Modifier: reduziertes Padding (spacing-06), kleinere Icon/Title/Desc Groessen.",
+      "Full-Modifier: min-height: 100% — fuellt den gesamten Container."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Groessen-Variante — default (grosszuegiges Padding, grosse Elemente), compact (weniger Padding, kleinere Elemente)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-empty-state--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "height": {
+      "label": "Height",
+      "description": "Hoehen-Verhalten — auto (natuerliche Hoehe), full (fuellt Container, min-height: 100%)",
+      "values": [
+        {
+          "value": "auto",
+          "cssModifier": null,
+          "default": false,
+          "label": "auto"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-empty-state--full",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltskombination — minimal (nur Title), with-description (Title + Beschreibung), with-action (Title + Beschreibung + Button), full (Icon + Title + Beschreibung + Button)",
+      "values": [
+        {
+          "value": "minimal",
+          "cssModifier": null,
+          "default": false,
+          "label": "minimal"
+        },
+        {
+          "value": "with-description",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-description"
+        },
+        {
+          "value": "with-action",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-action"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-empty-state"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-empty-state-padding"
+        },
+        {
+          "token": "nc-empty-state-gap"
+        },
+        {
+          "token": "nc-empty-state-max-width"
+        }
+      ],
+      "Icon": [
+        {
+          "token": "nc-empty-state-icon-size"
+        },
+        {
+          "token": "nc-empty-state-icon-color"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-empty-state-title-size"
+        },
+        {
+          "token": "nc-empty-state-title-weight"
+        },
+        {
+          "token": "nc-empty-state-title-color"
+        },
+        {
+          "token": "nc-empty-state-desc-size"
+        },
+        {
+          "token": "nc-empty-state-desc-color"
+        }
+      ],
+      "Action": [
+        {
+          "token": "nc-empty-state-action-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_empty-state.scss"
+    ],
+    "story": "stories/organisms/empty-state.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/empty-state-docs.html"
+  }
+}

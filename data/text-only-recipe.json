@@ -5,15 +5,47 @@
     "component": "text-only",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "text"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/text-only-docs" }
+    "tags": [
+      "display",
+      "content",
+      "text"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/text-only-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_text-only.scss"
+      ],
+      "story": "stories/organisms/text-only.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/text-only-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-text-only" },
+    "root": {
+      "element": ".nc-text-only"
+    },
     "slots": [
-      { "name": "title", "element": ".nc-text-only__title", "optional": true },
-      { "name": "text", "element": ".nc-text-only__text", "optional": false },
-      { "name": "scroll-text", "element": ".nc-text-only__scroll-text", "optional": true }
+      {
+        "name": "title",
+        "element": ".nc-text-only__title",
+        "optional": true
+      },
+      {
+        "name": "text",
+        "element": ".nc-text-only__text",
+        "optional": false
+      },
+      {
+        "name": "scroll-text",
+        "element": ".nc-text-only__scroll-text",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -26,12 +58,29 @@
       "label": "Variant",
       "description": "Variante — default, scroll",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "text-only-default" },
-        "scroll":  { "modifier": "has-scroll", "tokenGroups": [], "renderHint": "text-only-scroll" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "text-only-default"
+        },
+        "scroll": {
+          "modifier": "has-scroll",
+          "tokenGroups": [],
+          "renderHint": "text-only-scroll"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -41,27 +90,70 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-text-only"],
+    "baseClasses": [
+      "nc-text-only"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.variant.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Text-Only Variants",
+      "id": "variant-comparison",
+      "label": "Text-Only Variants",
       "description": "Default vs Scroll-Animation",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Scroll-Variante: reduced-motion beachten." }
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Scroll-Variante: reduced-motion beachten."
+      }
     }
   ]
 }

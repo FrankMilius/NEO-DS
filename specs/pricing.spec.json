@@ -1,0 +1,92 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "pricing",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "commerce"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-pricing-card",
+    "slots": [
+      {
+        "name": "price",
+        "selector": ".nc-price",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "feature-list",
+        "selector": ".nc-feature-list",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Card: background-base, radius-xl, elevation-raised.",
+      "Featured (.is-featured): accent Border, elevation-floating.",
+      "Price: font-heading, fs-xl. Feature-List: Checkmark-Icon, accent-Farbe."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, featured",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "featured",
+          "cssModifier": "is-featured",
+          "default": false,
+          "label": "featured"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-pricing-card"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_pricing.scss"
+    ],
+    "story": "stories/organisms/pricing.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/pricing-docs.html"
+  }
+}

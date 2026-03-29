@@ -1,0 +1,104 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "question",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "animation",
+    "marquee"
+  ],
+  "anatomy": {
+    "rootElement": ".question",
+    "slots": [
+      {
+        "name": "text-row",
+        "selector": ".question-text-row",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".question-text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "text-container",
+        "selector": ".question-text-container",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "action-section",
+        "selector": ".question-action-section",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).",
+      "Geschwindigkeit: --px-per-sec (80 mobile, 160 desktop). Icon-Separatoren zwischen Texten.",
+      "Action-Section: Buttons + Paragraphs. with-text Variante: side-by-side Layout ab Tablet."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default, with-text",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "with-text",
+          "cssModifier": "with-text",
+          "default": false,
+          "label": "with-text"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "question"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_question.scss"
+    ],
+    "story": "stories/organisms/question.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/question-docs.html"
+  }
+}

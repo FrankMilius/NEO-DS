@@ -5,17 +5,44 @@
     "component": "section",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["layout", "object", "section", "orchestrator"],
+    "tags": [
+      "layout",
+      "object",
+      "section",
+      "orchestrator"
+    ],
     "links": {
       "docs": "/docs/layout-architecture-docs.html"
-    }
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [],
+      "story": "stories/organisms/section.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/SectionArena.vue",
+      "drupal": [],
+      "docs": "docs/section-docs.html"
+    },
+    "dependencies": [
+      "container"
+    ]
   },
-
   "anatomy": {
-    "root": { "element": ".section" },
+    "root": {
+      "element": ".section"
+    },
     "slots": [
-      { "name": "container", "element": ".nc-container", "optional": false, "description": "Container der den Inhalt horizontal begrenzt." },
-      { "name": "content", "element": ".nc-container > *", "optional": false, "description": "Beliebiger Inhalt innerhalb des Containers." }
+      {
+        "name": "container",
+        "element": ".nc-container",
+        "optional": false,
+        "description": "Container der den Inhalt horizontal begrenzt."
+      },
+      {
+        "name": "content",
+        "element": ".nc-container > *",
+        "optional": false,
+        "description": "Beliebiger Inhalt innerhalb des Containers."
+      }
     ],
     "domNotes": [
       "Section ist der Orchestrator: setzt Block-Padding, enthaelt Container, konfiguriert Grid.",
@@ -27,7 +54,6 @@
       "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
     ]
   },
-
   "axes": {
     "density": {
       "label": "Dichte",
@@ -35,17 +61,23 @@
       "values": {
         "default": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Standard: clamp(2rem, 4vw, 6rem)."
         },
         "compact": {
           "modifier": "section--compact",
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Kompakt: var(--fnd-spacing-08) = 32px."
         },
         "spacious": {
           "modifier": "section--spacious",
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Grosszuegig: var(--fnd-spacing-13) = 160px."
         }
       }
@@ -56,22 +88,31 @@
       "values": {
         "base": {
           "modifier": null,
-          "tokenGroups": ["surface"],
+          "tokenGroups": [
+            "surface"
+          ],
           "description": "Standard-Hintergrund: background-base."
         },
         "elevated": {
           "modifier": "section--elevated",
-          "tokenGroups": ["surface"],
+          "tokenGroups": [
+            "surface"
+          ],
           "description": "Erhoeht: surface-elevated (Light: #fff, Dark: layer-01)."
         },
         "muted": {
           "modifier": "section--muted",
-          "tokenGroups": ["surface"],
+          "tokenGroups": [
+            "surface"
+          ],
           "description": "Gedaempft: background-secondary."
         },
         "accent": {
           "modifier": "section--accent",
-          "tokenGroups": ["surface", "accent"],
+          "tokenGroups": [
+            "surface",
+            "accent"
+          ],
           "description": "Akzent: interactive-default Hintergrund mit On-Accent Text.",
           "contextualTokens": [
             "fnd-color-text-on-interactive",
@@ -87,22 +128,33 @@
       "values": {
         "none": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Keine Trennlinie (Standard)."
         },
         "top": {
           "modifier": "section--divider-top",
-          "tokenGroups": ["geometry", "divider"],
+          "tokenGroups": [
+            "geometry",
+            "divider"
+          ],
           "description": "1px Trennlinie am oberen Rand."
         },
         "bottom": {
           "modifier": "section--divider-bottom",
-          "tokenGroups": ["geometry", "divider"],
+          "tokenGroups": [
+            "geometry",
+            "divider"
+          ],
           "description": "1px Trennlinie am unteren Rand."
         },
         "both": {
           "modifier": "section--divider-both",
-          "tokenGroups": ["geometry", "divider"],
+          "tokenGroups": [
+            "geometry",
+            "divider"
+          ],
           "description": "Trennlinien oben und unten."
         }
       }
@@ -113,70 +165,121 @@
       "values": {
         "straight": {
           "modifier": null,
-          "tokenGroups": ["geometry"],
+          "tokenGroups": [
+            "geometry"
+          ],
           "description": "Gerade Kante (Standard)."
         },
         "slanted": {
           "modifier": "section--edge-slanted",
-          "tokenGroups": ["geometry", "edge"],
+          "tokenGroups": [
+            "geometry",
+            "edge"
+          ],
           "description": "Diagonaler Schnitt: 2–4° Neigung via clip-path polygon()."
         },
         "curved": {
           "modifier": "section--edge-curved",
-          "tokenGroups": ["geometry", "edge"],
+          "tokenGroups": [
+            "geometry",
+            "edge"
+          ],
           "description": "Wellenfoermige Kante via SVG-Mask oder clip-path ellipse."
         }
       }
     }
   },
-
   "dependencies": {
     "description": "Tokens die Section aus anderen Gruppen erbt oder referenziert.",
     "maps": [
       {
         "surface": "base",
         "inherits": [
-          { "token": "fnd-color-background-base", "role": "Section-Hintergrund" },
-          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
-          { "token": "fnd-color-text-secondary", "role": "Sekundaere Textfarbe" },
-          { "token": "fnd-color-border-primary", "role": "Divider-Farbe" }
+          {
+            "token": "fnd-color-background-base",
+            "role": "Section-Hintergrund"
+          },
+          {
+            "token": "fnd-color-text-primary",
+            "role": "Primaere Textfarbe"
+          },
+          {
+            "token": "fnd-color-text-secondary",
+            "role": "Sekundaere Textfarbe"
+          },
+          {
+            "token": "fnd-color-border-primary",
+            "role": "Divider-Farbe"
+          }
         ]
       },
       {
         "surface": "elevated",
         "inherits": [
-          { "token": "fnd-color-surface-elevated", "role": "Section-Hintergrund (erhoeht)" },
-          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
-          { "token": "fnd-color-border-secondary", "role": "Divider-Farbe (subtil)" }
+          {
+            "token": "fnd-color-surface-elevated",
+            "role": "Section-Hintergrund (erhoeht)"
+          },
+          {
+            "token": "fnd-color-text-primary",
+            "role": "Primaere Textfarbe"
+          },
+          {
+            "token": "fnd-color-border-secondary",
+            "role": "Divider-Farbe (subtil)"
+          }
         ]
       },
       {
         "surface": "muted",
         "inherits": [
-          { "token": "fnd-color-background-secondary", "role": "Section-Hintergrund (gedaempft)" },
-          { "token": "fnd-color-text-primary", "role": "Primaere Textfarbe" },
-          { "token": "fnd-color-border-secondary", "role": "Divider-Farbe" }
+          {
+            "token": "fnd-color-background-secondary",
+            "role": "Section-Hintergrund (gedaempft)"
+          },
+          {
+            "token": "fnd-color-text-primary",
+            "role": "Primaere Textfarbe"
+          },
+          {
+            "token": "fnd-color-border-secondary",
+            "role": "Divider-Farbe"
+          }
         ]
       },
       {
         "surface": "accent",
         "inherits": [
-          { "token": "fnd-color-interactive-default", "role": "Section-Hintergrund (Akzent)" },
-          { "token": "fnd-color-text-on-interactive", "role": "Primaere Textfarbe (invertiert)" },
-          { "token": "fnd-color-on-accent", "role": "Sekundaere Textfarbe (on-accent)" },
-          { "token": "fnd-color-border-on-accent", "role": "Divider-Farbe auf Akzent" }
+          {
+            "token": "fnd-color-interactive-default",
+            "role": "Section-Hintergrund (Akzent)"
+          },
+          {
+            "token": "fnd-color-text-on-interactive",
+            "role": "Primaere Textfarbe (invertiert)"
+          },
+          {
+            "token": "fnd-color-on-accent",
+            "role": "Sekundaere Textfarbe (on-accent)"
+          },
+          {
+            "token": "fnd-color-border-on-accent",
+            "role": "Divider-Farbe auf Akzent"
+          }
         ]
       }
     ]
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "interactive": false,
     "rules": []
   },
-
   "a11y": {
     "base": {
       "interactive": false,
@@ -191,10 +294,14 @@
     },
     "overrides": []
   },
-
   "styling": {
-    "baseClasses": ["section"],
-    "baseTokenGroups": ["geometry", "surface"],
+    "baseClasses": [
+      "section"
+    ],
+    "baseTokenGroups": [
+      "geometry",
+      "surface"
+    ],
     "tokenGroups": {
       "geometry": {
         "label": "Geometry",
@@ -237,23 +344,30 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes"],
-      "output": ["classList", "tokenGroups"]
+      "from": [
+        "axes"
+      ],
+      "output": [
+        "classList",
+        "tokenGroups"
+      ]
     }
   },
-
   "specimens": [
     {
       "id": "density-scale",
       "label": "Dichte-Varianten",
       "description": "Compact, Default und Spacious im Vergleich.",
       "matrix": {
-        "axes": { "density": "*" },
-        "states": ["default"]
+        "axes": {
+          "density": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -262,8 +376,12 @@
       "label": "Oberflaechen-Varianten",
       "description": "Alle Section-Hintergruende.",
       "matrix": {
-        "axes": { "surface": "*" },
-        "states": ["default"]
+        "axes": {
+          "surface": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -272,8 +390,12 @@
       "label": "Divider-Varianten",
       "description": "Trennlinien-Positionen: top, bottom, both.",
       "matrix": {
-        "axes": { "divider": "*" },
-        "states": ["default"]
+        "axes": {
+          "divider": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -282,8 +404,12 @@
       "label": "Edge Shapes",
       "description": "Kantenformen: straight, slanted, curved.",
       "matrix": {
-        "axes": { "edge": "*" },
-        "states": ["default"]
+        "axes": {
+          "edge": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row"
     },
@@ -292,8 +418,13 @@
       "label": "Dichte × Oberflaeche",
       "description": "Vollstaendige Matrix aller Kombinationen — zeigt ob z.B. compact auf accent zu gedraengt wirkt.",
       "matrix": {
-        "axes": { "density": "*", "surface": "*" },
-        "states": ["default"]
+        "axes": {
+          "density": "*",
+          "surface": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
       "layoutConfig": {
@@ -306,8 +437,16 @@
       "label": "Oberflaeche × Divider",
       "description": "Welche Divider-Kombinationen auf welchen Surfaces sinnvoll sind.",
       "matrix": {
-        "axes": { "surface": "*", "divider": ["top", "bottom"] },
-        "states": ["default"]
+        "axes": {
+          "surface": "*",
+          "divider": [
+            "top",
+            "bottom"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
       "layoutConfig": {

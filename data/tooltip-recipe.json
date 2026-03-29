@@ -5,19 +5,64 @@
     "component": "tooltip",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["overlay", "informational", "hover"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/tooltip-docs" },
+    "tags": [
+      "overlay",
+      "informational",
+      "hover"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/tooltip-docs"
+    },
     "changelog": [
-      { "version": "2.0.0", "changes": ["Hover-Intent Delay (300ms transition-delay)", "Scale+Fade Animation (opacity + scale(0.95→1) + translate(4px))", "Hoverable Content (pointer-events:auto, WCAG 1.4.13)", "Touch-Fallback (pointer:coarse unterdrückt :hover)", "Arrow-Size als Token", "Offset als Token", "Transition-Duration + Timing als Token", "High Contrast Mode", "Overlay-Hierarchie Dokumentation"] },
-      { "version": "1.0.0", "changes": ["Initiales Recipe: 4 Positionen, Arrow, inverse Farben, CSS-only Sichtbarkeit"] }
-    ]
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Hover-Intent Delay (300ms transition-delay)",
+          "Scale+Fade Animation (opacity + scale(0.95→1) + translate(4px))",
+          "Hoverable Content (pointer-events:auto, WCAG 1.4.13)",
+          "Touch-Fallback (pointer:coarse unterdrückt :hover)",
+          "Arrow-Size als Token",
+          "Offset als Token",
+          "Transition-Duration + Timing als Token",
+          "High Contrast Mode",
+          "Overlay-Hierarchie Dokumentation"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiales Recipe: 4 Positionen, Arrow, inverse Farben, CSS-only Sichtbarkeit"
+        ]
+      }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_tooltip.scss"
+      ],
+      "story": "stories/atoms/tooltip.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/TooltipArena.vue",
+      "drupal": [],
+      "docs": "docs/tooltip-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-tooltip" },
+    "root": {
+      "element": ".nc-tooltip"
+    },
     "slots": [
-      { "name": "content", "element": ".nc-tooltip__content", "optional": false },
-      { "name": "arrow",   "element": ".nc-tooltip__arrow",   "optional": true }
+      {
+        "name": "content",
+        "element": ".nc-tooltip__content",
+        "optional": false
+      },
+      {
+        "name": "arrow",
+        "element": ".nc-tooltip__arrow",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -35,51 +80,110 @@
       "Overlay-Hierarchie: Tooltip nutzt elevation-floating (L1, subtilster Schatten). Unter Dropdown/Popover/Modal."
     ]
   },
-
   "axes": {
     "position": {
       "label": "Position",
       "description": "Positionierung relativ zum Trigger — top (Standard), bottom, left, right",
       "values": {
-        "top":    { "modifier": null,                    "tokenGroups": [] },
-        "bottom": { "modifier": "nc-tooltip--bottom",    "tokenGroups": [] },
-        "left":   { "modifier": "nc-tooltip--left",      "tokenGroups": [] },
-        "right":  { "modifier": "nc-tooltip--right",     "tokenGroups": [] }
+        "top": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "bottom": {
+          "modifier": "nc-tooltip--bottom",
+          "tokenGroups": []
+        },
+        "left": {
+          "modifier": "nc-tooltip--left",
+          "tokenGroups": []
+        },
+        "right": {
+          "modifier": "nc-tooltip--right",
+          "tokenGroups": []
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "visible"],
-    "precedence": ["visible", "default"],
+    "supported": [
+      "default",
+      "visible"
+    ],
+    "precedence": [
+      "visible",
+      "default"
+    ],
     "rules": [
-      { "state": "visible", "note": "Sichtbar bei :hover oder :focus-within auf dem Wrapper. CSS-gesteuert mit transition-delay (300ms Intent). Scale+Fade Animation." }
+      {
+        "state": "visible",
+        "note": "Sichtbar bei :hover oder :focus-within auf dem Wrapper. CSS-gesteuert mit transition-delay (300ms Intent). Scale+Fade Animation."
+      }
     ],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Tooltip ist nicht interaktiv. role='tooltip' auf Content, aria-describedby auf Trigger. Muss per Keyboard erreichbar sein (:focus-within). Hoverable Content: Nutzer kann auf Tooltip fahren (WCAG 1.4.13)."
     },
     "overrides": [
       {
-        "when": { "states": ["visible"] },
-        "suggest": ["esc-dismiss", "hoverable-content"],
+        "when": {
+          "states": [
+            "visible"
+          ]
+        },
+        "suggest": [
+          "esc-dismiss",
+          "hoverable-content"
+        ],
         "note": "Sichtbare Tooltips muessen per ESC schliessbar sein UND hoverbar bleiben (WCAG 1.4.13 Content on Hover or Focus)."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["aria-describedby"], "notes": ["Trigger braucht aria-describedby das auf die Tooltip-Content-ID verweist."] },
-      { "when": {}, "require": ["role-tooltip"], "notes": ["Content braucht role='tooltip'."] },
-      { "when": {}, "require": ["esc-dismiss"], "notes": ["JS muss ESC-Handler implementieren fuer WCAG 1.4.13 Konformitaet."] },
-      { "when": {}, "require": ["hoverable-content"], "notes": ["Tooltip muss hoverbar bleiben — pointer-events:auto im sichtbaren Zustand (WCAG 1.4.13)."] }
+      {
+        "when": {},
+        "require": [
+          "aria-describedby"
+        ],
+        "notes": [
+          "Trigger braucht aria-describedby das auf die Tooltip-Content-ID verweist."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "role-tooltip"
+        ],
+        "notes": [
+          "Content braucht role='tooltip'."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "esc-dismiss"
+        ],
+        "notes": [
+          "JS muss ESC-Handler implementieren fuer WCAG 1.4.13 Konformitaet."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "hoverable-content"
+        ],
+        "notes": [
+          "Tooltip muss hoverbar bleiben — pointer-events:auto im sichtbaren Zustand (WCAG 1.4.13)."
+        ]
+      }
     ],
     "copy": {
       "content": {
@@ -88,11 +192,16 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-tooltip"],
-    "baseTokenGroups": ["core-appearance", "core-typography", "animation", "arrow"],
-
+    "baseClasses": [
+      "nc-tooltip"
+    ],
+    "baseTokenGroups": [
+      "core-appearance",
+      "core-typography",
+      "animation",
+      "arrow"
+    ],
     "tokenGroups": {
       "core-appearance": {
         "label": "Appearance",
@@ -128,12 +237,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -146,18 +262,23 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-positions",
       "label": "All Positions",
       "description": "Tooltip in allen 4 Positionen mit Scale+Fade Animation",
       "matrix": {
-        "axes": { "position": "*" },
-        "states": ["visible"]
+        "axes": {
+          "position": "*"
+        },
+        "states": [
+          "visible"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{position}" },
+      "render": {
+        "label": "{position}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Inverse Farben (heller Text auf dunklem Hintergrund) muessen 4.5:1 Kontrast einhalten."
@@ -168,11 +289,19 @@
       "label": "Hidden State",
       "description": "Tooltip im versteckten Standardzustand",
       "matrix": {
-        "axes": { "position": ["top"] },
-        "states": ["default"]
+        "axes": {
+          "position": [
+            "top"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "hidden (default)" },
+      "render": {
+        "label": "hidden (default)"
+      },
       "a11y": {
         "note": "Im versteckten Zustand ist Tooltip per visibility:hidden und opacity:0 unsichtbar — korrekt fuer Screen Reader."
       }
@@ -181,14 +310,25 @@
       "id": "with-arrow",
       "label": "Arrow Variants",
       "description": "Tooltip mit Pfeil in allen Positionen — Arrow uebernimmt bg",
-      "composes": ["arrow"],
+      "composes": [
+        "arrow"
+      ],
       "matrix": {
-        "axes": { "position": "*" },
-        "states": ["visible"]
+        "axes": {
+          "position": "*"
+        },
+        "states": [
+          "visible"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "position" },
-      "render": { "compositionType": "tooltip-arrow", "label": "{position}" },
+      "layoutConfig": {
+        "rowAxis": "position"
+      },
+      "render": {
+        "compositionType": "tooltip-arrow",
+        "label": "{position}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Arrow uebernimmt bg von Content. Radius schneidet Arrow nicht ab da Arrow ausserhalb des border-radius liegt."
@@ -199,12 +339,24 @@
       "label": "Long Content",
       "description": "Tooltip mit laengerem Text — max-width Verhalten",
       "matrix": {
-        "axes": { "position": ["top", "bottom"] },
-        "states": ["visible"]
+        "axes": {
+          "position": [
+            "top",
+            "bottom"
+          ]
+        },
+        "states": [
+          "visible"
+        ]
       },
-      "focusTokenGroups": ["core-typography"],
+      "focusTokenGroups": [
+        "core-typography"
+      ],
       "layout": "row",
-      "render": { "label": "{position}", "contentHint": "long-text" },
+      "render": {
+        "label": "{position}",
+        "contentHint": "long-text"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Text bricht bei max-width um. Zeilenhoehe 1.4 muss Lesbarkeit sicherstellen."
@@ -215,12 +367,23 @@
       "label": "Hover Intent Delay",
       "description": "300ms Verzoegerung verhindert 'Tooltip-Terror' — Tooltip erscheint erst bei Absicht",
       "matrix": {
-        "axes": { "position": ["top"] },
-        "states": ["visible"]
+        "axes": {
+          "position": [
+            "top"
+          ]
+        },
+        "states": [
+          "visible"
+        ]
       },
-      "focusTokenGroups": ["animation"],
+      "focusTokenGroups": [
+        "animation"
+      ],
       "layout": "row",
-      "render": { "compositionType": "tooltip-hover-intent", "label": "hover-intent" },
+      "render": {
+        "compositionType": "tooltip-hover-intent",
+        "label": "hover-intent"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Delay: 300ms transition-delay. Verschwindet sofort (0ms Delay) bei Mausverlust."
@@ -231,11 +394,20 @@
       "label": "Hoverable Content (WCAG 1.4.13)",
       "description": "Nutzer kann mit Maus auf Tooltip fahren — Text kopierbar",
       "matrix": {
-        "axes": { "position": ["top"] },
-        "states": ["visible"]
+        "axes": {
+          "position": [
+            "top"
+          ]
+        },
+        "states": [
+          "visible"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "tooltip-hoverable", "label": "hoverable" },
+      "render": {
+        "compositionType": "tooltip-hoverable",
+        "label": "hoverable"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "WCAG 1.4.13: Tooltip bleibt offen wenn Maus auf Inhalt faehrt. pointer-events:auto im sichtbaren Zustand."
@@ -245,13 +417,24 @@
       "id": "on-disabled-trigger",
       "label": "Disabled Trigger",
       "description": "Tooltip auf deaktiviertem Button — Wrapper-Pattern",
-      "composes": ["button"],
+      "composes": [
+        "button"
+      ],
       "matrix": {
-        "axes": { "position": ["top"] },
-        "states": ["visible"]
+        "axes": {
+          "position": [
+            "top"
+          ]
+        },
+        "states": [
+          "visible"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "tooltip-disabled-trigger", "label": "disabled trigger" },
+      "render": {
+        "compositionType": "tooltip-disabled-trigger",
+        "label": "disabled trigger"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled Buttons brauchen Wrapper <span tabindex='0'> damit Tooltip per Keyboard erreichbar bleibt."

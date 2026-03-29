@@ -1,0 +1,121 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "video",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "media",
+      "object",
+      "interactive"
+    ],
+    "links": {
+      "docs": "/docs/video-docs"
+    },
+    "layer": "unknown",
+    "pipeline": {
+      "scss": [],
+      "story": null,
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/video-docs.html"
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".video-wrap"
+    },
+    "slots": [
+      {
+        "name": "media",
+        "element": "video | iframe",
+        "optional": false,
+        "description": "Video-Element oder Embed (YouTube, Vimeo)."
+      },
+      {
+        "name": "play-sign",
+        "element": ".play-sign",
+        "optional": true,
+        "description": "Play-Button Overlay fuer Click-to-Play."
+      },
+      {
+        "name": "open-button",
+        "element": ".open-button",
+        "optional": true,
+        "description": "Button zum Oeffnen des Video-Dialogs."
+      }
+    ],
+    "domNotes": [
+      "video-wrap als Wrapper fuer alle Video-Formate.",
+      "video-wrap-autoplay fuer Autoplay-Videos (ohne Play-Button).",
+      "Play-Sign ist ein zentrierter Play-Button mit Dark-Overlay.",
+      "Video-Dialog oeffnet sich als Fullscreen-Overlay."
+    ]
+  },
+  "axes": {
+    "behavior": {
+      "label": "Verhalten",
+      "description": "Video-Wiedergabeverhalten.",
+      "values": [
+        {
+          "value": "click-to-play",
+          "label": "Click to Play (Standard)",
+          "default": true
+        },
+        {
+          "value": "autoplay",
+          "modifier": "video-wrap-autoplay",
+          "label": "Autoplay (Loop, Muted)"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "playing",
+      "paused"
+    ],
+    "rules": []
+  },
+  "styling": {
+    "baseClasses": [
+      ".video-wrap"
+    ],
+    "tokenGroups": []
+  },
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Click to Play",
+      "matrix": {
+        "axes": {
+          "behavior": [
+            "click-to-play"
+          ]
+        }
+      }
+    },
+    {
+      "id": "autoplay",
+      "label": "Autoplay",
+      "matrix": {
+        "axes": {
+          "behavior": [
+            "autoplay"
+          ]
+        }
+      }
+    }
+  ],
+  "a11y": {
+    "base": {
+      "role": null,
+      "assertions": [
+        "Video-Element muss Untertitel als track-Element haben (WCAG 1.2.2).",
+        "Autoplay-Videos muessen muted sein (WCAG 1.4.2).",
+        "Play-Button muss per Tastatur erreichbar sein."
+      ]
+    }
+  }
+}

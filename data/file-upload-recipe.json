@@ -5,29 +5,95 @@
     "component": "file-upload",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "upload"],
+    "tags": [
+      "interactive",
+      "form",
+      "upload"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/file-upload-docs"
-    }
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_file-upload.scss"
+      ],
+      "story": "stories/organisms/file-upload.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/file-upload-docs.html"
+    },
+    "dependencies": [
+      "button"
+    ]
   },
-
   "anatomy": {
-    "root": { "element": ".nc-file-upload" },
+    "root": {
+      "element": ".nc-file-upload"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-file-upload__icon", "optional": true },
-      { "name": "text", "element": ".nc-file-upload__text", "optional": false },
-      { "name": "subtext", "element": ".nc-file-upload__subtext", "optional": true },
-      { "name": "button", "element": ".nc-file-upload__button", "optional": true },
-      { "name": "input", "element": ".nc-file-upload__input", "optional": false },
-      { "name": "list", "element": ".nc-file-upload-list", "optional": true },
-      { "name": "list-item", "element": ".nc-file-upload-list__item", "optional": true },
-      { "name": "list-icon", "element": ".nc-file-upload-list__icon", "optional": true },
-      { "name": "list-name", "element": ".nc-file-upload-list__name", "optional": true },
-      { "name": "list-size", "element": ".nc-file-upload-list__size", "optional": true },
-      { "name": "list-remove", "element": ".nc-file-upload-list__remove", "optional": true },
-      { "name": "list-progress", "element": ".nc-file-upload-list__progress", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-file-upload__icon",
+        "optional": true
+      },
+      {
+        "name": "text",
+        "element": ".nc-file-upload__text",
+        "optional": false
+      },
+      {
+        "name": "subtext",
+        "element": ".nc-file-upload__subtext",
+        "optional": true
+      },
+      {
+        "name": "button",
+        "element": ".nc-file-upload__button",
+        "optional": true
+      },
+      {
+        "name": "input",
+        "element": ".nc-file-upload__input",
+        "optional": false
+      },
+      {
+        "name": "list",
+        "element": ".nc-file-upload-list",
+        "optional": true
+      },
+      {
+        "name": "list-item",
+        "element": ".nc-file-upload-list__item",
+        "optional": true
+      },
+      {
+        "name": "list-icon",
+        "element": ".nc-file-upload-list__icon",
+        "optional": true
+      },
+      {
+        "name": "list-name",
+        "element": ".nc-file-upload-list__name",
+        "optional": true
+      },
+      {
+        "name": "list-size",
+        "element": ".nc-file-upload-list__size",
+        "optional": true
+      },
+      {
+        "name": "list-remove",
+        "element": ".nc-file-upload-list__remove",
+        "optional": true
+      },
+      {
+        "name": "list-progress",
+        "element": ".nc-file-upload-list__progress",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -48,74 +114,181 @@
       "Progress-Bar: 3px, interactive-default Farbe, border-radius-full."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Variante — default (Dropzone mit Icon/Text), compact (kompakte Zeile mit Button)",
       "values": {
-        "default": { "modifier": null,                        "tokenGroups": [], "renderHint": "file-upload-default" },
-        "compact": { "modifier": "nc-file-upload--compact",   "tokenGroups": [], "renderHint": "file-upload-compact" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "file-upload-default"
+        },
+        "compact": {
+          "modifier": "nc-file-upload--compact",
+          "tokenGroups": [],
+          "renderHint": "file-upload-compact"
+        }
       }
     },
-
     "validation": {
       "label": "Validation",
       "description": "Validierungs-State — none (Standard), error (roter Rand)",
       "values": {
-        "none":  { "modifier": null,                        "tokenGroups": [], "renderHint": "file-upload-valid" },
-        "error": { "modifier": "nc-file-upload--error",     "tokenGroups": [], "renderHint": "file-upload-error" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "file-upload-valid"
+        },
+        "error": {
+          "modifier": "nc-file-upload--error",
+          "tokenGroups": [],
+          "renderHint": "file-upload-error"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — dropzone-only (nur Dropzone), with-list (Dropzone + Dateiliste), with-progress (Dateiliste mit Upload-Fortschritt)",
       "values": {
-        "dropzone-only": { "modifier": null, "tokenGroups": [], "renderHint": "file-upload-dropzone" },
-        "with-list":     { "modifier": null, "tokenGroups": [], "slotConfig": { "list": true, "list-item": true, "list-icon": true, "list-name": true, "list-size": true, "list-remove": true }, "renderHint": "file-upload-with-list" },
-        "with-progress": { "modifier": null, "tokenGroups": [], "slotConfig": { "list": true, "list-item": true, "list-icon": true, "list-name": true, "list-size": true, "list-remove": true, "list-progress": true }, "renderHint": "file-upload-with-progress" }
+        "dropzone-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "file-upload-dropzone"
+        },
+        "with-list": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "list": true,
+            "list-item": true,
+            "list-icon": true,
+            "list-name": true,
+            "list-size": true,
+            "list-remove": true
+          },
+          "renderHint": "file-upload-with-list"
+        },
+        "with-progress": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "list": true,
+            "list-item": true,
+            "list-icon": true,
+            "list-name": true,
+            "list-size": true,
+            "list-remove": true,
+            "list-progress": true
+          },
+          "renderHint": "file-upload-with-progress"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus", "dragging", "disabled"],
-    "precedence": ["disabled", "dragging", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "dragging",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "dragging",
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["disabled"],              "note": "Hover: border-hover + bg-hover auf der Dropzone." },
-      { "state": "focus", "unless": ["disabled"],              "note": "Focus: focus-ring + border-hover auf der Dropzone via :focus-visible." },
-      { "state": "dragging", "unless": ["disabled"],           "note": "Dragging: border-hover + bg-hover + 2px Border. Via JS Drag-Events gesteuert." },
-      { "state": "disabled", "unless": [],                     "note": "Disabled: opacity-disabled, cursor not-allowed, pointer-events none, disabled-bg." }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Hover: border-hover + bg-hover auf der Dropzone."
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus: focus-ring + border-hover auf der Dropzone via :focus-visible."
+      },
+      {
+        "state": "dragging",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Dragging: border-hover + bg-hover + 2px Border. Via JS Drag-Events gesteuert."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: opacity-disabled, cursor not-allowed, pointer-events none, disabled-bg."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Dropzone: role='button', tabindex='0', aria-label (z.B. 'Dateien hochladen'). <input type='file'> bleibt im DOM (sr-only) fuer native File-Picker. Keyboard: Enter/Space oeffnet File-Picker. Dateiliste: role='list'. Remove-Button: aria-label='Datei entfernen: {name}'."
     },
     "overrides": [
       {
-        "when": { "axes": { "validation": ["error"] } },
-        "suggest": ["aria-invalid", "aria-describedby"],
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
         "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby (z.B. 'Datei zu gross')."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "Disabled: disabled-Attribut auf dem Input. Dropzone: aria-disabled='true'."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Dropzone braucht aria-label (z.B. 'Dateien hochladen, Drag and Drop oder Durchsuchen')."] },
-      { "when": {}, "require": ["file-input"], "notes": ["<input type='file'> muss im DOM bleiben (sr-only) fuer native Dateiauswahl und Screen Reader."] }
+      {
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Dropzone braucht aria-label (z.B. 'Dateien hochladen, Drag and Drop oder Durchsuchen')."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "file-input"
+        ],
+        "notes": [
+          "<input type='file'> muss im DOM bleiben (sr-only) fuer native Dateiauswahl und Screen Reader."
+        ]
+      }
     ],
     "copy": {
       "text": {
@@ -128,11 +301,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-file-upload"],
-    "baseTokenGroups": ["dropzone", "icon"],
-
+    "baseClasses": [
+      "nc-file-upload"
+    ],
+    "baseTokenGroups": [
+      "dropzone",
+      "icon"
+    ],
     "tokenGroups": {
       "dropzone": {
         "label": "Dropzone",
@@ -155,12 +331,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -175,18 +358,35 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States",
       "description": "Dropzone in allen Zustaenden: default, hover, focus, dragging, disabled",
       "matrix": {
-        "axes": { "variant": ["default"], "validation": ["none"], "content": ["dropzone-only"] },
-        "states": ["default", "hover", "focus", "dragging", "disabled"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "dropzone-only"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "dragging",
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Text 4.5:1 gegen Dropzone-BG. Border 3:1 gegen Hintergrund. Focus-Ring sichtbar. Dragging: visuelles Feedback."
@@ -197,12 +397,26 @@
       "label": "Variant Comparison",
       "description": "Default Dropzone vs Compact Variante",
       "matrix": {
-        "axes": { "variant": "*", "validation": ["none"], "content": ["dropzone-only"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "dropzone-only"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Compact: Gleiche A11y wie Default. Icon kleiner, Subtext hidden — aber aria-label unveraendert."
@@ -213,11 +427,26 @@
       "label": "With File List",
       "description": "Dropzone mit angehaengter Dateiliste (hochgeladene Dateien)",
       "matrix": {
-        "axes": { "variant": ["default"], "validation": ["none"], "content": ["with-list"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "with-list"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "file-upload-with-list", "label": "with-list" },
+      "render": {
+        "compositionType": "file-upload-with-list",
+        "label": "with-list"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Liste: role='list'. Remove-Button: aria-label='Datei entfernen: {Dateiname}'. Dateiname ellipsis rein visuell — voller Name im DOM."
@@ -228,11 +457,26 @@
       "label": "With Upload Progress",
       "description": "Dateiliste mit Upload-Fortschrittsbalken",
       "matrix": {
-        "axes": { "variant": ["default"], "validation": ["none"], "content": ["with-progress"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "with-progress"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "file-upload-progress", "label": "progress" },
+      "render": {
+        "compositionType": "file-upload-progress",
+        "label": "progress"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Progress-Bar: role='progressbar', aria-valuenow, aria-valuemin='0', aria-valuemax='100'. Uploading-Item: aria-busy='true'."
@@ -243,11 +487,26 @@
       "label": "Error States",
       "description": "Dropzone-Error und einzelne Datei-Error im Vergleich",
       "matrix": {
-        "axes": { "variant": ["default"], "validation": ["error"], "content": ["with-list"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "validation": [
+            "error"
+          ],
+          "content": [
+            "with-list"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "file-upload-errors", "label": "error" },
+      "render": {
+        "compositionType": "file-upload-errors",
+        "label": "error"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Dropzone-Error: aria-invalid='true'. Datei-Error: Item mit border-error + bg-danger. Fehlermeldung via aria-describedby."
@@ -258,11 +517,26 @@
       "label": "Compact with List",
       "description": "Kompakte Variante mit Dateiliste — platzsparend fuer Formulare",
       "matrix": {
-        "axes": { "variant": ["compact"], "validation": ["none"], "content": ["with-list"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "compact"
+          ],
+          "validation": [
+            "none"
+          ],
+          "content": [
+            "with-list"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "file-upload-compact-list", "label": "compact+list" },
+      "render": {
+        "compositionType": "file-upload-compact-list",
+        "label": "compact+list"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Gleiche A11y wie Default+List. Kompaktere Darstellung aendert nichts an Zugaenglichkeit."

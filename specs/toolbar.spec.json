@@ -1,0 +1,372 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "toolbar",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "interactive",
+    "layout",
+    "action",
+    "editor"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-toolbar",
+    "slots": [
+      {
+        "name": "group",
+        "selector": ".nc-toolbar__group",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "separator",
+        "selector": ".nc-toolbar__separator",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "spacer",
+        "selector": ".nc-toolbar__spacer",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-toolbar__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "overflow-trigger",
+        "selector": ".nc-toolbar__overflow-trigger",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: role='toolbar', aria-label. Flex-Layout, flex-wrap, min-height 48px.",
+      "Group: Logische Zusammenfassung von Buttons/Inputs. Flex-Row mit gap.",
+      "Group--end: margin-inline-start:auto — drueckt Gruppe ans rechte Ende.",
+      "Spacer: flex:1 — flexibler Abstand zwischen Gruppen.",
+      "Separator: Vertikale Trennlinie, feste Hoehe (24px), align-self:center. Dekorativ (aria-hidden).",
+      "Label: Optionaler Text (z.B. 'Filter:', 'Ansicht:'), user-select:none.",
+      "Overflow-Trigger: Button fuer Priority-Based Overflow, oeffnet Dropdown mit ausgeblendeten Items.",
+      "Bordered: Border + Radius um die gesamte Toolbar.",
+      "Border-Bottom: Nur untere Grenzlinie (z.B. unter Header).",
+      "Floating: Card-aehnlich mit surface-elevated BG, Shadow, groesserem Radius. Ideal fuer Canvas-Editoren.",
+      "Blurred: Glassmorphism — halbtransparenter BG + backdrop-filter:blur. Fuer Shell-Integration.",
+      "Compact: 32px Desktop / 48px Mobile (Touch-Target Compliance).",
+      "Sticky: position:sticky, top:0. Schatten via .is-scrolled Klasse (JS-gesteuert).",
+      "Alignment: --align-center (zentriert), --align-justify (space-between)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (ohne Border), bordered (Rahmen), border-bottom (untere Linie), floating (Card mit Shadow), blurred (Glassmorphism)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "bordered",
+          "cssModifier": "nc-toolbar--bordered",
+          "default": false,
+          "label": "bordered"
+        },
+        {
+          "value": "border-bottom",
+          "cssModifier": "nc-toolbar--border-bottom",
+          "default": false,
+          "label": "border-bottom"
+        },
+        {
+          "value": "floating",
+          "cssModifier": "nc-toolbar--floating",
+          "default": false,
+          "label": "floating"
+        },
+        {
+          "value": "blurred",
+          "cssModifier": "nc-toolbar--blurred",
+          "default": false,
+          "label": "blurred"
+        }
+      ]
+    },
+    "density": {
+      "label": "Density",
+      "description": "Informationsdichte — default (48px), compact (32px Desktop / 48px Mobile)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-toolbar--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Ausrichtung der Gruppen — start (links), center (zentriert), justify (gleichmaessig verteilt)",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-toolbar--align-center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "justify",
+          "cssModifier": "nc-toolbar--align-justify",
+          "default": false,
+          "label": "justify"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — buttons-only, with-separator, with-spacer, with-label, full (alle Elemente)",
+      "values": [
+        {
+          "value": "buttons-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "buttons-only"
+        },
+        {
+          "value": "with-separator",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-separator"
+        },
+        {
+          "value": "with-spacer",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-spacer"
+        },
+        {
+          "value": "with-label",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-label"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "sticky": {
+      "label": "Sticky",
+      "description": "Sticky-Verhalten — none (normal), sticky (haftet unter Navbar mit Scroll-Shadow)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "sticky",
+          "cssModifier": "nc-toolbar--sticky",
+          "default": false,
+          "label": "sticky"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "scrolled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "scrolled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-toolbar"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-toolbar-height"
+        },
+        {
+          "token": "nc-toolbar-padding"
+        },
+        {
+          "token": "nc-toolbar-gap"
+        },
+        {
+          "token": "nc-toolbar-bg"
+        },
+        {
+          "token": "nc-toolbar-border"
+        },
+        {
+          "token": "nc-toolbar-border-width"
+        },
+        {
+          "token": "nc-toolbar-radius"
+        }
+      ],
+      "Separator": [
+        {
+          "token": "nc-toolbar-separator-color"
+        },
+        {
+          "token": "nc-toolbar-separator-width"
+        },
+        {
+          "token": "nc-toolbar-separator-margin"
+        },
+        {
+          "token": "nc-toolbar-separator-height"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-toolbar-label-color"
+        },
+        {
+          "token": "nc-toolbar-label-size"
+        },
+        {
+          "token": "nc-toolbar-label-weight"
+        }
+      ],
+      "Compact": [
+        {
+          "token": "nc-toolbar-compact-height"
+        },
+        {
+          "token": "nc-toolbar-compact-gap"
+        },
+        {
+          "token": "nc-toolbar-compact-padding"
+        }
+      ],
+      "Floating": [
+        {
+          "token": "nc-toolbar-floating-bg"
+        },
+        {
+          "token": "nc-toolbar-floating-radius"
+        },
+        {
+          "token": "nc-toolbar-floating-shadow"
+        },
+        {
+          "token": "nc-toolbar-floating-border"
+        }
+      ],
+      "Blurred (Glassmorphism)": [
+        {
+          "token": "nc-toolbar-blurred-bg"
+        },
+        {
+          "token": "nc-toolbar-blurred-blur"
+        },
+        {
+          "token": "nc-toolbar-blurred-border"
+        }
+      ],
+      "Sticky": [
+        {
+          "token": "nc-toolbar-sticky-shadow"
+        },
+        {
+          "token": "nc-toolbar-sticky-z-index"
+        }
+      ],
+      "Overflow": [
+        {
+          "token": "nc-toolbar-overflow-trigger-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "density": [
+              "compact"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "touch-target"
+        ],
+        "note": "Compact: Buttons mindestens 24px Target auf Desktop. Mobile: automatisch 48px via CSS Override."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "blurred"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Blurred: Kontrast der Inhalte gegen wechselnden Hintergrund pruefen. Fallback auf solide Farbe bei prefers-contrast:more."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_toolbar.scss"
+    ],
+    "story": "stories/organisms/toolbar.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ToolbarArena.vue",
+    "drupal": [],
+    "docs": "docs/toolbar-docs.html"
+  }
+}

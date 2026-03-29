@@ -1,0 +1,233 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "otp-input",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "form",
+    "verification"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-otp-input",
+    "slots": [
+      {
+        "name": "cell",
+        "selector": ".nc-otp-input__cell",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "separator",
+        "selector": ".nc-otp-input__separator",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Inline-Flex Container mit einzelnen Input-Zellen (maxlength=1).",
+      "Jede Zelle: quadratisch (48px default), zentrierter Text, Monospace-Charakter.",
+      "Border via --nc-input-border-width (shared Input-Token).",
+      "Placeholder, Selection, Hover, Focus, Disabled erben Input-Token-Werte.",
+      "Spinner entfernt via ::-webkit-inner-spin-button + -moz-appearance: textfield.",
+      "Separator: optionaler Bindestrich zwischen Zellen-Gruppen (z.B. 3+3 Format).",
+      "Filled-State: __cell--filled Modifier via JS — border-color wechselt zu focus-Farbe.",
+      "Auto-Focus auf naechste Zelle bei Eingabe (JS-gesteuert).",
+      "Forced-Colors: 1px solid ButtonText, Focus: Highlight.",
+      "prefers-reduced-motion: Transitions deaktiviert."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groesse der Zellen — sm (Input-Height-MD), md (48px, Standard), lg (60px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-otp-input--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-otp-input--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none (Standard), error (roter Rand), success (gruener Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-otp-input--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-otp-input--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvariante — plain (nur Zellen), with-separator (Zellen mit Trennzeichen)",
+      "values": [
+        {
+          "value": "plain",
+          "cssModifier": null,
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "with-separator",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-separator"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "filled",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "filled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-otp-input"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-otp-cell-size"
+        },
+        {
+          "token": "nc-otp-cell-gap"
+        },
+        {
+          "token": "nc-otp-cell-radius"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-otp-cell-font-size"
+        },
+        {
+          "token": "nc-otp-cell-font-weight"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-otp-cell-border"
+        },
+        {
+          "token": "nc-otp-cell-border-focus"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error: aria-invalid='true' auf dem Container oder jeder Zelle. Fehlermeldung via aria-describedby."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf jeder Zelle. Container ggf. aria-disabled='true'."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_otp-input.scss"
+    ],
+    "story": "stories/molecules/otp-input.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/otp-input-docs.html"
+  }
+}

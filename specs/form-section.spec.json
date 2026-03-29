@@ -1,0 +1,152 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-section",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "form",
+    "layout",
+    "grouping"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-section",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-form-section__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-form-section__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-form-section__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-form-section__content",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Logische Gruppierung innerhalb eines Formulars mit optionalem Titel + Beschreibung.",
+      "Root: flex-column, gap via nc-form-gap. Aufeinanderfolgende Sections: margin-top section-gap.",
+      "Header: flex-column, Titel (H2/H3) + Beschreibung. margin-bottom spacing-02.",
+      "Content: flex-column mit nc-form-gap, enthaelt .nc-form-field Kinder.",
+      "Bordered: border-top + padding-top. Erste Section: keine Border.",
+      "Compact: reduzierte Abstaende (spacing-03 statt spacing-06).",
+      "Trennlinie: .nc-form-divider als eigenstaendiges <hr>-Element."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Variante — default (ohne Trennlinie), bordered (border-top), compact (weniger Abstand)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "bordered",
+          "cssModifier": "nc-form-section--bordered",
+          "default": false,
+          "label": "bordered"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-form-section--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt — fields-only (nur Fields), with-header (Titel + Beschreibung + Fields), with-title (nur Titel + Fields)",
+      "values": [
+        {
+          "value": "fields-only",
+          "cssModifier": null,
+          "default": false,
+          "label": "fields-only"
+        },
+        {
+          "value": "with-header",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-header"
+        },
+        {
+          "value": "with-title",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-title"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-section"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-form-section-gap"
+        },
+        {
+          "token": "nc-form-gap"
+        },
+        {
+          "token": "nc-form-divider-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": []
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_form-section.scss"
+    ],
+    "story": "stories/organisms/form-section.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

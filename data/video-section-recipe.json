@@ -5,18 +5,65 @@
     "component": "video-section",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "media", "content"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/video-section-docs" }
+    "tags": [
+      "display",
+      "media",
+      "content"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/video-section-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_video-section.scss"
+      ],
+      "story": "stories/organisms/video-section.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/video-section-docs.html"
+    },
+    "dependencies": [
+      "video"
+    ]
   },
   "anatomy": {
-    "root": { "element": ".nc-video" },
+    "root": {
+      "element": ".nc-video"
+    },
     "slots": [
-      { "name": "media", "element": ".nc-video__media", "optional": false },
-      { "name": "content", "element": ".nc-video__content", "optional": false },
-      { "name": "title", "element": ".nc-video__title", "optional": true },
-      { "name": "text", "element": ".nc-video__text", "optional": true },
-      { "name": "overlay", "element": ".nc-video__overlay", "optional": true },
-      { "name": "overlay-icon", "element": ".nc-video__overlay-icon", "optional": true }
+      {
+        "name": "media",
+        "element": ".nc-video__media",
+        "optional": false
+      },
+      {
+        "name": "content",
+        "element": ".nc-video__content",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-video__title",
+        "optional": true
+      },
+      {
+        "name": "text",
+        "element": ".nc-video__text",
+        "optional": true
+      },
+      {
+        "name": "overlay",
+        "element": ".nc-video__overlay",
+        "optional": true
+      },
+      {
+        "name": "overlay-icon",
+        "element": ".nc-video__overlay-icon",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -31,15 +78,28 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "video-section-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "video-section-default"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "playing"],
-    "precedence": ["playing", "default"],
+    "supported": [
+      "default",
+      "playing"
+    ],
+    "precedence": [
+      "playing",
+      "default"
+    ],
     "rules": [
-      { "state": "playing", "condition": ".is-playing auf media-Element" }
+      {
+        "state": "playing",
+        "condition": ".is-playing auf media-Element"
+      }
     ],
     "interactive": true
   },
@@ -52,27 +112,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-video"],
+    "baseClasses": [
+      "nc-video"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Video Section",
+      "id": "default",
+      "label": "Video Section",
       "description": "Video mit Content und Play-Overlay",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "video-section" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Play-Button: aria-label. Video: captions." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "video-section"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Play-Button: aria-label. Video: captions."
+      }
     }
   ]
 }

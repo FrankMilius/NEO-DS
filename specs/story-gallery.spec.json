@@ -1,0 +1,116 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "story-gallery",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "gallery",
+    "scroll",
+    "cards"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-story-gallery",
+    "slots": [],
+    "notes": [
+      "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-story-gallery"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-story-gallery-card-height"
+        },
+        {
+          "token": "nc-story-gallery-gap"
+        },
+        {
+          "token": "nc-story-gallery-radius"
+        },
+        {
+          "token": "nc-story-gallery-headline-size"
+        }
+      ],
+      "Title": [
+        {
+          "token": "nc-story-gallery-title-size"
+        },
+        {
+          "token": "nc-story-gallery-title-weight"
+        },
+        {
+          "token": "nc-story-gallery-title-color"
+        }
+      ],
+      "Description": [
+        {
+          "token": "nc-story-gallery-desc-size"
+        },
+        {
+          "token": "nc-story-gallery-desc-color"
+        }
+      ],
+      "Paddles": [
+        {
+          "token": "nc-story-gallery-paddle-size"
+        },
+        {
+          "token": "nc-story-gallery-paddle-bg"
+        },
+        {
+          "token": "nc-story-gallery-paddle-shadow"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/story-gallery.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-story-gallery.html.twig",
+      "block--inline-block--neo-story-gallery.html.twig"
+    ],
+    "docs": null
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-label",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "text",
+    "label",
+    "accessibility"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-label",
+    "slots": [
+      {
+        "name": "text",
+        "selector": ".nc-form-label__text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "required",
+        "selector": ".nc-form-label__required",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "optional",
+        "selector": ".nc-form-label__optional",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "info",
+        "selector": ".nc-form-label__info",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Semantisch ein <label for='input-id'> Element.",
+      "Flexbox-Layout: Text + Indicator + Info-Icon inline, align-items: baseline.",
+      "margin-bottom via --nc-form-label-gap — Abstand zum darunterliegenden Input.",
+      "Required-Sternchen ('*'): aria-hidden='true' — Screen Reader liest aria-required am Input.",
+      "Optional-Text ('(Optional)'): kleiner, leichteres Gewicht, tertiaere Farbe.",
+      "Info-Icon: <button> mit aria-label, oeffnet Tooltip bei Click/Hover. Fokussierbar via Tab.",
+      "cursor: pointer — Klick auf Label fokussiert den verknuepften Input.",
+      "Klickbereich: padding-block + min-height vergroessern den Touch-Target (Fitts' Law, WCAG 2.5.8 Target Size).",
+      "Im .nc-form-field Wrapper wird margin-bottom: 0 gesetzt (gap uebernimmt)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "indicator": {
+      "label": "Indicator",
+      "description": "Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "required",
+          "cssModifier": null,
+          "default": false,
+          "label": "required"
+        },
+        {
+          "value": "optional",
+          "cssModifier": null,
+          "default": false,
+          "label": "optional"
+        },
+        {
+          "value": "info",
+          "cssModifier": null,
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Typografie-Hierarchie — sm (kompakt), md (Standard), emphasis (hervorgehoben fuer Section-Labels)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-form-label--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "emphasis",
+          "cssModifier": "nc-form-label--emphasis",
+          "default": false,
+          "label": "emphasis"
+        }
+      ]
+    },
+    "layout": {
+      "label": "Layout",
+      "description": "Layout-Variante — block (Standard, Label ueber Input), inline (Label neben Input)",
+      "values": [
+        {
+          "value": "block",
+          "cssModifier": null,
+          "default": false,
+          "label": "block"
+        },
+        {
+          "value": "inline",
+          "cssModifier": "nc-form-label--inline",
+          "default": false,
+          "label": "inline"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-label"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-form-label-font-size"
+        },
+        {
+          "token": "nc-form-label-font-weight"
+        },
+        {
+          "token": "nc-form-label-gap"
+        },
+        {
+          "token": "nc-form-label-padding-block"
+        },
+        {
+          "token": "nc-form-label-min-height"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-form-label-color"
+        },
+        {
+          "token": "nc-form-label-required-color"
+        },
+        {
+          "token": "nc-form-label-optional-color"
+        },
+        {
+          "token": "nc-form-label-info-color"
+        }
+      ],
+      "Size SM Overrides": [
+        {
+          "token": "nc-form-label-sm-font-size"
+        },
+        {
+          "token": "nc-form-label-sm-font-weight"
+        }
+      ],
+      "Size Emphasis Overrides": [
+        {
+          "token": "nc-form-label-emphasis-font-size"
+        },
+        {
+          "token": "nc-form-label-emphasis-font-weight"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "indicator": [
+              "required"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-hidden"
+        ],
+        "note": "Required-Indikator ('*') muss aria-hidden='true' haben. Pflichtfeld-Semantik liegt auf dem Input (aria-required='true')."
+      },
+      {
+        "when": {
+          "axes": {
+            "indicator": [
+              "info"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-label",
+          "aria-describedby"
+        ],
+        "note": "Info-Icon ist ein <button> mit aria-label='Hilfe zu {Feldname}'. Tooltip-Inhalt ist via aria-describedby verknuepft oder wird als role='tooltip' angezeigt. Icon selbst ist aria-hidden='true' — der Button traegt den Accessible Name."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Disabled-Label benoetigt keine eigene ARIA-Annotation — der Disabled-State liegt auf dem Input. Info-Button erhaelt tabindex='-1' und aria-disabled='true'."
+      }
+    ]
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_form-label.scss"
+    ],
+    "story": "stories/molecules/form-label.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

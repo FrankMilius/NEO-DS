@@ -1,0 +1,110 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "hero-tom",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "hero",
+    "display",
+    "parallax"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-hero-tom",
+    "slots": [],
+    "notes": [
+      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-hero-tom"
+    ],
+    "tokenGroups": {
+      "Kicker": [
+        {
+          "token": "nc-hero-tom-kicker-size"
+        },
+        {
+          "token": "nc-hero-tom-kicker-weight"
+        }
+      ],
+      "Headline": [
+        {
+          "token": "nc-hero-tom-headline-size"
+        },
+        {
+          "token": "nc-hero-tom-headline-weight"
+        }
+      ],
+      "Subtext": [
+        {
+          "token": "nc-hero-tom-subtext-size"
+        },
+        {
+          "token": "nc-hero-tom-subtext-opacity"
+        },
+        {
+          "token": "nc-hero-tom-content-max-width"
+        }
+      ],
+      "Scrim": [
+        {
+          "token": "nc-hero-tom-scrim-color"
+        }
+      ],
+      "Expand": [
+        {
+          "token": "nc-hero-tom-expand-radius"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [
+    "hero"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/hero-tom.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-hero-tom.html.twig",
+      "block--inline-block--neo-hero-tom.html.twig"
+    ],
+    "docs": null
+  }
+}

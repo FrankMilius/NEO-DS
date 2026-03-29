@@ -23,7 +23,15 @@
           "Canvas-basiertes psychedelisches Hintergrundmuster mit konfigurierbaren Formen, Maus-Effekten, Farbmodi und Regionsbegrenzung."
         ]
       }
-    ]
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [],
+      "story": "stories/organisms/psychedelic-bg.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/PsychedelicBgArena.vue",
+      "drupal": [],
+      "docs": null
+    }
   },
   "anatomy": {
     "root": {
@@ -49,37 +57,58 @@
       "values": {
         "lines": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Parallele Linien mit Sinus-Verzerrung (Moire-Effekt)"
         },
         "circles": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Konzentrische Kreise mit Wellenverzerrung"
         },
         "squares": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Raster aus Quadraten mit Groessen-/Rotationsmodulation"
         },
         "rectangles": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Raster aus Rechtecken mit Aspect-Ratio-Modulation"
         },
         "dots": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Punktmatrix mit Groessenmodulation (Halftone-Effekt)"
         },
         "triangles": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Dreieck-Tessellation mit Rotationsverzerrung"
         },
         "waves": {
           "modifier": null,
-          "tokenGroups": ["pattern", "density"],
+          "tokenGroups": [
+            "pattern",
+            "density"
+          ],
           "renderHint": "Ueberlagerte Sinuswellen (Lissajous-Muster)"
         }
       }
@@ -95,32 +124,44 @@
         },
         "lens": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Lupeneffekt — Muster wird im Mausbereich vergroessert"
         },
         "funnel": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Trichtereffekt — Muster wird spiralfoermig zum Cursor gezogen"
         },
         "distort": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Wellenverzerrung — Muster wird vom Cursor aus verzerrt"
         },
         "repel": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Abstossung — Muster wird vom Cursor weggedrueckt"
         },
         "attract": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Anziehung — Muster wird zum Cursor hingezogen"
         },
         "ripple": {
           "modifier": null,
-          "tokenGroups": ["mouse"],
+          "tokenGroups": [
+            "mouse"
+          ],
           "renderHint": "Wellenringe — konzentrische Wellen vom Cursor ausgehend"
         }
       }
@@ -131,17 +172,23 @@
       "values": {
         "mono": {
           "modifier": null,
-          "tokenGroups": ["colorMono"],
+          "tokenGroups": [
+            "colorMono"
+          ],
           "renderHint": "Einfarbiges Muster auf definiertem Hintergrund"
         },
         "palette": {
           "modifier": null,
-          "tokenGroups": ["colorPalette"],
+          "tokenGroups": [
+            "colorPalette"
+          ],
           "renderHint": "Mehrfarbiges Muster aus Farbpalette"
         },
         "gradient": {
           "modifier": null,
-          "tokenGroups": ["colorGradient"],
+          "tokenGroups": [
+            "colorGradient"
+          ],
           "renderHint": "Farbverlauf basierend auf Position/Distanz"
         }
       }
@@ -157,25 +204,37 @@
         },
         "horizontal": {
           "modifier": null,
-          "tokenGroups": ["regionCoords"],
+          "tokenGroups": [
+            "regionCoords"
+          ],
           "renderHint": "Horizontaler Streifen (y-Start bis y-Ende)"
         },
         "vertical": {
           "modifier": null,
-          "tokenGroups": ["regionCoords"],
+          "tokenGroups": [
+            "regionCoords"
+          ],
           "renderHint": "Vertikaler Streifen (x-Start bis x-Ende)"
         },
         "diagonal": {
           "modifier": null,
-          "tokenGroups": ["regionCoords"],
+          "tokenGroups": [
+            "regionCoords"
+          ],
           "renderHint": "Diagonaler Streifen von Start- zu Endpunkt"
         }
       }
     }
   },
   "states": {
-    "supported": ["default", "hover"],
-    "precedence": ["hover", "default"],
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "precedence": [
+      "hover",
+      "default"
+    ],
     "rules": [],
     "interactive": true
   },
@@ -199,8 +258,12 @@
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-psychedelic-bg"],
-    "baseTokenGroups": ["pattern"],
+    "baseClasses": [
+      "nc-psychedelic-bg"
+    ],
+    "baseTokenGroups": [
+      "pattern"
+    ],
     "tokenGroups": {
       "pattern": {
         "label": "Muster",
@@ -267,12 +330,23 @@
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
     },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
@@ -282,14 +356,30 @@
       "description": "Dichte parallele Linien mit Sinusverzerrung, erzeugen ein Fingerabdruck-artiges Moire-Muster. Inspiriert von neocon.com.",
       "matrix": {
         "axes": {
-          "shape": ["lines"],
-          "mouseEffect": ["lens"],
-          "colorMode": ["mono"],
-          "region": ["full"]
+          "shape": [
+            "lines"
+          ],
+          "mouseEffect": [
+            "lens"
+          ],
+          "colorMode": [
+            "mono"
+          ],
+          "region": [
+            "full"
+          ]
         },
-        "states": ["default", "hover"]
+        "states": [
+          "default",
+          "hover"
+        ]
       },
-      "focusTokenGroups": ["pattern", "density", "mouse", "colorMono"],
+      "focusTokenGroups": [
+        "pattern",
+        "density",
+        "mouse",
+        "colorMono"
+      ],
       "layout": "single",
       "render": {
         "compositionType": "psychedelic-bg-neocon",
@@ -306,14 +396,30 @@
       "description": "Punktmatrix mit groessenmodulierter Verzerrung am Cursor.",
       "matrix": {
         "axes": {
-          "shape": ["dots"],
-          "mouseEffect": ["distort"],
-          "colorMode": ["palette"],
-          "region": ["full"]
+          "shape": [
+            "dots"
+          ],
+          "mouseEffect": [
+            "distort"
+          ],
+          "colorMode": [
+            "palette"
+          ],
+          "region": [
+            "full"
+          ]
         },
-        "states": ["default", "hover"]
+        "states": [
+          "default",
+          "hover"
+        ]
       },
-      "focusTokenGroups": ["pattern", "density", "mouse", "colorPalette"],
+      "focusTokenGroups": [
+        "pattern",
+        "density",
+        "mouse",
+        "colorPalette"
+      ],
       "layout": "single",
       "render": {
         "compositionType": "psychedelic-bg-halftone",
@@ -330,14 +436,30 @@
       "description": "Konzentrische Kreise mit Wellenverzerrung und Ripple-Mauseffekt.",
       "matrix": {
         "axes": {
-          "shape": ["circles"],
-          "mouseEffect": ["ripple"],
-          "colorMode": ["gradient"],
-          "region": ["full"]
+          "shape": [
+            "circles"
+          ],
+          "mouseEffect": [
+            "ripple"
+          ],
+          "colorMode": [
+            "gradient"
+          ],
+          "region": [
+            "full"
+          ]
         },
-        "states": ["default", "hover"]
+        "states": [
+          "default",
+          "hover"
+        ]
       },
-      "focusTokenGroups": ["pattern", "density", "mouse", "colorGradient"],
+      "focusTokenGroups": [
+        "pattern",
+        "density",
+        "mouse",
+        "colorGradient"
+      ],
       "layout": "single",
       "render": {
         "compositionType": "psychedelic-bg-concentric",
@@ -354,14 +476,30 @@
       "description": "Dreieck-Tessellation mit Funnel-Effekt am Cursor.",
       "matrix": {
         "axes": {
-          "shape": ["triangles"],
-          "mouseEffect": ["funnel"],
-          "colorMode": ["palette"],
-          "region": ["full"]
+          "shape": [
+            "triangles"
+          ],
+          "mouseEffect": [
+            "funnel"
+          ],
+          "colorMode": [
+            "palette"
+          ],
+          "region": [
+            "full"
+          ]
         },
-        "states": ["default", "hover"]
+        "states": [
+          "default",
+          "hover"
+        ]
       },
-      "focusTokenGroups": ["pattern", "density", "mouse", "colorPalette"],
+      "focusTokenGroups": [
+        "pattern",
+        "density",
+        "mouse",
+        "colorPalette"
+      ],
       "layout": "single",
       "render": {
         "compositionType": "psychedelic-bg-triangles",

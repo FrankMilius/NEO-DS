@@ -1,0 +1,110 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "text-media",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "content",
+    "media",
+    "split-layout"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-text-media",
+    "slots": [
+      {
+        "name": "media",
+        "selector": ".nc-text-media__media",
+        "required": true,
+        "description": "Video oder Bild."
+      },
+      {
+        "name": "content",
+        "selector": ".nc-text-media__content",
+        "required": true,
+        "description": "Headline, Subline, CTA."
+      }
+    ],
+    "notes": [
+      "Grid: 2 Spalten, media + content. Responsive: stacked auf mobile."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Media links oder rechts",
+      "values": [
+        {
+          "value": "media-left",
+          "cssModifier": null,
+          "default": false,
+          "label": "media-left"
+        },
+        {
+          "value": "media-right",
+          "cssModifier": "nc-text-media--reversed",
+          "default": false,
+          "label": "media-right"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-text-media"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-text-media-gap"
+        },
+        {
+          "token": "nc-text-media-headline-size"
+        },
+        {
+          "token": "nc-text-media-subline-color"
+        },
+        {
+          "token": "nc-text-media-content-gap"
+        },
+        {
+          "token": "nc-text-media-video-radius"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_text-media.scss"
+    ],
+    "story": "stories/organisms/text-media.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-text-media.html.twig",
+      "block--inline-block--neo-text-media.html.twig"
+    ],
+    "docs": null
+  }
+}

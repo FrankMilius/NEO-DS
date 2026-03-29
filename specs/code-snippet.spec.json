@@ -1,0 +1,503 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "code-snippet",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "content",
+    "code"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-code-snippet",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-code-snippet__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "pre",
+        "selector": ".nc-code-snippet__pre",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "code",
+        "selector": ".nc-code-snippet__code",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "line",
+        "selector": ".nc-code-snippet__line",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "copy",
+        "selector": ".nc-code-snippet__copy",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "show-more",
+        "selector": ".nc-code-snippet__show-more",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-code-snippet__label",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Inline: <code class='nc-code-snippet nc-code-snippet--inline'>. Kein Copy-Button.",
+      "Single: <div class='nc-code-snippet nc-code-snippet--single'><pre><code>. Copy-Button oben rechts.",
+      "Multi:  <div class='nc-code-snippet nc-code-snippet--multi'><pre><code>. Copy-Button + Show-More.",
+      "Copy-Button: aria-label='Code kopieren'. Dual-Icon Pattern (Copy → Check bei Erfolg).",
+      "Copy-Tooltip: .nc-code-snippet__copy-tooltip — erscheint bei Erfolg unter dem Copy-Button.",
+      "Show-More: aria-expanded='true/false'. Gradient-Fade im collapsed Zustand.",
+      "Header: optionale Titelleiste mit Dateiname. Plain/macOS/Window-Varianten.",
+      "macOS-Dots: .nc-code-snippet__header-dot--close/--minimize/--maximize. Dekorativ.",
+      "Zeilennummern: CSS-Counter auf .nc-code-snippet__line::before. user-select:none.",
+      "Zeilen-Highlight: .nc-code-snippet__line--highlighted — farbige Hervorhebung.",
+      "Wrap: white-space:pre-wrap statt horizontalem Scroll.",
+      "Sprach-Label (optional): Badge oben links mit Sprach-Kennung (z.B. 'HTML', 'SCSS').",
+      "Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Anzeige-Typ — inline (Fliesstext), single-line (Block, 1 Zeile), multi-line (Block, collapsible)",
+      "values": [
+        {
+          "value": "inline",
+          "cssModifier": "nc-code-snippet--inline",
+          "default": false,
+          "label": "inline"
+        },
+        {
+          "value": "single",
+          "cssModifier": "nc-code-snippet--single",
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "multi",
+          "cssModifier": "nc-code-snippet--multi",
+          "default": false,
+          "label": "multi"
+        }
+      ]
+    },
+    "header": {
+      "label": "Header",
+      "description": "Titelleisten-Stil — none (kein Header), plain (Dateiname), macos (Traffic-Light Dots), window (Fensterleiste)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "plain",
+          "cssModifier": "nc-code-snippet--header-plain",
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "macos",
+          "cssModifier": "nc-code-snippet--header-macos",
+          "default": false,
+          "label": "macos"
+        },
+        {
+          "value": "window",
+          "cssModifier": "nc-code-snippet--header-window",
+          "default": false,
+          "label": "window"
+        }
+      ]
+    },
+    "wrap": {
+      "label": "Line Wrapping",
+      "description": "Zeilenumbruch — none (horizontaler Scroll), wrap (Umbruch bei langen Zeilen)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "wrap",
+          "cssModifier": "nc-code-snippet--wrap",
+          "default": false,
+          "label": "wrap"
+        }
+      ]
+    },
+    "features": {
+      "label": "Features",
+      "description": "Zusaetzliche Funktionen — default, with-line-numbers (Zeilennummern), line-highlight (Zeilen hervorheben)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "with-line-numbers",
+          "cssModifier": "nc-code-snippet--with-line-numbers",
+          "default": false,
+          "label": "with-line-numbers"
+        },
+        {
+          "value": "line-highlight",
+          "cssModifier": "nc-code-snippet--line-highlight",
+          "default": false,
+          "label": "line-highlight"
+        }
+      ]
+    },
+    "syntax": {
+      "label": "Syntax",
+      "description": "Syntax-Highlighting aktivieren oder deaktivieren",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "highlighted",
+          "cssModifier": null,
+          "default": false,
+          "label": "highlighted"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "expanded"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "expanded",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-code-snippet"
+    ],
+    "tokenGroups": {
+      "Typography": [
+        {
+          "token": "nc-cs-font-family"
+        },
+        {
+          "token": "nc-cs-font-size"
+        },
+        {
+          "token": "nc-cs-line-height"
+        },
+        {
+          "token": "nc-cs-font-weight"
+        },
+        {
+          "token": "nc-cs-tab-size"
+        }
+      ],
+      "Block Surface": [
+        {
+          "token": "nc-cs-bg"
+        },
+        {
+          "token": "nc-cs-color"
+        },
+        {
+          "token": "nc-cs-border"
+        },
+        {
+          "token": "nc-cs-border-width"
+        },
+        {
+          "token": "nc-cs-radius"
+        },
+        {
+          "token": "nc-cs-padding"
+        },
+        {
+          "token": "nc-cs-padding-inline"
+        }
+      ],
+      "Inline": [
+        {
+          "token": "nc-cs-inline-bg"
+        },
+        {
+          "token": "nc-cs-inline-color"
+        },
+        {
+          "token": "nc-cs-inline-radius"
+        },
+        {
+          "token": "nc-cs-inline-padding-x"
+        },
+        {
+          "token": "nc-cs-inline-padding-y"
+        },
+        {
+          "token": "nc-cs-inline-font-size"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-cs-header-bg"
+        },
+        {
+          "token": "nc-cs-header-color"
+        },
+        {
+          "token": "nc-cs-header-height"
+        },
+        {
+          "token": "nc-cs-header-padding"
+        },
+        {
+          "token": "nc-cs-header-font-size"
+        },
+        {
+          "token": "nc-cs-header-font-weight"
+        },
+        {
+          "token": "nc-cs-header-border"
+        }
+      ],
+      "macOS Dots": [
+        {
+          "token": "nc-cs-header-dot-size"
+        },
+        {
+          "token": "nc-cs-header-dot-gap"
+        },
+        {
+          "token": "nc-cs-header-dot-close"
+        },
+        {
+          "token": "nc-cs-header-dot-minimize"
+        },
+        {
+          "token": "nc-cs-header-dot-maximize"
+        }
+      ],
+      "Line Numbers": [
+        {
+          "token": "nc-cs-line-numbers-color"
+        },
+        {
+          "token": "nc-cs-line-numbers-width"
+        },
+        {
+          "token": "nc-cs-line-numbers-padding"
+        },
+        {
+          "token": "nc-cs-line-numbers-border"
+        }
+      ],
+      "Line Highlight": [
+        {
+          "token": "nc-cs-line-highlight-bg"
+        },
+        {
+          "token": "nc-cs-line-highlight-border"
+        },
+        {
+          "token": "nc-cs-line-highlight-width"
+        }
+      ],
+      "Copy Button": [
+        {
+          "token": "nc-cs-copy-size"
+        },
+        {
+          "token": "nc-cs-copy-bg"
+        },
+        {
+          "token": "nc-cs-copy-bg-hover"
+        },
+        {
+          "token": "nc-cs-copy-color"
+        },
+        {
+          "token": "nc-cs-copy-color-hover"
+        },
+        {
+          "token": "nc-cs-copy-border"
+        },
+        {
+          "token": "nc-cs-copy-radius"
+        },
+        {
+          "token": "nc-cs-copy-icon-size"
+        },
+        {
+          "token": "nc-cs-copy-success-color"
+        }
+      ],
+      "Copy Tooltip": [
+        {
+          "token": "nc-cs-copy-tooltip-bg"
+        },
+        {
+          "token": "nc-cs-copy-tooltip-color"
+        },
+        {
+          "token": "nc-cs-copy-tooltip-radius"
+        },
+        {
+          "token": "nc-cs-copy-tooltip-font-size"
+        }
+      ],
+      "Show More": [
+        {
+          "token": "nc-cs-multi-max-height"
+        },
+        {
+          "token": "nc-cs-show-more-bg"
+        },
+        {
+          "token": "nc-cs-show-more-color"
+        },
+        {
+          "token": "nc-cs-show-more-font-size"
+        },
+        {
+          "token": "nc-cs-show-more-height"
+        }
+      ],
+      "Syntax Colors": [
+        {
+          "token": "nc-cs-syntax-comment"
+        },
+        {
+          "token": "nc-cs-syntax-keyword"
+        },
+        {
+          "token": "nc-cs-syntax-string"
+        },
+        {
+          "token": "nc-cs-syntax-number"
+        },
+        {
+          "token": "nc-cs-syntax-function"
+        },
+        {
+          "token": "nc-cs-syntax-operator"
+        },
+        {
+          "token": "nc-cs-syntax-class"
+        },
+        {
+          "token": "nc-cs-syntax-property"
+        },
+        {
+          "token": "nc-cs-syntax-tag"
+        },
+        {
+          "token": "nc-cs-syntax-attr-name"
+        },
+        {
+          "token": "nc-cs-syntax-attr-value"
+        },
+        {
+          "token": "nc-cs-syntax-selector"
+        },
+        {
+          "token": "nc-cs-syntax-punctuation"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "single",
+              "multi"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-label"
+        ],
+        "note": "Copy-Button braucht aria-label='Code kopieren'. Erfolgs-Feedback sollte ueber aria-live kommuniziert werden."
+      },
+      {
+        "when": {
+          "states": [
+            "expanded"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-expanded"
+        ],
+        "note": "Show-More-Button braucht aria-expanded='true/false'. Button-Text wechselt zwischen 'Mehr anzeigen' und 'Weniger anzeigen'."
+      },
+      {
+        "when": {
+          "axes": {
+            "features": [
+              "with-line-numbers"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Zeilennummern via CSS-Counter sind dekorativ (user-select:none). Screen Reader ignoriert sie."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_code-snippet.scss"
+    ],
+    "story": "stories/organisms/code-snippet.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/CodeSnippetArena.vue",
+    "drupal": [],
+    "docs": "docs/code-snippet-docs.html"
+  }
+}

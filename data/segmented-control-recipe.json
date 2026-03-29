@@ -5,7 +5,11 @@
     "component": "segmented-control",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["interactive", "navigation", "selection"],
+    "tags": [
+      "interactive",
+      "navigation",
+      "selection"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
@@ -20,16 +24,43 @@
           "C: Responsive Overflow — --scrollable Modifier fuer horizontalen Scroll. Constraint: >5 Segmente → Select-Dropdown empfohlen"
         ]
       }
-    ]
+    ],
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_segmented-control.scss"
+      ],
+      "story": "stories/organisms/segmented-control.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/SegmentedControlArena.vue",
+      "drupal": [],
+      "docs": "docs/segmented-control-docs.html"
+    }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-segmented-control" },
+    "root": {
+      "element": ".nc-segmented-control"
+    },
     "slots": [
-      { "name": "item",      "element": ".nc-segmented-control__item",      "optional": false },
-      { "name": "icon",      "element": ".nc-segmented-control__icon",      "optional": true },
-      { "name": "badge",     "element": ".nc-segmented-control__badge",     "optional": true },
-      { "name": "indicator", "element": ".nc-segmented-control__indicator", "optional": true }
+      {
+        "name": "item",
+        "element": ".nc-segmented-control__item",
+        "optional": false
+      },
+      {
+        "name": "icon",
+        "element": ".nc-segmented-control__icon",
+        "optional": true
+      },
+      {
+        "name": "badge",
+        "element": ".nc-segmented-control__badge",
+        "optional": true
+      },
+      {
+        "name": "indicator",
+        "element": ".nc-segmented-control__indicator",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -46,94 +77,266 @@
       "--scrollable: Horizontaler Scroll bei Platzmangel (scrollbar hidden). Items behalten flex-shrink:0. Empfehlung: Bei >5 Segmenten oder Container-Overflow → in ein Select-Dropdown umwandeln (JS/Framework-Logik)."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "3 Groessenabstufungen — sm (32px) / md (40px, Standard) / lg (48px). Nutzt Button-Size-Tokens fuer min-height, padding, font-size.",
       "values": {
-        "sm": { "modifier": "nc-segmented-control--sm", "tokenGroups": [] },
-        "md": { "modifier": null,                       "tokenGroups": [] },
-        "lg": { "modifier": "nc-segmented-control--lg", "tokenGroups": [] }
+        "sm": {
+          "modifier": "nc-segmented-control--sm",
+          "tokenGroups": []
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "lg": {
+          "modifier": "nc-segmented-control--lg",
+          "tokenGroups": []
+        }
       }
     },
-
     "width": {
       "label": "Width",
       "description": "Layout-Verhalten — auto (Segmente nach Inhalt, Standard), full-width (gleichmaessig verteilt), scrollable (horizontal scrollbar bei Overflow)",
       "values": {
-        "auto":       { "modifier": null,                                    "tokenGroups": [], "renderHint": "segmented-auto" },
-        "full-width": { "modifier": "nc-segmented-control--full-width",      "tokenGroups": [], "renderHint": "segmented-full" },
-        "scrollable": { "modifier": "nc-segmented-control--scrollable",      "tokenGroups": [], "renderHint": "segmented-scrollable" }
+        "auto": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "segmented-auto"
+        },
+        "full-width": {
+          "modifier": "nc-segmented-control--full-width",
+          "tokenGroups": [],
+          "renderHint": "segmented-full"
+        },
+        "scrollable": {
+          "modifier": "nc-segmented-control--scrollable",
+          "tokenGroups": [],
+          "renderHint": "segmented-scrollable"
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhalt der Segments — text (nur Text, Standard), icon-text (Icon + Text), icon-only (nur Icon, aria-label noetig), text-badge (Text + Badge-Counter)",
       "values": {
-        "text":       { "modifier": null, "tokenGroups": [],                     "renderHint": "segmented-text" },
-        "icon-text":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-text" },
-        "icon-only":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "segmented-icon-only" },
-        "text-badge": { "modifier": null, "tokenGroups": ["item-badge"], "slotConfig": { "badge": true }, "renderHint": "segmented-text-badge" }
+        "text": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "segmented-text"
+        },
+        "icon-text": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true
+          },
+          "renderHint": "segmented-icon-text"
+        },
+        "icon-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true
+          },
+          "renderHint": "segmented-icon-only"
+        },
+        "text-badge": {
+          "modifier": null,
+          "tokenGroups": [
+            "item-badge"
+          ],
+          "slotConfig": {
+            "badge": true
+          },
+          "renderHint": "segmented-text-badge"
+        }
       }
     },
-
     "indicator": {
       "label": "Indicator",
       "description": "Visuelles Feedback fuer den Selected-State — static (Background-Toggle pro Item, Standard), sliding (animierter Hintergrund-Layer)",
       "values": {
-        "static":  { "modifier": null, "tokenGroups": [] },
-        "sliding": { "modifier": null, "tokenGroups": ["indicator"], "slotConfig": { "indicator": true }, "note": "JS muss --_indicator-left und --_indicator-width setzen." }
+        "static": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "sliding": {
+          "modifier": null,
+          "tokenGroups": [
+            "indicator"
+          ],
+          "slotConfig": {
+            "indicator": true
+          },
+          "note": "JS muss --_indicator-left und --_indicator-width setzen."
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "selected", "disabled", "focus"],
-    "precedence": ["disabled", "focus", "selected", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "selected",
+      "disabled",
+      "focus"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "selected",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["disabled", "selected"], "note": "Hover nur auf nicht-selected und nicht-disabled Items" },
-      { "state": "selected", "unless": ["disabled"],          "note": "Selected zeigt erhoeht mit Shadow — disabled ueberschreibt" },
-      { "state": "focus", "unless": ["disabled"],             "note": "Focus-Ring auf das aktuelle Item" }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled",
+          "selected"
+        ],
+        "note": "Hover nur auf nicht-selected und nicht-disabled Items"
+      },
+      {
+        "state": "selected",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Selected zeigt erhoeht mit Shadow — disabled ueberschreibt"
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus-Ring auf das aktuelle Item"
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "role='radiogroup' auf Container mit aria-label. Items haben role='radio' und aria-checked. Arrow-Keys navigieren (roving tabindex). Immer genau ein Item selected."
     },
     "overrides": [
       {
-        "when": { "axes": { "content": ["icon-only"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "content": [
+              "icon-only"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Icon-only Segments brauchen aria-label auf jedem Item — kein sichtbarer Text vorhanden."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "aria-disabled='true' bevorzugt. Einzelne Items oder der gesamte Container koennen disabled sein."
       },
       {
-        "when": { "slots": ["badge"] },
-        "suggest": ["aria-label-with-count"],
+        "when": {
+          "slots": [
+            "badge"
+          ]
+        },
+        "suggest": [
+          "aria-label-with-count"
+        ],
         "note": "Badge-Wert sollte im aria-label des Items enthalten sein, z.B. 'Inbox, 5 neue Nachrichten'."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-radiogroup", "accessible-name"], "notes": ["Container braucht role='radiogroup' und aria-label."] },
-      { "when": {}, "require": ["role-radio", "aria-checked"], "notes": ["Jedes Item braucht role='radio' und aria-checked='true'/'false'."] },
-      { "when": { "axes": { "content": ["icon-only"] } }, "require": ["aria-label"], "notes": ["Icon-only Items brauchen aria-label."] },
-      { "when": { "axes": { "content": ["text-badge"] } }, "severity": "warn", "notes": ["Badge-Wert im aria-label des Items kommunizieren (z.B. 'Inbox, 5 ungelesene')."] },
-      { "when": {}, "severity": "warn", "maxSegments": 5, "notes": ["Bei mehr als 5 Segmenten: Overflow-Risiko. Empfehlung: In ein Select-Dropdown umwandeln oder --scrollable Modifier verwenden."] },
-      { "when": { "axes": { "indicator": ["sliding"] } }, "require": ["js-indicator-update"], "notes": ["Sliding Indicator braucht JS: bei Selection-Wechsel --_indicator-left und --_indicator-width auf dem Container aktualisieren."] }
+      {
+        "when": {},
+        "require": [
+          "role-radiogroup",
+          "accessible-name"
+        ],
+        "notes": [
+          "Container braucht role='radiogroup' und aria-label."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "role-radio",
+          "aria-checked"
+        ],
+        "notes": [
+          "Jedes Item braucht role='radio' und aria-checked='true'/'false'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "icon-only"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Icon-only Items brauchen aria-label."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "text-badge"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "Badge-Wert im aria-label des Items kommunizieren (z.B. 'Inbox, 5 ungelesene')."
+        ]
+      },
+      {
+        "when": {},
+        "severity": "warn",
+        "maxSegments": 5,
+        "notes": [
+          "Bei mehr als 5 Segmenten: Overflow-Risiko. Empfehlung: In ein Select-Dropdown umwandeln oder --scrollable Modifier verwenden."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "indicator": [
+              "sliding"
+            ]
+          }
+        },
+        "require": [
+          "js-indicator-update"
+        ],
+        "notes": [
+          "Sliding Indicator braucht JS: bei Selection-Wechsel --_indicator-left und --_indicator-width auf dem Container aktualisieren."
+        ]
+      }
     ],
     "copy": {
       "label": {
@@ -142,11 +345,16 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-segmented-control"],
-    "baseTokenGroups": ["track-geometry", "item-default", "item-selected", "animation"],
-
+    "baseClasses": [
+      "nc-segmented-control"
+    ],
+    "baseTokenGroups": [
+      "track-geometry",
+      "item-default",
+      "item-selected",
+      "animation"
+    ],
     "tokenGroups": {
       "track-geometry": {
         "label": "Track",
@@ -213,12 +421,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -234,18 +449,38 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States — MD",
       "description": "Segmented Control mit Items in allen Zustaenden",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default", "hover", "selected", "disabled", "focus"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "selected",
+          "disabled",
+          "focus"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Alle States muessen visuell unterscheidbar sein. Selected hebt sich durch Shadow + hellen BG ab. Focus braucht sichtbaren Ring."
@@ -256,13 +491,32 @@
       "label": "Size Scale — SM / MD / LG",
       "description": "Alle 3 Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "width": ["auto"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["track-geometry"],
+      "focusTokenGroups": [
+        "track-geometry"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Segment-Hoehe folgt Button-Scale (32/40/48px). Track-Padding bleibt konstant."
@@ -273,11 +527,26 @@
       "label": "Content Types",
       "description": "Text-only vs Icon+Text vs Icon-only vs Text+Badge",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": "*", "indicator": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": "*",
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{content}" },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Icon-only Segments brauchen aria-label. Badge-Wert im aria-label kommunizieren. Icons muessen 3:1 Non-Text-Kontrast einhalten."
@@ -288,12 +557,33 @@
       "label": "With Badge Counter",
       "description": "Segmented Control mit Badge-Countern — Farbe wechselt bei Selected-State",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text-badge"], "indicator": ["static"] },
-        "states": ["default", "selected"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text-badge"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default",
+          "selected"
+        ]
       },
-      "focusTokenGroups": ["item-badge"],
+      "focusTokenGroups": [
+        "item-badge"
+      ],
       "layout": "row",
-      "render": { "compositionType": "segmented-with-badge", "label": "badge" },
+      "render": {
+        "compositionType": "segmented-with-badge",
+        "label": "badge"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Badge-Wert muss im aria-label des Items enthalten sein (z.B. 'Inbox, 5 ungelesene')."
@@ -304,12 +594,32 @@
       "label": "Auto vs Full Width",
       "description": "Auto-Width (Inhalt bestimmt Breite) vs Full-Width (gleichmaessig verteilt)",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto", "full-width"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto",
+            "full-width"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "width" },
-      "render": { "label": "{width}" },
+      "layoutConfig": {
+        "rowAxis": "width"
+      },
+      "render": {
+        "label": "{width}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Full-Width Segments haben gleichmaessige Breite — Touch-Target bleibt mindestens 44px breit."
@@ -320,12 +630,34 @@
       "label": "Sliding Indicator",
       "description": "Animierter aktiver Hintergrund — gleitet per CSS transition zum aktiven Segment",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["sliding"] },
-        "states": ["default", "selected"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "sliding"
+          ]
+        },
+        "states": [
+          "default",
+          "selected"
+        ]
       },
-      "focusTokenGroups": ["indicator", "item-selected"],
+      "focusTokenGroups": [
+        "indicator",
+        "item-selected"
+      ],
       "layout": "row",
-      "render": { "compositionType": "segmented-sliding", "label": "sliding" },
+      "render": {
+        "compositionType": "segmented-sliding",
+        "label": "sliding"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Sliding Indicator ist rein visuell — A11y identisch mit Static. prefers-reduced-motion: transition deaktiviert."
@@ -336,11 +668,29 @@
       "label": "Scrollable Overflow",
       "description": "Horizontaler Scroll bei vielen Segmenten",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["scrollable"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "scrollable"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "segmented-scrollable", "label": "scrollable" },
+      "render": {
+        "compositionType": "segmented-scrollable",
+        "label": "scrollable"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Scrollbare Container: Keyboard-Navigation per Arrow Keys muss weiterhin funktionieren. Scrollbar ist versteckt."
@@ -351,12 +701,33 @@
       "label": "Selected State Detail",
       "description": "Detail-Ansicht des Selected-State mit Shadow und Transition",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default", "selected"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default",
+          "selected"
+        ]
       },
-      "focusTokenGroups": ["item-selected", "animation"],
+      "focusTokenGroups": [
+        "item-selected",
+        "animation"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Selected-BG (weiss/base) muss sich klar vom Track-BG (secondary) abheben. Shadow verstaerkt die Erhoehung."
@@ -367,12 +738,32 @@
       "label": "Disabled States",
       "description": "Einzelne disabled Items und komplett disabled Control",
       "matrix": {
-        "axes": { "size": ["md"], "width": ["auto"], "content": ["text"], "indicator": ["static"] },
-        "states": ["default", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "width": [
+            "auto"
+          ],
+          "content": [
+            "text"
+          ],
+          "indicator": [
+            "static"
+          ]
+        },
+        "states": [
+          "default",
+          "disabled"
+        ]
       },
-      "focusTokenGroups": ["item-disabled"],
+      "focusTokenGroups": [
+        "item-disabled"
+      ],
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled Items haben reduzierte Opacity. Nicht anklickbar, kein Hover. aria-disabled='true' auf dem Item."

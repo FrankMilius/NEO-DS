@@ -1,0 +1,112 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "card-grid-cta",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "hero",
+    "cta",
+    "grid"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-card-grid-cta",
+    "slots": [],
+    "notes": [
+      "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-card-grid-cta"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-card-grid-cta-columns"
+        },
+        {
+          "token": "nc-card-grid-cta-gap"
+        },
+        {
+          "token": "nc-card-grid-cta-padding"
+        },
+        {
+          "token": "nc-card-grid-cta-radius"
+        }
+      ],
+      "Title": [
+        {
+          "token": "nc-card-grid-cta-title-size"
+        },
+        {
+          "token": "nc-card-grid-cta-title-weight"
+        },
+        {
+          "token": "nc-card-grid-cta-title-color"
+        }
+      ],
+      "Overlay": [
+        {
+          "token": "nc-card-grid-cta-overlay-start"
+        },
+        {
+          "token": "nc-card-grid-cta-overlay-end"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-card-grid-cta-hover-scale"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [
+    "card"
+  ],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/card-grid-cta.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-card-grid-cta.html.twig",
+      "block--inline-block--neo-card-grid-cta.html.twig"
+    ],
+    "docs": null
+  }
+}

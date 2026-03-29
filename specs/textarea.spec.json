@@ -1,0 +1,330 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "textarea",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "form",
+    "text-input"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-textarea",
+    "slots": [
+      {
+        "name": "counter",
+        "selector": ".nc-textarea__counter",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-textarea__actions",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Textarea ist ein natives <textarea class='nc-textarea'>. Kein JS fuer Basis-Funktion noetig.",
+      "Nutzt --nc-input-* Tokens als Basis (gleiche form-control Mixins wie Input).",
+      "Eigene --nc-textarea-* Tokens fuer min-height, max-height, padding, resize und Scrollbar.",
+      "height: auto ueberschreibt die feste Hoehe aus form-control-size.",
+      "max-height: Bei gesetztem Wert (nicht 'none') erzwingt overflow-y: auto einen Scrollbar.",
+      "scrollbar-width: 'thin' (Standard) fuer schmalere Scrollbars. Webkit-Fallback via ::-webkit-scrollbar.",
+      "Autosize (.nc-textarea--autosize): resize: none, overflow: hidden — JS steuert Hoehe.",
+      "Character Counter (__counter): Nutzt --nc-form-hint-* Tokens. --limit aendert auf Error-Farbe.",
+      "Actions-Slot (__actions): Flex-Container unterhalb der Textarea fuer interaktive Buttons (Copy, Clear, AI-Assist). Wrapper muss :has(.nc-textarea__actions) sein, damit Textarea unteren Radius verliert.",
+      "Empty vs. Focus-Within: :placeholder-shown kennzeichnet leere Textarea. Wrapper :focus-within steuert Actions-Sichtbarkeit — Actions werden ausgeblendet wenn Textarea leer UND nicht fokussiert.",
+      "Error via .nc-textarea--error ODER [aria-invalid='true']."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — outlined (Standard, Rahmen), filled (Flaeche mit Unterstreichung), borderless (minimalistisch)",
+      "values": [
+        {
+          "value": "outlined",
+          "cssModifier": null,
+          "default": false,
+          "label": "outlined"
+        },
+        {
+          "value": "filled",
+          "cssModifier": "nc-textarea--filled",
+          "default": false,
+          "label": "filled"
+        },
+        {
+          "value": "borderless",
+          "cssModifier": "nc-textarea--borderless",
+          "default": false,
+          "label": "borderless"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (min-height 60px) / md (80px, Standard) / lg (120px). Nutzt Input-Size-Tokens.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-textarea--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-textarea--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "resize": {
+      "label": "Resize",
+      "description": "Resize-Verhalten — default (vertical), autosize (JS-gesteuert, kein Resize), no-resize (fixe Hoehe)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "autosize",
+          "cssModifier": "nc-textarea--autosize",
+          "default": false,
+          "label": "autosize"
+        },
+        {
+          "value": "no-resize",
+          "cssModifier": "nc-textarea--no-resize",
+          "default": false,
+          "label": "no-resize"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungszustand — none (Standard), error (roter Rand), success (gruener Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-textarea--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-textarea--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsvarianten — plain (nur Textarea), with-actions (Textarea + Actions-Leiste)",
+      "values": [
+        {
+          "value": "plain",
+          "cssModifier": null,
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "with-actions",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-actions"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled",
+      "empty",
+      "focus-within"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "empty",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus-within",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-textarea"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-textarea-min-height"
+        },
+        {
+          "token": "nc-textarea-max-height"
+        },
+        {
+          "token": "nc-textarea-padding"
+        },
+        {
+          "token": "nc-textarea-resize"
+        }
+      ],
+      "Colors (Outlined)": [
+        {
+          "token": "nc-form-control-bg"
+        },
+        {
+          "token": "nc-form-control-border-color"
+        },
+        {
+          "token": "nc-form-control-color"
+        }
+      ],
+      "Colors (Filled)": [
+        {
+          "token": "nc-form-control-filled-bg"
+        },
+        {
+          "token": "nc-form-control-filled-border-bottom"
+        },
+        {
+          "token": "nc-form-control-filled-color"
+        }
+      ],
+      "Colors (Borderless)": [
+        {
+          "token": "nc-form-control-minimal-bg-hover"
+        },
+        {
+          "token": "nc-form-control-minimal-border-focus"
+        }
+      ],
+      "Scrollbar": [
+        {
+          "token": "nc-textarea-scrollbar-width"
+        }
+      ],
+      "Actions": [
+        {
+          "token": "nc-textarea-actions-gap"
+        },
+        {
+          "token": "nc-textarea-actions-padding"
+        }
+      ],
+      "Error": [],
+      "Success": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "suggest": [],
+        "note": "Error-State braucht aria-invalid='true' und aria-describedby auf Fehlermeldung."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt wenn Textarea Teil eines sichtbaren Formulars ist."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-actions"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "focusVisible",
+          "aria-label-actions"
+        ],
+        "note": "Action-Buttons muessen :focus-visible mit focus-ring haben. Jeder Button braucht aria-label oder sichtbaren Text. Actions-Container kann role='toolbar' mit aria-label='Textarea Aktionen' haben."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_textarea.scss"
+    ],
+    "story": "stories/atoms/textarea.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/TextareaArena.vue",
+    "drupal": [],
+    "docs": "docs/textarea-docs.html"
+  }
+}

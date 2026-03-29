@@ -1,0 +1,309 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-field",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "layout",
+    "wrapper"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-field",
+    "slots": [
+      {
+        "name": "label",
+        "selector": ".nc-form-label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "hint-above",
+        "selector": ".nc-form-hint",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "control",
+        "selector": ".nc-input | .nc-textarea | .nc-select | .nc-checkbox",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "error",
+        "selector": ".nc-form-error",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "hint-below",
+        "selector": ".nc-form-hint",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Column-Container der Label, Input, Hint und Error zusammenfasst.",
+      "gap via --nc-form-field-gap (4px) — Label margin-bottom wird auf 0 gesetzt.",
+      "Error-Modifier propagiert border-color auf Kind-Inputs (nc-input, nc-textarea, nc-select).",
+      "Success-Modifier propagiert success-border-color auf Kind-Inputs.",
+      "Disabled-Modifier graut Label und Hint aus (text-disabled, cursor: not-allowed).",
+      "Horizontal-Modifier: flex-direction: row ab Tablet, Label 200px breit, Input flex: 1.",
+      "Hint kann vor oder nach dem Input platziert werden.",
+      "Input hat aria-describedby mit IDs von Hint und/oder Error (Leerzeichen-getrennt).",
+      "Required: .nc-form-label__required zeigt '*' (aria-hidden='true'). Der Input bekommt required oder aria-required='true'.",
+      "Optional: .nc-form-label__optional zeigt '(Optional)' — optionaler visueller Hinweis.",
+      "Fieldset-Gruppierung: Wenn mehrere Form-Fields zusammengehoeren (z.B. Adresse), wird ein <fieldset> mit <legend> statt <div> verwendet. Siehe fieldset-recipe fuer Details."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Anordnung — vertical (Standard, Label oben), horizontal (Label links, Input rechts, ab Tablet)",
+      "values": [
+        {
+          "value": "vertical",
+          "cssModifier": null,
+          "default": false,
+          "label": "vertical"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": "nc-form-field--horizontal",
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "requirement": {
+      "label": "Requirement",
+      "description": "Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "required",
+          "cssModifier": "nc-form-field--required",
+          "default": false,
+          "label": "required"
+        },
+        {
+          "value": "optional",
+          "cssModifier": "nc-form-field--optional",
+          "default": false,
+          "label": "optional"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none (Standard), error (Fehler), success (Erfolg)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-form-field--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-form-field--success",
+          "default": false,
+          "label": "success"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltskombination — minimal (Label + Input), with-hint (+ Hint), full (Label + Hint + Input + Error)",
+      "values": [
+        {
+          "value": "minimal",
+          "cssModifier": null,
+          "default": false,
+          "label": "minimal"
+        },
+        {
+          "value": "with-hint",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-hint"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "grouping": {
+      "label": "Grouping",
+      "description": "Element-Typ — div (Standard-Wrapper), fieldset (semantische Gruppierung mit <legend>)",
+      "values": [
+        {
+          "value": "div",
+          "cssModifier": null,
+          "default": false,
+          "label": "div"
+        },
+        {
+          "value": "fieldset",
+          "cssModifier": null,
+          "default": false,
+          "label": "fieldset"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-form-field"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-form-field-gap"
+        }
+      ],
+      "Requirement Indicators": [
+        {
+          "token": "nc-form-label-required-color"
+        },
+        {
+          "token": "nc-form-label-optional-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "requirement": [
+              "required"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-required",
+          "required"
+        ],
+        "note": "Required: Kind-Input braucht required-Attribut oder aria-required='true'. Das Sternchen '*' im Label hat aria-hidden='true' — Screen Reader liest aria-required am Input statt das visuelle Zeichen."
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid"
+        ],
+        "note": "Error-State: Kind-Input braucht aria-invalid='true'. Error-Message via aria-describedby verknuepft."
+      },
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ],
+            "requirement": [
+              "required"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-required"
+        ],
+        "note": "Required + Error: Input braucht sowohl aria-invalid='true' als auch required/aria-required='true'. Error-Message erklaert, warum das Pflichtfeld nicht valide ist."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Disabled-State: Kind-Input hat disabled-Attribut oder aria-disabled='true'."
+      },
+      {
+        "when": {
+          "axes": {
+            "grouping": [
+              "fieldset"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "fieldset",
+          "legend"
+        ],
+        "note": "Fieldset-Gruppierung: Root-Element wird zu <fieldset>, Label-Slot wird zu <legend>. Semantische Gruppierung fuer Screen Reader. Kein aria-labelledby noetig wenn <legend> vorhanden."
+      }
+    ]
+  },
+  "dependencies": [
+    "checkbox",
+    "form",
+    "input",
+    "select",
+    "textarea"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_form-field.scss"
+    ],
+    "story": "stories/molecules/form-field.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/FormFieldArena.vue",
+    "drupal": [],
+    "docs": "docs/form-field-docs.html"
+  }
+}

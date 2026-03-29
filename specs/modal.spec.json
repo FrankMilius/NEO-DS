@@ -1,0 +1,363 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "modal",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "overlay",
+    "interactive",
+    "dialog"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-modal",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-modal__header",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-modal__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "header-icon",
+        "selector": ".nc-modal__header-icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "close",
+        "selector": ".nc-modal__close",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "body",
+        "selector": ".nc-modal__body",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-modal__footer",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: natives <dialog> Element. showModal() fuer modale Anzeige.",
+      "Verwendet --nc-dialog-* Tokens (geteilt mit Alert-Dialog fuer Overlay-Konsistenz).",
+      "[open]: display:flex. Zentriert via fixed + margin:auto.",
+      "Backdrop: ::backdrop mit overlay-bg Animation. Optional: Klick auf Backdrop schliesst via data-backdrop-close='true'. Nicht bei Formularen (Datenverlust).",
+      "Oeffnungs-Animation: opacity + translate (16px hoch). @starting-style.",
+      "Body Scroll Lock: body:has(.nc-modal[open]) { overflow: hidden }.",
+      "Sticky Header/Footer: Bei --scrollable Modifier bleiben Header und Footer fixiert. JS setzt .is-scrolled-top/.is-scrolled-bottom auf .nc-modal basierend auf scrollTop des Body — Header/Footer zeigen dann eine subtile Border (nc-dialog-header-border-color / nc-dialog-footer-border-color) als Scroll-Indikator.",
+      "Scroll-Detection JS Pattern: const body = modal.querySelector('.nc-modal__body'); body.addEventListener('scroll', () => { modal.classList.toggle('is-scrolled-top', body.scrollTop > 0); modal.classList.toggle('is-scrolled-bottom', body.scrollTop + body.clientHeight < body.scrollHeight); });",
+      "Backdrop-Close JS Pattern: dialog.addEventListener('click', (e) => { if (e.target === dialog && dialog.dataset.backdropClose === 'true') dialog.close(); });",
+      "Mobile Bottom-Sheet: Unter sm-Breakpoint gleitet das Modal von unten herein (translate: 0 100% → 0 0), volle Breite, abgerundete obere Ecken (nc-dialog-mobile-radius). Max-Hoehe begrenzt (nc-dialog-mobile-max-height: 90vh).",
+      "Overlay-Konsistenz: nc-dialog-bg = surface-elevated (wie Dropdown/Popover). nc-dialog-shadow = elevation-modal (Level 3, hoechster Schatten). Dropdown: elevation-floating (Level 1). Popover: elevation-overlay (Level 2).",
+      "Danger-Intent: Header-Icon-Bereich und primaere Footer-Action uebernehmen danger-Markenfarbe. Visuelles Signal fuer destruktive Aktion.",
+      "Close-Button: <button class='nc-modal__close' aria-label='Schliessen'>. 36px Target, focus-visible Ring."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groesse — sm (400px), md (560px Standard), lg (720px), full (100%)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-modal--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-modal--lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-modal--full",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhaltsstruktur — simple (nur Body), with-header, with-footer, full (Header + Body + Footer), scrollable (voller Inhalt mit scrollbarem Body und sticky Header/Footer)",
+      "values": [
+        {
+          "value": "simple",
+          "cssModifier": null,
+          "default": false,
+          "label": "simple"
+        },
+        {
+          "value": "with-header",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-header"
+        },
+        {
+          "value": "with-footer",
+          "cssModifier": null,
+          "default": false,
+          "label": "with-footer"
+        },
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        },
+        {
+          "value": "scrollable",
+          "cssModifier": "nc-modal--scrollable",
+          "default": false,
+          "label": "scrollable"
+        }
+      ]
+    },
+    "intent": {
+      "label": "Intent",
+      "description": "Absicht — default (neutral, informativ), danger (destruktive Aktion wie Loeschen)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-modal--danger",
+          "default": false,
+          "label": "danger"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-modal"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-dialog-max-width"
+        },
+        {
+          "token": "nc-dialog-max-height"
+        },
+        {
+          "token": "nc-dialog-padding"
+        },
+        {
+          "token": "nc-dialog-radius"
+        },
+        {
+          "token": "nc-dialog-bg"
+        },
+        {
+          "token": "nc-dialog-shadow"
+        },
+        {
+          "token": "nc-dialog-overlay-bg"
+        },
+        {
+          "token": "nc-dialog-section-gap"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-dialog-title-font-size"
+        },
+        {
+          "token": "nc-dialog-title-font-weight"
+        },
+        {
+          "token": "nc-dialog-title-color"
+        },
+        {
+          "token": "nc-dialog-header-gap"
+        },
+        {
+          "token": "nc-dialog-header-border-color"
+        }
+      ],
+      "Body": [
+        {
+          "token": "nc-dialog-description-font-size"
+        },
+        {
+          "token": "nc-dialog-description-color"
+        }
+      ],
+      "Footer": [
+        {
+          "token": "nc-dialog-footer-gap"
+        },
+        {
+          "token": "nc-dialog-footer-border-color"
+        }
+      ],
+      "Close Button": [
+        {
+          "token": "nc-dialog-close-size"
+        },
+        {
+          "token": "nc-dialog-close-radius"
+        },
+        {
+          "token": "nc-dialog-close-bg"
+        },
+        {
+          "token": "nc-dialog-close-bg-hover"
+        },
+        {
+          "token": "nc-dialog-close-icon-size"
+        }
+      ],
+      "Danger Intent": [
+        {
+          "token": "nc-dialog-danger-icon-color"
+        },
+        {
+          "token": "nc-dialog-danger-action-bg"
+        },
+        {
+          "token": "nc-dialog-danger-action-color"
+        }
+      ],
+      "Scroll Borders": [
+        {
+          "token": "nc-dialog-header-border-color"
+        },
+        {
+          "token": "nc-dialog-footer-border-color"
+        }
+      ],
+      "Mobile Bottom-Sheet": [
+        {
+          "token": "nc-dialog-mobile-radius"
+        },
+        {
+          "token": "nc-dialog-mobile-max-height"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst den Modal-Dialog."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Focus bleibt innerhalb des Modals (Focus Trap)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts-Navigation innerhalb des Focus Trap."
+    }
+  },
+  "testSelectors": {
+    "root": "[data-testid='modal']",
+    "overlay": "[data-testid='modal-overlay']",
+    "content": "[data-testid='modal-content']",
+    "close": "[data-testid='modal-close']",
+    "header": "[data-testid='modal-header']",
+    "body": "[data-testid='modal-body']",
+    "footer": "[data-testid='modal-footer']"
+  },
+  "events": {
+    "modal-open": {
+      "bubbles": true,
+      "note": "Gefeuert wenn der Modal geoeffnet wird."
+    },
+    "modal-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen. Reason: 'escape', 'overlay-click', 'close-button', 'programmatic'."
+    }
+  },
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "intent": [
+              "danger"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Danger-Modal: Primaere Action (z.B. 'Loeschen') muss Label klar benennen. Farbe allein ist kein Signal. Optional: autofocus auf Cancel statt Confirm."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "scrollable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Scrollable: Sticky Header/Footer informieren visuell via Border-Erscheinung. Kein A11y-Impact — Scroll ist nativ per Tastatur."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_modal.scss"
+    ],
+    "story": "stories/organisms/modal.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ModalArena.vue",
+    "drupal": [],
+    "docs": "docs/modal-docs.html"
+  }
+}

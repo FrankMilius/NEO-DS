@@ -1,0 +1,392 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "item",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "display",
+    "content",
+    "list",
+    "media-object"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-item",
+    "slots": [
+      {
+        "name": "media",
+        "selector": ".nc-item__media",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-item__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-item__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-item__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "meta",
+        "selector": ".nc-item__meta",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-item__actions",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Layout: align-items center (oder flex-start via --align-start), gap spacing-03.",
+      "Grid-basierte Content-Struktur: title (bold, text-primary) + description (text-secondary).",
+      "Left-Accent-Border via ::before Pseudo-Element (2px, interactive-Farbe) bei Hover/Active/Selected.",
+      "Density: compact (spacing-01/02), default (spacing-03/04), loose (spacing-04/05).",
+      "Thumbnail: 16:9 Aspect-Ratio, konfigurierbarer Breite (120px default).",
+      "Meta-Slot: Inline-flex rechts neben Content, fuer Shortcuts/Badges."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (transparent), outline (Border + Shadow), muted (Hintergrund)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-item--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "muted",
+          "cssModifier": "nc-item--muted",
+          "default": false,
+          "label": "muted"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Groesse — default, sm, xs",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-item--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "xs",
+          "cssModifier": "nc-item--xs",
+          "default": false,
+          "label": "xs"
+        }
+      ]
+    },
+    "density": {
+      "label": "Density",
+      "description": "Informationsdichte — compact (wenig Platz), default (ausgewogen), loose (viel Platz)",
+      "values": [
+        {
+          "value": "compact",
+          "cssModifier": "nc-item--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "loose",
+          "cssModifier": "nc-item--loose",
+          "default": false,
+          "label": "loose"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Vertikale Ausrichtung — center (zentriert), start (oben)",
+      "values": [
+        {
+          "value": "center",
+          "cssModifier": null,
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "start",
+          "cssModifier": "nc-item--align-start",
+          "default": false,
+          "label": "start"
+        }
+      ]
+    },
+    "media": {
+      "label": "Media",
+      "description": "Media-Typ — none, icon, image, avatar, thumbnail (16:9)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "icon",
+          "cssModifier": "nc-item__media--icon",
+          "default": false,
+          "label": "icon"
+        },
+        {
+          "value": "image",
+          "cssModifier": "nc-item__media--image",
+          "default": false,
+          "label": "image"
+        },
+        {
+          "value": "avatar",
+          "cssModifier": "nc-item__media--avatar",
+          "default": false,
+          "label": "avatar"
+        },
+        {
+          "value": "thumbnail",
+          "cssModifier": "nc-item__media--thumbnail",
+          "default": false,
+          "label": "thumbnail"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "selected",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-item"
+    ],
+    "tokenGroups": {
+      "Colors": [
+        {
+          "token": "nc-item-bg"
+        },
+        {
+          "token": "nc-item-border"
+        },
+        {
+          "token": "nc-item-hover-bg"
+        },
+        {
+          "token": "nc-item-active-bg"
+        },
+        {
+          "token": "nc-item-title-color"
+        },
+        {
+          "token": "nc-item-desc-color"
+        },
+        {
+          "token": "nc-item-accent-color"
+        },
+        {
+          "token": "nc-item-accent-width"
+        }
+      ],
+      "Geometry": [
+        {
+          "token": "nc-item-gap"
+        },
+        {
+          "token": "nc-item-padding-x"
+        },
+        {
+          "token": "nc-item-padding-y"
+        },
+        {
+          "token": "nc-item-radius"
+        },
+        {
+          "token": "nc-item-border-width"
+        },
+        {
+          "token": "nc-item-align"
+        },
+        {
+          "token": "nc-item-accent-width"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-item-title-font-size"
+        },
+        {
+          "token": "nc-item-title-font-weight"
+        },
+        {
+          "token": "nc-item-title-line-height"
+        },
+        {
+          "token": "nc-item-desc-font-size"
+        },
+        {
+          "token": "nc-item-desc-line-height"
+        }
+      ],
+      "Selected State": [
+        {
+          "token": "nc-item-selected-bg"
+        },
+        {
+          "token": "nc-item-selected-border"
+        },
+        {
+          "token": "nc-item-selected-accent-width"
+        }
+      ],
+      "Media": [
+        {
+          "token": "nc-item-media-size"
+        },
+        {
+          "token": "nc-item-media-radius"
+        },
+        {
+          "token": "nc-item-media-bg"
+        },
+        {
+          "token": "nc-item-media-color"
+        }
+      ],
+      "Thumbnail": [
+        {
+          "token": "nc-item-thumbnail-ratio"
+        },
+        {
+          "token": "nc-item-thumbnail-width"
+        },
+        {
+          "token": "nc-item-thumbnail-radius"
+        }
+      ],
+      "Density: Compact": [
+        {
+          "token": "nc-item-compact-padding-x"
+        },
+        {
+          "token": "nc-item-compact-padding-y"
+        },
+        {
+          "token": "nc-item-compact-gap"
+        },
+        {
+          "token": "nc-item-compact-media-size"
+        }
+      ],
+      "Density: Loose": [
+        {
+          "token": "nc-item-loose-padding-x"
+        },
+        {
+          "token": "nc-item-loose-padding-y"
+        },
+        {
+          "token": "nc-item-loose-gap"
+        },
+        {
+          "token": "nc-item-loose-media-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "Interactive Items muessen als <a>, <button> oder [role=button] ausgezeichnet sein",
+      "Disabled Items benoetigen aria-disabled=true",
+      "Gruppen: role=list/listbox, Items: role=listitem/option",
+      "Selected Items: aria-selected=true oder aria-current=true",
+      "Thumbnail-Bilder benoetigen alt-Text"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_item.scss"
+    ],
+    "story": "stories/organisms/item.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/ItemArena.vue",
+    "drupal": [],
+    "docs": "docs/item-docs.html"
+  }
+}

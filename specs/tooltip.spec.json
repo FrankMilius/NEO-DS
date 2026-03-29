@@ -1,0 +1,181 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "tooltip",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "overlay",
+    "informational",
+    "hover"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-tooltip",
+    "slots": [
+      {
+        "name": "content",
+        "selector": ".nc-tooltip__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "arrow",
+        "selector": ".nc-tooltip__arrow",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Wrapper um Trigger + Content. Content wird absolut positioniert.",
+      "role='tooltip' auf Content. aria-describedby auf Trigger → verlinkt mit Content-ID.",
+      "Erscheint auf :hover UND :focus-within (Keyboard-Support, kein JS noetig fuer Basis).",
+      "Tooltip-Inhalt ist ergaenzend, nie essenziell — kein interaktiver Inhalt erlaubt.",
+      "Disabled Trigger: Wrapper <span tabindex='0'> fuer Fokussierbarkeit.",
+      "Arrow ist rein dekorativ — rotiertes CSS-Quadrat, uebernimmt bg, kein DOM-Bedarf fuer a11y.",
+      "Hover-Intent Delay: transition-delay (--nc-tooltip-delay, 300ms) verhindert 'Tooltip-Terror'. Tooltip erscheint erst nach bewusstem Verweilen auf dem Trigger.",
+      "Hoverable Content (WCAG 1.4.13): Im sichtbaren Zustand pointer-events:auto — Nutzer kann mit Maus auf Tooltip fahren ohne Schliessung. Ermoeglicht Text-Selektion/Kopieren.",
+      "ESC-Dismiss (JS): Sichtbare Tooltips per ESC schliessbar (WCAG 1.4.13). JS-seitig implementieren.",
+      "Touch-Geraete (pointer:coarse): :hover-Trigger wird unterdrueckt. Alternativ: long-press per JS oder Popover-Fallback fuer Touch.",
+      "Scale+Fade Animation: Tooltip skaliert von 0.95→1.0 und verschiebt sich 4px in Richtung Ziel. transform-origin per Position.",
+      "Overlay-Hierarchie: Tooltip nutzt elevation-floating (L1, subtilster Schatten). Unter Dropdown/Popover/Modal."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "position": {
+      "label": "Position",
+      "description": "Positionierung relativ zum Trigger — top (Standard), bottom, left, right",
+      "values": [
+        {
+          "value": "top",
+          "cssModifier": null,
+          "default": false,
+          "label": "top"
+        },
+        {
+          "value": "bottom",
+          "cssModifier": "nc-tooltip--bottom",
+          "default": false,
+          "label": "bottom"
+        },
+        {
+          "value": "left",
+          "cssModifier": "nc-tooltip--left",
+          "default": false,
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-tooltip--right",
+          "default": false,
+          "label": "right"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "visible"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "visible",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-tooltip"
+    ],
+    "tokenGroups": {
+      "Appearance": [
+        {
+          "token": "nc-tooltip-bg"
+        },
+        {
+          "token": "nc-tooltip-color"
+        },
+        {
+          "token": "nc-tooltip-padding"
+        },
+        {
+          "token": "nc-tooltip-radius"
+        },
+        {
+          "token": "nc-tooltip-shadow"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-tooltip-font-size"
+        },
+        {
+          "token": "nc-tooltip-max-width"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-tooltip-transition-duration"
+        },
+        {
+          "token": "nc-tooltip-transition-timing"
+        },
+        {
+          "token": "nc-tooltip-offset"
+        },
+        {
+          "token": "nc-tooltip-delay"
+        }
+      ],
+      "Arrow": [
+        {
+          "token": "nc-tooltip-arrow-size"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "visible"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "esc-dismiss",
+          "hoverable-content"
+        ],
+        "note": "Sichtbare Tooltips muessen per ESC schliessbar sein UND hoverbar bleiben (WCAG 1.4.13 Content on Hover or Focus)."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_tooltip.scss"
+    ],
+    "story": "stories/atoms/tooltip.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/TooltipArena.vue",
+    "drupal": [],
+    "docs": "docs/tooltip-docs.html"
+  }
+}

@@ -5,28 +5,89 @@
     "component": "alert",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["static", "feedback", "notification", "inline"],
+    "tags": [
+      "static",
+      "feedback",
+      "notification",
+      "inline"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/alert-docs"
     },
     "changelog": [
-      { "version": "2.0.0", "changes": ["Progressive Disclosure: Details-Slot (Accordion-Toggle) fuer lange Fehlermeldungen", "Inline-Variante: Ohne Hintergrund, nur Icon + farbiger Text — subtiles Feedback an Eingabefeldern", "Banner-Abgrenzung: Klare semantische Trennung (Banner = Global, Alert = Kontextuell/Lokal)", "Neue Tokens: title-font-weight, description-opacity, close-size, inline-gap, inline-font-size, details-margin-top, details-font-size", "Visuelle Konsistenz: Alert-Danger und Alert-Dialog-Destructive teilen identische Farbsprache"] },
-      { "version": "1.0.0", "changes": ["Initiales Recipe: 4 Varianten, Icon + Content + Action + Close, role=alert/status"] }
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Progressive Disclosure: Details-Slot (Accordion-Toggle) fuer lange Fehlermeldungen",
+          "Inline-Variante: Ohne Hintergrund, nur Icon + farbiger Text — subtiles Feedback an Eingabefeldern",
+          "Banner-Abgrenzung: Klare semantische Trennung (Banner = Global, Alert = Kontextuell/Lokal)",
+          "Neue Tokens: title-font-weight, description-opacity, close-size, inline-gap, inline-font-size, details-margin-top, details-font-size",
+          "Visuelle Konsistenz: Alert-Danger und Alert-Dialog-Destructive teilen identische Farbsprache"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiales Recipe: 4 Varianten, Icon + Content + Action + Close, role=alert/status"
+        ]
+      }
+    ],
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_alert.scss"
+      ],
+      "story": "stories/organisms/alert.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/AlertArena.vue",
+      "drupal": [],
+      "docs": "docs/alert-docs.html"
+    },
+    "dependencies": [
+      "banner"
     ]
   },
-
   "anatomy": {
-    "root": { "element": ".nc-alert" },
+    "root": {
+      "element": ".nc-alert"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-alert__icon", "optional": true },
-      { "name": "content", "element": ".nc-alert__content", "optional": false },
-      { "name": "title", "element": ".nc-alert__title", "optional": true },
-      { "name": "description", "element": ".nc-alert__description", "optional": true },
-      { "name": "details", "element": ".nc-alert__details", "optional": true },
-      { "name": "action", "element": ".nc-alert__action", "optional": true },
-      { "name": "close", "element": ".nc-alert__close", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-alert__icon",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-alert__content",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-alert__title",
+        "optional": true
+      },
+      {
+        "name": "description",
+        "element": ".nc-alert__description",
+        "optional": true
+      },
+      {
+        "name": "details",
+        "element": ".nc-alert__details",
+        "optional": true
+      },
+      {
+        "name": "action",
+        "element": ".nc-alert__action",
+        "optional": true
+      },
+      {
+        "name": "close",
+        "element": ".nc-alert__close",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -44,83 +105,218 @@
       "Farbe nie alleiniges Signal — immer mit Icon + Text (R7)."
     ]
   },
-
   "axes": {
     "variant": {
       "label": "Variant",
       "description": "Semantische Feedback-Variante — info (Standard, blau), success (gruen), warning (gelb/orange), danger (rot)",
       "values": {
-        "info":    { "modifier": "nc-alert--info",     "tokenGroups": ["variant-info"] },
-        "success": { "modifier": "nc-alert--success",  "tokenGroups": ["variant-success"] },
-        "warning": { "modifier": "nc-alert--warning",  "tokenGroups": ["variant-warning"] },
-        "danger":  { "modifier": "nc-alert--danger",   "tokenGroups": ["variant-danger"] }
+        "info": {
+          "modifier": "nc-alert--info",
+          "tokenGroups": [
+            "variant-info"
+          ]
+        },
+        "success": {
+          "modifier": "nc-alert--success",
+          "tokenGroups": [
+            "variant-success"
+          ]
+        },
+        "warning": {
+          "modifier": "nc-alert--warning",
+          "tokenGroups": [
+            "variant-warning"
+          ]
+        },
+        "danger": {
+          "modifier": "nc-alert--danger",
+          "tokenGroups": [
+            "variant-danger"
+          ]
+        }
       }
     },
-
     "content": {
       "label": "Content",
       "description": "Inhalts-Komposition — title-only, full, with-action, dismissible, with-details",
       "values": {
-        "title-only":    { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true },                                                               "renderHint": "alert-title-only" },
-        "full":          { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true, "description": true },                                           "renderHint": "alert-full" },
-        "with-action":   { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true, "description": true, "action": true },                           "renderHint": "alert-with-action" },
-        "dismissible":   { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true, "description": true, "close": true },                            "renderHint": "alert-dismissible" },
-        "with-details":  { "modifier": null, "tokenGroups": ["details"], "slotConfig": { "title": true, "description": true, "details": true },                 "renderHint": "alert-with-details" }
+        "title-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true
+          },
+          "renderHint": "alert-title-only"
+        },
+        "full": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true,
+            "description": true
+          },
+          "renderHint": "alert-full"
+        },
+        "with-action": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true,
+            "description": true,
+            "action": true
+          },
+          "renderHint": "alert-with-action"
+        },
+        "dismissible": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true,
+            "description": true,
+            "close": true
+          },
+          "renderHint": "alert-dismissible"
+        },
+        "with-details": {
+          "modifier": null,
+          "tokenGroups": [
+            "details"
+          ],
+          "slotConfig": {
+            "title": true,
+            "description": true,
+            "details": true
+          },
+          "renderHint": "alert-with-details"
+        }
       }
     },
-
     "display": {
       "label": "Display",
       "description": "Darstellungsmodus — block (Standard mit Hintergrund), inline (nur Icon + Text)",
       "values": {
-        "block":  { "modifier": null,                  "tokenGroups": [] },
-        "inline": { "modifier": "nc-alert--inline",    "tokenGroups": ["inline"] }
+        "block": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "inline": {
+          "modifier": "nc-alert--inline",
+          "tokenGroups": [
+            "inline"
+          ]
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "Alert braucht role='alert' (danger/warning) oder role='status' (info/success). Icon ist aria-hidden='true'. Farbe nie alleiniges Signal."
     },
     "overrides": [
       {
-        "when": { "axes": { "variant": ["danger", "warning"] } },
-        "require": ["role-alert"],
+        "when": {
+          "axes": {
+            "variant": [
+              "danger",
+              "warning"
+            ]
+          }
+        },
+        "require": [
+          "role-alert"
+        ],
         "note": "role='alert' erzeugt implizit aria-live='assertive' — unterbricht Screen Reader sofort."
       },
       {
-        "when": { "axes": { "variant": ["info", "success"] } },
-        "suggest": ["role-status"],
+        "when": {
+          "axes": {
+            "variant": [
+              "info",
+              "success"
+            ]
+          }
+        },
+        "suggest": [
+          "role-status"
+        ],
         "note": "role='status' erzeugt implizit aria-live='polite' — kuendigt an, ohne zu unterbrechen."
       },
       {
-        "when": { "axes": { "content": ["dismissible"] } },
-        "require": ["aria-label"],
+        "when": {
+          "axes": {
+            "content": [
+              "dismissible"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
         "note": "Close-Button braucht aria-label='Schliessen' oder aequivalent."
       },
       {
-        "when": { "axes": { "content": ["with-details"] } },
-        "suggest": ["aria-expanded"],
+        "when": {
+          "axes": {
+            "content": [
+              "with-details"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-expanded"
+        ],
         "note": "Details-Toggle: Natives <details> liefert semantisch korrektes Disclosure-Pattern. Zusaetzlich aria-expanded auf <summary> empfohlen fuer aeltere Screen Reader."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": { "axes": { "variant": ["danger", "warning"] } }, "require": ["role-alert"], "notes": ["Danger/Warning braucht role='alert'."] },
-      { "when": { "axes": { "content": ["dismissible"] } }, "require": ["aria-label"], "notes": ["Close-Button braucht aria-label."] }
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "danger",
+              "warning"
+            ]
+          }
+        },
+        "require": [
+          "role-alert"
+        ],
+        "notes": [
+          "Danger/Warning braucht role='alert'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "dismissible"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Close-Button braucht aria-label."
+        ]
+      }
     ],
     "copy": {
       "title": {
@@ -133,11 +329,13 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-alert"],
-    "baseTokenGroups": ["core-geometry"],
-
+    "baseClasses": [
+      "nc-alert"
+    ],
+    "baseTokenGroups": [
+      "core-geometry"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry & Typography",
@@ -204,12 +402,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -224,19 +429,32 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-variants",
       "label": "All Variants",
       "description": "Alle 4 semantischen Varianten mit Titel + Beschreibung",
       "matrix": {
-        "axes": { "variant": "*", "content": ["full"], "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "content": [
+            "full"
+          ],
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Jede Variante muss 4.5:1 Text-Kontrast gegen ihren BG haben. Border-Farbe muss 3:1 gegen Seiten-BG einhalten. Icon-Farbe verstaerkt die semantische Bedeutung."
@@ -247,12 +465,26 @@
       "label": "Content Compositions",
       "description": "Verschiedene Inhalts-Kombinationen der Info-Variante",
       "matrix": {
-        "axes": { "variant": ["info"], "content": "*", "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "info"
+          ],
+          "content": "*",
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Title-only ist minimale Form. Dismissible: Close-Button braucht aria-label. With-action: Action-Button erbt nicht die Alert-Farbe. With-details: Natives <details> fuer Progressive Disclosure."
@@ -262,14 +494,30 @@
       "id": "dismissible-variants",
       "label": "Dismissible Variants",
       "description": "Alle Varianten mit Close-Button",
-      "composes": ["close"],
+      "composes": [
+        "close"
+      ],
       "matrix": {
-        "axes": { "variant": "*", "content": ["dismissible"], "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "content": [
+            "dismissible"
+          ],
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Close-Button: aria-label='Schliessen'. Hover zeigt opacity:1 + color-mix BG. Focus braucht sichtbaren Ring."
@@ -279,14 +527,30 @@
       "id": "with-action-variants",
       "label": "With Action Button",
       "description": "Alle Varianten mit Action-Button",
-      "composes": ["action"],
+      "composes": [
+        "action"
+      ],
       "matrix": {
-        "axes": { "variant": "*", "content": ["with-action"], "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "content": [
+            "with-action"
+          ],
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Action-Button ist eigenstaendiges interaktives Element innerhalb des Alerts. Muss eigenen Kontrast einhalten."
@@ -297,12 +561,26 @@
       "label": "Title Only — Compact",
       "description": "Minimale Form: nur Titel, alle Varianten",
       "matrix": {
-        "axes": { "variant": "*", "content": ["title-only"], "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "content": [
+            "title-only"
+          ],
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant}" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Kompakte Form — Icon + Titel reichen fuer einfache Nachrichten. Titel traegt die gesamte Information."
@@ -313,12 +591,26 @@
       "label": "Danger — Role Alert Detail",
       "description": "Danger-Variante in allen Content-Kompositionen (role='alert')",
       "matrix": {
-        "axes": { "variant": ["danger"], "content": "*", "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "danger"
+          ],
+          "content": "*",
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Danger nutzt role='alert' (assertive). Screen Reader unterbricht sofort. Sparsam einsetzen — nur fuer echte Fehler/Gefahren."
@@ -329,13 +621,32 @@
       "label": "Progressive Disclosure",
       "description": "Alert mit Details-Toggle fuer lange Fehlermeldungen",
       "matrix": {
-        "axes": { "variant": ["danger", "warning"], "content": ["with-details"], "display": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "variant": [
+            "danger",
+            "warning"
+          ],
+          "content": [
+            "with-details"
+          ],
+          "display": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["details"],
+      "focusTokenGroups": [
+        "details"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant} + details" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant} + details"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Details-Toggle: Natives <details> liefert Disclosure-Semantik. Verbirgt lange Validierungsdetails oder Stacktraces hinter einem Toggle."
@@ -346,13 +657,29 @@
       "label": "Inline Feedback",
       "description": "Inline-Variante ohne Hintergrund — subtiles Feedback an Eingabefeldern",
       "matrix": {
-        "axes": { "variant": "*", "content": ["full"], "display": ["inline"] },
-        "states": ["default"]
+        "axes": {
+          "variant": "*",
+          "content": [
+            "full"
+          ],
+          "display": [
+            "inline"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
-      "focusTokenGroups": ["inline"],
+      "focusTokenGroups": [
+        "inline"
+      ],
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "variant" },
-      "render": { "label": "{variant} inline" },
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant} inline"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Inline-Alert: Kein BG/Border — Icon-Farbe und Text muessen gegen den Seiten-Hintergrund 4.5:1 Kontrast einhalten."

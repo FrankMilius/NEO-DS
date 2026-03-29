@@ -5,16 +5,52 @@
     "component": "facts",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "data"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/facts-docs" }
+    "tags": [
+      "display",
+      "content",
+      "data"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/facts-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_facts.scss"
+      ],
+      "story": "stories/organisms/facts.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/facts-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-facts-block" },
+    "root": {
+      "element": ".nc-facts-block"
+    },
     "slots": [
-      { "name": "title", "element": ".nc-facts-title", "optional": true },
-      { "name": "list", "element": ".nc-facts-list", "optional": false },
-      { "name": "term", "element": ".nc-facts-term", "optional": false },
-      { "name": "desc", "element": ".nc-facts-desc", "optional": false }
+      {
+        "name": "title",
+        "element": ".nc-facts-title",
+        "optional": true
+      },
+      {
+        "name": "list",
+        "element": ".nc-facts-list",
+        "optional": false
+      },
+      {
+        "name": "term",
+        "element": ".nc-facts-term",
+        "optional": false
+      },
+      {
+        "name": "desc",
+        "element": ".nc-facts-desc",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -27,12 +63,32 @@
       "label": "Content",
       "description": "Inhalt — with-title, without-title",
       "values": {
-        "with-title":    { "modifier": null, "tokenGroups": [], "slotConfig": { "title": true }, "renderHint": "facts-with-title" },
-        "without-title": { "modifier": null, "tokenGroups": [], "renderHint": "facts-without-title" }
+        "with-title": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "title": true
+          },
+          "renderHint": "facts-with-title"
+        },
+        "without-title": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "facts-without-title"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -42,27 +98,69 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-facts-block"],
+    "baseClasses": [
+      "nc-facts-block"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Facts Block",
+      "id": "default",
+      "label": "Facts Block",
       "description": "Fakten-Block mit Titel und Term/Desc Paaren",
-      "matrix": { "axes": { "content": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Term 4.5:1, Desc (text-secondary) 4.5:1 gegen background-base." }
+      "matrix": {
+        "axes": {
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Term 4.5:1, Desc (text-secondary) 4.5:1 gegen background-base."
+      }
     }
   ]
 }

@@ -1,0 +1,264 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "radio-group",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "form",
+    "interactive",
+    "grouping"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-radio-group",
+    "slots": [
+      {
+        "name": "hint",
+        "selector": ".nc-radio-group__hint",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Flex-Column Container fuer mehrere .nc-radio Elemente.",
+      "Gap via --nc-group-gap. Horizontal: flex-row, flex-wrap, --nc-group-gap-horizontal.",
+      "Size-Modifier (--sm / --lg) koppelt Gap an Radio-Groesse: sm=8px, md=12px (default), lg=16px.",
+      "Segmented-Variante: Pillen-Design, Radios nahtlos aneinanderliegend, Controls versteckt, Labels als Buttons.",
+      "Card-Variante: Jedes .nc-radio bekommt .nc-radio--card Modifier fuer eigene Box.",
+      "Hint-Slot: Enthaelt .nc-form-hint fuer Gruppen-Hilfetext. Verknuepft via aria-describedby auf dem Gruppen-Container.",
+      "Error: propagiert border-error auf alle Radio-Controls.",
+      "Disabled: opacity + pointer-events:none auf gesamte Gruppe.",
+      "Tastatur: Arrow Keys wechseln zwischen Radios."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Layout — vertical (Standard), horizontal (nebeneinander)",
+      "values": [
+        {
+          "value": "vertical",
+          "cssModifier": null,
+          "default": false,
+          "label": "vertical"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": "nc-radio-group--horizontal",
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "size": {
+      "label": "Size",
+      "description": "Koppelt den Gruppen-Gap an die Radio-Groesse — sm (8px), md (12px, Standard), lg (16px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-radio-group--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-radio-group--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (Liste), segmented (Pillen-Design), card (Box pro Option)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "segmented",
+          "cssModifier": "nc-radio-group--segmented",
+          "default": false,
+          "label": "segmented"
+        },
+        {
+          "value": "card",
+          "cssModifier": null,
+          "default": false,
+          "label": "card"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "error",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "error",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-radio-group"
+    ],
+    "tokenGroups": {
+      "Geometry (Gap)": [
+        {
+          "token": "nc-group-gap"
+        },
+        {
+          "token": "nc-group-gap-sm"
+        },
+        {
+          "token": "nc-group-gap-lg"
+        },
+        {
+          "token": "nc-group-gap-horizontal"
+        }
+      ],
+      "Hint": [
+        {
+          "token": "nc-group-hint-margin-top"
+        }
+      ],
+      "Segmented Control": [
+        {
+          "token": "nc-radio-segmented-bg"
+        },
+        {
+          "token": "nc-radio-segmented-bg-checked"
+        },
+        {
+          "token": "nc-radio-segmented-color"
+        },
+        {
+          "token": "nc-radio-segmented-color-checked"
+        },
+        {
+          "token": "nc-radio-segmented-radius"
+        },
+        {
+          "token": "nc-radio-segmented-padding"
+        },
+        {
+          "token": "nc-radio-segmented-border"
+        }
+      ],
+      "Card Variant": [
+        {
+          "token": "nc-radio-card-bg"
+        },
+        {
+          "token": "nc-radio-card-bg-checked"
+        },
+        {
+          "token": "nc-radio-card-border"
+        },
+        {
+          "token": "nc-radio-card-border-checked"
+        },
+        {
+          "token": "nc-radio-card-border-hover"
+        },
+        {
+          "token": "nc-radio-card-radius"
+        },
+        {
+          "token": "nc-radio-card-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "error"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Error: aria-describedby auf Gruppen-Error-Text."
+      },
+      {
+        "when": {
+          "slots": [
+            "hint"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Hint wird via aria-describedby auf dem Gruppen-Container verknuepft (id='hint-{groupname}')."
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "segmented"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "keyboard-arrows"
+        ],
+        "note": "Segmented Control: Arrow Keys muessen wie bei normaler Radio-Gruppe funktionieren. Visuelles Feedback auf fokussiertem Segment (focus-ring)."
+      }
+    ]
+  },
+  "dependencies": [
+    "form",
+    "radio"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_radio-group.scss"
+    ],
+    "story": "stories/organisms/radio-group.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

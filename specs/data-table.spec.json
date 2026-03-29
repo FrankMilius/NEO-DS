@@ -1,0 +1,857 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "data-table",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "data",
+    "interactive",
+    "table",
+    "composite"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-data-table",
+    "slots": [
+      {
+        "name": "title-bar",
+        "selector": ".nc-data-table__title-bar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-data-table__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-data-table__description",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "toolbar",
+        "selector": ".nc-data-table__toolbar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "scroll-container",
+        "selector": ".nc-data-table__scroll-container",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "table",
+        "selector": ".nc-data-table__table",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "thead",
+        "selector": ".nc-data-table__thead",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "tbody",
+        "selector": ".nc-data-table__tbody",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "row",
+        "selector": ".nc-data-table__row",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "th",
+        "selector": ".nc-data-table__th",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "td",
+        "selector": ".nc-data-table__td",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "sort-button",
+        "selector": ".nc-data-table__sort-button",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "checkbox-cell",
+        "selector": ".nc-data-table__checkbox-cell",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "radio-cell",
+        "selector": ".nc-data-table__radio-cell",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "expand-button",
+        "selector": ".nc-data-table__expand-button",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "expand-panel",
+        "selector": ".nc-data-table__expand-panel",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "action-menu",
+        "selector": ".nc-data-table__action-menu",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "batch-bar",
+        "selector": ".nc-data-table__batch-bar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "batch-count",
+        "selector": ".nc-data-table__batch-count",
+        "required": false,
+        "description": "Zaehler mit aria-live='polite': z.B. '12 Eintraege ausgewaehlt'"
+      },
+      {
+        "name": "batch-clear",
+        "selector": ".nc-data-table__batch-clear",
+        "required": false,
+        "description": "Clear All Button neben dem Zaehler"
+      },
+      {
+        "name": "pagination",
+        "selector": ".nc-data-table__pagination",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "empty",
+        "selector": ".nc-data-table__empty",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "error",
+        "selector": ".nc-data-table__error",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "skeleton-bar",
+        "selector": ".nc-data-table__skeleton-bar",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "stacked-label",
+        "selector": ".nc-data-table__td::before",
+        "required": false,
+        "description": "data-label Attribut auf td fuer Stacked/Card Layout"
+      }
+    ],
+    "notes": [
+      "Wrapper: border, radius, overflow:hidden. Semantisches <table> mit <thead>/<tbody>.",
+      "Scroll-Container: horizontaler Scroll mit CSS-Schatten-Indikatoren.",
+      "Title-Bar: Titel + Beschreibung. Toolbar: Suche + Filter + Batch-Actions.",
+      "Density: default (40px), compact (32px), comfortable (48px).",
+      "Striped: nth-child(even of :not(expand-row)). Bordered: border-inline-end.",
+      "Sticky Header: position:sticky top:0 auf <th>.",
+      "Sticky Columns: erste/letzte Spalte fixiert mit Schatten-Indikator.",
+      "Stacked Layout: Mobile Card-View via data-label auf <td>.",
+      "Card Variante: erhobene Tabelle mit elevation-raised Shadow.",
+      "Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.",
+      "Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.",
+      "Skeleton Varianten: avatar (rund), numeric (schmal), text (75%).",
+      "Content Wrapping: --wrap Modifier fuer mehrzeiligen Zelleninhalt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "density": {
+      "label": "Density",
+      "description": "Zeilendichte — default (40px), compact (32px), comfortable (48px)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-data-table--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "comfortable",
+          "cssModifier": "nc-data-table--comfortable",
+          "default": false,
+          "label": "comfortable"
+        }
+      ]
+    },
+    "feature": {
+      "label": "Feature",
+      "description": "Feature-Set — basic, sortable, selectable, expandable",
+      "values": [
+        {
+          "value": "basic",
+          "cssModifier": null,
+          "default": false,
+          "label": "basic"
+        },
+        {
+          "value": "sortable",
+          "cssModifier": "nc-data-table--sortable",
+          "default": false,
+          "label": "sortable"
+        },
+        {
+          "value": "selectable",
+          "cssModifier": "nc-data-table--selectable",
+          "default": false,
+          "label": "selectable"
+        },
+        {
+          "value": "expandable",
+          "cssModifier": "nc-data-table--expandable",
+          "default": false,
+          "label": "expandable"
+        }
+      ]
+    },
+    "selection": {
+      "label": "Selection Mode",
+      "description": "Zeilen-Auswahl — none, checkbox (multi-select), radio (single-select)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "checkbox",
+          "cssModifier": "nc-data-table--selectable",
+          "default": false,
+          "label": "checkbox"
+        },
+        {
+          "value": "radio",
+          "cssModifier": null,
+          "default": false,
+          "label": "radio"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), glass (transparente Dashboard-Tabelle)",
+      "values": [
+        {
+          "value": "flat",
+          "cssModifier": null,
+          "default": false,
+          "label": "flat"
+        },
+        {
+          "value": "striped",
+          "cssModifier": "nc-data-table--striped",
+          "default": false,
+          "label": "striped"
+        },
+        {
+          "value": "bordered",
+          "cssModifier": "nc-data-table--bordered",
+          "default": false,
+          "label": "bordered"
+        },
+        {
+          "value": "card",
+          "cssModifier": "nc-data-table--card",
+          "default": false,
+          "label": "card"
+        },
+        {
+          "value": "glass",
+          "cssModifier": "nc-data-table--glass",
+          "default": false,
+          "label": "glass"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)",
+      "values": [
+        {
+          "value": "truncate",
+          "cssModifier": null,
+          "default": false,
+          "label": "truncate"
+        },
+        {
+          "value": "wrap",
+          "cssModifier": "nc-data-table--wrap",
+          "default": false,
+          "label": "wrap"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "selected",
+      "loading",
+      "error",
+      "empty"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "selected",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "loading",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "error",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "empty",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-data-table"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-dt-radius"
+        },
+        {
+          "token": "nc-dt-border"
+        },
+        {
+          "token": "nc-dt-body-bg"
+        },
+        {
+          "token": "nc-dt-body-color"
+        },
+        {
+          "token": "nc-dt-body-font-size"
+        },
+        {
+          "token": "nc-dt-body-font-weight"
+        },
+        {
+          "token": "nc-dt-scroll-shadow-size"
+        },
+        {
+          "token": "nc-dt-transition-duration"
+        }
+      ],
+      "Header": [
+        {
+          "token": "nc-dt-header-height"
+        },
+        {
+          "token": "nc-dt-header-bg"
+        },
+        {
+          "token": "nc-dt-header-color"
+        },
+        {
+          "token": "nc-dt-header-font-size"
+        },
+        {
+          "token": "nc-dt-header-font-weight"
+        },
+        {
+          "token": "nc-dt-header-letter-spacing"
+        },
+        {
+          "token": "nc-dt-header-border-bottom"
+        }
+      ],
+      "Row": [
+        {
+          "token": "nc-dt-row-height"
+        },
+        {
+          "token": "nc-dt-row-height-compact"
+        },
+        {
+          "token": "nc-dt-row-height-default"
+        },
+        {
+          "token": "nc-dt-row-height-comfortable"
+        },
+        {
+          "token": "nc-dt-cell-padding-x"
+        },
+        {
+          "token": "nc-dt-cell-padding-y"
+        },
+        {
+          "token": "nc-dt-row-border-bottom"
+        },
+        {
+          "token": "nc-dt-row-bg-hover"
+        },
+        {
+          "token": "nc-dt-row-bg-selected"
+        },
+        {
+          "token": "nc-dt-row-bg-stripe"
+        }
+      ],
+      "Toolbar": [
+        {
+          "token": "nc-dt-toolbar-height"
+        },
+        {
+          "token": "nc-dt-toolbar-padding"
+        },
+        {
+          "token": "nc-dt-toolbar-bg"
+        },
+        {
+          "token": "nc-dt-toolbar-border-bottom"
+        },
+        {
+          "token": "nc-dt-toolbar-gap"
+        },
+        {
+          "token": "nc-dt-search-min-width"
+        },
+        {
+          "token": "nc-dt-select-width"
+        }
+      ],
+      "Pagination": [
+        {
+          "token": "nc-dt-pagination-height"
+        },
+        {
+          "token": "nc-dt-pagination-padding"
+        },
+        {
+          "token": "nc-dt-pagination-bg"
+        },
+        {
+          "token": "nc-dt-pagination-border-top"
+        },
+        {
+          "token": "nc-dt-pagination-gap"
+        },
+        {
+          "token": "nc-dt-pagination-color"
+        },
+        {
+          "token": "nc-dt-pagination-font-size"
+        },
+        {
+          "token": "nc-dt-page-select-width"
+        }
+      ],
+      "Title Bar": [
+        {
+          "token": "nc-dt-title-bar-padding"
+        },
+        {
+          "token": "nc-dt-title-bar-gap"
+        },
+        {
+          "token": "nc-dt-title-font-size"
+        },
+        {
+          "token": "nc-dt-title-font-weight"
+        },
+        {
+          "token": "nc-dt-title-color"
+        },
+        {
+          "token": "nc-dt-title-line-height"
+        },
+        {
+          "token": "nc-dt-description-font-size"
+        },
+        {
+          "token": "nc-dt-description-color"
+        },
+        {
+          "token": "nc-dt-description-line-height"
+        }
+      ],
+      "Sort": [
+        {
+          "token": "nc-dt-sort-icon-size"
+        },
+        {
+          "token": "nc-dt-sort-icon-color"
+        },
+        {
+          "token": "nc-dt-sort-icon-color-active"
+        },
+        {
+          "token": "nc-dt-sort-hit-area"
+        }
+      ],
+      "Checkbox": [
+        {
+          "token": "nc-dt-checkbox-column-width"
+        },
+        {
+          "token": "nc-dt-checkbox-padding-x"
+        }
+      ],
+      "Radio": [
+        {
+          "token": "nc-dt-radio-column-width"
+        },
+        {
+          "token": "nc-dt-radio-padding-x"
+        }
+      ],
+      "Expand": [
+        {
+          "token": "nc-dt-expand-icon-size"
+        },
+        {
+          "token": "nc-dt-expand-column-width"
+        },
+        {
+          "token": "nc-dt-expand-panel-bg"
+        },
+        {
+          "token": "nc-dt-expand-panel-padding"
+        }
+      ],
+      "Batch": [
+        {
+          "token": "nc-dt-batch-bg"
+        },
+        {
+          "token": "nc-dt-batch-color"
+        },
+        {
+          "token": "nc-dt-batch-padding"
+        },
+        {
+          "token": "nc-dt-batch-height"
+        },
+        {
+          "token": "nc-dt-batch-radius"
+        },
+        {
+          "token": "nc-dt-batch-shadow"
+        },
+        {
+          "token": "nc-dt-batch-count-font-size"
+        },
+        {
+          "token": "nc-dt-batch-clear-color"
+        }
+      ],
+      "Link & Actions": [
+        {
+          "token": "nc-dt-link-color"
+        },
+        {
+          "token": "nc-dt-link-color-hover"
+        },
+        {
+          "token": "nc-dt-link-icon-size"
+        },
+        {
+          "token": "nc-dt-link-gap"
+        },
+        {
+          "token": "nc-dt-date-font-feature"
+        },
+        {
+          "token": "nc-dt-actions-gap"
+        },
+        {
+          "token": "nc-dt-action-column-width"
+        },
+        {
+          "token": "nc-dt-action-icon-size"
+        }
+      ],
+      "Skeleton": [
+        {
+          "token": "nc-dt-skeleton-bg"
+        },
+        {
+          "token": "nc-dt-skeleton-radius"
+        },
+        {
+          "token": "nc-dt-skeleton-shimmer"
+        },
+        {
+          "token": "nc-dt-skeleton-width-avatar"
+        },
+        {
+          "token": "nc-dt-skeleton-width-numeric"
+        },
+        {
+          "token": "nc-dt-skeleton-width-text"
+        }
+      ],
+      "Empty & Error": [
+        {
+          "token": "nc-dt-empty-icon-size"
+        },
+        {
+          "token": "nc-dt-empty-title-color"
+        },
+        {
+          "token": "nc-dt-empty-body-color"
+        },
+        {
+          "token": "nc-dt-error-border"
+        },
+        {
+          "token": "nc-dt-error-color"
+        }
+      ],
+      "User Column": [
+        {
+          "token": "nc-dt-user-avatar-size"
+        },
+        {
+          "token": "nc-dt-user-gap"
+        },
+        {
+          "token": "nc-dt-user-name-font-weight"
+        },
+        {
+          "token": "nc-dt-user-name-color"
+        },
+        {
+          "token": "nc-dt-user-email-font-size"
+        },
+        {
+          "token": "nc-dt-user-email-color"
+        }
+      ],
+      "Progress Column": [
+        {
+          "token": "nc-dt-progress-height"
+        },
+        {
+          "token": "nc-dt-progress-bg"
+        },
+        {
+          "token": "nc-dt-progress-fill"
+        },
+        {
+          "token": "nc-dt-progress-fill-success"
+        },
+        {
+          "token": "nc-dt-progress-fill-warning"
+        },
+        {
+          "token": "nc-dt-progress-fill-danger"
+        },
+        {
+          "token": "nc-dt-progress-radius"
+        },
+        {
+          "token": "nc-dt-progress-gap"
+        },
+        {
+          "token": "nc-dt-progress-label-width"
+        },
+        {
+          "token": "nc-dt-progress-label-font-size"
+        }
+      ],
+      "Stacked Layout": [
+        {
+          "token": "nc-dt-stacked-card-gap"
+        },
+        {
+          "token": "nc-dt-stacked-card-padding"
+        },
+        {
+          "token": "nc-dt-stacked-card-radius"
+        },
+        {
+          "token": "nc-dt-stacked-card-border"
+        },
+        {
+          "token": "nc-dt-stacked-label-width"
+        },
+        {
+          "token": "nc-dt-stacked-label-color"
+        },
+        {
+          "token": "nc-dt-stacked-label-font-weight"
+        }
+      ],
+      "Sticky Columns": [
+        {
+          "token": "nc-dt-sticky-col-shadow"
+        },
+        {
+          "token": "nc-dt-sticky-col-shadow-end"
+        },
+        {
+          "token": "nc-dt-sticky-col-bg"
+        }
+      ],
+      "Card Variant": [
+        {
+          "token": "nc-dt-card-shadow"
+        },
+        {
+          "token": "nc-dt-card-bg"
+        }
+      ],
+      "Glass Variant": [
+        {
+          "token": "nc-dt-glass-bg"
+        },
+        {
+          "token": "nc-dt-glass-header-bg"
+        },
+        {
+          "token": "nc-dt-glass-border"
+        },
+        {
+          "token": "nc-dt-glass-backdrop-blur"
+        }
+      ],
+      "Content Wrapping": [
+        {
+          "token": "nc-dt-cell-line-clamp"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "feature": [
+              "selectable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-selected",
+          "aria-live"
+        ],
+        "note": "Selectable: aria-selected auf Zeilen. Batch-Bar Zaehler: aria-live='polite'."
+      },
+      {
+        "when": {
+          "axes": {
+            "feature": [
+              "sortable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-sort"
+        ],
+        "note": "Sortable: aria-sort='ascending|descending|none' auf sortierte <th>."
+      },
+      {
+        "when": {
+          "axes": {
+            "feature": [
+              "expandable"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-expanded",
+          "aria-controls"
+        ],
+        "note": "Expandable: aria-expanded + aria-controls auf Expand-Button."
+      },
+      {
+        "when": {
+          "axes": {
+            "selection": [
+              "radio"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-selected"
+        ],
+        "note": "Radio-Selection: aria-selected auf ausgewaehlte Zeile. Nur eine Zeile gleichzeitig."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_data-table.scss"
+    ],
+    "story": "stories/organisms/data-table.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/DataTableArena.vue",
+    "drupal": [],
+    "docs": "docs/data-table-docs.html"
+  }
+}

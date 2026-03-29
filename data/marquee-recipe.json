@@ -5,14 +5,42 @@
     "component": "marquee",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "animation", "decorative"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/marquee-docs" }
+    "tags": [
+      "display",
+      "animation",
+      "decorative"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/marquee-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_marquee.scss"
+      ],
+      "story": "stories/organisms/marquee.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/marquee-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-marquee" },
+    "root": {
+      "element": ".nc-marquee"
+    },
     "slots": [
-      { "name": "track", "element": ".nc-marquee__track", "optional": false },
-      { "name": "text", "element": ".nc-marquee__text", "optional": false }
+      {
+        "name": "track",
+        "element": ".nc-marquee__track",
+        "optional": false
+      },
+      {
+        "name": "text",
+        "element": ".nc-marquee__text",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -25,11 +53,24 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "marquee-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "marquee-default"
+        }
       }
     }
   },
-  "states": { "supported": ["default"], "precedence": ["default"], "rules": [], "interactive": false },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "base": {
       "interactive": false,
@@ -39,27 +80,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["nc-marquee"],
+    "baseClasses": [
+      "nc-marquee"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Marquee",
+      "id": "default",
+      "label": "Marquee",
       "description": "Horizontaler Lauftext/Logo-Ticker",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "marquee" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Reduced Motion: Animation stoppen." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "marquee"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Reduced Motion: Animation stoppen."
+      }
     }
   ]
 }

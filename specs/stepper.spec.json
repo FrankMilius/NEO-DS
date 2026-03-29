@@ -1,0 +1,203 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "stepper",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "interactive",
+    "form",
+    "numeric"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-stepper",
+    "slots": [
+      {
+        "name": "decrement",
+        "selector": ".nc-stepper__decrement",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "input",
+        "selector": ".nc-stepper__input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "increment",
+        "selector": ".nc-stepper__increment",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Inline-Flex Container: Decrement-Button | Input | Increment-Button.",
+      "Nahtlose Borders: Input hat margin-inline: -1px, decrement hat rechte Ecken 0, increment hat linke Ecken 0.",
+      "Buttons: quadratisch (32px default), SVG-Icons (50% der Button-Groesse).",
+      "Input: zentrierter Text, Spinner-Arrows entfernt, readonly optional.",
+      "Border kommt von shared --nc-input-* Tokens (border-width, border-color).",
+      "Hover: bg-hover + border-hover auf den Buttons.",
+      "Focus: focus-ring + border-focus. Input bekommt z-index: base bei Focus (ueberlappt Buttons).",
+      "Error: Alle drei Teile erhalten border-error Farbe.",
+      "Disabled: Alle Teile ausgegraut — opacity, disabled-bg, disabled-border.",
+      "SM/LG: Nutzen Input-Height-Tokens fuer konsistente Hoehe mit anderen Form-Controls."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "Groesse — sm (Input-Height-SM), md (32px, Standard), lg (Input-Height-LG)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-stepper--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-stepper--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungs-State — none (Standard), error (roter Rand auf allen Teilen)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-stepper--error",
+          "default": false,
+          "label": "error"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-stepper"
+    ],
+    "tokenGroups": {
+      "Button": [
+        {
+          "token": "nc-stepper-button-size"
+        },
+        {
+          "token": "nc-stepper-button-radius"
+        },
+        {
+          "token": "nc-stepper-button-bg"
+        },
+        {
+          "token": "nc-stepper-button-bg-hover"
+        },
+        {
+          "token": "nc-stepper-button-color"
+        }
+      ],
+      "Input": [
+        {
+          "token": "nc-stepper-input-width"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "Disabled: disabled-Attribut auf Input und Buttons. Oder aria-disabled='true' auf dem Container."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_stepper.scss"
+    ],
+    "story": "stories/molecules/stepper.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/stepper-docs.html"
+  }
+}

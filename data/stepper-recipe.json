@@ -5,20 +5,47 @@
     "component": "stepper",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["interactive", "form", "numeric"],
+    "tags": [
+      "interactive",
+      "form",
+      "numeric"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/stepper-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_stepper.scss"
+      ],
+      "story": "stories/molecules/stepper.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/stepper-docs.html"
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-stepper" },
+    "root": {
+      "element": ".nc-stepper"
+    },
     "slots": [
-      { "name": "decrement", "element": ".nc-stepper__decrement", "optional": false },
-      { "name": "input", "element": ".nc-stepper__input", "optional": false },
-      { "name": "increment", "element": ".nc-stepper__increment", "optional": false }
+      {
+        "name": "decrement",
+        "element": ".nc-stepper__decrement",
+        "optional": false
+      },
+      {
+        "name": "input",
+        "element": ".nc-stepper__input",
+        "optional": false
+      },
+      {
+        "name": "increment",
+        "element": ".nc-stepper__increment",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -34,64 +61,140 @@
       "SM/LG: Nutzen Input-Height-Tokens fuer konsistente Hoehe mit anderen Form-Controls."
     ]
   },
-
   "axes": {
     "size": {
       "label": "Size",
       "description": "Groesse — sm (Input-Height-SM), md (32px, Standard), lg (Input-Height-LG)",
       "values": {
-        "sm": { "modifier": "nc-stepper--sm", "tokenGroups": [], "renderHint": "stepper-sm" },
-        "md": { "modifier": null,             "tokenGroups": [], "renderHint": "stepper-md" },
-        "lg": { "modifier": "nc-stepper--lg", "tokenGroups": [], "renderHint": "stepper-lg" }
+        "sm": {
+          "modifier": "nc-stepper--sm",
+          "tokenGroups": [],
+          "renderHint": "stepper-sm"
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "stepper-md"
+        },
+        "lg": {
+          "modifier": "nc-stepper--lg",
+          "tokenGroups": [],
+          "renderHint": "stepper-lg"
+        }
       }
     },
-
     "validation": {
       "label": "Validation",
       "description": "Validierungs-State — none (Standard), error (roter Rand auf allen Teilen)",
       "values": {
-        "none":  { "modifier": null,                     "tokenGroups": [], "renderHint": "stepper-default" },
-        "error": { "modifier": "nc-stepper--error",      "tokenGroups": [], "renderHint": "stepper-error" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "stepper-default"
+        },
+        "error": {
+          "modifier": "nc-stepper--error",
+          "tokenGroups": [],
+          "renderHint": "stepper-error"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "hover", "focus", "disabled"],
-    "precedence": ["disabled", "focus", "hover", "default"],
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "hover",
+      "default"
+    ],
     "rules": [
-      { "state": "hover", "unless": ["disabled"],  "note": "Hover: bg-hover + border-hover auf den +/- Buttons." },
-      { "state": "focus", "unless": ["disabled"],   "note": "Focus: focus-ring auf dem fokussierten Element (Button oder Input)." },
-      { "state": "disabled", "unless": [],          "note": "Disabled: Alle Teile ausgegraut, pointer-events: none, cursor: not-allowed." }
+      {
+        "state": "hover",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Hover: bg-hover + border-hover auf den +/- Buttons."
+      },
+      {
+        "state": "focus",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Focus: focus-ring auf dem fokussierten Element (Button oder Input)."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: Alle Teile ausgegraut, pointer-events: none, cursor: not-allowed."
+      }
     ],
     "interactive": true
   },
-
   "a11y": {
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA non-text (3:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "Buttons: aria-label='Wert verringern' / 'Wert erhoehen'. Input: role='spinbutton' (nativ bei type='number'), aria-valuenow, aria-valuemin, aria-valuemax. Keyboard: ArrowUp/ArrowDown auf dem Input (JS). Buttons am Min/Max: aria-disabled='true'."
     },
     "overrides": [
       {
-        "when": { "axes": { "validation": ["error"] } },
-        "suggest": ["aria-invalid", "aria-describedby"],
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
         "note": "Error: aria-invalid='true' auf dem Input. Fehlermeldung via aria-describedby."
       },
       {
-        "when": { "states": ["disabled"] },
-        "suggest": ["aria-disabled"],
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "suggest": [
+          "aria-disabled"
+        ],
         "note": "Disabled: disabled-Attribut auf Input und Buttons. Oder aria-disabled='true' auf dem Container."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["accessible-name"], "notes": ["Stepper braucht ein assoziiertes <label> oder aria-label."] },
-      { "when": {}, "require": ["aria-valuemin", "aria-valuemax"], "notes": ["Min/Max Werte muessen auf dem Input kommuniziert werden."] }
+      {
+        "when": {},
+        "require": [
+          "accessible-name"
+        ],
+        "notes": [
+          "Stepper braucht ein assoziiertes <label> oder aria-label."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "aria-valuemin",
+          "aria-valuemax"
+        ],
+        "notes": [
+          "Min/Max Werte muessen auf dem Input kommuniziert werden."
+        ]
+      }
     ],
     "copy": {
       "ariaLabel": {
@@ -100,11 +203,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-stepper"],
-    "baseTokenGroups": ["button", "input"],
-
+    "baseClasses": [
+      "nc-stepper"
+    ],
+    "baseTokenGroups": [
+      "button",
+      "input"
+    ],
     "tokenGroups": {
       "button": {
         "label": "Button",
@@ -124,12 +230,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -143,18 +256,31 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "all-states",
       "label": "All States",
       "description": "Stepper in allen Zustaenden: default, hover, focus, disabled",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
-        "states": ["default", "hover", "focus", "disabled"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "focus",
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Buttons und Input muessen 3:1 Kontrast haben. Focus-Ring auf dem aktiven Element. Disabled: alle Teile ausgegraut."
@@ -165,12 +291,23 @@
       "label": "Size Variants",
       "description": "SM, MD, LG Groessen im Vergleich",
       "matrix": {
-        "axes": { "size": "*", "validation": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": "*",
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "SM/LG nutzen Input-Height-Tokens fuer konsistente Hoehe mit anderen Form-Controls."
@@ -181,12 +318,23 @@
       "label": "Validation States",
       "description": "None vs Error",
       "matrix": {
-        "axes": { "size": ["md"], "validation": "*" },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "validation" },
-      "render": { "label": "{validation}" },
+      "layoutConfig": {
+        "rowAxis": "validation"
+      },
+      "render": {
+        "label": "{validation}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Error: Roter Rand auf allen drei Teilen. aria-invalid='true' auf dem Input."
@@ -197,11 +345,23 @@
       "label": "Min/Max Boundary",
       "description": "Verhalten bei Minimum und Maximum — Button disabled am Rand",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "stepper-min-max", "label": "min/max" },
+      "render": {
+        "compositionType": "stepper-min-max",
+        "label": "min/max"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Am Minimum: Decrement-Button aria-disabled='true'. Am Maximum: Increment-Button aria-disabled='true'."
@@ -211,13 +371,28 @@
       "id": "with-form-field",
       "label": "In Form Field",
       "description": "Stepper im Form-Field Wrapper mit Label",
-      "composes": ["form-field", "form-label"],
+      "composes": [
+        "form-field",
+        "form-label"
+      ],
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "stepper-form-field", "label": "form-field" },
+      "render": {
+        "compositionType": "stepper-form-field",
+        "label": "form-field"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Label via for-Attribut mit dem Input verknuepft. Input hat role='spinbutton'."
@@ -228,11 +403,23 @@
       "label": "Readonly Input",
       "description": "Input ist readonly — Wert nur ueber Buttons aenderbar",
       "matrix": {
-        "axes": { "size": ["md"], "validation": ["none"] },
-        "states": ["default"]
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "validation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "stepper-readonly", "label": "readonly" },
+      "render": {
+        "compositionType": "stepper-readonly",
+        "label": "readonly"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Readonly: Input nicht editierbar, bg-readonly Farbe. Wert nur ueber +/- Buttons aenderbar. Keyboard ArrowUp/Down funktioniert trotzdem."

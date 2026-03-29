@@ -5,21 +5,52 @@
     "component": "validation-summary",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["feedback", "form", "validation"],
+    "tags": [
+      "feedback",
+      "form",
+      "validation"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
       "docs": "/docs/validation-summary-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_validation-summary.scss"
+      ],
+      "story": "stories/organisms/validation-summary.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": null
     }
   },
-
   "anatomy": {
-    "root": { "element": ".nc-validation-summary" },
+    "root": {
+      "element": ".nc-validation-summary"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-validation-summary__icon", "optional": true },
-      { "name": "title", "element": ".nc-validation-summary__title", "optional": false },
-      { "name": "list", "element": ".nc-validation-summary__list", "optional": false },
-      { "name": "item", "element": ".nc-validation-summary__item", "optional": false }
+      {
+        "name": "icon",
+        "element": ".nc-validation-summary__icon",
+        "optional": true
+      },
+      {
+        "name": "title",
+        "element": ".nc-validation-summary__title",
+        "optional": false
+      },
+      {
+        "name": "list",
+        "element": ".nc-validation-summary__list",
+        "optional": false
+      },
+      {
+        "name": "item",
+        "element": ".nc-validation-summary__item",
+        "optional": false
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -34,41 +65,82 @@
       "Forced-Colors: 2px solid Mark, Canvas-BG, CanvasText fuer High Contrast."
     ]
   },
-
   "axes": {
     "content": {
       "label": "Content",
       "description": "Inhaltsvariante — with-links (Fehler als Links zum Feld), text-only (Fehler als Text ohne Links), with-icon (mit Error-Icon im Titel)",
       "values": {
-        "with-links": { "modifier": null, "tokenGroups": [], "renderHint": "validation-summary-links" },
-        "text-only":  { "modifier": null, "tokenGroups": [], "renderHint": "validation-summary-text" },
-        "with-icon":  { "modifier": null, "tokenGroups": [], "slotConfig": { "icon": true }, "renderHint": "validation-summary-icon" }
+        "with-links": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "validation-summary-links"
+        },
+        "text-only": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "validation-summary-text"
+        },
+        "with-icon": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "icon": true
+          },
+          "renderHint": "validation-summary-icon"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default"],
-    "precedence": ["default"],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": [],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "role='alert' oder aria-live='assertive' — Screen Reader liest sofort vor. tabindex='-1' fuer JS-gesteuerten Focus beim Erscheinen. aria-labelledby verweist auf __title. Links: href='#field-id' springt zum Feld und setzt Focus darauf. Liste: <ol> fuer nummerierte Fehler oder <ul>."
     },
     "overrides": []
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-alert"], "notes": ["role='alert' oder aria-live='assertive' fuer sofortige Screen-Reader-Ankuendigung."] },
-      { "when": {}, "require": ["aria-labelledby"], "notes": ["aria-labelledby auf dem Container verweist auf __title fuer Screen Reader."] },
-      { "when": {}, "require": ["focus-on-render"], "notes": ["JS setzt Focus auf den Container bei erstem Rendern (tabindex='-1')."] }
+      {
+        "when": {},
+        "require": [
+          "role-alert"
+        ],
+        "notes": [
+          "role='alert' oder aria-live='assertive' fuer sofortige Screen-Reader-Ankuendigung."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "aria-labelledby"
+        ],
+        "notes": [
+          "aria-labelledby auf dem Container verweist auf __title fuer Screen Reader."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "focus-on-render"
+        ],
+        "notes": [
+          "JS setzt Focus auf den Container bei erstem Rendern (tabindex='-1')."
+        ]
+      }
     ],
     "copy": {
       "title": {
@@ -81,11 +153,13 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-validation-summary"],
-    "baseTokenGroups": ["container"],
-
+    "baseClasses": [
+      "nc-validation-summary"
+    ],
+    "baseTokenGroups": [
+      "container"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
@@ -99,12 +173,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -117,18 +198,26 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default Validation Summary",
       "description": "Standard-Error-Summary mit Titel und Fehlerliste als Links",
       "matrix": {
-        "axes": { "content": ["with-links"] },
-        "states": ["default"]
+        "axes": {
+          "content": [
+            "with-links"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "validation-summary-default", "label": "default" },
+      "render": {
+        "compositionType": "validation-summary-default",
+        "label": "default"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "text-danger 4.5:1 gegen bg-danger. Links: underline fuer Erkennung. role='alert'. Focus auf Container bei Erscheinen."
@@ -139,12 +228,20 @@
       "label": "Content Variants",
       "description": "With Links, Text-Only, With Icon im Vergleich",
       "matrix": {
-        "axes": { "content": "*" },
-        "states": ["default"]
+        "axes": {
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "content" },
-      "render": { "label": "{content}" },
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Links: href='#field-id' springt zum Feld. Text-Only: kein Link, nur Info. Icon: aria-hidden='true'."
@@ -155,11 +252,20 @@
       "label": "Single Error",
       "description": "Validation Summary mit nur einem Fehler",
       "matrix": {
-        "axes": { "content": ["with-links"] },
-        "states": ["default"]
+        "axes": {
+          "content": [
+            "with-links"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "validation-summary-single", "label": "single" },
+      "render": {
+        "compositionType": "validation-summary-single",
+        "label": "single"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Auch bei einem Fehler: role='alert' + Focus. Titel passt sich an ('Es gibt 1 Fehler')."
@@ -170,11 +276,20 @@
       "label": "Multiple Errors",
       "description": "Validation Summary mit mehreren Fehlern — typischer Formular-Submit",
       "matrix": {
-        "axes": { "content": ["with-icon"] },
-        "states": ["default"]
+        "axes": {
+          "content": [
+            "with-icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "validation-summary-multiple", "label": "multiple" },
+      "render": {
+        "compositionType": "validation-summary-multiple",
+        "label": "multiple"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "<ol> fuer nummerierte Fehler. Jeder Link springt zum betroffenen Feld. Screen Reader liest alle Fehler der Reihe nach."
@@ -184,13 +299,25 @@
       "id": "in-form-context",
       "label": "In Form Context",
       "description": "Validation Summary am Anfang eines Formulars mit markierten Feldern",
-      "composes": ["form-field", "form-error"],
+      "composes": [
+        "form-field",
+        "form-error"
+      ],
       "matrix": {
-        "axes": { "content": ["with-links"] },
-        "states": ["default"]
+        "axes": {
+          "content": [
+            "with-links"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "validation-summary-form", "label": "in-form" },
+      "render": {
+        "compositionType": "validation-summary-form",
+        "label": "in-form"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Summary am Formular-Anfang. Links zeigen auf Feld-IDs. Felder haben eigene form-error Messages. Doppelte Kommunikation: Summary + Inline."
@@ -201,11 +328,20 @@
       "label": "High Contrast Mode",
       "description": "Darstellung in Windows High Contrast Mode (forced-colors)",
       "matrix": {
-        "axes": { "content": ["with-icon"] },
-        "states": ["default"]
+        "axes": {
+          "content": [
+            "with-icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "validation-summary-hc", "label": "high-contrast" },
+      "render": {
+        "compositionType": "validation-summary-hc",
+        "label": "high-contrast"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Forced-Colors: 2px solid Mark Border, Canvas-BG, CanvasText. Systemfarben garantieren Kontrast."

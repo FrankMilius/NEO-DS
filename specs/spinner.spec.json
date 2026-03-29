@@ -1,0 +1,190 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "spinner",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "static",
+    "loading",
+    "indicator"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-spinner",
+    "slots": [],
+    "notes": [
+      "Spinner ist ein <div class='nc-spinner' role='status'> mit ::after Pseudo-Element fuer den rotierenden Ring.",
+      "Braucht ein .u-sr-only Kind-Element mit 'Wird geladen...' oder aria-label auf dem Container.",
+      "Ring: border-color = Track, border-top-color = Active. Animation: fnd-spin (360° Rotation).",
+      "prefers-reduced-motion verlangsamt die Rotation (2s statt 700ms).",
+      "Overlay (.nc-spinner-overlay): position:absolute, inset:0, semi-transparenter BG."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "5 Groessenabstufungen — xs (16px), sm (20px), md (24px, Standard), lg (40px), xl (56px)",
+      "values": [
+        {
+          "value": "xs",
+          "cssModifier": "nc-spinner--xs",
+          "default": false,
+          "label": "xs"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-spinner--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-spinner--lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "xl",
+          "cssModifier": "nc-spinner--xl",
+          "default": false,
+          "label": "xl"
+        }
+      ]
+    },
+    "color": {
+      "label": "Color",
+      "description": "Farb-Variante — default (interactive), inverse (weiss), success (gruen), danger (rot)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "inverse",
+          "cssModifier": "nc-spinner--inverse",
+          "default": false,
+          "label": "inverse"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-spinner--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "danger",
+          "cssModifier": "nc-spinner--danger",
+          "default": false,
+          "label": "danger"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-spinner"
+    ],
+    "tokenGroups": {
+      "Colors": [
+        {
+          "token": "nc-spinner-color"
+        },
+        {
+          "token": "nc-spinner-track-color"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-spinner-duration"
+        },
+        {
+          "token": "nc-spinner-ease"
+        }
+      ],
+      "Sizing": [
+        {
+          "token": "nc-spinner-size-xs"
+        },
+        {
+          "token": "nc-spinner-size-sm"
+        },
+        {
+          "token": "nc-spinner-size-md"
+        },
+        {
+          "token": "nc-spinner-size-lg"
+        },
+        {
+          "token": "nc-spinner-size-xl"
+        }
+      ],
+      "Border Width": [
+        {
+          "token": "nc-spinner-border-width-xs"
+        },
+        {
+          "token": "nc-spinner-border-width-sm"
+        },
+        {
+          "token": "nc-spinner-border-width-md"
+        },
+        {
+          "token": "nc-spinner-border-width-lg"
+        },
+        {
+          "token": "nc-spinner-border-width-xl"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {},
+        "require": [
+          "role-status",
+          "accessible-name"
+        ],
+        "suggest": [],
+        "note": "role='status' erzeugt eine implizite aria-live='polite' Region. Screen Reader kuendigt den Ladezustand an."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_spinner.scss"
+    ],
+    "story": "stories/atoms/spinner.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/SpinnerArena.vue",
+    "drupal": [],
+    "docs": "docs/spinner-docs.html"
+  }
+}

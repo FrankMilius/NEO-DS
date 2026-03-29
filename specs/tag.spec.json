@@ -1,0 +1,471 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "tag",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "label",
+    "feedback"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-tag",
+    "slots": [
+      {
+        "name": "icon",
+        "selector": ".nc-tag__icon",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-tag__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "remove",
+        "selector": ".nc-tag__remove",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Statischer Tag: <span class='nc-tag'>. Nicht fokussierbar, kein interaktives Element.",
+      "Navigations-Tag: <a href='...' class='nc-tag nc-tag--interactive'>. Immer mit --interactive Modifier.",
+      "Entfernbarer Tag: <span class='nc-tag nc-tag--removable'> mit <button class='nc-tag__remove'> als Kind.",
+      "Remove-Button ist ein eigenstaendiger <button> mit aria-label (z.B. 'Tag entfernen').",
+      "7 Farbvarianten: default, outline, primary, success, warning, error, info.",
+      "Pill-Shape via --fnd-radius-full (border-radius: 9999px).",
+      "Deprecated: --destructive und --danger sind Aliase fuer --error.",
+      "Interactive: Hover-BG, Active-Scale(0.98), focus-ring. Disabled: opacity + cursor:not-allowed."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (24px) / md (32px, Standard) / lg (40px). Versetzt zum Button-Scale.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-tag--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-tag--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Farbvariante — default (filled neutral), outline (transparent + Border), primary (interactive-BG), success, warning, error, info",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-tag--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "primary",
+          "cssModifier": "nc-tag--primary",
+          "default": false,
+          "label": "primary"
+        },
+        {
+          "value": "success",
+          "cssModifier": "nc-tag--success",
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "warning",
+          "cssModifier": "nc-tag--warning",
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-tag--error",
+          "default": false,
+          "label": "error"
+        },
+        {
+          "value": "info",
+          "cssModifier": "nc-tag--info",
+          "default": false,
+          "label": "info"
+        }
+      ]
+    },
+    "content": {
+      "label": "Content",
+      "description": "Inhalt — text (nur Label), icon-text (Icon + Label), removable (Label + Dismiss-Button)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "icon-text",
+          "cssModifier": null,
+          "default": false,
+          "label": "icon-text"
+        },
+        {
+          "value": "removable",
+          "cssModifier": "nc-tag--removable",
+          "default": false,
+          "label": "removable"
+        }
+      ]
+    },
+    "interactive": {
+      "label": "Interactive",
+      "description": "Interaktivitaet — static (Standard, nicht klickbar), interactive (Hover/Active/Focus mit Shadow fuer Links/Buttons)",
+      "values": [
+        {
+          "value": "static",
+          "cssModifier": null,
+          "default": false,
+          "label": "static"
+        },
+        {
+          "value": "interactive",
+          "cssModifier": "nc-tag--interactive",
+          "default": false,
+          "label": "interactive"
+        }
+      ]
+    },
+    "selected": {
+      "label": "Selected",
+      "description": "Toggle-State fuer Filter-Chips — false (Standard), true (aktiv, aria-pressed)",
+      "values": [
+        {
+          "value": "false",
+          "cssModifier": null,
+          "default": false,
+          "label": "false"
+        },
+        {
+          "value": "true",
+          "cssModifier": "nc-tag--selected",
+          "default": false,
+          "label": "true"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-tag"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-tag-height-sm"
+        },
+        {
+          "token": "nc-tag-height-md"
+        },
+        {
+          "token": "nc-tag-height-lg"
+        },
+        {
+          "token": "nc-tag-padding-x"
+        },
+        {
+          "token": "nc-tag-padding-y"
+        },
+        {
+          "token": "nc-tag-radius"
+        },
+        {
+          "token": "nc-tag-gap"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-tag-font-size"
+        },
+        {
+          "token": "nc-tag-font-size-sm"
+        },
+        {
+          "token": "nc-tag-font-size-lg"
+        },
+        {
+          "token": "nc-tag-font-weight"
+        }
+      ],
+      "Default Colors": [
+        {
+          "token": "nc-tag-default-bg"
+        },
+        {
+          "token": "nc-tag-default-color"
+        },
+        {
+          "token": "nc-tag-default-border"
+        },
+        {
+          "token": "nc-tag-default-bg-hover"
+        }
+      ],
+      "Outline Colors": [
+        {
+          "token": "nc-tag-outline-bg"
+        },
+        {
+          "token": "nc-tag-outline-color"
+        },
+        {
+          "token": "nc-tag-outline-border"
+        },
+        {
+          "token": "nc-tag-outline-bg-hover"
+        }
+      ],
+      "Primary Colors": [
+        {
+          "token": "nc-tag-primary-bg"
+        },
+        {
+          "token": "nc-tag-primary-color"
+        },
+        {
+          "token": "nc-tag-primary-border"
+        },
+        {
+          "token": "nc-tag-primary-bg-hover"
+        }
+      ],
+      "Success Colors": [
+        {
+          "token": "nc-tag-success-bg"
+        },
+        {
+          "token": "nc-tag-success-color"
+        },
+        {
+          "token": "nc-tag-success-border"
+        },
+        {
+          "token": "nc-tag-success-bg-hover"
+        }
+      ],
+      "Warning Colors": [
+        {
+          "token": "nc-tag-warning-bg"
+        },
+        {
+          "token": "nc-tag-warning-color"
+        },
+        {
+          "token": "nc-tag-warning-border"
+        },
+        {
+          "token": "nc-tag-warning-bg-hover"
+        }
+      ],
+      "Error Colors": [
+        {
+          "token": "nc-tag-error-bg"
+        },
+        {
+          "token": "nc-tag-error-color"
+        },
+        {
+          "token": "nc-tag-error-border"
+        },
+        {
+          "token": "nc-tag-error-bg-hover"
+        }
+      ],
+      "Info Colors": [
+        {
+          "token": "nc-tag-info-bg"
+        },
+        {
+          "token": "nc-tag-info-color"
+        },
+        {
+          "token": "nc-tag-info-border"
+        },
+        {
+          "token": "nc-tag-info-bg-hover"
+        }
+      ],
+      "Elements": [
+        {
+          "token": "nc-tag-remove-size"
+        },
+        {
+          "token": "nc-tag-remove-hover-bg"
+        },
+        {
+          "token": "nc-tag-icon-size"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-tag-disabled-bg"
+        },
+        {
+          "token": "nc-tag-disabled-color"
+        },
+        {
+          "token": "nc-tag-disabled-border"
+        },
+        {
+          "token": "nc-tag-opacity-disabled"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-tag-transition-duration"
+        }
+      ],
+      "Interactive Shadow": [
+        {
+          "token": "nc-tag-interactive-shadow-hover"
+        }
+      ],
+      "Selected State": [
+        {
+          "token": "nc-tag-selected-bg"
+        },
+        {
+          "token": "nc-tag-selected-color"
+        },
+        {
+          "token": "nc-tag-selected-border"
+        },
+        {
+          "token": "nc-tag-selected-bg-hover"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "interactive": [
+              "interactive"
+            ]
+          }
+        },
+        "require": [
+          "hasAccessibleName",
+          "supportsKeyboard"
+        ],
+        "suggest": [],
+        "note": "Interactive Tags (<a> oder <button>) muessen fokussierbar und per Tastatur bedienbar sein."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "removable"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "suggest": [],
+        "note": "Remove-Button braucht aria-label (z.B. 'Tag-Name entfernen'). Ist ein eigenstaendiges <button>-Element."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' auf dem Tag-Element. pointer-events: none verhindert Klick."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_tag.scss"
+    ],
+    "story": "stories/atoms/tag.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/TagArena.vue",
+    "drupal": [],
+    "docs": "docs/tag-docs.html"
+  }
+}

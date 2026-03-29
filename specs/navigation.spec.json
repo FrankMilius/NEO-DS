@@ -1,0 +1,259 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "navigation",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "interactive",
+    "layout",
+    "header"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-header",
+    "slots": [
+      {
+        "name": "nav",
+        "selector": ".nc-nav",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "inner",
+        "selector": ".nc-nav__inner",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "brand",
+        "selector": ".nc-brand",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nc-nav__list",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-nav__actions",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "navigation-menu",
+        "selector": ".nc-navigation-menu",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "nc-header: sticky top, backdrop-filter blur, bg-base 90% opacity, border-bottom.",
+      "nc-nav: full-width, font-size base. Inner: flex, space-between, align-items center, gap.",
+      "Transparent: Kein Hintergrund, weisse Schrift — ideal ueber Hero-Images auf Landingpages.",
+      "Solid: Voller Hintergrund ohne Blur — besser fuer Performance und einfache Layouts.",
+      "Intelligent Sticky: is-hidden beim Runterscrollen (mehr Content-Platz), is-scrolled beim Hochscrollen.",
+      "Alignment: --align-center zentriert Links (Landingpage), --align-right rechtsbuendig.",
+      "Mobile: Hamburger-Toggle oeffnet nc-drawer mit vertikal gestapelten Links."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "emphasis": {
+      "label": "Emphasis",
+      "description": "Visueller Modus — default (Blur 90%), transparent (Hero-Overlay), solid (voller Hintergrund)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "transparent",
+          "cssModifier": "nc-header--transparent",
+          "default": false,
+          "label": "transparent"
+        },
+        {
+          "value": "solid",
+          "cssModifier": "nc-header--solid",
+          "default": false,
+          "label": "solid"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Ausrichtung der Links — start (links), center (zentriert), right (rechts)",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-nav--align-center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-nav--align-right",
+          "default": false,
+          "label": "right"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "scrolled",
+      "hidden"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "scrolled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hidden",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-header"
+    ],
+    "tokenGroups": {
+      "Header": [
+        {
+          "token": "nc-nav-height"
+        },
+        {
+          "token": "nc-nav-bg"
+        },
+        {
+          "token": "nc-nav-bg-solid"
+        },
+        {
+          "token": "nc-nav-border"
+        },
+        {
+          "token": "nc-nav-border-width"
+        },
+        {
+          "token": "nc-nav-blur"
+        },
+        {
+          "token": "nc-nav-z-index"
+        },
+        {
+          "token": "nc-nav-padding-block"
+        },
+        {
+          "token": "nc-nav-padding-inline"
+        },
+        {
+          "token": "nc-nav-gap"
+        },
+        {
+          "token": "nc-nav-sticky-shadow"
+        }
+      ],
+      "Brand / Logo": [
+        {
+          "token": "nc-nav-brand-size"
+        },
+        {
+          "token": "nc-nav-brand-weight"
+        },
+        {
+          "token": "nc-nav-brand-color"
+        },
+        {
+          "token": "nc-nav-brand-gap"
+        },
+        {
+          "token": "nc-nav-brand-logo-height"
+        },
+        {
+          "token": "nc-nav-brand-letter-spacing"
+        }
+      ],
+      "Layout": [
+        {
+          "token": "nc-nav-justify-content"
+        },
+        {
+          "token": "nc-nav-align-items"
+        }
+      ],
+      "Transparent (Hero)": [
+        {
+          "token": "nc-nav-transparent-bg"
+        },
+        {
+          "token": "nc-nav-transparent-border"
+        },
+        {
+          "token": "nc-nav-transparent-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "emphasis": [
+              "transparent"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Transparent: Weisse Schrift auf Hero-Image — Kontrast des Hintergrundbilds pruefen."
+      }
+    ]
+  },
+  "dependencies": [
+    "header"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_navigation.scss"
+    ],
+    "story": "stories/organisms/navigation.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/NavigationArena.vue",
+    "drupal": [],
+    "docs": "docs/navigation-docs.html"
+  }
+}

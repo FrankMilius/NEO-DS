@@ -1,0 +1,51 @@
+{
+  "$schema": "./foundation-recipe-schema.json",
+  "meta": {
+    "category": "spacing",
+    "version": "1.0.0",
+    "status": "stable",
+    "tokenSource": "foundation.spacing",
+    "pipeline": {
+      "scss": ["scss/scss/00-settings/_spacing.scss"],
+      "generatedScss": ["scss/scss/00-settings/_tokens-spacing.generated.scss"],
+      "docs": "docs/spacing-docs.html",
+      "editor": "apps/theme-configurator/src/components/foundation/SpacingInspector.vue",
+      "story": "stories/foundations/spacing.stories.js"
+    }
+  },
+  "tokens": [
+    { "token": "--fnd-spacing-01", "value": "4px", "category": "static", "usage": "Minimaler Abstand, Icon-Padding, inline Gaps" },
+    { "token": "--fnd-spacing-02", "value": "8px", "category": "static", "usage": "Compact Padding, kleine Gaps, Chip Padding" },
+    { "token": "--fnd-spacing-03", "value": "12px", "category": "static", "usage": "Input Padding, Badge Spacing" },
+    { "token": "--fnd-spacing-04", "value": "16px", "category": "static", "usage": "Standard Padding, Card Content, List Items" },
+    { "token": "--fnd-spacing-05", "value": "20px", "category": "static", "usage": "Etwas groesserer Standard-Abstand" },
+    { "token": "--fnd-spacing-06", "value": "clamp(24px, ..., 28px)", "category": "fluid", "usage": "Section Gaps, Accordion Spacing" },
+    { "token": "--fnd-spacing-07", "value": "clamp(28px, ..., 36px)", "category": "fluid", "usage": "Container Padding, Modal Padding" },
+    { "token": "--fnd-spacing-08", "value": "clamp(32px, ..., 48px)", "category": "fluid", "usage": "Section Padding, Hero Spacing" },
+    { "token": "--fnd-spacing-09", "value": "clamp(40px, ..., 56px)", "category": "fluid", "usage": "Groesse Section-Abstaende" },
+    { "token": "--fnd-spacing-10", "value": "clamp(48px, ..., 64px)", "category": "fluid", "usage": "Grosse Abschnitt-Trennungen" },
+    { "token": "--fnd-spacing-11", "value": "clamp(64px, ..., 96px)", "category": "fluid", "usage": "Page-Level Spacing" },
+    { "token": "--fnd-spacing-12", "value": "clamp(80px, ..., 120px)", "category": "fluid", "usage": "Hero-Abstaende, Major Sections" },
+    { "token": "--fnd-spacing-13", "value": "clamp(96px, ..., 144px)", "category": "fluid", "usage": "Maximaler Abstand, Page Top/Bottom" }
+  ],
+  "usage": {
+    "do": [
+      "Spacing-Tokens fuer padding, margin, gap verwenden",
+      "Stufen 01-05 fuer komponenteninterne Abstaende",
+      "Stufen 06-10 fuer Section-Level Spacing",
+      "Stufen 11-13 fuer Page-Level Abstaende"
+    ],
+    "dont": [
+      "Keine hardcoded px-Werte in Komponenten (Ausnahme: optische Korrekturen <= 4px)",
+      "Keine rem/em Werte direkt — immer Token verwenden",
+      "Keine negativen Spacing-Tokens (margin-top: -var()) — Layout anders loesen"
+    ]
+  },
+  "relatedComponents": ["button", "card", "input", "accordion", "hero", "section", "container", "modal", "drawer"],
+  "a11y": {
+    "notes": [
+      "Spacing beeinflusst Touch-Target-Groessen — minimum 44x44px (WCAG 2.5.8).",
+      "Fluid Spacing skaliert mit Viewport — sicherstellen dass Touch-Targets auch auf kleinen Screens ausreichend sind."
+    ]
+  }
+}

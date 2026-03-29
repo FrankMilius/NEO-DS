@@ -1,0 +1,143 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "form-block",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "layout",
+    "form",
+    "content"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-form-block",
+    "slots": [
+      {
+        "name": "text",
+        "selector": ".nc-form-block__text",
+        "required": true,
+        "description": "Text-Section mit Headline und Subtext."
+      },
+      {
+        "name": "form",
+        "selector": ".nc-form-block__form",
+        "required": true,
+        "description": "Form-Section (Container fuer Formular-Elemente)."
+      },
+      {
+        "name": "headline",
+        "selector": ".nc-form-block__headline",
+        "required": true,
+        "description": "Headline der Text-Section."
+      },
+      {
+        "name": "subtext",
+        "selector": ".nc-form-block__subtext",
+        "required": false,
+        "description": "Beschreibungstext unter der Headline."
+      },
+      {
+        "name": "submission",
+        "selector": ".nc-form-block__submission",
+        "required": false,
+        "description": "Submission-Bereich (Terms + Hint + CTA)."
+      },
+      {
+        "name": "terms",
+        "selector": ".nc-form-block__terms",
+        "required": false,
+        "description": "Terms Checkbox-Area."
+      },
+      {
+        "name": "hint-text",
+        "selector": ".nc-form-block__hint-text",
+        "required": false,
+        "description": "Hinweistext unter Terms."
+      },
+      {
+        "name": "submit",
+        "selector": ".nc-form-block__submit",
+        "required": false,
+        "description": "Submit-Button."
+      }
+    ],
+    "notes": [
+      "4 Positionierungsvarianten: text-left, text-right, text-top, text-bottom.",
+      "Ab md: Side-by-Side Layouts (text-left, text-right), Text-Section 40%, sticky.",
+      "Stacked-Varianten bleiben column.",
+      "Form-Section enthaelt beliebige Formular-Komponenten (form-field, input-group, etc.)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "position": {
+      "label": "Text-Position",
+      "description": "Position der Text-Section relativ zur Form.",
+      "values": [
+        {
+          "value": "text-left",
+          "cssModifier": "nc-form-block--text-left",
+          "default": true,
+          "label": "Text links, Form rechts"
+        },
+        {
+          "value": "text-right",
+          "cssModifier": "nc-form-block--text-right",
+          "default": false,
+          "label": "Text rechts, Form links"
+        },
+        {
+          "value": "text-top",
+          "cssModifier": "nc-form-block--text-top",
+          "default": false,
+          "label": "Text oben, Form unten"
+        },
+        {
+          "value": "text-bottom",
+          "cssModifier": "nc-form-block--text-bottom",
+          "default": false,
+          "label": "Text unten, Form oben"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      ".nc-form-block"
+    ],
+    "tokenGroups": {},
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [
+      "Form-Block ist ein Layout-Container, keine eigene ARIA-Rolle.",
+      "Formular innerhalb der Form-Section sollte eigenes <form> Element verwenden.",
+      "Headline und Subtext sollten per aria-describedby mit dem Formular verknuepft werden."
+    ],
+    "overrides": []
+  },
+  "dependencies": [
+    "form"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_form-block.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [],
+    "docs": null
+  }
+}

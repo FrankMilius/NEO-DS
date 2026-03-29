@@ -1,0 +1,297 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "product-showcase",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "interactive",
+    "display",
+    "product",
+    "gallery"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-product-showcase",
+    "slots": [
+      {
+        "name": "options",
+        "selector": ".nc-product-showcase__options",
+        "required": true,
+        "description": "Vertikale oder horizontale Liste der auswaehlbaren Optionen."
+      },
+      {
+        "name": "option",
+        "selector": ".nc-product-showcase__option",
+        "required": true,
+        "description": "Einzelne Option. Klick triggert Media-Wechsel. Button mit role='tab'."
+      },
+      {
+        "name": "label",
+        "selector": ".nc-product-showcase__label",
+        "required": false,
+        "description": "Kategorie-Label ueber den Optionen (z.B. 'Waehlen Sie eine Farbe')."
+      },
+      {
+        "name": "media-panel",
+        "selector": ".nc-product-showcase__media-panel",
+        "required": true,
+        "description": "Container fuer das aktive Bild/Video. role='tabpanel'."
+      },
+      {
+        "name": "media-item",
+        "selector": ".nc-product-showcase__media-item",
+        "required": true,
+        "description": "Einzelnes Bild/Video. Sichtbar wenn zugehoerige Option selected."
+      }
+    ],
+    "notes": [
+      "Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter).",
+      "Options: role='tablist'. Jede Option ist ein button[role='tab'] mit aria-selected='true|false' und aria-controls.",
+      "Media-Panel: role='tabpanel', aria-labelledby zeigt auf die aktive Option.",
+      "Media-Item: position:absolute innerhalb des Panels. Aktives Item: opacity:1 + transform:translateX(0). Inaktiv: opacity:0 + transform:translateX(100%) (slide) oder opacity:0 (fade).",
+      "Animation: transition auf opacity + transform. Duration via --nc-product-showcase-animation-duration.",
+      "Selected-State: .nc-product-showcase__option[aria-selected='true'] bekommt --nc-product-showcase-option-color-active.",
+      "Unselected: opacity oder color gedimmt via --nc-product-showcase-option-color.",
+      "Label: Kleiner Kategorie-Text (z.B. 'Waehlen Sie eine Farbe'), optional, font-size xs, text-tertiary.",
+      "Option-Indicator: Kleiner Farbpunkt oder Thumbnail links der Option. Border-Radius full fuer Kreise.",
+      "Responsive: Auf Mobile wechselt horizontal zu stacked. Options werden horizontal scrollbar.",
+      "Keyboard: ArrowUp/Down (vertikal) oder ArrowLeft/Right (horizontal) navigiert Optionen. Enter/Space selektiert.",
+      "prefers-reduced-motion: Animationen deaktiviert, sofortiger Wechsel."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "layout": {
+      "label": "Layout",
+      "description": "Anordnung — horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter)",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "stacked",
+          "cssModifier": "nc-product-showcase--stacked",
+          "default": false,
+          "label": "stacked"
+        }
+      ]
+    },
+    "animation": {
+      "label": "Animation",
+      "description": "Uebergangs-Animation beim Wechsel — slide (von rechts), fade (einblenden), none (sofort)",
+      "values": [
+        {
+          "value": "slide",
+          "cssModifier": null,
+          "default": false,
+          "label": "slide"
+        },
+        {
+          "value": "fade",
+          "cssModifier": "nc-product-showcase--fade",
+          "default": false,
+          "label": "fade"
+        },
+        {
+          "value": "none",
+          "cssModifier": "nc-product-showcase--no-anim",
+          "default": false,
+          "label": "none"
+        }
+      ]
+    },
+    "optionStyle": {
+      "label": "Option Style",
+      "description": "Darstellung der Optionen — text (nur Text), indicator (mit Farbpunkt/Thumbnail), card (als Karten)",
+      "values": [
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        },
+        {
+          "value": "indicator",
+          "cssModifier": "nc-product-showcase--indicator",
+          "default": false,
+          "label": "indicator"
+        },
+        {
+          "value": "card",
+          "cssModifier": "nc-product-showcase--card",
+          "default": false,
+          "label": "card"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus-visible"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus-visible",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-product-showcase"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "nc-product-showcase-gap"
+        },
+        {
+          "token": "nc-product-showcase-options-width"
+        },
+        {
+          "token": "nc-product-showcase-padding"
+        }
+      ],
+      "Options": [
+        {
+          "token": "nc-product-showcase-option-font-size"
+        },
+        {
+          "token": "nc-product-showcase-option-font-weight"
+        },
+        {
+          "token": "nc-product-showcase-option-color"
+        },
+        {
+          "token": "nc-product-showcase-option-color-active"
+        },
+        {
+          "token": "nc-product-showcase-option-color-hover"
+        },
+        {
+          "token": "nc-product-showcase-option-gap"
+        },
+        {
+          "token": "nc-product-showcase-option-padding"
+        },
+        {
+          "token": "nc-product-showcase-label-font-size"
+        },
+        {
+          "token": "nc-product-showcase-label-color"
+        },
+        {
+          "token": "nc-product-showcase-indicator-size"
+        },
+        {
+          "token": "nc-product-showcase-indicator-radius"
+        },
+        {
+          "token": "nc-product-showcase-option-font-family"
+        },
+        {
+          "token": "nc-product-showcase-options-align"
+        },
+        {
+          "token": "nc-product-showcase-label-font-family"
+        }
+      ],
+      "Headline": [
+        {
+          "token": "nc-product-showcase-headline-size"
+        },
+        {
+          "token": "nc-product-showcase-headline-weight"
+        },
+        {
+          "token": "nc-product-showcase-headline-color"
+        }
+      ],
+      "Description": [
+        {
+          "token": "nc-product-showcase-desc-size"
+        },
+        {
+          "token": "nc-product-showcase-desc-color"
+        }
+      ],
+      "Media Panel": [
+        {
+          "token": "nc-product-showcase-media-radius"
+        },
+        {
+          "token": "nc-product-showcase-media-aspect-ratio"
+        },
+        {
+          "token": "nc-product-showcase-media-bg"
+        }
+      ],
+      "Animation": [
+        {
+          "token": "nc-product-showcase-animation-duration"
+        },
+        {
+          "token": "nc-product-showcase-animation-easing"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "animation": [
+              "slide",
+              "fade"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "prefers-reduced-motion"
+        ],
+        "note": "Animation muss bei prefers-reduced-motion deaktivierbar sein."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_product-showcase.scss"
+    ],
+    "story": "stories/organisms/product-showcase.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-product-showcase.html.twig",
+      "block--inline-block--neo-product-showcase.html.twig"
+    ],
+    "docs": null
+  }
+}

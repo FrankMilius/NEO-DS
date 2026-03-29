@@ -5,16 +5,52 @@
     "component": "solutions",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "content", "interactive"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/solutions-docs" }
+    "tags": [
+      "display",
+      "content",
+      "interactive"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/solutions-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_solutions.scss"
+      ],
+      "story": "stories/organisms/solutions.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/solutions-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".solutions" },
+    "root": {
+      "element": ".solutions"
+    },
     "slots": [
-      { "name": "accordion", "element": ".accordion--solutions", "optional": false },
-      { "name": "side-panel", "element": ".solutions > :nth-child(1)", "optional": true },
-      { "name": "content-panel", "element": ".solutions > :last-child", "optional": true },
-      { "name": "wrapper", "element": ".solutions-wrapper", "optional": true }
+      {
+        "name": "accordion",
+        "element": ".accordion--solutions",
+        "optional": false
+      },
+      {
+        "name": "side-panel",
+        "element": ".solutions > :nth-child(1)",
+        "optional": true
+      },
+      {
+        "name": "content-panel",
+        "element": ".solutions > :last-child",
+        "optional": true
+      },
+      {
+        "name": "wrapper",
+        "element": ".solutions-wrapper",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -29,15 +65,28 @@
       "label": "Variant",
       "description": "Einzige Variante",
       "values": {
-        "default": { "modifier": null, "tokenGroups": [], "renderHint": "solutions-default" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "solutions-default"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "open"],
-    "precedence": ["open", "default"],
+    "supported": [
+      "default",
+      "open"
+    ],
+    "precedence": [
+      "open",
+      "default"
+    ],
     "rules": [
-      { "state": "open", "condition": "Accordion-Item [open]" }
+      {
+        "state": "open",
+        "condition": "Accordion-Item [open]"
+      }
     ],
     "interactive": true
   },
@@ -50,27 +99,68 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["solutions"],
+    "baseClasses": [
+      "solutions"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "default", "label": "Solutions Section",
+      "id": "default",
+      "label": "Solutions Section",
       "description": "Accordion mit Side-Content und Tabs",
-      "matrix": { "axes": { "variant": ["default"] }, "states": ["default"] },
-      "layout": "row", "render": { "label": "solutions" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Accordion nativ. Progress: reduced-motion." }
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "solutions"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Accordion nativ. Progress: reduced-motion."
+      }
     }
   ]
 }

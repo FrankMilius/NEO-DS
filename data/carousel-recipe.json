@@ -5,16 +5,52 @@
     "component": "carousel",
     "version": "1.0.0",
     "status": "stable",
-    "tags": ["display", "interactive", "slider"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/carousel-docs" }
+    "tags": [
+      "display",
+      "interactive",
+      "slider"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/carousel-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_carousel.scss"
+      ],
+      "story": "stories/organisms/carousel.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "docs/carousel-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".carousel" },
+    "root": {
+      "element": ".carousel"
+    },
     "slots": [
-      { "name": "slides-wrapper", "element": ".carousel-slides-wrapper", "optional": false },
-      { "name": "bottom-nav", "element": ".carousel-bottom-nav-wrapper", "optional": false },
-      { "name": "line-wrapper", "element": ".carousel-line-wrapper", "optional": true },
-      { "name": "navigations", "element": ".carousel-navigations-wrapper", "optional": true }
+      {
+        "name": "slides-wrapper",
+        "element": ".carousel-slides-wrapper",
+        "optional": false
+      },
+      {
+        "name": "bottom-nav",
+        "element": ".carousel-bottom-nav-wrapper",
+        "optional": false
+      },
+      {
+        "name": "line-wrapper",
+        "element": ".carousel-line-wrapper",
+        "optional": true
+      },
+      {
+        "name": "navigations",
+        "element": ".carousel-navigations-wrapper",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -28,16 +64,33 @@
       "label": "Variant",
       "description": "Variante — default, autoplay",
       "values": {
-        "default":  { "modifier": null,  "tokenGroups": [], "renderHint": "carousel-default" },
-        "autoplay": { "modifier": null,  "tokenGroups": [], "renderHint": "carousel-autoplay" }
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "carousel-default"
+        },
+        "autoplay": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "carousel-autoplay"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "disabled"],
-    "precedence": ["disabled", "default"],
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "default"
+    ],
     "rules": [
-      { "state": "disabled", "condition": "Navigation-Button am Anfang/Ende" }
+      {
+        "state": "disabled",
+        "condition": "Navigation-Button am Anfang/Ende"
+      }
     ],
     "interactive": true
   },
@@ -50,27 +103,69 @@
     },
     "overrides": []
   },
-  "constraints": { "rules": [], "copy": {} },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
-    "baseClasses": ["carousel"],
+    "baseClasses": [
+      "carousel"
+    ],
     "baseTokenGroups": [],
-    "tokenGroups": { "base": { "label": "Base", "tokens": [] } }
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": []
+      }
+    }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses"],
-      "tokenGroups": ["styling.baseTokenGroups"]
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "variant-comparison", "label": "Carousel Variants",
+      "id": "variant-comparison",
+      "label": "Carousel Variants",
       "description": "Default vs Autoplay",
-      "matrix": { "axes": { "variant": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Autoplay: pausierbar bei Hover/Focus." }
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Autoplay: pausierbar bei Hover/Focus."
+      }
     }
   ]
 }

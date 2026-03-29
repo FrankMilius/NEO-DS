@@ -5,23 +5,90 @@
     "component": "toast",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["feedback", "notification", "interactive", "overlay"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/toast-docs" },
+    "tags": [
+      "feedback",
+      "notification",
+      "interactive",
+      "overlay"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/toast-docs"
+    },
     "changelog": [
-      { "version": "2.0.0", "changes": ["Pause on Hover/Focus fuer Auto-Dismiss", "Queue Management (max 3 sichtbar)", "Undo Action Support", "Swipe-to-Dismiss (Mobile)", "Stack Animation bei Entfernung", "Icon Form-Language (Barrierefreiheit)", "Overlay-Hierarchie Tokens", "Close-Button + Action-Button Token-Steuerung", "High Contrast Mode"] },
-      { "version": "1.0.0", "changes": ["Initiales Recipe: 5 Varianten, 6 Positionen, Slide-Animationen, Progress-Bar"] }
-    ]
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Pause on Hover/Focus fuer Auto-Dismiss",
+          "Queue Management (max 3 sichtbar)",
+          "Undo Action Support",
+          "Swipe-to-Dismiss (Mobile)",
+          "Stack Animation bei Entfernung",
+          "Icon Form-Language (Barrierefreiheit)",
+          "Overlay-Hierarchie Tokens",
+          "Close-Button + Action-Button Token-Steuerung",
+          "High Contrast Mode"
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiales Recipe: 5 Varianten, 6 Positionen, Slide-Animationen, Progress-Bar"
+        ]
+      }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_toast.scss"
+      ],
+      "story": "stories/molecules/toast.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/ToastArena.vue",
+      "drupal": [],
+      "docs": "docs/toast-docs.html"
+    }
   },
   "anatomy": {
-    "root": { "element": ".nc-toast" },
+    "root": {
+      "element": ".nc-toast"
+    },
     "slots": [
-      { "name": "icon", "element": ".nc-toast__icon", "optional": true },
-      { "name": "content", "element": ".nc-toast__content", "optional": false },
-      { "name": "title", "element": ".nc-toast__title", "optional": false },
-      { "name": "description", "element": ".nc-toast__description", "optional": true },
-      { "name": "action", "element": ".nc-toast__action", "optional": true },
-      { "name": "close", "element": ".nc-toast__close", "optional": true },
-      { "name": "progress", "element": ".nc-toast__progress", "optional": true }
+      {
+        "name": "icon",
+        "element": ".nc-toast__icon",
+        "optional": true
+      },
+      {
+        "name": "content",
+        "element": ".nc-toast__content",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-toast__title",
+        "optional": false
+      },
+      {
+        "name": "description",
+        "element": ".nc-toast__description",
+        "optional": true
+      },
+      {
+        "name": "action",
+        "element": ".nc-toast__action",
+        "optional": true
+      },
+      {
+        "name": "close",
+        "element": ".nc-toast__close",
+        "optional": true
+      },
+      {
+        "name": "progress",
+        "element": ".nc-toast__progress",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -43,45 +110,175 @@
       "label": "Severity",
       "description": "Semantische Variante — default, success, warning, error, info",
       "values": {
-        "default": { "modifier": "nc-toast--default", "tokenGroups": ["severity-default"], "renderHint": "toast-default" },
-        "success": { "modifier": "nc-toast--success", "tokenGroups": ["severity-success"], "renderHint": "toast-success" },
-        "warning": { "modifier": "nc-toast--warning", "tokenGroups": ["severity-warning"], "renderHint": "toast-warning" },
-        "error":   { "modifier": "nc-toast--error",   "tokenGroups": ["severity-error"],   "renderHint": "toast-error" },
-        "info":    { "modifier": "nc-toast--info",     "tokenGroups": ["severity-info"],    "renderHint": "toast-info" }
+        "default": {
+          "modifier": "nc-toast--default",
+          "tokenGroups": [
+            "severity-default"
+          ],
+          "renderHint": "toast-default"
+        },
+        "success": {
+          "modifier": "nc-toast--success",
+          "tokenGroups": [
+            "severity-success"
+          ],
+          "renderHint": "toast-success"
+        },
+        "warning": {
+          "modifier": "nc-toast--warning",
+          "tokenGroups": [
+            "severity-warning"
+          ],
+          "renderHint": "toast-warning"
+        },
+        "error": {
+          "modifier": "nc-toast--error",
+          "tokenGroups": [
+            "severity-error"
+          ],
+          "renderHint": "toast-error"
+        },
+        "info": {
+          "modifier": "nc-toast--info",
+          "tokenGroups": [
+            "severity-info"
+          ],
+          "renderHint": "toast-info"
+        }
       }
     },
     "position": {
       "label": "Position",
       "description": "Position des Toasters — top-left, top-center, top-right, bottom-left, bottom-center, bottom-right",
       "values": {
-        "top-right":      { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-right" },
-        "top-left":       { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-left" },
-        "top-center":     { "modifier": null, "tokenGroups": [], "renderHint": "toast-top-center" },
-        "bottom-right":   { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-right" },
-        "bottom-left":    { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-left" },
-        "bottom-center":  { "modifier": null, "tokenGroups": [], "renderHint": "toast-bottom-center" }
+        "top-right": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-top-right"
+        },
+        "top-left": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-top-left"
+        },
+        "top-center": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-top-center"
+        },
+        "bottom-right": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-bottom-right"
+        },
+        "bottom-left": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-bottom-left"
+        },
+        "bottom-center": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-bottom-center"
+        }
       }
     },
     "content": {
       "label": "Content",
       "description": "Inhaltsoptionen — basic, with-description, with-action, with-undo, with-progress",
       "values": {
-        "basic":            { "modifier": null, "tokenGroups": [], "renderHint": "toast-basic" },
-        "with-description": { "modifier": null, "tokenGroups": [], "slotConfig": { "description": true }, "renderHint": "toast-description" },
-        "with-action":      { "modifier": null, "tokenGroups": ["action-button"], "slotConfig": { "description": true, "action": true }, "renderHint": "toast-action" },
-        "with-undo":        { "modifier": null, "tokenGroups": ["action-button"], "slotConfig": { "description": true, "action": true }, "renderHint": "toast-undo" },
-        "with-progress":    { "modifier": null, "tokenGroups": [], "slotConfig": { "progress": true }, "renderHint": "toast-progress" }
+        "basic": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "toast-basic"
+        },
+        "with-description": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "description": true
+          },
+          "renderHint": "toast-description"
+        },
+        "with-action": {
+          "modifier": null,
+          "tokenGroups": [
+            "action-button"
+          ],
+          "slotConfig": {
+            "description": true,
+            "action": true
+          },
+          "renderHint": "toast-action"
+        },
+        "with-undo": {
+          "modifier": null,
+          "tokenGroups": [
+            "action-button"
+          ],
+          "slotConfig": {
+            "description": true,
+            "action": true
+          },
+          "renderHint": "toast-undo"
+        },
+        "with-progress": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "progress": true
+          },
+          "renderHint": "toast-progress"
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "entering", "leaving", "swiping", "swipe-out"],
-    "precedence": ["swipe-out", "swiping", "leaving", "entering", "default"],
+    "supported": [
+      "default",
+      "entering",
+      "leaving",
+      "swiping",
+      "swipe-out"
+    ],
+    "precedence": [
+      "swipe-out",
+      "swiping",
+      "leaving",
+      "entering",
+      "default"
+    ],
     "rules": [
-      { "state": "entering", "unless": ["leaving", "swiping", "swipe-out"], "note": "Entering: Slide-in Animation je nach Position." },
-      { "state": "leaving", "unless": ["swiping", "swipe-out"], "note": "Leaving: Slide-out Animation. Toast wird nach Animation entfernt." },
-      { "state": "swiping", "unless": ["entering", "leaving"], "note": "Swiping: Aktive Touch-Geste. JS setzt --_toast-swipe-x." },
-      { "state": "swipe-out", "unless": [], "note": "Swipe-Out: Dismiss-Animation nach Threshold-Ueberschreitung." }
+      {
+        "state": "entering",
+        "unless": [
+          "leaving",
+          "swiping",
+          "swipe-out"
+        ],
+        "note": "Entering: Slide-in Animation je nach Position."
+      },
+      {
+        "state": "leaving",
+        "unless": [
+          "swiping",
+          "swipe-out"
+        ],
+        "note": "Leaving: Slide-out Animation. Toast wird nach Animation entfernt."
+      },
+      {
+        "state": "swiping",
+        "unless": [
+          "entering",
+          "leaving"
+        ],
+        "note": "Swiping: Aktive Touch-Geste. JS setzt --_toast-swipe-x."
+      },
+      {
+        "state": "swipe-out",
+        "unless": [],
+        "note": "Swipe-Out: Dismiss-Animation nach Threshold-Ueberschreitung."
+      }
     ],
     "interactive": true
   },
@@ -89,143 +286,509 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "role='status' (polite). Toaster: aria-live='polite'. Close: aria-label='Schliessen'. ESC schliesst neuesten Toast. Farbe nie alleiniges Signal — immer mit Icon + Text. Pause on Hover/Focus pausiert Timer + Progress-Animation."
     },
     "overrides": [
-      { "when": { "axes": { "severity": ["error", "warning"] } }, "suggest": ["role-alert"], "note": "Error/Warning: role='alert' statt role='status' fuer dringende Meldungen." },
-      { "when": { "axes": { "content": ["with-undo"] } }, "suggest": ["extended-timeout"], "note": "Undo-Toasts: Laengerer Auto-Dismiss (mind. 10s) oder kein Auto-Dismiss. Undo-Aktion muss klar als Button erkennbar sein." },
-      { "when": { "states": ["swiping"] } }, { "suggest": ["aria-hidden-during-swipe"], "note": "Waehrend Swipe-Geste keine Screenreader-Updates. Erst nach Dismiss oder Abbruch." }
+      {
+        "when": {
+          "axes": {
+            "severity": [
+              "error",
+              "warning"
+            ]
+          }
+        },
+        "suggest": [
+          "role-alert"
+        ],
+        "note": "Error/Warning: role='alert' statt role='status' fuer dringende Meldungen."
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-undo"
+            ]
+          }
+        },
+        "suggest": [
+          "extended-timeout"
+        ],
+        "note": "Undo-Toasts: Laengerer Auto-Dismiss (mind. 10s) oder kein Auto-Dismiss. Undo-Aktion muss klar als Button erkennbar sein."
+      },
+      {
+        "when": {
+          "states": [
+            "swiping"
+          ]
+        }
+      },
+      {
+        "suggest": [
+          "aria-hidden-during-swipe"
+        ],
+        "note": "Waehrend Swipe-Geste keine Screenreader-Updates. Erst nach Dismiss oder Abbruch."
+      }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-status", "aria-live"], "notes": ["Toast: role='status'. Toaster-Container: aria-live='polite'."] },
-      { "when": { "axes": { "content": ["with-undo"] } }, "require": ["extended-timeout"], "notes": ["Undo-Toast braucht genuegend Zeit fuer Tastatur-Navigation zur Aktion."] }
+      {
+        "when": {},
+        "require": [
+          "role-status",
+          "aria-live"
+        ],
+        "notes": [
+          "Toast: role='status'. Toaster-Container: aria-live='polite'."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "content": [
+              "with-undo"
+            ]
+          }
+        },
+        "require": [
+          "extended-timeout"
+        ],
+        "notes": [
+          "Undo-Toast braucht genuegend Zeit fuer Tastatur-Navigation zur Aktion."
+        ]
+      }
     ],
     "copy": {
-      "title": { "maxChars": 60, "note": "Kurz und praegnant: 'Gespeichert', 'Fehler beim Senden', 'Aenderungen uebernommen'." },
-      "description": { "maxChars": 120, "note": "Optionale Details zur Aktion." },
-      "action": { "maxChars": 20, "note": "Aktions-Label: 'Rueckgaengig', 'Details', 'Wiederholen'." }
+      "title": {
+        "maxChars": 60,
+        "note": "Kurz und praegnant: 'Gespeichert', 'Fehler beim Senden', 'Aenderungen uebernommen'."
+      },
+      "description": {
+        "maxChars": 120,
+        "note": "Optionale Details zur Aktion."
+      },
+      "action": {
+        "maxChars": 20,
+        "note": "Aktions-Label: 'Rueckgaengig', 'Details', 'Wiederholen'."
+      }
     }
   },
   "styling": {
-    "baseClasses": ["nc-toast"],
-    "baseTokenGroups": ["container", "animation"],
+    "baseClasses": [
+      "nc-toast"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "animation"
+    ],
     "tokenGroups": {
       "container": {
         "label": "Container",
-        "tokens": ["nc-toast-z-index", "nc-toast-offset", "nc-toast-gap", "nc-toast-width", "nc-toast-padding", "nc-toast-radius", "nc-toast-border-width", "nc-toast-shadow", "nc-toast-item-gap", "nc-toast-icon-size", "nc-toast-font-size", "nc-toast-description-font-size", "nc-toast-progress-height", "nc-toast-auto-dismiss-duration"]
+        "tokens": [
+          "nc-toast-z-index",
+          "nc-toast-offset",
+          "nc-toast-gap",
+          "nc-toast-width",
+          "nc-toast-padding",
+          "nc-toast-radius",
+          "nc-toast-border-width",
+          "nc-toast-shadow",
+          "nc-toast-item-gap",
+          "nc-toast-icon-size",
+          "nc-toast-font-size",
+          "nc-toast-description-font-size",
+          "nc-toast-progress-height",
+          "nc-toast-auto-dismiss-duration"
+        ]
       },
       "animation": {
         "label": "Animation",
-        "tokens": ["nc-toast-animation-duration", "nc-toast-animation-easing", "nc-toast-stack-transition"]
+        "tokens": [
+          "nc-toast-animation-duration",
+          "nc-toast-animation-easing",
+          "nc-toast-stack-transition"
+        ]
       },
       "close-button": {
         "label": "Close Button",
-        "tokens": ["nc-toast-close-size", "nc-toast-close-opacity", "nc-toast-close-bg-hover"]
+        "tokens": [
+          "nc-toast-close-size",
+          "nc-toast-close-opacity",
+          "nc-toast-close-bg-hover"
+        ]
       },
       "action-button": {
         "label": "Action Button",
-        "tokens": ["nc-toast-action-padding", "nc-toast-action-radius", "nc-toast-action-font-size"]
+        "tokens": [
+          "nc-toast-action-padding",
+          "nc-toast-action-radius",
+          "nc-toast-action-font-size"
+        ]
       },
       "queue": {
         "label": "Queue & Swipe",
-        "tokens": ["nc-toast-max-visible", "nc-toast-swipe-threshold"]
+        "tokens": [
+          "nc-toast-max-visible",
+          "nc-toast-swipe-threshold"
+        ]
       },
       "severity-default": {
         "label": "Default Severity",
-        "tokens": ["nc-toast-default-bg", "nc-toast-default-color", "nc-toast-default-border", "nc-toast-default-icon-color", "nc-toast-default-progress-bg"]
+        "tokens": [
+          "nc-toast-default-bg",
+          "nc-toast-default-color",
+          "nc-toast-default-border",
+          "nc-toast-default-icon-color",
+          "nc-toast-default-progress-bg"
+        ]
       },
       "severity-success": {
         "label": "Success Severity",
-        "tokens": ["nc-toast-success-bg", "nc-toast-success-color", "nc-toast-success-border", "nc-toast-success-icon-color", "nc-toast-success-progress-bg"]
+        "tokens": [
+          "nc-toast-success-bg",
+          "nc-toast-success-color",
+          "nc-toast-success-border",
+          "nc-toast-success-icon-color",
+          "nc-toast-success-progress-bg"
+        ]
       },
       "severity-warning": {
         "label": "Warning Severity",
-        "tokens": ["nc-toast-warning-bg", "nc-toast-warning-color", "nc-toast-warning-border", "nc-toast-warning-icon-color", "nc-toast-warning-progress-bg"]
+        "tokens": [
+          "nc-toast-warning-bg",
+          "nc-toast-warning-color",
+          "nc-toast-warning-border",
+          "nc-toast-warning-icon-color",
+          "nc-toast-warning-progress-bg"
+        ]
       },
       "severity-error": {
         "label": "Error Severity",
-        "tokens": ["nc-toast-error-bg", "nc-toast-error-color", "nc-toast-error-border", "nc-toast-error-icon-color", "nc-toast-error-progress-bg"]
+        "tokens": [
+          "nc-toast-error-bg",
+          "nc-toast-error-color",
+          "nc-toast-error-border",
+          "nc-toast-error-icon-color",
+          "nc-toast-error-progress-bg"
+        ]
       },
       "severity-info": {
         "label": "Info Severity",
-        "tokens": ["nc-toast-info-bg", "nc-toast-info-color", "nc-toast-info-border", "nc-toast-info-icon-color", "nc-toast-info-progress-bg"]
+        "tokens": [
+          "nc-toast-info-bg",
+          "nc-toast-info-color",
+          "nc-toast-info-border",
+          "nc-toast-info-icon-color",
+          "nc-toast-info-progress-bg"
+        ]
       }
     }
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.severity.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.severity.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "severity-variants", "label": "Severity Variants",
+      "id": "severity-variants",
+      "label": "Severity Variants",
       "description": "Default, Success, Warning, Error, Info — jeweils mit Icon-Formsprache",
-      "matrix": { "axes": { "severity": "*", "position": ["top-right"], "content": ["with-description"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "severity" }, "render": { "label": "{severity}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Jede Variante: dediziertes Icon + Text + Farbe. Farbe nie alleiniges Signal." }
+      "matrix": {
+        "axes": {
+          "severity": "*",
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-description"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "severity"
+      },
+      "render": {
+        "label": "{severity}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Jede Variante: dediziertes Icon + Text + Farbe. Farbe nie alleiniges Signal."
+      }
     },
     {
-      "id": "content-variants", "label": "Content Variants",
+      "id": "content-variants",
+      "label": "Content Variants",
       "description": "Basic, With Description, With Action, With Undo, With Progress",
-      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": "*" }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "content" }, "render": { "label": "{content}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Action-Button: eigene Keyboard-Accessibility. Progress: rein visuell, pausiert bei Hover." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "default"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "content"
+      },
+      "render": {
+        "label": "{content}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Action-Button: eigene Keyboard-Accessibility. Progress: rein visuell, pausiert bei Hover."
+      }
     },
     {
-      "id": "with-action", "label": "Toast with Action",
+      "id": "with-action",
+      "label": "Toast with Action",
       "description": "Toast mit Action-Button und Close",
-      "matrix": { "axes": { "severity": ["success"], "position": ["top-right"], "content": ["with-action"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-action", "label": "action" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Action-Button: Tab-erreichbar. Close: aria-label='Schliessen'." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "success"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-action"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-action",
+        "label": "action"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Action-Button: Tab-erreichbar. Close: aria-label='Schliessen'."
+      }
     },
     {
-      "id": "undo-action", "label": "Toast with Undo",
+      "id": "undo-action",
+      "label": "Toast with Undo",
       "description": "Toast mit Undo-Action-Button — erweiterter Timer oder kein Auto-Dismiss",
-      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": ["with-undo"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-undo", "label": "undo" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Undo: Laengerer Timer (10s+). Undo-Button klar erkennbar. Focus-Management: Tab erreicht Undo vor Close." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "default"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-undo"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-undo",
+        "label": "undo"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Undo: Laengerer Timer (10s+). Undo-Button klar erkennbar. Focus-Management: Tab erreicht Undo vor Close."
+      }
     },
     {
-      "id": "with-progress", "label": "Toast with Progress",
+      "id": "with-progress",
+      "label": "Toast with Progress",
       "description": "Auto-Dismiss Toast mit Fortschrittsbalken — pausiert bei Hover/Focus",
-      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": ["with-progress"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-progress", "label": "progress" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Progress: rein visuell. Pausiert bei :hover/:focus-within. Auto-Dismiss Dauer konfigurierbar." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "default"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-progress"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-progress",
+        "label": "progress"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Progress: rein visuell. Pausiert bei :hover/:focus-within. Auto-Dismiss Dauer konfigurierbar."
+      }
     },
     {
-      "id": "stacked", "label": "Stacked Toasts",
+      "id": "stacked",
+      "label": "Stacked Toasts",
       "description": "Mehrere Toasts gestapelt im Toaster — max 3 sichtbar",
-      "matrix": { "axes": { "severity": ["success", "error", "default"], "position": ["top-right"], "content": ["with-description"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-stacked", "label": "stacked" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Toaster: aria-live='polite'. Neue Toasts werden angekuendigt. ESC schliesst neuesten. Queue: max 3 sichtbar." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "success",
+            "error",
+            "default"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-description"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-stacked",
+        "label": "stacked"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Toaster: aria-live='polite'. Neue Toasts werden angekuendigt. ESC schliesst neuesten. Queue: max 3 sichtbar."
+      }
     },
     {
-      "id": "queue-limit", "label": "Queue Management",
+      "id": "queue-limit",
+      "label": "Queue Management",
       "description": "Mehr als max-visible Toasts — aelteste werden ausgeblendet",
-      "matrix": { "axes": { "severity": ["info", "success", "warning", "error"], "position": ["top-right"], "content": ["basic"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-queue", "label": "queue" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Queue-Management: Screenreader-Ankuendigung nur fuer sichtbare Toasts. Ausgeblendete Toasts werden entfernt." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "info",
+            "success",
+            "warning",
+            "error"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "basic"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-queue",
+        "label": "queue"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Queue-Management: Screenreader-Ankuendigung nur fuer sichtbare Toasts. Ausgeblendete Toasts werden entfernt."
+      }
     },
     {
-      "id": "swipe-dismiss", "label": "Swipe to Dismiss",
+      "id": "swipe-dismiss",
+      "label": "Swipe to Dismiss",
       "description": "Touch-basiertes Wegwischen (Mobile) — Threshold konfigurierbar",
-      "matrix": { "axes": { "severity": ["default"], "position": ["top-right"], "content": ["with-description"] }, "states": ["swiping"] },
-      "layout": "row", "render": { "compositionType": "toast-swipe", "label": "swipe" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Swipe: nur horizontal. Threshold 100px. Keyboard-Aequivalent: ESC oder Close-Button." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "default"
+          ],
+          "position": [
+            "top-right"
+          ],
+          "content": [
+            "with-description"
+          ]
+        },
+        "states": [
+          "swiping"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-swipe",
+        "label": "swipe"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Swipe: nur horizontal. Threshold 100px. Keyboard-Aequivalent: ESC oder Close-Button."
+      }
     },
     {
-      "id": "error-alert", "label": "Error Alert Toast",
+      "id": "error-alert",
+      "label": "Error Alert Toast",
       "description": "Dringender Error-Toast mit role='alert'",
-      "matrix": { "axes": { "severity": ["error"], "position": ["top-center"], "content": ["with-action"] }, "states": ["default"] },
-      "layout": "row", "render": { "compositionType": "toast-error-alert", "label": "error-alert" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "role='alert': sofortige Ankuendigung. Error-Icon + Text + Farbe." }
+      "matrix": {
+        "axes": {
+          "severity": [
+            "error"
+          ],
+          "position": [
+            "top-center"
+          ],
+          "content": [
+            "with-action"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "toast-error-alert",
+        "label": "error-alert"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "role='alert': sofortige Ankuendigung. Error-Icon + Text + Farbe."
+      }
     }
   ]
 }

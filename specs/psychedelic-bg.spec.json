@@ -1,0 +1,307 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "psychedelic-bg",
+  "version": "1.0.0",
+  "status": "experimental",
+  "layer": "organism",
+  "tags": [
+    "animation",
+    "background",
+    "canvas",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-psychedelic-bg",
+    "slots": [
+      {
+        "name": "canvas",
+        "selector": "canvas",
+        "required": true,
+        "description": "HTML5 Canvas Element fuer die Musterzeichnung."
+      }
+    ],
+    "notes": [
+      "Canvas mit position:absolute fuellt den Container. requestAnimationFrame fuer 60fps Rendering. ResizeObserver passt Canvas-Groesse automatisch an."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "shape": {
+      "label": "Form",
+      "description": "Grundform der Musterobjekte",
+      "values": [
+        {
+          "value": "lines",
+          "cssModifier": null,
+          "default": false,
+          "label": "lines"
+        },
+        {
+          "value": "circles",
+          "cssModifier": null,
+          "default": false,
+          "label": "circles"
+        },
+        {
+          "value": "squares",
+          "cssModifier": null,
+          "default": false,
+          "label": "squares"
+        },
+        {
+          "value": "rectangles",
+          "cssModifier": null,
+          "default": false,
+          "label": "rectangles"
+        },
+        {
+          "value": "dots",
+          "cssModifier": null,
+          "default": false,
+          "label": "dots"
+        },
+        {
+          "value": "triangles",
+          "cssModifier": null,
+          "default": false,
+          "label": "triangles"
+        },
+        {
+          "value": "waves",
+          "cssModifier": null,
+          "default": false,
+          "label": "waves"
+        }
+      ]
+    },
+    "mouseEffect": {
+      "label": "Maus-Effekt",
+      "description": "Visueller Effekt bei Mausbewegung",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "lens",
+          "cssModifier": null,
+          "default": false,
+          "label": "lens"
+        },
+        {
+          "value": "funnel",
+          "cssModifier": null,
+          "default": false,
+          "label": "funnel"
+        },
+        {
+          "value": "distort",
+          "cssModifier": null,
+          "default": false,
+          "label": "distort"
+        },
+        {
+          "value": "repel",
+          "cssModifier": null,
+          "default": false,
+          "label": "repel"
+        },
+        {
+          "value": "attract",
+          "cssModifier": null,
+          "default": false,
+          "label": "attract"
+        },
+        {
+          "value": "ripple",
+          "cssModifier": null,
+          "default": false,
+          "label": "ripple"
+        }
+      ]
+    },
+    "colorMode": {
+      "label": "Farbmodus",
+      "description": "Einfarbig oder mehrfarbig",
+      "values": [
+        {
+          "value": "mono",
+          "cssModifier": null,
+          "default": false,
+          "label": "mono"
+        },
+        {
+          "value": "palette",
+          "cssModifier": null,
+          "default": false,
+          "label": "palette"
+        },
+        {
+          "value": "gradient",
+          "cssModifier": null,
+          "default": false,
+          "label": "gradient"
+        }
+      ]
+    },
+    "region": {
+      "label": "Region",
+      "description": "Bereich der Anzeige auf dem Hintergrund",
+      "values": [
+        {
+          "value": "full",
+          "cssModifier": null,
+          "default": false,
+          "label": "full"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "vertical",
+          "cssModifier": null,
+          "default": false,
+          "label": "vertical"
+        },
+        {
+          "value": "diagonal",
+          "cssModifier": null,
+          "default": false,
+          "label": "diagonal"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "interactive": true,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-psychedelic-bg"
+    ],
+    "tokenGroups": {
+      "Muster": [
+        {
+          "token": "nc-psychedelic-bg-line-width"
+        },
+        {
+          "token": "nc-psychedelic-bg-frequency"
+        },
+        {
+          "token": "nc-psychedelic-bg-amplitude"
+        },
+        {
+          "token": "nc-psychedelic-bg-speed"
+        },
+        {
+          "token": "nc-psychedelic-bg-phase"
+        }
+      ],
+      "Dichte": [
+        {
+          "token": "nc-psychedelic-bg-density"
+        },
+        {
+          "token": "nc-psychedelic-bg-gap"
+        },
+        {
+          "token": "nc-psychedelic-bg-scale"
+        }
+      ],
+      "Maus-Interaktion": [
+        {
+          "token": "nc-psychedelic-bg-mouse-radius"
+        },
+        {
+          "token": "nc-psychedelic-bg-mouse-strength"
+        },
+        {
+          "token": "nc-psychedelic-bg-mouse-smoothing"
+        }
+      ],
+      "Einfarbig": [
+        {
+          "token": "nc-psychedelic-bg-color"
+        },
+        {
+          "token": "nc-psychedelic-bg-bg-color"
+        },
+        {
+          "token": "nc-psychedelic-bg-opacity"
+        }
+      ],
+      "Farbpalette": [
+        {
+          "token": "nc-psychedelic-bg-palette"
+        },
+        {
+          "token": "nc-psychedelic-bg-bg-color"
+        },
+        {
+          "token": "nc-psychedelic-bg-opacity"
+        }
+      ],
+      "Farbverlauf": [
+        {
+          "token": "nc-psychedelic-bg-gradient-start"
+        },
+        {
+          "token": "nc-psychedelic-bg-gradient-end"
+        },
+        {
+          "token": "nc-psychedelic-bg-bg-color"
+        },
+        {
+          "token": "nc-psychedelic-bg-opacity"
+        }
+      ],
+      "Region-Koordinaten": [
+        {
+          "token": "nc-psychedelic-bg-region-x1"
+        },
+        {
+          "token": "nc-psychedelic-bg-region-y1"
+        },
+        {
+          "token": "nc-psychedelic-bg-region-x2"
+        },
+        {
+          "token": "nc-psychedelic-bg-region-y2"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "Dekoratives Element, kein Kontrastziel",
+    "focusIndicator": null,
+    "assertions": [
+      "Canvas muss aria-hidden='true' haben",
+      "prefers-reduced-motion: reduce → Animation stoppen"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [],
+    "story": "stories/organisms/psychedelic-bg.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/PsychedelicBgArena.vue",
+    "drupal": [],
+    "docs": null
+  }
+}

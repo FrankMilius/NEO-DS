@@ -1,0 +1,248 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "timeline",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "layout",
+    "content",
+    "chronological"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-timeline",
+    "slots": [
+      {
+        "name": "item",
+        "selector": ".nc-timeline__item",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "node",
+        "selector": ".nc-timeline__node",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-timeline__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "time",
+        "selector": ".nc-timeline__time",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-timeline__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "description",
+        "selector": ".nc-timeline__description",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "<ol> fuer chronologisch geordnete Eintraege — semantische Reihenfolge.",
+      "Item: CSS-Grid (auto + 1fr), vertikale Linie via ::before Pseudo-Element.",
+      "Letzes Item: ::before display:none — keine Linie nach unten.",
+      "Node: Kreis auf der Linie (12px default), z-index: base (ueberdeckt Linie).",
+      "Node-Varianten: --active (interactive-default), --success (feedback-success), --danger (feedback-danger).",
+      "Zeitangabe in <time datetime='...'> fuer maschinenlesbare Daten.",
+      "font-variant-numeric: tabular-nums auf __time fuer gleichbreite Ziffern.",
+      "Icon-Variante: Groessere Nodes (32px) mit SVG-Icon, Linie verschoben.",
+      "Connected-Variante: Content bekommt Card-Hintergrund (layer-01 + border + radius).",
+      "Compact-Variante: Kleinere Nodes (8px), weniger Abstand."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (kleine Punkte), icon (grosse Nodes mit Icon), connected (Card-Hintergrund), compact (minimal)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "icon",
+          "cssModifier": "nc-timeline--icon",
+          "default": false,
+          "label": "icon"
+        },
+        {
+          "value": "connected",
+          "cssModifier": "nc-timeline--connected",
+          "default": false,
+          "label": "connected"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-timeline--compact",
+          "default": false,
+          "label": "compact"
+        }
+      ]
+    },
+    "nodeStatus": {
+      "label": "Node Status",
+      "description": "Status des Node-Punktes — default (neutral), active (primaer), success (Erfolg), danger (Fehler)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "active",
+          "cssModifier": null,
+          "default": false,
+          "label": "active"
+        },
+        {
+          "value": "success",
+          "cssModifier": null,
+          "default": false,
+          "label": "success"
+        },
+        {
+          "value": "danger",
+          "cssModifier": null,
+          "default": false,
+          "label": "danger"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-timeline"
+    ],
+    "tokenGroups": {
+      "Line": [
+        {
+          "token": "nc-timeline-line-color"
+        },
+        {
+          "token": "nc-timeline-line-width"
+        },
+        {
+          "token": "nc-timeline-gap"
+        }
+      ],
+      "Node": [
+        {
+          "token": "nc-timeline-node-size"
+        },
+        {
+          "token": "nc-timeline-node-bg"
+        },
+        {
+          "token": "nc-timeline-node-border"
+        },
+        {
+          "token": "nc-timeline-node-border-width"
+        },
+        {
+          "token": "nc-timeline-node-radius"
+        }
+      ],
+      "Node Variants": [
+        {
+          "token": "nc-timeline-node-active-bg"
+        },
+        {
+          "token": "nc-timeline-node-active-border"
+        },
+        {
+          "token": "nc-timeline-node-success-bg"
+        },
+        {
+          "token": "nc-timeline-node-danger-bg"
+        },
+        {
+          "token": "nc-timeline-node-icon-size"
+        },
+        {
+          "token": "nc-timeline-node-icon-color"
+        }
+      ],
+      "Content": [
+        {
+          "token": "nc-timeline-content-gap"
+        },
+        {
+          "token": "nc-timeline-content-padding"
+        }
+      ],
+      "Typography": [
+        {
+          "token": "nc-timeline-title-size"
+        },
+        {
+          "token": "nc-timeline-title-weight"
+        },
+        {
+          "token": "nc-timeline-title-color"
+        },
+        {
+          "token": "nc-timeline-desc-size"
+        },
+        {
+          "token": "nc-timeline-desc-color"
+        },
+        {
+          "token": "nc-timeline-time-size"
+        },
+        {
+          "token": "nc-timeline-time-color"
+        },
+        {
+          "token": "nc-timeline-time-weight"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_timeline.scss"
+    ],
+    "story": "stories/organisms/timeline.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/timeline-docs.html"
+  }
+}

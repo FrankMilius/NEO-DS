@@ -1,0 +1,107 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "solutions",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "content",
+    "interactive"
+  ],
+  "anatomy": {
+    "rootElement": ".solutions",
+    "slots": [
+      {
+        "name": "accordion",
+        "selector": ".accordion--solutions",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "side-panel",
+        "selector": ".solutions > :nth-child(1)",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "content-panel",
+        "selector": ".solutions > :last-child",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "wrapper",
+        "selector": ".solutions-wrapper",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Desktop: 3-Spalten Grid (6+1+5) mit grid-areas accordion/side/content.",
+      "Mobile: Horizontal-Scroll Accordion mit scroll-snap, Tabs oben.",
+      "Accordion-Items: Details/Summary, progress-bar Animation (12s linear).",
+      "Side/Content Panels: nur Desktop sichtbar, grid-area overlay."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "solutions"
+    ],
+    "tokenGroups": {
+      "Base": []
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_solutions.scss"
+    ],
+    "story": "stories/organisms/solutions.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "docs/solutions-docs.html"
+  }
+}

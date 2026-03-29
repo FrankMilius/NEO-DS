@@ -1,0 +1,302 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "radio",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "interactive",
+    "form",
+    "selection"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-radio",
+    "slots": [
+      {
+        "name": "input",
+        "selector": ".nc-radio__input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "control",
+        "selector": ".nc-radio__control",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "label",
+        "selector": ".nc-radio__label",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Wrapper ist ein <label class='nc-radio'> — Klick auf Label aktiviert Input.",
+      "Native <input type='radio'> wird via sr-only versteckt, bleibt im DOM fuer Accessibility.",
+      "__control ist ein <span> mit border-radius: 50% (Kreis).",
+      ":checked → Dot via ::after pseudo-element, skaliert mit transform: scale(dot-scale).",
+      ":focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.",
+      "Radio-Buttons in einer Gruppe teilen sich den gleichen name-Attribut. Nur einer kann gleichzeitig checked sein.",
+      "Error kann per .nc-radio--error gesetzt werden.",
+      "Alignment --top: Control obenbuendig bei mehrzeiligen Labels (margin-top: 0.15em).",
+      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Size",
+      "description": "3 Groessenabstufungen — sm (16px) / md (20px, Standard) / lg (24px)",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-radio--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-radio--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "alignment": {
+      "label": "Alignment",
+      "description": "Vertikale Ausrichtung des Controls zum Label — center (Standard, zentriert), top (obenbuendig, fuer mehrzeilige Labels)",
+      "values": [
+        {
+          "value": "center",
+          "cssModifier": null,
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "top",
+          "cssModifier": "nc-radio--top",
+          "default": false,
+          "label": "top"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Variante — default (Standard-Radio), card (umgebender Rahmen mit Checked-Hintergrund)",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "card",
+          "cssModifier": "nc-radio--card",
+          "default": false,
+          "label": "card"
+        }
+      ]
+    },
+    "validation": {
+      "label": "Validation",
+      "description": "Validierungszustand — none (Standard), error (roter Rand)",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "error",
+          "cssModifier": "nc-radio--error",
+          "default": false,
+          "label": "error"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "checked",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-radio"
+    ],
+    "tokenGroups": {
+      "Geometry": [
+        {
+          "token": "nc-radio-size-sm"
+        },
+        {
+          "token": "nc-radio-size-md"
+        },
+        {
+          "token": "nc-radio-size-lg"
+        },
+        {
+          "token": "nc-radio-border-width"
+        }
+      ],
+      "Colors": [
+        {
+          "token": "nc-radio-bg"
+        },
+        {
+          "token": "nc-radio-border"
+        },
+        {
+          "token": "nc-radio-border-hover"
+        }
+      ],
+      "Checked": [
+        {
+          "token": "nc-radio-bg-checked"
+        },
+        {
+          "token": "nc-radio-border-checked"
+        },
+        {
+          "token": "nc-radio-dot-color"
+        },
+        {
+          "token": "nc-radio-dot-scale"
+        }
+      ],
+      "Disabled": [
+        {
+          "token": "nc-radio-disabled-bg"
+        },
+        {
+          "token": "nc-radio-disabled-border"
+        },
+        {
+          "token": "nc-radio-disabled-opacity"
+        }
+      ],
+      "Error": [
+        {
+          "token": "nc-radio-border-error"
+        }
+      ],
+      "Label": [
+        {
+          "token": "nc-radio-label-gap"
+        },
+        {
+          "token": "nc-radio-label-color"
+        }
+      ],
+      "Interaction": [
+        {
+          "token": "nc-radio-transition-duration"
+        }
+      ],
+      "Card Variant": [
+        {
+          "token": "nc-radio-card-bg"
+        },
+        {
+          "token": "nc-radio-card-bg-checked"
+        },
+        {
+          "token": "nc-radio-card-border"
+        },
+        {
+          "token": "nc-radio-card-border-checked"
+        },
+        {
+          "token": "nc-radio-card-border-hover"
+        },
+        {
+          "token": "nc-radio-card-radius"
+        },
+        {
+          "token": "nc-radio-card-padding"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "validation": [
+              "error"
+            ]
+          }
+        },
+        "require": [
+          "aria-invalid",
+          "aria-describedby"
+        ],
+        "suggest": [],
+        "note": "Error-State braucht aria-invalid='true' auf dem Input und aria-describedby das auf die Fehlermeldung verweist."
+      },
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [
+          "aria-disabled"
+        ],
+        "note": "aria-disabled='true' bevorzugt wenn Radio Teil eines sichtbaren Formulars ist."
+      }
+    ]
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_radio.scss"
+    ],
+    "story": "stories/atoms/radio.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RadioArena.vue",
+    "drupal": [],
+    "docs": "docs/radio-docs.html"
+  }
+}

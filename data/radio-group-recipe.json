@@ -5,8 +5,16 @@
     "component": "radio-group",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["form", "interactive", "grouping"],
-    "links": { "figma": "", "storybook": "", "docs": "/docs/radio-group-docs" },
+    "tags": [
+      "form",
+      "interactive",
+      "grouping"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/radio-group-docs"
+    },
     "changelog": [
       {
         "version": "2.0.0",
@@ -17,12 +25,32 @@
           "Neue Tokens: nc-radio-segmented-bg, nc-radio-segmented-bg-checked, nc-radio-segmented-color, nc-radio-segmented-color-checked, nc-radio-segmented-radius, nc-radio-segmented-padding, nc-radio-segmented-border"
         ]
       }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_radio-group.scss"
+      ],
+      "story": "stories/organisms/radio-group.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": null
+    },
+    "dependencies": [
+      "form",
+      "radio"
     ]
   },
   "anatomy": {
-    "root": { "element": ".nc-radio-group" },
+    "root": {
+      "element": ".nc-radio-group"
+    },
     "slots": [
-      { "name": "hint", "element": ".nc-radio-group__hint", "optional": true }
+      {
+        "name": "hint",
+        "element": ".nc-radio-group__hint",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -42,37 +70,90 @@
       "label": "Layout",
       "description": "Layout — vertical (Standard), horizontal (nebeneinander)",
       "values": {
-        "vertical":   { "modifier": null,                           "tokenGroups": [], "renderHint": "radio-group-vertical" },
-        "horizontal": { "modifier": "nc-radio-group--horizontal",   "tokenGroups": [], "renderHint": "radio-group-horizontal" }
+        "vertical": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "radio-group-vertical"
+        },
+        "horizontal": {
+          "modifier": "nc-radio-group--horizontal",
+          "tokenGroups": [],
+          "renderHint": "radio-group-horizontal"
+        }
       }
     },
-
     "size": {
       "label": "Size",
       "description": "Koppelt den Gruppen-Gap an die Radio-Groesse — sm (8px), md (12px, Standard), lg (16px)",
       "values": {
-        "sm": { "modifier": "nc-radio-group--sm", "tokenGroups": ["group-geometry"] },
-        "md": { "modifier": null,                 "tokenGroups": ["group-geometry"] },
-        "lg": { "modifier": "nc-radio-group--lg", "tokenGroups": ["group-geometry"] }
+        "sm": {
+          "modifier": "nc-radio-group--sm",
+          "tokenGroups": [
+            "group-geometry"
+          ]
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [
+            "group-geometry"
+          ]
+        },
+        "lg": {
+          "modifier": "nc-radio-group--lg",
+          "tokenGroups": [
+            "group-geometry"
+          ]
+        }
       }
     },
-
     "variant": {
       "label": "Variant",
       "description": "Visuelle Variante — default (Liste), segmented (Pillen-Design), card (Box pro Option)",
       "values": {
-        "default":   { "modifier": null,                           "tokenGroups": [] },
-        "segmented": { "modifier": "nc-radio-group--segmented",   "tokenGroups": ["segmented"] },
-        "card":      { "modifier": null,                           "tokenGroups": ["card"], "note": "Card wird via .nc-radio--card auf einzelnen Radios gesetzt, nicht auf der Gruppe." }
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "segmented": {
+          "modifier": "nc-radio-group--segmented",
+          "tokenGroups": [
+            "segmented"
+          ]
+        },
+        "card": {
+          "modifier": null,
+          "tokenGroups": [
+            "card"
+          ],
+          "note": "Card wird via .nc-radio--card auf einzelnen Radios gesetzt, nicht auf der Gruppe."
+        }
       }
     }
   },
   "states": {
-    "supported": ["default", "error", "disabled"],
-    "precedence": ["disabled", "error", "default"],
+    "supported": [
+      "default",
+      "error",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "error",
+      "default"
+    ],
     "rules": [
-      { "state": "error", "unless": ["disabled"], "note": "Error: border-error auf allen Radio-Controls." },
-      { "state": "disabled", "unless": [], "note": "Disabled: opacity-disabled, pointer-events:none." }
+      {
+        "state": "error",
+        "unless": [
+          "disabled"
+        ],
+        "note": "Error: border-error auf allen Radio-Controls."
+      },
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: opacity-disabled, pointer-events:none."
+      }
     ],
     "interactive": true
   },
@@ -80,36 +161,111 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName", "supportsKeyboard"],
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard"
+      ],
       "note": "role='radiogroup' + aria-labelledby. Arrow Keys Navigation. Einzelne Radios haben eigene A11y."
     },
     "overrides": [
-      { "when": { "states": ["error"] }, "suggest": ["aria-describedby"], "note": "Error: aria-describedby auf Gruppen-Error-Text." },
       {
-        "when": { "slots": ["hint"] },
-        "suggest": ["aria-describedby"],
+        "when": {
+          "states": [
+            "error"
+          ]
+        },
+        "suggest": [
+          "aria-describedby"
+        ],
+        "note": "Error: aria-describedby auf Gruppen-Error-Text."
+      },
+      {
+        "when": {
+          "slots": [
+            "hint"
+          ]
+        },
+        "suggest": [
+          "aria-describedby"
+        ],
         "note": "Hint wird via aria-describedby auf dem Gruppen-Container verknuepft (id='hint-{groupname}')."
       },
       {
-        "when": { "axes": { "variant": ["segmented"] } },
-        "suggest": ["keyboard-arrows"],
+        "when": {
+          "axes": {
+            "variant": [
+              "segmented"
+            ]
+          }
+        },
+        "suggest": [
+          "keyboard-arrows"
+        ],
         "note": "Segmented Control: Arrow Keys muessen wie bei normaler Radio-Gruppe funktionieren. Visuelles Feedback auf fokussiertem Segment (focus-ring)."
       }
     ]
   },
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["role-radiogroup", "aria-labelledby"], "notes": ["role='radiogroup' + aria-labelledby auf Legend oder Label."] },
-      { "when": { "axes": { "variant": ["segmented"] } }, "require": ["keyboard-navigation"], "notes": ["Segmented Control muss Pfeil-Tasten-Navigation beibehalten (native Radio-Verhalten)."] },
-      { "when": { "axes": { "layout": ["horizontal"] } }, "severity": "warn", "notes": ["Bei mehr als 4 Optionen oder langen Labels wird das vertikale Layout empfohlen."] },
-      { "when": { "states": ["error"] }, "require": ["aria-describedby"], "notes": ["Gruppen-Fehler muessen zentral unter der radiogroup kommuniziert werden."] }
+      {
+        "when": {},
+        "require": [
+          "role-radiogroup",
+          "aria-labelledby"
+        ],
+        "notes": [
+          "role='radiogroup' + aria-labelledby auf Legend oder Label."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "segmented"
+            ]
+          }
+        },
+        "require": [
+          "keyboard-navigation"
+        ],
+        "notes": [
+          "Segmented Control muss Pfeil-Tasten-Navigation beibehalten (native Radio-Verhalten)."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "layout": [
+              "horizontal"
+            ]
+          }
+        },
+        "severity": "warn",
+        "notes": [
+          "Bei mehr als 4 Optionen oder langen Labels wird das vertikale Layout empfohlen."
+        ]
+      },
+      {
+        "when": {
+          "states": [
+            "error"
+          ]
+        },
+        "require": [
+          "aria-describedby"
+        ],
+        "notes": [
+          "Gruppen-Fehler muessen zentral unter der radiogroup kommuniziert werden."
+        ]
+      }
     ],
     "copy": {}
   },
   "styling": {
-    "baseClasses": ["nc-radio-group"],
+    "baseClasses": [
+      "nc-radio-group"
+    ],
     "baseTokenGroups": [],
-
     "tokenGroups": {
       "group-geometry": {
         "label": "Geometry (Gap)",
@@ -154,70 +310,262 @@
   },
   "recipes": {
     "mode": "derived",
-    "derive": { "from": ["axes", "states", "styling.tokenGroups"], "output": ["classList", "resolvedTokens", "a11yAssertions"] },
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
     "resolution": {
-      "classList": ["styling.baseClasses", "axes.layout.values.*.modifier", "axes.size.values.*.modifier", "axes.variant.values.*.modifier"],
-      "tokenGroups": ["styling.baseTokenGroups", "axes.*.values.*.tokenGroups"]
+      "classList": [
+        "styling.baseClasses",
+        "axes.layout.values.*.modifier",
+        "axes.size.values.*.modifier",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
     }
   },
   "specimens": [
     {
-      "id": "layout-variants", "label": "Layout Variants",
+      "id": "layout-variants",
+      "label": "Layout Variants",
       "description": "Vertical vs Horizontal",
-      "matrix": { "axes": { "layout": "*", "size": ["md"], "variant": ["default"] }, "states": ["default"] },
-      "layout": "grid", "layoutConfig": { "rowAxis": "layout" }, "render": { "label": "{layout}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Beide Layouts: role='radiogroup'. Arrow Keys Navigation." }
+      "matrix": {
+        "axes": {
+          "layout": "*",
+          "size": [
+            "md"
+          ],
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "layout"
+      },
+      "render": {
+        "label": "{layout}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Beide Layouts: role='radiogroup'. Arrow Keys Navigation."
+      }
     },
     {
-      "id": "size-comparison", "label": "Size × Gap",
+      "id": "size-comparison",
+      "label": "Size × Gap",
       "description": "Gap-Abstufung gekoppelt an Radio-Groesse: sm (8px), md (12px), lg (16px)",
-      "matrix": { "axes": { "layout": ["vertical"], "size": "*", "variant": ["default"] }, "states": ["default"] },
-      "focusTokenGroups": ["group-geometry"],
-      "layout": "grid", "layoutConfig": { "rowAxis": "size" }, "render": { "label": "{size}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Groessere Radios brauchen proportional mehr Abstand fuer Touch-Targets." }
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": "*",
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "group-geometry"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Groessere Radios brauchen proportional mehr Abstand fuer Touch-Targets."
+      }
     },
     {
-      "id": "segmented-control", "label": "Segmented Control",
+      "id": "segmented-control",
+      "label": "Segmented Control",
       "description": "Pillen-Design — Radios als nahtlose Button-Gruppe",
-      "matrix": { "axes": { "layout": ["vertical"], "size": ["md"], "variant": ["segmented"] }, "states": ["default"] },
-      "focusTokenGroups": ["segmented"],
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": [
+            "md"
+          ],
+          "variant": [
+            "segmented"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "segmented"
+      ],
       "layout": "row",
-      "render": { "compositionType": "radio-group-segmented", "label": "segmented" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Segmented Control: Keyboard-Navigation via Arrow Keys. Focus-Ring auf aktivem Segment." }
+      "render": {
+        "compositionType": "radio-group-segmented",
+        "label": "segmented"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Segmented Control: Keyboard-Navigation via Arrow Keys. Focus-Ring auf aktivem Segment."
+      }
     },
     {
-      "id": "card-group", "label": "Card Group",
+      "id": "card-group",
+      "label": "Card Group",
       "description": "Jedes Radio als eigene Card mit Border und Hintergrund",
-      "matrix": { "axes": { "layout": ["vertical"], "size": ["md"], "variant": ["card"] }, "states": ["default"] },
-      "focusTokenGroups": ["card"],
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": [
+            "md"
+          ],
+          "variant": [
+            "card"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "card"
+      ],
       "layout": "row",
-      "render": { "compositionType": "radio-group-card", "label": "card" },
-      "a11y": { "contrastTarget": "WCAG AA non-text (3:1)", "note": "Card-Border und Checked-BG muessen kontrastreich sein." }
+      "render": {
+        "compositionType": "radio-group-card",
+        "label": "card"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Card-Border und Checked-BG muessen kontrastreich sein."
+      }
     },
     {
-      "id": "variant-comparison", "label": "Variant Comparison",
+      "id": "variant-comparison",
+      "label": "Variant Comparison",
       "description": "Default vs Segmented vs Card im Vergleich",
-      "matrix": { "axes": { "layout": ["vertical"], "size": ["md"], "variant": "*" }, "states": ["default"] },
-      "focusTokenGroups": ["segmented", "card"],
-      "layout": "grid", "layoutConfig": { "rowAxis": "variant" }, "render": { "label": "{variant}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Alle Varianten muessen gleiche A11y-Garantien bieten." }
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": [
+            "md"
+          ],
+          "variant": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "segmented",
+        "card"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "variant"
+      },
+      "render": {
+        "label": "{variant}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Alle Varianten muessen gleiche A11y-Garantien bieten."
+      }
     },
     {
-      "id": "with-hint", "label": "With Group Hint",
+      "id": "with-hint",
+      "label": "With Group Hint",
       "description": "Gruppen-Hilfetext unterhalb der Optionen via form-hint",
-      "composes": ["radio", "form-hint"],
-      "matrix": { "axes": { "layout": ["vertical"], "size": ["md"], "variant": ["default"] }, "states": ["default"] },
-      "focusTokenGroups": ["group-hint"],
+      "composes": [
+        "radio",
+        "form-hint"
+      ],
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": [
+            "md"
+          ],
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "group-hint"
+      ],
       "layout": "row",
-      "render": { "compositionType": "radio-group-with-hint", "label": "with-hint" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Hint via aria-describedby auf dem Gruppen-Container verknuepft." }
+      "render": {
+        "compositionType": "radio-group-with-hint",
+        "label": "with-hint"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Hint via aria-describedby auf dem Gruppen-Container verknuepft."
+      }
     },
     {
-      "id": "states", "label": "States",
+      "id": "states",
+      "label": "States",
       "description": "Default, Error, Disabled",
-      "matrix": { "axes": { "layout": ["vertical"], "size": ["md"], "variant": ["default"] }, "states": ["default", "error", "disabled"] },
-      "layout": "row", "render": { "label": "{state}" },
-      "a11y": { "contrastTarget": "WCAG AA normal text (4.5:1)", "note": "Error: border-error. Disabled: opacity-disabled." }
+      "matrix": {
+        "axes": {
+          "layout": [
+            "vertical"
+          ],
+          "size": [
+            "md"
+          ],
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "error",
+          "disabled"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Error: border-error. Disabled: opacity-disabled."
+      }
     }
   ]
 }

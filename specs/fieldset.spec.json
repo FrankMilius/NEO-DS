@@ -1,0 +1,252 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "fieldset",
+  "version": "2.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "form",
+    "layout",
+    "grouping"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-fieldset",
+    "slots": [
+      {
+        "name": "legend",
+        "selector": ".nc-fieldset__legend",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "helper",
+        "selector": ".nc-fieldset__helper",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "required",
+        "selector": ".nc-fieldset__required",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Root: gestyltes <fieldset> — Browser-Defaults zurueckgesetzt (margin:0, min-width:0).",
+      "Flex-Column-Layout mit gap fuer vertikalen Abstand zwischen enthaltenen Controls.",
+      "Border: solid, sekundaere Farbe, border-radius. Visuell gruppiert die enthaltenen Felder.",
+      "Legend: <legend> als Abschnitts-Ueberschrift. float:none + width:auto (Browser-Reset).",
+      "Legend hat padding-inline fuer Abstand zur Border-Linie oben.",
+      "Helper: optionale Gruppen-Beschreibung unter der Legend (aria-describedby verknuepft).",
+      "Required: Pflicht-Indikator (*) innerhalb der Legend mit --nc-fieldset-required-color.",
+      "Borderless-Variante: keine Border, kein Padding — nur semantische Gruppierung.",
+      "Card-Variante: Hintergrund-Fuellung + Schatten statt Border — moderner Look.",
+      "Density: compact (reduziertes Padding/Gap) oder loose (grosszuegiges Padding/Gap).",
+      "Legend-Center: zentrierte Legend-Ausrichtung fuer zentrierte Formulare.",
+      "Disabled: native <fieldset disabled> deaktiviert ALLE enthaltenen Controls.",
+      "Disabled visuell: opacity-disabled + legend color-disabled.",
+      "Enthaltene Kinder: .nc-form-field, .nc-checkbox-group, .nc-radio-group — eigene Tokens."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "appearance": {
+      "label": "Appearance",
+      "description": "Section-Style — plain (Border), card (Hintergrund + Schatten), borderless (nur semantisch)",
+      "values": [
+        {
+          "value": "plain",
+          "cssModifier": null,
+          "default": false,
+          "label": "plain"
+        },
+        {
+          "value": "card",
+          "cssModifier": "nc-fieldset--card",
+          "default": false,
+          "label": "card"
+        },
+        {
+          "value": "borderless",
+          "cssModifier": "nc-fieldset--borderless",
+          "default": false,
+          "label": "borderless"
+        }
+      ]
+    },
+    "density": {
+      "label": "Density",
+      "description": "Steuert Padding und Gap — compact fuer schmale Sidebars, loose fuer Full-Page-Formulare",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "compact",
+          "cssModifier": "nc-fieldset--compact",
+          "default": false,
+          "label": "compact"
+        },
+        {
+          "value": "loose",
+          "cssModifier": "nc-fieldset--loose",
+          "default": false,
+          "label": "loose"
+        }
+      ]
+    },
+    "legend-align": {
+      "label": "Legend Alignment",
+      "description": "Ausrichtung der Legend — start (Standard), center (zentriert fuer Login/Registrierung)",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-fieldset--legend-center",
+          "default": false,
+          "label": "center"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "interactive": false,
+    "rules": [
+      {
+        "state": "disabled",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-fieldset"
+    ],
+    "tokenGroups": {
+      "Container": [
+        {
+          "token": "nc-fieldset-border-width"
+        },
+        {
+          "token": "nc-fieldset-border-color"
+        },
+        {
+          "token": "nc-fieldset-border-radius"
+        },
+        {
+          "token": "nc-fieldset-padding"
+        },
+        {
+          "token": "nc-fieldset-gap"
+        }
+      ],
+      "Legend": [
+        {
+          "token": "nc-fieldset-legend-size"
+        },
+        {
+          "token": "nc-fieldset-legend-weight"
+        },
+        {
+          "token": "nc-fieldset-legend-color"
+        },
+        {
+          "token": "nc-fieldset-legend-padding"
+        }
+      ],
+      "Helper-Text": [
+        {
+          "token": "nc-fieldset-helper-size"
+        },
+        {
+          "token": "nc-fieldset-helper-color"
+        },
+        {
+          "token": "nc-fieldset-helper-margin-top"
+        }
+      ],
+      "Card-Variante": [
+        {
+          "token": "nc-fieldset-card-bg"
+        },
+        {
+          "token": "nc-fieldset-card-shadow"
+        }
+      ],
+      "Density Compact": [
+        {
+          "token": "nc-fieldset-padding-compact"
+        },
+        {
+          "token": "nc-fieldset-gap-compact"
+        }
+      ],
+      "Density Loose": [
+        {
+          "token": "nc-fieldset-padding-loose"
+        },
+        {
+          "token": "nc-fieldset-gap-loose"
+        }
+      ],
+      "Required-Indikator": [
+        {
+          "token": "nc-fieldset-required-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "hasAccessibleName"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
+        "require": [],
+        "suggest": [],
+        "note": "Disabled: Native <fieldset disabled> reicht — kein zusaetzliches ARIA noetig. Alle enthaltenen Inputs werden automatisch disabled."
+      }
+    ]
+  },
+  "dependencies": [
+    "checkbox",
+    "form",
+    "radio"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_fieldset.scss"
+    ],
+    "story": "stories/organisms/fieldset.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/FieldsetArena.vue",
+    "drupal": [],
+    "docs": null
+  }
+}

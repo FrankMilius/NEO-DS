@@ -5,7 +5,12 @@
     "component": "form-label",
     "version": "2.0.0",
     "status": "stable",
-    "tags": ["form", "text", "label", "accessibility"],
+    "tags": [
+      "form",
+      "text",
+      "label",
+      "accessibility"
+    ],
     "links": {
       "figma": "",
       "storybook": "",
@@ -20,16 +25,46 @@
           "C: Erweiterter Klickbereich via padding + min-height Token (Fitts' Law)"
         ]
       }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_form-label.scss"
+      ],
+      "story": "stories/molecules/form-label.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": null
+    },
+    "dependencies": [
+      "form"
     ]
   },
-
   "anatomy": {
-    "root": { "element": ".nc-form-label" },
+    "root": {
+      "element": ".nc-form-label"
+    },
     "slots": [
-      { "name": "text", "element": ".nc-form-label__text", "optional": false },
-      { "name": "required", "element": ".nc-form-label__required", "optional": true },
-      { "name": "optional", "element": ".nc-form-label__optional", "optional": true },
-      { "name": "info", "element": ".nc-form-label__info", "optional": true }
+      {
+        "name": "text",
+        "element": ".nc-form-label__text",
+        "optional": false
+      },
+      {
+        "name": "required",
+        "element": ".nc-form-label__required",
+        "optional": true
+      },
+      {
+        "name": "optional",
+        "element": ".nc-form-label__optional",
+        "optional": true
+      },
+      {
+        "name": "info",
+        "element": ".nc-form-label__info",
+        "optional": true
+      }
     ],
     "convenience": [],
     "domNotes": [
@@ -44,89 +79,203 @@
       "Im .nc-form-field Wrapper wird margin-bottom: 0 gesetzt (gap uebernimmt)."
     ]
   },
-
   "axes": {
     "indicator": {
       "label": "Indicator",
       "description": "Pflichtfeld-Indikator — none (Standard), required (rotes *), optional (grauer Text), info (Tooltip-Icon)",
       "values": {
-        "none":     { "modifier": null, "tokenGroups": [], "renderHint": "form-label-plain" },
-        "required": { "modifier": null, "tokenGroups": [], "slotConfig": { "required": true }, "renderHint": "form-label-required" },
-        "optional": { "modifier": null, "tokenGroups": [], "slotConfig": { "optional": true }, "renderHint": "form-label-optional" },
-        "info":     { "modifier": null, "tokenGroups": [], "slotConfig": { "info": true }, "renderHint": "form-label-info" }
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "form-label-plain"
+        },
+        "required": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "required": true
+          },
+          "renderHint": "form-label-required"
+        },
+        "optional": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "optional": true
+          },
+          "renderHint": "form-label-optional"
+        },
+        "info": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "info": true
+          },
+          "renderHint": "form-label-info"
+        }
       }
     },
-
     "size": {
       "label": "Size",
       "description": "Typografie-Hierarchie — sm (kompakt), md (Standard), emphasis (hervorgehoben fuer Section-Labels)",
       "values": {
-        "sm":       { "modifier": "nc-form-label--sm",       "tokenGroups": ["size-sm"],       "renderHint": "form-label-sm" },
-        "md":       { "modifier": null,                       "tokenGroups": [],                "renderHint": "form-label-md" },
-        "emphasis": { "modifier": "nc-form-label--emphasis",  "tokenGroups": ["size-emphasis"], "renderHint": "form-label-emphasis" }
+        "sm": {
+          "modifier": "nc-form-label--sm",
+          "tokenGroups": [
+            "size-sm"
+          ],
+          "renderHint": "form-label-sm"
+        },
+        "md": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "form-label-md"
+        },
+        "emphasis": {
+          "modifier": "nc-form-label--emphasis",
+          "tokenGroups": [
+            "size-emphasis"
+          ],
+          "renderHint": "form-label-emphasis"
+        }
       }
     },
-
     "layout": {
       "label": "Layout",
       "description": "Layout-Variante — block (Standard, Label ueber Input), inline (Label neben Input)",
       "values": {
-        "block":  { "modifier": null,                       "tokenGroups": [], "renderHint": "form-label-block" },
-        "inline": { "modifier": "nc-form-label--inline",    "tokenGroups": [], "renderHint": "form-label-inline" }
+        "block": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "form-label-block"
+        },
+        "inline": {
+          "modifier": "nc-form-label--inline",
+          "tokenGroups": [],
+          "renderHint": "form-label-inline"
+        }
       }
     }
   },
-
   "states": {
-    "supported": ["default", "disabled"],
-    "precedence": ["disabled", "default"],
+    "supported": [
+      "default",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "default"
+    ],
     "rules": [
-      { "state": "disabled", "unless": [], "note": "Disabled: text-disabled Farbe, cursor: not-allowed. Spiegelt den Disabled-State des verknuepften Inputs. Info-Icon wird ebenfalls disabled." }
+      {
+        "state": "disabled",
+        "unless": [],
+        "note": "Disabled: text-disabled Farbe, cursor: not-allowed. Spiegelt den Disabled-State des verknuepften Inputs. Info-Icon wird ebenfalls disabled."
+      }
     ],
     "interactive": false
   },
-
   "a11y": {
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": ["hasAccessibleName"],
+      "assertions": [
+        "hasAccessibleName"
+      ],
       "note": "<label for='input-id'> verknuepft Label mit Input. Klick auf Label fokussiert den Input. Required-Sternchen ist aria-hidden='true' — Pflichtfeld wird via aria-required='true' am Input kommuniziert. Klickbereich erfuellt WCAG 2.5.8 Target Size (24x24 Minimum)."
     },
     "overrides": [
       {
-        "when": { "axes": { "indicator": ["required"] } },
-        "suggest": ["aria-hidden"],
+        "when": {
+          "axes": {
+            "indicator": [
+              "required"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-hidden"
+        ],
         "note": "Required-Indikator ('*') muss aria-hidden='true' haben. Pflichtfeld-Semantik liegt auf dem Input (aria-required='true')."
       },
       {
-        "when": { "axes": { "indicator": ["info"] } },
-        "suggest": ["aria-label", "aria-describedby"],
+        "when": {
+          "axes": {
+            "indicator": [
+              "info"
+            ]
+          }
+        },
+        "suggest": [
+          "aria-label",
+          "aria-describedby"
+        ],
         "note": "Info-Icon ist ein <button> mit aria-label='Hilfe zu {Feldname}'. Tooltip-Inhalt ist via aria-describedby verknuepft oder wird als role='tooltip' angezeigt. Icon selbst ist aria-hidden='true' — der Button traegt den Accessible Name."
       },
       {
-        "when": { "states": ["disabled"] },
+        "when": {
+          "states": [
+            "disabled"
+          ]
+        },
         "suggest": [],
         "note": "Disabled-Label benoetigt keine eigene ARIA-Annotation — der Disabled-State liegt auf dem Input. Info-Button erhaelt tabindex='-1' und aria-disabled='true'."
       }
     ]
   },
-
   "constraints": {
     "rules": [
-      { "when": {}, "require": ["label-for"], "notes": ["Label muss via for-Attribut mit dem Input verknuepft sein."] },
-      { "when": { "axes": { "indicator": ["info"] } }, "require": ["aria-label"], "notes": ["Info-Button muss einen Accessible Name haben (aria-label='Hilfe zu {Feldname}')."] },
       {
-        "when": { "axes": { "layout": ["inline"] } },
-        "require": ["text-truncation"],
+        "when": {},
+        "require": [
+          "label-for"
+        ],
+        "notes": [
+          "Label muss via for-Attribut mit dem Input verknuepft sein."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "indicator": [
+              "info"
+            ]
+          }
+        },
+        "require": [
+          "aria-label"
+        ],
+        "notes": [
+          "Info-Button muss einen Accessible Name haben (aria-label='Hilfe zu {Feldname}')."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "layout": [
+              "inline"
+            ]
+          }
+        },
+        "require": [
+          "text-truncation"
+        ],
         "notes": [
           "Inline-Labels muessen text-overflow: ellipsis unterstuetzen, da der horizontale Platz begrenzt ist.",
           "Bei Label-Texten > 40 Zeichen ist Truncation wahrscheinlich — Designer sollte kuerzere Texte verwenden."
         ]
       },
       {
-        "when": { "axes": { "layout": ["inline"] } },
-        "require": ["baseline-sync"],
+        "when": {
+          "axes": {
+            "layout": [
+              "inline"
+            ]
+          }
+        },
+        "require": [
+          "baseline-sync"
+        ],
         "notes": [
           "Im Inline-Layout muss nc-form-label-font-size mit der font-size des benachbarten Inputs synchron sein.",
           "Abweichende Schriftgroessen fuehren zu gebrochenem Baseline-Alignment."
@@ -147,11 +296,14 @@
       }
     }
   },
-
   "styling": {
-    "baseClasses": ["nc-form-label"],
-    "baseTokenGroups": ["core-geometry", "core-colors"],
-
+    "baseClasses": [
+      "nc-form-label"
+    ],
+    "baseTokenGroups": [
+      "core-geometry",
+      "core-colors"
+    ],
     "tokenGroups": {
       "core-geometry": {
         "label": "Geometry",
@@ -188,12 +340,19 @@
       }
     }
   },
-
   "recipes": {
     "mode": "derived",
     "derive": {
-      "from": ["axes", "states", "styling.tokenGroups"],
-      "output": ["classList", "resolvedTokens", "a11yAssertions"]
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
     },
     "resolution": {
       "classList": [
@@ -208,18 +367,31 @@
       ]
     }
   },
-
   "specimens": [
     {
       "id": "default",
       "label": "Default Label",
       "description": "Standard-Label ohne Indikator, Groesse MD",
       "matrix": {
-        "axes": { "indicator": ["none"], "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "none"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "label": "default" },
+      "render": {
+        "label": "default"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Primary-Text Farbe muss 4.5:1 Kontrast gegen Hintergrund haben."
@@ -230,12 +402,26 @@
       "label": "Indicator Variants",
       "description": "Alle Indikator-Varianten: none, required (*), optional, info (Tooltip)",
       "matrix": {
-        "axes": { "indicator": "*", "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": "*",
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "indicator" },
-      "render": { "label": "{indicator}" },
+      "layoutConfig": {
+        "rowAxis": "indicator"
+      },
+      "render": {
+        "label": "{indicator}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Required-Farbe (danger) muss 4.5:1 Kontrast haben. Optional-Farbe (tertiary) muss 4.5:1 Kontrast haben. Info-Icon: interactive-default Farbe."
@@ -246,12 +432,26 @@
       "label": "Size / Hierarchy",
       "description": "Typografie-Hierarchie: SM (kompakt), MD (Standard), Emphasis (Section-Label)",
       "matrix": {
-        "axes": { "indicator": ["required"], "size": "*", "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": "*",
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "size" },
-      "render": { "label": "{size}" },
+      "layoutConfig": {
+        "rowAxis": "size"
+      },
+      "render": {
+        "label": "{size}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Alle Groessen muessen 4.5:1 Kontrast einhalten. Emphasis darf etwas groesseren font-size verwenden."
@@ -262,12 +462,26 @@
       "label": "Layout Variants",
       "description": "Block (ueber Input) vs Inline (neben Input)",
       "matrix": {
-        "axes": { "indicator": ["none"], "size": ["md"], "layout": "*" },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "none"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": "*"
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "grid",
-      "layoutConfig": { "rowAxis": "layout" },
-      "render": { "label": "{layout}" },
+      "layoutConfig": {
+        "rowAxis": "layout"
+      },
+      "render": {
+        "label": "{layout}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Inline-Label hat kein margin-bottom und ein margin-inline-end. Block-Label hat margin-bottom via gap-Token."
@@ -278,11 +492,26 @@
       "label": "All States",
       "description": "Default vs Disabled (mit Info-Icon)",
       "matrix": {
-        "axes": { "indicator": ["info"], "size": ["md"], "layout": ["block"] },
-        "states": ["default", "disabled"]
+        "axes": {
+          "indicator": [
+            "info"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default",
+          "disabled"
+        ]
       },
       "layout": "row",
-      "render": { "label": "{state}" },
+      "render": {
+        "label": "{state}"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Disabled: text-disabled Farbe, cursor: not-allowed. Info-Button wird aria-disabled='true', tabindex='-1'."
@@ -293,11 +522,26 @@
       "label": "Info + Required Combined",
       "description": "Label mit Required-Indikator UND Info-Tooltip — haeufiger realer Use Case",
       "matrix": {
-        "axes": { "indicator": ["required"], "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "form-label-required-info", "label": "required + info" },
+      "render": {
+        "compositionType": "form-label-required-info",
+        "label": "required + info"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Required '*' aria-hidden='true'. Info-Button hat eigenen aria-label. Reihenfolge: Text > Required > Info."
@@ -308,11 +552,26 @@
       "label": "Hit Area / Touch Target",
       "description": "Vergleich: Standard-Klickbereich vs erweiterter Klickbereich via Padding",
       "matrix": {
-        "axes": { "indicator": ["required"], "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "form-label-hit-area", "label": "hit area" },
+      "render": {
+        "compositionType": "form-label-hit-area",
+        "label": "hit area"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "WCAG 2.5.8: Interaktive Touch-Targets sollen mindestens 24x24px sein. padding-block vergroessert den Klickbereich ohne visuelle Veraenderung. min-height sichert vertikales Minimum."
@@ -322,13 +581,30 @@
       "id": "with-input",
       "label": "With Input Field",
       "description": "Label ueber einem Input-Feld (typischer Anwendungsfall)",
-      "composes": ["input"],
+      "composes": [
+        "input"
+      ],
       "matrix": {
-        "axes": { "indicator": ["required"], "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "form-label-with-input", "label": "label + input" },
+      "render": {
+        "compositionType": "form-label-with-input",
+        "label": "label + input"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Label hat for='input-id', Input hat id='input-id'. Klick auf Label fokussiert den Input."
@@ -338,13 +614,33 @@
       "id": "in-form-field",
       "label": "In Form Field Context",
       "description": "Label im .nc-form-field Wrapper mit Input, Hint und Error",
-      "composes": ["form-field", "input", "form-hint", "form-error"],
+      "composes": [
+        "form-field",
+        "input",
+        "form-hint",
+        "form-error"
+      ],
       "matrix": {
-        "axes": { "indicator": ["required"], "size": ["md"], "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": [
+            "md"
+          ],
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "form-field-complete", "label": "form-field" },
+      "render": {
+        "compositionType": "form-field-complete",
+        "label": "form-field"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Im Form-Field: Label margin-bottom wird 0 (gap uebernimmt). Required am Label + aria-required am Input."
@@ -354,13 +650,30 @@
       "id": "hierarchy-form",
       "label": "Form with Hierarchy",
       "description": "Reales Formular mit Section-Label (emphasis), Feld-Labels (md), und kompakten Labels (sm)",
-      "composes": ["form-field", "input", "form-hint"],
+      "composes": [
+        "form-field",
+        "input",
+        "form-hint"
+      ],
       "matrix": {
-        "axes": { "indicator": ["required"], "size": "*", "layout": ["block"] },
-        "states": ["default"]
+        "axes": {
+          "indicator": [
+            "required"
+          ],
+          "size": "*",
+          "layout": [
+            "block"
+          ]
+        },
+        "states": [
+          "default"
+        ]
       },
       "layout": "row",
-      "render": { "compositionType": "form-hierarchy", "label": "hierarchy" },
+      "render": {
+        "compositionType": "form-hierarchy",
+        "label": "hierarchy"
+      },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Section-Labels (emphasis) duerfen font-size: var(--fs-lg) und font-weight: bold verwenden. Sub-Labels (sm) nutzen var(--fs-sm). Alle Groessen muessen 4.5:1 Kontrast einhalten."
