@@ -39,18 +39,18 @@
   position: fixed;
   inset: 0;
   margin: auto; // Zentriert natives <dialog>
-  max-width: var(--nc-dialog-max-width);
+  max-width: var(--mod-dialog-max-width, var(--nc-dialog-max-width));
   width: calc(100% - var(--fnd-spacing-08));
   max-height: calc(100vh - var(--fnd-spacing-08));
-  padding: var(--nc-dialog-padding);
+  padding: var(--mod-dialog-padding, var(--nc-dialog-padding));
   border: none;
-  border-radius: var(--nc-dialog-radius);
-  background-color: var(--nc-dialog-bg);
-  box-shadow: var(--nc-dialog-shadow);
+  border-radius: var(--mod-dialog-radius, var(--nc-dialog-radius));
+  background-color: var(--mod-dialog-bg, var(--nc-dialog-bg));
+  box-shadow: var(--mod-dialog-shadow, var(--nc-dialog-shadow));
   color: var(--fnd-color-text-primary);
   display: none;
   flex-direction: column;
-  gap: var(--nc-dialog-section-gap);
+  gap: var(--mod-dialog-section-gap, var(--nc-dialog-section-gap));
 
   &[open] {
     display: flex;
@@ -79,7 +79,7 @@
 
   // Backdrop
   &::backdrop {
-    background: var(--nc-dialog-overlay-bg);
+    background: var(--mod-dialog-overlay-bg, var(--nc-dialog-overlay-bg));
     animation: animations-fade-in;
     animation-duration: var(--fnd-motion-duration-300);
     animation-timing-function: var(--fnd-motion-ease-focused);
@@ -101,8 +101,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-dialog-icon-size);
-  height: var(--nc-dialog-icon-size);
+  width: var(--mod-dialog-icon-size, var(--nc-dialog-icon-size));
+  height: var(--mod-dialog-icon-size, var(--nc-dialog-icon-size));
   flex-shrink: 0;
   color: var(--fnd-color-text-secondary);
 
@@ -118,7 +118,7 @@
 
   // Destructive Intent: Icon-Farbe rot
   .nc-alert-dialog--destructive & {
-    color: var(--nc-dialog-danger-icon-color);
+    color: var(--mod-dialog-danger-icon-color, var(--nc-dialog-danger-icon-color));
   }
 }
 
@@ -126,22 +126,22 @@
 @mixin alert-dialog-header {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-dialog-header-gap);
+  gap: var(--mod-dialog-header-gap, var(--nc-dialog-header-gap));
 }
 
 /// Dialog-Titel.
 @mixin alert-dialog-title {
-  font-size: var(--nc-dialog-title-font-size);
-  font-weight: var(--nc-dialog-title-font-weight);
-  color: var(--nc-dialog-title-color);
+  font-size: var(--mod-dialog-title-font-size, var(--nc-dialog-title-font-size));
+  font-weight: var(--mod-dialog-title-font-weight, var(--nc-dialog-title-font-weight));
+  color: var(--mod-dialog-title-color, var(--nc-dialog-title-color));
   margin: 0;
   line-height: 1.3;
 }
 
 /// Dialog-Beschreibung.
 @mixin alert-dialog-description {
-  font-size: var(--nc-dialog-description-font-size);
-  color: var(--nc-dialog-description-color);
+  font-size: var(--mod-dialog-description-font-size, var(--nc-dialog-description-font-size));
+  color: var(--mod-dialog-description-color, var(--nc-dialog-description-color));
   margin: 0;
   line-height: 1.5;
 }
@@ -151,7 +151,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--nc-dialog-footer-gap);
+  gap: var(--mod-dialog-footer-gap, var(--nc-dialog-footer-gap));
 }
 
 // ---------------------------------------------------------------------------
@@ -184,9 +184,9 @@
   // Destructive-Intent: Action-Button mit Danger-Farben
   &--destructive &__footer .nc-button--primary,
   &--destructive &__footer [data-action] {
-    background-color: var(--nc-dialog-danger-action-bg);
-    color: var(--nc-dialog-danger-action-color);
-    border-color: var(--nc-dialog-danger-action-bg);
+    background-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
+    color: var(--mod-dialog-danger-action-color, var(--nc-dialog-danger-action-color));
+    border-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
   }
 }
 

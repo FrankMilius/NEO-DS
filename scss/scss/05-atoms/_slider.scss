@@ -56,9 +56,9 @@
 /// Gemeinsames Track-Styling (Cross-Browser).
 @mixin slider-track-styles {
   width: 100%;
-  height: var(--nc-slider-track-height);
-  background-color: var(--nc-slider-track-bg);
-  border-radius: var(--nc-slider-track-radius);
+  height: var(--mod-slider-track-height, var(--nc-slider-track-height));
+  background-color: var(--mod-slider-track-bg, var(--nc-slider-track-bg));
+  border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
   border: none;
   cursor: pointer;
 }
@@ -67,24 +67,24 @@
 /// Touch-Target: Unsichtbarer Klickbereich von 44px (WCAG 2.5.8).
 /// Focus-Ring: Offset von 2px um den sichtbaren Thumb herum.
 @mixin slider-thumb-styles {
-  width: var(--nc-slider-thumb-size);
-  height: var(--nc-slider-thumb-size);
-  background-color: var(--nc-slider-thumb-bg);
-  border: var(--nc-slider-thumb-border-width) solid var(--nc-slider-thumb-border);
+  width: var(--mod-slider-thumb-size, var(--nc-slider-thumb-size));
+  height: var(--mod-slider-thumb-size, var(--nc-slider-thumb-size));
+  background-color: var(--mod-slider-thumb-bg, var(--nc-slider-thumb-bg));
+  border: var(--mod-slider-thumb-border-width, var(--nc-slider-thumb-border-width)) solid var(--mod-slider-thumb-border, var(--nc-slider-thumb-border));
   border-radius: var(--fnd-radius-full);
-  box-shadow: var(--nc-slider-thumb-shadow);
+  box-shadow: var(--mod-slider-thumb-shadow, var(--nc-slider-thumb-shadow));
   cursor: pointer;
   appearance: none;
   transition:
-    border-color var(--nc-slider-transition-duration) var(--nc-slider-transition-timing),
-    box-shadow var(--nc-slider-transition-duration) var(--nc-slider-transition-timing),
-    transform var(--nc-slider-transition-duration) var(--nc-slider-transition-timing);
+    border-color var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing)),
+    box-shadow var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing)),
+    transform var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing));
 }
 
 /// Custom-Styling fuer <input type="range">.
 @mixin slider-input {
   width: 100%;
-  height: var(--nc-slider-thumb-touch-size);
+  height: var(--mod-slider-thumb-touch-size, var(--nc-slider-thumb-touch-size));
   margin: 0;
   padding: 0;
   background: transparent;
@@ -100,7 +100,7 @@
   &::-webkit-slider-thumb {
     @include slider-thumb-styles;
     // Vertikale Zentrierung des Thumbs auf dem Track
-    margin-top: calc((var(--nc-slider-track-height) - var(--nc-slider-thumb-size)) / 2);
+    margin-top: calc((var(--mod-slider-track-height, var(--nc-slider-track-height)) - var(--mod-slider-thumb-size, var(--nc-slider-thumb-size))) / 2);
   }
 
   // --- Firefox ---
@@ -115,9 +115,9 @@
 
   // Firefox: Gefuellter Bereich links vom Thumb
   &::-moz-range-progress {
-    height: var(--nc-slider-track-height);
-    background-color: var(--nc-slider-track-bg-active);
-    border-radius: var(--nc-slider-track-radius);
+    height: var(--mod-slider-track-height, var(--nc-slider-track-height));
+    background-color: var(--mod-slider-track-bg-active, var(--nc-slider-track-bg-active));
+    border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
     border: none;
   }
 
@@ -129,12 +129,12 @@
 
     &::-webkit-slider-thumb {
       outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-      outline-offset: var(--nc-slider-thumb-focus-ring-offset);
+      outline-offset: var(--mod-slider-thumb-focus-ring-offset, var(--nc-slider-thumb-focus-ring-offset));
     }
 
     &::-moz-range-thumb {
       outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-      outline-offset: var(--nc-slider-thumb-focus-ring-offset);
+      outline-offset: var(--mod-slider-thumb-focus-ring-offset, var(--nc-slider-thumb-focus-ring-offset));
     }
   }
 
@@ -158,7 +158,7 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    opacity: var(--nc-slider-disabled-opacity);
+    opacity: var(--mod-slider-disabled-opacity, var(--nc-slider-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -181,9 +181,9 @@
 @mixin slider-track {
   position: relative;
   width: 100%;
-  height: var(--nc-slider-track-height);
-  background-color: var(--nc-slider-track-bg);
-  border-radius: var(--nc-slider-track-radius);
+  height: var(--mod-slider-track-height, var(--nc-slider-track-height));
+  background-color: var(--mod-slider-track-bg, var(--nc-slider-track-bg));
+  border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
   overflow: hidden;
 }
 
@@ -193,31 +193,31 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: var(--nc-slider-track-bg-active);
+  background-color: var(--mod-slider-track-bg-active, var(--nc-slider-track-bg-active));
   border-radius: inherit;
   pointer-events: none;
   // Breite via CSS-Variable --nc-slider-progress (0-100)
-  width: calc(var(--nc-slider-progress, 0) * 1%);
+  width: calc(var(--mod-slider-progress, var(--nc-slider-progress, 0)) * 1%);
 }
 
 /// Floating Tooltip ueber dem Thumb.
 /// Position folgt dem Thumb via --nc-slider-progress CSS-Variable (0-100).
 @mixin slider-tooltip {
   position: absolute;
-  bottom: calc(100% + var(--nc-slider-tooltip-offset-y));
-  left: calc(var(--nc-slider-progress, 50) * 1%);
+  bottom: calc(100% + var(--mod-slider-tooltip-offset-y, var(--nc-slider-tooltip-offset-y)));
+  left: calc(var(--mod-slider-progress, var(--nc-slider-progress, 50)) * 1%);
   transform: translateX(-50%);
-  background-color: var(--nc-slider-tooltip-bg);
-  color: var(--nc-slider-tooltip-color);
-  border-radius: var(--nc-slider-tooltip-radius);
-  font-size: var(--nc-slider-tooltip-font-size);
+  background-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
+  color: var(--mod-slider-tooltip-color, var(--nc-slider-tooltip-color));
+  border-radius: var(--mod-slider-tooltip-radius, var(--nc-slider-tooltip-radius));
+  font-size: var(--mod-slider-tooltip-font-size, var(--nc-slider-tooltip-font-size));
   font-weight: var(--fnd-font-weight-semibold);
-  padding: var(--nc-slider-tooltip-padding);
+  padding: var(--mod-slider-tooltip-padding, var(--nc-slider-tooltip-padding));
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
   opacity: 0;
-  transition: opacity var(--nc-slider-transition-duration) var(--nc-slider-transition-timing);
+  transition: opacity var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing));
   z-index: 1;
 
   // Pfeil nach unten
@@ -228,16 +228,16 @@
     left: 50%;
     transform: translateX(-50%);
     border: 4px solid transparent;
-    border-top-color: var(--nc-slider-tooltip-bg);
+    border-top-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
   }
 }
 
 /// Wert-Anzeige (statischer Output).
 @mixin slider-output {
   display: inline-block;
-  font-size: var(--nc-input-font-size-sm);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--nc-input-color);
+  color: var(--mod-input-color, var(--nc-input-color));
   text-align: center;
   min-width: 2em;
   user-select: none;
@@ -247,7 +247,7 @@
 @mixin slider-labels {
   display: flex;
   justify-content: space-between;
-  font-size: var(--nc-input-font-size-sm);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
   color: var(--fnd-color-text-secondary);
 }
 
@@ -329,21 +329,21 @@
 
     // Track-Container ist der sichtbare Bezugsrahmen
     .nc-slider__track {
-      height: var(--nc-slider-track-height);
+      height: var(--mod-slider-track-height, var(--nc-slider-track-height));
     }
 
     // Fill-Bereich zwischen den beiden Thumbs
     .nc-slider__fill {
-      left: calc(var(--nc-slider-progress-min, 0) * 1%);
-      width: calc((var(--nc-slider-progress-max, 100) - var(--nc-slider-progress-min, 0)) * 1%);
-      background-color: var(--nc-slider-range-fill-bg);
+      left: calc(var(--mod-slider-progress-min, var(--nc-slider-progress-min, 0)) * 1%);
+      width: calc((var(--mod-slider-progress-max, var(--nc-slider-progress-max, 100)) - var(--mod-slider-progress-min, var(--nc-slider-progress-min, 0))) * 1%);
+      background-color: var(--mod-slider-range-fill-bg, var(--nc-slider-range-fill-bg));
     }
   }
 
   // -- State-Modifier --
 
   &--disabled {
-    opacity: var(--nc-slider-disabled-opacity);
+    opacity: var(--mod-slider-disabled-opacity, var(--nc-slider-disabled-opacity));
     cursor: not-allowed;
 
     .nc-slider__input {
@@ -358,16 +358,16 @@
   &--error {
     .nc-slider__input {
       &::-webkit-slider-thumb {
-        border-color: var(--nc-input-border-error);
+        border-color: var(--mod-input-border-error, var(--nc-input-border-error));
       }
 
       &::-moz-range-thumb {
-        border-color: var(--nc-input-border-error);
+        border-color: var(--mod-input-border-error, var(--nc-input-border-error));
       }
     }
 
     .nc-slider__fill {
-      background-color: var(--nc-input-border-error);
+      background-color: var(--mod-input-border-error, var(--nc-input-border-error));
     }
   }
 
@@ -387,8 +387,8 @@
     // Tooltip bei Vertikal: rechts neben dem Track
     .nc-slider__tooltip {
       bottom: auto;
-      left: calc(100% + var(--nc-slider-tooltip-offset-y));
-      top: calc((100 - var(--nc-slider-progress, 50)) * 1%);
+      left: calc(100% + var(--mod-slider-tooltip-offset-y, var(--nc-slider-tooltip-offset-y)));
+      top: calc((100 - var(--mod-slider-progress, var(--nc-slider-progress, 50))) * 1%);
       transform: translateY(-50%);
 
       &::after {
@@ -397,7 +397,7 @@
         right: 100%;
         transform: translateY(-50%);
         border: 4px solid transparent;
-        border-right-color: var(--nc-slider-tooltip-bg);
+        border-right-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
         border-top-color: transparent;
       }
     }

@@ -36,9 +36,9 @@
     display: block;
     border-radius: var(--fnd-radius-full);
     border-style: solid;
-    border-color: var(--nc-spinner-track-color);
-    border-top-color: var(--nc-spinner-color);
-    animation: fnd-spin var(--nc-spinner-duration) var(--nc-spinner-ease) infinite;
+    border-color: var(--mod-spinner-track-color, var(--nc-spinner-track-color));
+    border-top-color: var(--mod-spinner-color, var(--nc-spinner-color));
+    animation: fnd-spin var(--mod-spinner-duration, var(--nc-spinner-duration)) var(--mod-spinner-ease, var(--nc-spinner-ease)) infinite;
 
     // Barrierefreiheit: Reduzierte Bewegung
     @include reduced-motion {
@@ -51,44 +51,44 @@
 
 @mixin spinner-size($size: 'md') {
   @if $size == 'xs' {
-    width: var(--nc-spinner-size-xs);
-    height: var(--nc-spinner-size-xs);
+    width: var(--mod-spinner-size-xs, var(--nc-spinner-size-xs));
+    height: var(--mod-spinner-size-xs, var(--nc-spinner-size-xs));
     &::after {
-      width: var(--nc-spinner-size-xs);
-      height: var(--nc-spinner-size-xs);
-      border-width: var(--nc-spinner-border-width-xs);
+      width: var(--mod-spinner-size-xs, var(--nc-spinner-size-xs));
+      height: var(--mod-spinner-size-xs, var(--nc-spinner-size-xs));
+      border-width: var(--mod-spinner-border-width-xs, var(--nc-spinner-border-width-xs));
     }
   } @else if $size == 'sm' {
-    width: var(--nc-spinner-size-sm);
-    height: var(--nc-spinner-size-sm);
+    width: var(--mod-spinner-size-sm, var(--nc-spinner-size-sm));
+    height: var(--mod-spinner-size-sm, var(--nc-spinner-size-sm));
     &::after {
-      width: var(--nc-spinner-size-sm);
-      height: var(--nc-spinner-size-sm);
-      border-width: var(--nc-spinner-border-width-sm);
+      width: var(--mod-spinner-size-sm, var(--nc-spinner-size-sm));
+      height: var(--mod-spinner-size-sm, var(--nc-spinner-size-sm));
+      border-width: var(--mod-spinner-border-width-sm, var(--nc-spinner-border-width-sm));
     }
   } @else if $size == 'md' {
-    width: var(--nc-spinner-size-md);
-    height: var(--nc-spinner-size-md);
+    width: var(--mod-spinner-size-md, var(--nc-spinner-size-md));
+    height: var(--mod-spinner-size-md, var(--nc-spinner-size-md));
     &::after {
-      width: var(--nc-spinner-size-md);
-      height: var(--nc-spinner-size-md);
-      border-width: var(--nc-spinner-border-width-md);
+      width: var(--mod-spinner-size-md, var(--nc-spinner-size-md));
+      height: var(--mod-spinner-size-md, var(--nc-spinner-size-md));
+      border-width: var(--mod-spinner-border-width-md, var(--nc-spinner-border-width-md));
     }
   } @else if $size == 'lg' {
-    width: var(--nc-spinner-size-lg);
-    height: var(--nc-spinner-size-lg);
+    width: var(--mod-spinner-size-lg, var(--nc-spinner-size-lg));
+    height: var(--mod-spinner-size-lg, var(--nc-spinner-size-lg));
     &::after {
-      width: var(--nc-spinner-size-lg);
-      height: var(--nc-spinner-size-lg);
-      border-width: var(--nc-spinner-border-width-lg);
+      width: var(--mod-spinner-size-lg, var(--nc-spinner-size-lg));
+      height: var(--mod-spinner-size-lg, var(--nc-spinner-size-lg));
+      border-width: var(--mod-spinner-border-width-lg, var(--nc-spinner-border-width-lg));
     }
   } @else if $size == 'xl' {
-    width: var(--nc-spinner-size-xl);
-    height: var(--nc-spinner-size-xl);
+    width: var(--mod-spinner-size-xl, var(--nc-spinner-size-xl));
+    height: var(--mod-spinner-size-xl, var(--nc-spinner-size-xl));
     &::after {
-      width: var(--nc-spinner-size-xl);
-      height: var(--nc-spinner-size-xl);
-      border-width: var(--nc-spinner-border-width-xl);
+      width: var(--mod-spinner-size-xl, var(--nc-spinner-size-xl));
+      height: var(--mod-spinner-size-xl, var(--nc-spinner-size-xl));
+      border-width: var(--mod-spinner-border-width-xl, var(--nc-spinner-border-width-xl));
     }
   }
 }

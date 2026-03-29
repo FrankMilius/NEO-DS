@@ -32,18 +32,18 @@
 @mixin card-base {
   display: flex;
   flex-direction: column;
-  background-color: var(--nc-card-bg);
-  color: var(--nc-card-color);
-  border: var(--nc-card-border-width) solid var(--nc-card-border);
-  border-radius: var(--nc-card-radius);
-  box-shadow: var(--nc-card-shadow);
+  background-color: var(--mod-card-bg, var(--nc-card-bg));
+  color: var(--mod-card-color, var(--nc-card-color));
+  border: var(--mod-card-border-width, var(--nc-card-border-width)) solid var(--mod-card-border, var(--nc-card-border));
+  border-radius: var(--mod-card-radius, var(--nc-card-radius));
+  box-shadow: var(--mod-card-shadow, var(--nc-card-shadow));
   overflow: hidden;
 
   transition:
-    box-shadow var(--nc-card-transition-duration) ease,
-    border-color var(--nc-card-transition-duration) ease,
-    background-color var(--nc-card-transition-duration) ease,
-    transform var(--nc-card-transition-duration) ease;
+    box-shadow var(--mod-card-transition-duration, var(--nc-card-transition-duration)) ease,
+    border-color var(--mod-card-transition-duration, var(--nc-card-transition-duration)) ease,
+    background-color var(--mod-card-transition-duration, var(--nc-card-transition-duration)) ease,
+    transform var(--mod-card-transition-duration, var(--nc-card-transition-duration)) ease;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -54,24 +54,24 @@
 @mixin card-header {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-card-header-gap);
-  padding: var(--nc-card-header-padding);
+  gap: var(--mod-card-header-gap, var(--nc-card-header-gap));
+  padding: var(--mod-card-header-padding, var(--nc-card-header-padding));
 }
 
 /// Card-Title: Heading-Typografie
 @mixin card-title {
-  font-size: var(--nc-card-title-font-size);
-  font-weight: var(--nc-card-title-font-weight);
-  line-height: var(--nc-card-title-line-height);
-  color: var(--nc-card-title-color);
+  font-size: var(--mod-card-title-font-size, var(--nc-card-title-font-size));
+  font-weight: var(--mod-card-title-font-weight, var(--nc-card-title-font-weight));
+  line-height: var(--mod-card-title-line-height, var(--nc-card-title-line-height));
+  color: var(--mod-card-title-color, var(--nc-card-title-color));
   margin: 0;
 }
 
 /// Card-Description: Body-Typografie
 @mixin card-description {
-  font-size: var(--nc-card-description-font-size);
-  line-height: var(--nc-card-description-line-height);
-  color: var(--nc-card-description-color);
+  font-size: var(--mod-card-description-font-size, var(--nc-card-description-font-size));
+  line-height: var(--mod-card-description-line-height, var(--nc-card-description-line-height));
+  color: var(--mod-card-description-color, var(--nc-card-description-color));
   margin: 0;
 }
 
@@ -92,7 +92,7 @@
 
 /// Card-Content: Freier Inhaltsbereich
 @mixin card-content {
-  padding: var(--nc-card-content-padding);
+  padding: var(--mod-card-content-padding, var(--nc-card-content-padding));
   flex: 1 1 auto;
 }
 
@@ -100,8 +100,8 @@
 @mixin card-footer {
   display: flex;
   align-items: center;
-  gap: var(--nc-card-footer-gap);
-  padding: var(--nc-card-footer-padding);
+  gap: var(--mod-card-footer-gap, var(--nc-card-footer-gap));
+  padding: var(--mod-card-footer-padding, var(--nc-card-footer-padding));
 }
 
 // ---------------------------------------------------------------------------
@@ -113,8 +113,8 @@
   cursor: pointer;
 
   &:hover {
-    border-color: var(--nc-card-hover-border);
-    box-shadow: var(--nc-card-shadow-hover);
+    border-color: var(--mod-card-hover-border, var(--nc-card-hover-border));
+    box-shadow: var(--mod-card-shadow-hover, var(--nc-card-shadow-hover));
   }
 
   &:focus-visible {
@@ -128,7 +128,7 @@
 
 /// Disabled-State (für alle interaktiven Varianten)
 @mixin card-disabled {
-  opacity: var(--nc-card-disabled-opacity);
+  opacity: var(--mod-card-disabled-opacity, var(--nc-card-disabled-opacity));
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -140,14 +140,14 @@
 /// Navigational Entire — Root ist <a>
 @mixin card-navigational {
   @include card-interactive-states;
-  text-decoration: var(--nc-card-link-decoration);
+  text-decoration: var(--mod-card-link-decoration, var(--nc-card-link-decoration));
   color: inherit;
 
   &:hover {
-    text-decoration: var(--nc-card-link-hover-decoration);
+    text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
 
     .nc-card__title {
-      color: var(--nc-card-nav-color-hover);
+      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
     }
   }
 }
@@ -174,16 +174,16 @@
 
     // Disabled
     &:disabled ~ * {
-      opacity: var(--nc-card-disabled-opacity);
+      opacity: var(--mod-card-disabled-opacity, var(--nc-card-disabled-opacity));
       cursor: not-allowed;
     }
   }
 
   // Selected State via :has()
   &:has(.nc-card__input:checked) {
-    border-color: var(--nc-card-selected-border);
-    border-width: var(--nc-card-selected-ring-width);
-    background-color: var(--nc-card-selected-bg);
+    border-color: var(--mod-card-selected-border, var(--nc-card-selected-border));
+    border-width: var(--mod-card-selected-ring-width, var(--nc-card-selected-ring-width));
+    background-color: var(--mod-card-selected-bg, var(--nc-card-selected-bg));
   }
 
   // Focus-Visible auf Card via :has()
@@ -204,9 +204,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--nc-card-header-gap);
-    padding: var(--nc-card-summary-padding);
-    font-weight: var(--nc-card-summary-font-weight);
+    gap: var(--mod-card-header-gap, var(--nc-card-header-gap));
+    padding: var(--mod-card-summary-padding, var(--nc-card-summary-padding));
+    font-weight: var(--mod-card-summary-font-weight, var(--nc-card-summary-font-weight));
     cursor: pointer;
     list-style: none;
     user-select: none;
@@ -237,10 +237,10 @@
 
   // Expand/Collapse Icon
   > .nc-card__summary > .nc-card__expand-icon {
-    width: var(--nc-card-expand-icon-size);
-    height: var(--nc-card-expand-icon-size);
+    width: var(--mod-card-expand-icon-size, var(--nc-card-expand-icon-size));
+    height: var(--mod-card-expand-icon-size, var(--nc-card-expand-icon-size));
     flex-shrink: 0;
-    transition: transform var(--nc-card-transition-duration) ease;
+    transition: transform var(--mod-card-transition-duration, var(--nc-card-transition-duration)) ease;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -254,13 +254,13 @@
 
   // Content inside details
   > .nc-card__content {
-    padding: var(--nc-card-details-content-padding);
+    padding: var(--mod-card-details-content-padding, var(--nc-card-details-content-padding));
   }
 }
 
 /// Status — Linker Border-Indikator
 @mixin card-status {
-  border-left-width: var(--nc-card-status-border-width);
+  border-left-width: var(--mod-card-status-border-width, var(--nc-card-status-border-width));
 }
 
 // ---------------------------------------------------------------------------
@@ -306,8 +306,8 @@
     text-decoration: none;
 
     &:hover {
-      color: var(--nc-card-nav-color-hover);
-      text-decoration: var(--nc-card-link-hover-decoration);
+      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
+      text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
     }
 
     &:focus-visible {
@@ -346,19 +346,19 @@
   }
 
   &--status-success {
-    border-left-color: var(--nc-card-status-success-border);
+    border-left-color: var(--mod-card-status-success-border, var(--nc-card-status-success-border));
   }
 
   &--status-warning {
-    border-left-color: var(--nc-card-status-warning-border);
+    border-left-color: var(--mod-card-status-warning-border, var(--nc-card-status-warning-border));
   }
 
   &--status-danger {
-    border-left-color: var(--nc-card-status-danger-border);
+    border-left-color: var(--mod-card-status-danger-border, var(--nc-card-status-danger-border));
   }
 
   &--status-info {
-    border-left-color: var(--nc-card-status-info-border);
+    border-left-color: var(--mod-card-status-info-border, var(--nc-card-status-info-border));
   }
 
   // Disabled Modifier (nicht-native Varianten)

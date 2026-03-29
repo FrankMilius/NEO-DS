@@ -38,12 +38,12 @@
 @mixin sidebar-base {
   display: flex;
   flex-direction: column;
-  width: var(--nc-sidebar-width);
+  width: var(--mod-sidebar-width, var(--nc-sidebar-width));
   height: 100%;
-  background-color: var(--nc-sidebar-bg);
-  border-right: var(--nc-sidebar-border-width) solid var(--nc-sidebar-border);
-  padding: var(--nc-sidebar-padding);
-  z-index: var(--nc-sidebar-z-index);
+  background-color: var(--mod-sidebar-bg, var(--nc-sidebar-bg));
+  border-right: var(--mod-sidebar-border-width, var(--nc-sidebar-border-width)) solid var(--mod-sidebar-border, var(--nc-sidebar-border));
+  padding: var(--mod-sidebar-padding, var(--nc-sidebar-padding));
+  z-index: var(--mod-sidebar-z-index, var(--nc-sidebar-z-index));
   overflow-y: auto;
   overflow-x: hidden;
   flex-shrink: 0;
@@ -54,16 +54,16 @@
 @mixin sidebar-item {
   display: flex;
   align-items: center;
-  gap: var(--nc-sidebar-item-gap);
+  gap: var(--mod-sidebar-item-gap, var(--nc-sidebar-item-gap));
   width: 100%;
-  min-height: var(--nc-sidebar-item-height);
-  padding: var(--nc-sidebar-item-padding);
+  min-height: var(--mod-sidebar-item-height, var(--nc-sidebar-item-height));
+  padding: var(--mod-sidebar-item-padding, var(--nc-sidebar-item-padding));
   border: none;
-  border-radius: var(--nc-sidebar-item-radius);
+  border-radius: var(--mod-sidebar-item-radius, var(--nc-sidebar-item-radius));
   background: none;
-  color: var(--nc-sidebar-item-color);
-  font-size: var(--nc-sidebar-item-font-size);
-  font-weight: var(--nc-sidebar-item-font-weight);
+  color: var(--mod-sidebar-item-color, var(--nc-sidebar-item-color));
+  font-size: var(--mod-sidebar-item-font-size, var(--nc-sidebar-item-font-size));
+  font-weight: var(--mod-sidebar-item-font-weight, var(--nc-sidebar-item-font-weight));
   text-decoration: none;
   text-align: left;
   cursor: pointer;
@@ -71,8 +71,8 @@
   @include transition-quick((background-color, color));
 
   &:hover {
-    background-color: var(--nc-sidebar-item-bg-hover);
-    color: var(--nc-sidebar-item-color-hover);
+    background-color: var(--mod-sidebar-item-bg-hover, var(--nc-sidebar-item-bg-hover));
+    color: var(--mod-sidebar-item-color-hover, var(--nc-sidebar-item-color-hover));
   }
 
   &:focus-visible {
@@ -81,12 +81,12 @@
 }
 
 @mixin sidebar-item-active {
-  background-color: var(--nc-sidebar-item-bg-active);
-  color: var(--nc-sidebar-item-color-active);
+  background-color: var(--mod-sidebar-item-bg-active, var(--nc-sidebar-item-bg-active));
+  color: var(--mod-sidebar-item-color-active, var(--nc-sidebar-item-color-active));
 
   &:hover {
-    background-color: var(--nc-sidebar-item-bg-active);
-    color: var(--nc-sidebar-item-color-active);
+    background-color: var(--mod-sidebar-item-bg-active, var(--nc-sidebar-item-bg-active));
+    color: var(--mod-sidebar-item-color-active, var(--nc-sidebar-item-color-active));
   }
 }
 
@@ -133,7 +133,7 @@
     cursor: pointer;
     @include transition-quick((background-color, color));
 
-    &:hover { background-color: var(--nc-sidebar-item-bg-hover); }
+    &:hover { background-color: var(--mod-sidebar-item-bg-hover, var(--nc-sidebar-item-bg-hover)); }
     &:focus-visible { @include focus-ring; }
 
     > svg {
@@ -161,7 +161,7 @@
   &__group {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-sidebar-group-gap);
+    gap: var(--mod-sidebar-group-gap, var(--nc-sidebar-group-gap));
 
     & + & {
       margin-top: var(--fnd-spacing-03);
@@ -170,10 +170,10 @@
 
   &__group-label {
     display: block;
-    padding: var(--nc-sidebar-group-label-padding);
-    font-size: var(--nc-sidebar-group-label-size);
-    font-weight: var(--nc-sidebar-group-label-weight);
-    color: var(--nc-sidebar-group-label-color);
+    padding: var(--mod-sidebar-group-label-padding, var(--nc-sidebar-group-label-padding));
+    font-size: var(--mod-sidebar-group-label-size, var(--nc-sidebar-group-label-size));
+    font-weight: var(--mod-sidebar-group-label-weight, var(--nc-sidebar-group-label-weight));
+    color: var(--mod-sidebar-group-label-color, var(--nc-sidebar-group-label-color));
     text-transform: uppercase;
     letter-spacing: 0.05em;
     user-select: none;
@@ -197,8 +197,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-sidebar-item-icon-size);
-    height: var(--nc-sidebar-item-icon-size);
+    width: var(--mod-sidebar-item-icon-size, var(--nc-sidebar-item-icon-size));
+    height: var(--mod-sidebar-item-icon-size, var(--nc-sidebar-item-icon-size));
     flex-shrink: 0;
 
     > svg {
@@ -226,14 +226,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: var(--nc-sidebar-badge-size);
-    height: var(--nc-sidebar-badge-size);
+    min-width: var(--mod-sidebar-badge-size, var(--nc-sidebar-badge-size));
+    height: var(--mod-sidebar-badge-size, var(--nc-sidebar-badge-size));
     padding: 0 var(--fnd-spacing-01);
-    font-size: var(--nc-sidebar-badge-font-size);
+    font-size: var(--mod-sidebar-badge-font-size, var(--nc-sidebar-badge-font-size));
     font-weight: var(--fnd-font-weight-bold);
-    background-color: var(--nc-sidebar-badge-bg);
-    color: var(--nc-sidebar-badge-color);
-    border-radius: var(--nc-sidebar-badge-radius);
+    background-color: var(--mod-sidebar-badge-bg, var(--nc-sidebar-badge-bg));
+    color: var(--mod-sidebar-badge-color, var(--nc-sidebar-badge-color));
+    border-radius: var(--mod-sidebar-badge-radius, var(--nc-sidebar-badge-radius));
     line-height: 1;
   }
 
@@ -259,7 +259,7 @@
   }
 
   &__item:hover &__item-chevron {
-    color: var(--nc-sidebar-item-color-hover);
+    color: var(--mod-sidebar-item-color-hover, var(--nc-sidebar-item-color-hover));
   }
 
   // Chevron gedreht wenn offen
@@ -272,7 +272,7 @@
   &__submenu {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-sidebar-group-gap);
+    gap: var(--mod-sidebar-group-gap, var(--nc-sidebar-group-gap));
 
     &[hidden] {
       display: none;
@@ -283,8 +283,8 @@
   &__submenu-items {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-sidebar-group-gap);
-    padding-left: var(--nc-sidebar-nested-indent);
+    gap: var(--mod-sidebar-group-gap, var(--nc-sidebar-group-gap));
+    padding-left: var(--mod-sidebar-nested-indent, var(--nc-sidebar-nested-indent));
 
     &[hidden] {
       display: none;
@@ -293,8 +293,8 @@
 
   // Sub-Item: linksseitig eingerueckt, kein Icon
   &__item--sub {
-    font-size: var(--nc-sidebar-item-font-size);
-    min-height: calc(var(--nc-sidebar-item-height) - 4px);
+    font-size: var(--mod-sidebar-item-font-size, var(--nc-sidebar-item-font-size));
+    min-height: calc(var(--mod-sidebar-item-height, var(--nc-sidebar-item-height)) - 4px);
   }
 
   // -- Footer --
@@ -302,13 +302,13 @@
   &__footer {
     margin-top: auto;
     padding-top: var(--fnd-spacing-03);
-    border-top: var(--nc-sidebar-border-width) solid var(--nc-sidebar-border);
+    border-top: var(--mod-sidebar-border-width, var(--nc-sidebar-border-width)) solid var(--mod-sidebar-border, var(--nc-sidebar-border));
   }
 
   // -- Collapsed State --
 
   &--collapsed {
-    width: var(--nc-sidebar-width-collapsed);
+    width: var(--mod-sidebar-width-collapsed, var(--nc-sidebar-width-collapsed));
 
     .nc-sidebar__item-label,
     .nc-sidebar__item-badge,
@@ -335,7 +335,7 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: var(--nc-sidebar-width);
+    width: var(--mod-sidebar-width, var(--nc-sidebar-width));
     transform: translateX(-100%);
     @include transition-quick((transform));
 

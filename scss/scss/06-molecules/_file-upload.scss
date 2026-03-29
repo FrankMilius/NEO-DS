@@ -70,24 +70,24 @@
   align-items: center;
   justify-content: center;
   gap: var(--fnd-spacing-03);
-  padding: var(--nc-file-upload-padding);
-  border: var(--nc-input-border-width) var(--nc-file-upload-border-style) var(--nc-file-upload-border);
-  border-radius: var(--nc-file-upload-radius);
-  background-color: var(--nc-file-upload-bg);
+  padding: var(--mod-file-upload-padding, var(--nc-file-upload-padding));
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) var(--mod-file-upload-border-style, var(--nc-file-upload-border-style)) var(--mod-file-upload-border, var(--nc-file-upload-border));
+  border-radius: var(--mod-file-upload-radius, var(--nc-file-upload-radius));
+  background-color: var(--mod-file-upload-bg, var(--nc-file-upload-bg));
   text-align: center;
   cursor: pointer;
   transition:
-    border-color var(--nc-input-transition-duration) ease,
-    background-color var(--nc-input-transition-duration) ease;
+    border-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    background-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
 
   &:hover:not(.nc-file-upload--disabled) {
-    border-color: var(--nc-file-upload-border-hover);
-    background-color: var(--nc-file-upload-bg-hover);
+    border-color: var(--mod-file-upload-border-hover, var(--nc-file-upload-border-hover));
+    background-color: var(--mod-file-upload-bg-hover, var(--nc-file-upload-bg-hover));
   }
 
   &:focus-visible {
     @include focus-ring;
-    border-color: var(--nc-file-upload-border-hover);
+    border-color: var(--mod-file-upload-border-hover, var(--nc-file-upload-border-hover));
   }
 
   &:focus:not(:focus-visible) {
@@ -102,9 +102,9 @@
 
 /// Upload-Icon.
 @mixin file-upload-icon {
-  width: var(--nc-file-upload-icon-size);
-  height: var(--nc-file-upload-icon-size);
-  color: var(--nc-file-upload-icon-color);
+  width: var(--mod-file-upload-icon-size, var(--nc-file-upload-icon-size));
+  height: var(--mod-file-upload-icon-size, var(--nc-file-upload-icon-size));
+  color: var(--mod-file-upload-icon-color, var(--nc-file-upload-icon-color));
   flex-shrink: 0;
 
   > svg {
@@ -120,15 +120,15 @@
 
 /// Haupttext ("Dateien hierher ziehen").
 @mixin file-upload-text {
-  font-size: var(--nc-input-font-size-md);
+  font-size: var(--mod-input-font-size-md, var(--nc-input-font-size-md));
   font-weight: var(--fnd-font-weight-semibold);
-  color: var(--nc-input-color);
+  color: var(--mod-input-color, var(--nc-input-color));
   line-height: 1.5;
 }
 
 /// Zusatztext (erlaubte Typen, max. Groesse).
 @mixin file-upload-subtext {
-  font-size: var(--nc-input-font-size-sm);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
   color: var(--fnd-color-text-secondary);
   line-height: 1.5;
 }
@@ -140,28 +140,28 @@
 
 /// Drag-Over State: staerkere visuelle Hervorhebung.
 @mixin file-upload-dragging {
-  border-color: var(--nc-file-upload-border-hover);
-  background-color: var(--nc-file-upload-bg-hover);
+  border-color: var(--mod-file-upload-border-hover, var(--nc-file-upload-border-hover));
+  background-color: var(--mod-file-upload-bg-hover, var(--nc-file-upload-bg-hover));
   // Erhoehter Kontrast mit 2px Border
   border-width: 2px;
 }
 
 /// Error-State.
 @mixin file-upload-error {
-  border-color: var(--nc-input-border-error);
+  border-color: var(--mod-input-border-error, var(--nc-input-border-error));
 
   &:hover {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 }
 
 /// Disabled-State.
 @mixin file-upload-disabled {
-  opacity: var(--nc-input-disabled-opacity);
+  opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
   cursor: not-allowed;
   pointer-events: none;
-  background-color: var(--nc-input-disabled-bg);
-  border-color: var(--nc-input-disabled-border);
+  background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+  border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
 }
 
 /// Kompakte Variante: Nur Button, keine Dropzone.
@@ -172,12 +172,12 @@
   gap: var(--fnd-spacing-03);
 
   .nc-file-upload__icon {
-    width: var(--nc-input-icon-size);
-    height: var(--nc-input-icon-size);
+    width: var(--mod-input-icon-size, var(--nc-input-icon-size));
+    height: var(--mod-input-icon-size, var(--nc-input-icon-size));
   }
 
   .nc-file-upload__text {
-    font-size: var(--nc-input-font-size-sm);
+    font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
     font-weight: var(--fnd-font-weight-regular);
   }
 
@@ -205,18 +205,18 @@
   align-items: center;
   gap: var(--fnd-spacing-03);
   padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
-  border: var(--nc-input-border-width) solid var(--fnd-color-border-secondary);
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-sm);
   background-color: var(--fnd-color-background-base);
-  font-size: var(--nc-input-font-size-sm);
-  color: var(--nc-input-color);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
+  color: var(--mod-input-color, var(--nc-input-color));
   line-height: 1.5;
 }
 
 /// Datei-Icon in der Liste.
 @mixin file-upload-list-icon {
-  width: var(--nc-input-icon-size);
-  height: var(--nc-input-icon-size);
+  width: var(--mod-input-icon-size, var(--nc-input-icon-size));
+  height: var(--mod-input-icon-size, var(--nc-input-icon-size));
   color: var(--fnd-color-text-secondary);
   flex-shrink: 0;
 
@@ -240,7 +240,7 @@
 @mixin file-upload-list-size {
   flex-shrink: 0;
   color: var(--fnd-color-text-secondary);
-  font-size: var(--nc-input-font-size-sm);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
 }
 
 /// Entfernen-Button.
@@ -257,8 +257,8 @@
   color: var(--fnd-color-text-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color var(--nc-input-transition-duration) ease,
-    color var(--nc-input-transition-duration) ease;
+  transition: background-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
 
   &:hover {
     background-color: var(--fnd-color-background-tertiary);
@@ -337,7 +337,7 @@
 
     // Error auf einzelne Datei
     &--error {
-      border-color: var(--nc-input-border-error);
+      border-color: var(--mod-input-border-error, var(--nc-input-border-error));
       background-color: var(--fnd-color-background-danger);
     }
 
@@ -376,7 +376,7 @@
       height: 100%;
       background-color: var(--fnd-color-interactive-default);
       border-radius: inherit;
-      transition: width var(--nc-input-transition-duration) ease;
+      transition: width var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
     }
   }
 }

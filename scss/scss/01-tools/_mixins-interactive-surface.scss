@@ -95,37 +95,37 @@
 
 @mixin surface-size($size: 'md') {
   @if $size == 'xs' {
-    min-height: var(--nc-button-height-xs);
+    min-height: var(--mod-button-height-xs, var(--nc-button-height-xs));
     padding:
-      var(--_surface-padding-y, var(--nc-button-padding-y-xs))
-      var(--_surface-padding-x, var(--nc-button-padding-x-xs));
-    font-size: var(--nc-button-font-size-xs);
-    border-radius: var(--_surface-radius, var(--nc-button-radius-xs));
-    gap: var(--_surface-gap, var(--nc-button-icon-gap-xs));
+      var(--_surface-padding-y, var(--mod-button-padding-y-xs, var(--nc-button-padding-y-xs)))
+      var(--_surface-padding-x, var(--mod-button-padding-x-xs, var(--nc-button-padding-x-xs)));
+    font-size: var(--mod-button-font-size-xs, var(--nc-button-font-size-xs));
+    border-radius: var(--_surface-radius, var(--mod-button-radius-xs, var(--nc-button-radius-xs)));
+    gap: var(--_surface-gap, var(--mod-button-icon-gap-xs, var(--nc-button-icon-gap-xs)));
   } @else if $size == 'sm' {
-    min-height: var(--nc-button-height-sm);
+    min-height: var(--mod-button-height-sm, var(--nc-button-height-sm));
     padding:
-      var(--_surface-padding-y, var(--nc-button-padding-y-sm))
-      var(--_surface-padding-x, var(--nc-button-padding-x-sm));
-    font-size: var(--nc-button-font-size-sm);
-    border-radius: var(--_surface-radius, var(--nc-button-radius-sm));
-    gap: var(--_surface-gap, var(--nc-button-icon-gap-sm));
+      var(--_surface-padding-y, var(--mod-button-padding-y-sm, var(--nc-button-padding-y-sm)))
+      var(--_surface-padding-x, var(--mod-button-padding-x-sm, var(--nc-button-padding-x-sm)));
+    font-size: var(--mod-button-font-size-sm, var(--nc-button-font-size-sm));
+    border-radius: var(--_surface-radius, var(--mod-button-radius-sm, var(--nc-button-radius-sm)));
+    gap: var(--_surface-gap, var(--mod-button-icon-gap-sm, var(--nc-button-icon-gap-sm)));
   } @else if $size == 'md' {
-    min-height: var(--nc-button-height-md);
+    min-height: var(--mod-button-height-md, var(--nc-button-height-md));
     padding:
-      var(--_surface-padding-y, var(--nc-button-padding-y-md))
-      var(--_surface-padding-x, var(--nc-button-padding-x-md));
-    font-size: var(--nc-button-font-size-md);
-    border-radius: var(--_surface-radius, var(--nc-button-radius-md));
-    gap: var(--_surface-gap, var(--nc-button-icon-gap-md));
+      var(--_surface-padding-y, var(--mod-button-padding-y-md, var(--nc-button-padding-y-md)))
+      var(--_surface-padding-x, var(--mod-button-padding-x-md, var(--nc-button-padding-x-md)));
+    font-size: var(--mod-button-font-size-md, var(--nc-button-font-size-md));
+    border-radius: var(--_surface-radius, var(--mod-button-radius-md, var(--nc-button-radius-md)));
+    gap: var(--_surface-gap, var(--mod-button-icon-gap-md, var(--nc-button-icon-gap-md)));
   } @else if $size == 'lg' {
-    min-height: var(--nc-button-height-lg);
+    min-height: var(--mod-button-height-lg, var(--nc-button-height-lg));
     padding:
-      var(--_surface-padding-y, var(--nc-button-padding-y-lg))
-      var(--_surface-padding-x, var(--nc-button-padding-x-lg));
-    font-size: var(--nc-button-font-size-lg);
-    border-radius: var(--_surface-radius, var(--nc-button-radius-lg));
-    gap: var(--_surface-gap, var(--nc-button-icon-gap-lg));
+      var(--_surface-padding-y, var(--mod-button-padding-y-lg, var(--nc-button-padding-y-lg)))
+      var(--_surface-padding-x, var(--mod-button-padding-x-lg, var(--nc-button-padding-x-lg)));
+    font-size: var(--mod-button-font-size-lg, var(--nc-button-font-size-lg));
+    border-radius: var(--_surface-radius, var(--mod-button-radius-lg, var(--nc-button-radius-lg)));
+    gap: var(--_surface-gap, var(--mod-button-icon-gap-lg, var(--nc-button-icon-gap-lg)));
   }
 }
 

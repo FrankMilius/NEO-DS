@@ -36,13 +36,13 @@
 @mixin tag-base {
   @include static-surface-base;
 
-  --_surface-bg: var(--nc-tag-default-bg);
-  --_surface-color: var(--nc-tag-default-color);
-  --_surface-border-color: var(--nc-tag-default-border);
-  --_surface-radius: var(--nc-tag-radius);
-  --_surface-font-size: var(--nc-tag-font-size);
-  --_surface-font-weight: var(--nc-tag-font-weight);
-  --_surface-gap: var(--nc-tag-gap);
+  --_surface-bg: var(--mod-tag-default-bg, var(--nc-tag-default-bg));
+  --_surface-color: var(--mod-tag-default-color, var(--nc-tag-default-color));
+  --_surface-border-color: var(--mod-tag-default-border, var(--nc-tag-default-border));
+  --_surface-radius: var(--mod-tag-radius, var(--nc-tag-radius));
+  --_surface-font-size: var(--mod-tag-font-size, var(--nc-tag-font-size));
+  --_surface-font-weight: var(--mod-tag-font-weight, var(--nc-tag-font-weight));
+  --_surface-gap: var(--mod-tag-gap, var(--nc-tag-gap));
   --_surface-border-width: var(--fnd-border-width-xs);
 
   @include tag-size('md');
@@ -50,16 +50,16 @@
 
 @mixin tag-size($size: 'md') {
   @if $size == 'sm' {
-    min-height: var(--nc-tag-height-sm);
+    min-height: var(--mod-tag-height-sm, var(--nc-tag-height-sm));
     padding: 0 var(--fnd-spacing-02);
-    font-size: var(--nc-tag-font-size-sm);
+    font-size: var(--mod-tag-font-size-sm, var(--nc-tag-font-size-sm));
   } @else if $size == 'md' {
-    min-height: var(--nc-tag-height-md);
-    padding: var(--nc-tag-padding-y) var(--nc-tag-padding-x);
+    min-height: var(--mod-tag-height-md, var(--nc-tag-height-md));
+    padding: var(--mod-tag-padding-y, var(--nc-tag-padding-y)) var(--mod-tag-padding-x, var(--nc-tag-padding-x));
   } @else if $size == 'lg' {
-    min-height: var(--nc-tag-height-lg);
+    min-height: var(--mod-tag-height-lg, var(--nc-tag-height-lg));
     padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
-    font-size: var(--nc-tag-font-size-lg);
+    font-size: var(--mod-tag-font-size-lg, var(--nc-tag-font-size-lg));
   }
 }
 
@@ -78,8 +78,8 @@
   }
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--_tag-bg-hover, var(--nc-tag-default-bg-hover));
-    box-shadow: var(--nc-tag-interactive-shadow-hover);
+    background-color: var(--_tag-bg-hover, var(--mod-tag-default-bg-hover, var(--nc-tag-default-bg-hover)));
+    box-shadow: var(--mod-tag-interactive-shadow-hover, var(--nc-tag-interactive-shadow-hover));
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
@@ -89,10 +89,10 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-tag-disabled-bg);
-    color: var(--nc-tag-disabled-color);
-    border-color: var(--nc-tag-disabled-border);
-    opacity: var(--nc-tag-opacity-disabled);
+    background-color: var(--mod-tag-disabled-bg, var(--nc-tag-disabled-bg));
+    color: var(--mod-tag-disabled-color, var(--nc-tag-disabled-color));
+    border-color: var(--mod-tag-disabled-border, var(--nc-tag-disabled-border));
+    opacity: var(--mod-tag-opacity-disabled, var(--nc-tag-opacity-disabled));
     cursor: not-allowed;
     pointer-events: none;
     transform: none;
@@ -107,10 +107,10 @@
 // Kombinierbar mit --interactive.
 
 @mixin tag-selected {
-  --_surface-bg: var(--nc-tag-selected-bg);
-  --_surface-color: var(--nc-tag-selected-color);
-  --_surface-border-color: var(--nc-tag-selected-border);
-  --_tag-bg-hover: var(--nc-tag-selected-bg-hover);
+  --_surface-bg: var(--mod-tag-selected-bg, var(--nc-tag-selected-bg));
+  --_surface-color: var(--mod-tag-selected-color, var(--nc-tag-selected-color));
+  --_surface-border-color: var(--mod-tag-selected-border, var(--nc-tag-selected-border));
+  --_tag-bg-hover: var(--mod-tag-selected-bg-hover, var(--nc-tag-selected-bg-hover));
 }
 
 // ---------------------------------------------------------------------------
@@ -118,45 +118,45 @@
 // ---------------------------------------------------------------------------
 
 @mixin tag-variant-outline {
-  --_surface-bg: var(--nc-tag-outline-bg);
-  --_surface-color: var(--nc-tag-outline-color);
-  --_surface-border-color: var(--nc-tag-outline-border);
-  --_tag-bg-hover: var(--nc-tag-outline-bg-hover);
+  --_surface-bg: var(--mod-tag-outline-bg, var(--nc-tag-outline-bg));
+  --_surface-color: var(--mod-tag-outline-color, var(--nc-tag-outline-color));
+  --_surface-border-color: var(--mod-tag-outline-border, var(--nc-tag-outline-border));
+  --_tag-bg-hover: var(--mod-tag-outline-bg-hover, var(--nc-tag-outline-bg-hover));
 }
 
 @mixin tag-variant-primary {
-  --_surface-bg: var(--nc-tag-primary-bg);
-  --_surface-color: var(--nc-tag-primary-color);
-  --_surface-border-color: var(--nc-tag-primary-border);
-  --_tag-bg-hover: var(--nc-tag-primary-bg-hover);
+  --_surface-bg: var(--mod-tag-primary-bg, var(--nc-tag-primary-bg));
+  --_surface-color: var(--mod-tag-primary-color, var(--nc-tag-primary-color));
+  --_surface-border-color: var(--mod-tag-primary-border, var(--nc-tag-primary-border));
+  --_tag-bg-hover: var(--mod-tag-primary-bg-hover, var(--nc-tag-primary-bg-hover));
 }
 
 @mixin tag-variant-success {
-  --_surface-bg: var(--nc-tag-success-bg);
-  --_surface-color: var(--nc-tag-success-color);
-  --_surface-border-color: var(--nc-tag-success-border);
-  --_tag-bg-hover: var(--nc-tag-success-bg-hover);
+  --_surface-bg: var(--mod-tag-success-bg, var(--nc-tag-success-bg));
+  --_surface-color: var(--mod-tag-success-color, var(--nc-tag-success-color));
+  --_surface-border-color: var(--mod-tag-success-border, var(--nc-tag-success-border));
+  --_tag-bg-hover: var(--mod-tag-success-bg-hover, var(--nc-tag-success-bg-hover));
 }
 
 @mixin tag-variant-warning {
-  --_surface-bg: var(--nc-tag-warning-bg);
-  --_surface-color: var(--nc-tag-warning-color);
-  --_surface-border-color: var(--nc-tag-warning-border);
-  --_tag-bg-hover: var(--nc-tag-warning-bg-hover);
+  --_surface-bg: var(--mod-tag-warning-bg, var(--nc-tag-warning-bg));
+  --_surface-color: var(--mod-tag-warning-color, var(--nc-tag-warning-color));
+  --_surface-border-color: var(--mod-tag-warning-border, var(--nc-tag-warning-border));
+  --_tag-bg-hover: var(--mod-tag-warning-bg-hover, var(--nc-tag-warning-bg-hover));
 }
 
 @mixin tag-variant-error {
-  --_surface-bg: var(--nc-tag-error-bg);
-  --_surface-color: var(--nc-tag-error-color);
-  --_surface-border-color: var(--nc-tag-error-border);
-  --_tag-bg-hover: var(--nc-tag-error-bg-hover);
+  --_surface-bg: var(--mod-tag-error-bg, var(--nc-tag-error-bg));
+  --_surface-color: var(--mod-tag-error-color, var(--nc-tag-error-color));
+  --_surface-border-color: var(--mod-tag-error-border, var(--nc-tag-error-border));
+  --_tag-bg-hover: var(--mod-tag-error-bg-hover, var(--nc-tag-error-bg-hover));
 }
 
 @mixin tag-variant-info {
-  --_surface-bg: var(--nc-tag-info-bg);
-  --_surface-color: var(--nc-tag-info-color);
-  --_surface-border-color: var(--nc-tag-info-border);
-  --_tag-bg-hover: var(--nc-tag-info-bg-hover);
+  --_surface-bg: var(--mod-tag-info-bg, var(--nc-tag-info-bg));
+  --_surface-color: var(--mod-tag-info-color, var(--nc-tag-info-color));
+  --_surface-border-color: var(--mod-tag-info-border, var(--nc-tag-info-border));
+  --_tag-bg-hover: var(--mod-tag-info-bg-hover, var(--nc-tag-info-bg-hover));
 }
 
 // ---------------------------------------------------------------------------
@@ -167,8 +167,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-tag-icon-size);
-  height: var(--nc-tag-icon-size);
+  width: var(--mod-tag-icon-size, var(--nc-tag-icon-size));
+  height: var(--mod-tag-icon-size, var(--nc-tag-icon-size));
   flex-shrink: 0;
 
   > svg {
@@ -183,7 +183,7 @@
 }
 
 @mixin tag-remove-button {
-  @include surface-remove-button(var(--nc-tag-remove-size));
+  @include surface-remove-button(var(--mod-tag-remove-size, var(--nc-tag-remove-size)));
 }
 
 // ---------------------------------------------------------------------------

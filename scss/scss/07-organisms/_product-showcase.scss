@@ -14,13 +14,13 @@
 
 .nc-product-showcase {
   display: grid;
-  grid-template-columns: var(--nc-product-showcase-options-width) 1fr;
-  gap: var(--nc-product-showcase-gap);
-  padding-block: var(--nc-product-showcase-padding);
-  padding-inline: var(--nc-nav-padding-inline);
+  grid-template-columns: var(--mod-product-showcase-options-width, var(--nc-product-showcase-options-width)) 1fr;
+  gap: var(--mod-product-showcase-gap, var(--nc-product-showcase-gap));
+  padding-block: var(--mod-product-showcase-padding, var(--nc-product-showcase-padding));
+  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
   margin-inline: auto;
   box-sizing: border-box;
-  align-items: var(--nc-product-showcase-options-align);
+  align-items: var(--mod-product-showcase-options-align, var(--nc-product-showcase-options-align));
 
   @include respond-to('xxl') {
     padding-inline: 0;
@@ -35,7 +35,7 @@
 
 // Reversed: Options rechts, Media links
 .nc-product-showcase--right {
-  grid-template-columns: 1fr var(--nc-product-showcase-options-width);
+  grid-template-columns: 1fr var(--mod-product-showcase-options-width, var(--nc-product-showcase-options-width));
 
   // Media-Panel zuerst im Grid (visuell links)
   .nc-product-showcase__media-panel { order: -1; }
@@ -68,13 +68,13 @@
 // ---------------------------------------------------------------------------
 
 .nc-product-showcase__headline {
-  font-size: var(--nc-product-showcase-headline-size);
-  font-weight: var(--nc-product-showcase-headline-weight);
-  color: var(--nc-product-showcase-headline-color);
+  font-size: var(--mod-product-showcase-headline-size, var(--nc-product-showcase-headline-size));
+  font-weight: var(--mod-product-showcase-headline-weight, var(--nc-product-showcase-headline-weight));
+  color: var(--mod-product-showcase-headline-color, var(--nc-product-showcase-headline-color));
   text-align: center;
   margin: 0;
-  padding-block-start: var(--nc-product-showcase-padding);
-  padding-inline: var(--nc-nav-padding-inline);
+  padding-block-start: var(--mod-product-showcase-padding, var(--nc-product-showcase-padding));
+  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
 }
 
 // ---------------------------------------------------------------------------
@@ -82,9 +82,9 @@
 // ---------------------------------------------------------------------------
 
 .nc-product-showcase__label {
-  font-size: var(--nc-product-showcase-label-font-size);
-  font-family: var(--nc-product-showcase-label-font-family);
-  color: var(--nc-product-showcase-label-color);
+  font-size: var(--mod-product-showcase-label-font-size, var(--nc-product-showcase-label-font-size));
+  font-family: var(--mod-product-showcase-label-font-family, var(--nc-product-showcase-label-font-family));
+  color: var(--mod-product-showcase-label-color, var(--nc-product-showcase-label-color));
   margin-block-end: var(--fnd-spacing-03);
   font-weight: var(--fnd-font-weight-medium);
 }
@@ -96,7 +96,7 @@
 .nc-product-showcase__options {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-product-showcase-option-gap);
+  gap: var(--mod-product-showcase-option-gap, var(--nc-product-showcase-option-gap));
   list-style: none;
   padding: 0;
   margin: 0;
@@ -110,19 +110,19 @@
   display: flex;
   align-items: center;
   gap: var(--fnd-spacing-03);
-  padding: var(--nc-product-showcase-option-padding);
+  padding: var(--mod-product-showcase-option-padding, var(--nc-product-showcase-option-padding));
   background: none;
   border: none;
   cursor: pointer;
-  font-size: var(--nc-product-showcase-option-font-size);
-  font-weight: var(--nc-product-showcase-option-font-weight);
-  font-family: var(--nc-product-showcase-option-font-family);
-  color: var(--nc-product-showcase-option-color);
+  font-size: var(--mod-product-showcase-option-font-size, var(--nc-product-showcase-option-font-size));
+  font-weight: var(--mod-product-showcase-option-font-weight, var(--nc-product-showcase-option-font-weight));
+  font-family: var(--mod-product-showcase-option-font-family, var(--nc-product-showcase-option-font-family));
+  color: var(--mod-product-showcase-option-color, var(--nc-product-showcase-option-color));
   text-align: left;
   @include transition-quick((color, opacity));
 
   &:hover {
-    color: var(--nc-product-showcase-option-color-hover);
+    color: var(--mod-product-showcase-option-color-hover, var(--nc-product-showcase-option-color-hover));
   }
 
   &:focus-visible {
@@ -131,7 +131,7 @@
 
   // Selected State
   &[aria-selected='true'] {
-    color: var(--nc-product-showcase-option-color-active);
+    color: var(--mod-product-showcase-option-color-active, var(--nc-product-showcase-option-color-active));
   }
 }
 
@@ -140,9 +140,9 @@
 // ---------------------------------------------------------------------------
 
 .nc-product-showcase__option-indicator {
-  width: var(--nc-product-showcase-indicator-size);
-  height: var(--nc-product-showcase-indicator-size);
-  border-radius: var(--nc-product-showcase-indicator-radius);
+  width: var(--mod-product-showcase-indicator-size, var(--nc-product-showcase-indicator-size));
+  height: var(--mod-product-showcase-indicator-size, var(--nc-product-showcase-indicator-size));
+  border-radius: var(--mod-product-showcase-indicator-radius, var(--nc-product-showcase-indicator-radius));
   flex-shrink: 0;
   // background-color wird inline per Option gesetzt
 }
@@ -170,8 +170,8 @@
 }
 
 .nc-product-showcase__description-text {
-  font-size: var(--nc-product-showcase-desc-size);
-  color: var(--nc-product-showcase-desc-color);
+  font-size: var(--mod-product-showcase-desc-size, var(--nc-product-showcase-desc-size));
+  color: var(--mod-product-showcase-desc-color, var(--nc-product-showcase-desc-color));
   line-height: 1.5;
   margin: 0;
   // Fade-In Animation (Apple turntable style)
@@ -200,9 +200,9 @@
 .nc-product-showcase__media-panel {
   position: relative;
   overflow: hidden;
-  border-radius: var(--nc-product-showcase-media-radius);
-  aspect-ratio: var(--nc-product-showcase-media-aspect-ratio);
-  background: var(--nc-product-showcase-media-bg);
+  border-radius: var(--mod-product-showcase-media-radius, var(--nc-product-showcase-media-radius));
+  aspect-ratio: var(--mod-product-showcase-media-aspect-ratio, var(--nc-product-showcase-media-aspect-ratio));
+  background: var(--mod-product-showcase-media-bg, var(--nc-product-showcase-media-bg));
 }
 
 // ---------------------------------------------------------------------------
@@ -218,8 +218,8 @@
   opacity: 0;
   transform: translateX(30%);
   transition:
-    opacity var(--nc-product-showcase-animation-duration) var(--nc-product-showcase-animation-easing),
-    transform var(--nc-product-showcase-animation-duration) var(--nc-product-showcase-animation-easing);
+    opacity var(--mod-product-showcase-animation-duration, var(--nc-product-showcase-animation-duration)) var(--mod-product-showcase-animation-easing, var(--nc-product-showcase-animation-easing)),
+    transform var(--mod-product-showcase-animation-duration, var(--nc-product-showcase-animation-duration)) var(--mod-product-showcase-animation-easing, var(--nc-product-showcase-animation-easing));
   pointer-events: none;
 
   // Active: sichtbar + zentriert

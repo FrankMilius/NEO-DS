@@ -61,7 +61,7 @@
 @keyframes nc-notification-dismiss {
   from {
     max-height: var(--_notification-height, 200px);
-    padding: var(--nc-notification-padding);
+    padding: var(--mod-notification-padding, var(--nc-notification-padding));
     opacity: 1;
   }
   to {
@@ -79,13 +79,13 @@
 /// Notification Card Basis (Floating Surface).
 @mixin notification-card {
   display: flex;
-  gap: var(--nc-notification-gap);
-  padding: var(--nc-notification-padding);
-  max-width: var(--nc-notification-max-width);
-  background-color: var(--nc-notification-bg);
-  border: var(--nc-notification-border-width) solid var(--nc-notification-border-color);
-  border-radius: var(--nc-notification-radius);
-  box-shadow: var(--nc-notification-shadow);
+  gap: var(--mod-notification-gap, var(--nc-notification-gap));
+  padding: var(--mod-notification-padding, var(--nc-notification-padding));
+  max-width: var(--mod-notification-max-width, var(--nc-notification-max-width));
+  background-color: var(--mod-notification-bg, var(--nc-notification-bg));
+  border: var(--mod-notification-border-width, var(--nc-notification-border-width)) solid var(--mod-notification-border-color, var(--nc-notification-border-color));
+  border-radius: var(--mod-notification-radius, var(--nc-notification-radius));
+  box-shadow: var(--mod-notification-shadow, var(--nc-notification-shadow));
   position: relative;
   overflow: hidden;
   @include transition-quick((background-color, border-color, box-shadow));
@@ -93,9 +93,9 @@
 
 /// Media-Slot (Thumbnail/Avatar).
 @mixin notification-media {
-  width: var(--nc-notification-media-size);
-  height: var(--nc-notification-media-size);
-  border-radius: var(--nc-notification-media-radius);
+  width: var(--mod-notification-media-size, var(--nc-notification-media-size));
+  height: var(--mod-notification-media-size, var(--nc-notification-media-size));
+  border-radius: var(--mod-notification-media-radius, var(--nc-notification-media-radius));
   flex-shrink: 0;
   overflow: hidden;
   object-fit: cover;
@@ -110,10 +110,10 @@
 
 /// Unread-Dot.
 @mixin notification-unread-dot {
-  width: var(--nc-notification-unread-dot-size);
-  height: var(--nc-notification-unread-dot-size);
+  width: var(--mod-notification-unread-dot-size, var(--nc-notification-unread-dot-size));
+  height: var(--mod-notification-unread-dot-size, var(--nc-notification-unread-dot-size));
   border-radius: var(--fnd-radius-full);
-  background-color: var(--nc-notification-unread-dot-color);
+  background-color: var(--mod-notification-unread-dot-color, var(--nc-notification-unread-dot-color));
   flex-shrink: 0;
 }
 
@@ -122,20 +122,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-notification-close-size);
-  height: var(--nc-notification-close-size);
+  width: var(--mod-notification-close-size, var(--nc-notification-close-size));
+  height: var(--mod-notification-close-size, var(--nc-notification-close-size));
   flex-shrink: 0;
   padding: 0;
   border: none;
-  border-radius: var(--nc-notification-close-radius);
+  border-radius: var(--mod-notification-close-radius, var(--nc-notification-close-radius));
   background: none;
-  color: var(--nc-notification-title-color);
-  opacity: var(--nc-notification-close-opacity);
+  color: var(--mod-notification-title-color, var(--nc-notification-title-color));
+  opacity: var(--mod-notification-close-opacity, var(--nc-notification-close-opacity));
   cursor: pointer;
   @include transition-quick((opacity, background-color));
 
   &:hover {
-    opacity: var(--nc-notification-close-opacity-hover);
+    opacity: var(--mod-notification-close-opacity-hover, var(--nc-notification-close-opacity-hover));
     background-color: color-mix(in srgb, currentColor 10%, transparent);
   }
 
@@ -173,7 +173,7 @@
   &__content {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-notification-header-gap);
+    gap: var(--mod-notification-header-gap, var(--nc-notification-header-gap));
     flex: 1;
     min-width: 0;
   }
@@ -184,23 +184,23 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--nc-notification-header-gap);
+    gap: var(--mod-notification-header-gap, var(--nc-notification-header-gap));
   }
 
   // -- Title --
 
   &__title {
-    font-size: var(--nc-notification-title-size);
-    font-weight: var(--nc-notification-title-weight);
-    color: var(--nc-notification-title-color);
+    font-size: var(--mod-notification-title-size, var(--nc-notification-title-size));
+    font-weight: var(--mod-notification-title-weight, var(--nc-notification-title-weight));
+    color: var(--mod-notification-title-color, var(--nc-notification-title-color));
     line-height: 1.3;
   }
 
   // -- Meta (Zeitstempel, Kategorie-Label) --
 
   &__meta {
-    font-size: var(--nc-notification-meta-size);
-    color: var(--nc-notification-meta-color);
+    font-size: var(--mod-notification-meta-size, var(--nc-notification-meta-size));
+    color: var(--mod-notification-meta-color, var(--nc-notification-meta-color));
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -208,9 +208,9 @@
   // -- Body --
 
   &__body {
-    font-size: var(--nc-notification-body-size);
-    color: var(--nc-notification-body-color);
-    line-height: var(--nc-notification-body-line-height);
+    font-size: var(--mod-notification-body-size, var(--nc-notification-body-size));
+    color: var(--mod-notification-body-color, var(--nc-notification-body-color));
+    line-height: var(--mod-notification-body-line-height, var(--nc-notification-body-line-height));
   }
 
   // -- Footer (Action-Links) --
@@ -218,15 +218,15 @@
   &__footer {
     display: flex;
     align-items: center;
-    gap: var(--nc-notification-footer-gap);
+    gap: var(--mod-notification-footer-gap, var(--nc-notification-footer-gap));
   }
 
   // -- Action-Link --
 
   &__action {
-    font-size: var(--nc-notification-action-size);
-    font-weight: var(--nc-notification-action-weight);
-    color: var(--nc-notification-action-color);
+    font-size: var(--mod-notification-action-size, var(--nc-notification-action-size));
+    font-weight: var(--mod-notification-action-weight, var(--nc-notification-action-weight));
+    color: var(--mod-notification-action-color, var(--nc-notification-action-color));
     text-decoration: none;
     cursor: pointer;
     border: none;
@@ -247,8 +247,8 @@
   &__close {
     @include notification-close;
     position: absolute;
-    top: var(--nc-notification-header-gap);
-    right: var(--nc-notification-header-gap);
+    top: var(--mod-notification-header-gap, var(--nc-notification-header-gap));
+    right: var(--mod-notification-header-gap, var(--nc-notification-header-gap));
   }
 
   // -- Unread-Dot --
@@ -261,32 +261,32 @@
   // Subtiler BG-Akzent fuer ungelesene Items.
 
   &--unread {
-    background-color: var(--nc-notification-unread-bg);
+    background-color: var(--mod-notification-unread-bg, var(--nc-notification-unread-bg));
   }
 
   // -- Modifier: Priority High --
   // Akzent-Border links fuer wichtige Nachrichten.
 
   &--priority-high {
-    border-left: var(--nc-notification-priority-border-width) solid var(--nc-notification-priority-border-color);
+    border-left: var(--mod-notification-priority-border-width, var(--nc-notification-priority-border-width)) solid var(--mod-notification-priority-border-color, var(--nc-notification-priority-border-color));
   }
 
   // -- Type-Varianten (Akzent-Farbe) --
   // Setzen die Akzentfarbe fuer Priority-Border und Unread-Dot.
 
   &--feature {
-    --nc-notification-unread-dot-color: var(--nc-notification-feature-color);
-    --nc-notification-priority-border-color: var(--nc-notification-feature-color);
+    --nc-notification-unread-dot-color: var(--mod-notification-feature-color, var(--nc-notification-feature-color));
+    --nc-notification-priority-border-color: var(--mod-notification-feature-color, var(--nc-notification-feature-color));
   }
 
   &--system {
-    --nc-notification-unread-dot-color: var(--nc-notification-system-color);
-    --nc-notification-priority-border-color: var(--nc-notification-system-color);
+    --nc-notification-unread-dot-color: var(--mod-notification-system-color, var(--nc-notification-system-color));
+    --nc-notification-priority-border-color: var(--mod-notification-system-color, var(--nc-notification-system-color));
   }
 
   &--promo {
-    --nc-notification-unread-dot-color: var(--nc-notification-promo-color);
-    --nc-notification-priority-border-color: var(--nc-notification-promo-color);
+    --nc-notification-unread-dot-color: var(--mod-notification-promo-color, var(--nc-notification-promo-color));
+    --nc-notification-priority-border-color: var(--mod-notification-promo-color, var(--nc-notification-promo-color));
   }
 
   // -- Modifier: Permanent (kein Close) --
@@ -298,7 +298,7 @@
   // -- Dismiss-Animation --
 
   &.is-dismissing {
-    animation: nc-notification-dismiss var(--nc-notification-dismiss-duration) ease forwards;
+    animation: nc-notification-dismiss var(--mod-notification-dismiss-duration, var(--nc-notification-dismiss-duration)) ease forwards;
     pointer-events: none;
   }
 

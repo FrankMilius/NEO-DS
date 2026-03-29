@@ -81,7 +81,7 @@
   position: fixed;
   border: none;
   padding: 0;
-  background-color: var(--nc-drawer-bg);
+  background-color: var(--mod-drawer-bg, var(--nc-drawer-bg));
   color: var(--fnd-color-text-primary);
   display: none;
   flex-direction: column;
@@ -90,12 +90,12 @@
 
   // Bottom default: bottom edge
   inset: auto 0 0 0;
-  width: var(--nc-drawer-width);
-  max-width: var(--nc-drawer-max-width);
-  max-height: var(--nc-drawer-max-height);
+  width: var(--mod-drawer-width, var(--nc-drawer-width));
+  max-width: var(--mod-drawer-max-width, var(--nc-drawer-max-width));
+  max-height: var(--mod-drawer-max-height, var(--nc-drawer-max-height));
   margin: 0;
-  border-radius: var(--nc-drawer-radius) var(--nc-drawer-radius) 0 0;
-  box-shadow: var(--nc-drawer-shadow);
+  border-radius: var(--mod-drawer-radius, var(--nc-drawer-radius)) var(--mod-drawer-radius, var(--nc-drawer-radius)) 0 0;
+  box-shadow: var(--mod-drawer-shadow, var(--nc-drawer-shadow));
 
   &[open] {
     display: flex;
@@ -103,9 +103,9 @@
 
   // Animation: Spring-Charakteristik fuer slide-in
   transition:
-    opacity var(--nc-drawer-duration) var(--nc-drawer-ease),
-    translate var(--nc-drawer-duration) var(--nc-drawer-ease),
-    display var(--nc-drawer-duration) var(--nc-drawer-ease) allow-discrete;
+    opacity var(--mod-drawer-duration, var(--nc-drawer-duration)) var(--mod-drawer-ease, var(--nc-drawer-ease)),
+    translate var(--mod-drawer-duration, var(--nc-drawer-duration)) var(--mod-drawer-ease, var(--nc-drawer-ease)),
+    display var(--mod-drawer-duration, var(--nc-drawer-duration)) var(--mod-drawer-ease, var(--nc-drawer-ease)) allow-discrete;
 
   &[open] {
     opacity: 1;
@@ -124,10 +124,10 @@
 
   // Backdrop / Overlay
   &::backdrop {
-    background: var(--nc-drawer-overlay-bg);
+    background: var(--mod-drawer-overlay-bg, var(--nc-drawer-overlay-bg));
     animation: nc-drawer-fade-in;
-    animation-duration: var(--nc-drawer-duration);
-    animation-timing-function: var(--nc-drawer-ease);
+    animation-duration: var(--mod-drawer-duration, var(--nc-drawer-duration));
+    animation-timing-function: var(--mod-drawer-ease, var(--nc-drawer-ease));
     animation-fill-mode: forwards;
     // Light Dismiss: Cursor signalisiert Klickbarkeit
     cursor: pointer;
@@ -158,7 +158,7 @@
 
 .nc-drawer--top {
   inset: 0 0 auto 0;
-  border-radius: 0 0 var(--nc-drawer-radius) var(--nc-drawer-radius);
+  border-radius: 0 0 var(--mod-drawer-radius, var(--nc-drawer-radius)) var(--mod-drawer-radius, var(--nc-drawer-radius));
 
   &[open] {
     @starting-style {
@@ -177,11 +177,11 @@
 
 .nc-drawer--right {
   inset: 0 0 0 auto;
-  width: var(--nc-drawer-side-width);
+  width: var(--mod-drawer-side-width, var(--nc-drawer-side-width));
   max-width: 90vw;
   max-height: 100vh;
   height: 100%;
-  border-radius: var(--nc-drawer-radius) 0 0 var(--nc-drawer-radius);
+  border-radius: var(--mod-drawer-radius, var(--nc-drawer-radius)) 0 0 var(--mod-drawer-radius, var(--nc-drawer-radius));
 
   &[open] {
     @starting-style {
@@ -200,11 +200,11 @@
 
 .nc-drawer--left {
   inset: 0 auto 0 0;
-  width: var(--nc-drawer-side-width);
+  width: var(--mod-drawer-side-width, var(--nc-drawer-side-width));
   max-width: 90vw;
   max-height: 100vh;
   height: 100%;
-  border-radius: 0 var(--nc-drawer-radius) var(--nc-drawer-radius) 0;
+  border-radius: 0 var(--mod-drawer-radius, var(--nc-drawer-radius)) var(--mod-drawer-radius, var(--nc-drawer-radius)) 0;
 
   &[open] {
     @starting-style {
@@ -232,10 +232,10 @@
   &::after {
     content: '';
     display: block;
-    width: var(--nc-drawer-handle-width);
-    height: var(--nc-drawer-handle-height);
-    border-radius: var(--nc-drawer-handle-radius);
-    background-color: var(--nc-drawer-handle-bg);
+    width: var(--mod-drawer-handle-width, var(--nc-drawer-handle-width));
+    height: var(--mod-drawer-handle-height, var(--nc-drawer-handle-height));
+    border-radius: var(--mod-drawer-handle-radius, var(--nc-drawer-handle-radius));
+    background-color: var(--mod-drawer-handle-bg, var(--nc-drawer-handle-bg));
   }
 
   // Verstecken bei Left/Right Drawers
@@ -252,13 +252,13 @@
 .nc-drawer__header {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-drawer-header-gap);
-  padding: 0 var(--nc-drawer-padding);
+  gap: var(--mod-drawer-header-gap, var(--nc-drawer-header-gap));
+  padding: 0 var(--mod-drawer-padding, var(--nc-drawer-padding));
   flex-shrink: 0;
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--nc-drawer-bg);
+  background-color: var(--mod-drawer-bg, var(--nc-drawer-bg));
   // Scroll-Border: erscheint wenn Content gescrollt wird (JS setzt .is-scrolled)
   border-bottom: 1px solid transparent;
   @include transition-quick((border-color));
@@ -266,27 +266,27 @@
   // Wenn kein Handle vorhanden, Top-Padding ergaenzen
   .nc-drawer--left &,
   .nc-drawer--right & {
-    padding-top: var(--nc-drawer-padding);
+    padding-top: var(--mod-drawer-padding, var(--nc-drawer-padding));
   }
 
   // Scroll-Indikator: Header bekommt Border wenn Content gescrollt
   .nc-drawer.is-scrolled & {
-    border-bottom-color: var(--nc-drawer-header-border-color);
+    border-bottom-color: var(--mod-drawer-header-border-color, var(--nc-drawer-header-border-color));
   }
 }
 
 .nc-drawer__title {
-  font-size: var(--nc-drawer-title-font-size);
-  font-weight: var(--nc-drawer-title-font-weight);
-  color: var(--nc-drawer-title-color);
+  font-size: var(--mod-drawer-title-font-size, var(--nc-drawer-title-font-size));
+  font-weight: var(--mod-drawer-title-font-weight, var(--nc-drawer-title-font-weight));
+  color: var(--mod-drawer-title-color, var(--nc-drawer-title-color));
   margin: 0;
   line-height: 1.3;
   padding-right: 40px; // Platz fuer Close-Button
 }
 
 .nc-drawer__description {
-  font-size: var(--nc-drawer-desc-font-size);
-  color: var(--nc-drawer-desc-color);
+  font-size: var(--mod-drawer-desc-font-size, var(--nc-drawer-desc-font-size));
+  color: var(--mod-drawer-desc-color, var(--nc-drawer-desc-color));
   margin: 0;
   line-height: 1.5;
 }
@@ -298,7 +298,7 @@
 .nc-drawer__content {
   flex: 1 1 auto;
   overflow-y: auto;
-  padding: var(--nc-drawer-section-gap) var(--nc-drawer-padding);
+  padding: var(--mod-drawer-section-gap, var(--nc-drawer-section-gap)) var(--mod-drawer-padding, var(--nc-drawer-padding));
   -webkit-overflow-scrolling: touch;
 }
 
@@ -309,14 +309,14 @@
 .nc-drawer__footer {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-drawer-footer-gap);
-  padding: var(--nc-drawer-padding);
+  gap: var(--mod-drawer-footer-gap, var(--nc-drawer-footer-gap));
+  padding: var(--mod-drawer-padding, var(--nc-drawer-padding));
   padding-top: 0;
   flex-shrink: 0;
   position: sticky;
   bottom: 0;
   z-index: 1;
-  background-color: var(--nc-drawer-bg);
+  background-color: var(--mod-drawer-bg, var(--nc-drawer-bg));
   // Scroll-Border: erscheint wenn Content gescrollt wird
   border-top: 1px solid transparent;
   @include transition-quick((border-color));
@@ -325,12 +325,12 @@
   .nc-drawer--left &,
   .nc-drawer--right & {
     margin-top: auto;
-    padding-top: var(--nc-drawer-padding);
+    padding-top: var(--mod-drawer-padding, var(--nc-drawer-padding));
   }
 
   // Scroll-Indikator: Footer bekommt Border wenn Content gescrollt
   .nc-drawer.is-scrolled & {
-    border-top-color: var(--nc-drawer-footer-border-color);
+    border-top-color: var(--mod-drawer-footer-border-color, var(--nc-drawer-footer-border-color));
   }
 }
 
@@ -340,17 +340,17 @@
 
 .nc-drawer__close {
   position: absolute;
-  top: var(--nc-drawer-close-offset);
-  right: var(--nc-drawer-close-offset);
+  top: var(--mod-drawer-close-offset, var(--nc-drawer-close-offset));
+  right: var(--mod-drawer-close-offset, var(--nc-drawer-close-offset));
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-drawer-close-size);
-  height: var(--nc-drawer-close-size);
+  width: var(--mod-drawer-close-size, var(--nc-drawer-close-size));
+  height: var(--mod-drawer-close-size, var(--nc-drawer-close-size));
   padding: 0;
   border: none;
-  border-radius: var(--nc-drawer-close-radius);
-  background: var(--nc-drawer-close-bg);
+  border-radius: var(--mod-drawer-close-radius, var(--nc-drawer-close-radius));
+  background: var(--mod-drawer-close-bg, var(--nc-drawer-close-bg));
   color: var(--fnd-color-text-primary);
   cursor: pointer;
   flex-shrink: 0;
@@ -358,7 +358,7 @@
   @include transition-quick((background-color));
 
   &:hover {
-    background: var(--nc-drawer-close-bg-hover);
+    background: var(--mod-drawer-close-bg-hover, var(--nc-drawer-close-bg-hover));
   }
 
   &:focus-visible {
@@ -366,8 +366,8 @@
   }
 
   > svg {
-    width: var(--nc-drawer-close-icon-size);
-    height: var(--nc-drawer-close-icon-size);
+    width: var(--mod-drawer-close-icon-size, var(--nc-drawer-close-icon-size));
+    height: var(--mod-drawer-close-icon-size, var(--nc-drawer-close-icon-size));
     fill: none;
     stroke: currentColor;
     stroke-width: 2;

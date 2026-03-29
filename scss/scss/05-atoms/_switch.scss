@@ -37,7 +37,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--nc-switch-label-gap);
+  gap: var(--mod-switch-label-gap, var(--nc-switch-label-gap));
   cursor: pointer;
   user-select: none;
 }
@@ -47,16 +47,16 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: var(--nc-switch-width);
-  height: var(--nc-switch-height);
-  background-color: var(--nc-switch-bg);
-  border-radius: var(--nc-switch-radius);
+  width: var(--mod-switch-width, var(--nc-switch-width));
+  height: var(--mod-switch-height, var(--nc-switch-height));
+  background-color: var(--mod-switch-bg, var(--nc-switch-bg));
+  border-radius: var(--mod-switch-radius, var(--nc-switch-radius));
   border: none;
   padding: 0;
   cursor: inherit;
   flex-shrink: 0;
   transition:
-    background-color var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
+    background-color var(--mod-switch-transition-duration, var(--nc-switch-transition-duration)) var(--mod-switch-transition-timing, var(--nc-switch-transition-timing));
 
   // Touch-Target: Unsichtbares ::after vergroessert den Klickbereich auf min. 44px.
   // Der sichtbare Track bleibt schlank (z.B. 40x20px), aber der Touch-Bereich
@@ -64,14 +64,14 @@
   &::after {
     content: '';
     position: absolute;
-    inset: calc(-1 * var(--nc-switch-touch-padding));
+    inset: calc(-1 * var(--mod-switch-touch-padding, var(--nc-switch-touch-padding)));
   }
 
   // Focus-Ring: outline mit offset — umschliesst den Track sauber,
   // ohne direkt auf der pill-foermigen Rundung zu klemmen.
   &:focus-visible {
     outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-    outline-offset: var(--nc-switch-focus-ring-offset);
+    outline-offset: var(--mod-switch-focus-ring-offset, var(--nc-switch-focus-ring-offset));
   }
 
   // Fallback
@@ -81,40 +81,40 @@
 
   // Hover
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-switch-bg-hover);
+    background-color: var(--mod-switch-bg-hover, var(--nc-switch-bg-hover));
   }
 
   // Active (Squash & Stretch): Thumb dehnt sich in Bewegungsrichtung
   &:active:not(:disabled):not([aria-disabled='true']) > .nc-switch__thumb {
-    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+    width: calc(var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)));
   }
 
   &[aria-checked='true']:active:not(:disabled):not([aria-disabled='true']) > .nc-switch__thumb {
-    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+    width: calc(var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)));
     // Kompensiert die Dehnung: Thumb bleibt rechtsbuendig
-    transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+    transform: translateX(calc(var(--mod-switch-width, var(--nc-switch-width)) - var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)) - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
   }
 
   // Checked-State via aria-checked
   &[aria-checked='true'] {
-    background-color: var(--nc-switch-bg-checked);
+    background-color: var(--mod-switch-bg-checked, var(--nc-switch-bg-checked));
 
     > .nc-switch__thumb {
       // left ist bereits auf thumb-offset gesetzt, daher 2× offset abziehen
-      transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+      transform: translateX(calc(var(--mod-switch-width, var(--nc-switch-width)) - var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
     }
   }
 
   // Disabled
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-switch-disabled-bg);
-    opacity: var(--nc-switch-disabled-opacity);
+    background-color: var(--mod-switch-disabled-bg, var(--nc-switch-disabled-bg));
+    opacity: var(--mod-switch-disabled-opacity, var(--nc-switch-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
 
     > .nc-switch__thumb {
-      background-color: var(--nc-switch-disabled-thumb);
+      background-color: var(--mod-switch-disabled-thumb, var(--nc-switch-disabled-thumb));
     }
   }
 
@@ -128,17 +128,17 @@
 @mixin switch-thumb {
   position: absolute;
   top: 50%;
-  left: var(--nc-switch-thumb-offset);
-  width: var(--nc-switch-thumb-size);
-  height: var(--nc-switch-thumb-size);
-  background-color: var(--nc-switch-thumb-color);
-  border-radius: var(--nc-switch-radius);
+  left: var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset));
+  width: var(--mod-switch-thumb-size, var(--nc-switch-thumb-size));
+  height: var(--mod-switch-thumb-size, var(--nc-switch-thumb-size));
+  background-color: var(--mod-switch-thumb-color, var(--nc-switch-thumb-color));
+  border-radius: var(--mod-switch-radius, var(--nc-switch-radius));
   transform: translateX(0) translateY(-50%);
   transition:
-    transform var(--nc-switch-transition-duration) var(--nc-switch-transition-timing),
-    width var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
+    transform var(--mod-switch-transition-duration, var(--nc-switch-transition-duration)) var(--mod-switch-transition-timing, var(--nc-switch-transition-timing)),
+    width var(--mod-switch-transition-duration, var(--nc-switch-transition-duration)) var(--mod-switch-transition-timing, var(--nc-switch-transition-timing));
   pointer-events: none;
-  box-shadow: var(--nc-switch-thumb-shadow);
+  box-shadow: var(--mod-switch-thumb-shadow, var(--nc-switch-thumb-shadow));
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -147,7 +147,7 @@
 
 /// Label-Text neben dem Switch.
 @mixin switch-label {
-  color: var(--nc-switch-label-color);
+  color: var(--mod-switch-label-color, var(--nc-switch-label-color));
   line-height: 1.4;
   cursor: inherit;
 }
@@ -191,7 +191,7 @@
     }
 
     .nc-switch__track[aria-checked='true'] > .nc-switch__thumb {
-      transform: translateX(calc(36px - 14px - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+      transform: translateX(calc(36px - 14px - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
     }
   }
 
@@ -210,19 +210,19 @@
     line-height: 1;
     pointer-events: none;
     opacity: 0;
-    transition: opacity var(--nc-switch-transition-duration) var(--nc-switch-transition-timing);
+    transition: opacity var(--mod-switch-transition-duration, var(--nc-switch-transition-duration)) var(--mod-switch-transition-timing, var(--nc-switch-transition-timing));
   }
 
   // "I" — links im Track, sichtbar wenn checked
   &__indicator-on {
-    inset-inline-start: calc(var(--nc-switch-thumb-offset) + 2px);
-    color: var(--nc-switch-indicator-checked-color);
+    inset-inline-start: calc(var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)) + 2px);
+    color: var(--mod-switch-indicator-checked-color, var(--nc-switch-indicator-checked-color));
   }
 
   // "O" — rechts im Track, sichtbar wenn unchecked
   &__indicator-off {
-    inset-inline-end: calc(var(--nc-switch-thumb-offset) + 2px);
-    color: var(--nc-switch-indicator-color);
+    inset-inline-end: calc(var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)) + 2px);
+    color: var(--mod-switch-indicator-color, var(--nc-switch-indicator-color));
   }
 
   &--indicators {
@@ -280,35 +280,35 @@
 
   &:focus-visible + .nc-switch__track {
     outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-    outline-offset: var(--nc-switch-focus-ring-offset);
+    outline-offset: var(--mod-switch-focus-ring-offset, var(--nc-switch-focus-ring-offset));
   }
 
   &:checked + .nc-switch__track {
-    background-color: var(--nc-switch-bg-checked);
+    background-color: var(--mod-switch-bg-checked, var(--nc-switch-bg-checked));
 
     > .nc-switch__thumb {
       // left ist bereits auf thumb-offset gesetzt, daher 2× offset abziehen
-      transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+      transform: translateX(calc(var(--mod-switch-width, var(--nc-switch-width)) - var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
     }
   }
 
   // Squash & Stretch (Input-Pattern)
   &:active:not(:disabled) + .nc-switch__track > .nc-switch__thumb {
-    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
+    width: calc(var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)));
   }
 
   &:checked:active:not(:disabled) + .nc-switch__track > .nc-switch__thumb {
-    width: calc(var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale));
-    transform: translateX(calc(var(--nc-switch-width) - var(--nc-switch-thumb-size) * var(--nc-switch-thumb-active-scale) - 2 * var(--nc-switch-thumb-offset))) translateY(-50%);
+    width: calc(var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)));
+    transform: translateX(calc(var(--mod-switch-width, var(--nc-switch-width)) - var(--mod-switch-thumb-size, var(--nc-switch-thumb-size)) * var(--mod-switch-thumb-active-scale, var(--nc-switch-thumb-active-scale)) - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
   }
 
   &:disabled + .nc-switch__track {
-    background-color: var(--nc-switch-disabled-bg);
-    opacity: var(--nc-switch-disabled-opacity);
+    background-color: var(--mod-switch-disabled-bg, var(--nc-switch-disabled-bg));
+    opacity: var(--mod-switch-disabled-opacity, var(--nc-switch-disabled-opacity));
     cursor: not-allowed;
 
     > .nc-switch__thumb {
-      background-color: var(--nc-switch-disabled-thumb);
+      background-color: var(--mod-switch-disabled-thumb, var(--nc-switch-disabled-thumb));
     }
   }
 

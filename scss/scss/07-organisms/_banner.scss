@@ -62,7 +62,7 @@
 @keyframes nc-banner-dismiss {
   from {
     max-height: var(--_banner-height, 100px);
-    padding-block: var(--nc-banner-padding);
+    padding-block: var(--mod-banner-padding, var(--nc-banner-padding));
     opacity: 1;
   }
   to {
@@ -80,59 +80,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--nc-banner-gap);
+  gap: var(--mod-banner-gap, var(--nc-banner-gap));
   width: 100%;
-  padding: var(--nc-banner-padding);
-  font-size: var(--nc-banner-font-size);
-  font-weight: var(--nc-banner-font-weight);
-  z-index: var(--nc-banner-z-index);
+  padding: var(--mod-banner-padding, var(--nc-banner-padding));
+  font-size: var(--mod-banner-font-size, var(--nc-banner-font-size));
+  font-weight: var(--mod-banner-font-weight, var(--nc-banner-font-weight));
+  z-index: var(--mod-banner-z-index, var(--nc-banner-z-index));
   overflow: hidden;
 
   // Default: info
-  background-color: var(--_banner-bg, var(--nc-banner-info-bg));
-  color: var(--_banner-color, var(--nc-banner-info-color));
+  background-color: var(--_banner-bg, var(--mod-banner-info-bg, var(--nc-banner-info-bg)));
+  color: var(--_banner-color, var(--mod-banner-info-color, var(--nc-banner-info-color)));
 
   @include banner-variant-info;
 }
 
 @mixin banner-variant-info {
-  --_banner-bg: var(--nc-banner-info-bg);
-  --_banner-color: var(--nc-banner-info-color);
+  --_banner-bg: var(--mod-banner-info-bg, var(--nc-banner-info-bg));
+  --_banner-color: var(--mod-banner-info-color, var(--nc-banner-info-color));
 }
 
 @mixin banner-variant-warning {
-  --_banner-bg: var(--nc-banner-warning-bg);
-  --_banner-color: var(--nc-banner-warning-color);
+  --_banner-bg: var(--mod-banner-warning-bg, var(--nc-banner-warning-bg));
+  --_banner-color: var(--mod-banner-warning-color, var(--nc-banner-warning-color));
 }
 
 @mixin banner-variant-danger {
-  --_banner-bg: var(--nc-banner-danger-bg);
-  --_banner-color: var(--nc-banner-danger-color);
+  --_banner-bg: var(--mod-banner-danger-bg, var(--nc-banner-danger-bg));
+  --_banner-color: var(--mod-banner-danger-color, var(--nc-banner-danger-color));
 }
 
 @mixin banner-variant-success {
-  --_banner-bg: var(--nc-banner-success-bg);
-  --_banner-color: var(--nc-banner-success-color);
+  --_banner-bg: var(--mod-banner-success-bg, var(--nc-banner-success-bg));
+  --_banner-color: var(--mod-banner-success-color, var(--nc-banner-success-color));
 }
 
 @mixin banner-close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-banner-close-size);
-  height: var(--nc-banner-close-size);
+  width: var(--mod-banner-close-size, var(--nc-banner-close-size));
+  height: var(--mod-banner-close-size, var(--nc-banner-close-size));
   flex-shrink: 0;
   padding: 0;
   border: none;
-  border-radius: var(--nc-banner-close-radius);
+  border-radius: var(--mod-banner-close-radius, var(--nc-banner-close-radius));
   background: none;
   color: inherit;
-  opacity: var(--nc-banner-close-opacity);
+  opacity: var(--mod-banner-close-opacity, var(--nc-banner-close-opacity));
   cursor: pointer;
   @include transition-quick((opacity, background-color));
 
   &:hover {
-    opacity: var(--nc-banner-close-opacity-hover);
+    opacity: var(--mod-banner-close-opacity-hover, var(--nc-banner-close-opacity-hover));
     background-color: color-mix(in srgb, currentColor 15%, transparent);
   }
 
@@ -168,8 +168,8 @@
     flex-shrink: 0;
 
     > svg {
-      width: var(--nc-banner-icon-size);
-      height: var(--nc-banner-icon-size);
+      width: var(--mod-banner-icon-size, var(--nc-banner-icon-size));
+      height: var(--mod-banner-icon-size, var(--nc-banner-icon-size));
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -182,21 +182,21 @@
   &__content {
     display: flex;
     align-items: center;
-    gap: var(--nc-banner-gap);
+    gap: var(--mod-banner-gap, var(--nc-banner-gap));
     flex-wrap: wrap;
     justify-content: center;
   }
 
   // Fettgedruckter Titel-Praefix (z.B. "Wartung:" oder "Achtung:")
   &__title {
-    font-weight: var(--nc-banner-title-weight);
+    font-weight: var(--mod-banner-title-weight, var(--nc-banner-title-weight));
   }
 
   // CTA-Link innerhalb des Banners
   &__link {
     color: inherit;
-    font-weight: var(--nc-banner-link-weight);
-    text-decoration: var(--nc-banner-link-underline);
+    font-weight: var(--mod-banner-link-weight, var(--nc-banner-link-weight));
+    text-decoration: var(--mod-banner-link-underline, var(--nc-banner-link-underline));
 
     &:hover {
       opacity: var(--fnd-opacity-prominent);
@@ -226,7 +226,7 @@
   &--accent {
     background-color: color-mix(in srgb, var(--_banner-bg) 12%, transparent);
     color: var(--_banner-color, inherit);
-    border-left: var(--nc-banner-accent-border-width) solid var(--_banner-bg);
+    border-left: var(--mod-banner-accent-border-width, var(--nc-banner-accent-border-width)) solid var(--_banner-bg);
 
     // Fuer accent: Textfarbe ist nicht on-color, sondern die primaere Textfarbe
     // da der Hintergrund jetzt sehr subtil ist
@@ -251,7 +251,7 @@
   // JS fuegt .is-dismissing hinzu, nach Animation wird das Banner entfernt.
 
   &.is-dismissing {
-    animation: nc-banner-dismiss var(--nc-banner-dismiss-duration) ease forwards;
+    animation: nc-banner-dismiss var(--mod-banner-dismiss-duration, var(--nc-banner-dismiss-duration)) ease forwards;
     pointer-events: none;
   }
 

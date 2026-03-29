@@ -45,13 +45,13 @@
   @include form-control-base;
   @include form-control-size('md');
   cursor: pointer;
-  padding-inline-end: var(--nc-select-padding-right);
+  padding-inline-end: var(--mod-select-padding-right, var(--nc-select-padding-right));
 
   // Custom Arrow via SVG Background (Chevron Down)
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right var(--nc-input-padding-x-md) center;
-  background-size: var(--nc-select-indicator-size);
+  background-position: right var(--mod-input-padding-x-md, var(--nc-input-padding-x-md)) center;
+  background-size: var(--mod-select-indicator-size, var(--nc-select-indicator-size));
 
   // Browser-Default Arrow entfernen
   &::-ms-expand {
@@ -60,19 +60,19 @@
 
   // Optgroup-Styling
   optgroup {
-    font-weight: var(--nc-select-optgroup-font-weight);
-    padding-left: var(--nc-select-optgroup-padding-left);
+    font-weight: var(--mod-select-optgroup-font-weight, var(--nc-select-optgroup-font-weight));
+    padding-left: var(--mod-select-optgroup-padding-left, var(--nc-select-optgroup-padding-left));
   }
 
   optgroup option {
     font-weight: normal;
-    padding-left: calc(var(--nc-select-optgroup-padding-left) + var(--fnd-spacing-02));
+    padding-left: calc(var(--mod-select-optgroup-padding-left, var(--nc-select-optgroup-padding-left)) + var(--fnd-spacing-02));
   }
 
   // Placeholder-Color-Hack: Farbe aendern solange leere Option gewaehlt
   // Funktioniert mit required + <option value="" disabled selected>
   &:required:invalid {
-    color: var(--nc-input-placeholder-color);
+    color: var(--mod-input-placeholder-color, var(--nc-input-placeholder-color));
   }
 }
 
@@ -82,18 +82,18 @@
   @include form-control-size($size);
 
   @if $size == 'sm' {
-    padding-inline-end: calc(var(--nc-select-padding-right) - var(--fnd-spacing-02));
-    background-position: right var(--nc-input-padding-x-sm) center;
+    padding-inline-end: calc(var(--mod-select-padding-right, var(--nc-select-padding-right)) - var(--fnd-spacing-02));
+    background-position: right var(--mod-input-padding-x-sm, var(--nc-input-padding-x-sm)) center;
   } @else if $size == 'lg' {
-    background-position: right var(--nc-input-padding-x-lg) center;
+    background-position: right var(--mod-input-padding-x-lg, var(--nc-input-padding-x-lg)) center;
   }
 }
 
 /// Multi-Select: kein Arrow, height auto.
 @mixin select-multiple {
   height: auto;
-  min-height: var(--nc-textarea-min-height);
-  padding-inline-end: var(--nc-input-padding-x-md);
+  min-height: var(--mod-textarea-min-height, var(--nc-textarea-min-height));
+  padding-inline-end: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
   background-image: none;
   cursor: default;
 }
@@ -137,7 +137,7 @@
     background-image: none; // Custom Indicator im Wrapper nutzen
 
     &.nc-select--success {
-      border-block-end-color: var(--nc-form-control-border-success);
+      border-block-end-color: var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 
@@ -147,7 +147,7 @@
     background-image: none;
 
     &.nc-select--success {
-      border-block-end: 2px solid var(--nc-form-control-border-success);
+      border-block-end: 2px solid var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 }
@@ -166,10 +166,10 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    inset-inline-end: var(--nc-input-padding-x-md);
-    width: var(--nc-select-indicator-size);
-    height: var(--nc-select-indicator-size);
-    color: var(--nc-select-indicator-color);
+    inset-inline-end: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
+    width: var(--mod-select-indicator-size, var(--nc-select-indicator-size));
+    height: var(--mod-select-indicator-size, var(--nc-select-indicator-size));
+    color: var(--mod-select-indicator-color, var(--nc-select-indicator-color));
     pointer-events: none;
     display: inline-flex;
     align-items: center;

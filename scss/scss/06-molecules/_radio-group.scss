@@ -51,7 +51,7 @@
 @mixin radio-group-base {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-group-gap);
+  gap: var(--mod-group-gap, var(--nc-group-gap));
   width: 100%;
 }
 
@@ -60,7 +60,7 @@
 @mixin radio-group-horizontal {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--nc-group-gap-horizontal);
+  gap: var(--mod-group-gap-horizontal, var(--nc-group-gap-horizontal));
   align-items: flex-start;
 }
 
@@ -69,14 +69,14 @@
 @mixin radio-group-error {
   > .nc-radio > .nc-radio__control,
   > .nc-radio .nc-radio__input:not(:checked) + .nc-radio__control {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 }
 
 /// Disabled-State: deaktiviert die gesamte Gruppe visuell.
 /// Die einzelnen Radios sollten zusaetzlich das native disabled-Attribut tragen.
 @mixin radio-group-disabled {
-  opacity: var(--nc-radio-disabled-opacity, 0.5);
+  opacity: var(--mod-radio-disabled-opacity, var(--nc-radio-disabled-opacity, 0.5));
   cursor: not-allowed;
   pointer-events: none;
 
@@ -88,7 +88,7 @@
 
 /// Hint-Bereich unterhalb der Optionen (z.B. Hilfetext via form-hint).
 @mixin radio-group-hint {
-  margin-block-start: var(--nc-group-hint-margin-top);
+  margin-block-start: var(--mod-group-hint-margin-top, var(--nc-group-hint-margin-top));
 }
 
 /// Segmented-Variante: Pillen-artige Button-Gruppe, nahtlos aneinanderliegend.
@@ -96,8 +96,8 @@
 @mixin radio-group-segmented {
   flex-direction: row;
   gap: 0;
-  border: 1px solid var(--nc-radio-segmented-border);
-  border-radius: var(--nc-radio-segmented-radius);
+  border: 1px solid var(--mod-radio-segmented-border, var(--nc-radio-segmented-border));
+  border-radius: var(--mod-radio-segmented-radius, var(--nc-radio-segmented-radius));
   overflow: hidden;
   width: fit-content;
 
@@ -113,14 +113,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: var(--nc-radio-segmented-padding);
-      background-color: var(--nc-radio-segmented-bg);
-      color: var(--nc-radio-segmented-color);
+      padding: var(--mod-radio-segmented-padding, var(--nc-radio-segmented-padding));
+      background-color: var(--mod-radio-segmented-bg, var(--nc-radio-segmented-bg));
+      color: var(--mod-radio-segmented-color, var(--nc-radio-segmented-color));
       font-weight: var(--fnd-font-weight-medium, 500);
-      border-inline-end: 1px solid var(--nc-radio-segmented-border);
+      border-inline-end: 1px solid var(--mod-radio-segmented-border, var(--nc-radio-segmented-border));
       transition:
-        background-color var(--nc-radio-transition-duration) ease,
-        color var(--nc-radio-transition-duration) ease;
+        background-color var(--mod-radio-transition-duration, var(--nc-radio-transition-duration)) ease,
+        color var(--mod-radio-transition-duration, var(--nc-radio-transition-duration)) ease;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -132,8 +132,8 @@
 
   // Checked Segment
   > .nc-radio:has(input:checked) > .nc-radio__label {
-    background-color: var(--nc-radio-segmented-bg-checked);
-    color: var(--nc-radio-segmented-color-checked);
+    background-color: var(--mod-radio-segmented-bg-checked, var(--nc-radio-segmented-bg-checked));
+    color: var(--mod-radio-segmented-color-checked, var(--nc-radio-segmented-color-checked));
   }
 
   // Focus auf Label delegieren
@@ -145,7 +145,7 @@
 
   // Disabled
   > .nc-radio:has(input:disabled) > .nc-radio__label {
-    opacity: var(--nc-radio-disabled-opacity, 0.5);
+    opacity: var(--mod-radio-disabled-opacity, var(--nc-radio-disabled-opacity, 0.5));
     cursor: not-allowed;
   }
 }
@@ -172,11 +172,11 @@
   // -- Size-Modifier (koppelt Gap an Radio-Groesse) --
 
   &--sm {
-    gap: var(--nc-group-gap-sm);
+    gap: var(--mod-group-gap-sm, var(--nc-group-gap-sm));
   }
 
   &--lg {
-    gap: var(--nc-group-gap-lg);
+    gap: var(--mod-group-gap-lg, var(--nc-group-gap-lg));
   }
 
   // -- Variant-Modifier --

@@ -55,7 +55,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--nc-avatar-radius);
+  border-radius: var(--mod-avatar-radius, var(--nc-avatar-radius));
   vertical-align: middle;
   flex-shrink: 0;
   user-select: none;
@@ -69,35 +69,35 @@
 /// @param {String} $size - 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 @mixin avatar-size($size: 'md') {
   @if $size == 'xs' {
-    width: var(--nc-avatar-size-xs);
-    height: var(--nc-avatar-size-xs);
-    min-width: var(--nc-avatar-size-xs);
-    min-height: var(--nc-avatar-size-xs);
-    font-size: var(--nc-avatar-font-size-xs);
+    width: var(--mod-avatar-size-xs, var(--nc-avatar-size-xs));
+    height: var(--mod-avatar-size-xs, var(--nc-avatar-size-xs));
+    min-width: var(--mod-avatar-size-xs, var(--nc-avatar-size-xs));
+    min-height: var(--mod-avatar-size-xs, var(--nc-avatar-size-xs));
+    font-size: var(--mod-avatar-font-size-xs, var(--nc-avatar-font-size-xs));
   } @else if $size == 'sm' {
-    width: var(--nc-avatar-size-sm);
-    height: var(--nc-avatar-size-sm);
-    min-width: var(--nc-avatar-size-sm);
-    min-height: var(--nc-avatar-size-sm);
-    font-size: var(--nc-avatar-font-size-sm);
+    width: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    height: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    min-width: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    min-height: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    font-size: var(--mod-avatar-font-size-sm, var(--nc-avatar-font-size-sm));
   } @else if $size == 'md' {
-    width: var(--nc-avatar-size-md);
-    height: var(--nc-avatar-size-md);
-    min-width: var(--nc-avatar-size-md);
-    min-height: var(--nc-avatar-size-md);
-    font-size: var(--nc-avatar-font-size-md);
+    width: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    height: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    min-width: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    min-height: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    font-size: var(--mod-avatar-font-size-md, var(--nc-avatar-font-size-md));
   } @else if $size == 'lg' {
-    width: var(--nc-avatar-size-lg);
-    height: var(--nc-avatar-size-lg);
-    min-width: var(--nc-avatar-size-lg);
-    min-height: var(--nc-avatar-size-lg);
-    font-size: var(--nc-avatar-font-size-lg);
+    width: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    height: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    min-width: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    min-height: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    font-size: var(--mod-avatar-font-size-lg, var(--nc-avatar-font-size-lg));
   } @else if $size == 'xl' {
-    width: var(--nc-avatar-size-xl);
-    height: var(--nc-avatar-size-xl);
-    min-width: var(--nc-avatar-size-xl);
-    min-height: var(--nc-avatar-size-xl);
-    font-size: var(--nc-avatar-font-size-xl);
+    width: var(--mod-avatar-size-xl, var(--nc-avatar-size-xl));
+    height: var(--mod-avatar-size-xl, var(--nc-avatar-size-xl));
+    min-width: var(--mod-avatar-size-xl, var(--nc-avatar-size-xl));
+    min-height: var(--mod-avatar-size-xl, var(--nc-avatar-size-xl));
+    font-size: var(--mod-avatar-font-size-xl, var(--nc-avatar-font-size-xl));
   }
 }
 
@@ -116,7 +116,7 @@
 
   // Fade-In: Startet transparent, wird per JS-Klasse oder load-Event eingeblendet
   opacity: 0;
-  transition: opacity var(--nc-avatar-image-fade-duration) ease;
+  transition: opacity var(--mod-avatar-image-fade-duration, var(--nc-avatar-image-fade-duration)) ease;
 
   &.is-loaded {
     opacity: 1;
@@ -141,9 +141,9 @@
   inset: 0;
   display: grid;
   place-items: center;
-  background: var(--nc-avatar-bg);
-  color: var(--nc-avatar-color);
-  font-weight: var(--nc-avatar-font-weight);
+  background: var(--mod-avatar-bg, var(--nc-avatar-bg));
+  color: var(--mod-avatar-color, var(--nc-avatar-color));
+  font-weight: var(--mod-avatar-font-weight, var(--nc-avatar-font-weight));
   line-height: 1;
   z-index: 0;
   border-radius: inherit;
@@ -155,8 +155,8 @@
 /// werden per inline-style oder JS gesetzt.
 @mixin avatar-hash-fallback {
   .nc-avatar__fallback {
-    background: var(--nc-avatar-hash-bg);
-    color: var(--nc-avatar-hash-color);
+    background: var(--mod-avatar-hash-bg, var(--nc-avatar-hash-bg));
+    color: var(--mod-avatar-hash-color, var(--nc-avatar-hash-color));
   }
 }
 
@@ -167,17 +167,17 @@
   top: 0;
   right: 0;
   z-index: var(--fnd-z-dropdown);
-  width: var(--nc-avatar-badge-size);
-  height: var(--nc-avatar-badge-size);
+  width: var(--mod-avatar-badge-size, var(--nc-avatar-badge-size));
+  height: var(--mod-avatar-badge-size, var(--nc-avatar-badge-size));
   border-radius: var(--fnd-radius-full);
-  box-shadow: 0 0 0 var(--nc-avatar-badge-border-width) var(--nc-avatar-badge-border-color);
-  background-color: var(--nc-avatar-badge-offline); // Default: offline/grau
+  box-shadow: 0 0 0 var(--mod-avatar-badge-border-width, var(--nc-avatar-badge-border-width)) var(--mod-avatar-badge-border-color, var(--nc-avatar-badge-border-color));
+  background-color: var(--mod-avatar-badge-offline, var(--nc-avatar-badge-offline)); // Default: offline/grau
 }
 
 /// Verified Badge: Haekchen-Icon statt Status-Dot.
 /// Nutzt Interactive-Farbe (blau) mit weissem Icon.
 @mixin avatar-badge-verified {
-  background-color: var(--nc-avatar-badge-verified);
+  background-color: var(--mod-avatar-badge-verified, var(--nc-avatar-badge-verified));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,8 +197,8 @@
 /// Optionaler zusaetzlicher Schatten fuer bessere Sichtbarkeit auf hellen Bildern.
 @mixin avatar-ring {
   box-shadow:
-    0 0 0 var(--nc-avatar-ring-width) var(--nc-avatar-ring-color),
-    var(--nc-avatar-ring-shadow);
+    0 0 0 var(--mod-avatar-ring-width, var(--nc-avatar-ring-width)) var(--mod-avatar-ring-color, var(--nc-avatar-ring-color)),
+    var(--mod-avatar-ring-shadow, var(--nc-avatar-ring-shadow));
 }
 
 /// Interactive Mode: Hover/Active/Focus-States fuer klickbare Avatare.
@@ -208,18 +208,18 @@
   -webkit-tap-highlight-color: transparent;
 
   &:hover:not(:disabled) {
-    transform: scale(var(--nc-avatar-hover-scale));
-    box-shadow: var(--nc-avatar-hover-shadow);
+    transform: scale(var(--mod-avatar-hover-scale, var(--nc-avatar-hover-scale)));
+    box-shadow: var(--mod-avatar-hover-shadow, var(--nc-avatar-hover-shadow));
   }
 
   &:active:not(:disabled) {
-    transform: scale(var(--nc-avatar-active-scale));
+    transform: scale(var(--mod-avatar-active-scale, var(--nc-avatar-active-scale)));
     box-shadow: none;
   }
 
   &:focus-visible {
-    outline: var(--nc-avatar-focus-ring-width) solid var(--nc-avatar-focus-ring-color);
-    outline-offset: var(--nc-avatar-focus-ring-offset);
+    outline: var(--mod-avatar-focus-ring-width, var(--nc-avatar-focus-ring-width)) solid var(--mod-avatar-focus-ring-color, var(--nc-avatar-focus-ring-color));
+    outline-offset: var(--mod-avatar-focus-ring-offset, var(--nc-avatar-focus-ring-offset));
   }
 
   &:disabled,
@@ -232,7 +232,7 @@
 
 /// Square Shape: Override border-radius (fuer Entity / Firmenlogo).
 @mixin avatar-square {
-  border-radius: var(--nc-avatar-radius-square);
+  border-radius: var(--mod-avatar-radius-square, var(--nc-avatar-radius-square));
 }
 
 /// Avatar-Group: ueberlappende Avatare mit negativem Spacing.
@@ -243,8 +243,8 @@
   flex-direction: row-reverse; // Spaetere Avatare erscheinen "hinten"
 
   > .nc-avatar {
-    margin-inline-start: var(--nc-avatar-group-spacing);
-    box-shadow: 0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color);
+    margin-inline-start: var(--mod-avatar-group-spacing, var(--nc-avatar-group-spacing));
+    box-shadow: 0 0 0 var(--mod-avatar-group-ring-width, var(--nc-avatar-group-ring-width)) var(--mod-avatar-group-ring-color, var(--nc-avatar-group-ring-color));
 
     &:last-child {
       margin-inline-start: 0; // Erster Avatar (visuell links) kein negativer Margin
@@ -283,10 +283,10 @@
   &__badge {
     @include avatar-badge;
 
-    &--online   { background-color: var(--nc-avatar-badge-online); }
-    &--offline  { background-color: var(--nc-avatar-badge-offline); }
-    &--busy     { background-color: var(--nc-avatar-badge-busy); }
-    &--away     { background-color: var(--nc-avatar-badge-away); }
+    &--online   { background-color: var(--mod-avatar-badge-online, var(--nc-avatar-badge-online)); }
+    &--offline  { background-color: var(--mod-avatar-badge-offline, var(--nc-avatar-badge-offline)); }
+    &--busy     { background-color: var(--mod-avatar-badge-busy, var(--nc-avatar-badge-busy)); }
+    &--away     { background-color: var(--mod-avatar-badge-away, var(--nc-avatar-badge-away)); }
     &--verified { @include avatar-badge-verified; }
   }
 
@@ -326,16 +326,16 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-avatar-size-md);
-    height: var(--nc-avatar-size-md);
-    min-width: var(--nc-avatar-size-md);
-    border-radius: var(--nc-avatar-radius);
-    background: var(--nc-avatar-bg);
-    color: var(--nc-avatar-color);
-    font-size: var(--nc-avatar-font-size-sm);
-    font-weight: var(--nc-avatar-font-weight);
-    margin-inline-start: var(--nc-avatar-group-spacing);
-    box-shadow: 0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color);
+    width: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    height: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    min-width: var(--mod-avatar-size-md, var(--nc-avatar-size-md));
+    border-radius: var(--mod-avatar-radius, var(--nc-avatar-radius));
+    background: var(--mod-avatar-bg, var(--nc-avatar-bg));
+    color: var(--mod-avatar-color, var(--nc-avatar-color));
+    font-size: var(--mod-avatar-font-size-sm, var(--nc-avatar-font-size-sm));
+    font-weight: var(--mod-avatar-font-weight, var(--nc-avatar-font-weight));
+    margin-inline-start: var(--mod-avatar-group-spacing, var(--nc-avatar-group-spacing));
+    box-shadow: 0 0 0 var(--mod-avatar-group-ring-width, var(--nc-avatar-group-ring-width)) var(--mod-avatar-group-ring-color, var(--nc-avatar-group-ring-color));
     user-select: none;
     flex-shrink: 0;
     cursor: default;
@@ -347,33 +347,33 @@
     @include transition-quick((transform, box-shadow));
 
     &:hover {
-      transform: scale(var(--nc-avatar-hover-scale));
+      transform: scale(var(--mod-avatar-hover-scale, var(--nc-avatar-hover-scale)));
       box-shadow:
-        0 0 0 var(--nc-avatar-group-ring-width) var(--nc-avatar-group-ring-color),
-        var(--nc-avatar-hover-shadow);
+        0 0 0 var(--mod-avatar-group-ring-width, var(--nc-avatar-group-ring-width)) var(--mod-avatar-group-ring-color, var(--nc-avatar-group-ring-color)),
+        var(--mod-avatar-hover-shadow, var(--nc-avatar-hover-shadow));
     }
 
     &:focus-visible {
-      outline: var(--nc-avatar-focus-ring-width) solid var(--nc-avatar-focus-ring-color);
-      outline-offset: var(--nc-avatar-focus-ring-offset);
+      outline: var(--mod-avatar-focus-ring-width, var(--nc-avatar-focus-ring-width)) solid var(--mod-avatar-focus-ring-color, var(--nc-avatar-focus-ring-color));
+      outline-offset: var(--mod-avatar-focus-ring-offset, var(--nc-avatar-focus-ring-offset));
     }
   }
 
   // Group-Groessen: Count-Element passt sich an Kind-Groesse an
   &--sm > .nc-avatar { @include avatar-size('sm'); }
   &--sm > .nc-avatar-group__count {
-    width: var(--nc-avatar-size-sm);
-    height: var(--nc-avatar-size-sm);
-    min-width: var(--nc-avatar-size-sm);
-    font-size: var(--nc-avatar-font-size-xs);
+    width: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    height: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    min-width: var(--mod-avatar-size-sm, var(--nc-avatar-size-sm));
+    font-size: var(--mod-avatar-font-size-xs, var(--nc-avatar-font-size-xs));
   }
 
   &--lg > .nc-avatar { @include avatar-size('lg'); }
   &--lg > .nc-avatar-group__count {
-    width: var(--nc-avatar-size-lg);
-    height: var(--nc-avatar-size-lg);
-    min-width: var(--nc-avatar-size-lg);
-    font-size: var(--nc-avatar-font-size-md);
+    width: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    height: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    min-width: var(--mod-avatar-size-lg, var(--nc-avatar-size-lg));
+    font-size: var(--mod-avatar-font-size-md, var(--nc-avatar-font-size-md));
   }
 }
 

@@ -43,19 +43,19 @@
 @mixin timeline-item {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0 var(--nc-timeline-content-padding);
+  gap: 0 var(--mod-timeline-content-padding, var(--nc-timeline-content-padding));
   position: relative;
-  padding-bottom: var(--nc-timeline-content-padding);
+  padding-bottom: var(--mod-timeline-content-padding, var(--nc-timeline-content-padding));
 
   // Vertikale Linie (zwischen Nodes)
   &::before {
     content: '';
     position: absolute;
-    top: var(--nc-timeline-node-size);
+    top: var(--mod-timeline-node-size, var(--nc-timeline-node-size));
     bottom: 0;
-    left: calc(var(--nc-timeline-node-size) / 2 - var(--nc-timeline-line-width) / 2);
-    width: var(--nc-timeline-line-width);
-    background-color: var(--nc-timeline-line-color);
+    left: calc(var(--mod-timeline-node-size, var(--nc-timeline-node-size)) / 2 - var(--mod-timeline-line-width, var(--nc-timeline-line-width)) / 2);
+    width: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
+    background-color: var(--mod-timeline-line-color, var(--nc-timeline-line-color));
   }
 
   // Letztes Item: keine Linie nach unten
@@ -68,11 +68,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-timeline-node-size);
-  height: var(--nc-timeline-node-size);
-  border-radius: var(--nc-timeline-node-radius);
-  background-color: var(--nc-timeline-node-bg);
-  border: var(--nc-timeline-node-border-width) solid var(--nc-timeline-node-border);
+  width: var(--mod-timeline-node-size, var(--nc-timeline-node-size));
+  height: var(--mod-timeline-node-size, var(--nc-timeline-node-size));
+  border-radius: var(--mod-timeline-node-radius, var(--nc-timeline-node-radius));
+  background-color: var(--mod-timeline-node-bg, var(--nc-timeline-node-bg));
+  border: var(--mod-timeline-node-border-width, var(--nc-timeline-node-border-width)) solid var(--mod-timeline-node-border, var(--nc-timeline-node-border));
   flex-shrink: 0;
   z-index: var(--fnd-z-base); // Ueber der Linie
   margin-top: 2px; // Optische Ausrichtung mit erstem Text
@@ -97,66 +97,66 @@
 
   // Node-Varianten
   &__node--active {
-    background-color: var(--nc-timeline-node-active-bg);
-    border-color: var(--nc-timeline-node-active-border);
+    background-color: var(--mod-timeline-node-active-bg, var(--nc-timeline-node-active-bg));
+    border-color: var(--mod-timeline-node-active-border, var(--nc-timeline-node-active-border));
   }
 
   &__node--success {
-    background-color: var(--nc-timeline-node-success-bg);
-    border-color: var(--nc-timeline-node-success-bg);
+    background-color: var(--mod-timeline-node-success-bg, var(--nc-timeline-node-success-bg));
+    border-color: var(--mod-timeline-node-success-bg, var(--nc-timeline-node-success-bg));
   }
 
   &__node--danger {
-    background-color: var(--nc-timeline-node-danger-bg);
-    border-color: var(--nc-timeline-node-danger-bg);
+    background-color: var(--mod-timeline-node-danger-bg, var(--nc-timeline-node-danger-bg));
+    border-color: var(--mod-timeline-node-danger-bg, var(--nc-timeline-node-danger-bg));
   }
 
   // Content
   &__content {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-timeline-content-gap);
+    gap: var(--mod-timeline-content-gap, var(--nc-timeline-content-gap));
     min-width: 0;
   }
 
   // Zeitstempel
   &__time {
-    font-size: var(--nc-timeline-time-size);
-    font-weight: var(--nc-timeline-time-weight);
-    color: var(--nc-timeline-time-color);
+    font-size: var(--mod-timeline-time-size, var(--nc-timeline-time-size));
+    font-weight: var(--mod-timeline-time-weight, var(--nc-timeline-time-weight));
+    color: var(--mod-timeline-time-color, var(--nc-timeline-time-color));
     font-variant-numeric: tabular-nums;
   }
 
   // Titel
   &__title {
     margin: 0;
-    font-size: var(--nc-timeline-title-size);
-    font-weight: var(--nc-timeline-title-weight);
-    color: var(--nc-timeline-title-color);
+    font-size: var(--mod-timeline-title-size, var(--nc-timeline-title-size));
+    font-weight: var(--mod-timeline-title-weight, var(--nc-timeline-title-weight));
+    color: var(--mod-timeline-title-color, var(--nc-timeline-title-color));
     line-height: var(--lh-heading);
   }
 
   // Beschreibung
   &__description {
     margin: 0;
-    font-size: var(--nc-timeline-desc-size);
-    color: var(--nc-timeline-desc-color);
+    font-size: var(--mod-timeline-desc-size, var(--nc-timeline-desc-size));
+    color: var(--mod-timeline-desc-color, var(--nc-timeline-desc-color));
     line-height: var(--lh-body);
   }
 
   // -- Variante: Icon (groessere Nodes mit Icon) --
 
   &--icon &__item::before {
-    left: calc(var(--nc-timeline-node-icon-size) / 2 - var(--nc-timeline-line-width) / 2);
-    top: var(--nc-timeline-node-icon-size);
+    left: calc(var(--mod-timeline-node-icon-size, var(--nc-timeline-node-icon-size)) / 2 - var(--mod-timeline-line-width, var(--nc-timeline-line-width)) / 2);
+    top: var(--mod-timeline-node-icon-size, var(--nc-timeline-node-icon-size));
   }
 
   &--icon &__node {
-    width: var(--nc-timeline-node-icon-size);
-    height: var(--nc-timeline-node-icon-size);
-    background-color: var(--nc-timeline-node-active-bg);
-    border-color: var(--nc-timeline-node-active-bg);
-    color: var(--nc-timeline-node-icon-color);
+    width: var(--mod-timeline-node-icon-size, var(--nc-timeline-node-icon-size));
+    height: var(--mod-timeline-node-icon-size, var(--nc-timeline-node-icon-size));
+    background-color: var(--mod-timeline-node-active-bg, var(--nc-timeline-node-active-bg));
+    border-color: var(--mod-timeline-node-active-bg, var(--nc-timeline-node-active-bg));
+    color: var(--mod-timeline-node-icon-color, var(--nc-timeline-node-icon-color));
 
     > svg {
       width: 16px;
@@ -192,7 +192,7 @@
   }
 
   &--compact &__item::before {
-    left: calc(4px - var(--nc-timeline-line-width) / 2);
+    left: calc(4px - var(--mod-timeline-line-width, var(--nc-timeline-line-width)) / 2);
     top: 14px;
   }
 }

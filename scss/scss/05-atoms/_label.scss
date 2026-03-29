@@ -43,16 +43,16 @@
 @mixin label-base {
   @include static-surface-base;
 
-  --_surface-bg: var(--nc-label-default-bg);
-  --_surface-color: var(--nc-label-default-color);
-  --_surface-border-color: var(--nc-label-default-border);
-  --_surface-radius: var(--nc-label-radius);
-  --_surface-font-size: var(--nc-label-font-size);
-  --_surface-font-weight: var(--nc-label-font-weight);
-  --_surface-gap: var(--nc-label-gap);
+  --_surface-bg: var(--mod-label-default-bg, var(--nc-label-default-bg));
+  --_surface-color: var(--mod-label-default-color, var(--nc-label-default-color));
+  --_surface-border-color: var(--mod-label-default-border, var(--nc-label-default-border));
+  --_surface-radius: var(--mod-label-radius, var(--nc-label-radius));
+  --_surface-font-size: var(--mod-label-font-size, var(--nc-label-font-size));
+  --_surface-font-weight: var(--mod-label-font-weight, var(--nc-label-font-weight));
+  --_surface-gap: var(--mod-label-gap, var(--nc-label-gap));
   --_surface-border-width: var(--fnd-border-width-xs);
 
-  letter-spacing: var(--nc-label-letter-spacing);
+  letter-spacing: var(--mod-label-letter-spacing, var(--nc-label-letter-spacing));
   white-space: nowrap;
 
   @include label-size('sm');
@@ -60,16 +60,16 @@
 
 @mixin label-size($size: 'sm') {
   @if $size == 'xs' {
-    min-height: var(--nc-label-height-xs);
-    padding: 0 var(--nc-label-padding-x-xs);
-    font-size: var(--nc-label-font-size-xs);
+    min-height: var(--mod-label-height-xs, var(--nc-label-height-xs));
+    padding: 0 var(--mod-label-padding-x-xs, var(--nc-label-padding-x-xs));
+    font-size: var(--mod-label-font-size-xs, var(--nc-label-font-size-xs));
   } @else if $size == 'sm' {
-    min-height: var(--nc-label-height-sm);
-    padding: 0 var(--nc-label-padding-x);
+    min-height: var(--mod-label-height-sm, var(--nc-label-height-sm));
+    padding: 0 var(--mod-label-padding-x, var(--nc-label-padding-x));
   } @else if $size == 'md' {
-    min-height: var(--nc-label-height-md);
-    padding: 0 var(--nc-label-padding-x-md);
-    font-size: var(--nc-label-font-size-md);
+    min-height: var(--mod-label-height-md, var(--nc-label-height-md));
+    padding: 0 var(--mod-label-padding-x-md, var(--nc-label-padding-x-md));
+    font-size: var(--mod-label-font-size-md, var(--nc-label-font-size-md));
   }
 }
 
@@ -88,7 +88,7 @@
   }
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--_label-bg-hover, var(--nc-label-default-bg-hover));
+    background-color: var(--_label-bg-hover, var(--mod-label-default-bg-hover, var(--nc-label-default-bg-hover)));
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
@@ -97,7 +97,7 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    opacity: var(--nc-label-disabled-opacity);
+    opacity: var(--mod-label-disabled-opacity, var(--nc-label-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
     transform: none;
@@ -110,8 +110,8 @@
 
 /// Solid: Kraeftiger BG mit hellem Text — fuer hohe Prioritaet.
 @mixin label-emphasis-solid {
-  --_surface-bg: var(--_label-solid-bg, var(--nc-label-solid-default-bg));
-  --_surface-color: var(--_label-solid-color, var(--nc-label-solid-default-color));
+  --_surface-bg: var(--_label-solid-bg, var(--mod-label-solid-default-bg, var(--nc-label-solid-default-bg)));
+  --_surface-color: var(--_label-solid-color, var(--mod-label-solid-default-color, var(--nc-label-solid-default-color)));
   --_surface-border-color: transparent;
 }
 
@@ -119,7 +119,7 @@
 @mixin label-emphasis-outline {
   --_surface-bg: transparent;
   --_surface-border-color: var(--_surface-color);
-  border-width: var(--nc-label-outline-border-width);
+  border-width: var(--mod-label-outline-border-width, var(--nc-label-outline-border-width));
 }
 
 // ---------------------------------------------------------------------------
@@ -127,46 +127,46 @@
 // ---------------------------------------------------------------------------
 
 @mixin label-variant-accent {
-  --_surface-bg: var(--nc-label-accent-bg);
-  --_surface-color: var(--nc-label-accent-color);
-  --_surface-border-color: var(--nc-label-accent-border);
-  --_label-bg-hover: var(--nc-label-accent-bg-hover);
+  --_surface-bg: var(--mod-label-accent-bg, var(--nc-label-accent-bg));
+  --_surface-color: var(--mod-label-accent-color, var(--nc-label-accent-color));
+  --_surface-border-color: var(--mod-label-accent-border, var(--nc-label-accent-border));
+  --_label-bg-hover: var(--mod-label-accent-bg-hover, var(--nc-label-accent-bg-hover));
   --_label-solid-bg: var(--fnd-color-interactive-default);
   --_label-solid-color: var(--fnd-color-text-on-interactive);
 }
 
 @mixin label-variant-success {
-  --_surface-bg: var(--nc-label-success-bg);
-  --_surface-color: var(--nc-label-success-color);
-  --_surface-border-color: var(--nc-label-success-border);
-  --_label-bg-hover: var(--nc-label-success-bg-hover);
+  --_surface-bg: var(--mod-label-success-bg, var(--nc-label-success-bg));
+  --_surface-color: var(--mod-label-success-color, var(--nc-label-success-color));
+  --_surface-border-color: var(--mod-label-success-border, var(--nc-label-success-border));
+  --_label-bg-hover: var(--mod-label-success-bg-hover, var(--nc-label-success-bg-hover));
   --_label-solid-bg: var(--fnd-color-feedback-success);
   --_label-solid-color: var(--fnd-color-on-success);
 }
 
 @mixin label-variant-warning {
-  --_surface-bg: var(--nc-label-warning-bg);
-  --_surface-color: var(--nc-label-warning-color);
-  --_surface-border-color: var(--nc-label-warning-border);
-  --_label-bg-hover: var(--nc-label-warning-bg-hover);
+  --_surface-bg: var(--mod-label-warning-bg, var(--nc-label-warning-bg));
+  --_surface-color: var(--mod-label-warning-color, var(--nc-label-warning-color));
+  --_surface-border-color: var(--mod-label-warning-border, var(--nc-label-warning-border));
+  --_label-bg-hover: var(--mod-label-warning-bg-hover, var(--nc-label-warning-bg-hover));
   --_label-solid-bg: var(--fnd-color-feedback-warning);
   --_label-solid-color: var(--fnd-color-on-warning);
 }
 
 @mixin label-variant-danger {
-  --_surface-bg: var(--nc-label-danger-bg);
-  --_surface-color: var(--nc-label-danger-color);
-  --_surface-border-color: var(--nc-label-danger-border);
-  --_label-bg-hover: var(--nc-label-danger-bg-hover);
+  --_surface-bg: var(--mod-label-danger-bg, var(--nc-label-danger-bg));
+  --_surface-color: var(--mod-label-danger-color, var(--nc-label-danger-color));
+  --_surface-border-color: var(--mod-label-danger-border, var(--nc-label-danger-border));
+  --_label-bg-hover: var(--mod-label-danger-bg-hover, var(--nc-label-danger-bg-hover));
   --_label-solid-bg: var(--fnd-color-feedback-danger);
   --_label-solid-color: var(--fnd-color-on-danger);
 }
 
 @mixin label-variant-info {
-  --_surface-bg: var(--nc-label-info-bg);
-  --_surface-color: var(--nc-label-info-color);
-  --_surface-border-color: var(--nc-label-info-border);
-  --_label-bg-hover: var(--nc-label-info-bg-hover);
+  --_surface-bg: var(--mod-label-info-bg, var(--nc-label-info-bg));
+  --_surface-color: var(--mod-label-info-color, var(--nc-label-info-color));
+  --_surface-border-color: var(--mod-label-info-border, var(--nc-label-info-border));
+  --_label-bg-hover: var(--mod-label-info-bg-hover, var(--nc-label-info-bg-hover));
   --_label-solid-bg: var(--fnd-color-feedback-info);
   --_label-solid-color: var(--fnd-color-on-info);
 }
@@ -179,8 +179,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-label-icon-size);
-  height: var(--nc-label-icon-size);
+  width: var(--mod-label-icon-size, var(--nc-label-icon-size));
+  height: var(--mod-label-icon-size, var(--nc-label-icon-size));
   flex-shrink: 0;
 
   > svg {
@@ -195,7 +195,7 @@
 }
 
 @mixin label-remove-button {
-  @include surface-remove-button(var(--nc-label-remove-size));
+  @include surface-remove-button(var(--mod-label-remove-size, var(--nc-label-remove-size)));
 }
 
 // ---------------------------------------------------------------------------
@@ -216,7 +216,7 @@
 
   // Shape
   &--pill {
-    --_surface-radius: var(--nc-label-radius-pill);
+    --_surface-radius: var(--mod-label-radius-pill, var(--nc-label-radius-pill));
   }
 
   // Emphasis
@@ -253,7 +253,7 @@
 .nc-labels-container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--nc-label-container-gap);
+  gap: var(--mod-label-container-gap, var(--nc-label-container-gap));
   padding: 0;
   list-style: none;
   margin: 0;
@@ -278,7 +278,7 @@
 .labels-container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--nc-label-container-gap);
+  gap: var(--mod-label-container-gap, var(--nc-label-container-gap));
   padding: 0;
   list-style: none;
   margin: 0;

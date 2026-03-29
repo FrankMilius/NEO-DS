@@ -83,7 +83,7 @@
 
 /// Search-Input: bekommt padding-left fuer Search-Icon.
 @mixin input-search {
-  padding-inline-start: calc(var(--nc-input-padding-x-md) + var(--nc-input-icon-size) + var(--fnd-spacing-02));
+  padding-inline-start: calc(var(--mod-input-padding-x-md, var(--nc-input-padding-x-md)) + var(--mod-input-icon-size, var(--nc-input-icon-size)) + var(--fnd-spacing-02));
 
   // Webkit Search-Cancel-Button entfernen (Browser-Default)
   &::-webkit-search-cancel-button,
@@ -94,7 +94,7 @@
 
 /// Password-Input: bekommt padding-right fuer Reveal-Toggle.
 @mixin input-password {
-  padding-inline-end: calc(var(--nc-input-padding-x-md) + var(--nc-input-icon-size) + var(--fnd-spacing-02));
+  padding-inline-end: calc(var(--mod-input-padding-x-md, var(--nc-input-padding-x-md)) + var(--mod-input-icon-size, var(--nc-input-icon-size)) + var(--fnd-spacing-02));
 }
 
 /// Icon-Element innerhalb eines Input-Wrappers.
@@ -103,9 +103,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: var(--nc-input-icon-size);
-  height: var(--nc-input-icon-size);
-  color: var(--nc-input-icon-color);
+  width: var(--mod-input-icon-size, var(--nc-input-icon-size));
+  height: var(--mod-input-icon-size, var(--nc-input-icon-size));
+  color: var(--mod-input-icon-color, var(--nc-input-icon-color));
   pointer-events: none;
   display: inline-flex;
   align-items: center;
@@ -138,7 +138,7 @@
     position: absolute;
     inset: 50% 0 auto 0;
     transform: translateY(-50%);
-    min-height: var(--nc-input-touch-area-min);
+    min-height: var(--mod-input-touch-area-min, var(--nc-input-touch-area-min));
     width: 100%;
     pointer-events: none;
   }
@@ -152,7 +152,7 @@
   // -- Floating Label Anpassung --
   // Wenn Input ein Floating Label hat, braucht es padding-top fuer den Label-Platz.
   &--has-label {
-    padding-block-start: var(--nc-input-label-padding-top);
+    padding-block-start: var(--mod-input-label-padding-top, var(--nc-input-label-padding-top));
   }
 
   // -- State-Modifier --
@@ -183,7 +183,7 @@
 
     // Success in Filled
     &.nc-input--success {
-      border-block-end-color: var(--nc-form-control-border-success);
+      border-block-end-color: var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 
@@ -199,7 +199,7 @@
 
     // Success in Borderless
     &.nc-input--success {
-      border-block-end: 2px solid var(--nc-form-control-border-success);
+      border-block-end: 2px solid var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 
@@ -209,12 +209,12 @@
     @include input-icon;
 
     // Default: links positioniert
-    inset-inline-start: var(--nc-input-padding-x-md);
+    inset-inline-start: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
 
     // Rechts positioniert (fuer Suffix)
     &--end {
       inset-inline-start: auto;
-      inset-inline-end: var(--nc-input-padding-x-md);
+      inset-inline-end: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
     }
   }
 
@@ -225,11 +225,11 @@
 
   &__label {
     position: absolute;
-    inset-inline-start: var(--nc-input-padding-x-md);
+    inset-inline-start: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
     top: 50%;
     transform: translateY(-50%);
-    font-size: var(--nc-input-label-font-size);
-    color: var(--nc-input-label-color);
+    font-size: var(--mod-input-label-font-size, var(--nc-input-label-font-size));
+    color: var(--mod-input-label-color, var(--nc-input-label-color));
     pointer-events: none;
     transform-origin: left top;
     @include transition-quick((transform, font-size, color));
@@ -247,9 +247,9 @@
     transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
-    font-size: var(--nc-input-affix-font-size);
-    color: var(--nc-input-affix-color);
-    padding-inline: var(--nc-input-affix-padding-x);
+    font-size: var(--mod-input-affix-font-size, var(--nc-input-affix-font-size));
+    color: var(--mod-input-affix-color, var(--nc-input-affix-color));
+    padding-inline: var(--mod-input-affix-padding-x, var(--nc-input-affix-padding-x));
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
@@ -257,19 +257,19 @@
 
   &__prefix {
     inset-inline-start: 0;
-    border-inline-end: var(--nc-input-border-width) solid var(--nc-input-affix-border);
-    background-color: var(--nc-input-affix-bg);
-    border-start-start-radius: var(--nc-input-radius);
-    border-end-start-radius: var(--nc-input-radius);
+    border-inline-end: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-input-affix-border, var(--nc-input-affix-border));
+    background-color: var(--mod-input-affix-bg, var(--nc-input-affix-bg));
+    border-start-start-radius: var(--mod-input-radius, var(--nc-input-radius));
+    border-end-start-radius: var(--mod-input-radius, var(--nc-input-radius));
     height: 100%;
   }
 
   &__suffix {
     inset-inline-end: 0;
-    border-inline-start: var(--nc-input-border-width) solid var(--nc-input-affix-border);
-    background-color: var(--nc-input-affix-bg);
-    border-start-end-radius: var(--nc-input-radius);
-    border-end-end-radius: var(--nc-input-radius);
+    border-inline-start: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-input-affix-border, var(--nc-input-affix-border));
+    background-color: var(--mod-input-affix-bg, var(--nc-input-affix-bg));
+    border-start-end-radius: var(--mod-input-radius, var(--nc-input-radius));
+    border-end-end-radius: var(--mod-input-radius, var(--nc-input-radius));
     height: 100%;
   }
 
@@ -280,25 +280,25 @@
 
   &__clear {
     position: absolute;
-    inset-inline-end: var(--nc-input-padding-x-md);
+    inset-inline-end: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
     top: 50%;
     transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-input-clear-size);
-    height: var(--nc-input-clear-size);
+    width: var(--mod-input-clear-size, var(--nc-input-clear-size));
+    height: var(--mod-input-clear-size, var(--nc-input-clear-size));
     padding: 0;
     border: none;
     background: none;
-    color: var(--nc-input-clear-color);
+    color: var(--mod-input-clear-color, var(--nc-input-clear-color));
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     @include transition-quick((opacity, color));
 
     &:hover {
-      color: var(--nc-input-clear-color-hover);
+      color: var(--mod-input-clear-color-hover, var(--nc-input-clear-color-hover));
     }
   }
 }
@@ -322,20 +322,20 @@
   .nc-input:focus-within ~ .nc-input__label,
   .nc-input:not(:placeholder-shown) ~ .nc-input__label,
   .nc-input[data-empty='false'] ~ .nc-input__label {
-    transform: translateY(calc(-100% - var(--nc-input-label-offset-y))) scale(var(--nc-input-label-scale));
-    font-size: var(--nc-input-label-font-size-float);
+    transform: translateY(calc(-100% - var(--mod-input-label-offset-y, var(--nc-input-label-offset-y)))) scale(var(--mod-input-label-scale, var(--nc-input-label-scale)));
+    font-size: var(--mod-input-label-font-size-float, var(--nc-input-label-font-size-float));
   }
 
   // Focus-Farbe fuer Label
   .nc-input:focus ~ .nc-input__label,
   .nc-input:focus-within ~ .nc-input__label {
-    color: var(--nc-input-label-color-focus);
+    color: var(--mod-input-label-color-focus, var(--nc-input-label-color-focus));
   }
 
   // Error-Farbe fuer Label
   .nc-input--error ~ .nc-input__label,
   .nc-input[aria-invalid='true'] ~ .nc-input__label {
-    color: var(--nc-input-border-error);
+    color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 
   // -----------------------------------------------------------------------
@@ -356,16 +356,16 @@
   // damit der User-Text nicht mit den Affixen ueberlappt.
 
   &--has-prefix .nc-input {
-    padding-inline-start: calc(var(--nc-input-affix-padding-x) * 2 + 4ch);
+    padding-inline-start: calc(var(--mod-input-affix-padding-x, var(--nc-input-affix-padding-x)) * 2 + 4ch);
   }
 
   &--has-suffix .nc-input {
-    padding-inline-end: calc(var(--nc-input-affix-padding-x) * 2 + 3ch);
+    padding-inline-end: calc(var(--mod-input-affix-padding-x, var(--nc-input-affix-padding-x)) * 2 + 3ch);
   }
 
   // Clear + Suffix: Clear rueckt weiter nach links
   &--has-suffix .nc-input__clear {
-    inset-inline-end: calc(var(--nc-input-affix-padding-x) * 2 + 3ch + var(--fnd-spacing-02));
+    inset-inline-end: calc(var(--mod-input-affix-padding-x, var(--nc-input-affix-padding-x)) * 2 + 3ch + var(--fnd-spacing-02));
   }
 }
 
@@ -401,12 +401,12 @@
     }
 
     .select-toggle-text {
-      color: var(--nc-input-color);
+      color: var(--mod-input-color, var(--nc-input-color));
     }
 
     .icon {
       margin: 0;
-      color: var(--nc-input-icon-color);
+      color: var(--mod-input-icon-color, var(--nc-input-icon-color));
     }
   }
 }

@@ -28,18 +28,18 @@
   display: flex;
   align-items: flex-start;
   gap: var(--fnd-spacing-01);
-  margin-top: var(--nc-form-error-gap);
-  font-size: var(--nc-form-error-font-size);
-  color: var(--nc-form-error-color);
+  margin-top: var(--mod-form-error-gap, var(--nc-form-error-gap));
+  font-size: var(--mod-form-error-font-size, var(--nc-form-error-font-size));
+  color: var(--mod-form-error-color, var(--nc-form-error-color));
   line-height: 1.4;
-  font-weight: var(--nc-form-error-font-weight);
+  font-weight: var(--mod-form-error-font-weight, var(--nc-form-error-font-weight));
 }
 
 /// Error-Icon (z.B. Ausrufezeichen im Kreis).
 @mixin form-error-icon {
   flex-shrink: 0;
-  width: var(--nc-form-error-icon-size);
-  height: var(--nc-form-error-icon-size);
+  width: var(--mod-form-error-icon-size, var(--nc-form-error-icon-size));
+  height: var(--mod-form-error-icon-size, var(--nc-form-error-icon-size));
   margin-top: 0.1em; // Optische Ausrichtung mit Text
   color: inherit;
 

@@ -721,14 +721,14 @@ body:has(.theme-switcher-modal[open]) {
   position: fixed;
   inset: 0;
   margin: auto;
-  max-width: var(--nc-dialog-max-width);
+  max-width: var(--mod-dialog-max-width, var(--nc-dialog-max-width));
   width: calc(100% - var(--fnd-spacing-08));
-  max-height: var(--nc-dialog-max-height);
+  max-height: var(--mod-dialog-max-height, var(--nc-dialog-max-height));
   padding: 0; // Padding via Header/Body/Footer
   border: none;
-  border-radius: var(--nc-dialog-radius);
-  background-color: var(--nc-dialog-bg);
-  box-shadow: var(--nc-dialog-shadow);
+  border-radius: var(--mod-dialog-radius, var(--nc-dialog-radius));
+  background-color: var(--mod-dialog-bg, var(--nc-dialog-bg));
+  box-shadow: var(--mod-dialog-shadow, var(--nc-dialog-shadow));
   color: var(--fnd-color-text-primary);
   display: none;
   flex-direction: column;
@@ -761,7 +761,7 @@ body:has(.theme-switcher-modal[open]) {
 
   // Backdrop
   &::backdrop {
-    background: var(--nc-dialog-overlay-bg);
+    background: var(--mod-dialog-overlay-bg, var(--nc-dialog-overlay-bg));
     animation: animations-fade-in;
     animation-duration: var(--fnd-motion-duration-300);
     animation-timing-function: var(--fnd-motion-ease-focused);
@@ -782,8 +782,8 @@ body:has(.theme-switcher-modal[open]) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--nc-dialog-header-gap);
-  padding: var(--nc-dialog-padding);
+  gap: var(--mod-dialog-header-gap, var(--nc-dialog-header-gap));
+  padding: var(--mod-dialog-padding, var(--nc-dialog-padding));
   padding-bottom: var(--fnd-spacing-04);
   flex-shrink: 0;
   border-bottom: 1px solid transparent;
@@ -792,9 +792,9 @@ body:has(.theme-switcher-modal[open]) {
 
 /// Modal Titel.
 @mixin modal-title {
-  font-size: var(--nc-dialog-title-font-size);
-  font-weight: var(--nc-dialog-title-font-weight);
-  color: var(--nc-dialog-title-color);
+  font-size: var(--mod-dialog-title-font-size, var(--nc-dialog-title-font-size));
+  font-weight: var(--mod-dialog-title-font-weight, var(--nc-dialog-title-font-weight));
+  color: var(--mod-dialog-title-color, var(--nc-dialog-title-color));
   margin: 0;
   line-height: 1.3;
   flex: 1;
@@ -807,16 +807,16 @@ body:has(.theme-switcher-modal[open]) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-dialog-close-size);
-  height: var(--nc-dialog-close-size);
-  border-radius: var(--nc-dialog-close-radius);
-  background-color: var(--nc-dialog-close-bg);
+  width: var(--mod-dialog-close-size, var(--nc-dialog-close-size));
+  height: var(--mod-dialog-close-size, var(--nc-dialog-close-size));
+  border-radius: var(--mod-dialog-close-radius, var(--nc-dialog-close-radius));
+  background-color: var(--mod-dialog-close-bg, var(--nc-dialog-close-bg));
   cursor: pointer;
   flex-shrink: 0;
   color: var(--fnd-color-text-primary);
 
   &:hover {
-    background-color: var(--nc-dialog-close-bg-hover);
+    background-color: var(--mod-dialog-close-bg-hover, var(--nc-dialog-close-bg-hover));
   }
 
   &:focus-visible {
@@ -825,8 +825,8 @@ body:has(.theme-switcher-modal[open]) {
 
   > svg,
   > .nc-icon {
-    width: var(--nc-dialog-close-icon-size);
-    height: var(--nc-dialog-close-icon-size);
+    width: var(--mod-dialog-close-icon-size, var(--nc-dialog-close-icon-size));
+    height: var(--mod-dialog-close-icon-size, var(--nc-dialog-close-icon-size));
     display: flex;
     pointer-events: none;
   }
@@ -836,7 +836,7 @@ body:has(.theme-switcher-modal[open]) {
 @mixin modal-body {
   flex: 1;
   overflow-y: auto;
-  padding: 0 var(--nc-dialog-padding);
+  padding: 0 var(--mod-dialog-padding, var(--nc-dialog-padding));
   min-height: 0;
   @include hide-scrollbar;
 }
@@ -846,8 +846,8 @@ body:has(.theme-switcher-modal[open]) {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--nc-dialog-footer-gap);
-  padding: var(--nc-dialog-padding);
+  gap: var(--mod-dialog-footer-gap, var(--nc-dialog-footer-gap));
+  padding: var(--mod-dialog-padding, var(--nc-dialog-padding));
   padding-top: var(--fnd-spacing-04);
   flex-shrink: 0;
   border-top: 1px solid transparent;
@@ -917,11 +917,11 @@ body:has(.theme-switcher-modal[open]) {
 
     // Border erscheint wenn Inhalt wegscrollt
     &.is-scrolled-top .nc-modal__header {
-      border-bottom-color: var(--nc-dialog-header-border-color);
+      border-bottom-color: var(--mod-dialog-header-border-color, var(--nc-dialog-header-border-color));
     }
 
     &.is-scrolled-bottom .nc-modal__footer {
-      border-top-color: var(--nc-dialog-footer-border-color);
+      border-top-color: var(--mod-dialog-footer-border-color, var(--nc-dialog-footer-border-color));
     }
   }
 
@@ -930,17 +930,17 @@ body:has(.theme-switcher-modal[open]) {
 
   &--danger {
     .nc-modal__header-icon {
-      color: var(--nc-dialog-danger-icon-color);
+      color: var(--mod-dialog-danger-icon-color, var(--nc-dialog-danger-icon-color));
     }
 
     .nc-modal__footer .nc-button--primary,
     .nc-modal__footer [data-action='confirm'] {
-      background-color: var(--nc-dialog-danger-action-bg);
-      color: var(--nc-dialog-danger-action-color);
-      border-color: var(--nc-dialog-danger-action-bg);
+      background-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
+      color: var(--mod-dialog-danger-action-color, var(--nc-dialog-danger-action-color));
+      border-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
 
       &:hover {
-        background-color: color-mix(in srgb, var(--nc-dialog-danger-action-bg) 85%, var(--fnd-color-always-dark));
+        background-color: color-mix(in srgb, var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg)) 85%, var(--fnd-color-always-dark));
       }
     }
   }
@@ -953,8 +953,8 @@ body:has(.theme-switcher-modal[open]) {
     margin: 0;
     width: 100%;
     max-width: 100%;
-    max-height: var(--nc-dialog-mobile-max-height);
-    border-radius: var(--nc-dialog-mobile-radius);
+    max-height: var(--mod-dialog-mobile-max-height, var(--nc-dialog-mobile-max-height));
+    border-radius: var(--mod-dialog-mobile-radius, var(--nc-dialog-mobile-radius));
 
     &[open] {
       @starting-style {

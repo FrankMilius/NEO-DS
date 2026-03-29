@@ -78,24 +78,24 @@
 
 // Slide from right
 @keyframes nc-toast-slide-in-right {
-  from { transform: translateX(calc(100% + var(--nc-toast-offset))); opacity: 0; }
+  from { transform: translateX(calc(100% + var(--mod-toast-offset, var(--nc-toast-offset)))); opacity: 0; }
   to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes nc-toast-slide-out-right {
   from { transform: translateX(0); opacity: 1; }
-  to   { transform: translateX(calc(100% + var(--nc-toast-offset))); opacity: 0; }
+  to   { transform: translateX(calc(100% + var(--mod-toast-offset, var(--nc-toast-offset)))); opacity: 0; }
 }
 
 // Slide from left
 @keyframes nc-toast-slide-in-left {
-  from { transform: translateX(calc(-100% - var(--nc-toast-offset))); opacity: 0; }
+  from { transform: translateX(calc(-100% - var(--mod-toast-offset, var(--nc-toast-offset)))); opacity: 0; }
   to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes nc-toast-slide-out-left {
   from { transform: translateX(0); opacity: 1; }
-  to   { transform: translateX(calc(-100% - var(--nc-toast-offset))); opacity: 0; }
+  to   { transform: translateX(calc(-100% - var(--mod-toast-offset, var(--nc-toast-offset)))); opacity: 0; }
 }
 
 // Slide from top
@@ -133,11 +133,11 @@
 /// Toaster Viewport-Container.
 @mixin toaster-base {
   position: fixed;
-  z-index: var(--nc-toast-z-index, 50);
+  z-index: var(--mod-toast-z-index, var(--nc-toast-z-index, 50));
   display: flex;
   flex-direction: column;
-  gap: var(--nc-toast-gap);
-  padding: var(--nc-toast-offset);
+  gap: var(--mod-toast-gap, var(--nc-toast-gap));
+  padding: var(--mod-toast-offset, var(--nc-toast-offset));
   pointer-events: none;
   max-height: 100vh;
   box-sizing: border-box;
@@ -148,17 +148,17 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: var(--nc-toast-item-gap);
-  width: var(--nc-toast-width);
+  gap: var(--mod-toast-item-gap, var(--nc-toast-item-gap));
+  width: var(--mod-toast-width, var(--nc-toast-width));
   max-width: 100%;
-  padding: var(--nc-toast-padding);
-  border-radius: var(--nc-toast-radius);
-  border: var(--nc-toast-border-width) solid var(--_toast-border, var(--nc-toast-default-border));
-  background-color: var(--_toast-bg, var(--nc-toast-default-bg));
-  color: var(--_toast-color, var(--nc-toast-default-color));
-  box-shadow: var(--nc-toast-shadow);
+  padding: var(--mod-toast-padding, var(--nc-toast-padding));
+  border-radius: var(--mod-toast-radius, var(--nc-toast-radius));
+  border: var(--mod-toast-border-width, var(--nc-toast-border-width)) solid var(--_toast-border, var(--mod-toast-default-border, var(--nc-toast-default-border)));
+  background-color: var(--_toast-bg, var(--mod-toast-default-bg, var(--nc-toast-default-bg)));
+  color: var(--_toast-color, var(--mod-toast-default-color, var(--nc-toast-default-color)));
+  box-shadow: var(--mod-toast-shadow, var(--nc-toast-shadow));
   line-height: 1.5;
-  font-size: var(--nc-toast-font-size);
+  font-size: var(--mod-toast-font-size, var(--nc-toast-font-size));
   pointer-events: auto;
   overflow: hidden;
 
@@ -168,47 +168,47 @@
 
 /// Default-Variante.
 @mixin toast-variant-default {
-  --_toast-bg: var(--nc-toast-default-bg);
-  --_toast-color: var(--nc-toast-default-color);
-  --_toast-border: var(--nc-toast-default-border);
-  --_toast-icon-color: var(--nc-toast-default-icon-color);
-  --_toast-progress-bg: var(--nc-toast-default-progress-bg);
+  --_toast-bg: var(--mod-toast-default-bg, var(--nc-toast-default-bg));
+  --_toast-color: var(--mod-toast-default-color, var(--nc-toast-default-color));
+  --_toast-border: var(--mod-toast-default-border, var(--nc-toast-default-border));
+  --_toast-icon-color: var(--mod-toast-default-icon-color, var(--nc-toast-default-icon-color));
+  --_toast-progress-bg: var(--mod-toast-default-progress-bg, var(--nc-toast-default-progress-bg));
 }
 
 /// Success-Variante.
 @mixin toast-variant-success {
-  --_toast-bg: var(--nc-toast-success-bg);
-  --_toast-color: var(--nc-toast-success-color);
-  --_toast-border: var(--nc-toast-success-border);
-  --_toast-icon-color: var(--nc-toast-success-icon-color);
-  --_toast-progress-bg: var(--nc-toast-success-progress-bg);
+  --_toast-bg: var(--mod-toast-success-bg, var(--nc-toast-success-bg));
+  --_toast-color: var(--mod-toast-success-color, var(--nc-toast-success-color));
+  --_toast-border: var(--mod-toast-success-border, var(--nc-toast-success-border));
+  --_toast-icon-color: var(--mod-toast-success-icon-color, var(--nc-toast-success-icon-color));
+  --_toast-progress-bg: var(--mod-toast-success-progress-bg, var(--nc-toast-success-progress-bg));
 }
 
 /// Warning-Variante.
 @mixin toast-variant-warning {
-  --_toast-bg: var(--nc-toast-warning-bg);
-  --_toast-color: var(--nc-toast-warning-color);
-  --_toast-border: var(--nc-toast-warning-border);
-  --_toast-icon-color: var(--nc-toast-warning-icon-color);
-  --_toast-progress-bg: var(--nc-toast-warning-progress-bg);
+  --_toast-bg: var(--mod-toast-warning-bg, var(--nc-toast-warning-bg));
+  --_toast-color: var(--mod-toast-warning-color, var(--nc-toast-warning-color));
+  --_toast-border: var(--mod-toast-warning-border, var(--nc-toast-warning-border));
+  --_toast-icon-color: var(--mod-toast-warning-icon-color, var(--nc-toast-warning-icon-color));
+  --_toast-progress-bg: var(--mod-toast-warning-progress-bg, var(--nc-toast-warning-progress-bg));
 }
 
 /// Error-Variante.
 @mixin toast-variant-error {
-  --_toast-bg: var(--nc-toast-error-bg);
-  --_toast-color: var(--nc-toast-error-color);
-  --_toast-border: var(--nc-toast-error-border);
-  --_toast-icon-color: var(--nc-toast-error-icon-color);
-  --_toast-progress-bg: var(--nc-toast-error-progress-bg);
+  --_toast-bg: var(--mod-toast-error-bg, var(--nc-toast-error-bg));
+  --_toast-color: var(--mod-toast-error-color, var(--nc-toast-error-color));
+  --_toast-border: var(--mod-toast-error-border, var(--nc-toast-error-border));
+  --_toast-icon-color: var(--mod-toast-error-icon-color, var(--nc-toast-error-icon-color));
+  --_toast-progress-bg: var(--mod-toast-error-progress-bg, var(--nc-toast-error-progress-bg));
 }
 
 /// Info-Variante.
 @mixin toast-variant-info {
-  --_toast-bg: var(--nc-toast-info-bg);
-  --_toast-color: var(--nc-toast-info-color);
-  --_toast-border: var(--nc-toast-info-border);
-  --_toast-icon-color: var(--nc-toast-info-icon-color);
-  --_toast-progress-bg: var(--nc-toast-info-progress-bg);
+  --_toast-bg: var(--mod-toast-info-bg, var(--nc-toast-info-bg));
+  --_toast-color: var(--mod-toast-info-color, var(--nc-toast-info-color));
+  --_toast-border: var(--mod-toast-info-border, var(--nc-toast-info-border));
+  --_toast-icon-color: var(--mod-toast-info-icon-color, var(--nc-toast-info-icon-color));
+  --_toast-progress-bg: var(--mod-toast-info-progress-bg, var(--nc-toast-info-progress-bg));
 }
 
 /// Icon-Element.
@@ -216,8 +216,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-toast-icon-size);
-  height: var(--nc-toast-icon-size);
+  width: var(--mod-toast-icon-size, var(--nc-toast-icon-size));
+  height: var(--mod-toast-icon-size, var(--nc-toast-icon-size));
   flex-shrink: 0;
   color: var(--_toast-icon-color);
   margin-top: 2px; // Optische Ausrichtung mit erster Textzeile
@@ -249,7 +249,7 @@
 @mixin toast-description {
   margin: 0;
   opacity: var(--fnd-opacity-prominent);
-  font-size: var(--nc-toast-description-font-size);
+  font-size: var(--mod-toast-description-font-size, var(--nc-toast-description-font-size));
 }
 
 /// Action-Button (inkl. Undo-Button).
@@ -257,12 +257,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--nc-toast-action-padding);
+  padding: var(--mod-toast-action-padding, var(--nc-toast-action-padding));
   border: 1px solid var(--_toast-border);
-  border-radius: var(--nc-toast-action-radius);
+  border-radius: var(--mod-toast-action-radius, var(--nc-toast-action-radius));
   background: transparent;
   color: inherit;
-  font-size: var(--nc-toast-action-font-size);
+  font-size: var(--mod-toast-action-font-size, var(--nc-toast-action-font-size));
   font-weight: var(--fnd-font-weight-medium);
   cursor: pointer;
   white-space: nowrap;
@@ -283,21 +283,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-toast-close-size);
-  height: var(--nc-toast-close-size);
+  width: var(--mod-toast-close-size, var(--nc-toast-close-size));
+  height: var(--mod-toast-close-size, var(--nc-toast-close-size));
   flex-shrink: 0;
   padding: 0;
   border: none;
   border-radius: var(--fnd-radius-sm);
   background: none;
   color: var(--_toast-color);
-  opacity: var(--nc-toast-close-opacity);
+  opacity: var(--mod-toast-close-opacity, var(--nc-toast-close-opacity));
   cursor: pointer;
   @include transition(opacity background-color, '200');
 
   &:hover {
     opacity: 1;
-    background-color: var(--nc-toast-close-bg-hover);
+    background-color: var(--mod-toast-close-bg-hover, var(--nc-toast-close-bg-hover));
   }
 
   &:focus-visible {
@@ -321,9 +321,9 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  height: var(--nc-toast-progress-height);
-  background-color: var(--_toast-progress-bg, var(--nc-toast-default-progress-bg));
-  border-radius: 0 0 0 var(--nc-toast-radius);
+  height: var(--mod-toast-progress-height, var(--nc-toast-progress-height));
+  background-color: var(--_toast-progress-bg, var(--mod-toast-default-progress-bg, var(--nc-toast-default-progress-bg)));
+  border-radius: 0 0 0 var(--mod-toast-radius, var(--nc-toast-radius));
   // Animation wird per JS-Inline-Style gesteuert (duration)
   // Pause bei Hover/Focus auf dem Toast-Element
   animation-play-state: running;
@@ -338,7 +338,7 @@
 
   // Stack-Transition: Kinder gleiten sanft nach, wenn ein Toast entfernt wird.
   > .nc-toast {
-    transition: transform var(--nc-toast-stack-transition, 200ms ease);
+    transition: transform var(--mod-toast-stack-transition, var(--nc-toast-stack-transition, 200ms ease));
   }
 
   // -- Position: top-left --
@@ -454,56 +454,56 @@
 
   // -- Top-Left: slide from left --
   .nc-toaster--top-left &.is-entering {
-    animation: nc-toast-slide-in-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-left var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--top-left &.is-leaving {
-    animation: nc-toast-slide-out-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-left var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // -- Top-Center: slide from top --
   .nc-toaster--top-center &.is-entering {
-    animation: nc-toast-slide-in-top var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-top var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--top-center &.is-leaving {
-    animation: nc-toast-slide-out-top var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-top var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // -- Top-Right: slide from right --
   .nc-toaster--top-right &.is-entering {
-    animation: nc-toast-slide-in-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-right var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--top-right &.is-leaving {
-    animation: nc-toast-slide-out-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-right var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // -- Bottom-Left: slide from left --
   .nc-toaster--bottom-left &.is-entering {
-    animation: nc-toast-slide-in-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-left var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--bottom-left &.is-leaving {
-    animation: nc-toast-slide-out-left var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-left var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // -- Bottom-Center: slide from bottom --
   .nc-toaster--bottom-center &.is-entering {
-    animation: nc-toast-slide-in-bottom var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-bottom var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--bottom-center &.is-leaving {
-    animation: nc-toast-slide-out-bottom var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-bottom var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // -- Bottom-Right: slide from right --
   .nc-toaster--bottom-right &.is-entering {
-    animation: nc-toast-slide-in-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-in-right var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   .nc-toaster--bottom-right &.is-leaving {
-    animation: nc-toast-slide-out-right var(--nc-toast-animation-duration) var(--nc-toast-animation-easing) forwards;
+    animation: nc-toast-slide-out-right var(--mod-toast-animation-duration, var(--nc-toast-animation-duration)) var(--mod-toast-animation-easing, var(--nc-toast-animation-easing)) forwards;
   }
 
   // ---------------------------------------------------------------------------

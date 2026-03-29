@@ -27,10 +27,10 @@
 .nc-nav__link {
   display: inline-flex;
   align-items: center;
-  gap: var(--nc-nav-mol-link-gap);
-  padding: var(--nc-nav-mol-link-padding-y) var(--nc-nav-mol-link-padding-x);
-  border-radius: var(--nc-nav-mol-link-radius);
-  color: var(--nc-nav-mol-link-color);
+  gap: var(--mod-nav-mol-link-gap, var(--nc-nav-mol-link-gap));
+  padding: var(--mod-nav-mol-link-padding-y, var(--nc-nav-mol-link-padding-y)) var(--mod-nav-mol-link-padding-x, var(--nc-nav-mol-link-padding-x));
+  border-radius: var(--mod-nav-mol-link-radius, var(--nc-nav-mol-link-radius));
+  color: var(--mod-nav-mol-link-color, var(--nc-nav-mol-link-color));
   font-size: inherit;
   font-weight: inherit;
   text-decoration: none;
@@ -38,8 +38,8 @@
   @include transition-quick((background-color, color));
 
   &:hover {
-    background-color: var(--nc-nav-mol-link-hover-bg);
-    color: var(--nc-nav-mol-link-hover-color);
+    background-color: var(--mod-nav-mol-link-hover-bg, var(--nc-nav-mol-link-hover-bg));
+    color: var(--mod-nav-mol-link-hover-color, var(--nc-nav-mol-link-hover-color));
     text-decoration: none;
   }
 
@@ -50,8 +50,8 @@
   // Active / Current-Page Link
   &.is-active,
   &[aria-current='page'] {
-    font-weight: var(--nc-nav-mol-link-active-weight);
-    border-bottom: var(--nc-nav-mol-link-active-width) solid var(--nc-nav-mol-link-active-border);
+    font-weight: var(--mod-nav-mol-link-active-weight, var(--nc-nav-mol-link-active-weight));
+    border-bottom: var(--mod-nav-mol-link-active-width, var(--nc-nav-mol-link-active-width)) solid var(--mod-nav-mol-link-active-border, var(--nc-nav-mol-link-active-border));
   }
 }
 
@@ -242,12 +242,12 @@
   position: relative;
   display: inline-block;
   width: 18px;
-  height: var(--nc-nav-mol-toggle-bar-height);
-  border-radius: var(--nc-nav-mol-toggle-bar-radius);
-  background: var(--nc-nav-mol-toggle-bar-color);
+  height: var(--mod-nav-mol-toggle-bar-height, var(--nc-nav-mol-toggle-bar-height));
+  border-radius: var(--mod-nav-mol-toggle-bar-radius, var(--nc-nav-mol-toggle-bar-radius));
+  background: var(--mod-nav-mol-toggle-bar-color, var(--nc-nav-mol-toggle-bar-color));
   box-shadow:
-    0 calc(-1 * var(--nc-nav-mol-toggle-bar-gap)) 0 var(--nc-nav-mol-toggle-bar-color),
-    0 var(--nc-nav-mol-toggle-bar-gap) 0 var(--nc-nav-mol-toggle-bar-color);
+    0 calc(-1 * var(--mod-nav-mol-toggle-bar-gap, var(--nc-nav-mol-toggle-bar-gap))) 0 var(--mod-nav-mol-toggle-bar-color, var(--nc-nav-mol-toggle-bar-color)),
+    0 var(--mod-nav-mol-toggle-bar-gap, var(--nc-nav-mol-toggle-bar-gap)) 0 var(--mod-nav-mol-toggle-bar-color, var(--nc-nav-mol-toggle-bar-color));
 }
 
 // ---------------------------------------------------------------------------
@@ -256,8 +256,8 @@
 
 .nc-mobile-panel {
   display: none;
-  border-bottom: 1px solid var(--nc-nav-mol-mobile-border);
-  background: var(--nc-nav-mol-mobile-bg);
+  border-bottom: 1px solid var(--mod-nav-mol-mobile-border, var(--nc-nav-mol-mobile-border));
+  background: var(--mod-nav-mol-mobile-bg, var(--nc-nav-mol-mobile-bg));
 }
 
 .nc-header.is-mobile-open .nc-mobile-panel {
@@ -267,7 +267,7 @@
 .nc-mobile-panel__inner {
   padding: 1.5rem 0 2rem;
   display: grid;
-  gap: var(--nc-nav-mol-mobile-gap);
+  gap: var(--mod-nav-mol-mobile-gap, var(--nc-nav-mol-mobile-gap));
 }
 
 .nc-mobile-links {
@@ -280,8 +280,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--nc-nav-mol-mobile-link-padding);
-  border-bottom: 1px solid var(--nc-nav-mol-mobile-link-border);
+  padding: var(--mod-nav-mol-mobile-link-padding, var(--nc-nav-mol-mobile-link-padding));
+  border-bottom: 1px solid var(--mod-nav-mol-mobile-link-border, var(--nc-nav-mol-mobile-link-border));
   background: none;
   border: none;
   font-size: var(--fs-base);
@@ -312,9 +312,9 @@
   display: flex;
   align-items: center;
   gap: var(--fnd-spacing-02);
-  background: var(--nc-nav-mol-lang-bg);
-  border-radius: var(--nc-nav-mol-lang-radius);
-  padding: var(--nc-nav-mol-lang-padding);
+  background: var(--mod-nav-mol-lang-bg, var(--nc-nav-mol-lang-bg));
+  border-radius: var(--mod-nav-mol-lang-radius, var(--nc-nav-mol-lang-radius));
+  padding: var(--mod-nav-mol-lang-padding, var(--nc-nav-mol-lang-padding));
 }
 
 .nc-lang-toggle__label {
@@ -332,9 +332,9 @@
   @include transition-quick((background-color, color, transform));
 
   &.is-active {
-    background: var(--nc-nav-mol-lang-active-bg);
-    color: var(--nc-nav-mol-lang-active-color);
-    border-radius: var(--nc-nav-mol-lang-active-radius);
+    background: var(--mod-nav-mol-lang-active-bg, var(--nc-nav-mol-lang-active-bg));
+    color: var(--mod-nav-mol-lang-active-color, var(--nc-nav-mol-lang-active-color));
+    border-radius: var(--mod-nav-mol-lang-active-radius, var(--nc-nav-mol-lang-active-radius));
     transform: translateY(-1px);
   }
 }

@@ -34,9 +34,9 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--nc-empty-state-padding);
-  gap: var(--nc-empty-state-gap);
-  max-width: var(--nc-empty-state-max-width);
+  padding: var(--mod-empty-state-padding, var(--nc-empty-state-padding));
+  gap: var(--mod-empty-state-gap, var(--nc-empty-state-gap));
+  max-width: var(--mod-empty-state-max-width, var(--nc-empty-state-max-width));
   margin-inline: auto;
 }
 
@@ -52,9 +52,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-empty-state-icon-size);
-    height: var(--nc-empty-state-icon-size);
-    color: var(--nc-empty-state-icon-color);
+    width: var(--mod-empty-state-icon-size, var(--nc-empty-state-icon-size));
+    height: var(--mod-empty-state-icon-size, var(--nc-empty-state-icon-size));
+    color: var(--mod-empty-state-icon-color, var(--nc-empty-state-icon-color));
 
     > svg {
       width: 100%;
@@ -71,17 +71,17 @@
   &__title {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: var(--nc-empty-state-title-size);
-    font-weight: var(--nc-empty-state-title-weight);
-    color: var(--nc-empty-state-title-color);
+    font-size: var(--mod-empty-state-title-size, var(--nc-empty-state-title-size));
+    font-weight: var(--mod-empty-state-title-weight, var(--nc-empty-state-title-weight));
+    color: var(--mod-empty-state-title-color, var(--nc-empty-state-title-color));
     line-height: var(--lh-heading);
   }
 
   // Beschreibung
   &__description {
     margin: 0;
-    font-size: var(--nc-empty-state-desc-size);
-    color: var(--nc-empty-state-desc-color);
+    font-size: var(--mod-empty-state-desc-size, var(--nc-empty-state-desc-size));
+    color: var(--mod-empty-state-desc-color, var(--nc-empty-state-desc-color));
     line-height: var(--lh-body);
     max-width: var(--fnd-prose-max-width);
   }
@@ -90,7 +90,7 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: var(--nc-empty-state-action-gap);
+    gap: var(--mod-empty-state-action-gap, var(--nc-empty-state-action-gap));
     margin-top: var(--fnd-spacing-02);
   }
 

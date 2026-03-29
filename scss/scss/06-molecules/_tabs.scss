@@ -65,12 +65,12 @@
   --nc-tabs-contained-trigger-shadow: var(--fnd-shadow-sm);
 
   // --- Size tokens (reuse button scale) ---
-  --nc-tabs-height-sm: var(--nc-button-height-sm, 32px);
-  --nc-tabs-height-md: var(--nc-button-height-md, 40px);
-  --nc-tabs-height-lg: var(--nc-button-height-lg, 48px);
-  --nc-tabs-font-size-sm: var(--nc-button-font-size-sm, 0.75rem);
-  --nc-tabs-font-size-md: var(--nc-button-font-size-md, 0.875rem);
-  --nc-tabs-font-size-lg: var(--nc-button-font-size-lg, 1rem);
+  --nc-tabs-height-sm: var(--mod-button-height-sm, var(--nc-button-height-sm, 32px));
+  --nc-tabs-height-md: var(--mod-button-height-md, var(--nc-button-height-md, 40px));
+  --nc-tabs-height-lg: var(--mod-button-height-lg, var(--nc-button-height-lg, 48px));
+  --nc-tabs-font-size-sm: var(--mod-button-font-size-sm, var(--nc-button-font-size-sm, 0.75rem));
+  --nc-tabs-font-size-md: var(--mod-button-font-size-md, var(--nc-button-font-size-md, 0.875rem));
+  --nc-tabs-font-size-lg: var(--mod-button-font-size-lg, var(--nc-button-font-size-lg, 1rem));
   --nc-tabs-padding-x-sm: var(--fnd-spacing-03);
   --nc-tabs-padding-x-md: var(--fnd-spacing-04);
   --nc-tabs-padding-x-lg: var(--fnd-spacing-05);
@@ -92,32 +92,32 @@
   // -----------------------------------------------------------------------
   // Private aliases (scoped)
   // -----------------------------------------------------------------------
-  --_tabs-gap: var(--nc-tabs-gap);
-  --_tabs-duration: var(--nc-tabs-transition-duration);
-  --_tabs-trigger-fw: var(--nc-tabs-trigger-font-weight);
-  --_tabs-trigger-fw-active: var(--nc-tabs-trigger-font-weight-active);
-  --_tabs-trigger-color: var(--nc-tabs-trigger-color);
-  --_tabs-trigger-color-hover: var(--nc-tabs-trigger-color-hover);
-  --_tabs-trigger-color-active: var(--nc-tabs-trigger-color-active);
-  --_tabs-trigger-color-disabled: var(--nc-tabs-trigger-color-disabled);
-  --_tabs-disabled-opacity: var(--nc-tabs-trigger-disabled-opacity);
-  --_tabs-line-bc: var(--nc-tabs-line-border-color);
-  --_tabs-line-bw: var(--nc-tabs-line-border-width);
-  --_tabs-line-indicator: var(--nc-tabs-line-indicator-color);
-  --_tabs-contained-bg: var(--nc-tabs-contained-bg);
-  --_tabs-contained-radius: var(--nc-tabs-contained-radius);
-  --_tabs-contained-padding: var(--nc-tabs-contained-padding);
-  --_tabs-contained-trigger-bg: var(--nc-tabs-contained-trigger-bg);
-  --_tabs-contained-trigger-bg-hover: var(--nc-tabs-contained-trigger-bg-hover);
-  --_tabs-contained-trigger-bg-active: var(--nc-tabs-contained-trigger-bg-active);
-  --_tabs-contained-trigger-radius: var(--nc-tabs-contained-trigger-radius);
-  --_tabs-contained-trigger-shadow: var(--nc-tabs-contained-trigger-shadow);
-  --_tabs-height: var(--nc-tabs-height-md);
-  --_tabs-font-size: var(--nc-tabs-font-size-md);
-  --_tabs-padding-x: var(--nc-tabs-padding-x-md);
-  --_tabs-icon-size: var(--nc-tabs-icon-size-md);
-  --_tabs-icon-gap: var(--nc-tabs-icon-gap);
-  --_tabs-scroll-btn-size: var(--nc-tabs-scroll-btn-size);
+  --_tabs-gap: var(--mod-tabs-gap, var(--nc-tabs-gap));
+  --_tabs-duration: var(--mod-tabs-transition-duration, var(--nc-tabs-transition-duration));
+  --_tabs-trigger-fw: var(--mod-tabs-trigger-font-weight, var(--nc-tabs-trigger-font-weight));
+  --_tabs-trigger-fw-active: var(--mod-tabs-trigger-font-weight-active, var(--nc-tabs-trigger-font-weight-active));
+  --_tabs-trigger-color: var(--mod-tabs-trigger-color, var(--nc-tabs-trigger-color));
+  --_tabs-trigger-color-hover: var(--mod-tabs-trigger-color-hover, var(--nc-tabs-trigger-color-hover));
+  --_tabs-trigger-color-active: var(--mod-tabs-trigger-color-active, var(--nc-tabs-trigger-color-active));
+  --_tabs-trigger-color-disabled: var(--mod-tabs-trigger-color-disabled, var(--nc-tabs-trigger-color-disabled));
+  --_tabs-disabled-opacity: var(--mod-tabs-trigger-disabled-opacity, var(--nc-tabs-trigger-disabled-opacity));
+  --_tabs-line-bc: var(--mod-tabs-line-border-color, var(--nc-tabs-line-border-color));
+  --_tabs-line-bw: var(--mod-tabs-line-border-width, var(--nc-tabs-line-border-width));
+  --_tabs-line-indicator: var(--mod-tabs-line-indicator-color, var(--nc-tabs-line-indicator-color));
+  --_tabs-contained-bg: var(--mod-tabs-contained-bg, var(--nc-tabs-contained-bg));
+  --_tabs-contained-radius: var(--mod-tabs-contained-radius, var(--nc-tabs-contained-radius));
+  --_tabs-contained-padding: var(--mod-tabs-contained-padding, var(--nc-tabs-contained-padding));
+  --_tabs-contained-trigger-bg: var(--mod-tabs-contained-trigger-bg, var(--nc-tabs-contained-trigger-bg));
+  --_tabs-contained-trigger-bg-hover: var(--mod-tabs-contained-trigger-bg-hover, var(--nc-tabs-contained-trigger-bg-hover));
+  --_tabs-contained-trigger-bg-active: var(--mod-tabs-contained-trigger-bg-active, var(--nc-tabs-contained-trigger-bg-active));
+  --_tabs-contained-trigger-radius: var(--mod-tabs-contained-trigger-radius, var(--nc-tabs-contained-trigger-radius));
+  --_tabs-contained-trigger-shadow: var(--mod-tabs-contained-trigger-shadow, var(--nc-tabs-contained-trigger-shadow));
+  --_tabs-height: var(--mod-tabs-height-md, var(--nc-tabs-height-md));
+  --_tabs-font-size: var(--mod-tabs-font-size-md, var(--nc-tabs-font-size-md));
+  --_tabs-padding-x: var(--mod-tabs-padding-x-md, var(--nc-tabs-padding-x-md));
+  --_tabs-icon-size: var(--mod-tabs-icon-size-md, var(--nc-tabs-icon-size-md));
+  --_tabs-icon-gap: var(--mod-tabs-icon-gap, var(--nc-tabs-icon-gap));
+  --_tabs-scroll-btn-size: var(--mod-tabs-scroll-btn-size, var(--nc-tabs-scroll-btn-size));
 
   // Block base
   display: block;
@@ -363,17 +363,17 @@
 // =========================================================================
 
 .nc-tabs--sm {
-  --_tabs-height: var(--nc-tabs-height-sm);
-  --_tabs-font-size: var(--nc-tabs-font-size-sm);
-  --_tabs-padding-x: var(--nc-tabs-padding-x-sm);
-  --_tabs-icon-size: var(--nc-tabs-icon-size-sm);
+  --_tabs-height: var(--mod-tabs-height-sm, var(--nc-tabs-height-sm));
+  --_tabs-font-size: var(--mod-tabs-font-size-sm, var(--nc-tabs-font-size-sm));
+  --_tabs-padding-x: var(--mod-tabs-padding-x-sm, var(--nc-tabs-padding-x-sm));
+  --_tabs-icon-size: var(--mod-tabs-icon-size-sm, var(--nc-tabs-icon-size-sm));
 }
 
 .nc-tabs--lg {
-  --_tabs-height: var(--nc-tabs-height-lg);
-  --_tabs-font-size: var(--nc-tabs-font-size-lg);
-  --_tabs-padding-x: var(--nc-tabs-padding-x-lg);
-  --_tabs-icon-size: var(--nc-tabs-icon-size-lg);
+  --_tabs-height: var(--mod-tabs-height-lg, var(--nc-tabs-height-lg));
+  --_tabs-font-size: var(--mod-tabs-font-size-lg, var(--nc-tabs-font-size-lg));
+  --_tabs-padding-x: var(--mod-tabs-padding-x-lg, var(--nc-tabs-padding-x-lg));
+  --_tabs-icon-size: var(--mod-tabs-icon-size-lg, var(--nc-tabs-icon-size-lg));
 }
 
 // =========================================================================
@@ -442,16 +442,16 @@
   min-height: var(--_tabs-height);
   padding: 0;
   border: none;
-  background: var(--nc-tabs-scroll-btn-bg);
-  color: var(--nc-tabs-scroll-btn-color);
+  background: var(--mod-tabs-scroll-btn-bg, var(--nc-tabs-scroll-btn-bg));
+  color: var(--mod-tabs-scroll-btn-color, var(--nc-tabs-scroll-btn-color));
   cursor: pointer;
   z-index: var(--fnd-z-base);
   transition: color var(--_tabs-duration) ease,
               background-color var(--_tabs-duration) ease;
 
   &:hover:not(:disabled) {
-    background: var(--nc-tabs-scroll-btn-bg-hover);
-    color: var(--nc-tabs-scroll-btn-color-hover);
+    background: var(--mod-tabs-scroll-btn-bg-hover, var(--nc-tabs-scroll-btn-bg-hover));
+    color: var(--mod-tabs-scroll-btn-color-hover, var(--nc-tabs-scroll-btn-color-hover));
   }
 
   &:focus-visible {
@@ -459,7 +459,7 @@
   }
 
   &:disabled {
-    color: var(--nc-tabs-scroll-btn-color-disabled);
+    color: var(--mod-tabs-scroll-btn-color-disabled, var(--nc-tabs-scroll-btn-color-disabled));
     opacity: var(--fnd-opacity-disabled);
     cursor: default;
   }
@@ -477,11 +477,11 @@
 
 // Scroll-Button mit Schatten-Trenner
 .nc-tabs__scroll-btn--start {
-  border-inline-end: 1px solid var(--nc-tabs-scroll-btn-border);
+  border-inline-end: 1px solid var(--mod-tabs-scroll-btn-border, var(--nc-tabs-scroll-btn-border));
 }
 
 .nc-tabs__scroll-btn--end {
-  border-inline-start: 1px solid var(--nc-tabs-scroll-btn-border);
+  border-inline-start: 1px solid var(--mod-tabs-scroll-btn-border, var(--nc-tabs-scroll-btn-border));
 }
 
 // Scrollable + Line: Kein border-bottom auf Container
@@ -515,7 +515,7 @@
     border-color: transparent;
 
     &:hover:not(:disabled) {
-      background: var(--nc-tabs-contained-trigger-bg-hover);
+      background: var(--mod-tabs-contained-trigger-bg-hover, var(--nc-tabs-contained-trigger-bg-hover));
     }
   }
 }

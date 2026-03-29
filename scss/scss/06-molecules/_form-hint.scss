@@ -31,9 +31,9 @@
   display: flex;
   align-items: flex-start;
   gap: var(--fnd-spacing-01);
-  margin-block: var(--nc-form-hint-gap) var(--fnd-spacing-02);
-  font-size: var(--nc-form-hint-font-size);
-  color: var(--nc-form-hint-color);
+  margin-block: var(--mod-form-hint-gap, var(--nc-form-hint-gap)) var(--fnd-spacing-02);
+  font-size: var(--mod-form-hint-font-size, var(--nc-form-hint-font-size));
+  color: var(--mod-form-hint-color, var(--nc-form-hint-color));
   line-height: 1.4;
 }
 
@@ -58,7 +58,7 @@
 
 /// Inline-Link im Hint (z.B. "Mehr erfahren", "Passwort vergessen?").
 @mixin form-hint-link {
-  color: var(--nc-form-hint-link-color);
+  color: var(--mod-form-hint-link-color, var(--nc-form-hint-link-color));
   font-size: inherit;
   font-weight: var(--fnd-font-weight-medium);
   text-decoration: underline;
@@ -82,7 +82,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--nc-form-hint-list-gap);
+  gap: var(--mod-form-hint-list-gap, var(--nc-form-hint-list-gap));
 
   > li {
     line-height: 1.4;
@@ -115,6 +115,6 @@
   // -- Variant: Muted (dezentere Farbe fuer lange Hilfetexte) --
 
   &--muted {
-    color: var(--nc-form-hint-muted-color);
+    color: var(--mod-form-hint-muted-color, var(--nc-form-hint-muted-color));
   }
 }

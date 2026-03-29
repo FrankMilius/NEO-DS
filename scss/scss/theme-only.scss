@@ -1,0 +1,32 @@
+// ==========================================================================
+// Theme-Only Entry Point
+// ==========================================================================
+// Kompiliert NUR die Token-Deklarationen und Theme-Klassen.
+// Enthält KEINE Komponentenstyles, Layout, Resets oder Utilities.
+//
+// Zweck:
+//   - White-Label-Kunden laden styles.css (Struktur) + eigene Theme-Datei
+//   - Theme Configurator exportiert angepasste Token-Sets
+//   - CSS-Diff zwischen Themes analysierbar
+//
+// Build: sass scss/scss/theme-only.scss:styles-theme.css --style=compressed
+// ==========================================================================
+
+// Foundation Tokens (Spacing, Typography, Radii, Border, Shadow, Opacity, etc.)
+@use '00-settings/spacing';
+@use '00-settings/size';
+@use '00-settings/typography';
+@use '00-settings/radii';
+@use '00-settings/border';
+@use '00-settings/layout';
+@use '00-settings/shadow';
+@use '00-settings/opacity';
+@use '00-settings/a11y';
+@use '00-settings/motion';
+@use '00-settings/state-mixins';
+
+// Farb-Primitiven + Semantische Maps + Theme-Klassen
+@use '00-settings/colors';
+
+// Component Tokens (--nc-* Deklarationen in :root)
+@use '00-settings/component-tokens';

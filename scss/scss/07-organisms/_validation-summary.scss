@@ -48,11 +48,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-03);
-  padding: var(--nc-validation-summary-padding);
-  border: 1px solid var(--nc-validation-summary-border);
-  border-radius: var(--nc-validation-summary-radius);
-  background-color: var(--nc-validation-summary-bg);
-  color: var(--nc-validation-summary-color);
+  padding: var(--mod-validation-summary-padding, var(--nc-validation-summary-padding));
+  border: 1px solid var(--mod-validation-summary-border, var(--nc-validation-summary-border));
+  border-radius: var(--mod-validation-summary-radius, var(--nc-validation-summary-radius));
+  background-color: var(--mod-validation-summary-bg, var(--nc-validation-summary-bg));
+  color: var(--mod-validation-summary-color, var(--nc-validation-summary-color));
 
   // Focus fuer JS-gesteuerten Fokus
   &:focus-visible {
@@ -64,7 +64,7 @@
 @mixin validation-summary-icon {
   width: 20px;
   height: 20px;
-  color: var(--nc-validation-summary-color);
+  color: var(--mod-validation-summary-color, var(--nc-validation-summary-color));
   flex-shrink: 0;
 
   > svg {
@@ -78,7 +78,7 @@
   display: flex;
   align-items: center;
   gap: var(--fnd-spacing-02);
-  font-size: var(--nc-input-font-size-md);
+  font-size: var(--mod-input-font-size-md, var(--nc-input-font-size-md));
   font-weight: var(--fnd-font-weight-semibold);
   color: inherit;
   line-height: 1.5;
@@ -98,7 +98,7 @@
 /// Einzelner Fehler-Eintrag.
 /// Kann als <a href="#field-id"> oder als <li> verwendet werden.
 @mixin validation-summary-item {
-  font-size: var(--nc-input-font-size-sm);
+  font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
   color: inherit;
   line-height: 1.5;
 

@@ -43,16 +43,16 @@
 
 @mixin skeleton-base {
   display: block;
-  background-color: var(--nc-skeleton-bg);
+  background-color: var(--mod-skeleton-bg, var(--nc-skeleton-bg));
   background-image: linear-gradient(
     90deg,
-    var(--nc-skeleton-bg) 25%,
-    var(--nc-skeleton-shimmer) 50%,
-    var(--nc-skeleton-bg) 75%
+    var(--mod-skeleton-bg, var(--nc-skeleton-bg)) 25%,
+    var(--mod-skeleton-shimmer, var(--nc-skeleton-shimmer)) 50%,
+    var(--mod-skeleton-bg, var(--nc-skeleton-bg)) 75%
   );
   background-size: 200% 100%;
-  animation: nc-skeleton-shimmer var(--nc-skeleton-duration) var(--nc-skeleton-ease) infinite;
-  border-radius: var(--nc-skeleton-radius);
+  animation: nc-skeleton-shimmer var(--mod-skeleton-duration, var(--nc-skeleton-duration)) var(--mod-skeleton-ease, var(--nc-skeleton-ease)) infinite;
+  border-radius: var(--mod-skeleton-radius, var(--nc-skeleton-radius));
 
   // Kein Text, kein Inhalt sichtbar
   color: transparent;
@@ -68,13 +68,13 @@
 
 @mixin skeleton-size($size: 'sm') {
   @if $size == 'xs' {
-    height: var(--nc-skeleton-height-xs);
+    height: var(--mod-skeleton-height-xs, var(--nc-skeleton-height-xs));
   } @else if $size == 'sm' {
-    height: var(--nc-skeleton-height-sm);
+    height: var(--mod-skeleton-height-sm, var(--nc-skeleton-height-sm));
   } @else if $size == 'md' {
-    height: var(--nc-skeleton-height-md);
+    height: var(--mod-skeleton-height-md, var(--nc-skeleton-height-md));
   } @else if $size == 'lg' {
-    height: var(--nc-skeleton-height-lg);
+    height: var(--mod-skeleton-height-lg, var(--nc-skeleton-height-lg));
   }
 }
 
@@ -101,16 +101,16 @@
 
   // Variante: Circle (Avatar-Platzhalter)
   &--circle {
-    width: var(--nc-skeleton-height-lg);
-    height: var(--nc-skeleton-height-lg);
-    border-radius: var(--nc-skeleton-radius-circle);
+    width: var(--mod-skeleton-height-lg, var(--nc-skeleton-height-lg));
+    height: var(--mod-skeleton-height-lg, var(--nc-skeleton-height-lg));
+    border-radius: var(--mod-skeleton-radius-circle, var(--nc-skeleton-radius-circle));
   }
 
   // Variante: Rect (Flaeche, z.B. Bild/Card)
   &--rect {
     width: 100%;
     min-height: 8rem;
-    border-radius: var(--nc-skeleton-radius);
+    border-radius: var(--mod-skeleton-radius, var(--nc-skeleton-radius));
   }
 }
 

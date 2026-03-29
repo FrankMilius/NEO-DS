@@ -47,11 +47,11 @@
 
   // -- Item --
   &__item {
-    border-block-end: 1px solid var(--nc-accordion-border);
+    border-block-end: 1px solid var(--mod-accordion-border, var(--nc-accordion-border));
     overflow: visible;
 
     &:first-child {
-      border-block-start: 1px solid var(--nc-accordion-border);
+      border-block-start: 1px solid var(--mod-accordion-border, var(--nc-accordion-border));
     }
   }
 
@@ -61,9 +61,9 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: var(--nc-accordion-padding);
-    font-weight: var(--nc-accordion-trigger-font-weight);
-    color: var(--nc-accordion-trigger-color);
+    padding: var(--mod-accordion-padding, var(--nc-accordion-padding));
+    font-weight: var(--mod-accordion-trigger-font-weight, var(--nc-accordion-trigger-font-weight));
+    color: var(--mod-accordion-trigger-color, var(--nc-accordion-trigger-color));
     cursor: pointer;
     list-style: none;
     border: none;
@@ -77,7 +77,7 @@
     }
 
     &:hover:not([disabled]):not([aria-disabled='true']) {
-      background-color: var(--nc-accordion-trigger-hover-bg);
+      background-color: var(--mod-accordion-trigger-hover-bg, var(--nc-accordion-trigger-hover-bg));
     }
 
     &:focus-visible {
@@ -97,10 +97,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-accordion-icon-size);
-    height: var(--nc-accordion-icon-size);
+    width: var(--mod-accordion-icon-size, var(--nc-accordion-icon-size));
+    height: var(--mod-accordion-icon-size, var(--nc-accordion-icon-size));
     flex-shrink: 0;
-    color: var(--nc-accordion-icon-color);
+    color: var(--mod-accordion-icon-color, var(--nc-accordion-icon-color));
     @include transition(transform, '200');
 
     > svg {
@@ -124,7 +124,7 @@
   &__content {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows var(--nc-accordion-transition-duration) ease;
+    transition: grid-template-rows var(--mod-accordion-transition-duration, var(--nc-accordion-transition-duration)) ease;
 
     [open] > &,
     &.is-open {
@@ -134,10 +134,10 @@
 
   &__content-inner {
     overflow: hidden;
-    padding-inline: var(--nc-accordion-padding);
-    padding-block-end: var(--nc-accordion-padding);
-    color: var(--nc-accordion-content-color);
-    font-size: var(--nc-accordion-content-font-size);
+    padding-inline: var(--mod-accordion-padding, var(--nc-accordion-padding));
+    padding-block-end: var(--mod-accordion-padding, var(--nc-accordion-padding));
+    color: var(--mod-accordion-content-color, var(--nc-accordion-content-color));
+    font-size: var(--mod-accordion-content-font-size, var(--nc-accordion-content-font-size));
     line-height: 1.5;
 
     // Erstes Kind: Abstand zum Trigger
@@ -148,9 +148,9 @@
 
   // -- Media Slot --
   &__media {
-    border-radius: var(--nc-accordion-media-radius);
+    border-radius: var(--mod-accordion-media-radius, var(--nc-accordion-media-radius));
     overflow: hidden;
-    max-height: var(--nc-accordion-media-max-height);
+    max-height: var(--mod-accordion-media-max-height, var(--nc-accordion-media-max-height));
 
     > img,
     > video {
@@ -185,33 +185,33 @@
   }
 
   &--ghost &__trigger:hover:not([disabled]) {
-    background-color: var(--nc-accordion-trigger-hover-bg);
-    border-radius: var(--nc-accordion-item-radius);
+    background-color: var(--mod-accordion-trigger-hover-bg, var(--nc-accordion-trigger-hover-bg));
+    border-radius: var(--mod-accordion-item-radius, var(--nc-accordion-item-radius));
   }
 
   // Separated: Items als eigenstaendige Cards mit Gap
   &--separated {
-    gap: var(--nc-accordion-item-gap);
+    gap: var(--mod-accordion-item-gap, var(--nc-accordion-item-gap));
   }
 
   &--separated &__item {
-    border: 1px solid var(--nc-accordion-border);
-    border-radius: var(--nc-accordion-item-radius);
-    background: var(--nc-accordion-item-bg);
-    box-shadow: var(--nc-accordion-item-shadow);
+    border: 1px solid var(--mod-accordion-border, var(--nc-accordion-border));
+    border-radius: var(--mod-accordion-item-radius, var(--nc-accordion-item-radius));
+    background: var(--mod-accordion-item-bg, var(--nc-accordion-item-bg));
+    box-shadow: var(--mod-accordion-item-shadow, var(--nc-accordion-item-shadow));
 
     &:first-child {
-      border-block-start: 1px solid var(--nc-accordion-border);
+      border-block-start: 1px solid var(--mod-accordion-border, var(--nc-accordion-border));
     }
   }
 
   &--separated &__trigger {
-    border-radius: var(--nc-accordion-item-radius);
+    border-radius: var(--mod-accordion-item-radius, var(--nc-accordion-item-radius));
   }
 
   // Elevated: Geoeffnetes Item hebt sich visuell hervor
   &--elevated &__item[open] {
-    box-shadow: var(--nc-accordion-elevated-shadow);
+    box-shadow: var(--mod-accordion-elevated-shadow, var(--nc-accordion-elevated-shadow));
     z-index: 1;
     position: relative;
   }
@@ -222,23 +222,23 @@
 
   // Compact
   &--compact &__trigger {
-    padding: var(--nc-accordion-padding-compact);
+    padding: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
   }
 
   &--compact &__content-inner {
-    padding-inline: var(--nc-accordion-padding-compact);
-    padding-block-end: var(--nc-accordion-padding-compact);
-    font-size: var(--nc-accordion-content-font-size-compact);
+    padding-inline: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
+    padding-block-end: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
+    font-size: var(--mod-accordion-content-font-size-compact, var(--nc-accordion-content-font-size-compact));
   }
 
   // Spacious
   &--spacious &__trigger {
-    padding: var(--nc-accordion-padding-spacious);
+    padding: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
   }
 
   &--spacious &__content-inner {
-    padding-inline: var(--nc-accordion-padding-spacious);
-    padding-block-end: var(--nc-accordion-padding-spacious);
+    padding-inline: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
+    padding-block-end: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -249,11 +249,11 @@
   &--media-top &__content-inner {
     display: flex;
     flex-direction: column;
-    gap: var(--nc-accordion-media-gap);
+    gap: var(--mod-accordion-media-gap, var(--nc-accordion-media-gap));
   }
 
   &--media-top &__media {
-    border-radius: var(--nc-accordion-media-radius);
+    border-radius: var(--mod-accordion-media-radius, var(--nc-accordion-media-radius));
     width: 100%;
   }
 
@@ -261,7 +261,7 @@
   &--media-side &__content-inner {
     display: flex;
     flex-direction: row;
-    gap: var(--nc-accordion-media-gap);
+    gap: var(--mod-accordion-media-gap, var(--nc-accordion-media-gap));
     align-items: flex-start;
   }
 
@@ -269,7 +269,7 @@
     flex-shrink: 0;
     width: 120px;
     max-height: 80px;
-    border-radius: var(--nc-accordion-media-radius);
+    border-radius: var(--mod-accordion-media-radius, var(--nc-accordion-media-radius));
   }
 
   // ═══════════════════════════════════════════════════════════════

@@ -56,18 +56,18 @@
   top: 100%;
   left: 0;
   right: 0;
-  z-index: var(--nc-search-results-z-index);
+  z-index: var(--mod-search-results-z-index, var(--nc-search-results-z-index));
   margin-top: var(--fnd-spacing-01);
-  max-height: var(--nc-search-results-max-height);
+  max-height: var(--mod-search-results-max-height, var(--nc-search-results-max-height));
   overflow-y: auto;
-  padding: var(--nc-search-results-padding);
-  background-color: var(--nc-search-results-bg);
-  border: var(--nc-search-results-border-width) solid var(--nc-search-results-border);
-  border-radius: var(--nc-search-results-radius);
-  box-shadow: var(--nc-search-results-shadow);
+  padding: var(--mod-search-results-padding, var(--nc-search-results-padding));
+  background-color: var(--mod-search-results-bg, var(--nc-search-results-bg));
+  border: var(--mod-search-results-border-width, var(--nc-search-results-border-width)) solid var(--mod-search-results-border, var(--nc-search-results-border));
+  border-radius: var(--mod-search-results-radius, var(--nc-search-results-radius));
+  box-shadow: var(--mod-search-results-shadow, var(--nc-search-results-shadow));
 
   // Eingangsanimation
-  animation: fnd-dropdown-enter var(--nc-search-results-animation)
+  animation: fnd-dropdown-enter var(--mod-search-results-animation, var(--nc-search-results-animation))
              var(--fnd-motion-ease-ease-out) forwards;
 
   @include reduced-motion {
@@ -80,15 +80,15 @@
 @mixin search-item-base {
   display: flex;
   align-items: center;
-  gap: var(--nc-search-item-gap);
+  gap: var(--mod-search-item-gap, var(--nc-search-item-gap));
   width: 100%;
-  min-height: var(--nc-search-item-height);
-  padding: var(--nc-search-item-padding);
+  min-height: var(--mod-search-item-height, var(--nc-search-item-height));
+  padding: var(--mod-search-item-padding, var(--nc-search-item-padding));
   border: none;
-  border-radius: var(--nc-search-item-radius);
+  border-radius: var(--mod-search-item-radius, var(--nc-search-item-radius));
   background: none;
-  color: var(--nc-search-item-color);
-  font-size: var(--nc-search-item-font-size);
+  color: var(--mod-search-item-color, var(--nc-search-item-color));
+  font-size: var(--mod-search-item-font-size, var(--nc-search-item-font-size));
   text-decoration: none;
   text-align: left;
   cursor: pointer;
@@ -96,7 +96,7 @@
 
   &:hover,
   &[aria-selected='true'] {
-    background-color: var(--nc-search-item-bg-hover);
+    background-color: var(--mod-search-item-bg-hover, var(--nc-search-item-bg-hover));
   }
 
   &:focus-visible {
@@ -112,8 +112,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: var(--nc-search-width);
-  max-width: var(--nc-search-max-width);
+  width: var(--mod-search-width, var(--nc-search-width));
+  max-width: var(--mod-search-max-width, var(--nc-search-max-width));
 
   // -- Input-Wrapper (Icon + Input + Shortcut) --
 
@@ -133,8 +133,8 @@
     color: var(--fnd-color-text-tertiary);
 
     > svg {
-      width: var(--nc-search-item-icon-size);
-      height: var(--nc-search-item-icon-size);
+      width: var(--mod-search-item-icon-size, var(--nc-search-item-icon-size));
+      height: var(--mod-search-item-icon-size, var(--nc-search-item-icon-size));
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -146,7 +146,7 @@
   // Input (nutzt nc-input Tokens, extra padding links fuer Icon)
   &__input {
     width: 100%;
-    padding-inline-start: calc(var(--fnd-spacing-03) + var(--nc-search-item-icon-size) + var(--fnd-spacing-02));
+    padding-inline-start: calc(var(--fnd-spacing-03) + var(--mod-search-item-icon-size, var(--nc-search-item-icon-size)) + var(--fnd-spacing-02));
   }
 
   // Shortcut-Hint (rechts im Input, z.B. "⌘K")
@@ -156,8 +156,8 @@
     display: flex;
     align-items: center;
     pointer-events: none;
-    color: var(--nc-search-shortcut-color);
-    font-size: var(--nc-search-shortcut-size);
+    color: var(--mod-search-shortcut-color, var(--nc-search-shortcut-color));
+    font-size: var(--mod-search-shortcut-size, var(--nc-search-shortcut-size));
     font-family: var(--font-mono);
   }
 
@@ -174,17 +174,17 @@
   // -- Ergebnis-Gruppe --
 
   &__group + &__group {
-    border-top: var(--nc-search-results-border-width) solid var(--nc-search-results-border);
+    border-top: var(--mod-search-results-border-width, var(--nc-search-results-border-width)) solid var(--mod-search-results-border, var(--nc-search-results-border));
     margin-top: var(--fnd-spacing-01);
     padding-top: var(--fnd-spacing-01);
   }
 
   &__group-label {
     display: block;
-    padding: var(--nc-search-group-label-padding);
-    font-size: var(--nc-search-group-label-size);
-    font-weight: var(--nc-search-group-label-weight);
-    color: var(--nc-search-group-label-color);
+    padding: var(--mod-search-group-label-padding, var(--nc-search-group-label-padding));
+    font-size: var(--mod-search-group-label-size, var(--nc-search-group-label-size));
+    font-weight: var(--mod-search-group-label-weight, var(--nc-search-group-label-weight));
+    color: var(--mod-search-group-label-color, var(--nc-search-group-label-color));
     text-transform: uppercase;
     letter-spacing: 0.05em;
     user-select: none;
@@ -200,10 +200,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-search-item-icon-size);
-    height: var(--nc-search-item-icon-size);
+    width: var(--mod-search-item-icon-size, var(--nc-search-item-icon-size));
+    height: var(--mod-search-item-icon-size, var(--nc-search-item-icon-size));
     flex-shrink: 0;
-    color: var(--nc-search-item-icon-color);
+    color: var(--mod-search-item-icon-color, var(--nc-search-item-icon-color));
 
     > svg {
       width: 100%;
@@ -226,8 +226,8 @@
 
   // Treffer-Highlight
   &__highlight {
-    background-color: var(--nc-search-highlight-bg);
-    color: var(--nc-search-highlight-color);
+    background-color: var(--mod-search-highlight-bg, var(--nc-search-highlight-bg));
+    color: var(--mod-search-highlight-color, var(--nc-search-highlight-color));
     padding: 0 1px;
     border-radius: var(--fnd-radius-xs);
   }
@@ -268,13 +268,13 @@
   &__scope-trigger {
     display: inline-flex;
     align-items: center;
-    gap: var(--nc-search-scope-gap);
-    padding: var(--nc-search-scope-padding);
-    background-color: var(--nc-search-scope-bg);
-    color: var(--nc-search-scope-color);
-    border: 1px solid var(--nc-search-scope-border);
-    border-radius: var(--nc-search-scope-radius);
-    font-size: var(--nc-search-scope-font-size);
+    gap: var(--mod-search-scope-gap, var(--nc-search-scope-gap));
+    padding: var(--mod-search-scope-padding, var(--nc-search-scope-padding));
+    background-color: var(--mod-search-scope-bg, var(--nc-search-scope-bg));
+    color: var(--mod-search-scope-color, var(--nc-search-scope-color));
+    border: 1px solid var(--mod-search-scope-border, var(--nc-search-scope-border));
+    border-radius: var(--mod-search-scope-radius, var(--nc-search-scope-radius));
+    font-size: var(--mod-search-scope-font-size, var(--nc-search-scope-font-size));
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
@@ -305,15 +305,15 @@
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: var(--nc-search-results-z-index);
+    z-index: var(--mod-search-results-z-index, var(--nc-search-results-z-index));
     margin-top: var(--fnd-spacing-01);
     min-width: 180px;
     padding: var(--fnd-spacing-01);
-    background-color: var(--nc-search-results-bg);
-    border: var(--nc-search-results-border-width) solid var(--nc-search-results-border);
-    border-radius: var(--nc-search-results-radius);
-    box-shadow: var(--nc-search-results-shadow);
-    animation: fnd-dropdown-enter var(--nc-search-results-animation)
+    background-color: var(--mod-search-results-bg, var(--nc-search-results-bg));
+    border: var(--mod-search-results-border-width, var(--nc-search-results-border-width)) solid var(--mod-search-results-border, var(--nc-search-results-border));
+    border-radius: var(--mod-search-results-radius, var(--nc-search-results-radius));
+    box-shadow: var(--mod-search-results-shadow, var(--nc-search-results-shadow));
+    animation: fnd-dropdown-enter var(--mod-search-results-animation, var(--nc-search-results-animation))
                var(--fnd-motion-ease-ease-out) forwards;
 
     @include reduced-motion {
@@ -328,7 +328,7 @@
   // Scope-Menu Item (wiederverwendet search-item-base Mixin)
   &__scope-item {
     @include search-item-base;
-    font-size: var(--nc-search-scope-font-size);
+    font-size: var(--mod-search-scope-font-size, var(--nc-search-scope-font-size));
     min-height: 32px;
   }
 
@@ -344,9 +344,9 @@
     bottom: 0;
     display: flex;
     align-items: center;
-    padding-inline-start: calc(var(--fnd-spacing-03) + var(--nc-search-item-icon-size) + var(--fnd-spacing-02));
+    padding-inline-start: calc(var(--fnd-spacing-03) + var(--mod-search-item-icon-size, var(--nc-search-item-icon-size)) + var(--fnd-spacing-02));
     padding-inline-end: var(--fnd-spacing-03);
-    color: var(--nc-search-ghost-color);
+    color: var(--mod-search-ghost-color, var(--nc-search-ghost-color));
     font-size: inherit;
     font-family: inherit;
     pointer-events: none;
@@ -361,8 +361,8 @@
 
   &--minimal {
     .nc-search__input {
-      background-color: var(--nc-search-minimal-bg);
-      border-color: var(--nc-search-minimal-border);
+      background-color: var(--mod-search-minimal-bg, var(--nc-search-minimal-bg));
+      border-color: var(--mod-search-minimal-border, var(--nc-search-minimal-border));
 
       &:hover {
         background-color: var(--fnd-color-background-secondary);
@@ -370,7 +370,7 @@
 
       &:focus,
       &:focus-visible {
-        border-color: var(--nc-search-minimal-border-focus);
+        border-color: var(--mod-search-minimal-border-focus, var(--nc-search-minimal-border-focus));
         background-color: var(--fnd-color-background-base);
       }
     }
@@ -382,23 +382,23 @@
 
   &--xl {
     .nc-search__input {
-      height: var(--nc-search-xl-height);
-      font-size: var(--nc-search-xl-font-size);
-      border-radius: var(--nc-search-xl-radius);
-      box-shadow: var(--nc-search-xl-shadow);
+      height: var(--mod-search-xl-height, var(--nc-search-xl-height));
+      font-size: var(--mod-search-xl-font-size, var(--nc-search-xl-font-size));
+      border-radius: var(--mod-search-xl-radius, var(--nc-search-xl-radius));
+      box-shadow: var(--mod-search-xl-shadow, var(--nc-search-xl-shadow));
     }
 
     .nc-search__icon > svg {
-      width: var(--nc-search-xl-icon-size);
-      height: var(--nc-search-xl-icon-size);
+      width: var(--mod-search-xl-icon-size, var(--nc-search-xl-icon-size));
+      height: var(--mod-search-xl-icon-size, var(--nc-search-xl-icon-size));
     }
 
     .nc-search__ghost {
-      font-size: var(--nc-search-xl-font-size);
+      font-size: var(--mod-search-xl-font-size, var(--nc-search-xl-font-size));
     }
 
     .nc-search__results {
-      border-radius: var(--nc-search-xl-radius);
+      border-radius: var(--mod-search-xl-radius, var(--nc-search-xl-radius));
     }
   }
 
@@ -417,27 +417,27 @@
     align-items: flex-start;
     justify-content: center;
     padding-top: 15vh;
-    background-color: var(--nc-search-command-overlay-bg);
+    background-color: var(--mod-search-command-overlay-bg, var(--nc-search-command-overlay-bg));
     width: 100%;
     max-width: 100%;
 
     .nc-search__input-wrapper {
-      width: var(--nc-search-command-max-width);
+      width: var(--mod-search-command-max-width, var(--nc-search-command-max-width));
       max-width: 90vw;
     }
 
     .nc-search__input {
-      border-radius: var(--nc-search-command-radius);
-      box-shadow: var(--nc-search-command-shadow);
+      border-radius: var(--mod-search-command-radius, var(--nc-search-command-radius));
+      box-shadow: var(--mod-search-command-shadow, var(--nc-search-command-shadow));
     }
 
     .nc-search__results {
-      width: var(--nc-search-command-max-width);
+      width: var(--mod-search-command-max-width, var(--nc-search-command-max-width));
       max-width: 90vw;
       left: 50%;
       transform: translateX(-50%);
-      border-radius: var(--nc-search-command-radius);
-      box-shadow: var(--nc-search-command-shadow);
+      border-radius: var(--mod-search-command-radius, var(--nc-search-command-radius));
+      box-shadow: var(--mod-search-command-shadow, var(--nc-search-command-shadow));
     }
 
     // Schliesst bei Klick auf Overlay

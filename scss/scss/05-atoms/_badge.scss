@@ -36,16 +36,16 @@
   @include static-surface-base;
 
   // Token-Mapping via private Surface-Properties
-  --_surface-bg: var(--nc-badge-default-bg);
-  --_surface-color: var(--nc-badge-default-color);
-  --_surface-border-color: var(--nc-badge-default-border);
-  --_surface-radius: var(--nc-badge-radius);
-  --_surface-font-size: var(--nc-badge-font-size-md);
-  --_surface-font-weight: var(--nc-badge-font-weight);
-  --_surface-gap: var(--nc-badge-gap);
-  --_surface-border-width: var(--nc-badge-border-width);
-  letter-spacing: var(--nc-badge-letter-spacing);
-  line-height: var(--nc-badge-line-height);
+  --_surface-bg: var(--mod-badge-default-bg, var(--nc-badge-default-bg));
+  --_surface-color: var(--mod-badge-default-color, var(--nc-badge-default-color));
+  --_surface-border-color: var(--mod-badge-default-border, var(--nc-badge-default-border));
+  --_surface-radius: var(--mod-badge-radius, var(--nc-badge-radius));
+  --_surface-font-size: var(--mod-badge-font-size-md, var(--nc-badge-font-size-md));
+  --_surface-font-weight: var(--mod-badge-font-weight, var(--nc-badge-font-weight));
+  --_surface-gap: var(--mod-badge-gap, var(--nc-badge-gap));
+  --_surface-border-width: var(--mod-badge-border-width, var(--nc-badge-border-width));
+  letter-spacing: var(--mod-badge-letter-spacing, var(--nc-badge-letter-spacing));
+  line-height: var(--mod-badge-line-height, var(--nc-badge-line-height));
 
   // Default size: md
   @include badge-size('md');
@@ -53,12 +53,12 @@
 
 @mixin badge-size($size: 'md') {
   @if $size == 'sm' {
-    min-height: var(--nc-badge-height-sm);
-    padding: 0 var(--nc-badge-padding-x-sm);
-    font-size: var(--nc-badge-font-size-sm);
+    min-height: var(--mod-badge-height-sm, var(--nc-badge-height-sm));
+    padding: 0 var(--mod-badge-padding-x-sm, var(--nc-badge-padding-x-sm));
+    font-size: var(--mod-badge-font-size-sm, var(--nc-badge-font-size-sm));
   } @else if $size == 'md' {
-    min-height: var(--nc-badge-height-md);
-    padding: var(--nc-badge-padding-y) var(--nc-badge-padding-x-md);
+    min-height: var(--mod-badge-height-md, var(--nc-badge-height-md));
+    padding: var(--mod-badge-padding-y, var(--nc-badge-padding-y)) var(--mod-badge-padding-x-md, var(--nc-badge-padding-x-md));
   }
 }
 
@@ -67,39 +67,39 @@
 // ---------------------------------------------------------------------------
 
 @mixin badge-variant-secondary {
-  --_surface-bg: var(--nc-badge-secondary-bg);
-  --_surface-color: var(--nc-badge-secondary-color);
-  --_surface-border-color: var(--nc-badge-secondary-border);
+  --_surface-bg: var(--mod-badge-secondary-bg, var(--nc-badge-secondary-bg));
+  --_surface-color: var(--mod-badge-secondary-color, var(--nc-badge-secondary-color));
+  --_surface-border-color: var(--mod-badge-secondary-border, var(--nc-badge-secondary-border));
 }
 
 @mixin badge-variant-outline {
-  --_surface-bg: var(--nc-badge-outline-bg);
-  --_surface-color: var(--nc-badge-outline-color);
-  --_surface-border-color: var(--nc-badge-outline-border);
+  --_surface-bg: var(--mod-badge-outline-bg, var(--nc-badge-outline-bg));
+  --_surface-color: var(--mod-badge-outline-color, var(--nc-badge-outline-color));
+  --_surface-border-color: var(--mod-badge-outline-border, var(--nc-badge-outline-border));
 }
 
 @mixin badge-variant-success {
-  --_surface-bg: var(--nc-badge-success-bg);
-  --_surface-color: var(--nc-badge-success-color);
-  --_surface-border-color: var(--nc-badge-success-border);
+  --_surface-bg: var(--mod-badge-success-bg, var(--nc-badge-success-bg));
+  --_surface-color: var(--mod-badge-success-color, var(--nc-badge-success-color));
+  --_surface-border-color: var(--mod-badge-success-border, var(--nc-badge-success-border));
 }
 
 @mixin badge-variant-warning {
-  --_surface-bg: var(--nc-badge-warning-bg);
-  --_surface-color: var(--nc-badge-warning-color);
-  --_surface-border-color: var(--nc-badge-warning-border);
+  --_surface-bg: var(--mod-badge-warning-bg, var(--nc-badge-warning-bg));
+  --_surface-color: var(--mod-badge-warning-color, var(--nc-badge-warning-color));
+  --_surface-border-color: var(--mod-badge-warning-border, var(--nc-badge-warning-border));
 }
 
 @mixin badge-variant-error {
-  --_surface-bg: var(--nc-badge-error-bg);
-  --_surface-color: var(--nc-badge-error-color);
-  --_surface-border-color: var(--nc-badge-error-border);
+  --_surface-bg: var(--mod-badge-error-bg, var(--nc-badge-error-bg));
+  --_surface-color: var(--mod-badge-error-color, var(--nc-badge-error-color));
+  --_surface-border-color: var(--mod-badge-error-border, var(--nc-badge-error-border));
 }
 
 @mixin badge-variant-info {
-  --_surface-bg: var(--nc-badge-info-bg);
-  --_surface-color: var(--nc-badge-info-color);
-  --_surface-border-color: var(--nc-badge-info-border);
+  --_surface-bg: var(--mod-badge-info-bg, var(--nc-badge-info-bg));
+  --_surface-color: var(--mod-badge-info-color, var(--nc-badge-info-color));
+  --_surface-border-color: var(--mod-badge-info-border, var(--nc-badge-info-border));
 }
 
 // ---------------------------------------------------------------------------
@@ -110,7 +110,7 @@
 /// Funktioniert kombiniert mit jeder Tone-Variante:
 ///   .nc-badge.nc-badge--success.nc-badge--soft
 @mixin badge-emphasis-soft {
-  background-color: color-mix(in srgb, var(--_surface-bg) var(--nc-badge-soft-opacity), transparent);
+  background-color: color-mix(in srgb, var(--_surface-bg) var(--mod-badge-soft-opacity, var(--nc-badge-soft-opacity)), transparent);
   --_surface-border-color: transparent;
 }
 
@@ -122,8 +122,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-badge-icon-size);
-  height: var(--nc-badge-icon-size);
+  width: var(--mod-badge-icon-size, var(--nc-badge-icon-size));
+  height: var(--mod-badge-icon-size, var(--nc-badge-icon-size));
   flex-shrink: 0;
 
   > svg {
@@ -143,13 +143,13 @@
 
 /// Dot-Modus: Minimaler Status-Punkt ohne Text.
 @mixin badge-dot {
-  width: var(--nc-badge-dot-size);
-  height: var(--nc-badge-dot-size);
+  width: var(--mod-badge-dot-size, var(--nc-badge-dot-size));
+  height: var(--mod-badge-dot-size, var(--nc-badge-dot-size));
   min-height: auto;
   padding: 0;
   font-size: 0;
   line-height: 0;
-  border-radius: var(--nc-badge-dot-radius);
+  border-radius: var(--mod-badge-dot-radius, var(--nc-badge-dot-radius));
 }
 
 /// Pulse-Animation: Dezentes Pulsieren fuer kritische Status (Error-Dot).
@@ -162,7 +162,7 @@
     inset: 0;
     border-radius: inherit;
     background: inherit;
-    animation: badge-pulse var(--nc-badge-pulse-duration) ease-out infinite;
+    animation: badge-pulse var(--mod-badge-pulse-duration, var(--nc-badge-pulse-duration)) ease-out infinite;
   }
 }
 
@@ -170,10 +170,10 @@
 /// Parent braucht position: relative.
 @mixin badge-decorator {
   position: absolute;
-  top: var(--nc-badge-top-offset);
-  right: var(--nc-badge-right-offset);
+  top: var(--mod-badge-top-offset, var(--nc-badge-top-offset));
+  right: var(--mod-badge-right-offset, var(--nc-badge-right-offset));
   // Ring: Hintergrund-Ring fuer Abgrenzung zum Parent
-  box-shadow: 0 0 0 var(--nc-badge-ring-width) var(--nc-badge-ring-color);
+  box-shadow: 0 0 0 var(--mod-badge-ring-width, var(--nc-badge-ring-width)) var(--mod-badge-ring-color, var(--nc-badge-ring-color));
 }
 
 /// Status-String: Reiner Text ohne Hintergrund — fuer Tabellen / dichte UIs.
@@ -182,7 +182,7 @@
   border: none;
   padding: 0;
   min-height: auto;
-  font-weight: var(--nc-badge-status-font-weight);
+  font-weight: var(--mod-badge-status-font-weight, var(--nc-badge-status-font-weight));
   // Farbe kommt vom aktiven Tone (--_surface-color bleibt erhalten)
 }
 
@@ -196,8 +196,8 @@
     opacity: var(--fnd-opacity-muted);
   }
   100% {
-    transform: scale(var(--nc-badge-pulse-scale));
-    opacity: var(--nc-badge-pulse-opacity);
+    transform: scale(var(--mod-badge-pulse-scale, var(--nc-badge-pulse-scale)));
+    opacity: var(--mod-badge-pulse-opacity, var(--nc-badge-pulse-opacity));
   }
 }
 
@@ -213,7 +213,7 @@
   &__label {
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: var(--nc-badge-label-max-width);
+    max-width: var(--mod-badge-label-max-width, var(--nc-badge-label-max-width));
   }
 
   // Sizes

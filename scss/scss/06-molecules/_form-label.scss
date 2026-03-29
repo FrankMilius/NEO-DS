@@ -41,29 +41,29 @@
   display: flex;
   align-items: baseline;
   gap: var(--fnd-spacing-01);
-  margin-bottom: var(--nc-form-label-gap);
-  font-size: var(--nc-form-label-font-size);
-  font-weight: var(--nc-form-label-font-weight);
-  color: var(--nc-form-label-color);
+  margin-bottom: var(--mod-form-label-gap, var(--nc-form-label-gap));
+  font-size: var(--mod-form-label-font-size, var(--nc-form-label-font-size));
+  font-weight: var(--mod-form-label-font-weight, var(--nc-form-label-font-weight));
+  color: var(--mod-form-label-color, var(--nc-form-label-color));
   line-height: 1.45;
   cursor: pointer;
   user-select: none;
 
   // Erweiterter Klickbereich (Fitts' Law / WCAG 2.5.8)
-  padding-block: var(--nc-form-label-padding-block);
-  min-height: var(--nc-form-label-min-height);
+  padding-block: var(--mod-form-label-padding-block, var(--nc-form-label-padding-block));
+  min-height: var(--mod-form-label-min-height, var(--nc-form-label-min-height));
 }
 
 /// Required-Indikator: rotes Sternchen.
 @mixin form-label-required {
-  color: var(--nc-form-label-required-color);
+  color: var(--mod-form-label-required-color, var(--nc-form-label-required-color));
   font-weight: var(--fnd-font-weight-bold);
   margin-inline-start: 2px;
 }
 
 /// Optional-Indikator: grauer Text.
 @mixin form-label-optional {
-  color: var(--nc-form-label-optional-color);
+  color: var(--mod-form-label-optional-color, var(--nc-form-label-optional-color));
   font-weight: var(--fnd-font-weight-regular);
   font-size: 0.85em;
   margin-inline-start: var(--fnd-spacing-01);
@@ -81,7 +81,7 @@
   margin-inline-start: var(--fnd-spacing-01);
   border: none;
   background: none;
-  color: var(--nc-form-label-info-color);
+  color: var(--mod-form-label-info-color, var(--nc-form-label-info-color));
   cursor: pointer;
   border-radius: var(--fnd-radius-full, 9999px);
   @include transition-quick((color, background-color, box-shadow));
@@ -131,13 +131,13 @@
   // -- Size Modifier --
 
   &--sm {
-    font-size: var(--nc-form-label-sm-font-size, var(--fs-sm));
-    font-weight: var(--nc-form-label-sm-font-weight, var(--fnd-font-weight-medium));
+    font-size: var(--mod-form-label-sm-font-size, var(--nc-form-label-sm-font-size, var(--fs-sm)));
+    font-weight: var(--mod-form-label-sm-font-weight, var(--nc-form-label-sm-font-weight, var(--fnd-font-weight-medium)));
   }
 
   &--emphasis {
-    font-size: var(--nc-form-label-emphasis-font-size, var(--fs-lg));
-    font-weight: var(--nc-form-label-emphasis-font-weight, var(--fnd-font-weight-bold));
+    font-size: var(--mod-form-label-emphasis-font-size, var(--nc-form-label-emphasis-font-size, var(--fs-lg)));
+    font-weight: var(--mod-form-label-emphasis-font-weight, var(--nc-form-label-emphasis-font-weight, var(--fnd-font-weight-bold)));
   }
 
   // -- Layout Modifier --
@@ -148,14 +148,14 @@
     margin-inline-end: var(--fnd-spacing-03);
 
     // Truncation: verhindert Layout-Brueche bei langen Texten
-    max-width: var(--nc-form-label-inline-max-width, 200px);
+    max-width: var(--mod-form-label-inline-max-width, var(--nc-form-label-inline-max-width, 200px));
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 
     // Baseline-Alignment: Synchronisiert Label-Hoehe mit Input
     // padding-top gleicht den vertikalen Offset zum Input-Text aus
-    padding-top: var(--nc-form-label-inline-padding-top, var(--nc-input-padding-y-md, 8px));
+    padding-top: var(--mod-form-label-inline-padding-top, var(--nc-form-label-inline-padding-top, var(--nc-input-padding-y-md, 8px)));
     // Zeile 1: font-size vom Label muss zum Input passen → gemeinsames Token
     // Empfehlung: nc-form-label-font-size == nc-input-font-size-md
     align-self: baseline;

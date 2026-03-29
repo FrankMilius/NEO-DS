@@ -41,15 +41,15 @@
 /// Basis-Styling fuer den Checkbox-Wrapper.
 @mixin checkbox-base {
   @include form-check-base;
-  gap: var(--nc-checkbox-label-gap);
+  gap: var(--mod-checkbox-label-gap, var(--nc-checkbox-label-gap));
 }
 
 /// Custom Control Box.
 @mixin checkbox-control {
-  @include form-check-control(var(--nc-checkbox-radius));
+  @include form-check-control(var(--mod-checkbox-radius, var(--nc-checkbox-radius)));
   @include form-check-size('md', 'checkbox');
-  border: var(--nc-checkbox-border-width) solid var(--nc-checkbox-border);
-  background-color: var(--nc-checkbox-bg);
+  border: var(--mod-checkbox-border-width, var(--nc-checkbox-border-width)) solid var(--mod-checkbox-border, var(--nc-checkbox-border));
+  background-color: var(--mod-checkbox-bg, var(--nc-checkbox-bg));
 
   // Checkmark als background-image (SVG)
   background-repeat: no-repeat;
@@ -67,7 +67,7 @@
 
 /// Label-Text neben der Checkbox.
 @mixin checkbox-label {
-  color: var(--nc-checkbox-label-color);
+  color: var(--mod-checkbox-label-color, var(--nc-checkbox-label-color));
   line-height: 1.4;
   cursor: inherit;
 }
@@ -87,42 +87,42 @@
     // Focus-Ring auf Control delegieren
     &:focus-visible + .nc-checkbox__control {
       @include focus-ring;
-      outline-offset: var(--nc-checkbox-focus-ring-offset);
+      outline-offset: var(--mod-checkbox-focus-ring-offset, var(--nc-checkbox-focus-ring-offset));
     }
 
     // Hover-State
     &:not(:disabled):not([aria-disabled='true']):hover + .nc-checkbox__control,
     &:not(:disabled):not([aria-disabled='true']) + .nc-checkbox__control:hover {
-      border-color: var(--nc-checkbox-border-hover);
+      border-color: var(--mod-checkbox-border-hover, var(--nc-checkbox-border-hover));
     }
 
     // Checked-State
     &:checked + .nc-checkbox__control {
-      background-color: var(--nc-checkbox-bg-checked);
-      border-color: var(--nc-checkbox-border-checked);
+      background-color: var(--mod-checkbox-bg-checked, var(--nc-checkbox-bg-checked));
+      border-color: var(--mod-checkbox-border-checked, var(--nc-checkbox-border-checked));
       // Checkmark SVG (weiss)
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
     }
 
     // Indeterminate-State (Minus-Zeichen)
     &:indeterminate + .nc-checkbox__control {
-      background-color: var(--nc-checkbox-bg-indeterminate);
-      border-color: var(--nc-checkbox-border-checked);
+      background-color: var(--mod-checkbox-bg-indeterminate, var(--nc-checkbox-bg-indeterminate));
+      border-color: var(--mod-checkbox-border-checked, var(--nc-checkbox-border-checked));
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3C/svg%3E");
     }
 
     // Disabled-State
     &:disabled + .nc-checkbox__control,
     &[aria-disabled='true'] + .nc-checkbox__control {
-      background-color: var(--nc-checkbox-disabled-bg);
-      border-color: var(--nc-checkbox-disabled-border);
-      opacity: var(--nc-checkbox-disabled-opacity);
+      background-color: var(--mod-checkbox-disabled-bg, var(--nc-checkbox-disabled-bg));
+      border-color: var(--mod-checkbox-disabled-border, var(--nc-checkbox-disabled-border));
+      opacity: var(--mod-checkbox-disabled-opacity, var(--nc-checkbox-disabled-opacity));
       cursor: not-allowed;
     }
 
     &:disabled:checked + .nc-checkbox__control,
     &[aria-disabled='true']:checked + .nc-checkbox__control {
-      background-color: var(--nc-checkbox-disabled-border);
+      background-color: var(--mod-checkbox-disabled-border, var(--nc-checkbox-disabled-border));
     }
 
     // Disabled Label
@@ -155,41 +155,41 @@
 
   &--error > .nc-checkbox__control,
   &--error .nc-checkbox__input:not(:checked) + .nc-checkbox__control {
-    border-color: var(--nc-checkbox-border-error);
+    border-color: var(--mod-checkbox-border-error, var(--nc-checkbox-border-error));
   }
 
   // -- Card-Variante --
   // Checkbox mit umgebendem Rahmen (Card-Wrapper um Label + Control).
 
   &--card {
-    padding: var(--nc-checkbox-card-padding);
-    background-color: var(--nc-checkbox-card-bg);
-    border: var(--nc-checkbox-border-width) solid var(--nc-checkbox-card-border);
-    border-radius: var(--nc-checkbox-card-radius);
+    padding: var(--mod-checkbox-card-padding, var(--nc-checkbox-card-padding));
+    background-color: var(--mod-checkbox-card-bg, var(--nc-checkbox-card-bg));
+    border: var(--mod-checkbox-border-width, var(--nc-checkbox-border-width)) solid var(--mod-checkbox-card-border, var(--nc-checkbox-card-border));
+    border-radius: var(--mod-checkbox-card-radius, var(--nc-checkbox-card-radius));
     transition:
-      background-color var(--nc-checkbox-transition-duration) ease,
-      border-color var(--nc-checkbox-transition-duration) ease;
+      background-color var(--mod-checkbox-transition-duration, var(--nc-checkbox-transition-duration)) ease,
+      border-color var(--mod-checkbox-transition-duration, var(--nc-checkbox-transition-duration)) ease;
 
     // Hover
     &:hover:not(:has(input:disabled)) {
-      border-color: var(--nc-checkbox-card-border-hover);
+      border-color: var(--mod-checkbox-card-border-hover, var(--nc-checkbox-card-border-hover));
     }
 
     // Checked — Card bekommt aktive BG + Border
     &:has(input:checked),
     &:has(input:indeterminate) {
-      background-color: var(--nc-checkbox-card-bg-checked);
-      border-color: var(--nc-checkbox-card-border-checked);
+      background-color: var(--mod-checkbox-card-bg-checked, var(--nc-checkbox-card-bg-checked));
+      border-color: var(--mod-checkbox-card-border-checked, var(--nc-checkbox-card-border-checked));
     }
 
     // Error auf Card-Level
     &.nc-checkbox--error {
-      border-color: var(--nc-checkbox-border-error);
+      border-color: var(--mod-checkbox-border-error, var(--nc-checkbox-border-error));
     }
 
     // Disabled auf Card-Level
     &:has(input:disabled) {
-      opacity: var(--nc-checkbox-disabled-opacity);
+      opacity: var(--mod-checkbox-disabled-opacity, var(--nc-checkbox-disabled-opacity));
       cursor: not-allowed;
       pointer-events: none;
     }

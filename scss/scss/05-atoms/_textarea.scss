@@ -43,11 +43,11 @@
   @include form-control-base;
   @include form-control-size('md');
   height: auto;
-  min-height: var(--nc-textarea-min-height);
-  max-height: var(--nc-textarea-max-height);
-  resize: var(--nc-textarea-resize);
+  min-height: var(--mod-textarea-min-height, var(--nc-textarea-min-height));
+  max-height: var(--mod-textarea-max-height, var(--nc-textarea-max-height));
+  resize: var(--mod-textarea-resize, var(--nc-textarea-resize));
   line-height: 1.5;
-  scrollbar-width: var(--nc-textarea-scrollbar-width);
+  scrollbar-width: var(--mod-textarea-scrollbar-width, var(--nc-textarea-scrollbar-width));
 
   // Webkit Scrollbar Fallback
   &::-webkit-scrollbar {
@@ -74,20 +74,20 @@
 @mixin textarea-counter {
   display: block;
   text-align: right;
-  font-size: var(--nc-form-hint-font-size);
-  color: var(--nc-form-hint-color);
-  margin-top: var(--nc-form-hint-gap);
+  font-size: var(--mod-form-hint-font-size, var(--nc-form-hint-font-size));
+  color: var(--mod-form-hint-color, var(--nc-form-hint-color));
+  margin-top: var(--mod-form-hint-gap, var(--nc-form-hint-gap));
 }
 
 /// Actions-Leiste unterhalb der Textarea (Copy, Clear, AI Buttons).
 @mixin textarea-actions {
   display: flex;
   align-items: center;
-  gap: var(--nc-textarea-actions-gap);
-  padding: var(--nc-textarea-actions-padding);
+  gap: var(--mod-textarea-actions-gap, var(--nc-textarea-actions-gap));
+  padding: var(--mod-textarea-actions-padding, var(--nc-textarea-actions-padding));
   border-top: 1px solid var(--fnd-color-border-secondary);
   background: var(--fnd-color-background-secondary);
-  border-radius: 0 0 var(--nc-input-radius-md) var(--nc-input-radius-md);
+  border-radius: 0 0 var(--mod-input-radius-md, var(--nc-input-radius-md)) var(--mod-input-radius-md, var(--nc-input-radius-md));
 }
 
 // ---------------------------------------------------------------------------
@@ -118,13 +118,13 @@
   &--sm {
     @include form-control-size('sm');
     height: auto;
-    min-height: calc(var(--nc-textarea-min-height) * 0.75);
+    min-height: calc(var(--mod-textarea-min-height, var(--nc-textarea-min-height)) * 0.75);
   }
 
   &--lg {
     @include form-control-size('lg');
     height: auto;
-    min-height: calc(var(--nc-textarea-min-height) * 1.5);
+    min-height: calc(var(--mod-textarea-min-height, var(--nc-textarea-min-height)) * 1.5);
   }
 
   // -- State-Modifier --
@@ -150,7 +150,7 @@
     @include form-control-filled-validation;
 
     &.nc-textarea--success {
-      border-block-end-color: var(--nc-form-control-border-success);
+      border-block-end-color: var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 
@@ -159,7 +159,7 @@
     @include form-control-borderless-validation;
 
     &.nc-textarea--success {
-      border-block-end: 2px solid var(--nc-form-control-border-success);
+      border-block-end: 2px solid var(--mod-form-control-border-success, var(--nc-form-control-border-success));
     }
   }
 
@@ -170,7 +170,7 @@
 
     // Wenn Limit erreicht, Farbe aendern
     &--limit {
-      color: var(--nc-form-error-color);
+      color: var(--mod-form-error-color, var(--nc-form-error-color));
     }
   }
 
@@ -211,7 +211,7 @@
   // Wenn Actions vorhanden: Textarea unteren Radius entfernen
   &:has(.nc-textarea__actions) {
     .nc-textarea {
-      border-radius: var(--nc-input-radius-md) var(--nc-input-radius-md) 0 0;
+      border-radius: var(--mod-input-radius-md, var(--nc-input-radius-md)) var(--mod-input-radius-md, var(--nc-input-radius-md)) 0 0;
     }
   }
 }

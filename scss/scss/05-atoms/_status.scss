@@ -38,7 +38,7 @@
     box-shadow: 0 0 0 0 currentColor;
   }
   70% {
-    box-shadow: 0 0 0 var(--nc-status-size-sm) transparent;
+    box-shadow: 0 0 0 var(--mod-status-size-sm, var(--nc-status-size-sm)) transparent;
   }
   100% {
     box-shadow: 0 0 0 0 transparent;
@@ -53,21 +53,21 @@
   display: inline-block;
   flex-shrink: 0;
   border-radius: var(--fnd-radius-full);
-  background-color: var(--_status-color, var(--nc-status-neutral));
+  background-color: var(--_status-color, var(--mod-status-neutral, var(--nc-status-neutral)));
 
   @include status-size('sm');
 }
 
 @mixin status-size($size: 'sm') {
   @if $size == 'xs' {
-    width: var(--nc-status-size-xs);
-    height: var(--nc-status-size-xs);
+    width: var(--mod-status-size-xs, var(--nc-status-size-xs));
+    height: var(--mod-status-size-xs, var(--nc-status-size-xs));
   } @else if $size == 'sm' {
-    width: var(--nc-status-size-sm);
-    height: var(--nc-status-size-sm);
+    width: var(--mod-status-size-sm, var(--nc-status-size-sm));
+    height: var(--mod-status-size-sm, var(--nc-status-size-sm));
   } @else if $size == 'md' {
-    width: var(--nc-status-size-md);
-    height: var(--nc-status-size-md);
+    width: var(--mod-status-size-md, var(--nc-status-size-md));
+    height: var(--mod-status-size-md, var(--nc-status-size-md));
   }
 }
 
@@ -83,21 +83,21 @@
   &--md { @include status-size('md'); }
 
   // -- Farb-Varianten --
-  &--online  { --_status-color: var(--nc-status-online); }
-  &--offline { --_status-color: var(--nc-status-offline); }
-  &--busy    { --_status-color: var(--nc-status-busy); }
-  &--away    { --_status-color: var(--nc-status-away); }
-  &--neutral { --_status-color: var(--nc-status-neutral); }
+  &--online  { --_status-color: var(--mod-status-online, var(--nc-status-online)); }
+  &--offline { --_status-color: var(--mod-status-offline, var(--nc-status-offline)); }
+  &--busy    { --_status-color: var(--mod-status-busy, var(--nc-status-busy)); }
+  &--away    { --_status-color: var(--mod-status-away, var(--nc-status-away)); }
+  &--neutral { --_status-color: var(--mod-status-neutral, var(--nc-status-neutral)); }
 
   // -- Ring (fuer Einbettung auf farbigem Hintergrund) --
   &--ring {
-    box-shadow: 0 0 0 var(--nc-status-ring-width) var(--nc-status-ring-color);
+    box-shadow: 0 0 0 var(--mod-status-ring-width, var(--nc-status-ring-width)) var(--mod-status-ring-color, var(--nc-status-ring-color));
   }
 
   // -- Pulse-Animation (Live-Status) --
   &--pulse {
-    color: var(--_status-color, var(--nc-status-neutral));
-    animation: nc-status-pulse var(--nc-status-pulse-duration) var(--fnd-motion-ease-ease-out) infinite;
+    color: var(--_status-color, var(--mod-status-neutral, var(--nc-status-neutral)));
+    animation: nc-status-pulse var(--mod-status-pulse-duration, var(--nc-status-pulse-duration)) var(--fnd-motion-ease-ease-out) infinite;
 
     @include reduced-motion {
       animation: none;

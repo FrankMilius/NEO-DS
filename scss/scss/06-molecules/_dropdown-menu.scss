@@ -57,18 +57,18 @@
 
 @mixin dropdown-menu-base {
   position: absolute;
-  z-index: var(--nc-dropdown-z-index);
-  min-width: var(--nc-dropdown-min-width);
-  max-height: var(--nc-dropdown-max-height);
+  z-index: var(--mod-dropdown-z-index, var(--nc-dropdown-z-index));
+  min-width: var(--mod-dropdown-min-width, var(--nc-dropdown-min-width));
+  max-height: var(--mod-dropdown-max-height, var(--nc-dropdown-max-height));
   overflow-y: auto;
-  padding: var(--nc-dropdown-padding);
-  background-color: var(--nc-dropdown-bg);
-  border: var(--nc-dropdown-border-width) solid var(--nc-dropdown-border);
-  border-radius: var(--nc-dropdown-radius);
-  box-shadow: var(--nc-dropdown-shadow);
+  padding: var(--mod-dropdown-padding, var(--nc-dropdown-padding));
+  background-color: var(--mod-dropdown-bg, var(--nc-dropdown-bg));
+  border: var(--mod-dropdown-border-width, var(--nc-dropdown-border-width)) solid var(--mod-dropdown-border, var(--nc-dropdown-border));
+  border-radius: var(--mod-dropdown-radius, var(--nc-dropdown-radius));
+  box-shadow: var(--mod-dropdown-shadow, var(--nc-dropdown-shadow));
 
   // Eingangsanimation
-  animation: fnd-dropdown-enter var(--nc-dropdown-animation-duration)
+  animation: fnd-dropdown-enter var(--mod-dropdown-animation-duration, var(--nc-dropdown-animation-duration))
              var(--fnd-motion-ease-ease-out) forwards;
 
   @include reduced-motion {
@@ -82,27 +82,27 @@
 @mixin dropdown-item-base {
   display: flex;
   align-items: center;
-  gap: var(--nc-dropdown-item-gap);
+  gap: var(--mod-dropdown-item-gap, var(--nc-dropdown-item-gap));
   width: 100%;
-  min-height: var(--nc-dropdown-item-height);
-  padding: var(--nc-dropdown-item-padding);
+  min-height: var(--mod-dropdown-item-height, var(--nc-dropdown-item-height));
+  padding: var(--mod-dropdown-item-padding, var(--nc-dropdown-item-padding));
   border: none;
-  border-radius: var(--nc-dropdown-item-radius);
+  border-radius: var(--mod-dropdown-item-radius, var(--nc-dropdown-item-radius));
   background: none;
-  color: var(--nc-dropdown-item-color);
-  font-size: var(--nc-dropdown-item-font-size);
-  font-weight: var(--nc-dropdown-item-font-weight);
+  color: var(--mod-dropdown-item-color, var(--nc-dropdown-item-color));
+  font-size: var(--mod-dropdown-item-font-size, var(--nc-dropdown-item-font-size));
+  font-weight: var(--mod-dropdown-item-font-weight, var(--nc-dropdown-item-font-weight));
   line-height: 1.4;
   text-align: left;
   cursor: pointer;
   @include transition-quick((background-color, color));
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-dropdown-item-bg-hover);
+    background-color: var(--mod-dropdown-item-bg-hover, var(--nc-dropdown-item-bg-hover));
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-dropdown-item-bg-active);
+    background-color: var(--mod-dropdown-item-bg-active, var(--nc-dropdown-item-bg-active));
   }
 
   &:focus-visible {
@@ -112,7 +112,7 @@
   // Disabled
   &:disabled,
   &[aria-disabled='true'] {
-    color: var(--nc-dropdown-item-color-disabled);
+    color: var(--mod-dropdown-item-color-disabled, var(--nc-dropdown-item-color-disabled));
     cursor: default;
     pointer-events: none;
   }
@@ -175,10 +175,10 @@
 
   // Danger Item (z.B. "Loeschen")
   &__item--danger {
-    color: var(--nc-dropdown-item-danger-color);
+    color: var(--mod-dropdown-item-danger-color, var(--nc-dropdown-item-danger-color));
 
     &:hover:not(:disabled):not([aria-disabled='true']) {
-      background-color: var(--nc-dropdown-item-danger-bg-hover);
+      background-color: var(--mod-dropdown-item-danger-bg-hover, var(--nc-dropdown-item-danger-bg-hover));
     }
   }
 
@@ -205,10 +205,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-dropdown-check-size);
-    height: var(--nc-dropdown-check-size);
+    width: var(--mod-dropdown-check-size, var(--nc-dropdown-check-size));
+    height: var(--mod-dropdown-check-size, var(--nc-dropdown-check-size));
     flex-shrink: 0;
-    color: var(--nc-dropdown-check-color);
+    color: var(--mod-dropdown-check-color, var(--nc-dropdown-check-color));
     opacity: 0;
 
     > svg {
@@ -228,10 +228,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-dropdown-item-icon-size);
-    height: var(--nc-dropdown-item-icon-size);
+    width: var(--mod-dropdown-item-icon-size, var(--nc-dropdown-item-icon-size));
+    height: var(--mod-dropdown-item-icon-size, var(--nc-dropdown-item-icon-size));
     flex-shrink: 0;
-    color: var(--nc-dropdown-item-icon-color);
+    color: var(--mod-dropdown-item-icon-color, var(--nc-dropdown-item-icon-color));
 
     > svg {
       width: 100%;
@@ -246,7 +246,7 @@
 
   // Danger-Item Icon erbt Danger-Farbe
   &__item--danger &__item-icon {
-    color: var(--nc-dropdown-item-danger-color);
+    color: var(--mod-dropdown-item-danger-color, var(--nc-dropdown-item-danger-color));
   }
 
   // -- Item Label (flex-1 fuer Shortcut/Submenu-Indicator) --
@@ -261,7 +261,7 @@
   &__item-shortcut {
     flex-shrink: 0;
     font-size: var(--fs-xs);
-    color: var(--nc-dropdown-item-icon-color);
+    color: var(--mod-dropdown-item-icon-color, var(--nc-dropdown-item-icon-color));
     font-family: var(--font-mono);
   }
 
@@ -272,11 +272,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--nc-dropdown-submenu-indicator-size);
-    height: var(--nc-dropdown-submenu-indicator-size);
+    width: var(--mod-dropdown-submenu-indicator-size, var(--nc-dropdown-submenu-indicator-size));
+    height: var(--mod-dropdown-submenu-indicator-size, var(--nc-dropdown-submenu-indicator-size));
     flex-shrink: 0;
     margin-inline-start: auto;
-    color: var(--nc-dropdown-submenu-indicator-color);
+    color: var(--mod-dropdown-submenu-indicator-color, var(--nc-dropdown-submenu-indicator-color));
     opacity: 1;
 
     > svg {
@@ -295,18 +295,18 @@
   &__separator {
     border: none;
     height: 0;
-    border-top: var(--nc-dropdown-border-width) solid var(--nc-dropdown-separator-color);
-    margin: var(--nc-dropdown-separator-margin) 0;
+    border-top: var(--mod-dropdown-border-width, var(--nc-dropdown-border-width)) solid var(--mod-dropdown-separator-color, var(--nc-dropdown-separator-color));
+    margin: var(--mod-dropdown-separator-margin, var(--nc-dropdown-separator-margin)) 0;
   }
 
   // -- Group --
 
   &__group-label {
     display: block;
-    padding: var(--nc-dropdown-group-label-padding);
-    font-size: var(--nc-dropdown-group-label-size);
-    font-weight: var(--nc-dropdown-group-label-weight);
-    color: var(--nc-dropdown-group-label-color);
+    padding: var(--mod-dropdown-group-label-padding, var(--nc-dropdown-group-label-padding));
+    font-size: var(--mod-dropdown-group-label-size, var(--nc-dropdown-group-label-size));
+    font-weight: var(--mod-dropdown-group-label-weight, var(--nc-dropdown-group-label-weight));
+    color: var(--mod-dropdown-group-label-color, var(--nc-dropdown-group-label-color));
     text-transform: uppercase;
     letter-spacing: 0.05em;
     user-select: none;
@@ -317,16 +317,16 @@
   // Aktions-Buttons, Hilfetexte). Getrennt durch eine permanente Border.
 
   &__footer {
-    padding: var(--nc-dropdown-footer-padding);
-    background-color: var(--nc-dropdown-footer-bg);
-    border-top: var(--nc-dropdown-border-width) solid var(--nc-dropdown-footer-border-color);
-    margin-top: var(--nc-dropdown-separator-margin);
-    border-radius: 0 0 var(--nc-dropdown-radius) var(--nc-dropdown-radius);
+    padding: var(--mod-dropdown-footer-padding, var(--nc-dropdown-footer-padding));
+    background-color: var(--mod-dropdown-footer-bg, var(--nc-dropdown-footer-bg));
+    border-top: var(--mod-dropdown-border-width, var(--nc-dropdown-border-width)) solid var(--mod-dropdown-footer-border-color, var(--nc-dropdown-footer-border-color));
+    margin-top: var(--mod-dropdown-separator-margin, var(--nc-dropdown-separator-margin));
+    border-radius: 0 0 var(--mod-dropdown-radius, var(--nc-dropdown-radius)) var(--mod-dropdown-radius, var(--nc-dropdown-radius));
 
     // Ueberschreibt Menu-Padding am unteren Rand
-    margin-inline: calc(-1 * var(--nc-dropdown-padding));
-    margin-bottom: calc(-1 * var(--nc-dropdown-padding));
-    padding-inline: var(--nc-dropdown-padding);
+    margin-inline: calc(-1 * var(--mod-dropdown-padding, var(--nc-dropdown-padding)));
+    margin-bottom: calc(-1 * var(--mod-dropdown-padding, var(--nc-dropdown-padding)));
+    padding-inline: var(--mod-dropdown-padding, var(--nc-dropdown-padding));
   }
 
   // -- Checkable-Modus --
@@ -335,7 +335,7 @@
 
   &--checkable {
     .nc-dropdown__item {
-      padding-inline-start: calc(var(--nc-dropdown-check-size) + var(--nc-dropdown-check-gap) + #{rem(8px)});
+      padding-inline-start: calc(var(--mod-dropdown-check-size, var(--nc-dropdown-check-size)) + var(--mod-dropdown-check-gap, var(--nc-dropdown-check-gap)) + #{rem(8px)});
       position: relative;
     }
 
@@ -350,8 +350,8 @@
   // Aktivierung via JS: Hover/Focus auf --has-submenu Item.
 
   &__item--has-submenu > .nc-dropdown__menu {
-    top: calc(-1 * var(--nc-dropdown-padding));
-    left: calc(100% + var(--nc-dropdown-submenu-offset));
+    top: calc(-1 * var(--mod-dropdown-padding, var(--nc-dropdown-padding)));
+    left: calc(100% + var(--mod-dropdown-submenu-offset, var(--nc-dropdown-submenu-offset)));
     margin-top: 0;
   }
 

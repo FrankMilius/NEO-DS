@@ -64,14 +64,14 @@
 @mixin tooltip-content-base {
   position: absolute;
   z-index: z('tooltip'); // 20
-  background-color: var(--nc-tooltip-bg);
-  color: var(--nc-tooltip-color);
-  padding: var(--nc-tooltip-padding);
-  border-radius: var(--nc-tooltip-radius);
-  box-shadow: var(--nc-tooltip-shadow);
-  font-size: var(--nc-tooltip-font-size);
+  background-color: var(--mod-tooltip-bg, var(--nc-tooltip-bg));
+  color: var(--mod-tooltip-color, var(--nc-tooltip-color));
+  padding: var(--mod-tooltip-padding, var(--nc-tooltip-padding));
+  border-radius: var(--mod-tooltip-radius, var(--nc-tooltip-radius));
+  box-shadow: var(--mod-tooltip-shadow, var(--nc-tooltip-shadow));
+  font-size: var(--mod-tooltip-font-size, var(--nc-tooltip-font-size));
   line-height: 1.4;
-  max-width: var(--nc-tooltip-max-width);
+  max-width: var(--mod-tooltip-max-width, var(--nc-tooltip-max-width));
   width: max-content;
   pointer-events: none;
   white-space: normal;
@@ -82,12 +82,12 @@
   visibility: hidden;
   transform-origin: var(--_tooltip-origin, center bottom);
   transition:
-    opacity var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing),
-    visibility var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing),
-    transform var(--nc-tooltip-transition-duration) var(--nc-tooltip-transition-timing);
+    opacity var(--mod-tooltip-transition-duration, var(--nc-tooltip-transition-duration)) var(--mod-tooltip-transition-timing, var(--nc-tooltip-transition-timing)),
+    visibility var(--mod-tooltip-transition-duration, var(--nc-tooltip-transition-duration)) var(--mod-tooltip-transition-timing, var(--nc-tooltip-transition-timing)),
+    transform var(--mod-tooltip-transition-duration, var(--nc-tooltip-transition-duration)) var(--mod-tooltip-transition-timing, var(--nc-tooltip-transition-timing));
 
   // Hover-Intent: Verzoegerung beim Erscheinen, sofortiges Verschwinden
-  transition-delay: var(--nc-tooltip-delay, 300ms);
+  transition-delay: var(--mod-tooltip-delay, var(--nc-tooltip-delay, 300ms));
 }
 
 /// Tooltip sichtbar machen (Scale+Fade).
@@ -103,7 +103,7 @@
 
 /// Position: oben (Standard).
 @mixin tooltip-position-top {
-  bottom: calc(100% + var(--nc-tooltip-offset));
+  bottom: calc(100% + var(--mod-tooltip-offset, var(--nc-tooltip-offset)));
   left: 50%;
   // Scale+Fade: leicht nach unten versetzt + scale
   --_tooltip-transform-hidden: translateX(-50%) translateY(4px) scale(0.95);
@@ -114,7 +114,7 @@
 
 /// Position: unten.
 @mixin tooltip-position-bottom {
-  top: calc(100% + var(--nc-tooltip-offset));
+  top: calc(100% + var(--mod-tooltip-offset, var(--nc-tooltip-offset)));
   left: 50%;
   --_tooltip-transform-hidden: translateX(-50%) translateY(-4px) scale(0.95);
   --_tooltip-transform-visible: translateX(-50%) translateY(0) scale(1);
@@ -124,7 +124,7 @@
 
 /// Position: links.
 @mixin tooltip-position-left {
-  right: calc(100% + var(--nc-tooltip-offset));
+  right: calc(100% + var(--mod-tooltip-offset, var(--nc-tooltip-offset)));
   top: 50%;
   --_tooltip-transform-hidden: translateY(-50%) translateX(4px) scale(0.95);
   --_tooltip-transform-visible: translateY(-50%) translateX(0) scale(1);
@@ -134,7 +134,7 @@
 
 /// Position: rechts.
 @mixin tooltip-position-right {
-  left: calc(100% + var(--nc-tooltip-offset));
+  left: calc(100% + var(--mod-tooltip-offset, var(--nc-tooltip-offset)));
   top: 50%;
   --_tooltip-transform-hidden: translateY(-50%) translateX(-4px) scale(0.95);
   --_tooltip-transform-visible: translateY(-50%) translateX(0) scale(1);
@@ -145,15 +145,15 @@
 /// Arrow Basis (rotiertes Quadrat — uebernimmt bg von Content).
 @mixin tooltip-arrow-base {
   position: absolute;
-  width: var(--nc-tooltip-arrow-size);
-  height: var(--nc-tooltip-arrow-size);
-  background-color: var(--nc-tooltip-bg);
+  width: var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size));
+  height: var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size));
+  background-color: var(--mod-tooltip-bg, var(--nc-tooltip-bg));
   transform: rotate(45deg);
 }
 
 /// Arrow fuer Position top (zeigt nach unten).
 @mixin tooltip-arrow-top {
-  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  $half: calc(var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size)) / 2);
   bottom: calc(-1 * #{$half});
   left: 50%;
   margin-left: calc(-1 * #{$half});
@@ -161,7 +161,7 @@
 
 /// Arrow fuer Position bottom (zeigt nach oben).
 @mixin tooltip-arrow-bottom {
-  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  $half: calc(var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size)) / 2);
   top: calc(-1 * #{$half});
   left: 50%;
   margin-left: calc(-1 * #{$half});
@@ -169,7 +169,7 @@
 
 /// Arrow fuer Position left (zeigt nach rechts).
 @mixin tooltip-arrow-left {
-  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  $half: calc(var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size)) / 2);
   right: calc(-1 * #{$half});
   top: 50%;
   margin-top: calc(-1 * #{$half});
@@ -177,7 +177,7 @@
 
 /// Arrow fuer Position right (zeigt nach links).
 @mixin tooltip-arrow-right {
-  $half: calc(var(--nc-tooltip-arrow-size) / 2);
+  $half: calc(var(--mod-tooltip-arrow-size, var(--nc-tooltip-arrow-size)) / 2);
   left: calc(-1 * #{$half});
   top: 50%;
   margin-top: calc(-1 * #{$half});

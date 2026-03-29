@@ -45,28 +45,28 @@
 @mixin progress-base {
   width: 100%;
   overflow: hidden;
-  background-color: var(--nc-progress-bg);
-  border-radius: var(--nc-progress-radius);
+  background-color: var(--mod-progress-bg, var(--nc-progress-bg));
+  border-radius: var(--mod-progress-radius, var(--nc-progress-radius));
   @include progress-size('sm');
 }
 
 @mixin progress-size($size: 'sm') {
   @if $size == 'xs' {
-    height: var(--nc-progress-height-xs);
+    height: var(--mod-progress-height-xs, var(--nc-progress-height-xs));
   } @else if $size == 'sm' {
-    height: var(--nc-progress-height-sm);
+    height: var(--mod-progress-height-sm, var(--nc-progress-height-sm));
   } @else if $size == 'md' {
-    height: var(--nc-progress-height-md);
+    height: var(--mod-progress-height-md, var(--nc-progress-height-md));
   } @else if $size == 'lg' {
-    height: var(--nc-progress-height-lg);
+    height: var(--mod-progress-height-lg, var(--nc-progress-height-lg));
   }
 }
 
 @mixin progress-fill {
   height: 100%;
   border-radius: inherit;
-  background-color: var(--nc-progress-fill);
-  transition: width var(--nc-progress-transition) var(--nc-progress-ease);
+  background-color: var(--mod-progress-fill, var(--nc-progress-fill));
+  transition: width var(--mod-progress-transition, var(--nc-progress-transition)) var(--mod-progress-ease, var(--nc-progress-ease));
 
   @include reduced-motion {
     transition: none;
@@ -91,10 +91,10 @@
   &--lg { @include progress-size('lg'); }
 
   // Feedback-Varianten
-  &--success .nc-progress__fill { background-color: var(--nc-progress-fill-success); }
-  &--warning .nc-progress__fill { background-color: var(--nc-progress-fill-warning); }
-  &--danger  .nc-progress__fill { background-color: var(--nc-progress-fill-danger); }
-  &--info    .nc-progress__fill { background-color: var(--nc-progress-fill-info); }
+  &--success .nc-progress__fill { background-color: var(--mod-progress-fill-success, var(--nc-progress-fill-success)); }
+  &--warning .nc-progress__fill { background-color: var(--mod-progress-fill-warning, var(--nc-progress-fill-warning)); }
+  &--danger  .nc-progress__fill { background-color: var(--mod-progress-fill-danger, var(--nc-progress-fill-danger)); }
+  &--info    .nc-progress__fill { background-color: var(--mod-progress-fill-info, var(--nc-progress-fill-info)); }
 
   // Indeterminiert — endlose Animation
   &--indeterminate .nc-progress__fill {
@@ -116,7 +116,7 @@
 .nc-progress-labeled {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-progress-label-gap);
+  gap: var(--mod-progress-label-gap, var(--nc-progress-label-gap));
 
   &__header {
     display: flex;
@@ -125,15 +125,15 @@
   }
 
   &__label {
-    font-size: var(--nc-progress-label-size);
-    font-weight: var(--nc-progress-label-weight);
+    font-size: var(--mod-progress-label-size, var(--nc-progress-label-size));
+    font-weight: var(--mod-progress-label-weight, var(--nc-progress-label-weight));
     color: var(--fnd-color-text-primary);
   }
 
   &__value {
-    font-size: var(--nc-progress-label-size);
-    font-weight: var(--nc-progress-label-weight);
-    color: var(--nc-progress-label-color);
+    font-size: var(--mod-progress-label-size, var(--nc-progress-label-size));
+    font-weight: var(--mod-progress-label-weight, var(--nc-progress-label-weight));
+    color: var(--mod-progress-label-color, var(--nc-progress-label-color));
     font-variant-numeric: tabular-nums;
   }
 }

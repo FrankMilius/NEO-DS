@@ -42,7 +42,7 @@
 @mixin checkbox-group-base {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-group-gap);
+  gap: var(--mod-group-gap, var(--nc-group-gap));
   width: 100%;
 }
 
@@ -51,7 +51,7 @@
 @mixin checkbox-group-horizontal {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--nc-group-gap-horizontal);
+  gap: var(--mod-group-gap-horizontal, var(--nc-group-gap-horizontal));
   align-items: flex-start;
 }
 
@@ -60,14 +60,14 @@
 @mixin checkbox-group-error {
   > .nc-checkbox > .nc-checkbox__control,
   > .nc-checkbox .nc-checkbox__input:not(:checked) + .nc-checkbox__control {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 }
 
 /// Disabled-State: deaktiviert die gesamte Gruppe visuell.
 /// Die einzelnen Checkboxen sollten zusaetzlich das native disabled-Attribut tragen.
 @mixin checkbox-group-disabled {
-  opacity: var(--nc-checkbox-disabled-opacity, 0.5);
+  opacity: var(--mod-checkbox-disabled-opacity, var(--nc-checkbox-disabled-opacity, 0.5));
   cursor: not-allowed;
   pointer-events: none;
 
@@ -82,14 +82,14 @@
 @mixin checkbox-group-header {
   display: flex;
   align-items: center;
-  padding-block-end: var(--nc-group-header-gap);
-  margin-block-end: var(--nc-group-header-gap);
-  border-block-end: 1px solid var(--nc-group-header-border);
+  padding-block-end: var(--mod-group-header-gap, var(--nc-group-header-gap));
+  margin-block-end: var(--mod-group-header-gap, var(--nc-group-header-gap));
+  border-block-end: 1px solid var(--mod-group-header-border, var(--nc-group-header-border));
 }
 
 /// Hint-Bereich unterhalb der Optionen (z.B. Hilfetext via form-hint).
 @mixin checkbox-group-hint {
-  margin-block-start: var(--nc-group-hint-margin-top);
+  margin-block-start: var(--mod-group-hint-margin-top, var(--nc-group-hint-margin-top));
 }
 
 // ---------------------------------------------------------------------------
@@ -120,11 +120,11 @@
   // -- Size-Modifier (koppelt Gap an Checkbox-Groesse) --
 
   &--sm {
-    gap: var(--nc-group-gap-sm);
+    gap: var(--mod-group-gap-sm, var(--nc-group-gap-sm));
   }
 
   &--lg {
-    gap: var(--nc-group-gap-lg);
+    gap: var(--mod-group-gap-lg, var(--nc-group-gap-lg));
   }
 
   // -- State-Modifier --

@@ -12,17 +12,17 @@
 // ---------------------------------------------------------------------------
 
 .section {
-  padding: var(--nc-section-padding-block) 0;
-  background-color: var(--nc-section-bg);
-  color: var(--nc-section-color);
+  padding: var(--mod-section-padding-block, var(--nc-section-padding-block)) 0;
+  background-color: var(--mod-section-bg, var(--nc-section-bg));
+  color: var(--mod-section-color, var(--nc-section-color));
 }
 
 .section--compact {
-  --nc-section-padding-block: var(--nc-section-padding-block-sm);
+  --nc-section-padding-block: var(--mod-section-padding-block-sm, var(--nc-section-padding-block-sm));
 }
 
 .section--spacious {
-  --nc-section-padding-block: var(--nc-section-padding-block-lg);
+  --nc-section-padding-block: var(--mod-section-padding-block-lg, var(--nc-section-padding-block-lg));
 }
 
 // -- Oberflaechen-Varianten --
@@ -57,31 +57,31 @@
   width: 100%;
   margin-inline: auto;
   box-sizing: border-box;
-  padding-inline: var(--nc-container-padding-inline);
-  --container-pad: var(--nc-container-padding-inline);
+  padding-inline: var(--mod-container-padding-inline, var(--nc-container-padding-inline));
+  --container-pad: var(--mod-container-padding-inline, var(--nc-container-padding-inline));
 
   // Ab lg (1200px): max-width aktivieren + Padding reduzieren
   @include respond-to('lg') {
-    max-width: var(--nc-container-max-width);
-    padding-inline: var(--nc-container-padding-inline-constrained, 24px);
-    --container-pad: var(--nc-container-padding-inline-constrained, 24px);
+    max-width: var(--mod-container-max-width, var(--nc-container-max-width));
+    padding-inline: var(--mod-container-padding-inline-constrained, var(--nc-container-padding-inline-constrained, 24px));
+    --container-pad: var(--mod-container-padding-inline-constrained, var(--nc-container-padding-inline-constrained, 24px));
   }
 
   // Ab xxl (1920px): kein Padding (max-width allein genuegt)
   @include respond-to('xxl') {
-    padding-inline: var(--nc-container-padding-inline-xxl, 0px);
-    --container-pad: var(--nc-container-padding-inline-xxl, 0px);
+    padding-inline: var(--mod-container-padding-inline-xxl, var(--nc-container-padding-inline-xxl, 0px));
+    --container-pad: var(--mod-container-padding-inline-xxl, var(--nc-container-padding-inline-xxl, 0px));
   }
 }
 
 // -- Groessen-Modifier --
 
 .nc-container--wide {
-  --nc-container-max-width: var(--nc-container-max-width-wide);
+  --nc-container-max-width: var(--mod-container-max-width-wide, var(--nc-container-max-width-wide));
 }
 
 .nc-container--narrow {
-  --nc-container-max-width: var(--nc-container-max-width-narrow, 768px);
+  --nc-container-max-width: var(--mod-container-max-width-narrow, var(--nc-container-max-width-narrow, 768px));
 }
 
 .nc-container--full {
@@ -103,7 +103,7 @@
 
   @include respond-to('lg') {
     > * {
-      max-width: calc(var(--nc-container-max-width) * var(--nc-content-ratio));
+      max-width: calc(var(--mod-container-max-width, var(--nc-container-max-width)) * var(--mod-content-ratio, var(--nc-content-ratio)));
     }
 
     &[data-content-align="center"] > * {
@@ -154,32 +154,32 @@
 // Unter lg: kein Bleed (Container ist full-width → bleed-available = 0).
 
 .section--bleed {
-  --nc-bleed-available: calc((100vw - var(--nc-container-max-width)) / 2);
+  --nc-bleed-available: calc((100vw - var(--mod-container-max-width, var(--nc-container-max-width))) / 2);
   --nc-bleed-left: 0px;
   --nc-bleed-right: 0px;
   overflow: hidden;
 }
 
 .section--bleed-symmetric {
-  --nc-bleed-left: calc(var(--nc-bleed-available) * 0.25);
-  --nc-bleed-right: calc(var(--nc-bleed-available) * 0.25);
+  --nc-bleed-left: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.25);
+  --nc-bleed-right: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.25);
 }
 
 .section--bleed-left-heavy {
-  --nc-bleed-left: calc(var(--nc-bleed-available) * 0.4);
-  --nc-bleed-right: calc(var(--nc-bleed-available) * 0.2);
+  --nc-bleed-left: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.4);
+  --nc-bleed-right: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.2);
 }
 
 .section--bleed-right-heavy {
-  --nc-bleed-left: calc(var(--nc-bleed-available) * 0.2);
-  --nc-bleed-right: calc(var(--nc-bleed-available) * 0.4);
+  --nc-bleed-left: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.2);
+  --nc-bleed-right: calc(var(--mod-bleed-available, var(--nc-bleed-available)) * 0.4);
 }
 
 // Bleed-Ziel-Element: erweitert sich um bleed-left/right
 .nc-bleed-target {
-  margin-inline-start: calc(-1 * var(--nc-bleed-left, 0px));
-  margin-inline-end: calc(-1 * var(--nc-bleed-right, 0px));
-  width: calc(100% + var(--nc-bleed-left, 0px) + var(--nc-bleed-right, 0px));
+  margin-inline-start: calc(-1 * var(--mod-bleed-left, var(--nc-bleed-left, 0px)));
+  margin-inline-end: calc(-1 * var(--mod-bleed-right, var(--nc-bleed-right, 0px)));
+  width: calc(100% + var(--mod-bleed-left, var(--nc-bleed-left, 0px)) + var(--mod-bleed-right, var(--nc-bleed-right, 0px)));
 }
 
 // ---------------------------------------------------------------------------

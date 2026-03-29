@@ -54,28 +54,28 @@
   width: 100%;
   font-family: inherit;
   line-height: 1.5;
-  color: var(--nc-input-color);
-  background-color: var(--nc-input-bg);
-  border: var(--nc-input-border-width) solid var(--nc-input-border);
-  border-radius: var(--nc-input-radius);
+  color: var(--mod-input-color, var(--nc-input-color));
+  background-color: var(--mod-input-bg, var(--nc-input-bg));
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-input-border, var(--nc-input-border));
+  border-radius: var(--mod-input-radius, var(--nc-input-radius));
   transition:
-    border-color var(--nc-input-transition-duration) ease,
-    background-color var(--nc-input-transition-duration) ease,
-    box-shadow var(--nc-input-transition-duration) ease;
+    border-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    background-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    box-shadow var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
   appearance: none;
 
   &::placeholder {
-    color: var(--nc-input-placeholder);
+    color: var(--mod-input-placeholder, var(--nc-input-placeholder));
     opacity: 1; // Firefox-Fix
   }
 
   &:hover:not(:disabled):not([aria-disabled='true']):not([readonly]):not(:focus-visible) {
-    border-color: var(--nc-input-border-hover);
+    border-color: var(--mod-input-border-hover, var(--nc-input-border-hover));
   }
 
   &:focus-visible {
     @include focus-ring;
-    border-color: var(--nc-input-border-focus);
+    border-color: var(--mod-input-border-focus, var(--nc-input-border-focus));
   }
 
   // Fallback fuer Browser ohne :focus-visible
@@ -85,17 +85,17 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    border-color: var(--nc-input-disabled-border);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
   }
 
   &[readonly] {
-    background-color: var(--nc-input-bg-readonly);
-    border-color: var(--nc-input-border-readonly);
+    background-color: var(--mod-input-bg-readonly, var(--nc-input-bg-readonly));
+    border-color: var(--mod-input-border-readonly, var(--nc-input-border-readonly));
     cursor: default;
   }
 
@@ -110,17 +110,17 @@
 /// @param {String} $size - 'sm' | 'md' | 'lg'
 @mixin form-control-size($size: 'md') {
   @if $size == 'sm' {
-    height: var(--nc-input-height-sm);
-    padding: var(--nc-input-padding-y-sm) var(--nc-input-padding-x-sm);
-    font-size: var(--nc-input-font-size-sm);
+    height: var(--mod-input-height-sm, var(--nc-input-height-sm));
+    padding: var(--mod-input-padding-y-sm, var(--nc-input-padding-y-sm)) var(--mod-input-padding-x-sm, var(--nc-input-padding-x-sm));
+    font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
   } @else if $size == 'md' {
-    height: var(--nc-input-height-md);
-    padding: var(--nc-input-padding-y-md) var(--nc-input-padding-x-md);
-    font-size: var(--nc-input-font-size-md);
+    height: var(--mod-input-height-md, var(--nc-input-height-md));
+    padding: var(--mod-input-padding-y-md, var(--nc-input-padding-y-md)) var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
+    font-size: var(--mod-input-font-size-md, var(--nc-input-font-size-md));
   } @else if $size == 'lg' {
-    height: var(--nc-input-height-lg);
-    padding: var(--nc-input-padding-y-lg) var(--nc-input-padding-x-lg);
-    font-size: var(--nc-input-font-size-lg);
+    height: var(--mod-input-height-lg, var(--nc-input-height-lg));
+    padding: var(--mod-input-padding-y-lg, var(--nc-input-padding-y-lg)) var(--mod-input-padding-x-lg, var(--nc-input-padding-x-lg));
+    font-size: var(--mod-input-font-size-lg, var(--nc-input-font-size-lg));
   }
 }
 
@@ -130,34 +130,34 @@
 
 /// Error-Zustand: roter Rand + roter Focus-Ring
 @mixin form-control-error {
-  border-color: var(--nc-input-border-error);
+  border-color: var(--mod-input-border-error, var(--nc-input-border-error));
 
   &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 
   &:focus-visible {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 }
 
 /// Success-Zustand: gruener Rand
 @mixin form-control-success {
-  border-color: var(--nc-input-border-success);
+  border-color: var(--mod-input-border-success, var(--nc-input-border-success));
 
   &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
-    border-color: var(--nc-input-border-success);
+    border-color: var(--mod-input-border-success, var(--nc-input-border-success));
   }
 
   &:focus-visible {
-    border-color: var(--nc-input-border-success);
+    border-color: var(--mod-input-border-success, var(--nc-input-border-success));
   }
 }
 
 /// Readonly-Zustand (separat, da auch per Mixin anwendbar)
 @mixin form-control-readonly {
-  background-color: var(--nc-input-bg-readonly);
-  border-color: var(--nc-input-border-readonly);
+  background-color: var(--mod-input-bg-readonly, var(--nc-input-bg-readonly));
+  border-color: var(--mod-input-border-readonly, var(--nc-input-border-readonly));
   cursor: default;
 }
 
@@ -168,29 +168,29 @@
 /// Filled-Variante: Hintergrund-Flaeche statt Rahmen, nur border-bottom.
 /// Nutzt --nc-form-control-filled-* Shared Tokens.
 @mixin form-control-filled {
-  background-color: var(--nc-form-control-filled-bg);
+  background-color: var(--mod-form-control-filled-bg, var(--nc-form-control-filled-bg));
   border-color: transparent;
-  border-block-end: var(--nc-form-control-filled-border-bottom) solid var(--nc-form-control-filled-underline-color);
-  border-radius: var(--nc-form-control-radius) var(--nc-form-control-radius) 0 0;
-  color: var(--nc-form-control-filled-color);
+  border-block-end: var(--mod-form-control-filled-border-bottom, var(--nc-form-control-filled-border-bottom)) solid var(--mod-form-control-filled-underline-color, var(--nc-form-control-filled-underline-color));
+  border-radius: var(--mod-form-control-radius, var(--nc-form-control-radius)) var(--mod-form-control-radius, var(--nc-form-control-radius)) 0 0;
+  color: var(--mod-form-control-filled-color, var(--nc-form-control-filled-color));
 
   &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
-    background-color: var(--nc-form-control-filled-bg-hover);
+    background-color: var(--mod-form-control-filled-bg-hover, var(--nc-form-control-filled-bg-hover));
     border-color: transparent;
-    border-block-end-color: var(--nc-form-control-filled-underline-color);
+    border-block-end-color: var(--mod-form-control-filled-underline-color, var(--nc-form-control-filled-underline-color));
   }
 
   &:focus-visible {
-    background-color: var(--nc-form-control-filled-bg-focus);
-    border-block-end-width: calc(var(--nc-form-control-filled-border-bottom) * 2);
-    border-block-end-color: var(--nc-form-control-filled-underline-color-focus);
+    background-color: var(--mod-form-control-filled-bg-focus, var(--nc-form-control-filled-bg-focus));
+    border-block-end-width: calc(var(--mod-form-control-filled-border-bottom, var(--nc-form-control-filled-border-bottom)) * 2);
+    border-block-end-color: var(--mod-form-control-filled-underline-color-focus, var(--nc-form-control-filled-underline-color-focus));
   }
 }
 
 /// Filled Error/Success Overrides (als eigenes Mixin fuer Komposierbarkeit).
 @mixin form-control-filled-validation {
   &[aria-invalid='true'] {
-    border-block-end-color: var(--nc-form-control-border-error);
+    border-block-end-color: var(--mod-form-control-border-error, var(--nc-form-control-border-error));
   }
 }
 
@@ -201,20 +201,20 @@
   border-color: transparent;
 
   &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
-    background-color: var(--nc-form-control-minimal-bg-hover);
+    background-color: var(--mod-form-control-minimal-bg-hover, var(--nc-form-control-minimal-bg-hover));
   }
 
   &:focus-visible {
     background-color: transparent;
     border-color: transparent;
-    border-block-end: 2px solid var(--nc-form-control-minimal-border-focus);
+    border-block-end: 2px solid var(--mod-form-control-minimal-border-focus, var(--nc-form-control-minimal-border-focus));
   }
 }
 
 /// Borderless Error Override.
 @mixin form-control-borderless-validation {
   &[aria-invalid='true'] {
-    border-block-end: 2px solid var(--nc-form-control-border-error);
+    border-block-end: 2px solid var(--mod-form-control-border-error, var(--nc-form-control-border-error));
   }
 }
 
@@ -244,7 +244,7 @@
 }
 
 /// Styling fuer das Custom Control-Element (__control).
-/// @param {String} $radius - Border-Radius (z.B. var(--nc-checkbox-radius) oder 50%)
+/// @param {String} $radius - Border-Radius (z.B. var(--mod-checkbox-radius, var(--nc-checkbox-radius)) oder 50%)
 @mixin form-check-control($radius) {
   position: relative;
   display: inline-flex;
@@ -253,9 +253,9 @@
   flex-shrink: 0;
   border-radius: #{$radius};
   transition:
-    background-color var(--nc-checkbox-transition-duration) ease,
-    border-color var(--nc-checkbox-transition-duration) ease,
-    box-shadow var(--nc-checkbox-transition-duration) ease;
+    background-color var(--mod-checkbox-transition-duration, var(--nc-checkbox-transition-duration)) ease,
+    border-color var(--mod-checkbox-transition-duration, var(--nc-checkbox-transition-duration)) ease,
+    box-shadow var(--mod-checkbox-transition-duration, var(--nc-checkbox-transition-duration)) ease;
 
   // Reduced Motion: global abgedeckt durch _reset.scss
 }

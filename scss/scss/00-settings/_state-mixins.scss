@@ -46,6 +46,20 @@ $state-categories: (
 ) !default;
 
 // ---------------------------------------------------------------------------
+// CSS Custom Properties fuer Derivation (Runtime-konfigurierbar)
+// ---------------------------------------------------------------------------
+// Diese Tokens ermöglichen es dem Theme Configurator, die State-Intensitaet
+// zur Laufzeit zu aendern. Aenderungen kaskadieren automatisch durch alle
+// Komponenten die state-colors() oder state-hover() verwenden.
+
+:root {
+  --fnd-state-bold-hover:  85%;
+  --fnd-state-bold-active: 75%;
+  --fnd-state-subtle-hover:  92%;
+  --fnd-state-subtle-active: 85%;
+}
+
+// ---------------------------------------------------------------------------
 // state-colors — Erzeugt Base + Hover + Active Tokens
 // ---------------------------------------------------------------------------
 /// @param {String} $prefix — CSS Custom Property Name (z.B. --nc-button-success-bg)
@@ -77,4 +91,35 @@ $state-categories: (
   $steps: map.get($state-categories, $category);
   $hover-keep: map.get($steps, 'hover');
   #{$prefix}-hover: color-mix(in srgb, #{$base} #{$hover-keep}#{'%'}, var(--fnd-state-mix-target));
+}
+
+// ---------------------------------------------------------------------------
+// transparent-overlay — Erzeugt Base + optionale Hover/Active mit Transparenz
+// ---------------------------------------------------------------------------
+/// Fuer Soft/Ghost/Subtle Hintergruende die Farbe + Transparenz mischen.
+/// @param {String} $prefix — CSS Custom Property Name
+/// @param {String} $base — Foundation-Token-Referenz
+/// @param {Number} $opacity — Basis-Opacity in Prozent (z.B. 10)
+/// @param {Number|null} $hover-opacity [null] — Hover-Opacity (z.B. 18)
+/// @param {Number|null} $active-opacity [null] — Active-Opacity (z.B. 24)
+
+@mixin transparent-overlay($prefix, $base, $opacity, $hover-opacity: null, $active-opacity: null) {
+  #{$prefix}: color-mix(in srgb, #{$base} #{$opacity}#{'%'}, transparent);
+  @if $hover-opacity {
+    #{$prefix}-hover: color-mix(in srgb, #{$base} #{$hover-opacity}#{'%'}, transparent);
+  }
+  @if $active-opacity {
+    #{$prefix}-active: color-mix(in srgb, #{$base} #{$active-opacity}#{'%'}, transparent);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// state-active — Erzeugt nur den Active-Token
+// ---------------------------------------------------------------------------
+/// @param {String} $prefix — CSS Custom Property Name
+/// @param {String} $base — Foundation-Token-Referenz
+/// @param {Number} $keep-pct — Prozent der Basisfarbe (z.B. 80)
+
+@mixin state-active($prefix, $base, $keep-pct: 75) {
+  #{$prefix}-active: color-mix(in srgb, #{$base} #{$keep-pct}#{'%'}, var(--fnd-state-mix-target));
 }

@@ -51,7 +51,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: var(--nc-nav-menu-item-gap);
+  gap: var(--mod-nav-menu-item-gap, var(--nc-nav-menu-item-gap));
 }
 
 // ---------------------------------------------------------------------------
@@ -60,7 +60,7 @@
 
 .nc-navigation-menu__item {
   position: relative;
-  margin-block: var(--nc-nav-menu-item-margin);
+  margin-block: var(--mod-nav-menu-item-margin, var(--nc-nav-menu-item-margin));
 }
 
 // ---------------------------------------------------------------------------
@@ -71,25 +71,25 @@
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: var(--nc-nav-menu-trigger-padding-y) var(--nc-nav-menu-trigger-padding-x);
+  padding: var(--mod-nav-menu-trigger-padding-y, var(--nc-nav-menu-trigger-padding-y)) var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
   border: none;
-  border-radius: var(--nc-nav-menu-trigger-radius);
+  border-radius: var(--mod-nav-menu-trigger-radius, var(--nc-nav-menu-trigger-radius));
   background: transparent;
-  color: var(--nc-nav-menu-trigger-color);
+  color: var(--mod-nav-menu-trigger-color, var(--nc-nav-menu-trigger-color));
   font-family: inherit;
-  font-size: var(--nc-nav-menu-trigger-font-size);
-  font-weight: var(--nc-nav-menu-trigger-font-weight);
+  font-size: var(--mod-nav-menu-trigger-font-size, var(--nc-nav-menu-trigger-font-size));
+  font-weight: var(--mod-nav-menu-trigger-font-weight, var(--nc-nav-menu-trigger-font-weight));
   line-height: 1.4;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
   outline: none;
   transition:
-    background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
-    color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+    background-color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease)),
+    color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   &:hover {
-    background-color: var(--nc-nav-menu-trigger-hover-bg);
+    background-color: var(--mod-nav-menu-trigger-hover-bg, var(--nc-nav-menu-trigger-hover-bg));
   }
 
   &:focus-visible {
@@ -97,7 +97,7 @@
   }
 
   &[data-state='open'] {
-    background-color: var(--nc-nav-menu-trigger-active-bg);
+    background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 
   // Aktueller Navigationsast: border-bottom Indikator
@@ -108,11 +108,11 @@
       content: '';
       position: absolute;
       bottom: 0;
-      left: var(--nc-nav-menu-trigger-padding-x);
-      right: var(--nc-nav-menu-trigger-padding-x);
-      height: var(--nc-nav-menu-indicator-height);
-      background-color: var(--nc-nav-menu-indicator-color);
-      border-radius: var(--nc-nav-menu-indicator-height);
+      left: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+      right: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+      height: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
+      background-color: var(--mod-nav-menu-indicator-color, var(--nc-nav-menu-indicator-color));
+      border-radius: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
     }
   }
 }
@@ -158,7 +158,7 @@
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  transition: transform var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  transition: transform var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   [data-state='open'] > & {
     transform: rotate(180deg);
@@ -182,19 +182,19 @@
 .nc-navigation-menu__link--top {
   display: inline-flex;
   align-items: center;
-  padding: var(--nc-nav-menu-trigger-padding-y) var(--nc-nav-menu-trigger-padding-x);
-  border-radius: var(--nc-nav-menu-trigger-radius);
-  color: var(--nc-nav-menu-trigger-color);
-  font-size: var(--nc-nav-menu-trigger-font-size);
-  font-weight: var(--nc-nav-menu-trigger-font-weight);
+  padding: var(--mod-nav-menu-trigger-padding-y, var(--nc-nav-menu-trigger-padding-y)) var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+  border-radius: var(--mod-nav-menu-trigger-radius, var(--nc-nav-menu-trigger-radius));
+  color: var(--mod-nav-menu-trigger-color, var(--nc-nav-menu-trigger-color));
+  font-size: var(--mod-nav-menu-trigger-font-size, var(--nc-nav-menu-trigger-font-size));
+  font-weight: var(--mod-nav-menu-trigger-font-weight, var(--nc-nav-menu-trigger-font-weight));
   text-decoration: none;
   white-space: nowrap;
   transition:
-    background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
-    color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+    background-color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease)),
+    color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   &:hover {
-    background-color: var(--nc-nav-menu-trigger-hover-bg);
+    background-color: var(--mod-nav-menu-trigger-hover-bg, var(--nc-nav-menu-trigger-hover-bg));
     text-decoration: none;
   }
 
@@ -203,7 +203,7 @@
   }
 
   &[data-active] {
-    background-color: var(--nc-nav-menu-trigger-active-bg);
+    background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 }
 
@@ -232,7 +232,7 @@
     opacity: 1;
     clip: auto;
     pointer-events: auto;
-    padding: var(--nc-nav-menu-content-padding) 0;
+    padding: var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)) 0;
   }
 }
 
@@ -258,8 +258,8 @@
 // Links-Bereich (links): Spalten mit Kicker-Ueberschriften
 .nc-navigation-menu__links-area {
   display: grid;
-  grid-template-columns: repeat(var(--nc-nav-menu-mega-columns, 1), 1fr);
-  gap: var(--nc-nav-menu-mega-gap);
+  grid-template-columns: repeat(var(--mod-nav-menu-mega-columns, var(--nc-nav-menu-mega-columns, 1)), 1fr);
+  gap: var(--mod-nav-menu-mega-gap, var(--nc-nav-menu-mega-gap));
   flex: 1;
   align-content: start;
 }
@@ -284,7 +284,7 @@
   color: var(--fnd-color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: var(--nc-nav-menu-link-padding);
+  padding: var(--mod-nav-menu-link-padding, var(--nc-nav-menu-link-padding));
   padding-bottom: 0;
 }
 
@@ -301,7 +301,7 @@
 // -- Mega-Menu: Spaltenanzahl via Custom Property --
 .nc-navigation-menu__content--mega {
   .nc-navigation-menu__links-area {
-    grid-template-columns: repeat(var(--nc-nav-menu-mega-columns, 3), 1fr);
+    grid-template-columns: repeat(var(--mod-nav-menu-mega-columns, var(--nc-nav-menu-mega-columns, 3)), 1fr);
   }
 }
 
@@ -314,12 +314,12 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: var(--fnd-spacing-02);
-  padding: var(--nc-nav-menu-featured-padding);
-  border-radius: var(--nc-nav-menu-featured-radius);
-  background: var(--nc-nav-menu-featured-bg);
+  padding: var(--mod-nav-menu-featured-padding, var(--nc-nav-menu-featured-padding));
+  border-radius: var(--mod-nav-menu-featured-radius, var(--nc-nav-menu-featured-radius));
+  background: var(--mod-nav-menu-featured-bg, var(--nc-nav-menu-featured-bg));
   text-decoration: none;
   color: inherit;
-  transition: background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  transition: background-color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   &:hover {
     text-decoration: none;
@@ -345,9 +345,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--fnd-spacing-02);
-  padding: var(--nc-nav-menu-featured-padding);
-  border-radius: var(--nc-nav-menu-featured-radius);
-  background: var(--nc-nav-menu-featured-bg);
+  padding: var(--mod-nav-menu-featured-padding, var(--nc-nav-menu-featured-padding));
+  border-radius: var(--mod-nav-menu-featured-radius, var(--nc-nav-menu-featured-radius));
+  background: var(--mod-nav-menu-featured-bg, var(--nc-nav-menu-featured-bg));
   text-decoration: none;
   color: inherit;
   grid-column: 1 / -1; // Volle Breite im Grid
@@ -364,15 +364,15 @@
 .nc-navigation-menu__link {
   display: grid;
   gap: 0.15rem;
-  padding: var(--nc-nav-menu-link-padding);
-  border-radius: var(--nc-nav-menu-link-radius);
+  padding: var(--mod-nav-menu-link-padding, var(--nc-nav-menu-link-padding));
+  border-radius: var(--mod-nav-menu-link-radius, var(--nc-nav-menu-link-radius));
   text-decoration: none;
   color: inherit;
   outline: none;
-  transition: background-color var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  transition: background-color var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   &:hover {
-    background-color: var(--nc-nav-menu-link-hover-bg);
+    background-color: var(--mod-nav-menu-link-hover-bg, var(--nc-nav-menu-link-hover-bg));
     text-decoration: none;
   }
 
@@ -414,9 +414,9 @@
   pointer-events: none;
   opacity: 0;
   // Full-width Hintergrund, direkt anschliessend an Nav (kein gap)
-  background-color: var(--nc-nav-menu-viewport-bg);
+  background-color: var(--mod-nav-menu-viewport-bg, var(--nc-nav-menu-viewport-bg));
   // Schatten NUR auf dem Viewport-Wrapper (ersetzt Nav-Schatten bei offenem Menu)
-  box-shadow: var(--nc-nav-sticky-shadow);
+  box-shadow: var(--mod-nav-sticky-shadow, var(--nc-nav-sticky-shadow));
   @include transition-quick((opacity));
 
   &[data-state='open'] {
@@ -431,9 +431,9 @@
 }
 
 .nc-navigation-menu__viewport {
-  max-width: var(--nc-container-max-width);
+  max-width: var(--mod-container-max-width, var(--nc-container-max-width));
   margin-inline: auto;
-  padding: var(--nc-nav-menu-content-padding) 0;
+  padding: var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)) 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -441,12 +441,12 @@
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__kicker {
-  font-size: var(--nc-nav-menu-kicker-font-size);
-  font-weight: var(--nc-nav-menu-kicker-font-weight);
-  color: var(--nc-nav-menu-kicker-color);
-  text-transform: var(--nc-nav-menu-kicker-text-transform, uppercase);
-  letter-spacing: var(--nc-nav-menu-kicker-letter-spacing, 0.06em);
-  margin-bottom: var(--nc-nav-menu-kicker-margin-bottom);
+  font-size: var(--mod-nav-menu-kicker-font-size, var(--nc-nav-menu-kicker-font-size));
+  font-weight: var(--mod-nav-menu-kicker-font-weight, var(--nc-nav-menu-kicker-font-weight));
+  color: var(--mod-nav-menu-kicker-color, var(--nc-nav-menu-kicker-color));
+  text-transform: var(--mod-nav-menu-kicker-text-transform, var(--nc-nav-menu-kicker-text-transform, uppercase));
+  letter-spacing: var(--mod-nav-menu-kicker-letter-spacing, var(--nc-nav-menu-kicker-letter-spacing, 0.06em));
+  margin-bottom: var(--mod-nav-menu-kicker-margin-bottom, var(--nc-nav-menu-kicker-margin-bottom));
   grid-column: 1 / -1;
 }
 
@@ -460,9 +460,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: var(--nc-nav-menu-callout-card-radius);
-  padding: var(--nc-nav-menu-callout-card-padding);
-  min-height: var(--nc-nav-menu-callout-card-min-height);
+  border-radius: var(--mod-nav-menu-callout-card-radius, var(--nc-nav-menu-callout-card-radius));
+  padding: var(--mod-nav-menu-callout-card-padding, var(--nc-nav-menu-callout-card-padding));
+  min-height: var(--mod-nav-menu-callout-card-min-height, var(--nc-nav-menu-callout-card-min-height));
   width: 240px;
   max-width: 240px;
   flex-shrink: 0;
@@ -629,17 +629,17 @@
 .nc-navigation-menu__indicator {
   position: absolute;
   bottom: 0;
-  height: var(--nc-nav-menu-indicator-height);
-  background-color: var(--nc-nav-menu-indicator-color);
-  border-radius: var(--nc-nav-menu-indicator-height);
+  height: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
+  background-color: var(--mod-nav-menu-indicator-color, var(--nc-nav-menu-indicator-color));
+  border-radius: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
   z-index: var(--fnd-z-base);
 
   opacity: 0;
   // Layout-Transition fuer sanftes Hergleiten
   transition:
-    left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
-    width var(--nc-nav-menu-duration) var(--nc-nav-menu-ease),
-    opacity var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+    left var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease)),
+    width var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease)),
+    opacity var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
   &[data-state='visible'] {
     opacity: 1;
@@ -662,8 +662,8 @@
   top: 70%;
   width: 0.625rem;
   height: 0.625rem;
-  background-color: var(--nc-nav-menu-viewport-bg);
-  border: 1px solid var(--nc-nav-menu-viewport-border);
+  background-color: var(--mod-nav-menu-viewport-bg, var(--nc-nav-menu-viewport-bg));
+  border: 1px solid var(--mod-nav-menu-viewport-border, var(--nc-nav-menu-viewport-border));
   border-bottom: none;
   border-right: none;
   transform: rotate(45deg);
@@ -720,19 +720,19 @@
 
 // Content-Animation bei Wechsel im Viewport
 .nc-navigation-menu__content[data-motion='from-start'] {
-  animation: nc-navigation-menu-enter-from-left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  animation: nc-navigation-menu-enter-from-left var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
 
 .nc-navigation-menu__content[data-motion='from-end'] {
-  animation: nc-navigation-menu-enter-from-right var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  animation: nc-navigation-menu-enter-from-right var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
 
 .nc-navigation-menu__content[data-motion='to-start'] {
-  animation: nc-navigation-menu-exit-to-left var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  animation: nc-navigation-menu-exit-to-left var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
 
 .nc-navigation-menu__content[data-motion='to-end'] {
-  animation: nc-navigation-menu-exit-to-right var(--nc-nav-menu-duration) var(--nc-nav-menu-ease);
+  animation: nc-navigation-menu-exit-to-right var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
 
 // Reduced Motion

@@ -86,8 +86,8 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview {
-  font-size: var(--nc-treeview-label-font-size);
-  color: var(--nc-treeview-label-color);
+  font-size: var(--mod-treeview-label-font-size, var(--nc-treeview-label-font-size));
+  color: var(--mod-treeview-label-color, var(--nc-treeview-label-color));
 }
 
 // ---------------------------------------------------------------------------
@@ -96,7 +96,7 @@
 
 .nc-treeview__controls {
   display: flex;
-  gap: var(--nc-treeview-gap);
+  gap: var(--mod-treeview-gap, var(--nc-treeview-gap));
   margin-block-end: var(--fnd-spacing-03);
 }
 
@@ -118,7 +118,7 @@
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows var(--nc-treeview-expand-duration) ease;
+  transition: grid-template-rows var(--mod-treeview-expand-duration, var(--nc-treeview-expand-duration)) ease;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -127,7 +127,7 @@
   > .nc-treeview__list {
     min-height: 0;
     opacity: 0;
-    transition: opacity var(--nc-treeview-expand-duration) ease;
+    transition: opacity var(--mod-treeview-expand-duration, var(--nc-treeview-expand-duration)) ease;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -165,14 +165,14 @@
 .nc-treeview__node {
   display: flex;
   align-items: center;
-  gap: var(--nc-treeview-gap);
-  min-height: var(--nc-treeview-item-height);
+  gap: var(--mod-treeview-gap, var(--nc-treeview-gap));
+  min-height: var(--mod-treeview-item-height, var(--nc-treeview-item-height));
   padding-inline-start: calc(
-    var(--nc-treeview-item-padding-x) + (var(--_level) * var(--nc-treeview-indent))
+    var(--mod-treeview-item-padding-x, var(--nc-treeview-item-padding-x)) + (var(--_level) * var(--mod-treeview-indent, var(--nc-treeview-indent)))
   );
-  padding-inline-end: var(--nc-treeview-item-padding-x);
-  border-radius: var(--nc-treeview-radius);
-  border-inline-start: var(--nc-treeview-border-selected-width) solid transparent;
+  padding-inline-end: var(--mod-treeview-item-padding-x, var(--nc-treeview-item-padding-x));
+  border-radius: var(--mod-treeview-radius, var(--nc-treeview-radius));
+  border-inline-start: var(--mod-treeview-border-selected-width, var(--nc-treeview-border-selected-width)) solid transparent;
   cursor: pointer;
   user-select: none;
   text-decoration: none;
@@ -181,7 +181,7 @@
 
   // Hover
   &:hover {
-    background-color: var(--nc-treeview-bg-hover);
+    background-color: var(--mod-treeview-bg-hover, var(--nc-treeview-bg-hover));
   }
 
   // Focus
@@ -198,18 +198,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-treeview-toggle-size);
-  height: var(--nc-treeview-toggle-size);
+  width: var(--mod-treeview-toggle-size, var(--nc-treeview-toggle-size));
+  height: var(--mod-treeview-toggle-size, var(--nc-treeview-toggle-size));
   padding: 0;
   border: none;
   background: none;
-  color: var(--nc-treeview-toggle-color);
+  color: var(--mod-treeview-toggle-color, var(--nc-treeview-toggle-color));
   cursor: pointer;
   flex-shrink: 0;
   border-radius: var(--fnd-radius-sm);
   transform: rotate(0deg);
-  transition: transform var(--nc-treeview-toggle-transition) ease,
-              color var(--nc-treeview-transition-duration) ease;
+  transition: transform var(--mod-treeview-toggle-transition, var(--nc-treeview-toggle-transition)) ease,
+              color var(--mod-treeview-transition-duration, var(--nc-treeview-transition-duration)) ease;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -226,7 +226,7 @@
   }
 
   &:hover {
-    color: var(--nc-treeview-toggle-color-hover);
+    color: var(--mod-treeview-toggle-color-hover, var(--nc-treeview-toggle-color-hover));
   }
 
   &:focus-visible {
@@ -250,10 +250,10 @@
 
 .nc-treeview__checkbox {
   display: none;
-  width: var(--nc-treeview-checkbox-size);
-  height: var(--nc-treeview-checkbox-size);
+  width: var(--mod-treeview-checkbox-size, var(--nc-treeview-checkbox-size));
+  height: var(--mod-treeview-checkbox-size, var(--nc-treeview-checkbox-size));
   flex-shrink: 0;
-  accent-color: var(--nc-treeview-border-selected);
+  accent-color: var(--mod-treeview-border-selected, var(--nc-treeview-border-selected));
   cursor: pointer;
   margin: 0;
 
@@ -270,10 +270,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-treeview-icon-size);
-  height: var(--nc-treeview-icon-size);
+  width: var(--mod-treeview-icon-size, var(--nc-treeview-icon-size));
+  height: var(--mod-treeview-icon-size, var(--nc-treeview-icon-size));
   flex-shrink: 0;
-  color: var(--nc-treeview-icon-color);
+  color: var(--mod-treeview-icon-color, var(--nc-treeview-icon-color));
 
   > svg {
     width: 100%;
@@ -288,7 +288,7 @@
 .nc-treeview__label {
   flex: 1 1 auto;
   min-width: 0;
-  font-weight: var(--nc-treeview-label-font-weight);
+  font-weight: var(--mod-treeview-label-font-weight, var(--nc-treeview-label-font-weight));
   line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
@@ -305,14 +305,14 @@
   gap: var(--fnd-spacing-01);
   flex: 1 1 auto;
   min-width: 0;
-  font-weight: var(--nc-treeview-label-font-weight);
+  font-weight: var(--mod-treeview-label-font-weight, var(--nc-treeview-label-font-weight));
   line-height: 1.4;
-  color: var(--nc-treeview-link-color);
+  color: var(--mod-treeview-link-color, var(--nc-treeview-link-color));
   text-decoration: none;
   text-underline-offset: 2px;
 
   &:hover {
-    color: var(--nc-treeview-link-color-hover);
+    color: var(--mod-treeview-link-color-hover, var(--nc-treeview-link-color-hover));
     text-decoration: underline;
   }
 
@@ -341,15 +341,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--nc-treeview-badge-font-size);
+  font-size: var(--mod-treeview-badge-font-size, var(--nc-treeview-badge-font-size));
   font-weight: var(--fnd-font-weight-medium);
   line-height: 1;
-  padding: var(--nc-treeview-badge-padding);
+  padding: var(--mod-treeview-badge-padding, var(--nc-treeview-badge-padding));
   min-width: 18px;
   height: 18px;
-  border-radius: var(--nc-treeview-badge-radius);
-  background: var(--nc-treeview-badge-bg);
-  color: var(--nc-treeview-badge-color);
+  border-radius: var(--mod-treeview-badge-radius, var(--nc-treeview-badge-radius));
+  background: var(--mod-treeview-badge-bg, var(--nc-treeview-badge-bg));
+  color: var(--mod-treeview-badge-color, var(--nc-treeview-badge-color));
   flex-shrink: 0;
   margin-inline-start: auto;
 }
@@ -361,10 +361,10 @@
 .nc-treeview__actions {
   display: flex;
   align-items: center;
-  gap: var(--nc-treeview-action-gap);
+  gap: var(--mod-treeview-action-gap, var(--nc-treeview-action-gap));
   margin-inline-start: auto;
   opacity: 0;
-  transition: opacity var(--nc-treeview-transition-duration) ease;
+  transition: opacity var(--mod-treeview-transition-duration, var(--nc-treeview-transition-duration)) ease;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -381,12 +381,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-treeview-action-size);
-  height: var(--nc-treeview-action-size);
+  width: var(--mod-treeview-action-size, var(--nc-treeview-action-size));
+  height: var(--mod-treeview-action-size, var(--nc-treeview-action-size));
   padding: 0;
   border: none;
   background: none;
-  color: var(--nc-treeview-action-color);
+  color: var(--mod-treeview-action-color, var(--nc-treeview-action-color));
   cursor: pointer;
   border-radius: var(--fnd-radius-sm);
   @include transition((background-color, color), '150');
@@ -402,8 +402,8 @@
   }
 
   &:hover {
-    color: var(--nc-treeview-action-color-hover);
-    background-color: var(--nc-treeview-bg-hover);
+    color: var(--mod-treeview-action-color-hover, var(--nc-treeview-action-color-hover));
+    background-color: var(--mod-treeview-bg-hover, var(--nc-treeview-bg-hover));
   }
 
   &:focus-visible {
@@ -424,7 +424,7 @@
   padding: 0;
   border: none;
   background: none;
-  color: var(--nc-treeview-toggle-color);
+  color: var(--mod-treeview-toggle-color, var(--nc-treeview-toggle-color));
   cursor: grab;
   flex-shrink: 0;
 
@@ -444,9 +444,9 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview__item--selected > .nc-treeview__node {
-  background-color: var(--nc-treeview-bg-selected);
-  border-inline-start-color: var(--nc-treeview-border-selected);
-  font-weight: var(--nc-treeview-label-font-weight-selected);
+  background-color: var(--mod-treeview-bg-selected, var(--nc-treeview-bg-selected));
+  border-inline-start-color: var(--mod-treeview-border-selected, var(--nc-treeview-border-selected));
+  font-weight: var(--mod-treeview-label-font-weight-selected, var(--nc-treeview-label-font-weight-selected));
 }
 
 // ---------------------------------------------------------------------------
@@ -454,7 +454,7 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview__item--disabled {
-  opacity: var(--nc-treeview-disabled-opacity);
+  opacity: var(--mod-treeview-disabled-opacity, var(--nc-treeview-disabled-opacity));
   pointer-events: none;
 
   > .nc-treeview__node {
@@ -467,7 +467,7 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview__item--dragging {
-  opacity: var(--nc-treeview-drag-opacity);
+  opacity: var(--mod-treeview-drag-opacity, var(--nc-treeview-drag-opacity));
 }
 
 // ---------------------------------------------------------------------------
@@ -475,17 +475,17 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview__item--drop-before > .nc-treeview__node {
-  box-shadow: inset 0 var(--nc-treeview-drop-indicator-width) 0 var(--nc-treeview-drop-indicator-color);
+  box-shadow: inset 0 var(--mod-treeview-drop-indicator-width, var(--nc-treeview-drop-indicator-width)) 0 var(--mod-treeview-drop-indicator-color, var(--nc-treeview-drop-indicator-color));
 }
 
 .nc-treeview__item--drop-after > .nc-treeview__node {
-  box-shadow: inset 0 calc(-1 * var(--nc-treeview-drop-indicator-width)) 0 var(--nc-treeview-drop-indicator-color);
+  box-shadow: inset 0 calc(-1 * var(--mod-treeview-drop-indicator-width, var(--nc-treeview-drop-indicator-width))) 0 var(--mod-treeview-drop-indicator-color, var(--nc-treeview-drop-indicator-color));
 }
 
 .nc-treeview__item--drop-inside > .nc-treeview__node {
-  outline: var(--nc-treeview-drop-indicator-width) solid var(--nc-treeview-drop-indicator-color);
-  outline-offset: calc(-1 * var(--nc-treeview-drop-indicator-width));
-  border-radius: var(--nc-treeview-radius);
+  outline: var(--mod-treeview-drop-indicator-width, var(--nc-treeview-drop-indicator-width)) solid var(--mod-treeview-drop-indicator-color, var(--nc-treeview-drop-indicator-color));
+  outline-offset: calc(-1 * var(--mod-treeview-drop-indicator-width, var(--nc-treeview-drop-indicator-width)));
+  border-radius: var(--mod-treeview-radius, var(--nc-treeview-radius));
 }
 
 // ---------------------------------------------------------------------------
@@ -501,13 +501,13 @@
     content: '';
     position: absolute;
     inset-inline-start: calc(
-      var(--nc-treeview-item-padding-x) + (var(--_level) * var(--nc-treeview-indent)) + (var(--nc-treeview-toggle-size) / 2)
+      var(--mod-treeview-item-padding-x, var(--nc-treeview-item-padding-x)) + (var(--_level) * var(--mod-treeview-indent, var(--nc-treeview-indent))) + (var(--mod-treeview-toggle-size, var(--nc-treeview-toggle-size)) / 2)
     );
-    top: var(--nc-treeview-item-height);
+    top: var(--mod-treeview-item-height, var(--nc-treeview-item-height));
     bottom: 0;
-    width: var(--nc-treeview-guide-width);
-    background: var(--nc-treeview-guide-color);
-    opacity: var(--nc-treeview-guide-opacity);
+    width: var(--mod-treeview-guide-width, var(--nc-treeview-guide-width));
+    background: var(--mod-treeview-guide-color, var(--nc-treeview-guide-color));
+    opacity: var(--mod-treeview-guide-opacity, var(--nc-treeview-guide-opacity));
     pointer-events: none;
   }
 }
@@ -520,13 +520,13 @@
     content: '';
     position: absolute;
     inset-inline-start: calc(
-      var(--nc-treeview-item-padding-x) + (var(--_level) * var(--nc-treeview-indent)) + (var(--nc-treeview-toggle-size) / 2)
+      var(--mod-treeview-item-padding-x, var(--nc-treeview-item-padding-x)) + (var(--_level) * var(--mod-treeview-indent, var(--nc-treeview-indent))) + (var(--mod-treeview-toggle-size, var(--nc-treeview-toggle-size)) / 2)
     );
-    top: var(--nc-treeview-item-height);
+    top: var(--mod-treeview-item-height, var(--nc-treeview-item-height));
     bottom: 0;
     width: 0;
-    border-inline-start: var(--nc-treeview-guide-width) dashed var(--nc-treeview-guide-color);
-    opacity: var(--nc-treeview-guide-opacity);
+    border-inline-start: var(--mod-treeview-guide-width, var(--nc-treeview-guide-width)) dashed var(--mod-treeview-guide-color, var(--nc-treeview-guide-color));
+    opacity: var(--mod-treeview-guide-opacity, var(--nc-treeview-guide-opacity));
     pointer-events: none;
   }
 }
@@ -536,9 +536,9 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview--bordered {
-  border: var(--nc-treeview-bordered-border-width) solid var(--nc-treeview-bordered-border-color);
-  border-radius: var(--nc-treeview-bordered-radius);
-  padding: var(--nc-treeview-bordered-padding);
+  border: var(--mod-treeview-bordered-border-width, var(--nc-treeview-bordered-border-width)) solid var(--mod-treeview-bordered-border-color, var(--nc-treeview-bordered-border-color));
+  border-radius: var(--mod-treeview-bordered-radius, var(--nc-treeview-bordered-radius));
+  padding: var(--mod-treeview-bordered-padding, var(--nc-treeview-bordered-padding));
 }
 
 // ---------------------------------------------------------------------------
@@ -546,7 +546,7 @@
 // ---------------------------------------------------------------------------
 
 .nc-treeview--compact .nc-treeview__node {
-  min-height: var(--nc-treeview-item-height-compact);
+  min-height: var(--mod-treeview-item-height-compact, var(--nc-treeview-item-height-compact));
 }
 
 // ---------------------------------------------------------------------------
@@ -556,7 +556,7 @@
 .nc-treeview--flush {
   .nc-treeview__node {
     border-radius: 0;
-    padding-inline-start: calc(var(--_level) * var(--nc-treeview-indent));
+    padding-inline-start: calc(var(--_level) * var(--mod-treeview-indent, var(--nc-treeview-indent)));
     padding-inline-end: 0;
   }
 }

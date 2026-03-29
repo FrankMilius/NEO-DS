@@ -29,12 +29,12 @@
 .nc-header {
   position: sticky;
   top: 0;
-  height: var(--nc-nav-height);
-  background: var(--nc-nav-bg);
-  backdrop-filter: blur(var(--nc-nav-blur));
-  -webkit-backdrop-filter: blur(var(--nc-nav-blur));
-  border-bottom: var(--nc-nav-border-width) solid var(--nc-nav-border);
-  z-index: var(--nc-nav-z-index);
+  height: var(--mod-nav-height, var(--nc-nav-height));
+  background: var(--mod-nav-bg, var(--nc-nav-bg));
+  backdrop-filter: blur(var(--mod-nav-blur, var(--nc-nav-blur)));
+  -webkit-backdrop-filter: blur(var(--mod-nav-blur, var(--nc-nav-blur)));
+  border-bottom: var(--mod-nav-border-width, var(--nc-nav-border-width)) solid var(--mod-nav-border, var(--nc-nav-border));
+  z-index: var(--mod-nav-z-index, var(--nc-nav-z-index));
   @include transition-quick((background-color, box-shadow, transform, border-color));
 
   @media (prefers-reduced-motion: reduce) {
@@ -43,7 +43,7 @@
 
   // -- Intelligent Sticky: Scroll-Shadow --
   &.is-scrolled {
-    box-shadow: var(--nc-nav-sticky-shadow);
+    box-shadow: var(--mod-nav-sticky-shadow, var(--nc-nav-sticky-shadow));
   }
 
   // -- Intelligent Sticky: Hide beim Runterscrollen --
@@ -54,21 +54,21 @@
 
   // -- Emphasis: Transparent (Hero-Overlay) --
   &--transparent {
-    background: var(--nc-nav-transparent-bg);
-    border-color: var(--nc-nav-transparent-border);
-    color: var(--nc-nav-transparent-color);
+    background: var(--mod-nav-transparent-bg, var(--nc-nav-transparent-bg));
+    border-color: var(--mod-nav-transparent-border, var(--nc-nav-transparent-border));
+    color: var(--mod-nav-transparent-color, var(--nc-nav-transparent-color));
 
     // Beim Scrollen: Blur einblenden
     &.is-scrolled {
-      background: var(--nc-nav-bg);
-      border-color: var(--nc-nav-border);
+      background: var(--mod-nav-bg, var(--nc-nav-bg));
+      border-color: var(--mod-nav-border, var(--nc-nav-border));
       color: inherit;
     }
   }
 
   // -- Emphasis: Solid (kein Blur, Performance) --
   &--solid {
-    background: var(--nc-nav-bg-solid);
+    background: var(--mod-nav-bg-solid, var(--nc-nav-bg-solid));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -82,14 +82,14 @@
 
 .nc-nav__inner {
   display: flex;
-  align-items: var(--nc-nav-align-items);
-  justify-content: var(--nc-nav-justify-content);
-  gap: var(--nc-nav-gap);
+  align-items: var(--mod-nav-align-items, var(--nc-nav-align-items));
+  justify-content: var(--mod-nav-justify-content, var(--nc-nav-justify-content));
+  gap: var(--mod-nav-gap, var(--nc-nav-gap));
   height: 100%;
   margin-inline: auto;
   box-sizing: border-box;
-  padding-block: var(--nc-nav-padding-block);
-  padding-inline: var(--nc-nav-padding-inline);
+  padding-block: var(--mod-nav-padding-block, var(--nc-nav-padding-block));
+  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
 
   @include respond-to('xxl') {
     padding-inline: 0;
@@ -110,19 +110,19 @@
 .nc-brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--nc-nav-brand-gap);
+  gap: var(--mod-nav-brand-gap, var(--nc-nav-brand-gap));
   font-family: var(--font-heading);
   text-transform: lowercase;
-  letter-spacing: var(--nc-nav-brand-letter-spacing);
-  font-size: var(--nc-nav-brand-size);
-  font-weight: var(--nc-nav-brand-weight);
-  color: var(--nc-nav-brand-color);
+  letter-spacing: var(--mod-nav-brand-letter-spacing, var(--nc-nav-brand-letter-spacing));
+  font-size: var(--mod-nav-brand-size, var(--nc-nav-brand-size));
+  font-weight: var(--mod-nav-brand-weight, var(--nc-nav-brand-weight));
+  color: var(--mod-nav-brand-color, var(--nc-nav-brand-color));
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .nc-brand__logo {
-  height: var(--nc-nav-brand-logo-height);
+  height: var(--mod-nav-brand-logo-height, var(--nc-nav-brand-logo-height));
   width: auto;
   display: block;
   object-fit: contain;
@@ -133,7 +133,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: var(--nc-nav-gap);
+  gap: var(--mod-nav-gap, var(--nc-nav-gap));
   flex-wrap: wrap;
 }
 
@@ -177,7 +177,7 @@
   box-shadow: var(--fnd-elevation-floating);
   width: 100vw;
   max-width: 100vw;
-  margin: var(--nc-nav-height) 0 0;
+  margin: var(--mod-nav-height, var(--nc-nav-height)) 0 0;
   transform: translateY(-8px);
   @include transition-quick((transform));
 }
@@ -204,7 +204,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  top: var(--nc-nav-height);
+  top: var(--mod-nav-height, var(--nc-nav-height));
   width: 100vw;
   background: var(--fnd-color-background-base);
   border-top: 1px solid var(--fnd-color-border-secondary);

@@ -71,8 +71,8 @@
 
 /// Breadcrumb-Wrapper (<nav>).
 @mixin breadcrumb-base {
-  font-size: var(--nc-breadcrumb-font-size);
-  color: var(--nc-breadcrumb-color);
+  font-size: var(--mod-breadcrumb-font-size, var(--nc-breadcrumb-font-size));
+  color: var(--mod-breadcrumb-color, var(--nc-breadcrumb-color));
 }
 
 /// Breadcrumb-Liste (<ol>).
@@ -80,7 +80,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--nc-breadcrumb-gap);
+  gap: var(--mod-breadcrumb-gap, var(--nc-breadcrumb-gap));
   list-style: none;
   margin: 0;
   padding: 0;
@@ -90,18 +90,18 @@
 @mixin breadcrumb-item {
   display: inline-flex;
   align-items: center;
-  gap: var(--nc-breadcrumb-gap);
+  gap: var(--mod-breadcrumb-gap, var(--nc-breadcrumb-gap));
 }
 
 /// Breadcrumb-Link (<a>).
 @mixin breadcrumb-link {
-  color: var(--nc-breadcrumb-color);
+  color: var(--mod-breadcrumb-color, var(--nc-breadcrumb-color));
   text-decoration: none;
   text-underline-offset: 2px;
   @include transition(color, '200');
 
   &:hover {
-    color: var(--nc-breadcrumb-color-hover);
+    color: var(--mod-breadcrumb-color-hover, var(--nc-breadcrumb-color-hover));
     text-decoration: underline;
   }
 
@@ -113,7 +113,7 @@
 
 /// Aktuelle Seite (<span>, nicht klickbar).
 @mixin breadcrumb-page {
-  color: var(--nc-breadcrumb-color-current);
+  color: var(--mod-breadcrumb-color-current, var(--nc-breadcrumb-color-current));
   font-weight: var(--fnd-font-weight-medium);
 }
 
@@ -123,15 +123,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--nc-breadcrumb-separator-color);
-  opacity: var(--nc-breadcrumb-separator-opacity);
-  min-width: var(--nc-breadcrumb-separator-min-width);
+  color: var(--mod-breadcrumb-separator-color, var(--nc-breadcrumb-separator-color));
+  opacity: var(--mod-breadcrumb-separator-opacity, var(--nc-breadcrumb-separator-opacity));
+  min-width: var(--mod-breadcrumb-separator-min-width, var(--nc-breadcrumb-separator-min-width));
   flex-shrink: 0;
   user-select: none;
 
   > svg {
-    width: var(--nc-breadcrumb-separator-size);
-    height: var(--nc-breadcrumb-separator-size);
+    width: var(--mod-breadcrumb-separator-size, var(--nc-breadcrumb-separator-size));
+    height: var(--mod-breadcrumb-separator-size, var(--nc-breadcrumb-separator-size));
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
@@ -166,7 +166,7 @@
 /// Separator-Variante: benutzerdefinierter Inhalt via CSS Custom Property.
 @mixin breadcrumb-separator--custom {
   &::before {
-    content: var(--nc-breadcrumb-separator-custom, '·');
+    content: var(--mod-breadcrumb-separator-custom, var(--nc-breadcrumb-separator-custom, '·'));
   }
 }
 
@@ -175,8 +175,8 @@
 @mixin breadcrumb-home-icon {
   display: inline-flex;
   align-items: center;
-  width: var(--nc-breadcrumb-separator-size);
-  height: var(--nc-breadcrumb-separator-size);
+  width: var(--mod-breadcrumb-separator-size, var(--nc-breadcrumb-separator-size));
+  height: var(--mod-breadcrumb-separator-size, var(--nc-breadcrumb-separator-size));
   flex-shrink: 0;
 
   > svg {
@@ -194,8 +194,8 @@
 @mixin breadcrumb-back-icon {
   display: inline-flex;
   align-items: center;
-  width: var(--nc-breadcrumb-back-icon-size);
-  height: var(--nc-breadcrumb-back-icon-size);
+  width: var(--mod-breadcrumb-back-icon-size, var(--nc-breadcrumb-back-icon-size));
+  height: var(--mod-breadcrumb-back-icon-size, var(--nc-breadcrumb-back-icon-size));
   flex-shrink: 0;
 
   > svg {
@@ -219,14 +219,14 @@
   padding: 0;
   border: none;
   background: none;
-  color: var(--nc-breadcrumb-color);
+  color: var(--mod-breadcrumb-color, var(--nc-breadcrumb-color));
   cursor: pointer;
   border-radius: var(--fnd-radius-sm);
   @include transition(background-color color, '200');
 
   &:hover {
     background-color: var(--fnd-color-background-secondary);
-    color: var(--nc-breadcrumb-color-hover);
+    color: var(--mod-breadcrumb-color-hover, var(--nc-breadcrumb-color-hover));
   }
 
   &:focus-visible {
@@ -252,16 +252,16 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: var(--nc-dropdown-z-index);
-  min-width: var(--nc-breadcrumb-dropdown-min-width);
-  padding: var(--nc-dropdown-padding);
+  z-index: var(--mod-dropdown-z-index, var(--nc-dropdown-z-index));
+  min-width: var(--mod-breadcrumb-dropdown-min-width, var(--nc-breadcrumb-dropdown-min-width));
+  padding: var(--mod-dropdown-padding, var(--nc-dropdown-padding));
   margin: var(--fnd-spacing-01) 0 0;
-  background: var(--nc-dropdown-bg);
-  border: var(--nc-dropdown-border-width) solid var(--nc-dropdown-border);
-  border-radius: var(--nc-dropdown-radius);
-  box-shadow: var(--nc-dropdown-shadow);
+  background: var(--mod-dropdown-bg, var(--nc-dropdown-bg));
+  border: var(--mod-dropdown-border-width, var(--nc-dropdown-border-width)) solid var(--mod-dropdown-border, var(--nc-dropdown-border));
+  border-radius: var(--mod-dropdown-radius, var(--nc-dropdown-radius));
+  box-shadow: var(--mod-dropdown-shadow, var(--nc-dropdown-shadow));
   list-style: none;
-  animation: fnd-dropdown-enter var(--nc-dropdown-animation-duration) ease-out;
+  animation: fnd-dropdown-enter var(--mod-dropdown-animation-duration, var(--nc-dropdown-animation-duration)) ease-out;
 
   &.is-open {
     display: block;
@@ -277,16 +277,16 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: var(--nc-dropdown-item-height);
-  padding: var(--nc-dropdown-item-padding);
-  border-radius: var(--nc-dropdown-item-radius);
-  color: var(--nc-dropdown-item-color);
-  font-size: var(--nc-dropdown-item-font-size);
+  min-height: var(--mod-dropdown-item-height, var(--nc-dropdown-item-height));
+  padding: var(--mod-dropdown-item-padding, var(--nc-dropdown-item-padding));
+  border-radius: var(--mod-dropdown-item-radius, var(--nc-dropdown-item-radius));
+  color: var(--mod-dropdown-item-color, var(--nc-dropdown-item-color));
+  font-size: var(--mod-dropdown-item-font-size, var(--nc-dropdown-item-font-size));
   text-decoration: none;
   @include transition((background-color, color), '150');
 
   &:hover {
-    background: var(--nc-dropdown-item-bg-hover);
+    background: var(--mod-dropdown-item-bg-hover, var(--nc-dropdown-item-bg-hover));
   }
 
   &:focus-visible {
@@ -300,7 +300,7 @@
 
 /// SM-Size: Kleinere Schrift fuer Admin-Ebenen, Sidebars.
 @mixin breadcrumb-size-sm {
-  font-size: var(--nc-breadcrumb-font-size-sm);
+  font-size: var(--mod-breadcrumb-font-size-sm, var(--nc-breadcrumb-font-size-sm));
 }
 
 // ---------------------------------------------------------------------------
@@ -311,11 +311,11 @@
 /// Ideal fuer minimalistische Artikel-Seiten.
 @mixin breadcrumb-ghost {
   .nc-breadcrumb__link {
-    color: var(--nc-breadcrumb-ghost-color);
+    color: var(--mod-breadcrumb-ghost-color, var(--nc-breadcrumb-ghost-color));
     text-decoration: none;
 
     &:hover {
-      color: var(--nc-breadcrumb-ghost-color-hover);
+      color: var(--mod-breadcrumb-ghost-color-hover, var(--nc-breadcrumb-ghost-color-hover));
       text-decoration: underline;
     }
   }
@@ -335,7 +335,7 @@
   .nc-breadcrumb__link {
     display: inline-flex;
     align-items: center;
-    gap: var(--nc-breadcrumb-back-gap);
+    gap: var(--mod-breadcrumb-back-gap, var(--nc-breadcrumb-back-gap));
   }
 }
 

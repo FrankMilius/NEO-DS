@@ -15,15 +15,15 @@
 .nc-hero {
   position: relative;
   display: grid;
-  gap: var(--nc-hero-gap);
+  gap: var(--mod-hero-gap, var(--nc-hero-gap));
   align-items: center;
-  min-height: var(--nc-hero-min-height);
-  padding-block: var(--nc-hero-padding-block);
-  background-color: var(--nc-hero-bg);
+  min-height: var(--mod-hero-min-height, var(--nc-hero-min-height));
+  padding-block: var(--mod-hero-padding-block, var(--nc-hero-padding-block));
+  background-color: var(--mod-hero-bg, var(--nc-hero-bg));
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  border-radius: var(--nc-hero-radius);
+  border-radius: var(--mod-hero-radius, var(--nc-hero-radius));
   overflow: hidden;
 }
 
@@ -43,13 +43,13 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    var(--nc-hero-overlay-direction),
-    var(--nc-hero-overlay-start),
-    var(--nc-hero-overlay-end)
+    var(--mod-hero-overlay-direction, var(--nc-hero-overlay-direction)),
+    var(--mod-hero-overlay-start, var(--nc-hero-overlay-start)),
+    var(--mod-hero-overlay-end, var(--nc-hero-overlay-end))
   );
   z-index: 1;
   pointer-events: none;
-  opacity: var(--nc-hero-overlay-visible);
+  opacity: var(--mod-hero-overlay-visible, var(--nc-hero-overlay-visible));
 }
 
 .nc-hero__content {
@@ -58,10 +58,10 @@
   display: grid;
   gap: var(--fnd-spacing-04);
   width: 100%;
-  color: var(--nc-hero-title-color);
+  color: var(--mod-hero-title-color, var(--nc-hero-title-color));
   margin-inline: auto;
   box-sizing: border-box;
-  padding-inline: var(--nc-nav-padding-inline);
+  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
 
   @include respond-to('xxl') {
     padding-inline: 0;
@@ -81,36 +81,36 @@
 // Kicker / Badge
 .nc-hero__kicker,
 .nc-hero .nc-label {
-  font-size: var(--nc-hero-kicker-size);
-  font-weight: var(--nc-hero-kicker-weight);
-  background: var(--nc-hero-kicker-bg);
-  color: var(--nc-hero-kicker-color);
-  border-radius: var(--nc-hero-kicker-radius);
-  padding: var(--nc-hero-kicker-padding);
+  font-size: var(--mod-hero-kicker-size, var(--nc-hero-kicker-size));
+  font-weight: var(--mod-hero-kicker-weight, var(--nc-hero-kicker-weight));
+  background: var(--mod-hero-kicker-bg, var(--nc-hero-kicker-bg));
+  color: var(--mod-hero-kicker-color, var(--nc-hero-kicker-color));
+  border-radius: var(--mod-hero-kicker-radius, var(--nc-hero-kicker-radius));
+  padding: var(--mod-hero-kicker-padding, var(--nc-hero-kicker-padding));
   display: inline-block;
   margin-block-end: var(--fnd-spacing-02);
 }
 
 .nc-hero__title {
-  font-size: var(--nc-hero-title-size);
-  font-weight: var(--nc-hero-title-weight);
-  color: var(--nc-hero-title-color);
-  line-height: var(--nc-hero-title-line-height);
-  max-width: var(--nc-hero-title-max-width);
+  font-size: var(--mod-hero-title-size, var(--nc-hero-title-size));
+  font-weight: var(--mod-hero-title-weight, var(--nc-hero-title-weight));
+  color: var(--mod-hero-title-color, var(--nc-hero-title-color));
+  line-height: var(--mod-hero-title-line-height, var(--nc-hero-title-line-height));
+  max-width: var(--mod-hero-title-max-width, var(--nc-hero-title-max-width));
 }
 
 .nc-hero__subtitle {
-  font-size: var(--nc-hero-subtitle-size);
-  color: var(--nc-hero-subtitle-color);
-  max-width: var(--nc-hero-subtitle-max-width);
-  line-height: var(--nc-hero-subtitle-line-height);
+  font-size: var(--mod-hero-subtitle-size, var(--nc-hero-subtitle-size));
+  color: var(--mod-hero-subtitle-color, var(--nc-hero-subtitle-color));
+  max-width: var(--mod-hero-subtitle-max-width, var(--nc-hero-subtitle-max-width));
+  line-height: var(--mod-hero-subtitle-line-height, var(--nc-hero-subtitle-line-height));
 }
 
 .nc-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--nc-hero-actions-gap);
-  margin-block-start: var(--nc-hero-actions-margin-top);
+  gap: var(--mod-hero-actions-gap, var(--nc-hero-actions-gap));
+  margin-block-start: var(--mod-hero-actions-margin-top, var(--nc-hero-actions-margin-top));
 }
 
 // Ghost-Button im Hero-Kontext: helle Farbe auf dunklem Hintergrund
@@ -132,14 +132,14 @@
   list-style: none;
   padding: 0;
   display: grid;
-  gap: var(--nc-hero-highlights-gap);
-  color: var(--nc-hero-highlights-color);
-  font-size: var(--nc-hero-highlights-size);
+  gap: var(--mod-hero-highlights-gap, var(--nc-hero-highlights-gap));
+  color: var(--mod-hero-highlights-color, var(--nc-hero-highlights-color));
+  font-size: var(--mod-hero-highlights-size, var(--nc-hero-highlights-size));
 }
 
 .nc-hero__highlight::before {
   content: '\25CF';
-  color: var(--nc-hero-highlights-marker);
+  color: var(--mod-hero-highlights-marker, var(--nc-hero-highlights-marker));
   margin-inline-end: 0.5rem;
 }
 
@@ -267,10 +267,10 @@
 .nc-hero__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--nc-hero-gap);
+  gap: var(--mod-hero-gap, var(--nc-hero-gap));
   width: 100%;
   margin-inline: auto;
-  padding-inline: var(--nc-nav-padding-inline);
+  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
   box-sizing: border-box;
   position: relative;
   z-index: 2;

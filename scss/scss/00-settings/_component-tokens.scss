@@ -28,6 +28,7 @@
 // ==========================================================================
 
 @use 'sass:map';
+@use 'state-mixins' as state;
 
 // ---------------------------------------------------------------------------
 // Button Tokens
@@ -115,49 +116,37 @@
   // -- Accent Variant --
   --nc-button-accent-bg: var(--fnd-color-background-accent);
   --nc-button-accent-bg-hover: var(--fnd-color-background-accent-secondary);
-  --nc-button-accent-bg-active: color-mix(in srgb, var(--fnd-color-background-accent-secondary) 80%, var(--fnd-state-mix-target));
+  @include state.state-active(--nc-button-accent-bg, var(--fnd-color-background-accent-secondary), 80);
   --nc-button-accent-color: var(--fnd-color-always-dark);
   --nc-button-accent-border: transparent;
 
   // -- Success Variant --
-  --nc-button-success-bg: var(--fnd-color-feedback-success);
-  --nc-button-success-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-success) 85%, var(--fnd-state-mix-target));
-  --nc-button-success-bg-active: color-mix(in srgb, var(--fnd-color-feedback-success) 75%, var(--fnd-state-mix-target));
+  @include state.state-colors(--nc-button-success-bg, var(--fnd-color-feedback-success));
   --nc-button-success-color: var(--fnd-color-always-light);
   --nc-button-success-border: transparent;
 
   // -- Warning Variant --
-  --nc-button-warning-bg: var(--fnd-color-feedback-warning);
-  --nc-button-warning-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-warning) 85%, var(--fnd-state-mix-target));
-  --nc-button-warning-bg-active: color-mix(in srgb, var(--fnd-color-feedback-warning) 75%, var(--fnd-state-mix-target));
+  @include state.state-colors(--nc-button-warning-bg, var(--fnd-color-feedback-warning));
   --nc-button-warning-color: var(--fnd-color-always-dark);
   --nc-button-warning-border: transparent;
 
   // -- Info Variant --
-  --nc-button-info-bg: var(--fnd-color-feedback-info);
-  --nc-button-info-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-info) 85%, var(--fnd-state-mix-target));
-  --nc-button-info-bg-active: color-mix(in srgb, var(--fnd-color-feedback-info) 75%, var(--fnd-state-mix-target));
+  @include state.state-colors(--nc-button-info-bg, var(--fnd-color-feedback-info));
   --nc-button-info-color: var(--fnd-color-always-light);
   --nc-button-info-border: transparent;
 
   // -- Error Variant (canonical, formerly "destructive") --
-  --nc-button-error-bg: var(--fnd-color-feedback-danger);
-  --nc-button-error-bg-hover: color-mix(in srgb, var(--fnd-color-feedback-danger) 85%, var(--fnd-state-mix-target));
-  --nc-button-error-bg-active: color-mix(in srgb, var(--fnd-color-feedback-danger) 75%, var(--fnd-state-mix-target));
+  @include state.state-colors(--nc-button-error-bg, var(--fnd-color-feedback-danger));
   --nc-button-error-color: var(--fnd-color-always-light);
   --nc-button-error-border: var(--fnd-color-feedback-danger);
 
   // -- Inverted Variant (fuer dunkle/bildlastige Hintergruende) --
-  --nc-button-inverted-bg: var(--fnd-color-always-light);
-  --nc-button-inverted-bg-hover: color-mix(in srgb, var(--fnd-color-always-light) 90%, transparent);
-  --nc-button-inverted-bg-active: color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
+  @include state.transparent-overlay(--nc-button-inverted-bg, var(--fnd-color-always-light), 100, 90, 80);
   --nc-button-inverted-color: var(--fnd-color-always-dark);
   --nc-button-inverted-border: var(--fnd-color-always-light);
 
   // -- Soft Variant (blasser Markenfarben-Hintergrund mit kraeftiger Textfarbe) --
-  --nc-button-soft-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 10%, transparent);
-  --nc-button-soft-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
-  --nc-button-soft-bg-active: color-mix(in srgb, var(--fnd-color-interactive-default) 24%, transparent);
+  @include state.transparent-overlay(--nc-button-soft-bg, var(--fnd-color-interactive-default), 10, 18, 24);
   --nc-button-soft-color: var(--fnd-color-interactive-default);
   --nc-button-soft-border: transparent;
 
@@ -1338,7 +1327,7 @@
   --nc-label-default-bg-hover: var(--fnd-color-background-tertiary);
 
   // -- Accent (Subtle) --
-  --nc-label-accent-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent);
+  @include state.transparent-overlay(--nc-label-accent-bg, var(--fnd-color-interactive-default), 12);
   --nc-label-accent-color: var(--fnd-color-interactive-default);
   --nc-label-accent-border: transparent;
   --nc-label-accent-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
@@ -1347,25 +1336,25 @@
   --nc-label-success-bg: var(--fnd-color-background-success);
   --nc-label-success-color: var(--fnd-color-text-success);
   --nc-label-success-border: transparent;
-  --nc-label-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-label-success-bg, var(--fnd-color-background-success));
 
   // -- Warning (Subtle) --
   --nc-label-warning-bg: var(--fnd-color-background-warning);
   --nc-label-warning-color: var(--fnd-color-text-warning);
   --nc-label-warning-border: transparent;
-  --nc-label-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-label-warning-bg, var(--fnd-color-background-warning));
 
   // -- Danger (Subtle) --
   --nc-label-danger-bg: var(--fnd-color-background-danger);
   --nc-label-danger-color: var(--fnd-color-text-danger);
   --nc-label-danger-border: transparent;
-  --nc-label-danger-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-label-danger-bg, var(--fnd-color-background-danger));
 
   // -- Info (Subtle) --
   --nc-label-info-bg: var(--fnd-color-background-info);
   --nc-label-info-color: var(--fnd-color-text-info);
   --nc-label-info-border: transparent;
-  --nc-label-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-label-info-bg, var(--fnd-color-background-info));
 
   // -- Solid-Emphasis Override --
   --nc-label-solid-default-bg: var(--fnd-color-background-inverse);
@@ -1423,25 +1412,25 @@
   --nc-tag-success-bg: var(--fnd-color-background-success);
   --nc-tag-success-color: var(--fnd-color-text-success);
   --nc-tag-success-border: transparent;
-  --nc-tag-success-bg-hover: color-mix(in srgb, var(--fnd-color-background-success) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-tag-success-bg, var(--fnd-color-background-success));
 
   // -- Warning --
   --nc-tag-warning-bg: var(--fnd-color-background-warning);
   --nc-tag-warning-color: var(--fnd-color-text-warning);
   --nc-tag-warning-border: transparent;
-  --nc-tag-warning-bg-hover: color-mix(in srgb, var(--fnd-color-background-warning) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-tag-warning-bg, var(--fnd-color-background-warning));
 
   // -- Error --
   --nc-tag-error-bg: var(--fnd-color-background-danger);
   --nc-tag-error-color: var(--fnd-color-text-danger);
   --nc-tag-error-border: transparent;
-  --nc-tag-error-bg-hover: color-mix(in srgb, var(--fnd-color-background-danger) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-tag-error-bg, var(--fnd-color-background-danger));
 
   // -- Info --
   --nc-tag-info-bg: var(--fnd-color-background-info);
   --nc-tag-info-color: var(--fnd-color-text-info);
   --nc-tag-info-border: transparent;
-  --nc-tag-info-bg-hover: color-mix(in srgb, var(--fnd-color-background-info) 80%, var(--fnd-state-mix-target));
+  @include state.state-hover(--nc-tag-info-bg, var(--fnd-color-background-info));
 
   // -- Selected (Filter-Chip/Toggle) --
   --nc-tag-selected-bg: var(--fnd-color-interactive-default);

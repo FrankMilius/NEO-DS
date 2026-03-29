@@ -36,9 +36,9 @@
 .nc-gallery {
   position: relative;
   width: 100%;
-  height: var(--nc-gallery-height);
-  min-height: var(--nc-gallery-min-height);
-  max-height: var(--nc-gallery-max-height);
+  height: var(--mod-gallery-height, var(--nc-gallery-height));
+  min-height: var(--mod-gallery-min-height, var(--nc-gallery-min-height));
+  max-height: var(--mod-gallery-max-height, var(--nc-gallery-max-height));
   overflow: hidden;
   background-color: var(--fnd-color-always-dark);
 }
@@ -51,7 +51,7 @@
   display: flex;
   height: 100%;
   will-change: transform;
-  transition: transform var(--nc-gallery-animation-duration) var(--nc-gallery-animation-easing);
+  transition: transform var(--mod-gallery-animation-duration, var(--nc-gallery-animation-duration)) var(--mod-gallery-animation-easing, var(--nc-gallery-animation-easing));
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -94,9 +94,9 @@
   inset: 0;
   z-index: 1;
   background: linear-gradient(
-    var(--nc-gallery-overlay-direction),
-    var(--nc-gallery-overlay-start),
-    var(--nc-gallery-overlay-end)
+    var(--mod-gallery-overlay-direction, var(--nc-gallery-overlay-direction)),
+    var(--mod-gallery-overlay-start, var(--nc-gallery-overlay-start)),
+    var(--mod-gallery-overlay-end, var(--nc-gallery-overlay-end))
   );
   pointer-events: none;
 }
@@ -110,18 +110,18 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: var(--nc-gallery-content-align);
-  gap: var(--nc-gallery-content-gap);
-  max-width: var(--nc-gallery-content-max-width);
-  padding-block: var(--nc-gallery-padding-block);
-  padding-inline: var(--nc-gallery-padding-inline);
+  align-items: var(--mod-gallery-content-align, var(--nc-gallery-content-align));
+  gap: var(--mod-gallery-content-gap, var(--nc-gallery-content-gap));
+  max-width: var(--mod-gallery-content-max-width, var(--nc-gallery-content-max-width));
+  padding-block: var(--mod-gallery-padding-block, var(--nc-gallery-padding-block));
+  padding-inline: var(--mod-gallery-padding-inline, var(--nc-gallery-padding-inline));
   width: 100%;
 }
 
 // -- Logo --
 .nc-gallery__slide-logo {
-  max-height: var(--nc-gallery-logo-max-height);
-  max-width: var(--nc-gallery-logo-max-width);
+  max-height: var(--mod-gallery-logo-max-height, var(--nc-gallery-logo-max-height));
+  max-width: var(--mod-gallery-logo-max-width, var(--nc-gallery-logo-max-width));
   width: auto;
   height: auto;
   object-fit: contain;
@@ -133,12 +133,12 @@
 .nc-gallery__slide-tag {
   display: inline-flex;
   align-items: center;
-  font-size: var(--nc-gallery-tag-size);
-  font-weight: var(--nc-gallery-tag-weight);
-  color: var(--nc-gallery-tag-color);
-  background-color: var(--nc-gallery-tag-bg);
-  border-radius: var(--nc-gallery-tag-radius);
-  padding: var(--nc-gallery-tag-padding);
+  font-size: var(--mod-gallery-tag-size, var(--nc-gallery-tag-size));
+  font-weight: var(--mod-gallery-tag-weight, var(--nc-gallery-tag-weight));
+  color: var(--mod-gallery-tag-color, var(--nc-gallery-tag-color));
+  background-color: var(--mod-gallery-tag-bg, var(--nc-gallery-tag-bg));
+  border-radius: var(--mod-gallery-tag-radius, var(--nc-gallery-tag-radius));
+  padding: var(--mod-gallery-tag-padding, var(--nc-gallery-tag-padding));
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -146,19 +146,19 @@
 
 // -- Titel --
 .nc-gallery__slide-title {
-  font-size: var(--nc-gallery-title-size);
-  font-weight: var(--nc-gallery-title-weight);
-  color: var(--nc-gallery-title-color);
-  line-height: var(--nc-gallery-title-line-height);
+  font-size: var(--mod-gallery-title-size, var(--nc-gallery-title-size));
+  font-weight: var(--mod-gallery-title-weight, var(--nc-gallery-title-weight));
+  color: var(--mod-gallery-title-color, var(--nc-gallery-title-color));
+  line-height: var(--mod-gallery-title-line-height, var(--nc-gallery-title-line-height));
   margin: 0;
 }
 
 // -- Beschreibung --
 .nc-gallery__slide-description {
-  font-size: var(--nc-gallery-desc-size);
-  color: var(--nc-gallery-desc-color);
-  max-width: var(--nc-gallery-desc-max-width);
-  line-height: var(--nc-gallery-desc-line-height);
+  font-size: var(--mod-gallery-desc-size, var(--nc-gallery-desc-size));
+  color: var(--mod-gallery-desc-color, var(--nc-gallery-desc-color));
+  max-width: var(--mod-gallery-desc-max-width, var(--nc-gallery-desc-max-width));
+  line-height: var(--mod-gallery-desc-line-height, var(--nc-gallery-desc-line-height));
   margin: 0;
 }
 
@@ -172,7 +172,7 @@
 
 // -- Separator (Genre · Beschreibung) --
 .nc-gallery__slide-separator {
-  color: var(--nc-gallery-desc-color);
+  color: var(--mod-gallery-desc-color, var(--nc-gallery-desc-color));
   margin-inline: var(--fnd-spacing-02);
   user-select: none;
 }
@@ -196,18 +196,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-gallery-paddle-size);
-  height: var(--nc-gallery-paddle-size);
+  width: var(--mod-gallery-paddle-size, var(--nc-gallery-paddle-size));
+  height: var(--mod-gallery-paddle-size, var(--nc-gallery-paddle-size));
   border: none;
-  border-radius: var(--nc-gallery-paddle-radius);
-  background-color: var(--nc-gallery-paddle-bg);
-  color: var(--nc-gallery-paddle-color);
+  border-radius: var(--mod-gallery-paddle-radius, var(--nc-gallery-paddle-radius));
+  background-color: var(--mod-gallery-paddle-bg, var(--nc-gallery-paddle-bg));
+  color: var(--mod-gallery-paddle-color, var(--nc-gallery-paddle-color));
   cursor: pointer;
   pointer-events: auto;
   transition: background-color 0.2s ease, opacity 0.2s ease;
 
   &:hover {
-    background-color: var(--nc-gallery-paddle-bg-hover);
+    background-color: var(--mod-gallery-paddle-bg-hover, var(--nc-gallery-paddle-bg-hover));
   }
 
   &:focus-visible {
@@ -243,30 +243,30 @@
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: var(--nc-gallery-dot-gap);
+  gap: var(--mod-gallery-dot-gap, var(--nc-gallery-dot-gap));
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
 .nc-gallery__nav-dot {
-  width: var(--nc-gallery-dot-size);
-  height: var(--nc-gallery-dot-size);
+  width: var(--mod-gallery-dot-size, var(--nc-gallery-dot-size));
+  height: var(--mod-gallery-dot-size, var(--nc-gallery-dot-size));
   border: none;
-  border-radius: var(--nc-gallery-dot-radius);
-  background-color: var(--nc-gallery-dot-color);
+  border-radius: var(--mod-gallery-dot-radius, var(--nc-gallery-dot-radius));
+  background-color: var(--mod-gallery-dot-color, var(--nc-gallery-dot-color));
   cursor: pointer;
   padding: 0;
   transition: background-color 0.2s ease, transform 0.2s ease;
 
   &[aria-selected='true'],
   &.is-active {
-    background-color: var(--nc-gallery-dot-color-active);
+    background-color: var(--mod-gallery-dot-color-active, var(--nc-gallery-dot-color-active));
     transform: scale(1.2);
   }
 
   &:hover {
-    background-color: var(--nc-gallery-dot-color-active);
+    background-color: var(--mod-gallery-dot-color-active, var(--nc-gallery-dot-color-active));
   }
 
   &:focus-visible {
@@ -295,7 +295,7 @@
   border: 1px solid color-mix(in srgb, var(--fnd-color-always-light) 30%, transparent);
   border-radius: var(--fnd-radius-full);
   background-color: color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent);
-  color: var(--nc-gallery-autoplay-progress-color);
+  color: var(--mod-gallery-autoplay-progress-color, var(--nc-gallery-autoplay-progress-color));
   cursor: pointer;
 
   > svg,
@@ -323,7 +323,7 @@
     position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity var(--nc-gallery-animation-duration) var(--nc-gallery-animation-easing);
+    transition: opacity var(--mod-gallery-animation-duration, var(--nc-gallery-animation-duration)) var(--mod-gallery-animation-easing, var(--nc-gallery-animation-easing));
 
     &.is-active {
       position: relative;
@@ -385,8 +385,8 @@
   --nc-gallery-max-height: 700px;
 
   .nc-gallery__slide {
-    min-height: var(--nc-gallery-min-height);
-    max-height: var(--nc-gallery-max-height);
+    min-height: var(--mod-gallery-min-height, var(--nc-gallery-min-height));
+    max-height: var(--mod-gallery-max-height, var(--nc-gallery-max-height));
   }
 }
 
@@ -429,7 +429,7 @@
     &.is-active {
       opacity: 1;
       transform: none;
-      outline: 2px solid var(--nc-gallery-dot-color-active);
+      outline: 2px solid var(--mod-gallery-dot-color-active, var(--nc-gallery-dot-color-active));
       outline-offset: 2px;
     }
   }

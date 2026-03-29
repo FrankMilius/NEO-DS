@@ -17,11 +17,11 @@
 .nc-card {
   display: flex;
   flex-direction: column;
-  background: var(--nc-card-bg);
-  color: var(--nc-card-color);
-  border: var(--nc-card-border-width) solid var(--nc-card-border);
-  border-radius: var(--nc-card-radius);
-  box-shadow: var(--nc-card-shadow);
+  background: var(--mod-card-bg, var(--nc-card-bg));
+  color: var(--mod-card-color, var(--nc-card-color));
+  border: var(--mod-card-border-width, var(--nc-card-border-width)) solid var(--mod-card-border, var(--nc-card-border));
+  border-radius: var(--mod-card-radius, var(--nc-card-radius));
+  box-shadow: var(--mod-card-shadow, var(--nc-card-shadow));
   overflow: hidden;
   position: relative;
   @include transition-quick((box-shadow, border-color, background-color, transform));
@@ -52,18 +52,18 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: var(--nc-card-content-padding);
-    gap: var(--nc-card-header-gap);
+    padding: var(--mod-card-content-padding, var(--nc-card-content-padding));
+    gap: var(--mod-card-header-gap, var(--nc-card-header-gap));
   }
 
   // Footer Slot — Aktionen, Meta (immer am unteren Rand)
   &__footer {
-    padding: var(--nc-card-footer-padding);
+    padding: var(--mod-card-footer-padding, var(--nc-card-footer-padding));
     margin-top: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--nc-card-footer-gap);
+    gap: var(--mod-card-footer-gap, var(--nc-card-footer-gap));
   }
 
   // Footer Label — "Mehr darüber erfahren" Text
@@ -104,10 +104,10 @@
 
   // Titel — Hauptüberschrift
   &__title {
-    font-size: var(--nc-card-title-font-size);
-    font-weight: var(--nc-card-title-font-weight);
-    color: var(--nc-card-title-color);
-    line-height: var(--nc-card-title-line-height);
+    font-size: var(--mod-card-title-font-size, var(--nc-card-title-font-size));
+    font-weight: var(--mod-card-title-font-weight, var(--nc-card-title-font-weight));
+    color: var(--mod-card-title-color, var(--nc-card-title-color));
+    line-height: var(--mod-card-title-line-height, var(--nc-card-title-line-height));
     margin: 0;
   }
 
@@ -123,8 +123,8 @@
     }
 
     &:hover {
-      color: var(--nc-card-nav-color-hover);
-      text-decoration: var(--nc-card-link-hover-decoration);
+      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
+      text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
     }
 
     &:focus-visible {
@@ -138,9 +138,9 @@
 
   // Beschreibung — Fließtext
   &__description {
-    font-size: var(--nc-card-description-font-size);
-    color: var(--nc-card-description-color);
-    line-height: var(--nc-card-description-line-height);
+    font-size: var(--mod-card-description-font-size, var(--nc-card-description-font-size));
+    color: var(--mod-card-description-color, var(--nc-card-description-color));
+    line-height: var(--mod-card-description-line-height, var(--nc-card-description-line-height));
     margin: 0;
   }
 
@@ -159,13 +159,13 @@
 
   &--navigational {
     text-decoration: none;
-    color: var(--nc-card-color);
+    color: var(--mod-card-color, var(--nc-card-color));
     cursor: pointer;
 
     &:hover {
-      text-decoration: var(--nc-card-link-hover-decoration);
-      box-shadow: var(--nc-card-shadow-hover);
-      border-color: var(--nc-card-hover-border);
+      text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
+      box-shadow: var(--mod-card-shadow-hover, var(--nc-card-shadow-hover));
+      border-color: var(--mod-card-hover-border, var(--nc-card-hover-border));
 
       .nc-card__media img,
       .nc-card__media video {
@@ -199,7 +199,7 @@
   // Disabled
   &--disabled,
   &[aria-disabled='true'] {
-    opacity: var(--nc-card-disabled-opacity);
+    opacity: var(--mod-card-disabled-opacity, var(--nc-card-disabled-opacity));
     pointer-events: none;
   }
 
@@ -232,17 +232,17 @@
     .nc-card__description,
     .nc-card__meta,
     .nc-card__kicker {
-      background-color: var(--nc-skeleton-bg);
+      background-color: var(--mod-skeleton-bg, var(--nc-skeleton-bg));
       background-image: linear-gradient(
         90deg,
-        var(--nc-skeleton-bg) 25%,
-        var(--nc-skeleton-shimmer) 50%,
-        var(--nc-skeleton-bg) 75%
+        var(--mod-skeleton-bg, var(--nc-skeleton-bg)) 25%,
+        var(--mod-skeleton-shimmer, var(--nc-skeleton-shimmer)) 50%,
+        var(--mod-skeleton-bg, var(--nc-skeleton-bg)) 75%
       );
       background-size: 200% 100%;
-      animation: nc-skeleton-shimmer var(--nc-skeleton-duration) var(--nc-skeleton-ease) infinite;
+      animation: nc-skeleton-shimmer var(--mod-skeleton-duration, var(--nc-skeleton-duration)) var(--mod-skeleton-ease, var(--nc-skeleton-ease)) infinite;
       color: transparent;
-      border-radius: var(--nc-skeleton-radius);
+      border-radius: var(--mod-skeleton-radius, var(--nc-skeleton-radius));
       border: none;
     }
 
@@ -283,11 +283,11 @@
 
 .nc-card--preview {
   .nc-card__media {
-    aspect-ratio: var(--nc-card-preview-media-ratio);
+    aspect-ratio: var(--mod-card-preview-media-ratio, var(--nc-card-preview-media-ratio));
   }
 
   .nc-card__title {
-    font-size: var(--nc-card-preview-title-size);
+    font-size: var(--mod-card-preview-title-size, var(--nc-card-preview-title-size));
     @include line-clamp(2);
   }
 
@@ -323,11 +323,11 @@
   align-items: center;
 
   .nc-card__media {
-    width: var(--nc-card-summary-avatar-size);
-    height: var(--nc-card-summary-avatar-size);
+    width: var(--mod-card-summary-avatar-size, var(--nc-card-summary-avatar-size));
+    height: var(--mod-card-summary-avatar-size, var(--nc-card-summary-avatar-size));
     aspect-ratio: 1 / 1;
-    border-radius: var(--nc-card-summary-avatar-radius);
-    margin: var(--nc-card-content-padding) auto 0;
+    border-radius: var(--mod-card-summary-avatar-radius, var(--nc-card-summary-avatar-radius));
+    margin: var(--mod-card-content-padding, var(--nc-card-content-padding)) auto 0;
     flex-shrink: 0;
   }
 
@@ -350,13 +350,13 @@
 
 .nc-card--action {
   .nc-card__footer {
-    border-top: var(--nc-card-border-width) solid var(--nc-card-border);
+    border-top: var(--mod-card-border-width, var(--nc-card-border-width)) solid var(--mod-card-border, var(--nc-card-border));
     padding-top: var(--fnd-spacing-04);
   }
 
   .nc-card__icon {
-    width: var(--nc-card-action-icon-size);
-    height: var(--nc-card-action-icon-size);
+    width: var(--mod-card-action-icon-size, var(--nc-card-action-icon-size));
+    height: var(--mod-card-action-icon-size, var(--nc-card-action-icon-size));
     flex-shrink: 0;
     color: var(--fnd-color-interactive-default);
   }
@@ -380,14 +380,14 @@
   }
 
   &:hover {
-    border-color: var(--nc-card-hover-border);
+    border-color: var(--mod-card-hover-border, var(--nc-card-hover-border));
   }
 
   // Selektierter Zustand
   &:has(.nc-card__input:checked) {
-    border-color: var(--nc-card-selected-border);
-    background: var(--nc-card-selected-bg);
-    box-shadow: 0 0 0 var(--nc-card-selected-ring-width) var(--nc-card-selected-border);
+    border-color: var(--mod-card-selected-border, var(--nc-card-selected-border));
+    background: var(--mod-card-selected-bg, var(--nc-card-selected-bg));
+    box-shadow: 0 0 0 var(--mod-card-selected-ring-width, var(--nc-card-selected-ring-width)) var(--mod-card-selected-border, var(--nc-card-selected-border));
   }
 
   // Focus vom Input auf die Card übertragen
@@ -397,7 +397,7 @@
 
   // Disabled
   &:has(.nc-card__input:disabled) {
-    opacity: var(--nc-card-disabled-opacity);
+    opacity: var(--mod-card-disabled-opacity, var(--nc-card-disabled-opacity));
     pointer-events: none;
   }
 }
@@ -408,23 +408,23 @@
 // border-left als Statusanzeige, 4 Farben
 
 .nc-card--status {
-  border-left-width: var(--nc-card-status-border-width);
-  border-radius: 0 var(--nc-card-radius) var(--nc-card-radius) 0;
+  border-left-width: var(--mod-card-status-border-width, var(--nc-card-status-border-width));
+  border-radius: 0 var(--mod-card-radius, var(--nc-card-radius)) var(--mod-card-radius, var(--nc-card-radius)) 0;
 
   &-success {
-    border-left-color: var(--nc-card-status-success-border);
+    border-left-color: var(--mod-card-status-success-border, var(--nc-card-status-success-border));
   }
 
   &-warning {
-    border-left-color: var(--nc-card-status-warning-border);
+    border-left-color: var(--mod-card-status-warning-border, var(--nc-card-status-warning-border));
   }
 
   &-danger {
-    border-left-color: var(--nc-card-status-danger-border);
+    border-left-color: var(--mod-card-status-danger-border, var(--nc-card-status-danger-border));
   }
 
   &-info {
-    border-left-color: var(--nc-card-status-info-border);
+    border-left-color: var(--mod-card-status-info-border, var(--nc-card-status-info-border));
   }
 }
 
@@ -439,8 +439,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--nc-card-summary-padding);
-    font-weight: var(--nc-card-summary-font-weight);
+    padding: var(--mod-card-summary-padding, var(--nc-card-summary-padding));
+    font-weight: var(--mod-card-summary-font-weight, var(--nc-card-summary-font-weight));
     cursor: pointer;
     list-style: none;
     @include transition-quick((background-color));
@@ -466,8 +466,8 @@
 
   // Expand-Icon
   .nc-card__expand-icon {
-    width: var(--nc-card-expand-icon-size);
-    height: var(--nc-card-expand-icon-size);
+    width: var(--mod-card-expand-icon-size, var(--nc-card-expand-icon-size));
+    height: var(--mod-card-expand-icon-size, var(--nc-card-expand-icon-size));
     flex-shrink: 0;
     @include transition-quick((transform));
   }
@@ -481,7 +481,7 @@
 
   // Content innerhalb von details — Padding nur geöffnet
   .nc-card__details-content {
-    padding: var(--nc-card-details-content-padding);
+    padding: var(--mod-card-details-content-padding, var(--nc-card-details-content-padding));
   }
 }
 
@@ -520,9 +520,9 @@
 
   &[data-animation="reverse-domino"] > .nc-card {
     opacity: 0;
-    transform: translateY(var(--nc-card-grid-anim-translate-y, 2rem));
-    transition: opacity var(--nc-card-grid-anim-duration, 0.5s) ease,
-                transform var(--nc-card-grid-anim-duration, 0.5s) ease;
+    transform: translateY(var(--mod-card-grid-anim-translate-y, var(--nc-card-grid-anim-translate-y, 2rem)));
+    transition: opacity var(--mod-card-grid-anim-duration, var(--nc-card-grid-anim-duration, 0.5s)) ease,
+                transform var(--mod-card-grid-anim-duration, var(--nc-card-grid-anim-duration, 0.5s)) ease;
   }
 
   &[data-animation="reverse-domino"].is-revealed > .nc-card {

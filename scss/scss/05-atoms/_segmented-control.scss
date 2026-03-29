@@ -47,10 +47,10 @@
 @mixin segmented-control-base {
   display: inline-flex;
   align-items: center;
-  background-color: var(--nc-segmented-bg);
-  border-radius: var(--nc-segmented-radius);
-  padding: var(--nc-segmented-padding);
-  gap: var(--nc-segmented-gap);
+  background-color: var(--mod-segmented-bg, var(--nc-segmented-bg));
+  border-radius: var(--mod-segmented-radius, var(--nc-segmented-radius));
+  padding: var(--mod-segmented-padding, var(--nc-segmented-padding));
+  gap: var(--mod-segmented-gap, var(--nc-segmented-gap));
   position: relative;
 }
 
@@ -61,11 +61,11 @@
 @mixin segmented-control-item {
   @include interactive-surface-base;
 
-  --_surface-bg: var(--nc-segmented-item-bg);
-  --_surface-color: var(--nc-segmented-item-color);
+  --_surface-bg: var(--mod-segmented-item-bg, var(--nc-segmented-item-bg));
+  --_surface-color: var(--mod-segmented-item-color, var(--nc-segmented-item-color));
   --_surface-border-color: transparent;
-  --_surface-radius: var(--nc-segmented-item-radius);
-  --_surface-transition: var(--nc-segmented-transition-duration);
+  --_surface-radius: var(--mod-segmented-item-radius, var(--nc-segmented-item-radius));
+  --_surface-transition: var(--mod-segmented-transition-duration, var(--nc-segmented-transition-duration));
   --_surface-font-weight: var(--fnd-font-weight-semibold);
   --_surface-border-width: 0;
   --_surface-scale-active: 1; // kein Scale auf Segments
@@ -79,27 +79,27 @@
   @include segmented-control-item-size('md');
 
   &:hover:not(:disabled):not([aria-disabled='true']):not([aria-checked='true']) {
-    background-color: var(--nc-segmented-item-bg-hover);
-    color: var(--nc-segmented-item-color-hover);
+    background-color: var(--mod-segmented-item-bg-hover, var(--nc-segmented-item-bg-hover));
+    color: var(--mod-segmented-item-color-hover, var(--nc-segmented-item-color-hover));
   }
 }
 
 @mixin segmented-control-item-size($size: 'md') {
   @if $size == 'sm' {
-    min-height: calc(var(--nc-button-height-sm) - var(--nc-segmented-padding) * 2);
-    padding: var(--nc-button-padding-y-sm) var(--nc-button-padding-x-sm);
-    font-size: var(--nc-button-font-size-sm);
-    gap: var(--nc-button-icon-gap-sm);
+    min-height: calc(var(--mod-button-height-sm, var(--nc-button-height-sm)) - var(--mod-segmented-padding, var(--nc-segmented-padding)) * 2);
+    padding: var(--mod-button-padding-y-sm, var(--nc-button-padding-y-sm)) var(--mod-button-padding-x-sm, var(--nc-button-padding-x-sm));
+    font-size: var(--mod-button-font-size-sm, var(--nc-button-font-size-sm));
+    gap: var(--mod-button-icon-gap-sm, var(--nc-button-icon-gap-sm));
   } @else if $size == 'md' {
-    min-height: calc(var(--nc-button-height-md) - var(--nc-segmented-padding) * 2);
-    padding: var(--nc-button-padding-y-md) var(--nc-button-padding-x-md);
-    font-size: var(--nc-button-font-size-md);
-    gap: var(--nc-button-icon-gap-md);
+    min-height: calc(var(--mod-button-height-md, var(--nc-button-height-md)) - var(--mod-segmented-padding, var(--nc-segmented-padding)) * 2);
+    padding: var(--mod-button-padding-y-md, var(--nc-button-padding-y-md)) var(--mod-button-padding-x-md, var(--nc-button-padding-x-md));
+    font-size: var(--mod-button-font-size-md, var(--nc-button-font-size-md));
+    gap: var(--mod-button-icon-gap-md, var(--nc-button-icon-gap-md));
   } @else if $size == 'lg' {
-    min-height: calc(var(--nc-button-height-lg) - var(--nc-segmented-padding) * 2);
-    padding: var(--nc-button-padding-y-lg) var(--nc-button-padding-x-lg);
-    font-size: var(--nc-button-font-size-lg);
-    gap: var(--nc-button-icon-gap-lg);
+    min-height: calc(var(--mod-button-height-lg, var(--nc-button-height-lg)) - var(--mod-segmented-padding, var(--nc-segmented-padding)) * 2);
+    padding: var(--mod-button-padding-y-lg, var(--nc-button-padding-y-lg)) var(--mod-button-padding-x-lg, var(--nc-button-padding-x-lg));
+    font-size: var(--mod-button-font-size-lg, var(--nc-button-font-size-lg));
+    gap: var(--mod-button-icon-gap-lg, var(--nc-button-icon-gap-lg));
   }
 }
 
@@ -108,9 +108,9 @@
 // ---------------------------------------------------------------------------
 
 @mixin segmented-control-item-selected {
-  background-color: var(--nc-segmented-item-selected-bg);
-  color: var(--nc-segmented-item-selected-color);
-  box-shadow: var(--nc-segmented-item-selected-shadow);
+  background-color: var(--mod-segmented-item-selected-bg, var(--nc-segmented-item-selected-bg));
+  color: var(--mod-segmented-item-selected-color, var(--nc-segmented-item-selected-color));
+  box-shadow: var(--mod-segmented-item-selected-shadow, var(--nc-segmented-item-selected-shadow));
 }
 
 // ---------------------------------------------------------------------------
@@ -121,8 +121,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-button-icon-size-md);
-  height: var(--nc-button-icon-size-md);
+  width: var(--mod-button-icon-size-md, var(--nc-button-icon-size-md));
+  height: var(--mod-button-icon-size-md, var(--nc-button-icon-size-md));
   flex-shrink: 0;
 
   > svg {
@@ -146,17 +146,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--nc-segmented-item-badge-bg);
-  color: var(--nc-segmented-item-badge-color);
-  border-radius: var(--nc-segmented-item-badge-radius);
-  padding: var(--nc-segmented-item-badge-padding);
-  font-size: var(--nc-segmented-item-badge-font-size);
+  background-color: var(--mod-segmented-item-badge-bg, var(--nc-segmented-item-badge-bg));
+  color: var(--mod-segmented-item-badge-color, var(--nc-segmented-item-badge-color));
+  border-radius: var(--mod-segmented-item-badge-radius, var(--nc-segmented-item-badge-radius));
+  padding: var(--mod-segmented-item-badge-padding, var(--nc-segmented-item-badge-padding));
+  font-size: var(--mod-segmented-item-badge-font-size, var(--nc-segmented-item-badge-font-size));
   font-weight: var(--fnd-font-weight-semibold);
   line-height: 1;
   min-width: 1.5em;
   transition:
-    background-color var(--nc-segmented-transition-duration) ease,
-    color var(--nc-segmented-transition-duration) ease;
+    background-color var(--mod-segmented-transition-duration, var(--nc-segmented-transition-duration)) ease,
+    color var(--mod-segmented-transition-duration, var(--nc-segmented-transition-duration)) ease;
 }
 
 // ---------------------------------------------------------------------------
@@ -168,16 +168,16 @@
 /// JS setzt diese Properties bei Selection-Wechsel.
 @mixin segmented-control-indicator {
   position: absolute;
-  top: var(--nc-segmented-padding);
-  bottom: var(--nc-segmented-padding);
+  top: var(--mod-segmented-padding, var(--nc-segmented-padding));
+  bottom: var(--mod-segmented-padding, var(--nc-segmented-padding));
   left: var(--_indicator-left, 0);
   width: var(--_indicator-width, 0);
-  background-color: var(--nc-segmented-item-selected-bg);
-  border-radius: var(--nc-segmented-item-radius);
-  box-shadow: var(--nc-segmented-item-selected-shadow);
+  background-color: var(--mod-segmented-item-selected-bg, var(--nc-segmented-item-selected-bg));
+  border-radius: var(--mod-segmented-item-radius, var(--nc-segmented-item-radius));
+  box-shadow: var(--mod-segmented-item-selected-shadow, var(--nc-segmented-item-selected-shadow));
   transition:
-    left var(--nc-segmented-indicator-transition) cubic-bezier(0.4, 0, 0.2, 1),
-    width var(--nc-segmented-indicator-transition) cubic-bezier(0.4, 0, 0.2, 1);
+    left var(--mod-segmented-indicator-transition, var(--nc-segmented-indicator-transition)) cubic-bezier(0.4, 0, 0.2, 1),
+    width var(--mod-segmented-indicator-transition, var(--nc-segmented-indicator-transition)) cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 0;
   pointer-events: none;
 
@@ -204,15 +204,15 @@
 
     // Badge-Farbe bei Selected-State
     &[aria-checked='true'] > .nc-segmented-control__badge {
-      background-color: var(--nc-segmented-item-badge-bg-selected);
-      color: var(--nc-segmented-item-badge-color-selected);
+      background-color: var(--mod-segmented-item-badge-bg-selected, var(--nc-segmented-item-badge-bg-selected));
+      color: var(--mod-segmented-item-badge-color-selected, var(--nc-segmented-item-badge-color-selected));
     }
 
     // Disabled
     &:disabled,
     &[aria-disabled='true'] {
-      color: var(--nc-segmented-item-disabled-color);
-      opacity: var(--nc-segmented-item-disabled-opacity);
+      color: var(--mod-segmented-item-disabled-color, var(--nc-segmented-item-disabled-color));
+      opacity: var(--mod-segmented-item-disabled-opacity, var(--nc-segmented-item-disabled-opacity));
     }
   }
 

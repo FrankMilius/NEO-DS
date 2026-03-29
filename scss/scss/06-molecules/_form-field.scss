@@ -38,7 +38,7 @@
 @mixin form-field-base {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-form-field-gap);
+  gap: var(--mod-form-field-gap, var(--nc-form-field-gap));
   width: 100%;
 
   // Label im FormField soll kein margin-bottom haben (gap uebernimmt)
@@ -56,10 +56,10 @@
   > .nc-textarea-wrapper .nc-textarea,
   > .nc-select-wrapper .nc-select,
   > .nc-input-group .nc-input {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
 
     &:focus-visible {
-      border-color: var(--nc-input-border-error);
+      border-color: var(--mod-input-border-error, var(--nc-input-border-error));
     }
   }
 }
@@ -73,10 +73,10 @@
   > .nc-textarea-wrapper .nc-textarea,
   > .nc-select-wrapper .nc-select,
   > .nc-input-group .nc-input {
-    border-color: var(--nc-input-border-success);
+    border-color: var(--mod-input-border-success, var(--nc-input-border-success));
 
     &:focus-visible {
-      border-color: var(--nc-input-border-success);
+      border-color: var(--mod-input-border-success, var(--nc-input-border-success));
     }
   }
 }
@@ -104,7 +104,7 @@
       flex: 0 0 auto;
       width: 200px;
       margin-bottom: 0;
-      padding-top: var(--nc-input-padding-y-md); // Alignment mit Input
+      padding-top: var(--mod-input-padding-y-md, var(--nc-input-padding-y-md)); // Alignment mit Input
     }
 
     // Input-Bereich nimmt restlichen Platz

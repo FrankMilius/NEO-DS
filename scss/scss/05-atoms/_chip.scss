@@ -44,40 +44,40 @@
 @mixin chip-base {
   @include interactive-surface-base;
 
-  --_surface-bg: var(--nc-chip-default-bg);
-  --_surface-color: var(--nc-chip-default-color);
-  --_surface-border-color: var(--nc-chip-default-border);
-  --_surface-radius: var(--nc-chip-radius);
-  --_surface-font-size: var(--nc-chip-font-size);
-  --_surface-font-weight: var(--nc-chip-font-weight);
-  --_surface-gap: var(--nc-chip-gap);
-  --_surface-transition: var(--nc-chip-transition-duration);
-  --_surface-scale-active: var(--nc-chip-scale-active);
+  --_surface-bg: var(--mod-chip-default-bg, var(--nc-chip-default-bg));
+  --_surface-color: var(--mod-chip-default-color, var(--nc-chip-default-color));
+  --_surface-border-color: var(--mod-chip-default-border, var(--nc-chip-default-border));
+  --_surface-radius: var(--mod-chip-radius, var(--nc-chip-radius));
+  --_surface-font-size: var(--mod-chip-font-size, var(--nc-chip-font-size));
+  --_surface-font-weight: var(--mod-chip-font-weight, var(--nc-chip-font-weight));
+  --_surface-gap: var(--mod-chip-gap, var(--nc-chip-gap));
+  --_surface-transition: var(--mod-chip-transition-duration, var(--nc-chip-transition-duration));
+  --_surface-scale-active: var(--mod-chip-scale-active, var(--nc-chip-scale-active));
   --_surface-border-width: var(--fnd-border-width-xs);
-  --_surface-disabled-bg: var(--nc-chip-disabled-bg);
-  --_surface-disabled-color: var(--nc-chip-disabled-color);
-  --_surface-disabled-border: var(--nc-chip-disabled-border);
-  --_surface-opacity-disabled: var(--nc-chip-opacity-disabled);
+  --_surface-disabled-bg: var(--mod-chip-disabled-bg, var(--nc-chip-disabled-bg));
+  --_surface-disabled-color: var(--mod-chip-disabled-color, var(--nc-chip-disabled-color));
+  --_surface-disabled-border: var(--mod-chip-disabled-border, var(--nc-chip-disabled-border));
+  --_surface-opacity-disabled: var(--mod-chip-opacity-disabled, var(--nc-chip-opacity-disabled));
 
   @include chip-size('md');
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-chip-default-bg-hover);
+    background-color: var(--mod-chip-default-bg-hover, var(--nc-chip-default-bg-hover));
   }
 }
 
 @mixin chip-size($size: 'md') {
   @if $size == 'sm' {
-    min-height: var(--nc-chip-height-sm);
+    min-height: var(--mod-chip-height-sm, var(--nc-chip-height-sm));
     padding: 0 var(--fnd-spacing-02);
-    font-size: var(--nc-chip-font-size-sm);
+    font-size: var(--mod-chip-font-size-sm, var(--nc-chip-font-size-sm));
   } @else if $size == 'md' {
-    min-height: var(--nc-chip-height-md);
-    padding: var(--nc-chip-padding-y) var(--nc-chip-padding-x);
+    min-height: var(--mod-chip-height-md, var(--nc-chip-height-md));
+    padding: var(--mod-chip-padding-y, var(--nc-chip-padding-y)) var(--mod-chip-padding-x, var(--nc-chip-padding-x));
   } @else if $size == 'lg' {
-    min-height: var(--nc-chip-height-lg);
+    min-height: var(--mod-chip-height-lg, var(--nc-chip-height-lg));
     padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
-    font-size: var(--nc-chip-font-size-lg);
+    font-size: var(--mod-chip-font-size-lg, var(--nc-chip-font-size-lg));
   }
 }
 
@@ -91,8 +91,8 @@
     position: absolute;
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
-    min-width: var(--nc-chip-touch-target-min);
-    min-height: var(--nc-chip-touch-target-min);
+    min-width: var(--mod-chip-touch-target-min, var(--nc-chip-touch-target-min));
+    min-height: var(--mod-chip-touch-target-min, var(--nc-chip-touch-target-min));
     width: 100%;
     height: 100%;
   }
@@ -105,23 +105,23 @@
 /// Outline: Expliziter Name fuer den Standard-Look (transparent + Border).
 /// Identisch mit Default, da Default bereits outline-artig ist.
 @mixin chip-outline {
-  --_surface-bg: var(--nc-chip-outline-bg);
-  --_surface-color: var(--nc-chip-outline-color);
-  --_surface-border-color: var(--nc-chip-outline-border);
+  --_surface-bg: var(--mod-chip-outline-bg, var(--nc-chip-outline-bg));
+  --_surface-color: var(--mod-chip-outline-color, var(--nc-chip-outline-color));
+  --_surface-border-color: var(--mod-chip-outline-border, var(--nc-chip-outline-border));
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-chip-outline-bg-hover);
+    background-color: var(--mod-chip-outline-bg-hover, var(--nc-chip-outline-bg-hover));
   }
 }
 
 /// Ghost: Keine Border, minimaler Hintergrund — fuer dichte Dashboards.
 @mixin chip-ghost {
-  --_surface-bg: var(--nc-chip-ghost-bg);
-  --_surface-color: var(--nc-chip-ghost-color);
-  --_surface-border-color: var(--nc-chip-ghost-border);
+  --_surface-bg: var(--mod-chip-ghost-bg, var(--nc-chip-ghost-bg));
+  --_surface-color: var(--mod-chip-ghost-color, var(--nc-chip-ghost-color));
+  --_surface-border-color: var(--mod-chip-ghost-border, var(--nc-chip-ghost-border));
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-chip-ghost-bg-hover);
+    background-color: var(--mod-chip-ghost-bg-hover, var(--nc-chip-ghost-bg-hover));
   }
 }
 
@@ -130,12 +130,12 @@
 // ---------------------------------------------------------------------------
 
 @mixin chip-selected {
-  background-color: var(--nc-chip-selected-bg);
-  color: var(--nc-chip-selected-color);
-  border-color: var(--nc-chip-selected-border);
+  background-color: var(--mod-chip-selected-bg, var(--nc-chip-selected-bg));
+  color: var(--mod-chip-selected-color, var(--nc-chip-selected-color));
+  border-color: var(--mod-chip-selected-border, var(--nc-chip-selected-border));
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-chip-selected-bg-hover);
+    background-color: var(--mod-chip-selected-bg-hover, var(--nc-chip-selected-bg-hover));
   }
 }
 
@@ -147,8 +147,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-chip-icon-size);
-  height: var(--nc-chip-icon-size);
+  width: var(--mod-chip-icon-size, var(--nc-chip-icon-size));
+  height: var(--mod-chip-icon-size, var(--nc-chip-icon-size));
   flex-shrink: 0;
 
   > svg {
@@ -163,17 +163,17 @@
 }
 
 @mixin chip-avatar-element {
-  width: var(--nc-chip-avatar-size);
-  height: var(--nc-chip-avatar-size);
+  width: var(--mod-chip-avatar-size, var(--nc-chip-avatar-size));
+  height: var(--mod-chip-avatar-size, var(--nc-chip-avatar-size));
   border-radius: var(--fnd-radius-full);
   object-fit: cover;
   flex-shrink: 0;
   // Reduziertes Padding-Start fuer buendigen Avatar-Abschluss mit Rundung
-  margin-inline-start: calc(-1 * var(--nc-chip-padding-avatar));
+  margin-inline-start: calc(-1 * var(--mod-chip-padding-avatar, var(--nc-chip-padding-avatar)));
 }
 
 @mixin chip-remove-button {
-  @include surface-remove-button(var(--nc-chip-remove-size));
+  @include surface-remove-button(var(--mod-chip-remove-size, var(--nc-chip-remove-size)));
   margin-inline-end: calc(-1 * var(--fnd-spacing-01));
 }
 
@@ -182,14 +182,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--nc-chip-count-min-width);
-  height: var(--nc-chip-count-height);
-  padding: 0 var(--nc-chip-count-padding-x);
-  font-size: var(--nc-chip-count-font-size);
+  min-width: var(--mod-chip-count-min-width, var(--nc-chip-count-min-width));
+  height: var(--mod-chip-count-height, var(--nc-chip-count-height));
+  padding: 0 var(--mod-chip-count-padding-x, var(--nc-chip-count-padding-x));
+  font-size: var(--mod-chip-count-font-size, var(--nc-chip-count-font-size));
   font-weight: var(--fnd-font-weight-semibold);
   line-height: 1;
-  border-radius: var(--nc-chip-count-radius);
-  background: var(--nc-chip-count-bg);
+  border-radius: var(--mod-chip-count-radius, var(--nc-chip-count-radius));
+  background: var(--mod-chip-count-bg, var(--nc-chip-count-bg));
   flex-shrink: 0;
 }
 
@@ -232,7 +232,7 @@
 .nc-chip-group {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--nc-chip-group-gap);
+  gap: var(--mod-chip-group-gap, var(--nc-chip-group-gap));
   align-items: center;
 
   // Horizontal-Scroll Variante (kein Wrap)

@@ -24,16 +24,16 @@
   align-items: center;
   justify-content: center;
   min-width: 1.5em;
-  padding: var(--nc-kbd-padding-y) var(--nc-kbd-padding-x);
-  font-family: var(--nc-kbd-font-family);
-  font-size: var(--nc-kbd-font-size);
-  font-weight: var(--nc-kbd-font-weight);
-  line-height: var(--nc-kbd-line-height);
-  color: var(--nc-kbd-color);
-  background-color: var(--nc-kbd-bg);
-  border: var(--nc-kbd-border-width) solid var(--nc-kbd-border);
-  border-radius: var(--nc-kbd-radius);
-  box-shadow: var(--nc-kbd-shadow);
+  padding: var(--mod-kbd-padding-y, var(--nc-kbd-padding-y)) var(--mod-kbd-padding-x, var(--nc-kbd-padding-x));
+  font-family: var(--mod-kbd-font-family, var(--nc-kbd-font-family));
+  font-size: var(--mod-kbd-font-size, var(--nc-kbd-font-size));
+  font-weight: var(--mod-kbd-font-weight, var(--nc-kbd-font-weight));
+  line-height: var(--mod-kbd-line-height, var(--nc-kbd-line-height));
+  color: var(--mod-kbd-color, var(--nc-kbd-color));
+  background-color: var(--mod-kbd-bg, var(--nc-kbd-bg));
+  border: var(--mod-kbd-border-width, var(--nc-kbd-border-width)) solid var(--mod-kbd-border, var(--nc-kbd-border));
+  border-radius: var(--mod-kbd-radius, var(--nc-kbd-radius));
+  box-shadow: var(--mod-kbd-shadow, var(--nc-kbd-shadow));
   white-space: nowrap;
   vertical-align: baseline;
 }
@@ -54,9 +54,9 @@
   // Separator zwischen Tasten (z.B. "+")
   &__separator {
     padding: 0 var(--fnd-spacing-01);
-    color: var(--nc-kbd-color);
-    font-family: var(--nc-kbd-font-family);
-    font-size: var(--nc-kbd-font-size);
+    color: var(--mod-kbd-color, var(--nc-kbd-color));
+    font-family: var(--mod-kbd-font-family, var(--nc-kbd-font-family));
+    font-size: var(--mod-kbd-font-size, var(--nc-kbd-font-size));
     opacity: var(--fnd-opacity-muted);
   }
 }

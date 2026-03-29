@@ -87,19 +87,19 @@
   }
 
   > :first-child {
-    border-start-start-radius: var(--nc-input-group-radius);
-    border-end-start-radius: var(--nc-input-group-radius);
+    border-start-start-radius: var(--mod-input-group-radius, var(--nc-input-group-radius));
+    border-end-start-radius: var(--mod-input-group-radius, var(--nc-input-group-radius));
   }
 
   > :last-child {
-    border-start-end-radius: var(--nc-input-group-radius);
-    border-end-end-radius: var(--nc-input-group-radius);
+    border-start-end-radius: var(--mod-input-group-radius, var(--nc-input-group-radius));
+    border-end-end-radius: var(--mod-input-group-radius, var(--nc-input-group-radius));
   }
 
   // Negative Margin um doppelte Borders zu vermeiden
   // (jedes Kind ausser dem ersten ueberlappt die rechte Border des Vorgaengers)
   > :not(:first-child) {
-    margin-inline-start: calc(var(--nc-input-group-border-width) * -1);
+    margin-inline-start: calc(var(--mod-input-group-border-width, var(--nc-input-group-border-width)) * -1);
   }
 
   // Z-Index bei Focus: fokussiertes Element liegt ueber seinen Nachbarn
@@ -114,21 +114,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding-inline: var(--nc-input-group-addon-padding-x);
-  font-size: var(--nc-input-group-addon-font-size);
+  padding-inline: var(--mod-input-group-addon-padding-x, var(--nc-input-group-addon-padding-x));
+  font-size: var(--mod-input-group-addon-font-size, var(--nc-input-group-addon-font-size));
   font-weight: var(--fnd-font-weight-regular);
   line-height: 1.5;
-  color: var(--nc-input-group-addon-color);
-  background-color: var(--nc-input-group-addon-bg);
-  border: var(--nc-input-group-border-width) solid var(--nc-input-group-addon-border);
+  color: var(--mod-input-group-addon-color, var(--nc-input-group-addon-color));
+  background-color: var(--mod-input-group-addon-bg, var(--nc-input-group-addon-bg));
+  border: var(--mod-input-group-border-width, var(--nc-input-group-border-width)) solid var(--mod-input-group-addon-border, var(--nc-input-group-addon-border));
   white-space: nowrap;
   flex-shrink: 0;
 
   // Icons innerhalb der Addons
   > svg,
   > .nc-icon {
-    width: var(--nc-input-icon-size);
-    height: var(--nc-input-icon-size);
+    width: var(--mod-input-icon-size, var(--nc-input-icon-size));
+    height: var(--mod-input-icon-size, var(--nc-input-icon-size));
     color: inherit;
     flex-shrink: 0;
   }
@@ -137,15 +137,15 @@
   > .nc-button,
   > button,
   > select {
-    border-radius: var(--nc-input-group-inner-radius);
+    border-radius: var(--mod-input-group-inner-radius, var(--nc-input-group-inner-radius));
 
     // Interaktive Addon-Elemente: Hover/Active mit eigenen Tokens
     &:hover:not(:disabled) {
-      background-color: var(--nc-input-group-addon-hover-bg);
+      background-color: var(--mod-input-group-addon-hover-bg, var(--nc-input-group-addon-hover-bg));
     }
 
     &:active:not(:disabled) {
-      background-color: var(--nc-input-group-addon-active-bg);
+      background-color: var(--mod-input-group-addon-active-bg, var(--nc-input-group-addon-active-bg));
     }
   }
 }
@@ -155,11 +155,11 @@
   > .nc-input,
   > .nc-input-group__prepend,
   > .nc-input-group__append {
-    border-color: var(--nc-input-group-addon-border-error);
+    border-color: var(--mod-input-group-addon-border-error, var(--nc-input-group-addon-border-error));
   }
 
   > .nc-input:focus-visible {
-    border-color: var(--nc-input-group-addon-border-error);
+    border-color: var(--mod-input-group-addon-border-error, var(--nc-input-group-addon-border-error));
   }
 }
 
@@ -168,18 +168,18 @@
   > .nc-input,
   > .nc-input-group__prepend,
   > .nc-input-group__append {
-    border-color: var(--nc-input-group-addon-border-success);
+    border-color: var(--mod-input-group-addon-border-success, var(--nc-input-group-addon-border-success));
   }
 
   > .nc-input:focus-visible {
-    border-color: var(--nc-input-group-addon-border-success);
+    border-color: var(--mod-input-group-addon-border-success, var(--nc-input-group-addon-border-success));
   }
 }
 
 /// Readonly-State: Input schreibgeschuetzt, Addons bleiben interaktiv.
 @mixin input-group-readonly {
   > .nc-input {
-    background-color: var(--nc-input-disabled-bg);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
     cursor: default;
   }
 }
@@ -188,10 +188,10 @@
 @mixin input-group-disabled {
   > .nc-input-group__prepend,
   > .nc-input-group__append {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    border-color: var(--nc-input-disabled-border);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
   }
 }
@@ -202,14 +202,14 @@
   @if $size == 'sm' {
     > .nc-input-group__prepend,
     > .nc-input-group__append {
-      padding-inline: var(--nc-input-padding-x-sm);
-      font-size: var(--nc-input-font-size-sm);
+      padding-inline: var(--mod-input-padding-x-sm, var(--nc-input-padding-x-sm));
+      font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
     }
   } @else if $size == 'lg' {
     > .nc-input-group__prepend,
     > .nc-input-group__append {
-      padding-inline: var(--nc-input-padding-x-lg);
-      font-size: var(--nc-input-font-size-lg);
+      padding-inline: var(--mod-input-padding-x-lg, var(--nc-input-padding-x-lg));
+      font-size: var(--mod-input-font-size-lg, var(--nc-input-font-size-lg));
     }
   }
 }

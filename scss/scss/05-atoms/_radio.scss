@@ -39,15 +39,15 @@
 /// Basis-Styling fuer den Radio-Wrapper.
 @mixin radio-base {
   @include form-check-base;
-  gap: var(--nc-radio-label-gap);
+  gap: var(--mod-radio-label-gap, var(--nc-radio-label-gap));
 }
 
 /// Custom Radio Circle.
 @mixin radio-control {
   @include form-check-control(50%);
   @include form-check-size('md', 'radio');
-  border: var(--nc-radio-border-width) solid var(--nc-radio-border);
-  background-color: var(--nc-radio-bg);
+  border: var(--mod-radio-border-width, var(--nc-radio-border-width)) solid var(--mod-radio-border, var(--nc-radio-border));
+  background-color: var(--mod-radio-bg, var(--nc-radio-bg));
 
   // Dot via ::after (skaliert bei :checked)
   &::after {
@@ -56,9 +56,9 @@
     width: 100%;
     height: 100%;
     border-radius: var(--fnd-radius-full);
-    background-color: var(--nc-radio-dot-color);
+    background-color: var(--mod-radio-dot-color, var(--nc-radio-dot-color));
     transform: scale(0);
-    transition: transform var(--nc-radio-transition-duration) ease;
+    transition: transform var(--mod-radio-transition-duration, var(--nc-radio-transition-duration)) ease;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -76,7 +76,7 @@
 
 /// Label-Text neben dem Radio.
 @mixin radio-label {
-  color: var(--nc-radio-label-color);
+  color: var(--mod-radio-label-color, var(--nc-radio-label-color));
   line-height: 1.4;
   cursor: inherit;
 }
@@ -101,31 +101,31 @@
     // Hover-State
     &:not(:disabled):not([aria-disabled='true']):hover + .nc-radio__control,
     &:not(:disabled):not([aria-disabled='true']) + .nc-radio__control:hover {
-      border-color: var(--nc-radio-border-hover);
+      border-color: var(--mod-radio-border-hover, var(--nc-radio-border-hover));
     }
 
     // Checked-State: Dot skaliert auf
     &:checked + .nc-radio__control {
-      background-color: var(--nc-radio-bg-checked);
-      border-color: var(--nc-radio-border-checked);
+      background-color: var(--mod-radio-bg-checked, var(--nc-radio-bg-checked));
+      border-color: var(--mod-radio-border-checked, var(--nc-radio-border-checked));
 
       &::after {
-        transform: scale(var(--nc-radio-dot-scale));
+        transform: scale(var(--mod-radio-dot-scale, var(--nc-radio-dot-scale)));
       }
     }
 
     // Disabled-State
     &:disabled + .nc-radio__control,
     &[aria-disabled='true'] + .nc-radio__control {
-      background-color: var(--nc-radio-disabled-bg);
-      border-color: var(--nc-radio-disabled-border);
-      opacity: var(--nc-radio-disabled-opacity);
+      background-color: var(--mod-radio-disabled-bg, var(--nc-radio-disabled-bg));
+      border-color: var(--mod-radio-disabled-border, var(--nc-radio-disabled-border));
+      opacity: var(--mod-radio-disabled-opacity, var(--nc-radio-disabled-opacity));
       cursor: not-allowed;
     }
 
     &:disabled:checked + .nc-radio__control,
     &[aria-disabled='true']:checked + .nc-radio__control {
-      background-color: var(--nc-radio-disabled-border);
+      background-color: var(--mod-radio-disabled-border, var(--nc-radio-disabled-border));
     }
 
     // Disabled Label
@@ -169,36 +169,36 @@
 
   &--error > .nc-radio__control,
   &--error .nc-radio__input:not(:checked) + .nc-radio__control {
-    border-color: var(--nc-radio-border-error);
+    border-color: var(--mod-radio-border-error, var(--nc-radio-border-error));
   }
 
   // -- Card-Variante --
   // Radio mit umgebendem Rahmen (Card-Wrapper um Label + Control).
 
   &--card {
-    padding: var(--nc-radio-card-padding);
-    background-color: var(--nc-radio-card-bg);
-    border: var(--nc-radio-border-width) solid var(--nc-radio-card-border);
-    border-radius: var(--nc-radio-card-radius);
+    padding: var(--mod-radio-card-padding, var(--nc-radio-card-padding));
+    background-color: var(--mod-radio-card-bg, var(--nc-radio-card-bg));
+    border: var(--mod-radio-border-width, var(--nc-radio-border-width)) solid var(--mod-radio-card-border, var(--nc-radio-card-border));
+    border-radius: var(--mod-radio-card-radius, var(--nc-radio-card-radius));
     transition:
-      background-color var(--nc-radio-transition-duration) ease,
-      border-color var(--nc-radio-transition-duration) ease;
+      background-color var(--mod-radio-transition-duration, var(--nc-radio-transition-duration)) ease,
+      border-color var(--mod-radio-transition-duration, var(--nc-radio-transition-duration)) ease;
 
     &:hover:not(:has(input:disabled)) {
-      border-color: var(--nc-radio-card-border-hover);
+      border-color: var(--mod-radio-card-border-hover, var(--nc-radio-card-border-hover));
     }
 
     &:has(input:checked) {
-      background-color: var(--nc-radio-card-bg-checked);
-      border-color: var(--nc-radio-card-border-checked);
+      background-color: var(--mod-radio-card-bg-checked, var(--nc-radio-card-bg-checked));
+      border-color: var(--mod-radio-card-border-checked, var(--nc-radio-card-border-checked));
     }
 
     &.nc-radio--error {
-      border-color: var(--nc-radio-border-error);
+      border-color: var(--mod-radio-border-error, var(--nc-radio-border-error));
     }
 
     &:has(input:disabled) {
-      opacity: var(--nc-radio-disabled-opacity);
+      opacity: var(--mod-radio-disabled-opacity, var(--nc-radio-disabled-opacity));
       cursor: not-allowed;
       pointer-events: none;
     }

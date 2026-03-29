@@ -56,13 +56,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--nc-button-gap);
+  gap: var(--mod-button-gap, var(--nc-button-gap));
   position: relative;
-  min-width: var(--nc-button-min-width);
-  border: var(--nc-button-border-width-sm) solid transparent;
+  min-width: var(--mod-button-min-width, var(--nc-button-min-width));
+  border: var(--mod-button-border-width-sm, var(--nc-button-border-width-sm)) solid transparent;
   background: none;
   font-family: inherit;
-  font-weight: var(--nc-button-font-weight);
+  font-weight: var(--mod-button-font-weight, var(--nc-button-font-weight));
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
@@ -70,12 +70,12 @@
   user-select: none;
   overflow: hidden;
   transition:
-    background-color var(--nc-button-transition-duration) ease,
-    border-color var(--nc-button-transition-duration) ease,
-    color var(--nc-button-transition-duration) ease,
-    box-shadow var(--nc-button-transition-duration) ease,
-    opacity var(--nc-button-transition-duration) ease,
-    transform var(--nc-button-transition-duration) ease;
+    background-color var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease,
+    border-color var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease,
+    color var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease,
+    box-shadow var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease,
+    opacity var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease,
+    transform var(--mod-button-transition-duration, var(--nc-button-transition-duration)) ease;
   appearance: none;
 
   // Default size: md
@@ -86,15 +86,15 @@
   }
 
   &:active {
-    transform: scale(var(--nc-button-scale-active));
+    transform: scale(var(--mod-button-scale-active, var(--nc-button-scale-active)));
   }
 
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-button-disabled-bg);
-    color: var(--nc-button-disabled-color);
-    border-color: var(--nc-button-disabled-border);
-    opacity: var(--nc-button-opacity-disabled);
+    background-color: var(--mod-button-disabled-bg, var(--nc-button-disabled-bg));
+    color: var(--mod-button-disabled-color, var(--nc-button-disabled-color));
+    border-color: var(--mod-button-disabled-border, var(--nc-button-disabled-border));
+    opacity: var(--mod-button-opacity-disabled, var(--nc-button-opacity-disabled));
     cursor: not-allowed;
     pointer-events: none;
     transform: none;
@@ -114,60 +114,60 @@
 
 @mixin button-size($size: 'md') {
   @if $size == 'xs' {
-    min-height: var(--nc-button-height-xs);                     // 24px
-    padding: var(--nc-button-padding-y-xs) var(--nc-button-padding-x-xs);
-    font-size: var(--nc-button-font-size-xs);                   // 12px (fest)
-    line-height: var(--nc-button-line-height);                  // 1.25
-    border-radius: var(--nc-button-radius-xs);                  // 2px
-    border-width: var(--nc-button-border-width-sm);             // 1px
-    gap: var(--nc-button-icon-gap-xs);                          // 4px
+    min-height: var(--mod-button-height-xs, var(--nc-button-height-xs));                     // 24px
+    padding: var(--mod-button-padding-y-xs, var(--nc-button-padding-y-xs)) var(--mod-button-padding-x-xs, var(--nc-button-padding-x-xs));
+    font-size: var(--mod-button-font-size-xs, var(--nc-button-font-size-xs));                   // 12px (fest)
+    line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
+    border-radius: var(--mod-button-radius-xs, var(--nc-button-radius-xs));                  // 2px
+    border-width: var(--mod-button-border-width-sm, var(--nc-button-border-width-sm));             // 1px
+    gap: var(--mod-button-icon-gap-xs, var(--nc-button-icon-gap-xs));                          // 4px
 
     .nc-button__icon,
     .button__icon {
-      width: var(--nc-button-icon-size-xs);                     // 16px
-      height: var(--nc-button-icon-size-xs);
+      width: var(--mod-button-icon-size-xs, var(--nc-button-icon-size-xs));                     // 16px
+      height: var(--mod-button-icon-size-xs, var(--nc-button-icon-size-xs));
     }
   } @else if $size == 'sm' {
-    min-height: var(--nc-button-height-sm);                     // 32px
-    padding: var(--nc-button-padding-y-sm) var(--nc-button-padding-x-sm);
-    font-size: var(--nc-button-font-size-sm);                   // 12px (fest)
-    line-height: var(--nc-button-line-height);                  // 1.25
-    border-radius: var(--nc-button-radius-sm);                  // 4px
-    border-width: var(--nc-button-border-width-sm);             // 1px
-    gap: var(--nc-button-icon-gap-sm);                          // 8px
+    min-height: var(--mod-button-height-sm, var(--nc-button-height-sm));                     // 32px
+    padding: var(--mod-button-padding-y-sm, var(--nc-button-padding-y-sm)) var(--mod-button-padding-x-sm, var(--nc-button-padding-x-sm));
+    font-size: var(--mod-button-font-size-sm, var(--nc-button-font-size-sm));                   // 12px (fest)
+    line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
+    border-radius: var(--mod-button-radius-sm, var(--nc-button-radius-sm));                  // 4px
+    border-width: var(--mod-button-border-width-sm, var(--nc-button-border-width-sm));             // 1px
+    gap: var(--mod-button-icon-gap-sm, var(--nc-button-icon-gap-sm));                          // 8px
 
     .nc-button__icon,
     .button__icon {
-      width: var(--nc-button-icon-size-sm);                     // 16px
-      height: var(--nc-button-icon-size-sm);
+      width: var(--mod-button-icon-size-sm, var(--nc-button-icon-size-sm));                     // 16px
+      height: var(--mod-button-icon-size-sm, var(--nc-button-icon-size-sm));
     }
   } @else if $size == 'md' {
-    min-height: var(--nc-button-height-md);                     // 40px
-    padding: var(--nc-button-padding-y-md) var(--nc-button-padding-x-md);
-    font-size: var(--nc-button-font-size-md);                   // 16px (fest)
-    line-height: var(--nc-button-line-height);                  // 1.25
-    border-radius: var(--nc-button-radius-md);                  // 6px
-    border-width: var(--nc-button-border-width-sm);             // 1px
-    gap: var(--nc-button-icon-gap-md);                          // 8px
+    min-height: var(--mod-button-height-md, var(--nc-button-height-md));                     // 40px
+    padding: var(--mod-button-padding-y-md, var(--nc-button-padding-y-md)) var(--mod-button-padding-x-md, var(--nc-button-padding-x-md));
+    font-size: var(--mod-button-font-size-md, var(--nc-button-font-size-md));                   // 16px (fest)
+    line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
+    border-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));                  // 6px
+    border-width: var(--mod-button-border-width-sm, var(--nc-button-border-width-sm));             // 1px
+    gap: var(--mod-button-icon-gap-md, var(--nc-button-icon-gap-md));                          // 8px
 
     .nc-button__icon,
     .button__icon {
-      width: var(--nc-button-icon-size-md);                     // 20px
-      height: var(--nc-button-icon-size-md);
+      width: var(--mod-button-icon-size-md, var(--nc-button-icon-size-md));                     // 20px
+      height: var(--mod-button-icon-size-md, var(--nc-button-icon-size-md));
     }
   } @else if $size == 'lg' {
-    min-height: var(--nc-button-height-lg);                     // 48px
-    padding: var(--nc-button-padding-y-lg) var(--nc-button-padding-x-lg);
-    font-size: var(--nc-button-font-size-lg);                   // 16px (fest)
-    line-height: var(--nc-button-line-height);                  // 1.25
-    border-radius: var(--nc-button-radius-lg);                  // 8px
-    border-width: var(--nc-button-border-width-lg);             // 2px
-    gap: var(--nc-button-icon-gap-lg);                          // 12px
+    min-height: var(--mod-button-height-lg, var(--nc-button-height-lg));                     // 48px
+    padding: var(--mod-button-padding-y-lg, var(--nc-button-padding-y-lg)) var(--mod-button-padding-x-lg, var(--nc-button-padding-x-lg));
+    font-size: var(--mod-button-font-size-lg, var(--nc-button-font-size-lg));                   // 16px (fest)
+    line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
+    border-radius: var(--mod-button-radius-lg, var(--nc-button-radius-lg));                  // 8px
+    border-width: var(--mod-button-border-width-lg, var(--nc-button-border-width-lg));             // 2px
+    gap: var(--mod-button-icon-gap-lg, var(--nc-button-icon-gap-lg));                          // 12px
 
     .nc-button__icon,
     .button__icon {
-      width: var(--nc-button-icon-size-lg);                     // 20px
-      height: var(--nc-button-icon-size-lg);
+      width: var(--mod-button-icon-size-lg, var(--nc-button-icon-size-lg));                     // 20px
+      height: var(--mod-button-icon-size-lg, var(--nc-button-icon-size-lg));
     }
   }
 }
@@ -198,61 +198,61 @@
 
 @mixin button-primary {
   @include button-base;
-  background-color: var(--nc-button-primary-bg);
-  color: var(--nc-button-primary-color);
-  border-color: var(--nc-button-primary-border);
+  background-color: var(--mod-button-primary-bg, var(--nc-button-primary-bg));
+  color: var(--mod-button-primary-color, var(--nc-button-primary-color));
+  border-color: var(--mod-button-primary-border, var(--nc-button-primary-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-primary-bg-hover);
+    background-color: var(--mod-button-primary-bg-hover, var(--nc-button-primary-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-primary-bg-active);
+    background-color: var(--mod-button-primary-bg-active, var(--nc-button-primary-bg-active));
   }
 }
 
 @mixin button-secondary {
   @include button-base;
-  background-color: var(--nc-button-secondary-bg);
-  border-color: var(--nc-button-secondary-border);
-  color: var(--nc-button-secondary-color);
+  background-color: var(--mod-button-secondary-bg, var(--nc-button-secondary-bg));
+  border-color: var(--mod-button-secondary-border, var(--nc-button-secondary-border));
+  color: var(--mod-button-secondary-color, var(--nc-button-secondary-color));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-secondary-bg-hover);
+    background-color: var(--mod-button-secondary-bg-hover, var(--nc-button-secondary-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-secondary-bg-active);
+    background-color: var(--mod-button-secondary-bg-active, var(--nc-button-secondary-bg-active));
   }
 }
 
 @mixin button-accent {
   @include button-base;
-  background-color: var(--nc-button-accent-bg);
-  color: var(--nc-button-accent-color);
-  border-color: var(--nc-button-accent-border);
+  background-color: var(--mod-button-accent-bg, var(--nc-button-accent-bg));
+  color: var(--mod-button-accent-color, var(--nc-button-accent-color));
+  border-color: var(--mod-button-accent-border, var(--nc-button-accent-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-accent-bg-hover);
+    background-color: var(--mod-button-accent-bg-hover, var(--nc-button-accent-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-accent-bg-active);
+    background-color: var(--mod-button-accent-bg-active, var(--nc-button-accent-bg-active));
   }
 }
 
 @mixin button-outline {
   @include button-base;
-  background-color: var(--nc-button-outline-bg);
-  border-color: var(--nc-button-outline-border);
-  color: var(--nc-button-outline-color);
+  background-color: var(--mod-button-outline-bg, var(--nc-button-outline-bg));
+  border-color: var(--mod-button-outline-border, var(--nc-button-outline-border));
+  color: var(--mod-button-outline-color, var(--nc-button-outline-color));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-outline-bg-hover);
+    background-color: var(--mod-button-outline-bg-hover, var(--nc-button-outline-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-outline-bg-active);
+    background-color: var(--mod-button-outline-bg-active, var(--nc-button-outline-bg-active));
   }
 }
 
@@ -262,16 +262,16 @@
 
 @mixin button-ghost {
   @include button-base;
-  background-color: var(--nc-button-ghost-bg);
-  border-color: var(--nc-button-ghost-border);
-  color: var(--nc-button-ghost-color);
+  background-color: var(--mod-button-ghost-bg, var(--nc-button-ghost-bg));
+  border-color: var(--mod-button-ghost-border, var(--nc-button-ghost-border));
+  color: var(--mod-button-ghost-color, var(--nc-button-ghost-color));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-ghost-bg-hover);
+    background-color: var(--mod-button-ghost-bg-hover, var(--nc-button-ghost-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-ghost-bg-active);
+    background-color: var(--mod-button-ghost-bg-active, var(--nc-button-ghost-bg-active));
   }
 }
 
@@ -279,46 +279,46 @@
 
 @mixin button-success {
   @include button-base;
-  background-color: var(--nc-button-success-bg);
-  color: var(--nc-button-success-color);
-  border-color: var(--nc-button-success-border);
+  background-color: var(--mod-button-success-bg, var(--nc-button-success-bg));
+  color: var(--mod-button-success-color, var(--nc-button-success-color));
+  border-color: var(--mod-button-success-border, var(--nc-button-success-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-success-bg-hover);
+    background-color: var(--mod-button-success-bg-hover, var(--nc-button-success-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-success-bg-active);
+    background-color: var(--mod-button-success-bg-active, var(--nc-button-success-bg-active));
   }
 }
 
 @mixin button-warning {
   @include button-base;
-  background-color: var(--nc-button-warning-bg);
-  color: var(--nc-button-warning-color);
-  border-color: var(--nc-button-warning-border);
+  background-color: var(--mod-button-warning-bg, var(--nc-button-warning-bg));
+  color: var(--mod-button-warning-color, var(--nc-button-warning-color));
+  border-color: var(--mod-button-warning-border, var(--nc-button-warning-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-warning-bg-hover);
+    background-color: var(--mod-button-warning-bg-hover, var(--nc-button-warning-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-warning-bg-active);
+    background-color: var(--mod-button-warning-bg-active, var(--nc-button-warning-bg-active));
   }
 }
 
 @mixin button-error {
   @include button-base;
-  background-color: var(--nc-button-error-bg);
-  color: var(--nc-button-error-color);
-  border-color: var(--nc-button-error-border);
+  background-color: var(--mod-button-error-bg, var(--nc-button-error-bg));
+  color: var(--mod-button-error-color, var(--nc-button-error-color));
+  border-color: var(--mod-button-error-border, var(--nc-button-error-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-error-bg-hover);
+    background-color: var(--mod-button-error-bg-hover, var(--nc-button-error-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-error-bg-active);
+    background-color: var(--mod-button-error-bg-active, var(--nc-button-error-bg-active));
   }
 }
 
@@ -334,16 +334,16 @@
 
 @mixin button-info {
   @include button-base;
-  background-color: var(--nc-button-info-bg);
-  color: var(--nc-button-info-color);
-  border-color: var(--nc-button-info-border);
+  background-color: var(--mod-button-info-bg, var(--nc-button-info-bg));
+  color: var(--mod-button-info-color, var(--nc-button-info-color));
+  border-color: var(--mod-button-info-border, var(--nc-button-info-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-info-bg-hover);
+    background-color: var(--mod-button-info-bg-hover, var(--nc-button-info-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-info-bg-active);
+    background-color: var(--mod-button-info-bg-active, var(--nc-button-info-bg-active));
   }
 }
 
@@ -361,8 +361,8 @@
     position: absolute;
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
-    min-width: var(--nc-button-touch-target-min);
-    min-height: var(--nc-button-touch-target-min);
+    min-width: var(--mod-button-touch-target-min, var(--nc-button-touch-target-min));
+    min-height: var(--mod-button-touch-target-min, var(--nc-button-touch-target-min));
     width: 100%;
     height: 100%;
   }
@@ -375,16 +375,16 @@
 /// Inverted: Weisser Button fuer dunkle/bildlastige Hintergruende.
 @mixin button-inverted {
   @include button-base;
-  background-color: var(--nc-button-inverted-bg);
-  color: var(--nc-button-inverted-color);
-  border-color: var(--nc-button-inverted-border);
+  background-color: var(--mod-button-inverted-bg, var(--nc-button-inverted-bg));
+  color: var(--mod-button-inverted-color, var(--nc-button-inverted-color));
+  border-color: var(--mod-button-inverted-border, var(--nc-button-inverted-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-inverted-bg-hover);
+    background-color: var(--mod-button-inverted-bg-hover, var(--nc-button-inverted-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-inverted-bg-active);
+    background-color: var(--mod-button-inverted-bg-active, var(--nc-button-inverted-bg-active));
   }
 }
 
@@ -392,16 +392,16 @@
 /// Mischung aus Ghost und Secondary, ideal fuer sekundaere Aktionen mit Farb-Akzent.
 @mixin button-soft {
   @include button-base;
-  background-color: var(--nc-button-soft-bg);
-  color: var(--nc-button-soft-color);
-  border-color: var(--nc-button-soft-border);
+  background-color: var(--mod-button-soft-bg, var(--nc-button-soft-bg));
+  color: var(--mod-button-soft-color, var(--nc-button-soft-color));
+  border-color: var(--mod-button-soft-border, var(--nc-button-soft-border));
 
   &:hover:not(:disabled) {
-    background-color: var(--nc-button-soft-bg-hover);
+    background-color: var(--mod-button-soft-bg-hover, var(--nc-button-soft-bg-hover));
   }
 
   &:active:not(:disabled) {
-    background-color: var(--nc-button-soft-bg-active);
+    background-color: var(--mod-button-soft-bg-active, var(--nc-button-soft-bg-active));
   }
 }
 
@@ -414,16 +414,16 @@
 /// FAB (Floating Action Button): Rundes Icon-Only-Muster mit Shadow.
 /// Fuer primaere Aktionen wie "Neu erstellen".
 @mixin button-fab {
-  width: var(--nc-button-fab-size);
-  height: var(--nc-button-fab-size);
+  width: var(--mod-button-fab-size, var(--nc-button-fab-size));
+  height: var(--mod-button-fab-size, var(--nc-button-fab-size));
   min-width: auto;
   min-height: auto;
   padding: 0;
-  border-radius: var(--nc-button-fab-radius);
-  box-shadow: var(--nc-button-fab-shadow);
+  border-radius: var(--mod-button-fab-radius, var(--nc-button-fab-radius));
+  box-shadow: var(--mod-button-fab-shadow, var(--nc-button-fab-shadow));
 
   &:hover:not(:disabled) {
-    box-shadow: var(--nc-button-fab-shadow-hover);
+    box-shadow: var(--mod-button-fab-shadow-hover, var(--nc-button-fab-shadow-hover));
   }
 }
 
@@ -433,7 +433,7 @@
 
 @mixin button-icon-only($size: 'md') {
   @include button-size($size);
-  width: var(--nc-button-height-#{$size});
+  width: var(--mod-button-height-, var(--nc-button-height-#{$size}));
   min-width: auto;
   padding: 0;
 }
@@ -458,9 +458,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: var(--nc-button-spinner-size);
-      height: var(--nc-button-spinner-size);
-      border: var(--nc-button-spinner-border-width) solid currentColor;
+      width: var(--mod-button-spinner-size, var(--nc-button-spinner-size));
+      height: var(--mod-button-spinner-size, var(--nc-button-spinner-size));
+      border: var(--mod-button-spinner-border-width, var(--nc-button-spinner-border-width)) solid currentColor;
       border-top-color: transparent;
       border-radius: var(--fnd-radius-full);
       animation: button-spin 1s linear infinite;
@@ -478,22 +478,22 @@
   isolation: isolate;
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    transform: scale(var(--nc-button-hover-scale));
-    box-shadow: var(--nc-button-hover-shadow);
+    transform: scale(var(--mod-button-hover-scale, var(--nc-button-hover-scale)));
+    box-shadow: var(--mod-button-hover-shadow, var(--nc-button-hover-shadow));
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
-    transform: scale(var(--nc-button-press-scale));
-    box-shadow: var(--nc-button-press-shadow);
+    transform: scale(var(--mod-button-press-scale, var(--nc-button-press-scale)));
+    box-shadow: var(--mod-button-press-shadow, var(--nc-button-press-shadow));
   }
 
   &::after {
     content: '';
     position: absolute;
-    left: var(--nc-ripple-x, 50%);
-    top: var(--nc-ripple-y, 50%);
-    width: var(--nc-ripple-size, 14px);
-    height: var(--nc-ripple-size, 14px);
+    left: var(--mod-ripple-x, var(--nc-ripple-x, 50%));
+    top: var(--mod-ripple-y, var(--nc-ripple-y, 50%));
+    width: var(--mod-ripple-size, var(--nc-ripple-size, 14px));
+    height: var(--mod-ripple-size, var(--nc-ripple-size, 14px));
     border-radius: var(--fnd-radius-full);
     pointer-events: none;
     background-color: color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
@@ -515,7 +515,7 @@
 @mixin button-micro-variant-b {
   --nc-button-progress: 0%;
   --nc-button-progress-bg: color-mix(in srgb, var(--fnd-color-always-light) 36%, transparent);
-  --nc-button-success-bg-micro: var(--nc-button-success-bg);
+  --nc-button-success-bg-micro: var(--mod-button-success-bg, var(--nc-button-success-bg));
   --nc-button-error-outline-micro: var(--fnd-color-feedback-danger);
   @include button-micro-variant-a;
 
@@ -524,9 +524,9 @@
     position: absolute;
     inset-inline-start: 0;
     inset-block-end: 0;
-    width: var(--nc-button-progress);
+    width: var(--mod-button-progress, var(--nc-button-progress));
     height: 3px;
-    background: var(--nc-button-progress-bg);
+    background: var(--mod-button-progress-bg, var(--nc-button-progress-bg));
     opacity: 0;
     transition: width 240ms linear, opacity 200ms ease;
     z-index: var(--fnd-z-dropdown);
@@ -538,8 +538,8 @@
   }
 
   &[data-state='success'] {
-    background-color: var(--nc-button-success-bg-micro);
-    border-color: var(--nc-button-success-bg-micro);
+    background-color: var(--mod-button-success-bg-micro, var(--nc-button-success-bg-micro));
+    border-color: var(--mod-button-success-bg-micro, var(--nc-button-success-bg-micro));
     animation: button-bounce-in 240ms ease-out;
   }
 
@@ -563,8 +563,8 @@
   }
 
   &[data-state='error'] {
-    border-color: var(--nc-button-error-outline-micro);
-    box-shadow: 0 0 0 1px var(--nc-button-error-outline-micro);
+    border-color: var(--mod-button-error-outline-micro, var(--nc-button-error-outline-micro));
+    box-shadow: 0 0 0 1px var(--mod-button-error-outline-micro, var(--nc-button-error-outline-micro));
     animation: button-shake 260ms ease-in-out;
   }
 }
@@ -589,9 +589,9 @@
 
   &[aria-pressed='true'],
   &.active {
-    background-color: var(--nc-button-primary-bg);
-    border-color: var(--nc-button-primary-bg);
-    color: var(--nc-button-primary-color);
+    background-color: var(--mod-button-primary-bg, var(--nc-button-primary-bg));
+    border-color: var(--mod-button-primary-bg, var(--nc-button-primary-bg));
+    color: var(--mod-button-primary-color, var(--nc-button-primary-color));
   }
 }
 
@@ -604,17 +604,17 @@
 
     // Verhindert doppelte Borders bei Outline-Buttons via negativem Margin.
     &:not(:first-child) {
-      margin-inline-start: calc(-1 * var(--nc-button-border-width-sm));
+      margin-inline-start: calc(-1 * var(--mod-button-border-width-sm, var(--nc-button-border-width-sm)));
     }
 
     &:first-child {
-      border-start-start-radius: var(--nc-button-radius-md);
-      border-end-start-radius: var(--nc-button-radius-md);
+      border-start-start-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));
+      border-end-start-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));
     }
 
     &:last-child {
-      border-start-end-radius: var(--nc-button-radius-md);
-      border-end-end-radius: var(--nc-button-radius-md);
+      border-start-end-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));
+      border-end-end-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));
     }
 
     // Hover/Focus hebt den Button ueber seine Nachbarn (border sichtbar).
@@ -638,10 +638,10 @@
 @keyframes button-ripple {
   0% {
     transform: translate(-50%, -50%) scale(0);
-    opacity: var(--nc-button-ripple-opacity, 0.3);
+    opacity: var(--mod-button-ripple-opacity, var(--nc-button-ripple-opacity, 0.3));
   }
   100% {
-    transform: translate(-50%, -50%) scale(var(--nc-button-ripple-scale, 3));
+    transform: translate(-50%, -50%) scale(var(--mod-button-ripple-scale, var(--nc-button-ripple-scale, 3)));
     opacity: 0;
   }
 }
@@ -792,9 +792,9 @@
   &.icon-only {
     @include button-icon-only;
 
-    &.xs { width: var(--nc-button-height-xs); }
-    &.sm { width: var(--nc-button-height-sm); }
-    &.lg { width: var(--nc-button-height-lg); }
+    &.xs { width: var(--mod-button-height-xs, var(--nc-button-height-xs)); }
+    &.sm { width: var(--mod-button-height-sm, var(--nc-button-height-sm)); }
+    &.lg { width: var(--mod-button-height-lg, var(--nc-button-height-lg)); }
   }
   &.loading   { @include button-loading; }
   &.toggle    { @include button-toggle; }
@@ -815,18 +815,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--nc-icon-button-padding);
-  border-radius: var(--nc-icon-button-radius);
-  width: var(--nc-icon-button-size);
-  height: var(--nc-icon-button-size);
-  background-color: var(--nc-icon-button-bg);
-  color: var(--nc-icon-button-color);
+  padding: var(--mod-icon-button-padding, var(--nc-icon-button-padding));
+  border-radius: var(--mod-icon-button-radius, var(--nc-icon-button-radius));
+  width: var(--mod-icon-button-size, var(--nc-icon-button-size));
+  height: var(--mod-icon-button-size, var(--nc-icon-button-size));
+  background-color: var(--mod-icon-button-bg, var(--nc-icon-button-bg));
+  color: var(--mod-icon-button-color, var(--nc-icon-button-color));
   border: none;
   cursor: pointer;
   @include transition(background-color, '200');
 
   &:hover {
-    background-color: var(--nc-icon-button-bg-hover);
+    background-color: var(--mod-icon-button-bg-hover, var(--nc-icon-button-bg-hover));
   }
 
   &:focus-visible {

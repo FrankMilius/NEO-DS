@@ -45,12 +45,12 @@
 @mixin alert-base {
   display: flex;
   align-items: flex-start;
-  gap: var(--nc-alert-gap);
-  padding: var(--nc-alert-padding);
-  border-radius: var(--nc-alert-radius);
-  border: var(--nc-alert-border-width) solid var(--_alert-border, var(--nc-alert-info-border));
-  background-color: var(--_alert-bg, var(--nc-alert-info-bg));
-  color: var(--_alert-color, var(--nc-alert-info-color));
+  gap: var(--mod-alert-gap, var(--nc-alert-gap));
+  padding: var(--mod-alert-padding, var(--nc-alert-padding));
+  border-radius: var(--mod-alert-radius, var(--nc-alert-radius));
+  border: var(--mod-alert-border-width, var(--nc-alert-border-width)) solid var(--_alert-border, var(--mod-alert-info-border, var(--nc-alert-info-border)));
+  background-color: var(--_alert-bg, var(--mod-alert-info-bg, var(--nc-alert-info-bg)));
+  color: var(--_alert-color, var(--mod-alert-info-color, var(--nc-alert-info-color)));
   line-height: 1.5;
 
   // Default: info
@@ -59,34 +59,34 @@
 
 /// Info-Variante (blau, Standard).
 @mixin alert-variant-info {
-  --_alert-bg: var(--nc-alert-info-bg);
-  --_alert-color: var(--nc-alert-info-color);
-  --_alert-border: var(--nc-alert-info-border);
-  --_alert-icon-color: var(--nc-alert-info-icon-color);
+  --_alert-bg: var(--mod-alert-info-bg, var(--nc-alert-info-bg));
+  --_alert-color: var(--mod-alert-info-color, var(--nc-alert-info-color));
+  --_alert-border: var(--mod-alert-info-border, var(--nc-alert-info-border));
+  --_alert-icon-color: var(--mod-alert-info-icon-color, var(--nc-alert-info-icon-color));
 }
 
 /// Success-Variante (gruen).
 @mixin alert-variant-success {
-  --_alert-bg: var(--nc-alert-success-bg);
-  --_alert-color: var(--nc-alert-success-color);
-  --_alert-border: var(--nc-alert-success-border);
-  --_alert-icon-color: var(--nc-alert-success-icon-color);
+  --_alert-bg: var(--mod-alert-success-bg, var(--nc-alert-success-bg));
+  --_alert-color: var(--mod-alert-success-color, var(--nc-alert-success-color));
+  --_alert-border: var(--mod-alert-success-border, var(--nc-alert-success-border));
+  --_alert-icon-color: var(--mod-alert-success-icon-color, var(--nc-alert-success-icon-color));
 }
 
 /// Warning-Variante (gelb/orange).
 @mixin alert-variant-warning {
-  --_alert-bg: var(--nc-alert-warning-bg);
-  --_alert-color: var(--nc-alert-warning-color);
-  --_alert-border: var(--nc-alert-warning-border);
-  --_alert-icon-color: var(--nc-alert-warning-icon-color);
+  --_alert-bg: var(--mod-alert-warning-bg, var(--nc-alert-warning-bg));
+  --_alert-color: var(--mod-alert-warning-color, var(--nc-alert-warning-color));
+  --_alert-border: var(--mod-alert-warning-border, var(--nc-alert-warning-border));
+  --_alert-icon-color: var(--mod-alert-warning-icon-color, var(--nc-alert-warning-icon-color));
 }
 
 /// Danger-Variante (rot).
 @mixin alert-variant-danger {
-  --_alert-bg: var(--nc-alert-danger-bg);
-  --_alert-color: var(--nc-alert-danger-color);
-  --_alert-border: var(--nc-alert-danger-border);
-  --_alert-icon-color: var(--nc-alert-danger-icon-color);
+  --_alert-bg: var(--mod-alert-danger-bg, var(--nc-alert-danger-bg));
+  --_alert-color: var(--mod-alert-danger-color, var(--nc-alert-danger-color));
+  --_alert-border: var(--mod-alert-danger-border, var(--nc-alert-danger-border));
+  --_alert-icon-color: var(--mod-alert-danger-icon-color, var(--nc-alert-danger-icon-color));
 }
 
 /// Icon-Element (links).
@@ -94,8 +94,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-alert-icon-size);
-  height: var(--nc-alert-icon-size);
+  width: var(--mod-alert-icon-size, var(--nc-alert-icon-size));
+  height: var(--mod-alert-icon-size, var(--nc-alert-icon-size));
   flex-shrink: 0;
   color: var(--_alert-icon-color);
   margin-top: 2px; // Optische Ausrichtung mit erster Textzeile
@@ -119,25 +119,25 @@
 
 /// Titel.
 @mixin alert-title {
-  font-weight: var(--nc-alert-title-font-weight);
+  font-weight: var(--mod-alert-title-font-weight, var(--nc-alert-title-font-weight));
   margin: 0 0 var(--fnd-spacing-01) 0;
 }
 
 /// Beschreibung.
 @mixin alert-description {
   margin: 0;
-  opacity: var(--nc-alert-description-opacity);
+  opacity: var(--mod-alert-description-opacity, var(--nc-alert-description-opacity));
 }
 
 /// Details-Toggle (Progressive Disclosure fuer lange Fehlermeldungen).
 @mixin alert-details {
-  margin-top: var(--nc-alert-details-margin-top);
+  margin-top: var(--mod-alert-details-margin-top, var(--nc-alert-details-margin-top));
 
   > summary {
     cursor: pointer;
-    font-size: var(--nc-alert-details-font-size);
+    font-size: var(--mod-alert-details-font-size, var(--nc-alert-details-font-size));
     font-weight: var(--fnd-font-weight-medium);
-    color: var(--_alert-icon-color, var(--nc-alert-info-icon-color));
+    color: var(--_alert-icon-color, var(--mod-alert-info-icon-color, var(--nc-alert-info-icon-color)));
     list-style: none;
     display: inline-flex;
     align-items: center;
@@ -174,7 +174,7 @@
 
   > :not(summary) {
     margin-top: var(--fnd-spacing-02);
-    font-size: var(--nc-alert-details-font-size);
+    font-size: var(--mod-alert-details-font-size, var(--nc-alert-details-font-size));
     line-height: 1.5;
   }
 }
@@ -185,9 +185,9 @@
   border: none;
   background: none;
   border-radius: 0;
-  gap: var(--nc-alert-inline-gap);
+  gap: var(--mod-alert-inline-gap, var(--nc-alert-inline-gap));
   align-items: center;
-  font-size: var(--nc-alert-inline-font-size);
+  font-size: var(--mod-alert-inline-font-size, var(--nc-alert-inline-font-size));
 }
 
 /// Optionaler Action-Bereich (z.B. Button).

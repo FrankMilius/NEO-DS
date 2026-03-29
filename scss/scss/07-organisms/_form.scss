@@ -46,7 +46,7 @@
 @mixin form-base {
   display: flex;
   flex-direction: column;
-  gap: var(--nc-form-gap);
+  gap: var(--mod-form-gap, var(--nc-form-gap));
   width: 100%;
 }
 
@@ -57,7 +57,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: var(--nc-form-gap);
+  gap: var(--mod-form-gap, var(--nc-form-gap));
 
   // Form-Fields im Inline-Layout sollen nicht die volle Breite einnehmen
   > .nc-form-field {
@@ -78,7 +78,7 @@
 @mixin form-two-column {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--nc-form-gap);
+  gap: var(--mod-form-gap, var(--nc-form-gap));
 
   @include respond-to('md') {
     grid-template-columns: repeat(2, 1fr);
@@ -97,7 +97,7 @@
 /// Die nativen Controls sollten zusaetzlich per <fieldset disabled>
 /// oder individuell deaktiviert werden.
 @mixin form-disabled {
-  opacity: var(--nc-input-disabled-opacity, 0.5);
+  opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity, 0.5));
   cursor: not-allowed;
   pointer-events: none;
 }

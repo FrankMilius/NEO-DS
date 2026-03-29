@@ -49,32 +49,32 @@
 @mixin otp-base {
   display: inline-flex;
   align-items: center;
-  gap: var(--nc-otp-cell-gap);
+  gap: var(--mod-otp-cell-gap, var(--nc-otp-cell-gap));
 }
 
 /// Einzelne OTP-Zelle.
 /// Quadratisch, zentrierter Text, Monospace.
 @mixin otp-cell {
-  width: var(--nc-otp-cell-size);
-  height: var(--nc-otp-cell-size);
+  width: var(--mod-otp-cell-size, var(--nc-otp-cell-size));
+  height: var(--mod-otp-cell-size, var(--nc-otp-cell-size));
   padding: 0;
-  border: var(--nc-input-border-width) solid var(--nc-otp-cell-border);
-  border-radius: var(--nc-otp-cell-radius);
-  background-color: var(--nc-input-bg);
-  color: var(--nc-input-color);
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-otp-cell-border, var(--nc-otp-cell-border));
+  border-radius: var(--mod-otp-cell-radius, var(--nc-otp-cell-radius));
+  background-color: var(--mod-input-bg, var(--nc-input-bg));
+  color: var(--mod-input-color, var(--nc-input-color));
   font-family: inherit;
-  font-size: var(--nc-otp-cell-font-size);
-  font-weight: var(--nc-otp-cell-font-weight);
+  font-size: var(--mod-otp-cell-font-size, var(--nc-otp-cell-font-size));
+  font-weight: var(--mod-otp-cell-font-weight, var(--nc-otp-cell-font-weight));
   text-align: center;
   line-height: 1;
-  caret-color: var(--nc-input-border-focus);
+  caret-color: var(--mod-input-border-focus, var(--nc-input-border-focus));
   appearance: none;
   transition:
-    border-color var(--nc-input-transition-duration) ease,
-    box-shadow var(--nc-input-transition-duration) ease;
+    border-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    box-shadow var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
 
   &::placeholder {
-    color: var(--nc-input-placeholder);
+    color: var(--mod-input-placeholder, var(--nc-input-placeholder));
     opacity: 1;
   }
 
@@ -85,12 +85,12 @@
   }
 
   &:hover:not(:disabled):not([aria-disabled='true']):not(:focus-visible) {
-    border-color: var(--nc-input-border-hover);
+    border-color: var(--mod-input-border-hover, var(--nc-input-border-hover));
   }
 
   &:focus-visible {
     @include focus-ring;
-    border-color: var(--nc-otp-cell-border-focus);
+    border-color: var(--mod-otp-cell-border-focus, var(--nc-otp-cell-border-focus));
   }
 
   &:focus:not(:focus-visible) {
@@ -99,10 +99,10 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    border-color: var(--nc-input-disabled-border);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
   }
 
@@ -127,8 +127,8 @@
   align-items: center;
   justify-content: center;
   width: var(--fnd-spacing-04);
-  font-size: var(--nc-otp-cell-font-size);
-  font-weight: var(--nc-otp-cell-font-weight);
+  font-size: var(--mod-otp-cell-font-size, var(--nc-otp-cell-font-size));
+  font-weight: var(--mod-otp-cell-font-weight, var(--nc-otp-cell-font-weight));
   color: var(--fnd-color-text-secondary);
   user-select: none;
 }
@@ -136,10 +136,10 @@
 /// Error-State: roter Rand auf allen Zellen.
 @mixin otp-error {
   > .nc-otp-input__cell {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
 
     &:focus-visible {
-      border-color: var(--nc-input-border-error);
+      border-color: var(--mod-input-border-error, var(--nc-input-border-error));
     }
   }
 }
@@ -147,10 +147,10 @@
 /// Success-State: gruener Rand auf allen Zellen.
 @mixin otp-success {
   > .nc-otp-input__cell {
-    border-color: var(--nc-input-border-success);
+    border-color: var(--mod-input-border-success, var(--nc-input-border-success));
 
     &:focus-visible {
-      border-color: var(--nc-input-border-success);
+      border-color: var(--mod-input-border-success, var(--nc-input-border-success));
     }
   }
 }
@@ -158,16 +158,16 @@
 /// Disabled-State: graut alle Zellen aus.
 @mixin otp-disabled {
   > .nc-otp-input__cell {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    border-color: var(--nc-input-disabled-border);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
   }
 
   > .nc-otp-input__separator {
-    opacity: var(--nc-input-disabled-opacity);
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
   }
 }
 
@@ -176,15 +176,15 @@
 @mixin otp-size($size) {
   @if $size == 'sm' {
     > .nc-otp-input__cell {
-      width: var(--nc-input-height-md);
-      height: var(--nc-input-height-md);
-      font-size: var(--nc-input-font-size-md);
+      width: var(--mod-input-height-md, var(--nc-input-height-md));
+      height: var(--mod-input-height-md, var(--nc-input-height-md));
+      font-size: var(--mod-input-font-size-md, var(--nc-input-font-size-md));
     }
   } @else if $size == 'lg' {
     > .nc-otp-input__cell {
-      width: calc(var(--nc-otp-cell-size) * 1.25);
-      height: calc(var(--nc-otp-cell-size) * 1.25);
-      font-size: calc(var(--nc-otp-cell-font-size) * 1.15);
+      width: calc(var(--mod-otp-cell-size, var(--nc-otp-cell-size)) * 1.25);
+      height: calc(var(--mod-otp-cell-size, var(--nc-otp-cell-size)) * 1.25);
+      font-size: calc(var(--mod-otp-cell-font-size, var(--nc-otp-cell-font-size)) * 1.15);
     }
   }
 }
@@ -234,8 +234,8 @@
   // Wird via JS-Klasse auf einzelne Zellen gesetzt
 
   &__cell--filled {
-    border-color: var(--nc-otp-cell-border-focus);
-    font-weight: var(--nc-otp-cell-font-weight);
+    border-color: var(--mod-otp-cell-border-focus, var(--nc-otp-cell-border-focus));
+    font-weight: var(--mod-otp-cell-font-weight, var(--nc-otp-cell-font-weight));
   }
 
   // -- High Contrast Mode --

@@ -51,10 +51,10 @@
 @mixin pagination-base {
   display: flex;
   align-items: center;
-  gap: var(--nc-pagination-gap);
-  padding: var(--nc-pagination-padding);
-  font-size: var(--nc-pagination-font-size);
-  color: var(--nc-pagination-color);
+  gap: var(--mod-pagination-gap, var(--nc-pagination-gap));
+  padding: var(--mod-pagination-padding, var(--nc-pagination-padding));
+  font-size: var(--mod-pagination-font-size, var(--nc-pagination-font-size));
+  color: var(--mod-pagination-color, var(--nc-pagination-color));
 }
 
 /// Einzelner Seitenbutton (Zahl oder Prev/Next).
@@ -62,15 +62,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--nc-pagination-item-size);
-  height: var(--nc-pagination-item-size);
+  min-width: var(--mod-pagination-item-size, var(--nc-pagination-item-size));
+  height: var(--mod-pagination-item-size, var(--nc-pagination-item-size));
   padding: 0 var(--fnd-spacing-02);
   border: none;
-  border-radius: var(--nc-pagination-item-radius);
-  background-color: var(--nc-pagination-item-bg);
-  color: var(--nc-pagination-item-color);
+  border-radius: var(--mod-pagination-item-radius, var(--nc-pagination-item-radius));
+  background-color: var(--mod-pagination-item-bg, var(--nc-pagination-item-bg));
+  color: var(--mod-pagination-item-color, var(--nc-pagination-item-color));
   font-size: inherit;
-  font-weight: var(--nc-pagination-item-font-weight);
+  font-weight: var(--mod-pagination-item-font-weight, var(--nc-pagination-item-font-weight));
   font-variant-numeric: tabular-nums;
   line-height: 1;
   cursor: pointer;
@@ -83,13 +83,13 @@
     content: '';
     position: absolute;
     inset: 50% auto auto 50%;
-    min-width: var(--nc-pagination-touch-min);
-    min-height: var(--nc-pagination-touch-min);
+    min-width: var(--mod-pagination-touch-min, var(--nc-pagination-touch-min));
+    min-height: var(--mod-pagination-touch-min, var(--nc-pagination-touch-min));
     transform: translate(-50%, -50%);
   }
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-pagination-item-bg-hover);
+    background-color: var(--mod-pagination-item-bg-hover, var(--nc-pagination-item-bg-hover));
   }
 
   &:focus-visible {
@@ -99,24 +99,24 @@
   // Disabled (Prev/Next am Rand)
   &:disabled,
   &[aria-disabled='true'] {
-    color: var(--nc-pagination-nav-color-disabled);
+    color: var(--mod-pagination-nav-color-disabled, var(--nc-pagination-nav-color-disabled));
     cursor: default;
     pointer-events: none;
   }
 }
 
 @mixin pagination-item-active {
-  background-color: var(--nc-pagination-item-bg-active);
-  color: var(--nc-pagination-item-color-active);
+  background-color: var(--mod-pagination-item-bg-active, var(--nc-pagination-item-bg-active));
+  color: var(--mod-pagination-item-color-active, var(--nc-pagination-item-color-active));
 
   &:hover {
-    background-color: var(--nc-pagination-item-bg-active);
+    background-color: var(--mod-pagination-item-bg-active, var(--nc-pagination-item-bg-active));
   }
 }
 
 @mixin pagination-nav-button {
   @include pagination-button;
-  color: var(--nc-pagination-nav-color);
+  color: var(--mod-pagination-nav-color, var(--nc-pagination-nav-color));
 
   > svg {
     width: 16px;
@@ -140,7 +140,7 @@
   &__list {
     display: flex;
     align-items: center;
-    gap: var(--nc-pagination-gap);
+    gap: var(--mod-pagination-gap, var(--nc-pagination-gap));
     list-style: none;
     margin: 0;
     padding: 0;
@@ -161,9 +161,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: var(--nc-pagination-item-size);
-    height: var(--nc-pagination-item-size);
-    color: var(--nc-pagination-ellipsis-color);
+    min-width: var(--mod-pagination-item-size, var(--nc-pagination-item-size));
+    height: var(--mod-pagination-item-size, var(--nc-pagination-item-size));
+    color: var(--mod-pagination-ellipsis-color, var(--nc-pagination-ellipsis-color));
     font-weight: var(--fnd-font-weight-bold);
     user-select: none;
   }
@@ -178,8 +178,8 @@
   &__info {
     display: inline-flex;
     align-items: center;
-    font-size: var(--nc-pagination-minimal-info-size);
-    color: var(--nc-pagination-minimal-info-color);
+    font-size: var(--mod-pagination-minimal-info-size, var(--nc-pagination-minimal-info-size));
+    color: var(--mod-pagination-minimal-info-color, var(--nc-pagination-minimal-info-color));
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     user-select: none;
@@ -188,12 +188,12 @@
 
   // Go-to-Page Input
   &__jumper {
-    width: var(--nc-pagination-jumper-width);
-    height: var(--nc-pagination-jumper-height);
-    border: var(--nc-pagination-jumper-border);
-    border-radius: var(--nc-pagination-jumper-radius);
-    font-size: var(--nc-pagination-jumper-font-size);
-    color: var(--nc-pagination-jumper-color);
+    width: var(--mod-pagination-jumper-width, var(--nc-pagination-jumper-width));
+    height: var(--mod-pagination-jumper-height, var(--nc-pagination-jumper-height));
+    border: var(--mod-pagination-jumper-border, var(--nc-pagination-jumper-border));
+    border-radius: var(--mod-pagination-jumper-radius, var(--nc-pagination-jumper-radius));
+    font-size: var(--mod-pagination-jumper-font-size, var(--nc-pagination-jumper-font-size));
+    color: var(--mod-pagination-jumper-color, var(--nc-pagination-jumper-color));
     text-align: center;
     font-variant-numeric: tabular-nums;
     background: transparent;
@@ -204,7 +204,7 @@
     }
 
     &::placeholder {
-      color: var(--nc-pagination-ellipsis-color);
+      color: var(--mod-pagination-ellipsis-color, var(--nc-pagination-ellipsis-color));
     }
   }
 
@@ -237,14 +237,14 @@
   // -- Outline (Border statt Hintergrund) --
   &--outline {
     .nc-pagination__item {
-      border: var(--nc-pagination-outline-border);
+      border: var(--mod-pagination-outline-border, var(--nc-pagination-outline-border));
       background-color: transparent;
 
       &--active,
       &[aria-current='page'] {
-        border: var(--nc-pagination-outline-border-active);
+        border: var(--mod-pagination-outline-border-active, var(--nc-pagination-outline-border-active));
         background-color: transparent;
-        color: var(--nc-pagination-item-bg-active);
+        color: var(--mod-pagination-item-bg-active, var(--nc-pagination-item-bg-active));
       }
     }
   }
@@ -254,7 +254,7 @@
     .nc-pagination__item {
       &--active,
       &[aria-current='page'] {
-        box-shadow: var(--nc-pagination-item-shadow-active);
+        box-shadow: var(--mod-pagination-item-shadow-active, var(--nc-pagination-item-shadow-active));
       }
     }
   }
@@ -269,9 +269,9 @@
           position: absolute;
           inset-inline: 4px;
           bottom: 0;
-          height: var(--nc-pagination-active-indicator-height);
-          background-color: var(--nc-pagination-active-indicator-color);
-          border-radius: var(--nc-pagination-active-indicator-height);
+          height: var(--mod-pagination-active-indicator-height, var(--nc-pagination-active-indicator-height));
+          background-color: var(--mod-pagination-active-indicator-color, var(--nc-pagination-active-indicator-color));
+          border-radius: var(--mod-pagination-active-indicator-height, var(--nc-pagination-active-indicator-height));
         }
       }
     }

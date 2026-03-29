@@ -21,33 +21,33 @@
 @mixin container-padding {
   margin-inline: auto;
   box-sizing: border-box;
-  padding-inline: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
-  --container-pad: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
+  padding-inline: var(--mod-container-padding-inline, var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px)));
+  --container-pad: var(--mod-container-padding-inline, var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px)));
 
   // Ab lg (1200px): max-width aktivieren + Padding reduzieren
   @media (min-width: map.get($breakpoints, 'lg')) {
-    max-width: var(--nc-container-max-width, #{$container-max-width});
-    padding-inline: var(--nc-container-padding-inline-constrained, 24px);
-    --container-pad: var(--nc-container-padding-inline-constrained, 24px);
+    max-width: var(--mod-container-max-width, var(--nc-container-max-width, #{$container-max-width}));
+    padding-inline: var(--mod-container-padding-inline-constrained, var(--nc-container-padding-inline-constrained, 24px));
+    --container-pad: var(--mod-container-padding-inline-constrained, var(--nc-container-padding-inline-constrained, 24px));
   }
 
   // Ab xxl (1920px): kein Padding (max-width allein genuegt)
   @media (min-width: map.get($breakpoints, 'xxl')) {
-    padding-inline: var(--nc-container-padding-inline-xxl, 0px);
-    --container-pad: var(--nc-container-padding-inline-xxl, 0px);
+    padding-inline: var(--mod-container-padding-inline-xxl, var(--nc-container-padding-inline-xxl, 0px));
+    --container-pad: var(--mod-container-padding-inline-xxl, var(--nc-container-padding-inline-xxl, 0px));
   }
 }
 
 /// Container with max-width only (no padding)
 @mixin container-max-width {
   margin-inline: auto;
-  max-width: var(--nc-container-max-width, #{$container-max-width});
+  max-width: var(--mod-container-max-width, var(--nc-container-max-width, #{$container-max-width}));
 }
 
 /// Wide container with max-width only (no padding)
 @mixin container-max-width-wide {
   margin-inline: auto;
-  max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
+  max-width: var(--mod-container-max-width-wide, var(--nc-container-max-width-wide, #{$container-max-width-wide}));
 }
 
 /// Container padding with wide max-width
@@ -55,7 +55,7 @@
   @include container-padding;
 
   @media (min-width: map.get($breakpoints, 'lg')) {
-    max-width: var(--nc-container-max-width-wide, #{$container-max-width-wide});
+    max-width: var(--mod-container-max-width-wide, var(--nc-container-max-width-wide, #{$container-max-width-wide}));
   }
 }
 
@@ -96,10 +96,10 @@
 /// 12-column grid container
 /// Referenziert --nc-grid-* Tokens fuer Overridability.
 @mixin grid-container {
-  --columns: var(--nc-grid-columns, 12);
+  --columns: var(--mod-grid-columns, var(--nc-grid-columns, 12));
   display: grid;
   grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-  gap: var(--nc-grid-gap, var(--grid-gap));
+  gap: var(--mod-grid-gap, var(--nc-grid-gap, var(--grid-gap)));
 }
 
 /// Grid span columns

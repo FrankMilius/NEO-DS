@@ -58,32 +58,32 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--nc-stepper-button-size);
-  height: var(--nc-stepper-button-size);
-  min-width: var(--nc-stepper-button-size);
+  width: var(--mod-stepper-button-size, var(--nc-stepper-button-size));
+  height: var(--mod-stepper-button-size, var(--nc-stepper-button-size));
+  min-width: var(--mod-stepper-button-size, var(--nc-stepper-button-size));
   padding: 0;
-  border: var(--nc-input-border-width) solid var(--nc-input-border);
-  border-radius: var(--nc-stepper-button-radius);
-  background-color: var(--nc-stepper-button-bg);
-  color: var(--nc-stepper-button-color);
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-input-border, var(--nc-input-border));
+  border-radius: var(--mod-stepper-button-radius, var(--nc-stepper-button-radius));
+  background-color: var(--mod-stepper-button-bg, var(--nc-stepper-button-bg));
+  color: var(--mod-stepper-button-color, var(--nc-stepper-button-color));
   cursor: pointer;
   user-select: none;
   transition:
-    background-color var(--nc-input-transition-duration) ease,
-    border-color var(--nc-input-transition-duration) ease;
+    background-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease,
+    border-color var(--mod-input-transition-duration, var(--nc-input-transition-duration)) ease;
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-stepper-button-bg-hover);
-    border-color: var(--nc-input-border-hover);
+    background-color: var(--mod-stepper-button-bg-hover, var(--nc-stepper-button-bg-hover));
+    border-color: var(--mod-input-border-hover, var(--nc-input-border-hover));
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
-    background-color: var(--nc-stepper-button-bg-hover);
+    background-color: var(--mod-stepper-button-bg-hover, var(--nc-stepper-button-bg-hover));
   }
 
   &:focus-visible {
     @include focus-ring;
-    border-color: var(--nc-input-border-focus);
+    border-color: var(--mod-input-border-focus, var(--nc-input-border-focus));
   }
 
   // Fallback fuer Browser ohne :focus-visible
@@ -93,7 +93,7 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    opacity: var(--nc-input-disabled-opacity);
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -101,8 +101,8 @@
   // Icon innerhalb des Buttons
   > svg,
   > .nc-icon {
-    width: calc(var(--nc-stepper-button-size) * 0.5);
-    height: calc(var(--nc-stepper-button-size) * 0.5);
+    width: calc(var(--mod-stepper-button-size, var(--nc-stepper-button-size)) * 0.5);
+    height: calc(var(--mod-stepper-button-size, var(--nc-stepper-button-size)) * 0.5);
     color: inherit;
     flex-shrink: 0;
     pointer-events: none;
@@ -114,21 +114,21 @@
 /// Styling fuer das Zahlen-Input-Feld.
 /// Zentriert, schmaler, ohne Spinner-Arrows.
 @mixin stepper-input {
-  width: var(--nc-stepper-input-width);
-  height: var(--nc-stepper-button-size);
+  width: var(--mod-stepper-input-width, var(--nc-stepper-input-width));
+  height: var(--mod-stepper-button-size, var(--nc-stepper-button-size));
   padding: 0;
-  border: var(--nc-input-border-width) solid var(--nc-input-border);
+  border: var(--mod-input-border-width, var(--nc-input-border-width)) solid var(--mod-input-border, var(--nc-input-border));
   border-radius: var(--fnd-radius-null);
-  background-color: var(--nc-input-bg);
-  color: var(--nc-input-color);
+  background-color: var(--mod-input-bg, var(--nc-input-bg));
+  color: var(--mod-input-color, var(--nc-input-color));
   font-family: inherit;
-  font-size: var(--nc-input-font-size-md);
+  font-size: var(--mod-input-font-size-md, var(--nc-input-font-size-md));
   font-weight: var(--fnd-font-weight-semibold);
   text-align: center;
   line-height: 1.5;
   appearance: none;
   // Negative Margins fuer nahtlose Borders
-  margin-inline: calc(var(--nc-input-border-width, 1px) * -1);
+  margin-inline: calc(var(--mod-input-border-width, var(--nc-input-border-width, 1px)) * -1);
 
   // Spinner-Arrows entfernen
   &::-webkit-inner-spin-button,
@@ -142,7 +142,7 @@
 
   &:focus-visible {
     @include focus-ring;
-    border-color: var(--nc-input-border-focus);
+    border-color: var(--mod-input-border-focus, var(--nc-input-border-focus));
     z-index: var(--fnd-z-base);
     position: relative;
   }
@@ -153,15 +153,15 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
   }
 
   &[readonly] {
-    background-color: var(--nc-input-bg-readonly);
-    border-color: var(--nc-input-border-readonly);
+    background-color: var(--mod-input-bg-readonly, var(--nc-input-bg-readonly));
+    border-color: var(--mod-input-border-readonly, var(--nc-input-border-readonly));
     cursor: default;
   }
 }
@@ -171,7 +171,7 @@
   > .nc-stepper__decrement,
   > .nc-stepper__input,
   > .nc-stepper__increment {
-    border-color: var(--nc-input-border-error);
+    border-color: var(--mod-input-border-error, var(--nc-input-border-error));
   }
 }
 
@@ -179,18 +179,18 @@
 @mixin stepper-disabled {
   > .nc-stepper__decrement,
   > .nc-stepper__increment {
-    opacity: var(--nc-input-disabled-opacity);
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
-    background-color: var(--nc-input-disabled-bg);
-    border-color: var(--nc-input-disabled-border);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
   }
 
   > .nc-stepper__input {
-    background-color: var(--nc-input-disabled-bg);
-    color: var(--nc-input-disabled-color);
-    border-color: var(--nc-input-disabled-border);
-    opacity: var(--nc-input-disabled-opacity);
+    background-color: var(--mod-input-disabled-bg, var(--nc-input-disabled-bg));
+    color: var(--mod-input-disabled-color, var(--nc-input-disabled-color));
+    border-color: var(--mod-input-disabled-border, var(--nc-input-disabled-border));
+    opacity: var(--mod-input-disabled-opacity, var(--nc-input-disabled-opacity));
   }
 }
 
@@ -200,38 +200,38 @@
   @if $size == 'sm' {
     > .nc-stepper__decrement,
     > .nc-stepper__increment {
-      width: var(--nc-input-height-sm);
-      height: var(--nc-input-height-sm);
-      min-width: var(--nc-input-height-sm);
+      width: var(--mod-input-height-sm, var(--nc-input-height-sm));
+      height: var(--mod-input-height-sm, var(--nc-input-height-sm));
+      min-width: var(--mod-input-height-sm, var(--nc-input-height-sm));
 
       > svg,
       > .nc-icon {
-        width: calc(var(--nc-input-height-sm) * 0.5);
-        height: calc(var(--nc-input-height-sm) * 0.5);
+        width: calc(var(--mod-input-height-sm, var(--nc-input-height-sm)) * 0.5);
+        height: calc(var(--mod-input-height-sm, var(--nc-input-height-sm)) * 0.5);
       }
     }
 
     > .nc-stepper__input {
-      height: var(--nc-input-height-sm);
-      font-size: var(--nc-input-font-size-sm);
+      height: var(--mod-input-height-sm, var(--nc-input-height-sm));
+      font-size: var(--mod-input-font-size-sm, var(--nc-input-font-size-sm));
     }
   } @else if $size == 'lg' {
     > .nc-stepper__decrement,
     > .nc-stepper__increment {
-      width: var(--nc-input-height-lg);
-      height: var(--nc-input-height-lg);
-      min-width: var(--nc-input-height-lg);
+      width: var(--mod-input-height-lg, var(--nc-input-height-lg));
+      height: var(--mod-input-height-lg, var(--nc-input-height-lg));
+      min-width: var(--mod-input-height-lg, var(--nc-input-height-lg));
 
       > svg,
       > .nc-icon {
-        width: calc(var(--nc-input-height-lg) * 0.5);
-        height: calc(var(--nc-input-height-lg) * 0.5);
+        width: calc(var(--mod-input-height-lg, var(--nc-input-height-lg)) * 0.5);
+        height: calc(var(--mod-input-height-lg, var(--nc-input-height-lg)) * 0.5);
       }
     }
 
     > .nc-stepper__input {
-      height: var(--nc-input-height-lg);
-      font-size: var(--nc-input-font-size-lg);
+      height: var(--mod-input-height-lg, var(--nc-input-height-lg));
+      font-size: var(--mod-input-font-size-lg, var(--nc-input-font-size-lg));
     }
   }
 }
@@ -247,8 +247,8 @@
 
   &__decrement {
     @include stepper-button;
-    border-start-start-radius: var(--nc-stepper-button-radius);
-    border-end-start-radius: var(--nc-stepper-button-radius);
+    border-start-start-radius: var(--mod-stepper-button-radius, var(--nc-stepper-button-radius));
+    border-end-start-radius: var(--mod-stepper-button-radius, var(--nc-stepper-button-radius));
     border-start-end-radius: 0;
     border-end-end-radius: 0;
   }
@@ -259,8 +259,8 @@
 
   &__increment {
     @include stepper-button;
-    border-start-end-radius: var(--nc-stepper-button-radius);
-    border-end-end-radius: var(--nc-stepper-button-radius);
+    border-start-end-radius: var(--mod-stepper-button-radius, var(--nc-stepper-button-radius));
+    border-end-end-radius: var(--mod-stepper-button-radius, var(--nc-stepper-button-radius));
     border-start-start-radius: 0;
     border-end-start-radius: 0;
   }
