@@ -17,5 +17,8 @@ export {
   semanticDefaults,
   componentTokenGroups,
   foundationTokens,
-  navigationTree
 } from './tokens.generated.js'
+
+// Navigation-Tree wird dynamisch aus dem Component Registry generiert
+// statt statisch aus tokens.generated.js (ITCSS-Struktur, keine toten Links)
+export { navigationTree } from './navigation-builder.js'

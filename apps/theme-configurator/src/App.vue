@@ -1,8 +1,8 @@
 <template>
-  <div class="app-shell">
-    <AppHeader />
+  <div class="app-shell" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
+    <AppHeader @toggle-sidebar="toggleSidebar" :sidebarCollapsed="sidebarCollapsed" />
     <div class="app-body">
-      <SidebarNav />
+      <SidebarNav :collapsed="sidebarCollapsed" @toggle="toggleSidebar" />
       <ErrorBoundary panelLabel="Laboratory">
         <LaboratoryPanel />
       </ErrorBoundary>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useThemeStore } from './stores/theme.js'
 import { useStyleguideSync } from './stores/styleguide-sync.js'
 import AppHeader from './components/layout/AppHeader.vue'
@@ -28,10 +28,17 @@ import ErrorBoundary from './components/layout/ErrorBoundary.vue'
 const store = useThemeStore()
 const sync = useStyleguideSync()
 
+// Sidebar collapse state (persisted)
+const SIDEBAR_KEY = 'neo-cfg-sidebar-collapsed'
+const sidebarCollapsed = ref(localStorage.getItem(SIDEBAR_KEY) === 'true')
+
+function toggleSidebar () {
+  sidebarCollapsed.value = !sidebarCollapsed.value
+  localStorage.setItem(SIDEBAR_KEY, sidebarCollapsed.value)
+}
+
 onMounted(() => {
   store.loadFromStorage()
-
-  // Fetch existing styleguide palettes on startup
   sync.fetchExistingPalettes()
 
   // Keyboard shortcuts
@@ -44,22 +51,36 @@ onMounted(() => {
         store.undo()
       }
     }
+    // Toggle Sidebar: Ctrl+B (wie VS Code)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+      e.preventDefault()
+      toggleSidebar()
+    }
   })
 })
 </script>
 
 <style scoped>
 .app-shell {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 240px 1fr auto;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  transition: grid-template-columns 0.2s ease;
+}
+
+.app-shell.sidebar-collapsed {
+  grid-template-columns: 44px 1fr auto;
+}
+
+.app-shell > :first-child {
+  /* AppHeader: spans full width */
+  grid-column: 1 / -1;
 }
 
 .app-body {
-  display: flex;
-  flex: 1;
-  min-height: 0;
+  display: contents;
 }
 </style>

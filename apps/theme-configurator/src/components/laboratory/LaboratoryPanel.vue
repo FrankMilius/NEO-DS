@@ -37,6 +37,16 @@
               <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
             </svg>
           </button>
+          <button
+            :class="['seg-btn', { active: store.state.previewMode === 'matrix' }]"
+            @click="store.setPreviewMode('matrix')"
+            aria-label="4-Theme Matrix"
+            title="Alle 4 Themes gleichzeitig"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/><path d="M3 12h18"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -1033,235 +1043,37 @@
       </template>
 
       <!-- ═══════════════════════════════════════════════════════════════
-           COMPONENT ARENA — Generische Komponenten-Vorschau
+           COMPONENT ARENA — Dynamic Arena Loading via useArenaResolver
            ═══════════════════════════════════════════════════════════════ -->
-      <template v-else-if="isComponentSection && activeComponentId === 'avatar'">
-        <AvatarArena />
+      <!-- Matrix Mode: 2×2 Grid mit allen 4 Themes -->
+      <template v-else-if="isComponentSection && resolvedArena && store.state.previewMode === 'matrix'">
+        <div class="theme-matrix">
+          <div class="theme-matrix__quadrant neo-light-theme" @click="store.setActiveThemeSet('neo'); store.setPreviewMode('light')">
+            <span class="theme-matrix__label">Neo Light</span>
+            <component :is="resolvedArena" />
+          </div>
+          <div class="theme-matrix__quadrant neo-dark-theme" @click="store.setActiveThemeSet('neo'); store.setPreviewMode('dark')">
+            <span class="theme-matrix__label">Neo Dark</span>
+            <component :is="resolvedArena" />
+          </div>
+          <div class="theme-matrix__quadrant customer-light-theme" @click="store.setActiveThemeSet('customer'); store.setPreviewMode('light')">
+            <span class="theme-matrix__label">Customer Light</span>
+            <component :is="resolvedArena" />
+          </div>
+          <div class="theme-matrix__quadrant customer-dark-theme" @click="store.setActiveThemeSet('customer'); store.setPreviewMode('dark')">
+            <span class="theme-matrix__label">Customer Dark</span>
+            <component :is="resolvedArena" />
+          </div>
+        </div>
       </template>
 
-      <template v-else-if="isComponentSection && activeComponentId === 'badge'">
-        <BadgeArena />
+      <!-- Normal Mode: Single/Split Arena -->
+      <template v-else-if="isComponentSection && resolvedArena">
+        <component :is="resolvedArena" />
       </template>
 
-      <template v-else-if="isComponentSection && activeComponentId === 'status'">
-        <StatusArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'card'">
-        <CardArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'button'">
-        <ButtonArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'switch'">
-        <SwitchArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'checkbox'">
-        <CheckboxArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'radio'">
-        <RadioArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'slider'">
-        <SliderArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'rating'">
-        <RatingArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'input'">
-        <InputArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'textarea'">
-        <TextareaArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'select'">
-        <SelectArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'alert'">
-        <AlertArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'toast'">
-        <ToastArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'banner'">
-        <BannerArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'tooltip'">
-        <TooltipArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'accordion'">
-        <AccordionArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'breadcrumb'">
-        <BreadcrumbArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'pagination'">
-        <PaginationArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'segmented-control'">
-        <SegmentedControlArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'toggle-group'">
-        <ToggleGroupArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'chip'">
-        <ChipArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'tag'">
-        <TagArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'dropdown-menu'">
-        <DropdownMenuArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'form-field'">
-        <FormFieldArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'fieldset'">
-        <FieldsetArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'metric'">
-        <MetricArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'toolbar'">
-        <ToolbarArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'progress'">
-        <ProgressArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'code-snippet'">
-        <CodeSnippetArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'search'">
-        <SearchArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'grid'">
-        <GridArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'alert-dialog'">
-        <AlertDialogArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'modal'">
-        <ModalArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'drawer'">
-        <DrawerArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'notification'">
-        <NotificationArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'popover'">
-        <PopoverArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'sidebar'">
-        <SidebarArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'navigation-menu'">
-        <NavigationMenuArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'navigation'">
-        <NavigationArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'treeview'">
-        <TreeviewArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'input-group'">
-        <InputGroupArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'form-layout'">
-        <FormLayoutArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'label'">
-        <LabelArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'skeleton'">
-        <SkeletonArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'spinner'">
-        <SpinnerArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'item'">
-        <ItemArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'table'">
-        <TableArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'data-table'">
-        <DataTableArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'hero'">
-        <HeroArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'container'">
-        <ContainerArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'section'">
-        <SectionArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'shell'">
-        <ShellArena />
-      </template>
-
-      <template v-else-if="isComponentSection && activeComponentId === 'psychedelic-bg'">
-        <PsychedelicBgArena />
-      </template>
-
-      <template v-else-if="isComponentSection && hasRecipeSpecimens">
-        <RecipeSpecimenArena :componentId="activeComponentId" />
-      </template>
-
-      <template v-else-if="isComponentSection">
-        <ComponentArena :componentId="activeComponentId" />
-      </template>
+      <!-- Alle dedizierten Arenas + Fallbacks werden jetzt dynamisch via
+           useArenaResolver geladen (siehe component :is oben) -->
 
       <!-- ═══════════════════════════════════════════════════════════════
            FOUNDATION EDITORS — dedizierte Foundation-Ansichten
@@ -1915,64 +1727,8 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useArenaResolver } from '../../composables/useArenaResolver.js'
 import { foundationTokens, componentTokenGroups } from '../../data/tokens.js'
-import ComponentArena from './ComponentArena.vue'
-import AvatarArena from './AvatarArena.vue'
-import BadgeArena from './BadgeArena.vue'
-import StatusArena from './StatusArena.vue'
-import CardArena from './CardArena.vue'
-import ButtonArena from './ButtonArena.vue'
-import SwitchArena from './SwitchArena.vue'
-import CheckboxArena from './CheckboxArena.vue'
-import RadioArena from './RadioArena.vue'
-import SliderArena from './SliderArena.vue'
-import RatingArena from './RatingArena.vue'
-import InputArena from './InputArena.vue'
-import TextareaArena from './TextareaArena.vue'
-import SelectArena from './SelectArena.vue'
-import AlertArena from './AlertArena.vue'
-import ToastArena from './ToastArena.vue'
-import BannerArena from './BannerArena.vue'
-import TooltipArena from './TooltipArena.vue'
-import AccordionArena from './AccordionArena.vue'
-import BreadcrumbArena from './BreadcrumbArena.vue'
-import PaginationArena from './PaginationArena.vue'
-import SegmentedControlArena from './SegmentedControlArena.vue'
-import ToggleGroupArena from './ToggleGroupArena.vue'
-import ChipArena from './ChipArena.vue'
-import TagArena from './TagArena.vue'
-import DropdownMenuArena from './DropdownMenuArena.vue'
-import FormFieldArena from './FormFieldArena.vue'
-import FieldsetArena from './FieldsetArena.vue'
-import MetricArena from './MetricArena.vue'
-import ToolbarArena from './ToolbarArena.vue'
-import ProgressArena from './ProgressArena.vue'
-import CodeSnippetArena from './CodeSnippetArena.vue'
-import SearchArena from './SearchArena.vue'
-import AlertDialogArena from './AlertDialogArena.vue'
-import ModalArena from './ModalArena.vue'
-import DrawerArena from './DrawerArena.vue'
-import NotificationArena from './NotificationArena.vue'
-import PopoverArena from './PopoverArena.vue'
-import SidebarArena from './SidebarArena.vue'
-import NavigationMenuArena from './NavigationMenuArena.vue'
-import NavigationArena from './NavigationArena.vue'
-import TreeviewArena from './TreeviewArena.vue'
-import InputGroupArena from './InputGroupArena.vue'
-import FormLayoutArena from './FormLayoutArena.vue'
-import LabelArena from './LabelArena.vue'
-import SkeletonArena from './SkeletonArena.vue'
-import SpinnerArena from './SpinnerArena.vue'
-import ItemArena from './ItemArena.vue'
-import TableArena from './TableArena.vue'
-import DataTableArena from './DataTableArena.vue'
-import GridArena from './GridArena.vue'
-import HeroArena from './HeroArena.vue'
-import RecipeSpecimenArena from './RecipeSpecimenArena.vue'
-import ContainerArena from './ContainerArena.vue'
-import SectionArena from './SectionArena.vue'
-import ShellArena from './ShellArena.vue'
-import PsychedelicBgArena from './PsychedelicBgArena.vue'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import TypographyEditor from '../foundation/TypographyEditor.vue'
 import SpacingInspector from '../foundation/SpacingInspector.vue'
@@ -2013,6 +1769,11 @@ const isGridSection = computed(() =>
 )
 const isComponentSection = computed(() => store.state.activeSection.startsWith('component-'))
 const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
+
+// ---------------------------------------------------------------------------
+// Dynamic Arena Resolver — laedt Arena-Komponenten on-demand
+// ---------------------------------------------------------------------------
+const { resolvedArena } = useArenaResolver(activeComponentId)
 
 // ---------------------------------------------------------------------------
 // Recipe Filterbar — extrahiert Filteroptionen aus Recipe-Daten
@@ -2600,6 +2361,46 @@ const switchOn = computed(() => ({
   border-radius: 0;
   transition: background var(--fnd-motion-duration-200), color var(--fnd-motion-duration-200);
   overflow-y: auto;
+}
+
+/* ── Theme Matrix (2×2 Grid) ── */
+.theme-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  flex: 1;
+  background: var(--cfg-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.theme-matrix__quadrant {
+  position: relative;
+  padding: 12px;
+  overflow-y: auto;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.theme-matrix__quadrant:hover {
+  box-shadow: inset 0 0 0 2px var(--cfg-accent);
+}
+
+.theme-matrix__label {
+  position: sticky;
+  top: 0;
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  margin: -12px -12px 8px;
+  background: color-mix(in srgb, var(--fnd-color-background-base, #fff) 90%, transparent);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+  color: var(--fnd-color-text-secondary, #64748b);
 }
 
 /* ── Viewport Inner Wrapper ── */

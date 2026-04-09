@@ -706,11 +706,11 @@ function trapFocus(e) {
 .app-header {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  height: 52px;
+  padding: 0 12px;
+  height: 44px;
   background: var(--cfg-surface);
   border-bottom: 1px solid var(--cfg-border);
-  gap: 12px;
+  gap: 8px;
   flex-shrink: 0;
 }
 

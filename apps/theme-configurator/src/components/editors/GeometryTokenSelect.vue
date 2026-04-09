@@ -190,8 +190,13 @@ const suggestionGroups = computed(() => {
     categoryOrder.push('sizes')
   } else if (isWidth) {
     categoryOrder.push('sizes', 'spacing')
+  } else if (tokenId.includes('border-width') || tokenId.includes('outline') || tokenId.includes('ring')) {
+    categoryOrder.push('border')
+  } else if (tokenId.includes('icon')) {
+    categoryOrder.push('sizes')
   } else {
-    categoryOrder.push('sizes', 'spacing', 'radius')
+    // Nur Sizes als Fallback — keine Cross-Category Vorschlaege mehr
+    categoryOrder.push('sizes')
   }
 
   for (const catKey of categoryOrder) {

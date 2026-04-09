@@ -68,7 +68,7 @@
             <path d="M3 7v-2a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
             <rect x="7" y="7" width="10" height="10" rx="1"/>
           </svg>
-          <span class="inspector-section__title">Anatomy</span>
+          <span class="inspector-section__title">Position & Layout</span>
           <span class="inspector-section__count">{{ anatomyTokenCount }}</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -187,7 +187,7 @@
             <path d="M12 21a9 9 0 0 1 0-18c4.97 0 9 3.582 9 8 0 1.06-.474 2.078-1.318 2.828-.844.75-1.989 1.172-3.182 1.172H14a2 2 0 0 0-1 3.75A1.3 1.3 0 0 1 12 21"/>
             <circle cx="7.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="12" cy="7.5" r=".5" fill="currentColor"/><circle cx="16.5" cy="10.5" r=".5" fill="currentColor"/>
           </svg>
-          <span class="inspector-section__title">Appearance</span>
+          <span class="inspector-section__title">Fill</span>
           <span class="inspector-section__count">{{ appearanceTokenCount }}</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -282,9 +282,9 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/>
           </svg>
-          <span class="inspector-section__title">States</span>
+          <span class="inspector-section__title">Effects & States</span>
           <span class="inspector-section__count">{{ stateTokenCount }}</span>
-          <span class="inspector-section__hint">Hover, Focus, Disabled</span>
+          <span class="inspector-section__hint">Hover, Focus, Transitions</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div v-if="statesOpen" class="inspector-section__body">
@@ -599,27 +599,34 @@ function buildSwatches(sgTokens, category) {
 }
 
 // ---------------------------------------------------------------------------
-// Token Classification: Anatomy / Typography / Appearance / States / Advanced
+// Token Classification: Figma-Style Sections via useTokenClassifier
 // ---------------------------------------------------------------------------
+// Tokens werden anhand ihrer ID in 5 Sektionen klassifiziert:
+//   Layout | Typography | Fill | Stroke | Effects
 
-// Geometrie-IDs: size, typography, interaction tokens
+import { classifyToken, classifySubgroups as classifySubgroupsFn } from '../../composables/useTokenClassifier.js'
+
+// Legacy Compatibility: isAnatomySubgroup etc. werden durch den Classifier ersetzt
+// aber die Computed Properties behalten ihre Namen fuer Template-Kompatibilitaet
+
 const ANATOMY_IDS = new Set([
-  'geometry', 'typography', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry',
-  // Layout-Subgroups die komplett in Anatomy gehoeren (nicht aufgesplittet)
+  'geometry', 'icon-sizing', 'size-scale', 'interaction', 'core-geometry',
   'layout', 'kicker', 'title', 'subtitle', 'highlights', 'actions', 'overlay',
   'input', 'trigger', 'list', 'link', 'indicator', 'header', 'brand',
   'container', 'content', 'sidebar-density', 'footerbar', 'linkbar', 'sidebars',
   'toggle', 'mobile', 'links'
 ])
 
-// Typography: Tokens mit font-bezogenen Eigenschaften
-const TYPOGRAPHY_PATTERNS = ['font-size', 'font-weight', 'font-family', 'line-height', 'letter-spacing', 'font-variant']
-function isTypographyToken(token) {
-  return TYPOGRAPHY_PATTERNS.some(p => token.id.includes(p))
-}
-
 function isAnatomySubgroup(sg) {
-  return ANATOMY_IDS.has(sg.id) || sg.category === 'core'
+  // Nutze Classifier: Subgroups deren Tokens mehrheitlich "layout" oder "stroke" sind
+  if (ANATOMY_IDS.has(sg.id) || sg.category === 'core') return true
+  // Pruefe ob >50% der Tokens layout/stroke sind
+  if (!sg.tokens?.length) return false
+  const layoutCount = sg.tokens.filter(t => {
+    const s = classifyToken(t.id)
+    return s === 'layout' || s === 'stroke'
+  }).length
+  return layoutCount > sg.tokens.length * 0.5
 }
 
 function isStateSubgroup(sg) {
@@ -628,6 +635,10 @@ function isStateSubgroup(sg) {
 
 function isAppearanceSubgroup(sg) {
   return !isAnatomySubgroup(sg) && !isStateSubgroup(sg)
+}
+
+function isTypographyToken(token) {
+  return classifyToken(token.id) === 'typography'
 }
 
 // Klassifizierte Subgroups (mit Arena-Filter + Token-Suche)

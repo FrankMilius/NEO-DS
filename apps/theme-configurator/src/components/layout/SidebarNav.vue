@@ -1,6 +1,17 @@
 <template>
-  <aside class="sidebar-nav">
-    <div class="sidebar-search">
+  <aside class="sidebar-nav" :class="{ 'sidebar-nav--collapsed': collapsed }">
+    <!-- Collapse Toggle -->
+    <button class="sidebar-collapse-btn" @click="$emit('toggle')" :title="collapsed ? 'Sidebar einblenden (Ctrl+B)' : 'Sidebar ausblenden (Ctrl+B)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <template v-if="collapsed">
+          <path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/>
+        </template>
+        <template v-else>
+          <path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/>
+        </template>
+      </svg>
+    </button>
+    <div v-if="!collapsed" class="sidebar-search">
       <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
       </svg>
@@ -12,7 +23,7 @@
       />
     </div>
 
-    <nav class="nav-tree" role="tree">
+    <nav v-if="!collapsed" class="nav-tree" role="tree">
       <div v-for="group in filteredTree" :key="group.id" class="nav-group">
         <button
           class="nav-group-header"
@@ -67,7 +78,7 @@
       </div>
     </nav>
 
-    <div class="sidebar-footer">
+    <div v-if="!collapsed" class="sidebar-footer">
       <button class="btn-reset" @click="handleReset">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
@@ -89,6 +100,11 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
+
+const props = defineProps({
+  collapsed: { type: Boolean, default: false }
+})
+defineEmits(['toggle'])
 
 const SIDEBAR_STORAGE_KEY = 'neo-cfg-sidebar'
 
@@ -292,13 +308,43 @@ function handleExportJSON() {
 
 <style scoped>
 .sidebar-nav {
-  width: 240px;
-  min-width: 240px;
   display: flex;
   flex-direction: column;
   background: var(--cfg-surface);
   border-right: 1px solid var(--cfg-border);
   overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.2s ease, min-width 0.2s ease;
+}
+
+.sidebar-nav:not(.sidebar-nav--collapsed) {
+  width: 240px;
+  min-width: 240px;
+}
+
+.sidebar-nav--collapsed {
+  width: 44px;
+  min-width: 44px;
+  align-items: center;
+}
+
+.sidebar-collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--cfg-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: color 0.15s;
+}
+.sidebar-collapse-btn:hover {
+  color: var(--cfg-text);
+  background: var(--cfg-hover);
 }
 
 .sidebar-search {

@@ -31,6 +31,24 @@
           <span v-if="recipeVersion" class="inspector-meta-badge inspector-meta-badge--version">Version <span class="inspector-meta-badge__value">{{ recipeVersion }}</span></span>
         </div>
       </div>
+      <!-- Theme-Set Switcher (Neo / Customer) -->
+      <div v-if="isComponentSection || activeSection === 'foundation-colors'" class="theme-set-switcher">
+        <button
+          :class="['tss-btn', { active: store.state.activeThemeSet === 'neo' }]"
+          @click="store.setActiveThemeSet('neo')"
+        >Neo</button>
+        <button
+          :class="['tss-btn', { active: store.state.activeThemeSet === 'customer' }]"
+          @click="store.setActiveThemeSet('customer')"
+        >Customer</button>
+        <button class="tss-copy-btn" @click="handleCopyTheme" :title="copyTitle">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </button>
+        <span v-if="themeDiffCount > 0" class="tss-diff-badge" :title="themeDiffCount + ' Tokens unterscheiden sich zwischen Neo und Customer'">{{ themeDiffCount }}</span>
+      </div>
+
       <!-- Color Tabs (only for foundation-colors) -->
       <div v-if="activeSection === 'foundation-colors'" class="color-tabs">
         <button
@@ -173,6 +191,28 @@ import TemplatePlaceholder from '../templates/TemplatePlaceholder.vue'
 
 const store = useThemeStore()
 const activeSection = computed(() => store.state.activeSection)
+
+// ---------------------------------------------------------------------------
+// Theme-Set Switcher
+// ---------------------------------------------------------------------------
+const copyTitle = computed(() =>
+  store.state.activeThemeSet === 'neo'
+    ? 'Neo → Customer kopieren'
+    : 'Customer → Neo kopieren'
+)
+
+const themeDiffCount = computed(() => {
+  const diff = store.diffThemeSets('neo', 'customer')
+  return diff.semantic.length + diff.component.length + diff.foundation.length
+})
+
+function handleCopyTheme () {
+  const from = store.state.activeThemeSet
+  const to = from === 'neo' ? 'customer' : 'neo'
+  if (confirm(`Alle Token-Overrides von "${from}" nach "${to}" kopieren?`)) {
+    store.copyThemeOverrides(from, to)
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Resizable Panel
@@ -455,6 +495,56 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
   min-height: 200px;
   color: var(--cfg-text-muted);
   font-size: 14px;
+}
+
+/* ── Theme-Set Switcher ── */
+.theme-set-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0 4px;
+}
+.tss-btn {
+  padding: 4px 12px;
+  border: 1px solid var(--cfg-border);
+  background: transparent;
+  color: var(--cfg-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.tss-btn:first-child { border-radius: 4px 0 0 4px; border-right: none; }
+.tss-btn:nth-child(2) { border-radius: 0 4px 4px 0; }
+.tss-btn.active {
+  background: var(--cfg-accent);
+  color: #fff;
+  border-color: var(--cfg-accent);
+}
+.tss-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--cfg-border);
+  background: transparent;
+  color: var(--cfg-text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.15s;
+}
+.tss-copy-btn:hover { color: var(--cfg-text); background: var(--cfg-hover); }
+.tss-diff-badge {
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--cfg-warning, #f59e0b);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: 4px;
 }
 
 /* ── Color Tabs ── */
