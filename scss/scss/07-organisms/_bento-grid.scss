@@ -1,0 +1,227 @@
+// ==========================================================================
+// 07-Organisms: Bento Grid
+// ==========================================================================
+// Asymmetrisches Karten-Raster mit visueller Hierarchie: Eine prominente
+// "Feature"-Zelle (Span 2x2) plus kleinere Zellen, optional eine breite Zelle
+// (Span 2x1) zum lueckenlosen Auffuellen. Hover: Lift, Border-Glow,
+// Icon-Rotation. Optionaler animierter Mesh-Gradient in der grossen Zelle.
+//
+// Quelle: USP-Sektion Variante 01 (Bento-Grid mit Hover-Glow), auf NEO
+// Foundation-Tokens gemappt. Komponenten-Tokens: 00-settings/_component-tokens.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-bento-grid {
+  display: grid;
+  gap: var(--nc-bento-grid-gap);
+  grid-template-columns: repeat(var(--nc-bento-grid-columns), minmax(0, 1fr));
+  grid-auto-rows: minmax(var(--nc-bento-grid-cell-min), auto);
+}
+
+// 3-Spalten-Variante
+.nc-bento-grid--cols-3 {
+  --nc-bento-grid-columns: 3;
+}
+
+// ---------------------------------------------------------------------------
+// Zelle
+// ---------------------------------------------------------------------------
+.nc-bento-grid__cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--nc-bento-grid-padding);
+  border-radius: var(--nc-bento-grid-radius);
+  border: 1px solid var(--nc-bento-grid-border);
+  background: var(--nc-bento-grid-surface);
+  overflow: hidden;
+  color: var(--nc-bento-grid-text);
+  transition:
+    transform var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative),
+    border-color var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative);
+}
+
+a.nc-bento-grid__cell {
+  text-decoration: none;
+}
+
+.nc-bento-grid__cell:hover,
+.nc-bento-grid__cell:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--nc-bento-grid-border-hover);
+}
+
+.nc-bento-grid__cell:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+// Radialer Glow-Akzent (dekorativ)
+.nc-bento-grid__cell::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 70% 20%, var(--nc-bento-grid-accent), transparent 55%);
+  opacity: 0;
+  transition: opacity var(--fnd-motion-duration-450) var(--fnd-motion-ease-informative);
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+.nc-bento-grid__cell:hover::after,
+.nc-bento-grid__cell:focus-visible::after {
+  opacity: 0.55;
+}
+
+// Grosse Feature-Zelle (Span 2x2)
+.nc-bento-grid__cell--lg {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+// Breite Zelle (Span 2x1) — fuellt die untere Reihe lueckenlos
+.nc-bento-grid__cell--wide {
+  grid-column: span 2;
+}
+
+// ---------------------------------------------------------------------------
+// Inhalt
+// ---------------------------------------------------------------------------
+.nc-bento-grid__icon {
+  position: relative;
+  z-index: 1;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--fnd-radius-md);
+  display: grid;
+  place-items: center;
+  color: var(--nc-bento-grid-accent);
+  background: color-mix(in srgb, var(--nc-bento-grid-accent) 14%, transparent);
+  transition: transform var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative);
+}
+
+.nc-bento-grid__cell:hover .nc-bento-grid__icon {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.nc-bento-grid__icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.nc-bento-grid__title {
+  position: relative;
+  z-index: 1;
+  margin: var(--fnd-spacing-04) 0 var(--fnd-spacing-02);
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--nc-bento-grid-title);
+}
+
+.nc-bento-grid__cell--lg .nc-bento-grid__title {
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+}
+
+.nc-bento-grid__text {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: var(--fs-sm, 0.875rem);
+  line-height: var(--lh-body, 1.55);
+  max-width: 36ch;
+  color: var(--nc-bento-grid-text);
+}
+
+// Badge oben rechts
+.nc-bento-grid__badge {
+  position: absolute;
+  top: var(--fnd-spacing-06);
+  right: var(--fnd-spacing-06);
+  z-index: 1;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: var(--fnd-font-weight-semibold);
+  letter-spacing: 0.1em;
+  color: var(--nc-bento-grid-accent);
+  border: 1px solid color-mix(in srgb, var(--nc-bento-grid-accent) 40%, transparent);
+  border-radius: var(--fnd-radius-full);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+}
+
+// Animierter Mesh-Gradient (dekorativ, typischerweise in der grossen Zelle)
+.nc-bento-grid__mesh {
+  position: absolute;
+  right: -7.5rem;
+  bottom: -7.5rem;
+  width: 21rem;
+  height: 21rem;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    var(--fnd-color-interactive-default),
+    var(--fnd-color-background-accent, var(--fnd-color-interactive-hover)),
+    var(--fnd-color-interactive-default)
+  );
+  filter: blur(70px);
+  opacity: 0.35;
+  border-radius: var(--fnd-radius-full);
+  pointer-events: none;
+  animation: nc-bento-grid-spin 14s linear infinite;
+}
+
+@keyframes nc-bento-grid-spin {
+  to { transform: rotate(360deg); }
+}
+
+// ---------------------------------------------------------------------------
+// Scroll-Reveal (optional, via JS .is-revealed am Root)
+// ---------------------------------------------------------------------------
+.nc-bento-grid[data-animation="reveal"] .nc-bento-grid__cell {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--fnd-motion-duration-450) var(--fnd-motion-ease-informative),
+    transform var(--fnd-motion-duration-450) var(--fnd-motion-ease-informative);
+}
+
+.nc-bento-grid[data-animation="reveal"].is-revealed .nc-bento-grid__cell {
+  opacity: 1;
+  transform: none;
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+@media (max-width: 53.75em) { // 860px
+  .nc-bento-grid {
+    --nc-bento-grid-columns: 2;
+  }
+  .nc-bento-grid__cell--lg {
+    grid-column: span 2;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 35em) { // 560px
+  .nc-bento-grid {
+    --nc-bento-grid-columns: 1;
+  }
+  .nc-bento-grid__cell--lg,
+  .nc-bento-grid__cell--wide {
+    grid-column: auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  .nc-bento-grid__cell,
+  .nc-bento-grid__icon,
+  .nc-bento-grid__mesh { transition: none; animation: none; }
+  .nc-bento-grid[data-animation="reveal"] .nc-bento-grid__cell { opacity: 1; transform: none; }
+}

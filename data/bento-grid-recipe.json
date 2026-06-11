@@ -1,0 +1,270 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "bento-grid",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "grid",
+      "interactive"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/bento-grid-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Implementierung: asymmetrisches Bento-Raster mit prominenter Feature-Zelle (Span 2x2)",
+          "Hover: Lift (translateY), Border-Glow auf Akzentfarbe, radialer Glow-Layer, Icon-Rotation",
+          "Optionaler animierter Mesh-Gradient (conic) in der grossen Zelle",
+          "Columns-Achse: 4 (Default) / 3",
+          "Animation-Achse: none / reveal (Scroll-Einblendung gestaffelt)",
+          "Responsive: 4 -> 2 Spalten (860px), 2 -> 1 Spalte (560px); grosse Zelle wird normal",
+          "Token-gesteuert ueber --nc-bento-grid-* mit --mod-* Override und Foundation-Fallback"
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_bento-grid.scss"
+      ],
+      "story": "stories/organisms/bento-grid.stories.js",
+      "arena": null,
+      "drupal": [
+        "block--block-content--neo-bento-grid.html.twig",
+        "block--inline-block--neo-bento-grid.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-bento-grid"
+    },
+    "slots": [
+      {
+        "name": "cell",
+        "element": ".nc-bento-grid__cell",
+        "optional": false,
+        "description": "Einzelne Bento-Zelle. Als <article> oder verlinkt als <a>. Modifier --lg = prominente Feature-Zelle (Span 2x2); --wide = breite Zelle (Span 2x1) zum lueckenlosen Auffuellen der unteren Reihe."
+      },
+      {
+        "name": "icon",
+        "element": ".nc-bento-grid__icon",
+        "optional": true,
+        "description": "Icon-Chip oben in der Zelle. Rotiert leicht bei Hover."
+      },
+      {
+        "name": "title",
+        "element": ".nc-bento-grid__title",
+        "optional": false,
+        "description": "Titel der Zelle (h3)."
+      },
+      {
+        "name": "text",
+        "element": ".nc-bento-grid__text",
+        "optional": true,
+        "description": "Beschreibungstext der Zelle."
+      },
+      {
+        "name": "badge",
+        "element": ".nc-bento-grid__badge",
+        "optional": true,
+        "description": "Kleines Badge oben rechts (z.B. 'GPL / MIT')."
+      },
+      {
+        "name": "mesh",
+        "element": ".nc-bento-grid__mesh",
+        "optional": true,
+        "description": "Dekorativer animierter Mesh-Gradient, typischerweise in der grossen Zelle. aria-hidden."
+      }
+    ],
+    "domNotes": [
+      "Root .nc-bento-grid: CSS Grid, repeat(--nc-bento-grid-columns, 1fr), grid-auto-rows minmax(--nc-bento-grid-cell-min, auto).",
+      "Feature-Zelle: .nc-bento-grid__cell--lg mit grid-column:span 2 und grid-row:span 2.",
+      "Hover/Focus-visible: Zelle hebt sich (translateY -6px), Border auf --nc-bento-grid-accent, radialer Glow (::after) fadet ein, Icon rotiert.",
+      "Mesh-Layer (.nc-bento-grid__mesh): position:absolute, conic-gradient, blur, dauerhafte Rotation; rein dekorativ (aria-hidden).",
+      "Verlinkte Zelle: a.nc-bento-grid__cell, text-decoration:none.",
+      "Scroll-Reveal: data-animation='reveal' am Root, .is-revealed schaltet sichtbar.",
+      "Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).",
+      "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar."
+    ]
+  },
+  "axes": {
+    "columns": {
+      "label": "Columns",
+      "description": "Anzahl der Raster-Spalten auf Desktop",
+      "values": {
+        "4": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "bento-cols-4"
+        },
+        "3": {
+          "modifier": "nc-bento-grid--cols-3",
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "bento-cols-3"
+        }
+      }
+    },
+    "animation": {
+      "label": "Animation",
+      "description": "Scroll-basierte Einblendanimation",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "bento-no-animation"
+        },
+        "reveal": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "bento-reveal"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Titel pro Zelle als h3 (eine Sektions-Ueberschrift h2 darueber). Verlinkte Zellen sind fokussierbar mit sichtbarem Fokusring. Mesh und Glow sind dekorativ (aria-hidden / pointer-events:none). Icons rein dekorativ."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [
+      {
+        "when": {},
+        "require": [
+          "heading-hierarchy"
+        ],
+        "notes": [
+          "Zellen-Titel sind h3; eine sichtbare oder visuell versteckte Sektions-h2 muss vorausgehen, um Heading-Spruenge zu vermeiden."
+        ]
+      }
+    ]
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-bento-grid"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-bento-grid-gap",
+          "nc-bento-grid-columns",
+          "nc-bento-grid-cell-min",
+          "nc-bento-grid-padding",
+          "nc-bento-grid-radius"
+        ]
+      },
+      "surface": {
+        "label": "Surface & Border",
+        "tokens": [
+          "nc-bento-grid-surface",
+          "nc-bento-grid-border",
+          "nc-bento-grid-border-hover"
+        ]
+      },
+      "accent": {
+        "label": "Accent & Text",
+        "tokens": [
+          "nc-bento-grid-accent",
+          "nc-bento-grid-title",
+          "nc-bento-grid-text"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "default-4col",
+      "label": "Bento 4 Spalten",
+      "description": "Standard: 4 Spalten, eine grosse Feature-Zelle mit Mesh, Hover-Glow.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "4"
+          ],
+          "animation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout",
+        "surface",
+        "accent"
+      ],
+      "layout": "grid",
+      "render": {
+        "compositionType": "bento-grid",
+        "label": "4 Spalten + Feature-Zelle"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Zellen-Titel 4.5:1 gegen Surface."
+      },
+      "layoutConfig": {
+        "rowAxis": "columns",
+        "colAxis": "animation"
+      }
+    }
+  ]
+}
