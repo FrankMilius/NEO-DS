@@ -226,6 +226,19 @@ const generateLayout = () => {
   out += `$token-grid-gap: ${layout.grid.gap};\n`;
   out += `$token-grid-gap-lg: ${layout.grid.gap_lg};\n`;
 
+  // Container-Query-Schwellen als SCSS-Map — @container-Bedingungen koennen
+  // keine CSS-Variablen nutzen, daher muessen die Werte zur Build-Zeit als
+  // Sass-Werte vorliegen (gleiche Quelle wie die --fnd-* CSS-Variablen).
+  if (layout.container_query) {
+    out += `\n$token-container-query: (\n`;
+    for (const [comp, thresholds] of Object.entries(layout.container_query)) {
+      for (const [name, val] of Object.entries(thresholds)) {
+        out += `  '${toKebab(comp)}-${toKebab(name)}': ${val},\n`;
+      }
+    }
+    out += `) !default;\n`;
+  }
+
   writePartial('_tokens-layout.generated.scss', out);
 };
 
