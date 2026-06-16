@@ -13,9 +13,13 @@
 //   POST /api/save-theme   → Schreibt website/data/custom-theme.json
 // ==========================================================================
 
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const ROOT = path.resolve(__dirname, '..');

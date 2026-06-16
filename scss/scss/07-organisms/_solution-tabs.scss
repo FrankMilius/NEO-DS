@@ -1,0 +1,476 @@
+// ==========================================================================
+// 07-Organisms: Solution Tabs
+// ==========================================================================
+// Tab-basierte Loesungs-/Produktuebersicht. Kapselt das Tab-Muster mit reichem
+// Panel (Titel, Text, Feature-Liste, CTA) und einem Produkt-Visual (Mock-UI).
+//
+// Orientierung: horizontal (Tab-Leiste oben, optional Autoplay mit
+// Fortschrittsbalken) oder vertical (nummerierte Seitennavigation).
+// Variante: line (Underline-Indikator) / contained.
+//
+// Quelle: Loesungen-Sektion V1 (Tabs+Autoplay) + V2 (vertikale Navigation),
+// auf NEO Foundation-Tokens gemappt. Tokens: 00-settings/_component-tokens.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-solution-tabs {
+  // Pro-Panel Akzent (kann per Inline-Style ueberschrieben werden)
+  --nc-solution-tabs-accent: var(--nc-solution-tabs-accent-default);
+}
+
+// Sektions-Header in heller Schrift (dunkle Sektion). Der gemeinsame
+// nc-section-header nutzt dunkle Schrift; hier kontextbezogen ueberschrieben.
+.nc-solution-tabs-section .nc-section-header__title { color: var(--nc-solution-tabs-title); }
+.nc-solution-tabs-section .nc-section-header__label { color: var(--nc-solution-tabs-accent-default); }
+.nc-solution-tabs-section .nc-section-header__subtitle { color: var(--nc-solution-tabs-text); }
+
+// ---------------------------------------------------------------------------
+// Tab-Leiste
+// ---------------------------------------------------------------------------
+.nc-solution-tabs__tablist {
+  display: flex;
+  gap: var(--fnd-spacing-01);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--nc-solution-tabs-border);
+  margin-block-end: var(--fnd-spacing-08);
+}
+
+.nc-solution-tabs__tab {
+  position: relative;
+  appearance: none;
+  margin: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-05) calc(var(--fnd-spacing-04) + 2px);
+  font-family: inherit;
+  font-size: var(--fs-sm, 0.875rem);
+  font-weight: var(--fnd-font-weight-semibold);
+  white-space: nowrap;
+  color: var(--nc-solution-tabs-tab-color);
+  transition: color var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
+}
+
+.nc-solution-tabs__tab:hover {
+  color: var(--nc-solution-tabs-tab-color-active);
+}
+
+.nc-solution-tabs__tab[aria-selected="true"] {
+  color: var(--nc-solution-tabs-tab-color-active);
+}
+
+.nc-solution-tabs__tab:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+  border-radius: var(--fnd-radius-xs);
+}
+
+// Fortschrittsbalken (Autoplay)
+.nc-solution-tabs__progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: var(--nc-solution-tabs-accent);
+  border-radius: var(--fnd-radius-full);
+}
+
+.nc-solution-tabs[data-autoplay="on"] .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
+  animation: nc-solution-tabs-progress var(--nc-solution-tabs-autoplay-duration, 7s) linear forwards;
+}
+
+.nc-solution-tabs[data-autoplay="on"].is-paused .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
+  animation-play-state: paused;
+}
+
+@keyframes nc-solution-tabs-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+// Contained-Variante: gefuellte Tabs ohne Underline
+.nc-solution-tabs--contained .nc-solution-tabs__tablist {
+  border-bottom: 0;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-solution-tabs--contained .nc-solution-tabs__tab {
+  border-radius: var(--fnd-radius-full);
+}
+
+.nc-solution-tabs--contained .nc-solution-tabs__tab[aria-selected="true"] {
+  background: color-mix(in srgb, var(--nc-solution-tabs-accent) 14%, transparent);
+}
+
+.nc-solution-tabs--contained .nc-solution-tabs__progress {
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// Panels
+// ---------------------------------------------------------------------------
+.nc-solution-tabs__panel {
+  display: none;
+}
+
+.nc-solution-tabs__panel.is-active {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--fnd-spacing-10);
+  align-items: center;
+  animation: nc-solution-tabs-panel-in var(--fnd-motion-duration-450) var(--fnd-motion-ease-informative);
+}
+
+@keyframes nc-solution-tabs-panel-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.nc-solution-tabs__panel-title {
+  margin: 0 0 var(--fnd-spacing-04);
+  font-family: var(--font-heading);
+  font-size: clamp(1.375rem, 2.6vw, 2rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--nc-solution-tabs-title);
+}
+
+.nc-solution-tabs__panel-text {
+  margin: 0;
+  font-size: var(--fs-md, 0.9375rem);
+  line-height: var(--lh-body, 1.55);
+  color: var(--nc-solution-tabs-text);
+}
+
+// Feature-Liste (mit gestaffelter Einblendung beim Aktivieren)
+.nc-solution-tabs__features {
+  list-style: none;
+  margin: var(--fnd-spacing-06) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--fnd-spacing-03);
+}
+
+.nc-solution-tabs__feature {
+  display: flex;
+  gap: var(--fnd-spacing-03);
+  align-items: flex-start;
+  font-size: var(--fs-sm, 0.875rem);
+  color: var(--nc-solution-tabs-text);
+}
+
+.nc-solution-tabs__feature::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 1.0625rem;
+  height: 1.0625rem;
+  margin-top: 2px;
+  border-radius: var(--fnd-radius-full);
+  background: color-mix(in srgb, var(--nc-solution-tabs-accent) 16%, transparent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2'%3E%3Cpath d='M5 13l4 4 10-11'/%3E%3C/svg%3E") center / 10px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2'%3E%3Cpath d='M5 13l4 4 10-11'/%3E%3C/svg%3E") center / 10px no-repeat;
+  background-color: var(--nc-solution-tabs-accent);
+}
+
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature {
+  opacity: 0;
+  transform: translateX(-12px);
+  animation: nc-solution-tabs-feature-in var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative) forwards;
+}
+
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature:nth-child(2) { animation-delay: 0.07s; }
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature:nth-child(3) { animation-delay: 0.14s; }
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature:nth-child(4) { animation-delay: 0.21s; }
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature:nth-child(5) { animation-delay: 0.28s; }
+.nc-solution-tabs__panel.is-active .nc-solution-tabs__feature:nth-child(6) { animation-delay: 0.35s; }
+
+@keyframes nc-solution-tabs-feature-in {
+  to { opacity: 1; transform: none; }
+}
+
+// CTA
+.nc-solution-tabs__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  margin-top: var(--fnd-spacing-07);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-06);
+  border-radius: var(--fnd-radius-full);
+  font-weight: var(--fnd-font-weight-semibold);
+  font-size: var(--fs-sm, 0.875rem);
+  text-decoration: none;
+  color: var(--fnd-color-text-on-interactive, #000);
+  background: var(--nc-solution-tabs-accent);
+  transition:
+    transform var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative),
+    box-shadow var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
+}
+
+.nc-solution-tabs__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fnd-shadow-levels-md);
+}
+
+// ---------------------------------------------------------------------------
+// Trust-Badges (im Sektions-Header)
+// ---------------------------------------------------------------------------
+.nc-solution-tabs__trust {
+  display: flex;
+  gap: var(--fnd-spacing-03);
+  flex-wrap: wrap;
+  margin-top: var(--fnd-spacing-05);
+}
+
+.nc-solution-tabs__trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--nc-solution-tabs-text);
+  border: 1px solid var(--nc-solution-tabs-border);
+  border-radius: var(--fnd-radius-full);
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+}
+
+.nc-solution-tabs__trust-badge::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: var(--fnd-radius-full);
+  background: var(--nc-solution-tabs-accent-default);
+}
+
+// ---------------------------------------------------------------------------
+// Produkt-Visual (Mock-UI)
+// ---------------------------------------------------------------------------
+.nc-solution-tabs__visual {
+  position: relative;
+  border-radius: var(--fnd-radius-4xl);
+  border: 1px solid var(--nc-solution-tabs-border);
+  background: var(--nc-solution-tabs-visual-bg);
+  overflow: hidden;
+  min-height: 18.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.nc-solution-tabs__visual::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle at 80% 0%, var(--nc-solution-tabs-accent) 0%, transparent 45%);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.nc-solution-tabs__visual-bar {
+  display: flex;
+  gap: var(--fnd-spacing-02);
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+  border-bottom: 1px solid var(--nc-solution-tabs-border);
+}
+
+.nc-solution-tabs__visual-bar i {
+  width: 0.5625rem;
+  height: 0.5625rem;
+  border-radius: var(--fnd-radius-full);
+  background: color-mix(in srgb, var(--nc-solution-tabs-title) 14%, transparent);
+}
+
+.nc-solution-tabs__visual-body {
+  flex: 1;
+  padding: var(--fnd-spacing-06);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);
+}
+
+.nc-solution-tabs__visual-chip {
+  align-self: flex-start;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--nc-solution-tabs-accent);
+  border: 1px solid color-mix(in srgb, var(--nc-solution-tabs-accent) 45%, transparent);
+  border-radius: var(--fnd-radius-full);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+}
+
+.nc-solution-tabs__visual-name {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.625rem;
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--nc-solution-tabs-title);
+}
+
+.nc-solution-tabs__visual-name b {
+  color: var(--nc-solution-tabs-accent);
+  font-weight: var(--fnd-font-weight-bold);
+}
+
+.nc-solution-tabs__skel {
+  height: 0.5625rem;
+  border-radius: var(--fnd-radius-sm);
+  background: color-mix(in srgb, var(--nc-solution-tabs-title) 8%, transparent);
+  overflow: hidden;
+  position: relative;
+}
+
+.nc-solution-tabs__skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--nc-solution-tabs-title) 10%, transparent), transparent);
+  animation: nc-solution-tabs-shimmer 2.4s ease infinite;
+}
+
+@keyframes nc-solution-tabs-shimmer {
+  to { transform: translateX(100%); }
+}
+
+.nc-solution-tabs__skel--w80 { width: 80%; }
+.nc-solution-tabs__skel--w60 { width: 60%; }
+.nc-solution-tabs__skel--w45 { width: 45%; }
+
+// ---------------------------------------------------------------------------
+// Vertikale Orientierung (V2)
+// ---------------------------------------------------------------------------
+.nc-solution-tabs--vertical {
+  display: grid;
+  grid-template-columns: 20.625rem 1fr;
+  gap: var(--fnd-spacing-10);
+  align-items: start;
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__tablist {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0;
+  border-bottom: 0;
+  border-inline-start: 1px solid var(--nc-solution-tabs-border);
+  margin-block-end: 0;
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__tab {
+  text-align: left;
+  white-space: normal;
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-05) var(--fnd-spacing-04) var(--fnd-spacing-06);
+  border-radius: 0 var(--fnd-radius-md) var(--fnd-radius-md) 0;
+  transition:
+    color var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative),
+    background var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__tab:hover,
+.nc-solution-tabs--vertical .nc-solution-tabs__tab[aria-selected="true"] {
+  background: color-mix(in srgb, var(--nc-solution-tabs-title) 5%, transparent);
+}
+
+.nc-solution-tabs__tab-index {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  margin-block-end: 2px;
+}
+
+// Vertikaler Akzent-Indikator
+.nc-solution-tabs--vertical .nc-solution-tabs__progress {
+  left: -1px;
+  top: 14%;
+  bottom: 14%;
+  width: 2px;
+  height: auto;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative);
+  animation: none;
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
+  transform: scaleY(1);
+  animation: none;
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__panel.is-active {
+  grid-template-columns: 1fr;
+  gap: var(--fnd-spacing-07);
+  animation: nc-solution-tabs-panel-in-x var(--fnd-motion-duration-450) var(--fnd-motion-ease-informative);
+}
+
+// Im Vertikal-Modus steht das Visual oben, Inhalt darunter
+.nc-solution-tabs--vertical .nc-solution-tabs__visual {
+  order: -1;
+  min-height: 13.75rem;
+}
+
+@keyframes nc-solution-tabs-panel-in-x {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+// ---------------------------------------------------------------------------
+// Responsive
+// ---------------------------------------------------------------------------
+@media (max-width: 55em) { // 880px
+  .nc-solution-tabs__panel.is-active,
+  .nc-solution-tabs--vertical .nc-solution-tabs__panel.is-active {
+    grid-template-columns: 1fr;
+    gap: var(--fnd-spacing-07);
+  }
+  .nc-solution-tabs__tablist {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nc-solution-tabs__tablist::-webkit-scrollbar { display: none; }
+
+  .nc-solution-tabs--vertical {
+    grid-template-columns: 1fr;
+    gap: var(--fnd-spacing-06);
+  }
+  .nc-solution-tabs--vertical .nc-solution-tabs__tablist {
+    flex-direction: row;
+    overflow-x: auto;
+    border-inline-start: 0;
+    border-bottom: 1px solid var(--nc-solution-tabs-border);
+  }
+  .nc-solution-tabs--vertical .nc-solution-tabs__tab { border-radius: 0; white-space: nowrap; }
+  .nc-solution-tabs--vertical .nc-solution-tabs__progress {
+    left: 10%;
+    right: 10%;
+    bottom: -1px;
+    top: auto;
+    width: auto;
+    height: 2px;
+    transform: scaleX(0);
+  }
+  .nc-solution-tabs--vertical .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
+    transform: scaleX(1);
+  }
+  .nc-solution-tabs--vertical .nc-solution-tabs__visual { order: 0; }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  .nc-solution-tabs__panel.is-active,
+  .nc-solution-tabs__panel.is-active .nc-solution-tabs__feature,
+  .nc-solution-tabs__progress,
+  .nc-solution-tabs__skel::after,
+  .nc-solution-tabs__cta {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}

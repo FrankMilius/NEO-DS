@@ -199,15 +199,17 @@
   z-index: var(--nc-shell-z-navbar);
 }
 
-// Linkbar + Navbar stacked sticky: Linkbar muss ueber Navbar, wenn sichtbar
-[data-layout='landing'] .nc-shell__linkbar {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: calc(var(--nc-shell-z-navbar) + 1);
-}
+// Linkbar + Navbar stacked sticky: nur wenn Linkbar tatsaechlich im DOM
+[data-layout='landing']:has(.nc-shell__linkbar) {
+  .nc-shell__linkbar {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: calc(var(--nc-shell-z-navbar) + 1);
+  }
 
-[data-layout='landing'] .nc-shell__navbar {
-  inset-block-start: var(--nc-shell-linkbar-height);
+  .nc-shell__navbar {
+    inset-block-start: var(--nc-shell-linkbar-height);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -572,6 +574,22 @@
 
   .nc-shell__footerbar {
     display: grid;
+  }
+
+  // -- Hero-Overlap: Nur wenn Hero vorhanden (`:has(.nc-hero)`) --
+  // Breadcrumb verstecken, Stage hinter Header ziehen
+  &:has(.nc-hero) {
+    .nc-breadcrumb-section {
+      display: none;
+    }
+
+    .nc-shell__stage {
+      margin-top: calc(-1 * var(--mod-nav-height, var(--nc-nav-height)));
+    }
+
+    .nc-hero {
+      padding-block-start: calc(var(--mod-hero-padding-block, var(--nc-hero-padding-block)) + var(--mod-nav-height, var(--nc-nav-height)));
+    }
   }
 }
 

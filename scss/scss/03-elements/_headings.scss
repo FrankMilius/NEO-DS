@@ -1,8 +1,9 @@
 // ==========================================================================
 // 03-Elements: Headings
 // ==========================================================================
-// Basis-Styles für h1-h6
-// Migriert von: styles-new.css
+// h1–h3: Display-Tokens (eigene clamp-Bereiche, 320–1400px)
+// h4–h6: Heading-Tokens (gemappt auf --fs-* Fluid Scale)
+// Siehe: typography-docs.html
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -13,29 +14,28 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--fnd-color-text-primary);
   font-weight: var(--fnd-font-weight-heading, 400);
   font-family: var(--font-heading);
-  // line-height set by heading() mixin per size — no global override
 }
 
 h1 {
-  @include heading('2xl');
+  @include display('l');
 }
 
 h2 {
-  @include heading('xl');
+  @include display('m');
 }
 
 h3 {
-  @include heading('l');
+  @include display('s');
 }
 
 h4 {
-  @include heading('m');
+  @include heading('xl');
 }
 
 h5 {
-  @include heading('s');
+  @include heading('l');
 }
 
 h6 {
-  @include heading('xs');
+  @include heading('m');
 }

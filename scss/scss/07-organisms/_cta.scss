@@ -9,10 +9,10 @@
 
 .nc-cta {
   color: var(--fnd-color-always-light);
-  padding: clamp(2rem, 4vw, 3rem);
+  padding: var(--fnd-spacing-09);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1.5rem, 3vw, 3rem);
+  gap: var(--fnd-spacing-08);
 }
 
 .nc-cta .nc-section-title,
@@ -77,7 +77,7 @@
 // Responsive
 // ---------------------------------------------------------------------------
 
-@media (min-width: 768px) {
+@include respond-to('sm') {
   .nc-cta__form {
     grid-template-columns: 2fr 1fr;
     align-items: center;

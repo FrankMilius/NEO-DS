@@ -37,6 +37,7 @@
   position: relative;
   display: flex;
   flex: 1;
+  height: 100%;
   min-width: 0;
   z-index: var(--fnd-z-modal-backdrop);
 }
@@ -48,6 +49,7 @@
 .nc-navigation-menu__list {
   display: flex;
   align-items: center;
+  height: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -60,6 +62,7 @@
 
 .nc-navigation-menu__item {
   position: relative;
+  height: 100%;
   margin-block: var(--mod-nav-menu-item-margin, var(--nc-nav-menu-item-margin));
 }
 
@@ -70,8 +73,10 @@
 .nc-navigation-menu__trigger {
   display: inline-flex;
   align-items: center;
+  height: 100%;
   gap: 0.25rem;
-  padding: var(--mod-nav-menu-trigger-padding-y, var(--nc-nav-menu-trigger-padding-y)) var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+  padding-block: 0;
+  padding-inline: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
   border: none;
   border-radius: var(--mod-nav-menu-trigger-radius, var(--nc-nav-menu-trigger-radius));
   background: transparent;
@@ -100,20 +105,31 @@
     background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 
-  // Aktueller Navigationsast: border-bottom Indikator
-  &[data-current='true'] {
-    position: relative;
+  // Pseudo-Element fuer Unterstrich-Indikator (current + hover)
+  position: relative;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
-      right: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
-      height: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
-      background-color: var(--mod-nav-menu-indicator-color, var(--nc-nav-menu-indicator-color));
-      border-radius: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+    right: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+    height: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
+    background-color: var(--mod-nav-menu-indicator-color, var(--nc-nav-menu-indicator-color));
+    border-radius: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
+    transform: scaleX(0);
+    transform-origin: left center;
+    @include transition-quick((transform));
+  }
+
+  // Aktueller Navigationsast: Indikator dauerhaft sichtbar
+  &[data-current='true']::after {
+    transform: scaleX(1);
+  }
+
+  // Hover: Indikator animiert von links nach rechts
+  &:hover::after {
+    transform: scaleX(1);
   }
 }
 
@@ -182,7 +198,9 @@
 .nc-navigation-menu__link--top {
   display: inline-flex;
   align-items: center;
-  padding: var(--mod-nav-menu-trigger-padding-y, var(--nc-nav-menu-trigger-padding-y)) var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
+  height: 100%;
+  padding-block: 0;
+  padding-inline: var(--mod-nav-menu-trigger-padding-x, var(--nc-nav-menu-trigger-padding-x));
   border-radius: var(--mod-nav-menu-trigger-radius, var(--nc-nav-menu-trigger-radius));
   color: var(--mod-nav-menu-trigger-color, var(--nc-nav-menu-trigger-color));
   font-size: var(--mod-nav-menu-trigger-font-size, var(--nc-nav-menu-trigger-font-size));

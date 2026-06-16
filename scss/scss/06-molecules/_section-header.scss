@@ -1,0 +1,39 @@
+// ==========================================================================
+// 06-Molecules: Section Header
+// ==========================================================================
+// Wiederverwendbarer Abschnitts-Kopf mit optionalem Label (Eyebrow),
+// Titel und Untertitel. Fuer Card-Grids, Feature-Sektionen etc.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-section-header {
+  margin-block-end: var(--nc-section-header-gap);
+  max-width: var(--fnd-prose-max-width, 72ch);
+}
+
+.nc-section-header__label {
+  display: inline-block;
+  font-size: var(--nc-section-header-label-font-size);
+  font-weight: var(--nc-section-header-label-font-weight);
+  letter-spacing: var(--nc-section-header-label-letter-spacing);
+  text-transform: var(--nc-section-header-label-text-transform);
+  color: var(--nc-section-header-label-color);
+  margin-block-end: var(--nc-section-header-label-spacing);
+}
+
+.nc-section-header__title {
+  font-size: var(--nc-section-header-title-font-size);
+  font-weight: var(--nc-section-header-title-font-weight);
+  line-height: var(--nc-section-header-title-line-height);
+  letter-spacing: var(--nc-section-header-title-letter-spacing);
+  color: var(--nc-section-header-title-color);
+  margin: 0 0 var(--nc-section-header-title-spacing);
+}
+
+.nc-section-header__subtitle {
+  font-size: var(--nc-section-header-subtitle-font-size);
+  line-height: var(--nc-section-header-subtitle-line-height);
+  color: var(--nc-section-header-subtitle-color);
+  margin: 0;
+}

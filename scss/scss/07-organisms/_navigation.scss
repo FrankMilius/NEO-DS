@@ -91,9 +91,18 @@
   padding-block: var(--mod-nav-padding-block, var(--nc-nav-padding-block));
   padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
 
+  // Ab lg (1200px): 3-Spalten Grid + Container-Padding-Alignment
+  @include respond-to('lg') {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: minmax(0, 1fr);
+    max-width: var(--mod-nav-max-width, var(--nc-nav-max-width));
+    padding-inline: var(--mod-nav-padding-inline-constrained, var(--nc-nav-padding-inline-constrained));
+  }
+
+  // Ab xxl (1920px): kein Padding (max-width allein genuegt)
   @include respond-to('xxl') {
-    padding-inline: 0;
-    max-width: var(--container-max-width);
+    padding-inline: var(--mod-nav-padding-inline-xxl, var(--nc-nav-padding-inline-xxl));
   }
 }
 
@@ -110,6 +119,7 @@
 .nc-brand {
   display: inline-flex;
   align-items: center;
+  height: 100%;
   gap: var(--mod-nav-brand-gap, var(--nc-nav-brand-gap));
   font-family: var(--font-heading);
   text-transform: lowercase;
@@ -140,6 +150,7 @@
 .nc-nav__actions {
   display: none;
   align-items: center;
+  height: 100%;
   gap: var(--fnd-spacing-03);
   flex-wrap: nowrap;
   flex-shrink: 0;
@@ -170,15 +181,16 @@
 }
 
 .nc-search-panel__inner {
-  padding: 1.5rem;
   display: grid;
   gap: var(--fnd-spacing-04);
   background: var(--fnd-color-background-base);
   box-shadow: var(--fnd-elevation-floating);
-  width: 100vw;
-  max-width: 100vw;
-  margin: var(--mod-nav-height, var(--nc-nav-height)) 0 0;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: var(--mod-nav-height, var(--nc-nav-height)) auto 0;
   transform: translateY(-8px);
+  @include container-padding;
+  padding-block: var(--fnd-spacing-06);
   @include transition-quick((transform));
 }
 
@@ -188,7 +200,7 @@
 
 .nc-search-panel input[type='search'] {
   width: 100%;
-  padding: 0.9rem 1.1rem;
+  padding: var(--fnd-spacing-04);
   border-radius: var(--fnd-radius-sm);
   border: 1px solid var(--fnd-color-border-secondary);
   background: var(--fnd-color-background-base);
@@ -237,14 +249,14 @@
   width: 100%;
   max-width: var(--container-max-width);
   margin-inline: auto;
-  padding-block: 2rem;
+  padding-block: var(--fnd-spacing-07);
   @include container-padding;
 }
 
 .nc-mega__meta strong {
   display: block;
   font-size: var(--fs-base);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--fnd-spacing-02);
 }
 
 .nc-mega__meta p {
@@ -257,7 +269,7 @@
   text-transform: uppercase;
   color: var(--fnd-color-text-secondary);
   display: inline-block;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--fnd-spacing-02);
 }
 
 // ---------------------------------------------------------------------------
@@ -265,13 +277,11 @@
 // ---------------------------------------------------------------------------
 
 // Burger-Toggle: sichtbar unter 1200px, versteckt ab 1200px (gleicher Breakpoint wie Menu)
-@media (min-width: 1200px) {
+@include respond-to('lg') {
   .nc-mobile-toggle {
     display: none !important;
   }
-}
 
-@media (min-width: 1200px) {
   .nc-nav__list {
     display: flex;
   }

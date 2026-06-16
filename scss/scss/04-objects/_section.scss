@@ -189,38 +189,38 @@
 
 .nc-feature-grid {
   display: grid;
-  gap: 4rem;
+  gap: var(--nc-content-grid-gap-lg);
 }
 
 .nc-benefit-grid,
 .nc-usecase-grid,
 .nc-news-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nc-content-grid-gap);
 }
 
 .nc-metric-grid {
   display: grid;
-  gap: 2rem;
+  gap: var(--nc-content-grid-gap-md);
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   padding: 0 !important;
 }
 
 .nc-facts-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nc-content-grid-gap);
 }
 
 .nc-pricing-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nc-content-grid-gap);
 }
 
 // ---------------------------------------------------------------------------
 // Responsive: Grid Layouts
 // ---------------------------------------------------------------------------
 
-@media (min-width: 768px) {
+@include respond-to('sm') {
   .nc-feature-grid,
   .nc-benefit-grid,
   .nc-usecase-grid,
@@ -234,7 +234,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@include respond-to('lg') {
   .nc-feature-grid,
   .nc-benefit-grid,
   .nc-usecase-grid,

@@ -6,8 +6,12 @@
 // Laueft als Teil von `npm test`.
 // ==========================================================================
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const SCSS_DIR = path.join(__dirname, '..', 'scss', 'scss');
 
@@ -32,14 +36,12 @@ const rules = [
     name: 'hardcoded-shadow',
     pattern: /box-shadow:\s*\d+px\s+\d+px\s+\d+px\s+rgba/g,
     message: 'Hardcodierter box-shadow gefunden. Nutze var(--fnd-elevation-*) oder var(--fnd-shadow-*).',
-    // Erlaubt in CSS Custom Property Definitionen
     skipLine: /--[a-z]/,
   },
   {
     name: 'hardcoded-font-weight',
     pattern: /font-weight:\s*[0-9]+\s*;/g,
     message: 'Hardcodierter font-weight Wert. Nutze var(--fnd-font-weight-*).',
-    // Erlaubt in Kommentaren
     skipLine: /\/\//,
   },
   {
@@ -58,8 +60,13 @@ const rules = [
     name: 'hardcoded-rgba-colors',
     pattern: /(?:background|color):\s*rgba\(\s*(?:0|15|255)/g,
     message: 'Hardcodierter rgba()-Farbwert. Nutze color-mix() mit semantischen Tokens.',
-    // Erlaubt in CSS Custom Property Definitionen und Gradients
     skipLine: /--[a-z]/,
+  },
+  {
+    name: 'hardcoded-spacing-rem',
+    pattern: /(?:padding|margin|gap)(?:-[\w-]+)?:[^;]*\d+\.?\d*rem/g,
+    message: 'Hardcodierter rem-Wert in Spacing. Nutze var(--fnd-spacing-*) oder var(--nc-*).',
+    skipLine: /\/\/|--[a-z]/,
   },
 ];
 

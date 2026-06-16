@@ -67,9 +67,36 @@
   flex: 0 0 100%;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+}
+
+// -- Stage (Content + Media Container) --
+.nc-gallery__slide-stage {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: flex-end;
-  overflow: hidden;
+  width: 100%;
+  max-width: var(--mod-gallery-stage-max-width, var(--nc-gallery-stage-max-width));
+  margin-inline: auto;
+  height: 100%;
+}
+
+// Grid-Layout wenn Media vorhanden — Breakout-Pattern:
+// Content bleibt auf Seitenbreite ausgerichtet, Media geht bis zum Viewport-Rand.
+// Auf kleinen Screens (Viewport < Stage-Max-Width): padding = 0, volle Breite.
+.nc-gallery__slide-stage--has-media {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline-start: max(0px, calc((100% - var(--mod-gallery-stage-max-width, var(--nc-gallery-stage-max-width))) / 2));
+  padding-inline-end: 0;
+}
+
+// Vertikale Zentrierung (per Admin-Feld steuerbar)
+.nc-gallery--valign-center .nc-gallery__slide-stage {
+  align-items: center;
 }
 
 // -- Hintergrundbild --
@@ -107,14 +134,15 @@
 
 .nc-gallery__slide-content {
   position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: var(--mod-gallery-content-align, var(--nc-gallery-content-align));
   gap: var(--mod-gallery-content-gap, var(--nc-gallery-content-gap));
   max-width: var(--mod-gallery-content-max-width, var(--nc-gallery-content-max-width));
-  padding-block: var(--mod-gallery-padding-block, var(--nc-gallery-padding-block));
-  padding-inline: var(--mod-gallery-padding-inline, var(--nc-gallery-padding-inline));
+  padding-block-start: var(--mod-gallery-padding-block, var(--nc-gallery-padding-block));
+  padding-block-end: var(--mod-gallery-content-inset, var(--nc-gallery-content-inset));
+  padding-inline-start: var(--mod-gallery-content-inset, var(--nc-gallery-content-inset));
+  padding-inline-end: var(--mod-gallery-padding-inline, var(--nc-gallery-padding-inline));
   width: 100%;
 }
 
@@ -168,6 +196,28 @@
   align-items: center;
   gap: var(--fnd-spacing-03);
   margin-top: var(--fnd-spacing-02);
+}
+
+// -- Content Media (Screenshot neben Content) --
+.nc-gallery__slide-media {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+  max-width: var(--mod-gallery-media-max-width, var(--nc-gallery-media-max-width));
+  padding-block-end: var(--mod-gallery-media-padding-block, var(--nc-gallery-media-padding-block));
+  padding-inline-end: var(--mod-gallery-media-padding-inline, var(--nc-gallery-media-padding-inline));
+
+  > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--mod-gallery-media-ratio, var(--nc-gallery-media-ratio));
+    object-fit: cover;
+    border-radius: var(--mod-gallery-media-radius, var(--nc-gallery-media-radius));
+    box-shadow: var(--mod-gallery-media-shadow, var(--nc-gallery-media-shadow));
+  }
 }
 
 // -- Separator (Genre · Beschreibung) --
@@ -351,6 +401,39 @@
 }
 
 // ---------------------------------------------------------------------------
+// Modifier: Per-Slide Theme (light / dark)
+// ---------------------------------------------------------------------------
+// Default ist dark (heller Text auf dunklem Hintergrund).
+// theme: "light" schaltet auf dunklen Text fuer helle Hintergruende.
+
+.nc-gallery__slide[data-slide-theme='light'] {
+  .nc-gallery__slide-overlay {
+    background: linear-gradient(
+      var(--mod-gallery-overlay-direction, var(--nc-gallery-overlay-direction)),
+      color-mix(in srgb, var(--fnd-color-always-light) 60%, transparent),
+      color-mix(in srgb, var(--fnd-color-always-light) 10%, transparent)
+    );
+  }
+
+  .nc-gallery__slide-title {
+    color: var(--fnd-color-always-dark);
+  }
+
+  .nc-gallery__slide-description {
+    color: color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent);
+  }
+
+  .nc-gallery__slide-tag {
+    color: var(--fnd-color-always-dark);
+    background-color: color-mix(in srgb, var(--fnd-color-always-dark) 12%, transparent);
+  }
+
+  .nc-gallery__slide-separator {
+    color: color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Modifier: Content-Alignment
 // ---------------------------------------------------------------------------
 
@@ -360,6 +443,27 @@
     text-align: center;
     align-self: center;
     margin-inline: auto;
+    padding-inline: var(--mod-gallery-padding-inline, var(--nc-gallery-padding-inline));
+  }
+
+  // Zentriert: Kein Breakout — Stage zentriert, Media absolut dahinter
+  .nc-gallery__slide-stage--has-media {
+    grid-template-columns: 1fr;
+    max-width: var(--mod-gallery-stage-max-width, var(--nc-gallery-stage-max-width));
+    margin-inline: auto;
+    padding-inline-start: 0;
+  }
+
+  .nc-gallery__slide-media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    max-width: none;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    opacity: var(--fnd-opacity-hover);
+    pointer-events: none;
   }
 }
 
@@ -368,7 +472,31 @@
     --nc-gallery-content-align: flex-end;
     text-align: right;
     margin-left: auto;
+    padding-inline-start: var(--mod-gallery-padding-inline, var(--nc-gallery-padding-inline));
+    padding-inline-end: var(--mod-gallery-content-inset, var(--nc-gallery-content-inset));
   }
+
+  // Rechts: Breakout spiegeln — Media links zum Rand, Content rechts ausgerichtet
+  .nc-gallery__slide-stage--has-media {
+    padding-inline-start: 0;
+    padding-inline-end: max(0px, calc((100% - var(--mod-gallery-stage-max-width, var(--nc-gallery-stage-max-width))) / 2));
+  }
+
+  .nc-gallery__slide-media {
+    order: -1;
+    padding-inline-end: 0;
+    padding-inline-start: var(--mod-gallery-media-padding-inline, var(--nc-gallery-media-padding-inline));
+    justify-content: flex-start;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Modifier: Media-Bleed (Padding entfernen)
+// ---------------------------------------------------------------------------
+
+.nc-gallery--media-bleed {
+  --nc-gallery-media-padding-inline: 0;
+  --nc-gallery-media-padding-block: 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -447,6 +575,11 @@
     --nc-gallery-title-size: var(--fs-2xl);
     --nc-gallery-desc-size: var(--fs-base);
     --nc-gallery-paddle-size: 36px;
+  }
+
+  // Media ausblenden auf kleinen Screens
+  .nc-gallery__slide-media {
+    display: none;
   }
 
   // Paddles ausblenden auf kleinen Screens — nur Dots/Swipe

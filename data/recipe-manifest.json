@@ -2,28 +2,60 @@
   {
     "file": "accordion-recipe.json",
     "component": "accordion",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "disclosure",
-      "content"
+      "content",
+      "navigation",
+      "faq",
+      "selection"
     ],
-    "axesCount": 2,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
         "values": [
           "default",
-          "flush"
+          "flush",
+          "ghost",
+          "separated",
+          "elevated",
+          "nested",
+          "selection"
+        ]
+      },
+      "density": {
+        "label": "Density",
+        "values": [
+          "default",
+          "compact",
+          "spacious"
         ]
       },
       "behavior": {
         "label": "Behavior",
         "values": [
           "multiple",
-          "single"
+          "single",
+          "single-scroll"
+        ]
+      },
+      "media-layout": {
+        "label": "Media Layout",
+        "values": [
+          "none",
+          "top",
+          "side"
+        ]
+      },
+      "sticky": {
+        "label": "Sticky Trigger",
+        "values": [
+          "off",
+          "on"
         ]
       }
     },
@@ -32,12 +64,13 @@
       "open",
       "hover",
       "focus",
-      "disabled"
+      "disabled",
+      "selected"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 2,
-    "tokenCount": 4,
+    "specimensCount": 10,
+    "tokenGroupsCount": 13,
+    "tokenCount": 34,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/accordion-docs"
@@ -45,7 +78,7 @@
   {
     "file": "alert-dialog-recipe.json",
     "component": "alert-dialog",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -67,7 +100,8 @@
         "label": "Content",
         "values": [
           "with-description",
-          "title-only"
+          "title-only",
+          "with-icon"
         ]
       }
     },
@@ -76,9 +110,9 @@
       "open"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 14,
+    "specimensCount": 7,
+    "tokenGroupsCount": 5,
+    "tokenCount": 18,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/alert-dialog-docs"
@@ -86,15 +120,16 @@
   {
     "file": "alert-recipe.json",
     "component": "alert",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "static",
       "feedback",
-      "notification"
+      "notification",
+      "inline"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -111,7 +146,15 @@
           "title-only",
           "full",
           "with-action",
-          "dismissible"
+          "dismissible",
+          "with-details"
+        ]
+      },
+      "display": {
+        "label": "Display",
+        "values": [
+          "block",
+          "inline"
         ]
       }
     },
@@ -119,25 +162,63 @@
       "default"
     ],
     "interactive": false,
-    "specimensCount": 6,
-    "tokenGroupsCount": 5,
-    "tokenCount": 21,
+    "specimensCount": 8,
+    "tokenGroupsCount": 7,
+    "tokenCount": 28,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/alert-docs"
   },
   {
-    "file": "avatar-recipe.json",
-    "component": "avatar",
+    "file": "aspect-ratio-recipe.json",
+    "component": "aspect-ratio",
     "version": "1.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
+      "layout",
+      "object",
+      "media"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "ratio": {
+        "label": "Seitenverhaeltnis",
+        "values": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ]
+      }
+    },
+    "statesSupported": [],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 1,
+    "tokenCount": 1,
+    "hasTokens": true,
+    "contrastTarget": null,
+    "docsLink": "/docs/media-ratios-docs"
+  },
+  {
+    "file": "avatar-recipe.json",
+    "component": "avatar",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
       "static",
+      "interactive",
       "identity",
       "media"
     ],
-    "axesCount": 4,
+    "axesCount": 5,
     "axes": {
       "size": {
         "label": "Size",
@@ -161,7 +242,8 @@
         "values": [
           "image",
           "initials",
-          "icon"
+          "icon",
+          "hash"
         ]
       },
       "decorator": {
@@ -172,17 +254,30 @@
           "badge-online",
           "badge-offline",
           "badge-busy",
-          "badge-away"
+          "badge-away",
+          "badge-verified"
+        ]
+      },
+      "interactive": {
+        "label": "Interactive",
+        "values": [
+          "static",
+          "link",
+          "button"
         ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
     ],
-    "interactive": false,
-    "specimensCount": 8,
-    "tokenGroupsCount": 10,
-    "tokenCount": 29,
+    "interactive": true,
+    "specimensCount": 11,
+    "tokenGroupsCount": 12,
+    "tokenCount": 40,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/avatar-docs"
@@ -190,7 +285,7 @@
   {
     "file": "badge-recipe.json",
     "component": "badge",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -232,7 +327,10 @@
           "none",
           "icon",
           "dot",
-          "counter"
+          "counter",
+          "decorator",
+          "pulse",
+          "status-string"
         ]
       }
     },
@@ -240,9 +338,9 @@
       "default"
     ],
     "interactive": false,
-    "specimensCount": 7,
-    "tokenGroupsCount": 11,
-    "tokenCount": 37,
+    "specimensCount": 10,
+    "tokenGroupsCount": 14,
+    "tokenCount": 46,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/badge-docs"
@@ -250,7 +348,7 @@
   {
     "file": "banner-recipe.json",
     "component": "banner",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -258,7 +356,7 @@
       "notification",
       "layout"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
       "severity": {
         "label": "Severity",
@@ -277,11 +375,19 @@
           "fixed"
         ]
       },
+      "style": {
+        "label": "Style",
+        "values": [
+          "solid",
+          "accent"
+        ]
+      },
       "content": {
         "label": "Content",
         "values": [
           "text-only",
           "with-icon",
+          "with-title",
           "with-link",
           "with-close",
           "full"
@@ -289,20 +395,63 @@
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "dismissing"
     ],
     "interactive": false,
-    "specimensCount": 6,
-    "tokenGroupsCount": 7,
-    "tokenCount": 19,
+    "specimensCount": 9,
+    "tokenGroupsCount": 9,
+    "tokenCount": 24,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/banner-docs"
   },
   {
+    "file": "bento-grid-recipe.json",
+    "component": "bento-grid",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "grid",
+      "interactive"
+    ],
+    "axesCount": 2,
+    "axes": {
+      "columns": {
+        "label": "Columns",
+        "values": [
+          "3",
+          "4"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "none",
+          "reveal"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
+    "specimensCount": 1,
+    "tokenGroupsCount": 3,
+    "tokenCount": 11,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/bento-grid-docs"
+  },
+  {
     "file": "breadcrumb-recipe.json",
     "component": "breadcrumb",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -310,13 +459,35 @@
       "navigation",
       "wayfinding"
     ],
-    "axesCount": 2,
+    "axesCount": 5,
     "axes": {
+      "size": {
+        "label": "Size",
+        "values": [
+          "sm",
+          "md"
+        ]
+      },
+      "appearance": {
+        "label": "Appearance",
+        "values": [
+          "default",
+          "ghost"
+        ]
+      },
       "variant": {
         "label": "Variant",
         "values": [
           "full",
-          "truncated"
+          "truncated",
+          "back-link"
+        ]
+      },
+      "content": {
+        "label": "Content",
+        "values": [
+          "text",
+          "home-icon"
         ]
       },
       "separator": {
@@ -337,9 +508,9 @@
       "open"
     ],
     "interactive": true,
-    "specimensCount": 7,
-    "tokenGroupsCount": 3,
-    "tokenCount": 9,
+    "specimensCount": 12,
+    "tokenGroupsCount": 8,
+    "tokenCount": 17,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/breadcrumb-docs"
@@ -347,14 +518,14 @@
   {
     "file": "button-recipe.json",
     "component": "button",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "control"
     ],
-    "axesCount": 4,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -364,6 +535,8 @@
           "accent",
           "outline",
           "ghost",
+          "soft",
+          "inverted",
           "success",
           "warning",
           "error",
@@ -387,12 +560,20 @@
           "icon-only"
         ]
       },
+      "width": {
+        "label": "Width",
+        "values": [
+          "auto",
+          "full"
+        ]
+      },
       "composition": {
         "label": "Composition",
         "values": [
           "single",
           "group",
           "toggle",
+          "fab",
           "link"
         ]
       }
@@ -407,17 +588,92 @@
       "pressed"
     ],
     "interactive": false,
-    "specimensCount": 10,
-    "tokenGroupsCount": 17,
-    "tokenCount": 109,
+    "specimensCount": 14,
+    "tokenGroupsCount": 21,
+    "tokenCount": 124,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": null
   },
   {
+    "file": "card-grid-cta-recipe.json",
+    "component": "card-grid-cta",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "hero",
+      "cta",
+      "grid"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 4,
+    "tokenCount": 10,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/card-grid-cta-docs"
+  },
+  {
+    "file": "card-grid-recipe.json",
+    "component": "card-grid",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "grid",
+      "cards"
+    ],
+    "axesCount": 2,
+    "axes": {
+      "pattern": {
+        "label": "Pattern",
+        "values": [
+          "standard",
+          "preview",
+          "featured",
+          "horizontal"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "none",
+          "reverse-domino"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover"
+    ],
+    "interactive": false,
+    "specimensCount": 2,
+    "tokenGroupsCount": 2,
+    "tokenCount": 7,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/card-grid-docs"
+  },
+  {
     "file": "card-recipe.json",
     "component": "card",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -426,7 +682,7 @@
       "interactive",
       "layout"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
       "behavior": {
         "label": "Behavior",
@@ -458,6 +714,14 @@
           "danger",
           "info"
         ]
+      },
+      "context": {
+        "label": "Layout-Kontext",
+        "values": [
+          "default",
+          "tight",
+          "display"
+        ]
       }
     },
     "statesSupported": [
@@ -471,9 +735,9 @@
       "skeleton"
     ],
     "interactive": true,
-    "specimensCount": 10,
-    "tokenGroupsCount": 10,
-    "tokenCount": 41,
+    "specimensCount": 12,
+    "tokenGroupsCount": 12,
+    "tokenCount": 54,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/card-docs"
@@ -514,7 +778,7 @@
   {
     "file": "checkbox-group-recipe.json",
     "component": "checkbox-group",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -522,13 +786,21 @@
       "interactive",
       "grouping"
     ],
-    "axesCount": 1,
+    "axesCount": 2,
     "axes": {
       "layout": {
         "label": "Layout",
         "values": [
           "vertical",
           "horizontal"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "sm",
+          "md",
+          "lg"
         ]
       }
     },
@@ -538,17 +810,17 @@
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 2,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 5,
+    "tokenGroupsCount": 3,
+    "tokenCount": 7,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/checkbox-group-docs"
   },
   {
     "file": "checkbox-recipe.json",
     "component": "checkbox",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -556,7 +828,7 @@
       "form",
       "selection"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "size": {
         "label": "Size",
@@ -564,6 +836,13 @@
           "sm",
           "md",
           "lg"
+        ]
+      },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default",
+          "card"
         ]
       },
       "validation": {
@@ -583,9 +862,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 7,
-    "tokenGroupsCount": 7,
-    "tokenCount": 19,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 26,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/checkbox-docs"
@@ -593,15 +872,16 @@
   {
     "file": "chip-recipe.json",
     "component": "chip",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "filter",
-      "selection"
+      "selection",
+      "toggle"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "size": {
         "label": "Size",
@@ -611,12 +891,21 @@
           "lg"
         ]
       },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "filled",
+          "outline",
+          "ghost"
+        ]
+      },
       "content": {
         "label": "Content",
         "values": [
           "text",
           "with-icon",
           "with-avatar",
+          "with-count",
           "removable"
         ]
       }
@@ -629,9 +918,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 7,
-    "tokenGroupsCount": 7,
-    "tokenCount": 28,
+    "specimensCount": 11,
+    "tokenGroupsCount": 12,
+    "tokenCount": 45,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/chip-docs"
@@ -639,7 +928,7 @@
   {
     "file": "code-snippet-recipe.json",
     "component": "code-snippet",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -647,7 +936,7 @@
       "content",
       "code"
     ],
-    "axesCount": 2,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -655,6 +944,30 @@
           "inline",
           "single",
           "multi"
+        ]
+      },
+      "header": {
+        "label": "Header",
+        "values": [
+          "none",
+          "plain",
+          "macos",
+          "window"
+        ]
+      },
+      "wrap": {
+        "label": "Line Wrapping",
+        "values": [
+          "none",
+          "wrap"
+        ]
+      },
+      "features": {
+        "label": "Features",
+        "values": [
+          "default",
+          "with-line-numbers",
+          "line-highlight"
         ]
       },
       "syntax": {
@@ -670,12 +983,70 @@
       "expanded"
     ],
     "interactive": false,
-    "specimensCount": 7,
-    "tokenGroupsCount": 6,
-    "tokenCount": 44,
+    "specimensCount": 10,
+    "tokenGroupsCount": 11,
+    "tokenCount": 68,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/code-snippet-docs"
+  },
+  {
+    "file": "container-recipe.json",
+    "component": "container",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "object",
+      "container"
+    ],
+    "axesCount": 4,
+    "axes": {
+      "width": {
+        "label": "Breite",
+        "values": [
+          "standard",
+          "wide",
+          "narrow",
+          "full"
+        ]
+      },
+      "vertical-spacing": {
+        "label": "Vertical Spacing",
+        "values": [
+          "none",
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "center",
+          "start",
+          "end"
+        ]
+      },
+      "surface": {
+        "label": "Surface",
+        "values": [
+          "transparent",
+          "elevated"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 4,
+    "tokenGroupsCount": 5,
+    "tokenCount": 14,
+    "hasTokens": true,
+    "contrastTarget": null,
+    "docsLink": "/docs/layout-architecture-docs.html"
   },
   {
     "file": "cta-recipe.json",
@@ -711,7 +1082,7 @@
   {
     "file": "data-table-recipe.json",
     "component": "data-table",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -720,7 +1091,7 @@
       "table",
       "composite"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
       "density": {
         "label": "Density",
@@ -739,12 +1110,29 @@
           "expandable"
         ]
       },
+      "selection": {
+        "label": "Selection Mode",
+        "values": [
+          "none",
+          "checkbox",
+          "radio"
+        ]
+      },
       "variant": {
         "label": "Variant",
         "values": [
-          "default",
+          "flat",
           "striped",
-          "bordered"
+          "bordered",
+          "card",
+          "glass"
+        ]
+      },
+      "content": {
+        "label": "Content",
+        "values": [
+          "truncate",
+          "wrap"
         ]
       }
     },
@@ -757,9 +1145,9 @@
       "empty"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 15,
-    "tokenCount": 98,
+    "specimensCount": 13,
+    "tokenGroupsCount": 21,
+    "tokenCount": 121,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/data-table-docs"
@@ -824,13 +1212,15 @@
   {
     "file": "drawer-recipe.json",
     "component": "drawer",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "overlay",
       "interactive",
-      "dialog"
+      "dialog",
+      "bottom-sheet",
+      "side-panel"
     ],
     "axesCount": 1,
     "axes": {
@@ -846,28 +1236,30 @@
     },
     "statesSupported": [
       "default",
-      "open"
+      "open",
+      "scrolled"
     ],
     "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 6,
+    "tokenGroupsCount": 6,
+    "tokenCount": 31,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/drawer-docs"
   },
   {
     "file": "dropdown-menu-recipe.json",
     "component": "dropdown-menu",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "navigation",
-      "action"
+      "action",
+      "selection"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
       "placement": {
         "label": "Placement",
@@ -878,13 +1270,23 @@
           "top-end"
         ]
       },
+      "selectionMode": {
+        "label": "Selection Mode",
+        "values": [
+          "none",
+          "single",
+          "multiple"
+        ]
+      },
       "content": {
         "label": "Content",
         "values": [
           "plain",
           "with-icons",
           "grouped",
-          "with-shortcuts"
+          "with-shortcuts",
+          "with-submenu",
+          "with-footer"
         ]
       },
       "itemVariant": {
@@ -900,12 +1302,13 @@
       "hover",
       "active",
       "focus",
-      "disabled"
+      "disabled",
+      "checked"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 5,
-    "tokenCount": 30,
+    "specimensCount": 10,
+    "tokenGroupsCount": 8,
+    "tokenCount": 39,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/dropdown-menu-docs"
@@ -959,6 +1362,41 @@
     "docsLink": "/docs/empty-state-docs"
   },
   {
+    "file": "expanding-panels-recipe.json",
+    "component": "expanding-panels",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "interactive",
+      "disclosure"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "focus",
+      "open"
+    ],
+    "interactive": true,
+    "specimensCount": 1,
+    "tokenGroupsCount": 3,
+    "tokenCount": 9,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/expanding-panels-docs"
+  },
+  {
     "file": "facts-recipe.json",
     "component": "facts",
     "version": "1.0.0",
@@ -989,6 +1427,38 @@
     "hasTokens": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/facts-docs"
+  },
+  {
+    "file": "fade-gallery-recipe.json",
+    "component": "fade-gallery",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "gallery",
+      "tabs",
+      "fade"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 4,
+    "tokenCount": 10,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/fade-gallery-docs"
   },
   {
     "file": "faq-recipe.json",
@@ -1057,7 +1527,7 @@
   {
     "file": "fieldset-recipe.json",
     "component": "fieldset",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1065,13 +1535,29 @@
       "layout",
       "grouping"
     ],
-    "axesCount": 1,
+    "axesCount": 3,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "appearance": {
+        "label": "Appearance",
+        "values": [
+          "plain",
+          "card",
+          "borderless"
+        ]
+      },
+      "density": {
+        "label": "Density",
         "values": [
           "default",
-          "borderless"
+          "compact",
+          "loose"
+        ]
+      },
+      "legend-align": {
+        "label": "Legend Alignment",
+        "values": [
+          "start",
+          "center"
         ]
       }
     },
@@ -1080,9 +1566,9 @@
       "disabled"
     ],
     "interactive": false,
-    "specimensCount": 6,
-    "tokenGroupsCount": 2,
-    "tokenCount": 9,
+    "specimensCount": 11,
+    "tokenGroupsCount": 7,
+    "tokenCount": 19,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/fieldset-docs"
@@ -1141,32 +1627,51 @@
   {
     "file": "footer-recipe.json",
     "component": "footer",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "navigation",
       "layout",
-      "content"
+      "content",
+      "cta"
     ],
-    "axesCount": 1,
+    "axesCount": 3,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "layout": {
+        "label": "Layout",
         "values": [
-          "full",
-          "minimal"
+          "simple",
+          "columns",
+          "cta-active"
+        ]
+      },
+      "columns": {
+        "label": "Columns",
+        "values": [
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "theme": {
+        "label": "Theme",
+        "values": [
+          "base",
+          "inverse"
         ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "hover",
+      "focus-visible"
     ],
-    "interactive": false,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "interactive": true,
+    "specimensCount": 7,
+    "tokenGroupsCount": 5,
+    "tokenCount": 24,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/footer-docs"
   },
@@ -1214,6 +1719,38 @@
     "docsLink": "/docs/form-actions-docs"
   },
   {
+    "file": "form-block-recipe.json",
+    "component": "form-block",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "form",
+      "content"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "position": {
+        "label": "Text-Position",
+        "values": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    "statesSupported": [],
+    "interactive": false,
+    "specimensCount": 3,
+    "tokenGroupsCount": 0,
+    "tokenCount": 0,
+    "hasTokens": false,
+    "contrastTarget": null,
+    "docsLink": "/docs/form-layout-docs"
+  },
+  {
     "file": "form-error-recipe.json",
     "component": "form-error",
     "version": "1.0.0",
@@ -1256,7 +1793,7 @@
   {
     "file": "form-field-recipe.json",
     "component": "form-field",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1264,13 +1801,21 @@
       "layout",
       "wrapper"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
       "layout": {
         "label": "Layout",
         "values": [
           "vertical",
           "horizontal"
+        ]
+      },
+      "requirement": {
+        "label": "Requirement",
+        "values": [
+          "none",
+          "required",
+          "optional"
         ]
       },
       "validation": {
@@ -1288,6 +1833,13 @@
           "with-hint",
           "full"
         ]
+      },
+      "grouping": {
+        "label": "Grouping",
+        "values": [
+          "div",
+          "fieldset"
+        ]
       }
     },
     "statesSupported": [
@@ -1295,9 +1847,9 @@
       "disabled"
     ],
     "interactive": false,
-    "specimensCount": 6,
-    "tokenGroupsCount": 1,
-    "tokenCount": 1,
+    "specimensCount": 9,
+    "tokenGroupsCount": 2,
+    "tokenCount": 3,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/form-field-docs"
@@ -1305,21 +1857,31 @@
   {
     "file": "form-hint-recipe.json",
     "component": "form-hint",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "form",
       "text",
-      "help"
+      "help",
+      "accessibility"
     ],
-    "axesCount": 1,
+    "axesCount": 2,
     "axes": {
       "content": {
         "label": "Content",
         "values": [
           "text-only",
-          "with-icon"
+          "with-icon",
+          "with-link",
+          "list"
+        ]
+      },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default",
+          "muted"
         ]
       }
     },
@@ -1327,9 +1889,9 @@
       "default"
     ],
     "interactive": false,
-    "specimensCount": 6,
+    "specimensCount": 10,
     "tokenGroupsCount": 2,
-    "tokenCount": 3,
+    "tokenCount": 6,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/form-hint-docs"
@@ -1337,22 +1899,32 @@
   {
     "file": "form-label-recipe.json",
     "component": "form-label",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "form",
       "text",
-      "label"
+      "label",
+      "accessibility"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "indicator": {
         "label": "Indicator",
         "values": [
           "none",
           "required",
-          "optional"
+          "optional",
+          "info"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "sm",
+          "md",
+          "emphasis"
         ]
       },
       "layout": {
@@ -1368,9 +1940,9 @@
       "disabled"
     ],
     "interactive": false,
-    "specimensCount": 6,
-    "tokenGroupsCount": 2,
-    "tokenCount": 6,
+    "specimensCount": 10,
+    "tokenGroupsCount": 4,
+    "tokenCount": 13,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/form-label-docs"
@@ -1451,6 +2023,143 @@
     "docsLink": "/docs/form-section-docs"
   },
   {
+    "file": "gallery-recipe.json",
+    "component": "gallery",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "interactive",
+      "display",
+      "carousel",
+      "hero",
+      "media"
+    ],
+    "axesCount": 4,
+    "axes": {
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "slide",
+          "fade",
+          "none"
+        ]
+      },
+      "navStyle": {
+        "label": "Nav Style",
+        "values": [
+          "dots",
+          "lines",
+          "thumbnails"
+        ]
+      },
+      "height": {
+        "label": "Height",
+        "values": [
+          "viewport",
+          "fixed",
+          "aspect"
+        ]
+      },
+      "contentAlign": {
+        "label": "Content Align",
+        "values": [
+          "start",
+          "center",
+          "end"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "focus-visible",
+      "playing",
+      "paused"
+    ],
+    "interactive": true,
+    "specimensCount": 6,
+    "tokenGroupsCount": 10,
+    "tokenCount": 41,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/gallery-docs"
+  },
+  {
+    "file": "grid-recipe.json",
+    "component": "grid",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "object",
+      "grid"
+    ],
+    "axesCount": 6,
+    "axes": {
+      "gap": {
+        "label": "Gap",
+        "values": [
+          "default",
+          "sm",
+          "lg"
+        ]
+      },
+      "layout": {
+        "label": "Layout-Modus",
+        "values": [
+          "fixed",
+          "auto-fit"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "start",
+          "center",
+          "end"
+        ]
+      },
+      "flow": {
+        "label": "Flow",
+        "values": [
+          "row",
+          "column",
+          "dense"
+        ]
+      },
+      "mobile-columns": {
+        "label": "Mobile Spalten",
+        "values": [
+          "1",
+          "2",
+          "4",
+          "6"
+        ]
+      },
+      "subgrid": {
+        "label": "Subgrid",
+        "values": [
+          "none",
+          "columns",
+          "rows",
+          "both"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 7,
+    "tokenGroupsCount": 3,
+    "tokenCount": 8,
+    "hasTokens": true,
+    "contrastTarget": null,
+    "docsLink": "/docs/grid-docs.html"
+  },
+  {
     "file": "header-recipe.json",
     "component": "header",
     "version": "1.0.0",
@@ -1485,21 +2194,63 @@
   {
     "file": "hero-recipe.json",
     "component": "hero",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "display",
       "content",
-      "hero"
+      "hero",
+      "landing"
+    ],
+    "axesCount": 2,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "picture",
+          "card",
+          "split",
+          "product"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "start",
+          "center"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 4,
+    "tokenGroupsCount": 7,
+    "tokenCount": 31,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA large text (3:1)",
+    "docsLink": "/docs/hero-docs"
+  },
+  {
+    "file": "hero-tmob-recipe.json",
+    "component": "hero-tmob",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "hero",
+      "display",
+      "parallax",
+      "media"
     ],
     "axesCount": 1,
     "axes": {
       "variant": {
         "label": "Variant",
         "values": [
-          "picture",
-          "card"
+          "default"
         ]
       }
     },
@@ -1508,11 +2259,42 @@
     ],
     "interactive": false,
     "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
-    "contrastTarget": "WCAG AA large text (3:1)",
-    "docsLink": "/docs/hero-docs"
+    "tokenGroupsCount": 4,
+    "tokenCount": 10,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/hero-tmob-docs"
+  },
+  {
+    "file": "hero-tom-recipe.json",
+    "component": "hero-tom",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "hero",
+      "display",
+      "parallax"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 5,
+    "tokenCount": 9,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/hero-tom-docs"
   },
   {
     "file": "icon-recipe.json",
@@ -1572,7 +2354,7 @@
   {
     "file": "input-group-recipe.json",
     "component": "input-group",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1602,7 +2384,8 @@
         "label": "Validation",
         "values": [
           "none",
-          "error"
+          "error",
+          "success"
         ]
       }
     },
@@ -1610,12 +2393,13 @@
       "default",
       "hover",
       "focus",
-      "disabled"
+      "disabled",
+      "readonly"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 1,
-    "tokenCount": 5,
+    "specimensCount": 8,
+    "tokenGroupsCount": 6,
+    "tokenCount": 19,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/input-group-docs"
@@ -1623,7 +2407,7 @@
   {
     "file": "input-recipe.json",
     "component": "input",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1631,8 +2415,16 @@
       "form",
       "text-input"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "outlined",
+          "filled",
+          "borderless"
+        ]
+      },
       "size": {
         "label": "Size",
         "values": [
@@ -1663,12 +2455,13 @@
       "hover",
       "focus",
       "disabled",
-      "readonly"
+      "readonly",
+      "not-empty"
     ],
     "interactive": true,
-    "specimensCount": 7,
-    "tokenGroupsCount": 8,
-    "tokenCount": 31,
+    "specimensCount": 13,
+    "tokenGroupsCount": 14,
+    "tokenCount": 49,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/input-docs"
@@ -1676,15 +2469,16 @@
   {
     "file": "item-recipe.json",
     "component": "item",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "display",
       "content",
-      "list"
+      "list",
+      "media-object"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -1702,13 +2496,29 @@
           "xs"
         ]
       },
+      "density": {
+        "label": "Density",
+        "values": [
+          "compact",
+          "default",
+          "loose"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "center",
+          "start"
+        ]
+      },
       "media": {
         "label": "Media",
         "values": [
-          "default",
+          "none",
           "icon",
           "image",
-          "avatar"
+          "avatar",
+          "thumbnail"
         ]
       }
     },
@@ -1716,13 +2526,14 @@
       "default",
       "hover",
       "active",
+      "selected",
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 4,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 38,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/item-docs"
   },
@@ -1761,35 +2572,71 @@
   {
     "file": "label-recipe.json",
     "component": "label",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "display",
       "tag",
-      "decorative"
+      "decorative",
+      "status",
+      "metadata"
     ],
-    "axesCount": 1,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
         "values": [
           "default",
           "accent",
-          "inverse",
           "success",
-          "danger"
+          "warning",
+          "danger",
+          "info"
+        ]
+      },
+      "emphasis": {
+        "label": "Emphasis",
+        "values": [
+          "subtle",
+          "solid",
+          "outline"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "xs",
+          "sm",
+          "md"
+        ]
+      },
+      "shape": {
+        "label": "Shape",
+        "values": [
+          "rounded",
+          "pill"
+        ]
+      },
+      "interactive": {
+        "label": "Interactive",
+        "values": [
+          "false",
+          "true"
         ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "hover",
+      "focus",
+      "disabled"
     ],
     "interactive": false,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 7,
+    "tokenGroupsCount": 14,
+    "tokenCount": 49,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/label-docs"
   },
@@ -1829,31 +2676,58 @@
   {
     "file": "logo-wall-recipe.json",
     "component": "logo-wall",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "display",
-      "content",
-      "branding"
+      "branding",
+      "logos",
+      "partner",
+      "marquee"
     ],
-    "axesCount": 1,
+    "axesCount": 4,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "layout": {
+        "label": "Layout",
         "values": [
-          "default"
+          "grid",
+          "marquee",
+          "cluster"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
+      "appearance": {
+        "label": "Appearance",
+        "values": [
+          "original",
+          "mono"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "none",
+          "fadein"
         ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "hover"
     ],
     "interactive": false,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 7,
+    "tokenGroupsCount": 8,
+    "tokenCount": 32,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/logo-wall-docs"
   },
@@ -1891,20 +2765,39 @@
   {
     "file": "metric-recipe.json",
     "component": "metric",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "display",
       "data",
-      "content"
+      "content",
+      "dashboard"
     ],
-    "axesCount": 1,
+    "axesCount": 3,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "emphasis": {
+        "label": "Emphasis",
         "values": [
-          "default"
+          "solid",
+          "subtle"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "md",
+          "lg",
+          "xl"
+        ]
+      },
+      "trend": {
+        "label": "Trend",
+        "values": [
+          "none",
+          "up",
+          "down",
+          "neutral"
         ]
       }
     },
@@ -1912,17 +2805,17 @@
       "default"
     ],
     "interactive": false,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 8,
+    "tokenGroupsCount": 9,
+    "tokenCount": 42,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA large text (3:1)",
     "docsLink": "/docs/metric-docs"
   },
   {
     "file": "modal-recipe.json",
     "component": "modal",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1930,7 +2823,7 @@
       "interactive",
       "dialog"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "size": {
         "label": "Size",
@@ -1947,7 +2840,15 @@
           "simple",
           "with-header",
           "with-footer",
-          "full"
+          "full",
+          "scrollable"
+        ]
+      },
+      "intent": {
+        "label": "Intent",
+        "values": [
+          "default",
+          "danger"
         ]
       }
     },
@@ -1956,9 +2857,9 @@
       "open"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 14,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 29,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/modal-docs"
@@ -1966,7 +2867,7 @@
   {
     "file": "nav-atoms-recipe.json",
     "component": "nav-atoms",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -1980,7 +2881,8 @@
         "label": "Element",
         "values": [
           "icon",
-          "label"
+          "label",
+          "badge"
         ]
       }
     },
@@ -1988,17 +2890,17 @@
       "default"
     ],
     "interactive": false,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 3,
+    "tokenGroupsCount": 3,
+    "tokenCount": 11,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/nav-atoms-docs"
   },
   {
     "file": "nav-molecules-recipe.json",
     "component": "nav-molecules",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2012,7 +2914,8 @@
         "values": [
           "link",
           "toggle",
-          "search"
+          "mobile",
+          "lang"
         ]
       }
     },
@@ -2023,30 +2926,40 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 5,
+    "tokenGroupsCount": 4,
+    "tokenCount": 27,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/nav-molecules-docs"
   },
   {
     "file": "navigation-menu-recipe.json",
     "component": "navigation-menu",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "navigation",
       "interactive",
-      "dropdown"
+      "dropdown",
+      "mega-menu"
     ],
-    "axesCount": 1,
+    "axesCount": 2,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "layout": {
+        "label": "Layout",
         "values": [
-          "default"
+          "default",
+          "two-col",
+          "mega"
+        ]
+      },
+      "trigger": {
+        "label": "Trigger Mode",
+        "values": [
+          "hover",
+          "click"
         ]
       }
     },
@@ -2057,73 +2970,147 @@
       "open"
     ],
     "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 5,
+    "tokenGroupsCount": 7,
+    "tokenCount": 31,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/navigation-menu-docs"
   },
   {
-    "file": "navigation-recipe.json",
-    "component": "navigation",
+    "file": "navigation-orchestration-recipe.json",
+    "component": "navigation-orchestration",
     "version": "1.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "navigation",
-      "interactive",
-      "layout"
+      "orchestration",
+      "composition",
+      "governance"
     ],
-    "axesCount": 1,
+    "axesCount": 2,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "viewport": {
+        "label": "Viewport",
         "values": [
-          "default"
+          "desktop",
+          "mobile"
+        ]
+      },
+      "density": {
+        "label": "Density",
+        "values": [
+          "default",
+          "compact"
         ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "scrolled",
+      "hidden",
+      "mobile-open"
     ],
     "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 5,
+    "tokenGroupsCount": 4,
+    "tokenCount": 16,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/navigation-orchestration-docs"
+  },
+  {
+    "file": "navigation-recipe.json",
+    "component": "navigation",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "navigation",
+      "interactive",
+      "layout",
+      "header"
+    ],
+    "axesCount": 2,
+    "axes": {
+      "emphasis": {
+        "label": "Emphasis",
+        "values": [
+          "default",
+          "transparent",
+          "solid"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "start",
+          "center",
+          "right"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "scrolled",
+      "hidden"
+    ],
+    "interactive": true,
+    "specimensCount": 4,
+    "tokenGroupsCount": 4,
+    "tokenCount": 22,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/navigation-docs"
   },
   {
     "file": "notification-recipe.json",
     "component": "notification",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "feedback",
-      "interactive",
-      "banner"
+      "news-alert",
+      "floating-card",
+      "in-app"
     ],
-    "axesCount": 1,
+    "axesCount": 3,
     "axes": {
-      "variant": {
-        "label": "Variant",
+      "priority": {
+        "label": "Priority",
         "values": [
-          "default"
+          "low",
+          "high"
+        ]
+      },
+      "type": {
+        "label": "Type",
+        "values": [
+          "feature",
+          "system",
+          "promo"
+        ]
+      },
+      "interaction": {
+        "label": "Interaction",
+        "values": [
+          "dismissible",
+          "permanent"
         ]
       }
     },
     "statesSupported": [
       "default",
-      "visible"
+      "unread",
+      "dismissing"
     ],
     "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 8,
+    "tokenGroupsCount": 10,
+    "tokenCount": 37,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/notification-docs"
   },
@@ -2182,15 +3169,15 @@
   {
     "file": "pagination-recipe.json",
     "component": "pagination",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
-      "interactive",
       "navigation",
-      "list"
+      "list",
+      "data"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
       "size": {
         "label": "Size",
@@ -2208,12 +3195,28 @@
           "between"
         ]
       },
-      "content": {
-        "label": "Content",
+      "appearance": {
+        "label": "Appearance",
         "values": [
-          "numbers-only",
-          "with-nav",
-          "with-ellipsis"
+          "default",
+          "pill",
+          "outline",
+          "minimal"
+        ]
+      },
+      "elevation": {
+        "label": "Elevation",
+        "values": [
+          "none",
+          "raised"
+        ]
+      },
+      "features": {
+        "label": "Features",
+        "values": [
+          "default",
+          "with-indicator",
+          "with-jumper"
         ]
       }
     },
@@ -2225,25 +3228,57 @@
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 4,
-    "tokenCount": 15,
+    "specimensCount": 10,
+    "tokenGroupsCount": 10,
+    "tokenCount": 29,
     "hasTokens": true,
-    "contrastTarget": "WCAG AA non-text (3:1)",
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/pagination-docs"
+  },
+  {
+    "file": "parallax-bg-recipe.json",
+    "component": "parallax-bg",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "animation",
+      "decoration",
+      "scroll"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 1,
+    "tokenCount": 5,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/parallax-bg-docs"
   },
   {
     "file": "popover-recipe.json",
     "component": "popover",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "overlay",
-      "dialog"
+      "dialog",
+      "filter"
     ],
-    "axesCount": 2,
+    "axesCount": 3,
     "axes": {
       "placement": {
         "label": "Placement",
@@ -2263,7 +3298,15 @@
           "with-header",
           "with-footer",
           "full",
-          "with-arrow"
+          "with-arrow",
+          "form"
+        ]
+      },
+      "trigger": {
+        "label": "Trigger",
+        "values": [
+          "click",
+          "hover"
         ]
       }
     },
@@ -2271,9 +3314,9 @@
       "default"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 4,
-    "tokenCount": 20,
+    "specimensCount": 9,
+    "tokenGroupsCount": 5,
+    "tokenCount": 25,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/popover-docs"
@@ -2309,6 +3352,57 @@
     "hasTokens": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/pricing-docs"
+  },
+  {
+    "file": "product-showcase-recipe.json",
+    "component": "product-showcase",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "interactive",
+      "display",
+      "product",
+      "gallery"
+    ],
+    "axesCount": 3,
+    "axes": {
+      "layout": {
+        "label": "Layout",
+        "values": [
+          "horizontal",
+          "stacked"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "slide",
+          "fade",
+          "none"
+        ]
+      },
+      "optionStyle": {
+        "label": "Option Style",
+        "values": [
+          "text",
+          "indicator",
+          "card"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "focus-visible"
+    ],
+    "interactive": true,
+    "specimensCount": 6,
+    "tokenGroupsCount": 6,
+    "tokenCount": 27,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/product-showcase-docs"
   },
   {
     "file": "progress-recipe.json",
@@ -2362,6 +3456,74 @@
     "docsLink": "/docs/progress-docs"
   },
   {
+    "file": "psychedelic-bg-recipe.json",
+    "component": "psychedelic-bg",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "experimental",
+    "tags": [
+      "animation",
+      "background",
+      "canvas",
+      "interactive"
+    ],
+    "axesCount": 4,
+    "axes": {
+      "shape": {
+        "label": "Form",
+        "values": [
+          "lines",
+          "circles",
+          "squares",
+          "rectangles",
+          "dots",
+          "triangles",
+          "waves"
+        ]
+      },
+      "mouseEffect": {
+        "label": "Maus-Effekt",
+        "values": [
+          "none",
+          "lens",
+          "funnel",
+          "distort",
+          "repel",
+          "attract",
+          "ripple"
+        ]
+      },
+      "colorMode": {
+        "label": "Farbmodus",
+        "values": [
+          "mono",
+          "palette",
+          "gradient"
+        ]
+      },
+      "region": {
+        "label": "Region",
+        "values": [
+          "full",
+          "horizontal",
+          "vertical",
+          "diagonal"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover"
+    ],
+    "interactive": true,
+    "specimensCount": 4,
+    "tokenGroupsCount": 7,
+    "tokenCount": 25,
+    "hasTokens": true,
+    "contrastTarget": "Dekoratives Element, kein Kontrastziel",
+    "docsLink": "/docs/psychedelic-bg-docs"
+  },
+  {
     "file": "question-recipe.json",
     "component": "question",
     "version": "1.0.0",
@@ -2396,7 +3558,7 @@
   {
     "file": "radio-group-recipe.json",
     "component": "radio-group",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2404,13 +3566,29 @@
       "interactive",
       "grouping"
     ],
-    "axesCount": 1,
+    "axesCount": 3,
     "axes": {
       "layout": {
         "label": "Layout",
         "values": [
           "vertical",
           "horizontal"
+        ]
+      },
+      "size": {
+        "label": "Size",
+        "values": [
+          "sm",
+          "md",
+          "lg"
+        ]
+      },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default",
+          "segmented",
+          "card"
         ]
       }
     },
@@ -2420,17 +3598,17 @@
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 2,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 7,
+    "tokenGroupsCount": 4,
+    "tokenCount": 19,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/radio-group-docs"
   },
   {
     "file": "radio-recipe.json",
     "component": "radio",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2438,7 +3616,7 @@
       "form",
       "selection"
     ],
-    "axesCount": 2,
+    "axesCount": 4,
     "axes": {
       "size": {
         "label": "Size",
@@ -2446,6 +3624,20 @@
           "sm",
           "md",
           "lg"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "center",
+          "top"
+        ]
+      },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default",
+          "card"
         ]
       },
       "validation": {
@@ -2464,9 +3656,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 7,
-    "tokenGroupsCount": 7,
-    "tokenCount": 18,
+    "specimensCount": 10,
+    "tokenGroupsCount": 8,
+    "tokenCount": 25,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/radio-docs"
@@ -2474,7 +3666,7 @@
   {
     "file": "rating-recipe.json",
     "component": "rating",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2482,7 +3674,7 @@
       "form",
       "feedback"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
       "size": {
         "label": "Size",
@@ -2504,42 +3696,139 @@
         "values": [
           "stars-only",
           "with-value",
-          "with-count"
+          "with-count",
+          "compact"
+        ]
+      },
+      "iconType": {
+        "label": "Icon Type",
+        "values": [
+          "star",
+          "heart",
+          "thumb",
+          "smiley"
+        ]
+      },
+      "sentiment": {
+        "label": "Sentiment",
+        "values": [
+          "none",
+          "scale"
         ]
       }
     },
     "statesSupported": [
       "default",
       "hover",
+      "active",
       "focus",
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 6,
+    "specimensCount": 10,
+    "tokenGroupsCount": 5,
+    "tokenCount": 16,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/rating-docs"
   },
   {
+    "file": "scroll-expand-recipe.json",
+    "component": "scroll-expand",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "animation",
+      "scroll",
+      "parallax"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 1,
+    "tokenCount": 2,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/scroll-expand-docs"
+  },
+  {
+    "file": "scroll-reveal-recipe.json",
+    "component": "scroll-reveal",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "animation",
+      "scroll",
+      "fade-in"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "default"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 1,
+    "tokenCount": 3,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/scroll-reveal-docs"
+  },
+  {
     "file": "search-recipe.json",
     "component": "search",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "form",
-      "navigation"
+      "navigation",
+      "combobox"
     ],
-    "axesCount": 3,
+    "axesCount": 7,
     "axes": {
       "width": {
         "label": "Width",
         "values": [
           "default",
-          "full"
+          "full",
+          "viewport"
+        ]
+      },
+      "appearance": {
+        "label": "Appearance",
+        "values": [
+          "default",
+          "minimal",
+          "xl"
+        ]
+      },
+      "scope": {
+        "label": "Scope",
+        "values": [
+          "global",
+          "scoped"
         ]
       },
       "content": {
@@ -2551,13 +3840,30 @@
           "with-shortcut"
         ]
       },
+      "mode": {
+        "label": "Mode",
+        "values": [
+          "instant",
+          "manual"
+        ]
+      },
+      "animation": {
+        "label": "Animation",
+        "values": [
+          "slide-down",
+          "fade",
+          "expand"
+        ]
+      },
       "resultsState": {
         "label": "Results State",
         "values": [
           "results",
           "empty",
           "loading",
-          "closed"
+          "closed",
+          "history",
+          "popular"
         ]
       }
     },
@@ -2567,12 +3873,72 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 6,
-    "tokenCount": 28,
+    "specimensCount": 10,
+    "tokenGroupsCount": 14,
+    "tokenCount": 60,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/search-docs"
+  },
+  {
+    "file": "section-recipe.json",
+    "component": "section",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "object",
+      "section",
+      "orchestrator"
+    ],
+    "axesCount": 4,
+    "axes": {
+      "density": {
+        "label": "Dichte",
+        "values": [
+          "default",
+          "compact",
+          "spacious"
+        ]
+      },
+      "surface": {
+        "label": "Oberflaeche",
+        "values": [
+          "base",
+          "elevated",
+          "muted",
+          "accent"
+        ]
+      },
+      "divider": {
+        "label": "Divider",
+        "values": [
+          "none",
+          "top",
+          "bottom",
+          "both"
+        ]
+      },
+      "edge": {
+        "label": "Edge Shape",
+        "values": [
+          "straight",
+          "slanted",
+          "curved"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 6,
+    "tokenGroupsCount": 5,
+    "tokenCount": 14,
+    "hasTokens": true,
+    "contrastTarget": "AA",
+    "docsLink": "/docs/layout-architecture-docs.html"
   },
   {
     "file": "security-list-recipe.json",
@@ -2608,7 +3974,7 @@
   {
     "file": "segmented-control-recipe.json",
     "component": "segmented-control",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2616,7 +3982,7 @@
       "navigation",
       "selection"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
       "size": {
         "label": "Size",
@@ -2630,7 +3996,8 @@
         "label": "Width",
         "values": [
           "auto",
-          "full-width"
+          "full-width",
+          "scrollable"
         ]
       },
       "content": {
@@ -2638,7 +4005,15 @@
         "values": [
           "text",
           "icon-text",
-          "icon-only"
+          "icon-only",
+          "text-badge"
+        ]
+      },
+      "indicator": {
+        "label": "Indicator",
+        "values": [
+          "static",
+          "sliding"
         ]
       }
     },
@@ -2650,9 +4025,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 6,
-    "tokenCount": 15,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 23,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/segmented-control-docs"
@@ -2660,7 +4035,7 @@
   {
     "file": "select-recipe.json",
     "component": "select",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2668,8 +4043,16 @@
       "form",
       "selection"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "outlined",
+          "filled",
+          "borderless"
+        ]
+      },
       "size": {
         "label": "Size",
         "values": [
@@ -2685,6 +4068,13 @@
           "multiple"
         ]
       },
+      "content": {
+        "label": "Content",
+        "values": [
+          "flat",
+          "grouped"
+        ]
+      },
       "validation": {
         "label": "Validation",
         "values": [
@@ -2698,15 +4088,85 @@
       "default",
       "hover",
       "focus",
-      "disabled"
+      "disabled",
+      "open",
+      "placeholder"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 3,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 13,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/select-docs"
+  },
+  {
+    "file": "shell-recipe.json",
+    "component": "shell",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "layout",
+      "scaffold",
+      "template"
+    ],
+    "axesCount": 5,
+    "axes": {
+      "preset": {
+        "label": "Preset",
+        "values": [
+          "dashboard",
+          "content-page",
+          "docs",
+          "landing",
+          "focused",
+          "settings"
+        ]
+      },
+      "sidebar": {
+        "label": "Sidebar State",
+        "values": [
+          "expanded",
+          "collapsed",
+          "drawer"
+        ]
+      },
+      "sidebarDensity": {
+        "label": "Sidebar Density",
+        "values": [
+          "narrow",
+          "standard",
+          "wide"
+        ]
+      },
+      "contentAlign": {
+        "label": "Content Alignment",
+        "values": [
+          "full",
+          "center",
+          "left"
+        ]
+      },
+      "footerbarMobile": {
+        "label": "Footerbar Mobile",
+        "values": [
+          "sticky",
+          "static",
+          "hide"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 10,
+    "tokenGroupsCount": 8,
+    "tokenCount": 34,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/shell-docs"
   },
   {
     "file": "sidebar-recipe.json",
@@ -2799,7 +4259,7 @@
   {
     "file": "slider-recipe.json",
     "component": "slider",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -2807,7 +4267,7 @@
       "form",
       "range"
     ],
-    "axesCount": 3,
+    "axesCount": 4,
     "axes": {
       "orientation": {
         "label": "Orientation",
@@ -2816,10 +4276,18 @@
           "vertical"
         ]
       },
+      "mode": {
+        "label": "Mode",
+        "values": [
+          "single",
+          "range"
+        ]
+      },
       "display": {
         "label": "Display",
         "values": [
           "plain",
+          "with-tooltip",
           "with-output",
           "with-labels",
           "full"
@@ -2836,16 +4304,67 @@
     "statesSupported": [
       "default",
       "hover",
+      "active",
       "focus",
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 10,
+    "specimensCount": 9,
+    "tokenGroupsCount": 6,
+    "tokenCount": 21,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/slider-docs"
+  },
+  {
+    "file": "solution-tabs-recipe.json",
+    "component": "solution-tabs",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "interactive",
+      "tabs"
+    ],
+    "axesCount": 3,
+    "axes": {
+      "orientation": {
+        "label": "Orientation",
+        "values": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "line",
+          "contained"
+        ]
+      },
+      "autoplay": {
+        "label": "Autoplay",
+        "values": [
+          "off",
+          "on"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "active",
+      "focus"
+    ],
+    "interactive": true,
+    "specimensCount": 2,
+    "tokenGroupsCount": 3,
+    "tokenCount": 8,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/solution-tabs-docs"
   },
   {
     "file": "solutions-recipe.json",
@@ -2878,6 +4397,43 @@
     "hasTokens": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/solutions-docs"
+  },
+  {
+    "file": "spacing-recipe.json",
+    "component": "spacing",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "foundation",
+      "spacing",
+      "scale"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "role": {
+        "label": "Rolle",
+        "values": [
+          "section",
+          "component",
+          "element",
+          "gutter",
+          "inline",
+          "stack",
+          "inset"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 1,
+    "tokenGroupsCount": 2,
+    "tokenCount": 0,
+    "hasTokens": false,
+    "contrastTarget": null,
+    "docsLink": "/docs/spacing-docs.html"
   },
   {
     "file": "spinner-recipe.json",
@@ -3102,58 +4658,16 @@
     "docsLink": "/docs/stepper-docs"
   },
   {
-    "file": "switch-recipe.json",
-    "component": "switch",
+    "file": "story-gallery-recipe.json",
+    "component": "story-gallery",
     "version": "1.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
-      "interactive",
-      "toggle",
-      "form"
-    ],
-    "axesCount": 2,
-    "axes": {
-      "size": {
-        "label": "Size",
-        "values": [
-          "md",
-          "sm"
-        ]
-      },
-      "pattern": {
-        "label": "Pattern",
-        "values": [
-          "button",
-          "checkbox"
-        ]
-      }
-    },
-    "statesSupported": [
-      "default",
-      "hover",
-      "checked",
-      "disabled",
-      "focus"
-    ],
-    "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 6,
-    "tokenCount": 15,
-    "hasTokens": true,
-    "contrastTarget": "WCAG AA non-text (3:1)",
-    "docsLink": "/docs/switch-docs"
-  },
-  {
-    "file": "table-recipe.json",
-    "component": "table",
-    "version": "1.0.0",
-    "schemaVersion": "3.1.0",
-    "status": "stable",
-    "tags": [
-      "data",
       "display",
-      "comparison"
+      "gallery",
+      "scroll",
+      "cards"
     ],
     "axesCount": 1,
     "axes": {
@@ -3169,16 +4683,189 @@
     ],
     "interactive": false,
     "specimensCount": 1,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "tokenGroupsCount": 4,
+    "tokenCount": 12,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/story-gallery-docs"
+  },
+  {
+    "file": "switch-recipe.json",
+    "component": "switch",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "interactive",
+      "toggle",
+      "form"
+    ],
+    "axesCount": 3,
+    "axes": {
+      "size": {
+        "label": "Size",
+        "values": [
+          "md",
+          "sm"
+        ]
+      },
+      "pattern": {
+        "label": "Pattern",
+        "values": [
+          "button",
+          "checkbox"
+        ]
+      },
+      "indicators": {
+        "label": "Track Indicators",
+        "values": [
+          "none",
+          "labels"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "active",
+      "checked",
+      "disabled",
+      "focus"
+    ],
+    "interactive": true,
+    "specimensCount": 9,
+    "tokenGroupsCount": 7,
+    "tokenCount": 22,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA non-text (3:1)",
+    "docsLink": "/docs/switch-docs"
+  },
+  {
+    "file": "table-recipe.json",
+    "component": "table",
+    "version": "2.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "data",
+      "display",
+      "comparison"
+    ],
+    "axesCount": 5,
+    "axes": {
+      "variant": {
+        "label": "Grid Style",
+        "values": [
+          "lines",
+          "borderless",
+          "ghost"
+        ]
+      },
+      "density": {
+        "label": "Density",
+        "values": [
+          "compact",
+          "default",
+          "expressive"
+        ]
+      },
+      "striping": {
+        "label": "Striping",
+        "values": [
+          "none",
+          "striped"
+        ]
+      },
+      "selection": {
+        "label": "Selection",
+        "values": [
+          "none",
+          "checkbox"
+        ]
+      },
+      "sorting": {
+        "label": "Sorting",
+        "values": [
+          "static",
+          "sortable"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "selected"
+    ],
+    "interactive": true,
+    "specimensCount": 10,
+    "tokenGroupsCount": 13,
+    "tokenCount": 34,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/table-docs"
   },
   {
+    "file": "tabs-recipe.json",
+    "component": "tabs",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "navigation",
+      "interactive",
+      "disclosure"
+    ],
+    "axesCount": 4,
+    "axes": {
+      "variant": {
+        "label": "Variante",
+        "values": [
+          "0",
+          "1"
+        ]
+      },
+      "orientation": {
+        "label": "Orientierung",
+        "values": [
+          "0",
+          "1"
+        ]
+      },
+      "size": {
+        "label": "Groesse",
+        "values": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "overflow": {
+        "label": "Overflow",
+        "values": [
+          "0",
+          "1"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default",
+      "hover",
+      "active",
+      "focus",
+      "disabled"
+    ],
+    "interactive": false,
+    "specimensCount": 4,
+    "tokenGroupsCount": 4,
+    "tokenCount": 13,
+    "hasTokens": true,
+    "contrastTarget": null,
+    "docsLink": "/docs/tabs-docs"
+  },
+  {
     "file": "tag-recipe.json",
     "component": "tag",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -3186,7 +4873,7 @@
       "label",
       "feedback"
     ],
-    "axesCount": 4,
+    "axesCount": 5,
     "axes": {
       "size": {
         "label": "Size",
@@ -3222,6 +4909,13 @@
           "static",
           "interactive"
         ]
+      },
+      "selected": {
+        "label": "Selected",
+        "values": [
+          "false",
+          "true"
+        ]
       }
     },
     "statesSupported": [
@@ -3232,9 +4926,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 12,
-    "tokenCount": 47,
+    "specimensCount": 8,
+    "tokenGroupsCount": 14,
+    "tokenCount": 52,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/tag-docs"
@@ -3304,6 +4998,39 @@
     "docsLink": "/docs/text-blocks-docs"
   },
   {
+    "file": "text-media-recipe.json",
+    "component": "text-media",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "display",
+      "content",
+      "media",
+      "split-layout"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "layout": {
+        "label": "Layout",
+        "values": [
+          "media-left",
+          "media-right"
+        ]
+      }
+    },
+    "statesSupported": [
+      "default"
+    ],
+    "interactive": false,
+    "specimensCount": 2,
+    "tokenGroupsCount": 1,
+    "tokenCount": 5,
+    "hasTokens": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "docsLink": "/docs/text-media-docs"
+  },
+  {
     "file": "text-only-recipe.json",
     "component": "text-only",
     "version": "1.0.0",
@@ -3338,7 +5065,7 @@
   {
     "file": "textarea-recipe.json",
     "component": "textarea",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -3346,8 +5073,16 @@
       "form",
       "text-input"
     ],
-    "axesCount": 3,
+    "axesCount": 5,
     "axes": {
+      "variant": {
+        "label": "Variant",
+        "values": [
+          "outlined",
+          "filled",
+          "borderless"
+        ]
+      },
       "size": {
         "label": "Size",
         "values": [
@@ -3371,18 +5106,27 @@
           "error",
           "success"
         ]
+      },
+      "content": {
+        "label": "Content",
+        "values": [
+          "plain",
+          "with-actions"
+        ]
       }
     },
     "statesSupported": [
       "default",
       "hover",
       "focus",
-      "disabled"
+      "disabled",
+      "empty",
+      "focus-within"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 3,
+    "specimensCount": 12,
+    "tokenGroupsCount": 8,
+    "tokenCount": 15,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/textarea-docs"
@@ -3433,13 +5177,14 @@
   {
     "file": "toast-recipe.json",
     "component": "toast",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "feedback",
       "notification",
-      "interactive"
+      "interactive",
+      "overlay"
     ],
     "axesCount": 3,
     "axes": {
@@ -3470,6 +5215,7 @@
           "basic",
           "with-description",
           "with-action",
+          "with-undo",
           "with-progress"
         ]
       }
@@ -3477,12 +5223,14 @@
     "statesSupported": [
       "default",
       "entering",
-      "leaving"
+      "leaving",
+      "swiping",
+      "swipe-out"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 7,
-    "tokenCount": 41,
+    "specimensCount": 9,
+    "tokenGroupsCount": 10,
+    "tokenCount": 50,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/toast-docs"
@@ -3490,15 +5238,17 @@
   {
     "file": "toggle-group-recipe.json",
     "component": "toggle-group",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "selection",
-      "group"
+      "group",
+      "toolbar",
+      "multi-select"
     ],
-    "axesCount": 4,
+    "axesCount": 6,
     "axes": {
       "size": {
         "label": "Size",
@@ -3519,7 +5269,22 @@
         "label": "Variant",
         "values": [
           "filled",
-          "outline"
+          "outline",
+          "soft"
+        ]
+      },
+      "indicator": {
+        "label": "Indicator",
+        "values": [
+          "bg",
+          "underline"
+        ]
+      },
+      "width": {
+        "label": "Width",
+        "values": [
+          "auto",
+          "equal"
         ]
       },
       "content": {
@@ -3539,9 +5304,9 @@
       "focus"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 6,
-    "tokenCount": 15,
+    "specimensCount": 9,
+    "tokenGroupsCount": 9,
+    "tokenCount": 23,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/toggle-group-docs"
@@ -3549,15 +5314,16 @@
   {
     "file": "toolbar-recipe.json",
     "component": "toolbar",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
       "layout",
-      "action"
+      "action",
+      "editor"
     ],
-    "axesCount": 2,
+    "axesCount": 5,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -3565,7 +5331,23 @@
           "default",
           "bordered",
           "border-bottom",
+          "floating",
+          "blurred"
+        ]
+      },
+      "density": {
+        "label": "Density",
+        "values": [
+          "default",
           "compact"
+        ]
+      },
+      "alignment": {
+        "label": "Alignment",
+        "values": [
+          "start",
+          "center",
+          "justify"
         ]
       },
       "content": {
@@ -3577,15 +5359,23 @@
           "with-label",
           "full"
         ]
+      },
+      "sticky": {
+        "label": "Sticky",
+        "values": [
+          "none",
+          "sticky"
+        ]
       }
     },
     "statesSupported": [
-      "default"
+      "default",
+      "scrolled"
     ],
     "interactive": true,
-    "specimensCount": 6,
-    "tokenGroupsCount": 3,
-    "tokenCount": 13,
+    "specimensCount": 9,
+    "tokenGroupsCount": 8,
+    "tokenCount": 27,
     "hasTokens": true,
     "contrastTarget": "WCAG AA non-text (3:1)",
     "docsLink": "/docs/toolbar-docs"
@@ -3593,7 +5383,7 @@
   {
     "file": "tooltip-recipe.json",
     "component": "tooltip",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -3618,9 +5408,9 @@
       "visible"
     ],
     "interactive": false,
-    "specimensCount": 5,
-    "tokenGroupsCount": 2,
-    "tokenCount": 7,
+    "specimensCount": 7,
+    "tokenGroupsCount": 4,
+    "tokenCount": 12,
     "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/tooltip-docs"
@@ -3628,7 +5418,7 @@
   {
     "file": "treeview-recipe.json",
     "component": "treeview",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schemaVersion": "3.1.0",
     "status": "stable",
     "tags": [
@@ -3636,7 +5426,7 @@
       "interactive",
       "hierarchy"
     ],
-    "axesCount": 1,
+    "axesCount": 4,
     "axes": {
       "variant": {
         "label": "Variant",
@@ -3646,22 +5436,44 @@
           "compact",
           "flush"
         ]
+      },
+      "selection": {
+        "label": "Selection Mode",
+        "values": [
+          "single",
+          "multiple"
+        ]
+      },
+      "lines": {
+        "label": "Line Style",
+        "values": [
+          "none",
+          "solid",
+          "dashed"
+        ]
+      },
+      "interaction": {
+        "label": "Interaction",
+        "values": [
+          "static",
+          "draggable"
+        ]
       }
     },
     "statesSupported": [
       "default",
       "hover",
       "active",
-      "focus",
+      "focus-visible",
       "expanded",
       "selected",
       "disabled"
     ],
     "interactive": true,
-    "specimensCount": 2,
-    "tokenGroupsCount": 1,
-    "tokenCount": 0,
-    "hasTokens": false,
+    "specimensCount": 9,
+    "tokenGroupsCount": 12,
+    "tokenCount": 48,
+    "hasTokens": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/treeview-docs"
   },
@@ -3699,6 +5511,39 @@
     "docsLink": "/docs/validation-summary-docs"
   },
   {
+    "file": "video-recipe.json",
+    "component": "video",
+    "version": "1.0.0",
+    "schemaVersion": "3.1.0",
+    "status": "stable",
+    "tags": [
+      "media",
+      "object",
+      "interactive"
+    ],
+    "axesCount": 1,
+    "axes": {
+      "behavior": {
+        "label": "Verhalten",
+        "values": [
+          "0",
+          "1"
+        ]
+      }
+    },
+    "statesSupported": [
+      "playing",
+      "paused"
+    ],
+    "interactive": false,
+    "specimensCount": 2,
+    "tokenGroupsCount": 0,
+    "tokenCount": 0,
+    "hasTokens": false,
+    "contrastTarget": null,
+    "docsLink": "/docs/video-docs"
+  },
+  {
     "file": "video-section-recipe.json",
     "component": "video-section",
     "version": "1.0.0",
@@ -3729,82 +5574,5 @@
     "hasTokens": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "docsLink": "/docs/video-section-docs"
-  },
-  {
-    "file": "bento-grid-recipe.json",
-    "component": "bento-grid",
-    "version": "1.0.0",
-    "schemaVersion": "3.1.0",
-    "status": "stable",
-    "tags": [
-      "display",
-      "content",
-      "grid",
-      "interactive"
-    ],
-    "axesCount": 2,
-    "axes": {
-      "columns": {
-        "label": "Columns",
-        "values": [
-          "4",
-          "3"
-        ]
-      },
-      "animation": {
-        "label": "Animation",
-        "values": [
-          "none",
-          "reveal"
-        ]
-      }
-    },
-    "statesSupported": [
-      "default",
-      "hover",
-      "focus"
-    ],
-    "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 3,
-    "tokenCount": 11,
-    "hasTokens": true,
-    "contrastTarget": "WCAG AA normal text (4.5:1)",
-    "docsLink": "/docs/bento-grid-docs"
-  },
-  {
-    "file": "expanding-panels-recipe.json",
-    "component": "expanding-panels",
-    "version": "1.0.0",
-    "schemaVersion": "3.1.0",
-    "status": "stable",
-    "tags": [
-      "display",
-      "content",
-      "interactive",
-      "disclosure"
-    ],
-    "axesCount": 1,
-    "axes": {
-      "variant": {
-        "label": "Variant",
-        "values": [
-          "default"
-        ]
-      }
-    },
-    "statesSupported": [
-      "default",
-      "hover",
-      "focus",
-      "open"
-    ],
-    "interactive": true,
-    "specimensCount": 1,
-    "tokenGroupsCount": 3,
-    "tokenCount": 9,
-    "hasTokens": true,
-    "contrastTarget": "WCAG AA normal text (4.5:1)",
-    "docsLink": "/docs/expanding-panels-docs"
   }
 ]

@@ -59,14 +59,7 @@
   gap: var(--fnd-spacing-04);
   width: 100%;
   color: var(--mod-hero-title-color, var(--nc-hero-title-color));
-  margin-inline: auto;
-  box-sizing: border-box;
-  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
-
-  @include respond-to('xxl') {
-    padding-inline: 0;
-    max-width: var(--container-max-width);
-  }
+  @include container-padding;
 }
 
 .nc-hero__media {
@@ -269,19 +262,12 @@
   grid-template-columns: 1fr;
   gap: var(--mod-hero-gap, var(--nc-hero-gap));
   width: 100%;
-  margin-inline: auto;
-  padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
-  box-sizing: border-box;
+  @include container-padding;
   position: relative;
   z-index: 2;
 
   @include respond-to('md') {
     grid-template-columns: 1fr 1fr;
     align-items: center;
-  }
-
-  @include respond-to('xxl') {
-    padding-inline: 0;
-    max-width: var(--container-max-width);
   }
 }
