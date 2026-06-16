@@ -8,6 +8,7 @@
 // ==========================================================================
 
 @use '../01-tools' as *;
+@use '../00-settings' as settings;
 
 // ---------------------------------------------------------------------------
 // Base Card
@@ -15,6 +16,10 @@
 // Grundstruktur: flex column, token-getriebene Oberfläche
 
 .nc-card {
+  // Container-Query-Kontext: Karten-Reflow richtet sich nach der EIGENEN
+  // Breite (Spalte/Sidebar/Feed) statt nach dem Viewport.
+  @include container-context(card);
+
   display: flex;
   flex-direction: column;
   background: var(--mod-card-bg, var(--nc-card-bg));
@@ -97,7 +102,7 @@
   // Kicker — Eyebrow/Badge-Text
   &__kicker {
     @include paragraph('s');
-    text-transform: uppercase;
+    text-transform: var(--nc-section-header-label-text-transform);
     letter-spacing: 0.05em;
     color: var(--fnd-color-text-secondary);
   }
@@ -208,7 +213,7 @@
   // ---------------------------------------------------------------------------
 
   &--horizontal {
-    @include respond-to('md') {
+    @include container-min(card, 'card-compact') {
       flex-direction: row;
 
       .nc-card__media {
@@ -295,9 +300,9 @@
     @include line-clamp(3);
   }
 
-  // Sub-Modifier: Featured — horizontal ab md, größerer Titel
+  // Sub-Modifier: Featured — horizontal ab Container-Schwelle, größerer Titel
   &.nc-card--featured {
-    @include respond-to('md') {
+    @include container-min(card, 'card-wide') {
       flex-direction: row;
 
       .nc-card__media {
@@ -491,27 +496,27 @@
 // Responsive Grid-Layout für Card-Collections. Ersetzt Legacy .cards > ul.
 
 .nc-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--fnd-spacing-06);
+  // auto-fill + minmax: fuegt Spalten hinzu statt Karten zu strecken.
+  // Mindestbreite aus Card-Token (card-min). Gap via Mixin (--fnd-spacing-06).
+  @include card-grid(settings.cq('card-min'));
   list-style: none;
   padding: 0;
   margin: 0;
 
   // Compact — für Cities, Team (kleinere Cards)
   &--compact {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: var(--fnd-spacing-04);
+    @include card-grid(160px);
+    --mod-card-grid-gap: var(--fnd-spacing-04);
   }
 
   // Pair — für Stories, Featured (breitere Cards)
   &--pair {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    @include card-grid(320px);
   }
 
   // Links — für Quick Links (schmale Cards)
   &--links {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    @include card-grid(200px);
   }
 
   // ── Animation: Reverse Domino ──

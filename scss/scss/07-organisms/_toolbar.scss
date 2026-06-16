@@ -58,6 +58,9 @@
 
 .nc-toolbar {
   @include toolbar-base;
+  // Container-Query-Kontext: Umbruch richtet sich nach der EIGENEN Breite
+  // (Toolbar/App-Launcher erscheint in Panels, Spalten, Editor-Leisten).
+  @include container-context(toolbar);
 
   // -- Variante: Bordered (mit Rahmen, z.B. ueber Tabelle) --
   &--bordered {
@@ -201,10 +204,10 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Responsive: Wrapping auf kleinen Screens
+  // Responsive: Umbruch in schmalen Containern (Container-Query statt Viewport)
   // ---------------------------------------------------------------------------
 
-  @include respond-to-max('sm') {
+  @include container-max(toolbar, 'widget-two-col') {
     flex-wrap: wrap;
 
     .nc-toolbar__group--end {

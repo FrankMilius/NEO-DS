@@ -36,6 +36,10 @@
 // ---------------------------------------------------------------------------
 
 .nc-metric {
+  // Container-Query-Kontext: das Widget reagiert auf die EIGENE Breite
+  // (Dashboard-Kachel, Sidebar-KPI, breite Spalte).
+  @include container-context(widget);
+
   display: flex;
   flex-direction: column;
   gap: var(--mod-metric-gap, var(--nc-metric-gap));
@@ -43,6 +47,13 @@
   color: var(--mod-metric-color, var(--nc-metric-color));
   border-radius: var(--mod-metric-radius, var(--nc-metric-radius));
   padding: var(--mod-metric-padding, var(--nc-metric-padding));
+
+  // In breiten Containern (Token widget-two-col): Kennzahl groesser zeigen.
+  @include container-min(widget, 'widget-two-col') {
+    .nc-metric__value {
+      font-size: var(--mod-metric-value-font-size-wide, 2.5rem);
+    }
+  }
 
   // -- Sub-Elemente --
 

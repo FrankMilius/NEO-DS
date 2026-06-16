@@ -1,0 +1,48 @@
+// ==========================================================================
+// 04-Objects: Intent-Container (gestaffelt nach Inhaltsabsicht)
+// ==========================================================================
+// Gestaffelte Container-Breiten, die sich an der INHALTSABSICHT orientieren
+// (nicht an festen Breakpoints): prose | narrow | content | wide | xwide | full.
+//
+// Werte stammen aus den generierten Foundation-Tokens
+// (data/design-tokens.json -> `npm run tokens` -> --fnd-layout-container-*).
+// Bewusst getrennt vom bestehenden `.nc-container` (Site-Shell, 1200/1440),
+// das unveraendert bleibt — dies ist die Drupal-angeglichene Layout-API
+// (content = 1090, wide = 1290 == Drupal Responsive-Image-Breakpoints).
+// ==========================================================================
+
+:root {
+  // Semantische Aliase auf die generierten Tokens (Single Source of Truth).
+  --container-prose:   var(--fnd-layout-container-prose, 72ch);
+  --container-narrow:  var(--fnd-layout-container-narrow, 768px);
+  --container-content: var(--fnd-layout-container-content, 1090px);
+  --container-wide:    var(--fnd-layout-container-wide, 1290px);
+  --container-xwide:   var(--fnd-layout-container-xwide, 1536px);
+  --container-full:    var(--fnd-layout-container-full, 100%);
+
+  // Fluider Innenabstand: bestehendes fluides Spacing-Token wiederverwenden
+  // (Technik 3 "fluide Abstaende" ist im DS bereits geloest).
+  --container-padding-inline: var(--fnd-spacing-06, clamp(1rem, 0.8rem + 1vw, 1.5rem));
+}
+
+.container {
+  inline-size: 100%;
+  margin-inline: auto;
+  padding-inline: var(--mod-container-padding-inline, var(--container-padding-inline));
+  box-sizing: border-box;
+}
+
+.container--prose   { max-inline-size: var(--container-prose); }
+.container--narrow  { max-inline-size: var(--container-narrow); }
+.container--content { max-inline-size: var(--container-content); }
+.container--wide    { max-inline-size: var(--container-wide); }
+.container--xwide   { max-inline-size: var(--container-xwide); }
+.container--full    { max-inline-size: var(--container-full); }
+
+// KONVERGENZ abgeschlossen (Sunset): Die frueheren Roh-Container-Tokens
+// (--nc-container-max-width* = 1440/1600/1200, --nc-nav-max-width) zeigen jetzt
+// DIREKT AN DER QUELLE (00-settings/_component-tokens.scss) auf diese
+// Intent-Skala bzw. die xwide-Shell-Stufe. Der frueher hier noetige
+// Cascade-Override ist damit entfallen — eine einzige kanonische Skala.
+// Abgekuendigt bleiben die numerischen Modifier .nc-container--sm|md|lg|xl|xxl;
+// neue Layouts nutzen .container--{prose|narrow|content|wide|xwide|full}.

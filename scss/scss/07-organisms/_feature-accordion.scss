@@ -1,9 +1,8 @@
 // ==========================================================================
 // 07-Organisms: Feature Accordion
 // ==========================================================================
-// Two-column layout with navigation links (left) and expandable
-// feature chapters (right).
-// Extracted from _site.scss for proper ITCSS placement.
+// Zweispaltiges Layout mit Navigationslinks (links) und aufklappbaren
+// Feature-Kapiteln (rechts).
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -13,14 +12,21 @@
 // ---------------------------------------------------------------------------
 
 .nc-feature-accordeon {
+  // Container-Query-Kontext: Split richtet sich nach der EIGENEN Breite.
+  @include container-context(feature-accordion);
+
   display: grid;
-  gap: clamp(2rem, 4vw, 4.5rem);
-  grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1fr);
-  align-items: stretch;
+  gap: var(--fnd-spacing-10);
+
+  // Ab Schwelle: zweispaltig (Navigation links, Kapitel rechts).
+  @include container-min(feature-accordion, 'feature-accordion-split') {
+    grid-template-columns: minmax(260px, 0.95fr) minmax(320px, 1fr);
+    align-items: stretch;
+  }
 }
 
 // ---------------------------------------------------------------------------
-// Left Column (Navigation)
+// Linke Spalte (Navigation)
 // ---------------------------------------------------------------------------
 
 .nc-feature-accordeon__left {
@@ -36,6 +42,10 @@
   font-size: clamp(2rem, 3.4vw, 3.2rem);
   line-height: 1.2;
   max-width: 16ch;
+
+  @include container-max(feature-accordion, 'feature-accordion-split') {
+    max-width: none;
+  }
 }
 
 .nc-feature-accordeon__lead {
@@ -44,6 +54,10 @@
   max-width: 56ch;
   line-height: var(--lh-body);
   margin: 0;
+
+  @include container-max(feature-accordion, 'feature-accordion-split') {
+    max-width: none;
+  }
 }
 
 .nc-feature-accordeon__links {
@@ -51,14 +65,14 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.25rem;
+  gap: var(--fnd-spacing-01);
 }
 
 .nc-feature-accordeon__link {
   border: 0;
   background: transparent;
   color: var(--fnd-color-text-secondary);
-  padding: 0.45rem 0;
+  padding: var(--fnd-spacing-02) 0;
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -80,22 +94,30 @@
 }
 
 // ---------------------------------------------------------------------------
-// Right Column (Chapters)
+// Rechte Spalte (Kapitel)
 // ---------------------------------------------------------------------------
 
 .nc-feature-accordeon__right {
   height: 100%;
   max-height: min(72vh, 920px);
   overflow-y: auto;
-  padding-inline-end: 0.25rem;
+  padding-inline-end: var(--fnd-spacing-01);
+
+  // Gestapelt (schmaler Container): kein eigener Scroll-Bereich.
+  @include container-max(feature-accordion, 'feature-accordion-split') {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding-inline-end: 0;
+  }
 }
 
 .nc-feature-accordeon__chapter {
-  margin-block-end: 2.75rem;
+  margin-block-end: var(--fnd-spacing-09);
 }
 
 .nc-feature-accordeon__chapter-title {
-  margin: 0 0 1.2rem;
+  margin: 0 0 var(--fnd-spacing-05);
   font-family: var(--font-heading);
   font-size: clamp(1.55rem, 2vw, 2rem);
   color: var(--fnd-color-text-primary);
@@ -112,7 +134,7 @@
 .nc-feature-accordeon__item-summary {
   list-style: none;
   cursor: pointer;
-  padding: 1rem 2rem 1rem 0;
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-07) var(--fnd-spacing-04) 0;
   position: relative;
   font-size: var(--fs-xl);
 }
@@ -124,7 +146,7 @@
 .nc-feature-accordeon__item-summary::after {
   content: '+';
   position: absolute;
-  inset-inline-end: 0.3rem;
+  inset-inline-end: var(--fnd-spacing-01);
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--fs-2xl);
@@ -137,7 +159,7 @@
 }
 
 .nc-feature-accordeon__item-body {
-  padding: 0 0 1.1rem;
+  padding: 0 0 var(--fnd-spacing-04);
   color: var(--fnd-color-text-primary);
 }
 
@@ -146,38 +168,12 @@
 }
 
 .nc-feature-accordeon__item-list {
-  margin: 1rem 0 0;
-  padding-inline-start: 1.4rem;
+  margin: var(--fnd-spacing-04) 0 0;
+  padding-inline-start: var(--fnd-spacing-06);
   display: grid;
   gap: var(--fnd-spacing-02);
 }
 
 .nc-feature-accordeon__item-list-entry {
   margin: 0;
-}
-
-// ---------------------------------------------------------------------------
-// Responsive
-// ---------------------------------------------------------------------------
-
-@media (max-width: 720px) {
-  .nc-feature-accordeon {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-
-  .nc-feature-accordeon__title {
-    max-width: none;
-  }
-
-  .nc-feature-accordeon__lead {
-    max-width: none;
-  }
-
-  .nc-feature-accordeon__right {
-    height: auto;
-    max-height: none;
-    overflow: visible;
-    padding-inline-end: 0;
-  }
 }

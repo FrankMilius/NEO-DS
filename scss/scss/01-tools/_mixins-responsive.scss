@@ -6,6 +6,7 @@
 
 @use 'sass:map';
 @use '../00-settings/breakpoints' as *;
+@use '../00-settings/layout' as layout;
 
 // ---------------------------------------------------------------------------
 // Breakpoint Mixin
@@ -155,6 +156,26 @@
 /// @param {Length} $min-width - Minimum width
 @mixin container-query($name, $min-width) {
   @container #{$name} (min-width: #{$min-width}) {
+    @content;
+  }
+}
+
+/// Container query mit Schwelle aus Component-Token (Single Source of Truth).
+/// @container kann keine CSS-Variablen auswerten, daher wird der Build-Zeit-Wert
+/// aus der Token-Map (data/design-tokens.json -> $token-container-query) gezogen.
+/// @param {String} $name - Container name
+/// @param {String} $key - Schwellen-Key, z. B. 'card-compact', 'media-text-stack'
+@mixin container-min($name, $key) {
+  @container #{$name} (min-width: #{layout.cq($key)}) {
+    @content;
+  }
+}
+
+/// Container query (max-width) mit Schwelle aus Component-Token.
+/// @param {String} $name - Container name
+/// @param {String} $key - Schwellen-Key, z. B. 'widget-two-col'
+@mixin container-max($name, $key) {
+  @container #{$name} (max-width: #{layout.cq($key)}) {
     @content;
   }
 }

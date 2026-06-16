@@ -1,0 +1,77 @@
+// ==========================================================================
+// 04-Objects: Prose (Lesefluss-Spalte mit Breakout)
+// ==========================================================================
+// Editorial-Layout fuer Fliesstext (Artikel/News/Magazin):
+//  - Text liegt in einer schmalen, lesbaren Spalte (Measure = --container-prose).
+//  - Einzelne Kinder (Figuren, Galerien, Embeds, Full-Bleed-Medien) duerfen
+//    aus der Prosa-Spalte AUSBRECHEN auf content / wide / full.
+//
+// Technik: ein einziges CSS-Grid mit benannten Spaltenlinien. Die Breiten der
+// Breakout-Stufen leiten sich token-getrieben aus der EINEN Container-Skala ab
+// (--container-prose|content|wide) -> keine eigenen Breakpoints, kein Hardcode.
+//
+// Markup:
+//   <div class="nc-prose">
+//     <p>…</p>                              -> Prosa-Breite (Default)
+//     <figure data-bleed="content">…        -> bis Content (1090)
+//     <figure data-bleed="wide">…           -> bis Wide (1290)
+//     <div data-bleed="full">…              -> Full-Bleed (Viewport)
+//   </div>
+// ==========================================================================
+
+.nc-prose {
+  --prose-measure: var(--mod-prose-measure, var(--container-prose, 72ch));
+  --prose-gutter:  var(--mod-prose-gutter, var(--container-padding-inline, var(--fnd-spacing-06)));
+
+  // Gekappt + zentriert: der Lesefluss darf NICHT im Viewport "floaten".
+  // full-Breakout = xwide (1536), nicht die rohe Viewport-Breite.
+  max-inline-size: var(--mod-prose-max, var(--container-xwide));
+  margin-inline: auto;
+
+  display: grid;
+  // Symmetrische Spalten: full | wide | content | PROSE | content | wide | full.
+  // Die minmax(0, …)-Stufen sind je die HALBE Differenz zur naechst-engeren
+  // Stufe, sodass sich die Gesamtbreiten exakt auf die Container-Tokens addieren.
+  grid-template-columns:
+    [full-start] minmax(var(--prose-gutter), 1fr)
+    [wide-start] minmax(0, calc((var(--container-wide) - var(--container-content)) / 2))
+    [content-start] minmax(0, calc((var(--container-content) - var(--prose-measure)) / 2))
+    [prose-start] min(var(--prose-measure), 100% - (var(--prose-gutter) * 2)) [prose-end]
+    minmax(0, calc((var(--container-content) - var(--prose-measure)) / 2)) [content-end]
+    minmax(0, calc((var(--container-wide) - var(--container-content)) / 2)) [wide-end]
+    minmax(var(--prose-gutter), 1fr) [full-end];
+
+  // Default: jedes direkte Kind sitzt in der Prosa-Spalte.
+  > * {
+    grid-column: prose;
+    min-width: 0; // verhindert Grid-Overflow durch lange Inhalte (z. B. <pre>)
+  }
+
+  // Breakout-Stufen (Klasse ODER data-bleed-Attribut).
+  > .nc-bleed-content,
+  > [data-bleed='content'] { grid-column: content; }
+
+  > .nc-bleed-wide,
+  > [data-bleed='wide'] { grid-column: wide; }
+
+  > .nc-bleed-full,
+  > [data-bleed='full'] {
+    grid-column: full;
+    // Full-Bleed-Medien fuellen die Spalte randlos.
+    > img,
+    > picture img,
+    > video { inline-size: 100%; }
+  }
+}
+
+// ── Variante: linksbuendig (Doku/Blog-Stil statt zentriertem Magazin-Stil) ──
+// Measure haengt am linken Rand, Breakout-Stufen wachsen nach RECHTS (full nach
+// rechts bis zur vollen Breite). Gleiche Token-Quelle wie die zentrierte Form.
+.nc-prose--left {
+  margin-inline: 0;
+  grid-template-columns:
+    [full-start prose-start content-start wide-start] min(var(--prose-measure), 100%) [prose-end]
+    minmax(0, calc(var(--container-content) - var(--prose-measure))) [content-end]
+    minmax(0, calc(var(--container-wide) - var(--container-content))) [wide-end]
+    1fr [full-end];
+}

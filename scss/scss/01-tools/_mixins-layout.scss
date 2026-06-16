@@ -108,6 +108,18 @@
   grid-column: span #{$n};
 }
 
+/// Card-Grid: fuegt auf breiteren Flaechen SPALTEN hinzu statt Karten zu
+/// strecken (auto-fill + minmax). Die Karten behalten ihre Mindestbreite;
+/// passt eine weitere Spalte, wird sie ergaenzt. `min(#{$min}, 100%)` schuetzt
+/// vor Ueberlauf, wenn der (Container-)Platz schmaler als $min ist.
+/// @param {Length} $min [280px] - minimale Spaltenbreite
+///   (Default = Card-Token; uebergib z. B. var(--fnd-layout-container-query-card-min)).
+@mixin card-grid($min: 280px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(#{$min}, 100%), 1fr));
+  gap: var(--mod-card-grid-gap, var(--fnd-spacing-06, 1.5rem));
+}
+
 // ---------------------------------------------------------------------------
 // Positioning
 // ---------------------------------------------------------------------------

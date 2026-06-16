@@ -8,7 +8,19 @@
 @use '../01-tools' as *;
 
 .nc-text-media {
-  // Grid wird von nc-grid--split (Layout) oder eigenem Grid gesteuert
+  // Container-Query-Kontext: Reflow richtet sich nach der EIGENEN Breite,
+  // nicht nach dem Viewport (funktioniert in Sidebar, Spalte, Full-Width).
+  @include container-context(text-media);
+
+  display: grid;
+  gap: var(--mod-text-media-gap, var(--nc-text-media-gap, var(--fnd-spacing-08)));
+  grid-template-columns: 1fr; // gestapelt (Default / schmaler Container)
+
+  // Ab Schwelle (Token media-text-stack): Bild und Text nebeneinander.
+  @include container-min(text-media, 'media-text-stack') {
+    grid-template-columns: var(--mod-text-media-columns, 1fr 1fr);
+    align-items: center;
+  }
 }
 
 .nc-text-media__content {
