@@ -2779,13 +2779,15 @@
   --nc-nav-blur:                  12px;
   --nc-nav-z-index:               var(--fnd-z-header);
   --nc-nav-padding-block:         0;                                 // 0 — height steuert Hoehe
-  --nc-nav-padding-inline:        clamp(16px, 3.5vw, 48px);         // Fluid responsive padding
+  --nc-nav-padding-inline:        clamp(16px, 3.5vw, 48px);         // Fluid responsive padding (Mobile/Tablet)
+  --nc-nav-padding-inline-constrained: var(--nc-container-padding-inline-constrained); // 24px ab lg — gleicher Anschnitt wie Container
+  --nc-nav-padding-inline-xxl:    var(--nc-container-padding-inline-xxl); // 0px ab xxl — gleicher Anschnitt wie Container
   --nc-nav-gap:                   var(--fnd-spacing-06);             // 24px
   --nc-nav-brand-size:            var(--fs-xl);
   --nc-nav-brand-weight:          var(--fnd-font-weight-bold);
   --nc-nav-brand-color:           var(--fnd-color-text-primary);
   --nc-nav-brand-gap:             var(--fnd-spacing-02);             // 8px Gap zwischen Logo + Text
-  --nc-nav-brand-logo-height:     28px;                              // Logo-Bild max-height
+  --nc-nav-brand-logo-height:     100%;                              // Logo-Hoehe relativ zur Navbar
   --nc-nav-brand-letter-spacing:  0.06em;
 
   // -- Layout: Flex-Ausrichtung --
@@ -2799,6 +2801,9 @@
 
   // -- Sticky-Scroll Shadow --
   --nc-nav-sticky-shadow:         var(--fnd-shadow-sm);
+
+  // -- Layout: Max-Width ab lg (gleicher Anschnitt wie Container) --
+  --nc-nav-max-width:             var(--container-xwide);     // Shell-Breite (NICHT Content): breiter als Lesespalte
 }
 
 // ---------------------------------------------------------------------------
@@ -2855,10 +2860,10 @@
   --nc-nav-menu-ease:                cubic-bezier(0.16, 1, 0.3, 1);
 
   // Kicker / Leadtext
-  --nc-nav-menu-kicker-font-size:       var(--fs-xs);
+  --nc-nav-menu-kicker-font-size:       var(--fs-sm);
   --nc-nav-menu-kicker-font-weight:     var(--fnd-font-weight-semibold);
   --nc-nav-menu-kicker-color:           var(--fnd-color-text-tertiary);
-  --nc-nav-menu-kicker-text-transform:  uppercase;
+  --nc-nav-menu-kicker-text-transform:  capitalize;
   --nc-nav-menu-kicker-letter-spacing:  0.06em;
   --nc-nav-menu-kicker-margin-bottom:   var(--fnd-spacing-04);
 
@@ -2881,9 +2886,22 @@
   --nc-gallery-max-height:             none;
   --nc-gallery-padding-block:          var(--fnd-spacing-10);
   --nc-gallery-padding-inline:         var(--fnd-spacing-08);
+  --nc-gallery-content-inset:          var(--fnd-spacing-12);
   --nc-gallery-content-max-width:      600px;
   --nc-gallery-content-gap:            var(--fnd-spacing-04);
   --nc-gallery-content-align:          flex-start;
+
+  // -- Stage (Content + Media Container) --
+  --nc-gallery-stage-max-width:        var(--nc-container-max-width);
+
+  // -- Content Media (Screenshot neben Content) --
+  --nc-gallery-media-max-width:        50%;
+  --nc-gallery-media-ratio:            var(--fnd-media-ratio-16-9);
+  --nc-gallery-media-radius:           var(--fnd-radius-lg);
+  --nc-gallery-media-shadow:           var(--fnd-shadow-lg);
+  --nc-gallery-media-gap:              var(--fnd-spacing-10);
+  --nc-gallery-media-padding-inline:   var(--nc-gallery-content-inset);
+  --nc-gallery-media-padding-block:    var(--nc-gallery-content-inset);
 
   // -- Overlay --
   --nc-gallery-overlay-start:          rgba(0, 0, 0, 0.6);
@@ -2958,7 +2976,7 @@
   --nc-hero-overlay-direction:     135deg;
 
   // -- Kicker / Badge --
-  --nc-hero-kicker-size:           var(--fs-xs);
+  --nc-hero-kicker-size:           var(--fs-base);
   --nc-hero-kicker-weight:         var(--fnd-font-weight-semibold);
   --nc-hero-kicker-bg:             var(--fnd-color-background-accent);
   --nc-hero-kicker-color:          var(--fnd-color-on-accent);
@@ -3446,11 +3464,12 @@
 // ---------------------------------------------------------------------------
 
 :root {
-  // Breite
-  --nc-container-max-width: 1440px;
-  --nc-container-max-width-wide: 1600px;
-  --nc-container-max-width-narrow: 768px;
-  --nc-container-max-width-content: 1200px;
+  // Breite — KANONISCH auf die Intent-Container-Skala umgestellt (Single Source).
+  // Frueher 1440/1600/1200 (Drift); jetzt = intent-container-Tokens.
+  --nc-container-max-width: var(--container-content);
+  --nc-container-max-width-wide: var(--container-wide);
+  --nc-container-max-width-narrow: var(--container-narrow);
+  --nc-container-max-width-content: var(--container-content);
 
   // Fluid Inline Padding (skaliert mit Viewport)
   --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
@@ -3525,6 +3544,12 @@
   --nc-grid-gap-lg: var(--fnd-spacing-08);
   --nc-grid-mobile-columns: 4;
   --nc-grid-tablet-columns: 8;
+
+  // Content Grid Gaps (Section-Level Grids: Feature, Benefit, News, Pricing usw.)
+  // Referenzieren fluid Spacing-Tokens fuer automatische responsive Skalierung.
+  --nc-content-grid-gap:    var(--fnd-spacing-06);  // 20–24px fluid (Standard)
+  --nc-content-grid-gap-md: var(--fnd-spacing-07);  // 24–32px fluid (Metric)
+  --nc-content-grid-gap-lg: var(--fnd-spacing-10);  // 48–64px fluid (Feature)
 }
 
 // ---------------------------------------------------------------------------
@@ -3552,6 +3577,33 @@
   --nc-section-edge-height: 48px;
   --nc-section-edge-angle: 3deg;
   --nc-section-edge-fill: var(--fnd-color-background-base);
+
+  // ---------------------------------------------------------------------------
+  // Section Header — Label + Titel + Untertitel ueber Inhaltsabschnitten
+  // ---------------------------------------------------------------------------
+
+  --nc-section-header-gap: var(--fnd-spacing-08);
+
+  // Label (Eyebrow)
+  --nc-section-header-label-font-size: var(--fs-base);
+  --nc-section-header-label-font-weight: var(--fnd-font-weight-semibold);
+  --nc-section-header-label-letter-spacing: 0em;
+  --nc-section-header-label-text-transform: none;
+  --nc-section-header-label-color: var(--fnd-color-accent-default);
+  --nc-section-header-label-spacing: var(--fnd-spacing-03);
+
+  // Title
+  --nc-section-header-title-font-size: var(--fnd-typography-heading-m-font-size);
+  --nc-section-header-title-font-weight: var(--fnd-font-weight-bold);
+  --nc-section-header-title-line-height: var(--fnd-typography-heading-m-line-height);
+  --nc-section-header-title-letter-spacing: var(--fnd-typography-heading-m-letter-spacing);
+  --nc-section-header-title-color: var(--fnd-color-text-primary);
+  --nc-section-header-title-spacing: var(--fnd-spacing-04);
+
+  // Subtitle
+  --nc-section-header-subtitle-font-size: var(--fnd-typography-paragraph-xl-font-size);
+  --nc-section-header-subtitle-line-height: var(--fnd-typography-paragraph-xl-line-height);
+  --nc-section-header-subtitle-color: var(--fnd-color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -3750,4 +3802,21 @@
   --nc-expanding-panels-accent:      var(--fnd-color-interactive-default);
   --nc-expanding-panels-title:       var(--fnd-color-text-primary);
   --nc-expanding-panels-text:        var(--fnd-color-text-secondary);
+}
+
+// ---------------------------------------------------------------------------
+// Solution Tabs Tokens
+// ---------------------------------------------------------------------------
+// Tab-Loesungsuebersicht: horizontal (Autoplay) / vertikal, reiche Panels.
+// Fuer dunkle Sektionen ausgelegt (wie product-showcase) — helle Texte.
+
+:root {
+  --nc-solution-tabs-accent-default:    var(--fnd-color-interactive-default);
+  --nc-solution-tabs-border:            color-mix(in srgb, var(--fnd-color-text-inverse) 14%, transparent);
+  --nc-solution-tabs-tab-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 58%, transparent);
+  --nc-solution-tabs-tab-color-active:  var(--fnd-color-text-inverse);
+  --nc-solution-tabs-title:             var(--fnd-color-text-inverse);
+  --nc-solution-tabs-text:              color-mix(in srgb, var(--fnd-color-text-inverse) 74%, transparent);
+  --nc-solution-tabs-visual-bg:         color-mix(in srgb, var(--fnd-color-text-inverse) 7%, var(--fnd-color-always-dark));
+  --nc-solution-tabs-autoplay-duration: 7s;
 }

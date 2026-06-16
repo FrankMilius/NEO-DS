@@ -17,6 +17,8 @@ $z-index: tokens.$token-z-index;
 $nav-height-mobile: tokens.$token-nav-height-mobile;
 $nav-height-desktop: tokens.$token-nav-height-desktop;
 $media-ratios: tokens.$token-media-ratios;
+// Container-Query-Schwellen (Build-Zeit-Werte fuer @container-Bedingungen).
+$container-query: tokens.$token-container-query;
 
 // ---------------------------------------------------------------------------
 // Getter Functions
@@ -38,6 +40,16 @@ $media-ratios: tokens.$token-media-ratios;
   }
   @warn "Unknown media ratio: #{$ratio}";
   @return '1 / 1';
+}
+
+/// Get container-query threshold (Build-Zeit-Wert fuer @container-Bedingungen).
+/// @param {String} $key - z. B. 'card-compact', 'media-text-stack'
+@function cq($key) {
+  @if map.has-key($container-query, $key) {
+    @return map.get($container-query, $key);
+  }
+  @warn "Unknown container-query threshold: #{$key}";
+  @return 0px;
 }
 
 // ---------------------------------------------------------------------------

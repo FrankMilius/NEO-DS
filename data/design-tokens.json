@@ -9461,6 +9461,89 @@
             "default": "var(--fnd-color-text-secondary)"
           }
         ]
+      },
+      {
+        "id": "solution-tabs",
+        "label": "Solution Tabs",
+        "icon": "layout-navbar",
+        "subgroups": [
+          {
+            "id": "layout",
+            "label": "Layout & Surface",
+            "tokenIds": [
+              "nc-solution-tabs-border",
+              "nc-solution-tabs-visual-bg"
+            ]
+          },
+          {
+            "id": "tabs",
+            "label": "Tabs & Autoplay",
+            "tokenIds": [
+              "nc-solution-tabs-tab-color",
+              "nc-solution-tabs-tab-color-active",
+              "nc-solution-tabs-autoplay-duration"
+            ]
+          },
+          {
+            "id": "accent",
+            "label": "Accent & Text",
+            "tokenIds": [
+              "nc-solution-tabs-accent-default",
+              "nc-solution-tabs-title",
+              "nc-solution-tabs-text"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-solution-tabs-border",
+            "label": "Border",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-text-inverse) 14%, transparent)"
+          },
+          {
+            "id": "nc-solution-tabs-visual-bg",
+            "label": "Visual Bg",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-text-inverse) 7%, var(--fnd-color-always-dark))"
+          },
+          {
+            "id": "nc-solution-tabs-tab-color",
+            "label": "Tab Color",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-text-inverse) 58%, transparent)"
+          },
+          {
+            "id": "nc-solution-tabs-tab-color-active",
+            "label": "Tab Color Active",
+            "type": "color",
+            "default": "var(--fnd-color-text-inverse)"
+          },
+          {
+            "id": "nc-solution-tabs-autoplay-duration",
+            "label": "Autoplay Duration",
+            "type": "time",
+            "default": "7s"
+          },
+          {
+            "id": "nc-solution-tabs-accent-default",
+            "label": "Accent Default",
+            "type": "color",
+            "default": "var(--fnd-color-interactive-default)"
+          },
+          {
+            "id": "nc-solution-tabs-title",
+            "label": "Title",
+            "type": "color",
+            "default": "var(--fnd-color-text-inverse)"
+          },
+          {
+            "id": "nc-solution-tabs-text",
+            "label": "Text",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-text-inverse) 74%, transparent)"
+          }
+        ]
       }
     ]
   },
@@ -9473,7 +9556,7 @@
       },
       "fluid": {
         "viewport_min": 320,
-        "viewport_max": 1400,
+        "viewport_max": 1920,
         "base_min_px": 14,
         "base_max_px": 18,
         "ratio": 1.2
@@ -9607,7 +9690,7 @@
       },
       "fluid": {
         "viewport_min": 320,
-        "viewport_max": 1400,
+        "viewport_max": 1920,
         "static_steps": [
           "01",
           "02",
@@ -9752,8 +9835,20 @@
         "9-16": "9 / 16"
       },
       "container": {
-        "max_width": "1200px",
-        "max_width_wide": "1440px"
+        "max_width": "1090px",
+        "max_width_wide": "1290px",
+        "prose": "72ch",
+        "narrow": "768px",
+        "content": "1090px",
+        "wide": "1290px",
+        "xwide": "1536px",
+        "full": "100%"
+      },
+      "container_query": {
+        "card": { "min": "280px", "compact": "400px", "wide": "560px" },
+        "widget": { "min": "240px", "two_col": "480px" },
+        "media_text": { "stack": "600px" },
+        "feature_accordion": { "split": "720px" }
       },
       "grid": {
         "columns": 12,
