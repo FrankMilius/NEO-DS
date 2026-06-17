@@ -271,3 +271,19 @@
     align-items: center;
   }
 }
+
+// ── Modifier: Inhaltsbreite (Content-Width) ──────────────────────────────────
+// Der Block .nc-hero bleibt IMMER full-bleed (Hintergrund bis zum Viewport-Rand).
+// Diese Modifier setzen nur die Breite des EINGEFASSTEN Inhalts auf eine der
+// Intent-Container-Stufen. Technisch ueber die Override-Stufe von
+// container-padding (--mod-container-max-width). Greift sowohl auf das innere
+// Grid (Media-Variante) als auch auf den Content (Ohne-Media-Variante).
+//   .nc-hero--cw-prose | --cw-narrow | --cw-content | --cw-wide | --cw-xwide | --cw-full
+@each $tier in (prose, narrow, content, wide, xwide, full) {
+  .nc-hero--cw-#{$tier} {
+    .nc-hero__grid,
+    .nc-hero__content {
+      --mod-container-max-width: var(--container-#{$tier});
+    }
+  }
+}
