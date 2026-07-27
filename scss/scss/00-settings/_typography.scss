@@ -29,101 +29,39 @@ $_fluid-vw-max: sp.$fluid-vw-max;
 // Typography Scale Maps (static reference / fallback)
 // ---------------------------------------------------------------------------
 
-/// Display Typography (static reference)
+// Diese Maps liefern den Generierungs-Loops (s.u.) ausschliesslich die KEYS
+// (welche Stufen existieren) und das letter-spacing. Font-size & line-height
+// kommen aus der Fluid-Skala (--fs-* / *-fluid-sizes); die frueheren
+// font-size/line-height-Eintraege waren ungenutzt UND irrefuehrend (Map sagte
+// z.B. paragraph.xs=11px, fluid liefert ~8px) -> entfernt (Audit-Finding B/O).
+
+/// Display — nur letter-spacing (Groessen via $display-fluid-sizes)
 $typography-display: (
-  's': (
-    'font-size': 2rem,          // 32px
-    'line-height': 2.5rem,      // 40px
-    'letter-spacing': -0.02em
-  ),
-  'm': (
-    'font-size': 3rem,          // 48px
-    'line-height': 3.5rem,      // 56px
-    'letter-spacing': -0.02em
-  ),
-  'l': (
-    'font-size': 4rem,          // 64px
-    'line-height': 4.5rem,      // 72px
-    'letter-spacing': -0.02em
-  ),
-  'xl': (
-    'font-size': 5rem,          // 80px
-    'line-height': 5.5rem,      // 88px
-    'letter-spacing': -0.03em
-  ),
-  '2xl': (
-    'font-size': 6rem,          // 96px
-    'line-height': 6.5rem,      // 104px
-    'letter-spacing': -0.03em
-  )
+  's':   ('letter-spacing': -0.02em),
+  'm':   ('letter-spacing': -0.02em),
+  'l':   ('letter-spacing': -0.02em),
+  'xl':  ('letter-spacing': -0.03em),
+  '2xl': ('letter-spacing': -0.03em)
 ) !default;
 
-/// Heading Typography (static reference)
+/// Heading — nur letter-spacing (Groessen via $heading-fluid-sizes -> --fs-*)
 $typography-heading: (
-  'xxs': (
-    'font-size': 0.875rem,      // 14px
-    'line-height': 1.125rem,    // 18px
-    'letter-spacing': 0
-  ),
-  'xs': (
-    'font-size': 1rem,          // 16px
-    'line-height': 1.375rem,    // 22px
-    'letter-spacing': 0
-  ),
-  's': (
-    'font-size': 1.25rem,       // 20px
-    'line-height': 1.625rem,    // 26px
-    'letter-spacing': -0.01em
-  ),
-  'm': (
-    'font-size': 1.5rem,        // 24px
-    'line-height': 2rem,        // 32px
-    'letter-spacing': -0.01em
-  ),
-  'l': (
-    'font-size': 2rem,          // 32px
-    'line-height': 2.5rem,      // 40px
-    'letter-spacing': -0.02em
-  ),
-  'xl': (
-    'font-size': 2.5rem,        // 40px
-    'line-height': 3rem,        // 48px
-    'letter-spacing': -0.02em
-  ),
-  '2xl': (
-    'font-size': 3rem,        // 48px
-    'line-height': 3.5rem,        // 54px
-    'letter-spacing': -0.02em
-  )
+  'xxs': ('letter-spacing': 0),
+  'xs':  ('letter-spacing': 0),
+  's':   ('letter-spacing': -0.01em),
+  'm':   ('letter-spacing': -0.01em),
+  'l':   ('letter-spacing': -0.02em),
+  'xl':  ('letter-spacing': -0.02em),
+  '2xl': ('letter-spacing': -0.02em)
 ) !default;
 
-/// Paragraph Typography (static reference)
+/// Paragraph — nur letter-spacing (Groessen via $paragraph-fluid-sizes -> --fs-*)
 $typography-paragraph: (
-  'xs': (
-    'font-size': 0.6875rem,     // 11px
-    'line-height': 0.875rem,    // 14px
-    'letter-spacing': 0.01em
-  ),
-  's': (
-    'font-size': 0.75rem,       // 12px
-    'line-height': 1rem,        // 16px
-    'letter-spacing': 0
-  ),
-  'm': (
-    'font-size': 0.875rem,      // 14px
-    'line-height': 1.125rem,    // 18px
-    'letter-spacing': 0
-  ),
-  'l': (
-    'font-size': 1rem,          // 16px
-    'line-height': 1.375rem,    // 22px
-    'letter-spacing': 0
-  ),
-  'xl': (
-    'font-size': 1.125rem,      // 18px
-    'line-height': 1.5rem,      // 24px
-    'letter-spacing': 0
-  )
+  'xs': ('letter-spacing': 0.01em),
+  's':  ('letter-spacing': 0),
+  'm':  ('letter-spacing': 0),
+  'l':  ('letter-spacing': 0),
+  'xl': ('letter-spacing': 0)
 ) !default;
 
 // ---------------------------------------------------------------------------
@@ -169,10 +107,15 @@ $display-fluid-sizes: (
 // Helper Functions
 // ---------------------------------------------------------------------------
 
+// A11y: keine Schriftgroesse unter 12px (Lesbarkeit / WCAG). Der Floor greift
+// nur fuer die kleinsten (negativen) Steps (2xs/xs/sm-Min lagen bei 8–11.7px);
+// groessere Stufen bleiben unveraendert (math.max ohne Effekt).
+$type-min-floor: 12px !default;
+
 @function fluid-size-px($step, $min, $max, $ratio) {
   @return (
-    'min': $min * math.pow($ratio, $step),
-    'max': $max * math.pow($ratio, $step)
+    'min': math.max($type-min-floor, $min * math.pow($ratio, $step)),
+    'max': math.max($type-min-floor, $max * math.pow($ratio, $step))
   );
 }
 
@@ -198,40 +141,14 @@ $display-fluid-sizes: (
 }
 
 // ---------------------------------------------------------------------------
-// Typography Getter Functions
-// ---------------------------------------------------------------------------
-
-/// Get typography properties
-/// @param {String} $category - display, heading, paragraph
-/// @param {String} $size - Size variant
-/// @return {Map} Typography properties
-@function get-typography($category, $size) {
-  $map: null;
-
-  @if $category == 'display' {
-    $map: $typography-display;
-  } @else if $category == 'heading' {
-    $map: $typography-heading;
-  } @else if $category == 'paragraph' {
-    $map: $typography-paragraph;
-  }
-
-  @if $map and map.has-key($map, $size) {
-    @return map.get($map, $size);
-  }
-
-  @warn "Unknown typography: #{$category}-#{$size}";
-  @return null;
-}
-
-// ---------------------------------------------------------------------------
 // CSS Custom Properties Output
 // ---------------------------------------------------------------------------
 
 :root {
   // --- Font families ---
-  --font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
-  --font-heading: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  // Metrik-Fallbacks (Quick-Win M) direkt nach der Webschrift im Stack.
+  --font-body: 'Manrope', 'Manrope Fallback', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Space Grotesk', 'Space Grotesk Fallback', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   // --- Font weight scale ---
@@ -243,7 +160,12 @@ $display-fluid-sizes: (
   --fnd-font-weight-black: 900;
 
   // --- Font weight assignments (per category) ---
+  // Audit-Finding G: Heading-Hierarchie differenziert. Grosse Display-Titel
+  // (h1–h3) bleiben leicht (400, Marken-Look); kleinere Content-Headings
+  // (h4–h6) nutzen -strong (600) fuer klarere Hierarchie. Variable-Font-Achse
+  // (Space Grotesk 300–700) macht das ohne Faux-Bold moeglich.
   --fnd-font-weight-heading: 400;
+  --fnd-font-weight-heading-strong: 600;
   --fnd-font-weight-body: 400;
   --fnd-font-weight-mono: 400;
 
@@ -269,10 +191,28 @@ $display-fluid-sizes: (
     --fs-#{$label}: clamp(#{$min-rem}, calc(#{$min-rem} + (#{$max-rem} - #{$min-rem}) * var(--fluid-bp)), #{$max-rem});
   }
 
-  // --- Line heights ---
+  // --- Line heights (unitless Ratio-Skala) ---
+  // Bestehende 3 (tight/heading/body) sind load-bearing (Type-Mixins) und
+  // bleiben unveraendert; none/snug/normal/relaxed ergaenzen die Skala fuer die
+  // Tokenisierung der Komponenten-line-heights (Audit-Finding C).
+  --lh-none: 1;
   --lh-tight: 1.05;
-  --lh-heading: #{$fluid-line-height-ratio};
-  --lh-body: #{$fluid-line-height-body};
+  --lh-heading: #{$fluid-line-height-ratio};   // 1.15
+  --lh-snug: 1.25;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.5;
+  --lh-body: #{$fluid-line-height-body};       // 1.6
+
+  // --- Letter-spacing / Tracking-Skala (Audit-Finding N/I) ---
+  // Foundation-Set fuer die Tokenisierung der Komponenten-letter-spacings.
+  --fnd-tracking-tighter: -0.03em;
+  --fnd-tracking-tight:   -0.02em;
+  --fnd-tracking-snug:    -0.01em;
+  --fnd-tracking-normal:   0em;
+  --fnd-tracking-wide:     0.02em;
+  --fnd-tracking-wider:    0.05em;
+  --fnd-tracking-widest:   0.1em;
+  --fnd-tracking-ultra:    0.2em;
 
   // --- Display variants (custom fluid ranges, close to original values) ---
   @each $size, $range in $display-fluid-sizes {

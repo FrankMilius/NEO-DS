@@ -37,3 +37,16 @@
   color: var(--nc-section-header-subtitle-color);
   margin: 0;
 }
+
+// Flush-Variante: kein Bottom-Abstand. Fuer Flex-/Grid-Container, die den
+// Abstand zum Folgeinhalt selbst per gap steuern (z. B. Block-Bundle-Header).
+.nc-section-header--flush {
+  margin-block-end: 0;
+}
+
+// Zentrierte Variante: Header-Block und Textzeilen zentriert (z. B. Galerien,
+// Logo-Wall, Tabellen-Kopf). Erhaelt bewusst die zentrierte Optik dieser Bloecke.
+.nc-section-header--center {
+  margin-inline: auto;
+  text-align: center;
+}

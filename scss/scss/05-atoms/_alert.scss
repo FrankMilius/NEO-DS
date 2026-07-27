@@ -51,7 +51,7 @@
   border: var(--mod-alert-border-width, var(--nc-alert-border-width)) solid var(--_alert-border, var(--mod-alert-info-border, var(--nc-alert-info-border)));
   background-color: var(--_alert-bg, var(--mod-alert-info-bg, var(--nc-alert-info-bg)));
   color: var(--_alert-color, var(--mod-alert-info-color, var(--nc-alert-info-color)));
-  line-height: 1.5;
+  line-height: var(--lh-relaxed);
 
   // Default: info
   @include alert-variant-info;
@@ -175,7 +175,7 @@
   > :not(summary) {
     margin-top: var(--fnd-spacing-02);
     font-size: var(--mod-alert-details-font-size, var(--nc-alert-details-font-size));
-    line-height: 1.5;
+    line-height: var(--lh-relaxed);
   }
 }
 

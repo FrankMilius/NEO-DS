@@ -3,6 +3,14 @@
 // ==========================================================================
 // Utility-Klassen für Schriftgrößen und Typografie-Kategorien.
 // Skalierbar via --type-scale (Standard: 1, Dashboard: 0.92).
+//
+// KONVENTION (Audit-Quick-Win Q) — zwei Oberflächen, bewusst getrennt:
+//   .u-text-{xs…9xl}        -> nur font-size (Roh-Fluid-Skala --fs-*). Fuer
+//                              freie Groessenanpassung ohne line-height/tracking.
+//   .u-type-{kategorie}-{s} -> kompletter Typo-Satz (font-size + line-height +
+//                              letter-spacing) via display()/heading()/paragraph()-
+//                              Mixin. STANDARD fuer semantische Textrollen.
+// Faustregel: semantische Textbloecke -> .u-type-*; reine Groessen-Tweaks -> .u-text-*.
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -36,9 +44,11 @@
 // for the given category and size.
 
 // Display (reserved for hero/cta/special sections)
-.u-type-display-s, .type-display-s { @include display('s'); }
-.u-type-display-m, .type-display-m { @include display('m'); }
-.u-type-display-l, .type-display-l { @include display('l'); }
+.u-type-display-s,   .type-display-s   { @include display('s'); }
+.u-type-display-m,   .type-display-m   { @include display('m'); }
+.u-type-display-l,   .type-display-l   { @include display('l'); }
+.u-type-display-xl,  .type-display-xl  { @include display('xl'); }
+.u-type-display-2xl, .type-display-2xl { @include display('2xl'); }
 
 // Heading
 .u-type-heading-xxs, .type-heading-xxs { @include heading('xxs'); }
@@ -47,8 +57,10 @@
 .u-type-heading-m,   .type-heading-m   { @include heading('m'); }
 .u-type-heading-l,   .type-heading-l   { @include heading('l'); }
 .u-type-heading-xl,  .type-heading-xl  { @include heading('xl'); }
+.u-type-heading-2xl, .type-heading-2xl { @include heading('2xl'); }
 
 // Paragraph
+.u-type-paragraph-xs, .type-paragraph-xs { @include paragraph('xs'); }
 .u-type-paragraph-s,  .type-paragraph-s  { @include paragraph('s'); }
 .u-type-paragraph-m,  .type-paragraph-m  { @include paragraph('m'); }
 .u-type-paragraph-l,  .type-paragraph-l  { @include paragraph('l'); }

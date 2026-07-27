@@ -102,8 +102,8 @@
   white-space: nowrap;
   font-family: var(--font-heading);
   font-weight: var(--fnd-font-weight-semibold);
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-lg); // war hart 1.25rem
+  letter-spacing: var(--fnd-tracking-snug);
   color: var(--nc-expanding-panels-title);
   transition: opacity var(--fnd-motion-duration-300) var(--fnd-motion-ease-informative);
 }
@@ -143,7 +143,7 @@
   margin-bottom: auto;
   font-family: var(--font-mono, monospace);
   font-size: 0.6875rem;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--fnd-tracking-widest);
   color: var(--nc-expanding-panels-accent);
   background: color-mix(in srgb, var(--nc-expanding-panels-accent) 14%, transparent);
   border-radius: var(--fnd-radius-full);
@@ -153,16 +153,16 @@
 .nc-expanding-panels__title {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 1.625rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-xl); // war hart 1.625rem
+  line-height: var(--lh-heading); // kanonisch x1.15 (war lh-snug 1.25)
+  letter-spacing: var(--fnd-tracking-snug);
   color: var(--nc-expanding-panels-title);
 }
 
 .nc-expanding-panels__text {
   margin: 0;
   font-size: var(--fs-sm, 0.875rem);
-  line-height: var(--lh-body, 1.55);
+  line-height: var(--lh-body); // war irrefuehrender Fallback 1.55
   max-width: 42ch;
   color: var(--nc-expanding-panels-text);
 }

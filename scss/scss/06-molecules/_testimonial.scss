@@ -8,20 +8,18 @@
 @use '../01-tools' as *;
 
 .nc-testimonial {
-  background: var(--fnd-color-background-base);
-  border-radius: var(--fnd-radius-xl);
   scroll-snap-align: start;
   display: grid;
-  gap: 1.25rem;
+  gap: var(--fnd-spacing-05); // war hart 1.25rem
   box-shadow: none;
   padding: var(--fnd-spacing-05);
   background-color: var(--fnd-color-background-secondary);
-  border-radius: var(--fnd-radius-sm);
+  border-radius: var(--fnd-radius-4xl); // rollenbasiert: Content-Card (war doppelt xl+sm)
 }
 
 .nc-testimonial__quote {
-  font-size: var(--fs-lg);
-  line-height: 1.25;
+  font-size: var(--nc-type-body-l-size);
+  line-height: var(--lh-snug);
 }
 
 .nc-testimonial__author {
@@ -40,6 +38,6 @@
 }
 
 .nc-testimonial__role {
-  font-size: var(--fs-xs);
+  font-size: var(--nc-type-caption-size);
   color: var(--fnd-color-text-secondary);
 }

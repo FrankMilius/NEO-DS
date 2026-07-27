@@ -35,6 +35,21 @@
 // ---------------------------------------------------------------------------
 
 :root {
+  // ── Typografie-Rollen (Type Ramp) ──────────────────────────────────────
+  // Disziplinierte Nutzung der Fluid-Skala (--fs-*) ueber ein kleines Rollen-
+  // Set. Komponenten konsumieren NUR diese Rollen, keine rohen --fs-*.
+  --nc-type-display-l-size: var(--fs-5xl); --nc-type-display-l-weight: 800; --nc-type-display-l-lh: 1.05; --nc-type-display-l-ls: -0.03em;
+  --nc-type-display-m-size: var(--fs-4xl); --nc-type-display-m-weight: 800; --nc-type-display-m-lh: 1.08; --nc-type-display-m-ls: -0.02em;
+  --nc-type-display-s-size: var(--fs-3xl); --nc-type-display-s-weight: 700; --nc-type-display-s-lh: 1.10; --nc-type-display-s-ls: -0.02em;
+  --nc-type-heading-l-size: var(--fs-2xl); --nc-type-heading-l-weight: 700; --nc-type-heading-l-lh: 1.15; --nc-type-heading-l-ls: -0.01em;
+  --nc-type-heading-m-size: var(--fs-xl);  --nc-type-heading-m-weight: 700; --nc-type-heading-m-lh: 1.20; --nc-type-heading-m-ls: -0.01em;
+  --nc-type-heading-s-size: var(--fs-lg);  --nc-type-heading-s-weight: 600; --nc-type-heading-s-lh: 1.30; --nc-type-heading-s-ls: 0;
+  --nc-type-body-l-size: var(--fs-lg);     --nc-type-body-l-weight: 400; --nc-type-body-l-lh: 1.50; --nc-type-body-l-ls: 0;
+  --nc-type-body-m-size: var(--fs-base);   --nc-type-body-m-weight: 400; --nc-type-body-m-lh: 1.60; --nc-type-body-m-ls: 0;
+  --nc-type-body-s-size: var(--fs-sm);     --nc-type-body-s-weight: 400; --nc-type-body-s-lh: 1.50; --nc-type-body-s-ls: 0;
+  --nc-type-label-size: var(--fs-base);    --nc-type-label-weight: 500; --nc-type-label-lh: 1.20; --nc-type-label-ls: 0;
+  --nc-type-caption-size: var(--fs-xs);    --nc-type-caption-weight: 500; --nc-type-caption-lh: 1.40; --nc-type-caption-ls: 0.04em;
+
   // -- Geometry (4 Größen: xs / sm / md / lg) --
   --nc-button-height-xs: var(--fnd-size-xs);    // 24px
   --nc-button-height-sm: var(--fnd-size-sm);    // 32px
@@ -232,12 +247,12 @@
   --nc-card-title-font-size: var(--fnd-typography-heading-m-font-size);
   --nc-card-title-font-weight: var(--fnd-font-weight-semibold);
   --nc-card-title-color: var(--fnd-color-text-primary);
-  --nc-card-title-line-height: 1.3;
+  --nc-card-title-line-height: var(--lh-heading); // kanonisch x1.15 (war 1.3)
 
   // -- Card: Description --
   --nc-card-description-font-size: var(--fnd-typography-body-m-font-size);
   --nc-card-description-color: var(--fnd-color-text-secondary);
-  --nc-card-description-line-height: 1.5;
+  --nc-card-description-line-height: var(--lh-body); // kanonisch x1.6 (war 1.5)
 
   // -- Card: Border --
   --nc-card-border-width: var(--fnd-border-width-xs);
@@ -1771,7 +1786,7 @@
   --nc-dt-cell-padding-y:         var(--fnd-spacing-03);                   // 12px — ref(space.3)
 
   // -- Container --
-  --nc-dt-radius:                 var(--fnd-radius-sm);                    // 4px — ref(radius.sm)
+  --nc-dt-radius:                 var(--fnd-radius-md);                    // 6px — rollenbasiert: Daten-Surface (war sm/4px)
   --nc-dt-border:                 var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
   --nc-dt-body-bg:                var(--fnd-color-background-base);        // ref(color.surface.default)
   --nc-dt-body-color:             var(--fnd-color-text-primary);           // ref(color.text.primary)
@@ -1955,10 +1970,10 @@
   --nc-dt-title-font-size:          var(--fnd-typography-heading-m-font-size);
   --nc-dt-title-font-weight:        var(--fnd-font-weight-semibold);         // ref(card.title.weight)
   --nc-dt-title-color:              var(--fnd-color-text-primary);           // ref(card.title.color)
-  --nc-dt-title-line-height:        1.3;                                     // ref(card.title.lh)
+  --nc-dt-title-line-height:        var(--lh-heading);                       // ref(card.title.lh) x1.15
   --nc-dt-description-font-size:    var(--fnd-typography-body-m-font-size);
   --nc-dt-description-color:        var(--fnd-color-text-secondary);         // ref(card.desc.color)
-  --nc-dt-description-line-height:  1.5;                                     // ref(card.desc.lh)
+  --nc-dt-description-line-height:  var(--lh-body);                          // ref(card.desc.lh) x1.6
 }
 
 // ---------------------------------------------------------------------------
@@ -2678,7 +2693,7 @@
   --nc-nav-atom-icon-stroke:       1.5;
 
   // Label
-  --nc-nav-atom-label-size:        var(--fs-sm);
+  --nc-nav-atom-label-size:        var(--nc-type-label-size);
   --nc-nav-atom-label-weight:      var(--fnd-font-weight-medium);
   --nc-nav-atom-label-color:       var(--fnd-color-text-primary);
 
@@ -2821,7 +2836,7 @@
   --nc-nav-menu-trigger-hover-bg:    var(--fnd-color-background-secondary);
   --nc-nav-menu-trigger-active-bg:   var(--fnd-color-background-tertiary);
   --nc-nav-menu-trigger-radius:      var(--fnd-radius-sm);
-  --nc-nav-menu-trigger-font-size:   var(--fs-base);
+  --nc-nav-menu-trigger-font-size:   var(--nc-type-label-size);
   --nc-nav-menu-trigger-font-weight: var(--fnd-font-weight-medium);
   --nc-nav-menu-trigger-padding-x:   0.75rem;
   --nc-nav-menu-trigger-padding-y:   0.5rem;
@@ -2860,7 +2875,7 @@
   --nc-nav-menu-ease:                cubic-bezier(0.16, 1, 0.3, 1);
 
   // Kicker / Leadtext
-  --nc-nav-menu-kicker-font-size:       var(--fs-sm);
+  --nc-nav-menu-kicker-font-size:       var(--nc-type-caption-size);
   --nc-nav-menu-kicker-font-weight:     var(--fnd-font-weight-semibold);
   --nc-nav-menu-kicker-color:           var(--fnd-color-text-tertiary);
   --nc-nav-menu-kicker-text-transform:  capitalize;
@@ -2912,13 +2927,13 @@
   --nc-gallery-title-size:             var(--fs-4xl);
   --nc-gallery-title-weight:           var(--fnd-font-weight-bold);
   --nc-gallery-title-color:            var(--fnd-color-always-light);
-  --nc-gallery-title-line-height:      1.1;
+  --nc-gallery-title-line-height:      var(--lh-heading); // kanonisch x1.15 (war 1.1)
 
   // -- Description --
   --nc-gallery-desc-size:              var(--fs-lg);
   --nc-gallery-desc-color:             color-mix(in srgb, var(--fnd-color-always-light) 80%, transparent);
   --nc-gallery-desc-max-width:         50ch;
-  --nc-gallery-desc-line-height:       1.5;
+  --nc-gallery-desc-line-height:       var(--lh-body); // kanonisch x1.6 (war 1.5)
 
   // -- Tag --
   --nc-gallery-tag-size:               var(--fs-xs);
@@ -2994,13 +3009,13 @@
   --nc-hero-title-weight:          var(--fnd-font-weight-bold);
   --nc-hero-title-color:           var(--fnd-color-text-inverse);
   --nc-hero-title-max-width:       18ch;
-  --nc-hero-title-line-height:     var(--fnd-typography-line-height-heading);
+  --nc-hero-title-line-height:     var(--lh-heading);
 
   // -- Subtitle --
   --nc-hero-subtitle-size:         var(--fs-lg);
   --nc-hero-subtitle-color:        color-mix(in srgb, var(--fnd-color-text-inverse) 80%, transparent);
   --nc-hero-subtitle-max-width:    40ch;
-  --nc-hero-subtitle-line-height:  var(--fnd-typography-line-height-body);
+  --nc-hero-subtitle-line-height:  var(--lh-body);
 
   // -- Actions --
   --nc-hero-actions-gap:           var(--fnd-spacing-04);
@@ -3473,7 +3488,7 @@
 
   // Fluid Inline Padding (skaliert mit Viewport)
   --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
-  --nc-container-padding-inline-constrained: 24px;
+  --nc-container-padding-inline-constrained: var(--fnd-spacing-11);
   --nc-container-padding-inline-xxl: 0px;
 
   // Vertical Spacing (padding-block) — fluid per Stufe
@@ -3582,15 +3597,31 @@
   // Section Header — Label + Titel + Untertitel ueber Inhaltsabschnitten
   // ---------------------------------------------------------------------------
 
+  // ---------------------------------------------------------------------------
+  // Kicker (Eyebrow) — KANONISCHER, geteilter Token-Satz
+  // Eine Quelle fuer ALLE Block-Kicker (Klartext-Accent): fs-base / semibold /
+  // 0em / none / accent. Alle Kicker-Selektoren konsumieren diese Tokens, damit
+  // die Rolle ueberall identisch aussieht. Ausnahme: Hero nutzt bewusst ein
+  // Badge (--nc-hero-kicker-*) wegen Lesbarkeit ueber Bildern.
+  // ---------------------------------------------------------------------------
+  --nc-kicker-font-size:      var(--fs-base);
+  --nc-kicker-font-weight:    var(--fnd-font-weight-semibold);
+  --nc-kicker-letter-spacing: 0em;
+  --nc-kicker-text-transform: none;
+  // --fnd-color-text-accent = echter, WCAG-AA-getunter Accent-Text (war zuvor
+  // --fnd-color-accent-default, das NIRGENDS definiert ist -> Kicker erbte Textfarbe).
+  --nc-kicker-color:          var(--fnd-color-text-accent);
+  --nc-kicker-spacing:        var(--fnd-spacing-03);
+
   --nc-section-header-gap: var(--fnd-spacing-08);
 
-  // Label (Eyebrow)
-  --nc-section-header-label-font-size: var(--fs-base);
-  --nc-section-header-label-font-weight: var(--fnd-font-weight-semibold);
-  --nc-section-header-label-letter-spacing: 0em;
-  --nc-section-header-label-text-transform: none;
-  --nc-section-header-label-color: var(--fnd-color-accent-default);
-  --nc-section-header-label-spacing: var(--fnd-spacing-03);
+  // Label (Eyebrow) — referenziert den kanonischen Kicker-Satz
+  --nc-section-header-label-font-size: var(--nc-kicker-font-size);
+  --nc-section-header-label-font-weight: var(--nc-kicker-font-weight);
+  --nc-section-header-label-letter-spacing: var(--nc-kicker-letter-spacing);
+  --nc-section-header-label-text-transform: var(--nc-kicker-text-transform);
+  --nc-section-header-label-color: var(--nc-kicker-color);
+  --nc-section-header-label-spacing: var(--nc-kicker-spacing);
 
   // Title
   --nc-section-header-title-font-size: var(--fnd-typography-heading-m-font-size);
@@ -3811,7 +3842,7 @@
 // Fuer dunkle Sektionen ausgelegt (wie product-showcase) — helle Texte.
 
 :root {
-  --nc-solution-tabs-accent-default:    var(--fnd-color-interactive-default);
+  --nc-solution-tabs-accent-default:    var(--fnd-color-text-accent);  // war interactive-default (#009fe3) -> jetzt text-accent (#0e7490)
   --nc-solution-tabs-border:            color-mix(in srgb, var(--fnd-color-text-inverse) 14%, transparent);
   --nc-solution-tabs-tab-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 58%, transparent);
   --nc-solution-tabs-tab-color-active:  var(--fnd-color-text-inverse);

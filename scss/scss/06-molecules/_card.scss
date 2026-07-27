@@ -99,12 +99,13 @@
   // Convenience-Elemente (frei komponierbar innerhalb der Slots)
   // ---------------------------------------------------------------------------
 
-  // Kicker — Eyebrow/Badge-Text
+  // Kicker — kanonischer Klartext-Accent (geteilter --nc-kicker-* Satz)
   &__kicker {
-    @include paragraph('s');
-    text-transform: var(--nc-section-header-label-text-transform);
-    letter-spacing: 0.05em;
-    color: var(--fnd-color-text-secondary);
+    font-size: var(--nc-kicker-font-size);
+    font-weight: var(--nc-kicker-font-weight);
+    letter-spacing: var(--nc-kicker-letter-spacing);
+    text-transform: var(--nc-kicker-text-transform);
+    color: var(--nc-kicker-color);
   }
 
   // Titel — Hauptüberschrift
@@ -113,6 +114,7 @@
     font-weight: var(--mod-card-title-font-weight, var(--nc-card-title-font-weight));
     color: var(--mod-card-title-color, var(--nc-card-title-color));
     line-height: var(--mod-card-title-line-height, var(--nc-card-title-line-height));
+    letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em
     margin: 0;
   }
 

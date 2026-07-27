@@ -84,7 +84,8 @@
     font-size: var(--fs-3xl);
     font-weight: var(--fnd-font-weight-bold);
     color: var(--fnd-color-text-primary);
-    line-height: 1.2;
+    line-height: var(--lh-heading); // kanonisch x1.15 (war lh-snug 1.25)
+    letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em
     margin: 0;
 
     @include respond-to('md') {
@@ -93,9 +94,9 @@
   }
 
   &__subtext {
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg); // Lead-Rolle: kanonisch fs-lg (war fs-base)
     color: var(--fnd-color-text-secondary);
-    line-height: 1.6;
+    line-height: var(--lh-body);
     margin: 0;
     max-width: var(--fnd-prose-max-width);
   }
@@ -139,7 +140,7 @@
   &__hint-text {
     font-size: var(--fs-xs);
     color: var(--fnd-color-text-tertiary);
-    line-height: 1.5;
+    line-height: var(--lh-relaxed);
     margin: 0;
 
     a {

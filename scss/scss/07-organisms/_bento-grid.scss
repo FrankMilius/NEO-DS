@@ -116,14 +116,14 @@ a.nc-bento-grid__cell {
   z-index: 1;
   margin: var(--fnd-spacing-04) 0 var(--fnd-spacing-02);
   font-family: var(--font-heading);
-  font-size: 1.375rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-xl); // war hart 1.375rem
+  line-height: var(--lh-heading); // kanonisch x1.15 (war lh-snug 1.25)
+  letter-spacing: var(--fnd-tracking-snug);
   color: var(--nc-bento-grid-title);
 }
 
 .nc-bento-grid__cell--lg .nc-bento-grid__title {
-  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  font-size: var(--fs-2xl);
 }
 
 .nc-bento-grid__text {
@@ -131,7 +131,7 @@ a.nc-bento-grid__cell {
   z-index: 1;
   margin: 0;
   font-size: var(--fs-sm, 0.875rem);
-  line-height: var(--lh-body, 1.55);
+  line-height: var(--lh-body); // war irrefuehrender Fallback 1.55
   max-width: 36ch;
   color: var(--nc-bento-grid-text);
 }
@@ -145,7 +145,7 @@ a.nc-bento-grid__cell {
   font-family: var(--font-mono, monospace);
   font-size: 0.6875rem;
   font-weight: var(--fnd-font-weight-semibold);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--fnd-tracking-widest);
   color: var(--nc-bento-grid-accent);
   border: 1px solid color-mix(in srgb, var(--nc-bento-grid-accent) 40%, transparent);
   border-radius: var(--fnd-radius-full);

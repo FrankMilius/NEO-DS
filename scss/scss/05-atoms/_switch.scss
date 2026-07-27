@@ -148,7 +148,7 @@
 /// Label-Text neben dem Switch.
 @mixin switch-label {
   color: var(--mod-switch-label-color, var(--nc-switch-label-color));
-  line-height: 1.4;
+  line-height: var(--lh-normal);
   cursor: inherit;
 }
 
@@ -207,7 +207,7 @@
     transform: translateY(-50%);
     font-size: 0.55em;
     font-weight: var(--fnd-font-weight-bold);
-    line-height: 1;
+    line-height: var(--lh-none);
     pointer-events: none;
     opacity: 0;
     transition: opacity var(--mod-switch-transition-duration, var(--nc-switch-transition-duration)) var(--mod-switch-transition-timing, var(--nc-switch-transition-timing));

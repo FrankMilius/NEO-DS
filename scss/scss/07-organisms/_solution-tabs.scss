@@ -16,13 +16,14 @@
 
 .nc-solution-tabs {
   // Pro-Panel Akzent (kann per Inline-Style ueberschrieben werden)
-  --nc-solution-tabs-accent: var(--nc-solution-tabs-accent-default);
+  /*--nc-solution-tabs-accent: var(--nc-solution-tabs-accent-default);*/
+  --nc-solution-tabs-accent: #37e93d;
 }
 
 // Sektions-Header in heller Schrift (dunkle Sektion). Der gemeinsame
 // nc-section-header nutzt dunkle Schrift; hier kontextbezogen ueberschrieben.
 .nc-solution-tabs-section .nc-section-header__title { color: var(--nc-solution-tabs-title); }
-.nc-solution-tabs-section .nc-section-header__label { color: var(--nc-solution-tabs-accent-default); }
+.nc-solution-tabs-section .nc-section-header__label { color: var(--nc-solution-tabs-accent); }
 .nc-solution-tabs-section .nc-section-header__subtitle { color: var(--nc-solution-tabs-text); }
 
 // ---------------------------------------------------------------------------
@@ -41,9 +42,10 @@
   appearance: none;
   margin: 0;
   border: 0;
-  background: none;
+  background-color: var(--nc-solution-tabs-accent);
+  border-radius: var(--fnd-radius-xs);
   cursor: pointer;
-  padding: var(--fnd-spacing-04) var(--fnd-spacing-05) calc(var(--fnd-spacing-04) + 2px);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-06) calc(var(--fnd-spacing-03) + 2px);
   font-family: inherit;
   font-size: var(--fs-sm, 0.875rem);
   font-weight: var(--fnd-font-weight-semibold);
@@ -93,11 +95,11 @@
 // Contained-Variante: gefuellte Tabs ohne Underline
 .nc-solution-tabs--contained .nc-solution-tabs__tablist {
   border-bottom: 0;
-  gap: var(--fnd-spacing-02);
+  gap: var(--fnd-spacing-04);
 }
 
 .nc-solution-tabs--contained .nc-solution-tabs__tab {
-  border-radius: var(--fnd-radius-full);
+  border-radius: var(--fnd-radius-md);
 }
 
 .nc-solution-tabs--contained .nc-solution-tabs__tab[aria-selected="true"] {
@@ -131,16 +133,16 @@
 .nc-solution-tabs__panel-title {
   margin: 0 0 var(--fnd-spacing-04);
   font-family: var(--font-heading);
-  font-size: clamp(1.375rem, 2.6vw, 2rem);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em (war tracking-tight -0.02em)
   color: var(--nc-solution-tabs-title);
 }
 
 .nc-solution-tabs__panel-text {
   margin: 0;
-  font-size: var(--fs-md, 0.9375rem);
-  line-height: var(--lh-body, 1.55);
+  font-size: var(--fs-lg); // Lead-Rolle: kanonisch fs-lg (war undefiniertes --fs-md)
+  line-height: var(--lh-body); // war irrefuehrender Fallback 1.55
   color: var(--nc-solution-tabs-text);
 }
 
@@ -190,27 +192,11 @@
   to { opacity: 1; transform: none; }
 }
 
-// CTA
+// CTA — nutzt jetzt den Standard-Button (.nc-button.nc-button--accent, im
+// Markup gesetzt). Hier nur noch der Abstand zum Panel-Inhalt; Optik, Farbe
+// und Hover kommen vom Button-Recipe.
 .nc-solution-tabs__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--fnd-spacing-02);
   margin-top: var(--fnd-spacing-07);
-  padding: var(--fnd-spacing-03) var(--fnd-spacing-06);
-  border-radius: var(--fnd-radius-full);
-  font-weight: var(--fnd-font-weight-semibold);
-  font-size: var(--fs-sm, 0.875rem);
-  text-decoration: none;
-  color: var(--fnd-color-text-on-interactive, #000);
-  background: var(--nc-solution-tabs-accent);
-  transition:
-    transform var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative),
-    box-shadow var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
-}
-
-.nc-solution-tabs__cta:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--fnd-shadow-levels-md);
 }
 
 // ---------------------------------------------------------------------------
@@ -229,7 +215,7 @@
   gap: var(--fnd-spacing-02);
   font-family: var(--font-mono, monospace);
   font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--fnd-tracking-widest);
   color: var(--nc-solution-tabs-text);
   border: 1px solid var(--nc-solution-tabs-border);
   border-radius: var(--fnd-radius-full);
@@ -293,7 +279,7 @@
   align-self: flex-start;
   font-family: var(--font-mono, monospace);
   font-size: 0.6875rem;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--fnd-tracking-widest);
   color: var(--nc-solution-tabs-accent);
   border: 1px solid color-mix(in srgb, var(--nc-solution-tabs-accent) 45%, transparent);
   border-radius: var(--fnd-radius-full);
@@ -304,8 +290,8 @@
   font-family: var(--font-mono, monospace);
   font-size: 1.625rem;
   font-weight: var(--fnd-font-weight-bold);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--fnd-tracking-tight);
   color: var(--nc-solution-tabs-title);
 }
 
@@ -377,7 +363,7 @@
   display: block;
   font-family: var(--font-mono, monospace);
   font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--fnd-tracking-widest);
   opacity: 0.7;
   margin-block-end: 2px;
 }
