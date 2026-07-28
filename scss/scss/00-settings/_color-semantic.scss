@@ -87,6 +87,11 @@ $semantic-light-base: (
   'border-secondary': map.get(prim.$neutral, 200),    // #e5e5e5 (= bisher border-low)
   'border-strong':    map.get(prim.$foundation-black, 100),   // #000 (= bisher border-high)
   'border-mid-dark':  map.get(prim.$neutral, 600),    // #767676
+  // Hairline: Objektkante, die WCAG 1.4.11 (>= 3:1) auch dann haelt, wenn sie
+  // das EINZIGE Abgrenzungsmittel ist (Schatten faellt in forced-colors weg).
+  // Muss beidseitig tragen: gegen die Flaeche UND gegen weisse Bildinhalte.
+  // Slate/Light neutral-600 #626262: 6.10:1 auf Weiss, 4.80:1 auf Fl. #e4e4e4.
+  'border-hairline':  map.get(prim.$neutral, 600),
   'border-inverse':   map.get(prim.$foundation-white, 100),       // #fff
   'border-disabled':  map.get(prim.$neutral, 200),    // #e5e5e5
   'border-success':   map.get(prim.$system-text, success),      // #0b9e23
@@ -191,6 +196,11 @@ $semantic-dark-base: (
   'border-secondary': #2a2a2a,                        // (war neutral-900 #333)
   'border-strong':    map.get(prim.$foundation-white, 100),       // #fff
   'border-mid-dark':  map.get(prim.$neutral, 400),    // #cbcbcb
+  // Hairline (s. Light-Map). Auf Dunkel ist die Kante ZWEISEITIG eingespannt:
+  // dunkle Flaeche auf der einen, weisser Screenshot auf der anderen Seite.
+  // neutral-500 #7a7a7a ist das Optimum: 4.05:1 auf #1a1a1a, 4.29:1 auf Weiss.
+  // (neutral-400 #949494 waere gegen Bild-Weiss nur 3.00:1 = Grenzwert.)
+  'border-hairline':  map.get(prim.$neutral, 500),
   'border-inverse':   map.get(prim.$foundation-black, 100),   // #000
   'border-disabled':  #252525,                        // (war neutral-900 #333)
   'border-success':   map.get(prim.$system-text, success),
@@ -294,6 +304,7 @@ $semantic-light-secondary: (
   'border-secondary': map.get(prim.$neutral, 300),    // #d9d9d9
   'border-strong':    map.get(prim.$foundation-black, 100),
   'border-mid-dark':  map.get(prim.$neutral, 500),    // #8e8d8d
+  'border-hairline':  map.get(prim.$neutral, 600),    // s. Light-Base
   'border-inverse':   map.get(prim.$foundation-white, 100),
   'border-disabled':  map.get(prim.$neutral, 200),
   'border-success':   map.get(prim.$system-text, success),
@@ -395,6 +406,7 @@ $semantic-dark-secondary: (
   'border-secondary': map.get(prim.$neutral, 900),
   'border-strong':    map.get(prim.$foundation-white, 100),
   'border-mid-dark':  map.get(prim.$neutral, 400),
+  'border-hairline':  map.get(prim.$neutral, 500),    // s. Dark-Base
   'border-inverse':   map.get(prim.$foundation-black, 100),
   'border-disabled':  map.get(prim.$neutral, 900),
   'border-success':   map.get(prim.$system-text, success),

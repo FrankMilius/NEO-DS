@@ -1,0 +1,97 @@
+// ==========================================================================
+// 04-Objects: Media Frame + Surface Muted
+// ==========================================================================
+// Systemstandard fuer Produkt-Screenshots mit hohem Weissanteil.
+//
+// PROBLEM:
+//   Ein Screenshot, dessen Raender weiss sind, endet auf einer weissen Seite
+//   in derselben Farbe, in der die Seite weitergeht. Es entsteht keine
+//   Objektkante — das Bild "zerfliesst" und wirkt wie ein Layoutfehler.
+//
+// LOESUNG (zwei kombinierbare Ebenen):
+//   .nc-surface-muted   Abgesetzte Sektionsflaeche (Layer 2 ueber der Seite).
+//                       Grenzt den GESAMTEN Block ab. Robust bei beliebigem
+//                       Redaktionsmaterial, weil das Bild selbst nichts
+//                       mitbringen muss.
+//   .nc-media-frame     Hairline + gestufte Elevation am Bild selbst.
+//                       Der Schatten erzeugt die Z-Achse, die Hairline sichert
+//                       die Sichtbarkeit ab, wenn der Schatten wegfaellt.
+//
+// A11Y (WCAG 2.1 AA):
+//   1.4.11 — Schatten allein ist KEINE Abgrenzung. Die Hairline ist deshalb
+//            nicht optional. --fnd-color-border-hairline haelt in beiden
+//            Themes >= 3:1 gegen die Flaeche UND gegen weisse Bildinhalte.
+//   forced-colors / prefers-contrast: Schatten faellt weg, Kante bleibt.
+//
+// BEM-KLASSEN:
+//   .nc-surface-muted        Abgesetzte Flaeche (Padding + Radius)
+//   .nc-media-frame          Bildrahmen (Hairline + Elevation)
+//   .nc-media-frame--flush   Ohne Radius (randlos anschliessende Medien)
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Abgesetzte Sektionsflaeche (Layer 2)
+// ---------------------------------------------------------------------------
+
+.nc-surface-muted {
+  background-color: var(--nc-surface-muted-bg);
+  border-radius: var(--nc-surface-muted-radius);
+  padding: var(--nc-surface-muted-padding);
+}
+
+// ---------------------------------------------------------------------------
+// Bildrahmen
+// ---------------------------------------------------------------------------
+
+.nc-media-frame {
+  display: block;
+  overflow: hidden; // klippt das Bild auf den Radius
+  border: var(--nc-media-frame-border-width) solid var(--nc-media-frame-border-color);
+  border-radius: var(--nc-media-frame-radius);
+  box-shadow: var(--nc-media-frame-shadow);
+
+  // Bild fuellt den Rahmen ohne Luecke (kein inline-Whitespace unter img).
+  > img,
+  > picture > img,
+  > video {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+}
+
+.nc-media-frame--flush {
+  border-radius: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Kontrast- und Druckmodi
+// ---------------------------------------------------------------------------
+// Faellt der Schatten weg, traegt die Kante die Abgrenzung allein. In
+// forced-colors ersetzt das System die Farben — CanvasText garantiert eine
+// sichtbare Kante gegen jeden Hintergrund.
+
+@media (forced-colors: active) {
+  .nc-media-frame {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nc-media-frame {
+    border-color: var(--fnd-color-border-strong);
+    box-shadow: none;
+  }
+}
+
+@media print {
+  .nc-media-frame {
+    box-shadow: none;
+  }
+
+  .nc-surface-muted {
+    background-color: transparent;
+    padding: 0;
+  }
+}

@@ -3851,3 +3851,60 @@
   --nc-solution-tabs-visual-bg:         color-mix(in srgb, var(--fnd-color-text-inverse) 7%, var(--fnd-color-always-dark));
   --nc-solution-tabs-autoplay-duration: 7s;
 }
+
+// ---------------------------------------------------------------------------
+// Media Frame + Surface Muted Tokens
+// ---------------------------------------------------------------------------
+// Systemstandard fuer Produkt-Screenshots mit hohem Weissanteil (Varianten
+// 01 + 03 der Screenshot-Studie):
+//
+//   Surface Muted  = abgesetzte Sektionsflaeche (Layer 2 ueber der Seite).
+//                    Grenzt den Block ab, ohne dass das Bild eine harte
+//                    Kante braucht. Traegt Text weiterhin mit >= 4,5:1.
+//   Media Frame    = Hairline + gestufte Elevation am Bild selbst.
+//                    Der Schatten erzeugt die Z-Achse, die Hairline sichert
+//                    die Sichtbarkeit ab, wenn der Schatten wegfaellt
+//                    (forced-colors, prefers-contrast, Druck).
+//
+// WICHTIG: Schatten allein ist KEINE Abgrenzung (WCAG 1.4.11) — deshalb ist
+// die Hairline nicht optional und nutzt --fnd-color-border-hairline, das in
+// beiden Themes >= 3:1 gegen Flaeche UND gegen weisse Bildinhalte haelt.
+
+:root {
+  // --- Abgesetzte Sektionsflaeche (Layer 2) ---
+  --nc-surface-muted-bg:      var(--fnd-color-background-secondary);
+  --nc-surface-muted-radius:  var(--fnd-radius-lg);
+  --nc-surface-muted-padding: var(--fnd-spacing-08);
+
+  // --- Bildrahmen ---
+  --nc-media-frame-border-width: var(--fnd-border-width-hairline);
+  --nc-media-frame-border-color: var(--fnd-color-border-hairline);
+  --nc-media-frame-radius:       var(--fnd-radius-md);
+
+  // Gestufte Elevation: Kontaktschatten + Koerper + weiter Abwurf.
+  // Bewusst als eigener Token statt --fnd-elevation-*, weil ein Screenshot
+  // hoeher "schwebt" als eine Card, aber flacher als ein Overlay.
+  --nc-media-frame-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.06),
+      0 6px 14px -4px rgba(15, 23, 42, 0.10),
+      0 24px 48px -20px rgba(15, 23, 42, 0.22);
+}
+
+// Dark: Schatten tragen auf dunklem Grund kaum — Anteile erhoehen, damit die
+// Z-Achse erhalten bleibt. Die Abgrenzung leistet ohnehin die Hairline.
+.neo-dark-theme,
+.customer-dark-theme {
+  --nc-media-frame-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.50),
+      0 8px 20px -6px rgba(0, 0, 0, 0.60),
+      0 30px 60px -24px rgba(0, 0, 0, 0.80);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.neo-light-theme):not(.customer-light-theme) {
+    --nc-media-frame-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.50),
+        0 8px 20px -6px rgba(0, 0, 0, 0.60),
+        0 30px 60px -24px rgba(0, 0, 0, 0.80);
+  }
+}
