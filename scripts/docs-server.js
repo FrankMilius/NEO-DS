@@ -17,6 +17,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { exec } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -201,10 +202,12 @@ const server = http.createServer((req, res) => {
         }
 
         // ── Drupal Cache Clear (async, non-blocking) ──
-        const DRUPAL_DIR = path.join(require('os').homedir(), 'Documents/DRUPAL11');
+        // Geschwister-Verzeichnis statt fester ~/Documents-Pfad (Umzug aus iCloud).
+        const DRUPAL_DIR = path.resolve(ROOT, '..', 'DRUPAL11');
         const ddevBin = '/opt/homebrew/bin/ddev';
         if (fs.existsSync(DRUPAL_DIR) && fs.existsSync(ddevBin)) {
-          const { exec } = require('child_process');
+          // exec wird oben statisch importiert - require() gibt es in diesem
+          // ESM-Modul nicht (warf hier bisher "require is not defined").
           exec(
             'eval "$(/opt/homebrew/bin/brew shellenv)" && source ~/.orbstack/shell/init.zsh 2>/dev/null && cd ' + DRUPAL_DIR + ' && ddev drush cr',
             { shell: '/bin/zsh' },

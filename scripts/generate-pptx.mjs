@@ -3,6 +3,7 @@
  */
 
 import PptxGenJS from 'pptxgenjs';
+import path from 'path';
 
 const pptx = new PptxGenJS();
 
@@ -448,7 +449,8 @@ titleSlide('Vielen Dank', '13 Skills · 4 Agents · 107 Stories · 97/100 Score\
 
 // ─── Generate ────────────────────────────────────────────────────────
 
-const outPath = '/Users/frank.milius/Documents/WEBSITE26/data/dev-process-schulung.pptx';
+// Relativ zum Repo statt absolut auf ~/Documents (Umzug aus dem iCloud-Ordner).
+const outPath = path.resolve(import.meta.dirname, '..', 'data', 'dev-process-schulung.pptx');
 await pptx.writeFile({ fileName: outPath });
 console.log(`✅ Präsentation erstellt: ${outPath}`);
 console.log(`   ${pptx.slides.length} Slides`);

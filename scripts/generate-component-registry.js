@@ -23,7 +23,11 @@ import { readdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
 import { join, basename, resolve } from 'path';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const DRUPAL_THEME = '/Users/frank.milius/Documents/DRUPAL11/web/themes/custom/neo_theme';
+// Pfadunabhaengig wie in sync-drupal-css.js: DRUPAL11 wird als GESCHWISTER
+// neben WEBSITE26 erwartet. War frueher absolut auf ~/Documents verdrahtet
+// und brach beim Umzug der Projekte aus dem iCloud-Ordner.
+const DRUPAL_THEME = process.env.NEO_DRUPAL_THEME_LEGACY
+  || resolve(ROOT, '../DRUPAL11/web/themes/custom/neo_theme');
 
 // --- Hilfsfunktionen ---
 
