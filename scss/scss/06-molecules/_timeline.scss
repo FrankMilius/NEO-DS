@@ -270,6 +270,16 @@
     &:last-child { margin-block-end: 0; }
   }
 
+  // Beide Kinder fest in Zeile 1. OHNE das rutscht die Karte bei UNGERADEN
+  // Items in Zeile 2: der Node steht im Markup zuerst und belegt Spalte 2,
+  // danach will die Karte nach Spalte 1 - also hinter den Platzierungs-Cursor.
+  // CSS-Grid platziert per Default "sparse" und laeuft nie zurueck, sondern
+  // beginnt eine neue Zeile. Node und Karte standen dadurch untereinander,
+  // sichtbar als "Node sitzt oben statt mittig" bei Item 1, 3, 5 ...
+  .nc-timeline__item > * {
+    grid-row: 1;
+  }
+
   // Wechselseitige Anordnung
   .nc-timeline__item:nth-child(odd) {
     .nc-timeline__content { grid-column: 1; }
