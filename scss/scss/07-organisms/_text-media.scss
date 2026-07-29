@@ -7,20 +7,61 @@
 
 @use '../01-tools' as *;
 
+// Aussen: NUR der Container-Kontext. Das Grid liegt eine Ebene tiefer.
+//
+// WARUM GETRENNT: Ein Element kann seinen EIGENEN Container-Query nicht
+// erfuellen - Container-Queries gelten ausschliesslich fuer NACHFAHREN des
+// Containers. Vorher standen container-context UND das Grid auf demselben
+// Element; die Zweispalten-Regel konnte dadurch nie greifen und die
+// Komponente war im DS dauerhaft gestapelt (mit Chrome nachgemessen:
+// 1010px = eine Spalte, obwohl die Schwelle 600px laengst ueberschritten war).
 .nc-text-media {
-  // Container-Query-Kontext: Reflow richtet sich nach der EIGENEN Breite,
-  // nicht nach dem Viewport (funktioniert in Sidebar, Spalte, Full-Width).
   @include container-context(text-media);
+  display: block;
+}
 
+// Innen: das eigentliche Grid. Als Nachfahre kann es den Container abfragen,
+// der Reflow richtet sich damit nach der EIGENEN Breite des Blocks statt nach
+// dem Viewport - also auch korrekt in Sidebar, Spalte oder Full-Width.
+.nc-text-media__grid {
   display: grid;
   gap: var(--mod-text-media-gap, var(--nc-text-media-gap, var(--fnd-spacing-08)));
   grid-template-columns: 1fr; // gestapelt (Default / schmaler Container)
 
-  // Ab Schwelle (Token media-text-stack): Bild und Text nebeneinander.
+  // Ab Schwelle (Token media-text-stack): Medium und Text nebeneinander.
   @include container-min(text-media, 'media-text-stack') {
     grid-template-columns: var(--mod-text-media-columns, 1fr 1fr);
     align-items: center;
+
+    // Medien-Position. Der Tausch laeuft ueber order, NICHT ueber die
+    // DOM-Reihenfolge - die Vorlesereihenfolge bleibt unveraendert.
+    // Bewusst INNERHALB der Query: gestapelt gibt es nichts zu tauschen,
+    // dort soll das Medium immer oben stehen.
+    .nc-text-media--media-right & {
+      .nc-text-media__media   { order: 2; }
+      .nc-text-media__content { order: 1; }
+    }
   }
+}
+
+// Ohne Medium: eine Spalte. Ohne das bliebe bei 1fr 1fr eine leere Spalte
+// stehen und der Text bekaeme nur die halbe Breite.
+.nc-text-media--no-media .nc-text-media__grid {
+  @include container-min(text-media, 'media-text-stack') {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Textausrichtung - nur sinnvoll, wenn kein Medium die Anordnung bestimmt.
+// align-items steuert die Bloecke (u. a. den CTA), text-align den Fliesstext.
+.nc-text-media--text-center .nc-text-media__content {
+  text-align: center;
+  align-items: center;
+}
+
+.nc-text-media--text-right .nc-text-media__content {
+  text-align: right;
+  align-items: flex-end;
 }
 
 .nc-text-media__content {
