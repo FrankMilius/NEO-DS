@@ -664,3 +664,19 @@
     &::after { background-color: Highlight; }
   }
 }
+
+// ---------------------------------------------------------------------------
+// CTA in der Karte
+// ---------------------------------------------------------------------------
+// Der Button selbst ist die DS-Komponente .nc-button - hier wird nur seine
+// Einbettung geregelt. Groesse md: ein Karten-CTA liegt eine Ebene unter dem
+// Block-Primaer-CTA, der laut P6 durchgaengig lg traegt.
+
+.nc-timeline__cta {
+  margin-block-start: var(--mod-timeline-cta-gap, var(--nc-timeline-cta-gap));
+
+  // Im schmalen Karten-Kontext darf der Button umbrechen statt zu ueberlaufen.
+  .nc-button {
+    max-inline-size: 100%;
+  }
+}

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "timeline",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "status": "stable",
     "tags": [
       "chronological",
@@ -102,6 +102,12 @@
         "selector": ".nc-timeline__list",
         "required": false,
         "description": "Stichpunktliste der Phaseninhalte."
+      },
+      {
+        "name": "cta",
+        "selector": ".nc-timeline__cta",
+        "required": false,
+        "description": "Optionaler Button am Kartenende. Wird nur gerendert, wenn Beschriftung UND Ziel gepflegt sind."
       }
     ],
     "convenience": [],
@@ -125,7 +131,8 @@
       "Animiert wird die KARTE (.nc-timeline__content), nicht das Item - sonst wandert der Node mit und loest sich von der Linie.",
       "Der Node darf kein margin-top tragen: das Basis-Mixin setzt 2px fuer die kompakte Timeline, was ihn in alternating/horizontal aus der Kartenmitte schiebt und im horizontalen Layout die Linie verfehlen laesst.",
       "horizontal: Node per align-self:center mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.",
-      "Die Fortschrittsfuellung nutzt einen Verlauf mit transparenten Enden, damit sie nicht hart abgeschnitten wirkt."
+      "Die Fortschrittsfuellung nutzt einen Verlauf mit transparenten Enden, damit sie nicht hart abgeschnitten wirkt.",
+      "CTA wird nur gerendert, wenn label UND url gesetzt sind - ein Link ohne erkennbares Ziel waere fuer Screenreader wertlos. Unbekannte Varianten fallen im Preprocess auf primary zurueck."
     ]
   },
   "axes": {
@@ -282,6 +289,42 @@
           "label": "right"
         }
       ]
+    },
+    "ctaVariant": {
+      "label": "Card CTA Variant",
+      "description": "Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).",
+      "values": [
+        {
+          "value": "primary",
+          "cssModifier": "nc-button--primary",
+          "default": true,
+          "label": "primary"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": "nc-button--secondary",
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "nc-button--accent",
+          "default": false,
+          "label": "accent"
+        },
+        {
+          "value": "outline",
+          "cssModifier": "nc-button--outline",
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": "nc-button--ghost",
+          "default": false,
+          "label": "ghost"
+        }
+      ]
     }
   },
   "states": {
@@ -424,7 +467,8 @@
           "nc-timeline-lead-color",
           "nc-timeline-marker-color",
           "nc-timeline-card-title-size",
-          "nc-timeline-card-title-weight"
+          "nc-timeline-card-title-weight",
+          "nc-timeline-cta-gap"
         ]
       },
       "horizontal": {
