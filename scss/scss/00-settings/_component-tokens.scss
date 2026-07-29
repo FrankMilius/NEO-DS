@@ -2610,6 +2610,20 @@
   --nc-timeline-phase-color:      var(--fnd-color-text-tertiary);
   --nc-timeline-lead-color:       var(--fnd-color-text-accent);
   --nc-timeline-marker-color:     var(--fnd-color-text-accent);
+
+  // Kartentitel (h3). NICHT --nc-timeline-title-size verwenden: das ist der
+  // Default der KOMPAKTEN Timeline (--fs-sm, 12-15px) und als Kartentitel
+  // viel zu klein. Kanonisch eine Stufe unter der Section-H2:
+  //   H2 Section  --nc-type-heading-l-size  = --fs-2xl  (24-31px)
+  //   h3 Karte    --nc-type-heading-m-size  = --fs-xl   (20-26px)  <- hier
+  // Deckt sich mit dem Peer bento-grid, der ebenfalls --fs-xl nutzt.
+  --nc-timeline-card-title-size:  var(--nc-type-heading-m-size);
+  --nc-timeline-card-title-weight: var(--fnd-font-weight-heading-strong);
+
+  // -- Horizontale Variante --
+  --nc-timeline-h-card-width:     22rem;
+  --nc-timeline-h-gap:            var(--fnd-spacing-08);
+  --nc-timeline-h-pad-block:      var(--fnd-spacing-06);
 }
 
 // ---------------------------------------------------------------------------

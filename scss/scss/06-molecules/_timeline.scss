@@ -446,3 +446,160 @@
     .nc-timeline__fill { background-color: Highlight; }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Kartentitel (h3) — gilt fuer alternating UND horizontal
+// ---------------------------------------------------------------------------
+// Der Basis-Token --nc-timeline-title-size (--fs-sm) bleibt fuer die kompakte
+// Einspalten-Timeline richtig. Als KARTENTITEL war er mit ~14px deutlich zu
+// klein; hier greift die kanonische Stufe unter der Section-H2.
+
+.nc-timeline--alternating,
+.nc-timeline--horizontal {
+  .nc-timeline__title {
+    font-size: var(--mod-timeline-card-title-size, var(--nc-timeline-card-title-size));
+    font-weight: var(--mod-timeline-card-title-weight, var(--nc-timeline-card-title-weight));
+    line-height: var(--lh-heading);
+    letter-spacing: var(--fnd-tracking-snug);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Variante: Horizontal (seitlich scrollend)
+// ---------------------------------------------------------------------------
+// Karten nebeneinander, Linie waagerecht, Scroll-Snap pro Karte.
+//
+// BARRIEREFREIHEIT:
+//   Ein scrollender Bereich muss per Tastatur erreichbar sein (WCAG 2.1.1).
+//   Das Template setzt dafuer tabindex="0" + role="group" + aria-label; hier
+//   kommt die sichtbare Fokusanzeige dazu.
+
+.nc-timeline--horizontal {
+  position: relative;
+  display: flex;
+  gap: var(--mod-timeline-h-gap, var(--nc-timeline-h-gap));
+  list-style: none;
+  margin: 0;
+  padding: var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block)) 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  // Platz fuer den Node-Ring, sonst wird er vom Rand beschnitten.
+  scroll-padding-inline: var(--fnd-spacing-04);
+
+  &:focus-visible {
+    outline: var(--fnd-border-width-sm) solid var(--fnd-color-border-focus, var(--fnd-color-text-accent));
+    outline-offset: var(--fnd-spacing-01);
+  }
+
+  // Waagerechte Linie auf Node-Hoehe
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(
+      var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block))
+      + var(--nc-timeline-alt-node-size) / 2
+    );
+    block-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
+    background-color: var(--mod-timeline-line-color, var(--nc-timeline-line-color));
+    border-radius: var(--fnd-radius-full);
+    z-index: 0;
+  }
+
+  // Fortschritt waagerecht
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(
+      var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block))
+      + var(--nc-timeline-alt-node-size) / 2
+    );
+    inline-size: calc(100% * var(--nc-timeline-progress, 1));
+    block-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
+    background-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    border-radius: var(--fnd-radius-full);
+    z-index: 1;
+    transition: inline-size .3s linear;
+    pointer-events: none;
+  }
+
+  .nc-timeline__item {
+    flex: 0 0 var(--mod-timeline-h-card-width, var(--nc-timeline-h-card-width));
+    max-inline-size: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--fnd-spacing-05);
+    scroll-snap-align: start;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+
+    &::before { display: none; }
+  }
+
+  .nc-timeline__node {
+    inline-size: var(--nc-timeline-alt-node-size);
+    block-size: var(--nc-timeline-alt-node-size);
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--fnd-radius-full);
+    background-color: var(--fnd-color-background-base);
+    border: var(--fnd-border-width-sm) solid var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
+    z-index: 3;
+
+    svg { inline-size: 45%; block-size: 45%; }
+  }
+
+  .nc-timeline__content {
+    background-color: var(--mod-timeline-card-bg, var(--nc-timeline-card-bg));
+    border: var(--fnd-border-width-hairline) solid var(--mod-timeline-card-border, var(--nc-timeline-card-border));
+    border-radius: var(--mod-timeline-card-radius, var(--nc-timeline-card-radius));
+    padding: var(--mod-timeline-card-padding, var(--nc-timeline-card-padding));
+    box-shadow: var(--mod-timeline-card-shadow, var(--nc-timeline-card-shadow));
+    inline-size: 100%;
+    gap: var(--fnd-spacing-02);
+  }
+}
+
+// Auf schmalen Viewports ist seitliches Scrollen unhandlich -> untereinander.
+@media (max-width: 53.75em) {
+  .nc-timeline--horizontal {
+    display: block;
+    overflow-x: visible;
+    scroll-snap-type: none;
+
+    &::before,
+    &::after { display: none; }
+
+    .nc-timeline__item {
+      flex: none;
+      flex-direction: row;
+      align-items: flex-start;
+      margin-block-end: var(--fnd-spacing-08);
+
+      &:last-child { margin-block-end: 0; }
+    }
+
+    .nc-timeline__node {
+      inline-size: var(--nc-timeline-alt-node-size-sm);
+      block-size: var(--nc-timeline-alt-node-size-sm);
+      box-shadow: none;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .nc-timeline--horizontal {
+    .nc-timeline__content,
+    .nc-timeline__node { border-color: CanvasText; }
+    &::after { background-color: Highlight; }
+  }
+}

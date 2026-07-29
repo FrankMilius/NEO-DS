@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "timeline",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "chronological",
@@ -119,7 +119,9 @@
       "alternating: 3-Spalten-Grid (1fr / Node / 1fr), Items wechseln per :nth-child die Seite.",
       "Fortschritt: JS setzt --nc-timeline-progress (0-1) auf dem Wurzelelement; CSS skaliert die Fuellung daraus.",
       "Ohne JS und bei prefers-reduced-motion sind alle Items sofort sichtbar (kein opacity:0-Startzustand).",
-      "Icons stammen aus der Heroicons-Sammlung des DS und erben currentColor."
+      "Icons stammen aus der Heroicons-Sammlung des DS und erben currentColor.",
+      "horizontal: der scrollende Bereich traegt tabindex=\"0\" + role=\"group\" + aria-label, damit er per Tastatur bedienbar bleibt (WCAG 2.1.1).",
+      "Kartentitel (h3) nutzt --nc-timeline-card-title-size (= heading-m / --fs-xl), NICHT den kompakten Basis-Token --nc-timeline-title-size (--fs-sm)."
     ]
   },
   "axes": {
@@ -177,7 +179,7 @@
     },
     "layout": {
       "label": "Layout",
-      "description": "single = einspaltig (Linie links). alternating = Zickzack, Linie mittig, Karten wechselseitig. Unter 860px faellt alternating auf single zurueck.",
+      "description": "single = einspaltig (Linie links). alternating = Zickzack, Linie mittig. horizontal = Karten nebeneinander, Bereich scrollt seitlich mit Scroll-Snap. Unter 860px fallen alternating UND horizontal auf gestapelt zurueck.",
       "values": [
         {
           "value": "single",
@@ -190,6 +192,12 @@
           "cssModifier": "nc-timeline--alternating",
           "default": false,
           "label": "alternating"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": "nc-timeline--horizontal",
+          "default": false,
+          "label": "horizontal"
         }
       ]
     },
@@ -244,6 +252,30 @@
           "cssModifier": "nc-timeline__badge--neutral",
           "default": true,
           "label": "neutral"
+        }
+      ]
+    },
+    "headerAlign": {
+      "label": "Header Alignment",
+      "description": "Ausrichtung des Section-Kopfes. Nutzt die zentralen Modifier .nc-section-header--center / --right; left ist der modifier-freie Default.",
+      "values": [
+        {
+          "value": "left",
+          "cssModifier": null,
+          "default": true,
+          "label": "left"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-section-header--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-section-header--right",
+          "default": false,
+          "label": "right"
         }
       ]
     }
@@ -312,7 +344,8 @@
       "content",
       "typography",
       "alternating",
-      "card"
+      "card",
+      "horizontal"
     ],
     "tokenGroups": {
       "line": {
@@ -384,7 +417,17 @@
           "nc-timeline-badge-tint",
           "nc-timeline-badge-radius",
           "nc-timeline-lead-color",
-          "nc-timeline-marker-color"
+          "nc-timeline-marker-color",
+          "nc-timeline-card-title-size",
+          "nc-timeline-card-title-weight"
+        ]
+      },
+      "horizontal": {
+        "label": "Horizontal Layout",
+        "tokens": [
+          "nc-timeline-h-card-width",
+          "nc-timeline-h-gap",
+          "nc-timeline-h-pad-block"
         ]
       }
     }
