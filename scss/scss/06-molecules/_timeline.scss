@@ -196,3 +196,253 @@
     top: 14px;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Variante: Alternating (Zickzack) + Fortschritt + reiche Karte
+// ---------------------------------------------------------------------------
+// Prozess-/Phasendarstellung: Linie mittig, Karten wechselseitig, grosse
+// Nodes mit Icon. Ab hier greift ein eigenes Grid — die Einspalten-Regeln
+// oben bleiben fuer .nc-timeline ohne Modifier unveraendert gueltig.
+//
+// BARRIEREFREIHEIT — bewusste Abweichungen vom Vorlagen-Entwurf:
+//   * KEIN opacity:0 als Startzustand. Ohne JS oder mit reduzierter Bewegung
+//     ist der Inhalt sofort sichtbar; die Einblendung ist reine Zugabe.
+//   * Die Seitenzuordnung erfolgt per :nth-child, die DOM-Reihenfolge bleibt
+//     also die Lesereihenfolge.
+//   * Linie und Fuellung sind dekorativ (aria-hidden im Template).
+
+.nc-timeline--alternating {
+  position: relative;
+  max-inline-size: var(--mod-timeline-alt-max-width, var(--nc-timeline-alt-max-width));
+  margin-inline: auto;
+  list-style: none;
+  padding: 0;
+
+  // Durchgehende Mittellinie
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    inline-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
+    background-color: var(--mod-timeline-line-color, var(--nc-timeline-line-color));
+    border-radius: var(--fnd-radius-full);
+    z-index: 0;
+  }
+
+  // Fortschrittsfuellung als Pseudo-Element — ein echtes <span> waere in der
+  // <ol> ungueltiges Markup. Haelt sich an --nc-timeline-progress (0-1), das
+  // JS setzt; ohne JS bleibt der Wert 1 -> Linie vollstaendig eingefaerbt.
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    inline-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
+    block-size: calc(100% * var(--nc-timeline-progress, 1));
+    background-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    border-radius: var(--fnd-radius-full);
+    z-index: 1;
+    transition: block-size .3s linear;
+    pointer-events: none;
+  }
+
+  .nc-timeline__item {
+    display: grid;
+    grid-template-columns: 1fr var(--mod-timeline-alt-node-col, var(--nc-timeline-alt-node-col)) 1fr;
+    align-items: center;
+    margin-block-end: var(--mod-timeline-alt-item-gap, var(--nc-timeline-alt-item-gap));
+    position: relative;
+    z-index: 2;
+    padding: 0;
+
+    &::before { display: none; }   // Einspalten-Linie abschalten
+    &:last-child { margin-block-end: 0; }
+  }
+
+  // Wechselseitige Anordnung
+  .nc-timeline__item:nth-child(odd) {
+    .nc-timeline__content { grid-column: 1; }
+    .nc-timeline__node    { grid-column: 2; }
+  }
+  .nc-timeline__item:nth-child(even) {
+    .nc-timeline__node    { grid-column: 2; }
+    .nc-timeline__content { grid-column: 3; }
+  }
+
+  .nc-timeline__node {
+    inline-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
+    block-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--fnd-radius-full);
+    background-color: var(--fnd-color-background-base);
+    border: var(--fnd-border-width-sm) solid var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    // Ring in Flaechenfarbe, damit die Linie hinter dem Node "abreisst".
+    box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
+    z-index: 3;
+
+    svg { inline-size: 45%; block-size: 45%; }
+  }
+
+  .nc-timeline__content {
+    background-color: var(--mod-timeline-card-bg, var(--nc-timeline-card-bg));
+    border: var(--fnd-border-width-hairline) solid var(--mod-timeline-card-border, var(--nc-timeline-card-border));
+    border-radius: var(--mod-timeline-card-radius, var(--nc-timeline-card-radius));
+    padding: var(--mod-timeline-card-padding, var(--nc-timeline-card-padding));
+    box-shadow: var(--mod-timeline-card-shadow, var(--nc-timeline-card-shadow));
+    margin-inline: var(--mod-timeline-alt-gap, var(--nc-timeline-alt-gap));
+    gap: var(--fnd-spacing-02);
+  }
+}
+
+// -- Karten-Bestandteile (auch ausserhalb von alternating nutzbar) --
+
+.nc-timeline__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fnd-spacing-02);
+  margin-block-end: var(--fnd-spacing-03);
+}
+
+.nc-timeline__period,
+.nc-timeline__badge {
+  font-size: var(--mod-timeline-badge-size, var(--nc-timeline-badge-size));
+  font-weight: var(--fnd-font-weight-semibold);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
+  border-radius: var(--mod-timeline-badge-radius, var(--nc-timeline-badge-radius));
+  letter-spacing: var(--fnd-tracking-wide);
+  text-transform: uppercase;
+  border: var(--fnd-border-width-hairline) solid currentColor;
+  white-space: nowrap;
+}
+
+.nc-timeline__period {
+  color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+  background-color: color-mix(in srgb, currentColor var(--nc-timeline-badge-tint), transparent);
+}
+
+// Status-Badge: frei beschriftbar, Farbton per Modifier. Der Tint entsteht
+// aus currentColor, damit Text und Flaeche nie auseinanderlaufen koennen.
+.nc-timeline__badge {
+  background-color: color-mix(in srgb, currentColor var(--nc-timeline-badge-tint), transparent);
+
+  &--accent  { color: var(--fnd-color-text-accent); }
+  &--info    { color: var(--fnd-color-text-info); }
+  &--warning { color: var(--fnd-color-text-warning); }
+  &--danger  { color: var(--fnd-color-text-danger); }
+  &--neutral { color: var(--fnd-color-text-secondary); }
+}
+
+.nc-timeline__phase {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fnd-font-weight-medium);
+  color: var(--mod-timeline-phase-color, var(--nc-timeline-phase-color));
+  text-transform: uppercase;
+  letter-spacing: var(--fnd-tracking-wider);
+}
+
+.nc-timeline__lead {
+  margin: 0 0 var(--fnd-spacing-03);
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--lh-body);
+  color: var(--mod-timeline-lead-color, var(--nc-timeline-lead-color));
+}
+
+.nc-timeline__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+
+  li {
+    position: relative;
+    padding-inline-start: var(--fnd-spacing-05);
+    font-size: var(--nc-type-body-m-size);
+    line-height: var(--lh-body);
+    color: var(--fnd-color-text-secondary);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: .55em;
+      inline-size: .5rem;
+      block-size: .5rem;
+      border-block-start: var(--fnd-border-width-sm) solid var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
+      border-inline-end: var(--fnd-border-width-sm) solid var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
+      transform: rotate(45deg);
+    }
+  }
+}
+
+// -- Scroll-Einblendung (nur als Zugabe) --
+// Die Sichtbarkeit haengt an .nc-timeline--progress, das JS erst setzt, wenn
+// es laeuft. Ohne JS existiert die Klasse nicht -> nichts wird versteckt.
+
+.nc-timeline--progress .nc-timeline__item {
+  opacity: 0;
+  transform: translateY(1.375rem);
+  transition: opacity .5s ease, transform .5s ease;
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-timeline--progress .nc-timeline__item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .nc-timeline--alternating .nc-timeline__fill { transition: none; }
+}
+
+// -- Umbruch: unter 860px faellt alternating auf einspaltig zurueck --
+
+@media (max-width: 53.75em) {
+  .nc-timeline--alternating {
+    &::before,
+    .nc-timeline__fill {
+      inset-inline-start: calc(var(--nc-timeline-alt-node-size-sm) / 2);
+      transform: none;
+    }
+
+    .nc-timeline__item {
+      display: block;
+      padding-inline-start: calc(var(--nc-timeline-alt-node-size-sm) + var(--fnd-spacing-06));
+      margin-block-end: var(--fnd-spacing-10);
+      position: relative;
+    }
+
+    .nc-timeline__node {
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: 0;
+      inline-size: var(--nc-timeline-alt-node-size-sm);
+      block-size: var(--nc-timeline-alt-node-size-sm);
+      margin-inline: 0;
+    }
+
+    .nc-timeline__content { margin-inline: 0; }
+  }
+}
+
+@media (forced-colors: active) {
+  .nc-timeline--alternating {
+    .nc-timeline__content,
+    .nc-timeline__node { border-color: CanvasText; }
+    .nc-timeline__fill { background-color: Highlight; }
+  }
+}
