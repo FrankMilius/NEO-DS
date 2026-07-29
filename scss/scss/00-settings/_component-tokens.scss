@@ -2624,6 +2624,21 @@
   --nc-timeline-h-card-width:     22rem;
   --nc-timeline-h-gap:            var(--fnd-spacing-08);
   --nc-timeline-h-pad-block:      var(--fnd-spacing-06);
+
+  // -- Einblend-Effekte (nur aktiv, wenn JS laeuft) --
+  --nc-timeline-reveal-shift:     1.375rem;   // 22px, wie in der Vorlage
+  --nc-timeline-reveal-duration:  .5s;
+  // Weicher Schein um die eingeblendete Karte. Der 1px-Ring liegt auf der
+  // Hairline, ersetzt sie also optisch, ohne das Layout zu verschieben.
+  --nc-timeline-reveal-glow:
+      0 0 0 var(--fnd-border-width-hairline) var(--nc-timeline-progress-color),
+      0 0 1.125rem color-mix(in srgb, var(--nc-timeline-progress-color) 22%, transparent);
+  // Leuchtring am Node: innerer Ring in Flaechenfarbe (damit die Linie
+  // "abreisst"), darueber der Akzentschimmer.
+  --nc-timeline-node-glow:
+      0 0 0 .625rem var(--fnd-color-background-base),
+      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 18%, transparent),
+      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 45%, transparent);
 }
 
 // ---------------------------------------------------------------------------

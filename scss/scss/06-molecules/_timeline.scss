@@ -242,7 +242,15 @@
     transform: translateX(-50%);
     inline-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
     block-size: calc(100% * var(--nc-timeline-progress, 1));
-    background-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    // Weiche Enden wie in der Vorlage: die Fuellung soll nicht hart
+    // abgeschnitten wirken, sondern in die Linie auslaufen.
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 8%,
+      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 92%,
+      transparent 100%
+    );
     border-radius: var(--fnd-radius-full);
     z-index: 1;
     transition: block-size .3s linear;
@@ -276,6 +284,10 @@
     inline-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
     block-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
     margin-inline: auto;
+    // Das Basis-Mixin setzt margin-top:2px ("Ausrichtung mit erstem Text").
+    // Das ist fuer die kompakte Timeline richtig, verschiebt den Node hier
+    // aber 2px unter die Kartenmitte - trotz align-items:center.
+    margin-block-start: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -389,24 +401,52 @@
 // Die Sichtbarkeit haengt an .nc-timeline--progress, das JS erst setzt, wenn
 // es laeuft. Ohne JS existiert die Klasse nicht -> nichts wird versteckt.
 
-.nc-timeline--progress .nc-timeline__item {
-  opacity: 0;
-  transform: translateY(1.375rem);
-  transition: opacity .5s ease, transform .5s ease;
+// Animiert wird die KARTE, nicht das ganze Item — sonst wandert der Node
+// mit und loest sich optisch von der Linie.
+.nc-timeline--progress {
+  .nc-timeline__content {
+    opacity: 0;
+    transform: translateY(var(--nc-timeline-reveal-shift));
+    transition:
+      opacity var(--nc-timeline-reveal-duration) ease,
+      transform var(--nc-timeline-reveal-duration) ease,
+      border-color var(--nc-timeline-reveal-duration) ease,
+      box-shadow var(--nc-timeline-reveal-duration) ease;
+  }
 
-  &.is-visible {
-    opacity: 1;
-    transform: none;
+  .nc-timeline__node {
+    transition:
+      border-color var(--nc-timeline-reveal-duration) ease,
+      box-shadow var(--nc-timeline-reveal-duration) ease;
+  }
+
+  .nc-timeline__item.is-visible {
+    .nc-timeline__content {
+      opacity: 1;
+      transform: none;
+      border-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+      box-shadow: var(--nc-timeline-reveal-glow);
+    }
+
+    .nc-timeline__node {
+      box-shadow: var(--nc-timeline-node-glow);
+    }
   }
 }
 
+// Reduzierte Bewegung: Endzustand sofort, keine Uebergaenge. Der Akzentrand
+// bleibt erhalten — er ist Gestaltung, keine Animation.
 @media (prefers-reduced-motion: reduce) {
-  .nc-timeline--progress .nc-timeline__item {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .nc-timeline--progress {
+    .nc-timeline__content,
+    .nc-timeline__node {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
-  .nc-timeline--alternating .nc-timeline__fill { transition: none; }
+  .nc-timeline--alternating::after,
+  .nc-timeline--horizontal::after { transition: none; }
 }
 
 // -- Umbruch: unter 860px faellt alternating auf einspaltig zurueck --
@@ -518,7 +558,13 @@
     );
     inline-size: calc(100% * var(--nc-timeline-progress, 1));
     block-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
-    background-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 8%,
+      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 92%,
+      transparent 100%
+    );
     border-radius: var(--fnd-radius-full);
     z-index: 1;
     transition: inline-size .3s linear;
@@ -545,6 +591,11 @@
     inline-size: var(--nc-timeline-alt-node-size);
     block-size: var(--nc-timeline-alt-node-size);
     flex: none;
+    // Mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.
+    align-self: center;
+    // s. alternating: 2px aus dem Basis-Mixin wegnehmen, sonst trifft die
+    // waagerechte Linie die Node-Mitte nicht.
+    margin-block-start: 0;
     display: flex;
     align-items: center;
     justify-content: center;
