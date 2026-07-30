@@ -355,6 +355,26 @@
 // ---------------------------------------------------------------------------
 // Footer mit Top-Border, Hover Background-Shift, Icon steuerbar
 
+// Icon der Summary-Karte. Ausserhalb von .nc-card--action hatte
+// .nc-card__icon bisher GAR keine Regel — die Groesse kam als Inline-Style aus
+// dem JS, das die Karten aus dem JSON rendert. Jetzt tokenisiert.
+.nc-card__icon--summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mod-card-summary-icon-size, var(--nc-card-summary-icon-size));
+  height: var(--mod-card-summary-icon-size, var(--nc-card-summary-icon-size));
+  margin-block-end: var(--nc-card-summary-icon-spacing);
+  color: var(--mod-card-summary-icon-color, var(--nc-card-summary-icon-color));
+  flex-shrink: 0;
+
+  // Heroicons kommen als <svg> ohne feste Groesse — sie sollen die Box fuellen.
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .nc-card--action {
   .nc-card__footer {
     border-top: var(--mod-card-border-width, var(--nc-card-border-width)) solid var(--mod-card-border, var(--nc-card-border));

@@ -301,6 +301,15 @@
 
   // -- Card: Action --
   --nc-card-action-icon-size: 48px;
+  // Icon der Summary-Karte (Bereichs-/Uebersichtskarten). Vorher stand die
+  // Groesse als font-size:2rem inline im JS-generierten Markup.
+  --nc-card-summary-icon-size: 32px;
+  // text-accent (#0e7490 -> 5,36:1 auf Weiss), NICHT interactive-default:
+  // letzteres ist #009fe3 und kommt auf der Kartenflaeche nur auf 2,97:1 —
+  // unter dem WCAG-Minimum von 3:1 fuer Nicht-Text (1.4.11). interactive-*
+  // ist fuer interaktive FLAECHEN gedacht (Buttons), nicht fuer Vordergrund.
+  --nc-card-summary-icon-color: var(--fnd-color-text-accent);
+  --nc-card-summary-icon-spacing: var(--fnd-spacing-03);
 
   // ---------------------------------------------------------------------------
   // Form Control Shared Tokens (Input, Textarea, Select)
