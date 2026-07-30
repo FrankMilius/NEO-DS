@@ -144,6 +144,12 @@
   font-size: var(--fs-lg); // Lead-Rolle: kanonisch fs-lg (war undefiniertes --fs-md)
   line-height: var(--lh-body); // war irrefuehrender Fallback 1.55
   color: var(--nc-solution-tabs-text);
+  // Lesebreite kappen. Ohne das lief der Panel-Text ueber die volle Breite des
+  // Tab-Panels: gemessen 1376px = ~132 Zeichen pro Zeile bei einem Viewport von
+  // 1680px. Lesbar sind 45–90 Zeichen; die Prosa-Stufe des DS liegt bei 72ch.
+  // Das war schon vor der Umstellung auf breite Container so — mit xwide waere
+  // es schlimmer geworden.
+  max-inline-size: var(--container-prose);
 }
 
 // Feature-Liste (mit gestaffelter Einblendung beim Aktivieren)

@@ -3569,7 +3569,16 @@
 :root {
   // Breite — KANONISCH auf die Intent-Container-Skala umgestellt (Single Source).
   // Frueher 1440/1600/1200 (Drift); jetzt = intent-container-Tokens.
-  --nc-container-max-width: var(--container-content);
+  // Standard-Inhaltsbreite = xwide (1536px), gleich der Shell-Breite von
+  // Navigation und Footer. Vorher content (1090px): Bloecke OHNE explizite
+  // field_content_width fielen darauf zurueck, waehrend Navigation und
+  // Footer bei 1536px lagen — gemessen sprang der Inhalt auf mehreren Seiten
+  // zwischen 1090 und 1536, der Rahmen blieb 1536. Genau diese Stufe war als
+  // Uneinheitlichkeit sichtbar.
+  // Textbreite bleibt davon unberuehrt: .nc-section-header kappt sich selbst
+  // auf 72ch (gemessen 703px), .nc-prose ebenso. Nur Komponenten ohne
+  // eigene Kappe waren betroffen — siehe solution-tabs__panel-text.
+  --nc-container-max-width: var(--container-xwide);
   --nc-container-max-width-wide: var(--container-wide);
   --nc-container-max-width-narrow: var(--container-narrow);
   --nc-container-max-width-content: var(--container-content);
