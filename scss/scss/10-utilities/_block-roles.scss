@@ -25,10 +25,20 @@
 // gewinnen weiterhin — das ist Absicht, nicht Zufall.
 //
 // AUSSTIEG:
-// `.nc-headline--display` an der Headline. Die zusaetzliche Namensheuristik
-// `:not([class*='hero'])` ist ein Uebergang aus der Drupal-Implementierung und
-// soll entfallen, sobald alle Hero-Headlines die explizite Klasse tragen.
-// Eine Klasse benennt die Absicht, ein Klassenname-Muster errraet sie nur.
+// `.nc-headline--display` an der Headline — die einzige Ausstiegsmoeglichkeit.
+//
+// Vorher lief die Hero-Ausnahme ueber eine Namensheuristik auf „hero" im
+// Klassennamen. Die ist entfallen, weil sie nach dem falschen Merkmal griff:
+// der Klassenname ist keine Aussage ueber Typografie. Ein Block
+// `nc-hero-teaser__title`, der die normale Section-Stufe WILL, fiel
+// stillschweigend heraus; umgekehrt bekam ein Block die Display-Stufe nur,
+// indem er sich „hero" nannte. Und wer sich fragte, warum eine Headline
+// groesser ist, fand die Antwort in einem :not() in einer Utility-Datei statt
+// am Element.
+//
+// Im Drupal-Theme tragen die 12 Hero-Headline-Stellen die Klasse jetzt
+// explizit. Im DS selbst sind alle Hero-Ueberschriften `<h1>` und damit von
+// diesen Regeln ohnehin nicht betroffen — die Doku brauchte keine Anpassung.
 //
 // FARBE wird bewusst NICHT gesetzt: weisse Headlines auf dunklen Flaechen
 // (Hero, Product-Showcase, Text-Media) muessen erhalten bleiben.
@@ -75,8 +85,8 @@
 // bzw. `__title`. Jeder kuenftige Block, der ihr folgt, uebernimmt die Stufe
 // automatisch.
 
-h2[class*='__headline']:not([class*='hero']):not(.nc-headline--display),
-h2[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
+h2[class*='__headline']:not(.nc-headline--display),
+h2[class*='__title']:not(.nc-headline--display) {
   font-family: var(--font-heading);
   font-size: var(--nc-block-headline-size);
   line-height: var(--nc-block-headline-lh);
@@ -91,8 +101,8 @@ h2[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
 // 29,03 px und zwischen font-weight 400 und 600 — der Kartentitel war exakt so
 // gross wie die Section-Headline.
 
-h3[class*='__headline']:not([class*='hero']):not(.nc-headline--display),
-h3[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
+h3[class*='__headline']:not(.nc-headline--display),
+h3[class*='__title']:not(.nc-headline--display) {
   font-family: var(--font-heading);
   font-size: var(--nc-block-subtitle-size);
   line-height: var(--nc-block-headline-lh);
