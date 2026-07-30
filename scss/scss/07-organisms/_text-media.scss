@@ -71,6 +71,18 @@
   gap: var(--mod-text-media-content-gap, var(--nc-text-media-content-gap));
 }
 
+// CTA-Abstand. Der Container ist ein Flex-Stack mit `gap` — ein zusaetzliches
+// margin-top ADDIERT sich darauf. Genau daran lag der gemessene Abstand von
+// 40px statt der kanonischen 24px: gap (16) + margin (24).
+// Deshalb wird der gap hier abgezogen, damit VISUELL exakt spacing-06 steht.
+// (Dasselbe Muster wie im Tab-Nav-Panel der Drupal-Implementierung.)
+.nc-text-media__cta {
+  margin-block-start: calc(
+    var(--fnd-spacing-06) -
+    var(--mod-text-media-content-gap, var(--nc-text-media-content-gap))
+  );
+}
+
 .nc-text-media__headline {
   font-size: var(--mod-text-media-headline-size, var(--nc-text-media-headline-size));
   line-height: var(--fnd-typography-line-height-heading);

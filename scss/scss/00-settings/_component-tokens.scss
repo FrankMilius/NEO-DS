@@ -244,7 +244,11 @@
   --nc-card-footer-gap: var(--fnd-spacing-03);
 
   // -- Card: Title --
-  --nc-card-title-font-size: var(--fnd-typography-heading-m-font-size);
+  // Eine Stufe UNTER der Section-Headline. Vorher heading-m — identisch mit
+  // --nc-section-header-title-font-size, wodurch Kartentitel und
+  // Section-Ueberschrift typografisch ununterscheidbar waren
+  // (Block-Harmonisierungs-Audit, Dimension „Skala").
+  --nc-card-title-font-size: var(--nc-block-subtitle-size, var(--fs-xl));
   --nc-card-title-font-weight: var(--fnd-font-weight-semibold);
   --nc-card-title-color: var(--fnd-color-text-primary);
   --nc-card-title-line-height: var(--lh-heading); // kanonisch x1.15 (war 1.3)
@@ -3039,6 +3043,13 @@
 :root {
   // -- Layout --
   --nc-hero-bg:                    var(--fnd-color-always-dark);
+  // Die Hero-Flaeche ist IMMER dunkel, also gehoert der Vordergrund dazu.
+  // Fehlte er, erbte der Hero die Textfarbe des UMGEBENDEN Kontexts: stand er
+  // nicht zufaellig in einem .neo-dark-theme-Wrapper, lief text-primary (#0f1419)
+  // auf Schwarz — gemessen 1,13:1 auf 30 Seiten, praktisch unsichtbar.
+  // always-light statt text-inverse: die Flaeche folgt dem Light/Dark-Switch
+  // NICHT (gleiche Begruendung wie bei --nc-footer-surface-fg).
+  --nc-hero-color:                 var(--fnd-color-always-light);
   --nc-hero-min-height:            60dvh;
   --nc-hero-padding-block:         var(--fnd-spacing-12);
   --nc-hero-padding-inline:        var(--fnd-spacing-06);
@@ -3061,20 +3072,24 @@
 
   // -- Highlights (Bullet List) --
   --nc-hero-highlights-gap:        var(--fnd-spacing-02);
-  --nc-hero-highlights-color:      color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent);
+  --nc-hero-highlights-color:      color-mix(in srgb, var(--nc-hero-color) 70%, transparent);
   --nc-hero-highlights-marker:     var(--fnd-color-background-accent);
   --nc-hero-highlights-size:       var(--fs-sm);
 
   // -- Title --
   --nc-hero-title-size:            var(--fs-4xl);
   --nc-hero-title-weight:          var(--fnd-font-weight-bold);
-  --nc-hero-title-color:           var(--fnd-color-text-inverse);
+  // Alle Hero-Textfarben leiten sich von --nc-hero-color ab. Vorher
+  // text-inverse: das kippt im Dark-Theme auf Schwarz und wurde deshalb im
+  // Drupal-Theme auf text-primary umgebogen — was wiederum voraussetzt, dass
+  // der Hero in einem dunklen Surface steht. Auf 30 Seiten tat er das nicht.
+  --nc-hero-title-color:           var(--nc-hero-color);
   --nc-hero-title-max-width:       18ch;
   --nc-hero-title-line-height:     var(--lh-heading);
 
   // -- Subtitle --
   --nc-hero-subtitle-size:         var(--fs-lg);
-  --nc-hero-subtitle-color:        color-mix(in srgb, var(--fnd-color-text-inverse) 80%, transparent);
+  --nc-hero-subtitle-color:        color-mix(in srgb, var(--nc-hero-color) 80%, transparent);
   --nc-hero-subtitle-max-width:    40ch;
   --nc-hero-subtitle-line-height:  var(--lh-body);
 
@@ -3141,7 +3156,10 @@
   --nc-product-showcase-indicator-radius:       var(--fnd-radius-full);
 
   // Headline (Sektionsueberschrift)
-  --nc-product-showcase-headline-size:          var(--fs-3xl);
+  // War fs-3xl und damit tot: die kanonische Headline-Regel (10-utilities/
+  // _block-roles.scss) ueberschreibt sie per hoeherer Spezifitaet. Der Wert
+  // erschien nie und war nur irrefuehrend — jetzt auf die kanonische Stufe.
+  --nc-product-showcase-headline-size:          var(--nc-block-headline-size, var(--fs-2xl));
   --nc-product-showcase-headline-weight:        var(--fnd-font-weight-bold);
   --nc-product-showcase-headline-color:         var(--fnd-color-text-inverse);
 

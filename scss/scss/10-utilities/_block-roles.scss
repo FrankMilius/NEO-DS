@@ -1,0 +1,136 @@
+// ==========================================================================
+// 10-Utilities: Block-Rollen (kanonische Typo-Stufen)
+// ==========================================================================
+// Jeder Inhaltsblock folgt derselben Logik:
+//
+//     Kicker  →  Headline  →  Lead  →  CTA
+//
+// `.nc-section-header` (06-molecules) definiert dieses Muster vorbildlich.
+// Diese Datei setzt es fuer ALLE Bloecke durch — auch fuer solche, die eigene
+// Klassennamen mitbringen.
+//
+// WARUM HIER UND NICHT IN DEN KOMPONENTEN:
+// Das Block-Harmonisierungs-Audit (09.07.2026) fand 24 Bloecke, von denen nur
+// vier dem Muster folgten: 5 konkurrierende Kicker-Umsetzungen, 7 verschiedene
+// Headline-Line-Heights, 8 Klassennamen allein fuer „Lead". Einzeln
+// nachzuziehen haette das Problem nur vertagt — jeder NEUE Block haette wieder
+// danebengelegen. Diese Regeln greifen ueber Attributselektoren und gelten
+// damit auch fuer Bloecke, die es noch nicht gibt.
+//
+// MECHANIK:
+// Spezifitaet (0,2,1) — Element + Attribut + :not(Attribut). Das schlaegt
+// Komponentenregeln wie `.nc-card__title` (0,1,0) unabhaengig von der
+// Ladereihenfolge. Bewusst gewaehlte Ausnahmen mit hoeherer Spezifitaet
+// (z. B. `.nc-card--preview.nc-card--featured .nc-card__title`, 0,3,0)
+// gewinnen weiterhin — das ist Absicht, nicht Zufall.
+//
+// AUSSTIEG:
+// `.nc-headline--display` an der Headline. Die zusaetzliche Namensheuristik
+// `:not([class*='hero'])` ist ein Uebergang aus der Drupal-Implementierung und
+// soll entfallen, sobald alle Hero-Headlines die explizite Klasse tragen.
+// Eine Klasse benennt die Absicht, ein Klassenname-Muster errraet sie nur.
+//
+// FARBE wird bewusst NICHT gesetzt: weisse Headlines auf dunklen Flaechen
+// (Hero, Product-Showcase, Text-Media) muessen erhalten bleiben.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Kanonische Werte
+// ---------------------------------------------------------------------------
+// Eine Stelle aendern -> alle Bloecke aendern sich mit.
+
+:root {
+  // Headline (h2) — die Section-Ueberschrift.
+  // BEWUSST die --nc-type-*-Aliasse, NICHT --fnd-typography-heading-l-*:
+  // letztere liefern eine Stufe groesser (fs-3xl), eine line-height als
+  // ABSOLUTWERT (calc(fs-3xl * 1.15) — als Verhaeltnis gelesen ergibt das
+  // 1.66) und gar kein font-weight. Beim ersten Versuch sprang die Headline
+  // dadurch auf 34,84px/LH 1,66/weight 400. Gemessen und korrigiert.
+  --nc-block-headline-size:   var(--nc-type-heading-l-size);
+  --nc-block-headline-lh:     var(--nc-type-heading-l-lh);
+  --nc-block-headline-weight: var(--nc-type-heading-l-weight);
+
+  // Untertitel (h3) — Karten-, Panel- und Phasentitel. Eine Stufe unter der
+  // Headline. Ohne diese Stufe konkurriert der Kartentitel mit der
+  // Section-Ueberschrift, und die Ebenen werden typografisch ununterscheidbar.
+  --nc-block-subtitle-size:   var(--fs-xl);
+  --nc-block-subtitle-weight: var(--fnd-font-weight-semibold);
+
+  // Gemeinsames Tracking fuer Schautext.
+  --nc-block-heading-tracking: var(--fnd-tracking-snug, -0.01em);
+
+  // Lead — der einleitende Text unter der Headline.
+  --nc-block-lead-size:  var(--fs-lg);
+  // --lh-body (1.6), nicht --lh-relaxed (1.5): der Lead ist Lesetext.
+  --nc-block-lead-lh:    var(--lh-body);
+  --nc-block-lead-color: var(--fnd-color-text-secondary);
+}
+
+// ---------------------------------------------------------------------------
+// Headline (h2)
+// ---------------------------------------------------------------------------
+// Greift generisch ueber die BEM-Konvention `.nc-<komponente>__headline`
+// bzw. `__title`. Jeder kuenftige Block, der ihr folgt, uebernimmt die Stufe
+// automatisch.
+
+h2[class*='__headline']:not([class*='hero']):not(.nc-headline--display),
+h2[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
+  font-family: var(--font-heading);
+  font-size: var(--nc-block-headline-size);
+  line-height: var(--nc-block-headline-lh);
+  font-weight: var(--nc-block-headline-weight);
+  letter-spacing: var(--nc-block-heading-tracking);
+}
+
+// ---------------------------------------------------------------------------
+// Untertitel (h3)
+// ---------------------------------------------------------------------------
+// Karten-, Panel-, Phasentitel. Vor dieser Regel lagen sie auf 20,16 / 24,19 /
+// 29,03 px und zwischen font-weight 400 und 600 — der Kartentitel war exakt so
+// gross wie die Section-Headline.
+
+h3[class*='__headline']:not([class*='hero']):not(.nc-headline--display),
+h3[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
+  font-family: var(--font-heading);
+  font-size: var(--nc-block-subtitle-size);
+  line-height: var(--nc-block-headline-lh);
+  font-weight: var(--nc-block-subtitle-weight);
+  letter-spacing: var(--nc-block-heading-tracking);
+}
+
+// ---------------------------------------------------------------------------
+// Lead
+// ---------------------------------------------------------------------------
+// BEWUSST ENG gefasst. `__text`, `__body`, `__description` und `__desc` werden
+// in mehreren Komponenten fuer TEXT AUF ITEM-EBENE benutzt (Kartenbeschreibung
+// 16 px, Bento-Text 14 px). Ein pauschaler Attributselektor wuerde die auf
+// 20 px hochziehen und Karten sprengen.
+//
+// Erfasst werden nur Namen, die eindeutig die Block-Lead-Rolle bezeichnen:
+// `__lead`, `__subline`, `__subtitle`. Bestandsabweichler sind einzeln
+// aufgefuehrt und sollen mittelfristig auf `__lead` umbenannt werden.
+//
+// KONVENTION FUER NEUE BLOECKE: den Lead `__lead` nennen. Dann stimmt er von
+// selbst — so wie die Headline ueber `__headline` von selbst stimmt.
+
+[class*='__lead'],
+[class*='__subline'],
+[class*='__subtitle'],
+// ── Bestand (Audit P3), Umbenennung ausstehend ──
+.nc-solution-tabs__panel-text,
+.nc-form-block__subtext,
+.nc-fade-gallery__desc,
+.nc-story-gallery__desc,
+.nc-expanding-panels__text {
+  font-size: var(--nc-block-lead-size);
+  line-height: var(--nc-block-lead-lh);
+}
+
+// Die Farbe nur dort setzen, wo sie nicht ohnehin geerbt wird — auf dunklen
+// Flaechen wuerde text-secondary den Lead unlesbar machen. Deshalb an die
+// kanonische Komponente gebunden statt global.
+.nc-section-header__subtitle {
+  color: var(--nc-block-lead-color);
+}
