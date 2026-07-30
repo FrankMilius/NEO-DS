@@ -83,15 +83,10 @@
   );
 }
 
-.nc-text-media__headline {
-  font-size: var(--mod-text-media-headline-size, var(--nc-text-media-headline-size));
-  line-height: var(--fnd-typography-line-height-heading);
-}
-
-.nc-text-media__subline {
-  color: var(--mod-text-media-subline-color, var(--nc-text-media-subline-color));
-  line-height: var(--fnd-typography-line-height-body);
-}
+// Headline und Lead rendern jetzt als .nc-section-header__title / __subtitle
+// (geteilter Block-Header). Die frueheren .nc-text-media__headline/__subline
+// sind damit aus dem Markup verschwunden — die Regeln waren tot und sind
+// entfernt. Typografie kommt aus 10-utilities/_block-roles.scss.
 
 // Video Container (16:9 aspect ratio)
 .nc-text-media__media .nc-video {

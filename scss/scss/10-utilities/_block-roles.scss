@@ -128,9 +128,8 @@ h3[class*='__title']:not([class*='hero']):not(.nc-headline--display) {
   line-height: var(--nc-block-lead-lh);
 }
 
-// Die Farbe nur dort setzen, wo sie nicht ohnehin geerbt wird — auf dunklen
-// Flaechen wuerde text-secondary den Lead unlesbar machen. Deshalb an die
-// kanonische Komponente gebunden statt global.
-.nc-section-header__subtitle {
-  color: var(--nc-block-lead-color);
-}
+// Die Lead-FARBE wird hier bewusst NICHT gesetzt: auf dunklen Flaechen
+// (Hero, Product-Showcase, Text-Media) wuerde text-secondary den Lead
+// unlesbar machen. Sie haengt stattdessen am Komponenten-Token
+// --nc-section-header-subtitle-color, das auf --nc-block-lead-color zeigt —
+// eine Quelle, zwei Verbraucher, kein Duplikat.

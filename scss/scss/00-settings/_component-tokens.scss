@@ -3713,7 +3713,10 @@
   // Subtitle
   --nc-section-header-subtitle-font-size: var(--fnd-typography-paragraph-xl-font-size);
   --nc-section-header-subtitle-line-height: var(--fnd-typography-paragraph-xl-line-height);
-  --nc-section-header-subtitle-color: var(--fnd-color-text-secondary);
+  // Zeigt auf die kanonische Lead-Farbe (10-utilities/_block-roles.scss),
+  // damit es nicht zwei Quellen mit demselben Wert gibt. Custom Properties
+  // loesen erst bei der Verwendung auf, die Vorwaertsreferenz ist also ok.
+  --nc-section-header-subtitle-color: var(--nc-block-lead-color, var(--fnd-color-text-secondary));
 }
 
 @media (prefers-color-scheme: dark) {
