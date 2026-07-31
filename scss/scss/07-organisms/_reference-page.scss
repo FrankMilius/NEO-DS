@@ -117,7 +117,16 @@ $refpage-bp: 1024px;
 }
 
 .nc-refpage__toc-link {
-  display: block;
+  // Grid-Stapel statt display:block. In derselben Zelle liegen der sichtbare
+  // Text und ein unsichtbarer Zwilling in Fettschrift (::before aus
+  // data-text). Der hoehere von beiden bestimmt die Hoehe — also immer der
+  // fette. Dadurch aendert sich beim Aktivwerden nichts an der Zeilenzahl.
+  //
+  // WARUM UEBERHAUPT: gemessen brach „Berechtigungs- und Redaktionsgruppen"
+  // beim Wechsel auf semibold von einer auf zwei Zeilen um. Die Liste wuchs um
+  // 17px und alle Eintraege darunter sprangen nach unten - genau beim
+  // Weiterscrollen, also im ungeeignetsten Moment.
+  display: grid;
   padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
   font-size: var(--mod-refpage-toc-size, var(--nc-refpage-toc-size));
   line-height: var(--lh-snug);
@@ -140,6 +149,21 @@ $refpage-bp: 1024px;
     @include focus-ring;
   }
 
+  // Sichtbarer Text und Hoehen-Zwilling teilen sich dieselbe Rasterzelle.
+  > span,
+  &::before {
+    grid-area: 1 / 1;
+  }
+
+  // Der Zwilling: immer fett, nie sichtbar. visibility:hidden nimmt ihn auch
+  // aus dem Accessibility-Baum, der Text wird also nicht doppelt vorgelesen.
+  &::before {
+    content: attr(data-text);
+    font-weight: var(--fnd-font-weight-semibold);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   // Aktiver Abschnitt: DREI Merkmale, nicht nur Farbe (WCAG 1.4.1) —
   // Textfarbe, Schriftschnitt und Markierungsleiste.
   &[aria-current='true'] {
@@ -152,17 +176,10 @@ $refpage-bp: 1024px;
 .nc-refpage__toc-list--sub .nc-refpage__toc-link {
   font-size: var(--mod-refpage-toc-sub-size, var(--nc-refpage-toc-sub-size));
   // Einzug ueber das Padding, damit der Gruppierungsstrich der Liste auf der
-  // Bezugslinie stehen bleibt.
+  // Bezugslinie stehen bleibt. Die Markierung bleibt auf derselben Breite wie
+  // der Gruppierungsstrich — sie ersetzt ihn an dieser Stelle, statt
+  // auszubrechen.
   padding-inline-start: var(--fnd-spacing-05);
-
-  // Der aktive Unterabschnitt bricht aus dem Gruppierungsstrich aus: die
-  // Leiste ist links und rechts je 2px breiter und liegt mittig darauf.
-  // Ohne den negativen Rand wuerde sie den Text verschieben.
-  &[aria-current='true'] {
-    border-inline-start-width: calc(var(--nc-refpage-marker-width) + 4px);
-    margin-inline-start: -2px;
-    padding-inline-start: calc(var(--fnd-spacing-05) - 2px);
-  }
 }
 
 // ---------------------------------------------------------------------------
