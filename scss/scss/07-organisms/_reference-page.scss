@@ -90,7 +90,10 @@ $refpage-bp: 1024px;
   font-weight: var(--fnd-font-weight-semibold);
   letter-spacing: var(--fnd-tracking-wider);
   text-transform: uppercase;
-  color: var(--fnd-color-text-secondary);
+  color: var(--fnd-color-text-tertiary);
+  // Ohne Einzug: die Ueberschrift gibt die Linie vor, an der die Markierungen
+  // der ersten Ebene und der Gruppierungsstrich der zweiten stehen.
+  padding-inline: 0;
   margin: 0 0 var(--fnd-spacing-03);
 }
 
@@ -103,47 +106,63 @@ $refpage-bp: 1024px;
   gap: 1px;
 }
 
-// Zweite Ebene (Unterabschnitte). Eingerueckt, eine Stufe kleiner.
+// Zweite Ebene. Der Gruppierungsstrich haelt die Unterabschnitte optisch
+// zusammen und steht auf DERSELBEN Linie wie die Ueberschrift und die
+// Markierungen der ersten Ebene — deshalb kein zusaetzlicher Einzug an der
+// Liste, der Abstand entsteht ueber das padding der Links.
 .nc-refpage__toc-list--sub {
   margin-block: 2px 0;
-  padding-inline-start: var(--fnd-spacing-04);
-  border-inline-start: 1px solid var(--fnd-color-border-secondary);
+  padding-inline-start: 0;
+  border-inline-start: var(--nc-refpage-marker-width) solid var(--fnd-color-border-secondary);
 }
 
 .nc-refpage__toc-link {
   display: block;
-  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+  padding: var(--fnd-spacing-01) var(--fnd-spacing-03);
   font-size: var(--mod-refpage-toc-size, var(--nc-refpage-toc-size));
   line-height: var(--lh-snug);
-  color: var(--fnd-color-text-secondary);
+  // Inaktiv bewusst aufgehellt (tertiary statt secondary): der aktive Eintrag
+  // soll sich abheben, ohne dass die Liste unruhig wird.
+  color: var(--fnd-color-text-tertiary);
   text-decoration: none;
-  border-radius: var(--fnd-radius-sm);
   // Die Markierungsleiste liegt immer an, nur transparent. Sonst springt der
   // Text beim Aktivwerden um die Leistenbreite zur Seite.
   border-inline-start: var(--nc-refpage-marker-width) solid transparent;
-  @include transition(color background-color border-color, '150');
+  @include transition(color border-color, '150');
 
+  // Kein Hintergrund beim Hover: die Liste bleibt ruhig, die Zustandsaenderung
+  // laeuft ueber die Textfarbe.
   &:hover {
     color: var(--fnd-color-text-primary);
-    background: var(--fnd-color-background-secondary);
   }
 
   &:focus-visible {
     @include focus-ring;
   }
 
-  // Aktiver Abschnitt: DREI Merkmale, nicht nur Farbe (WCAG 1.4.1).
+  // Aktiver Abschnitt: DREI Merkmale, nicht nur Farbe (WCAG 1.4.1) —
+  // Textfarbe, Schriftschnitt und Markierungsleiste.
   &[aria-current='true'] {
-    color: var(--nc-refpage-active-color);
+    color: var(--fnd-color-text-primary);
     font-weight: var(--fnd-font-weight-semibold);
     border-inline-start-color: var(--nc-refpage-active-color);
-    background: var(--fnd-color-background-secondary);
   }
 }
 
 .nc-refpage__toc-list--sub .nc-refpage__toc-link {
   font-size: var(--mod-refpage-toc-sub-size, var(--nc-refpage-toc-sub-size));
-  padding-block: 4px;
+  // Einzug ueber das Padding, damit der Gruppierungsstrich der Liste auf der
+  // Bezugslinie stehen bleibt.
+  padding-inline-start: var(--fnd-spacing-05);
+
+  // Der aktive Unterabschnitt bricht aus dem Gruppierungsstrich aus: die
+  // Leiste ist links und rechts je 2px breiter und liegt mittig darauf.
+  // Ohne den negativen Rand wuerde sie den Text verschieben.
+  &[aria-current='true'] {
+    border-inline-start-width: calc(var(--nc-refpage-marker-width) + 4px);
+    margin-inline-start: -2px;
+    padding-inline-start: calc(var(--fnd-spacing-05) - 2px);
+  }
 }
 
 // ---------------------------------------------------------------------------
