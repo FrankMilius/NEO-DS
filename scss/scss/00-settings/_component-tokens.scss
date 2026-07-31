@@ -3052,7 +3052,13 @@
 :root {
   // -- Layout --
   // ── Referenzseite (langes Dokument mit mitlaufendem Verzeichnis) ──────────
+  // Zeilenabstand: greift nur unterhalb des Umbruchs, wenn Verzeichnis und
+  // Inhalt uebereinander stehen.
   --nc-refpage-gap:            var(--fnd-spacing-08);
+  // Spaltenabstand zwischen Inhalt und Verzeichnis. spacing-11 ist die
+  // 80px-Stufe der Skala (gemessen 80px von 1100px bis 1920px Viewport);
+  // spacing-12 waere 120px, spacing-10 nur 64px.
+  --nc-refpage-column-gap:     var(--fnd-spacing-11);
   // 300px statt 260px. Die groessere Verzeichnis-Typo (siehe unten) haette bei
   // 260px 22 statt 15 Eintraege umbrechen lassen, einzelne auf vier Zeilen —
   // die Schrift waere groesser, das Verzeichnis aber schlechter scanbar

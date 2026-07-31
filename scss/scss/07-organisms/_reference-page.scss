@@ -38,7 +38,10 @@ $refpage-bp: 1024px;
 .nc-refpage {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--mod-refpage-gap, var(--nc-refpage-gap));
+  // Zeilen- und Spaltenabstand getrennt: der Zeilenabstand greift nur
+  // unterhalb des Umbruchs (uebereinander), der Spaltenabstand nur darueber.
+  row-gap: var(--mod-refpage-gap, var(--nc-refpage-gap));
+  column-gap: var(--mod-refpage-column-gap, var(--nc-refpage-column-gap));
   align-items: start;
 
   @media (min-width: $refpage-bp) {
