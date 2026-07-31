@@ -68,7 +68,7 @@ $refpage-bp: 1024px;
 }
 
 .nc-refpage__toc-title {
-  font-size: var(--nc-type-caption-size);
+  font-size: var(--mod-refpage-toc-title-size, var(--nc-refpage-toc-title-size));
   font-weight: var(--fnd-font-weight-semibold);
   letter-spacing: var(--fnd-tracking-wider);
   text-transform: uppercase;
@@ -95,7 +95,7 @@ $refpage-bp: 1024px;
 .nc-refpage__toc-link {
   display: block;
   padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
-  font-size: var(--nc-type-body-s-size);
+  font-size: var(--mod-refpage-toc-size, var(--nc-refpage-toc-size));
   line-height: var(--lh-snug);
   color: var(--fnd-color-text-secondary);
   text-decoration: none;
@@ -124,8 +124,8 @@ $refpage-bp: 1024px;
 }
 
 .nc-refpage__toc-list--sub .nc-refpage__toc-link {
-  font-size: var(--nc-type-caption-size);
-  padding-block: 3px;
+  font-size: var(--mod-refpage-toc-sub-size, var(--nc-refpage-toc-sub-size));
+  padding-block: 4px;
 }
 
 // ---------------------------------------------------------------------------

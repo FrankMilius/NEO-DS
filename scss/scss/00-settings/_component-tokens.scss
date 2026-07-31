@@ -3053,7 +3053,21 @@
   // -- Layout --
   // ── Referenzseite (langes Dokument mit mitlaufendem Verzeichnis) ──────────
   --nc-refpage-gap:            var(--fnd-spacing-08);
-  --nc-refpage-toc-width:      260px;
+  // 300px statt 260px. Die groessere Verzeichnis-Typo (siehe unten) haette bei
+  // 260px 22 statt 15 Eintraege umbrechen lassen, einzelne auf vier Zeilen —
+  // die Schrift waere groesser, das Verzeichnis aber schlechter scanbar
+  // geworden. Mit 300px bleibt der Umbruch exakt wie vorher (15 Eintraege,
+  // hoechstens 3 Zeilen), gemessen an 68 Eintraegen.
+  --nc-refpage-toc-width:      300px;
+  // Ebene 1 auf Fliesstextgroesse: das Verzeichnis ist die Hauptnavigation der
+  // Seite, keine Fussnote. Vorher body-s (14px) gegen 16,8px Fliesstext.
+  --nc-refpage-toc-size:       var(--nc-type-body-m-size);
+  // Ebene 2 eine Stufe darunter — sie traegt 55 der 68 Eintraege und muss die
+  // Unterordnung zeigen, ohne unlesbar zu werden. Vorher 12px.
+  --nc-refpage-toc-sub-size:   var(--nc-type-body-s-size);
+  // Die Bereichsbezeichnung darueber ist eine Auszeichnung (Versalien), keine
+  // Lesezeile — bleibt kleiner, aber nicht bei 12px.
+  --nc-refpage-toc-title-size: var(--nc-type-body-s-size);
   --nc-refpage-marker-width:   2px;
   // text-accent statt interactive-default: die aktive Markierung muss 3:1
   // erreichen (WCAG 1.4.11). interactive-default (#009fe3) kommt auf heller
