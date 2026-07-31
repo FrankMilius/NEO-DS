@@ -207,6 +207,22 @@ $refpage-bp: 1024px;
     grid-column: 1;
     grid-row: 1;
   }
+
+  // Die Bloecke bringen jeweils ihren eigenen .nc-container mit. Da .nc-refpage
+  // selbst schon ein Container ist, wurde die Polsterung ZWEIMAL angewandt und
+  // der Abschnittstext rueckte gegenueber Navigation, Hero und Footer ein.
+  // Gemessen bei 1680px: Nav-Logo, Hero-Text und Footer-Text bei 152px, der
+  // Abschnittstext bei 232px - exakt die doppelte Polsterung.
+  //
+  // Ab 1920px ist die Container-Polsterung 0 (dritte Stufe der
+  // Container-Regel), deshalb fiel der Fehler bei maximaler Breite nicht auf.
+  //
+  // Die aeussere Begrenzung uebernimmt hier das Raster, die innere darf also
+  // nichts mehr hinzufuegen.
+  .nc-container {
+    max-inline-size: none;
+    padding-inline: 0;
+  }
 }
 
 // Das Sprungziel. OHNE scroll-margin-top landet die Ueberschrift beim Anspringen
