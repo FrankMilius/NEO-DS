@@ -3051,6 +3051,15 @@
 
 :root {
   // -- Layout --
+  // ── Referenzseite (langes Dokument mit mitlaufendem Verzeichnis) ──────────
+  --nc-refpage-gap:            var(--fnd-spacing-08);
+  --nc-refpage-toc-width:      260px;
+  --nc-refpage-marker-width:   2px;
+  // text-accent statt interactive-default: die aktive Markierung muss 3:1
+  // erreichen (WCAG 1.4.11). interactive-default (#009fe3) kommt auf heller
+  // Flaeche nur auf 2,97:1 — dasselbe Problem wie beim Summary-Karten-Icon.
+  --nc-refpage-active-color:   var(--fnd-color-text-accent);
+
   --nc-hero-bg:                    var(--fnd-color-always-dark);
   // Die Hero-Flaeche ist IMMER dunkel, also gehoert der Vordergrund dazu.
   // Fehlte er, erbte der Hero die Textfarbe des UMGEBENDEN Kontexts: stand er

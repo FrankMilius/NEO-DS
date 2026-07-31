@@ -1,0 +1,248 @@
+// ==========================================================================
+// 07-Organisms: Reference Page (Referenzseite mit mitlaufendem Verzeichnis)
+// ==========================================================================
+// Layout fuer lange Referenz- und Dokumentationsseiten: links ein
+// mitscrollendes Inhaltsverzeichnis, das den aktuellen Abschnitt markiert,
+// rechts die Abschnitte als vollwertige Bloecke untereinander.
+//
+// Vorbilder: Stripe Docs, IBM Carbon, MDN, Apple Developer.
+//
+// WARUM NICHT AKKORDEON: Ein Akkordeon versteckt Inhalt hinter einem Klick.
+// Damit findet Strg+F nichts, es gibt keine teilbare Anker-URL je Abschnitt,
+// und der Zurueck-Button verhaelt sich nicht erwartbar. Die offene Form
+// beantwortet die Navigationsfrage stattdessen mit dem Verzeichnis.
+//
+// BARRIEREFREIHEIT (WCAG 2.1 AA) — die drei Punkte, die hier wirklich zaehlen:
+//   2.4.1 Bypass Blocks     Das Verzeichnis ist ein <nav> mit aria-label.
+//   2.4.7 Focus Visible     scroll-margin-top an den Abschnitten, sonst
+//                           verschwindet das Sprungziel unter der Sticky-Nav.
+//   1.4.1 Use of Color      Der aktive Eintrag traegt aria-current="true" UND
+//                           eine Markierungsleiste plus Schriftschnitt — Farbe
+//                           allein waere kein zulaessiges Unterscheidungsmerkmal.
+//
+// UMBRUCH: unterhalb von 1024px wandert das Verzeichnis nach oben und wird zur
+// aufklappbaren Liste. Der Wert steht als SCSS-Variable, weil Media-Queries
+// keine CSS-Custom-Properties lesen koennen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// Der Umbruchpunkt liegt bewusst zwischen 'md' (960px) und 'lg' (1200px):
+// unter 1024px bleibt neben dem Verzeichnis keine brauchbare Lesespalte.
+$refpage-bp: 1024px;
+
+// ---------------------------------------------------------------------------
+// Grundgeruest
+// ---------------------------------------------------------------------------
+
+.nc-refpage {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mod-refpage-gap, var(--nc-refpage-gap));
+  align-items: start;
+
+  @media (min-width: $refpage-bp) {
+    grid-template-columns: var(--mod-refpage-toc-width, var(--nc-refpage-toc-width)) minmax(0, 1fr);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Inhaltsverzeichnis
+// ---------------------------------------------------------------------------
+
+.nc-refpage__toc {
+  // Unterhalb des Umbruchs sitzt das Verzeichnis oben und klebt dort, damit es
+  // beim Scrollen erreichbar bleibt. `top` beruecksichtigt die Navigationshoehe.
+  position: sticky;
+  inset-block-start: calc(var(--nc-nav-height) + var(--fnd-spacing-03));
+  z-index: 2;
+
+  @media (min-width: $refpage-bp) {
+    // Eigener Scrollbereich: bei sehr vielen Abschnitten soll das Verzeichnis
+    // scrollen und nicht die Seite auseinanderziehen.
+    max-block-size: calc(100vh - var(--nc-nav-height) - var(--fnd-spacing-08));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    @include hide-scrollbar;
+  }
+}
+
+.nc-refpage__toc-title {
+  font-size: var(--nc-type-caption-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  letter-spacing: var(--fnd-tracking-wider);
+  text-transform: uppercase;
+  color: var(--fnd-color-text-secondary);
+  margin: 0 0 var(--fnd-spacing-03);
+}
+
+.nc-refpage__toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+// Zweite Ebene (Unterabschnitte). Eingerueckt, eine Stufe kleiner.
+.nc-refpage__toc-list--sub {
+  margin-block: 2px 0;
+  padding-inline-start: var(--fnd-spacing-04);
+  border-inline-start: 1px solid var(--fnd-color-border-secondary);
+}
+
+.nc-refpage__toc-link {
+  display: block;
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
+  font-size: var(--nc-type-body-s-size);
+  line-height: var(--lh-snug);
+  color: var(--fnd-color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--fnd-radius-sm);
+  // Die Markierungsleiste liegt immer an, nur transparent. Sonst springt der
+  // Text beim Aktivwerden um die Leistenbreite zur Seite.
+  border-inline-start: var(--nc-refpage-marker-width) solid transparent;
+  @include transition(color background-color border-color, '150');
+
+  &:hover {
+    color: var(--fnd-color-text-primary);
+    background: var(--fnd-color-background-secondary);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Aktiver Abschnitt: DREI Merkmale, nicht nur Farbe (WCAG 1.4.1).
+  &[aria-current='true'] {
+    color: var(--nc-refpage-active-color);
+    font-weight: var(--fnd-font-weight-semibold);
+    border-inline-start-color: var(--nc-refpage-active-color);
+    background: var(--fnd-color-background-secondary);
+  }
+}
+
+.nc-refpage__toc-list--sub .nc-refpage__toc-link {
+  font-size: var(--nc-type-caption-size);
+  padding-block: 3px;
+}
+
+// ---------------------------------------------------------------------------
+// Aufklappbare Form unterhalb des Umbruchs
+// ---------------------------------------------------------------------------
+// <details>/<summary> statt eigener Klapplogik: Tastaturbedienung, Rollen und
+// der aufgeklappte Zustand kommen vom Browser. Oberhalb des Umbruchs wird das
+// Ganze wieder zur offenen Liste.
+
+.nc-refpage__toc-disclosure {
+  background: var(--fnd-color-background-base);
+  border: 1px solid var(--fnd-color-border-secondary);
+  border-radius: var(--fnd-radius-md);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+
+  @media (min-width: $refpage-bp) {
+    border: 0;
+    padding: 0;
+    background: none;
+  }
+}
+
+.nc-refpage__toc-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fnd-spacing-03);
+  cursor: pointer;
+  font-size: var(--nc-type-label-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--fnd-color-text-primary);
+  list-style: none;
+
+  &::-webkit-details-marker { display: none; }
+
+  &:focus-visible { @include focus-ring; }
+
+  // Oberhalb des Umbruchs ist die Liste dauerhaft offen — dann waere ein
+  // Aufklapp-Schalter irrefuehrend.
+  @media (min-width: $refpage-bp) {
+    display: none;
+  }
+}
+
+.nc-refpage__toc-chevron {
+  flex: none;
+  inline-size: 16px;
+  block-size: 16px;
+  @include transition(transform, '150');
+
+  [open] > .nc-refpage__toc-summary & {
+    transform: rotate(180deg);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Abschnitte
+// ---------------------------------------------------------------------------
+
+.nc-refpage__content {
+  min-inline-size: 0; // verhindert Grid-Overflow durch breite Kinder
+}
+
+// Das Sprungziel. OHNE scroll-margin-top landet die Ueberschrift beim Anspringen
+// unter der Sticky-Navigation und ist nach dem Sprung unsichtbar (WCAG 2.4.7).
+.nc-refpage__section {
+  scroll-margin-top: calc(var(--nc-nav-height) + var(--fnd-spacing-05));
+}
+
+// ---------------------------------------------------------------------------
+// Dokumentations-Abschnitt (Blocktyp neo_doc_section)
+// ---------------------------------------------------------------------------
+// Die Unterabschnitte stehen offen untereinander. Getrennt werden sie durch
+// Abstand und eine Haarlinie, nicht durch Rahmen — sie sind Fliesstext, keine
+// Karten. Karten wuerden eine Gleichrangigkeit suggerieren, die es nicht gibt:
+// die Reihenfolge im Dokument hat Bedeutung.
+
+.nc-doc-section__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-07);
+  margin-block-start: var(--fnd-spacing-07);
+}
+
+.nc-doc-section__item + .nc-doc-section__item {
+  padding-block-start: var(--fnd-spacing-07);
+  border-block-start: 1px solid var(--fnd-color-border-secondary);
+}
+
+// Groesse/Gewicht/Line-Height des h3 kommen aus der kanonischen Untertitel-Regel
+// (10-utilities/_block-roles.scss). Hier nur der Abstand nach unten.
+.nc-doc-section__title {
+  margin: 0 0 var(--fnd-spacing-03);
+}
+
+.nc-doc-section__text {
+  margin: 0;
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--lh-body);
+  color: var(--fnd-color-text-secondary);
+  // Lesebreite kappen: der Abschnitt selbst darf die volle Spalte nutzen
+  // (Listen, kuenftig Tabellen), der Fliesstext nicht.
+  max-inline-size: var(--container-prose);
+}
+
+.nc-doc-section__list {
+  margin: var(--fnd-spacing-04) 0 0;
+  padding-inline-start: var(--fnd-spacing-05);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--lh-body);
+  color: var(--fnd-color-text-secondary);
+  max-inline-size: var(--container-prose);
+
+  li::marker {
+    color: var(--fnd-color-text-accent);
+  }
+}
