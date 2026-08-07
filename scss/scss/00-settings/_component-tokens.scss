@@ -3154,6 +3154,41 @@
 }
 
 // ---------------------------------------------------------------------------
+// Text + CTA Tokens
+// ---------------------------------------------------------------------------
+// Split-Layout wie Text + Media, aber die zweite Spalte ist eine Karte mit
+// Icon, Ueberschrift, Lead und Button statt eines Mediums.
+
+:root {
+  --nc-text-cta-gap:               var(--nc-text-media-gap);
+  --nc-text-cta-content-gap:       var(--nc-text-media-content-gap);
+
+  // Die Karte bekommt WENIGER Platz als der Fliesstext. 1fr 1fr wie bei
+  // Text + Media waere hier falsch: ein Medium fuellt seine Spalte, eine
+  // Karte mit vier kurzen Elementen wirkt darin verloren.
+  //
+  // Zwei Werte, weil `order` die Spuren NICHT mitdreht: steht die Karte links,
+  // muss die schmale Spur nach vorne, sonst bekommt die Karte die breite
+  // Spalte und der Text die schmale.
+  --nc-text-cta-columns:           minmax(0, 1.35fr) minmax(0, 1fr);
+  --nc-text-cta-columns-reverse:   minmax(0, 1fr) minmax(0, 1.35fr);
+
+  --nc-text-cta-card-padding:      var(--fnd-spacing-08);
+  --nc-text-cta-card-radius:       var(--fnd-radius-2xl);
+  // Standardflaeche der Karte. Redaktionell ueberschreibbar (field_tc_card_bg
+  // setzt --mod-card-bg als Inline-Style).
+  --nc-text-cta-card-bg:           var(--fnd-color-background-base);
+  --nc-text-cta-card-border:       var(--fnd-color-border-secondary);
+
+  --nc-text-cta-list-gap:          var(--fnd-spacing-03);
+  --nc-text-cta-list-marker-color: var(--fnd-color-text-accent);
+
+  --nc-text-cta-card-icon-size:    var(--fnd-size-xl, 40px);
+  --nc-text-cta-card-icon-color:   var(--fnd-color-text-accent);
+  --nc-text-cta-card-icon-gap:     var(--fnd-spacing-04);
+}
+
+// ---------------------------------------------------------------------------
 // Card Grid Tokens
 // ---------------------------------------------------------------------------
 // Grid-Layout fuer Card-Sammlungen.

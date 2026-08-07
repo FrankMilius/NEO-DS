@@ -1,0 +1,162 @@
+// ==========================================================================
+// 07-Organisms: Text + CTA
+// ==========================================================================
+// Split-Layout: Fliesstext links, CTA-Karte rechts (Standard) oder links.
+//
+// Das Raster ist bewusst dasselbe wie bei Text + Media (07-organisms/
+// _text-media.scss) — gleiche Container-Query, gleiche Schwelle, gleiche
+// Reihenfolge-Logik. Was sich unterscheidet, ist die zweite Spalte: dort steht
+// kein Medium, sondern eine Karte mit eigener Flaeche, eigenem Hintergrund und
+// eigenem Innenabstand.
+//
+// WARUM EIGENER ORGANISM UND KEINE VARIANTE VON .nc-text-media:
+// Eine Variante haette dieselben Klassen mit anderer Bedeutung belegt
+// (`__media` enthaelt dann kein Medium) und die Redaktion haette in einem
+// Block Felder fuer Video, Bild UND Karte gesehen, von denen sich die meisten
+// gegenseitig ausschliessen. Die 20 Zeilen doppeltes Raster sind der
+// guenstigere Preis.
+//
+// CONTAINER-QUERY, NICHT VIEWPORT: der Reflow richtet sich nach der EIGENEN
+// Breite des Blocks. Damit stimmt die Komponente auch in einer Spalte oder
+// Sidebar. Container-Kontext und Raster muessen dafuer auf GETRENNTEN
+// Elementen liegen — ein Element kann seinen eigenen Container nicht abfragen.
+// (Genau daran krankte Text + Media eine Zeit lang, siehe Kommentar dort.)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-text-cta {
+  @include container-context(text-cta);
+  display: block;
+}
+
+.nc-text-cta__grid {
+  display: grid;
+  gap: var(--mod-text-cta-gap, var(--nc-text-cta-gap));
+  grid-template-columns: 1fr; // gestapelt (Default / schmaler Container)
+
+  @include container-min(text-cta, 'media-text-stack') {
+    grid-template-columns: var(--mod-text-cta-columns, var(--nc-text-cta-columns));
+    align-items: center;
+
+    // Karte links: NUR die visuelle Reihenfolge tauschen. Die DOM-Reihenfolge
+    // bleibt Text -> Karte, damit Screenreader und Tastatur immer erst den
+    // erklaerenden Text und dann den Handlungsaufruf bekommen.
+    //
+    // Die SPUREN muessen dabei mitgedreht werden. `order` verschiebt nur, WER
+    // in welcher Spalte landet — die Breiten bleiben, wo sie sind. Ohne diese
+    // Zeile bekam die Karte die breite Spalte und der Text die schmale
+    // (gemessen 712px Karte / 527px Text, also genau verkehrt herum).
+    .nc-text-cta--card-left & {
+      grid-template-columns: var(--mod-text-cta-columns-reverse, var(--nc-text-cta-columns-reverse));
+
+      .nc-text-cta__aside   { order: 1; }
+      .nc-text-cta__content { order: 2; }
+    }
+  }
+}
+
+// Gestapelt (schmaler Container) steht die Karte UNTER dem Text — auch dann,
+// wenn sie im Breitbild links sitzt. Der Text erklaert, die Karte fordert auf;
+// diese Reihenfolge soll das Umbrechen nicht umdrehen.
+
+.nc-text-cta__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--mod-text-cta-content-gap, var(--nc-text-cta-content-gap));
+  min-inline-size: 0;
+}
+
+.nc-text-cta__aside {
+  min-inline-size: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Punkteliste
+// ---------------------------------------------------------------------------
+// Eigener Name statt .nc-feature-list: den Namen gibt es im Drupal-Theme
+// bereits fuer einen ganzen Block (neo_feature_list, Sektion mit Medium, CTA
+// und per JS gerenderten Punkten). Eine Liste INNERHALB dieses Organismus
+// haette dessen Sektionsregeln geerbt.
+//
+// Raster statt margin fuer den Haken: bei `margin-inline-end` laufen
+// Folgezeilen unter das Zeichen zurueck. `auto 1fr` haelt sie buendig unter
+// dem Text der ersten Zeile.
+.nc-text-cta__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mod-text-cta-list-gap, var(--nc-text-cta-list-gap));
+}
+
+.nc-text-cta__list-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--fnd-spacing-03);
+  align-items: start;
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--nc-type-body-m-lh);
+
+  &::before {
+    content: '\2714';
+    color: var(--mod-text-cta-list-marker-color, var(--nc-text-cta-list-marker-color));
+    font-weight: var(--fnd-font-weight-bold);
+    // Dekoratives Zeichen: der Sinn steht im Text daneben.
+    speak: never;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Die Karte
+// ---------------------------------------------------------------------------
+// Basis ist .nc-card (06-molecules) — Rahmen, Radius, Schatten und die
+// --mod-card-*-Schnittstelle kommen von dort. Hier nur, was diese Verwendung
+// ausmacht: zentrierte Achse, groszuegiger Innenabstand, Icon oben.
+
+.nc-text-cta__card {
+  --mod-card-bg: var(--nc-text-cta-card-bg);
+  --mod-card-border: var(--nc-text-cta-card-border);
+  --mod-card-radius: var(--nc-text-cta-card-radius);
+
+  text-align: center;
+  block-size: auto; // nicht auf die Rasterzeile strecken
+
+  .nc-card__content {
+    align-items: center;
+    padding: var(--mod-text-cta-card-padding, var(--nc-text-cta-card-padding));
+    gap: var(--fnd-spacing-03);
+  }
+}
+
+.nc-text-cta__card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mod-text-cta-card-icon-size, var(--nc-text-cta-card-icon-size));
+  block-size: var(--mod-text-cta-card-icon-size, var(--nc-text-cta-card-icon-size));
+  margin-block-end: var(--nc-text-cta-card-icon-gap);
+  color: var(--mod-text-cta-card-icon-color, var(--nc-text-cta-card-icon-color));
+  flex-shrink: 0;
+
+  // Heroicons kommen ohne feste Groesse — sie sollen die Box fuellen.
+  > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+}
+
+// Der Button steht als letztes Element und bekommt den kanonischen Abstand
+// vor dem Primaer-CTA. Der Content-Stack hat bereits einen gap — der zaehlt
+// mit, sonst stuenden gap + margin uebereinander (derselbe Fehler wie
+// seinerzeit in .nc-text-media__cta, dort mit 40px statt 24px gemessen).
+.nc-text-cta__card-action {
+  margin-block-start: calc(var(--fnd-spacing-05) - var(--fnd-spacing-03));
+  inline-size: 100%;
+
+  .nc-button {
+    inline-size: 100%;
+  }
+}
