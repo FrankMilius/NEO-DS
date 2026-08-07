@@ -1355,8 +1355,14 @@
   --nc-label-default-bg-hover: var(--fnd-color-background-tertiary);
 
   // -- Accent (Subtle) --
+  // FARBE aus text-accent, nicht aus interactive-default. Letzteres ist ein
+  // Interaktions-Token (#009fe3) und als Textfarbe zu hell: auf der eigenen
+  // 12-%-Flaeche gemessen 2,61:1 bei 12px — WCAG AA verlangt 4,5:1.
+  // Alle anderen Varianten machen es bereits richtig (success/warning/danger
+  // nutzen --fnd-color-text-*); accent war der Ausreisser.
+  // Die FLAECHE bleibt bei interactive-default, sie traegt keinen Text.
   @include state.transparent-overlay(--nc-label-accent-bg, var(--fnd-color-interactive-default), 12);
-  --nc-label-accent-color: var(--fnd-color-interactive-default);
+  --nc-label-accent-color: var(--fnd-color-text-accent);
   --nc-label-accent-border: transparent;
   --nc-label-accent-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
 
@@ -3787,6 +3793,12 @@
   --nc-section-header-label-text-transform: var(--nc-kicker-text-transform);
   --nc-section-header-label-color: var(--nc-kicker-color);
   --nc-section-header-label-spacing: var(--nc-kicker-spacing);
+
+  // Badge-Zeile ueber dem Kicker. Der Abstand nach unten ist groesser als der
+  // Abstand ZWISCHEN den Badges, damit die Zeile als eigene Gruppe liest und
+  // nicht als erste Zeile des Kickers.
+  --nc-section-header-badges-gap: var(--fnd-spacing-02);
+  --nc-section-header-badges-spacing: var(--fnd-spacing-04);
 
   // Title
   --nc-section-header-title-font-size: var(--fnd-typography-heading-m-font-size);
