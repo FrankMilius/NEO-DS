@@ -3977,8 +3977,38 @@
 :root {
   --nc-solution-tabs-accent-default:    var(--fnd-color-text-accent);  // war interactive-default (#009fe3) -> jetzt text-accent (#0e7490)
   --nc-solution-tabs-border:            color-mix(in srgb, var(--fnd-color-text-inverse) 14%, transparent);
+
+  // -- Tab-Flaechen: drei Stufen --
+  // Vorher trug JEDER Tab den vollen Akzent — aktiv und inaktiv waren
+  // flaechengleich, die Leiste las sich als ein geschlossener Farbbalken.
+  // Unterschieden wurde nur die Textfarbe (gemessen 1,00:1 zwischen den
+  // Flaechen; WCAG 1.4.11 verlangt 3:1 fuer Zustandsindikatoren).
+  //
+  // Die Benennung folgt bewusst .nc-tabs (06-molecules): dort heisst dasselbe
+  // Muster --nc-tabs-contained-trigger-bg / -bg-hover / -bg-active. Zwei
+  // Komponenten, ein Vokabular.
+  //
+  // ACHTUNG — die drei --tab-bg-* stehen NICHT hier, sondern in
+  // 07-organisms/_solution-tabs.scss auf `.nc-solution-tabs`. Sie leiten sich
+  // aus --nc-solution-tabs-accent ab, und der ist pro Instanz gesetzt (Inline-
+  // Style aus dem CMS). var() in einer Custom-Property wird dort aufgeloest, wo
+  // sie DEKLARIERT ist — auf :root kennt niemand den Akzent, die color-mix()
+  // waere ungueltig und die Flaeche transparent. Genau so ist es beim ersten
+  // Versuch passiert und in der Messung aufgefallen.
+  // Nur die Mischverhaeltnisse sind hier zentral, damit sie an einer Stelle
+  // stehen:
+  --nc-solution-tabs-tab-bg-strength:       30%;
+  --nc-solution-tabs-tab-bg-strength-hover: 45%;
+
   --nc-solution-tabs-tab-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 58%, transparent);
-  --nc-solution-tabs-tab-color-active:  var(--fnd-color-text-inverse);
+  --nc-solution-tabs-tab-color-hover:   var(--fnd-color-text-inverse);
+  // BEWUSST an die eigene Flaeche gebunden, nicht an die Sektions-Surface:
+  // der aktive Tab liegt IMMER auf dem vollen Akzent, egal ob die Sektion hell
+  // oder dunkel ist. Vorher zeigte dieses Token auf die Surface-Textfarbe —
+  // solange die Sektion faelschlich als „hell" galt, ging das gut; sobald der
+  // dunkle Surface-Kontext korrekt greift, waere daraus heller Text auf hellem
+  // Akzent geworden (~2,3:1).
+  --nc-solution-tabs-tab-color-active:  var(--fnd-color-on-accent, var(--fnd-color-always-dark));
   --nc-solution-tabs-title:             var(--fnd-color-text-inverse);
   --nc-solution-tabs-text:              color-mix(in srgb, var(--fnd-color-text-inverse) 74%, transparent);
   --nc-solution-tabs-visual-bg:         color-mix(in srgb, var(--fnd-color-text-inverse) 7%, var(--fnd-color-always-dark));

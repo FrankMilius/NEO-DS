@@ -18,6 +18,22 @@
   // Pro-Panel Akzent (kann per Inline-Style ueberschrieben werden)
   /*--nc-solution-tabs-accent: var(--nc-solution-tabs-accent-default);*/
   --nc-solution-tabs-accent: #37e93d;
+
+  // Die drei Tab-Flaechen MUESSEN hier stehen, nicht in 00-settings: sie
+  // leiten sich vom Akzent ab, und der wird erst auf diesem Element gesetzt.
+  // Auf :root waere var(--nc-solution-tabs-accent) unaufloesbar und die
+  // color-mix() damit ungueltig — die Flaeche fiele auf transparent zurueck.
+  --nc-solution-tabs-tab-bg: color-mix(
+    in srgb,
+    var(--nc-solution-tabs-accent) var(--nc-solution-tabs-tab-bg-strength),
+    transparent
+  );
+  --nc-solution-tabs-tab-bg-hover: color-mix(
+    in srgb,
+    var(--nc-solution-tabs-accent) var(--nc-solution-tabs-tab-bg-strength-hover),
+    transparent
+  );
+  --nc-solution-tabs-tab-bg-active: var(--nc-solution-tabs-accent);
 }
 
 // Sektions-Header in heller Schrift (dunkle Sektion). Der gemeinsame
@@ -42,7 +58,7 @@
   appearance: none;
   margin: 0;
   border: 0;
-  background-color: var(--nc-solution-tabs-accent);
+  background-color: var(--mod-solution-tabs-tab-bg, var(--nc-solution-tabs-tab-bg));
   border-radius: var(--fnd-radius-xs);
   cursor: pointer;
   padding: var(--fnd-spacing-03) var(--fnd-spacing-06) calc(var(--fnd-spacing-03) + 2px);
@@ -51,14 +67,20 @@
   font-weight: var(--fnd-font-weight-semibold);
   white-space: nowrap;
   color: var(--nc-solution-tabs-tab-color);
-  transition: color var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
+  transition:
+    color var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative),
+    background-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
 }
 
-.nc-solution-tabs__tab:hover {
-  color: var(--nc-solution-tabs-tab-color-active);
+// :not([aria-selected='true']) — sonst zieht Hover den aktiven Tab auf die
+// schwaechere Hover-Flaeche herunter. Dieselbe Absicherung wie in .nc-tabs.
+.nc-solution-tabs__tab:hover:not([aria-selected='true']) {
+  background-color: var(--mod-solution-tabs-tab-bg-hover, var(--nc-solution-tabs-tab-bg-hover));
+  color: var(--nc-solution-tabs-tab-color-hover);
 }
 
 .nc-solution-tabs__tab[aria-selected="true"] {
+  background-color: var(--mod-solution-tabs-tab-bg-active, var(--nc-solution-tabs-tab-bg-active));
   color: var(--nc-solution-tabs-tab-color-active);
 }
 
@@ -102,9 +124,13 @@
   border-radius: var(--fnd-radius-md);
 }
 
-.nc-solution-tabs--contained .nc-solution-tabs__tab[aria-selected="true"] {
-  background: color-mix(in srgb, var(--nc-solution-tabs-accent) 14%, transparent);
-}
+// Die frueher hier stehende Ausnahme (aktiv = Akzent 14%) ist entfallen. Sie
+// stammt aus der Zeit, als die Basis JEDEN Tab voll einfaerbte — dann war ein
+// schwacher Tint fuer „aktiv" der einzige Weg, ueberhaupt etwas abzusetzen.
+// Mit der Drei-Stufen-Basis kehrte sie sich ins Gegenteil: der inaktive Tab
+// (30 %) waere kraeftiger gewesen als der aktive (14 %). Contained
+// unterscheidet sich jetzt nur noch im Radius, die Zustaende kommen aus
+// denselben Tokens.
 
 .nc-solution-tabs--contained .nc-solution-tabs__progress {
   display: none;
@@ -360,9 +386,23 @@
     background var(--fnd-motion-duration-200) var(--fnd-motion-ease-informative);
 }
 
-.nc-solution-tabs--vertical .nc-solution-tabs__tab:hover,
+// Vorher lagen Hover UND Aktiv gemeinsam auf einem 5-%-Tint — untereinander
+// nicht unterscheidbar und, weil die Basis damals voll eingefaerbt war, sogar
+// SCHWAECHER als der inaktive Zustand. Die Rangfolge war also verkehrt herum.
+// Jetzt dieselben drei Stufen wie horizontal; die vertikale Leiste setzt
+// zusaetzlich eine Akzentkante, weil ein breites Listenelement allein ueber
+// die Flaeche traeger liest als ein kompakter Tab.
+.nc-solution-tabs--vertical .nc-solution-tabs__tab {
+  border-inline-start: var(--fnd-border-width-md, 2px) solid transparent;
+}
+
+.nc-solution-tabs--vertical .nc-solution-tabs__tab:hover:not([aria-selected='true']) {
+  background: var(--mod-solution-tabs-tab-bg-hover, var(--nc-solution-tabs-tab-bg-hover));
+}
+
 .nc-solution-tabs--vertical .nc-solution-tabs__tab[aria-selected="true"] {
-  background: color-mix(in srgb, var(--nc-solution-tabs-title) 5%, transparent);
+  background: var(--mod-solution-tabs-tab-bg-active, var(--nc-solution-tabs-tab-bg-active));
+  border-inline-start-color: var(--nc-solution-tabs-accent);
 }
 
 .nc-solution-tabs__tab-index {
