@@ -166,6 +166,13 @@
   // -- Character Counter --
 
   &__counter {
+    // Zeichenzaehler zaehlt hoch — ohne Tabellenziffern springt die Breite bei
+    // jedem Tastendruck.
+    font-family: var(--font-mono);
+    font-weight: var(--nc-mono-label-weight-quiet);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+    letter-spacing: var(--nc-mono-tracking-num);
     @include textarea-counter;
 
     // Wenn Limit erreicht, Farbe aendern

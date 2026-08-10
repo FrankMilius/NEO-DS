@@ -101,7 +101,10 @@
 
   // Kicker — kanonischer Klartext-Accent (geteilter --nc-kicker-* Satz)
   &__kicker {
-    font-size: var(--nc-kicker-font-size);
+    // Kartentitel ist H3 — die Dachzeile darueber steht auf der kleinsten
+    // Stufe, sonst konkurriert sie mit dem Titel.
+    font-family: var(--nc-kicker-font-family);
+    font-size: var(--nc-mono-label-size-sm);
     font-weight: var(--nc-kicker-font-weight);
     letter-spacing: var(--nc-kicker-letter-spacing);
     text-transform: var(--nc-kicker-text-transform);

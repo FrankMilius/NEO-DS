@@ -2024,9 +2024,12 @@
   // -- Header --
   --nc-table-header-bg: var(--fnd-color-background-inverse);
   --nc-table-header-color: var(--fnd-color-text-inverse);
-  --nc-table-header-font-size: var(--fs-sm);
-  --nc-table-header-font-weight: var(--fnd-font-weight-semibold);
-  --nc-table-header-letter-spacing: 0.01em;
+  // Spaltenkoepfe benennen Daten, sie sind keine Daten — Mono-Meta-Label.
+  --nc-table-header-font-family: var(--font-mono);
+  --nc-table-header-font-size: var(--nc-mono-label-size-sm);
+  --nc-table-header-font-weight: var(--nc-mono-label-weight);
+  --nc-table-header-letter-spacing: var(--nc-mono-tracking-caps);
+  --nc-table-header-text-transform: uppercase;
 
   // -- Cell Padding (3 Density-Stufen) --
   --nc-table-cell-padding-compact: var(--fnd-spacing-02) var(--fnd-spacing-03);
@@ -3121,8 +3124,15 @@
   --nc-hero-overlay-direction:     135deg;
 
   // -- Kicker / Badge --
-  --nc-hero-kicker-size:           var(--fs-base);
-  --nc-hero-kicker-weight:         var(--fnd-font-weight-semibold);
+  // Hero: steht ueber einer DISPLAY-Headline und traegt deshalb eine Stufe
+  // weiter als die Section-Dachzeile.
+  --nc-hero-kicker-family:         var(--font-mono);
+  --nc-hero-kicker-size:           var(--nc-mono-label-size-lg);
+  // 500, NICHT semibold: DM Mono ist nur in 400 und 500 geladen — 600 waere
+  // eine synthetische Fettung und bei diesem Grad sichtbar unsauber.
+  --nc-hero-kicker-weight:         var(--nc-mono-label-weight);
+  --nc-hero-kicker-tracking:       var(--nc-mono-tracking-caps);
+  --nc-hero-kicker-transform:      uppercase;
   --nc-hero-kicker-bg:             var(--fnd-color-background-accent);
   --nc-hero-kicker-color:          var(--fnd-color-on-accent);
   --nc-hero-kicker-radius:         var(--fnd-radius-sm);
@@ -3242,7 +3252,8 @@
   --nc-product-showcase-option-color-hover:     color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent);
   --nc-product-showcase-option-gap:             var(--fnd-spacing-02);
   --nc-product-showcase-option-padding:         var(--fnd-spacing-02) 0;
-  --nc-product-showcase-label-font-size:        var(--fs-sm);
+  --nc-product-showcase-label-family:           var(--font-mono);
+  --nc-product-showcase-label-font-size:        var(--nc-mono-label-size);
   --nc-product-showcase-label-font-family:      var(--fnd-typography-fonts-body);
   --nc-product-showcase-label-color:            var(--fnd-color-text-secondary);
   --nc-product-showcase-indicator-size:         12px;
@@ -3481,9 +3492,15 @@
   --nc-metric-gap:                 var(--fnd-spacing-02);
 
   // Value (Big Number)
-  --nc-metric-value-font-family:   var(--font-heading);
+  // Kennzahl in Mono mit Tabellenziffern: mehrere Werte nebeneinander bleiben
+  // dadurch in Flucht.
+  // ACHTUNG — DM Mono ist nur in 400/500 geladen. Die bisherige Black-Fettung
+  // (900) ist damit nicht erreichbar; der Wert verliert sichtbar an Gewicht.
+  // Das ist der einzige Punkt der Umstellung, an dem Mono etwas KOSTET statt
+  // etwas zu klaeren. Rueckweg: diese drei Zeilen zuruecknehmen.
+  --nc-metric-value-font-family:   var(--font-mono);
   --nc-metric-value-font-size:     var(--fs-6xl);
-  --nc-metric-value-font-weight:   var(--fnd-font-weight-black);
+  --nc-metric-value-font-weight:   var(--nc-mono-label-weight);
   --nc-metric-value-color:         var(--fnd-color-background-accent);
   --nc-metric-value-line-height:   1.1;
 
@@ -3493,7 +3510,10 @@
   --nc-metric-unit-font-weight:    var(--fnd-font-weight-bold);
 
   // Label (Beschriftung ueber dem Wert)
-  --nc-metric-label-font-size:     var(--fs-sm);
+  --nc-metric-label-font-family:   var(--font-mono);
+  --nc-metric-label-font-size:     var(--nc-mono-label-size-sm);
+  --nc-metric-label-transform:     uppercase;
+  --nc-metric-label-tracking:      var(--nc-mono-tracking-caps);
   --nc-metric-label-color:         var(--fnd-color-text-inverse);
   --nc-metric-label-font-weight:   var(--fnd-font-weight-medium);
   --nc-metric-label-opacity:       0.75;
@@ -3713,7 +3733,8 @@
   --nc-footer-link-size:             var(--fs-sm);
 
   // -- CTA --
-  --nc-footer-cta-kicker-size:       var(--fs-sm);
+  --nc-footer-cta-kicker-family:     var(--font-mono);
+  --nc-footer-cta-kicker-size:       var(--nc-mono-label-size);
   --nc-footer-cta-headline-size:     var(--fs-4xl);
   --nc-footer-cta-headline-weight:   var(--fnd-font-weight-bold);
   --nc-footer-cta-gap:               var(--fnd-spacing-06);
@@ -3785,10 +3806,51 @@
   // die Rolle ueberall identisch aussieht. Ausnahme: Hero nutzt bewusst ein
   // Badge (--nc-hero-kicker-*) wegen Lesbarkeit ueber Bildern.
   // ---------------------------------------------------------------------------
-  --nc-kicker-font-size:      var(--fs-base);
-  --nc-kicker-font-weight:    var(--fnd-font-weight-semibold);
-  --nc-kicker-letter-spacing: 0em;
-  --nc-kicker-text-transform: none;
+// ---------------------------------------------------------------------------
+// Monospace-Auszeichnung
+// ---------------------------------------------------------------------------
+// Mono markiert die META-EBENE: alles, was ueber den Inhalt spricht statt
+// Inhalt zu sein — Dachzeilen, Spaltenkoepfe, Kuerzel, Zaehler, Filter.
+// Sobald ein Text selbst Inhalt ist, bleibt er in der Grotesk.
+//
+// ZWEI HARTE GRENZEN, die diese Skala bestimmen:
+//
+// 1. DM Mono ist NUR in 400 und 500 geladen (siehe neo-fonts.css). Alles
+//    darueber waere synthetisch gefettet und bei kleinen Graden unsauber.
+//    Deshalb gibt es hier kein semibold/bold — Rollen, die Gewicht als
+//    Zustandsmerkmal brauchen (z. B. Badges), bleiben in der Grotesk.
+//
+// 2. Die fluide Skala endet bei --fs-2xs (12px fix). Die Entwurfsvorlagen
+//    arbeiteten mit 10 und 11px; das liegt UNTER dem Skalenboden und waere
+//    weder fluid noch bei schwacher Sicht zumutbar. 12px ist der Boden.
+//
+// DREI STUFEN, an der Ueberschrift ausgerichtet, ueber der die Dachzeile
+// steht. Eine flache Groesse fuer alle haette die Ebenen eingeebnet: eine
+// Dachzeile ueber einer Display-Headline traegt weiter als eine ueber einem
+// Kartentitel. Am unteren Ende der Viewport-Breite laufen alle drei auf 12px
+// zusammen — dort ist kein Platz fuer eine Label-Hierarchie, und 12px ist die
+// Lesbarkeitsgrenze.
+  --nc-mono-label-size-lg:  var(--fs-sm);    // 12 -> 15px   ueber Display-Headline (Hero)
+  --nc-mono-label-size:     var(--fs-xs);    // 12 -> 12,5px ueber Section-Headline (H2)
+  --nc-mono-label-size-sm:  var(--fs-2xs);   // 12px fix     Karte, Menue, Utility
+
+  --nc-mono-label-weight:   500;             // Obergrenze der geladenen Schnitte
+  --nc-mono-label-weight-quiet: 400;         // Zaehler, Metadaten
+
+  // Tracking nach ROLLE, nicht nach Groesse. Die Vorlagen nutzten sieben
+  // Werte ohne erkennbare Regel; drei reichen.
+  --nc-mono-tracking-caps: .12em;   // Versalien: Grotesk-Versalien wirken sonst gedraengt
+  --nc-mono-tracking-code: .06em;   // Kuerzel ohne Versalien (DE/EN)
+  --nc-mono-tracking-num:  0;       // Ziffern: Tracking stoert die Spaltenbuendigkeit
+
+  // Dachzeile ueber der Section-Headline (H2). Mono-Meta-Label statt
+  // Akzent-Fliesstext: vorher fs-base/Semibold ohne Versalien — typografisch
+  // dicht am Lead darunter, die drei Ebenen waren kaum zu trennen.
+  --nc-kicker-font-family:    var(--font-mono);
+  --nc-kicker-font-size:      var(--nc-mono-label-size);
+  --nc-kicker-font-weight:    var(--nc-mono-label-weight);
+  --nc-kicker-letter-spacing: var(--nc-mono-tracking-caps);
+  --nc-kicker-text-transform: uppercase;
   // --fnd-color-text-accent = echter, WCAG-AA-getunter Accent-Text (war zuvor
   // --fnd-color-accent-default, das NIRGENDS definiert ist -> Kicker erbte Textfarbe).
   --nc-kicker-color:          var(--fnd-color-text-accent);
@@ -3932,8 +3994,11 @@
 // Hero mit Text ueber Hintergrund-Medium. Parallax-Expand Option.
 
 :root {
-  --nc-hero-tom-kicker-size:         var(--fs-sm);
-  --nc-hero-tom-kicker-weight:       var(--fnd-font-weight-semibold);
+  --nc-hero-tom-kicker-family:       var(--font-mono);
+  --nc-hero-tom-kicker-size:         var(--nc-mono-label-size-lg);
+  --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight);
+  --nc-hero-tom-kicker-tracking:     var(--nc-mono-tracking-caps);
+  --nc-hero-tom-kicker-transform:    uppercase;
   --nc-hero-tom-headline-size:       var(--fs-5xl);
   --nc-hero-tom-headline-weight:     var(--fnd-font-weight-bold);
   --nc-hero-tom-subtext-size:        var(--fs-lg);
