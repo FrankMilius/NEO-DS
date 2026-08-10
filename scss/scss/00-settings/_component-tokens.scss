@@ -3820,19 +3820,32 @@
 //    Deshalb gibt es hier kein semibold/bold — Rollen, die Gewicht als
 //    Zustandsmerkmal brauchen (z. B. Badges), bleiben in der Grotesk.
 //
-// 2. Die fluide Skala endet bei --fs-2xs (12px fix). Die Entwurfsvorlagen
-//    arbeiteten mit 10 und 11px; das liegt UNTER dem Skalenboden und waere
-//    weder fluid noch bei schwacher Sicht zumutbar. 12px ist der Boden.
+// 2. Die Entwurfsvorlagen arbeiteten mit 10 und 11px. Das liegt unter dem
+//    Skalenboden (--fs-2xs = 12px) und waere weder fluid noch bei schwacher
+//    Sicht zumutbar. 12px ist die untere Grenze — sie gilt hier nur noch fuer
+//    die kleinste Stufe auf schmalen Viewports.
 //
 // DREI STUFEN, an der Ueberschrift ausgerichtet, ueber der die Dachzeile
 // steht. Eine flache Groesse fuer alle haette die Ebenen eingeebnet: eine
 // Dachzeile ueber einer Display-Headline traegt weiter als eine ueber einem
-// Kartentitel. Am unteren Ende der Viewport-Breite laufen alle drei auf 12px
-// zusammen — dort ist kein Platz fuer eine Label-Hierarchie, und 12px ist die
-// Lesbarkeitsgrenze.
-  --nc-mono-label-size-lg:  var(--fs-sm);    // 12 -> 15px   ueber Display-Headline (Hero)
-  --nc-mono-label-size:     var(--fs-xs);    // 12 -> 12,5px ueber Section-Headline (H2)
-  --nc-mono-label-size-sm:  var(--fs-2xs);   // 12px fix     Karte, Menue, Utility
+// Kartentitel. Die Stufen bleiben ueber die gesamte Viewport-Breite
+// getrennt — sie laufen NICHT zusammen, damit die Hierarchie auch auf dem
+// Telefon erhalten bleibt.
+  // EIGENE CLAMPS statt benannter Skalenstufen: die Skala hat zwischen
+  // fs-sm (12->15px) und fs-base (14->18px) keine Zwischenstufe, und
+  // fs-lg (16,8->21,6px) uebersteigt am oberen Ende bereits die
+  // Section-Headline. Die drei Bereiche unten waeren mit benannten Stufen
+  // nicht ohne Ueberlappung abzubilden.
+  //
+  // Der Mechanismus ist derselbe wie in der Skala (--fluid-bp interpoliert
+  // zwischen Minimum und Maximum), die Werte bleiben damit fluid und folgen
+  // demselben Breakpoint-Verlauf wie der restliche Satz.
+  --nc-mono-label-size-lg:
+    clamp(1rem, calc(1rem + (1.125rem - 1rem) * var(--fluid-bp)), 1.125rem);      // 16 -> 18px  Display-Headline (Hero)
+  --nc-mono-label-size:
+    clamp(.875rem, calc(.875rem + (1rem - .875rem) * var(--fluid-bp)), 1rem);     // 14 -> 16px  Section-Headline (H2)
+  --nc-mono-label-size-sm:
+    clamp(.75rem, calc(.75rem + (.875rem - .75rem) * var(--fluid-bp)), .875rem);  // 12 -> 14px  Karte, Menue, Utility
 
   --nc-mono-label-weight:   500;             // Obergrenze der geladenen Schnitte
   --nc-mono-label-weight-quiet: 400;         // Zaehler, Metadaten
