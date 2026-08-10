@@ -1348,6 +1348,16 @@
   // -- Icon --
   --nc-label-icon-size: 12px;
 
+  // -- Badge-Zeile (Anordnung mehrerer Labels) --
+  --nc-badge-row-gap: var(--fnd-spacing-02);
+  // Auf Hero-Flaechen: eigene, vom Untergrund unabhaengige Flaeche. Ein
+  // Schleier aus always-light traegt auf Bild, Video und Farbe gleichermassen;
+  // eine Mischung GEGEN den Untergrund taete das nicht.
+  --nc-badge-row-hero-bg: color-mix(in srgb, var(--fnd-color-always-light) 18%, transparent);
+  --nc-badge-row-hero-color: var(--fnd-color-always-light);
+  --nc-badge-row-hero-border: color-mix(in srgb, var(--fnd-color-always-light) 32%, transparent);
+  --nc-badge-row-hero-spacing: var(--fnd-spacing-04);
+
   // -- Default (Subtle) --
   --nc-label-default-bg: var(--fnd-color-background-secondary);
   --nc-label-default-color: var(--fnd-color-text-secondary);
@@ -3794,10 +3804,9 @@
   --nc-section-header-label-color: var(--nc-kicker-color);
   --nc-section-header-label-spacing: var(--nc-kicker-spacing);
 
-  // Badge-Zeile ueber dem Kicker. Der Abstand nach unten ist groesser als der
-  // Abstand ZWISCHEN den Badges, damit die Zeile als eigene Gruppe liest und
-  // nicht als erste Zeile des Kickers.
-  --nc-section-header-badges-gap: var(--fnd-spacing-02);
+  // Abstand der Badge-Zeile zum Kicker. Groesser als der Abstand ZWISCHEN den
+  // Badges, damit die Zeile als eigene Gruppe liest und nicht als erste Zeile
+  // des Kickers. Die Anordnung selbst steht bei --nc-badge-row-*.
   --nc-section-header-badges-spacing: var(--fnd-spacing-04);
 
   // Title

@@ -1,0 +1,61 @@
+// ==========================================================================
+// 05-Atoms: Badge-Zeile
+// ==========================================================================
+// Eine Reihe .nc-label. Steht im Standard-Header ueber dem Kicker und in den
+// drei Hero-Typen ueber der Display-Headline.
+//
+// Eigene Klasse statt einer Regel je Verwender: die Zeile taucht an neun
+// Stellen im Drupal-Theme auf (Header plus drei Heroes, jeweils in Block- und
+// SDC-Fassung, der Hero zusaetzlich in zwei Layout-Zweigen). Der KONTEXT-
+// Abstand bleibt beim jeweiligen Verwender.
+//
+// flex-wrap ist Absicht: die Zeile steht ueber teils langen Ueberschriften und
+// muss auf schmalen Containern umbrechen duerfen, statt ihren Container
+// aufzuweiten.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mod-badge-row-gap, var(--nc-badge-row-gap));
+}
+
+// ---------------------------------------------------------------------------
+// Auf dunklen Hero-Flaechen
+// ---------------------------------------------------------------------------
+// Die .nc-label-Varianten sind gegen HELLE Flaechen gerechnet. Die meisten
+// tragen eine eigene, deckende Flaeche und funktionieren deshalb auch auf
+// Dunkel. Zwei nicht:
+//
+//   --accent  mischt den Akzent zu 12 % gegen den Untergrund. Auf einem
+//             dunklen Hero komponiert das zu Dunkel, und die dunkle
+//             Akzent-Schrift steht dann auf dunklem Grund.
+//   Default   (ohne Farbmodifier) nimmt background-secondary — im Hero-Kontext
+//             ebenfalls nicht verlaesslich.
+//
+// Deshalb im Hero eine eigene, vom Untergrund unabhaengige Flaeche: heller
+// Schleier mit always-light als Schrift. Die Aussage der Farbvarianten
+// (success/warning/danger) bleibt erhalten, sie bringen ihre Flaeche selbst mit.
+.nc-hero__badges,
+.nc-hero-tom__badges,
+.nc-hero-tmob__badges {
+  .nc-label:not([class*='nc-label--success']):not([class*='nc-label--warning']):not([class*='nc-label--danger']):not([class*='nc-label--info']) {
+    --mod-label-default-bg: var(--nc-badge-row-hero-bg);
+    --mod-label-default-color: var(--nc-badge-row-hero-color);
+    --mod-label-accent-bg: var(--nc-badge-row-hero-bg);
+    --mod-label-accent-color: var(--nc-badge-row-hero-color);
+    --mod-label-interactive-bg: var(--nc-badge-row-hero-bg);
+    --mod-label-interactive-color: var(--nc-badge-row-hero-color);
+    border-color: var(--nc-badge-row-hero-border);
+  }
+}
+
+// Abstand zur Headline. Nicht in .nc-badge-row, weil der Abstand zum
+// Folgeelement gehoert und im Header anders ausfaellt als im Hero.
+.nc-hero__badges,
+.nc-hero-tom__badges,
+.nc-hero-tmob__badges {
+  margin-block-end: var(--nc-badge-row-hero-spacing);
+}

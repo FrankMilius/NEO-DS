@@ -72,9 +72,20 @@
 // Hero Title
 // ---------------------------------------------------------------------------
 
-// Kicker / Badge
+// Kicker — auch fuer ein .nc-label, das ANSTELLE des Kickers im Hero steht.
+//
+// :not(.nc-badge-row *) ist noetig, seit es die Badge-Zeile gibt. Ohne die
+// Ausnahme griff diese Regel auf JEDES Label im Hero und setzte dessen
+// Flaeche auf die Kicker-Flaeche (transparent): gemessen kam bei allen Badges
+// rgba(0,0,0,0) heraus, auch bei success mit seinem glatten #e7f6ee. Die
+// Badges sahen dadurch aus wie blosser weisser Text.
+//
+// Bewusst HIER korrigiert und nicht in _badge-row.scss mit hoeherer
+// Spezifitaet dagegengehalten: die Regel ist zu weit gefasst, das ist die
+// eigentliche Ursache. Gegenhalten haette die naechste Verwendung von
+// .nc-label im Hero wieder erwischt.
 .nc-hero__kicker,
-.nc-hero .nc-label {
+.nc-hero .nc-label:not(.nc-badge-row *) {
   font-size: var(--mod-hero-kicker-size, var(--nc-hero-kicker-size));
   font-weight: var(--mod-hero-kicker-weight, var(--nc-hero-kicker-weight));
   background: var(--mod-hero-kicker-bg, var(--nc-hero-kicker-bg));

@@ -15,23 +15,20 @@
 // Badge-Zeile ueber dem Kicker. Die Badges selbst sind .nc-label (05-atoms) —
 // hier steht nur ihre Anordnung.
 //
-// flex-wrap ist Absicht: die Zeile steht oft neben einer langen Ueberschrift
-// und muss auf schmalen Containern umbrechen duerfen, statt den Header
-// aufzuweiten.
+// Die Anordnung liegt auf .nc-badge-row (05-atoms/_badge-row), weil dieselbe
+// Zeile auch in den drei Hero-Typen steht. Hier bleibt nur der Abstand nach
+// unten, der zum Header gehoert.
 .nc-section-header__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--nc-section-header-badges-gap);
   margin-block-end: var(--nc-section-header-badges-spacing);
 }
 
 // Bei zentriertem Header laufen die Badges mit. `text-align` erreicht sie
 // nicht, weil der Flex-Container seine Kinder selbst ausrichtet.
-.nc-section-header--center .nc-section-header__badges {
+.nc-section-header--center .nc-badge-row {
   justify-content: center;
 }
 
-.nc-section-header--right .nc-section-header__badges {
+.nc-section-header--right .nc-badge-row {
   justify-content: flex-end;
 }
 
