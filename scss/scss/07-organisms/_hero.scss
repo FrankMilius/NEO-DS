@@ -13,6 +13,21 @@
 // ---------------------------------------------------------------------------
 
 .nc-hero {
+  // Der Hero ist eine eigene Hierarchiestufe ueber den Bloecken darunter.
+  //
+  // Die generische Lead-Regel in 10-utilities/_block-roles.scss faengt
+  // .nc-hero__subtitle ueber [class*='__subtitle'] mit ab. Sie hat dieselbe
+  // Spezifitaet (0,1,0) wie die Komponentenregel weiter unten, steht aber
+  // spaeter in der Kaskade — und gewinnt deshalb. --nc-hero-subtitle-size
+  // allein blieb dadurch wirkungslos.
+  //
+  // Statt mit Spezifitaet dagegenzuhalten (das hat uns schon mehrfach
+  // eingeholt) wird der Token hier fuer den Hero-Teilbaum umdefiniert: die
+  // generische Regel bleibt zustaendig, bekommt aber den Hero-Wert geliefert.
+  // Neue Leads im Hero stimmen damit automatisch mit.
+  --nc-block-lead-size: var(--mod-hero-subtitle-size, var(--nc-hero-subtitle-size));
+  --nc-block-lead-lh:   var(--mod-hero-subtitle-line-height, var(--nc-hero-subtitle-line-height));
+
   position: relative;
   display: grid;
   gap: var(--mod-hero-gap, var(--nc-hero-gap));
@@ -113,6 +128,22 @@
   color: var(--mod-hero-subtitle-color, var(--nc-hero-subtitle-color));
   max-width: var(--mod-hero-subtitle-max-width, var(--nc-hero-subtitle-max-width));
   line-height: var(--mod-hero-subtitle-line-height, var(--nc-hero-subtitle-line-height));
+
+  // Der Subtitle ist ein WRAPPER, kein Textknoten: das Feld ist Rich Text,
+  // Drupal liefert den Inhalt in <p> (ggf. mehrere). Die generische Regel
+  // `p { font-size: var(--fnd-typography-paragraph-l-font-size) }` setzt dort
+  // eine EIGENE Deklaration — und eine eigene Deklaration am Kind ersetzt die
+  // Vererbung immer, unabhaengig von Spezifitaet. Der Wert oben erreichte den
+  // Text deshalb nie; gerendert wurden fs-base (14–18px) statt der
+  // vorgesehenen Groesse, also KLEINER als die Section-Leads darunter.
+  //
+  // Deshalb explizit erben statt die Groesse hier zu wiederholen: sonst
+  // muesste jede kuenftige Aenderung an zwei Stellen nachgezogen werden.
+  > p {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
 }
 
 .nc-hero__actions {

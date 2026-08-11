@@ -3128,10 +3128,11 @@
   // weiter als die Section-Dachzeile.
   --nc-hero-kicker-family:         var(--font-mono);
   --nc-hero-kicker-size:           var(--nc-mono-label-size-lg);
-  // Bewusst 500 und nicht schwerer: die Dachzeile ordnet ein, sie soll der
-  // Display-Headline darunter nicht Konkurrenz machen. Technisch waere mit
-  // JetBrains Mono jetzt bis 800 moeglich.
-  --nc-hero-kicker-weight:         var(--nc-mono-label-weight);
+  // 800 statt 500: im Hero steht die Dachzeile auf einer farbigen Flaeche und
+  // in Versalien — bei 500 wirkte sie dort duenn gegen die Display-Headline.
+  // Die Spanne gibt es erst seit dem Wechsel auf JetBrains Mono (100..800),
+  // mit DM Mono waere der Wert auf 500 hochgerundet worden.
+  --nc-hero-kicker-weight:         var(--nc-mono-label-weight-strong);
   --nc-hero-kicker-tracking:       var(--nc-mono-tracking-caps);
   --nc-hero-kicker-transform:      uppercase;
   --nc-hero-kicker-bg:             var(--fnd-color-background-accent);
@@ -3157,7 +3158,12 @@
   --nc-hero-title-line-height:     var(--lh-heading);
 
   // -- Subtitle --
-  --nc-hero-subtitle-size:         var(--fs-lg);
+  // fs-xl, eine Stufe ueber dem Section-Lead (fs-lg). Der Hero-Lead stand
+  // vorher auf derselben Stufe wie die Leads der Bloecke darunter — und kam
+  // durch die generische p-Regel (s. _hero.scss) sogar kleiner heraus. Die
+  // Ein-Stufen-Regel ist dieselbe, die der Mono-Kicker schon faehrt
+  // (label-size-lg im Hero vs. label-size in der Section).
+  --nc-hero-subtitle-size:         var(--fs-xl);
   --nc-hero-subtitle-color:        color-mix(in srgb, var(--nc-hero-color) 80%, transparent);
   --nc-hero-subtitle-max-width:    40ch;
   --nc-hero-subtitle-line-height:  var(--lh-body);
@@ -3852,8 +3858,12 @@
   --nc-mono-label-size-sm:
     clamp(.75rem, calc(.75rem + (.875rem - .75rem) * var(--fluid-bp)), .875rem);  // 12 -> 14px  Karte, Menue, Utility
 
-  --nc-mono-label-weight:   500;             // Obergrenze der geladenen Schnitte
+  // Drei Stufen. JetBrains Mono ist variabel von 100..800 — die alte Notiz
+  // „Obergrenze der geladenen Schnitte" galt fuer DM Mono (nur 400/500) und
+  // ist mit dem Schriftwechsel hinfaellig.
+  --nc-mono-label-weight:   500;             // Regelfall: Dachzeile, Tabellenkopf
   --nc-mono-label-weight-quiet: 400;         // Zaehler, Metadaten
+  --nc-mono-label-weight-strong: 800;        // Dachzeile im Hero (Versalien auf Farbflaeche)
 
   // Tracking nach ROLLE, nicht nach Groesse. Die Vorlagen nutzten sieben
   // Werte ohne erkennbare Regel; drei reichen.
@@ -4014,12 +4024,12 @@
 :root {
   --nc-hero-tom-kicker-family:       var(--font-mono);
   --nc-hero-tom-kicker-size:         var(--nc-mono-label-size-lg);
-  --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight);
+  --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight-strong);
   --nc-hero-tom-kicker-tracking:     var(--nc-mono-tracking-caps);
   --nc-hero-tom-kicker-transform:    uppercase;
   --nc-hero-tom-headline-size:       var(--fs-5xl);
   --nc-hero-tom-headline-weight:     var(--fnd-font-weight-bold);
-  --nc-hero-tom-subtext-size:        var(--fs-lg);
+  --nc-hero-tom-subtext-size:        var(--fs-xl);
   --nc-hero-tom-subtext-opacity:     0.85;
   --nc-hero-tom-scrim-color:         rgba(0, 0, 0, 0.4);
   --nc-hero-tom-expand-radius:       var(--fnd-radius-xl);
@@ -4034,7 +4044,7 @@
 :root {
   --nc-hero-tmob-headline-size:      var(--fs-5xl);
   --nc-hero-tmob-headline-weight:    var(--fnd-font-weight-bold);
-  --nc-hero-tmob-subtext-size:       var(--fs-lg);
+  --nc-hero-tmob-subtext-size:       var(--fs-xl);
   --nc-hero-tmob-subtext-opacity:    0.85;
   --nc-hero-tmob-subtext-max-width:  600px;
   --nc-hero-tmob-content-max-width:  800px;
