@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { readFileSync, writeFileSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 /**
@@ -11,11 +11,23 @@ import { resolve } from 'path'
 function syncThemeConfigHtml() {
   return {
     name: 'sync-theme-config-html',
-    closeBundle() {
+    apply: 'build',
+    // writeBundle statt closeBundle: unter Vite 7 (Environment-API) feuert
+    // closeBundle, BEVOR index.html im outDir liegt — der Build brach dort mit
+    // ENOENT ab, nachdem emptyOutDir das Zielverzeichnis bereits geleert
+    // hatte. Ergebnis war ein leeres config/theme-configurator/.
+    // writeBundle laeuft, wenn die Dateien geschrieben sind.
+    writeBundle() {
       const outDir = resolve(__dirname, '../../config/theme-configurator')
       const wrapperPath = resolve(__dirname, '../../config/theme-config.html')
 
-      // Asset-Dateinamen aus dem Build-Output lesen
+      // Zweite Absicherung: lieber warnen als den Build abbrechen. Der Sync
+      // der Hashes ist Komfort, kein Grund, ein geleertes Zielverzeichnis
+      // zurueckzulassen.
+      if (!existsSync(outDir + '/index.html')) {
+        console.warn('[sync] index.html noch nicht im outDir — Hash-Sync uebersprungen')
+        return
+      }
       const indexHtml = readFileSync(resolve(outDir, 'index.html'), 'utf-8')
       const cssMatch = indexHtml.match(/href="[^"]*\/(assets\/index-[^"]+\.css)"/)
       const jsMatch = indexHtml.match(/src="[^"]*\/(assets\/index-[^"]+\.js)"/)
@@ -29,6 +41,10 @@ function syncThemeConfigHtml() {
       const cssRef = `${basePath}/${cssMatch[1]}`
       const jsRef = `${basePath}/${jsMatch[1]}`
 
+      if (!existsSync(wrapperPath)) {
+        console.warn('[sync] config/theme-config.html fehlt — Hash-Sync uebersprungen')
+        return
+      }
       let wrapper = readFileSync(wrapperPath, 'utf-8')
       wrapper = wrapper.replace(
         /href="\/config\/theme-configurator\/assets\/index-[^"]+\.css"/,

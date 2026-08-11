@@ -2746,7 +2746,7 @@ const switchOn = computed(() => ({
 .mag-code {
   padding: 1px 5px;
   border-radius: 3px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
 }
 
@@ -3164,7 +3164,7 @@ const switchOn = computed(() => ({
 /* DS token: @include paragraph('s') + mono font */
 .mag-progress-val {
   font-size: 0.75rem;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   white-space: nowrap;
   flex-shrink: 0;
 }

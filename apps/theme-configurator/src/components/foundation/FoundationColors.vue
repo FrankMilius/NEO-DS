@@ -2189,19 +2189,19 @@ function getNotAffected(semanticId) {
 .tooltip-token {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text, #000);
 }
 
 .tooltip-hex {
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted, #888);
 }
 
 .tooltip-rgba {
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted, #888);
 }
 

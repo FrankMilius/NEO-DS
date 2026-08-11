@@ -559,13 +559,13 @@ function trapFocus(e) {
 
 .palette-token {
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted, #888);
 }
 
 .palette-hex {
   font-size: 11px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted, #888);
   flex-shrink: 0;
   padding: 2px 6px;
@@ -608,7 +608,7 @@ function trapFocus(e) {
 
 .diff-file-path {
   font-size: 11px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text, #000);
 }
 
@@ -642,7 +642,7 @@ function trapFocus(e) {
 
 .diff-filename {
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted, #888);
   padding: 2px 10px;
   display: block;
@@ -658,7 +658,7 @@ function trapFocus(e) {
 }
 
 .diff-line code {
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: var(--cfg-text, #000);
 }
@@ -724,7 +724,7 @@ function trapFocus(e) {
 }
 
 .result-file code {
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: var(--cfg-text, #000);
 }

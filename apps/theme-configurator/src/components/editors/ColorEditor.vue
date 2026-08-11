@@ -223,13 +223,13 @@ const contrastColor = computed(() => {
 .picker-token-name {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text);
 }
 
 .picker-hex {
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-text-muted);
 }
 
@@ -238,7 +238,7 @@ const contrastColor = computed(() => {
   align-items: center;
   gap: 4px;
   font-size: 10px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   color: var(--cfg-accent);
   margin-top: 1px;
 }

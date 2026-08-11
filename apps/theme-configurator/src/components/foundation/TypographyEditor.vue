@@ -15,7 +15,7 @@
         </span>
         <span v-else class="theme-name-badge">{{ currentThemeName }}</span>
       </h3>
-      <p v-if="isDefaultNeo" class="sub-desc">NEO Design System default fonts — Manrope (body), Space Grotesk (headings), DM Mono (code).</p>
+      <p v-if="isDefaultNeo" class="sub-desc">NEO Design System default fonts — Manrope (body), Space Grotesk (headings), JetBrains Mono (meta layer: eyebrows, table heads, counters, code).</p>
       <p v-else class="sub-desc">
         Override font families for this theme. Assign a role (Body, Heading, Mono) or add custom font families.
       </p>
@@ -221,7 +221,7 @@ const currentThemeName = computed(() => {
 const defaultFonts = [
   { id: 'body', role: 'Body', label: 'Manrope', primary: 'Manrope', value: typoTokens['font-body'].value },
   { id: 'heading', role: 'Heading', label: 'Space Grotesk', primary: 'Space Grotesk', value: typoTokens['font-heading'].value },
-  { id: 'mono', role: 'Mono', label: 'DM Mono', primary: 'DM Mono', value: typoTokens['font-mono'].value }
+  { id: 'mono', role: 'Mono', label: 'JetBrains Mono', primary: 'JetBrains Mono', value: typoTokens['font-mono'].value }
 ]
 
 // ---------------------------------------------------------------------------
