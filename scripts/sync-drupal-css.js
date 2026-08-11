@@ -20,7 +20,7 @@
  * Zielpfad ueberschreibbar via Env NEO_DRUPAL_THEME (Default = Repo-Nachbar).
  */
 
-import { copyFileSync, existsSync, statSync } from 'fs';
+import { copyFileSync, existsSync, readFileSync, statSync, writeFileSync } from 'fs';
 import { resolve, join } from 'path';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -44,7 +44,20 @@ for (const { src, dest, label } of PAIRS) {
     console.error(`✗ Quelle fehlt: ${src} — erst "npm run tokens && npm run build:css" ausfuehren.`);
     process.exit(1);
   }
-  copyFileSync(src, dest);
+  if (label === 'styles.css') {
+    // Schriftpfade umschreiben. Das DS kompiliert styles.css ins Repo-Root,
+    // dort stimmt `fonts/…`. Drupal serviert dieselbe Datei aus css/ — dort
+    // zeigt derselbe Pfad auf css/fonts/ und lief ins Leere: alle acht
+    // @font-face-Regeln der DS-Ebene antworteten mit 404. Sichtbar wurde es
+    // nicht, weil neo-fonts.css im Theme dieselben Familien mit korrektem
+    // Pfad nachliefert — aber jede Seite holte sich acht tote Anfragen, und
+    // document.fonts.load() brach mit NetworkError ab.
+    const inhalt = readFileSync(src, 'utf8').replaceAll('url("fonts/', 'url("../fonts/');
+    writeFileSync(dest, inhalt);
+  }
+  else {
+    copyFileSync(src, dest);
+  }
   const kb = (statSync(dest).size / 1024).toFixed(1);
   console.log(`✓ ${label} -> ${dest} (${kb} KB)`);
   ok++;

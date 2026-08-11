@@ -3128,8 +3128,9 @@
   // weiter als die Section-Dachzeile.
   --nc-hero-kicker-family:         var(--font-mono);
   --nc-hero-kicker-size:           var(--nc-mono-label-size-lg);
-  // 500, NICHT semibold: DM Mono ist nur in 400 und 500 geladen — 600 waere
-  // eine synthetische Fettung und bei diesem Grad sichtbar unsauber.
+  // Bewusst 500 und nicht schwerer: die Dachzeile ordnet ein, sie soll der
+  // Display-Headline darunter nicht Konkurrenz machen. Technisch waere mit
+  // JetBrains Mono jetzt bis 800 moeglich.
   --nc-hero-kicker-weight:         var(--nc-mono-label-weight);
   --nc-hero-kicker-tracking:       var(--nc-mono-tracking-caps);
   --nc-hero-kicker-transform:      uppercase;
@@ -3494,13 +3495,14 @@
   // Value (Big Number)
   // Kennzahl in Mono mit Tabellenziffern: mehrere Werte nebeneinander bleiben
   // dadurch in Flucht.
-  // ACHTUNG — DM Mono ist nur in 400/500 geladen. Die bisherige Black-Fettung
-  // (900) ist damit nicht erreichbar; der Wert verliert sichtbar an Gewicht.
-  // Das ist der einzige Punkt der Umstellung, an dem Mono etwas KOSTET statt
-  // etwas zu klaeren. Rueckweg: diese drei Zeilen zuruecknehmen.
+  // Das Gewicht lag zwischenzeitlich bei 500, weil DM Mono nicht mehr
+  // hergab — die Kennzahl hatte dadurch sichtbar an Gewicht verloren. Mit
+  // JetBrains Mono (wght 100-800) steht wieder ein echtes Bold zur
+  // Verfuegung. 700 statt der urspruenglichen 900: die Achse endet bei 800,
+  // und 700 traegt bei diesem Grad bereits deutlich.
   --nc-metric-value-font-family:   var(--font-mono);
   --nc-metric-value-font-size:     var(--fs-6xl);
-  --nc-metric-value-font-weight:   var(--nc-mono-label-weight);
+  --nc-metric-value-font-weight:   var(--fnd-font-weight-bold);
   --nc-metric-value-color:         var(--fnd-color-background-accent);
   --nc-metric-value-line-height:   1.1;
 
@@ -3815,10 +3817,13 @@
 //
 // ZWEI HARTE GRENZEN, die diese Skala bestimmen:
 //
-// 1. DM Mono ist NUR in 400 und 500 geladen (siehe neo-fonts.css). Alles
-//    darueber waere synthetisch gefettet und bei kleinen Graden unsauber.
-//    Deshalb gibt es hier kein semibold/bold — Rollen, die Gewicht als
-//    Zustandsmerkmal brauchen (z. B. Badges), bleiben in der Grotesk.
+// 1. JetBrains Mono liegt als Variable Font mit wght 100-800 vor. Die
+//    Gewichte sind damit frei waehlbar — anders als beim vorher genutzten
+//    DM Mono, das nur 400 und 500 mitbrachte und alles darueber synthetisch
+//    gefettet haette.
+//    Die Label-Rollen bleiben trotzdem bei 500: sie sollen Auszeichnung sein
+//    und nicht mit der Ueberschrift konkurrieren. Der Spielraum steht jetzt
+//    aber zur Verfuegung, wo er gebraucht wird (siehe Kennzahl).
 //
 // 2. Die Entwurfsvorlagen arbeiteten mit 10 und 11px. Das liegt unter dem
 //    Skalenboden (--fs-2xs = 12px) und waere weder fluid noch bei schwacher

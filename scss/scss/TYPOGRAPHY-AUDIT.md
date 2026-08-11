@@ -87,6 +87,7 @@ Text unter ~12px ist auf Mobile praktisch unlesbar und ein klares Usability-/A11
 Tokens definieren `light 300 … black 900`. Geladen werden aber nur: Manrope 300–800, Space Grotesk 400–700, DM Mono 300–500.
 - `--fnd-font-weight-black: 900` existiert, ist aber **für keine Familie geladen** → Browser synthetisiert „Faux Bold" (unsauberes Rendering), falls verwendet.
 - **Empfehlung:** Token-Skala und geladene Achsen angleichen, oder auf **Variable Fonts** umstellen (Manrope und Space Grotesk sind als VF verfügbar) und die `wght`-Achse voll nutzen.
+- **Erledigt (2026-08-11):** Alle drei Familien liegen jetzt als Variable Fonts vor, selbst gehostet. DM Mono ist durch **JetBrains Mono** ersetzt (`wght 100–800`, mit echtem Kursivschnitt) — damit entfällt die Lücke zwischen Token-Skala und geladenen Schnitten in der Monospace. `--fnd-font-weight-black: 900` liegt weiterhin über der Mono-Achse (max. 800); die Kennzahl nutzt deshalb `bold 700`.
 
 **F. `--fnd-prose-max-width: 72ch` definiert, aber nicht angewendet.**
 Es gibt keine `.prose`-/Reading-Width-Utility, die den Token einsetzt. Optimale Zeilenlänge (ca. 45–75 Zeichen, WCAG 1.4.8) wird damit nicht erzwungen. **Empfehlung:** `.u-prose { max-width: var(--fnd-prose-max-width); }` ergänzen und in Content-Templates anwenden.
