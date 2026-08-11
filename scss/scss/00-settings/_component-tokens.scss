@@ -227,7 +227,10 @@
   --nc-card-bg: var(--fnd-color-background-base);
   --nc-card-color: var(--fnd-color-text-primary);
   --nc-card-border: var(--fnd-color-border-secondary);
-  --nc-card-radius: var(--fnd-radius-4xl);
+  // 8px (radius-lg) statt 16px (radius-4xl): die Karte ist ein Sachtraeger,
+  // kein Pill. 16px liess kleine Karten in engen Rastern abgerundet-weich
+  // wirken und stand quer zur eckigeren Formsprache der uebrigen Flaechen.
+  --nc-card-radius: var(--fnd-radius-lg);
   --nc-card-padding: var(--fnd-spacing-06);
   --nc-card-shadow: var(--fnd-elevation-base);
   --nc-card-shadow-hover: var(--fnd-elevation-raised);
@@ -242,6 +245,26 @@
   // -- Card: Footer --
   --nc-card-footer-padding: 0 var(--fnd-spacing-06) var(--fnd-spacing-06);
   --nc-card-footer-gap: var(--fnd-spacing-03);
+
+  // -- Card: Label (Dachzeile UND Footer-Label) --
+  //
+  // EIN Satz fuer beide. Die Karte hat oben und unten je eine Meta-Zeile;
+  // sie rahmen den Inhalt und gehoeren derselben Ebene an. Vorher liefen sie
+  // auseinander: Dachzeile 12->14px in Versalien mit Akzentfarbe und .12em,
+  // Footer-Label 12px in der Textschrift. Nach der Mono-Umstellung des
+  // Footers stand die Dachzeile ploetzlich unter dem Footer — die Ordnung war
+  // verkehrt herum.
+  //
+  // Keine Versalien mehr und keine Akzentfarbe: die Dachzeile kategorisiert,
+  // sie ruft nicht. Die Akzentfarbe bleibt Neuheiten-Markern und CTAs
+  // vorbehalten, wo sie Bedeutung traegt. Ohne Versalien traegt auch
+  // --nc-mono-tracking-code (.06em) statt des Versal-Trackings (.12em).
+  --nc-card-label-family:   var(--font-mono);
+  --nc-card-label-size:     var(--nc-mono-label-size);   // 14 -> 16px
+  --nc-card-label-weight:   var(--nc-mono-label-weight); // 500
+  --nc-card-label-tracking: var(--nc-mono-tracking-code);
+  --nc-card-label-transform: none;
+  --nc-card-label-color:    var(--fnd-color-text-secondary);
 
   // -- Card: Title --
   // Eine Stufe UNTER der Section-Headline. Vorher heading-m — identisch mit
@@ -262,8 +285,21 @@
   --nc-card-border-width: var(--fnd-border-width-xs);
 
   // -- Card: Interactive States --
+  // Hover ist bewusst 1:1 die Bento-Zelle (07-organisms/_bento-grid.scss):
+  // Lift, Border-Wechsel, staerkerer Schatten und ein radialer Glow. Vorher
+  // hatte die Karte nur Border+Schatten und stattdessen zwei FARBWECHSEL am
+  // Text (Titel -> Akzent, Footer -> interactive). Farbe als Hover-Signal ist
+  // die schwaechste Variante: sie trifft nur Text, wandert bei Themewechsel
+  // und kollidiert mit der Bedeutung der Akzentfarbe.
   --nc-card-transition-duration: var(--fnd-motion-duration-200);
-  --nc-card-hover-border: var(--fnd-color-border-strong);
+  --nc-card-hover-border: var(--fnd-color-interactive-default);
+  --nc-card-hover-surface: var(--fnd-color-background-hover);
+  --nc-card-hover-lift: -6px;
+  --nc-card-hover-glow: var(--fnd-color-interactive-default);
+  --nc-card-hover-glow-opacity: .55;
+  --nc-card-hover-duration: var(--fnd-motion-duration-300);
+  --nc-card-hover-glow-duration: var(--fnd-motion-duration-450);
+  --nc-card-hover-ease: var(--fnd-motion-ease-informative);
 
   // -- Card: Navigational --
   --nc-card-nav-color-hover: var(--fnd-color-interactive-hover);

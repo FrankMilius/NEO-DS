@@ -146,14 +146,23 @@
   &:hover {
     text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
 
-    .nc-card__title {
-      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
-    }
+    // Der Titel-Farbwechsel auf --nc-card-nav-color-hover ist ENTFERNT.
+    // Im Drupal-Theme ist dieses Token auf #37e93d gesetzt, der Titel sprang
+    // beim Hover also von Schwarz auf Lime. Das Hover-Signal traegt jetzt die
+    // Flaeche (Lift, Border, Glow, Untergrund) wie bei der Bento-Zelle —
+    // die Akzentfarbe bleibt Neuheiten-Markern und CTAs vorbehalten.
   }
 }
 
 /// Selectable — Root ist <label>, Input ist sr-only
 @mixin card-selectable {
+  // Hover-Border auf den neutralen Wert zuruecksetzen. --nc-card-hover-border
+  // traegt seit der Bento-Angleichung die Akzentfarbe; die ist dort das Signal
+  // „fuehrt zu einem Ziel". Eine Auswahlkarte fuehrt nirgendwohin — sie
+  // bekommt weiter die neutrale Kante. Die Akzentfarbe bleibt hier dem
+  // AUSGEWAEHLTEN Zustand vorbehalten (--nc-card-selected-border).
+  --nc-card-hover-border: var(--fnd-color-border-strong);
+
   @include card-interactive-states;
 
   // Hidden native input
@@ -306,7 +315,7 @@
     text-decoration: none;
 
     &:hover {
-      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
+      // Kein Farbwechsel mehr (war Lime im Drupal-Theme) — s. card-navigational.
       text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
     }
 

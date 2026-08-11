@@ -29,7 +29,19 @@
   box-shadow: var(--mod-card-shadow, var(--nc-card-shadow));
   overflow: hidden;
   position: relative;
-  @include transition-quick((box-shadow, border-color, background-color, transform));
+
+  // Bewegung/Highlight 1:1 wie .nc-bento-grid__cell — dort sind Dauer und
+  // Kurve bereits gesetzt, deshalb hier dieselben Tokens statt
+  // transition-quick (200ms ease). Sonst laufen zwei Karten-Bauformen
+  // nebeneinander sichtbar unterschiedlich schnell an.
+  transition:
+    transform        var(--nc-card-hover-duration) var(--nc-card-hover-ease),
+    border-color     var(--nc-card-hover-duration) var(--nc-card-hover-ease),
+    box-shadow       var(--nc-card-hover-duration) var(--nc-card-hover-ease),
+    background-color var(--nc-card-hover-duration) var(--nc-card-hover-ease);
+
+  // Hover/Glow stehen NICHT hier, sondern weiter unten unter den
+  // Navigations-Selektoren — s. Abschnitt „Hover/Focus".
 
   // ---------------------------------------------------------------------------
   // 3-Slot-Anatomie
@@ -53,45 +65,64 @@
   }
 
   // Content Slot — Freitext, Titel, Beschreibung
+  //
+  // position: relative BEWUSST OHNE z-index: mit z-index entstuende ein
+  // Stacking-Kontext, und die Textkinder waeren darin gefangen — also unter
+  // dem Glow (::after, z-index 1) statt darueber.
   &__content {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     padding: var(--mod-card-content-padding, var(--nc-card-content-padding));
     gap: var(--mod-card-header-gap, var(--nc-card-header-gap));
+    transition: background-color var(--nc-card-hover-duration) var(--nc-card-hover-ease);
   }
 
   // Footer Slot — Aktionen, Meta (immer am unteren Rand)
   &__footer {
+    position: relative;
     padding: var(--mod-card-footer-padding, var(--nc-card-footer-padding));
     margin-top: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--mod-card-footer-gap, var(--nc-card-footer-gap));
+    transition: background-color var(--nc-card-hover-duration) var(--nc-card-hover-ease);
   }
 
-  // Footer Label — "Mehr darüber erfahren" Text
+  // Inhalt ueber den Glow heben (s. ::after). Gleiche Loesung wie in der
+  // Bento-Zelle, die ihre Kinder ebenfalls einzeln anhebt.
+  &__content > *,
+  &__footer > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  // Footer-Label — "Mehr darüber erfahren"
+  // Gleicher Satz wie die Dachzeile: eine Aenderung wirkt auf beide.
   &__footer-label {
-    @include paragraph('s');
-    color: var(--fnd-color-text-secondary);
-    @include transition-quick((color));
+    font-family: var(--mod-card-label-family, var(--nc-card-label-family));
+    font-size: var(--mod-card-label-size, var(--nc-card-label-size));
+    font-weight: var(--mod-card-label-weight, var(--nc-card-label-weight));
+    letter-spacing: var(--mod-card-label-tracking, var(--nc-card-label-tracking));
+    text-transform: var(--mod-card-label-transform, var(--nc-card-label-transform));
+    line-height: var(--lh-body);
+    color: var(--mod-card-label-color, var(--nc-card-label-color));
   }
 
   // Footer Icon — Richtungspfeil (intern/extern)
   &__footer-icon {
     flex-shrink: 0;
     color: var(--fnd-color-text-secondary);
-    @include transition-quick((color, transform));
+    @include transition-quick((transform));
   }
 
-  // Navigational Hover: Footer-Label → Accent, Icon → translate
-  &--navigational:hover &__footer-label {
-    color: var(--fnd-color-interactive-default);
-  }
-
+  // Navigational Hover: nur noch die Bewegung des Pfeils.
+  // Die frueheren Farbwechsel von Label UND Icon auf
+  // --fnd-color-interactive-default (im Drupal-Theme #009fe3, also Blau) sind
+  // entfernt — das Hover-Signal traegt die Flaeche, nicht die Schriftfarbe.
   &--navigational:hover &__footer-icon {
-    color: var(--fnd-color-interactive-default);
     transform: translateX(4px);
   }
 
@@ -99,16 +130,22 @@
   // Convenience-Elemente (frei komponierbar innerhalb der Slots)
   // ---------------------------------------------------------------------------
 
-  // Kicker — kanonischer Klartext-Accent (geteilter --nc-kicker-* Satz)
+  // Dachzeile — identisch zum Footer-Label (gemeinsamer --nc-card-label-* Satz).
+  //
+  // Loest sich BEWUSST vom globalen --nc-kicker-* Satz: der gilt fuer die
+  // Dachzeile ueber Section- und Hero-Headlines, die eine ganz andere
+  // Groessenordnung hat. In der Karte ist die Dachzeile eine Meta-Zeile wie
+  // der Footer, keine Ueberschrift-Begleitung.
   &__kicker {
-    // Kartentitel ist H3 — die Dachzeile darueber steht auf der kleinsten
-    // Stufe, sonst konkurriert sie mit dem Titel.
-    font-family: var(--nc-kicker-font-family);
-    font-size: var(--nc-mono-label-size-sm);
-    font-weight: var(--nc-kicker-font-weight);
-    letter-spacing: var(--nc-kicker-letter-spacing);
-    text-transform: var(--nc-kicker-text-transform);
-    color: var(--nc-kicker-color);
+    font-family: var(--mod-card-label-family, var(--nc-card-label-family));
+    font-size: var(--mod-card-label-size, var(--nc-card-label-size));
+    font-weight: var(--mod-card-label-weight, var(--nc-card-label-weight));
+    letter-spacing: var(--mod-card-label-tracking, var(--nc-card-label-tracking));
+    // Explizit none statt „weglassen": .nc-card__kicker wird an einigen
+    // Stellen zusaetzlich als .nc-label ausgezeichnet, und dort steht
+    // text-transform: uppercase.
+    text-transform: var(--mod-card-label-transform, var(--nc-card-label-transform));
+    color: var(--mod-card-label-color, var(--nc-card-label-color));
   }
 
   // Titel — Hauptüberschrift
@@ -119,6 +156,20 @@
     line-height: var(--mod-card-title-line-height, var(--nc-card-title-line-height));
     letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em
     margin: 0;
+
+    // Lange Komposita (deutsche Substantivketten, URLs, Produktnamen) liefen
+    // sonst waagerecht aus der Karte: gemessen 833px Textbreite in einer
+    // 270px-Spalte.
+    //
+    // `anywhere` statt `break-word`: nur `anywhere` geht auch in die
+    // MIN-CONTENT-Breite ein. Mit `break-word` bricht das Wort zwar um, die
+    // Karte fordert im Grid aber weiterhin die volle Wortbreite an und
+    // sprengt die Spalte. Genau daran scheitert der uebliche Fix.
+    //
+    // `hyphens: auto` setzt zusaetzlich einen Trennstrich, wo die Sprache es
+    // erlaubt — greift nur mit lang-Attribut, das Drupal auf <html> setzt.
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 
   // Titel-Link — Stretched Link innerhalb des Titels
@@ -133,7 +184,7 @@
     }
 
     &:hover {
-      color: var(--mod-card-nav-color-hover, var(--nc-card-nav-color-hover));
+      // Farbwechsel entfernt (war Lime im Drupal-Theme) — s. .nc-card::after.
       text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
     }
 
@@ -172,10 +223,11 @@
     color: var(--mod-card-color, var(--nc-card-color));
     cursor: pointer;
 
+    // Border, Schatten, Lift und Glow kommen jetzt von .nc-card:hover und
+    // gelten damit fuer JEDE Karte — wie bei der Bento-Zelle, die ebenfalls
+    // nicht zwischen verlinkt und nicht verlinkt unterscheidet.
     &:hover {
       text-decoration: var(--mod-card-link-hover-decoration, var(--nc-card-link-hover-decoration));
-      box-shadow: var(--mod-card-shadow-hover, var(--nc-card-shadow-hover));
-      border-color: var(--mod-card-hover-border, var(--nc-card-hover-border));
 
       .nc-card__media img,
       .nc-card__media video {
@@ -187,8 +239,10 @@
       @include focus-ring-inset;
     }
 
+    // Lift MIT uebernehmen: ein blosses scale() wuerde die translateY aus
+    // .nc-card:hover ersetzen, die Karte fiele beim Klick zurueck.
     &:active {
-      transform: scale(0.99);
+      transform: translateY(var(--nc-card-hover-lift)) scale(0.99);
     }
   }
 
@@ -199,7 +253,7 @@
 
   &__footer-action {
     position: relative;
-    z-index: 1;
+    z-index: 2; // war 1 — gleiche Ebene wie der Glow (.nc-card::after)
   }
 
   // ---------------------------------------------------------------------------
@@ -279,6 +333,61 @@
       height: 0.8em;
       width: 30%;
     }
+  }
+}
+
+// ==========================================================================
+// Hover/Focus — NUR fuer Karten, die auf ein anderes Objekt fuehren
+// ==========================================================================
+// Zwei Bauformen navigieren:
+//   .nc-card--navigational      Wurzel ist <a>, ganze Flaeche klickbar
+//   .nc-card__title-link        <article> mit Link im Titel (Navigational Partial)
+//
+// BEWUSST NICHT erfasst:
+//   --selectable  waehlt aus, fuehrt nirgendwohin
+//   --action      loest im Footer eine Aktion aus, verlaesst die Seite nicht
+//   --status, --summary, reine Informationskarten
+//
+// Eine Flaeche, die sich anhebt, leuchtet und die Akzentfarbe annimmt,
+// verspricht ein Ziel. Auf einer Karte ohne Ziel ist das eine Falschmeldung —
+// der Nutzer klickt und nichts passiert.
+//
+// Der Glow (::after) wird ebenfalls nur hier angelegt: auf einer nicht
+// navigierenden Karte waere er ein unsichtbares Element mit eigener
+// Compositing-Ebene (mix-blend-mode + inset -40%) ohne jeden Zweck.
+
+.nc-card--navigational,
+.nc-card:has(.nc-card__title-link) {
+  // Radialer Glow — identisch zur Bento-Zelle. Liegt UEBER den Flaechen von
+  // __content/__footer (die beim Hover eingefaerbt werden), aber UNTER deren
+  // Textkindern: die stehen auf z-index 2. Damit tint der Glow nur die
+  // Flaeche, nie die Schrift — der Kontrast bleibt unangetastet.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    z-index: 1;
+    background: radial-gradient(circle at 70% 20%, var(--nc-card-hover-glow), transparent 55%);
+    opacity: 0;
+    transition: opacity var(--nc-card-hover-glow-duration) var(--nc-card-hover-ease);
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+
+  // :focus-visible trifft die <a>-Wurzel; :has(...:focus-visible) die
+  // Partial-Variante, deren Karte selbst nicht fokussierbar ist. Ohne den
+  // zweiten Fall bekaeme die Tastaturbedienung dort keine Rueckmeldung.
+  &:hover,
+  &:focus-visible,
+  &:has(.nc-card__title-link:focus-visible) {
+    transform: translateY(var(--nc-card-hover-lift));
+    border-color: var(--mod-card-hover-border, var(--nc-card-hover-border));
+    box-shadow: var(--mod-card-shadow-hover, var(--nc-card-shadow-hover));
+
+    &::after { opacity: var(--nc-card-hover-glow-opacity); }
+
+    > .nc-card__content,
+    > .nc-card__footer { background-color: var(--nc-card-hover-surface); }
   }
 }
 
@@ -568,5 +677,42 @@
       transform: none;
       transition: none;
     }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Reduced Motion
+// ---------------------------------------------------------------------------
+// Gleiche Behandlung wie .nc-bento-grid__cell: Bewegung faellt weg, die
+// FARBLICHEN Signale (Border, Untergrund, Glow) bleiben — sonst verloere die
+// Karte bei reduzierter Bewegung ihre Hover-Rueckmeldung vollstaendig.
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-card,
+  .nc-card::after,
+  .nc-card__content,
+  .nc-card__footer,
+  .nc-card__footer-icon {
+    transition: none;
+  }
+
+  .nc-card--navigational:hover,
+  .nc-card--navigational:focus-visible,
+  .nc-card:has(.nc-card__title-link):hover,
+  .nc-card:has(.nc-card__title-link:focus-visible) {
+    transform: none;
+  }
+
+  .nc-card--navigational:active {
+    transform: none;
+  }
+
+  .nc-card--navigational:hover .nc-card__footer-icon {
+    transform: none;
+  }
+
+  .nc-card--navigational:hover .nc-card__media img,
+  .nc-card--navigational:hover .nc-card__media video {
+    transform: none;
   }
 }
