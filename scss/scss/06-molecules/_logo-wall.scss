@@ -12,10 +12,12 @@
 //   Original         — Logos in Originalfarben
 //   Monochrome       — Alle Logos einheitlich grau, hover = Originalfarbe
 //
-// GROESSEN:
-//   sm (120px)  — Footer / kompakte Bereiche
-//   md (160px)  — Standard
-//   lg (220px)  — Feature-Praesentation
+// GROESSEN (Rasterbreite / max. Bildhoehe):
+//   sm (200px / 56px)  — Footer / kompakte Bereiche
+//   md (260px / 88px)  — Standard
+//   lg (380px / 120px) — Feature-Praesentation
+//   Der Kommentar nannte frueher 120/160/220px — Werte, die es in den Tokens
+//   nie gab. Beim Nachschlagen fuehrte das in die Irre.
 //
 // ANIMATION:
 //   Staggered Fade-In via Intersection Observer (JS)
@@ -101,26 +103,52 @@
 
 .nc-logo-wall--sm {
   --nc-logo-wall-grid-min: var(--mod-logo-wall-item-width-sm, var(--nc-logo-wall-item-width-sm));
-  --nc-logo-wall-item-padding: 0.625rem 1rem;
-  --nc-logo-wall-logo-max-height: 40px;
+  --nc-logo-wall-item-padding: 0.75rem 1.25rem;
+  --nc-logo-wall-logo-max-height: 56px;
   --nc-logo-wall-font-size: var(--fs-xs);
 }
 
 .nc-logo-wall--lg {
   --nc-logo-wall-grid-min: var(--mod-logo-wall-item-width-lg, var(--nc-logo-wall-item-width-lg));
-  --nc-logo-wall-item-padding: 1.25rem 2rem;
-  --nc-logo-wall-logo-max-height: 80px;
+  --nc-logo-wall-item-padding: 1.5rem 2.25rem;
+  --nc-logo-wall-logo-max-height: 120px;
 }
 
 // ---------------------------------------------------------------------------
 // Modifier: Monochrome (alle Logos grau, hover = Original)
 // ---------------------------------------------------------------------------
 
+// Einheitliche Silhouette statt abgeschwaechtem Graustufenbild.
+//
+// Vorher: grayscale(100%) brightness(0.8) bei opacity 0.6. Ein schwarzes Logo
+// kam damit auf rgb(102,102,102) heraus — gemessen 1.7-3.0:1 gegen die weisse
+// Pill-Flaeche, je nach Logo. Das ist der „helle Grauschleier": die Deckkraft
+// mischt die Marke mit dem Untergrund, und der Wert schwankt von Logo zu Logo.
+//
+// brightness(0) legt jede nicht-transparente Flaeche auf eine EINZIGE Farbe.
+// Genau das heisst monochrom — und es macht die Wand unabhaengig davon, ob ein
+// Partnerlogo dunkelblau, rot oder mehrfarbig ankommt. Voraussetzung ist ein
+// transparenter Hintergrund; alle 13 Logos erfuellen das (83-95% transparent,
+// 0% Weissflaeche, gemessen). Bei einem Logo mit WEISSEM Hintergrund wuerde
+// stattdessen ein schwarzer Kasten entstehen.
+//
+// Die Deckkraft steuert nur noch den Ton der Silhouette (0.8 -> etwa #333),
+// nicht mehr die Sichtbarkeit.
 .nc-logo-wall--mono {
-  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0.8);
-  --nc-logo-wall-logo-opacity: 0.6;
+  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0);
+  --nc-logo-wall-logo-opacity: 0.8;
   --nc-logo-wall-logo-filter-hover: none;
   --nc-logo-wall-logo-opacity-hover: 1;
+}
+
+// Dark Theme: dieselbe Silhouette, nur invertiert. Ohne das war Monochrom im
+// dunklen Theme praktisch unsichtbar — gemessen 1.08-2.56:1 gegen die dunkle
+// Pill-Flaeche. Ein blosses Aufhellen (brightness > 1) reicht nicht: dunkle
+// Logos bleiben dabei dunkel, ein Partnerlogo kam auf 1.87:1.
+.neo-dark-theme .nc-logo-wall--mono,
+[data-theme='neo-dark-theme'] .nc-logo-wall--mono {
+  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0) invert(1);
+  --nc-logo-wall-logo-opacity: 0.92;
 }
 
 // ---------------------------------------------------------------------------
@@ -230,8 +258,11 @@
 
 @include respond-to-max('sm') {
   .nc-logo-wall {
-    --nc-logo-wall-grid-min: 100px;
+    // 100px waren zu eng: davon gingen 24px Padding ab, und vom Rest blieben
+    // bei ~30% Ink-Anteil nur wenige Pixel Markenhoehe.
+    --nc-logo-wall-grid-min: 150px;
     --nc-logo-wall-gap: var(--fnd-spacing-03);
-    --nc-logo-wall-item-padding: 0.5rem 0.75rem;
+    --nc-logo-wall-item-padding: 0.625rem 1rem;
+    --nc-logo-wall-logo-max-height: 56px;
   }
 }

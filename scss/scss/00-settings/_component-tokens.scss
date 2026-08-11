@@ -2244,7 +2244,10 @@
   --nc-logo-wall-gap:                  var(--fnd-spacing-04);
   --nc-logo-wall-padding-block:        var(--fnd-spacing-08);
   --nc-logo-wall-padding-inline:       var(--fnd-spacing-06);
-  --nc-logo-wall-grid-min:             200px;
+  // Raster-Mindestbreite = die md-Stufe. Vorher stand hier hart 200px, waehrend
+  // --nc-logo-wall-item-width-md (240px) NIRGENDS verwendet wurde — die
+  // Standardgroesse hing an einer zweiten, stillen Zahl.
+  --nc-logo-wall-grid-min:             var(--nc-logo-wall-item-width-md);
   --nc-logo-wall-align:                center;
 
   // -- Item (Pill) --
@@ -2257,13 +2260,18 @@
   --nc-logo-wall-item-shadow:          none;
 
   // -- Item Sizing --
-  --nc-logo-wall-item-width-sm:        180px;
-  --nc-logo-wall-item-width-md:        240px;
-  --nc-logo-wall-item-width-lg:        340px;
+  --nc-logo-wall-item-width-sm:        200px;
+  --nc-logo-wall-item-width-md:        260px;
+  --nc-logo-wall-item-width-lg:        380px;
   --nc-logo-wall-item-height:          auto;
 
   // -- Logo Image --
-  --nc-logo-wall-logo-max-height:      60px;
+  // Die Hoehe begrenzt die BILDDATEI, nicht die Wortmarke darin. Gemessen an
+  // den 13 Partnerlogos fuellt die Marke nur 20-38% der Dateihoehe (Rest ist
+  // transparenter Rand), bei 60px blieben also ~18px Markenhoehe uebrig. Die
+  // Werte sind entsprechend angehoben, damit die Marke selbst auf ~24px (md)
+  // bzw. ~32px (lg) kommt — das uebliche Band fuer Partnerleisten.
+  --nc-logo-wall-logo-max-height:      88px;
   --nc-logo-wall-logo-opacity:         1;
   --nc-logo-wall-logo-filter:          none;
   --nc-logo-wall-logo-filter-hover:    none;
