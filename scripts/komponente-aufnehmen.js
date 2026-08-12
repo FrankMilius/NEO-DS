@@ -137,8 +137,15 @@ const regeln = [];
 for (const m of ohneKommentar.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
   const sel = m[1].trim().replace(/^.*\}/s, '').trim();
   if (!sel || sel.startsWith('@')) continue;
-  const komps = new Set([...sel.matchAll(/\.(nc-[a-z0-9-]+)/g)].map((x) => stamm(x[1])));
-  if (komps.size !== 1 || !komps.has(ziel)) continue;
+  // Eine Regel gehoert der Komponente, die im Selektor ZUERST steht — dem
+  // aeusseren Kontext. `.nc-testimonial-grid .nc-testimonial { … }` ist eine
+  // Regel des Grids ueber seine Kinder, nicht des Testimonials.
+  //
+  // Die fruehere Bedingung (genau eine Komponente im Selektor) liess solche
+  // Regeln liegen: allein zwischen testimonial-grid und testimonial sind das
+  // 16 Stueck, die als Waisen im Theme zurueckgeblieben waeren.
+  const alleK = [...sel.matchAll(/\.(nc-[a-z0-9-]+)/g)].map((x) => stamm(x[1]));
+  if (!alleK.length || alleK[0] !== ziel) continue;
   const dekl = [...m[2].matchAll(/([a-z-]+)\s*:\s*([^;]+)/g)].map((d) => [d[1].trim(), d[2].trim()]);
   if (dekl.length) regeln.push({ sel, dekl, at: atKontext(m.index) });
 }
@@ -347,8 +354,8 @@ if (argv.includes('--anwenden')) {
   for (const m of ohneK.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
     const sel = m[1].trim();
     if (!sel || sel.startsWith('@')) continue;
-    const ks = new Set([...sel.matchAll(/\.(nc-[a-z0-9-]+)/g)].map((x) => stamm(x[1])));
-    if (ks.size === 1 && ks.has(ziel)) weg.push([m.index, m.index + m[0].length]);
+    const kk = [...sel.matchAll(/\.(nc-[a-z0-9-]+)/g)].map((x) => stamm(x[1]));
+    if (kk.length && kk[0] === ziel) weg.push([m.index, m.index + m[0].length]);
   }
   for (const [a, b] of weg.reverse()) o = o.slice(0, a) + o.slice(b);
   o = `/* .${ziel}: ${weg.length} Regeln am ${new Date().toISOString().slice(0, 10)} ins Design System\n` +

@@ -1,0 +1,88 @@
+// ==========================================================================
+// atoms: tbl-cell
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: tbl-cell */
+.nc-tbl-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-tbl-cell--icon {
+  justify-content: center;
+}
+
+td .nc-tbl-cell {
+  justify-content: center;
+  text-align: center;
+}
+
+th[scope="row"] .nc-tbl-cell {
+  justify-content: flex-start;
+  text-align: left;
+  flex-wrap: wrap;
+}
+
+.nc-tbl-cell__text {
+  line-height: var(--lh-normal);
+  margin: 0;
+  font-size: var(--nc-type-body-s-size);
+  color: var(--fnd-color-text-primary);
+}
+
+th[scope="row"] .nc-tbl-cell__text {
+  font-size: var(--nc-type-body-s-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-tbl-cell__sub {
+  font-size: var(--nc-type-caption-size);
+  color: var(--fnd-color-text-tertiary);
+  line-height: var(--nc-tbl-cell-sub-line-height);
+  margin: 0;
+  width: 100%;
+}
+
+th[scope="row"] .nc-tbl-cell__sub {
+  color: var(--fnd-color-text-tertiary);
+  font-weight: var(--fnd-font-weight-regular);
+}
+
+.nc-tbl-cell__icon-block {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--fnd-spacing-01);
+}
+
+.nc-tbl-cell__info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--nc-tbl-cell-info-btn-padding);
+  cursor: pointer;
+  color: var(--fnd-color-text-tertiary);
+  opacity: var(--fnd-opacity-muted);
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.nc-tbl-cell__info-btn:hover {
+  opacity: var(--nc-tbl-cell-info-btn-hover-opacity);
+}
+
+.nc-tbl-cell__info-btn:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+  border-radius: var(--fnd-radius-full);
+}
+/* <<< aufgenommen: tbl-cell */

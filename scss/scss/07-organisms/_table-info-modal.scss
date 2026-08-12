@@ -1,0 +1,82 @@
+// ==========================================================================
+// organisms: table-info-modal
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: table-info-modal */
+.nc-table-info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--fnd-z-toast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.nc-table-info-modal.is-open {
+  opacity: var(--nc-table-info-modal-is-open-opacity);
+  pointer-events: auto;
+}
+
+.nc-table-info-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent);
+  cursor: pointer;
+}
+
+.nc-table-info-modal__content {
+  position: relative;
+  z-index: 1;
+  background-color: var(--fnd-color-background-base);
+  border-radius: var(--fnd-radius-lg);
+  box-shadow: var(--fnd-shadow-xl);
+  padding: var(--fnd-spacing-06);
+  max-width: 480px;
+  width: calc(100% - var(--fnd-spacing-08));
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.nc-table-info-modal__close {
+  position: absolute;
+  top: var(--fnd-spacing-03);
+  right: var(--fnd-spacing-03);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fnd-color-text-secondary);
+  padding: var(--fnd-spacing-01);
+  border-radius: var(--fnd-radius-sm);
+}
+
+.nc-table-info-modal__close:hover {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-table-info-modal__close:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+}
+
+.nc-table-info-modal__body {
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--lh-body);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-table-info-modal__body p {
+  margin: 0 0 var(--fnd-spacing-03);
+}
+
+.nc-table-info-modal__body p:last-child {
+  margin-bottom: 0;
+}
+/* <<< aufgenommen: table-info-modal */

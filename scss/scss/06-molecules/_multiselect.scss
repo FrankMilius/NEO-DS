@@ -1,0 +1,90 @@
+// ==========================================================================
+// molecules: multiselect
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: multiselect */
+.nc-multiselect {
+  position: relative;
+}
+
+.nc-multiselect__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nc-multiselect-trigger-gap);
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: var(--nc-multiselect-trigger-padding);
+  font-size: var(--nc-multiselect-trigger-font-size);
+  text-align: start;
+  background: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-primary);
+  border: 1px solid var(--fnd-color-border-secondary);
+  border-radius: var(--fnd-radius-sm);
+  cursor: pointer;
+}
+
+.nc-multiselect__trigger:hover {
+  border-color: var(--fnd-color-text-secondary);
+}
+
+.nc-multiselect__trigger:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.nc-multiselect__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nc-multiselect__value--empty {
+  color: var(--fnd-color-text-tertiary, var(--fnd-color-text-secondary));
+}
+
+.nc-multiselect__caret {
+  flex: 0 0 auto;
+  color: var(--fnd-color-text-secondary);
+  transition: transform var(--fnd-motion-duration-200, .2s) ease;
+}
+
+.nc-multiselect.is-open .nc-multiselect__caret {
+  transform: rotate(180deg);
+}
+
+.nc-multiselect__panel {
+  position: absolute;
+  inset-inline: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nc-multiselect-panel-gap);
+  max-block-size: 16rem;
+  overflow-y: auto;
+  padding: var(--nc-multiselect-panel-padding);
+  background: var(--fnd-color-background-base);
+  border: 1px solid var(--fnd-color-border-secondary);
+  border-radius: var(--fnd-radius-sm);
+  box-shadow: var(--nc-multiselect-panel-box-shadow);
+}
+
+.nc-multiselect__option {
+  margin: 0;
+  padding: var(--nc-multiselect-option-padding);
+  min-block-size: 2.5rem;
+  align-items: center;
+  border-radius: var(--fnd-radius-sm);
+  cursor: pointer;
+}
+
+.nc-multiselect__option:hover {
+  background: var(--fnd-color-background-secondary);
+}
+/* <<< aufgenommen: multiselect */
