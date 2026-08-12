@@ -26,6 +26,20 @@ const ziel = resolve(wurzel, 'skill/neo-design-system');
 // Hilfen
 // ---------------------------------------------------------------------------
 
+/** Schreibt nur, wenn sich der INHALT geaendert hat.
+ *
+ *  Kopfzeilen wie @source und @updated tragen Commit-Hash und Datum und
+ *  aendern sich bei jedem Lauf. Ohne diese Pruefung waeren die erzeugten
+ *  Dateien nach jedem Commit im Repo als geaendert markiert, obwohl kein
+ *  einziges Token anders ist — Rauschen, das echte Aenderungen verdeckt.
+ */
+function schreibeWennGeaendert(pfad, inhalt) {
+  const fluechtig = (t) => t.split('\n').filter((z) => !/@source|@updated|Quelle: WEBSITE26 @/.test(z)).join('\n');
+  if (existsSync(pfad) && fluechtig(readFileSync(pfad, 'utf8')) === fluechtig(inhalt)) return false;
+  writeFileSync(pfad, inhalt);
+  return true;
+}
+
 /** Sammelt die Rumpfe ALLER Bloecke, deren Selektorliste `passt` erfuellt.
  *
  *  Bewusst ein eigener Mini-Parser statt indexOf(':root{'):
@@ -210,7 +224,7 @@ ${schreibeGruppiert(dunkel).trimStart()}}
   }
 
   mkdirSync(resolve(ziel, 'references'), { recursive: true });
-  writeFileSync(resolve(ziel, 'references/tokens.css'), out);
+  schreibeWennGeaendert(resolve(ziel, 'references/tokens.css'), out);
   return { anzahl: ausStyles.length + ausFnd.length, dunkel: dunkel.length };
 }
 
@@ -259,7 +273,7 @@ und Elemente (\`__teil\`) sind zusammengefasst, damit die Liste lesbar bleibt.
     }
   }
   md += `\n---\n\n${gesamt} Komponenten erfasst.\n`;
-  writeFileSync(resolve(ziel, 'references/components.md'), md);
+  schreibeWennGeaendert(resolve(ziel, 'references/components.md'), md);
   return gesamt;
 }
 
@@ -407,7 +421,7 @@ function baueTemplate() {
   <p>Inhalt.</p>
 </div>
 `;
-  writeFileSync(resolve(ziel, 'assets/artifact-template.html'), html);
+  schreibeWennGeaendert(resolve(ziel, 'assets/artifact-template.html'), html);
 }
 
 // ---------------------------------------------------------------------------
