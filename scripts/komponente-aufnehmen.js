@@ -299,6 +299,18 @@ if (argv.includes('--anwenden')) {
   if (kopf) writeFileSync(scssDatei, kopf);
   abschnitt(scssDatei, name, scssText);
 
+  // Partial in das _index.scss der Ebene eintragen. Ohne das wird die Datei
+  // geschrieben, aber nie kompiliert — die Komponente waere im DS unsichtbar,
+  // und im Theme sind ihre Regeln zu dem Zeitpunkt schon entfernt.
+  const ebenenIndex = resolve(wurzel, `scss/scss/${ebene}/_index.scss`);
+  if (existsSync(ebenenIndex)) {
+    let ix = readFileSync(ebenenIndex, 'utf8');
+    if (!new RegExp(`['"]${name}['"]`).test(ix)) {
+      ix = ix.replace(/\s*$/, '') + `\n@forward '${name}';   // aufgenommen aus dem Drupal-Theme\n`;
+      writeFileSync(ebenenIndex, ix);
+    }
+  }
+
   // 2. Tokens
   if (tokens.size) {
     const tText = [`:root {`, `  // ── ${name} (aufgenommen) ──`,

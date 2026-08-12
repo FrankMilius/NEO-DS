@@ -1,0 +1,262 @@
+// ==========================================================================
+// organisms: story-gallery
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: story-gallery */
+.nc-story-gallery {
+  --sg-card-height: 420px;
+  --sg-gap: var(--fnd-spacing-10);
+  --sg-card-radius: var(--fnd-radius-lg);
+  --sg-content-padding: var(--fnd-spacing-06);
+  position: relative;
+}
+
+.nc-story-gallery__footer {
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--nc-container-max-width, 1440px);
+  margin-inline: auto;
+  padding-inline: var(--sg-content-padding);
+  padding-block-start: var(--fnd-spacing-05);
+}
+
+.nc-story-gallery__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.nc-story-gallery__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nc-story-gallery__scroll:active {
+  cursor: grabbing;
+}
+
+.nc-story-gallery__track {
+  display: flex;
+  gap: var(--sg-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-inline-start: max(var(--sg-content-padding), calc((100vw - var(--nc-container-max-width, 1440px)) / 2));
+  padding-inline-end: 0;
+}
+
+.nc-story-gallery__card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--sg-card-height) * var(--sg-card-ratio-w, 4) / var(--sg-card-ratio-h, 3));
+  min-width: 0;
+  overflow: hidden;
+}
+
+.nc-story-gallery__media {
+  height: var(--sg-card-height);
+  width: 100%;
+  border-radius: var(--sg-card-radius);
+  overflow: hidden;
+  background-color: var(--fnd-color-background-tertiary);
+  flex-shrink: 0;
+}
+
+.nc-story-gallery__media img,
+.nc-story-gallery__media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nc-story-gallery__caption {
+  padding-block: var(--fnd-spacing-04);
+  width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.nc-story-gallery__title {
+  font-size: var(--nc-type-heading-s-size);
+  font-weight: var(--fnd-font-weight-bold);
+  color: var(--fnd-color-text-primary);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--fnd-tracking-snug);
+  margin: 0 0 var(--fnd-spacing-02);
+}
+
+.nc-story-gallery__desc {
+  font-size: var(--nc-type-body-l-size);
+  color: var(--fnd-color-text-secondary);
+  line-height: var(--lh-body);
+  margin: 0;
+}
+
+.nc-story-gallery__paddles--overlay {
+  position: absolute;
+  top: calc(var(--sg-card-height) / 2);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: var(--fnd-spacing-03);
+  pointer-events: none;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.nc-story-gallery__paddles--overlay .nc-story-gallery__paddle {
+  pointer-events: auto;
+}
+
+.nc-story-gallery__paddles--below {
+  display: flex;
+  gap: var(--fnd-spacing-02);
+  flex-shrink: 0;
+}
+
+.nc-story-gallery__paddle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-primary);
+  box-shadow: var(--fnd-shadow-md);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nc-story-gallery__paddle:hover {
+  box-shadow: var(--fnd-shadow-lg);
+}
+
+.nc-story-gallery__paddle:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.nc-story-gallery__paddle:disabled {
+  opacity: var(--nc-story-gallery-paddle-disabled-opacity);
+  pointer-events: none;
+}
+
+.nc-story-gallery__paddle svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery {
+    --sg-card-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery__track {
+    padding-inline-start: var(--sg-content-padding);
+    gap: var(--fnd-spacing-03);
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery__paddles--overlay,
+    .nc-story-gallery__footer {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery__title {
+    font-size: var(--nc-type-heading-s-size);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-story-gallery__scroll {
+    scroll-behavior: auto;
+  }
+}
+
+.nc-story-gallery--loop .nc-story-gallery__track {
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}
+
+.nc-story-gallery--loop .nc-story-gallery__scroll {
+  cursor: none;
+}
+
+.nc-story-gallery__cursor-paddle {
+  position: fixed;
+  z-index: var(--fnd-z-dropdown);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--fnd-color-background-base);
+  box-shadow: var(--fnd-shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.nc-story-gallery__cursor-paddle.is-visible {
+  opacity: var(--nc-story-gallery-cursor-paddle-is-visible-opacity);
+}
+
+.nc-story-gallery__cursor-paddle.is-pressed {
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+.nc-story-gallery__cursor-icon {
+  display: none;
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-story-gallery__cursor-icon--prev {
+  display: none;
+}
+
+.nc-story-gallery__cursor-icon--next {
+  display: none;
+}
+
+.nc-story-gallery__cursor-paddle[data-cursor-dir="prev"] .nc-story-gallery__cursor-icon--prev {
+  display: block;
+}
+
+.nc-story-gallery__cursor-paddle[data-cursor-dir="next"] .nc-story-gallery__cursor-icon--next {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery--loop .nc-story-gallery__scroll {
+    cursor: grab;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-story-gallery__cursor-paddle {
+    display: none;
+  }
+}
+/* <<< aufgenommen: story-gallery */

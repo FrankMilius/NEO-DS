@@ -1,0 +1,153 @@
+// ==========================================================================
+// organisms: fade-gallery
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: fade-gallery */
+.nc-fade-gallery {
+  max-width: var(--nc-container-max-width, 1440px);
+  margin-inline: auto;
+}
+
+.nc-fade-gallery__viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--fnd-radius-lg);
+  overflow: hidden;
+  background-color: var(--fnd-color-background-tertiary);
+}
+
+.nc-fade-gallery__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.nc-fade-gallery__media.is-active {
+  opacity: var(--nc-fade-gallery-media-is-active-opacity);
+  z-index: 1;
+}
+
+.nc-fade-gallery__media img,
+.nc-fade-gallery__media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nc-fade-gallery__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-block-start: var(--fnd-spacing-06);
+  border-bottom: 1px solid var(--fnd-color-border-secondary);
+}
+
+.nc-fade-gallery__tab {
+  position: relative;
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+  background: none;
+  border: none;
+  font-size: var(--nc-type-label-size);
+  font-weight: var(--fnd-font-weight-medium);
+  color: var(--fnd-color-text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.nc-fade-gallery__tab:hover {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-fade-gallery__tab[aria-selected="true"] {
+  color: var(--fnd-color-text-primary);
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.nc-fade-gallery__tab[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--fnd-color-interactive-default);
+  border-radius: var(--nc-fade-gallery-tab-aria-selected-true-after-border-radius);
+}
+
+.nc-fade-gallery__tab:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: -2px;
+  border-radius: var(--fnd-radius-xs);
+}
+
+.nc-fade-gallery__caption {
+  text-align: center;
+  max-width: 680px;
+  margin-inline: auto;
+  padding-block-start: var(--fnd-spacing-05);
+  min-height: 3em;
+}
+
+.nc-fade-gallery__desc {
+  font-size: var(--nc-type-body-l-size);
+  color: var(--fnd-color-text-secondary);
+  line-height: var(--lh-body);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.nc-fade-gallery__desc.is-visible {
+  opacity: var(--nc-fade-gallery-desc-is-visible-opacity);
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .nc-fade-gallery__tabs {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-fade-gallery__tabs::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-fade-gallery__tab {
+    font-size: var(--nc-type-label-size);
+    padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-fade-gallery__media {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-fade-gallery__desc {
+    transition: none;
+    transform: none;
+  }
+}
+/* <<< aufgenommen: fade-gallery */

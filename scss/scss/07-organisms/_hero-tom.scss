@@ -1,0 +1,137 @@
+// ==========================================================================
+// organisms: hero-tom
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: hero-tom */
+.nc-hero-tom {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--fnd-color-always-light);
+}
+
+.nc-hero-tom--light {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-hero-tom__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.nc-hero-tom__media img,
+.nc-hero-tom__media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nc-hero-tom__scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-dark) 15%, transparent) 70%);
+  pointer-events: none;
+}
+
+.nc-hero-tom--light .nc-hero-tom__scrim {
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--fnd-color-always-light) 50%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-light) 15%, transparent) 70%);
+}
+
+.nc-hero-tom__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding-block: var(--fnd-spacing-12);
+  padding-inline: var(--fnd-spacing-06);
+}
+
+.nc-hero-tom__copy {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--fnd-spacing-04);
+}
+
+.nc-hero-tom__kicker {
+  font-size: var(--nc-type-caption-size);
+  font-weight: var(--nc-hero-tom-kicker-weight);
+  text-transform: var(--nc-kicker-text-transform);
+  letter-spacing: var(--nc-kicker-letter-spacing);
+  opacity: var(--fnd-opacity-high);
+  margin: 0;
+}
+
+.nc-hero-tom__headline {
+  font-size: var(--nc-type-display-m-size);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+.nc-hero-tom__subtext {
+  font-size: var(--nc-hero-tom-subtext-size);
+  line-height: var(--lh-body);
+  opacity: var(--fnd-opacity-prominent);
+  max-width: 600px;
+}
+
+.nc-hero-tom__subtext p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.nc-hero-tom--expand .nc-hero-tom__media {
+  --tom-expand: 0;
+  --tom-inset: calc((100vw - var(--nc-container-max-width, 1440px)) / 2 * (1 - var(--tom-expand)));
+  --tom-radius: calc(var(--fnd-radius-xl, 10px) * (1 - var(--tom-expand)));
+  left: var(--tom-inset);
+  right: var(--tom-inset);
+  border-radius: var(--tom-radius);
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tom__headline {
+    font-size: var(--nc-type-display-m-size);
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tom__kicker {
+    font-size: var(--nc-type-caption-size);
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tom--expand .nc-hero-tom__media {
+    --tom-inset: calc(var(--fnd-spacing-04) * (1 - var(--tom-expand)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-hero-tom--expand .nc-hero-tom__media {
+    --tom-expand: 1;
+    border-radius: 0;
+    left: 0;
+    right: 0;
+  }
+}
+/* <<< aufgenommen: hero-tom */
