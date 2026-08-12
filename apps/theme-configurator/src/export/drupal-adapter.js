@@ -13,6 +13,8 @@
  * @param {object} themeJSON - Parsed output of exportAsJSON()
  * @returns {string} CSS content
  */
+import { foundationZeilen } from './foundation-css.js'
+
 export function generateDrupalCSS(themeJSON) {
   const lines = []
   const meta = themeJSON.meta || {}
@@ -51,19 +53,22 @@ export function generateDrupalCSS(themeJSON) {
     lines.push('}\n')
   }
 
-  // Foundation overrides
+  // Foundation overrides — nur ABWEICHUNGEN, mit korrekten Namen.
+  // Siehe foundation-css.js: die alte Schleife schrieb --${token} mit dem
+  // Oberflaechen-Schluessel heraus und erzeugte damit unbrauchbare Namen.
   const foundation = themeJSON.foundation
   if (foundation && Object.keys(foundation).length > 0) {
-    lines.push(`/* Foundation Token Overrides */`)
-    lines.push(`:root {`)
-    for (const [cat, tokens] of Object.entries(foundation)) {
-      if (tokens && typeof tokens === 'object') {
-        for (const [token, value] of Object.entries(tokens)) {
-          lines.push(`  --${token}: ${value};`)
-        }
-      }
+    const { zeilen, uebersprungen } = foundationZeilen(foundation)
+    if (zeilen.length) {
+      lines.push(`/* Foundation Token Overrides (nur Abweichungen vom Design System) */`)
+      lines.push(`:root {`)
+      lines.push(...zeilen)
+      lines.push('}\n')
     }
-    lines.push('}\n')
+    if (uebersprungen.length) {
+      lines.push(`/* Nicht exportiert — im Design System (noch) nicht vorhanden:`)
+      lines.push(`   ${uebersprungen.join(', ')} */\n`)
+    }
   }
 
   // Focus ring mode

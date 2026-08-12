@@ -430,6 +430,77 @@ const generateLegacy = () => {
   console.log('  ✓ _design-tokens.generated.scss (legacy)');
 };
 
+
+// ---------------------------------------------------------------------------
+// Konfigurator: Bruecke zwischen Oberflaechen-Struktur und echten CSS-Namen
+// ---------------------------------------------------------------------------
+//
+// foundation._configurator beschreibt die BEDIENOBERFLAECHE des Theme-
+// Konfigurators. Sie ist von Hand gepflegt und kannte bisher die kanonischen
+// CSS-Variablennamen NICHT — der Export schrieb deshalb den Rohschluessel
+// heraus (`--base: xs` statt `--fnd-elevation-base: var(--fnd-shadow-xs)`).
+//
+// Diese Funktion stellt die Verbindung her: sie sucht zu jedem Oberflaechen-
+// Token den passenden Eintrag in der ECHTEN, flach gemachten Foundation und
+// haengt ihn als `cssVar` an. Findet sie keinen, bleibt `cssVar` null — der
+// Export ueberspringt solche Tokens dann bewusst, statt Unbrauchbares zu
+// erzeugen.
+//
+// Zusaetzlich wird `maps_to` aufgeloest: bei Elevation ist der Wert ("xs") ein
+// VERWEIS in die Schattenskala, kein Wert. Bisher las den Verweis niemand.
+const bruecke = (configurator, bekannt) => {
+  const bericht = { verbunden: 0, ohne: [] };
+
+  const kandidaten = (kat, key) => [
+    `${kat}-${key}`,          // radius-md, spacing-06, elevation-base, border-width-sm
+    `${kat}-levels-${key}`,   // shadow-levels-xs
+    `${kat}-scale-${key}`,    // radii-scale-md
+    `${kat}-ratio-${key}`,    // media-ratio-1-1
+    key,                      // bereits vollstaendig
+  ];
+
+  for (const [kat, daten] of Object.entries(configurator)) {
+    if (!daten || !daten.tokens) continue;
+    for (const [key, token] of Object.entries(daten.tokens)) {
+      const treffer = kandidaten(toKebab(kat), toKebab(key)).find((k) => bekannt.has(k));
+      token.cssVar = treffer ? `--fnd-${treffer}` : null;
+      if (treffer) bericht.verbunden++;
+      else bericht.ohne.push(`${kat}.${key}`);
+
+      // Verweis aufloesen: bei Elevation ist der Wert ein SCHLUESSEL der
+      // Zielskala ("xs"), kein Wert. Ohne das schreibt der Export `xs` heraus.
+      if (token.maps_to) {
+        const ziel = [`${toKebab(token.maps_to)}-${toKebab(String(token.value))}`,
+                      `${toKebab(token.maps_to)}-levels-${toKebab(String(token.value))}`]
+          .find((k) => bekannt.has(k));
+        if (ziel) token.resolved_value = `var(--fnd-${ziel})`;
+      }
+    }
+  }
+  return bericht;
+};
+
+/** Alle --fnd-* Namen, die es TATSAECHLICH gibt.
+ *
+ *  Wichtig: es existieren zwei Ebenen. Der Generator schreibt die flachen
+ *  JSON-Pfade (--fnd-radii-scale-md), das SCSS definiert daneben die
+ *  Kurzformen (--fnd-radius-md) — und die Komponenten benutzen die Kurzformen.
+ *  Gegen die JSON-Struktur allein zu pruefen, verband nur 32 von 91 Tokens. */
+const bekannteNamen = () => {
+  const namen = new Set();
+  const sammle = (text) => {
+    for (const m of text.matchAll(/--fnd-([a-z0-9-]+)\s*:/g)) namen.add(m[1]);
+  };
+  // Das GEBAUTE CSS ist die einzige verlaessliche Quelle. Im SCSS entstehen
+  // viele Namen erst durch Interpolation (--fnd-radius-#{$size}) und sind als
+  // Literal gar nicht vorhanden — ein Quelltext-Scan fand sie deshalb nicht.
+  for (const kandidat of [path.join(__dirname, '..', 'styles.css'), outCss]) {
+    try { sammle(fs.readFileSync(kandidat, 'utf8')); } catch (e) { /* fehlt */ }
+  }
+  if (!namen.size) console.log('  ⚠ Keine gebauten CSS-Namen gefunden — Bruecke uebersprungen (erst `npm run build:css`).');
+  return namen;
+};
+
 // ---------------------------------------------------------------------------
 // CSS Custom Properties (flat output for non-SCSS consumers)
 // ---------------------------------------------------------------------------
@@ -544,6 +615,11 @@ const generateThemeApp = () => {
   out += `// ---------------------------------------------------------------------------\n`;
   out += `// Foundation non-color tokens\n`;
   out += `// ---------------------------------------------------------------------------\n\n`;
+
+  // Kanonische CSS-Namen anhaengen, bevor die Datei geschrieben wird.
+  const bericht = bruecke(configurator, bekannteNamen());
+  console.log(`  ↳ Konfigurator-Bruecke: ${bericht.verbunden} Tokens verbunden, ${bericht.ohne.length} ohne CSS-Entsprechung`);
+  if (bericht.ohne.length) console.log(`     ohne: ${bericht.ohne.slice(0, 8).join(', ')}${bericht.ohne.length > 8 ? ' …' : ''}`);
 
   out += `export const foundationTokens = ${JSON.stringify(configurator, null, 2)}\n\n`;
 

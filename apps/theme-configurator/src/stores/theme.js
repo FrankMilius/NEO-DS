@@ -14,6 +14,7 @@ import {
   semanticTokenGroups
 } from '../data/tokens.js'
 import { downloadDrupalBundle } from '../export/drupal-adapter.js'
+import { foundationZeilen } from '../export/foundation-css.js'
 
 // ---------------------------------------------------------------------------
 // Valid token ID sets (for pruning stale localStorage overrides)
@@ -1540,18 +1541,19 @@ function exportAsCSSVars() {
   lines.push('}\n')
 
   // === Foundation Overrides ===
+  // Nur ABWEICHUNGEN vom Design System, mit korrekten CSS-Namen (foundation-css.js).
   const fndOverrides = state.foundationOverrides[themeSet]
   if (fndOverrides && Object.keys(fndOverrides).length > 0) {
-    lines.push(`/* === Foundation Overrides === */`)
-    lines.push(`:root {`)
-    for (const [cat, tokens] of Object.entries(fndOverrides)) {
-      if (tokens && typeof tokens === 'object') {
-        for (const [token, value] of Object.entries(tokens)) {
-          lines.push(`  --${token}: ${value};`)
-        }
-      }
+    const { zeilen, uebersprungen } = foundationZeilen(fndOverrides)
+    if (zeilen.length) {
+      lines.push(`/* === Foundation Overrides (nur Abweichungen) === */`)
+      lines.push(`:root {`)
+      lines.push(...zeilen)
+      lines.push('}\n')
     }
-    lines.push('}\n')
+    if (uebersprungen.length) {
+      lines.push(`/* Nicht exportiert — im DS nicht vorhanden: ${uebersprungen.join(', ')} */\n`)
+    }
   }
 
   // === Focus Ring Mode Override ===

@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-11
+// Generated: 2026-08-12
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -9586,43 +9586,53 @@ export const foundationTokens = {
     "tokens": {
       "null": {
         "label": "None",
-        "value": "0px"
+        "value": "0px",
+        "cssVar": "--fnd-radius-null"
       },
       "xs": {
         "label": "XS",
-        "value": "2px"
+        "value": "2px",
+        "cssVar": "--fnd-radius-xs"
       },
       "sm": {
         "label": "SM (Default)",
-        "value": "4px"
+        "value": "4px",
+        "cssVar": "--fnd-radius-sm"
       },
       "md": {
         "label": "MD",
-        "value": "6px"
+        "value": "6px",
+        "cssVar": "--fnd-radius-md"
       },
       "lg": {
         "label": "LG",
-        "value": "8px"
+        "value": "8px",
+        "cssVar": "--fnd-radius-lg"
       },
       "xl": {
         "label": "XL",
-        "value": "10px"
+        "value": "10px",
+        "cssVar": "--fnd-radius-xl"
       },
       "2xl": {
         "label": "2XL",
-        "value": "12px"
+        "value": "12px",
+        "cssVar": "--fnd-radius-2xl"
       },
       "3xl": {
         "label": "3XL",
-        "value": "14px"
+        "value": "14px",
+        "cssVar": "--fnd-radius-3xl"
       },
       "4xl": {
         "label": "4XL",
-        "value": "16px"
+        "value": "16px",
+        "cssVar": "--fnd-radius-4xl"
       },
       "full": {
         "label": "Full",
-        "value": "9999px"
+        "value": "9999px",
+        "cssVar": "--fnd-radius-full"
       }
     }
   },
@@ -9632,55 +9642,68 @@ export const foundationTokens = {
     "tokens": {
       "10": {
         "label": "10",
-        "value": "64px"
+        "value": "64px",
+        "cssVar": "--fnd-spacing-10"
       },
       "11": {
         "label": "11",
-        "value": "80px"
+        "value": "80px",
+        "cssVar": "--fnd-spacing-11"
       },
       "12": {
         "label": "12",
-        "value": "120px"
+        "value": "120px",
+        "cssVar": "--fnd-spacing-12"
       },
       "13": {
         "label": "13",
-        "value": "160px"
+        "value": "160px",
+        "cssVar": "--fnd-spacing-13"
       },
       "01": {
         "label": "01",
-        "value": "4px"
+        "value": "4px",
+        "cssVar": "--fnd-spacing-01"
       },
       "02": {
         "label": "02",
-        "value": "8px"
+        "value": "8px",
+        "cssVar": "--fnd-spacing-02"
       },
       "03": {
         "label": "03",
-        "value": "12px"
+        "value": "12px",
+        "cssVar": "--fnd-spacing-03"
       },
       "04": {
         "label": "04",
-        "value": "16px"
+        "value": "16px",
+        "cssVar": "--fnd-spacing-04"
       },
       "05": {
         "label": "05",
-        "value": "20px"
+        "value": "20px",
+        "cssVar": "--fnd-spacing-05"
       },
       "06": {
         "label": "06",
-        "value": "24px"
+        "value": "24px",
+        "cssVar": "--fnd-spacing-06"
       },
       "07": {
         "label": "07",
-        "value": "32px"
+        "value": "32px",
+        "cssVar": "--fnd-spacing-07"
       },
       "08": {
         "label": "08",
-        "value": "40px"
+        "value": "40px",
+        "cssVar": "--fnd-spacing-08"
       },
       "09": {
         "label": "09",
-        "value": "48px"
+        "value": "48px",
+        "cssVar": "--fnd-spacing-09"
       }
     }
   },
@@ -9690,23 +9713,28 @@ export const foundationTokens = {
     "tokens": {
       "xs": {
         "label": "XS",
-        "value": "0 1px 2px rgba(15, 23, 42, 0.06)"
+        "value": "0 1px 2px rgba(15, 23, 42, 0.06)",
+        "cssVar": "--fnd-shadow-xs"
       },
       "sm": {
         "label": "SM",
-        "value": "0 4px 10px rgba(15, 23, 42, 0.08)"
+        "value": "0 4px 10px rgba(15, 23, 42, 0.08)",
+        "cssVar": "--fnd-shadow-sm"
       },
       "md": {
         "label": "MD",
-        "value": "0 10px 24px rgba(15, 23, 42, 0.12)"
+        "value": "0 10px 24px rgba(15, 23, 42, 0.12)",
+        "cssVar": "--fnd-shadow-md"
       },
       "lg": {
         "label": "LG",
-        "value": "0 18px 40px rgba(15, 23, 42, 0.16)"
+        "value": "0 18px 40px rgba(15, 23, 42, 0.16)",
+        "cssVar": "--fnd-shadow-lg"
       },
       "xl": {
         "label": "XL",
-        "value": "0 30px 60px rgba(15, 23, 42, 0.2)"
+        "value": "0 30px 60px rgba(15, 23, 42, 0.2)",
+        "cssVar": "--fnd-shadow-xl"
       }
     }
   },
@@ -9717,27 +9745,37 @@ export const foundationTokens = {
       "base": {
         "label": "Base",
         "value": "xs",
-        "maps_to": "shadow"
+        "maps_to": "shadow",
+        "cssVar": "--fnd-elevation-base",
+        "resolved_value": "var(--fnd-shadow-xs)"
       },
       "raised": {
         "label": "Raised",
         "value": "sm",
-        "maps_to": "shadow"
+        "maps_to": "shadow",
+        "cssVar": "--fnd-elevation-raised",
+        "resolved_value": "var(--fnd-shadow-sm)"
       },
       "floating": {
         "label": "Floating",
         "value": "md",
-        "maps_to": "shadow"
+        "maps_to": "shadow",
+        "cssVar": "--fnd-elevation-floating",
+        "resolved_value": "var(--fnd-shadow-md)"
       },
       "overlay": {
         "label": "Overlay",
         "value": "lg",
-        "maps_to": "shadow"
+        "maps_to": "shadow",
+        "cssVar": "--fnd-elevation-overlay",
+        "resolved_value": "var(--fnd-shadow-lg)"
       },
       "modal": {
         "label": "Modal",
         "value": "xl",
-        "maps_to": "shadow"
+        "maps_to": "shadow",
+        "cssVar": "--fnd-elevation-modal",
+        "resolved_value": "var(--fnd-shadow-xl)"
       }
     }
   },
@@ -9747,43 +9785,53 @@ export const foundationTokens = {
     "tokens": {
       "disabled": {
         "label": "Disabled",
-        "value": 0.5
+        "value": 0.5,
+        "cssVar": "--fnd-opacity-disabled"
       },
       "hover": {
         "label": "Hover",
-        "value": 0.08
+        "value": 0.08,
+        "cssVar": "--fnd-opacity-hover"
       },
       "focus": {
         "label": "Focus",
-        "value": 0.12
+        "value": 0.12,
+        "cssVar": "--fnd-opacity-focus"
       },
       "pressed": {
         "label": "Pressed",
-        "value": 0.12
+        "value": 0.12,
+        "cssVar": "--fnd-opacity-pressed"
       },
       "dragged": {
         "label": "Dragged",
-        "value": 0.16
+        "value": 0.16,
+        "cssVar": "--fnd-opacity-dragged"
       },
       "muted": {
         "label": "Muted",
-        "value": 0.6
+        "value": 0.6,
+        "cssVar": "--fnd-opacity-muted"
       },
       "medium": {
         "label": "Medium",
-        "value": 0.7
+        "value": 0.7,
+        "cssVar": "--fnd-opacity-medium"
       },
       "high": {
         "label": "High",
-        "value": 0.8
+        "value": 0.8,
+        "cssVar": "--fnd-opacity-high"
       },
       "prominent": {
         "label": "Prominent",
-        "value": 0.85
+        "value": 0.85,
+        "cssVar": "--fnd-opacity-prominent"
       },
       "subtle": {
         "label": "Subtle",
-        "value": 0.9
+        "value": 0.9,
+        "cssVar": "--fnd-opacity-subtle"
       }
     }
   },
@@ -9794,47 +9842,56 @@ export const foundationTokens = {
       "font-body": {
         "label": "Body Font",
         "value": "Manrope, Helvetica Neue, Arial, sans-serif",
-        "type": "font"
+        "type": "font",
+        "cssVar": null
       },
       "font-heading": {
         "label": "Heading Font",
         "value": "Space Grotesk, Helvetica Neue, Arial, sans-serif",
-        "type": "font"
+        "type": "font",
+        "cssVar": null
       },
       "font-mono": {
         "label": "Mono Font",
         "value": "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
-        "type": "font"
+        "type": "font",
+        "cssVar": null
       },
       "weight-light": {
         "label": "Light",
         "value": 300,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       },
       "weight-regular": {
         "label": "Regular",
         "value": 400,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       },
       "weight-medium": {
         "label": "Medium",
         "value": 500,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       },
       "weight-semibold": {
         "label": "Semibold",
         "value": 600,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       },
       "weight-bold": {
         "label": "Bold",
         "value": 700,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       },
       "weight-black": {
         "label": "Black",
         "value": 900,
-        "type": "weight"
+        "type": "weight",
+        "cssVar": null
       }
     }
   },
@@ -9845,32 +9902,38 @@ export const foundationTokens = {
       "easing-informative": {
         "label": "Informative",
         "value": "linear",
-        "type": "easing"
+        "type": "easing",
+        "cssVar": "--fnd-motion-easing-informative"
       },
       "easing-focused": {
         "label": "Focused",
         "value": "ease-in-out",
-        "type": "easing"
+        "type": "easing",
+        "cssVar": "--fnd-motion-easing-focused"
       },
       "easing-expressive": {
         "label": "Expressive",
         "value": "ease-out",
-        "type": "easing"
+        "type": "easing",
+        "cssVar": "--fnd-motion-easing-expressive"
       },
       "duration-quick": {
         "label": "Quick",
         "value": "0.2s",
-        "type": "duration"
+        "type": "duration",
+        "cssVar": null
       },
       "duration-base": {
         "label": "Base",
         "value": "0.3s",
-        "type": "duration"
+        "type": "duration",
+        "cssVar": null
       },
       "duration-slow": {
         "label": "Slow",
         "value": "0.45s",
-        "type": "duration"
+        "type": "duration",
+        "cssVar": null
       }
     }
   },
@@ -9881,57 +9944,68 @@ export const foundationTokens = {
       "width-null": {
         "label": "None",
         "value": "0px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-null"
       },
       "width-xs": {
         "label": "XS (Hairline)",
         "value": "1px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-xs"
       },
       "width-sm": {
         "label": "SM (Default)",
         "value": "1.5px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-sm"
       },
       "width-md": {
         "label": "MD",
         "value": "2px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-md"
       },
       "width-lg": {
         "label": "LG",
         "value": "3px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-lg"
       },
       "width-xl": {
         "label": "XL",
         "value": "4px",
-        "type": "width"
+        "type": "width",
+        "cssVar": "--fnd-border-width-xl"
       },
       "style-solid": {
         "label": "Solid",
         "value": "solid",
-        "type": "style"
+        "type": "style",
+        "cssVar": "--fnd-border-style-solid"
       },
       "style-dashed": {
         "label": "Dashed",
         "value": "dashed",
-        "type": "style"
+        "type": "style",
+        "cssVar": "--fnd-border-style-dashed"
       },
       "style-dotted": {
         "label": "Dotted",
         "value": "dotted",
-        "type": "style"
+        "type": "style",
+        "cssVar": "--fnd-border-style-dotted"
       },
       "style-double": {
         "label": "Double",
         "value": "double",
-        "type": "style"
+        "type": "style",
+        "cssVar": null
       },
       "style-none": {
         "label": "None (Hidden)",
         "value": "none",
-        "type": "style"
+        "type": "style",
+        "cssVar": null
       }
     }
   },
@@ -9941,31 +10015,38 @@ export const foundationTokens = {
     "tokens": {
       "base": {
         "label": "Base",
-        "value": 1
+        "value": 1,
+        "cssVar": null
       },
       "dropdown": {
         "label": "Dropdown",
-        "value": 2
+        "value": 2,
+        "cssVar": null
       },
       "sticky": {
         "label": "Sticky",
-        "value": 3
+        "value": 3,
+        "cssVar": null
       },
       "fixed": {
         "label": "Fixed",
-        "value": 9
+        "value": 9,
+        "cssVar": null
       },
       "modal-backdrop": {
         "label": "Modal Backdrop",
-        "value": 10
+        "value": 10,
+        "cssVar": null
       },
       "modal": {
         "label": "Modal",
-        "value": 11
+        "value": 11,
+        "cssVar": null
       },
       "tooltip": {
         "label": "Tooltip",
-        "value": 20
+        "value": 20,
+        "cssVar": null
       }
     }
   },
@@ -9976,30 +10057,35 @@ export const foundationTokens = {
       "color": {
         "label": "Ring Color",
         "value": "var(--fnd-color-text-primary)",
-        "type": "color"
+        "type": "color",
+        "cssVar": null
       },
       "width": {
         "label": "Ring Width",
         "value": "2px",
-        "type": "size"
+        "type": "size",
+        "cssVar": null
       },
       "offset": {
         "label": "Offset (aussen)",
         "value": "2px",
         "type": "size",
         "css_property": "--fnd-focus-offset",
-        "description": "Abstand der Outline nach aussen (Default)"
+        "description": "Abstand der Outline nach aussen (Default)",
+        "cssVar": "--fnd-focus-offset"
       },
       "inset": {
         "label": "Inset (innen)",
         "value": "2px",
         "type": "size",
         "css_property": "--fnd-focus-inset",
-        "description": "Abstand der Outline nach innen (fuer overflow-hidden Elemente)"
+        "description": "Abstand der Outline nach innen (fuer overflow-hidden Elemente)",
+        "cssVar": "--fnd-focus-inset"
       },
       "style": {
         "label": "Ring Style",
-        "value": "solid"
+        "value": "solid",
+        "cssVar": null
       }
     }
   },
@@ -10009,43 +10095,53 @@ export const foundationTokens = {
     "tokens": {
       "auto": {
         "label": "Auto (intrinsisch)",
-        "value": "auto"
+        "value": "auto",
+        "cssVar": "--fnd-media-ratio-auto"
       },
       "1-1": {
         "label": "1:1 (Quadrat)",
-        "value": "1 / 1"
+        "value": "1 / 1",
+        "cssVar": "--fnd-media-ratio-1-1"
       },
       "3-2": {
         "label": "3:2 (Landscape)",
-        "value": "3 / 2"
+        "value": "3 / 2",
+        "cssVar": "--fnd-media-ratio-3-2"
       },
       "2-3": {
         "label": "2:3 (Portrait)",
-        "value": "2 / 3"
+        "value": "2 / 3",
+        "cssVar": "--fnd-media-ratio-2-3"
       },
       "4-3": {
         "label": "4:3 (Klassisch)",
-        "value": "4 / 3"
+        "value": "4 / 3",
+        "cssVar": "--fnd-media-ratio-4-3"
       },
       "3-4": {
         "label": "3:4 (Portrait-Foto)",
-        "value": "3 / 4"
+        "value": "3 / 4",
+        "cssVar": "--fnd-media-ratio-3-4"
       },
       "16-9": {
         "label": "16:9 (Widescreen)",
-        "value": "16 / 9"
+        "value": "16 / 9",
+        "cssVar": "--fnd-media-ratio-16-9"
       },
       "9-16": {
         "label": "9:16 (Stories)",
-        "value": "9 / 16"
+        "value": "9 / 16",
+        "cssVar": "--fnd-media-ratio-9-16"
       },
       "2-1": {
         "label": "2:1 (Panorama)",
-        "value": "2 / 1"
+        "value": "2 / 1",
+        "cssVar": "--fnd-media-ratio-2-1"
       },
       "1-2": {
         "label": "1:2 (Tall)",
-        "value": "1 / 2"
+        "value": "1 / 2",
+        "cssVar": "--fnd-media-ratio-1-2"
       }
     }
   },
