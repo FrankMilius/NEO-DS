@@ -1,0 +1,74 @@
+<!--
+  NEO Design System — Artefakt-Geruest
+  GENERIERT von scripts/build-skill-references.js.
+
+  REGELN FUER ARTEFAKTE
+  1. Kein <!doctype>, <html>, <head>, <body> — das Geruest wird beim
+     Veroeffentlichen darumgelegt. Hier steht nur Seiteninhalt.
+  2. Strikte CSP: keine externen Stylesheets, Skripte, Schriften oder Bilder.
+     Alles inline oder als data:-URI.
+  3. Der Token-Block aus references/tokens.css gehoert INLINE in <style>.
+     Nur die Gruppen uebernehmen, die das Artefakt braucht.
+  4. Beide Themes bedienen: prefers-color-scheme als Vorgabe UND
+     :root[data-theme="..."] als Override, damit der Umschalter greift.
+  5. Breite Inhalte (Tabellen, Code) in einen eigenen overflow-x-Container —
+     die Seite selbst darf nie waagerecht scrollen.
+-->
+
+<style>
+  /* ── 1. Schriften (nur einbetten, was gebraucht wird) ───────────────────
+     Inhalt von assets/fonts/<familie>.base64.txt einsetzen. Weglassen, wenn
+     das Artefakt keine Schriftfrage klaert — dann greift der Fallback-Stack.
+
+  @font-face {
+    font-family: 'Manrope';
+    font-weight: 200 800;
+    font-display: swap;
+    src: url(data:font/woff2;base64,HIER) format('woff2');
+  }
+  */
+
+  /* ── 2. Tokens ──────────────────────────────────────────────────────────
+     Aus references/tokens.css hierher kopieren. */
+  :root {
+    /* --font-body, --font-heading, --font-mono, --fs-*, --fnd-color-* ... */
+  }
+
+  /* ── 3. Grundlayout ─────────────────────────────────────────────────── */
+  .neo-artefakt {
+    font-family: var(--font-body, system-ui, sans-serif);
+    font-size: var(--fs-base, 1rem);
+    line-height: var(--lh-body, 1.6);
+    color: var(--fnd-color-text-primary, #0f1419);
+    background: var(--fnd-color-background-base, #fff);
+    padding: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .neo-artefakt h1,
+  .neo-artefakt h2,
+  .neo-artefakt h3 {
+    font-family: var(--font-heading, var(--font-body, system-ui));
+    letter-spacing: -0.01em;
+  }
+
+  .neo-artefakt code,
+  .neo-artefakt kbd {
+    font-family: var(--font-mono, ui-monospace, monospace);
+  }
+
+  /* Breites scrollt in sich, nicht die Seite. */
+  .neo-scroll { overflow-x: auto; max-width: 100%; }
+  .neo-artefakt img { max-width: 100%; height: auto; }
+
+  /* ── 4. Dark Theme ──────────────────────────────────────────────────── */
+  @media (prefers-color-scheme: dark) {
+    :root { /* Dark-Block aus tokens.css */ }
+  }
+  :root[data-theme="dark"] { /* derselbe Block — der Umschalter muss gewinnen */ }
+  :root[data-theme="light"] { /* Light-Block, damit auch zurueckgeschaltet wird */ }
+</style>
+
+<div class="neo-artefakt">
+  <h1>Titel</h1>
+  <p>Inhalt.</p>
+</div>

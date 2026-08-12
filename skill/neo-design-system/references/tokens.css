@@ -1,0 +1,715 @@
+/* =========================================================================
+   NEO Design System — Token-Referenz fuer Artefakte
+   =========================================================================
+   GENERIERT von scripts/build-skill-references.js. NICHT VON HAND AENDERN —
+   die naechste Generierung ueberschreibt jede Bearbeitung. Aenderungen
+   gehoeren in die SCSS-Quelle unter scss/scss/00-settings/.
+
+   @source   WEBSITE26 @ ae406e4 — scss/scss/00-settings/ + data/design-tokens.css
+   @updated  2026-08-12
+   @umfang   569 Tokens (Foundation + Typo-Skala),
+             71 davon im Dark Theme umgeschaltet.
+
+   NICHT enthalten sind die rund 2400 komponentenspezifischen --nc-* Tokens.
+   Fuer Artefakte zaehlt die Foundation; die Komponenten-Ebene steht in
+   references/components.md.
+
+   VERWENDUNG IM ARTEFAKT
+   Artefakte laufen unter strikter CSP: keine externen Requests, auch keine
+   Schriften. Dieser Block muss daher INLINE ins Artefakt. Die Hausschriften
+   liegen als base64 unter assets/fonts/ — siehe assets/artifact-template.html.
+
+   ACHTUNG: --fnd-elevation-* NICHT ungeprueft uebernehmen
+   Im Design System stimmen die Werte (--fnd-shadow-xs: 0 1px 2px rgba(...)).
+   Auf der Website nicht: die vom Theme-Konfigurator erzeugte
+   theme-overrides.css setzt --fnd-elevation-base auf das WORT "xs" statt auf
+   einen Schattenwert und laedt nach styles.css. Ein Artefakt mit
+   box-shadow: var(--fnd-elevation-base) sieht deshalb anders aus als die
+   Website — dort kommt gar kein Schatten an. Bis das behoben ist, im Artefakt
+   die --fnd-shadow-* Werte direkt verwenden.
+   ========================================================================= */
+
+:root {
+/* ── Schriftfamilien ─────────────────────────────────────────── */
+  --font-body: 'Manrope', 'Manrope Fallback', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Space Grotesk', 'Space Grotesk Fallback', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* ── Fluide Schriftgroessen ──────────────────────────────────── */
+  --fluid-bp: clamp(0, calc((100vw - (var(--fluid-min-vw) * 1px)) / var(--fluid-range)), 1);
+  --fs-2xs: clamp(0.75rem, calc(0.75rem + (0.75rem - 0.75rem) * var(--fluid-bp)), 0.75rem);
+  --fs-xs: clamp(0.75rem, calc(0.75rem + (0.78125rem - 0.75rem) * var(--fluid-bp)), 0.78125rem);
+  --fs-sm: clamp(0.75rem, calc(0.75rem + (0.9375rem - 0.75rem) * var(--fluid-bp)), 0.9375rem);
+  --fs-base: clamp(0.875rem, calc(0.875rem + (1.125rem - 0.875rem) * var(--fluid-bp)), 1.125rem);
+  --fs-lg: clamp(1.05rem, calc(1.05rem + (1.35rem - 1.05rem) * var(--fluid-bp)), 1.35rem);
+  --fs-xl: clamp(1.26rem, calc(1.26rem + (1.62rem - 1.26rem) * var(--fluid-bp)), 1.62rem);
+  --fs-2xl: clamp(1.512rem, calc(1.512rem + (1.944rem - 1.512rem) * var(--fluid-bp)), 1.944rem);
+  --fs-3xl: clamp(1.8144rem, calc(1.8144rem + (2.3328rem - 1.8144rem) * var(--fluid-bp)), 2.3328rem);
+  --fs-4xl: clamp(2.17728rem, calc(2.17728rem + (2.79936rem - 2.17728rem) * var(--fluid-bp)), 2.79936rem);
+  --fs-5xl: clamp(2.612736rem, calc(2.612736rem + (3.359232rem - 2.612736rem) * var(--fluid-bp)), 3.359232rem);
+  --fs-6xl: clamp(3.1352832rem, calc(3.1352832rem + (4.0310784rem - 3.1352832rem) * var(--fluid-bp)), 4.0310784rem);
+  --fs-7xl: clamp(3.76233984rem, calc(3.76233984rem + (4.83729408rem - 3.76233984rem) * var(--fluid-bp)), 4.83729408rem);
+  --fs-8xl: clamp(4.514807808rem, calc(4.514807808rem + (5.804752896rem - 4.514807808rem) * var(--fluid-bp)), 5.804752896rem);
+  --fs-9xl: clamp(5.4177693696rem, calc(5.4177693696rem + (6.9657034752rem - 5.4177693696rem) * var(--fluid-bp)), 6.9657034752rem);
+
+  /* ── Zeilenhoehen ────────────────────────────────────────────── */
+  --lh-none: 1;
+  --lh-tight: 1.05;
+  --lh-heading: 1.15;
+  --lh-snug: 1.25;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.5;
+  --lh-body: 1.6;
+
+  /* ── Container-Breiten ───────────────────────────────────────── */
+  --container-max-width: var(--nc-container-max-width);
+  --container-max-width-wide: var(--nc-container-max-width-wide);
+  --container-prose: var(--fnd-layout-container-prose, 72ch);
+  --container-narrow: var(--fnd-layout-container-narrow, 768px);
+  --container-content: var(--fnd-layout-container-content, 1090px);
+  --container-wide: var(--fnd-layout-container-wide, 1290px);
+  --container-xwide: var(--fnd-layout-container-xwide, 1536px);
+  --container-full: var(--fnd-layout-container-full, 100%);
+  --container-padding-inline: var(--fnd-spacing-06, clamp(1rem, 0.8rem + 1vw, 1.5rem));
+
+/* ── Typografie (Foundation) ─────────────────────────────────── */
+  --fnd-typography-fonts-body: Manrope, Helvetica Neue, Arial, sans-serif;
+  --fnd-typography-fonts-heading: Space Grotesk, Helvetica Neue, Arial, sans-serif;
+  --fnd-typography-fonts-mono: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  --fnd-typography-fluid-viewport-min: 320;
+  --fnd-typography-fluid-viewport-max: 1920;
+  --fnd-typography-fluid-base-min-px: 14;
+  --fnd-typography-fluid-base-max-px: 18;
+  --fnd-typography-fluid-ratio: 1.2;
+  --fnd-typography-line-height-tight: 1.05;
+  --fnd-typography-line-height-heading: 1.15;
+  --fnd-typography-line-height-body: 1.6;
+  --fnd-typography-context-scale-content: 1;
+  --fnd-typography-context-scale-dashboard: 0.92;
+  --fnd-typography-semantic-steps-2xs: -3;
+  --fnd-typography-semantic-steps-xs: -2;
+  --fnd-typography-semantic-steps-sm: -1;
+  --fnd-typography-semantic-steps-base: 0;
+  --fnd-typography-semantic-steps-lg: 1;
+  --fnd-typography-semantic-steps-xl: 2;
+  --fnd-typography-semantic-steps-2xl: 3;
+  --fnd-typography-semantic-steps-3xl: 4;
+  --fnd-typography-semantic-steps-4xl: 5;
+  --fnd-typography-semantic-steps-5xl: 6;
+  --fnd-typography-semantic-steps-6xl: 7;
+  --fnd-typography-semantic-steps-7xl: 8;
+  --fnd-typography-semantic-steps-8xl: 9;
+  --fnd-typography-semantic-steps-9xl: 10;
+  --fnd-typography-semantic-sizes-px-xs-min: 9.722;
+  --fnd-typography-semantic-sizes-px-xs-max: 12.5;
+  --fnd-typography-semantic-sizes-px-sm-min: 11.667;
+  --fnd-typography-semantic-sizes-px-sm-max: 15;
+  --fnd-typography-semantic-sizes-px-base-min: 14;
+  --fnd-typography-semantic-sizes-px-base-max: 18;
+  --fnd-typography-semantic-sizes-px-lg-min: 16.8;
+  --fnd-typography-semantic-sizes-px-lg-max: 21.6;
+  --fnd-typography-semantic-sizes-px-xl-min: 20.16;
+  --fnd-typography-semantic-sizes-px-xl-max: 25.92;
+  --fnd-typography-semantic-sizes-px-2xl-min: 24.192;
+  --fnd-typography-semantic-sizes-px-2xl-max: 31.104;
+  --fnd-typography-semantic-sizes-px-3xl-min: 29.03;
+  --fnd-typography-semantic-sizes-px-3xl-max: 37.325;
+  --fnd-typography-semantic-sizes-px-4xl-min: 34.836;
+  --fnd-typography-semantic-sizes-px-4xl-max: 44.79;
+  --fnd-typography-semantic-sizes-px-5xl-min: 41.804;
+  --fnd-typography-semantic-sizes-px-5xl-max: 53.748;
+  --fnd-typography-semantic-sizes-px-6xl-min: 50.165;
+  --fnd-typography-semantic-sizes-px-6xl-max: 64.497;
+  --fnd-typography-semantic-sizes-px-7xl-min: 60.197;
+  --fnd-typography-semantic-sizes-px-7xl-max: 77.397;
+  --fnd-typography-semantic-sizes-px-8xl-min: 72.237;
+  --fnd-typography-semantic-sizes-px-8xl-max: 92.876;
+  --fnd-typography-semantic-sizes-px-9xl-min: 86.684;
+  --fnd-typography-semantic-sizes-px-9xl-max: 111.451;
+  --fnd-typography-fluid-mappings-heading-xxs: base;
+  --fnd-typography-fluid-mappings-heading-xs: lg;
+  --fnd-typography-fluid-mappings-heading-s: xl;
+  --fnd-typography-fluid-mappings-heading-m: 2xl;
+  --fnd-typography-fluid-mappings-heading-l: 3xl;
+  --fnd-typography-fluid-mappings-heading-xl: 4xl;
+  --fnd-typography-fluid-mappings-paragraph-s: xs;
+  --fnd-typography-fluid-mappings-paragraph-m: sm;
+  --fnd-typography-fluid-mappings-paragraph-l: base;
+  --fnd-typography-fluid-mappings-paragraph-xl: lg;
+  --fnd-typography-fluid-mappings-display-s-min-rem: 1.5;
+  --fnd-typography-fluid-mappings-display-s-max-rem: 2;
+  --fnd-typography-fluid-mappings-display-m-min-rem: 2.25;
+  --fnd-typography-fluid-mappings-display-m-max-rem: 3;
+  --fnd-typography-fluid-mappings-display-l-min-rem: 3;
+  --fnd-typography-fluid-mappings-display-l-max-rem: 4;
+  --fnd-typography-display-s-font-size: clamp(1.5rem, 1.4rem + 0.5vw, 2rem);
+  --fnd-typography-display-s-line-height: calc(clamp(1.5rem, 1.4rem + 0.5vw, 2rem) * 1.15);
+  --fnd-typography-display-s-letter-spacing: -0.02em;
+  --fnd-typography-display-m-font-size: clamp(2.25rem, 2.1rem + 0.75vw, 3rem);
+  --fnd-typography-display-m-line-height: calc(clamp(2.25rem, 2.1rem + 0.75vw, 3rem) * 1.15);
+  --fnd-typography-display-m-letter-spacing: -0.02em;
+  --fnd-typography-display-l-font-size: clamp(3rem, 2.8rem + 1vw, 4rem);
+  --fnd-typography-display-l-line-height: calc(clamp(3rem, 2.8rem + 1vw, 4rem) * 1.15);
+  --fnd-typography-display-l-letter-spacing: -0.02em;
+  --fnd-typography-display-xl-font-size: clamp(3.5rem, 3.2rem + 1.5vw, 5rem);
+  --fnd-typography-display-xl-line-height: calc(clamp(3.5rem, 3.2rem + 1.5vw, 5rem) * 1.15);
+  --fnd-typography-display-xl-letter-spacing: -0.03em;
+  --fnd-typography-display-2xl-font-size: clamp(4rem, 3.6rem + 2vw, 6rem);
+  --fnd-typography-display-2xl-line-height: calc(clamp(4rem, 3.6rem + 2vw, 6rem) * 1.15);
+  --fnd-typography-display-2xl-letter-spacing: -0.03em;
+  --fnd-typography-heading-xxs-font-size: var(--fs-base);
+  --fnd-typography-heading-xxs-line-height: calc(var(--fs-base) * 1.15);
+  --fnd-typography-heading-xxs-letter-spacing: 0;
+  --fnd-typography-heading-xs-font-size: var(--fs-lg);
+  --fnd-typography-heading-xs-line-height: calc(var(--fs-lg) * 1.15);
+  --fnd-typography-heading-xs-letter-spacing: 0;
+  --fnd-typography-heading-s-font-size: var(--fs-xl);
+  --fnd-typography-heading-s-line-height: calc(var(--fs-xl) * 1.15);
+  --fnd-typography-heading-s-letter-spacing: -0.01em;
+  --fnd-typography-heading-m-font-size: var(--fs-2xl);
+  --fnd-typography-heading-m-line-height: calc(var(--fs-2xl) * 1.15);
+  --fnd-typography-heading-m-letter-spacing: -0.01em;
+  --fnd-typography-heading-l-font-size: var(--fs-3xl);
+  --fnd-typography-heading-l-line-height: calc(var(--fs-3xl) * 1.15);
+  --fnd-typography-heading-l-letter-spacing: -0.02em;
+  --fnd-typography-heading-xl-font-size: var(--fs-4xl);
+  --fnd-typography-heading-xl-line-height: calc(var(--fs-4xl) * 1.15);
+  --fnd-typography-heading-xl-letter-spacing: -0.02em;
+  --fnd-typography-heading-2xl-font-size: var(--fs-5xl);
+  --fnd-typography-heading-2xl-line-height: calc(var(--fs-5xl) * 1.15);
+  --fnd-typography-heading-2xl-letter-spacing: -0.02em;
+  --fnd-typography-paragraph-xs-font-size: var(--fs-2xs);
+  --fnd-typography-paragraph-xs-line-height: calc(var(--fs-2xs) * 1.6);
+  --fnd-typography-paragraph-xs-letter-spacing: 0.01em;
+  --fnd-typography-paragraph-s-font-size: var(--fs-xs);
+  --fnd-typography-paragraph-s-line-height: calc(var(--fs-xs) * 1.6);
+  --fnd-typography-paragraph-s-letter-spacing: 0;
+  --fnd-typography-paragraph-m-font-size: var(--fs-sm);
+  --fnd-typography-paragraph-m-line-height: calc(var(--fs-sm) * 1.6);
+  --fnd-typography-paragraph-m-letter-spacing: 0;
+  --fnd-typography-paragraph-l-font-size: var(--fs-base);
+  --fnd-typography-paragraph-l-line-height: calc(var(--fs-base) * 1.6);
+  --fnd-typography-paragraph-l-letter-spacing: 0;
+  --fnd-typography-paragraph-xl-font-size: var(--fs-lg);
+  --fnd-typography-paragraph-xl-line-height: calc(var(--fs-lg) * 1.6);
+  --fnd-typography-paragraph-xl-letter-spacing: 0;
+
+  /* ── Farben ──────────────────────────────────────────────────── */
+  --fnd-color-always-dark: #000000;
+  --fnd-color-always-light: #ffffff;
+  --fnd-color-text-primary: #000000;
+  --fnd-color-text-secondary: rgb(73.2, 73.2, 73.2);
+  --fnd-color-text-tertiary: #7a7a7a;
+  --fnd-color-text-inverse: #ffffff;
+  --fnd-color-text-disabled: #7a7a7a;
+  --fnd-color-text-on-interactive: #ffffff;
+  --fnd-color-text-difference: #ffffff;
+  --fnd-color-text-link: #002049;
+  --fnd-color-text-link-hover: rgb(0, 25.6, 58.4);
+  --fnd-color-text-transparency-mid: color-mix(in srgb, #000 70%, transparent);
+  --fnd-color-text-transparency-low: color-mix(in srgb, #000 40%, transparent);
+  --fnd-color-text-success: #0b9e23;
+  --fnd-color-text-danger: #bf281b;
+  --fnd-color-text-warning: #8a6900;
+  --fnd-color-text-info: #2b6cb0;
+  --fnd-color-background-base: #ffffff;
+  --fnd-color-background-secondary: rgb(228.4, 228.4, 228.4);
+  --fnd-color-background-tertiary: rgb(201.8, 201.8, 201.8);
+  --fnd-color-background-quaternary: rgb(148.6, 148.6, 148.6);
+  --fnd-color-background-quinary: rgb(97.6, 97.6, 97.6);
+  --fnd-color-background-inverse: #000000;
+  --fnd-color-background-disabled: rgb(201.8, 201.8, 201.8);
+  --fnd-color-background-hover: rgb(228.4, 228.4, 228.4);
+  --fnd-color-background-active: rgb(201.8, 201.8, 201.8);
+  --fnd-color-background-overlay: color-mix(in srgb, #000 80%, transparent);
+  --fnd-color-background-accent: #37e93d;
+  --fnd-color-background-accent-secondary: #04cd24;
+  --fnd-color-background-transparency-mid: color-mix(in srgb, #000 80%, transparent);
+  --fnd-color-background-transparency-low: color-mix(in srgb, #000 20%, transparent);
+  --fnd-color-background-success: #d5ffd1;
+  --fnd-color-background-danger: #ffdfdc;
+  --fnd-color-background-warning: #fff3cc;
+  --fnd-color-background-info: #dae8ff;
+  --fnd-color-border-primary: rgb(148.6, 148.6, 148.6);
+  --fnd-color-border-secondary: rgb(201.8, 201.8, 201.8);
+  --fnd-color-border-strong: #000000;
+  --fnd-color-border-mid-dark: rgb(97.6, 97.6, 97.6);
+  --fnd-color-border-hairline: rgb(97.6, 97.6, 97.6);
+  --fnd-color-border-inverse: #ffffff;
+  --fnd-color-border-disabled: rgb(201.8, 201.8, 201.8);
+  --fnd-color-border-success: #0b9e23;
+  --fnd-color-border-danger: #bf281b;
+  --fnd-color-border-warning: #8a6900;
+  --fnd-color-border-info: #2b6cb0;
+  --fnd-color-interactive-default: #002049;
+  --fnd-color-interactive-hover: rgb(0, 25.6, 58.4);
+  --fnd-color-interactive-active: rgb(0, 19.2, 43.8);
+  --fnd-color-interactive-visited: rgb(0, 19.2, 43.8);
+  --fnd-color-interactive-focus: #002049;
+  --fnd-color-feedback-info: #4589ff;
+  --fnd-color-feedback-success: #24a148;
+  --fnd-color-feedback-warning: #d4a400;
+  --fnd-color-feedback-danger: #fa4d56;
+  --fnd-color-surface-elevated: #ffffff;
+  --fnd-color-layer-01: rgb(228.4, 228.4, 228.4);
+  --fnd-color-layer-02: #ffffff;
+  --fnd-color-layer-03: rgb(228.4, 228.4, 228.4);
+  --fnd-color-on-surface: #000000;
+  --fnd-color-on-layer-01: #000000;
+  --fnd-color-on-layer-02: #000000;
+  --fnd-color-on-accent: #000000;
+  --fnd-color-on-success: #000000;
+  --fnd-color-on-warning: #000000;
+  --fnd-color-on-danger: #000000;
+  --fnd-color-on-info: #ffffff;
+  --fnd-color-background-skeleton: rgb(201.8, 201.8, 201.8);
+  --fnd-color-background-skeleton-element: rgb(175.2, 175.2, 175.2);
+  --fnd-color-selection-bg: rgb(153, 165.8, 182.2);
+  --fnd-color-selection-color: #000000;
+  --fnd-color-scrollbar-track: rgb(228.4, 228.4, 228.4);
+  --fnd-color-scrollbar-thumb: rgb(148.6, 148.6, 148.6);
+
+  /* ── Abstaende ───────────────────────────────────────────────── */
+  --fnd-spacing-base-unit: 4px;
+  --fnd-spacing-scale-10: 64px;
+  --fnd-spacing-scale-11: 80px;
+  --fnd-spacing-scale-12: 120px;
+  --fnd-spacing-scale-13: 160px;
+  --fnd-spacing-scale-01: 4px;
+  --fnd-spacing-scale-02: 8px;
+  --fnd-spacing-scale-03: 12px;
+  --fnd-spacing-scale-04: 16px;
+  --fnd-spacing-scale-05: 20px;
+  --fnd-spacing-scale-06: 24px;
+  --fnd-spacing-scale-07: 32px;
+  --fnd-spacing-scale-08: 40px;
+  --fnd-spacing-scale-09: 48px;
+  --fnd-spacing-fluid-viewport-min: 320;
+  --fnd-spacing-fluid-viewport-max: 1920;
+  --fnd-spacing-fluid-static-steps: 01,02,03,04,05;
+  --fnd-spacing-fluid-fluid-steps-10-min: 48px;
+  --fnd-spacing-fluid-fluid-steps-10-max: 64px;
+  --fnd-spacing-fluid-fluid-steps-11-min: 56px;
+  --fnd-spacing-fluid-fluid-steps-11-max: 80px;
+  --fnd-spacing-fluid-fluid-steps-12-min: 80px;
+  --fnd-spacing-fluid-fluid-steps-12-max: 120px;
+  --fnd-spacing-fluid-fluid-steps-13-min: 112px;
+  --fnd-spacing-fluid-fluid-steps-13-max: 160px;
+  --fnd-spacing-fluid-fluid-steps-06-min: 20px;
+  --fnd-spacing-fluid-fluid-steps-06-max: 24px;
+  --fnd-spacing-fluid-fluid-steps-07-min: 24px;
+  --fnd-spacing-fluid-fluid-steps-07-max: 32px;
+  --fnd-spacing-fluid-fluid-steps-08-min: 32px;
+  --fnd-spacing-fluid-fluid-steps-08-max: 40px;
+  --fnd-spacing-fluid-fluid-steps-09-min: 36px;
+  --fnd-spacing-fluid-fluid-steps-09-max: 48px;
+  --fnd-spacing-semantic-section: spacing-12;
+  --fnd-spacing-semantic-component: spacing-08;
+  --fnd-spacing-semantic-element: spacing-04;
+  --fnd-spacing-01: 4px;
+  --fnd-spacing-02: 8px;
+  --fnd-spacing-03: 12px;
+  --fnd-spacing-04: 16px;
+  --fnd-spacing-05: 20px;
+  --fnd-spacing-06: clamp(20px, 19.2px + 0.25 * 1vw, 24px);
+  --fnd-spacing-07: clamp(24px, 22.4px + 0.5 * 1vw, 32px);
+  --fnd-spacing-08: clamp(32px, 30.4px + 0.5 * 1vw, 40px);
+  --fnd-spacing-09: clamp(36px, 33.6px + 0.75 * 1vw, 48px);
+  --fnd-spacing-10: clamp(48px, 44.8px + 1 * 1vw, 64px);
+  --fnd-spacing-11: clamp(56px, 51.2px + 1.5 * 1vw, 80px);
+  --fnd-spacing-12: clamp(80px, 72px + 2.5 * 1vw, 120px);
+  --fnd-spacing-13: clamp(112px, 102.4px + 3 * 1vw, 160px);
+  --fnd-spacing-section: var(--fnd-spacing-12);
+  --fnd-spacing-component: var(--fnd-spacing-08);
+  --fnd-spacing-element: var(--fnd-spacing-04);
+  --fnd-spacing-inline: var(--fnd-spacing-03);
+  --fnd-spacing-stack: var(--fnd-spacing-04);
+  --fnd-spacing-inset: var(--fnd-spacing-04);
+  --fnd-spacing-inset-squish: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  --fnd-spacing-gutter: var(--fnd-spacing-04);
+  --fnd-spacing-gutter-lg: var(--fnd-spacing-06);
+
+  /* ── Radien ──────────────────────────────────────────────────── */
+  --fnd-radii-default: sm;
+  --fnd-radii-scale-null: 0px;
+  --fnd-radii-scale-xs: 2px;
+  --fnd-radii-scale-sm: 4px;
+  --fnd-radii-scale-md: 6px;
+  --fnd-radii-scale-lg: 8px;
+  --fnd-radii-scale-xl: 10px;
+  --fnd-radii-scale-2xl: 12px;
+  --fnd-radii-scale-3xl: 14px;
+  --fnd-radii-scale-4xl: 16px;
+  --fnd-radii-scale-full: 9999px;
+  --fnd-radius-null: 0px;
+  --fnd-radius-xs: 2px;
+  --fnd-radius-sm: 4px;
+  --fnd-radius-md: 6px;
+  --fnd-radius-lg: 8px;
+  --fnd-radius-xl: 10px;
+  --fnd-radius-2xl: 12px;
+  --fnd-radius-3xl: 14px;
+  --fnd-radius-4xl: 16px;
+  --fnd-radius-full: 9999px;
+  --fnd-radius-default: var(--fnd-radius-sm);
+  --fnd-radius-s: var(--fnd-radius-sm);
+  --fnd-radius-m: var(--fnd-radius-lg);
+  --fnd-radius-l: var(--fnd-radius-4xl);
+  --fnd-radius-2xs: var(--fnd-radius-null);
+
+  /* ── Rahmen ──────────────────────────────────────────────────── */
+  --fnd-border-width-null: 0px;
+  --fnd-border-width-xs: 1px;
+  --fnd-border-width-sm: 2px;
+  --fnd-border-width-md: 4px;
+  --fnd-border-width-lg: 6px;
+  --fnd-border-width-xl: 8px;
+  --fnd-border-width-aliases-hairline: xs;
+  --fnd-border-width-aliases-thin: xs;
+  --fnd-border-width-aliases-light: sm;
+  --fnd-border-width-aliases-medium: lg;
+  --fnd-border-width-aliases-bold: xl;
+  --fnd-border-width-aliases-thick: md;
+  --fnd-border-width-default: sm;
+  --fnd-border-style-solid: solid;
+  --fnd-border-style-dashed: dashed;
+  --fnd-border-style-dotted: dotted;
+  --fnd-border-width-hairline: var(--fnd-border-width-xs);
+  --fnd-border-width-thin: var(--fnd-border-width-xs);
+  --fnd-border-width-light: var(--fnd-border-width-sm);
+  --fnd-border-width-medium: var(--fnd-border-width-lg);
+  --fnd-border-width-bold: var(--fnd-border-width-xl);
+  --fnd-border-width-thick: var(--fnd-border-width-md);
+
+  /* ── Bewegung ────────────────────────────────────────────────── */
+  --fnd-motion-easing-informative: linear;
+  --fnd-motion-easing-focused: ease-in-out;
+  --fnd-motion-easing-expressive: ease-out;
+  --fnd-motion-duration-100: 0.1s;
+  --fnd-motion-duration-150: 0.15s;
+  --fnd-motion-duration-200: 0.2s;
+  --fnd-motion-duration-250: 0.25s;
+  --fnd-motion-duration-300: 0.3s;
+  --fnd-motion-duration-350: 0.35s;
+  --fnd-motion-duration-450: 0.45s;
+  --fnd-motion-duration-600: 0.6s;
+  --fnd-motion-duration-1000: 1s;
+  --fnd-motion-duration-1500: 1.5s;
+  --fnd-motion-duration-semantic-informative-quick: 0.2s;
+  --fnd-motion-duration-semantic-informative-base: 0.3s;
+  --fnd-motion-duration-semantic-informative-slow: 0.6s;
+  --fnd-motion-duration-semantic-focused-quick: 0.2s;
+  --fnd-motion-duration-semantic-focused-base: 0.3s;
+  --fnd-motion-duration-semantic-focused-slow: 0.45s;
+  --fnd-motion-duration-semantic-expressive-quick: 0.2s;
+  --fnd-motion-duration-semantic-expressive-base: 0.3s;
+  --fnd-motion-duration-semantic-expressive-slow: 0.45s;
+  --fnd-motion-delay-0: 0s;
+  --fnd-motion-delay-100: 0.1s;
+  --fnd-motion-delay-150: 0.15s;
+  --fnd-motion-delay-200: 0.2s;
+  --fnd-motion-delay-250: 0.25s;
+  --fnd-motion-delay-300: 0.3s;
+  --fnd-motion-delay-450: 0.45s;
+  --fnd-motion-delay-600: 0.6s;
+  --fnd-motion-delay-1000: 1s;
+  --fnd-motion-effects-hover-lift-transform: translateY(-8px);
+  --fnd-motion-effects-hover-lift-transition: transform 0.3s ease;
+  --fnd-motion-effects-hover-lift-intent: state-change;
+  --fnd-motion-effects-fade-in-animation: fadeIn 1s ease-in forwards;
+  --fnd-motion-effects-fade-in-intent: entrance;
+  --fnd-motion-effects-slide-in-transform: translateX(-100%);
+  --fnd-motion-effects-slide-in-transition: transform 0.3s ease-out;
+  --fnd-motion-effects-slide-in-intent: spatial;
+  --fnd-motion-effects-pulse-animation: pulse 2s ease-in-out infinite;
+  --fnd-motion-effects-pulse-intent: attention;
+  --fnd-motion-effects-spin-animation: spin 1s linear infinite;
+  --fnd-motion-effects-spin-intent: attention;
+  --fnd-motion-effects-shake-animation: shake 0.4s ease-in-out;
+  --fnd-motion-effects-shake-intent: feedback;
+  --fnd-motion-effects-scale-press-transform: scale(0.95);
+  --fnd-motion-effects-scale-press-transition: transform 0.15s ease-in-out;
+  --fnd-motion-effects-scale-press-intent: state-change;
+  --fnd-motion-effects-parallax-factor: 0.5;
+  --fnd-motion-effects-parallax-intent: spatial;
+  --fnd-motion-ease-informative: linear;
+  --fnd-motion-ease-focused: ease-in-out;
+  --fnd-motion-ease-expressive: ease-out;
+  --fnd-motion-duration-informative-quick: 0.2s;
+  --fnd-motion-duration-informative-base: 0.3s;
+  --fnd-motion-duration-informative-slow: 0.6s;
+  --fnd-motion-duration-focused-quick: 0.2s;
+  --fnd-motion-duration-focused-base: 0.3s;
+  --fnd-motion-duration-focused-slow: 0.45s;
+  --fnd-motion-duration-expressive-quick: 0.2s;
+  --fnd-motion-duration-expressive-base: 0.3s;
+  --fnd-motion-duration-expressive-slow: 0.45s;
+
+  /* ── Deckkraft / Zustaende ───────────────────────────────────── */
+  --fnd-opacity-disabled: 0.5;
+  --fnd-opacity-hover: 0.08;
+  --fnd-opacity-focus: 0.12;
+  --fnd-opacity-pressed: 0.12;
+  --fnd-opacity-dragged: 0.16;
+  --fnd-opacity-muted: 0.6;
+  --fnd-opacity-medium: 0.7;
+  --fnd-opacity-high: 0.8;
+  --fnd-opacity-prominent: 0.85;
+  --fnd-opacity-subtle: 0.9;
+  --fnd-state-derivation-bold-hover: 85;
+  --fnd-state-derivation-bold-active: 75;
+  --fnd-state-derivation-bold-description: Gefuellte farbige Flaechen (Buttons, Tags). Hover: 15% Mix, Active: 25% Mix.;
+  --fnd-state-derivation-subtle-hover: 92;
+  --fnd-state-derivation-subtle-active: 85;
+  --fnd-state-derivation-subtle-description: Transparente/kontrastarme Flaechen (Ghost, Chips). Hover: 8% Mix, Active: 15% Mix.;
+  --fnd-state-mix-target: var(--fnd-color-always-dark);
+  --fnd-state-bold-hover: 85%;
+  --fnd-state-bold-active: 75%;
+  --fnd-state-subtle-hover: 92%;
+  --fnd-state-subtle-active: 85%;
+
+  /* ── Fokus / Barrierefreiheit ────────────────────────────────── */
+  --fnd-a11y-focus-ring-width: 2px;
+  --fnd-a11y-focus-ring-offset: 3px;
+  --fnd-a11y-focus-ring-style: solid;
+  --fnd-a11y-focus-ring-color: text-primary;
+  --fnd-a11y-touch-target-min: 44px;
+  --fnd-focus-ring-color: var(--fnd-color-text-primary);
+  --fnd-focus-ring-width: 3px;
+  --fnd-focus-ring-style: solid;
+  --fnd-focus-offset: 2px;
+  --fnd-focus-inset: 2px;
+  --fnd-focus-ring-offset: var(--fnd-focus-offset);
+
+  /* ── Layout / Breakpoints ────────────────────────────────────── */
+  --fnd-layout-z-index-base: 1;
+  --fnd-layout-z-index-dropdown: 2;
+  --fnd-layout-z-index-sticky: 3;
+  --fnd-layout-z-index-fixed: 9;
+  --fnd-layout-z-index-modal-backdrop: 10;
+  --fnd-layout-z-index-modal: 11;
+  --fnd-layout-z-index-tooltip: 20;
+  --fnd-layout-nav-height-mobile: 64px;
+  --fnd-layout-nav-height-desktop: 72px;
+  --fnd-layout-media-ratios-auto: auto;
+  --fnd-layout-media-ratios-1-1: 1 / 1;
+  --fnd-layout-media-ratios-2-1: 2 / 1;
+  --fnd-layout-media-ratios-1-2: 1 / 2;
+  --fnd-layout-media-ratios-3-2: 3 / 2;
+  --fnd-layout-media-ratios-2-3: 2 / 3;
+  --fnd-layout-media-ratios-4-3: 4 / 3;
+  --fnd-layout-media-ratios-3-4: 3 / 4;
+  --fnd-layout-media-ratios-16-9: 16 / 9;
+  --fnd-layout-media-ratios-9-16: 9 / 16;
+  --fnd-layout-container-max-width: 1090px;
+  --fnd-layout-container-max-width-wide: 1290px;
+  --fnd-layout-container-prose: 72ch;
+  --fnd-layout-container-narrow: 768px;
+  --fnd-layout-container-content: 1090px;
+  --fnd-layout-container-wide: 1290px;
+  --fnd-layout-container-xwide: 1536px;
+  --fnd-layout-container-full: 100%;
+  --fnd-layout-container-query-card-min: 280px;
+  --fnd-layout-container-query-card-compact: 400px;
+  --fnd-layout-container-query-card-wide: 560px;
+  --fnd-layout-container-query-widget-min: 240px;
+  --fnd-layout-container-query-widget-two-col: 480px;
+  --fnd-layout-container-query-media-text-stack: 600px;
+  --fnd-layout-container-query-feature-accordion-split: 720px;
+  --fnd-layout-grid-columns: 12;
+  --fnd-layout-grid-gap: 16px;
+  --fnd-layout-grid-gap-lg: 24px;
+  --fnd-layout-components-square-value-small: 96px;
+  --fnd-layout-components-square-value-big: 168px;
+  --fnd-layout-components-square-value-translate-z-mobile: 100px;
+  --fnd-layout-components-square-value-translate-z-desktop: 130px;
+  --fnd-breakpoints-xs: 0;
+  --fnd-breakpoints-sm: 768px;
+  --fnd-breakpoints-md: 960px;
+  --fnd-breakpoints-lg: 1200px;
+  --fnd-breakpoints-xl: 1600px;
+  --fnd-breakpoints-xxl: 1920px;
+  --fnd-bp-sm: 768px;
+  --fnd-bp-md: 960px;
+  --fnd-bp-lg: 1200px;
+  --fnd-bp-xl: 1600px;
+  --fnd-bp-xxl: 1920px;
+  --fnd-media-ratio-auto: auto;
+  --fnd-media-ratio-1-1: 1 / 1;
+  --fnd-media-ratio-2-1: 2 / 1;
+  --fnd-media-ratio-1-2: 1 / 2;
+  --fnd-media-ratio-3-2: 3 / 2;
+  --fnd-media-ratio-2-3: 2 / 3;
+  --fnd-media-ratio-4-3: 4 / 3;
+  --fnd-media-ratio-3-4: 3 / 4;
+  --fnd-media-ratio-16-9: 16 / 9;
+  --fnd-media-ratio-9-16: 9 / 16;
+
+  /* ── Schatten / Elevation ────────────────────────────────────── */
+  --fnd-shadow-levels-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --fnd-shadow-levels-sm: 0 4px 10px rgba(15, 23, 42, 0.08);
+  --fnd-shadow-levels-md: 0 10px 24px rgba(15, 23, 42, 0.12);
+  --fnd-shadow-levels-lg: 0 18px 40px rgba(15, 23, 42, 0.16);
+  --fnd-shadow-levels-xl: 0 30px 60px rgba(15, 23, 42, 0.2);
+  --fnd-elevation-levels-base: var(--fnd-shadow-xs);
+  --fnd-elevation-levels-raised: var(--fnd-shadow-sm);
+  --fnd-elevation-levels-floating: var(--fnd-shadow-md);
+  --fnd-elevation-levels-overlay: var(--fnd-shadow-lg);
+  --fnd-elevation-levels-modal: var(--fnd-shadow-xl);
+  --fnd-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --fnd-shadow-sm: 0 4px 10px rgba(15, 23, 42, 0.08);
+  --fnd-shadow-md: 0 10px 24px rgba(15, 23, 42, 0.12);
+  --fnd-shadow-lg: 0 18px 40px rgba(15, 23, 42, 0.16);
+  --fnd-shadow-xl: 0 30px 60px rgba(15, 23, 42, 0.2);
+  --fnd-elevation-base: var(--fnd-shadow-xs);
+  --fnd-elevation-raised: var(--fnd-shadow-sm);
+  --fnd-elevation-floating: var(--fnd-shadow-md);
+  --fnd-elevation-overlay: var(--fnd-shadow-lg);
+  --fnd-elevation-modal: var(--fnd-shadow-xl);
+  --fnd-shadow-inset-sm: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+  --fnd-shadow-inset-md: inset 0 2px 4px rgba(15, 23, 42, 0.12);
+
+  /* ── Ebenen (z-index) ────────────────────────────────────────── */
+  --fnd-z-base: 1;
+  --fnd-z-dropdown: 2;
+  --fnd-z-sticky: 3;
+  --fnd-z-fixed: 9;
+  --fnd-z-modal-backdrop: 10;
+  --fnd-z-modal: 11;
+  --fnd-z-tooltip: 20;
+  --fnd-z-header: 100;
+  --fnd-z-sidebar: 200;
+  --fnd-z-drawer: 300;
+  --fnd-z-notification: 400;
+  --fnd-z-toast: 500;
+  --fnd-z-skip-link: 9999;
+
+  /* ── Icons ───────────────────────────────────────────────────── */
+  --fnd-icons-size-xs: 16px;
+  --fnd-icons-size-sm: 20px;
+  --fnd-icons-size-md: 24px;
+  --fnd-icons-size-lg: 28px;
+  --fnd-icons-size-xl: 32px;
+  --fnd-icons-size-2xl: 36px;
+  --fnd-icons-default-size: sm;
+  --fnd-icons-touch-target-min: 44px;
+  --fnd-icons-button-icon-map-xs: xs;
+  --fnd-icons-button-icon-map-sm: xs;
+  --fnd-icons-button-icon-map-md: sm;
+  --fnd-icons-button-icon-map-lg: sm;
+
+  /* ── Laufweite ───────────────────────────────────────────────── */
+  --fnd-tracking-tighter: -0.03em;
+  --fnd-tracking-tight: -0.02em;
+  --fnd-tracking-snug: -0.01em;
+  --fnd-tracking-normal: 0em;
+  --fnd-tracking-wide: 0.02em;
+  --fnd-tracking-wider: 0.05em;
+  --fnd-tracking-widest: 0.1em;
+  --fnd-tracking-ultra: 0.2em;
+
+  /* ── Weitere ─────────────────────────────────────────────── */
+  --fnd-base-unit: 4px;
+  --fnd-size-xs: 1.5rem;
+  --fnd-size-sm: 2rem;
+  --fnd-size-md: 2.5rem;
+  --fnd-size-lg: 3rem;
+  --fnd-size-xl: 4rem;
+  --fnd-size-2xl: 5rem;
+  --fnd-size-touch-target: 2.75rem;
+  --fnd-font-weight-light: 300;
+  --fnd-font-weight-regular: 400;
+  --fnd-font-weight-medium: 500;
+  --fnd-font-weight-semibold: 600;
+  --fnd-font-weight-bold: 700;
+  --fnd-font-weight-black: 900;
+  --fnd-font-weight-heading: 400;
+  --fnd-font-weight-heading-strong: 600;
+  --fnd-font-weight-body: 400;
+  --fnd-font-weight-mono: 400;
+  --fnd-text-transform-uppercase: uppercase;
+  --fnd-text-transform-capitalize: capitalize;
+  --fnd-text-transform-none: none;
+  --fnd-prose-max-width: 72ch;
+  --fnd-content-max-width: 1440px;
+  --fnd-content-wide-max-width: 1600px;
+  --fnd-touch-target-min: 44px;
+}
+
+/* Dark Theme — die Klasse liegt auf <html> UND <body>.
+   Im Artefakt reicht sie auf dem Wurzelelement. */
+.neo-dark-theme,
+[data-theme="neo-dark-theme"] {
+/* ── Farben ──────────────────────────────────────────────────── */
+  --fnd-color-text-primary: #ffffff;
+  --fnd-color-text-secondary: rgb(148.6, 148.6, 148.6);
+  --fnd-color-text-tertiary: rgb(97.6, 97.6, 97.6);
+  --fnd-color-text-inverse: #000000;
+  --fnd-color-text-disabled: #7a7a7a;
+  --fnd-color-text-on-interactive: #ffffff;
+  --fnd-color-text-difference: #ffffff;
+  --fnd-color-text-link: #009fe3;
+  --fnd-color-text-link-hover: rgb(51, 178.2, 232.6);
+  --fnd-color-text-transparency-mid: color-mix(in srgb, #fff 70%, transparent);
+  --fnd-color-text-transparency-low: color-mix(in srgb, #fff 40%, transparent);
+  --fnd-color-text-success: #0b9e23;
+  --fnd-color-text-danger: #ef5b4e;
+  --fnd-color-text-warning: #d4a400;
+  --fnd-color-text-info: #6aa3ff;
+  --fnd-color-background-base: #0f0f0f;
+  --fnd-color-background-secondary: #1a1a1a;
+  --fnd-color-background-tertiary: rgb(48.8, 48.8, 48.8);
+  --fnd-color-background-quaternary: rgb(73.2, 73.2, 73.2);
+  --fnd-color-background-quinary: rgb(175.2, 175.2, 175.2);
+  --fnd-color-background-inverse: #ffffff;
+  --fnd-color-background-disabled: #1a1a1a;
+  --fnd-color-background-hover: #1a1a1a;
+  --fnd-color-background-active: #252525;
+  --fnd-color-background-overlay: color-mix(in srgb, #fff 60%, transparent);
+  --fnd-color-background-accent: rgb(95, 237.4, 99.8);
+  --fnd-color-background-accent-secondary: #37e93d;
+  --fnd-color-background-transparency-mid: color-mix(in srgb, #fff 60%, transparent);
+  --fnd-color-background-transparency-low: color-mix(in srgb, #fff 20%, transparent);
+  --fnd-color-background-success: #0d2b15;
+  --fnd-color-background-danger: #3b1419;
+  --fnd-color-background-warning: #2a2100;
+  --fnd-color-background-info: #0e1b33;
+  --fnd-color-border-primary: rgb(97.6, 97.6, 97.6);
+  --fnd-color-border-secondary: #2a2a2a;
+  --fnd-color-border-strong: #ffffff;
+  --fnd-color-border-mid-dark: rgb(148.6, 148.6, 148.6);
+  --fnd-color-border-hairline: #7a7a7a;
+  --fnd-color-border-inverse: #000000;
+  --fnd-color-border-disabled: #252525;
+  --fnd-color-border-success: #0b9e23;
+  --fnd-color-border-danger: #ef5b4e;
+  --fnd-color-border-warning: #d4a400;
+  --fnd-color-border-info: #6aa3ff;
+  --fnd-color-interactive-default: #009fe3;
+  --fnd-color-interactive-hover: rgb(51, 178.2, 232.6);
+  --fnd-color-interactive-active: rgb(102, 197.4, 238.2);
+  --fnd-color-interactive-visited: rgb(0, 127.2, 181.6);
+  --fnd-color-interactive-focus: #009fe3;
+  --fnd-color-feedback-info: #4589ff;
+  --fnd-color-feedback-success: #24a148;
+  --fnd-color-feedback-warning: #d4a400;
+  --fnd-color-feedback-danger: #fa4d56;
+  --fnd-color-surface-elevated: #1a1a1a;
+  --fnd-color-layer-01: #1a1a1a;
+  --fnd-color-layer-02: #252525;
+  --fnd-color-layer-03: #303030;
+  --fnd-color-on-surface: #ffffff;
+  --fnd-color-on-layer-01: #ffffff;
+  --fnd-color-on-layer-02: #ffffff;
+  --fnd-color-on-accent: #000000;
+  --fnd-color-on-success: #ffffff;
+  --fnd-color-on-warning: #000000;
+  --fnd-color-on-danger: #ffffff;
+  --fnd-color-on-info: #ffffff;
+  --fnd-color-background-skeleton: #252525;
+  --fnd-color-background-skeleton-element: #303030;
+  --fnd-color-selection-bg: rgb(0, 19.2, 43.8);
+  --fnd-color-selection-color: #ffffff;
+  --fnd-color-scrollbar-track: #1a1a1a;
+  --fnd-color-scrollbar-thumb: rgb(73.2, 73.2, 73.2);
+}
