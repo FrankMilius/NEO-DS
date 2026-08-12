@@ -1,0 +1,77 @@
+// ==========================================================================
+// molecules: card-grid
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: card-grid */
+.nc-card-grid {
+  display: grid;
+  grid-template-columns: var(--nc-card-grid-columns);
+  gap: var(--nc-card-grid-gap);
+}
+
+.nc-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+.nc-card-grid--cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.nc-card-grid--cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.nc-card-grid--cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.nc-card-grid--cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.nc-card-grid--cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+@container (max-width: 900px) {
+  .nc-card-grid--cols-4,
+    .nc-card-grid--cols-5,
+    .nc-card-grid--cols-6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 640px) {
+  .nc-card-grid--cols-3,
+    .nc-card-grid--cols-4,
+    .nc-card-grid--cols-5,
+    .nc-card-grid--cols-6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 420px) {
+  .nc-card-grid--cols-2,
+    .nc-card-grid--cols-3,
+    .nc-card-grid--cols-4,
+    .nc-card-grid--cols-5,
+    .nc-card-grid--cols-6 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nc-card-grid .nc-card {
+  --mod-card-bg: var(--fnd-color-background-base);
+}
+
+.neo-dark-theme .nc-card-grid .nc-card,
+[data-theme="neo-dark-theme"] .nc-card-grid .nc-card {
+  --mod-card-bg: var(--fnd-color-background-tertiary);
+}
+/* <<< aufgenommen: card-grid */

@@ -1,0 +1,60 @@
+// ==========================================================================
+// molecules: table-block
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: table-block */
+.nc-table-block {
+  max-width: var(--nc-container-max-width, 1440px);
+  margin-inline: auto;
+  padding-inline: var(--fnd-spacing-06);
+  overflow-x: auto;
+}
+
+.nc-table-block table,
+.nc-table-block th,
+.nc-table-block td {
+  border: none;
+}
+
+.nc-table-block thead th {
+  background-color: var(--tbl-header-bg, var(--fnd-color-background-tertiary));
+  font-size: var(--fs-xs);
+  font-weight: var(--fnd-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--nc-table-block-thead-th-letter-spacing);
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  text-align: center;
+}
+
+.nc-table-block thead th:first-child {
+  text-align: left;
+}
+
+.nc-table-block.is-scrolled .nc-compare-table--sticky-col th:first-child::after,
+.nc-table-block.is-scrolled .nc-compare-table--sticky-col td:first-child::after {
+  opacity: var(--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity);
+}
+
+.nc-table-block[data-scroll-active="true"] {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nc-table-block[data-scroll-active="true"] .nc-compare-table--full-width table {
+  table-layout: auto;
+  width: max-content;
+  min-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nc-table-block {
+    padding-inline: var(--fnd-spacing-03);
+  }
+}
+/* <<< aufgenommen: table-block */

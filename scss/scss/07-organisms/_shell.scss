@@ -1,0 +1,133 @@
+// ==========================================================================
+// organisms: shell
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: shell */
+.nc-shell__linkbar-center {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.nc-shell__linkbar-separator {
+  width: 1px;
+  height: 12px;
+  background: var(--nc-shell-linkbar-separator-background);
+  opacity: var(--nc-shell-linkbar-separator-opacity);
+  flex-shrink: 0;
+}
+
+.nc-shell__linkbar-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.nc-shell__linkbar .nc-button--xs {
+  font-size: var(--nc-shell-linkbar-nc-button-xs-font-size);
+  padding: var(--nc-shell-linkbar-nc-button-xs-padding);
+  min-height: 20px;
+}
+
+.nc-shell__banner .messages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--nc-shell-banner-padding, 8px 24px);
+  font-size: var(--nc-shell-banner-font-size, var(--fs-sm));
+  font-weight: var(--fnd-font-weight-medium);
+  text-align: center;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.nc-shell__banner .messages--status {
+  background: var(--fnd-color-background-success);
+  color: var(--fnd-color-text-success);
+}
+
+.nc-shell__banner .messages--warning {
+  background: var(--fnd-color-background-warning);
+  color: var(--fnd-color-text-warning);
+}
+
+.nc-shell__banner .messages--error {
+  background: var(--fnd-color-background-danger);
+  color: var(--fnd-color-text-danger);
+}
+
+.nc-shell__messages {
+  padding: var(--fnd-spacing-03) var(--nc-shell-content-padding, 24px);
+}
+
+body.toolbar-fixed .nc-shell__navbar {
+  top: 79px;
+}
+
+body.toolbar-fixed .nc-shell__linkbar {
+  top: 79px;
+}
+
+body.toolbar-fixed .nc-shell__linkbar ~ .nc-shell__navbar {
+  top: calc(79px + var(--nc-shell-linkbar-height, 32px));
+}
+
+@media (min-width: 1024px) {
+  body.toolbar-fixed .nc-shell__sidebar-left,
+    body.toolbar-fixed .nc-shell__sidebar-right {
+    top: calc(79px + var(--nc-nav-height));
+    height: calc(100dvh - 79px - var(--nc-nav-height));
+  }
+}
+
+.nc-shell > .region--footerbar {
+  grid-area: footerbar;
+}
+
+.nc-shell > .region--header,
+.nc-shell > .block {
+  grid-area: navbar;
+}
+
+.nc-shell > .region--header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.nc-shell > .region--header .site-header,
+.nc-shell > .region--header .m-drawer {
+  pointer-events: auto;
+}
+
+body:has(.layout-builder-form) .nc-shell__linkbar,
+body:has(.layout-builder-form) .nc-shell__navbar,
+body:has(.layout-builder-form) .nc-mobile-drawer,
+body:has(.layout-builder-form) .nc-mobile-drawer__backdrop {
+  display: none;
+}
+
+body:has(.layout-builder-form) .nc-shell__footerbar {
+  display: none;
+}
+
+body:has(.layout-builder-form) .nc-shell__stage {
+  position: relative;
+  z-index: 1;
+}
+/* <<< aufgenommen: shell */
