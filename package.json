@@ -72,7 +72,7 @@
     "build-storybook": "npm run generate:stories && storybook build",
     "sync:drupal-icons": "node scripts/sync-drupal-icons.js",
     "skill:build": "node scripts/build-skill-references.js",
-    "skill:pack": "npm run skill:build && cd skill && rm -f neo-design-system.skill && zip -r -X neo-design-system.skill neo-design-system -x '*.DS_Store' && echo '→ skill/neo-design-system.skill'"
+    "skill:pack": "npm run skill:build && cd skill && rm -f neo-design-system.skill neo-design-system.zip && zip -r -X neo-design-system.zip neo-design-system -x '*.DS_Store' >/dev/null && cp neo-design-system.zip neo-design-system.skill && echo '→ skill/neo-design-system.skill (+ .zip, gleicher Inhalt)'"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^8.6.18",
