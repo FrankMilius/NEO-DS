@@ -1,0 +1,94 @@
+// ==========================================================================
+// organisms: hero-tmob
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: hero-tmob */
+.nc-hero-tmob {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80svh;
+  overflow: hidden;
+  color: var(--fnd-color-always-light);
+}
+
+.nc-hero-tmob--light {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-hero-tmob__content {
+  z-index: 2;
+}
+
+.nc-hero-tmob__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--fnd-spacing-08);
+  width: 100%;
+  max-width: var(--nc-container-max-width, 1440px);
+  margin-inline: auto;
+  padding: var(--fnd-spacing-10) var(--fnd-spacing-06);
+}
+
+.nc-hero-tmob__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--fnd-spacing-04);
+  max-width: 800px;
+}
+
+.nc-hero-tmob__headline {
+  font-size: var(--nc-type-display-m-size);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+.nc-hero-tmob__subtext {
+  font-size: var(--nc-hero-tmob-subtext-size);
+  line-height: var(--lh-body);
+  opacity: var(--fnd-opacity-prominent);
+  max-width: 600px;
+  margin: 0;
+}
+
+.nc-hero-tmob__media {
+  width: 100%;
+  max-width: 960px;
+  border-radius: var(--fnd-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fnd-shadow-lg);
+}
+
+.nc-hero-tmob__media img,
+.nc-hero-tmob__media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tmob__headline {
+    font-size: var(--nc-type-display-m-size);
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tmob__media {
+    border-radius: var(--fnd-radius-md);
+  }
+}
+/* <<< aufgenommen: hero-tmob */

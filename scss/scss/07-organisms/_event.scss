@@ -1,0 +1,184 @@
+// ==========================================================================
+// organisms: event
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: event */
+.nc-event__hero {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  padding-block: var(--fnd-spacing-12) var(--fnd-spacing-10);
+  background: var(--fnd-color-always-dark);
+  color: var(--fnd-color-always-light);
+  overflow: hidden;
+}
+
+.nc-event__hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.nc-event__hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nc-event__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-dark) 30%, transparent) 50%, color-mix(in srgb, var(--fnd-color-always-dark) 10%, transparent) 100%);
+  z-index: 1;
+}
+
+.nc-event__hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);
+}
+
+.nc-event__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-event__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--nc-event-tag-padding);
+  font-size: var(--nc-type-caption-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--nc-event-tag-letter-spacing);
+  border-radius: var(--fnd-radius-xs);
+  background: color-mix(in srgb, var(--fnd-color-always-light) 15%, transparent);
+  color: var(--fnd-color-always-light);
+}
+
+.nc-event__tag--type {
+  background: var(--fnd-color-interactive-default);
+  color: var(--fnd-color-on-accent);
+}
+
+.nc-event__title {
+  font-size: var(--nc-type-display-m-size);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: var(--nc-event-title-line-height);
+  margin: 0;
+  max-width: 800px;
+}
+
+.nc-event__subtitle {
+  font-size: var(--nc-type-body-l-size);
+  opacity: var(--fnd-opacity-prominent);
+  margin: 0;
+  max-width: 600px;
+}
+
+.nc-event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-04);
+  margin-top: var(--fnd-spacing-02);
+}
+
+.nc-event__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  font-size: var(--nc-type-body-s-size);
+  opacity: var(--fnd-opacity-high);
+}
+
+.nc-event__meta-item svg {
+  opacity: var(--fnd-opacity-medium);
+  flex-shrink: 0;
+}
+
+.nc-event__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-03);
+  margin-top: var(--fnd-spacing-04);
+}
+
+.nc-event__content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--fnd-spacing-08);
+}
+
+@media (min-width: 768px) {
+  .nc-event__content-grid {
+    grid-template-columns: 1fr 360px;
+    align-items: start;
+  }
+}
+
+.nc-event__info-card {
+  background: var(--fnd-color-background-secondary);
+  border-radius: var(--fnd-radius-md);
+  padding: var(--fnd-spacing-06);
+  position: sticky;
+  top: calc(var(--nav-height) + var(--fnd-spacing-04));
+}
+
+.nc-event__info-card-title {
+  font-size: var(--nc-type-heading-s-size);
+  font-weight: var(--fnd-font-weight-bold);
+  margin: 0 0 var(--fnd-spacing-04);
+}
+
+.nc-event__info-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  margin: 0 0 var(--fnd-spacing-05);
+  font-size: var(--nc-type-body-s-size);
+}
+
+.nc-event__info-list dt {
+  font-weight: var(--fnd-font-weight-medium);
+  color: var(--fnd-color-text-secondary);
+}
+
+.nc-event__info-list dd {
+  margin: 0;
+}
+
+.nc-event__info-cta {
+  width: 100%;
+  justify-content: center;
+}
+
+.nc-event__section-title {
+  font-size: var(--nc-type-heading-l-size);
+  font-weight: var(--fnd-font-weight-bold);
+  margin: 0 0 var(--fnd-spacing-06);
+}
+
+.nc-event__agenda {
+  max-width: 800px;
+}
+
+.nc-event__related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--fnd-spacing-05);
+}
+
+.nc-event__related-card {
+  border: 1px solid var(--fnd-color-border-secondary);
+}
+/* <<< aufgenommen: event */

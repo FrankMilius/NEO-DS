@@ -1,0 +1,126 @@
+// ==========================================================================
+// organisms: mobile-drawer
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: mobile-drawer */
+.nc-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: var(--fnd-color-background-base);
+  z-index: var(--fnd-z-drawer, 700);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  box-shadow: var(--nc-mobile-drawer-root-box-shadow);
+}
+
+.nc-mobile-drawer--open {
+  transform: translateX(0);
+}
+
+.nc-mobile-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+  border-bottom: 1px solid var(--fnd-color-border-secondary);
+}
+
+.nc-mobile-drawer__title {
+  font-weight: var(--fnd-font-weight-semibold);
+  font-size: var(--nc-type-label-size);
+}
+
+.nc-mobile-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: var(--nc-mobile-drawer-close-background);
+  color: var(--fnd-color-text-secondary);
+  border-radius: var(--fnd-radius-sm);
+  cursor: pointer;
+}
+
+.nc-mobile-drawer__close:hover {
+  background: var(--fnd-color-background-hover);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-mobile-drawer__nav {
+  padding: var(--fnd-spacing-03);
+}
+
+.nc-mobile-drawer__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nc-mobile-drawer__link {
+  display: block;
+  padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
+  color: var(--fnd-color-text-primary);
+  text-decoration: none;
+  font-weight: var(--fnd-font-weight-medium);
+  border-radius: var(--fnd-radius-sm);
+}
+
+.nc-mobile-drawer__link:hover {
+  background: var(--fnd-color-background-hover);
+}
+
+.nc-mobile-drawer__sublist {
+  list-style: none;
+  padding: 0 0 0 var(--fnd-spacing-05);
+  margin: 0;
+}
+
+.nc-mobile-drawer__sublink {
+  display: block;
+  padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
+  color: var(--fnd-color-text-secondary);
+  text-decoration: none;
+  font-size: var(--nc-type-body-s-size);
+  border-radius: var(--fnd-radius-sm);
+}
+
+.nc-mobile-drawer__sublink:hover {
+  background: var(--fnd-color-background-hover);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-mobile-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent);
+  z-index: calc(var(--fnd-z-drawer, 700) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.nc-mobile-drawer__backdrop--visible {
+  opacity: var(--nc-mobile-drawer-backdrop-visible-opacity);
+  pointer-events: auto;
+}
+
+@media (min-width: 1200px) {
+  .nc-mobile-drawer,
+    .nc-mobile-drawer__backdrop {
+    display: none !important;
+  }
+}
+/* <<< aufgenommen: mobile-drawer */

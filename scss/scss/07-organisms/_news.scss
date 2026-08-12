@@ -1,0 +1,112 @@
+// ==========================================================================
+// organisms: news
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: news */
+.nc-news__hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 400px;
+  padding-block: var(--fnd-spacing-10, 4rem);
+  overflow: hidden;
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-news__hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+.nc-news__hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--nc-news-hero-overlay-background);
+}
+
+.nc-news__hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--mod-container-max-width, var(--container-content, 1090px));
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline, clamp(1rem, .8rem + 1vw, 1.5rem));
+}
+
+.nc-news__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nc-news-eyebrow-gap);
+  align-items: center;
+  margin-bottom: var(--fnd-spacing-04, 1rem);
+  font-size: var(--nc-type-caption-size);
+}
+
+.nc-news__kicker {
+  font-weight: var(--fnd-font-weight-semibold);
+  text-transform: var(--nc-kicker-text-transform);
+  letter-spacing: var(--nc-kicker-letter-spacing);
+  color: var(--nc-kicker-color);
+}
+
+.nc-news__date {
+  color: var(--fnd-color-text-secondary);
+}
+
+.nc-news__title {
+  font-family: var(--font-heading, inherit);
+  font-weight: var(--nc-news-title-font-weight);
+  font-size: var(--nc-news-title-font-size);
+  line-height: var(--nc-news-title-line-height);
+  margin: 0 0 var(--fnd-spacing-05, 1.25rem);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-news__lead {
+  font-size: var(--nc-news-lead-font-size);
+  line-height: var(--nc-news-lead-line-height);
+  color: var(--fnd-color-text-secondary);
+  max-width: 65ch;
+}
+
+.nc-news__hero-cta {
+  margin-top: var(--fnd-spacing-06, 1.5rem);
+}
+
+.nc-news__body {
+  max-width: var(--mod-container-max-width, var(--container-content, 1090px));
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline, clamp(1rem, .8rem + 1vw, 1.5rem));
+  padding-block: var(--fnd-spacing-10, 4rem);
+}
+
+.nc-news__footer {
+  max-width: var(--container-content, 1090px);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline, clamp(1rem, .8rem + 1vw, 1.5rem));
+  padding-block: var(--fnd-spacing-09, 3rem);
+  border-top: 1px solid var(--fnd-color-border-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-05, 1.25rem);
+  align-items: center;
+}
+
+.nc-news__footer a {
+  color: var(--fnd-color-text-accent);
+  font-weight: var(--nc-news-footer-a-font-weight);
+}
+/* <<< aufgenommen: news */
