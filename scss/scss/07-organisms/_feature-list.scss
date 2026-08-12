@@ -1,0 +1,166 @@
+// ==========================================================================
+// organisms: feature-list
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: feature-list */
+.nc-feature-list__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);
+  align-items: flex-start;
+}
+
+.nc-feature-list__text {
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--nc-type-body-m-lh);
+  color: var(--fnd-color-text-secondary);
+  margin-block-start: var(--fnd-spacing-03);
+}
+
+.nc-feature-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-03);
+  width: 100%;
+}
+
+.nc-feature-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--fnd-spacing-03);
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--nc-type-body-m-lh);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-feature-list__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: var(--nc-feature-list-icon-margin-top);
+}
+
+.nc-feature-list__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nc-feature-list__item-text {
+  line-height: var(--nc-type-body-m-lh, 1.5);
+}
+
+.nc-feature-list__items-host {
+  margin-block-start: var(--fnd-spacing-05);
+}
+
+.nc-feature-list__items-host:empty {
+  margin-block-start: 0;
+}
+
+.nc-feature-list__cta {
+  margin-top: var(--fnd-spacing-06);
+}
+
+.nc-feature-list__content > :first-child {
+  margin-block-start: 0;
+}
+
+.nc-feature-list__item::before {
+  content: none;
+}
+
+.nc-feature-list--valign-top    .nc-feature-list__content {
+  align-self: start;
+}
+
+.nc-feature-list--valign-middle .nc-feature-list__content {
+  align-self: center;
+}
+
+.nc-feature-list--valign-bottom .nc-feature-list__content {
+  align-self: end;
+}
+
+.nc-feature-list--with-media .nc-feature-list__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, var(--fnd-spacing-11, 5rem));
+  align-items: center;
+}
+
+.nc-feature-list--media-left  .nc-feature-list__media {
+  order: 1;
+}
+
+.nc-feature-list--media-left  .nc-feature-list__content {
+  order: 2;
+}
+
+.nc-feature-list--media-right .nc-feature-list__media {
+  order: 2;
+}
+
+.nc-feature-list--media-right .nc-feature-list__content {
+  order: 1;
+}
+
+.nc-feature-list__media {
+  position: relative;
+  align-self: stretch;
+  aspect-ratio: 4 / 3;
+  min-height: 240px;
+  max-inline-size: 100%;
+  border-radius: var(--fnd-radius-lg, 8px);
+  overflow: hidden;
+  background: var(--fnd-color-background-secondary);
+}
+
+.nc-feature-list__media.nc-media-frame {
+  border-radius: var(--nc-media-frame-radius);
+}
+
+.nc-feature-list__media > * {
+  width: 100%;
+  height: 100%;
+}
+
+.nc-feature-list__media img,
+.nc-feature-list__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .nc-feature-list--with-media .nc-feature-list__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-feature-list--media-left  .nc-feature-list__media,
+    .nc-feature-list--media-right .nc-feature-list__media {
+    order: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-feature-list--media-left  .nc-feature-list__content,
+    .nc-feature-list--media-right .nc-feature-list__content {
+    order: 1;
+  }
+}
+/* <<< aufgenommen: feature-list */

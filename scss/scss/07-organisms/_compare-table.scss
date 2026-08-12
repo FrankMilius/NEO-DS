@@ -1,0 +1,68 @@
+// ==========================================================================
+// organisms: compare-table
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: compare-table */
+.nc-compare-table--striped tbody tr:nth-child(even) td,
+.nc-compare-table--striped tbody tr:nth-child(even) th {
+  background-color: var(--tbl-stripe-bg, var(--fnd-color-background-secondary));
+}
+
+.nc-compare-table--striped.nc-compare-table--sticky-col tbody tr:nth-child(even) th:first-child,
+.nc-compare-table--striped.nc-compare-table--sticky-col tbody tr:nth-child(even) td:first-child {
+  background-color: var(--tbl-stripe-bg, var(--fnd-color-background-secondary));
+}
+
+.nc-compare-table--full-width {
+  width: 100%;
+}
+
+.nc-compare-table--full-width table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.nc-compare-table--full-width th:first-child,
+.nc-compare-table--full-width td:first-child {
+  width: 40%;
+}
+
+.nc-compare-table--sticky-col th:first-child,
+.nc-compare-table--sticky-col td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: var(--fnd-color-background-base);
+}
+
+.nc-compare-table--sticky-col th:first-child::after,
+.nc-compare-table--sticky-col td:first-child::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  bottom: 0;
+  width: 8px;
+  background: var(--nc-compare-table-sticky-col-th-first-child-after-background);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.nc-compare-table--striped.nc-compare-table--sticky-col tr:nth-child(even) th:first-child,
+.nc-compare-table--striped.nc-compare-table--sticky-col tr:nth-child(even) td:first-child {
+  background-color: var(--fnd-color-background-secondary);
+}
+
+.nc-compare-table--sticky-col .nc-compare-table__section-row td {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+/* <<< aufgenommen: compare-table */

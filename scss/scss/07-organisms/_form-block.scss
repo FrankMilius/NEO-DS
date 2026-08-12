@@ -154,3 +154,78 @@
     align-self: flex-start;
   }
 }
+
+/* >>> aufgenommen: form-block */
+.nc-form-block .nc-input,
+.nc-form-block .nc-select,
+.nc-form-block .nc-form-block__submit {
+  min-block-size: 2.75rem;
+}
+
+.nc-form-block .nc-input,
+.nc-form-block .nc-textarea,
+.nc-form-block .nc-select {
+  font-size: var(--nc-form-block-nc-input-font-size);
+}
+
+.nc-form-block .nc-input:focus-visible,
+.nc-form-block .nc-textarea:focus-visible,
+.nc-form-block .nc-select:focus-visible,
+.nc-form-block .nc-checkbox__input:focus-visible + .nc-checkbox__control {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.nc-form-block__error {
+  margin: var(--nc-form-block-error-margin);
+  padding: var(--nc-form-block-error-padding);
+  border-radius: var(--fnd-radius-sm);
+  background: color-mix(in srgb, var(--fnd-color-text-danger, #a31f1f) 10%, transparent);
+  color: var(--fnd-color-text-danger, #a31f1f);
+  font-size: var(--nc-type-body-s-size, 0.875rem);
+}
+
+.nc-form-block__success {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nc-form-block-success-gap);
+  padding: var(--fnd-spacing-05);
+  border-radius: var(--fnd-radius-sm);
+  background: color-mix(in srgb, var(--fnd-color-text-success, #0a6e3d) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fnd-color-text-success, #0a6e3d) 35%, transparent);
+}
+
+.nc-form-block__success:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.nc-form-block__success-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: var(--nc-form-block-success-icon-border-radius);
+  background: var(--fnd-color-text-success, #0a6e3d);
+  color: var(--nc-form-block-success-icon-color);
+  font-size: var(--nc-form-block-success-icon-font-size);
+  line-height: var(--lh-none);
+}
+
+.nc-form-block__success-title {
+  display: block;
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-form-block__success-text {
+  margin: var(--nc-form-block-success-text-margin);
+  color: var(--fnd-color-text-secondary);
+}
+
+.nc-form-block__submit.is-loading {
+  opacity: var(--nc-form-block-submit-is-loading-opacity);
+  pointer-events: none;
+}
+/* <<< aufgenommen: form-block */
