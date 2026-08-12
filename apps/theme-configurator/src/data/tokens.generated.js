@@ -9843,55 +9843,55 @@ export const foundationTokens = {
         "label": "Body Font",
         "value": "Manrope, Helvetica Neue, Arial, sans-serif",
         "type": "font",
-        "cssVar": null
+        "cssVar": "--font-body"
       },
       "font-heading": {
         "label": "Heading Font",
         "value": "Space Grotesk, Helvetica Neue, Arial, sans-serif",
         "type": "font",
-        "cssVar": null
+        "cssVar": "--font-heading"
       },
       "font-mono": {
         "label": "Mono Font",
         "value": "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
         "type": "font",
-        "cssVar": null
+        "cssVar": "--font-mono"
       },
       "weight-light": {
         "label": "Light",
         "value": 300,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-light"
       },
       "weight-regular": {
         "label": "Regular",
         "value": 400,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-regular"
       },
       "weight-medium": {
         "label": "Medium",
         "value": 500,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-medium"
       },
       "weight-semibold": {
         "label": "Semibold",
         "value": 600,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-semibold"
       },
       "weight-bold": {
         "label": "Bold",
         "value": 700,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-bold"
       },
       "weight-black": {
         "label": "Black",
         "value": 900,
         "type": "weight",
-        "cssVar": null
+        "cssVar": "--fnd-font-weight-black"
       }
     }
   },
@@ -9921,19 +9921,19 @@ export const foundationTokens = {
         "label": "Quick",
         "value": "0.2s",
         "type": "duration",
-        "cssVar": null
+        "cssVar": "--fnd-motion-duration-200"
       },
       "duration-base": {
         "label": "Base",
         "value": "0.3s",
         "type": "duration",
-        "cssVar": null
+        "cssVar": "--fnd-motion-duration-300"
       },
       "duration-slow": {
         "label": "Slow",
         "value": "0.45s",
         "type": "duration",
-        "cssVar": null
+        "cssVar": "--fnd-motion-duration-450"
       }
     }
   },
@@ -9999,13 +9999,13 @@ export const foundationTokens = {
         "label": "Double",
         "value": "double",
         "type": "style",
-        "cssVar": null
+        "cssVar": "--fnd-border-style-double"
       },
       "style-none": {
         "label": "None (Hidden)",
         "value": "none",
         "type": "style",
-        "cssVar": null
+        "cssVar": "--fnd-border-style-none"
       }
     }
   },
@@ -10016,37 +10016,37 @@ export const foundationTokens = {
       "base": {
         "label": "Base",
         "value": 1,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-base"
       },
       "dropdown": {
         "label": "Dropdown",
         "value": 2,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-dropdown"
       },
       "sticky": {
         "label": "Sticky",
         "value": 3,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-sticky"
       },
       "fixed": {
         "label": "Fixed",
         "value": 9,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-fixed"
       },
       "modal-backdrop": {
         "label": "Modal Backdrop",
         "value": 10,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-modal-backdrop"
       },
       "modal": {
         "label": "Modal",
         "value": 11,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-modal"
       },
       "tooltip": {
         "label": "Tooltip",
         "value": 20,
-        "cssVar": null
+        "cssVar": "--fnd-layout-z-index-tooltip"
       }
     }
   },
@@ -10058,13 +10058,13 @@ export const foundationTokens = {
         "label": "Ring Color",
         "value": "var(--fnd-color-text-primary)",
         "type": "color",
-        "cssVar": null
+        "cssVar": "--fnd-focus-ring-color"
       },
       "width": {
         "label": "Ring Width",
         "value": "2px",
         "type": "size",
-        "cssVar": null
+        "cssVar": "--fnd-focus-ring-width"
       },
       "offset": {
         "label": "Offset (aussen)",
@@ -10085,7 +10085,7 @@ export const foundationTokens = {
       "style": {
         "label": "Ring Style",
         "value": "solid",
-        "cssVar": null
+        "cssVar": "--fnd-focus-ring-style"
       }
     }
   },

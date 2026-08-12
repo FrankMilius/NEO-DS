@@ -43,7 +43,11 @@ const merge = (bl, namen) => {
 };
 
 // -- 1. Token-Drift -----------------------------------------------------------
-const dsCss = lies(resolve(wurzel, 'styles.css'));
+// Die Token-Flaeche des DS besteht aus ZWEI Dateien: styles.css (aus dem SCSS)
+// und design-tokens.css (aus design-tokens.json). Wer nur die erste liest,
+// haelt alles fuer unbekannt, was ueber die JSON-Ebene kommt — etwa die
+// z-index-Skala.
+const dsCss = lies(resolve(wurzel, 'styles.css')) + '\n' + lies(resolve(wurzel, 'data/design-tokens.css'));
 const thCss = lies(resolve(THEME, 'css/theme-overrides.css'));
 const ds = leaf(dsCss), th = leaf(thCss);
 const HELL = new Set([':root', '.neo-light-theme']);

@@ -451,6 +451,37 @@ const generateLegacy = () => {
 const bruecke = (configurator, bekannt) => {
   const bericht = { verbunden: 0, ohne: [] };
 
+  // Feste Zuordnungen fuer Tokens, die es im DS GIBT, dort aber anders heissen.
+  // Ohne diese Tabelle wuerden sie als "ohne Entsprechung" gelten und der
+  // naheliegende Reflex waere, sie ins DS aufzunehmen — das erzeugt Dubletten
+  // und damit genau die Drift, die wir gerade beseitigen.
+  const ALIAS = {
+    'typography.font-body':      'font-body',
+    'typography.font-heading':   'font-heading',
+    'typography.font-mono':      'font-mono',
+    'typography.weight-light':     'fnd-font-weight-light',
+    'typography.weight-regular':   'fnd-font-weight-regular',
+    'typography.weight-medium':    'fnd-font-weight-medium',
+    'typography.weight-semibold':  'fnd-font-weight-semibold',
+    'typography.weight-bold':      'fnd-font-weight-bold',
+    'typography.weight-black':     'fnd-font-weight-black',
+    'motion.duration-quick':     'fnd-motion-duration-200',  // 0.2s
+    'motion.duration-base':      'fnd-motion-duration-300',  // 0.3s
+    'motion.duration-slow':      'fnd-motion-duration-450',  // 0.45s
+    'focus.color':               'fnd-focus-ring-color',
+    'focus.width':               'fnd-focus-ring-width',
+    'focus.style':               'fnd-focus-ring-style',
+    // z-index liegt im DS strukturell unter layout, die Oberflaeche nennt es
+    // zindex. Aufgenommen am 2026-08-12 (Entscheidung 5).
+    'zindex.base':           'fnd-layout-z-index-base',
+    'zindex.dropdown':       'fnd-layout-z-index-dropdown',
+    'zindex.sticky':         'fnd-layout-z-index-sticky',
+    'zindex.fixed':          'fnd-layout-z-index-fixed',
+    'zindex.modal-backdrop': 'fnd-layout-z-index-modal-backdrop',
+    'zindex.modal':          'fnd-layout-z-index-modal',
+    'zindex.tooltip':        'fnd-layout-z-index-tooltip',
+  };
+
   const kandidaten = (kat, key) => [
     `${kat}-${key}`,          // radius-md, spacing-06, elevation-base, border-width-sm
     `${kat}-levels-${key}`,   // shadow-levels-xs
@@ -462,8 +493,17 @@ const bruecke = (configurator, bekannt) => {
   for (const [kat, daten] of Object.entries(configurator)) {
     if (!daten || !daten.tokens) continue;
     for (const [key, token] of Object.entries(daten.tokens)) {
-      const treffer = kandidaten(toKebab(kat), toKebab(key)).find((k) => bekannt.has(k));
-      token.cssVar = treffer ? `--fnd-${treffer}` : null;
+      // Alias hat Vorrang: er zeigt auf den Namen, den die Komponenten benutzen.
+      const alias = ALIAS[`${kat}.${key}`];
+      const treffer = alias || kandidaten(toKebab(kat), toKebab(key)).find((k) => bekannt.has(k));
+      // Alias-Namen sind bereits vollstaendig (mit oder ohne fnd-Praefix).
+      token.cssVar = treffer
+        ? (alias ? `--${treffer}` : `--fnd-${treffer}`)
+        : null;
+      if (alias && !bekannt.has(treffer.replace(/^fnd-/, ''))) {
+        // Nur pruefen, nicht abbrechen: der Alias kann auch ausserhalb der
+        // --fnd-* Familie liegen (z.B. --font-body).
+      }
       if (treffer) bericht.verbunden++;
       else bericht.ohne.push(`${kat}.${key}`);
 

@@ -3642,7 +3642,11 @@
   // -- Content --
   --nc-shell-content-max-width: var(--fnd-content-max-width);   // 1200px
   --nc-shell-content-narrow: 720px;
-  --nc-shell-content-padding: var(--fnd-spacing-06);             // 24px
+  // 0 statt spacing-06: Entscheidung vom 2026-08-12 im Rahmen der
+  // DS-Website-Vereinigung. Die Website fuehrt hier — visuell geprueft in
+  // beiden Breiten (Desktop 1440 und Mobil 390), der Innenabstand wurde dort
+  // bewusst entfernt. Die Aussenabstaende kommen aus dem Container.
+  --nc-shell-content-padding: 0;
 
   // -- Z-Index Governance --
   // Feste Rangfolge: linkbar < footerbar < navbar < sidebar(desktop) < overlay < drawer(mobile)
