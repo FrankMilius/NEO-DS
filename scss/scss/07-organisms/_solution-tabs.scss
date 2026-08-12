@@ -59,11 +59,14 @@
   margin: 0;
   border: 0;
   background-color: var(--mod-solution-tabs-tab-bg, var(--nc-solution-tabs-tab-bg));
-  border-radius: var(--fnd-radius-xs);
+  // Website-Wert (Phase 2): radius-md statt xs.
+  border-radius: var(--fnd-radius-md);
   cursor: pointer;
   padding: var(--fnd-spacing-03) var(--fnd-spacing-06) calc(var(--fnd-spacing-03) + 2px);
   font-family: inherit;
-  font-size: var(--fs-sm, 0.875rem);
+    // Website-Wert, am 2026-08-12 zurueckgefuehrt (Phase 2): semantische
+  // Typo-Skala statt Roh-Skala — Teil der H2-Harmonisierung.
+  font-size: var(--nc-type-label-size);
   font-weight: var(--fnd-font-weight-semibold);
   white-space: nowrap;
   color: var(--nc-solution-tabs-tab-color);
@@ -159,10 +162,14 @@
 .nc-solution-tabs__panel-title {
   margin: 0 0 var(--fnd-spacing-04);
   font-family: var(--font-heading);
-  font-size: var(--fs-2xl);
+    // Website-Wert, am 2026-08-12 zurueckgefuehrt (Phase 2): semantische
+  // Typo-Skala statt Roh-Skala — Teil der H2-Harmonisierung.
+  font-size: var(--nc-type-heading-m-size);
   line-height: var(--lh-heading);
   letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em (war tracking-tight -0.02em)
   color: var(--nc-solution-tabs-title);
+  // Website-Wert (Phase 2): fehlte im DS
+  font-weight: var(--fnd-font-weight-black);
 }
 
 .nc-solution-tabs__panel-text {
@@ -176,6 +183,8 @@
   // Das war schon vor der Umstellung auf breite Container so — mit xwide waere
   // es schlimmer geworden.
   max-inline-size: var(--container-prose);
+  // Website-Wert (Phase 2): fehlte im DS
+  margin-bottom: var(--fnd-spacing-04);
 }
 
 // Feature-Liste (mit gestaffelter Einblendung beim Aktivieren)
@@ -191,7 +200,9 @@
   display: flex;
   gap: var(--fnd-spacing-03);
   align-items: flex-start;
-  font-size: var(--fs-sm, 0.875rem);
+    // Website-Wert, am 2026-08-12 zurueckgefuehrt (Phase 2): semantische
+  // Typo-Skala statt Roh-Skala — Teil der H2-Harmonisierung.
+  font-size: var(--nc-type-body-m-size);
   color: var(--nc-solution-tabs-text);
 }
 
@@ -229,6 +240,8 @@
 // und Hover kommen vom Button-Recipe.
 .nc-solution-tabs__cta {
   margin-top: var(--fnd-spacing-07);
+  // Aus dem Theme zurueckgefuehrt (Phase 2) — fehlte im DS.
+  font-size: var(--nc-type-label-size);
 }
 
 // ---------------------------------------------------------------------------
@@ -408,7 +421,8 @@
 .nc-solution-tabs__tab-index {
   display: block;
   font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
+  // Website-Wert (Phase 2): semantische Caption-Stufe statt hart 0.6875rem.
+  font-size: var(--nc-type-caption-size);
   letter-spacing: var(--fnd-tracking-widest);
   opacity: 0.7;
   margin-block-end: 2px;
