@@ -1,11 +1,18 @@
 // ==========================================================================
 // 03-Elements: Grundelemente im monochromen Thema
 // ==========================================================================
-// Alles hier ist auf `.neo-mono-*` BEGRENZT. Ohne diese Begrenzung wuerde ein
-// `a { … }` auf der bestehenden Website sofort jeden Link umstellen — das ist
-// eine Entscheidung, kein Nebeneffekt.
+// Gilt fuer BEIDE Themenfamilien: `.neo-light-theme`/`.neo-dark-theme` (die
+// Website) und `.neo-mono-*` (das eigenstaendige Thema). Die Werte kommen aus
+// der Bruecke, deshalb stehen hier die `--fnd-*`-Namen und nicht die kurzen
+// Rollennamen aus _mono-theme.scss — die gibt es unter `.neo-*-theme` nicht.
+//
+// LINKS NUR OHNE KLASSE. Auf der Website tragen Navigation, Fusszeile und
+// Knoepfe alle eine Komponentenklasse; ein Link OHNE Klasse ist ein
+// Fliesstext-Link. Eine globale `a`-Regel wuerde die Navigation unterstreichen.
 // ==========================================================================
 
+.neo-light-theme,
+.neo-dark-theme,
 .neo-mono-light,
 .neo-mono-dark {
 
@@ -17,18 +24,18 @@
   // Der Akzent ist hier ABSICHTLICH nicht die Schriftfarbe: Der Markenwert
   // erreicht als Schrift auf Weiss 1,63 und waere unlesbar. Der Unterstrich
   // dagegen ist kein Text — fuer ihn gelten die 3:1 aus WCAG 1.4.11, und
-  // `accent-line` erfuellt sie mit 4,58.
+  // die Akzentstufe 700 erfuellt sie mit 3,91.
   //
   // Zugleich loest das die Anforderung aus WCAG 1.4.1: Der Link ist nicht
   // allein an der Farbe zu erkennen, sondern an Fettung UND Unterstrich. Genau
   // daran scheitern monochrome Systeme sonst am haeufigsten — weil der Reiz
   // gross ist, alles ruhig zu halten.
 
-  a {
+  a:not([class]) {
     color: inherit;
     font-weight: 550;
     text-decoration: underline;
-    text-decoration-color: var(--accent-line);
+    text-decoration-color: var(--fnd-accent-700);
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
     // Unterlaengen nicht durchstreichen. Ohne das schneidet der Strich
@@ -37,20 +44,13 @@
     transition: text-decoration-thickness 120ms ease;
   }
 
-  a:hover {
+  a:not([class]):hover {
     // Dicker statt bunter: Ein Farbwechsel beim Ueberfahren wuerde die
     // Unterscheidung wieder allein der Farbe ueberlassen.
     text-decoration-thickness: 3px;
   }
 
-  a:active { color: var(--text-secondary); }
-
-  // Ein Link, der eine Flaeche ist (Karte, Kachel, Knopf), traegt keinen
-  // Unterstrich — dort uebernimmt die Flaeche die Kennzeichnung.
-  a:where(.nc-button, .nc-card__link, [class*='__link--block']) {
-    text-decoration: none;
-    font-weight: inherit;
-  }
+  a:not([class]):active { color: var(--fnd-color-text-secondary); }
 
   // -------------------------------------------------------------------------
   // Fokus
@@ -60,9 +60,9 @@
   // dunklem Grund, wo der helle Aussenring mit 19,72:1 uebernimmt.
 
   :focus-visible {
-    outline: 2px solid var(--focus-inner);
+    outline: 2px solid var(--fnd-neutral-950);
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px var(--focus-outer);
+    box-shadow: 0 0 0 4px var(--fnd-neutral-50);
   }
 
   // -------------------------------------------------------------------------
@@ -73,8 +73,8 @@
 
   // 1 — Textmarkierung
   ::selection {
-    background: var(--accent-surface);
-    color: var(--accent-on);
+    background: var(--fnd-color-background-accent);
+    color: var(--fnd-color-on-accent);
   }
 
   // 2 — Bildlaufleisten. `scrollbar-color` deckt Firefox ab, die
@@ -100,9 +100,9 @@
   input:-webkit-autofill:focus,
   textarea:-webkit-autofill,
   select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px var(--surface-card) inset;
-    -webkit-text-fill-color: var(--text-primary);
-    caret-color: var(--text-primary);
+    -webkit-box-shadow: 0 0 0 1000px var(--fnd-color-background-base) inset;
+    -webkit-text-fill-color: var(--fnd-color-text-primary);
+    caret-color: var(--fnd-color-text-primary);
   }
 
   // 4 — Aufzaehlungszeichen. Standardmaessig tragen sie die Textfarbe und
@@ -112,7 +112,7 @@
   // 5 — Trennlinien im Fliesstext
   hr {
     border: none;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid var(--fnd-color-border-secondary);
   }
 
   // 6 — Textmarkierung durch <mark>
@@ -125,7 +125,7 @@
 
   // 7 — Bildplatzhalter, solange nichts geladen ist. Ohne feste Flaeche
   //     blitzt hier das Weiss des Browsers durch, auch im dunklen Thema.
-  img, video { background: var(--surface-sunken); }
+  img, video { background: var(--fnd-color-background-secondary); }
 }
 
 // Punkt 8 und 9 liegen ausserhalb von CSS und gehoeren ins Twig-Template:
