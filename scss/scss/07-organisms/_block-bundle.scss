@@ -1,0 +1,26 @@
+// ==========================================================================
+// organisms: block-bundle
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: block-bundle */
+.nc-block-bundle__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-03, .75rem);
+  margin-bottom: var(--fnd-spacing-09, 3rem);
+}
+
+.nc-block-bundle__text {
+  color: var(--fnd-color-text-secondary);
+}
+
+.nc-block-bundle__items > * + * {
+  margin-top: var(--fnd-spacing-04, 1rem);
+}
+/* <<< aufgenommen: block-bundle */

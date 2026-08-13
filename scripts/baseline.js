@@ -172,8 +172,19 @@ let n = 0;
 for (const pfad of seiten) {
   n++;
   process.stdout.write(`\r  ${n}/${seiten.length}  ${pfad}`.padEnd(70));
-  try { stand.seiten[pfad] = await seiteMessen(BASIS + pfad, EIGENSCHAFTEN); }
-  catch (e) { stand.seiten[pfad] = { fehler: String(e.message || e) }; }
+  // Bis zu drei Versuche. Eine Seite, die einmal langsam ist, liefert sonst
+  // ein leeres Ergebnis — und im Vergleich sieht das aus, als waeren all ihre
+  // Komponenten verschwunden. Genau so entstanden 19 Phantom-Befunde.
+  let ergebnis = null;
+  for (let versuch = 1; versuch <= 3; versuch++) {
+    try {
+      ergebnis = await seiteMessen(BASIS + pfad, EIGENSCHAFTEN);
+      const leer = !Object.values(ergebnis).some((v) => v && Object.keys(v).length);
+      if (!leer) break;
+      if (versuch < 3) { process.stdout.write(`\r  ${pfad}: leer, Versuch ${versuch + 1}`.padEnd(70)); await warten(1500); }
+    } catch (e) { ergebnis = { fehler: String(e.message || e) }; }
+  }
+  stand.seiten[pfad] = ergebnis;
 }
 console.log('');
 

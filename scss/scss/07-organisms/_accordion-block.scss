@@ -1,0 +1,47 @@
+// ==========================================================================
+// organisms: accordion-block
+// ==========================================================================
+// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war
+// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-
+// entscheidung tragen.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+/* >>> aufgenommen: accordion-block */
+.nc-accordion-block__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--fnd-spacing-10);
+  max-width: var(--mod-container-max-width, var(--nc-container-max-width, 1440px));
+  margin-inline: auto;
+  padding-inline: var(--fnd-spacing-06);
+  padding-block: var(--fnd-spacing-10);
+  align-items: start;
+}
+
+.nc-accordion-block__text {
+  position: sticky;
+  top: calc(var(--nc-nav-height, 64px) + var(--fnd-spacing-06));
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-03);
+}
+
+.nc-accordion-block__accordion {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nc-accordion-block__inner {
+    grid-template-columns: 1fr;
+    gap: var(--fnd-spacing-06);
+  }
+}
+
+@media (max-width: 768px) {
+  .nc-accordion-block__text {
+    position: static;
+  }
+}
+/* <<< aufgenommen: accordion-block */
