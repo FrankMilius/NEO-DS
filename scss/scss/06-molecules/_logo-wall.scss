@@ -118,37 +118,52 @@
 // Modifier: Monochrome (alle Logos grau, hover = Original)
 // ---------------------------------------------------------------------------
 
-// Einheitliche Silhouette statt abgeschwaechtem Graustufenbild.
+// Monochrom MIT Binnenstruktur.
 //
-// Vorher: grayscale(100%) brightness(0.8) bei opacity 0.6. Ein schwarzes Logo
-// kam damit auf rgb(102,102,102) heraus — gemessen 1.7-3.0:1 gegen die weisse
-// Pill-Flaeche, je nach Logo. Das ist der „helle Grauschleier": die Deckkraft
-// mischt die Marke mit dem Untergrund, und der Wert schwankt von Logo zu Logo.
+// Vorgeschichte in zwei Schritten. Zuerst stand hier
+// grayscale(100%) brightness(0.8) bei opacity 0.6 — ein „heller Grauschleier",
+// der die Marke mit dem Untergrund mischte und je nach Logo auf 1,7-3,0:1 kam.
 //
-// brightness(0) legt jede nicht-transparente Flaeche auf eine EINZIGE Farbe.
-// Genau das heisst monochrom — und es macht die Wand unabhaengig davon, ob ein
-// Partnerlogo dunkelblau, rot oder mehrfarbig ankommt. Voraussetzung ist ein
-// transparenter Hintergrund; alle 13 Logos erfuellen das (83-95% transparent,
-// 0% Weissflaeche, gemessen). Bei einem Logo mit WEISSEM Hintergrund wuerde
-// stattdessen ein schwarzer Kasten entstehen.
+// Die Antwort darauf war brightness(0): das legt jede nicht-transparente
+// Flaeche auf EINE Farbe. Der Kontrast stimmte damit, aber der Preis war zu
+// hoch — ein Logo mit Wortmarke, Bildmarke und Aussparungen wurde zu einem
+// schwarzen Klotz. Genau so sah es auf der Website aus.
 //
-// Die Deckkraft steuert nur noch den Ton der Silhouette (0.8 -> etwa #333),
-// nicht mehr die Sichtbarkeit.
+// Jetzt: `brightness(0.4)` MULTIPLIZIERT statt zu klemmen. Schwarz bleibt
+// schwarz, Weiss wird mittelgrau, und der Abstand zwischen hell und dunkel
+// bleibt in voller Breite erhalten. Aussparungen und Binnenformen sind wieder
+// zu sehen.
+//
+//   dunkelste Stelle auf Weiss   21,0:1
+//   hellste Stelle auf Weiss      5,7:1
+//
+// contrast(1.1) davor spreizt flaue Logos leicht auf, ohne die Enden
+// abzuschneiden. Voraussetzung bleibt ein transparenter Hintergrund; alle 13
+// Logos erfuellen das (83-95% transparent, 0% Weissflaeche, gemessen). Ein
+// Logo mit WEISSEM Kasten wuerde hier als grauer Kasten erscheinen.
 .nc-logo-wall--mono {
-  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0);
-  --nc-logo-wall-logo-opacity: 0.8;
-  --nc-logo-wall-logo-filter-hover: none;
+  --nc-logo-wall-logo-filter: grayscale(100%) contrast(1.1) brightness(0.4);
+  --nc-logo-wall-logo-opacity: 1;
+  --nc-logo-wall-logo-filter-hover: grayscale(0);
   --nc-logo-wall-logo-opacity-hover: 1;
 }
 
-// Dark Theme: dieselbe Silhouette, nur invertiert. Ohne das war Monochrom im
-// dunklen Theme praktisch unsichtbar — gemessen 1.08-2.56:1 gegen die dunkle
-// Pill-Flaeche. Ein blosses Aufhellen (brightness > 1) reicht nicht: dunkle
-// Logos bleiben dabei dunkel, ein Partnerlogo kam auf 1.87:1.
+// Dunkles Thema: DIESELBE Normalisierung, danach invertiert.
+//
+// Das ist der Kniff. Weil brightness(0.4) alles zuvor in den Bereich 0-0.4
+// legt, landet die Umkehrung geschlossen bei 0.6-1.0 — hell genug auf dunklem
+// Grund, und der Strukturabstand bleibt derselbe wie im hellen Thema. Ein
+// blosses Aufhellen (brightness > 1) reicht nicht: dunkle Logos blieben dabei
+// dunkel, ein Partnerlogo kam auf 1,87:1.
+//
+//   hellste Stelle auf dem dunklen Grund   17,9:1
+//   dunkelste Stelle                        6,3:1
 .neo-dark-theme .nc-logo-wall--mono,
-[data-theme='neo-dark-theme'] .nc-logo-wall--mono {
-  --nc-logo-wall-logo-filter: grayscale(100%) brightness(0) invert(1);
-  --nc-logo-wall-logo-opacity: 0.92;
+[data-theme='neo-dark-theme'] .nc-logo-wall--mono,
+.neo-mono-dark .nc-logo-wall--mono {
+  --nc-logo-wall-logo-filter: grayscale(100%) contrast(1.1) brightness(0.4) invert(1);
+  --nc-logo-wall-logo-opacity: 1;
+  --nc-logo-wall-logo-filter-hover: grayscale(0) invert(0);
 }
 
 // ---------------------------------------------------------------------------

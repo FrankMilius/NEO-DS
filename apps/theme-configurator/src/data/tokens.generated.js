@@ -9887,13 +9887,13 @@ export const componentTokenGroups = [
         "id": "nc-card-summary-icon-size",
         "label": "Summary Icon Size",
         "type": "size",
-        "default": "32px"
+        "default": "60px"
       },
       {
         "id": "nc-card-summary-icon-color",
         "label": "Summary Icon Color",
         "type": "color",
-        "ref": "text-accent"
+        "default": "var(--fnd-neutral-800)"
       },
       {
         "id": "nc-card-summary-icon-spacing",
@@ -15744,25 +15744,25 @@ export const componentTokenGroups = [
         "id": "nc-hero-kicker-bg",
         "label": "Kicker BG",
         "type": "color",
-        "ref": "background-accent"
+        "default": "transparent"
       },
       {
         "id": "nc-hero-kicker-color",
         "label": "Kicker Color",
         "type": "color",
-        "ref": "on-accent"
+        "default": "var(--nc-hero-color)"
       },
       {
         "id": "nc-hero-kicker-radius",
         "label": "Kicker Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "0"
       },
       {
         "id": "nc-hero-kicker-padding",
         "label": "Kicker Padding",
         "type": "spacing",
-        "default": "var(--fnd-spacing-01) var(--fnd-spacing-03)"
+        "default": "0"
       },
       {
         "id": "nc-hero-highlights-gap",
@@ -17993,7 +17993,7 @@ export const componentTokenGroups = [
         "id": "nc-section-header-label-font-weight",
         "label": "Label Font Weight",
         "type": "fontWeight",
-        "default": "var(--nc-kicker-font-weight)"
+        "default": "800"
       },
       {
         "id": "nc-section-header-label-letter-spacing",
@@ -18011,7 +18011,7 @@ export const componentTokenGroups = [
         "id": "nc-section-header-label-color",
         "label": "Label Color",
         "type": "color",
-        "default": "var(--nc-kicker-color)"
+        "default": "var(--fnd-neutral-800)"
       },
       {
         "id": "nc-section-header-label-spacing",

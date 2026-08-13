@@ -339,12 +339,14 @@
   --nc-card-action-icon-size: 48px;
   // Icon der Summary-Karte (Bereichs-/Uebersichtskarten). Vorher stand die
   // Groesse als font-size:2rem inline im JS-generierten Markup.
-  --nc-card-summary-icon-size: 32px;
+  --nc-card-summary-icon-size: 60px;
   // text-accent (#0e7490 -> 5,36:1 auf Weiss), NICHT interactive-default:
   // letzteres ist #009fe3 und kommt auf der Kartenflaeche nur auf 2,97:1 —
   // unter dem WCAG-Minimum von 3:1 fuer Nicht-Text (1.4.11). interactive-*
   // ist fuer interaktive FLAECHEN gedacht (Buttons), nicht fuer Vordergrund.
-  --nc-card-summary-icon-color: var(--fnd-color-text-accent);
+  // Dasselbe dunkle Grau wie die Bereichsbezeichnung — beide sind
+  // Einordnung, nicht Aufruf.
+  --nc-card-summary-icon-color: var(--fnd-neutral-800);
   --nc-card-summary-icon-spacing: var(--fnd-spacing-03);
 
   // ---------------------------------------------------------------------------
@@ -3182,10 +3184,17 @@
   --nc-hero-kicker-weight:         var(--nc-mono-label-weight-strong);
   --nc-hero-kicker-tracking:       var(--nc-mono-tracking-caps);
   --nc-hero-kicker-transform:      uppercase;
-  --nc-hero-kicker-bg:             var(--fnd-color-background-accent);
-  --nc-hero-kicker-color:          var(--fnd-color-on-accent);
-  --nc-hero-kicker-radius:         var(--fnd-radius-sm);
-  --nc-hero-kicker-padding:        var(--fnd-spacing-01) var(--fnd-spacing-03);
+  // ZURUECKGENOMMEN am 2026-08-13. Die Dachzeile trug seit der
+  // Komponenten-Aufnahme eine Lime-Flaeche mit dunkler Schrift; davor stand
+  // sie frei in der Hero-Textfarbe. Nach der Sichtpruefung: freistehend.
+  //
+  // Sachlich ist das auch stimmiger — der Akzent markiert die eine HANDLUNG.
+  // Eine Dachzeile ordnet ein, sie ruft nicht auf. Ein Etikett an dieser
+  // Stelle nimmt dem Knopf darunter die Aufmerksamkeit.
+  --nc-hero-kicker-bg:             transparent;
+  --nc-hero-kicker-color:          var(--nc-hero-color);
+  --nc-hero-kicker-radius:         0;
+  --nc-hero-kicker-padding:        0;
 
   // -- Highlights (Bullet List) --
   --nc-hero-highlights-gap:        var(--fnd-spacing-02);
@@ -3939,10 +3948,14 @@
 
   // Label (Eyebrow) — referenziert den kanonischen Kicker-Satz
   --nc-section-header-label-font-size: var(--nc-kicker-font-size);
-  --nc-section-header-label-font-weight: var(--nc-kicker-font-weight);
+  --nc-section-header-label-font-weight: 800;
   --nc-section-header-label-letter-spacing: var(--nc-kicker-letter-spacing);
   --nc-section-header-label-text-transform: var(--nc-kicker-text-transform);
-  --nc-section-header-label-color: var(--nc-kicker-color);
+  // Dunkles Grau statt Akzentfarbe. Eine Bereichsbezeichnung ordnet ein — sie
+  // ist keine Handlung, und der Akzent bleibt der einen Handlung vorbehalten.
+  // Graphit 800 statt 950: deutlich dunkel, aber als GRAU erkennbar und
+  // dadurch von der Ueberschrift darunter unterschieden. 9,98:1 auf Weiss.
+  --nc-section-header-label-color: var(--fnd-neutral-800);
   --nc-section-header-label-spacing: var(--nc-kicker-spacing);
 
   // Abstand der Badge-Zeile zum Kicker. Groesser als der Abstand ZWISCHEN den
