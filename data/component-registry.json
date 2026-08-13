@@ -1,6 +1,6 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-03-27",
+  "generated": "2026-08-13",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
@@ -82,7 +82,7 @@
       "name": "border",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.border",
-      "tokenCount": 16,
+      "tokenCount": 19,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_border.scss"
@@ -176,7 +176,7 @@
       "name": "layout",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.layout",
-      "tokenCount": 28,
+      "tokenCount": 41,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_layout.scss",
@@ -293,6 +293,27 @@
         "story": true
       }
     },
+    "state_derivation": {
+      "name": "state_derivation",
+      "category": "foundation",
+      "tokenSource": "data/design-tokens.json → foundation.state_derivation",
+      "tokenCount": 6,
+      "paths": {
+        "scss": [],
+        "generatedScss": [],
+        "docs": null,
+        "editor": null,
+        "story": null
+      },
+      "coverage": {
+        "tokenSource": true,
+        "scss": false,
+        "generatedScss": false,
+        "docs": false,
+        "editor": false,
+        "story": false
+      }
+    },
     "color-primitives": {
       "name": "color-primitives",
       "category": "foundation",
@@ -322,7 +343,7 @@
       "name": "color-semantic",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → semantic",
-      "tokenCount": 406,
+      "tokenCount": 413,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_color-semantic.scss",
@@ -452,12 +473,32 @@
         "scss": [
           "scss/scss/04-objects/_aspect-ratio.scss"
         ],
-        "story": null,
+        "story": "stories/organisms/aspect-ratio.stories.js",
         "arena": null,
         "docs": null
       },
       "coverage": {
         "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "docs": false
+      }
+    },
+    "container-intent": {
+      "name": "container-intent",
+      "layer": "object",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/04-objects/_container-intent.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
         "scss": true,
         "story": false,
         "arena": false,
@@ -484,6 +525,26 @@
         "docs": true
       }
     },
+    "content": {
+      "name": "content",
+      "layer": "object",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/04-objects/_content.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "docs": false
+      }
+    },
     "grid": {
       "name": "grid",
       "layer": "object",
@@ -502,6 +563,46 @@
         "story": true,
         "arena": true,
         "docs": true
+      }
+    },
+    "media-frame": {
+      "name": "media-frame",
+      "layer": "object",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/04-objects/_media-frame.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "docs": false
+      }
+    },
+    "prose": {
+      "name": "prose",
+      "layer": "object",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/04-objects/_prose.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "docs": false
       }
     },
     "section": {
@@ -532,14 +633,14 @@
         "scss": [
           "scss/scss/04-objects/_video.scss"
         ],
-        "story": null,
+        "story": "stories/organisms/video.stories.js",
         "arena": null,
         "docs": "docs/video-docs.html"
       },
       "coverage": {
         "recipe": true,
         "scss": true,
-        "story": false,
+        "story": true,
         "arena": false,
         "docs": true
       }
@@ -556,10 +657,7 @@
         ],
         "story": "stories/molecules/accordion.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/AccordionArena.vue",
-        "drupal": [
-          "block--block-content--neo-accordion.html.twig",
-          "block--inline-block--neo-accordion.html.twig"
-        ],
+        "drupal": [],
         "docs": "docs/accordion-docs.html"
       },
       "coverage": {
@@ -567,10 +665,33 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": true,
+        "drupal": false,
         "docs": true
       },
-      "coverageScore": 6
+      "coverageScore": 5
+    },
+    "accordion-block": {
+      "name": "accordion-block",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_accordion-block.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
     },
     "alert": {
       "name": "alert",
@@ -626,11 +747,11 @@
     },
     "aspect-ratio": {
       "name": "aspect-ratio",
-      "layer": "unknown",
+      "layer": "organism",
       "paths": {
         "recipe": "data/aspect-ratio-recipe.json",
         "scss": [],
-        "story": null,
+        "story": "stories/organisms/aspect-ratio.stories.js",
         "arena": null,
         "drupal": [],
         "docs": null
@@ -638,12 +759,12 @@
       "coverage": {
         "recipe": true,
         "scss": false,
-        "story": false,
+        "story": true,
         "arena": false,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
+      "coverageScore": 2
     },
     "avatar": {
       "name": "avatar",
@@ -691,6 +812,29 @@
       },
       "coverageScore": 5
     },
+    "badge-row": {
+      "name": "badge-row",
+      "layer": "atom",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/05-atoms/_badge-row.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
     "banner": {
       "name": "banner",
       "layer": "organism",
@@ -714,6 +858,75 @@
       },
       "coverageScore": 5
     },
+    "bento-grid": {
+      "name": "bento-grid",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/bento-grid-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_bento-grid.scss"
+        ],
+        "story": "stories/organisms/bento-grid.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "bento-section": {
+      "name": "bento-section",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_bento-section.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
+    "block-bundle": {
+      "name": "block-bundle",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_block-bundle.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
     "breadcrumb": {
       "name": "breadcrumb",
       "layer": "molecule",
@@ -736,6 +949,29 @@
         "docs": true
       },
       "coverageScore": 5
+    },
+    "breadcrumb-section": {
+      "name": "breadcrumb-section",
+      "layer": "molecule",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/06-molecules/_breadcrumb-section.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
     },
     "button": {
       "name": "button",
@@ -784,18 +1020,17 @@
       },
       "coverageScore": 5
     },
-    "card-grid": {
-      "name": "card-grid",
-      "layer": "organism",
+    "card-cta": {
+      "name": "card-cta",
+      "layer": "molecule",
       "paths": {
-        "recipe": "data/card-grid-recipe.json",
-        "scss": [],
-        "story": "stories/organisms/card-grid.stories.js",
-        "arena": null,
-        "drupal": [
-          "block--block-content--neo-card-grid.html.twig",
-          "block--inline-block--neo-card-grid.html.twig"
+        "recipe": "data/card-cta-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_card-cta.scss"
         ],
+        "story": "stories/molecules/card-cta.stories.js",
+        "arena": null,
+        "drupal": [],
         "docs": null
       },
       "dependencies": [
@@ -803,26 +1038,25 @@
       ],
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
     },
-    "card-grid-cta": {
-      "name": "card-grid-cta",
-      "layer": "organism",
+    "card-grid": {
+      "name": "card-grid",
+      "layer": "molecule",
       "paths": {
-        "recipe": "data/card-grid-cta-recipe.json",
-        "scss": [],
-        "story": "stories/organisms/card-grid-cta.stories.js",
-        "arena": null,
-        "drupal": [
-          "block--block-content--neo-card-grid-cta.html.twig",
-          "block--inline-block--neo-card-grid-cta.html.twig"
+        "recipe": "data/card-grid-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_card-grid.scss"
         ],
+        "story": "stories/organisms/card-grid.stories.js",
+        "arena": null,
+        "drupal": [],
         "docs": null
       },
       "dependencies": [
@@ -830,13 +1064,85 @@
       ],
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
+    },
+    "card-grid-cq": {
+      "name": "card-grid-cq",
+      "layer": "molecule",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/06-molecules/_card-grid-cq.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
+    "card-grid-cta": {
+      "name": "card-grid-cta",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/card-grid-cta-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_card-grid-cta.scss"
+        ],
+        "story": "stories/organisms/card-grid-cta.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "dependencies": [
+        "card"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "card-grid-section": {
+      "name": "card-grid-section",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_card-grid-section.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
     },
     "carousel": {
       "name": "carousel",
@@ -956,6 +1262,29 @@
         "docs": true
       },
       "coverageScore": 5
+    },
+    "compare-table": {
+      "name": "compare-table",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/compare-table-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_compare-table.scss"
+        ],
+        "story": "stories/organisms/compare-table.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "component": {
       "name": "component",
@@ -1140,6 +1469,75 @@
       },
       "coverageScore": 4
     },
+    "event": {
+      "name": "event",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/event-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_event.scss"
+        ],
+        "story": "stories/organisms/event.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "events": {
+      "name": "events",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/events-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_events.scss"
+        ],
+        "story": "stories/organisms/events.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "expanding-panels": {
+      "name": "expanding-panels",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/expanding-panels-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_expanding-panels.scss"
+        ],
+        "story": "stories/organisms/expanding-panels.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
     "facts": {
       "name": "facts",
       "layer": "molecule",
@@ -1168,21 +1566,20 @@
       "layer": "organism",
       "paths": {
         "recipe": "data/fade-gallery-recipe.json",
-        "scss": [],
+        "scss": [
+          "scss/scss/07-organisms/_fade-gallery.scss"
+        ],
         "story": "stories/organisms/fade-gallery.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-fade-gallery.html.twig",
-          "block--inline-block--neo-fade-gallery.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
@@ -1232,6 +1629,29 @@
         "docs": true
       },
       "coverageScore": 4
+    },
+    "feature-list": {
+      "name": "feature-list",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/feature-list-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_feature-list.scss"
+        ],
+        "story": "stories/organisms/feature-list.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "fieldset": {
       "name": "fieldset",
@@ -1320,10 +1740,7 @@
         ],
         "story": "stories/organisms/form.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-form.html.twig",
-          "block--inline-block--neo-form.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "dependencies": [
@@ -1334,10 +1751,10 @@
         "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 3
     },
     "form-actions": {
       "name": "form-actions",
@@ -1373,7 +1790,7 @@
         "scss": [
           "scss/scss/07-organisms/_form-block.scss"
         ],
-        "story": null,
+        "story": "stories/organisms/form-block.stories.js",
         "arena": null,
         "drupal": [],
         "docs": null
@@ -1384,12 +1801,12 @@
       "coverage": {
         "recipe": true,
         "scss": true,
-        "story": false,
+        "story": true,
         "arena": false,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 2
+      "coverageScore": 3
     },
     "form-error": {
       "name": "form-error",
@@ -1472,6 +1889,29 @@
         "docs": false
       },
       "coverageScore": 3
+    },
+    "form-hp": {
+      "name": "form-hp",
+      "layer": "atom",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/05-atoms/_form-hp.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
     },
     "form-label": {
       "name": "form-label",
@@ -1556,10 +1996,7 @@
         ],
         "story": "stories/organisms/gallery.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-gallery.html.twig",
-          "block--inline-block--neo-gallery.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "coverage": {
@@ -1567,10 +2004,10 @@
         "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 3
     },
     "grid": {
       "name": "grid",
@@ -1626,10 +2063,7 @@
         ],
         "story": "stories/organisms/hero.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/HeroArena.vue",
-        "drupal": [
-          "block--block-content--neo-hero.html.twig",
-          "block--inline-block--neo-hero.html.twig"
-        ],
+        "drupal": [],
         "docs": "docs/hero-docs.html"
       },
       "coverage": {
@@ -1637,23 +2071,22 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": true,
+        "drupal": false,
         "docs": true
       },
-      "coverageScore": 6
+      "coverageScore": 5
     },
     "hero-tmob": {
       "name": "hero-tmob",
       "layer": "organism",
       "paths": {
         "recipe": "data/hero-tmob-recipe.json",
-        "scss": [],
+        "scss": [
+          "scss/scss/07-organisms/_hero-tmob.scss"
+        ],
         "story": "stories/organisms/hero-tmob.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-hero-tmob.html.twig",
-          "block--inline-block--neo-hero-tmob.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "dependencies": [
@@ -1661,10 +2094,10 @@
       ],
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
@@ -1674,13 +2107,12 @@
       "layer": "organism",
       "paths": {
         "recipe": "data/hero-tom-recipe.json",
-        "scss": [],
+        "scss": [
+          "scss/scss/07-organisms/_hero-tom.scss"
+        ],
         "story": "stories/organisms/hero-tom.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-hero-tom.html.twig",
-          "block--inline-block--neo-hero-tom.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "dependencies": [
@@ -1688,10 +2120,10 @@
       ],
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
@@ -1870,10 +2302,7 @@
         ],
         "story": "stories/molecules/logo-wall.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-logo-wall.html.twig",
-          "block--inline-block--neo-logo-wall.html.twig"
-        ],
+        "drupal": [],
         "docs": "docs/logo-wall-docs.html"
       },
       "coverage": {
@@ -1881,10 +2310,10 @@
         "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 4
     },
     "marquee": {
       "name": "marquee",
@@ -1932,6 +2361,29 @@
       },
       "coverageScore": 5
     },
+    "mobile-drawer": {
+      "name": "mobile-drawer",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/mobile-drawer-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_mobile-drawer.scss"
+        ],
+        "story": "stories/organisms/mobile-drawer.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
     "modal": {
       "name": "modal",
       "layer": "organism",
@@ -1954,6 +2406,29 @@
         "docs": true
       },
       "coverageScore": 5
+    },
+    "multiselect": {
+      "name": "multiselect",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/multiselect-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_multiselect.scss"
+        ],
+        "story": "stories/molecules/multiselect.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "nav-atoms": {
       "name": "nav-atoms",
@@ -2082,6 +2557,29 @@
         "docs": false
       },
       "coverageScore": 2
+    },
+    "news": {
+      "name": "news",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/news-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_news.scss"
+        ],
+        "story": "stories/organisms/news.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "notification": {
       "name": "notification",
@@ -2229,10 +2727,7 @@
         ],
         "story": "stories/organisms/product-showcase.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-product-showcase.html.twig",
-          "block--inline-block--neo-product-showcase.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "coverage": {
@@ -2240,10 +2735,10 @@
         "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 3
     },
     "progress": {
       "name": "progress",
@@ -2406,6 +2901,29 @@
       },
       "coverageScore": 1
     },
+    "reference-page": {
+      "name": "reference-page",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_reference-page.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
     "scroll-expand": {
       "name": "scroll-expand",
       "layer": "organism",
@@ -2471,6 +2989,29 @@
       },
       "coverageScore": 5
     },
+    "searchbar": {
+      "name": "searchbar",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/searchbar-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_searchbar.scss"
+        ],
+        "story": "stories/molecules/searchbar.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
     "section": {
       "name": "section",
       "layer": "organism",
@@ -2494,6 +3035,52 @@
         "docs": true
       },
       "coverageScore": 4
+    },
+    "section-header": {
+      "name": "section-header",
+      "layer": "molecule",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/06-molecules/_section-header.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
+    "section-intro": {
+      "name": "section-intro",
+      "layer": "molecule",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/06-molecules/_section-intro.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
     },
     "security-list": {
       "name": "security-list",
@@ -2569,7 +3156,9 @@
       "layer": "organism",
       "paths": {
         "recipe": "data/shell-recipe.json",
-        "scss": [],
+        "scss": [
+          "scss/scss/07-organisms/_shell.scss"
+        ],
         "story": "stories/organisms/shell.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/ShellArena.vue",
         "drupal": [],
@@ -2577,13 +3166,13 @@
       },
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "sidebar": {
       "name": "sidebar",
@@ -2677,6 +3266,29 @@
         "docs": true
       },
       "coverageScore": 5
+    },
+    "solution-tabs": {
+      "name": "solution-tabs",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/solution-tabs-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_solution-tabs.scss"
+        ],
+        "story": "stories/organisms/solution-tabs.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "solutions": {
       "name": "solutions",
@@ -2842,21 +3454,20 @@
       "layer": "organism",
       "paths": {
         "recipe": "data/story-gallery-recipe.json",
-        "scss": [],
+        "scss": [
+          "scss/scss/07-organisms/_story-gallery.scss"
+        ],
         "story": "stories/organisms/story-gallery.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-story-gallery.html.twig",
-          "block--inline-block--neo-story-gallery.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "coverage": {
         "recipe": true,
-        "scss": false,
+        "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
       "coverageScore": 3
@@ -2884,6 +3495,29 @@
       },
       "coverageScore": 5
     },
+    "tab-nav": {
+      "name": "tab-nav",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/tab-nav-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_tab-nav.scss"
+        ],
+        "story": "stories/molecules/tab-nav.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
     "table": {
       "name": "table",
       "layer": "atom",
@@ -2894,10 +3528,7 @@
         ],
         "story": "stories/organisms/table.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/TableArena.vue",
-        "drupal": [
-          "block--block-content--neo-table.html.twig",
-          "block--inline-block--neo-table.html.twig"
-        ],
+        "drupal": [],
         "docs": "docs/table-docs.html"
       },
       "coverage": {
@@ -2905,10 +3536,62 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": true,
+        "drupal": false,
         "docs": true
       },
-      "coverageScore": 6
+      "coverageScore": 5
+    },
+    "table-block": {
+      "name": "table-block",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/table-block-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_table-block.scss"
+        ],
+        "story": "stories/molecules/table-block.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "dependencies": [
+        "table"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "table-info-modal": {
+      "name": "table-info-modal",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/table-info-modal-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_table-info-modal.scss"
+        ],
+        "story": "stories/organisms/table-info-modal.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "dependencies": [
+        "table"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "tabs": {
       "name": "tabs",
@@ -2918,7 +3601,7 @@
         "scss": [
           "scss/scss/06-molecules/_tabs.scss"
         ],
-        "story": null,
+        "story": "stories/molecules/tabs.stories.js",
         "arena": null,
         "drupal": [],
         "docs": "docs/tabs-docs.html"
@@ -2926,12 +3609,12 @@
       "coverage": {
         "recipe": true,
         "scss": true,
-        "story": false,
+        "story": true,
         "arena": false,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "tag": {
       "name": "tag",
@@ -2956,6 +3639,52 @@
       },
       "coverageScore": 5
     },
+    "tbl-cell": {
+      "name": "tbl-cell",
+      "layer": "atom",
+      "paths": {
+        "recipe": "data/tbl-cell-recipe.json",
+        "scss": [
+          "scss/scss/05-atoms/_tbl-cell.scss"
+        ],
+        "story": "stories/atoms/tbl-cell.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
+    "tbl-icon": {
+      "name": "tbl-icon",
+      "layer": "atom",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/05-atoms/_tbl-icon.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
     "testimonial": {
       "name": "testimonial",
       "layer": "molecule",
@@ -2978,6 +3707,32 @@
         "docs": true
       },
       "coverageScore": 4
+    },
+    "testimonial-grid": {
+      "name": "testimonial-grid",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/testimonial-grid-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_testimonial-grid.scss"
+        ],
+        "story": "stories/molecules/testimonial-grid.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "dependencies": [
+        "testimonial"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "text-blocks": {
       "name": "text-blocks",
@@ -3005,6 +3760,29 @@
       },
       "coverageScore": 4
     },
+    "text-cta": {
+      "name": "text-cta",
+      "layer": "organism",
+      "paths": {
+        "recipe": null,
+        "scss": [
+          "scss/scss/07-organisms/_text-cta.scss"
+        ],
+        "story": null,
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": false,
+        "scss": true,
+        "story": false,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 1
+    },
     "text-media": {
       "name": "text-media",
       "layer": "organism",
@@ -3015,10 +3793,7 @@
         ],
         "story": "stories/organisms/text-media.stories.js",
         "arena": null,
-        "drupal": [
-          "block--block-content--neo-text-media.html.twig",
-          "block--inline-block--neo-text-media.html.twig"
-        ],
+        "drupal": [],
         "docs": null
       },
       "coverage": {
@@ -3026,10 +3801,10 @@
         "scss": true,
         "story": true,
         "arena": false,
-        "drupal": true,
+        "drupal": false,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 3
     },
     "text-only": {
       "name": "text-only",
@@ -3090,6 +3865,9 @@
         "drupal": [],
         "docs": "docs/timeline-docs.html"
       },
+      "dependencies": [
+        "section"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -3240,11 +4018,11 @@
     },
     "video": {
       "name": "video",
-      "layer": "unknown",
+      "layer": "organism",
       "paths": {
         "recipe": "data/video-recipe.json",
         "scss": [],
-        "story": null,
+        "story": "stories/organisms/video.stories.js",
         "arena": null,
         "drupal": [],
         "docs": "docs/video-docs.html"
@@ -3252,12 +4030,12 @@
       "coverage": {
         "recipe": true,
         "scss": false,
-        "story": false,
+        "story": true,
         "arena": false,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 2
+      "coverageScore": 3
     },
     "video-section": {
       "name": "video-section",
@@ -3467,6 +4245,38 @@
         "story": false
       }
     },
+    "block-roles": {
+      "name": "block-roles",
+      "layer": "utility",
+      "paths": {
+        "scss": [
+          "scss/scss/10-utilities/_block-roles.scss"
+        ],
+        "docs": null,
+        "story": null
+      },
+      "coverage": {
+        "scss": true,
+        "docs": false,
+        "story": false
+      }
+    },
+    "content-width": {
+      "name": "content-width",
+      "layer": "utility",
+      "paths": {
+        "scss": [
+          "scss/scss/10-utilities/_content-width.scss"
+        ],
+        "docs": null,
+        "story": null
+      },
+      "coverage": {
+        "scss": true,
+        "docs": false,
+        "story": false
+      }
+    },
     "fragment": {
       "name": "fragment",
       "layer": "utility",
@@ -3499,6 +4309,22 @@
         "story": true
       }
     },
+    "sr-only": {
+      "name": "sr-only",
+      "layer": "utility",
+      "paths": {
+        "scss": [
+          "scss/scss/10-utilities/_sr-only.scss"
+        ],
+        "docs": null,
+        "story": null
+      },
+      "coverage": {
+        "scss": true,
+        "docs": false,
+        "story": false
+      }
+    },
     "themes": {
       "name": "themes",
       "layer": "utility",
@@ -3512,6 +4338,22 @@
       "coverage": {
         "scss": true,
         "docs": true,
+        "story": false
+      }
+    },
+    "type-utilities": {
+      "name": "type-utilities",
+      "layer": "utility",
+      "paths": {
+        "scss": [
+          "scss/scss/10-utilities/_type-utilities.scss"
+        ],
+        "docs": null,
+        "story": null
+      },
+      "coverage": {
+        "scss": true,
+        "docs": false,
         "story": false
       }
     },
@@ -3627,25 +4469,25 @@
   },
   "stats": {
     "components": {
-      "total": 115,
-      "withRecipe": 111,
-      "withScss": 94,
-      "withStory": 107,
+      "total": 145,
+      "withRecipe": 128,
+      "withScss": 131,
+      "withStory": 128,
       "withArena": 57,
-      "withDrupal": 14,
+      "withDrupal": 0,
       "withDocs": 84
     },
     "foundations": {
-      "total": 14,
+      "total": 15,
       "withDocs": 14,
       "withEditor": 12,
       "withStory": 10
     },
     "objects": {
-      "total": 5,
+      "total": 9,
       "withRecipe": 5,
       "withDocs": 4,
-      "withStory": 3
+      "withStory": 5
     },
     "templates": {
       "total": 9,
@@ -3654,7 +4496,7 @@
       "withLayoutPreset": 1
     },
     "utilities": {
-      "total": 6,
+      "total": 10,
       "withDocs": 5,
       "withStory": 1
     },
@@ -3665,33 +4507,40 @@
     },
     "layoutPresets": 15,
     "coverageDistribution": {
-      "6/6": 3,
-      "5/6": 45,
-      "1/6": 3,
-      "3/6": 19,
-      "4/6": 37,
-      "2/6": 8
+      "5/6": 48,
+      "1/6": 15,
+      "2/6": 7,
+      "3/6": 41,
+      "4/6": 34
     }
   },
   "gaps": {
     "components": {
       "missingRecipe": [
+        "accordion-block",
+        "badge-row",
+        "bento-section",
+        "block-bundle",
+        "breadcrumb-section",
+        "card-grid-cq",
+        "card-grid-section",
         "component",
+        "form-hp",
         "form-layout",
         "recipe-specimen",
-        "sizes"
+        "reference-page",
+        "section-header",
+        "section-intro",
+        "sizes",
+        "tbl-icon",
+        "text-cta"
       ],
       "missingScss": [
         "aspect-ratio",
-        "card-grid",
-        "card-grid-cta",
         "component",
         "container",
-        "fade-gallery",
         "form-layout",
         "grid",
-        "hero-tmob",
-        "hero-tom",
         "navigation-orchestration",
         "parallax-bg",
         "psychedelic-bg",
@@ -3699,34 +4548,55 @@
         "scroll-expand",
         "scroll-reveal",
         "section",
-        "shell",
         "spacing",
-        "story-gallery",
         "video"
       ],
       "missingStory": [
-        "aspect-ratio",
+        "accordion-block",
+        "badge-row",
+        "bento-section",
+        "block-bundle",
+        "breadcrumb-section",
+        "card-grid-cq",
+        "card-grid-section",
         "component",
-        "form-block",
+        "form-hp",
         "form-layout",
         "recipe-specimen",
+        "reference-page",
+        "section-header",
+        "section-intro",
         "sizes",
-        "tabs",
-        "video"
+        "tbl-icon",
+        "text-cta"
       ],
       "missingArena": [
+        "accordion-block",
         "aspect-ratio",
+        "badge-row",
+        "bento-grid",
+        "bento-section",
+        "block-bundle",
+        "breadcrumb-section",
+        "card-cta",
         "card-grid",
+        "card-grid-cq",
         "card-grid-cta",
+        "card-grid-section",
         "carousel",
         "checkbox-group",
+        "compare-table",
         "cta",
         "divider",
         "empty-state",
+        "event",
+        "events",
+        "expanding-panels",
         "facts",
         "fade-gallery",
         "faq",
         "feature-accordion",
+        "feature-list",
         "file-upload",
         "footer",
         "form",
@@ -3734,6 +4604,7 @@
         "form-block",
         "form-error",
         "form-hint",
+        "form-hp",
         "form-label",
         "form-section",
         "gallery",
@@ -3745,28 +4616,43 @@
         "link-with-arrow",
         "logo-wall",
         "marquee",
+        "mobile-drawer",
+        "multiselect",
         "nav-atoms",
         "nav-molecules",
         "navigation-orchestration",
+        "news",
         "otp-input",
         "parallax-bg",
         "pricing",
         "product-showcase",
         "question",
         "radio-group",
+        "reference-page",
         "scroll-expand",
         "scroll-reveal",
+        "searchbar",
+        "section-header",
+        "section-intro",
         "security-list",
         "sizes",
+        "solution-tabs",
         "solutions",
         "spacing",
         "square",
         "square-value",
         "stepper",
         "story-gallery",
+        "tab-nav",
+        "table-block",
+        "table-info-modal",
         "tabs",
+        "tbl-cell",
+        "tbl-icon",
         "testimonial",
+        "testimonial-grid",
         "text-blocks",
+        "text-cta",
         "text-media",
         "text-only",
         "timeline",
@@ -3775,60 +4661,105 @@
         "video-section"
       ],
       "missingDocs": [
+        "accordion-block",
         "aspect-ratio",
+        "badge-row",
+        "bento-grid",
+        "bento-section",
+        "block-bundle",
+        "breadcrumb-section",
+        "card-cta",
         "card-grid",
+        "card-grid-cq",
         "card-grid-cta",
+        "card-grid-section",
         "checkbox-group",
+        "compare-table",
         "component",
+        "event",
+        "events",
+        "expanding-panels",
         "fade-gallery",
+        "feature-list",
         "fieldset",
         "form",
         "form-actions",
         "form-block",
         "form-error",
         "form-hint",
+        "form-hp",
         "form-label",
         "form-section",
         "gallery",
         "hero-tmob",
         "hero-tom",
         "icon",
+        "mobile-drawer",
+        "multiselect",
         "nav-molecules",
         "navigation-orchestration",
+        "news",
         "parallax-bg",
         "product-showcase",
         "psychedelic-bg",
         "radio-group",
         "recipe-specimen",
+        "reference-page",
         "scroll-expand",
         "scroll-reveal",
+        "searchbar",
+        "section-header",
+        "section-intro",
+        "solution-tabs",
         "story-gallery",
+        "tab-nav",
+        "table-block",
+        "table-info-modal",
+        "tbl-cell",
+        "tbl-icon",
+        "testimonial-grid",
+        "text-cta",
         "text-media",
         "toggle-group",
         "validation-summary"
       ]
     },
     "foundations": {
-      "missingDocs": [],
+      "missingDocs": [
+        "state_derivation"
+      ],
       "missingEditor": [
         "breakpoints",
-        "a11y"
+        "a11y",
+        "state_derivation"
       ],
       "missingStory": [
         "shadow",
         "elevation",
+        "state_derivation",
         "color-primitives",
         "color-semantic"
       ]
     },
     "objects": {
-      "missingRecipe": [],
+      "missingRecipe": [
+        "container-intent",
+        "content",
+        "media-frame",
+        "prose"
+      ],
       "missingDocs": [
-        "aspect-ratio"
+        "aspect-ratio",
+        "container-intent",
+        "content",
+        "media-frame",
+        "prose"
       ],
       "missingStory": [
-        "aspect-ratio",
-        "video"
+        "container-intent",
+        "content",
+        "media-frame",
+        "prose"
       ]
     },
     "templates": {
@@ -3848,7 +4779,11 @@
     },
     "utilities": {
       "missingDocs": [
-        "fragment"
+        "block-roles",
+        "content-width",
+        "fragment",
+        "sr-only",
+        "type-utilities"
       ]
     }
   }
