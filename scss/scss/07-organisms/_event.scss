@@ -67,8 +67,13 @@
 }
 
 .nc-event__tag--type {
-  background: var(--fnd-color-interactive-default);
-  color: var(--fnd-color-on-accent);
+  // Ein Gattungsetikett ist weder Akzent noch Bedienung: Es ordnet ein, es
+  // ruft nicht auf und man kann es nicht anklicken. Vorher stand hier eine
+  // INTERAKTIVE Flaeche mit einer AKZENT-Schriftfarbe — das ging nur gut,
+  // solange beide dasselbe Cyan waren. Mit getrennten Rollen fiel die Paarung
+  // auf 1,32 und die Schrift verschwand.
+  background: var(--fnd-color-background-inverse);
+  color: var(--fnd-color-text-inverse);
 }
 
 .nc-event__title {

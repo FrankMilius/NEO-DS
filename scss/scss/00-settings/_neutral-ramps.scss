@@ -84,23 +84,26 @@ $neutral-leitern: (
 // ---------------------------------------------------------------------------
 // Lime — Akzent
 // ---------------------------------------------------------------------------
-// Stufe 300 ist der unveraenderte Markenwert #37e93d.
+// Stufe 500 ist der unveraenderte Markenwert #37e93d — die Konvention des
+// Systems, ueberall sonst ist 500 ebenfalls der Basiswert. Dass Lime dort
+// deutlich heller ist als etwa ein Blau-500, ist normal: bei gleicher
+// Stufennummer ist ein gelbgruener Ton immer heller.
 //
-// DIE LEITER ZERFAELLT BEI STUFE 600. Dort erreicht sie auf Weiss 4,58 — und
-// schwarze Schrift auf ihr 4,59. Darueber taugt Lime nur als FLAECHE, darunter
-// nur als SCHRIFT. Das ist keine Empfehlung, sondern Arithmetik:
+// DIE LEITER ZERFAELLT ZWISCHEN 700 UND 800. Oberhalb taugt Lime nur als
+// FLAECHE, unterhalb nur als SCHRIFT. Das ist keine Empfehlung, sondern
+// Arithmetik:
 //
-//   300 #37e93d   auf Weiss 1,63 (unbrauchbar)   schwarz darauf 12,89
-//   600 #00890f   auf Weiss 4,58                 schwarz darauf  4,59
-//   700 #006a09   auf Weiss 6,85                 schwarz darauf  3,07
+//   500 #37e93d   auf Weiss  1,63 (unbrauchbar)  schwarz darauf 12,89
+//   700 #009612   auf Weiss  3,91 (Rahmen ok)    schwarz darauf  5,37
+//   800 #006f0a   auf Weiss  6,41                schwarz darauf  3,28
 //
 // Deshalb ist der Akzent NIE Schrift auf hellem Grund. Textlinks tragen die
 // Textfarbe und einen Unterstrich im Akzent — siehe 03-elements/_links.scss.
 
 $lime: (
-   50: #f0ffef,  100: #bfffbb,  200: #52ff54,  300: #37e93d,
-  400: #00cb1c,  500: #00aa15,  600: #00890f,  700: #006a09,
-  800: #004d05,  900: #003202,  950: #001d01
+   50: #f0ffef,  100: #d0ffcd,  200: #a4ff9f,  300: #61ff61,
+  400: #3df643,  500: #37e93d,  600: #00c01a,  700: #009612,
+  800: #006f0a,  900: #004904,  950: #002801
 ) !default;
 
 // ---------------------------------------------------------------------------

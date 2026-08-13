@@ -1,0 +1,237 @@
+// ==========================================================================
+// 00-Settings: Bruecke von den Alt-Token auf die monochrome Grundlage
+// ==========================================================================
+// Die 71 `--fnd-color-*`-Token sind ueber ueber 100 Bauteile verteilt. Sie
+// alle von Hand auf die neuen Namen umzuschreiben waere ein Umbau von Wochen
+// mit hohem Risiko und ohne Gegenwert: Die Bauteile sprechen bereits eine
+// semantische Sprache, sie zeigt nur auf die falschen Werte.
+//
+// Diese Datei zeigt sie auf die richtigen. Ein Bauteil, das
+// `var(--fnd-color-text-primary)` benutzt, bekommt ab jetzt Graphit 950 —
+// ohne dass es angefasst wird.
+//
+// WAS DAS NICHT LEISTET
+// Die Bruecke kann keine Rolle erfinden, die es vorher nicht gab. Vier neue
+// Rollen muessen deshalb einzeln in die Bauteile:
+//   --border-control   Eingabefelder (WCAG 1.4.11, 3:1)
+//   --accent-*         getrennt von --interactive-*
+//   --elevation-*      Erhebung als eigene Achse
+//   --focus-inner/-outer  zweischichtiger Ring
+// Sie stehen in _mono-theme.scss und werden Bauteil fuer Bauteil nachgezogen.
+//
+// AUFGELOEST WIRD HIER AUCH EINE ALTLAST
+// `interactive-default` war gleichzeitig Etikettenflaeche, Knopfschrift,
+// Rahmen und Fokusfarbe. Eine Farbe mit vier Aufgaben ist keine Akzentfarbe,
+// sondern eine zweite Grundfarbe. Ab hier ist sie nur noch: anklickbar.
+// ==========================================================================
+
+@use 'neutral-ramps' as r;
+
+@mixin bruecke-hell {
+  // -- Flaechen -------------------------------------------------------------
+  --fnd-color-background-base:        #ffffff;
+  --fnd-color-background-secondary:   var(--fnd-neutral-100);
+  --fnd-color-background-tertiary:    var(--fnd-neutral-200);
+  --fnd-color-background-quaternary:  var(--fnd-neutral-300);
+  --fnd-color-background-quinary:     var(--fnd-neutral-400);
+  --fnd-color-background-hover:       var(--fnd-neutral-100);
+  --fnd-color-background-active:      var(--fnd-neutral-200);
+  --fnd-color-background-disabled:    var(--fnd-neutral-200);
+  --fnd-color-background-inverse:     var(--fnd-neutral-950);
+  --fnd-color-surface-elevated:       #ffffff;
+  --fnd-color-background-skeleton:         var(--fnd-neutral-200);
+  --fnd-color-background-skeleton-element: var(--fnd-neutral-300);
+  --fnd-color-background-overlay:     color-mix(in srgb, var(--fnd-neutral-950) 55%, transparent);
+  --fnd-color-background-transparency-low: color-mix(in srgb, var(--fnd-neutral-950) 4%, transparent);
+  --fnd-color-background-transparency-mid: color-mix(in srgb, var(--fnd-neutral-950) 8%, transparent);
+
+  // Ebenen nach Modell A. Die ersten beiden sind mit Modell C identisch.
+  --fnd-color-layer-01: var(--fnd-neutral-50);
+  --fnd-color-layer-02: var(--fnd-neutral-100);
+  --fnd-color-layer-03: var(--fnd-neutral-200);
+
+  // -- Text -----------------------------------------------------------------
+  --fnd-color-text-primary:   var(--fnd-neutral-950);   // 17,85
+  --fnd-color-text-secondary: var(--fnd-neutral-700);   //  6,77
+  --fnd-color-text-tertiary:  var(--fnd-neutral-600);   //  4,66
+  --fnd-color-text-disabled:  var(--fnd-neutral-500);   //  3,11
+  --fnd-color-text-inverse:   var(--fnd-neutral-50);
+  --fnd-color-text-difference: #ffffff;
+  --fnd-color-text-transparency-low: color-mix(in srgb, var(--fnd-neutral-950) 55%, transparent);
+  --fnd-color-text-transparency-mid: color-mix(in srgb, var(--fnd-neutral-950) 75%, transparent);
+
+  // Ein Link traegt die Textfarbe. Der Akzent sitzt im Unterstrich —
+  // als Schrift auf Weiss erreicht er 1,63 und waere unlesbar.
+  --fnd-color-text-link:       var(--fnd-neutral-950);
+  --fnd-color-text-link-hover: var(--fnd-neutral-800);
+
+  // -- Bedienung: monochrom -------------------------------------------------
+  --fnd-color-interactive-default: var(--fnd-neutral-900);
+  --fnd-color-interactive-hover:   var(--fnd-neutral-800);
+  --fnd-color-interactive-active:  var(--fnd-neutral-950);
+  --fnd-color-interactive-visited: var(--fnd-neutral-800);
+  --fnd-color-interactive-focus:   var(--fnd-neutral-950);
+  --fnd-color-text-on-interactive: var(--fnd-neutral-50);
+
+  // -- Akzent: bleibt die Marke ---------------------------------------------
+  --fnd-color-background-accent:           var(--fnd-accent-500);
+  --fnd-color-background-accent-secondary: var(--fnd-accent-600);
+  --fnd-color-on-accent:                   #000000;
+
+  // -- Rahmen ---------------------------------------------------------------
+  // `border-primary` bleibt die leise Trennlinie, damit sich das Bild nicht
+  // verhaertet. Eingabefelder bekommen `--border-control` — das ist die
+  // Rolle, die 3:1 braucht, und sie wird einzeln nachgezogen.
+  --fnd-color-border-primary:   var(--fnd-neutral-300);
+  --fnd-color-border-secondary: var(--fnd-neutral-200);
+  --fnd-color-border-hairline:  var(--fnd-neutral-200);
+  --fnd-color-border-mid-dark:  var(--fnd-neutral-600);
+  --fnd-color-border-disabled:  var(--fnd-neutral-200);
+  --fnd-color-border-strong:    var(--fnd-neutral-950);
+  --fnd-color-border-inverse:   #ffffff;
+
+  // -- Rueckmeldung ---------------------------------------------------------
+  // ERFOLG IST NICHT GRUEN. Bei Rot-Gruen-Sehschwaeche liegt ein Erfolgsgruen
+  // 0,4° vom Markenlime entfernt; beide werden zu demselben Gelb. Petrol
+  // liegt 175° entfernt.
+  --fnd-color-feedback-success: #00717a;
+  --fnd-color-feedback-warning: #92500a;
+  --fnd-color-feedback-danger:  #a31f1f;
+  --fnd-color-feedback-info:    #2563eb;
+  --fnd-color-text-success: #00717a;   // auf Weiss 5,76
+  --fnd-color-text-warning: #92500a;   //           6,22
+  --fnd-color-text-danger:  #a31f1f;   //           7,57
+  --fnd-color-text-info:    #2563eb;   //           5,17
+  --fnd-color-border-success: #00717a;
+  --fnd-color-border-warning: #92500a;
+  --fnd-color-border-danger:  #a31f1f;
+  --fnd-color-border-info:    #2563eb;
+  // Weiche Flaechen aus DEMSELBEN Farbton wie die Schrift abgeleitet, damit
+  // Flaeche und Schrift zusammengehoeren. Alle vier Paare ueber 4,5.
+  --fnd-color-background-success: #dbfcff;   // mit text-success 5,32
+  --fnd-color-background-warning: #fff2e8;   //                  5,67
+  --fnd-color-background-danger:  #fff1ef;   //                  6,88
+  --fnd-color-background-info:    #eff5ff;   //                  4,72
+  --fnd-color-on-success: #ffffff;
+  --fnd-color-on-warning: #ffffff;
+  --fnd-color-on-danger:  #ffffff;
+  --fnd-color-on-info:    #ffffff;
+  --fnd-color-on-surface:  var(--fnd-neutral-950);
+  --fnd-color-on-layer-01: var(--fnd-neutral-950);
+  --fnd-color-on-layer-02: var(--fnd-neutral-950);
+
+  // -- Die vergessenen Oberflaechen -----------------------------------------
+  --fnd-color-scrollbar-track: var(--fnd-neutral-100);
+  --fnd-color-scrollbar-thumb: var(--fnd-neutral-400);
+  --fnd-color-selection-bg:    var(--fnd-accent-500);
+  --fnd-color-selection-color: #000000;
+}
+
+@mixin bruecke-dunkel {
+  --fnd-color-background-base:        var(--fnd-neutral-950);
+  --fnd-color-background-secondary:   var(--fnd-neutral-900);
+  --fnd-color-background-tertiary:    var(--fnd-neutral-800);
+  --fnd-color-background-quaternary:  var(--fnd-neutral-700);
+  --fnd-color-background-quinary:     var(--fnd-neutral-600);
+  --fnd-color-background-hover:       var(--fnd-neutral-900);
+  --fnd-color-background-active:      var(--fnd-neutral-800);
+  --fnd-color-background-disabled:    var(--fnd-neutral-800);
+  --fnd-color-background-inverse:     var(--fnd-neutral-50);
+  --fnd-color-surface-elevated:       var(--fnd-neutral-900);
+  --fnd-color-background-skeleton:         var(--fnd-neutral-800);
+  --fnd-color-background-skeleton-element: var(--fnd-neutral-700);
+  --fnd-color-background-overlay:     color-mix(in srgb, #000000 70%, transparent);
+  --fnd-color-background-transparency-low: color-mix(in srgb, var(--fnd-neutral-50) 6%, transparent);
+  --fnd-color-background-transparency-mid: color-mix(in srgb, var(--fnd-neutral-50) 12%, transparent);
+
+  --fnd-color-layer-01: var(--fnd-neutral-900);
+  --fnd-color-layer-02: var(--fnd-neutral-800);
+  --fnd-color-layer-03: var(--fnd-neutral-700);
+
+  --fnd-color-text-primary:   var(--fnd-neutral-100);   // 16,01
+  --fnd-color-text-secondary: var(--fnd-neutral-400);   //  8,34
+  --fnd-color-text-tertiary:  var(--fnd-neutral-500);   //  5,75
+  --fnd-color-text-disabled:  var(--fnd-neutral-600);
+  --fnd-color-text-inverse:   var(--fnd-neutral-950);
+  --fnd-color-text-difference: #ffffff;
+  --fnd-color-text-transparency-low: color-mix(in srgb, var(--fnd-neutral-50) 55%, transparent);
+  --fnd-color-text-transparency-mid: color-mix(in srgb, var(--fnd-neutral-50) 75%, transparent);
+
+  --fnd-color-text-link:       var(--fnd-neutral-100);
+  --fnd-color-text-link-hover: #ffffff;
+
+  --fnd-color-interactive-default: var(--fnd-neutral-100);
+  --fnd-color-interactive-hover:   #ffffff;
+  --fnd-color-interactive-active:  var(--fnd-neutral-300);
+  --fnd-color-interactive-visited: var(--fnd-neutral-300);
+  --fnd-color-interactive-focus:   var(--fnd-neutral-50);
+  --fnd-color-text-on-interactive: var(--fnd-neutral-950);
+
+  --fnd-color-background-accent:           var(--fnd-accent-500);
+  --fnd-color-background-accent-secondary: var(--fnd-accent-400);
+  --fnd-color-on-accent:                   #000000;
+
+  --fnd-color-border-primary:   var(--fnd-neutral-800);
+  --fnd-color-border-secondary: var(--fnd-neutral-800);
+  --fnd-color-border-hairline:  var(--fnd-neutral-800);
+  --fnd-color-border-mid-dark:  var(--fnd-neutral-600);
+  --fnd-color-border-disabled:  var(--fnd-neutral-800);
+  --fnd-color-border-strong:    var(--fnd-neutral-50);
+  --fnd-color-border-inverse:   var(--fnd-neutral-950);
+
+  --fnd-color-feedback-success: #0098a4;
+  --fnd-color-feedback-warning: #e0a94e;
+  --fnd-color-feedback-danger:  #f08a8a;
+  --fnd-color-feedback-info:    #60a5fa;
+  --fnd-color-text-success: #0098a4;   // auf dem Grund 5,12
+  --fnd-color-text-warning: #e0a94e;   //               8,46
+  --fnd-color-text-danger:  #f08a8a;   //               7,40
+  --fnd-color-text-info:    #60a5fa;   //               7,02
+  --fnd-color-border-success: #0098a4;
+  --fnd-color-border-warning: #e0a94e;
+  --fnd-color-border-danger:  #f08a8a;
+  --fnd-color-border-info:    #60a5fa;
+  --fnd-color-background-success: #002124;   // mit text-success 4,85
+  --fnd-color-background-warning: #261904;   //                  8,14
+  --fnd-color-background-danger:  #2c1414;   //                  7,15
+  --fnd-color-background-info:    #0e1c2e;   //                  6,75
+  --fnd-color-on-success: #000000;
+  --fnd-color-on-warning: #000000;
+  --fnd-color-on-danger:  #000000;
+  --fnd-color-on-info:    #000000;
+  --fnd-color-on-surface:  var(--fnd-neutral-100);
+  --fnd-color-on-layer-01: var(--fnd-neutral-100);
+  --fnd-color-on-layer-02: var(--fnd-neutral-100);
+
+  --fnd-color-scrollbar-track: var(--fnd-neutral-900);
+  --fnd-color-scrollbar-thumb: var(--fnd-neutral-700);
+  --fnd-color-selection-bg:    var(--fnd-accent-500);
+  --fnd-color-selection-color: #000000;
+}
+
+// ---------------------------------------------------------------------------
+// Anwenden
+// ---------------------------------------------------------------------------
+// Die Leitern muessen VOR der Bruecke stehen, sonst zeigen die var()-Verweise
+// ins Leere. Beides hier zusammen, damit die Reihenfolge nicht von der
+// Reihenfolge der @forward-Zeilen abhaengt.
+
+:root,
+.neo-light-theme {
+  @include r.leiter-vars(r.$graphit, 'neutral');
+  @include r.leiter-vars(r.$lime, 'accent');
+  @include bruecke-hell;
+}
+
+.neo-dark-theme {
+  @include r.leiter-vars(r.$graphit, 'neutral');
+  @include r.leiter-vars(r.$lime, 'accent');
+  @include bruecke-dunkel;
+}
+
+// Leiterwechsel fuer eigene Bereiche — Academy, Support, Foren. Alle vier
+// Leitern haben stufenweise dieselben Helligkeiten, deshalb bleiben saemtliche
+// Kontrastwerte erhalten und nichts muss neu geprueft werden.
+@each $name, $map in ('blau': r.$neutral-blau, 'beige': r.$neutral-beige, 'salbei': r.$neutral-salbei) {
+  [data-neutral='#{$name}'] { @include r.leiter-vars($map, 'neutral'); }
+}
