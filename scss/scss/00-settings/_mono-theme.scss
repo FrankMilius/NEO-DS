@@ -1,0 +1,203 @@
+// ==========================================================================
+// 00-Settings: Monochromes Thema
+// ==========================================================================
+// Die semantische Ebene ueber den Leitern aus _neutral-ramps.scss.
+//
+// BEWUSST NEBEN DEM BESTEHENDEN, NICHT AN SEINER STELLE.
+// `:root`, `.neo-light-theme` und `.neo-dark-theme` bleiben unberuehrt. Die
+// Website faerbt sich also NICHT um, solange niemand die Klasse setzt. Die
+// Umstellung ist ein eigener, messbarer Schritt — kein Nebeneffekt eines
+// Sync-Laufs.
+//
+// VERWENDUNG
+//   <html class="neo-mono-light">                        Graphit, hell
+//   <html class="neo-mono-dark">                         Graphit, dunkel
+//   <html class="neo-mono-light" data-neutral="beige">   Beige, hell
+//
+// Der Leiterwechsel ueber `data-neutral` funktioniert, weil alle vier Leitern
+// stufenweise dieselben Helligkeiten haben: Ein Bereich, der auf Beige
+// umschaltet, behaelt saemtliche Kontrastwerte. Nachpruefen muss man nichts.
+// ==========================================================================
+
+@use 'neutral-ramps' as r;
+
+// ---------------------------------------------------------------------------
+// Leiter waehlen
+// ---------------------------------------------------------------------------
+
+@mixin leiter($map) {
+  @include r.leiter-vars($map, 'neutral');
+}
+
+.neo-mono-light,
+.neo-mono-dark { @include leiter(r.$graphit); }
+
+@each $name, $map in ('blau': r.$neutral-blau, 'beige': r.$neutral-beige, 'salbei': r.$neutral-salbei) {
+  .neo-mono-light[data-neutral='#{$name}'],
+  .neo-mono-dark[data-neutral='#{$name}'] { @include leiter($map); }
+}
+
+// Akzentleiter — in beiden Themen dieselbe.
+.neo-mono-light,
+.neo-mono-dark { @include r.leiter-vars(r.$lime, 'accent'); }
+
+// ---------------------------------------------------------------------------
+// Helles Thema
+// ---------------------------------------------------------------------------
+
+.neo-mono-light {
+  color-scheme: light;
+
+  // -- Flaechen: Modell C fuer die Website ----------------------------------
+  // Genau ZWEI Flaechen. Getrennt wird durch Rahmen, nicht durch Fuellung.
+  --surface-stage:  var(--fnd-neutral-100);
+  --surface-card:   #ffffff;
+
+  // -- Flaechen: Modell A fuer die Anwendung --------------------------------
+  // Die ersten beiden Ebenen sind mit Modell C identisch — deshalb waechst
+  // die Website spaeter hinein, ohne dass etwas umbenannt werden muss.
+  --surface-base:   #ffffff;
+  --surface-01:     var(--fnd-neutral-50);
+  --surface-02:     var(--fnd-neutral-100);
+  --surface-03:     var(--fnd-neutral-200);
+  --surface-sunken: var(--fnd-neutral-100);
+
+  // -- Text -----------------------------------------------------------------
+  --text-primary:   var(--fnd-neutral-950);   // 17,85 auf Weiss
+  --text-secondary: var(--fnd-neutral-700);   //  6,77
+  --text-tertiary:  var(--fnd-neutral-600);   //  4,66 — die letzte Stufe ueber AA
+  --text-inverse:   var(--fnd-neutral-50);
+  // Gesperrter Text ist von WCAG ausgenommen. 3,11 ist trotzdem der
+  // niedrigste Wert, bei dem er noch zu entziffern ist — darunter wird
+  // „gesperrt" zu „unsichtbar".
+  --text-disabled:  var(--fnd-neutral-500);
+
+  // -- Rahmen: ZWEI Rollen, nicht eine --------------------------------------
+  // WCAG 1.4.11 verlangt 3:1 nur fuer Rahmen, die ein BEDIENELEMENT
+  // erkennbar machen. Eine Trennlinie ist ausgenommen. Mit einem einzigen
+  // Token wird entweder die Trennlinie unnoetig hart oder das Eingabefeld
+  // unzulaessig blass.
+  --border-subtle:  var(--fnd-neutral-200);   // gliedert. Darf blass sein.
+  --border-control: var(--fnd-neutral-500);   // 3,11 — Eingabefeld, Auswahl
+  --border-strong:  var(--fnd-neutral-600);   // 4,66 — hervorgehoben
+
+  // -- Bedienung ist NICHT Akzent -------------------------------------------
+  // Ein sekundaerer Knopf ist interaktiv, aber nicht akzentuiert. Ohne diese
+  // Trennung faerbt ein Kunde, der seine Akzentfarbe waehlt, versehentlich
+  // jede Schaltflaeche im System ein.
+  --interactive-default: var(--fnd-neutral-900);
+  --interactive-hover:   var(--fnd-neutral-800);
+  --interactive-active:  var(--fnd-neutral-950);
+  --interactive-on:      var(--fnd-neutral-50);
+  --interactive-quiet:   transparent;
+  --interactive-quiet-hover: var(--fnd-neutral-100);
+
+  // -- Akzent: die Marke ----------------------------------------------------
+  // Traegt Bedeutung, nicht Bedienbarkeit. Nur als FLAECHE — der Markenwert
+  // erreicht als Schrift auf Weiss 1,63 und ist dort unbrauchbar.
+  --accent-surface:        var(--fnd-accent-300);   // schwarze Schrift: 12,89
+  --accent-surface-hover:  var(--fnd-accent-400);   //  9,56
+  --accent-surface-active: var(--fnd-accent-500);   //  6,76
+  --accent-on:             #000000;
+  --accent-line:           var(--fnd-accent-600);   // 4,58 auf Weiss — Rahmen, Unterstrich
+  --accent-text:           var(--fnd-accent-700);   // 6,85 — nur wo Schrift im Akzent sein MUSS
+
+  // -- Rueckmeldung ---------------------------------------------------------
+  // ERFOLG IST NICHT GRUEN. Bei Rot-Gruen-Sehschwaeche liegt ein Erfolgsgruen
+  // 0,4° vom Markenlime entfernt — beide werden zu demselben Gelb. Petrol
+  // liegt 175° entfernt und ist sicher unterscheidbar. Eine Marke, deren
+  // Zeichen gruen ist, kann Gruen nicht nebenbei als Systemfarbe verbrauchen.
+  --feedback-success: #00818c;   // 4,65
+  --feedback-warning: #92500a;   // 6,22
+  --feedback-danger:  #a31f1f;   // 7,57
+  --feedback-info:    #2563eb;   // 5,17
+
+  // -- Fokus: ZWEI Schichten ------------------------------------------------
+  // Ein einfarbiger Ring muesste auf JEDER Flaeche 3:1 erreichen, auf der er
+  // auftauchen kann — auch auf dem Akzentknopf. Das schafft keine einzelne
+  // Farbe. Innen dunkel, aussen hell: auf hellen Flaechen traegt der innere,
+  // auf dunklen der aeussere. Gemessen auf sechs Gruenden, darunter der
+  // Akzentknopf und die dunkle Karte — immer mindestens 10,9:1 auf einer
+  // der beiden Schichten.
+  --focus-inner: var(--fnd-neutral-950);
+  --focus-outer: var(--fnd-neutral-50);
+
+  // -- Erhebung -------------------------------------------------------------
+  // EIGENE ACHSE neben der Flaeche. Die Flaeche sagt „worauf liege ich",
+  // die Erhebung „wie hoch schwebe ich darueber". Ein Hover-Zustand aendert
+  // die Erhebung und NICHT die Flaeche — genau das war der Fehler im alten
+  // Satz, wo Ebenen und Erhebung unverbunden nebeneinanderstanden.
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgb(0 0 0 / .07);
+  --elevation-2: 0 6px 16px rgb(0 0 0 / .13);
+  --elevation-3: 0 18px 40px rgb(0 0 0 / .18);
+  // Im Hellen traegt der Schatten allein; die Flaeche bleibt gleich.
+  --elevation-1-surface: var(--surface-card);
+  --elevation-2-surface: var(--surface-card);
+  --elevation-3-surface: var(--surface-card);
+}
+
+// ---------------------------------------------------------------------------
+// Dunkles Thema
+// ---------------------------------------------------------------------------
+
+.neo-mono-dark {
+  color-scheme: dark;
+
+  --surface-stage:  var(--fnd-neutral-950);
+  --surface-card:   var(--fnd-neutral-900);
+
+  --surface-base:   var(--fnd-neutral-950);
+  --surface-01:     var(--fnd-neutral-900);
+  --surface-02:     var(--fnd-neutral-800);
+  --surface-03:     var(--fnd-neutral-700);
+  --surface-sunken: #000000;
+
+  --text-primary:   var(--fnd-neutral-100);   // 16,01 auf 950
+  --text-secondary: var(--fnd-neutral-400);   //  8,34
+  --text-tertiary:  var(--fnd-neutral-500);   //  5,75
+  --text-inverse:   var(--fnd-neutral-950);
+  --text-disabled:  var(--fnd-neutral-600);
+
+  --border-subtle:  var(--fnd-neutral-800);
+  --border-control: var(--fnd-neutral-600);   // 3,83 auf dem Grund, 3,06 auf der Karte
+  --border-strong:  var(--fnd-neutral-500);
+
+  --interactive-default: var(--fnd-neutral-100);
+  --interactive-hover:   #ffffff;
+  --interactive-active:  var(--fnd-neutral-300);
+  --interactive-on:      var(--fnd-neutral-950);
+  --interactive-quiet:   transparent;
+  --interactive-quiet-hover: var(--fnd-neutral-800);
+
+  // Im Dunkeln geht der Ueberfahren-Zustand nach OBEN. Dieselbe Bewegung wie
+  // im Hellen (nach unten) liesse den Knopf mit dem Grund verschmelzen.
+  --accent-surface:        var(--fnd-accent-300);
+  --accent-surface-hover:  var(--fnd-accent-200);
+  --accent-surface-active: var(--fnd-accent-400);
+  --accent-on:             #000000;
+  --accent-line:           var(--fnd-accent-400);   // 8,13 auf dem Grund
+  // Laengerer Text im vollen Akzent flimmert auf dunklem Grund (Halation).
+  // Kontrastwerte zeigen das nicht an — 10,95:1 sieht rechnerisch bestens aus.
+  // Deshalb hier eine Stufe entsaettigt statt des Markenwerts.
+  --accent-text:           var(--fnd-accent-400);
+
+  --feedback-success: #0098a4;   // 5,12
+  --feedback-warning: #e0a94e;   // 8,46
+  --feedback-danger:  #f08a8a;   // 7,40
+  --feedback-info:    #60a5fa;   // 7,02
+
+  --focus-inner: var(--fnd-neutral-950);
+  --focus-outer: var(--fnd-neutral-50);
+
+  // Im Dunkeln wirft nichts einen Schatten. Die Erhebung traegt hier eine
+  // Aufhellung — das Bauteil muss den Unterschied nicht kennen, es setzt
+  // weiterhin nur „Erhebung 2".
+  --elevation-0: none;
+  --elevation-1: none;
+  --elevation-2: none;
+  --elevation-3: 0 18px 40px rgb(0 0 0 / .55);
+  --elevation-1-surface: var(--fnd-neutral-900);
+  --elevation-2-surface: var(--fnd-neutral-800);
+  --elevation-3-surface: var(--fnd-neutral-700);
+}

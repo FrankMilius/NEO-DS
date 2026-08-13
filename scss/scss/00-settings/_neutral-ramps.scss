@@ -1,0 +1,127 @@
+// ==========================================================================
+// 00-Settings: Neutralleitern und Akzentleiter (Primitives)
+// ==========================================================================
+// Vier Neutralleitern und die Akzentleiter, alle in OKLCH gerechnet und auf
+// sRGB begrenzt. Reine Primitives: KEIN Bauteil greift hier direkt zu, das
+// laeuft ueber die semantische Ebene in _mono-theme.scss.
+//
+// WARUM OKLCH UND NICHT HSL
+// In HSL ist ein Gelb bei L 50% deutlich heller als ein Blau bei L 50%. Vier
+// Leitern mit verschiedenen Farbtoenen waeren damit nicht vergleichbar. In
+// OKLCH sind gleiche Helligkeitswerte auch gleich hell — deshalb haben alle
+// vier Leitern hier STUFE FUER STUFE DIESELBEN KONTRASTWERTE.
+//
+// Das ist der eigentliche Trick: Ein Bereich, der von Graphit auf Beige
+// umschaltet, behaelt saemtliche Kontrastwerte. Die Barrierefreiheit muss
+// nicht neu geprueft werden. Das funktioniert aber NUR, solange Bauteile die
+// Stufennummer ansprechen und nicht den Hexwert — ein einziger fest
+// eingetragener Grauton bricht die Umschaltbarkeit fuer den ganzen Bereich.
+//
+// Kontrast gegen Weiss, fuer alle vier Leitern gleich:
+//   50  1,04   100 1,12   200 1,25   300 1,49   400 2,14   500 3,11
+//   600 4,66   700 6,77   800 9,98   900 14,27  950 17,85
+// ==========================================================================
+
+// ---------------------------------------------------------------------------
+// Graphit — fuehrend, alle Produkte
+// ---------------------------------------------------------------------------
+// Farbton 143°, derselbe wie der Akzent, aber nur ein Drittel der Buntheit von
+// Salbei. Allein gesehen ein echtes Grau; erst neben dem Akzent merkt man die
+// Verwandtschaft. Bewusst NICHT Salbei: bei einem so bunten Akzent (Buntheit
+// 0,25) laese sich ein deutlich getoentes Grau als „mehr vom Gleichen" und
+// naehme dem Akzent die Unterbrechung, fuer die es ihn gibt.
+
+$graphit: (
+   50: #f9fbf9,  100: #f1f3f1,  200: #e4e6e4,  300: #d2d4d2,
+  400: #afb2af,  500: #909390,  600: #727572,  700: #595c59,
+  800: #414341,  900: #292b29,  950: #161816
+) !default;
+
+// ---------------------------------------------------------------------------
+// Blaustichig — kuehl, sachlich
+// ---------------------------------------------------------------------------
+// Farbton 248°. Der Leiter, auf dem die Website bis 2026 lief. Vorgesehen fuer
+// spaetere eigene Bereiche mit sachlichem Charakter: Support, Statusseiten,
+// technische Dokumentation.
+
+$neutral-blau: (
+   50: #f6fbff,  100: #edf3f9,  200: #e0e6ec,  300: #cdd4dc,
+  400: #aab2ba,  500: #8a939d,  600: #6c7680,  700: #535c65,
+  800: #3c434b,  900: #252b31,  950: #13181c
+) !default;
+
+// ---------------------------------------------------------------------------
+// Beigestichig — warm, einladend
+// ---------------------------------------------------------------------------
+// Farbton 80°. Fuer Bereiche, die Naehe herstellen sollen: Kurse, Weiterbildung,
+// redaktionelle Strecken.
+
+$neutral-beige: (
+   50: #fef9f2,  100: #f6f2ea,  200: #eae4dc,  300: #d8d3ca,
+  400: #b7b0a6,  500: #989185,  600: #7b7366,  700: #615a4e,
+  800: #474138,  900: #2e2922,  950: #1a1710
+) !default;
+
+// ---------------------------------------------------------------------------
+// Salbei — wie Graphit, aber sichtbar getoent
+// ---------------------------------------------------------------------------
+// Farbton 143° bei dreifacher Buntheit von Graphit. Fuer Bereiche, die sich
+// deutlich absetzen duerfen, ohne die Familie zu verlassen: Foren, Gemeinschaft.
+
+$neutral-salbei: (
+   50: #f7fcf7,  100: #eff4ef,  200: #e2e7e1,  300: #d0d5cf,
+  400: #adb3ac,  500: #8d948d,  600: #6f776f,  700: #565d56,
+  800: #3e443e,  900: #272c27,  950: #151814
+) !default;
+
+$neutral-leitern: (
+  'graphit': $graphit,
+  'blau':    $neutral-blau,
+  'beige':   $neutral-beige,
+  'salbei':  $neutral-salbei
+) !default;
+
+// ---------------------------------------------------------------------------
+// Lime — Akzent
+// ---------------------------------------------------------------------------
+// Stufe 300 ist der unveraenderte Markenwert #37e93d.
+//
+// DIE LEITER ZERFAELLT BEI STUFE 600. Dort erreicht sie auf Weiss 4,58 — und
+// schwarze Schrift auf ihr 4,59. Darueber taugt Lime nur als FLAECHE, darunter
+// nur als SCHRIFT. Das ist keine Empfehlung, sondern Arithmetik:
+//
+//   300 #37e93d   auf Weiss 1,63 (unbrauchbar)   schwarz darauf 12,89
+//   600 #00890f   auf Weiss 4,58                 schwarz darauf  4,59
+//   700 #006a09   auf Weiss 6,85                 schwarz darauf  3,07
+//
+// Deshalb ist der Akzent NIE Schrift auf hellem Grund. Textlinks tragen die
+// Textfarbe und einen Unterstrich im Akzent — siehe 03-elements/_links.scss.
+
+$lime: (
+   50: #f0ffef,  100: #bfffbb,  200: #52ff54,  300: #37e93d,
+  400: #00cb1c,  500: #00aa15,  600: #00890f,  700: #006a09,
+  800: #004d05,  900: #003202,  950: #001d01
+) !default;
+
+// ---------------------------------------------------------------------------
+// Zugriff
+// ---------------------------------------------------------------------------
+
+@use 'sass:map';
+
+/// Eine Stufe aus einer Leiter holen.
+///   stufe($graphit, 700)
+@function stufe($leiter, $nr) {
+  @if not map.has-key($leiter, $nr) {
+    @error 'Stufe #{$nr} gibt es in dieser Leiter nicht. Erlaubt: 50 100 200 300 400 500 600 700 800 900 950.';
+  }
+  @return map.get($leiter, $nr);
+}
+
+/// Alle Stufen einer Leiter als Custom Properties ausgeben.
+///   @include leiter-vars($graphit, 'neutral');
+@mixin leiter-vars($leiter, $praefix) {
+  @each $nr, $wert in $leiter {
+    --fnd-#{$praefix}-#{$nr}: #{$wert};
+  }
+}

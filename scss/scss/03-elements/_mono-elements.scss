@@ -1,0 +1,198 @@
+// ==========================================================================
+// 03-Elements: Grundelemente im monochromen Thema
+// ==========================================================================
+// Alles hier ist auf `.neo-mono-*` BEGRENZT. Ohne diese Begrenzung wuerde ein
+// `a { … }` auf der bestehenden Website sofort jeden Link umstellen — das ist
+// eine Entscheidung, kein Nebeneffekt.
+// ==========================================================================
+
+.neo-mono-light,
+.neo-mono-dark {
+
+  // -------------------------------------------------------------------------
+  // Links
+  // -------------------------------------------------------------------------
+  // Textfarbe, leicht gefettet, abgesetzter Unterstrich im Akzent.
+  //
+  // Der Akzent ist hier ABSICHTLICH nicht die Schriftfarbe: Der Markenwert
+  // erreicht als Schrift auf Weiss 1,63 und waere unlesbar. Der Unterstrich
+  // dagegen ist kein Text — fuer ihn gelten die 3:1 aus WCAG 1.4.11, und
+  // `accent-line` erfuellt sie mit 4,58.
+  //
+  // Zugleich loest das die Anforderung aus WCAG 1.4.1: Der Link ist nicht
+  // allein an der Farbe zu erkennen, sondern an Fettung UND Unterstrich. Genau
+  // daran scheitern monochrome Systeme sonst am haeufigsten — weil der Reiz
+  // gross ist, alles ruhig zu halten.
+
+  a {
+    color: inherit;
+    font-weight: 550;
+    text-decoration: underline;
+    text-decoration-color: var(--accent-line);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    // Unterlaengen nicht durchstreichen. Ohne das schneidet der Strich
+    // durch jedes g, j und p.
+    text-decoration-skip-ink: auto;
+    transition: text-decoration-thickness 120ms ease;
+  }
+
+  a:hover {
+    // Dicker statt bunter: Ein Farbwechsel beim Ueberfahren wuerde die
+    // Unterscheidung wieder allein der Farbe ueberlassen.
+    text-decoration-thickness: 3px;
+  }
+
+  a:active { color: var(--text-secondary); }
+
+  // Ein Link, der eine Flaeche ist (Karte, Kachel, Knopf), traegt keinen
+  // Unterstrich — dort uebernimmt die Flaeche die Kennzeichnung.
+  a:where(.nc-button, .nc-card__link, [class*='__link--block']) {
+    text-decoration: none;
+    font-weight: inherit;
+  }
+
+  // -------------------------------------------------------------------------
+  // Fokus
+  // -------------------------------------------------------------------------
+  // Zwei Schichten, damit der Ring auf JEDER Flaeche sichtbar bleibt — auch
+  // auf dem Akzentknopf, wo ein dunkler Ring allein 10,95:1 traegt, und auf
+  // dunklem Grund, wo der helle Aussenring mit 19,72:1 uebernimmt.
+
+  :focus-visible {
+    outline: 2px solid var(--focus-inner);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--focus-outer);
+  }
+
+  // -------------------------------------------------------------------------
+  // Die vergessenen Oberflaechen
+  // -------------------------------------------------------------------------
+  // Sieben Stellen, die bei jeder Umstellung durchs Raster fallen und danach
+  // noch monatelang die alte Marke zeigen.
+
+  // 1 — Textmarkierung
+  ::selection {
+    background: var(--accent-surface);
+    color: var(--accent-on);
+  }
+
+  // 2 — Bildlaufleisten. `scrollbar-color` deckt Firefox ab, die
+  //     ::-webkit-Regeln den Rest.
+  scrollbar-color: var(--fnd-neutral-400) var(--fnd-neutral-100);
+  scrollbar-width: thin;
+
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: var(--fnd-neutral-100); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--fnd-neutral-400);
+    border-radius: 6px;
+    border: 3px solid var(--fnd-neutral-100);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--fnd-neutral-500); }
+
+  // 3 — Vom Browser ausgefuellte Felder. Ohne das leuchtet dort ein Gelb,
+  //     das mit keinem Thema etwas zu tun hat. Der Umweg ueber einen
+  //     riesigen Innenschatten ist noetig, weil `background-color` in
+  //     diesem Zustand ignoriert wird.
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--surface-card) inset;
+    -webkit-text-fill-color: var(--text-primary);
+    caret-color: var(--text-primary);
+  }
+
+  // 4 — Aufzaehlungszeichen. Standardmaessig tragen sie die Textfarbe und
+  //     wirken dadurch zu schwer.
+  ::marker { color: var(--fnd-neutral-500); }
+
+  // 5 — Trennlinien im Fliesstext
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  // 6 — Textmarkierung durch <mark>
+  mark {
+    background: var(--fnd-accent-100);
+    color: var(--fnd-neutral-950);
+    padding: 0 .15em;
+    border-radius: 2px;
+  }
+
+  // 7 — Bildplatzhalter, solange nichts geladen ist. Ohne feste Flaeche
+  //     blitzt hier das Weiss des Browsers durch, auch im dunklen Thema.
+  img, video { background: var(--surface-sunken); }
+}
+
+// Punkt 8 und 9 liegen ausserhalb von CSS und gehoeren ins Twig-Template:
+//
+//   <meta name="theme-color" content="#ffffff"
+//         media="(prefers-color-scheme: light)">
+//   <meta name="theme-color" content="#161816"
+//         media="(prefers-color-scheme: dark)">
+//
+// Dazu zwei Fassungen des Reitersymbols (hell und dunkel) sowie eine feste
+// Flaeche hinter dem Vorschaubild beim Teilen — ein durchsichtiges PNG wird
+// dort je nach Dienst auf Weiss oder Schwarz gelegt.
+
+// ---------------------------------------------------------------------------
+// Windows-Kontrastmodus
+// ---------------------------------------------------------------------------
+// Bei aktiviertem Kontrastmodus ersetzt das Betriebssystem alle Farben durch
+// einen eigenen Satz. Alles, was allein ueber die Hintergrundfarbe
+// funktioniert — ein Akzentknopf ohne Rahmen —, wird dann ununterscheidbar von
+// seiner Umgebung.
+//
+// BEWUSST NICHT auf `.neo-mono-*` begrenzt: Der Kontrastmodus ist eine
+// Zugaenglichkeitsanforderung und soll auch fuer die heutige Website gelten.
+// Er greift ausschliesslich, wenn der Modus aktiv ist, und kann deshalb
+// nichts umfaerben, was jemand sonst zu sehen bekommt.
+
+@media (forced-colors: active) {
+
+  // Flaechengetragene Bauteile brauchen eine Kante, sonst verschwinden sie.
+  .nc-button,
+  .nc-card,
+  .nc-tag,
+  .nc-badge,
+  .nc-chip,
+  [class*='__tag'],
+  [class*='__badge'] {
+    border: 1px solid currentColor;
+  }
+
+  // Der Hauptknopf darf die Systemfarbe behalten — so bleibt erkennbar,
+  // dass er der hervorgehobene ist.
+  .nc-button--accent,
+  .nc-button--primary {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+    border-color: HighlightText;
+  }
+
+  // Der zweischichtige Fokusring funktioniert hier nicht — `box-shadow`
+  // wird im Kontrastmodus verworfen. Deshalb ein kraeftiger Systemring.
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  // Schatten tragen hier nichts. Was ueber Erhebung abgesetzt war, braucht
+  // eine Linie.
+  [style*='elevation'],
+  .nc-card,
+  .nc-dialog,
+  .nc-drawer { box-shadow: none; }
+
+  // Sinntragende Symbole muessen mitgefaerbt werden, dekorative nicht.
+  .nc-icon { forced-color-adjust: auto; }
+
+  // Nur-Farbe-Zustaende brauchen ein zweites Merkmal.
+  [aria-current], [aria-selected='true'] { outline: 2px solid Highlight; }
+}
