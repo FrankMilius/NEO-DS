@@ -123,9 +123,16 @@
     border-radius: 2px;
   }
 
-  // 7 — Bildplatzhalter, solange nichts geladen ist. Ohne feste Flaeche
-  //     blitzt hier das Weiss des Browsers durch, auch im dunklen Thema.
-  img, video { background: var(--fnd-color-background-secondary); }
+  // 7 — Bildplatzhalter: ZURUECKGENOMMEN am 2026-08-13.
+  //
+  // Hier stand `img, video { background: … }`. Der Gedanke war ein
+  // Platzhalter, solange nichts geladen ist. Die Wirkung war eine andere:
+  // Bei jedem freigestellten Bild fuellt diese Flaeche den durchsichtigen
+  // Bereich — und weil sie IM Element sitzt, das den Filter traegt, wird sie
+  // mitgefiltert. Aus 13 durchsichtigen Logos wurden 13 dunkle Kloetze.
+  //
+  // Ein Platzhalter gehoert an den BEHAELTER, nicht an das Bild. Nur dort
+  // laesst er sich vom Bild selbst unterscheiden.
 }
 
 // Punkt 8 und 9 liegen ausserhalb von CSS und gehoeren ins Twig-Template:
