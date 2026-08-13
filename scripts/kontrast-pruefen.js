@@ -16,7 +16,8 @@
  * MASSSTAB
  *   4,5:1  Fliesstext (1.4.3)
  *   3,0:1  grosser Text ab 24px, oder ab 18,66px bei Fettung 700
- *   3,0:1  Rahmen von Bedienelementen (1.4.11)
+ *   3,0:1  Rahmen von Bedienelementen (1.4.11) — nur fuer Bauteile, deren
+ *          Klassenname sie eindeutig als Bedienelement ausweist
  *
  * GRENZE DES VERFAHRENS
  * Gemessen wird die Farbe, die der Browser meldet. Liegt ein Element auf einer
@@ -103,6 +104,40 @@ for (const [pfad, seite] of Object.entries(daten.seiten)) {
         k: Math.round(k * 100) / 100, soll,
         px: props.fontSize, gew: props.fontWeight,
         bestanden: k >= soll,
+      });
+    }
+  }
+}
+
+// -- Rahmen von Bedienelementen ---------------------------------------------
+// WCAG 1.4.11 verlangt 3:1 fuer den Rand, der ein Bedienelement ueberhaupt
+// erkennbar macht. Die Messung weiss nicht, was ein Bedienelement IST — der
+// Klassenname ist der beste verfuegbare Anhaltspunkt. Deshalb wird hier nur
+// geprueft, was eindeutig eines ist; alles andere bliebe Raterei und wuerde
+// die Liste mit dekorativen Raendern fluten.
+const BEDIENELEMENT = /^nc-(input|textarea|select|multiselect|checkbox|radio|switch|slider|combobox|datepicker|otp|search|form-control)(__|--|$)/;
+
+for (const seite of Object.values(daten.seiten)) {
+  for (const [schluessel, komponenten] of Object.entries(seite)) {
+    if (!komponenten || typeof komponenten !== 'object') continue;
+    for (const [name, props] of Object.entries(komponenten)) {
+      if (!BEDIENELEMENT.test(name)) continue;
+      const rand = kanaele(props.borderTopColor);
+      const hg = kanaele(props.backgroundColor);
+      if (!rand || rand.a < 0.95) continue;
+      // Ein Rahmen der Breite 0 ist keiner.
+      if (parseFloat(props.borderTopWidth) === 0) continue;
+      // Liegt das Feld auf durchsichtigem Grund, ist der wahre Grund unbekannt.
+      if (!hg || hg.a < 0.95) { ungeklaert.add(name); continue; }
+      geprueft++;
+      const k = kontrast(rand, hg);
+      if (k >= 3.0 && !alle) continue;
+      durchgefallen.push({
+        name: name + ' (Rahmen)', schluessel, pfad: '',
+        vg: props.borderTopColor, hg: props.backgroundColor,
+        k: Math.round(k * 100) / 100, soll: 3.0,
+        px: props.fontSize, gew: props.fontWeight,
+        bestanden: k >= 3.0,
       });
     }
   }

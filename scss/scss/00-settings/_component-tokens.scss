@@ -356,7 +356,10 @@
   // -- Outlined (Default) --
   --nc-form-control-bg:                          var(--fnd-color-background-base);
   --nc-form-control-color:                       var(--fnd-color-text-primary);
-  --nc-form-control-border-color:                var(--fnd-color-border-primary);
+  // Bedienrahmen, nicht Trennlinie: WCAG 1.4.11 verlangt 3:1 fuer den Rand,
+  // der ein Eingabefeld ueberhaupt erkennbar macht. border-primary ist die
+  // leise Trennlinie und erreicht 1,49 — dafuer war sie nie gedacht.
+  --nc-form-control-border-color:                var(--fnd-color-border-control);
   --nc-form-control-radius:                      var(--fnd-radius-sm);
   --nc-form-control-border-width:                var(--fnd-border-width-xs);
   --nc-form-control-placeholder-color:           var(--fnd-color-text-tertiary);
