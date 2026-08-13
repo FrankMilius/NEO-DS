@@ -1,6 +1,6 @@
 // ============================================================
 // TextMedia — Auto-generated from text-media-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TextMedia** v1.0.0 (stable)
+        component: `**TextMedia** v1.1.0 (stable)
 
 Grid: 2 Spalten, media + content. Responsive: stacked auf mobile.
 

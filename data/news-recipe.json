@@ -1,0 +1,138 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "news",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "organisms"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-news"
+    },
+    "slots": [
+      {
+        "name": "body",
+        "element": ".nc-news__body",
+        "optional": false
+      },
+      {
+        "name": "date",
+        "element": ".nc-news__date",
+        "optional": false
+      },
+      {
+        "name": "eyebrow",
+        "element": ".nc-news__eyebrow",
+        "optional": false
+      },
+      {
+        "name": "footer",
+        "element": ".nc-news__footer",
+        "optional": false
+      },
+      {
+        "name": "hero",
+        "element": ".nc-news__hero",
+        "optional": false
+      },
+      {
+        "name": "hero-cta",
+        "element": ".nc-news__hero-cta",
+        "optional": false
+      },
+      {
+        "name": "hero-inner",
+        "element": ".nc-news__hero-inner",
+        "optional": true
+      },
+      {
+        "name": "hero-media",
+        "element": ".nc-news__hero-media",
+        "optional": true
+      },
+      {
+        "name": "hero-overlay",
+        "element": ".nc-news__hero-overlay",
+        "optional": true
+      },
+      {
+        "name": "kicker",
+        "element": ".nc-news__kicker",
+        "optional": true
+      },
+      {
+        "name": "lead",
+        "element": ".nc-news__lead",
+        "optional": true
+      },
+      {
+        "name": "title",
+        "element": ".nc-news__title",
+        "optional": true
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [],
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-news-eyebrow-gap",
+      "--nc-news-footer-a-font-weight",
+      "--nc-news-hero-overlay-background",
+      "--nc-news-lead-font-size",
+      "--nc-news-lead-line-height",
+      "--nc-news-title-font-size",
+      "--nc-news-title-font-weight",
+      "--nc-news-title-line-height"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "news wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

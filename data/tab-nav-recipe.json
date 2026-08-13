@@ -1,0 +1,93 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "tab-nav",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "molecules"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-tab-nav"
+    },
+    "slots": [
+      {
+        "name": "badges",
+        "element": ".nc-tab-nav__badges",
+        "optional": false
+      },
+      {
+        "name": "bento",
+        "element": ".nc-tab-nav__bento",
+        "optional": false
+      },
+      {
+        "name": "module",
+        "element": ".nc-tab-nav__module",
+        "optional": false
+      },
+      {
+        "name": "panel-body",
+        "element": ".nc-tab-nav__panel-body",
+        "optional": false
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [],
+  "states": [
+    "default",
+    "active"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-tab-nav-badges-gap",
+      "--nc-tab-nav-badges-margin-block"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "tab-nav wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "event",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "organisms"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-event"
+    },
+    "slots": [
+      {
+        "name": "agenda",
+        "element": ".nc-event__agenda",
+        "optional": false
+      },
+      {
+        "name": "content-grid",
+        "element": ".nc-event__content-grid",
+        "optional": false
+      },
+      {
+        "name": "cta",
+        "element": ".nc-event__cta",
+        "optional": false
+      },
+      {
+        "name": "hero",
+        "element": ".nc-event__hero",
+        "optional": false
+      },
+      {
+        "name": "hero-content",
+        "element": ".nc-event__hero-content",
+        "optional": false
+      },
+      {
+        "name": "hero-media",
+        "element": ".nc-event__hero-media",
+        "optional": false
+      },
+      {
+        "name": "hero-overlay",
+        "element": ".nc-event__hero-overlay",
+        "optional": true
+      },
+      {
+        "name": "info-card",
+        "element": ".nc-event__info-card",
+        "optional": true
+      },
+      {
+        "name": "info-card-title",
+        "element": ".nc-event__info-card-title",
+        "optional": true
+      },
+      {
+        "name": "info-cta",
+        "element": ".nc-event__info-cta",
+        "optional": true
+      },
+      {
+        "name": "info-list",
+        "element": ".nc-event__info-list",
+        "optional": true
+      },
+      {
+        "name": "meta",
+        "element": ".nc-event__meta",
+        "optional": true
+      },
+      {
+        "name": "meta-item",
+        "element": ".nc-event__meta-item",
+        "optional": true
+      },
+      {
+        "name": "related-card",
+        "element": ".nc-event__related-card",
+        "optional": true
+      },
+      {
+        "name": "related-grid",
+        "element": ".nc-event__related-grid",
+        "optional": true
+      },
+      {
+        "name": "section-title",
+        "element": ".nc-event__section-title",
+        "optional": true
+      },
+      {
+        "name": "subtitle",
+        "element": ".nc-event__subtitle",
+        "optional": true
+      },
+      {
+        "name": "tag",
+        "element": ".nc-event__tag",
+        "optional": true
+      },
+      {
+        "name": "tag--type",
+        "element": ".nc-event__tag--type",
+        "optional": true
+      },
+      {
+        "name": "tags",
+        "element": ".nc-event__tags",
+        "optional": true
+      },
+      {
+        "name": "title",
+        "element": ".nc-event__title",
+        "optional": true
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [],
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-event-tag-letter-spacing",
+      "--nc-event-tag-padding",
+      "--nc-event-title-line-height"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "event wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

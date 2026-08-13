@@ -1,0 +1,106 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "tbl-cell",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "atoms"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-tbl-cell"
+    },
+    "slots": [
+      {
+        "name": "icon-block",
+        "element": ".nc-tbl-cell__icon-block",
+        "optional": false
+      },
+      {
+        "name": "info-btn",
+        "element": ".nc-tbl-cell__info-btn",
+        "optional": false
+      },
+      {
+        "name": "sub",
+        "element": ".nc-tbl-cell__sub",
+        "optional": false
+      },
+      {
+        "name": "text",
+        "element": ".nc-tbl-cell__text",
+        "optional": false
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [
+    {
+      "name": "variante",
+      "values": [
+        {
+          "value": "icon",
+          "modifier": "nc-tbl-cell--icon"
+        }
+      ],
+      "default": "icon"
+    }
+  ],
+  "states": [
+    "default",
+    "hover",
+    "focus"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-tbl-cell-info-btn-hover-opacity",
+      "--nc-tbl-cell-info-btn-padding",
+      "--nc-tbl-cell-sub-line-height"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "tbl-cell wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "multiselect",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "molecules"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-multiselect"
+    },
+    "slots": [
+      {
+        "name": "caret",
+        "element": ".nc-multiselect__caret",
+        "optional": false
+      },
+      {
+        "name": "option",
+        "element": ".nc-multiselect__option",
+        "optional": false
+      },
+      {
+        "name": "panel",
+        "element": ".nc-multiselect__panel",
+        "optional": false
+      },
+      {
+        "name": "trigger",
+        "element": ".nc-multiselect__trigger",
+        "optional": false
+      },
+      {
+        "name": "value",
+        "element": ".nc-multiselect__value",
+        "optional": false
+      },
+      {
+        "name": "value--empty",
+        "element": ".nc-multiselect__value--empty",
+        "optional": false
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [],
+  "states": [
+    "default",
+    "hover",
+    "focus"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-multiselect-option-padding",
+      "--nc-multiselect-panel-box-shadow",
+      "--nc-multiselect-panel-gap",
+      "--nc-multiselect-panel-padding",
+      "--nc-multiselect-trigger-font-size",
+      "--nc-multiselect-trigger-gap",
+      "--nc-multiselect-trigger-padding"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "multiselect wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

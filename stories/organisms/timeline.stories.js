@@ -1,6 +1,6 @@
 // ============================================================
 // Timeline — Auto-generated from timeline-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 2.3.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Timeline** v1.0.0 (stable)
+        component: `**Timeline** v2.3.0 (stable)
 
 <ol> fuer chronologisch geordnete Eintraege — semantische Reihenfolge.
 
@@ -29,6 +29,13 @@ export const Default = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>`,
 };
 
@@ -40,6 +47,13 @@ export const DefaultTimeline = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>
 </div>`,
   parameters: {
@@ -69,6 +83,13 @@ export const NodeStatusVariants = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>
 </div>`,
   parameters: {
@@ -86,6 +107,13 @@ export const IconTimeline = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>
 </div>`,
   parameters: {
@@ -103,6 +131,13 @@ export const ConnectedCards = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>
 </div>`,
   parameters: {
@@ -120,6 +155,13 @@ export const ChangelogExample = {
     <span class="nc-timeline__node">node</span>
     <span class="nc-timeline__content">content</span>
     <span class="nc-timeline__title">title</span>
+    <span class="">fill</span>
+    <span class="">period</span>
+    <span class="">badge</span>
+    <span class="">phase</span>
+    <span class="">lead</span>
+    <span class="">list</span>
+    <span class="">cta</span>
   </div>
 </div>`,
   parameters: {

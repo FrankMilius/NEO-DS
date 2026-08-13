@@ -68,6 +68,11 @@ function generateHTML(component, anatomy, axisValues) {
 }
 
 function generateSpecimenHTML(component, anatomy, specimen, axes) {
+  // Echtes Markup hat Vorrang. Aus der Anatomie abgeleitetes HTML zeigt bei
+  // aufgenommenen Komponenten nur die Wurzel — fuer Prototyping wertlos.
+  // specimen.markup traegt den tatsaechlichen Aufbau von der Website.
+  if (specimen.markup) return specimen.markup;
+
   if (!specimen.matrix?.axes) {
     return generateHTML(component, anatomy, []);
   }
@@ -114,7 +119,11 @@ function generateStory(recipe) {
   const component = recipe.meta?.component || recipe.name || 'unknown';
   const version = recipe.meta?.version || recipe.version || '0.0.0';
   const status = recipe.meta?.status || 'unknown';
-  const layer = LAYER_MAP[component] || 'organisms';
+  // Ebene: erst die gepflegte Tabelle, dann das Recipe selbst. Aufgenommene
+  // Komponenten tragen ihre ITCSS-Ebene in meta.tags — ohne diesen Rueckgriff
+  // landeten sie alle unter 'organisms', auch Atome wie tbl-cell.
+  const ausTags = (recipe.meta?.tags || []).find((t) => ['atoms', 'molecules', 'organisms', 'objects', 'utilities'].includes(t));
+  const layer = LAYER_MAP[component] || ausTags || 'organisms';
   const titleComponent = component
     .split('-')
     .map(w => w.charAt(0).toUpperCase() + w.slice(1))

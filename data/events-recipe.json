@@ -1,0 +1,159 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "events",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "organisms"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-events"
+    },
+    "slots": [
+      {
+        "name": "card",
+        "element": ".nc-events__card",
+        "optional": false
+      },
+      {
+        "name": "card-footer",
+        "element": ".nc-events__card-footer",
+        "optional": false
+      },
+      {
+        "name": "card-header",
+        "element": ".nc-events__card-header",
+        "optional": false
+      },
+      {
+        "name": "card-meta",
+        "element": ".nc-events__card-meta",
+        "optional": false
+      },
+      {
+        "name": "card-meta-item",
+        "element": ".nc-events__card-meta-item",
+        "optional": false
+      },
+      {
+        "name": "card-title",
+        "element": ".nc-events__card-title",
+        "optional": false
+      },
+      {
+        "name": "card-type",
+        "element": ".nc-events__card-type",
+        "optional": true
+      },
+      {
+        "name": "empty",
+        "element": ".nc-events__empty",
+        "optional": true
+      },
+      {
+        "name": "filter-bar",
+        "element": ".nc-events__filter-bar",
+        "optional": true
+      },
+      {
+        "name": "filter-select",
+        "element": ".nc-events__filter-select",
+        "optional": true
+      },
+      {
+        "name": "grid",
+        "element": ".nc-events__grid",
+        "optional": true
+      },
+      {
+        "name": "load-more",
+        "element": ".nc-events__load-more",
+        "optional": true
+      },
+      {
+        "name": "results-count",
+        "element": ".nc-events__results-count",
+        "optional": true
+      },
+      {
+        "name": "search",
+        "element": ".nc-events__search",
+        "optional": true
+      },
+      {
+        "name": "search-icon",
+        "element": ".nc-events__search-icon",
+        "optional": true
+      },
+      {
+        "name": "search-input",
+        "element": ".nc-events__search-input",
+        "optional": true
+      },
+      {
+        "name": "search-wrapper",
+        "element": ".nc-events__search-wrapper",
+        "optional": true
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [],
+  "states": [
+    "default",
+    "hover"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-events-card-meta-item-gap",
+      "--nc-events-card-title-line-height",
+      "--nc-events-card-type-letter-spacing"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "events wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}

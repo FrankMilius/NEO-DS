@@ -1,0 +1,157 @@
+{
+  "$schema": "../schemas/component-recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "feature-list",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "aufgenommen",
+      "organisms"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
+          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
+          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-feature-list"
+    },
+    "slots": [
+      {
+        "name": "content",
+        "element": ".nc-feature-list__content",
+        "optional": false
+      },
+      {
+        "name": "cta",
+        "element": ".nc-feature-list__cta",
+        "optional": false
+      },
+      {
+        "name": "icon",
+        "element": ".nc-feature-list__icon",
+        "optional": false
+      },
+      {
+        "name": "inner",
+        "element": ".nc-feature-list__inner",
+        "optional": false
+      },
+      {
+        "name": "item",
+        "element": ".nc-feature-list__item",
+        "optional": false
+      },
+      {
+        "name": "item-text",
+        "element": ".nc-feature-list__item-text",
+        "optional": false
+      },
+      {
+        "name": "items",
+        "element": ".nc-feature-list__items",
+        "optional": true
+      },
+      {
+        "name": "items-host",
+        "element": ".nc-feature-list__items-host",
+        "optional": true
+      },
+      {
+        "name": "media",
+        "element": ".nc-feature-list__media",
+        "optional": true
+      },
+      {
+        "name": "text",
+        "element": ".nc-feature-list__text",
+        "optional": true
+      },
+      {
+        "name": "video",
+        "element": ".nc-feature-list__video",
+        "optional": true
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "axes": [
+    {
+      "name": "variante",
+      "values": [
+        {
+          "value": "media-left",
+          "modifier": "nc-feature-list--media-left"
+        },
+        {
+          "value": "media-right",
+          "modifier": "nc-feature-list--media-right"
+        },
+        {
+          "value": "valign-bottom",
+          "modifier": "nc-feature-list--valign-bottom"
+        },
+        {
+          "value": "valign-middle",
+          "modifier": "nc-feature-list--valign-middle"
+        },
+        {
+          "value": "valign-top",
+          "modifier": "nc-feature-list--valign-top"
+        },
+        {
+          "value": "with-media",
+          "modifier": "nc-feature-list--with-media"
+        }
+      ],
+      "default": "media-left"
+    }
+  ],
+  "states": [
+    "default"
+  ],
+  "a11y": {
+    "notes": [
+      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+    ]
+  },
+  "constraints": [],
+  "styling": {
+    "tokens": [
+      "--nc-feature-list-icon-margin-top"
+    ]
+  },
+  "recipes": [],
+  "specimens": [
+    {
+      "id": "default",
+      "label": "Standard",
+      "description": "feature-list wie auf der Website",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    }
+  ]
+}
