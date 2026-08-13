@@ -235,7 +235,28 @@
 .nc-mobile-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--fnd-spacing-02);
+
+  // >>> aufgenommen: feste Groesse und Schalter-Aussehen aus neo-overrides.css
+  // 40x40 ist die Mindest-Zielflaeche fuer Fingerbedienung (WCAG 2.5.8 fordert
+  // 24px, 40 ist der bequeme Wert). Deshalb feste Masse statt Polsterung.
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--fnd-radius-sm);
+}
+
+.nc-mobile-toggle:hover {
+  background: var(--fnd-color-background-hover);
+}
+
+.nc-mobile-toggle:focus-visible {
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
 }
 
 .nc-mobile-toggle__icon {

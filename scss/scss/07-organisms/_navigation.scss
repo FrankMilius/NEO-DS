@@ -298,3 +298,15 @@
     display: none !important;
   }
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: Logo-Umkehr im dunklen Thema
+// ---------------------------------------------------------------------------
+// Das Logo liegt als einfarbige Grafik vor. Umkehren ist hier richtig, weil es
+// KEINE Farbflaechen hat — bei einem mehrfarbigen Logo waere eine zweite Datei
+// noetig.
+
+.neo-dark-theme .nc-brand__logo,
+[data-theme="neo-dark-theme"] .nc-brand__logo {
+  filter: invert(1);
+}

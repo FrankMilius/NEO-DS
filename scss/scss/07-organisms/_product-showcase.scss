@@ -24,7 +24,9 @@
 
   @include respond-to('xxl') {
     padding-inline: 0;
-    max-width: var(--container-max-width);
+    // Dieselbe --mod-Stufe wie in der Grundregel: sonst faellt ab xxl die
+    // einzeln gesetzte Breite wieder auf den Standard zurueck.
+    max-width: var(--mod-container-max-width, var(--container-max-width));
   }
 }
 
@@ -248,4 +250,14 @@
   .nc-product-showcase__media-item {
     transition: none;
   }
+}
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: Breitenbegrenzung aus neo-overrides.css
+// ---------------------------------------------------------------------------
+// Gilt auf ALLEN Breiten, nicht erst ab xxl. Die `--mod-`-Stufe davor laesst
+// eine Instanz die Breite einzeln setzen.
+
+.nc-product-showcase {
+  max-width: var(--mod-container-max-width, var(--container-max-width));
 }

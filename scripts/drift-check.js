@@ -12,7 +12,7 @@
  * getan ist, nervt entweder ewig oder hoert zu frueh auf.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -71,7 +71,29 @@ const wurzelKlassen = (css) => new Set(
 const imDs = wurzelKlassen(dsCss), imTheme = wurzelKlassen(ovCss);
 const nurWebsite = [...imTheme].filter((k) => !imDs.has(k)).sort();
 
-// -- 3. Umfang der Klebeschicht ----------------------------------------------
+// -- 3. Komponenten, die es nicht in die Konfig-App geschafft haben -----------
+// Der Sinn der Aufnahme ist nicht das Aufraeumen, sondern dass ein Kundendesign
+// JEDE Komponente erreichen kann. Eine Komponente mit eigenen --nc-*-Tokens,
+// die keine Gruppe in components.groups hat, ist im Konfigurator unsichtbar —
+// die Tokens existieren, aber niemand kann sie setzen.
+const tokenJson = JSON.parse(lies(resolve(wurzel, 'data/design-tokens.json')) || '{"components":{"groups":[]}}');
+const gruppen = new Set(tokenJson.components.groups.map((g) => g.id));
+const ohneGruppe = [];
+for (const ebene of ['04-objects', '05-atoms', '06-molecules', '07-organisms']) {
+  const dir = resolve(wurzel, 'scss/scss', ebene);
+  if (!existsSync(dir)) continue;
+  for (const f of readdirSync(dir)) {
+    if (!f.endsWith('.scss') || f === '_index.scss') continue;
+    const name = f.slice(1, -5);
+    if (gruppen.has(name)) continue;
+    const t = readFileSync(resolve(dir, f), 'utf8');
+    const eigene = new Set(t.match(new RegExp(`--nc-${name}-[a-z0-9-]+`, 'g')) || []);
+    if (eigene.size) ohneGruppe.push({ name, ebene, tokens: eigene.size });
+  }
+}
+ohneGruppe.sort((a, b) => b.tokens - a.tokens);
+
+// -- 4. Umfang der Klebeschicht ----------------------------------------------
 const zeilen = ovCss ? ovCss.split('\n').length : 0;
 const regeln = (ovCss.replace(/\/\*[\s\S]*?\*\//g, '').match(/\{/g) || []).length;
 
@@ -79,6 +101,7 @@ const regeln = (ovCss.replace(/\/\*[\s\S]*?\*\//g, '').match(/\{/g) || []).lengt
 const jetzt = {
   tokenAbweichend, tokenUnbekannt,
   komponentenNurWebsite: nurWebsite.length,
+  komponentenOhneKonfig: ohneGruppe.length,
   overridesZeilen: zeilen, overridesRegeln: regeln,
 };
 
@@ -96,13 +119,14 @@ const fortschritt = (k) => {
   return `   ${weg} erledigt von ${start[k]}  ${Math.round(weg / start[k] * 100)}%`;
 };
 
-const offen = jetzt.tokenAbweichend + jetzt.komponentenNurWebsite;
+const offen = jetzt.tokenAbweichend + jetzt.komponentenNurWebsite + jetzt.komponentenOhneKonfig;
 
 console.log('\nDRIFT: Design System ↔ Website' + (start ? `   (Ausgangswert vom ${start.datum})` : ''));
 console.log('─'.repeat(64));
 console.log(`  Abweichende Tokens          ${String(jetzt.tokenAbweichend).padStart(5)}${fortschritt('tokenAbweichend')}`);
 console.log(`  Tokens dem DS unbekannt     ${String(jetzt.tokenUnbekannt).padStart(5)}${fortschritt('tokenUnbekannt')}`);
 console.log(`  Komponenten nur auf Website ${String(jetzt.komponentenNurWebsite).padStart(5)}${fortschritt('komponentenNurWebsite')}`);
+console.log(`  Nicht in der Konfig-App     ${String(jetzt.komponentenOhneKonfig).padStart(5)}${fortschritt('komponentenOhneKonfig')}`);
 console.log(`  neo-overrides.css Zeilen    ${String(jetzt.overridesZeilen).padStart(5)}${fortschritt('overridesZeilen')}`);
 console.log(`  neo-overrides.css Regeln    ${String(jetzt.overridesRegeln).padStart(5)}${fortschritt('overridesRegeln')}`);
 
@@ -120,6 +144,11 @@ if (nurWebsite.length) {
   console.log(`\n  Komponenten ohne DS-Entsprechung (${nurWebsite.length}):`);
   console.log('    ' + nurWebsite.slice(0, 12).join(', '));
   if (nurWebsite.length > 12) console.log(`    … und ${nurWebsite.length - 12} weitere`);
+}
+if (ohneGruppe.length) {
+  console.log(`\n  Mit eigenen Tokens, aber im Konfigurator unsichtbar (${ohneGruppe.length}):`);
+  ohneGruppe.slice(0, 8).forEach((k) => console.log(`    ${k.name.padEnd(22)}${k.ebene.padEnd(14)}${String(k.tokens).padStart(3)} Tokens`));
+  if (ohneGruppe.length > 8) console.log(`    … und ${ohneGruppe.length - 8} weitere`);
 }
 console.log('\n  Einzelheiten: DRUPAL11/BACKLOG.md, Abschnitt „DS-Website-Vereinigung".');
 process.exit(1);

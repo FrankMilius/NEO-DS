@@ -716,3 +716,21 @@
     transform: none;
   }
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: Karten-Schatten und Navigations-Hervorhebung
+// ---------------------------------------------------------------------------
+
+.nc-card {
+  --nc-card-shadow: 0 2px 4px rgba(0, 0, 0, .06);
+  --nc-card-shadow-hover: 0 10px 28px rgba(0, 0, 0, .12);
+}
+
+// Nur Karten, die WIRKLICH woandershin fuehren, leuchten beim Ueberfahren auf.
+// `:has(.nc-card__title-link)` faengt die Faelle, in denen das Markup den
+// Modifier nicht setzt, der Titel aber verlinkt ist.
+.nc-card--navigational,
+.nc-card:has(.nc-card__title-link) {
+  --nc-card-hover-border: var(--fnd-color-background-accent);
+  --nc-card-hover-glow: var(--fnd-color-background-accent);
+}

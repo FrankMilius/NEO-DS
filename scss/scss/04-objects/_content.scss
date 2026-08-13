@@ -1,0 +1,32 @@
+// ==========================================================================
+// 04-Objects: Content
+// ==========================================================================
+// >>> aufgenommen: aus neo-overrides.css (Website ist fuehrend)
+//
+// Die Lesespalte einer Inhaltsseite. ZWEI Breiten, bewusst verschieden:
+// der Rahmen darf weit sein, der LESETEXT nicht. Ueber etwa 75 Zeichen pro
+// Zeile findet das Auge den Zeilenanfang schlechter wieder.
+//
+// Hinweis: die --nc-content-*-Tokens in _section.scss meinen etwas anderes
+// (das Spaltenverhaeltnis eines Abschnitts) und gehoeren nicht hierher.
+// ==========================================================================
+
+.nc-content {
+  max-inline-size: var(--container-xwide, 1536px);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline, clamp(1rem, 0.8rem + 1vw, 1.5rem));
+  box-sizing: border-box;
+}
+
+.nc-content__title,
+.nc-content__meta {
+  max-inline-size: var(--container-prose, 72ch);
+  margin-inline: auto;
+}
+
+// Linksbuendiges Lesen: Titel und Angaben stehen an der Spaltenkante statt
+// mittig ueber ihr.
+body.is-reading-left .nc-content__title,
+body.is-reading-left .nc-content__meta {
+  margin-inline: 0;
+}

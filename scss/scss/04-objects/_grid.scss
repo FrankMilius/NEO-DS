@@ -95,3 +95,30 @@
 .o-grid--between {
   justify-content: space-between;
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: .nc-grid-Varianten aus neo-overrides.css
+// ---------------------------------------------------------------------------
+// Zwei Aufteilungen, die der Layout Builder anbietet. Beide beginnen einspaltig
+// und teilen erst ab 768px auf — Umbruch nach unten ist die Grundform, nicht
+// der Sonderfall.
+
+.nc-grid--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--fnd-spacing-08);
+}
+
+@media (min-width: 768px) {
+  .nc-grid--split { grid-template-columns: 1fr 1fr; }
+}
+
+.nc-grid--with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--fnd-spacing-08);
+}
+
+@media (min-width: 768px) {
+  .nc-grid--with-sidebar { grid-template-columns: 2fr 1fr; }
+}

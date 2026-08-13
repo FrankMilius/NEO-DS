@@ -9,6 +9,31 @@
 @use '../01-tools' as *;
 
 /* >>> aufgenommen: feature-list */
+
+// ---------------------------------------------------------------------------
+// Wurzel
+// ---------------------------------------------------------------------------
+// Der Blocktyp hatte bis hierher KEINE eigene Wurzelregel. Seine gesamte
+// Grundgestaltung kam versehentlich aus 06-molecules/_pricing.scss: dort
+// heisst die Merkmalsliste EINER Preiskarte genauso, ist aber ein <ul>. Deren
+// `padding: 0` traf deshalb auch diesen Block — der zugleich .nc-section ist
+// und seine Flaechenpolsterung genau dadurch verlor.
+//
+// Solange beide Komponenten denselben Namen tragen, muss die spaeter geladene
+// ihre Werte selbst setzen. Die Umbenennung steht im BACKLOG; bis dahin ist
+// diese Regel die Absicherung.
+
+.nc-feature-list {
+  list-style: none;
+  display: grid;
+  gap: var(--fnd-spacing-02);
+  margin: 1rem 0;
+
+  // Waagerecht buendig mit dem Text, senkrecht die Abschnittspolsterung.
+  padding-inline: 0;
+  padding-block: var(--nc-section-padding-block, var(--fnd-spacing-10));
+}
+
 .nc-feature-list__inner {
   display: flex;
   flex-direction: column;

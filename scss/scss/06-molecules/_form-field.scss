@@ -137,3 +137,25 @@
 
   &--horizontal { @include form-field-horizontal; }
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: Hilfetext und Fehlerzustand aus neo-overrides.css
+// ---------------------------------------------------------------------------
+
+.nc-form-field__help {
+  margin: 0.3rem 0 0;
+  font-size: var(--nc-type-caption-size);
+  line-height: var(--lh-normal);
+  color: var(--fnd-color-text-secondary);
+}
+
+// Der Fehlerzustand faerbt die Umrandung des EINGABEFELDS, nicht des Feldes.
+// Der Schatten verdoppelt die Linie optisch, ohne das Layout zu verschieben —
+// eine echte 2px-Umrandung wuerde alles um ein Pixel springen lassen.
+.nc-form-field--invalid .nc-input,
+.nc-form-field--invalid .nc-textarea,
+.nc-form-field--invalid .nc-select,
+.nc-form-field--invalid .nc-multiselect__trigger {
+  border-color: var(--fnd-color-text-danger, #a31f1f);
+  box-shadow: 0 0 0 1px var(--fnd-color-text-danger, #a31f1f);
+}

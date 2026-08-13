@@ -603,3 +603,24 @@
     display: none;
   }
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: aus neo-overrides.css
+// ---------------------------------------------------------------------------
+
+// Die beiden Symbole liegen uebereinander in EINEM Schalter. Ohne das
+// Durchreichen faengt das obere den Klick ab und der Schalter reagiert nicht.
+.nc-gallery__autoplay-play,
+.nc-gallery__autoplay-pause {
+  pointer-events: none;
+}
+
+// In der Galerie liegt der Schalter auf dem Bild. Deshalb hier die feste
+// Hell-Dunkel-Paarung statt der thematischen Farben: das Bild darunter
+// wechselt nicht mit dem Thema.
+.nc-gallery .nc-button--primary {
+  --nc-button-primary-bg: var(--fnd-color-always-light);
+  --nc-button-primary-color: var(--fnd-color-always-dark);
+  --nc-button-primary-bg-hover: color-mix(in srgb, var(--fnd-color-always-light) 85%, transparent);
+  --nc-button-primary-border: transparent;
+}

@@ -92,3 +92,16 @@
   }
 }
 /* <<< aufgenommen: hero-tmob */
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: Parallaxe-Flaeche im Hero
+// ---------------------------------------------------------------------------
+// Die Flaeche fuellt den Hero und liegt UNTER dem Text (z-index 1). Ohne die
+// eigene Positionierung fliesst sie im Textfluss mit und schiebt ihn nach unten.
+
+.nc-hero-tmob .nc-parallax-bg {
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  background-color: transparent;
+}

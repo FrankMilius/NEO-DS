@@ -246,3 +246,32 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+// ---------------------------------------------------------------------------
+// >>> aufgenommen: .nc-section aus neo-overrides.css
+// ---------------------------------------------------------------------------
+// Das Objekt oben heisst `.section`, die Website benutzt durchgehend die
+// praefigierte Form. Beide fuehren dieselbe Polsterung, deshalb steht sie hier
+// und nicht in einer eigenen Datei: eine zweite Datei auf einer anderen Ebene
+// wuerde je nach Ladeplatz die eine oder die andere Fassung aushebeln.
+
+.nc-section {
+  padding-block: var(--nc-section-padding-block, var(--fnd-spacing-10));
+}
+
+// Randlose Abschnitte tragen ihre Polsterung im Inneren.
+.nc-section--full {
+  padding-block: 0;
+}
+
+// Text-Media legt eine Flaeche HINTER den Abschnitt. Ohne das Beschneiden
+// laeuft sie ueber die Abschnittskante hinaus.
+.nc-section:has(.nc-text-media) {
+  position: relative;
+  overflow: hidden;
+}
+
+.nc-section:has(.nc-text-media) > .nc-container {
+  position: relative;
+  z-index: 2;
+}
