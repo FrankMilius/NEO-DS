@@ -72,7 +72,10 @@ try {
   await senden('Runtime.enable', {});
   await senden('Emulation.setDeviceMetricsOverride',
     { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-  await warten(3500);
+  // 5s statt 3,5: Die Hauptnavigation wird per JavaScript aufgebaut und war
+  // bei 3,5s regelmaessig noch nicht im Baum — die Messung meldete dann
+  // „nicht im Baum" fuer Elemente, die es sehr wohl gibt.
+  await warten(5000);
 
   if (oeffnen) {
     // Das Mega-Menue oeffnen. Ohne das ist `.panel` nicht im Baum.

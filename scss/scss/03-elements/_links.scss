@@ -12,7 +12,18 @@ a {
   text-decoration: none;
   @include transition(color, '200');
   
-  &:hover {
+  // NUR fuer Links ohne Komponentenklasse — also fuer Fliesstext.
+  //
+  // Vorher galt das fuer jedes <a>. In der Hauptnavigation legte sich damit
+  // ein SCHWARZER Unterstrich beim Ueberfahren ueber die Lime-Kante: Die
+  // Regel hat Spezifitaet (0,1,1) und schlug sowohl `a` als auch das
+  // spezifitaetslose `:where(.site-header a)` im Theme.
+  //
+  // Die Entscheidung haengt jetzt an der ROLLE des Links, nicht am Element:
+  // Wer eine Komponentenklasse traegt, wird von seiner Komponente gestaltet.
+  // Menuepunkte, Knoepfe und Karten bringen ihre eigene Kennzeichnung mit —
+  // ein zusaetzlicher Unterstrich verdoppelt sie nur.
+  &:not([class]):hover {
     text-decoration: underline;
   }
 
