@@ -2929,7 +2929,12 @@
 
 :root {
   --nc-nav-height:                var(--fnd-size-xl);                // 64px
-  --nc-nav-bg:                    color-mix(in srgb, var(--fnd-color-background-base) 90%, transparent);
+  // DECKEND, nicht durchscheinend. Das Mega-Menue liegt IM Kopf und wirft
+  // seinen Schatten nach allen Seiten. Bei 90% Deckkraft schlaegt der nach
+  // oben durch die Leiste hindurch — und genau daran liest man zwei Teile
+  // statt eines aufgeklappten Elements. Deckend verdeckt die Leiste den
+  // oberen Teil des Schattens, und die Erhebung gehoert dem Verbund.
+  --nc-nav-bg:                    var(--fnd-color-background-base);
   --nc-nav-bg-solid:              var(--fnd-color-background-base);
   --nc-nav-border:                var(--fnd-color-border-secondary);
   --nc-nav-border-width:          var(--fnd-border-width-xs);

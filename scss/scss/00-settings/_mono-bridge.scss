@@ -81,6 +81,10 @@
   // sein Vorhandensein, nicht sein Kontrast. Fuer Rahmen gilt das nicht —
   // dort braucht es 3:1, dafuer gibt es --accent-line im monochromen Thema.
   --fnd-color-accent-underline:            var(--fnd-accent-500);
+  // FEHLTE bisher in der Bruecke — dadurch ueberlebte hier das Cyan
+  // #0e7490 aus der alten Palette. Schrift im Akzent braucht 4,5:1;
+  // Stufe 800 liefert 6,41 auf Weiss.
+  --fnd-color-text-accent:                 var(--fnd-accent-800);
 
   // -- Rahmen ---------------------------------------------------------------
   // `border-primary` bleibt die leise Trennlinie, damit sich das Bild nicht
@@ -179,6 +183,7 @@
   --fnd-color-background-accent-secondary: var(--fnd-accent-400);
   --fnd-color-on-accent:                   #000000;
   --fnd-color-accent-underline:            var(--fnd-accent-500);
+  --fnd-color-text-accent:                 var(--fnd-accent-500);   // 10,95 auf dem Grund
 
   --fnd-color-border-primary:   var(--fnd-neutral-800);
   --fnd-color-border-secondary: var(--fnd-neutral-800);

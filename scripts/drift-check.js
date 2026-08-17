@@ -48,7 +48,13 @@ const merge = (bl, namen) => {
 // haelt alles fuer unbekannt, was ueber die JSON-Ebene kommt — etwa die
 // z-index-Skala.
 const dsCss = lies(resolve(wurzel, 'styles.css')) + '\n' + lies(resolve(wurzel, 'data/design-tokens.css'));
-const thCss = lies(resolve(THEME, 'css/theme-overrides.css'));
+// BEIDE Klebeschichten lesen. Bis 2026-08-17 sah diese Pruefung nur
+// theme-overrides.css — und uebersah dadurch einen vollstaendigen Palettenblock
+// in neo-overrides.css, der die Umstellung auf Graphit zur Haelfte aushebelte.
+// Die Datei laedt spaeter und gewinnt; sie zu ignorieren hiess, das Ergebnis
+// der Pruefung an der falschen Stelle zu suchen.
+const thCss = lies(resolve(THEME, 'css/theme-overrides.css'))
+            + '\n' + lies(resolve(THEME, 'css/neo-overrides.css'));
 const ds = leaf(dsCss), th = leaf(thCss);
 const HELL = new Set([':root', '.neo-light-theme']);
 const DUNKEL = new Set(['.neo-dark-theme']);
