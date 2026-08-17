@@ -186,13 +186,14 @@ export const Links = {
       Textfarbe, leicht gefettet, abgesetzter Unterstrich im Akzent. Der Akzent
       ist absichtlich <b>nicht</b> die Schriftfarbe — als Schrift auf Weiss
       erreicht er 1,63. Der Unterstrich dagegen ist kein Text; fuer ihn gelten
-      die 3:1 aus WCAG 1.4.11, und <code>--accent-line</code> erfuellt sie mit 3,91.
+      die 3:1 aus WCAG 1.4.11, und <code>--accent-underline</code> traegt den Markenwert — sein Signal ist
+      sein Vorhandensein, nicht sein Kontrast.
       Beim Ueberfahren wird er dicker statt bunter: Ein Farbwechsel wuerde die
       Unterscheidung wieder allein der Farbe ueberlassen.
     </p>
     <p style="font-size:1rem;line-height:1.7">
       Ein Satz mit einem
-      <a href="#" style="color:inherit;font-weight:550;text-decoration:underline;text-decoration-color:#009612;text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-skip-ink:auto">Verweis auf eine andere Seite</a>
+      <a href="#" style="color:inherit;font-weight:550;text-decoration:underline;text-decoration-color:#37e93d;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-skip-ink:auto">Verweis auf eine andere Seite</a>
       mitten im Fliesstext, der sich abhebt, ohne zu schreien. Die Unterlaengen
       von g, j und p bleiben frei, weil der Strich sie umgeht.
     </p>

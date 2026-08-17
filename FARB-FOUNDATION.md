@@ -85,7 +85,27 @@ Oberhalb taugt Lime nur als **Fläche**, unterhalb nur als **Schrift**. Das ist
 keine Empfehlung, sondern Arithmetik.
 
 **Der Akzent ist deshalb nie Schrift auf hellem Grund.** Textlinks tragen die
-Textfarbe und einen Unterstrich in `--accent-line`.
+Textfarbe und einen Unterstrich in `--accent-underline`.
+
+### Unterstrich und Kante — zwei Rollen
+
+| Token | Wert | Kontrast | Wofür |
+|---|---|---|---|
+| `--accent-line` | Stufe 700 | 3,91:1 | **Rahmen.** Macht ein Element erkennbar und ist das einzige Zeichen dafür — WCAG 1.4.11 verlangt hier 3:1. |
+| `--accent-underline` | Stufe 500 | 1,63:1 | **Unterstrich unter Schrift.** Sein Signal ist, *dass* er da ist; den Kontrast trägt die Schrift darüber. |
+
+Wer die beiden zusammenlegt, muss sich zwischen richtig und schön entscheiden.
+Getrennt kann beides stimmen.
+
+Die Maße stehen in `--fnd-underline-offset` (4px) und
+`--fnd-underline-thickness` (2px) — in `00-settings/_typography.scss`, weil ein
+Unterstrich eine Leseeigenschaft ist und kein Fokusmerkmal. 4px statt der
+früheren 3: Bei einer 2px starken Linie berührte der Strich in kleineren
+Graden die Unterlängen, und `text-decoration-skip-ink` schnitt ihn dort auf.
+
+Dieselben Token tragen die **Kante in Navigationslisten** — dort erscheint sie
+nur bei Überfahren, Fokus und beim aktuellen Ast, nie dauerhaft. Damit sitzen
+Fließtext-Unterstrich und Navigationskante auf derselben Höhe.
 
 Im hellen Thema wird der Akzent beim Überfahren **dunkler**, im dunklen
 **heller** — die Bewegung geht immer vom Grund weg.

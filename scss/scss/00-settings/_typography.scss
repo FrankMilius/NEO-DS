@@ -145,6 +145,19 @@ $type-min-floor: 12px !default;
 // ---------------------------------------------------------------------------
 
 :root {
+  // -------------------------------------------------------------------------
+  // Unterstriche
+  // -------------------------------------------------------------------------
+  // Abstand des Unterstrichs zur Grundlinie. 4px statt der frueheren 3:
+  // Bei einer 2px starken Linie beruehrte der Strich bei kleineren Graden die
+  // Unterlaengen, und `text-decoration-skip-ink` schnitt ihn dort auf. Ein
+  // Pixel mehr Abstand laesst die Linie durchlaufen.
+  //
+  // Gilt fuer Fliesstext-Links UND fuer die Kante in Navigationslisten, damit
+  // beide auf derselben Hoehe sitzen.
+  --fnd-underline-offset: 4px;
+  --fnd-underline-thickness: 2px;
+
   // --- Font families ---
   // Metrik-Fallbacks (Quick-Win M) direkt nach der Webschrift im Stack.
   --font-body: 'Manrope', 'Manrope Fallback', 'Helvetica Neue', Arial, sans-serif;
