@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-13
+// Generated: 2026-08-17
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -750,6 +750,11 @@ export const semanticTokenGroups = [
         "id": "accent-line",
         "label": "Akzentlinie",
         "description": "Rahmen und Unterstrich. Erfüllt 3:1 nach WCAG 1.4.11."
+      },
+      {
+        "id": "accent-underline",
+        "label": "Akzent-Unterstrich",
+        "description": "Unterstrich unter Schrift. Trägt den Markenwert — sein Signal ist sein Vorhandensein, nicht sein Kontrast. Für Rahmen gilt das nicht, dafür gibt es Akzentlinie."
       },
       {
         "id": "accent-text",

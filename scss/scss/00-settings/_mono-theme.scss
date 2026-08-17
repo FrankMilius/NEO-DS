@@ -99,7 +99,22 @@
   --accent-surface-hover:  var(--fnd-accent-600);   //  8,55
   --accent-surface-active: var(--fnd-accent-700);   //  5,37
   --accent-on:             #000000;
-  --accent-line:           var(--fnd-accent-700);   // 3,91 auf Weiss — Rahmen, Unterstrich
+  // ZWEI ROLLEN, NICHT EINE.
+  //
+  // `accent-line` ist ein RAHMEN. Er macht ein Element erkennbar und ist damit
+  // das einzige Zeichen dafuer — WCAG 1.4.11 verlangt hier 3:1, Stufe 700
+  // liefert 3,91.
+  //
+  // `accent-underline` ist ein UNTERSTRICH unter Schrift. Sein Signal ist,
+  // DASS er da ist, nicht welche Farbe er hat: Ein Strich, wo vorher keiner
+  // war, ist auch blass wahrnehmbar, und die Schrift darueber traegt den
+  // Kontrast. Deshalb darf hier der Markenwert stehen (1,63 auf Weiss) —
+  // er sieht nach Lime aus, waehrend Stufe 700 nach Waldgruen aussieht.
+  //
+  // Wer die beiden zusammenlegt, muss sich zwischen richtig und schoen
+  // entscheiden. Getrennt kann beides stimmen.
+  --accent-line:           var(--fnd-accent-700);   // 3,91 auf Weiss — Rahmen
+  --accent-underline:      var(--fnd-accent-500);   // Markenwert — Unterstrich
   --accent-text:           var(--fnd-accent-800);   // 6,41 — nur wo Schrift im Akzent sein MUSS
 
   // -- Rueckmeldung ---------------------------------------------------------
@@ -177,6 +192,7 @@
   --accent-surface-active: var(--fnd-accent-400);
   --accent-on:             #000000;
   --accent-line:           var(--fnd-accent-600);   // 7,27 auf dem Grund
+  --accent-underline:      var(--fnd-accent-500);   // Markenwert, 10,95 auf dem Grund
   // Laengerer Text im vollen Akzent flimmert auf dunklem Grund (Halation).
   // Kontrastwerte zeigen das nicht an — 10,95:1 sieht rechnerisch bestens aus.
   // Deshalb hier eine Stufe entsaettigt statt des Markenwerts.

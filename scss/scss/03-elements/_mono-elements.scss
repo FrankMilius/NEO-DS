@@ -24,7 +24,9 @@
   // Der Akzent ist hier ABSICHTLICH nicht die Schriftfarbe: Der Markenwert
   // erreicht als Schrift auf Weiss 1,63 und waere unlesbar. Der Unterstrich
   // dagegen ist kein Text — fuer ihn gelten die 3:1 aus WCAG 1.4.11, und
-  // die Akzentstufe 700 erfuellt sie mit 3,91.
+  // der Unterstrich traegt den MARKENWERT — sein Signal ist sein
+// Vorhandensein, nicht sein Kontrast, und die Schrift darueber traegt
+// den Kontrast ohnehin.
   //
   // Zugleich loest das die Anforderung aus WCAG 1.4.1: Der Link ist nicht
   // allein an der Farbe zu erkennen, sondern an Fettung UND Unterstrich. Genau
@@ -35,7 +37,7 @@
     color: inherit;
     font-weight: 550;
     text-decoration: underline;
-    text-decoration-color: var(--fnd-accent-700);
+    text-decoration-color: var(--fnd-color-accent-underline);
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
     // Unterlaengen nicht durchstreichen. Ohne das schneidet der Strich
