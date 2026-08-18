@@ -70,6 +70,35 @@ sonst landet es still in „Projektgerüst".
 Ausführlicher: [Kategorien](references/kategorien.md) ·
 [Maße](references/masse.md) · [Ablauf und Ausgabeformat](references/ablauf.md)
 
+## Das Entscheidungsregister
+
+`data/entscheidungen.json` führt jede final getroffene Entscheidung mit einer
+**Probe** — einer Prüfung, die wöchentlich beantwortet, ob sie noch gilt.
+
+Der Grund steht in der Datei: Die Slate-Palette lief am 23.06.2026 vier Tage
+produktiv, ohne dass es auffiel; `neo-overrides.css` hatte sie still
+ausgehebelt. **Eine Entscheidung ohne Gegenprobe ist eine Absicht, kein
+Zustand.**
+
+Eine Entscheidung gehört hinein, wenn du sie ausdrücklich als final bezeichnet
+hast **und** sie sich im Bestand nachweisen lässt. Was sich nicht prüfen lässt,
+gehört ins `BACKLOG.md` — ein Eintrag ohne Probe wäre eine Behauptung mit Datum.
+
+| Probe | Prüft |
+|---|---|
+| `muster` | Regex kommt in der Datei vor (`erwartet: false` = darf nicht) |
+| `abwesend` | Die Datei darf es nicht geben |
+| `vorhanden` | Die Datei muss es geben |
+
+`repo` wählt das Repository: `ds` (Vorgabe), `theme`, `site`. Mit
+`"status": "offen"` wird eine noch nicht entschiedene Frage mitgeführt, ohne
+als gebrochen zu gelten — so steht der Slider-Namenskonflikt im Register,
+bevor er gelöst ist.
+
+**Nach jeder finalen Entscheidung einen Eintrag ergänzen.** Das ist die fünfte
+Station der Gesamtstrecke: Design System, Konfig-App, Dokumentation, Storybook —
+und der Nachweis, dass es so bleibt.
+
 ## Die vier Maße, auf die es ankommt
 
 Zählungen sagen wenig — 67 Commits können eine gute oder eine schlechte Woche
@@ -89,9 +118,33 @@ vorkommen. Nicht automatisch tot — vieles gehört zu Storybook oder wartet auf
 seinen Einsatz. Aber hier stand auch das Card-Atom, 377 Zeilen, die niemand je
 gesehen hat.
 
-**Offene Befunde.** Was die Prüfwerkzeuge gerade melden: doppelte Wurzelklassen,
-nicht geladene Skills, verirrte Build-Artefakte. Über Wochen gelesen zeigt sich,
-ob ein Befund abgearbeitet wird oder nur mitreist.
+**Offene Befunde — mit Alter.** Was die Prüfwerkzeuge gerade melden: doppelte
+Wurzelklassen, nicht geladene Skills, verirrte Build-Artefakte. Die Spalte
+„offen seit" liest sich aus den JSON-Ständen früherer Bilanzen; ein Befund von
+gestern und einer, der seit sechs Wochen mitreist, sind nicht dasselbe.
+
+## Drei Zahlen für die lange Sicht
+
+Einzeln sagen sie wenig, über Monate viel:
+
+**Gewicht des gebauten CSS.** Bytes, Regeln, Selektoren, Eigenschaften. Die
+Card-Löschung nahm 37 Regeln weg — ohne diese Zahl merkt niemand, ob
+`styles.css` über Monate wächst.
+
+> Es ist der Stand **von heute**, nicht der am Periodenende: `styles.css` ist
+> gitignoriert und hat keine Historie. Für den Montagslauf stimmt das, weil
+> heute das Periodenende ist. Ein nachträglicher Bericht über eine alte Woche
+> zeigt hier das heutige Gewicht — die Seite sagt das dazu.
+
+**Backlog-Bewegung.** Zugefügt gegen abgearbeitet. `BACKLOG.md` liegt in git,
+deshalb wird hier wirklich der Stand **am Periodenende** gelesen
+(`git show <sha>:BACKLOG.md`) und nicht der von heute. Ein Bericht über den
+Juni zeigt das Backlog vom Juni.
+
+**Fremdanteil.** Wer hat außer dir committet. Der Wert liegt weniger in der Zahl
+als in der Frage, die sie stellt: Fällt fremde Arbeit an, muss sie beim Committen
+ausgenommen werden — genau daran ist hier schon einmal eine Icon-Korrektur
+mitgerutscht.
 
 ## Der Verbrauch
 

@@ -80,6 +80,14 @@ Was beim Ändern schiefgehen kann, in der Reihenfolge der Wahrscheinlichkeit:
 | **Dubletten wieder mitgezählt** | Verbrauch springt etwa aufs Doppelte | Entdopplung über `message.id` in `nutzung()` prüfen |
 | **Preise veraltet** | Beträge passen nicht zur Abrechnung | nur `data/claude-preise.json` |
 | **Werkzeug bricht** | Befund „nicht ermittelbar" | Absicht — ein fehlender Wert darf die Bilanz nicht kippen |
+| **Alle Deltas stehen auf null** | Vergleich mit dem eigenen Stand | `zeitraum.bis === bis` muss übersprungen werden |
+| **Probe nicht mehr ausführbar** | Entscheidung „unprüfbar" | Die geprüfte Datei wurde umbenannt — Probe nachziehen, nicht löschen |
+
+> **Der Selbstvergleich ist die unauffälligste Falle.** Ein zweiter Lauf
+> desselben Zeitraums überschreibt seine eigene JSON-Datei und fände sie dann
+> als „Vorwoche" — jede Veränderung wäre für immer null, und zwar
+> überzeugend. `cssGewicht`, `backlog` und `befundAlter` überspringen deshalb
+> jeden Stand mit gleichem `zeitraum.bis`.
 
 > **Die erste zutreffende Domänenregel gewinnt.** Deshalb steht Besonderes oben
 > und Allgemeines unten. Wer eine Regel ans Ende hängt, wundert sich, dass sie

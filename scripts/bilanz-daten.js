@@ -453,6 +453,193 @@ export function ungenutzt() {
 }
 
 // ---------------------------------------------------------------------------
+// 4b · Entscheidungsregister — gilt das noch?
+// ---------------------------------------------------------------------------
+// Die Slate-Palette lief vier Tage produktiv, ohne dass es auffiel. Eine
+// Entscheidung ohne woechentliche Gegenprobe ist eine Absicht, kein Zustand.
+
+const REPO_PFAD = { ds: () => wurzel, theme: () => REPOS[1].pfad, site: () => REPOS[2].pfad };
+
+export function entscheidungen() {
+  let reg;
+  try {
+    reg = JSON.parse(readFileSync(resolve(wurzel, 'data/entscheidungen.json'), 'utf8'));
+  } catch { return null; }
+
+  const heute = Date.now();
+  const geprueft = reg.entscheidungen.map((x) => {
+    const basis = (REPO_PFAD[x.probe.repo] || REPO_PFAD.ds)();
+    const datei = resolve(basis, x.probe.datei);
+    let haelt = null;
+    let bemerkung = '';
+
+    try {
+      if (x.probe.art === 'abwesend') {
+        haelt = !existsSync(datei);
+        if (!haelt) bemerkung = 'Die Datei ist wieder da.';
+      } else if (x.probe.art === 'vorhanden') {
+        haelt = existsSync(datei);
+        if (!haelt) bemerkung = 'Die Datei fehlt.';
+      } else {
+        if (!existsSync(datei)) {
+          haelt = false; bemerkung = 'Die geprüfte Datei existiert nicht mehr.';
+        } else {
+          const treffer = new RegExp(x.probe.regex).test(readFileSync(datei, 'utf8'));
+          const erwartet = x.probe.erwartet !== false;
+          haelt = treffer === erwartet;
+          if (!haelt) bemerkung = erwartet ? 'Das Muster ist verschwunden.' : 'Das Muster ist wieder aufgetaucht.';
+        }
+      }
+    } catch (err) {
+      haelt = null;
+      bemerkung = `Probe nicht ausführbar: ${err.message}`;
+    }
+
+    return {
+      ...x,
+      status: x.status || 'gilt',
+      haelt,
+      bemerkung,
+      alterTage: x.seit ? Math.round((heute - new Date(x.seit).getTime()) / 864e5) : null,
+    };
+  });
+
+  return {
+    gesamt: geprueft.length,
+    haltbar: geprueft.filter((x) => x.haelt === true).length,
+    gebrochen: geprueft.filter((x) => x.haelt === false).length,
+    unpruefbar: geprueft.filter((x) => x.haelt === null).length,
+    liste: geprueft.sort((a, b) => (a.haelt === false ? -1 : b.haelt === false ? 1 : 0)),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// 4c · Alter der offenen Befunde
+// ---------------------------------------------------------------------------
+// Ein Befund von gestern und einer, der seit sechs Wochen mitreist, sind
+// nicht dasselbe. Die JSON-Staende frueherer Bilanzen sind das Gedaechtnis.
+
+export function befundAlter(aktuelle, bis) {
+  const dir = resolve(wurzel, 'data/bilanz');
+  let staende = [];
+  try {
+    staende = readdirSync(dir).filter((f) => f.endsWith('.json')).sort();
+  } catch { /* erster Lauf */ }
+
+  const erstmals = {};
+  for (const f of staende) {
+    let d;
+    try { d = JSON.parse(readFileSync(resolve(dir, f), 'utf8')); } catch { continue; }
+    if (d.zeitraum?.bis === bis) continue;            // der eigene Stand
+    for (const b of d.befunde || []) {
+      if (!b.gut && !erstmals[b.id]) erstmals[b.id] = d.zeitraum?.bis || f.slice(7, 17);
+    }
+  }
+
+  return aktuelle.map((b) => {
+    const seit = b.gut ? null : erstmals[b.id] || null;
+    const tage = seit ? Math.round((Date.now() - new Date(seit).getTime()) / 864e5) : 0;
+    return { ...b, seit, tage, neu: !b.gut && !seit };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// 4d · Gewicht des gebauten CSS
+// ---------------------------------------------------------------------------
+// Die Card-Loeschung nahm 37 Regeln weg. Ohne diese Zahl merkt niemand, ob
+// styles.css ueber Monate waechst — bis es zu spaet ist, es zu bemerken.
+
+/** `bis` ist noetig, um den eigenen Stand auszuschliessen: Ein zweiter Lauf
+ *  desselben Zeitraums ueberschreibt die Datei und faende sonst sich selbst
+ *  als "Vorwoche" — jede Veraenderung waere dann fuer immer null. */
+export function cssGewicht(bis) {
+  const messen = (p) => {
+    try {
+      const t = readFileSync(p, 'utf8');
+      // Regeln und Selektoren sind NICHT dasselbe: `a, b, c { … }` ist eine
+      // Regel mit drei Selektoren. Der Abstand zwischen beiden Zahlen sagt,
+      // wie stark zusammengefasst wird.
+      const regeln = (t.match(/[^{}]+\{/g) || []);
+      return {
+        bytes: Buffer.byteLength(t),
+        regeln: regeln.length,
+        selektoren: regeln.reduce((a, r) => a + r.slice(0, -1).split(',').length, 0),
+        eigenschaften: (t.match(/--[a-z][\w-]*\s*:/g) || []).length,
+      };
+    } catch { return null; }
+  };
+
+  // ACHTUNG: Das ist der Stand VON HEUTE, nicht der am Periodenende.
+  // styles.css ist gitignoriert, es gibt also keine Historie, aus der sich
+  // ein frueherer Stand rekonstruieren liesse. Fuer den woechentlichen Lauf
+  // stimmt das (heute IST das Periodenende); ein nachtraeglich erstellter
+  // Bericht ueber eine alte Woche zeigt hier das heutige Gewicht.
+  const jetzt = messen(resolve(wurzel, 'styles.css'));
+  if (!jetzt) return null;
+
+  // Vorwoche aus dem letzten Bilanz-Stand
+  let vorher = null;
+  try {
+    const f = readdirSync(resolve(wurzel, 'data/bilanz')).filter((x) => x.endsWith('.json')).sort();
+    for (let i = f.length - 1; i >= 0; i--) {
+      const d = JSON.parse(readFileSync(resolve(wurzel, 'data/bilanz', f[i]), 'utf8'));
+      if (d.zeitraum?.bis === bis) continue;          // der eigene Stand
+      if (d.cssGewicht?.jetzt) { vorher = d.cssGewicht.jetzt; break; }
+    }
+  } catch { /* erster Lauf */ }
+
+  return {
+    jetzt,
+    vorher,
+    delta: vorher ? {
+      bytes: jetzt.bytes - vorher.bytes,
+      regeln: jetzt.regeln - vorher.regeln,
+      eigenschaften: jetzt.eigenschaften - vorher.eigenschaften,
+    } : null,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// 4e · Backlog-Bewegung
+// ---------------------------------------------------------------------------
+
+export function backlog(bis) {
+  // Den Stand AM PERIODENENDE lesen, nicht den von heute. Sonst zeigte ein
+  // Bericht ueber den Juli das Backlog von heute — und die Bewegung waere
+  // eine Erfindung. BACKLOG.md liegt in git, also ist das moeglich; beim
+  // gebauten CSS geht es nicht, weil es ignoriert wird (siehe cssGewicht).
+  const p = resolve(REPOS[2].pfad, 'BACKLOG.md');
+  let text = null;
+
+  const sha = git(REPOS[2].pfad, ['rev-list', '-1', `--before=${bis} 23:59:59`, 'HEAD']).trim();
+  if (sha) text = git(REPOS[2].pfad, ['show', `${sha}:BACKLOG.md`]) || null;
+  if (!text) { try { text = readFileSync(p, 'utf8'); } catch { return null; } }
+
+  const alle = text.match(/^\s*[-*] \[[ xX]\]/gm) || [];
+  const erledigt = text.match(/^\s*[-*] \[[xX]\]/gm) || [];
+  const stand = /^Stand: *([\d-]+)/m.exec(text);
+
+  let vorher = null;
+  try {
+    const f = readdirSync(resolve(wurzel, 'data/bilanz')).filter((x) => x.endsWith('.json')).sort();
+    for (let i = f.length - 1; i >= 0; i--) {
+      const d = JSON.parse(readFileSync(resolve(wurzel, 'data/bilanz', f[i]), 'utf8'));
+      if (d.zeitraum?.bis === bis) continue;          // der eigene Stand
+      if (d.backlog?.gesamt !== undefined) { vorher = d.backlog; break; }
+    }
+  } catch { /* erster Lauf */ }
+
+  const gesamt = alle.length;
+  const fertig = erledigt.length;
+  return {
+    gesamt, erledigt: fertig, offen: gesamt - fertig,
+    abschnitte: (text.match(/^## /gm) || []).length,
+    stand: stand ? stand[1] : null,
+    delta: vorher ? { zugefuegt: gesamt - vorher.gesamt, abgearbeitet: fertig - vorher.erledigt } : null,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // 5 · Abgeleitete Masse
 // ---------------------------------------------------------------------------
 
@@ -480,6 +667,36 @@ export function nacharbeit(commits, von) {
     korrektur,
     aufFrischem,
     quote: commits.length ? Math.round((korrektur / commits.length) * 100) : 0,
+  };
+}
+
+/** Fremdanteil. Wer hat in diesem Zeitraum ausser dir committet?
+ *
+ *  Der Wert liegt weniger in der Zahl als in der Frage, die sie stellt:
+ *  Faellt fremde Arbeit an, muss sie beim Committen ausgenommen werden —
+ *  genau daran ist hier schon einmal eine Icon-Korrektur mitgerutscht. */
+export function autoren(commits) {
+  let eigen = '';
+  try { eigen = execFileSync('git', ['-C', wurzel, 'config', 'user.name'], { encoding: 'utf8' }).trim(); } catch { /* egal */ }
+
+  const nach = {};
+  for (const c of commits) {
+    const k = c.autor || 'unbekannt';
+    nach[k] = nach[k] || { commits: 0, dateien: 0 };
+    nach[k].commits += 1;
+    nach[k].dateien += c.dateien.length;
+  }
+
+  const liste = Object.entries(nach)
+    .map(([name, v]) => ({ name, ...v, eigen: name === eigen }))
+    .sort((a, b) => b.commits - a.commits);
+
+  const fremd = liste.filter((x) => !x.eigen).reduce((a, x) => a + x.commits, 0);
+  return {
+    eigen,
+    liste,
+    fremdCommits: fremd,
+    fremdAnteil: commits.length ? Math.round((fremd / commits.length) * 100) : 0,
   };
 }
 
@@ -547,7 +764,14 @@ export function bilanz({ von, bis }) {
     commits,
     jeDomaene,
     bestand: bestand(),
-    befunde: befunde(),
+    // Alter ZUERST bestimmen, dann die Befunde ablegen — sonst zaehlt der
+    // eigene, gerade geschriebene Stand als "erstes Auftreten" und jeder
+    // Befund waere fuer immer null Tage alt.
+    befunde: befundAlter(befunde(), bis),
+    entscheidungen: entscheidungen(),
+    cssGewicht: cssGewicht(bis),
+    backlog: backlog(bis),
+    autoren: autoren(commits),
     ungenutzt: ungenutzt(),
     nacharbeit: nacharbeit(commits, von),
     gesamtstrecke: gesamtstrecke(commits),

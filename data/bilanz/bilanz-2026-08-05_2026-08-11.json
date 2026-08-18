@@ -1,0 +1,2914 @@
+{
+  "zeitraum": {
+    "von": "2026-08-05",
+    "bis": "2026-08-11"
+  },
+  "erzeugt": "2026-08-18T09:06:35.094Z",
+  "commits": [
+    {
+      "repo": "Theme",
+      "hash": "c140cd4",
+      "datum": "2026-08-11T09:55:54+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): JetBrains Mono statt DM Mono",
+      "rumpf": "Uebernahme aus dem Design System (WEBSITE26 385815b).\n\nVier selbst gehostete Subsets unter fonts/ (latin, latin-ext, jeweils normal\nund kursiv), Variable Font mit wght 100-800. Die beiden DM-Mono-Dateien sind\nentfernt.\n\nneo-fonts.css deklariert die vier Faces mit korrektem Pfad (../fonts/). Der\nKursivschnitt ist bereits deklariert, obwohl noch keine Rolle ihn nutzt:\ndurch font-style und unicode-range laedt der Browser die Datei erst bei\ntatsaechlicher Verwendung.\n\nDie Vorschauseite unter preview/ vermerkt, dass die 500er-Grenze der\nLabel-Rollen jetzt gestalterisch und nicht mehr technisch begruendet ist,\nund dass die Kennzahl produktiv wieder auf bold 700 steht.\n\nGemessen: 0 fehlerhafte Faces, normal und kursiv verfuegbar, Zeichenbreite\nbei 300/500/800 und kursiv identisch 360px. 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/design-tokens.css",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "css/neo-fonts.css",
+          "plus": 44,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/dmmono-400-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/dmmono-500-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-italic-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-italic-latinext.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-latinext.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "preview/mono-vorschlag.html",
+          "plus": 9,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "385815b",
+      "datum": "2026-08-11T09:55:23+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): DM Mono durch JetBrains Mono ersetzen",
+      "rumpf": "JetBrains Mono als Variable Font, wght 100-800, MIT echtem Kursivschnitt.\nDM Mono lag nur in 400 und 500 vor — die Mono-Rollen des Design Systems\n(Dachzeilen, Spaltenkoepfe, Chips, Zaehler, Kennzahlen) waren dadurch auf\n500 gedeckelt, alles darueber waere synthetisch gefettet gewesen.\n\nBEZUG: von Google Fonts, aber SELBST GEHOSTET — wie Manrope und Space\nGrotesk. Eine Einbindung ueber fonts.googleapis.com wuerde bei jedem\nSeitenaufruf die IP der Besucher an Google uebertragen; fuer eine Plattform,\ndie mit DSGVO-Konformitaet wirbt, waere das die falsche Entscheidung.\nJetBrains Mono steht unter der SIL Open Font License 1.1.\n\nVier Subsets: latin und latin-ext, jeweils normal und kursiv. Der\nKursivschnitt wird bereits mitgeliefert, obwohl noch keine Rolle ihn nutzt —\ndurch font-style und unicode-range laedt der Browser die Datei erst, wenn\ntatsaechlich kursiv gesetzt wird. Bis dahin kostet sie nichts.\n\nKENNZAHL WIEDER MIT GEWICHT: sie stand urspruenglich auf Black (900),\nmusste mit DM Mono auf 500 zurueck und liegt jetzt bei bold 700. Die Achse\nendet bei 800; 700 traegt bei diesem Grad bereits deutlich.\n\nDie 500er-Grenze der Label-Rollen bleibt — aber aus gestalterischen\nGruenden, nicht mehr technisch: eine Dachzeile ordnet ein und soll der\nUeberschrift darunter nicht Konkurrenz machen.\n\nMITGEZOGEN: data/design-tokens.json (Quelle) samt Regenerierung und Golden\nMaster, Theme-Vorlagen, styles-theme.css, theme-overrides.css und die\nTypografie-Dokumentation. Der Audit-Bericht bleibt als datierter Stand\nerhalten und erhaelt nur einen Erledigt-Vermerk zu Befund E.\n\nAUSSERDEM — sync-drupal-css.js schreibt jetzt die Schriftpfade um:\nDas DS kompiliert styles.css ins Repo-Root, dort stimmt `fonts/…`. Drupal\nserviert dieselbe Datei aus css/ — dort zeigte derselbe Pfad auf css/fonts/\nund lief ins Leere. ALLE @font-face-Regeln der DS-Ebene antworteten mit 404,\nauch die von Manrope und Space Grotesk. Sichtbar wurde es nicht, weil\nneo-fonts.css im Theme dieselben Familien mit korrektem Pfad nachliefert —\naber jede Seite holte sich vier tote Anfragen, und document.fonts.load()\nbrach mit NetworkError ab. Der Bestandsfehler faellt damit mit weg.\n\nGemessen nach der Umstellung: 0 fehlerhafte Faces, normal UND kursiv\nverfuegbar, und die Zeichenbreite ist bei 300/500/800 sowie kursiv identisch\n360px — echte Monospace-Konturen, kein Fallback. 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 5032,
+          "minus": 9628,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.golden.json",
+          "plus": 3,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/neo-theme-defaults/neo-theme-defaults.json",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/theme-overrides.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "docs/content/typography.html",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/typography-docs.html",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "fonts/dmmono-400-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "fonts/dmmono-500-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-italic-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-italic-latinext.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-latin.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "fonts/jetbrainsmono-var-latinext.woff2",
+          "plus": 0,
+          "minus": 0,
+          "binaer": true,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/sync-drupal-css.js",
+          "plus": 15,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 16,
+          "minus": 11,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_tokens-typography.generated.scss",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_typography.scss",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/02-generic/_fonts.scss",
+          "plus": 45,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/TYPOGRAPHY-AUDIT.md",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "styles-theme.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "website/data/custom-theme.json",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "website/data/themes-config.json",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "sonst"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "0c027ce",
+      "datum": "2026-08-11T08:29:04+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf a5e1338 ziehen",
+      "rumpf": "Enthaelt die Arbeit seit ef33e78:\n  - Suchfeld als Bedieneinheit mit Fokusring am Container, Doppelring\n    beseitigt, Suchen-Knopf aufgehellt\n  - Kopfleisten-Menues fuer Sprache und Erscheinungsbild samt\n    Systemeinstellung, Lime aus dem Sprachschalter entfernt\n  - Footer an das Theme gebunden (Flaeche und Textrollen)\n  - Feature-List: Medium auf die Rasterspalte gedeckelt (207px Ueberhang)\n  - Monospace als Meta-Ebene, gestufte Label-Skala auf 14px-Basis\n  - Uebersichtslink als Ghost-Button, Trennstrich entfernt\n  - Vorschauseite zur Mono-Entscheidung unter preview/\n\nOhne diesen Commit kommt davon nichts auf dem Server an — das Theme liegt\nnicht im Site-Repo, sondern wird per Composer aus composer.piipe.de geholt\nund ist ueber composer.lock festgenagelt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "a5e1338",
+      "datum": "2026-08-11T08:23:07+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(nav): Uebersichtslink als Ghost-Button, Trennstrich entfaellt",
+      "rumpf": "Der horizontale Trennstrich zwischen Tabpanel und Uebersichtslink ist weg.\nDer Link setzt sich jetzt ueber seine eigene Form ab statt ueber eine Linie\ndarueber: ruhend rahmenlos und flaechenlos, bei Hover und Klick erscheint\nein Rahmen.\n\nDieselbe Logik wie beim Ghost-Button des Design Systems — dort laeuft der\nZustand allerdings nur ueber die Flaeche. Der Rahmen kommt hier dazu, weil\nder Link in einem Panel ohne eigene Flaeche steht und die blosse\nAufhellung zu leise waere. Klick zusaetzlich mit dunklerem Rahmen, damit\nHover und Aktivierung unterscheidbar bleiben.\n\nRahmenfarbe aus text-secondary, nicht aus --nn-line: der Rahmen traegt die\nErkennbarkeit des Bedienelements und braucht 3:1 (WCAG 1.4.11). --nn-line\nkaeme nur auf 1,38:1 — dieselbe Rechnung wie beim Suchen-Knopf.\n\nDie Breitenkopplung des Links an --nav-dropdown-cols-max ist entfallen: sie\nexistierte nur, damit die Trennlinie buendig zur Liste sass. Ohne Linie\nrichtet sich der Link nach seinem Inhalt (gemessen 140px statt 640).\n\nAUSSERDEM: die globale Regel a:hover mit text-decoration underline (0,1,1)\nschlug die Regel am Link und unterstrich das Wort zusaetzlich zum Rahmen —\nzwei Merkmale fuer dieselbe Aussage. Mit hoeherer Spezifitaet abgeschaltet.\n\nGemessen: ruhend transparent, Hover Rahmen rgb(88,102,115) + Flaeche,\nKlick Rahmen rgb(15,20,25). Trefferflaeche 44px bleibt. 71 Seiten\nfehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 43,
+          "minus": 28,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "a2e024a",
+      "datum": "2026-08-10T17:36:17+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): DS-Build nachziehen (Mono-Label-Skala auf 14px-Basis)",
+      "rumpf": "Uebernahme aus dem Design System (WEBSITE26). Dachzeilen jetzt\n16-18px (Hero), 14-16px (Section), 12-14px (Karte/Menue/Utility).\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "816e097",
+      "datum": "2026-08-10T17:36:17+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Mono-Label-Skala auf 14px-Basis heben",
+      "rumpf": "Die Dachzeilen waren zu klein. Neue Bereiche:\n\n  --nc-mono-label-size-lg  16 -> 18px   Display-Headline (Hero)\n  --nc-mono-label-size     14 -> 16px   Section-Headline (H2)   <- Basis\n  --nc-mono-label-size-sm  12 -> 14px   Karte, Menue, Utility\n\nEIGENE CLAMPS statt benannter Skalenstufen: die Skala hat zwischen\nfs-sm (12->15px) und fs-base (14->18px) keine Zwischenstufe, und\nfs-lg (16,8->21,6px) uebersteigt am oberen Ende bereits die\nSection-Headline. Die drei Bereiche waeren mit benannten Stufen nicht ohne\nUeberlappung abzubilden.\n\nDer Mechanismus ist derselbe wie in der Skala — --fluid-bp interpoliert\nzwischen Minimum und Maximum. Die Werte bleiben damit fluid und folgen\ndemselben Breakpoint-Verlauf wie der restliche Satz.\n\nAnders als zuvor laufen die Stufen NICHT mehr auf einen gemeinsamen Boden\nzusammen: die Hierarchie bleibt ueber die gesamte Viewport-Breite erhalten,\nauch auf dem Telefon (390px: 16,1 / 14,1 / 12,1px).\n\nGemessen ueber fuenf Breiten:\n  1920px  Hero 18,0  Section 16,0  klein 14,0  | H1 44,8  H2 31,1\n   390px  Hero 16,1  Section 14,1  klein 12,1  | H1 35,3  H2 24,5\n\nGeprueft: 4 Seiten x 5 Breiten — kein horizontaler Ueberlauf, kein Kicker\nragt aus seinem Container. Die groesseren Versalien brauchen mehr Platz,\ndas war der Punkt, an dem es haette kippen koennen. 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 22,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "48480f5",
+      "datum": "2026-08-10T17:24:34+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): DS-Build nachziehen (Mono als Meta-Ebene)",
+      "rumpf": "Uebernahme aus dem Design System (WEBSITE26 0e2ee18): gestufte\nMono-Label-Skala fuer Dachzeilen, Tabellenkoepfe, Chips, Tags, Zaehler und\nKennzahlen.\n\nDazu der aktualisierte Hinweis auf der Vorschauseite: der Vorschlag ist\numgesetzt, die linke Spalte zeigt weiterhin den frueheren Zustand (ihre\nWerte stehen fest in der Seite), damit der Vergleich nachvollziehbar bleibt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "preview/mono-vorschlag.html",
+          "plus": 6,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "0e2ee18",
+      "datum": "2026-08-10T17:24:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Monospace als Meta-Ebene — gestufte Label-Skala",
+      "rumpf": "Mono markiert ab jetzt die META-EBENE: alles, was ueber den Inhalt spricht\nstatt Inhalt zu sein. Sechs Rollen, eine gemeinsame Quelle.\n\nDREI STUFEN, an der Ueberschrift ausgerichtet, ueber der die Dachzeile\nsteht. Eine flache Groesse haette die Ebenen eingeebnet — eine Dachzeile\nueber einer Display-Headline traegt weiter als eine ueber einem Kartentitel:\n\n  --nc-mono-label-size-lg  fs-sm   12 -> 15px    Hero (Display-Headline)\n  --nc-mono-label-size     fs-xs   12 -> 12,5px  Section (H2)\n  --nc-mono-label-size-sm  fs-2xs  12px fix      Karte, Menue, Utility\n\nAm unteren Ende der Viewport-Breite laufen alle drei auf 12px zusammen —\ndort ist kein Platz fuer eine Label-Hierarchie, und 12px ist der Boden der\nfluiden Skala. Die Entwurfsvorlagen arbeiteten mit 10 und 11px; das liegt\ndarunter und waere weder fluid noch bei schwacher Sicht zumutbar.\n\nGEWICHT: 500 als Obergrenze, 400 fuer Zaehler. DM Mono ist nur in diesen\nbeiden Schnitten geladen; 600+ waere eine synthetische Fettung. Der\nHero-Kicker stand auf semibold und wurde entsprechend zurueckgenommen.\n\nTRACKING nach ROLLE statt nach Groesse — die Vorlagen nutzten sieben Werte\nohne erkennbare Regel:\n  .12em  Versalien (Dachzeile, Spaltenkopf)\n  .06em  Kuerzel ohne Versalien\n  0      Ziffern — Tracking stoert die Spaltenbuendigkeit\n\nUmgestellte Rollen: Dachzeilen (Hero, Hero-TOM, Section, Karte, Text-Block,\nFooter-CTA, Product-Showcase), Tabellenkoepfe, Chips und Tags, Zaehler\n(Zeichenzaehler, Avatar-Gruppe), Kennzahlen samt Label.\n\nEINE STELLE, an der Mono etwas KOSTET: die Kennzahl stand auf Black (900)\nund liegt jetzt bei 500 — mehr gibt DM Mono nicht her. Der Wert verliert\nsichtbar an Gewicht. Der Rueckweg steht als Kommentar an den drei Zeilen.\n\nNicht umgestellt: Badges (.nc-label) tragen Zustand ueber Gewicht, das Mono\nnicht liefern kann. Buttons und Leads bleiben Inhaltsebene. Das\nContent-Accordion behaelt seine Grotesk-Ueberschriften — dort ist die\nBeschriftung Inhalt, keine Auszeichnung.\n\nEin Fehler unterwegs: der neue Token-Block stand als eigenes :root INNERHALB\ndes bestehenden :root. Sein schliessendes } beendete den umschliessenden\nBlock, alles danach lag ausserhalb jedes Selektors und wurde verworfen —\ngemessen loesten --nc-kicker-font-size und --nc-mono-label-size zu LEER auf.\nKorrigiert; die Deklarationen stehen jetzt im bestehenden Block.\n\nGeprueft: 71 Seiten fehlerfrei, kein horizontaler Ueberlauf.\nHero-Dachzeile 14px/500 ueber 41,8px Headline, Section-Dachzeile 12px/500\nueber 29px — die Abstufung ist messbar.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 81,
+          "minus": 16,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_avatar.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_chip.scss",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_table.scss",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_tag.scss",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_text-blocks.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_textarea.scss",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card.scss",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_metric.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_section-header.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_product-showcase.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "074cac4",
+      "datum": "2026-08-10T17:04:37+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(preview): Vorschauseite zur Mono-Entscheidung",
+      "rumpf": "preview/mono-vorschlag.html stellt sechs Rollen im Ist-Zustand und im\nVorschlag gegenueber, dazu die Groessenentscheidung (10/11/12/12,5px) und\ndie drei Tracking-Werte.\n\nLaedt die ECHTEN DS-Stile und die echte DM Mono, damit die Bewertung an dem\nstattfindet, was nach der Umsetzung erscheint — nicht an einer Nachbildung\nmit Ersatzschriften. Zusaetzlich theme-overrides.css: reine Token-Ebene,\nohne sie bleiben Tokens wie --fnd-color-text-accent leer und alle Farben\nfallen auf Schwarz zurueck (gemessen). Beide Spalten tragen dieselbe Farbe,\nder Vergleich isoliert damit nur Familie, Groesse und Tracking.\n\nAendert NICHTS am Design System: die vorgeschlagenen Werte stehen in\n.vorschlag-Scopes innerhalb der Seite.\n\nErreichbar unter\n/themes/custom/neo_fe/preview/mono-vorschlag.html\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "preview/mono-vorschlag.html",
+          "plus": 548,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "9bfccdd",
+      "datum": "2026-08-10T16:41:36+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(feature-list): Medium auf die Rasterspalte deckeln",
+      "rumpf": "Auf /produkte/workplace lief die Seite 207px breiter als das Fenster — ein\nhorizontaler Scrollbalken und rechts ein Streifen leerer Seitenflaeche.\n\nURSACHE: .nc-feature-list__media hat align-self: stretch UND\naspect-ratio: 4/3. Stretch setzt die HOEHE aus der Rasterzeile, das\nSeitenverhaeltnis leitet daraus die BREITE ab. Ist die Textspalte hoeher als\nSpaltenbreite x 3/4, wird das Medium breiter als seine Spalte. Von dreizehn\nFeature-Lists auf der Seite traf das eine: 902px in einer 615px-Spalte.\n\nmax-inline-size: 100% deckelt die Breite. Die Hoehe kommt weiterhin aus der\nZeile, das Seitenverhaeltnis tritt zurueck.\n\nNICHT DURCH DIE NAVIGATIONSARBEIT VERURSACHT: derselbe Ueberhang von exakt\n207px ist auch bei aaea1a6 messbar, also vor dem gesamten Umbau von\nTypografie, Suchfeld und Kopfleisten-Menues. Nachgeprueft durch Auschecken\ndes alten Standes.\n\nGeprueft: 6 Seiten x 7 Fensterbreiten (390 bis 1920px), kein horizontaler\nUeberlauf mehr. Alle dreizehn Medien exakt 615px, Bildinhalt fuellt den\nRahmen weiterhin vollstaendig.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 10,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "b68352d",
+      "datum": "2026-08-10T16:22:12+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(nav): Ruhe- und Hoverflaeche der Kopfleisten-Knoepfe getauscht",
+      "rumpf": "Sprache, Erscheinungsbild und Suche standen ruhend auf der Basisflaeche und\nwechselten bei Hover/geoeffnet auf die getoente Stufe — der Knopf trat beim\nAnfassen also ZURUECK. Jetzt umgekehrt: ruhend getoent, bei Hover und\ngeoeffnet die Basisflaeche.\n\nUmgesetzt ueber die Tokens (--nn-surface-2 / --nn-surface) und nicht ueber\nfeste RGB-Werte. Im Hell-Theme ergibt das exakt die gewuenschten\nrgb(238,241,244) ruhend und rgb(255,255,255) bei Hover; im Dunkel-Theme\ndreht es mit (rgb(25,33,44) -> rgb(10,13,16)). Feste Werte haetten die\nKnoepfe im Dunkel-Theme hell aufblitzen lassen.\n\nGemessen in beiden Themes, Text auf der neuen Ruheflaeche 16,33:1 (hell)\nbzw. 14,11:1 (dunkel).\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 8,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "f79b3f9",
+      "datum": "2026-08-10T16:13:02+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(footer): Flaeche und Textrollen an das Theme binden",
+      "rumpf": "Ein Theme-Wechsel bewegte im Footer nichts ausser dem Eingabefeld und dem\nTrennstrich — weil nur diese beiden ihre Farbe aus den --fnd-*-Tokens zogen.\nAlles andere haengt an --nc-footer-surface-bg/-fg, und die standen fest auf\n#4c4a4d mit weisser Schrift.\n\nDas war eine bewusste Entscheidung (Audit P7a: „Flaeche bleibt IMMER\ndunkel\") und wird hiermit zurueckgenommen.\n\nFLAECHE: background-secondary statt #4c4a4d — dasselbe Token, das auch\n.neo-surface--muted nutzt. Der Footer bleibt eine abgesetzte Bank am\nSeitenende (gemessen 1,09:1 tonaler Schritt zur Seitenflaeche, dekorativ und\nnicht kontrastpflichtig), dreht aber mit: hell #f4f6f8, dunkel #121821.\n\nTEXTROLLEN: aus den SEMANTISCHEN Theme-Tokens statt aus Alpha-Mischungen der\nVordergrundfarbe. text-secondary ist fuer diese Rolle gemacht und in beiden\nThemes auf Kontrast geprueft; die 70%- und 15%-Mische waren nur Naeherungen\ndavon und mussten bei jedem Flaechenwechsel neu nachgerechnet werden — genau\ndie Rechnung, die im alten Kommentar stand.\n\nNebenbei: Link und Link-Hover waren beide auf surface-fg gesetzt, der Hover\nalso nicht wahrnehmbar. Jetzt ruhen Links auf text-secondary und werden bei\nHover text-primary.\n\nZwei Quell-Token an einer Stelle, 13 abgeleitete Werte — diese Struktur\nbleibt unveraendert, nur die Quelle dreht jetzt mit.\n\nGeprueft: alle Textknoten des Footers in HELL und DUNKEL gegen ihre\ntatsaechliche Flaeche gerechnet, 0 Verstoesse in beiden. Fuenf zuvor starre\nBereiche wechseln jetzt mit dem Theme. 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 36,
+          "minus": 22,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "32424b6",
+      "datum": "2026-08-10T16:00:20+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(nav): Icon-Knoepfe der Kopfleiste quadratisch",
+      "rumpf": "Suche und Erscheinungsbild bekamen ihre Breite aus Icon plus padding-inline\nund lagen damit bei 39,6px gegen 44px Hoehe — sichtbar rechteckig. Jetzt\ninline-size = --nav-hit-height und kein Inline-Padding; justify-content\nzentriert das Icon, da die Breite fest ist.\n\nGemessen: beide exakt 44x44, Icon mittig. Der Sprachknopf bleibt breiter, er\ntraegt Globus UND Kuerzel und ist kein Icon-Knopf.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 9,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "9410d07",
+      "datum": "2026-08-10T15:53:50+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Sprachliste und Header-Icons fuer die Kopfleisten-Menues",
+      "rumpf": "NeoMainNavBlock liefert die Sprachen aus dem LanguageManager statt aus einer\nKonstante im Theme — kommt eine Sprache dazu, taucht sie ohne\nCode-Aenderung im Umschalter auf. Dazu die Icons der Header-Aktionen\n(globe-alt, sun, moon, computer-desktop, check, magnifying-glass),\naufgeloest im Modul, weil Twig sie nicht selbst laden kann.\n\nSonne und Mond gehen zusaetzlich als drupalSettings mit: der Ausloeser des\nErscheinungsbild-Menues wechselt sein Icon zur Laufzeit je nachdem, welches\nAussehen gerade gilt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "web/modules/custom/neo_nav/src/Plugin/Block/NeoMainNavBlock.php",
+          "plus": 30,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "decafb4",
+      "datum": "2026-08-10T15:53:29+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(nav): Sprache, Erscheinungsbild und Suche als eine Gruppe",
+      "rumpf": "Sprache, Erscheinungsbild und Suche sind alles Einstellungen an der Ansicht\nund gehoeren an dieselbe Stelle. Sie stehen jetzt in einer Gruppe; die Suche\nist durch einen Trenner abgesetzt, weil sie eine Aktion ist und keine\nEinstellung.\n\nVorher lag der Sprachumschalter als offenes Segment-Paar (DE|EN) in der\nLeiste und das Erscheinungsbild als eingeblendetes Panel unten rechts —\nzwei Muster fuer dieselbe Sache, an zwei Orten.\n\nBEIDE MENUES folgen demselben Aufbau: Ausloeser mit Icon, darunter ein Panel\nmit Dachzeile und Optionsliste. Bedienung wie die Navigationspanels — Klick\noeffnet, Escape und Aussenklick schliessen, Pfeiltasten wandern durch die\nListe, der Fokus kehrt zum Ausloeser zurueck. Bewusst KEIN Hover-Oeffnen:\ndie Menues sitzen am Rand der Leiste und waeren beim Vorbeifahren staendig\naufgegangen.\n\nLIME RAUS: die aktive Option traegt Fettung und Haken, keine Markenfarbe.\nLime bleibt Neuheiten-Markern und CTAs vorbehalten, wo es Bedeutung traegt;\nals Textfarbe waere es auf Weiss mit 1,5:1 ohnehin ausgeschlossen. Der Haken\nnutzt #047857 (5,48:1 auf Weiss) und im Dunkel-Theme #34d399 (10,13:1) —\ndort braucht das Gruen mehr Helligkeit, um auf der dunklen Panelflaeche zu\nbestehen. Zwei Merkmale statt nur Farbe (WCAG 1.4.1).\n\nSYSTEMEINSTELLUNG: der Umschalter kannte bisher nur hell und dunkel. Wer\nsein Geraet abends umstellt, musste die Seite von Hand nachziehen. Jetzt\ndrei Zustaende; bei 'system' wird KEIN Aussehen gespeichert, sondern nur der\nWunsch, dem Geraet zu folgen — und eine Aenderung an prefers-color-scheme\ngreift ohne Neuladen. Die Option ist durch eine Linie abgesetzt: sie waehlt\nkein Aussehen, sondern gibt die Entscheidung zurueck.\nDer Ausloeser zeigt, was gerade GILT — bei 'system' also Sonne oder Mond je\nnach Geraet, nicht ein drittes Symbol; sonst muesste man raten.\n\nIcons aus der Icon Library: globe-alt, sun, moon, computer-desktop, check,\nmagnifying-glass. Die Sprachliste kommt aus Drupal statt aus einer Konstante\n— kommt eine Sprache dazu, taucht sie ohne Code-Aenderung auf.\n\nKontrast in HELL und DUNKEL nachgemessen, alles bestanden:\n  Dachzeile 5,89 / 6,76 · Option 18,51 / 16,96 · Kuerzel 5,89 / 6,76\n  Ausloeser 18,51 / 16,96 · Haken 5,48 / 10,13 (verlangt 3)\nAlle Ziele mindestens 44px (2.5.8). 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 183,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/neo-theme-switch.css",
+          "plus": 15,
+          "minus": 43,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 67,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-theme-switch.js",
+          "plus": 72,
+          "minus": 45,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "neo_fe.theme",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/navigation/neo-nav.html.twig",
+          "plus": 80,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "a413f36",
+      "datum": "2026-08-10T15:32:20+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(nav): Doppelring im Suchfeld beseitigt — DS-Regel input:focus-visible",
+      "rumpf": "Die eigentliche Ursache lag im Design System, nicht in der Navigation.\nstyles.css setzt:\n\n  input:focus-visible { outline: <ring>; outline-offset: <offset> }\n\nDas ist (0,1,1) und schlaegt `.search-input { outline: 0 }` (0,1,0). Bei\nechtem Tastaturfokus zeichnete das Eingabefeld dadurch seinen EIGENEN Ring\ninnerhalb des Gruppenrings: gemessen 2px solid #0f1419 bei 2px Offset,\nzusaetzlich zu den 3px der Gruppe.\n\nWARUM DAS ZWEIMAL DURCHGERUTSCHT IST: meine bisherigen Messungen haben den\nZustand nie hergestellt. Programmatisches .focus() loeste in der\nMessumgebung :focus-visible nicht aus (gemessen trifftFocusVisible: false),\nund der Tab-Test verlor den Fokus ganz. Erst ein echter Tastendruck IM Feld\nhat den Doppelring reproduziert — vorher: ZWEI_RINGE true, nachher false.\n\n`.searchbox .search-input` ist (0,2,1) und gewinnt eindeutig; zurueckgesetzt\nwerden outline, outline-offset, box-shadow und border, jeweils auch fuer\n:focus und :focus-visible. Dieselbe DS-Regel greift im mobilen Suchfeld,\ndeshalb dort ebenso.\n\nNachgemessen mit echtem :focus-visible ueber ALLE Zustaende — jeweils genau\nein Ring:\n  Eingabe        -> Gruppenring 3px\n  Loeschen       -> Elementring 3px\n  Suchen         -> Elementring 3px\n  Schliessen     -> Elementring 3px\n  mobil Eingabe  -> Gruppenring 3px\n71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 30,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "ade7c8c",
+      "datum": "2026-08-10T15:22:50+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(nav): Doppelring aufloesen, Suchen-Knopf aufhellen, Header-Resets entschaerfen",
+      "rumpf": "DOPPELRING: Liegt der Fokus auf einem Knopf INNERHALB der Sucheinheit,\nzeichnete die Gruppe ihren Ring per :focus-within trotzdem mit — zwei Ringe\nineinander, und man sah nicht mehr, wo der Fokus steht. Der Gruppenring\ngreift jetzt nur noch, solange kein innerer Knopf fokussiert ist\n(:not(:has(button:focus-visible))). Die FUELLUNG wechselt weiterhin bei\njedem Fokus in der Einheit — der Zustand bleibt also zweikanalig.\n\nSUCHEN-KNOPF: schwarz gefuellt war er im Feld zu dominant. Jetzt sekundaer,\nhelle Flaeche mit Haarlinie. Die Kontur stammt aus text-secondary und NICHT\naus --nn-line: die helle Fuellung ist gegen das weisse Feld praktisch nicht\nzu sehen (1,05:1), also traegt die Kontur allein die Erkennbarkeit. Mit\n--nn-line waren das 1,38:1, WCAG 1.4.11 verlangt 3:1. Jetzt 5,89:1.\n\nTYPOGRAFIE: „Suchen\" und „Schliessen\" liegen beide auf 14px und damit unter\ndem Eingabetext (16,8px) — beides sind Aktionen an der Eingabe, nicht die\nEingabe selbst.\n\nURSACHE STATT SYMPTOM — die Header-Resets:\n`.site-header[data-neo-nav] a/button { font: inherit; color: inherit }`\nhatten Spezifitaet (0,2,0) und schlugen damit jede einfache Klassenregel.\nDas hat sechs Fehler in Folge verursacht, alle gemessen:\n  .tab            16px/400 statt 15px/600\n  .tab__count     erbte Groesse und Familie\n  .tab (Farbe)    ruhend und aktiv identisch, Zustand nur ueber 1,13:1\n  .teaser__cta    weiss auf weiss, unsichtbar\n  .search-submit  dunkel auf dunkel, unlesbar\n  .search-close   16px statt der gesetzten 14px\nBeide Resets stehen jetzt in :where() und haben damit Spezifitaet NULL.\n\nVorher/Nachher ueber ALLE 110 Bedienelemente in Header und Drawer\nverglichen: genau 4 Unterschiede, alle Korrekturen — search-clear und\nsearch-close bekommen endlich ihre gesetzte Farbe und Groesse, und der\nSprachumschalter greift wieder auf seine eigene Regel. Letzterer haengt\njetzt an --nav-action-size statt an der generischen Caption-Stufe und liegt\ndamit auf derselben Ebene wie „Suchen\"/„Schliessen\".\n\nGeprueft: genau ein Ring je Zustand (Eingabe -> Gruppenring 3px, Knopf ->\nElementring 3px, nie beide). 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 50,
+          "minus": 10,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "3542dd5",
+      "datum": "2026-08-10T15:03:59+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(nav): Suchfeld als Bedieneinheit mit Fokusring am Container",
+      "rumpf": "Rahmen und Fokusring gehoeren an das aeusserste Element der Bedieneinheit,\nnicht an das innerste Formularfeld. Neue Huelle .searchbox umschliesst Icon,\nEingabe und Aktionen und uebernimmt den Fokus per :focus-within. Das input\ntraegt weder border noch outline.\n\nBEFUND VORHER: es gab ueberhaupt keinen Fokusindikator — gemessen\n`outline: none 0px` auch im fokussierten Zustand. Das war ein Verstoss\ngegen 2.4.7, nicht nur ein Rahmen an der falschen Stelle. Ebenso fehlte\njedes Label; es gab nur einen Platzhaltertext (3.3.2).\n\nRING STATT RAHMEN: outline 3px mit outline-offset 2px. Der Ring liegt\nausserhalb der Box, verschiebt nichts und ueberdeckt keinen Inhalt.\n\nFARBE: text-accent statt interactive-focus. Letzteres loest zu #009fe3 auf\nund erreicht gegen die weisse Nachbarflaeche nur 2,97:1 — 1.4.11 verlangt\n3:1. Gemessen und verworfen; text-accent (#0e7490) liegt bei 5,36:1, gegen\nFeld UND Band. Dieselbe Verwechslung von Interaktions- und Textfarbe steckte\nschon in .nc-label--accent und in den Solution Tabs.\n\nZWEI AKTIONEN GETRENNT: das runde x im Feld loescht die EINGABE und\nerscheint nur, wenn Text da ist; nach dem Loeschen geht der Fokus zurueck\nins Feld. Das Schliessen der SUCHE liegt ausserhalb, ist beschriftet und\nnennt die Escape-Taste. Vorher lag beides auf einem einzigen\nunbeschrifteten x im Feld.\n\nFUELLUNG: ruhend getoent (#eef1f4), im Fokus Weiss. Der Zustandswechsel\nlaeuft ueber zwei Kanaele — Flaeche und Ring — und bleibt auch ohne\nFarbwahrnehmung erkennbar (1.4.1).\n\nDie mobile Suche zieht mit: dort sass der Rahmen bereits am Container, aber\nFokusindikator und Label fehlten ebenso.\n\nAUSSERDEM — dieselbe Kaskadenfalle ein fuenftes Mal:\n`.site-header[data-neo-nav] button { color: inherit }` schlug\n`.search-submit { color: var(--nn-on-accent) }`. Der Suchen-Knopf stand\nDUNKEL AUF DUNKEL und war praktisch unlesbar. Jetzt 16,57:1.\n\nGeprueft: Tab-Reihenfolge Eingabe -> Loeschen -> Suchen -> Schliessen,\nLoeschen leert und versteckt sich und gibt den Fokus zurueck, Escape\nschliesst und fokussiert den Ausloeser. 71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 122,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 33,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/navigation/neo-nav.html.twig",
+          "plus": 29,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "26fd4a1",
+      "datum": "2026-08-10T14:39:08+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf ef33e78 ziehen (Navigations-Optimierungen)",
+      "rumpf": "Enthaelt die vier Beschriftungsstufen der Navigation, den Lime-Rail, das\nPfeil-Icon aus der Icon Library, den Gewichtssprung 500/600, die\nTrennlinien im Mega-Panel und die 44px-Trefferflaechen (WCAG 2.5.8).\n\nOhne diesen Commit kommt davon nichts auf dem Server an — das Theme liegt\nnicht im Site-Repo, sondern wird per Composer aus composer.piipe.de geholt\nund ist ueber composer.lock festgenagelt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "ef33e78",
+      "datum": "2026-08-10T14:21:30+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(nav): Trennlinien auf ihre Bezugsflaechen begrenzen",
+      "rumpf": "SENKRECHTE LINIE: nur noch so hoch wie Eyebrow plus Tabliste. Das Raster\nsetzt align-items: stretch, wodurch die Kategoriespalte auf die volle\nPanelhoehe gestreckt wurde und die Linie bis unter den Uebersichtslink\nlief. align-self: start begrenzt sie auf die eigene Hoehe.\n\nWAAGERECHTE LINIE: sitzt jetzt als border-top am Uebersichtslink und liegt\ndamit genau in dem Abstand, den dessen margin-top aufspannt — also\nzwischen Tabpanel und Link. Vorher lief das ueber ein ::before mit fester\nmax-inline-size von 640px; die Linie war dadurch unabhaengig von der\nSpaltenbreite und passte nur zufaellig.\n\nDer Link ist dafuer volle Spaltenbreite statt fit-content; die\nUnterstreichung bei Hover haengt jetzt am Wort-<span>, damit sie nicht ueber\ndie ganze Zeile laeuft.\n\nIm DROPDOWN ist die Liste auf 640px gedeckelt, der Link war es nicht —\ngemessen 640 zu 1280px, die Linie waere ueber die ganze Panelbreite\ngelaufen. Beide haengen jetzt am selben Token\n--nav-dropdown-cols-max, damit sie nicht wieder auseinanderlaufen.\n\nNebenbei: im .panel-overview-Block ueberschrieb das padding-Kuerzel das\nzuvor gesetzte padding-top. Zusammengefasst.\n\nGemessen ueber alle vier Panels: Linie und Liste buendig (mega 749/749,\ndropdown 640/640), Kategoriespalte endet exakt mit der Tabliste.\n71 Seiten fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 37,
+          "minus": 24,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "d5b692d",
+      "datum": "2026-08-10T13:55:54+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Rail in Lime, Pfeil-Icon, Gewichtssprung, Trennlinien, 44px-Ziele",
+      "rumpf": "RAIL: Lime statt Schwarz, und links ohne Radius — der Rail sitzt an der\nKante und soll dort als gerade Linie stehen; mit beidseitigem Radius wirkte\ner angeschnitten. Radius jetzt nur rechts.\n\nPFEIL: arrow-right aus der Icon Library ersetzt das Sonderzeichen „→\". Das\nkam aus der Systemschrift, brach mit der Typo der Navigation und liess sich\nweder in Groesse noch in Strichstaerke steuern. Abstand 8px statt eines\nWortabstands — das Icon ist eine eigene Marke und soll nicht am Wort\nkleben. Redaktionell getippte Pfeile (Teaser-CTA) werden entfernt, damit\nnicht Zeichen UND Icon nebeneinander stehen; auch beim Sprachwechsel.\n\nGEWICHTSSPRUNG: aktiver Punkt 600, ruhende 500 — dieselbe Idee wie in der\nWortmarke (800/300). Charakter aus dem Gewichtsunterschied statt aus\nzusaetzlicher Farbe.\nDer Wechsel darf die Leiste nicht verschieben: gemessen wuchs „Lösungen\"\nbeim Oeffnen von 112 auf 113px und alle folgenden Punkte ruckten um 1px.\nEin unsichtbarer Zwilling in 600 reserviert jetzt dauerhaft die Breite.\nDer sichtbare Text braucht dafuer einen eigenen <span> — als blosser\nTextknoten wird er zu einem ANONYMEN Rasterelement, das sich nicht per\ngrid-area platzieren laesst und in eine zweite Zeile rutscht; die Leiste\nwuchs dadurch auf 65,6px in einem 64px hohen Header.\n\nTRENNLINIEN: senkrecht rechts der Gruppenlabels (trennt die Frage „wonach\ngliedert sich das?\" von der Antwort) und waagerecht ueber dem\nUebersichtslink (er fuehrt aus der Liste heraus und soll nicht als weiterer\nListeneintrag gelesen werden). Beim Uebersichtslink liegt die Linie an\neinem ::before, nicht am Link selbst — sonst waere sie nur so breit wie\nder Text.\n\nTREFFERFLAECHEN (WCAG 2.5.8): volle Zeile, mindestens 44px, plus sichtbarer\nHover. Vorher war exakt die Wortbreite klickbar, und dass die Zeile\nueberhaupt ein Ziel ist, war ohne Hover-Flaeche nicht zu erkennen. Gilt fuer\nL1, Kategorien, Mega- und Dropdown-Links sowie die mobile Navigation\n(44 Ziele, alle >= 44px).\n\nAUSSERDEM — dieselbe Kaskadenfalle ein viertes Mal:\n`.site-header[data-neo-nav] button { color: inherit }` schlug\n`.tab { color: var(--nn-muted) }`. Ruhende und aktive Kategorie hatten\ndadurch DIESELBE Textfarbe; den Zustand trug allein die Flaeche mit\ngemessenen 1,13:1. Jetzt 16,33:1 aktiv gegen 5,89:1 ruhend.\n\nGemessen: Header 64px / Button 44px, kein Ueberlauf, keine Verschiebung\nbeim Oeffnen. Keine Sonderzeichen mehr im Markup. 71 Seiten fehlerfrei.\n\nOFFEN: Der Lime-Rail erreicht gegen die Panelflaeche 1,63:1. WCAG 1.4.11\nverlangt 3:1 fuer Zustandsindikatoren; Lime liegt zu nah an Weiss. Der\nZustand wird jetzt zusaetzlich ueber die Textfarbe getragen (Unterschied\n10,44), das ist ein textbasiertes Merkmal. Wer den Rail selbst konform\nhaben will, braucht ein dunkleres Gruen.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 145,
+          "minus": 12,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 49,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "02936e2",
+      "datum": "2026-08-10T13:08:47+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Eyebrow der Mega-Panel-Kategoriespalte redaktionell pflegbar",
+      "rumpf": "field_nav_eyebrow am Menuepunkt. Beschriftet, wonach die Kategoriespalte\neines Mega-Panels gliedert („Lösungen nach ...\") — vorher musste man das\nerraten.\n\nEs haengt am TOP-LEVEL-Menuepunkt, genau wie die vier Teaser-Felder: beides\nsind Eigenschaften des Panels, nicht des einzelnen Links. Uebersetzbar,\ndamit DE und EN getrennt gepflegt werden koennen; eine fehlende englische\nUebersetzung faellt bewusst auf DE zurueck, statt die Spalte unbeschriftet\nzu lassen.\n\nZu bearbeiten unter /admin/structure/menu/item/<id>/edit, direkt ueber den\nTeaser-Feldern. Nur bei Menuepunkten wirksam, die ein Mega-Panel oeffnen —\ndas Modul haengt es ausschliesslich an Items vom Typ 'mega' an.\n\nscripts/add-nav-eyebrow.php legt Feld und Formularposition an (idempotent).\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/sync/core.entity_form_display.menu_link_content.menu_link_content.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.menu_link_content.menu_link_content.field_nav_eyebrow.yml",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.menu_link_content.field_nav_eyebrow.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/add-nav-eyebrow.php",
+          "plus": 70,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "web/modules/custom/neo_nav/neo_nav.module",
+          "plus": 44,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "c7187d8",
+      "datum": "2026-08-10T13:08:29+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Navigations-Typografie auf vier Beschriftungsstufen",
+      "rumpf": "Navigation ist Beschriftung, nicht Fliesstext: kleiner und dafuer fetter.\nPraesenz entsteht ueber Gewicht statt ueber Flaeche.\n\n  Rolle              vorher (gemessen)   nachher\n  L1 Hauptnavigation 16,8px / 500        15px / 600 / -.005em\n  L2 Kategorien      16px   / 400        15px / 600\n  L3 Linkliste       16,8px / 400        16px / 500 / -.01em\n  Zaehler            12px, proportional  11px Mono, tabular-nums\n  Sekundaeraktion    12px / 700, Button  14px / 650, Textlink mit Pfeil\n  Eyebrow            (gab es nicht)      10px Mono, .16em, Versalien\n\nDie „Vorher\"-Werte der Vorgabe (19px/400) trafen den Ist-Zustand nicht;\noben stehen die gemessenen. Die Zielwerte sind unveraendert uebernommen.\n\nEYEBROW: beschriftet, wonach die Kategoriespalte gliedert („Lösungen\nnach\"). Redaktionell am Top-Level-Menuepunkt gepflegt. Es steht bewusst\nAUSSERHALB des role=\"tablist\" in einer eigenen Huelle .mega-cat — ein Text\ninnerhalb der Tabliste waere fuer Screenreader ein Fremdkoerper.\n\nTRACKING: negativ bei den grossen und mittleren Stufen, positiv bei den\nMono-Versalien. Ohne die Korrektur wirken geometrische Grotesken in\nVersalien gedraengt.\n\nSEKUNDAERAKTION: war ein Button auf grauer Flaeche und konkurrierte mit der\nLinkliste daneben. Jetzt Textlink mit Pfeil, Unterstreichung erst bei Hover\nund Fokus.\n\nDie mobile Navigation zieht mit (.m-row, .m-section-title, .m-link,\n.m-cta). Ohne das haette es die vier Stufen nur auf dem Desktop gegeben.\n\nDREIMAL DIESELBE FALLE, jeweils gemessen statt vermutet:\nDie Header-weiten Resets `.site-header[data-neo-nav] button { font: inherit }`\nund `... a { color: inherit }` schlagen einfache Komponentenregeln.\n  - .tab kam mit 16px/400 an statt 15px/600.\n  - .tab__count erbte ebenfalls.\n  - .teaser__cta stand WEISS AUF WEISS (color und background beide\n    rgb(255,255,255)) und war unsichtbar — ein Bestandsfehler, nicht durch\n    diese Aenderung verursacht. Jetzt 16,57:1.\nAlle drei tragen nun dieselbe Spezifitaet wie .nav-btn/.nav-link.\n\nGeprueft:\n  WCAG 1.4.4 — Wurzelgroesse 16 -> 32px verdoppelt alle sechs Stufen exakt\n  (15/10/15/11/16/14 -> 30/20/30/22/32/28), also durchgehend rem.\n  Tabellenziffern — „1111\" und „8888\" exakt 26,406px breit, kein Flattern\n  zwischen (8) und (12).\n  Kontrast (AA) — L1 16,33:1 · Eyebrow 5,89:1 · L2 16,33:1 · Zaehler 5,20:1\n  · L3 18,51:1 · Sekundaeraktion 18,51:1.\n  71 Seiten rendern fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 136,
+          "minus": 17,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 16,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "b672faf",
+      "datum": "2026-08-10T12:45:36+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf 84dbd5b ziehen (Badges in den Heroes)",
+      "rumpf": "Enthaelt die Badge-Zeile in allen drei Hero-Typen, die neue geteilte\nKomponente neo_fe:badge-row und den DS-Build mit .nc-badge-row samt der\nkorrigierten Hero-Regel fuer .nc-label.\n\nOhne diesen Commit kommt davon nichts auf dem Server an — das Theme liegt\nnicht im Site-Repo, sondern wird per Composer aus composer.piipe.de geholt\nund ist ueber composer.lock festgenagelt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "e71ebdc",
+      "datum": "2026-08-10T12:39:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Badges fuer die drei Hero-Blocktypen",
+      "rumpf": "field_hero_badges, field_tom_badges und field_tmob_badges — damit koennen\njetzt 23 der 28 Blocktypen Badges fuehren.\n\nDie Heroes nutzen nicht den Standard-Header und waren deshalb beim\nAusrollen ueber neo_fe:block-header aussen vor. scripts/add-hero-badges.php\nlegt die Felder an (idempotent, Storages und Instanzen wie gehabt in zwei\nDurchgaengen).\n\nOhne Badges bleiben: neo_footer, neo_events_listing, neo_gallery,\nneo_testimonial und basic.\n\ncanvas.component.sdc.neo_fe.badge-row kommt als neue Komponente dazu;\nblock-header war nach der Schema-Aenderung wieder auf status: false und ist\nerneut aktiviert.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/sync/canvas.component.sdc.neo_fe.badge-row.yml",
+          "plus": 26,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/canvas.folder.66e182e5-982b-45b5-93db-eaf471ae3892.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_hero.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_hero_tmob.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_hero_tom.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_hero.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_hero.full.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_hero.token.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_hero_tmob.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_hero_tom.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_hero.field_hero_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_hero_tmob.field_tmob_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_hero_tom.field_tom_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_hero_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tmob_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tom_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/add-hero-badges.php",
+          "plus": 82,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "84dbd5b",
+      "datum": "2026-08-10T12:39:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Badges in allen drei Hero-Typen",
+      "rumpf": "Die Heroes nutzen NICHT den Standard-Header, sondern eigenes Markup mit\n.nc-hero__kicker und .nc-headline--display. Beim Ausrollen der Badge-Zeile\nueber neo_fe:block-header waren sie deshalb aussen vor — hier kommen sie\neigenstaendig dazu.\n\nNEUE KOMPONENTE neo_fe:badge-row: Markup und Freigabeliste fuer color/style\nstehen jetzt an EINER Stelle. Die Zeile taucht an neun Stellen auf (Header\nplus drei Heroes, jeweils Block- und SDC-Fassung, der Hero zusaetzlich in\nzwei Layout-Zweigen: mit und ohne Medium). Neun Kopien hiessen: die\nFreigabeliste muss neunmal gepflegt werden, und wer eine vergisst, merkt es\nnicht. block-header bindet sie ebenfalls ein.\n\nneo_hero_tmob hat keinen Kicker; dort stehen die Badges direkt ueber der\nDisplay-Headline. Ein Kicker wird bewusst nicht nachgeruestet: der Typ ist\nauf genau zwei Textebenen ausgelegt, eine dritte waere eine\nGestaltungsentscheidung und keine Luecke.\n\nGeprueft: alle drei Typen ueber das Block-Plugin gerendert (dieselben\nTemplate-Suggestions wie im Layout Builder), Badge-Zeile und Klassen\nkorrekt. Alle 71 veroeffentlichten Seiten rendern fehlerfrei.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "components/badge-row/badge-row.component.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/badge-row/badge-row.twig",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/block-header/block-header.twig",
+          "plus": 6,
+          "minus": 23,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/neo-hero-tmob/neo-hero-tmob.twig",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/neo-hero-tom/neo-hero-tom.twig",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/neo-hero/neo-hero.twig",
+          "plus": 10,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-hero-tmob.html.twig",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-hero-tom.html.twig",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-hero.html.twig",
+          "plus": 10,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-hero-tmob.html.twig",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-hero-tom.html.twig",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-hero.html.twig",
+          "plus": 10,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "0c7da1f",
+      "datum": "2026-08-10T12:39:00+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Badge-Zeile als eigenes Atom, jetzt auch in den Heroes",
+      "rumpf": ".nc-badge-row (05-atoms) traegt die Anordnung. Bisher stand sie an\n.nc-section-header__badges — mit den drei Hero-Typen taucht dieselbe Zeile\naber an neun Stellen im Drupal-Theme auf (Header plus drei Heroes, jeweils\nin Block- und SDC-Fassung, der Hero zusaetzlich in zwei Layout-Zweigen).\nDer KONTEXT-Abstand bleibt beim Verwender.\n\nAUF DUNKLEN HERO-FLAECHEN:\nDie .nc-label-Varianten sind gegen helle Flaechen gerechnet. Die meisten\nbringen eine eigene deckende Flaeche mit und tragen deshalb auch auf\nDunkel. Zwei nicht: --accent mischt den Akzent zu 12 % gegen den Untergrund\nund komponiert auf einem dunklen Hero zu Dunkel, und die Default-Variante\nnimmt background-secondary. Beide bekommen im Hero eine eigene, vom\nUntergrund unabhaengige Flaeche — heller Schleier mit always-light als\nSchrift. success/warning/danger/info bleiben unangetastet.\n\nAUSSERDEM, die eigentliche Ursache eines Fehlbilds:\n`.nc-hero .nc-label` setzte die Flaeche JEDES Labels im Hero auf die\nKicker-Flaeche (transparent). Gedacht war die Regel fuer ein Label, das\nANSTELLE des Kickers steht. Gemessen kam bei allen Badges rgba(0,0,0,0)\nheraus — auch bei success mit seinem glatten #e7f6ee; die Badges sahen aus\nwie blosser weisser Text.\n\nKorrigiert per :not(.nc-badge-row *) an der Regel selbst, NICHT durch\nGegenhalten mit hoeherer Spezifitaet in _badge-row.scss. Die Regel ist zu\nweit gefasst, das ist die Ursache; Gegenhalten haette die naechste\nVerwendung von .nc-label im Hero wieder erwischt.\n\nKontrast auf schwarzem Hero nachgerechnet (WCAG 2.1 AA, 12px -> 4,5:1):\n  neutral/accent (Schleier)  13,60:1\n  success (eigene Flaeche)    5,68:1\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 13,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_badge-row.scss",
+          "plus": 61,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_section-header.scss",
+          "plus": 5,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero.scss",
+          "plus": 13,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "dffc7b6",
+      "datum": "2026-08-07T12:40:03+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf aaea1a6 ziehen (Badge-Zeile im Standard-Header)",
+      "rumpf": "Enthaelt die Badge-Zeile ueber dem Kicker in allen 20 Bloecken mit\nStandard-Header, die zentrale JSON-Dekodierung im Preprocess und den\nDS-Build mit .nc-section-header__badges samt der Kontrastkorrektur an\n.nc-label--accent.\n\nOhne diesen Commit kommt davon nichts auf dem Server an — das Theme liegt\nnicht im Site-Repo, sondern wird per Composer aus composer.piipe.de geholt\nund ist ueber composer.lock festgenagelt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "9fbc504",
+      "datum": "2026-08-07T12:37:13+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Badges und Kicker fuer alle Bloecke mit Standard-Header",
+      "rumpf": "31 neue Felder an den 20 Blocktypen, die neo_fe:block-header einbinden:\n12 Kicker (die uebrigen 8 hatten schon einen) und 19 Badge-Felder\n(neo_tab_nav hatte field_tn_badges bereits).\n\nKriterium ist NICHT der Feldname, sondern ob das Template den geteilten\nHeader einbindet. Feldnamen truegen: neo_product_showcase hat ein\nfield_ps_label, das aber das aria-label der Tablist ist und kein Kicker —\nentsprechend hat der Block jetzt zusaetzlich field_ps_kicker.\n\nNicht betroffen sind die drei Hero-Typen, der Footer, neo_events_listing,\nneo_gallery, neo_testimonial und basic. Sie bringen eigene Kopfbereiche mit\n(Hero nutzt die Display-Stufe statt der Section-Headline); sie auf den\nStandard-Header zu ziehen waere ein eigener Umbau.\n\nDie acht bestehenden Kicker-Felder heissen historisch uneinheitlich\n(_kicker / _section_label / _label). Sie bleiben, wie sie sind: Umbenennen\nhiesse in Drupal Feld loeschen und neu anlegen und damit vorhandene Inhalte\nverlieren. Der Nutzen waere kosmetisch.\n\nscripts/add-header-badges-kicker.php legt alles an (idempotent). Storages\nund Feldinstanzen laufen dort in ZWEI Durchgaengen — in einem scheitert es,\nweil FieldConfig gegen die zwischengespeicherten Felddefinitionen prueft und\ndie ein soeben angelegtes Storage noch nicht kennen.\n\ncanvas.component.sdc.neo_fe.block-header wurde von Canvas bei der\nSchema-Aenderung automatisch auf status: false gesetzt und ist wieder\naktiviert. Das passiert bei JEDER Aenderung an props/slots, unabhaengig\ndavon, was geaendert wurde — Hinweis dazu steht jetzt in der\ncomponent.yml.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/sync/canvas.component.sdc.neo_fe.block-header.yml",
+          "plus": 114,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_accordion.default.yml",
+          "plus": 10,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_bento_grid.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_block_bundle.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_card_grid.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_card_grid_cta.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_doc_section.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_expanding_panels.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_fade_gallery.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_feature_list.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_form.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_logo_wall.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_product_showcase.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_solution_tabs.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_story_gallery.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_table.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_testimonial_grid.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_text_cta.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_text_media.default.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_timeline.default.yml",
+          "plus": 9,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_accordion.default.yml",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_bento_grid.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_block_bundle.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_card_grid.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_card_grid_cta.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_doc_section.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_expanding_panels.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_fade_gallery.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_feature_list.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_form.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_logo_wall.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_product_showcase.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_solution_tabs.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_story_gallery.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_table.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_testimonial_grid.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_text_cta.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_text_media.default.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_timeline.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_accordion.field_acc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_bento_grid.field_bento_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_bento_grid.field_bento_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_block_bundle.field_bb_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_card_grid.field_cg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_card_grid_cta.field_cgc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_card_grid_cta.field_cgc_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_doc_section.field_ds_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_expanding_panels.field_xp_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_expanding_panels.field_xp_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_fade_gallery.field_fg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_fade_gallery.field_fg_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_feature_list.field_fl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_form.field_form_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_form.field_form_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_logo_wall.field_lw_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_logo_wall.field_lw_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_product_showcase.field_ps_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_product_showcase.field_ps_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_solution_tabs.field_st_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_story_gallery.field_sg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_story_gallery.field_sg_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_table.field_tbl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_table.field_tbl_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_testimonial_grid.field_tg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_testimonial_grid.field_tg_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_media.field_tm_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_media.field_tm_kicker.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_timeline.field_tl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_acc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_bb_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_bento_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_bento_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_cg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_cgc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_cgc_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_ds_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_fg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_fg_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_fl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_form_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_form_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_lw_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_lw_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_ps_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_ps_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_sg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_sg_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_st_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tbl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tbl_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tg_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tg_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tl_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tm_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tm_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_xp_badges.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_xp_kicker.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/add-header-badges-kicker.php",
+          "plus": 158,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "aaea1a6",
+      "datum": "2026-08-07T12:36:35+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Badges und Kicker in allen Bloecken mit Standard-Header",
+      "rumpf": "Der geteilte Kopfbereich rendert jetzt Badges → Kicker → Headline → Lead.\nAlle 20 Bloecke, die neo_fe:block-header einbinden, reichen beides durch.\n\nBADGES ALS PROP, NICHT ALS SLOT: Slots setzen {% embed %} voraus. Die\nallermeisten der 20 Bloecke binden den Header als schlichtes\n{% include ... only %} ein — ein Slot haette sie alle zu embed-Bloecken\numgebaut. Zusaetzlich gibt es den Slot before_kicker fuer Sonderfaelle.\n\nDekodiert wird zentral in neo_fe_preprocess_block(), generisch ueber das\nNamensmuster field_<praefix>_badges. Eine Fallunterscheidung je Bundle\nhaette dort 20 Zweige ergeben. Fehlerhaftes JSON gibt bewusst eine leere\nListe statt eines Fatals — ein Tippfehler der Redaktion darf die Seite\nnicht zerlegen.\n\ncolor und style werden im Template gegen eine feste Liste geprueft, bevor\nsie im Klassennamen landen. Die Werte sind redaktionell gepflegt; ohne\nPruefung ergaebe ein Tippfehler eine Klasse, die es nicht gibt, und ein\npraeparierter Wert koennte fremde Klassen anhaengen. Mit einem\nboesartigen Wert nachgeprueft: verworfen, Label escaped.\n\nDie Tab-Navigation rendert ihre Badges nicht mehr per JavaScript. Sie\nsassen dadurch UNTER dem Kicker, fehlten ohne aktives JS ganz und wurden\nerst nach dem ersten Rendern nachgeschoben. Der JS-Block und das\nJSON-Script-Tag sind entfernt, das leere {% embed %} wieder ein\n{% include %}.\n\nneo_testimonial_grid liest seine Werte aus vorverarbeiteten Variablen\nstatt aus neo_fields — dort kommt der Kicker als tg_kicker aus dem\nPreprocess.\n\nGeprueft: alle 71 veroeffentlichten Seiten rendern fehlerfrei, 47 davon\nmit Standard-Header.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "components/block-header/block-header.component.yml",
+          "plus": 24,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "components/block-header/block-header.twig",
+          "plus": 45,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-theme.js",
+          "plus": 0,
+          "minus": 18,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "neo_fe.theme",
+          "plus": 28,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-accordion.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-bento-grid.html.twig",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-block-bundle.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-card-grid-cta.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-card-grid.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-doc-section.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-expanding-panels.html.twig",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-fade-gallery.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-feature-list.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-form.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-logo-wall.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-product-showcase.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-solution-tabs.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-story-gallery.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-tab-nav.html.twig",
+          "plus": 8,
+          "minus": 12,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-table.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-testimonial-grid.html.twig",
+          "plus": 6,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-text-cta.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-text-media.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-timeline.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-accordion.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-bento-grid.html.twig",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-block-bundle.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-card-grid-cta.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-card-grid.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-doc-section.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-expanding-panels.html.twig",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-fade-gallery.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-feature-list.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-form.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-logo-wall.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-product-showcase.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-solution-tabs.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-story-gallery.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-tab-nav.html.twig",
+          "plus": 8,
+          "minus": 12,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-table.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-testimonial-grid.html.twig",
+          "plus": 6,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-text-media.html.twig",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-timeline.html.twig",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "69f1a09",
+      "datum": "2026-08-07T12:35:59+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Badge-Zeile im Section Header",
+      "rumpf": ".nc-section-header__badges — eine Reihe .nc-label ueber dem Kicker, damit\nBloecke Auszeichnungen wie „Neu\" oder „DSGVO-konform\" oberhalb der Dachzeile\nzeigen koennen. Bisher gab es das nur in der Tab-Navigation des\nDrupal-Themes, dort per JavaScript und UNTER dem Kicker.\n\nflex-wrap ist Absicht: die Zeile steht oft ueber einer langen Ueberschrift\nund muss auf schmalen Containern umbrechen duerfen, statt den Header\naufzuweiten. Bei zentriertem oder rechtsbuendigem Header laufen die Badges\nmit — text-align erreicht sie nicht, weil der Flex-Container seine Kinder\nselbst ausrichtet.\n\nAUSSERDEM, im selben Zug gefunden und behoben:\n\n--nc-label-accent-color zeigte auf --fnd-color-interactive-default\n(#009fe3). Das ist ein Interaktions-Token und als Textfarbe zu hell: auf der\neigenen 12-%-Flaeche gemessen 2,61:1 bei 12px, WCAG AA verlangt 4,5:1. Alle\nanderen Varianten machten es bereits richtig und nutzen --fnd-color-text-*;\naccent war der einzige Ausreisser. Jetzt text-accent -> 4,71:1.\n\nDie FLAECHE bleibt bei interactive-default, sie traegt keinen Text.\n\nAufgefallen ist es erst, weil die Badge-Zeile jetzt in 20 Bloecken\nverfuegbar ist — vorher steckte die Variante in einem einzigen Block.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 13,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_section-header.scss",
+          "plus": 23,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "406d592",
+      "datum": "2026-08-07T11:19:28+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf 089b329 ziehen (Text + CTA)",
+      "rumpf": "Enthaelt die Templates und die Icon-Aufloesung fuer den neuen Blocktyp\nNEO Text + CTA sowie den DS-Build mit dem Organism .nc-text-cta.\n\nOhne diesen Commit kommt davon nichts auf dem Server an — das Theme liegt\nnicht im Site-Repo, sondern wird per Composer aus composer.piipe.de geholt\nund ist ueber composer.lock festgenagelt.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "d2bf75d",
+      "datum": "2026-08-07T11:10:56+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Blocktyp NEO Text + CTA",
+      "rumpf": "Split-Layout: Text mit Punkteliste, daneben eine CTA-Karte aus Icon,\nUeberschrift, Lead und Button. Karte rechts (Standard) oder links, mit\neigenem Hintergrund.\n\nFelder:\n  Textspalte   field_tc_headline, field_tc_subline, field_tc_features\n  Karte        field_tc_card_icon (Name aus der Icon-Library),\n               field_tc_card_headline, field_tc_card_lead,\n               field_tc_card_cta_text, field_tc_card_cta_url,\n               field_tc_card_position (right|left), field_tc_card_bg\n  Geteilt      field_content_width (Standard xwide), field_surface\n\nBEWUSST ANDERS ALS BEI neo_text_media: Es gibt KEIN Feld fuer eine rohe\nSektions-Hintergrundfarbe. Text + Media hat dafuer field_tm_bg_color, und\ngenau diese Freiheit hat sich als Falle erwiesen — wer dort ein Primitive\nwie var(--fnd-color-always-dark) eintraegt, malt die Flaeche dunkel, dreht\ndie Text-Tokens aber NICHT mit. An den Solution Tabs stand dadurch eine\nUeberschrift mit 1,1:1 auf schwarzem Grund. Die Sektionsflaeche kommt hier\nausschliesslich aus field_surface, das den kompletten on-surface-Farbsatz\nmitbindet. Fuer die Karte gibt es eine eigene, eng gefasste Option.\n\nscripts/create-text-cta-block.php legt Typ, Felder und Anzeigen an\n(idempotent) — die exportierte Config ist das Ergebnis davon.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/sync/block_content.type.neo_text_cta.yml",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_text_cta.default.yml",
+          "plus": 129,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.block_content.neo_text_cta.default.yml",
+          "plus": 37,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_content_width.yml",
+          "plus": 23,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_surface.yml",
+          "plus": 23,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_bg.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_cta_text.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_cta_url.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_headline.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_icon.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_lead.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_card_position.yml",
+          "plus": 23,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_features.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_headline.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_text_cta.field_tc_subline.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_bg.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_cta_text.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_cta_url.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_headline.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_icon.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_lead.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_card_position.yml",
+          "plus": 27,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_features.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_headline.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_tc_subline.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/create-text-cta-block.php",
+          "plus": 143,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "089b329",
+      "datum": "2026-08-07T11:10:35+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Blocktyp NEO Text + CTA rendern",
+      "rumpf": "Templates und Icon-Aufloesung fuer den neuen Blocktyp neo_text_cta.\nKonsumiert das DS-Recipe .nc-text-cta (WEBSITE26 8d7af94).\n\n- block--block-content--neo-text-cta.html.twig traegt das Markup.\n- block--inline-block--neo-text-cta.html.twig bindet es nur ein.\n  Bewusst anders als bei Text + Media: dort sind beide Dateien\n  Volltext-Kopien. Zwei Kopien bedeuten zwei Orte, an denen eine Aenderung\n  vergessen werden kann — der Unterschied faellt dann nur in einer der\n  beiden Platzierungsarten auf und ist entsprechend muehsam zu finden.\n- neo_fe_preprocess_block() loest den Icon-NAMEN der Karte zu Heroicon-SVG\n  auf (tc_card_icon_svg). Gleiche Begruendung wie bei Timeline und\n  Card-Grid: Themes duerfen keine Twig-Funktionen registrieren, also\n  passiert es im Preprocess. Rohes SVG im Feld bleibt unangetastet.\n\nDie Karte steht im DOM immer hinter dem Text, auch wenn sie links\nangezeigt wird — der Tausch laeuft ueber `order` im Raster.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "neo_fe.theme",
+          "plus": 13,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-text-cta.html.twig",
+          "plus": 132,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--inline-block--neo-text-cta.html.twig",
+          "plus": 16,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "8d7af94",
+      "datum": "2026-08-07T11:10:18+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Text + CTA — Split-Layout mit CTA-Karte statt Medium",
+      "rumpf": "Neuer Organism .nc-text-cta fuer den gleichnamigen Drupal-Blocktyp: links\nFliesstext mit Punkteliste, daneben eine Karte mit Icon, Ueberschrift, Lead\nund Button.\n\nDas Raster ist bewusst dasselbe wie bei Text + Media — gleiche\nContainer-Query, gleiche Schwelle, gleiche Reihenfolge-Logik. Was sich\nunterscheidet, ist die zweite Spalte.\n\nWARUM EIGENER ORGANISM UND KEINE VARIANTE VON .nc-text-media:\nEine Variante haette dieselben Klassen mit anderer Bedeutung belegt\n(__media enthaelt dann kein Medium) und die Redaktion haette in einem Block\nFelder fuer Video, Bild UND Karte gesehen, von denen sich die meisten\ngegenseitig ausschliessen. Die 20 Zeilen doppeltes Raster sind der\nguenstigere Preis.\n\nZwei Details, die in der Messung aufgefallen sind:\n\n- Die Spaltenbreiten muessen beim Positionswechsel MITGEDREHT werden.\n  `order` verschiebt nur, wer in welcher Spalte landet — die Breiten\n  bleiben, wo sie sind. Ohne --nc-text-cta-columns-reverse bekam die Karte\n  die breite Spalte und der Text die schmale (gemessen 712px zu 527px,\n  also genau verkehrt herum).\n\n- Die Punkteliste heisst .nc-text-cta__list und NICHT .nc-feature-list.\n  Den Namen gibt es im Drupal-Theme bereits fuer einen eigenstaendigen\n  Block (neo_feature_list, Sektion mit Medium, CTA und per JS gerenderten\n  Punkten); eine Liste innerhalb dieses Organismus haette dessen\n  Sektionsregeln geerbt. Der Haken sitzt in einem Raster statt an einem\n  margin, damit Folgezeilen buendig unter dem Text bleiben.\n\nDer Positionswechsel laeuft ueber `order` und nur innerhalb der\nContainer-Query. Gestapelt steht deshalb immer der Text zuerst — erst die\nErklaerung, dann der Handlungsaufruf, unabhaengig von der visuellen\nAnordnung. Nachgemessen bei 1440 / 1024 / 768 / 390px.\n\nKontrast (WCAG 2.1 AA) auf der getoenten Flaeche nachgerechnet:\n  Ueberschrift 17,09:1 · Einleitung 5,44:1 · Listenpunkt 17,09:1\n  Karten-Ueberschrift 18,51:1 · Karten-Text 5,89:1 · Button 12,89:1\n  Haken (dekorativ, 3:1) 4,95:1\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 35,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_text-cta.scss",
+          "plus": 162,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "0b49000",
+      "datum": "2026-08-07T10:38:45+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(solution-tabs): Kaskadenfalle aufloesen, Aktiv-Text an den Akzent binden",
+      "rumpf": "Uebernahme aus dem Design System (WEBSITE26 6f2ba0e) plus zwei Korrekturen\nin neo-overrides.css, ohne die die DS-Aenderung wirkungslos geblieben waere.\n\n1) Entfernt: .nc-solution-tabs__tab { background-color: accent }\n\nDiese Regel faerbte jeden Tab voll ein, unabhaengig vom Zustand. Da\nneo-overrides.css zuletzt laedt, haette sie die neue Drei-Stufen-Staffelung\naus dem DS stillschweigend ueberschrieben — die bekannte Kaskadenfalle. Der\nborder-radius md bleibt, das ist eine bewusste Theme-Abweichung vom Recipe.\n\n2) --nc-solution-tabs-tab-color-active: on-accent statt text-primary\n\nDer aktive Tab liegt auf dem vollen Akzent, nicht auf der Sektionsflaeche.\nDie Bindung an die Surface-Textfarbe ging nur gut, solange die Sektion\nfaelschlich als hell galt. Mit korrektem dunklem Surface waere daraus\nheller Text auf hellem Akzent geworden.\n\nDer inaktive Tab-Text steht jetzt auf 68 % statt 60 % — auf der\ngedaempften Flaeche ergibt das 5,23:1 statt der vorherigen 3,72:1, die\nAA verfehlt hatten.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 13,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "0a85b72",
+      "datum": "2026-08-07T10:36:15+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(solution-tabs): Zustaende der Tab-Leiste visuell staffeln",
+      "rumpf": "Jeder Tab trug den vollen Akzent als Hintergrund — aktiv und inaktiv waren\nflaechengleich, die Leiste las sich als ein geschlossener Farbbalken.\nUnterschieden wurde nur die Textfarbe. Gemessen: 1,00:1 zwischen den\nFlaechen, waehrend WCAG 1.4.11 fuer Zustandsindikatoren 3:1 vorsieht.\n\nJetzt drei Stufen, benannt wie in .nc-tabs (06-molecules), damit beide\nKomponenten dasselbe Vokabular sprechen:\n  --nc-solution-tabs-tab-bg         inaktiv  (Akzent 30 %)\n  --nc-solution-tabs-tab-bg-hover   Hover    (Akzent 45 %)\n  --nc-solution-tabs-tab-bg-active  aktiv    (voller Akzent, unveraendert)\n\nDer inaktive Tab mischt gegen transparent und komponiert damit ueber die\nSektionsflaeche: auf dunklen Sektionen wird er dunkler, auf hellen heller.\nEine Regel, in beiden Kontexten richtig.\n\nDie drei Tokens stehen bewusst auf .nc-solution-tabs statt in 00-settings.\nSie leiten sich vom Akzent ab, und der wird erst auf diesem Element gesetzt\n(pro Instanz per Inline-Style). var() in einer Custom-Property loest dort\nauf, wo sie DEKLARIERT ist — auf :root kennt niemand den Akzent, die\ncolor-mix() ist ungueltig und die Flaeche faellt auf transparent zurueck.\nGenau so beim ersten Versuch passiert und in der Messung aufgefallen.\n\nWeitere Korrekturen im selben Zug:\n\n- Hover greift nicht mehr auf den aktiven Tab durch\n  (:not([aria-selected='true']), dieselbe Absicherung wie .nc-tabs).\n- --tab-color-active haengt jetzt an --fnd-color-on-accent statt an der\n  Surface-Textfarbe. Der aktive Tab liegt IMMER auf dem Akzent, egal ob die\n  Sektion hell oder dunkel ist; mit korrektem dunklem Surface waere sonst\n  heller Text auf hellem Akzent entstanden (~2,3:1).\n- Contained-Variante: die Ausnahme „aktiv = Akzent 14 %\" entfaellt. Sie\n  stammt aus der Zeit der voll eingefaerbten Basis und haette sich jetzt\n  ins Gegenteil verkehrt — inaktiv (30 %) waere kraeftiger gewesen als\n  aktiv (14 %).\n- Vertikale Variante: Hover und Aktiv lagen gemeinsam auf einem 5-%-Tint,\n  untereinander nicht unterscheidbar und schwaecher als der inaktive\n  Zustand — die Rangfolge war verkehrt herum. Jetzt dieselben drei Stufen\n  plus Akzentkante, weil ein breites Listenelement traeger liest als ein\n  kompakter Tab.\n\nGemessen auf der dunklen Sektion (vorher -> nachher):\n  Abstufung aktiv/inaktiv   1,00:1 -> 5,16:1\n  Text inaktiver Tab        3,72:1 -> 5,23:1   (AA vorher verfehlt)\n  Text aktiver Tab          8,94:1 -> 9,10:1\n\nNEO Tab Navigation uebernimmt die Staffelung ohne eigenen Code: der Block\nsetzt 'nc-solution-tabs nc-tab-nav' und teilt sich die Komponente.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 31,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_solution-tabs.scss",
+          "plus": 49,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    }
+  ],
+  "jeDomaene": {
+    "skills": {
+      "name": "Agenten & Skills",
+      "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "messstand": {
+      "name": "Messstände & Werkzeuge",
+      "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
+      "commits": 5,
+      "dateien": 5,
+      "plus": 468,
+      "minus": 2,
+      "kosten": 0
+    },
+    "storybook": {
+      "name": "Storybook",
+      "was": "Die begehbare Bauteilbibliothek.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "konfig": {
+      "name": "Konfig-App",
+      "was": "Womit ein Kundendesign eingestellt wird, ohne Code anzufassen.",
+      "commits": 2,
+      "dateien": 4,
+      "plus": 5038,
+      "minus": 9634,
+      "kosten": 0
+    },
+    "ds": {
+      "name": "Design System",
+      "was": "Die Quelle der Wahrheit — SCSS, Token, ITCSS-Ebenen.",
+      "commits": 9,
+      "dateien": 28,
+      "plus": 774,
+      "minus": 100,
+      "kosten": 0
+    },
+    "doku": {
+      "name": "Dokumentation",
+      "was": "Recipes und begründende Texte.",
+      "commits": 1,
+      "dateien": 2,
+      "plus": 8,
+      "minus": 8,
+      "kosten": 0
+    },
+    "theme": {
+      "name": "Theme",
+      "was": "Was die Website davon tatsächlich zeigt — Twig, JS, Theme-CSS.",
+      "commits": 20,
+      "dateien": 63,
+      "plus": 2143,
+      "minus": 306,
+      "kosten": 0
+    },
+    "site": {
+      "name": "Drupal-Site",
+      "was": "Konfiguration, Blocktypen, Abhängigkeiten.",
+      "commits": 10,
+      "dateien": 146,
+      "plus": 2611,
+      "minus": 26,
+      "kosten": 0
+    },
+    "sonst": {
+      "name": "Projektgerüst",
+      "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
+      "commits": 1,
+      "dateien": 12,
+      "plus": 12,
+      "minus": 12,
+      "kosten": 0
+    }
+  },
+  "bestand": {
+    "ds": {
+      "komponenten": 142,
+      "ebenen": {
+        "05-atoms": 35,
+        "06-molecules": 48,
+        "07-organisms": 49,
+        "08-templates": 9,
+        "09-pages": 1
+      },
+      "ohneRecipe": 23,
+      "ohneStory": 23
+    },
+    "konfig": {
+      "gruppen": 101,
+      "vueKomponenten": 95
+    },
+    "storybook": {
+      "stories": 144
+    },
+    "doku": {
+      "recipes": 128,
+      "markdown": 275
+    },
+    "messstand": {
+      "skripte": 54,
+      "referenzstaende": 35
+    },
+    "theme": {
+      "templates": 73,
+      "js": 16,
+      "css": 16
+    },
+    "site": {
+      "configExporte": 1727
+    },
+    "skills": {
+      "skills": 18,
+      "agenten": 1,
+      "regeln": 5
+    }
+  },
+  "befunde": [
+    {
+      "id": "doppelungen",
+      "domaene": "ds",
+      "titel": "Wurzelklassen auf zwei Ebenen",
+      "wert": 1,
+      "gut": false,
+      "text": "1 Klasse(n) doppelt geführt. Vor jeder Löschung beide Kopfzeilen vergleichen.",
+      "seit": null,
+      "tage": 0,
+      "neu": true
+    },
+    {
+      "id": "skillebene",
+      "domaene": "skills",
+      "titel": "Skills unversioniert oder nicht ladbar",
+      "wert": 0,
+      "gut": true,
+      "text": "Alles versioniert, ladbar und benannt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "verirrt",
+      "domaene": "konfig",
+      "titel": "Build-Artefakte im Wurzelverzeichnis",
+      "wert": 0,
+      "gut": true,
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    }
+  ],
+  "entscheidungen": {
+    "gesamt": 10,
+    "haltbar": 10,
+    "gebrochen": 0,
+    "unpruefbar": 0,
+    "liste": [
+      {
+        "id": "lime-markenwert",
+        "titel": "Lime #37e93d ist der Markenwert",
+        "seit": "2026-08-13",
+        "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+          "regex": "#37e93d"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "lime-traegt-keinen-text",
+        "titel": "Lime 500 wird nie zur Schriftfarbe",
+        "seit": "2026-08-13",
+        "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-theme.scss",
+          "regex": "--accent-underline"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "interaktiv-nicht-mehr-cyan",
+        "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+        "seit": "2026-08-13",
+        "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+        "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-bridge.scss",
+          "regex": "--fnd-color-interactive-default"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "underline-offset-4",
+        "titel": "Unterstrich-Abstand ist 4px, als Token",
+        "seit": "2026-08-17",
+        "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--fnd-underline-offset: *4px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 1
+      },
+      {
+        "id": "label-gewicht-800",
+        "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+        "seit": "2026-06-16",
+        "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-section-header-label-font-weight: *800"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 63
+      },
+      {
+        "id": "card-summary-icon-60",
+        "titel": "Karten-Symbol misst 60px ueber sein Token",
+        "seit": "2026-07-30",
+        "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-card-summary-icon-size: *60px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 19
+      },
+      {
+        "id": "card-atom-geloescht",
+        "titel": "Das Card-Atom bleibt geloescht",
+        "seit": "2026-08-18",
+        "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+        "probe": {
+          "art": "abwesend",
+          "datei": "scss/scss/05-atoms/_card.scss"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      },
+      {
+        "id": "ddev-ohne-mutagen",
+        "titel": "DDEV laeuft ohne Mutagen",
+        "seit": "2026-07-28",
+        "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+        "probe": {
+          "art": "muster",
+          "repo": "site",
+          "datei": ".ddev/config.yaml",
+          "regex": "performance_mode: *none"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 21
+      },
+      {
+        "id": "claude-verzeichnis-versioniert",
+        "titel": "Skills, Agenten und Regeln liegen im Repo",
+        "seit": "2026-08-18",
+        "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+        "probe": {
+          "art": "muster",
+          "datei": ".gitignore",
+          "regex": "!\\.claude/skills/"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      },
+      {
+        "id": "slider-umbenennen",
+        "titel": "Der Namenskonflikt beim Slider wird durch Umbenennen geloest",
+        "seit": "2026-08-18",
+        "status": "offen",
+        "warum": "05-atoms fuehrt einen Range-Regler, 06-molecules ein Karussell — zwei Bausteine, ein Name. Loeschen wuerde eine echte Komponente treffen. Offen ist nur, welcher der beiden weicht (.nc-range oder .nc-carousel).",
+        "probe": {
+          "art": "vorhanden",
+          "datei": "scss/scss/05-atoms/_slider.scss"
+        },
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      }
+    ]
+  },
+  "cssGewicht": {
+    "jetzt": {
+      "bytes": 1140293,
+      "regeln": 6413,
+      "selektoren": 7439,
+      "eigenschaften": 4703
+    },
+    "vorher": null,
+    "delta": null
+  },
+  "backlog": {
+    "gesamt": 104,
+    "erledigt": 54,
+    "offen": 50,
+    "abschnitte": 15,
+    "stand": "2026-07-29",
+    "delta": null
+  },
+  "autoren": {
+    "eigen": "Frank Milius",
+    "liste": [
+      {
+        "name": "Frank Milius",
+        "commits": 37,
+        "dateien": 302,
+        "eigen": true
+      }
+    ],
+    "fremdCommits": 0,
+    "fremdAnteil": 0
+  },
+  "ungenutzt": {
+    "stand": "nach-card-atom-weg",
+    "gesamt": 237,
+    "ungenutzt": 182,
+    "beispiele": [
+      "nc-alert",
+      "nc-avatar",
+      "nc-avatar-group",
+      "nc-badge",
+      "nc-button-group",
+      "nc-button--full",
+      "nc-checkbox",
+      "nc-chip-group",
+      "nc-code-snippet--inline",
+      "nc-code-snippet--multi",
+      "nc-code-snippet--single",
+      "nc-code-snippet--header-plain"
+    ]
+  },
+  "nacharbeit": {
+    "commits": 37,
+    "korrektur": 9,
+    "aufFrischem": 35,
+    "quote": 24
+  },
+  "gesamtstrecke": {
+    "beruehrt": 14,
+    "vollstaendig": 10,
+    "luecken": [
+      {
+        "komponente": "section-header",
+        "fehlt": [
+          "Recipe",
+          "Story"
+        ]
+      },
+      {
+        "komponente": "badge-row",
+        "fehlt": [
+          "Recipe",
+          "Story"
+        ]
+      },
+      {
+        "komponente": "text-cta",
+        "fehlt": [
+          "Recipe",
+          "Story"
+        ]
+      },
+      {
+        "komponente": "text-blocks",
+        "fehlt": [
+          "Konfig-App"
+        ]
+      }
+    ]
+  },
+  "kosten": {
+    "gesamt": 0,
+    "unzuordenbar": 0,
+    "sitzungen": 0,
+    "abonnement": true,
+    "waehrung": "USD",
+    "token": {
+      "input": 0,
+      "output": 0,
+      "cacheWrite": 0,
+      "cacheRead": 0
+    },
+    "modelle": {}
+  }
+}

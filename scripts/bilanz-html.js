@@ -159,7 +159,9 @@ export function html(d) {
   ${kennzahl('Commits', zahl(d.commits.length), `${new Set(d.commits.map((c) => c.repo)).size} Repositories`)}
   ${kennzahl('Berührte Komponenten', zahl(g.beruehrt), `${zahl(g.vollstaendig)} auf ganzer Strecke`)}
   ${kennzahl('Nacharbeitsquote', d.nacharbeit.quote + '&thinsp;%', `${zahl(d.nacharbeit.korrektur)} von ${zahl(d.nacharbeit.commits)} Commits`)}
-  ${kennzahl('Offene Befunde', zahl(offen.length), offen.length ? 'siehe unten' : 'nichts offen')}
+  ${kennzahl('Offene Befunde', zahl(offen.length), offen.length ? `ältester ${zahl(Math.max(0, ...offen.map((x) => x.tage || 0)))} Tage` : 'nichts offen')}
+  ${d.entscheidungen ? kennzahl('Entscheidungen', d.entscheidungen.gebrochen === 0 ? 'halten' : zahl(d.entscheidungen.gebrochen) + ' gebrochen',
+    `${zahl(d.entscheidungen.gesamt)} im Register`) : ''}
   ${kennzahl(d.kosten.abonnement ? 'Verbrauch (Rechenwert)' : 'Kosten', '$' + geld(d.kosten.gesamt), `${zahl(d.kosten.sitzungen)} Sitzungen`)}
 </dl>
 
@@ -207,13 +209,39 @@ export function html(d) {
     : '<p>In diesem Zeitraum wurde keine Komponente berührt.</p>'}
 </section>
 
+${d.entscheidungen ? `<section>
+  <h2>Entscheidungsregister</h2>
+  <p class="lead">Getroffene Entscheidungen und die wöchentliche Gegenprobe, ob sie
+  noch gelten. Die Slate-Palette lief vier Tage produktiv, ohne dass es auffiel —
+  eine Entscheidung ohne Gegenprobe ist eine Absicht, kein Zustand.</p>
+  <p style="font-size:22px;font-weight:700;margin:0 0 14px">
+    ${d.entscheidungen.gebrochen === 0
+      ? `Alle ${zahl(d.entscheidungen.gesamt)} Entscheidungen halten.`
+      : `${zahl(d.entscheidungen.gebrochen)} von ${zahl(d.entscheidungen.gesamt)} Entscheidungen gelten nicht mehr.`}
+    ${d.entscheidungen.unpruefbar ? `<span style="color:var(--warn)"> ${zahl(d.entscheidungen.unpruefbar)} nicht prüfbar.</span>` : ''}
+  </p>
+  <div class="rahmen"><table>
+    <thead><tr><th>Stand</th><th>Entscheidung</th><th class="num">Alter</th><th>Warum</th></tr></thead><tbody>
+    ${d.entscheidungen.liste.map((x) => `<tr>
+      <td><span class="chip ${x.haelt === true ? (x.status === 'offen' ? 'offen' : 'ok') : 'offen'}">${
+        x.status === 'offen' ? 'offen' : x.haelt === true ? 'gilt' : x.haelt === false ? 'gebrochen' : 'unprüfbar'}</span></td>
+      <td class="dom">${e(x.titel)}${x.bemerkung ? `<small style="color:var(--warn)">${e(x.bemerkung)}</small>` : ''}${x.notiz ? `<small>${e(x.notiz)}</small>` : ''}</td>
+      <td class="num">${x.alterTage !== null ? zahl(x.alterTage) + '&thinsp;d' : '—'}</td>
+      <td style="color:var(--gedaempft);font-size:13px">${e(x.warum)}</td>
+    </tr>`).join('')}
+    </tbody></table></div>
+</section>` : ''}
+
 <section>
   <h2>Befunde</h2>
+  <p class="lead">Ein Befund von gestern und einer, der seit Wochen mitreist, sind
+  nicht dasselbe. Die Spalte „offen seit" liest sich aus den Ständen früherer Bilanzen.</p>
   <div class="rahmen"><table>
-    <thead><tr><th>Stand</th><th>Befund</th><th>Was es bedeutet</th></tr></thead><tbody>
+    <thead><tr><th>Stand</th><th>Befund</th><th class="num">Offen seit</th><th>Was es bedeutet</th></tr></thead><tbody>
     ${d.befunde.map((x) => `<tr>
       <td><span class="chip ${x.gut ? 'ok' : 'offen'}">${x.gut ? 'in Ordnung' : 'offen'}</span></td>
       <td class="dom">${e(x.titel)}${x.wert !== null ? ` <span style="color:var(--gedaempft)">(${zahl(x.wert)})</span>` : ''}</td>
+      <td class="num">${x.gut ? '—' : x.neu ? '<span class="chip offen">neu</span>' : `${zahl(x.tage)}&thinsp;d`}</td>
       <td style="color:var(--gedaempft)">${e(x.text)}</td>
     </tr>`).join('')}
     ${d.ungenutzt ? `<tr>
@@ -239,6 +267,46 @@ export function html(d) {
   Sitzungen mit warmem Kontext statt ständigem Neuaufbau — und er ist der mit Abstand
   billigste Posten. Modelle in diesem Zeitraum:
   ${Object.entries(d.kosten.modelle).map(([m, n]) => `<span class="mono">${e(m)}</span> (${zahl(n)})`).join(', ') || '—'}.</div>
+</section>
+
+<section>
+  <h2>Gewicht, Backlog, Beteiligte</h2>
+  <p class="lead">Drei Zahlen, die einzeln wenig und über Monate viel sagen.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px">
+
+    ${d.cssGewicht ? `<div class="rahmen" style="padding:16px 18px">
+      <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gedaempft);font-weight:650">Gebautes CSS</div>
+      <div style="font-size:26px;font-weight:730;margin-top:6px">${(d.cssGewicht.jetzt.bytes / 1024).toFixed(0)}&thinsp;KB</div>
+      <div style="color:var(--gedaempft);font-size:13px;margin-top:4px">
+        ${zahl(d.cssGewicht.jetzt.regeln)} Regeln · ${zahl(d.cssGewicht.jetzt.selektoren)} Selektoren · ${zahl(d.cssGewicht.jetzt.eigenschaften)} Eigenschaften
+      </div>
+      <div style="margin-top:9px;font-size:13px">${d.cssGewicht.delta
+        ? `Gegenüber dem letzten Stand: <b>${d.cssGewicht.delta.regeln >= 0 ? '+' : '&minus;'}${zahl(Math.abs(d.cssGewicht.delta.regeln))} Regeln</b>, ${d.cssGewicht.delta.bytes >= 0 ? '+' : '&minus;'}${(Math.abs(d.cssGewicht.delta.bytes) / 1024).toFixed(1)}&thinsp;KB`
+        : '<span style="color:var(--gedaempft)">Erster Stand — der Vergleich beginnt nächste Woche.</span>'}</div>
+      <div style="margin-top:7px;font-size:12px;color:var(--gedaempft)">Stand von heute: <span class="mono">styles.css</span> ist ignoriert und hat keine Historie, aus der ein früherer Stand rekonstruierbar wäre.</div>
+    </div>` : ''}
+
+    ${d.backlog ? `<div class="rahmen" style="padding:16px 18px">
+      <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gedaempft);font-weight:650">Backlog</div>
+      <div style="font-size:26px;font-weight:730;margin-top:6px">${zahl(d.backlog.offen)} <span style="font-size:15px;font-weight:400;color:var(--gedaempft)">offen von ${zahl(d.backlog.gesamt)}</span></div>
+      <div style="color:var(--gedaempft);font-size:13px;margin-top:4px">${zahl(d.backlog.abschnitte)} Abschnitte · gepflegt bis ${e(d.backlog.stand || '—')}</div>
+      <div style="margin-top:9px;font-size:13px">${d.backlog.delta
+        ? `Diese Woche: <b>+${zahl(Math.max(0, d.backlog.delta.zugefuegt))} zugefügt</b>, ${zahl(Math.max(0, d.backlog.delta.abgearbeitet))} abgearbeitet`
+        : '<span style="color:var(--gedaempft)">Erster Stand — die Bewegung zeigt sich ab dem nächsten Lauf.</span>'}</div>
+    </div>` : ''}
+
+    ${d.autoren ? `<div class="rahmen" style="padding:16px 18px">
+      <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gedaempft);font-weight:650">Beteiligte</div>
+      <div style="font-size:26px;font-weight:730;margin-top:6px">${zahl(d.autoren.fremdAnteil)}&thinsp;% <span style="font-size:15px;font-weight:400;color:var(--gedaempft)">fremd</span></div>
+      <div style="color:var(--gedaempft);font-size:13px;margin-top:4px">
+        ${d.autoren.liste.map((a) => `${e(a.name)}${a.eigen ? '' : ' (fremd)'}: ${zahl(a.commits)}`).join(' · ') || '—'}
+      </div>
+      <div style="margin-top:9px;font-size:13px">${d.autoren.fremdCommits
+        ? 'Fremde Arbeit im Baum — beim Committen einzeln stagen, nie <span class="mono">git add -A</span>.'
+        : '<span style="color:var(--gedaempft)">Keine fremden Commits in diesem Zeitraum.</span>'}</div>
+    </div>` : ''}
+
+  </div>
 </section>
 
 <section>

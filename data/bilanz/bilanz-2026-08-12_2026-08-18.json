@@ -3,8 +3,161 @@
     "von": "2026-08-12",
     "bis": "2026-08-18"
   },
-  "erzeugt": "2026-08-18T08:48:13.507Z",
+  "erzeugt": "2026-08-18T09:06:40.186Z",
   "commits": [
+    {
+      "repo": "Design System",
+      "hash": "d11da42",
+      "datum": "2026-08-18T10:52:38+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(bilanz): Zeitplan-Datei mitversionieren",
+      "rumpf": "Der LaunchAgent lag nur unter ~/Library/LaunchAgents und war damit genau\ndas, was npm run skills sonst anprangert: auf einer Maschine, fuer\nniemanden sichtbar, bei Plattenschaden weg. Eine Kopie liegt jetzt im\nRepo; installiert wird weiterhin die Fassung im Home.\n\nAusserdem ein falscher Kommentar korrigiert: Das Nachholen nach einem\nRuhezustand leistet StartCalendarInterval selbst, nicht RunAtLoad.\nRunAtLoad bleibt bewusst aus, sonst kaeme bei jedem Anmelden eine Mail.",
+      "dateien": [
+        {
+          "pfad": "scripts/launchd/de.neocosmo.arbeitsbilanz.plist",
+          "plus": 42,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "c37d020",
+      "datum": "2026-08-18T10:51:59+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(bilanz): Arbeitsbilanz als berechneten Wochenbericht, phase ueberarbeitet",
+      "rumpf": "Zwei offene Befunde der Skill-Ebene geschlossen. progress_report.md\nbeschrieb einen PHP/Vue-Stack, den es hier nicht gibt (null PHP-Dateien),\nund wies auf ein `claude history`, das es nicht gibt. phase.md war\ninhaltlich gut, aber lose abgelegt und damit nie geladen.\n\nPHASE — verschoben nach phase/SKILL.md und nachgezogen\nPrueflisten auf die seither entstandenen Instrumente umgestellt\n(kontrast, zustand, artefakt, baseline:diff, skills). Commit-Format\n`Phase N: <Beschreibung>` entfernt — genau die Aufzaehlung, die /commit\nverbietet; die Nummer gehoert in den Rumpf, die Ueberschrift nennt den\nGrund. Unterschied Verschiebung/Aenderung ausdruecklich gemacht: bei\neiner Verschiebung ist jede Abweichung ein Fehler, bei einer gewollten\nAenderung ist keine verdaechtig.\n\nBILANZ — neu, ersetzt progress_report.md und skills/reports/\nDer Bericht wird BERECHNET, nicht formuliert. Ein erzaehlter Bericht ist\njede Woche anders betont und damit ueber Wochen nicht vergleichbar; er\nkostet ausserdem genau das, was er messen soll. Gleiche Woche, gleiche\nZahlen.\n\n  scripts/bilanz-daten.js       Erhebung aus git, Transkripten, Bestand\n  scripts/bilanz-html.js        Darstellung, getrennt davon\n  scripts/arbeitsbilanz.js      Treiber, npm run bilanz\n  scripts/bilanz-woechentlich.sh  Start durch launchd\n  data/claude-preise.json       einzige Stelle mit Betraegen\n\nNeun Domaenen statt vier Kategorien: Design System, Konfig-App, Theme,\nMessstaende, Dokumentation, Storybook, Drupal-Site, Agenten & Skills,\nProjektgeruest. Je Domaene eine Kennzahl, die dort etwas aussagt.\n\nVier tragende Masse statt Zaehlungen: Gesamtstrecke (misst deine Regel am\nStand, nicht an der Absicht), Nacharbeitsquote, Bauteile ohne Fundstelle,\nVerbrauch je Ergebnis.\n\nZWEI FEHLER IN DEN ERSTEN ZAHLEN, BEIDE GEFUNDEN UND BEHOBEN\n\n1. Dubletten. Ein Modellergebnis steht mehrfach im Transkript — je\n   Inhaltsblock eine Zeile, mit identischem usage und identischer\n   message.id. Ungefiltert zaehlte eine Antwort bis zu achtmal: 4260 von\n   7511 Eintraegen waren Dubletten, 2,2 Mrd Cache-Token zu viel, der\n   Verbrauch lag bei $7236 statt $3067. Entdopplung ueber message.id.\n\n2. Domaenenleck. config/theme-configurator/ (die gebaute Konfig-App, 298\n   Dateien) und die *Arena-<hash>.js im Wurzelverzeichnis fielen durch\n   alle Regeln und landeten in \"Sonstiges\" — das damit der groesste\n   Posten war. Regeln ergaenzt; \"Sonstiges\" heisst jetzt \"Projektgeruest\"\n   und soll klein bleiben.\n\nAUTOMATIK\nLaunchAgent de.neocosmo.arbeitsbilanz, montags 8:47 Uhr — bewusst vor der\nBacklog-Erinnerung um 9:00 und nicht zur vollen Stunde. Der Wrapper ist\nnoetig, weil launchd mit nacktem Umfeld startet: kein PATH, keine\nProfile; git faende sich noch, node nicht.\n\nMAIL\nUeber Mail.app per AppleScript. `mail` und `sendmail` gibt es zwar, aber\nes laeuft KEIN MTA — sie haetten still in einer Queue gehangen, die\nniemand leert. Einmal an frank@neocosmo.de zugestellt und geprueft.\nSchlaegt der Versand fehl, ist die Seite trotzdem geschrieben: Der\nBericht ist das Ergebnis, die Mail nur die Benachrichtigung.\n\nAUSGABE\ndata/bilanz/<zeitraum>.html, Graphit und Lime, beide Themen, Balken neben\njeder Zahl. Lime traegt nie Text — #37e93d kommt auf Weiss auf 1,7:1;\nfuer Text steht --lime-text daneben. Dieselbe Trennung wie im Design\nSystem selbst.\n\nHTML und Protokolle sind ignoriert (jederzeit neu berechenbar). Die\nJSON-Staende bleiben versioniert: Sie sind der einzige dauerhafte\nNachweis des Verbrauchs, denn Transkripte werden irgendwann aufgeraeumt.\n\nOFFEN\nDie Preise in data/claude-preise.json sind eine ANNAHME und gehoeren mit\nder echten Abrechnung abgeglichen. Bei abonnement:true ist der Betrag\nohnehin kein Ausgabeposten, sondern ein Mass fuer Verbrauch — die Bilanz\nbeschriftet die Spalte entsprechend.",
+      "dateien": [
+        {
+          "pfad": ".claude/skills/bilanz/SKILL.md",
+          "plus": 131,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/bilanz/references/ablauf.md",
+          "plus": 86,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/bilanz/references/kategorien.md",
+          "plus": 93,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/bilanz/references/masse.md",
+          "plus": 77,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/phase.md",
+          "plus": 0,
+          "minus": 38,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/phase/SKILL.md",
+          "plus": 87,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/progress_report.md",
+          "plus": 0,
+          "minus": 13,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/categories.md",
+          "plus": 0,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/metrics.md",
+          "plus": 0,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/workflows.md",
+          "plus": 0,
+          "minus": 14,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".gitignore",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/bilanz/bilanz-2026-08-12_2026-08-18.json",
+          "plus": 4573,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/claude-preise.json",
+          "plus": 49,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/arbeitsbilanz.js",
+          "plus": 120,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/bilanz-daten.js",
+          "plus": 583,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/bilanz-html.js",
+          "plus": 268,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/bilanz-woechentlich.sh",
+          "plus": 30,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
     {
       "repo": "Design System",
       "hash": "4a89887",
@@ -4248,50 +4401,26 @@
           "domaene": "konfig"
         }
       ]
-    },
-    {
-      "repo": "Design System",
-      "hash": "5d1f7da",
-      "datum": "2026-08-12T10:53:50+02:00",
-      "autor": "Frank Milius",
-      "betreff": "feat(migration): Token-Triage fuer Phase 1",
-      "rumpf": "Sortiert die Abweichungen zwischen DS und Website in Entscheidungsgruppen.\nWebsite fuehrend, aber nicht blind:\n\n  UEBERNEHMEN 57  Farben und Markenwerte — die Website fuehrt unstrittig\n  PRUEFEN     16  Faelle mit verlorener Faehigkeit (fluide Skala -> feste px)\n                  oder Formwerte, bei denen unklar ist, ob Absicht oder\n                  Nebenwirkung des Konfigurator-Exports\n  DEFEKT       5  Elevation-Tokens mit T-Shirt-Namen statt Schattenwerten\n  TOT         18  wird von keiner Regel ausgelesen ODER die Komponente kommt\n                  im gemessenen Referenzstand nicht vor\n  unbekannt   43  dem DS unbekannt, nach Praefix gebuendelt\n\nDie TOT-Erkennung nutzt den Referenzstand aus data/baseline: theme-overrides.css\nstammt vom 2026-06-23 und enthaelt Tokens fuer eine Navigation\n(--nc-nav-menu-*), die es auf der Website gar nicht mehr gibt — sie wurde\nseither mit anderen Klassennamen neu gebaut. Diese Werte ins DS zu uebernehmen\nwaere schaedlich.\n\nBeim Bauen fiel ein Fehler in der eigenen Heuristik auf: --nc-hero-kicker-* galt\nfaelschlich als tot, weil der Abgleich am BEM-Trenner scheiterte\n(.nc-hero__kicker vs --nc-hero-kicker-*). Ein falsches 'tot' loescht lebende\nWerte — der Abgleich ebnet die Trenner jetzt ein und kuerzt den Stamm von\nhinten, bewusst grosszuegig.",
-      "dateien": [
-        {
-          "pfad": "package.json",
-          "plus": 2,
-          "minus": 1,
-          "binaer": false,
-          "domaene": "sonst"
-        },
-        {
-          "pfad": "scripts/token-triage.js",
-          "plus": 185,
-          "minus": 0,
-          "binaer": false,
-          "domaene": "messstand"
-        }
-      ]
     }
   ],
   "jeDomaene": {
     "skills": {
       "name": "Agenten & Skills",
       "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
-      "commits": 2,
-      "dateien": 27,
-      "plus": 1884,
-      "minus": 5,
-      "kosten": 43.61261325989851
+      "commits": 3,
+      "dateien": 32,
+      "plus": 2358,
+      "minus": 79,
+      "kosten": 54.80385317307695
     },
     "messstand": {
       "name": "Messstände & Werkzeuge",
       "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
-      "commits": 22,
-      "dateien": 17,
-      "plus": 2919,
+      "commits": 23,
+      "dateien": 21,
+      "plus": 3777,
       "minus": 17,
-      "kosten": 221.1782529609139
+      "kosten": 274.0192658653848
     },
     "storybook": {
       "name": "Storybook",
@@ -4300,7 +4429,7 @@
       "dateien": 24,
       "plus": 1432,
       "minus": 6,
-      "kosten": 80.99485319695438
+      "kosten": 79.16112125000005
     },
     "konfig": {
       "name": "Konfig-App",
@@ -4309,7 +4438,7 @@
       "dateien": 183,
       "plus": 28070,
       "minus": 8992,
-      "kosten": 660.4195722213203
+      "kosten": 645.4676040384619
     },
     "ds": {
       "name": "Design System",
@@ -4318,7 +4447,7 @@
       "dateien": 69,
       "plus": 5241,
       "minus": 602,
-      "kosten": 560.8094878981458
+      "kosten": 548.1144205730773
     },
     "doku": {
       "name": "Dokumentation",
@@ -4327,7 +4456,7 @@
       "dateien": 16,
       "plus": 1942,
       "minus": 1,
-      "kosten": 202.48713299238594
+      "kosten": 197.90280312500013
     },
     "theme": {
       "name": "Theme",
@@ -4336,7 +4465,7 @@
       "dateien": 11,
       "plus": 571,
       "minus": 3971,
-      "kosten": 611.4872517462715
+      "kosten": 597.6637339923082
     },
     "site": {
       "name": "Drupal-Site",
@@ -4345,16 +4474,16 @@
       "dateien": 26,
       "plus": 709,
       "minus": 21,
-      "kosten": 186.91119968527934
+      "kosten": 185.72416908653858
     },
     "sonst": {
       "name": "Projektgerüst",
       "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
       "commits": 13,
-      "dateien": 8,
-      "plus": 1157,
+      "dateien": 10,
+      "plus": 5786,
       "minus": 187,
-      "kosten": 501.5450524888329
+      "kosten": 505.4133125961541
     }
   },
   "bestand": {
@@ -4394,7 +4523,7 @@
       "configExporte": 1727
     },
     "skills": {
-      "skills": 17,
+      "skills": 18,
       "agenten": 1,
       "regeln": 5
     }
@@ -4406,15 +4535,21 @@
       "titel": "Wurzelklassen auf zwei Ebenen",
       "wert": 1,
       "gut": false,
-      "text": "1 Klasse(n) doppelt geführt. Vor jeder Löschung beide Kopfzeilen vergleichen."
+      "text": "1 Klasse(n) doppelt geführt. Vor jeder Löschung beide Kopfzeilen vergleichen.",
+      "seit": "2026-08-11",
+      "tage": 7,
+      "neu": false
     },
     {
       "id": "skillebene",
       "domaene": "skills",
       "titel": "Skills unversioniert oder nicht ladbar",
-      "wert": 3,
-      "gut": false,
-      "text": "1 Datei(en) liegen nur auf dieser Maschine."
+      "wert": 0,
+      "gut": true,
+      "text": "Alles versioniert, ladbar und benannt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
     },
     {
       "id": "verirrt",
@@ -4422,9 +4557,213 @@
       "titel": "Build-Artefakte im Wurzelverzeichnis",
       "wert": 0,
       "gut": true,
-      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören."
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
     }
   ],
+  "entscheidungen": {
+    "gesamt": 10,
+    "haltbar": 10,
+    "gebrochen": 0,
+    "unpruefbar": 0,
+    "liste": [
+      {
+        "id": "lime-markenwert",
+        "titel": "Lime #37e93d ist der Markenwert",
+        "seit": "2026-08-13",
+        "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+          "regex": "#37e93d"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "lime-traegt-keinen-text",
+        "titel": "Lime 500 wird nie zur Schriftfarbe",
+        "seit": "2026-08-13",
+        "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-theme.scss",
+          "regex": "--accent-underline"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "interaktiv-nicht-mehr-cyan",
+        "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+        "seit": "2026-08-13",
+        "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+        "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-bridge.scss",
+          "regex": "--fnd-color-interactive-default"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 5
+      },
+      {
+        "id": "underline-offset-4",
+        "titel": "Unterstrich-Abstand ist 4px, als Token",
+        "seit": "2026-08-17",
+        "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--fnd-underline-offset: *4px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 1
+      },
+      {
+        "id": "label-gewicht-800",
+        "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+        "seit": "2026-06-16",
+        "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-section-header-label-font-weight: *800"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 63
+      },
+      {
+        "id": "card-summary-icon-60",
+        "titel": "Karten-Symbol misst 60px ueber sein Token",
+        "seit": "2026-07-30",
+        "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-card-summary-icon-size: *60px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 19
+      },
+      {
+        "id": "card-atom-geloescht",
+        "titel": "Das Card-Atom bleibt geloescht",
+        "seit": "2026-08-18",
+        "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+        "probe": {
+          "art": "abwesend",
+          "datei": "scss/scss/05-atoms/_card.scss"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      },
+      {
+        "id": "ddev-ohne-mutagen",
+        "titel": "DDEV laeuft ohne Mutagen",
+        "seit": "2026-07-28",
+        "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+        "probe": {
+          "art": "muster",
+          "repo": "site",
+          "datei": ".ddev/config.yaml",
+          "regex": "performance_mode: *none"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 21
+      },
+      {
+        "id": "claude-verzeichnis-versioniert",
+        "titel": "Skills, Agenten und Regeln liegen im Repo",
+        "seit": "2026-08-18",
+        "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+        "probe": {
+          "art": "muster",
+          "datei": ".gitignore",
+          "regex": "!\\.claude/skills/"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      },
+      {
+        "id": "slider-umbenennen",
+        "titel": "Der Namenskonflikt beim Slider wird durch Umbenennen geloest",
+        "seit": "2026-08-18",
+        "status": "offen",
+        "warum": "05-atoms fuehrt einen Range-Regler, 06-molecules ein Karussell — zwei Bausteine, ein Name. Loeschen wuerde eine echte Komponente treffen. Offen ist nur, welcher der beiden weicht (.nc-range oder .nc-carousel).",
+        "probe": {
+          "art": "vorhanden",
+          "datei": "scss/scss/05-atoms/_slider.scss"
+        },
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 0
+      }
+    ]
+  },
+  "cssGewicht": {
+    "jetzt": {
+      "bytes": 1140293,
+      "regeln": 6413,
+      "selektoren": 7439,
+      "eigenschaften": 4703
+    },
+    "vorher": {
+      "bytes": 1140293,
+      "regeln": 6413,
+      "selektoren": 7439,
+      "eigenschaften": 4703
+    },
+    "delta": {
+      "bytes": 0,
+      "regeln": 0,
+      "eigenschaften": 0
+    }
+  },
+  "backlog": {
+    "gesamt": 112,
+    "erledigt": 55,
+    "offen": 57,
+    "abschnitte": 21,
+    "stand": "2026-07-29",
+    "delta": {
+      "zugefuegt": 8,
+      "abgearbeitet": 1
+    }
+  },
+  "autoren": {
+    "eigen": "Frank Milius",
+    "liste": [
+      {
+        "name": "Frank Milius",
+        "commits": 68,
+        "dateien": 531,
+        "eigen": true
+      }
+    ],
+    "fremdCommits": 0,
+    "fremdAnteil": 0
+  },
   "ungenutzt": {
     "stand": "nach-card-atom-weg",
     "gesamt": 237,
@@ -4445,7 +4784,7 @@
     ]
   },
   "nacharbeit": {
-    "commits": 67,
+    "commits": 68,
     "korrektur": 13,
     "aufFrischem": 63,
     "quote": 19
@@ -4554,19 +4893,19 @@
     ]
   },
   "kosten": {
-    "gesamt": 3069.4454164500025,
+    "gesamt": 3088.270283700002,
     "unzuordenbar": 0,
     "sitzungen": 2,
     "abonnement": true,
     "waehrung": "USD",
     "token": {
-      "input": 6408,
-      "output": 3030799,
-      "cacheWrite": 14488069,
-      "cacheRead": 1716222865
+      "input": 6500,
+      "output": 3077249,
+      "cacheWrite": 14548906,
+      "cacheRead": 1725688894
     },
     "modelle": {
-      "claude-opus-5": 3270,
+      "claude-opus-5": 3319,
       "claude-opus-4-6": 62
     }
   }

@@ -1,0 +1,100 @@
+{
+  "_hinweis": [
+    "Register der getroffenen Entscheidungen. Die Bilanz prueft woechentlich,",
+    "ob jede noch gilt.",
+    "",
+    "WARUM ES DAS GIBT",
+    "Die Slate-Palette war am 23.06.2026 produktiv gesetzt und lief VIER TAGE,",
+    "ohne dass es jemandem auffiel — sie war still von neo-overrides.css",
+    "ausgehebelt worden. Eine Entscheidung ohne Gegenprobe ist eine Absicht,",
+    "kein Zustand.",
+    "",
+    "EINE ENTSCHEIDUNG GEHOERT HIER HINEIN, WENN",
+    "  - du sie ausdruecklich als final bezeichnet hast, UND",
+    "  - sie sich an einer Stelle im Bestand nachweisen laesst.",
+    "Was sich nicht pruefen laesst, gehoert ins BACKLOG, nicht hierher —",
+    "ein Eintrag ohne Probe waere eine Behauptung mit Datum.",
+    "",
+    "PROBEN",
+    "  muster     regex muss in datei vorkommen (erwartet:false = darf nicht)",
+    "  abwesend   datei darf es nicht geben",
+    "  vorhanden  datei muss es geben",
+    "repo: ds (Vorgabe) | theme | site"
+  ],
+
+  "entscheidungen": [
+    {
+      "id": "lime-markenwert",
+      "titel": "Lime #37e93d ist der Markenwert",
+      "seit": "2026-08-13",
+      "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_neutral-ramps.scss", "regex": "#37e93d" }
+    },
+    {
+      "id": "lime-traegt-keinen-text",
+      "titel": "Lime 500 wird nie zur Schriftfarbe",
+      "seit": "2026-08-13",
+      "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_mono-theme.scss", "regex": "--accent-underline" }
+    },
+    {
+      "id": "interaktiv-nicht-mehr-cyan",
+      "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+      "seit": "2026-08-13",
+      "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+      "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_mono-bridge.scss", "regex": "--fnd-color-interactive-default" }
+    },
+    {
+      "id": "underline-offset-4",
+      "titel": "Unterstrich-Abstand ist 4px, als Token",
+      "seit": "2026-08-17",
+      "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+      "probe": { "art": "muster", "datei": "styles.css", "regex": "--fnd-underline-offset: *4px" }
+    },
+    {
+      "id": "label-gewicht-800",
+      "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+      "seit": "2026-06-16",
+      "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+      "probe": { "art": "muster", "datei": "styles.css", "regex": "--nc-section-header-label-font-weight: *800" }
+    },
+    {
+      "id": "card-summary-icon-60",
+      "titel": "Karten-Symbol misst 60px ueber sein Token",
+      "seit": "2026-07-30",
+      "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+      "probe": { "art": "muster", "datei": "styles.css", "regex": "--nc-card-summary-icon-size: *60px" }
+    },
+    {
+      "id": "card-atom-geloescht",
+      "titel": "Das Card-Atom bleibt geloescht",
+      "seit": "2026-08-18",
+      "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+      "probe": { "art": "abwesend", "datei": "scss/scss/05-atoms/_card.scss" }
+    },
+    {
+      "id": "ddev-ohne-mutagen",
+      "titel": "DDEV laeuft ohne Mutagen",
+      "seit": "2026-07-28",
+      "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+      "probe": { "art": "muster", "repo": "site", "datei": ".ddev/config.yaml", "regex": "performance_mode: *none" }
+    },
+    {
+      "id": "claude-verzeichnis-versioniert",
+      "titel": "Skills, Agenten und Regeln liegen im Repo",
+      "seit": "2026-08-18",
+      "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+      "probe": { "art": "muster", "datei": ".gitignore", "regex": "!\\.claude/skills/" }
+    },
+
+    {
+      "id": "slider-umbenennen",
+      "titel": "Der Namenskonflikt beim Slider wird durch Umbenennen geloest",
+      "seit": "2026-08-18",
+      "status": "offen",
+      "warum": "05-atoms fuehrt einen Range-Regler, 06-molecules ein Karussell — zwei Bausteine, ein Name. Loeschen wuerde eine echte Komponente treffen. Offen ist nur, welcher der beiden weicht (.nc-range oder .nc-carousel).",
+      "probe": { "art": "vorhanden", "datei": "scss/scss/05-atoms/_slider.scss" }
+    }
+  ]
+}

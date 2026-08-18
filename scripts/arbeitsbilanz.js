@@ -58,9 +58,33 @@ console.log(`\n  ${daten.commits.length} Commits über ${new Set(daten.commits.m
 console.log(`  ${g.vollstaendig} von ${g.beruehrt} berührten Komponenten auf ganzer Strecke`);
 console.log(`  Nacharbeitsquote ${daten.nacharbeit.quote} %`);
 console.log(`  Verbrauch $${daten.kosten.gesamt.toFixed(2)}${daten.kosten.abonnement ? ' (Rechenwert, Abonnement)' : ''}`);
+
+const ent = daten.entscheidungen;
+if (ent) {
+  console.log(`\n  Entscheidungsregister: ${ent.haltbar} von ${ent.gesamt} halten`
+    + (ent.gebrochen ? `, ${ent.gebrochen} GEBROCHEN` : '')
+    + (ent.unpruefbar ? `, ${ent.unpruefbar} nicht prüfbar` : ''));
+  for (const x of ent.liste.filter((y) => y.haelt === false)) {
+    console.log(`    ✗ ${x.titel} — ${x.bemerkung}`);
+  }
+}
+
+if (daten.cssGewicht) {
+  const c = daten.cssGewicht;
+  console.log(`  Gebautes CSS: ${(c.jetzt.bytes / 1024).toFixed(0)} KB, ${c.jetzt.regeln} Regeln`
+    + (c.delta ? `  (${c.delta.regeln >= 0 ? '+' : ''}${c.delta.regeln} zur Vorwoche)` : '  (erster Stand)'));
+}
+if (daten.backlog) {
+  console.log(`  Backlog: ${daten.backlog.offen} offen von ${daten.backlog.gesamt}`
+    + (daten.backlog.delta ? `  (+${Math.max(0, daten.backlog.delta.zugefuegt)} zugefügt, ${Math.max(0, daten.backlog.delta.abgearbeitet)} abgearbeitet)` : ''));
+}
+if (daten.autoren?.fremdCommits) {
+  console.log(`  Fremdanteil: ${daten.autoren.fremdAnteil} % — beim Committen einzeln stagen`);
+}
+
 if (offen.length) {
   console.log(`\n  ${offen.length} offene(r) Befund(e):`);
-  for (const b of offen) console.log(`    ${b.titel}: ${b.text}`);
+  for (const b of offen) console.log(`    ${b.titel}${b.tage ? ` (seit ${b.tage} Tagen)` : ' (neu)'}: ${b.text}`);
 }
 console.log(`\n  → ${seite}`);
 
