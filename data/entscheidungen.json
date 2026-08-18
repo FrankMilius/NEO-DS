@@ -201,6 +201,18 @@
         "datei": "scss/scss/07-organisms/_hero.scss",
         "regex": "@mixin hero-split-ueberstand"
       }
+    },
+    {
+      "id": "hero-attrappe-heisst-mockup",
+      "titel": "Die Dashboard-Attrappe heisst .nc-hero__mockup",
+      "seit": "2026-08-18",
+      "warum": "Sie hiess .nc-hero__card — einen Buchstaben von .nc-hero__cards entfernt, dem Kennzahlen-Raster im Fuss. Ihre Kacheln hiessen .nc-hero__metric und standen damit neben dem Molekuel .nc-metric, das seit dem Fuss im selben Hero vorkommt. Keine Kaskaden-Kollision, aber zwei Lesefallen — und die kosten hier mehr als Kaskadenfehler, weil sie niemand misst. Umbenennung belegt mit baseline:diff: 28954 Werte, keine Abweichung.",
+      "probe": {
+        "art": "muster",
+        "datei": "styles.css",
+        "regex": "\\.nc-hero__card[^s]",
+        "erwartet": false
+      }
     }
   ]
 }

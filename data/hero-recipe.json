@@ -68,24 +68,6 @@
         "element": ".nc-hero__mark",
         "optional": true,
         "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
-      },
-      {
-        "name": "picture",
-        "element": ".nc-hero__picture",
-        "optional": true,
-        "description": "Gerahmtes Bild mit eigener Flaeche und Schatten. Nur in der picture-Variante."
-      },
-      {
-        "name": "card",
-        "element": ".nc-hero__card",
-        "optional": true,
-        "description": "Dashboard-Attrappe mit Kennzahlen und Puls. NICHT zu verwechseln mit .nc-hero__cards (Plural) — das ist das Kennzahlen-Raster im Fuss."
-      },
-      {
-        "name": "metric",
-        "element": ".nc-hero__metric",
-        "optional": true,
-        "description": "Einzelne Kennzahl INNERHALB der Dashboard-Attrappe."
       }
     ],
     "convenience": [
@@ -123,15 +105,16 @@
         "slot": "media"
       },
       {
-        "name": "card",
-        "element": ".nc-hero__card",
-        "slot": "media"
+        "name": "mockup",
+        "element": ".nc-hero__mockup",
+        "slot": "media",
+        "description": "Dashboard-Attrappe. Frueher .nc-hero__card — umbenannt, weil der Name sich um einen Buchstaben von .nc-hero__cards (Kennzahlen im Fuss) unterschied."
       },
       {
-        "name": "metric",
-        "element": ".nc-hero__metric",
+        "name": "mockup-tile",
+        "element": ".nc-hero__mockup-tile",
         "slot": "media",
-        "description": "Metric-Integration fuer die card-Variante."
+        "description": "Kachel INNERHALB der Attrappe. Frueher .nc-hero__metric — umbenannt, weil .nc-metric ein eigenes Molekuel des Design Systems ist und beide seit dem Fuss im selben Hero vorkommen."
       }
     ],
     "domNotes": [
@@ -153,7 +136,7 @@
   "axes": {
     "variant": {
       "label": "Variant",
-      "description": "Visuelle Variante — picture, card, split",
+      "description": "Visuelle Variante — picture, mockup, split",
       "values": {
         "picture": {
           "modifier": null,
@@ -164,17 +147,6 @@
           "slotConfig": {
             "media": true,
             "picture": true
-          }
-        },
-        "card": {
-          "modifier": null,
-          "tokenGroups": [
-            "card-media"
-          ],
-          "renderHint": "hero-card",
-          "slotConfig": {
-            "media": true,
-            "card": true
           }
         },
         "split": {
@@ -188,6 +160,17 @@
             "picture": true
           },
           "description": "50/50 Layout: Text auf einer Seite, Bild/Video auf der anderen — buendig bis zum VIEWPORT-Rand, ohne Radius. Welche Seite das Medium bekommt, entscheidet die Achse mediaPosition."
+        },
+        "mockup": {
+          "modifier": null,
+          "tokenGroups": [
+            "mockup"
+          ],
+          "renderHint": "hero-mockup",
+          "slotConfig": {
+            "media": true,
+            "mockup": true
+          }
         }
       }
     },
@@ -482,14 +465,14 @@
           "nc-hero-split-gap"
         ]
       },
-      "card-media": {
+      "mockup": {
         "label": "Dashboard-Attrappe",
         "tokens": [
-          "nc-hero-card-width",
-          "nc-hero-card-ratio",
-          "nc-hero-card-radius",
-          "nc-hero-card-padding",
-          "nc-hero-card-gap"
+          "nc-hero-mockup-width",
+          "nc-hero-mockup-ratio",
+          "nc-hero-mockup-radius",
+          "nc-hero-mockup-padding",
+          "nc-hero-mockup-gap"
         ]
       }
     }
@@ -555,7 +538,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)",
-        "note": "Card: Pulse reduced-motion. Picture: alt-Text + Overlay-Kontrast. Split: buendiges Bild bis zum Viewport-Rand."
+        "note": "Attrappe: Puls respektiert reduced-motion. Picture: alt-Text + Overlay-Kontrast. Split: buendiges Bild bis zum Viewport-Rand."
       }
     },
     {

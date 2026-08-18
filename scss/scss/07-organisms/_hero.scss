@@ -1,9 +1,17 @@
 // ==========================================================================
 // 07-Organisms: Hero
 // ==========================================================================
-// Full-width hero section with content/media split layout.
-// Includes title, highlights, card, picture, and pulse variants.
-// Extracted from _site.scss for proper ITCSS placement.
+// Vollbreiter Hero mit Inhalt und optionalem Medium.
+//
+// ZWEI NAMEN, DIE MAN NICHT VERWECHSELN DARF
+//   .nc-hero__cards   Kennzahlen-Raster im FUSS, benutzt .nc-metric
+//   .nc-hero__mockup  Dashboard-Attrappe im MEDIENBEREICH
+//
+// Die Attrappe hiess bis zum 18.08.2026 .nc-hero__card und ihre Kacheln
+// .nc-hero__metric. Das war zweimal einen Buchstaben bzw. ein Praefix von
+// etwas anderem entfernt: vom Kennzahlen-Raster und vom Molekuel .nc-metric.
+// Keine Kaskaden-Kollision, aber eine Lesefalle — und Lesefallen kosten hier
+// erfahrungsgemaess mehr als Kaskadenfehler, weil sie niemand misst.
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -529,40 +537,40 @@
 // Hero Card (dashboard mockup variant)
 // ---------------------------------------------------------------------------
 
-.nc-hero__card {
-  width: var(--mod-hero-card-width, var(--nc-hero-card-width));
-  aspect-ratio: var(--mod-hero-card-ratio, var(--nc-hero-card-ratio));
-  border-radius: var(--mod-hero-card-radius, var(--nc-hero-card-radius));
+.nc-hero__mockup {
+  width: var(--mod-hero-mockup-width, var(--nc-hero-mockup-width));
+  aspect-ratio: var(--mod-hero-mockup-ratio, var(--nc-hero-mockup-ratio));
+  border-radius: var(--mod-hero-mockup-radius, var(--nc-hero-mockup-radius));
   background: radial-gradient(circle at top,
     color-mix(in srgb, var(--fnd-color-always-dark) 88%, var(--fnd-color-background-base)),
     color-mix(in srgb, var(--fnd-color-always-dark) 96%, var(--fnd-color-background-base))
   );
-  padding: var(--mod-hero-card-padding, var(--nc-hero-card-padding));
+  padding: var(--mod-hero-mockup-padding, var(--nc-hero-mockup-padding));
   display: grid;
-  gap: var(--mod-hero-card-gap, var(--nc-hero-card-gap));
+  gap: var(--mod-hero-mockup-gap, var(--nc-hero-mockup-gap));
   position: relative;
   color: var(--fnd-color-always-light);
   box-shadow: var(--fnd-elevation-overlay);
 }
 
-.nc-hero__metric {
+.nc-hero__mockup-tile {
   background: color-mix(in srgb, var(--fnd-color-always-light) 8%, transparent);
   border-radius: var(--fnd-radius-4xl);
   padding: var(--fnd-spacing-04);
 }
 
-.nc-hero__metric-value {
+.nc-hero__mockup-value {
   font-size: var(--nc-type-heading-l-size);
   font-family: var(--font-heading);
 }
 
-.nc-hero__metric-label {
+.nc-hero__mockup-label {
   display: block;
   font-size: var(--nc-type-body-s-size);
   opacity: var(--fnd-opacity-high);
 }
 
-.nc-hero__pulse {
+.nc-hero__mockup-pulse {
   position: absolute;
   right: 2rem;
   bottom: 2rem;
