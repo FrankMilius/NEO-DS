@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>de.neocosmo.arbeitsbilanz</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>/Users/frank.milius/Sites/WEBSITE26/scripts/bilanz-woechentlich.sh</string>
+  </array>
+
+  <!-- Montag, 8:47 Uhr. Nicht 9:00: Die Bilanz soll fertig sein, bevor die
+       Backlog-Erinnerung um 9:00 kommt — und volle Stunden sind ueberall
+       ueberlaufen. -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>47</integer>
+  </dict>
+
+  <!-- Schlief der Rechner um 8:47, holt launchd den Lauf beim Aufwachen von
+       selbst nach — das leistet StartCalendarInterval, nicht RunAtLoad.
+       RunAtLoad bleibt aus: Sonst liefe die Bilanz bei jedem Anmelden
+       erneut und schickte jedes Mal eine Mail. -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/frank.milius/Sites/WEBSITE26</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/frank.milius/Sites/WEBSITE26/data/bilanz/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/frank.milius/Sites/WEBSITE26/data/bilanz/launchd.log</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>
