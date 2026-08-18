@@ -26,7 +26,27 @@ main.css.map
 *.swo
 
 # Claude Code
-.claude/
+#
+# Bis 2026-08-18 war .claude/ vollstaendig ignoriert. Das war richtig, solange
+# dort nur lokale Einstellungen lagen. Inzwischen liegt dort PROJEKTWISSEN:
+# Skills, Agenten und Regelwerke, die genauso zum System gehoeren wie die
+# Skripte in scripts/. Sie waren dadurch unversioniert — nur auf einer
+# Maschine vorhanden, fuer niemanden sonst sichtbar, bei Plattenschaden weg.
+#
+# Die Verzeichnisse sind BEWUSST als Ganzes freigegeben und nicht einzelne
+# Dateien: Ein neuer Skill soll ohne Aenderung an dieser Datei mitkommen.
+.claude/*
+!.claude/skills/
+!.claude/agents/
+!.claude/rules/
+
+# Maschinenspezifisch: absolute Pfade und Berechtigungslisten. Gehoert nicht
+# ins Repo, auch nicht die nicht-lokale Fassung — beide fuehren /Users/-Pfade.
+.claude/settings.json
+.claude/settings.local.json
+
+# Archives
+*.zip
 
 # Archives
 *.zip
