@@ -24,7 +24,9 @@
 @forward 'text-blocks';
 @forward 'table';
 @forward 'badge';
-@forward 'card';
+// 'card' entfernt 18.08.2026: Das Atom fuehrte .nc-card ein zweites Mal und
+// verlor jede Regel an 06-molecules/_card.scss, das spaeter laedt. Einzig
+// .nc-card__header kam durch — in null Templates, null gemessenen Seiten.
 @forward 'alert';
 @forward 'tag';
 @forward 'chip';

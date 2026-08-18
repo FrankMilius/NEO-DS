@@ -89,12 +89,15 @@ Diese fünf Fälle sind hier tatsächlich eingetreten. Vor jeder Einordnung prü
 Dieselbe Klasse auf zwei Ebenen. Die spätere Datei gewinnt, die frühere ist
 wirkungslos — und niemand merkt es, weil beide Dateien existieren.
 
-**Offen im Bestand, Stand 18.08.2026:**
+**Erledigt am 18.08.2026:** `card` war eine echte Doppelung. Das Atom führte
+`.nc-card` ein zweites Mal und verlor jede konkurrierende Regel an
+`06-molecules/_card.scss`. Übrig blieben `__header` und `__action` — in null
+Templates, null Stories, null gemessenen Seiten. Atom gelöscht, 37 tote Regeln
+weniger, `baseline:diff` meldete **keine Abweichung** über 28 858 Werte.
 
-```
-card     .nc-card    in 05-atoms UND 06-molecules   → Molekül gewinnt
-slider   .nc-slider  in 05-atoms UND 06-molecules   → Molekül gewinnt
-```
+> **`slider` sieht gleich aus, ist es aber nicht.** Siehe Fallstrick 2. Das
+> Werkzeug meldet beide als „Doppelung", weil es Klassennamen vergleicht.
+> Der Befund allein entscheidet nichts — erst der Blick in beide Dateien tut es.
 
 ```bash
 npm run risiko -- --ds            # Doppelungen INNERHALB des Design Systems
@@ -116,6 +119,26 @@ Merkmalsliste einer Preiskarte (`<ul>`) **und** ein Blocktyp — deren
 
 Der Blocktyp hatte gar keine eigene Wurzelregel; seine ganze Gestaltung kam
 versehentlich aus der Preistabelle. **Prüfen: Gibt es die Klasse schon?**
+
+**Offen im Bestand, Stand 18.08.2026 — `slider`:**
+
+```
+05-atoms/_slider.scss     431 Zeilen   <input type="range">, Track, Thumb, Tooltip
+06-molecules/_slider.scss  62 Zeilen   Karussell mit scroll-snap und Blättern
+```
+
+Zwei Bausteine ohne jede Gemeinsamkeit außer dem Namen. Das Molekül lädt
+später und überschreibt die Wurzel des Reglers mit `display: grid` — Storybook
+und Recipe beschreiben dabei den **Regler**, das CSS liefert das **Karussell**.
+
+Löschen wäre hier falsch: Es träfe eine der beiden echten Komponenten.
+Richtig ist **umbenennen** — `.nc-range` für den Regler oder `.nc-carousel`
+für das Karussell. Beide sind auf keiner Seite im Einsatz, der Umbau ist
+deshalb billig; er kostet Recipe, Story und Konfig-App-Eintrag.
+
+> Der Unterschied zu Fallstrick 1 entscheidet über die Behandlung:
+> Doppelung → eine Fassung löschen. Geteilter Name → eine Fassung umbenennen.
+> Wer das verwechselt, löscht eine funktionierende Komponente.
 
 ### 3 · Abhängigkeit von der Ladereihenfolge
 

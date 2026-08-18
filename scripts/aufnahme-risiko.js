@@ -129,11 +129,26 @@ function dsDoppelungen() {
 
 if (nurDs || alle) {
   const d = dsDoppelungen();
-  console.log(`\n  EBENEN-DOPPELUNG IM DESIGN SYSTEM`);
+  console.log(`\n  DIESELBE WURZELKLASSE AUF ZWEI EBENEN`);
   if (!d.length) console.log('    Keine. Jede Wurzelklasse wird auf genau einer Ebene gefuehrt.');
   for (const x of d) {
     console.log(`    ${x.name.padEnd(20)}${x.orte.join(' + ').padEnd(28)}gemeinsam: ${x.gemeinsam.join(', ')}`);
     console.log(`    ${''.padEnd(20)}${x.orte[x.orte.length - 1]} laedt spaeter und gewinnt.`);
+  }
+  if (d.length) {
+    // Diese Pruefung vergleicht NAMEN, nicht Bausteine. Beides sieht hier
+    // gleich aus und will Gegenteiliges:
+    //
+    //   Doppelung           eine Komponente, zweimal angelegt  -> loeschen
+    //   Geteilter Name      zwei Komponenten, gleicher Name    -> umbenennen
+    //
+    // Am 18.08.2026 stand `slider` hier und sah aus wie `card`. `card` war
+    // wirklich doppelt. `slider` waren ein <input type="range"> und ein
+    // Karussell — die Loeschung haette eine echte Komponente getroffen.
+    console.log(`\n    Bevor etwas geloescht wird: BEIDE Dateien oeffnen und die`);
+    console.log(`    Kopfzeilen vergleichen. Beschreiben sie denselben Baustein,`);
+    console.log(`    ist es eine Doppelung — dann loeschen. Beschreiben sie`);
+    console.log(`    verschiedene, ist es ein geteilter Name — dann umbenennen.`);
   }
   if (nurDs) process.exit(d.length ? 1 : 0);
 }
