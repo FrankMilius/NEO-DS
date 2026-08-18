@@ -3157,6 +3157,21 @@
   // haengt der Zustand nicht an der Farbe allein (WCAG 1.4.1).
   --nc-refpage-active-color:   var(--fnd-color-background-accent);
 
+  // -- Flaechen (Surface) --
+  // Zwei benannte Flaechen statt eines freien Farbwerts. Der Grund steht in
+  // der Zeile darunter: Wer nur den Hintergrund umstellt, bekommt weissen Text
+  // auf hellem Grund. Flaeche und Vordergrund gehoeren zusammen und werden
+  // deshalb PAARWEISE gefuehrt — ein Modifier setzt immer beide.
+  //
+  // Die hellen Werte sprechen die STUFENNUMMER der Neutralleiter an, nicht
+  // einen Hexwert. Nur so bleibt der Hero umschaltbar, wenn ein Kunde von
+  // Graphit auf Beige wechselt (siehe Kopf von _neutral-ramps.scss).
+  --nc-hero-surface-dark-bg:       var(--fnd-color-always-dark);
+  --nc-hero-surface-dark-fg:       var(--fnd-color-always-light);
+  --nc-hero-surface-light-bg:      var(--fnd-neutral-50);   // 1,04 gegen Weiss
+  --nc-hero-surface-light-fg:      var(--fnd-neutral-950);  // 17,85 — auf 50er also ~17:1
+  --nc-hero-surface-muted-bg:      var(--fnd-neutral-100);  // 1,12 — abgesetzt, aber hell
+
   --nc-hero-bg:                    var(--fnd-color-always-dark);
   // Die Hero-Flaeche ist IMMER dunkel, also gehoert der Vordergrund dazu.
   // Fehlte er, erbte der Hero die Textfarbe des UMGEBENDEN Kontexts: stand er
@@ -3232,6 +3247,40 @@
   // -- Actions --
   --nc-hero-actions-gap:           var(--fnd-spacing-04);
   --nc-hero-actions-margin-top:    var(--fnd-spacing-04);
+
+  // -- Fuss: Badges und Kennzahlen unter den Aktionen --
+  --nc-hero-footer-margin-top:     var(--fnd-spacing-08);
+  --nc-hero-footer-gap:            var(--fnd-spacing-06);
+  --nc-hero-cards-gap:             var(--fnd-spacing-06);
+  --nc-hero-cards-min:             160px;   // Spaltenbreite, ab der umbrochen wird
+  --nc-hero-footer-rule:           color-mix(in srgb, var(--nc-hero-color) 14%, transparent);
+
+  // -- Hervorhebung in der Ueberschrift --
+  // Zwei Bauarten, Balken und Tinte. BEIDE haengen von der Flaeche ab, und
+  // zwar aus demselben Grund: Die Schriftfarbe des Heroes wechselt mit ihr.
+  //
+  //   Balken  faerbt eine Flaeche HINTER dem Text. Entscheidend ist damit
+  //           nicht der Balken gegen die Hero-Flaeche, sondern die SCHRIFT
+  //           gegen den Balken.
+  //   Tinte   faerbt den Text selbst, gemessen gegen die Hero-Flaeche.
+  //
+  // Gemessen am 18.08.2026, weisse Schrift auf dem Balken:
+  //   accent-200  1,21:1   accent-500  1,63:1   accent-700  3,91:1
+  //   accent-800  6,41:1   accent-900 10,74:1
+  //
+  // Ein einziger Vorgabewert fuer beide Flaechen waere deshalb falsch
+  // gewesen: Das abgeschwaechte Lime aus dem Entwurf (accent-200) steht dort
+  // auf hellem Grund unter DUNKLER Schrift und kommt auf 14,78:1. Unter der
+  // weissen Schrift des dunklen Heroes waere daraus 1,21:1 geworden — die
+  // untere Haelfte jedes Buchstabens waere verschwunden.
+  --nc-hero-mark-on-light:         var(--fnd-accent-200);   // 14,78 mit dunkler Schrift
+  --nc-hero-mark-on-dark:          var(--fnd-accent-800);   //  6,41 mit weisser Schrift
+  --nc-hero-mark-color:            var(--nc-hero-mark-on-dark);   // Vorgabe: Hero ist dunkel
+  --nc-hero-mark-thickness:        0.34em;
+
+  --nc-hero-mark-tint-on-light:    var(--fnd-accent-800);   // 6,16 — AA auch fuer kleinen Text
+  --nc-hero-mark-tint-on-dark:     var(--fnd-accent-300);   // 15,98 auf Schwarz
+  --nc-hero-mark-tint:             var(--nc-hero-mark-tint-on-dark);
 }
 
 // ---------------------------------------------------------------------------

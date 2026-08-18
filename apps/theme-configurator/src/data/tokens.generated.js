@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-17
+// Generated: 2026-08-18
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -15606,7 +15606,12 @@ export const componentTokenGroups = [
           "nc-hero-subtitle-size",
           "nc-hero-subtitle-max-width",
           "nc-hero-actions-gap",
-          "nc-hero-actions-margin-top"
+          "nc-hero-actions-margin-top",
+          "nc-hero-mark-thickness",
+          "nc-hero-footer-margin-top",
+          "nc-hero-footer-gap",
+          "nc-hero-cards-gap",
+          "nc-hero-cards-min"
         ]
       },
       {
@@ -15636,7 +15641,19 @@ export const componentTokenGroups = [
           "nc-hero-kicker-color",
           "nc-hero-highlights-color",
           "nc-hero-title-color",
-          "nc-hero-subtitle-color"
+          "nc-hero-subtitle-color",
+          "nc-hero-surface-dark-bg",
+          "nc-hero-surface-dark-fg",
+          "nc-hero-surface-light-bg",
+          "nc-hero-surface-light-fg",
+          "nc-hero-surface-muted-bg",
+          "nc-hero-mark-on-light",
+          "nc-hero-mark-on-dark",
+          "nc-hero-mark-color",
+          "nc-hero-mark-tint",
+          "nc-hero-mark-tint-on-light",
+          "nc-hero-mark-tint-on-dark",
+          "nc-hero-footer-rule"
         ]
       },
       {
@@ -15858,6 +15875,108 @@ export const componentTokenGroups = [
         "label": "Actions Margin Top",
         "type": "spacing",
         "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-hero-surface-dark-bg",
+        "label": "Fläche dunkel — Grund",
+        "type": "color",
+        "default": "var(--fnd-color-always-dark)"
+      },
+      {
+        "id": "nc-hero-surface-dark-fg",
+        "label": "Fläche dunkel — Schrift",
+        "type": "color",
+        "default": "var(--fnd-color-always-light)"
+      },
+      {
+        "id": "nc-hero-surface-light-bg",
+        "label": "Fläche hell — Grund",
+        "type": "color",
+        "default": "var(--fnd-neutral-50)"
+      },
+      {
+        "id": "nc-hero-surface-light-fg",
+        "label": "Fläche hell — Schrift",
+        "type": "color",
+        "default": "var(--fnd-neutral-950)"
+      },
+      {
+        "id": "nc-hero-surface-muted-bg",
+        "label": "Fläche getönt — Grund",
+        "type": "color",
+        "default": "var(--fnd-neutral-100)"
+      },
+      {
+        "id": "nc-hero-mark-on-light",
+        "label": "Hervorhebung auf hell",
+        "type": "color",
+        "default": "var(--fnd-accent-200)"
+      },
+      {
+        "id": "nc-hero-mark-on-dark",
+        "label": "Hervorhebung auf dunkel",
+        "type": "color",
+        "default": "var(--fnd-accent-800)"
+      },
+      {
+        "id": "nc-hero-mark-color",
+        "label": "Hervorhebung — Balken",
+        "type": "color",
+        "default": "var(--nc-hero-mark-on-dark)"
+      },
+      {
+        "id": "nc-hero-mark-tint",
+        "label": "Hervorhebung — Tinte",
+        "type": "color",
+        "default": "var(--nc-hero-mark-tint-on-dark)"
+      },
+      {
+        "id": "nc-hero-mark-tint-on-light",
+        "label": "Tinte auf hell",
+        "type": "color",
+        "default": "var(--fnd-accent-800)"
+      },
+      {
+        "id": "nc-hero-mark-tint-on-dark",
+        "label": "Tinte auf dunkel",
+        "type": "color",
+        "default": "var(--fnd-accent-300)"
+      },
+      {
+        "id": "nc-hero-footer-rule",
+        "label": "Fuß — Trennlinie",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--nc-hero-color) 14%, transparent)"
+      },
+      {
+        "id": "nc-hero-mark-thickness",
+        "label": "Hervorhebung — Balkenhöhe",
+        "type": "size",
+        "default": "0.34em"
+      },
+      {
+        "id": "nc-hero-footer-margin-top",
+        "label": "Fuß — Abstand nach oben",
+        "type": "size",
+        "default": "var(--fnd-spacing-08)"
+      },
+      {
+        "id": "nc-hero-footer-gap",
+        "label": "Fuß — Innenabstand",
+        "type": "size",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-hero-cards-gap",
+        "label": "Kennzahlen — Abstand",
+        "type": "size",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-hero-cards-min",
+        "label": "Kennzahlen — Spaltenbreite",
+        "type": "size",
+        "default": "160px"
       }
     ]
   },

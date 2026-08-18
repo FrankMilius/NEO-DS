@@ -82,3 +82,51 @@ export const ProductHero = {
     },
   },
 };
+
+export const Flaechen = {
+  name: 'Flaechen',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Dunkel, getoent und hell. Jede Flaeche setzt Grund UND Schrift — sie sind ein Paar, kein Paar von Einstellungen.' },
+    },
+  },
+};
+
+export const HervorhebunginderUeberschrift = {
+  name: 'Hervorhebung in der Ueberschrift',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Balken gegen Tinte, je Flaeche. Der Balken laesst die Schriftfarbe unangetastet, die Tinte ersetzt sie.' },
+    },
+  },
+};
+
+export const FussBadgesundKennzahlen = {
+  name: 'Fuss: Badges und Kennzahlen',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Badge-Zeile oben gegen unten, mit Kennzahlen-Raster.' },
+    },
+  },
+};
+
+export const PositiondesMediums = {
+  name: 'Position des Mediums',
+  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  
+</div>`,
+  parameters: {
+    docs: {
+      description: { story: 'Medium rechts gegen links. Der Inhalt steht im Markup immer zuerst.' },
+    },
+  },
+};

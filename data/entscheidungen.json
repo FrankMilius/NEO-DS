@@ -21,21 +21,28 @@
     "  vorhanden  datei muss es geben",
     "repo: ds (Vorgabe) | theme | site"
   ],
-
   "entscheidungen": [
     {
       "id": "lime-markenwert",
       "titel": "Lime #37e93d ist der Markenwert",
       "seit": "2026-08-13",
       "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
-      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_neutral-ramps.scss", "regex": "#37e93d" }
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+        "regex": "#37e93d"
+      }
     },
     {
       "id": "lime-traegt-keinen-text",
       "titel": "Lime 500 wird nie zur Schriftfarbe",
       "seit": "2026-08-13",
       "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
-      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_mono-theme.scss", "regex": "--accent-underline" }
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/00-settings/_mono-theme.scss",
+        "regex": "--accent-underline"
+      }
     },
     {
       "id": "interaktiv-nicht-mehr-cyan",
@@ -43,58 +50,134 @@
       "seit": "2026-08-13",
       "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
       "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
-      "probe": { "art": "muster", "datei": "scss/scss/00-settings/_mono-bridge.scss", "regex": "--fnd-color-interactive-default" }
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/00-settings/_mono-bridge.scss",
+        "regex": "--fnd-color-interactive-default"
+      }
     },
     {
       "id": "underline-offset-4",
       "titel": "Unterstrich-Abstand ist 4px, als Token",
       "seit": "2026-08-17",
       "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
-      "probe": { "art": "muster", "datei": "styles.css", "regex": "--fnd-underline-offset: *4px" }
+      "probe": {
+        "art": "muster",
+        "datei": "styles.css",
+        "regex": "--fnd-underline-offset: *4px"
+      }
     },
     {
       "id": "label-gewicht-800",
       "titel": "Etikett der Abschnittsueberschrift steht auf 800",
       "seit": "2026-06-16",
       "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
-      "probe": { "art": "muster", "datei": "styles.css", "regex": "--nc-section-header-label-font-weight: *800" }
+      "probe": {
+        "art": "muster",
+        "datei": "styles.css",
+        "regex": "--nc-section-header-label-font-weight: *800"
+      }
     },
     {
       "id": "card-summary-icon-60",
       "titel": "Karten-Symbol misst 60px ueber sein Token",
       "seit": "2026-07-30",
       "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
-      "probe": { "art": "muster", "datei": "styles.css", "regex": "--nc-card-summary-icon-size: *60px" }
+      "probe": {
+        "art": "muster",
+        "datei": "styles.css",
+        "regex": "--nc-card-summary-icon-size: *60px"
+      }
     },
     {
       "id": "card-atom-geloescht",
       "titel": "Das Card-Atom bleibt geloescht",
       "seit": "2026-08-18",
       "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
-      "probe": { "art": "abwesend", "datei": "scss/scss/05-atoms/_card.scss" }
+      "probe": {
+        "art": "abwesend",
+        "datei": "scss/scss/05-atoms/_card.scss"
+      }
     },
     {
       "id": "ddev-ohne-mutagen",
       "titel": "DDEV laeuft ohne Mutagen",
       "seit": "2026-07-28",
       "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
-      "probe": { "art": "muster", "repo": "site", "datei": ".ddev/config.yaml", "regex": "performance_mode: *none" }
+      "probe": {
+        "art": "muster",
+        "repo": "site",
+        "datei": ".ddev/config.yaml",
+        "regex": "performance_mode: *none"
+      }
     },
     {
       "id": "claude-verzeichnis-versioniert",
       "titel": "Skills, Agenten und Regeln liegen im Repo",
       "seit": "2026-08-18",
       "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
-      "probe": { "art": "muster", "datei": ".gitignore", "regex": "!\\.claude/skills/" }
+      "probe": {
+        "art": "muster",
+        "datei": ".gitignore",
+        "regex": "!\\.claude/skills/"
+      }
     },
-
     {
       "id": "slider-umbenennen",
       "titel": "Der Namenskonflikt beim Slider wird durch Umbenennen geloest",
       "seit": "2026-08-18",
       "status": "offen",
       "warum": "05-atoms fuehrt einen Range-Regler, 06-molecules ein Karussell — zwei Bausteine, ein Name. Loeschen wuerde eine echte Komponente treffen. Offen ist nur, welcher der beiden weicht (.nc-range oder .nc-carousel).",
-      "probe": { "art": "vorhanden", "datei": "scss/scss/05-atoms/_slider.scss" }
+      "probe": {
+        "art": "vorhanden",
+        "datei": "scss/scss/05-atoms/_slider.scss"
+      }
+    },
+    {
+      "id": "hero-flaeche-paarweise",
+      "titel": "Hero-Flaechen setzen Grund UND Schrift",
+      "seit": "2026-08-18",
+      "warum": "Eine Flaeche ohne passenden Vordergrund ergibt weisse Schrift auf hellem Grund. Der Mixin hero-textfarben deklariert die abgeleiteten Token im Modifier erneut — eine Ableitung in :root wird DORT aufgeloest und reagiert nicht auf ein spaeteres Ueberschreiben. Genau daran war der erste Versuch gescheitert.",
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/07-organisms/_hero.scss",
+        "regex": "@mixin hero-textfarben"
+      }
+    },
+    {
+      "id": "hero-ohne-lime-flaeche",
+      "titel": "Der Hero bekommt keine Lime-Flaeche",
+      "seit": "2026-08-18",
+      "warum": "Ausdruecklich verworfen. field_surface kennt zwar accent, der Hero bedient es aber nicht und faellt auf dunkel zurueck. Waere die Flaeche Lime, muesste jede Schrift darauf neu geprueft werden — und Lime 500 traegt keinen Text.",
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/07-organisms/_hero.scss",
+        "regex": "nc-hero--surface-accent",
+        "erwartet": false
+      }
+    },
+    {
+      "id": "hero-mark-flaechenabhaengig",
+      "titel": "Die Ueberschrift-Hervorhebung haengt an der Flaeche",
+      "seit": "2026-08-18",
+      "warum": "Der Balken liegt HINTER dem Text; entscheidend ist die Schrift gegen den Balken, nicht der Balken gegen die Flaeche. Gemessen: accent-200 unter weisser Schrift 1,21:1, accent-800 6,41:1. Ein einziger Vorgabewert fuer beide Flaechen waere deshalb falsch.",
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/00-settings/_component-tokens.scss",
+        "regex": "--nc-hero-mark-on-dark: *var\\(--fnd-accent-800\\)"
+      }
+    },
+    {
+      "id": "hero-eine-vorlage",
+      "titel": "Der Hero hat genau eine Vorlage",
+      "seit": "2026-08-18",
+      "warum": "Die Layout-Builder-Fassung war eine byteweise identische Kopie von 154 Zeilen. Die Erweiterung landete zuerst nur in der einen Datei — im Layout Builder blieb alles beim Alten, ohne Fehler und ohne Hinweis. Jetzt verweist die eine auf die andere.",
+      "probe": {
+        "art": "muster",
+        "repo": "theme",
+        "datei": "templates/block/block--inline-block--neo-hero.html.twig",
+        "regex": "include '@neo_fe/block/block--block-content--neo-hero"
+      }
     }
   ]
 }

@@ -50,6 +50,24 @@
         "element": ".nc-hero__actions",
         "optional": true,
         "description": "Primaere und sekundaere CTA-Buttons unterhalb der Highlights."
+      },
+      {
+        "name": "footer",
+        "element": ".nc-hero__footer",
+        "optional": true,
+        "description": "Badges und Kennzahlen unter den Aktionen."
+      },
+      {
+        "name": "cards",
+        "element": ".nc-hero__cards",
+        "optional": true,
+        "description": "Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil."
+      },
+      {
+        "name": "mark",
+        "element": ".nc-hero__mark",
+        "optional": true,
+        "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
       }
     ],
     "convenience": [
@@ -184,6 +202,84 @@
           "description": "Zentriert alle Inhalte. Ideal fuer minimalistische Landingpages oder Intro-Sektionen."
         }
       }
+    },
+    "surface": {
+      "label": "Surface",
+      "description": "Flaeche und Vordergrund als PAAR. Kommt aus dem projektweiten Feld field_surface. accent (Lime) wird bewusst nicht bedient und faellt auf dark zurueck.",
+      "values": {
+        "dark": {
+          "modifier": "nc-hero--surface-dark",
+          "tokenGroups": [
+            "surface"
+          ],
+          "description": "always-dark mit heller Schrift. Vorgabe."
+        },
+        "muted": {
+          "modifier": "nc-hero--surface-muted",
+          "tokenGroups": [
+            "surface"
+          ],
+          "description": "Neutral 100 mit dunkler Schrift — abgesetzt, aber hell."
+        },
+        "light": {
+          "modifier": "nc-hero--surface-light",
+          "tokenGroups": [
+            "surface"
+          ],
+          "description": "Neutral 50 mit dunkler Schrift, rund 17:1."
+        }
+      }
+    },
+    "mediaPosition": {
+      "label": "Media Position",
+      "description": "Auf welcher Seite das Medium steht. Der Inhalt bleibt im Markup zuerst; die Umstellung laeuft ueber order, nicht ueber die Quellreihenfolge.",
+      "values": {
+        "end": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "start": {
+          "modifier": "nc-hero--media-start",
+          "tokenGroups": []
+        }
+      }
+    },
+    "markStyle": {
+      "label": "Headline Mark",
+      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert.",
+      "values": {
+        "bar": {
+          "modifier": null,
+          "tokenGroups": [
+            "mark"
+          ],
+          "description": "Markerstrich hinter dem Text. Vorgabe."
+        },
+        "tint": {
+          "modifier": "nc-hero--mark-tint",
+          "tokenGroups": [
+            "mark"
+          ],
+          "description": "Faerbt den Text. Wert ist flaechenabhaengig."
+        }
+      }
+    },
+    "badgesPosition": {
+      "label": "Badges Position",
+      "description": "Badge-Zeile ueber der Ueberschrift oder im Fuss unter den Aktionen. Vorgabe bleibt top, damit bestehende Seiten sich nicht verschieben.",
+      "values": {
+        "top": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "bottom": {
+          "modifier": null,
+          "tokenGroups": [
+            "footer"
+          ],
+          "description": "Rendert in .nc-hero__footer."
+        }
+      }
     }
   },
   "states": {
@@ -209,7 +305,14 @@
       ],
       "note": "Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: line-height tight, text-secondary Kontrast pruefen. Pulse-Animation: prefers-reduced-motion. Overlay: Gradient sichert Kontrast unabhaengig vom Bild."
     },
-    "overrides": []
+    "overrides": [],
+    "contrastNotes": [
+      "Flaeche und Vordergrund gehoeren zusammen. Ein Modifier setzt beide sowie die abgeleiteten Token (Titel, Kicker, Untertitel, Highlights) — eine Ableitung in :root wird dort aufgeloest und reagiert nicht auf ein spaeteres Ueberschreiben.",
+      "Hervorhebung als Balken, weisse Schrift, gemessen 18.08.2026: accent-200 1,21:1 / accent-500 1,63:1 / accent-700 3,91:1 / accent-800 6,41:1. Deshalb accent-800 auf dunkler und accent-200 auf heller Flaeche (14,78:1 mit dunkler Schrift).",
+      "Tinte: accent-800 auf hell 6,16:1, accent-300 auf dunkel 15,98:1.",
+      "Trennlinien zwischen den Kennzahlen gliedern nur und kennzeichnen kein Bedienelement — 1.4.11 greift dort nicht.",
+      "Eine frei gewaehlte Hervorhebungsfarbe hebt diese Pruefung auf. Bei der Bauart Balken bleibt der Text lesbar, bei Tinte nicht zwingend."
+    ]
   },
   "constraints": {
     "rules": [
@@ -345,6 +448,38 @@
         "tokens": [
           "nc-hero-actions-gap",
           "nc-hero-actions-margin-top"
+        ]
+      },
+      "surface": {
+        "label": "Flaeche",
+        "tokens": [
+          "nc-hero-surface-dark-bg",
+          "nc-hero-surface-dark-fg",
+          "nc-hero-surface-light-bg",
+          "nc-hero-surface-light-fg",
+          "nc-hero-surface-muted-bg"
+        ]
+      },
+      "mark": {
+        "label": "Hervorhebung in der Ueberschrift",
+        "tokens": [
+          "nc-hero-mark-color",
+          "nc-hero-mark-thickness",
+          "nc-hero-mark-on-light",
+          "nc-hero-mark-on-dark",
+          "nc-hero-mark-tint",
+          "nc-hero-mark-tint-on-light",
+          "nc-hero-mark-tint-on-dark"
+        ]
+      },
+      "footer": {
+        "label": "Fuss: Badges und Kennzahlen",
+        "tokens": [
+          "nc-hero-footer-margin-top",
+          "nc-hero-footer-gap",
+          "nc-hero-cards-gap",
+          "nc-hero-cards-min",
+          "nc-hero-footer-rule"
         ]
       }
     }
@@ -517,6 +652,134 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Metric: Preisangabe als text, nicht als Bild. CTA: Button mit aria-label fuer Warenkorb."
+      }
+    },
+    {
+      "id": "surface-comparison",
+      "label": "Flaechen",
+      "description": "Dunkel, getoent und hell. Jede Flaeche setzt Grund UND Schrift — sie sind ein Paar, kein Paar von Einstellungen.",
+      "matrix": {
+        "axes": {
+          "surface": "*",
+          "alignment": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "surface",
+        "title",
+        "subtitle",
+        "actions"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "surface"
+      },
+      "render": {
+        "label": "{surface}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA (4.5:1 Text, 3:1 grosser Text)",
+        "note": "Hell erreicht rund 17:1. Der Ghost-Button leitet seinen Rahmen aus --nc-hero-color ab und bleibt auf jeder Flaeche sichtbar."
+      }
+    },
+    {
+      "id": "mark-comparison",
+      "label": "Hervorhebung in der Ueberschrift",
+      "description": "Balken gegen Tinte, je Flaeche. Der Balken laesst die Schriftfarbe unangetastet, die Tinte ersetzt sie.",
+      "matrix": {
+        "axes": {
+          "markStyle": "*",
+          "surface": [
+            "dark",
+            "light"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "mark",
+        "title",
+        "surface"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "markStyle",
+        "colAxis": "surface"
+      },
+      "render": {
+        "label": "{markStyle} auf {surface}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)",
+        "note": "Weisse Schrift auf dem Balken: accent-200 kommt auf 1,21:1 und ist deshalb NUR fuer helle Flaechen mit dunkler Schrift zulaessig. Auf dunkler Flaeche gilt accent-800 (6,41:1)."
+      }
+    },
+    {
+      "id": "footer-comparison",
+      "label": "Fuss: Badges und Kennzahlen",
+      "description": "Badge-Zeile oben gegen unten, mit Kennzahlen-Raster.",
+      "matrix": {
+        "axes": {
+          "badgesPosition": "*",
+          "surface": [
+            "dark"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "footer",
+        "actions"
+      ],
+      "layout": "stack",
+      "layoutConfig": {
+        "rowAxis": "badgesPosition"
+      },
+      "render": {
+        "label": "Badges {badgesPosition}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA (4.5:1)",
+        "note": "Die Trennlinien zwischen den Kennzahlen gliedern nur und kennzeichnen kein Bedienelement — 1.4.11 greift dort nicht."
+      }
+    },
+    {
+      "id": "media-position-comparison",
+      "label": "Position des Mediums",
+      "description": "Medium rechts gegen links. Der Inhalt steht im Markup immer zuerst.",
+      "matrix": {
+        "axes": {
+          "mediaPosition": "*",
+          "surface": [
+            "dark"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "layout"
+      ],
+      "layout": "stack",
+      "layoutConfig": {
+        "rowAxis": "mediaPosition"
+      },
+      "render": {
+        "label": "Medium {mediaPosition}"
+      },
+      "a11y": {
+        "contrastTarget": "—",
+        "note": "Die Umstellung laeuft ueber order. Vorlesewerkzeuge erreichen den Inhalt deshalb unabhaengig von der Seite zuerst."
       }
     }
   ]
