@@ -561,7 +561,7 @@ const MIRROR_TOKEN_MAP = {
   // Input Label → Switch Label + Rating Count (einheitliche Form-Label-Farbe)
   'nc-input-label-color':                        ['nc-switch-label-color', 'nc-rating-count-color'],
   // Slider: Track-Fill-Farbe → Range-Fill-Farbe (Konsistenz)
-  'nc-slider-track-bg-active':                   ['nc-slider-range-fill-bg'],
+  'nc-range-track-bg-active':                   ['nc-range-range-fill-bg'],
   // Dropdown: Separator-Farbe → Footer-Border-Farbe (Konsistenz)
   'nc-dropdown-separator-color':                 ['nc-dropdown-footer-border-color'],
   // Dialog/Modal: Header-Border → Footer-Border (Konsistenz bei Scroll-Borders)

@@ -1146,26 +1146,26 @@
     },
     "carousel": {
       "name": "carousel",
-      "layer": "organism",
+      "layer": "molecule",
       "paths": {
         "recipe": "data/carousel-recipe.json",
         "scss": [
-          "scss/scss/07-organisms/_carousel.scss"
+          "scss/scss/06-molecules/_carousel.scss"
         ],
-        "story": "stories/organisms/carousel.stories.js",
-        "arena": null,
+        "story": "stories/molecules/carousel.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
         "drupal": [],
-        "docs": "docs/carousel-docs.html"
+        "docs": "docs/slider-docs.html"
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "checkbox": {
       "name": "checkbox",
@@ -3243,30 +3243,6 @@
       },
       "coverageScore": 5
     },
-    "slider": {
-      "name": "slider",
-      "layer": "molecule",
-      "paths": {
-        "recipe": "data/slider-recipe.json",
-        "scss": [
-          "scss/scss/05-atoms/_slider.scss",
-          "scss/scss/06-molecules/_slider.scss"
-        ],
-        "story": "stories/atoms/slider.stories.js",
-        "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
-        "drupal": [],
-        "docs": "docs/slider-docs.html"
-      },
-      "coverage": {
-        "recipe": true,
-        "scss": true,
-        "story": true,
-        "arena": true,
-        "drupal": false,
-        "docs": true
-      },
-      "coverageScore": 5
-    },
     "solution-tabs": {
       "name": "solution-tabs",
       "layer": "organism",
@@ -4062,6 +4038,29 @@
         "docs": true
       },
       "coverageScore": 4
+    },
+    "range": {
+      "name": "range",
+      "layer": "atom",
+      "paths": {
+        "recipe": "data/range-recipe.json",
+        "scss": [
+          "scss/scss/05-atoms/_range.scss"
+        ],
+        "story": "stories/atoms/range.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
+        "drupal": [],
+        "docs": "docs/slider-docs.html"
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": true,
+        "drupal": false,
+        "docs": true
+      },
+      "coverageScore": 5
     }
   },
   "templates": {

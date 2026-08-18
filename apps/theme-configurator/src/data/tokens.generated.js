@@ -8668,132 +8668,132 @@ export const componentTokenGroups = [
     ]
   },
   {
-    "id": "slider",
-    "label": "Slider",
+    "id": "range",
+    "label": "Range-Regler",
     "icon": "adjustments-horizontal",
     "tokens": [
       {
-        "id": "nc-slider-track-height",
+        "id": "nc-range-track-height",
         "label": "Track Height",
         "type": "size",
         "default": "4px"
       },
       {
-        "id": "nc-slider-track-bg",
+        "id": "nc-range-track-bg",
         "label": "Track Background",
         "type": "color",
         "default": "var(--fnd-color-border-secondary)"
       },
       {
-        "id": "nc-slider-track-bg-active",
+        "id": "nc-range-track-bg-active",
         "label": "Track Fill Color",
         "type": "color",
         "default": "var(--fnd-color-interactive-default)"
       },
       {
-        "id": "nc-slider-track-radius",
+        "id": "nc-range-track-radius",
         "label": "Track Radius",
         "type": "size",
         "default": "var(--fnd-radius-full)"
       },
       {
-        "id": "nc-slider-thumb-size",
+        "id": "nc-range-thumb-size",
         "label": "Thumb Size",
         "type": "size",
         "default": "20px"
       },
       {
-        "id": "nc-slider-thumb-bg",
+        "id": "nc-range-thumb-bg",
         "label": "Thumb Background",
         "type": "color",
         "default": "var(--fnd-color-background-base)"
       },
       {
-        "id": "nc-slider-thumb-border",
+        "id": "nc-range-thumb-border",
         "label": "Thumb Border Color",
         "type": "color",
         "default": "var(--fnd-color-interactive-default)"
       },
       {
-        "id": "nc-slider-thumb-border-width",
+        "id": "nc-range-thumb-border-width",
         "label": "Thumb Border Width",
         "type": "size",
         "default": "var(--fnd-border-width-sm)"
       },
       {
-        "id": "nc-slider-thumb-shadow",
+        "id": "nc-range-thumb-shadow",
         "label": "Thumb Shadow",
         "type": "shadow",
         "default": "var(--fnd-elevation-base)"
       },
       {
-        "id": "nc-slider-disabled-opacity",
+        "id": "nc-range-disabled-opacity",
         "label": "Disabled Opacity",
         "type": "opacity",
         "default": "var(--fnd-opacity-disabled)"
       },
       {
-        "id": "nc-slider-thumb-touch-size",
+        "id": "nc-range-thumb-touch-size",
         "label": "Thumb Touch Size",
         "type": "size",
         "default": "44px"
       },
       {
-        "id": "nc-slider-thumb-focus-ring-offset",
+        "id": "nc-range-thumb-focus-ring-offset",
         "label": "Thumb Focus Ring Offset",
         "type": "size",
         "default": "2px"
       },
       {
-        "id": "nc-slider-transition-duration",
+        "id": "nc-range-transition-duration",
         "label": "Transition Duration",
         "type": "duration",
         "default": "var(--fnd-motion-duration-200)"
       },
       {
-        "id": "nc-slider-transition-timing",
+        "id": "nc-range-transition-timing",
         "label": "Transition Timing",
         "type": "generic",
         "default": "cubic-bezier(0.4, 0, 0.2, 1)"
       },
       {
-        "id": "nc-slider-tooltip-bg",
+        "id": "nc-range-tooltip-bg",
         "label": "Tooltip BG",
         "type": "color",
         "default": "var(--fnd-color-background-inverted)"
       },
       {
-        "id": "nc-slider-tooltip-color",
+        "id": "nc-range-tooltip-color",
         "label": "Tooltip Color",
         "type": "color",
         "default": "var(--fnd-color-text-on-inverted)"
       },
       {
-        "id": "nc-slider-tooltip-radius",
+        "id": "nc-range-tooltip-radius",
         "label": "Tooltip Radius",
         "type": "radius",
         "default": "var(--fnd-radius-sm)"
       },
       {
-        "id": "nc-slider-tooltip-font-size",
+        "id": "nc-range-tooltip-font-size",
         "label": "Tooltip Font Size",
         "type": "size",
         "default": "var(--fs-xs)"
       },
       {
-        "id": "nc-slider-tooltip-padding",
+        "id": "nc-range-tooltip-padding",
         "label": "Tooltip Padding",
         "type": "spacing",
         "default": "var(--fnd-spacing-01) var(--fnd-spacing-02)"
       },
       {
-        "id": "nc-slider-tooltip-offset-y",
+        "id": "nc-range-tooltip-offset-y",
         "label": "Tooltip Offset Y",
         "type": "size",
         "default": "8px"
       },
       {
-        "id": "nc-slider-range-fill-bg",
+        "id": "nc-range-range-fill-bg",
         "label": "Range Fill BG",
         "type": "color",
         "default": "var(--nc-slider-track-bg-active)"
@@ -8804,18 +8804,18 @@ export const componentTokenGroups = [
         "id": "geometry",
         "label": "Geometrie",
         "tokenIds": [
-          "nc-slider-thumb-touch-size",
-          "nc-slider-thumb-focus-ring-offset",
-          "nc-slider-tooltip-radius",
-          "nc-slider-tooltip-padding",
-          "nc-slider-tooltip-offset-y"
+          "nc-range-thumb-touch-size",
+          "nc-range-thumb-focus-ring-offset",
+          "nc-range-tooltip-radius",
+          "nc-range-tooltip-padding",
+          "nc-range-tooltip-offset-y"
         ]
       },
       {
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-slider-tooltip-font-size"
+          "nc-range-tooltip-font-size"
         ]
       },
       {
@@ -8823,9 +8823,9 @@ export const componentTokenGroups = [
         "label": "Farben",
         "category": "main",
         "tokenIds": [
-          "nc-slider-tooltip-bg",
-          "nc-slider-tooltip-color",
-          "nc-slider-range-fill-bg"
+          "nc-range-tooltip-bg",
+          "nc-range-tooltip-color",
+          "nc-range-range-fill-bg"
         ]
       },
       {
@@ -8833,8 +8833,8 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-slider-transition-duration",
-          "nc-slider-transition-timing"
+          "nc-range-transition-duration",
+          "nc-range-transition-timing"
         ]
       }
     ]

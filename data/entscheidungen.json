@@ -124,13 +124,14 @@
     },
     {
       "id": "slider-umbenennen",
-      "titel": "Der Namenskonflikt beim Slider wird durch Umbenennen geloest",
+      "titel": "Der Slider-Namenskonflikt ist durch Umbenennen geloest",
       "seit": "2026-08-18",
-      "status": "offen",
-      "warum": "05-atoms fuehrt einen Range-Regler, 06-molecules ein Karussell — zwei Bausteine, ein Name. Loeschen wuerde eine echte Komponente treffen. Offen ist nur, welcher der beiden weicht (.nc-range oder .nc-carousel).",
+      "warum": "05-atoms fuehrte einen Range-Regler, 06-molecules ein Karussell — zwei Bauteile, ein Name. Am 18.08.2026 BEIDE umbenannt: .nc-range und .nc-carousel. Beide, nicht eines von beiden: Bei einem geteilten Namen ist jede Loeschung eine Loeschung zu viel, und wer nur eines umbenennt, laesst den anderen auf einem Namen sitzen, der eine Verwechslung ueberlebt hat. .nc-slider kommt im gebauten CSS nicht mehr vor.",
       "probe": {
-        "art": "vorhanden",
-        "datei": "scss/scss/05-atoms/_slider.scss"
+        "art": "muster",
+        "datei": "styles.css",
+        "regex": "\\.nc-slider",
+        "erwartet": false
       }
     },
     {

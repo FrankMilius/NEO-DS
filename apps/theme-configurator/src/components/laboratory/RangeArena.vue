@@ -78,26 +78,26 @@ const { isHighlighted, highlightStyle } = useArenaHighlight('slider')
 // Token Defaults & Semantic Refs
 // ---------------------------------------------------------------------------
 const TOKEN_DEFAULTS = {
-  'nc-slider-track-height':         '4px',
-  'nc-slider-track-bg':             '#d1d5db',
-  'nc-slider-track-bg-active':      '#0066cc',
-  'nc-slider-track-radius':         '9999px',
-  'nc-slider-thumb-size':           '20px',
-  'nc-slider-thumb-bg':             '#ffffff',
-  'nc-slider-thumb-border':         '#0066cc',
-  'nc-slider-thumb-border-width':   '2px',
-  'nc-slider-thumb-shadow':         '0 1px 3px rgba(0,0,0,0.2)',
-  'nc-slider-disabled-opacity':     '0.5',
-  'nc-slider-range-fill-bg':        '#0066cc',
-  'nc-slider-transition-duration':  '200ms'
+  'nc-range-track-height':         '4px',
+  'nc-range-track-bg':             '#d1d5db',
+  'nc-range-track-bg-active':      '#0066cc',
+  'nc-range-track-radius':         '9999px',
+  'nc-range-thumb-size':           '20px',
+  'nc-range-thumb-bg':             '#ffffff',
+  'nc-range-thumb-border':         '#0066cc',
+  'nc-range-thumb-border-width':   '2px',
+  'nc-range-thumb-shadow':         '0 1px 3px rgba(0,0,0,0.2)',
+  'nc-range-disabled-opacity':     '0.5',
+  'nc-range-range-fill-bg':        '#0066cc',
+  'nc-range-transition-duration':  '200ms'
 }
 
 const TOKEN_REFS = {
-  'nc-slider-track-bg':        'border-secondary',
-  'nc-slider-track-bg-active': 'interactive-default',
-  'nc-slider-thumb-bg':        'background-base',
-  'nc-slider-thumb-border':    'interactive-default',
-  'nc-slider-range-fill-bg':   'interactive-default'
+  'nc-range-track-bg':        'border-secondary',
+  'nc-range-track-bg-active': 'interactive-default',
+  'nc-range-thumb-bg':        'background-base',
+  'nc-range-thumb-border':    'interactive-default',
+  'nc-range-range-fill-bg':   'interactive-default'
 }
 
 // ---------------------------------------------------------------------------
@@ -165,14 +165,14 @@ function trackWrapStyle() {
 }
 
 function trackStyle(tokens, { size = 'md', disabled = false } = {}) {
-  const h_ = SIZE_TRACK_HEIGHT[size] || tokens['nc-slider-track-height'] || '4px'
+  const h_ = SIZE_TRACK_HEIGHT[size] || tokens['nc-range-track-height'] || '4px'
   return {
     position: 'relative',
     width: '100%',
     height: h_,
-    borderRadius: tokens['nc-slider-track-radius'] || '9999px',
-    background: tokens['nc-slider-track-bg'] || '#d1d5db',
-    opacity: disabled ? (tokens['nc-slider-disabled-opacity'] || '0.5') : '1',
+    borderRadius: tokens['nc-range-track-radius'] || '9999px',
+    background: tokens['nc-range-track-bg'] || '#d1d5db',
+    opacity: disabled ? (tokens['nc-range-disabled-opacity'] || '0.5') : '1',
     cursor: disabled ? 'not-allowed' : 'pointer'
   }
 }
@@ -185,8 +185,8 @@ function fillStyle(tokens, { fillPct = 65, size = 'md', isRange = false, rangeMi
       width: `${rangeMax - rangeMin}%`,
       top: '0',
       height: '100%',
-      borderRadius: tokens['nc-slider-track-radius'] || '9999px',
-      background: tokens['nc-slider-range-fill-bg'] || tokens['nc-slider-track-bg-active'] || '#0066cc'
+      borderRadius: tokens['nc-range-track-radius'] || '9999px',
+      background: tokens['nc-range-range-fill-bg'] || tokens['nc-range-track-bg-active'] || '#0066cc'
     }
   }
   return {
@@ -195,13 +195,13 @@ function fillStyle(tokens, { fillPct = 65, size = 'md', isRange = false, rangeMi
     width: `${fillPct}%`,
     top: '0',
     height: '100%',
-    borderRadius: tokens['nc-slider-track-radius'] || '9999px',
-    background: tokens['nc-slider-track-bg-active'] || '#0066cc'
+    borderRadius: tokens['nc-range-track-radius'] || '9999px',
+    background: tokens['nc-range-track-bg-active'] || '#0066cc'
   }
 }
 
 function thumbStyle(tokens, { fillPct = 65, size = 'md', hover = false } = {}) {
-  const sz = SIZE_THUMB[size] || tokens['nc-slider-thumb-size'] || '20px'
+  const sz = SIZE_THUMB[size] || tokens['nc-range-thumb-size'] || '20px'
   const szNum = parseInt(sz)
   return {
     position: 'absolute',
@@ -211,9 +211,9 @@ function thumbStyle(tokens, { fillPct = 65, size = 'md', hover = false } = {}) {
     width: sz,
     height: sz,
     borderRadius: '50%',
-    background: tokens['nc-slider-thumb-bg'] || '#ffffff',
-    border: `${tokens['nc-slider-thumb-border-width'] || '2px'} solid ${tokens['nc-slider-thumb-border'] || '#0066cc'}`,
-    boxShadow: tokens['nc-slider-thumb-shadow'] || '0 1px 3px rgba(0,0,0,0.2)',
+    background: tokens['nc-range-thumb-bg'] || '#ffffff',
+    border: `${tokens['nc-range-thumb-border-width'] || '2px'} solid ${tokens['nc-range-thumb-border'] || '#0066cc'}`,
+    boxShadow: tokens['nc-range-thumb-shadow'] || '0 1px 3px rgba(0,0,0,0.2)',
     flexShrink: '0',
     zIndex: '1'
   }

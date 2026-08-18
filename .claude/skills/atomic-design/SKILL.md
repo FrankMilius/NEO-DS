@@ -95,9 +95,11 @@ wirkungslos — und niemand merkt es, weil beide Dateien existieren.
 Templates, null Stories, null gemessenen Seiten. Atom gelöscht, 37 tote Regeln
 weniger, `baseline:diff` meldete **keine Abweichung** über 28 858 Werte.
 
-> **`slider` sieht gleich aus, ist es aber nicht.** Siehe Fallstrick 2. Das
-> Werkzeug meldet beide als „Doppelung", weil es Klassennamen vergleicht.
+> **`slider` sah gleich aus und war es nicht.** Siehe Fallstrick 2. Das
+> Werkzeug meldete beide als „Doppelung", weil es Klassennamen vergleicht.
 > Der Befund allein entscheidet nichts — erst der Blick in beide Dateien tut es.
+> Am 18.08.2026 aufgelöst; `npm run risiko -- --ds` meldet seither: „Keine.
+> Jede Wurzelklasse wird auf genau einer Ebene geführt.".
 
 ```bash
 npm run risiko -- --ds            # Doppelungen INNERHALB des Design Systems
@@ -120,25 +122,33 @@ Merkmalsliste einer Preiskarte (`<ul>`) **und** ein Blocktyp — deren
 Der Blocktyp hatte gar keine eigene Wurzelregel; seine ganze Gestaltung kam
 versehentlich aus der Preistabelle. **Prüfen: Gibt es die Klasse schon?**
 
-**Offen im Bestand, Stand 18.08.2026 — `slider`:**
+**Erledigt am 18.08.2026 — `slider`:**
 
 ```
-05-atoms/_slider.scss     431 Zeilen   <input type="range">, Track, Thumb, Tooltip
-06-molecules/_slider.scss  62 Zeilen   Karussell mit scroll-snap und Blättern
+05-atoms/_slider.scss     431 Zeilen   <input type="range">  →  .nc-range
+06-molecules/_slider.scss  62 Zeilen   Karussell             →  .nc-carousel
 ```
 
-Zwei Bausteine ohne jede Gemeinsamkeit außer dem Namen. Das Molekül lädt
-später und überschreibt die Wurzel des Reglers mit `display: grid` — Storybook
-und Recipe beschreiben dabei den **Regler**, das CSS liefert das **Karussell**.
+Nichts gemeinsam außer dem Namen. Das Molekül lud später und überschrieb die
+Wurzel des Reglers mit `display: grid`; Recipe und Story beschrieben dabei den
+Regler, das CSS lieferte das Karussell.
 
-Löschen wäre hier falsch: Es träfe eine der beiden echten Komponenten.
-Richtig ist **umbenennen** — `.nc-range` für den Regler oder `.nc-carousel`
-für das Karussell. Beide sind auf keiner Seite im Einsatz, der Umbau ist
-deshalb billig; er kostet Recipe, Story und Konfig-App-Eintrag.
+**Beide umbenannt, nicht eines von beiden.** Wer nur eines umbenennt, lässt das
+andere auf einem Namen sitzen, der eine Verwechslung überlebt hat — und der
+nächste Leser weiß nicht, ob dieser Name die ursprüngliche Bedeutung trägt oder
+die zufällig verbliebene.
 
-> Der Unterschied zu Fallstrick 1 entscheidet über die Behandlung:
-> Doppelung → eine Fassung löschen. Geteilter Name → eine Fassung umbenennen.
-> Wer das verwechselt, löscht eine funktionierende Komponente.
+Der Umbau kostete: zwei SCSS-Dateien, zwei `_index.scss`, 22 Token, die
+Ausbrecher-Liste in `04-objects/_section.scss`, ein Recipe umbenannt und eines
+neu geschrieben, zwei Stories, die Ebenenzuordnung im Story-Generator, die
+Komponenten-Registry (die beide SCSS-Dateien unter **einem** Eintrag führte)
+sowie Gruppe, Arena und Alias in der Konfig-App. `baseline:diff` über 28 954
+Werte: keine Abweichung.
+
+> **Die Registry war der stille Teil.** Sie führte beide Dateien unter dem
+> Namen `slider` — die Verwechslung war dort festgeschrieben, ohne dass ein
+> Werkzeug sie meldete. Bei einem geteilten Namen lohnt der Blick in jede
+> Liste, die Komponenten aufzählt.
 
 ### 3 · Abhängigkeit von der Ladereihenfolge
 

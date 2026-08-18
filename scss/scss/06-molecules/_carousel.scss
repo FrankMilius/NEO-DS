@@ -1,22 +1,32 @@
 // ==========================================================================
-// 06-Molecules: Slider
+// 06-Molecules: Karussell
 // ==========================================================================
-// Horizontal scroll-snap slider with navigation controls.
-// Extracted from _site.scss for proper ITCSS placement.
+// Waagerechte Spur mit scroll-snap und Blaetter-Schaltflaechen.
+//
+// HIESS BIS ZUM 18.08.2026 .nc-slider — UND NICHT ALLEIN
+// Unter demselben Namen lief in 05-atoms ein Range-Regler (<input
+// type="range"> mit Track, Thumb und Tooltip). Zwei Bauteile ohne jede
+// Gemeinsamkeit ausser dem Namen. Dieses Molekuel lud spaeter und
+// ueberschrieb die Wurzel des Reglers mit display:grid; Recipe und Story
+// beschrieben dabei den Regler, das CSS lieferte das Karussell.
+//
+// Geloest wurde das durch Umbenennen BEIDER, nicht durch Loeschen eines von
+// beiden: Bei einem geteilten Namen ist jede Loeschung eine Loeschung zu
+// viel. Der Regler heisst jetzt .nc-range.
 // ==========================================================================
 
 @use '../01-tools' as *;
 
-.nc-slider {
+.nc-carousel {
   display: grid;
   gap: var(--fnd-spacing-10);
 }
 
-.nc-slider.nc-slider--media {
+.nc-carousel.nc-carousel--media {
   padding: 0 !important;
 }
 
-.nc-slider__track {
+.nc-carousel__track {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(360px, 1fr);
@@ -26,22 +36,22 @@
   padding-block-end: 1rem;
 }
 
-.nc-slider__track.nc-slider__track--media {
+.nc-carousel__track.nc-carousel__track--media {
   grid-auto-columns: auto;
 }
 
-.nc-slider__track > * {
+.nc-carousel__track > * {
   scroll-snap-align: start;
 }
 
-.nc-slider__controls {
+.nc-carousel__controls {
   display: flex;
   justify-content: flex-end;
   gap: var(--fnd-spacing-02);
 }
 
 // Testimonial section slider override
-.section--testimonial > .nc-slider {
+.section--testimonial > .nc-carousel {
   padding: 0 !important;
 }
 
@@ -50,11 +60,11 @@
 // ---------------------------------------------------------------------------
 
 @media (max-width: 720px) {
-  .nc-slider {
+  .nc-carousel {
     gap: var(--fnd-spacing-07);
   }
 
-  .nc-slider__track {
+  .nc-carousel__track {
     grid-auto-columns: minmax(260px, 85vw);
     gap: var(--fnd-spacing-06);
     padding-block-end: 0.5rem;

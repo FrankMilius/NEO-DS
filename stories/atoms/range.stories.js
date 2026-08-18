@@ -1,16 +1,16 @@
 // ============================================================
-// Slider — Auto-generated from slider-recipe.json
+// Range — Auto-generated from range-recipe.json
 // Version: 2.0.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
 export default {
-  title: 'Atoms/Slider',
+  title: 'Atoms/Range',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: `**Slider** v2.0.0 (stable)
+        component: `**Range** v2.0.0 (stable)
 
 Native <input type='range'> mit Cross-Browser Custom-Styling via Pseudo-Elemente.
 
@@ -24,16 +24,16 @@ Native <input type='range'> mit Cross-Browser Custom-Styling via Pseudo-Elemente
 };
 
 export const Default = {
-  render: () => `<div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  render: () => `<div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>`,
 };
 
 export const AllStates = {
   name: 'All States',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -46,8 +46,8 @@ export const AllStates = {
 export const FloatingTooltip = {
   name: 'Floating Tooltip',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -60,8 +60,8 @@ export const FloatingTooltip = {
 export const RangeSliderDualThumb = {
   name: 'Range Slider (Dual Thumb)',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -74,8 +74,8 @@ export const RangeSliderDualThumb = {
 export const TouchTarget44px = {
   name: 'Touch Target (44px)',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -88,8 +88,8 @@ export const TouchTarget44px = {
 export const DisplayVariants = {
   name: 'Display Variants',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -114,8 +114,8 @@ export const HorizontalvsVertical = {
 export const ErrorState = {
   name: 'Error State',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {
@@ -128,8 +128,8 @@ export const ErrorState = {
 export const InFormField = {
   name: 'In Form Field',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-slider">
-    <span class="nc-slider__input">input</span>
+  <div class="nc-range">
+    <span class="nc-range__input">input</span>
   </div>
 </div>`,
   parameters: {

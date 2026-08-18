@@ -2,7 +2,7 @@
   "$schema": "./recipe-schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
-    "component": "slider",
+    "component": "range",
     "version": "2.0.0",
     "status": "stable",
     "tags": [
@@ -13,70 +13,71 @@
     "links": {
       "figma": "",
       "storybook": "",
-      "docs": "/docs/slider-docs"
+      "docs": "/docs/range-docs"
     },
-    "layer": "molecule",
+    "layer": "atom",
     "pipeline": {
       "scss": [
-        "scss/scss/05-atoms/_slider.scss",
-        "scss/scss/06-molecules/_slider.scss"
+        "scss/scss/05-atoms/_range.scss"
       ],
       "story": "stories/atoms/slider.stories.js",
       "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
       "drupal": [],
       "docs": "docs/slider-docs.html"
-    }
+    },
+    "renamedFrom": "slider",
+    "renameNote": "Hiess bis zum 18.08.2026 slider. Unter demselben Namen lief ein zweites, voellig anderes Bauteil in 06-molecules: ein Karussell. Das Molekuel lud spaeter und ueberschrieb die Wurzel dieses Reglers mit display:grid — Recipe und Story beschrieben den Regler, das CSS lieferte das Karussell."
   },
   "anatomy": {
     "root": {
-      "element": ".nc-slider"
+      "element": ".nc-range"
     },
     "slots": [
       {
         "name": "input",
-        "element": ".nc-slider__input",
+        "element": ".nc-range__input",
         "optional": false
       },
       {
         "name": "input-max",
-        "element": ".nc-slider__input--max",
+        "element": ".nc-range__input--max",
         "optional": true,
         "note": "Zweiter Input fuer Range-Modus (Dual-Thumb). Nur bei --range Modifier."
       },
       {
         "name": "track",
-        "element": ".nc-slider__track",
+        "element": ".nc-range__track",
         "optional": true
       },
       {
         "name": "fill",
-        "element": ".nc-slider__fill",
+        "element": ".nc-range__fill",
         "optional": true
       },
       {
         "name": "tooltip",
-        "element": ".nc-slider__tooltip",
+        "element": ".nc-range__tooltip",
         "optional": true,
-        "note": "Floating Tooltip ueber dem Thumb — folgt der Position via --nc-slider-progress CSS-Variable."
+        "note": "Floating Tooltip ueber dem Thumb — folgt der Position via --nc-range-progress CSS-Variable."
       },
       {
         "name": "output",
-        "element": ".nc-slider__output",
+        "element": ".nc-range__output",
         "optional": true
       },
       {
         "name": "labels",
-        "element": ".nc-slider__labels",
+        "element": ".nc-range__labels",
         "optional": true
       },
       {
         "name": "label-min",
-        "element": ".nc-slider__label-min",
+        "element": ".nc-range__label-min",
         "optional": true
       },
       {
         "name": "label-max",
-        "element": ".nc-slider__label-max",
+        "element": ".nc-range__label-max",
         "optional": true
       }
     ],
@@ -86,11 +87,11 @@
       "WebKit: ::-webkit-slider-runnable-track + ::-webkit-slider-thumb.",
       "Firefox: ::-moz-range-track + ::-moz-range-thumb + ::-moz-range-progress (gefuellter Bereich).",
       "Thumb wird via margin-top auf dem Track zentriert (WebKit).",
-      "CSS-Variable --nc-slider-progress (0-100) steuert Fill-Breite und Tooltip-Position.",
-      "Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-slider-progress) * 1%). Pfeil zeigt nach unten.",
-      "Range-Modus: Zwei ueberlagerte <input type='range'> — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-slider-progress-min und --nc-slider-progress-max.",
-      "Touch-Target: Input-Hoehe = --nc-slider-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-slider-thumb-size.",
-      "Focus-Ring: outline mit --nc-slider-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.",
+      "CSS-Variable --nc-range-progress (0-100) steuert Fill-Breite und Tooltip-Position.",
+      "Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-range-progress) * 1%). Pfeil zeigt nach unten.",
+      "Range-Modus: Zwei ueberlagerte <input type='range'> — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-range-progress-min und --nc-range-progress-max.",
+      "Touch-Target: Input-Hoehe = --nc-range-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-range-thumb-size.",
+      "Focus-Ring: outline mit --nc-range-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.",
       "Output zeigt aktuellen Wert (Tooltip oder Text, via JS aktualisiert).",
       "Labels zeigen Min/Max-Werte unterhalb des Tracks.",
       "Hover: Thumb scale(1.15). Focus: focus-ring + border-color auf Thumb.",
@@ -110,7 +111,7 @@
           "renderHint": "slider-horizontal"
         },
         "vertical": {
-          "modifier": "nc-slider--vertical",
+          "modifier": "nc-range--vertical",
           "tokenGroups": [],
           "renderHint": "slider-vertical"
         }
@@ -126,7 +127,7 @@
           "note": "Standard: Ein Thumb, ein Wert."
         },
         "range": {
-          "modifier": "nc-slider--range",
+          "modifier": "nc-range--range",
           "tokenGroups": [
             "range"
           ],
@@ -144,7 +145,7 @@
           "renderHint": "slider-plain"
         },
         "with-tooltip": {
-          "modifier": "nc-slider--tooltip",
+          "modifier": "nc-range--tooltip",
           "tokenGroups": [
             "tooltip"
           ],
@@ -172,7 +173,7 @@
           "renderHint": "slider-labels"
         },
         "full": {
-          "modifier": "nc-slider--tooltip",
+          "modifier": "nc-range--tooltip",
           "tokenGroups": [
             "tooltip"
           ],
@@ -196,7 +197,7 @@
           "renderHint": "slider-default"
         },
         "error": {
-          "modifier": "nc-slider--error",
+          "modifier": "nc-range--error",
           "tokenGroups": [],
           "renderHint": "slider-error"
         }
@@ -386,52 +387,52 @@
       "track": {
         "label": "Track",
         "tokens": [
-          "nc-slider-track-height",
-          "nc-slider-track-bg",
-          "nc-slider-track-bg-active",
-          "nc-slider-track-radius"
+          "nc-range-track-height",
+          "nc-range-track-bg",
+          "nc-range-track-bg-active",
+          "nc-range-track-radius"
         ]
       },
       "thumb": {
         "label": "Thumb",
         "tokens": [
-          "nc-slider-thumb-size",
-          "nc-slider-thumb-bg",
-          "nc-slider-thumb-border",
-          "nc-slider-thumb-border-width",
-          "nc-slider-thumb-shadow",
-          "nc-slider-thumb-touch-size",
-          "nc-slider-thumb-focus-ring-offset"
+          "nc-range-thumb-size",
+          "nc-range-thumb-bg",
+          "nc-range-thumb-border",
+          "nc-range-thumb-border-width",
+          "nc-range-thumb-shadow",
+          "nc-range-thumb-touch-size",
+          "nc-range-thumb-focus-ring-offset"
         ]
       },
       "interaction": {
         "label": "Interaction",
         "tokens": [
-          "nc-slider-transition-duration",
-          "nc-slider-transition-timing"
+          "nc-range-transition-duration",
+          "nc-range-transition-timing"
         ]
       },
       "tooltip": {
         "label": "Floating Tooltip",
         "tokens": [
-          "nc-slider-tooltip-bg",
-          "nc-slider-tooltip-color",
-          "nc-slider-tooltip-radius",
-          "nc-slider-tooltip-font-size",
-          "nc-slider-tooltip-padding",
-          "nc-slider-tooltip-offset-y"
+          "nc-range-tooltip-bg",
+          "nc-range-tooltip-color",
+          "nc-range-tooltip-radius",
+          "nc-range-tooltip-font-size",
+          "nc-range-tooltip-padding",
+          "nc-range-tooltip-offset-y"
         ]
       },
       "range": {
         "label": "Range (Dual Thumb)",
         "tokens": [
-          "nc-slider-range-fill-bg"
+          "nc-range-range-fill-bg"
         ]
       },
       "state-disabled": {
         "label": "Disabled",
         "tokens": [
-          "nc-slider-disabled-opacity"
+          "nc-range-disabled-opacity"
         ]
       }
     }

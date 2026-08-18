@@ -5,7 +5,7 @@
 // Unterstuetzt Single-Value und Range (Dual-Thumb) Varianten.
 //
 // ARCHITEKTUR:
-//   Alle Werte kommen aus --nc-slider-* Component-Tokens
+//   Alle Werte kommen aus --nc-range-* Component-Tokens
 //   (registriert in 00-settings/_component-tokens.scss).
 //   Nie direkte Hex-Werte — Theme-Aenderungen fliessen automatisch durch.
 //
@@ -15,21 +15,21 @@
 //   Range-Modus: Zwei ueberlagerte Inputs fuer Dual-Thumb (min/max).
 //
 // BEM-KLASSEN:
-//   .nc-slider                    Block (Wrapper)
-//   .nc-slider__input             <input type="range"> (Custom-Styled)
-//   .nc-slider__input--max        Zweiter Input fuer Range-Modus
-//   .nc-slider__track             Track-Container (fuer JS-Fill)
-//   .nc-slider__fill              Gefuellter Track-Bereich (via CSS-Variable)
-//   .nc-slider__output            Wert-Anzeige (Tooltip oder Label)
-//   .nc-slider__tooltip           Floating Tooltip ueber dem Thumb
-//   .nc-slider__labels            Min/Max Labels Container
-//   .nc-slider__label-min         Minimum-Label
-//   .nc-slider__label-max         Maximum-Label
-//   .nc-slider--disabled          Disabled-State
-//   .nc-slider--error             Error-State
-//   .nc-slider--vertical          Vertikale Orientierung (optional)
-//   .nc-slider--range             Range-Modus (Dual-Thumb)
-//   .nc-slider--tooltip           Floating-Tooltip-Modus
+//   .nc-range                    Block (Wrapper)
+//   .nc-range__input             <input type="range"> (Custom-Styled)
+//   .nc-range__input--max        Zweiter Input fuer Range-Modus
+//   .nc-range__track             Track-Container (fuer JS-Fill)
+//   .nc-range__fill              Gefuellter Track-Bereich (via CSS-Variable)
+//   .nc-range__output            Wert-Anzeige (Tooltip oder Label)
+//   .nc-range__tooltip           Floating Tooltip ueber dem Thumb
+//   .nc-range__labels            Min/Max Labels Container
+//   .nc-range__label-min         Minimum-Label
+//   .nc-range__label-max         Maximum-Label
+//   .nc-range--disabled          Disabled-State
+//   .nc-range--error             Error-State
+//   .nc-range--vertical          Vertikale Orientierung (optional)
+//   .nc-range--range             Range-Modus (Dual-Thumb)
+//   .nc-range--tooltip           Floating-Tooltip-Modus
 //
 // ACCESSIBILITY:
 //   Native <input type="range"> — volle Keyboard/Screen-Reader Unterstuetzung
@@ -56,9 +56,9 @@
 /// Gemeinsames Track-Styling (Cross-Browser).
 @mixin slider-track-styles {
   width: 100%;
-  height: var(--mod-slider-track-height, var(--nc-slider-track-height));
-  background-color: var(--mod-slider-track-bg, var(--nc-slider-track-bg));
-  border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
+  height: var(--mod-range-track-height, var(--nc-range-track-height));
+  background-color: var(--mod-range-track-bg, var(--nc-range-track-bg));
+  border-radius: var(--mod-range-track-radius, var(--nc-range-track-radius));
   border: none;
   cursor: pointer;
 }
@@ -67,24 +67,24 @@
 /// Touch-Target: Unsichtbarer Klickbereich von 44px (WCAG 2.5.8).
 /// Focus-Ring: Offset von 2px um den sichtbaren Thumb herum.
 @mixin slider-thumb-styles {
-  width: var(--mod-slider-thumb-size, var(--nc-slider-thumb-size));
-  height: var(--mod-slider-thumb-size, var(--nc-slider-thumb-size));
-  background-color: var(--mod-slider-thumb-bg, var(--nc-slider-thumb-bg));
-  border: var(--mod-slider-thumb-border-width, var(--nc-slider-thumb-border-width)) solid var(--mod-slider-thumb-border, var(--nc-slider-thumb-border));
+  width: var(--mod-range-thumb-size, var(--nc-range-thumb-size));
+  height: var(--mod-range-thumb-size, var(--nc-range-thumb-size));
+  background-color: var(--mod-range-thumb-bg, var(--nc-range-thumb-bg));
+  border: var(--mod-range-thumb-border-width, var(--nc-range-thumb-border-width)) solid var(--mod-range-thumb-border, var(--nc-range-thumb-border));
   border-radius: var(--fnd-radius-full);
-  box-shadow: var(--mod-slider-thumb-shadow, var(--nc-slider-thumb-shadow));
+  box-shadow: var(--mod-range-thumb-shadow, var(--nc-range-thumb-shadow));
   cursor: pointer;
   appearance: none;
   transition:
-    border-color var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing)),
-    box-shadow var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing)),
-    transform var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing));
+    border-color var(--mod-range-transition-duration, var(--nc-range-transition-duration)) var(--mod-range-transition-timing, var(--nc-range-transition-timing)),
+    box-shadow var(--mod-range-transition-duration, var(--nc-range-transition-duration)) var(--mod-range-transition-timing, var(--nc-range-transition-timing)),
+    transform var(--mod-range-transition-duration, var(--nc-range-transition-duration)) var(--mod-range-transition-timing, var(--nc-range-transition-timing));
 }
 
 /// Custom-Styling fuer <input type="range">.
 @mixin slider-input {
   width: 100%;
-  height: var(--mod-slider-thumb-touch-size, var(--nc-slider-thumb-touch-size));
+  height: var(--mod-range-thumb-touch-size, var(--nc-range-thumb-touch-size));
   margin: 0;
   padding: 0;
   background: transparent;
@@ -100,7 +100,7 @@
   &::-webkit-slider-thumb {
     @include slider-thumb-styles;
     // Vertikale Zentrierung des Thumbs auf dem Track
-    margin-top: calc((var(--mod-slider-track-height, var(--nc-slider-track-height)) - var(--mod-slider-thumb-size, var(--nc-slider-thumb-size))) / 2);
+    margin-top: calc((var(--mod-range-track-height, var(--nc-range-track-height)) - var(--mod-range-thumb-size, var(--nc-range-thumb-size))) / 2);
   }
 
   // --- Firefox ---
@@ -115,9 +115,9 @@
 
   // Firefox: Gefuellter Bereich links vom Thumb
   &::-moz-range-progress {
-    height: var(--mod-slider-track-height, var(--nc-slider-track-height));
-    background-color: var(--mod-slider-track-bg-active, var(--nc-slider-track-bg-active));
-    border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
+    height: var(--mod-range-track-height, var(--nc-range-track-height));
+    background-color: var(--mod-range-track-bg-active, var(--nc-range-track-bg-active));
+    border-radius: var(--mod-range-track-radius, var(--nc-range-track-radius));
     border: none;
   }
 
@@ -129,12 +129,12 @@
 
     &::-webkit-slider-thumb {
       outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-      outline-offset: var(--mod-slider-thumb-focus-ring-offset, var(--nc-slider-thumb-focus-ring-offset));
+      outline-offset: var(--mod-range-thumb-focus-ring-offset, var(--nc-range-thumb-focus-ring-offset));
     }
 
     &::-moz-range-thumb {
       outline: var(--fnd-focus-ring-width) solid var(--fnd-focus-ring-color);
-      outline-offset: var(--mod-slider-thumb-focus-ring-offset, var(--nc-slider-thumb-focus-ring-offset));
+      outline-offset: var(--mod-range-thumb-focus-ring-offset, var(--nc-range-thumb-focus-ring-offset));
     }
   }
 
@@ -158,7 +158,7 @@
 
   &:disabled,
   &[aria-disabled='true'] {
-    opacity: var(--mod-slider-disabled-opacity, var(--nc-slider-disabled-opacity));
+    opacity: var(--mod-range-disabled-opacity, var(--nc-range-disabled-opacity));
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -177,13 +177,13 @@
 }
 
 /// JS-gesteuerte Track-Fill Darstellung.
-/// Breite wird via CSS-Variable --nc-slider-progress oder inline-style gesetzt.
+/// Breite wird via CSS-Variable --nc-range-progress oder inline-style gesetzt.
 @mixin slider-track {
   position: relative;
   width: 100%;
-  height: var(--mod-slider-track-height, var(--nc-slider-track-height));
-  background-color: var(--mod-slider-track-bg, var(--nc-slider-track-bg));
-  border-radius: var(--mod-slider-track-radius, var(--nc-slider-track-radius));
+  height: var(--mod-range-track-height, var(--nc-range-track-height));
+  background-color: var(--mod-range-track-bg, var(--nc-range-track-bg));
+  border-radius: var(--mod-range-track-radius, var(--nc-range-track-radius));
   overflow: hidden;
 }
 
@@ -193,31 +193,31 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: var(--mod-slider-track-bg-active, var(--nc-slider-track-bg-active));
+  background-color: var(--mod-range-track-bg-active, var(--nc-range-track-bg-active));
   border-radius: inherit;
   pointer-events: none;
-  // Breite via CSS-Variable --nc-slider-progress (0-100)
-  width: calc(var(--mod-slider-progress, var(--nc-slider-progress, 0)) * 1%);
+  // Breite via CSS-Variable --nc-range-progress (0-100)
+  width: calc(var(--mod-range-progress, var(--nc-range-progress, 0)) * 1%);
 }
 
 /// Floating Tooltip ueber dem Thumb.
-/// Position folgt dem Thumb via --nc-slider-progress CSS-Variable (0-100).
+/// Position folgt dem Thumb via --nc-range-progress CSS-Variable (0-100).
 @mixin slider-tooltip {
   position: absolute;
-  bottom: calc(100% + var(--mod-slider-tooltip-offset-y, var(--nc-slider-tooltip-offset-y)));
-  left: calc(var(--mod-slider-progress, var(--nc-slider-progress, 50)) * 1%);
+  bottom: calc(100% + var(--mod-range-tooltip-offset-y, var(--nc-range-tooltip-offset-y)));
+  left: calc(var(--mod-range-progress, var(--nc-range-progress, 50)) * 1%);
   transform: translateX(-50%);
-  background-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
-  color: var(--mod-slider-tooltip-color, var(--nc-slider-tooltip-color));
-  border-radius: var(--mod-slider-tooltip-radius, var(--nc-slider-tooltip-radius));
-  font-size: var(--mod-slider-tooltip-font-size, var(--nc-slider-tooltip-font-size));
+  background-color: var(--mod-range-tooltip-bg, var(--nc-range-tooltip-bg));
+  color: var(--mod-range-tooltip-color, var(--nc-range-tooltip-color));
+  border-radius: var(--mod-range-tooltip-radius, var(--nc-range-tooltip-radius));
+  font-size: var(--mod-range-tooltip-font-size, var(--nc-range-tooltip-font-size));
   font-weight: var(--fnd-font-weight-semibold);
-  padding: var(--mod-slider-tooltip-padding, var(--nc-slider-tooltip-padding));
+  padding: var(--mod-range-tooltip-padding, var(--nc-range-tooltip-padding));
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
   opacity: 0;
-  transition: opacity var(--mod-slider-transition-duration, var(--nc-slider-transition-duration)) var(--mod-slider-transition-timing, var(--nc-slider-transition-timing));
+  transition: opacity var(--mod-range-transition-duration, var(--nc-range-transition-duration)) var(--mod-range-transition-timing, var(--nc-range-transition-timing));
   z-index: 1;
 
   // Pfeil nach unten
@@ -228,7 +228,7 @@
     left: 50%;
     transform: translateX(-50%);
     border: 4px solid transparent;
-    border-top-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
+    border-top-color: var(--mod-range-tooltip-bg, var(--nc-range-tooltip-bg));
   }
 }
 
@@ -255,7 +255,7 @@
 // BEM-Klassen
 // ---------------------------------------------------------------------------
 
-.nc-slider {
+.nc-range {
   @include slider-base;
 
   // -- Sub-Elemente --
@@ -294,19 +294,19 @@
   // Tooltip sichtbar bei Hover und Focus auf dem Input.
 
   &--tooltip {
-    .nc-slider__input:hover ~ .nc-slider__tooltip,
-    .nc-slider__input:focus ~ .nc-slider__tooltip,
-    .nc-slider__input:active ~ .nc-slider__tooltip {
+    .nc-range__input:hover ~ .nc-range__tooltip,
+    .nc-range__input:focus ~ .nc-range__tooltip,
+    .nc-range__input:active ~ .nc-range__tooltip {
       opacity: 1;
     }
   }
 
   // -- Range Modifier (Dual Thumb) --
   // Zwei ueberlagerte <input type="range"> fuer Min/Max-Auswahl.
-  // JS steuert --nc-slider-progress-min und --nc-slider-progress-max.
+  // JS steuert --nc-range-progress-min und --nc-range-progress-max.
 
   &--range {
-    .nc-slider__input {
+    .nc-range__input {
       position: absolute;
       top: 0;
       left: 0;
@@ -328,35 +328,35 @@
     }
 
     // Track-Container ist der sichtbare Bezugsrahmen
-    .nc-slider__track {
-      height: var(--mod-slider-track-height, var(--nc-slider-track-height));
+    .nc-range__track {
+      height: var(--mod-range-track-height, var(--nc-range-track-height));
     }
 
     // Fill-Bereich zwischen den beiden Thumbs
-    .nc-slider__fill {
-      left: calc(var(--mod-slider-progress-min, var(--nc-slider-progress-min, 0)) * 1%);
-      width: calc((var(--mod-slider-progress-max, var(--nc-slider-progress-max, 100)) - var(--mod-slider-progress-min, var(--nc-slider-progress-min, 0))) * 1%);
-      background-color: var(--mod-slider-range-fill-bg, var(--nc-slider-range-fill-bg));
+    .nc-range__fill {
+      left: calc(var(--mod-range-progress-min, var(--nc-range-progress-min, 0)) * 1%);
+      width: calc((var(--mod-range-progress-max, var(--nc-range-progress-max, 100)) - var(--mod-range-progress-min, var(--nc-range-progress-min, 0))) * 1%);
+      background-color: var(--mod-range-range-fill-bg, var(--nc-range-range-fill-bg));
     }
   }
 
   // -- State-Modifier --
 
   &--disabled {
-    opacity: var(--mod-slider-disabled-opacity, var(--nc-slider-disabled-opacity));
+    opacity: var(--mod-range-disabled-opacity, var(--nc-range-disabled-opacity));
     cursor: not-allowed;
 
-    .nc-slider__input {
+    .nc-range__input {
       pointer-events: none;
     }
 
-    .nc-slider__tooltip {
+    .nc-range__tooltip {
       display: none;
     }
   }
 
   &--error {
-    .nc-slider__input {
+    .nc-range__input {
       &::-webkit-slider-thumb {
         border-color: var(--mod-input-border-error, var(--nc-input-border-error));
       }
@@ -366,7 +366,7 @@
       }
     }
 
-    .nc-slider__fill {
+    .nc-range__fill {
       background-color: var(--mod-input-border-error, var(--nc-input-border-error));
     }
   }
@@ -379,16 +379,16 @@
     height: 200px;
     width: auto;
 
-    .nc-slider__input {
+    .nc-range__input {
       writing-mode: vertical-lr;
       direction: rtl;
     }
 
     // Tooltip bei Vertikal: rechts neben dem Track
-    .nc-slider__tooltip {
+    .nc-range__tooltip {
       bottom: auto;
-      left: calc(100% + var(--mod-slider-tooltip-offset-y, var(--nc-slider-tooltip-offset-y)));
-      top: calc((100 - var(--mod-slider-progress, var(--nc-slider-progress, 50))) * 1%);
+      left: calc(100% + var(--mod-range-tooltip-offset-y, var(--nc-range-tooltip-offset-y)));
+      top: calc((100 - var(--mod-range-progress, var(--nc-range-progress, 50))) * 1%);
       transform: translateY(-50%);
 
       &::after {
@@ -397,7 +397,7 @@
         right: 100%;
         transform: translateY(-50%);
         border: 4px solid transparent;
-        border-right-color: var(--mod-slider-tooltip-bg, var(--nc-slider-tooltip-bg));
+        border-right-color: var(--mod-range-tooltip-bg, var(--nc-range-tooltip-bg));
         border-top-color: transparent;
       }
     }
@@ -406,7 +406,7 @@
   // -- High Contrast Mode --
 
   @media (forced-colors: active) {
-    .nc-slider__input {
+    .nc-range__input {
       &::-webkit-slider-thumb {
         background-color: ButtonText;
         border-color: ButtonText;

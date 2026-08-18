@@ -22,13 +22,14 @@ const LAYER_MAP = {
   button: 'atoms', badge: 'atoms', chip: 'atoms', icon: 'atoms', input: 'atoms',
   checkbox: 'atoms', radio: 'atoms', select: 'atoms', switch: 'atoms',
   textarea: 'atoms', tag: 'atoms', avatar: 'atoms', spinner: 'atoms',
-  slider: 'atoms', label: 'atoms', tooltip: 'atoms',
+  range: 'atoms', label: 'atoms', tooltip: 'atoms',
   // Molecules
   card: 'molecules', accordion: 'molecules', breadcrumb: 'molecules',
   'form-field': 'molecules', 'form-label': 'molecules', 'form-error': 'molecules',
   'form-hint': 'molecules', 'input-group': 'molecules', 'dropdown-menu': 'molecules',
   'logo-wall': 'molecules', 'link-with-arrow': 'molecules', 'otp-input': 'molecules',
   popover: 'molecules', stepper: 'molecules', tabs: 'molecules', toast: 'molecules',
+  carousel: 'molecules',
   // Organisms
   hero: 'organisms', navigation: 'organisms', 'navigation-menu': 'organisms',
   footer: 'organisms', header: 'organisms', modal: 'organisms',
