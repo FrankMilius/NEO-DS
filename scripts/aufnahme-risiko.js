@@ -88,6 +88,55 @@ function reihenfolgeRisiko(komp, regeln) {
 
 const argv = process.argv.slice(2);
 const alle = argv.includes('--alle');
+const nurDs = argv.includes('--ds');
+
+/** Doppelungen INNERHALB des Design Systems.
+ *
+ *  Die Pruefung unten sieht auf die Klebeschicht — sie beantwortet „was
+ *  passiert, wenn ich das aus dem Theme aufnehme". Sie sieht NICHT, ob eine
+ *  Klasse im DS bereits zweimal gefuehrt wird. Genau das ist aber der Fall,
+ *  an dem frueher vier Aufnahmen gescheitert sind, und er besteht im Bestand
+ *  weiter: .nc-card und .nc-slider stehen in 05-atoms UND 06-molecules.
+ *  Die spaeter geladene Ebene gewinnt, die frueher geladene ist wirkungslos. */
+function dsDoppelungen() {
+  const EBENEN = ['04-objects', '05-atoms', '06-molecules', '07-organisms'];
+  const wo = new Map();
+  for (const ebene of EBENEN) {
+    const dir = resolve(wurzel, 'scss/scss', ebene);
+    if (!existsSync(dir)) continue;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.scss') || f === '_index.scss') continue;
+      const name = f.slice(1, -5);
+      const t = ohneK(readFileSync(resolve(dir, f), 'utf8'));
+      // Nur WURZELREGELN zaehlen. Dass zwei Dateien dieselbe Klasse in einem
+      // Nachfahren-Selektor erwaehnen, ist normal und harmlos.
+      const wurzeln = new Set(
+        [...t.matchAll(new RegExp(`^\\.(${name}|nc-${name})(?![a-z0-9-])`, 'gm'))].map((m) => m[0].trim()),
+      );
+      if (!wurzeln.size) continue;
+      if (!wo.has(name)) wo.set(name, []);
+      wo.get(name).push({ ebene, wurzeln: [...wurzeln] });
+    }
+  }
+  const raus = [];
+  for (const [name, orte] of wo) {
+    if (orte.length < 2) continue;
+    const gemeinsam = orte[0].wurzeln.filter((s) => orte.every((o) => o.wurzeln.includes(s)));
+    if (gemeinsam.length) raus.push({ name, orte: orte.map((o) => o.ebene), gemeinsam });
+  }
+  return raus;
+}
+
+if (nurDs || alle) {
+  const d = dsDoppelungen();
+  console.log(`\n  EBENEN-DOPPELUNG IM DESIGN SYSTEM`);
+  if (!d.length) console.log('    Keine. Jede Wurzelklasse wird auf genau einer Ebene gefuehrt.');
+  for (const x of d) {
+    console.log(`    ${x.name.padEnd(20)}${x.orte.join(' + ').padEnd(28)}gemeinsam: ${x.gemeinsam.join(', ')}`);
+    console.log(`    ${''.padEnd(20)}${x.orte[x.orte.length - 1]} laedt spaeter und gewinnt.`);
+  }
+  if (nurDs) process.exit(d.length ? 1 : 0);
+}
 const einzeln = argv.find((a) => !a.startsWith('--'));
 
 let liste;
