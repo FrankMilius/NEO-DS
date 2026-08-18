@@ -1,0 +1,4573 @@
+{
+  "zeitraum": {
+    "von": "2026-08-12",
+    "bis": "2026-08-18"
+  },
+  "erzeugt": "2026-08-18T08:48:13.507Z",
+  "commits": [
+    {
+      "repo": "Design System",
+      "hash": "4a89887",
+      "datum": "2026-08-18T10:21:48+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(atoms): Card-Atom loeschen, Slider bewusst stehen lassen",
+      "rumpf": "`npm run risiko --ds` meldete card und slider als denselben Fall:\nEbenen-Doppelung, Molekuel gewinnt. Der Bericht war bei einem der\nbeiden irrefuehrend, und der Unterschied entscheidet ueber Loeschen\noder Umbenennen.\n\nCARD — echte Doppelung, geloescht\nDas Atom (377 Zeilen) fuehrte .nc-card ein zweites Mal. Alle\nkonkurrierenden Regeln verlor es an 06-molecules/_card.scss, das\nspaeter laedt. Durch kamen nur .nc-card__header und .nc-card__action\n— beide in null Templates, null Stories, null gemessenen Seiten; die\neinzige Fundstelle war ein gebautes styles.css. Die 13 Mixins des\nAtoms hatten ausserhalb der Datei keinen Aufrufer (card-grid kommt\naus 01-tools und bleibt).\n\n  37 Regeln weniger im gebauten CSS, 0 neu oder geaendert\n  Auswahl-Radio, Summary-Marker, Fokus, Status-Rand: alles vom\n  Molekuel gleichwertig abgedeckt\n  baseline:diff nach-label -> nach-card-atom-weg\n  28858 Werte ueber 323 Komponenten: KEINE ABWEICHUNG\n\nSLIDER — kein Doppel, sondern zwei Bausteine mit einem Namen\n  05-atoms      431 Zeilen  <input type=\"range\">, Track, Thumb, Tooltip\n  06-molecules   62 Zeilen  Karussell mit scroll-snap und Blaettern\n\nNichts gemeinsam ausser .nc-slider. Das Molekuel ueberschreibt die\nWurzel des Reglers mit display:grid; Recipe und Story beschreiben\ndabei den Regler, das CSS liefert das Karussell. Eine Loeschung haette\neine funktionierende Komponente getroffen — deshalb NICHT ausgefuehrt.\nRichtig ist Umbenennen (.nc-range oder .nc-carousel). Beide sind auf\nkeiner Seite im Einsatz, der Umbau ist billig, kostet aber Recipe,\nStory und Konfig-App-Eintrag. Bleibt offen, weil es eine Namens-\nentscheidung ist.\n\nMEIN FEHLER, DER DAZU FUEHRTE\nIch hatte zuerst Selektor-NAMEN verglichen und daraus geschlossen, im\nAtom sei einzig .nc-card__header eigen. Der Vergleich der vollstaendigen\nRegeln zeigte 37. Namensvergleich uebersieht, dass dieselbe Klasse in\nverschiedenen Kombinatoren steht. Erst der Diff des gebauten CSS gab\ndie belastbare Zahl.\n\nWERKZEUG NACHGEZOGEN\naufnahme-risiko.js hiess den Befund pauschal \"EBENEN-DOPPELUNG\" und\nlegte damit das Loeschen nahe. Jetzt \"DIESELBE WURZELKLASSE AUF ZWEI\nEBENEN\" mit dem Hinweis, vor jeder Loeschung beide Kopfzeilen zu\nvergleichen. Der Skill atomic-design fuehrt card als erledigt und\nslider unter Fallstrick 2 statt 1.",
+      "dateien": [
+        {
+          "pfad": ".claude/skills/atomic-design/SKILL.md",
+          "plus": 28,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": "scripts/aufnahme-risiko.js",
+          "plus": 16,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_card.scss",
+          "plus": 0,
+          "minus": 377,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_index.scss",
+          "plus": 3,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "358a60f",
+      "datum": "2026-08-18T09:55:39+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat: Skills, Agenten und Regeln ins Repo — sie lagen auf einer Maschine",
+      "rumpf": ".gitignore Zeile 29 enthielt `.claude/`. Vollstaendig ignoriert. Das war\nrichtig, solange dort nur lokale Einstellungen lagen; inzwischen liegt dort\nProjektwissen. 27 Dateien — vierzehn gewachsene Skills, fuenf Regelwerke, die\nin dieser Sitzung gebauten Rollen — existierten nur auf EINER Platte.\n\nWIE ES AUFFIEL\nNicht durch Nachdenken. Der Widersacher-Weg 1 fragt nach der AUSLIEFERUNG\nstatt nach der Quelle:\n\n  git show origin/main:.claude/skills/atomic-design/SKILL.md\n  fatal: path exists on disk, but not in 'origin/main'\n\nDoppelt getarnt war es dadurch, dass `git status` „clean\" meldete und\n`git commit` „nothing to commit\" sagte. Beides klingt nach Erfolg. Drei meiner\nCommits meldeten Skills, die sie nie enthielten — sie trugen nur die Skripte.\n\nDIE REGEL AUFGETEILT\n  .claude/*                     alles aus\n  !.claude/skills/              Verzeichnisse als GANZES frei, damit ein\n  !.claude/agents/              neuer Skill ohne Aenderung an .gitignore\n  !.claude/rules/               mitkommt\n  .claude/settings*.json        raus: 29 absolute /Users/-Pfade\n\nDraussen bleiben auch .claude/plans/ (Arbeitsstaende) und reports.zip\n(Binaerarchiv mit __MACOSX-Beiwerk, geloescht).\n\nDIE STRECKE ABGESICHERT\nscripts/skills-pruefen.js stellt dieselbe Frage automatisch, fuer jede Datei,\nbei jedem Lauf:\n\n  1 Versioniert   kennt git die Datei ueberhaupt\n  2 Ladbar        liegt sie als <name>/SKILL.md statt als loses <name>.md\n  3 Auffindbar    Frontmatter mit name und description\n\nPunkt 2 ist der unauffaelligste und war hier zweimal die Ursache:\n.claude/skills/commit.md trug 42 gute Zeilen und wurde nie geladen — geladen\nwurde ein Sechs-Zeiler aus commit/SKILL.md.\n\nWAS DIE PRUEFUNG SOFORT FAND\nNur 4 von 17 Skills hatten Frontmatter. Ohne name und description meldet sich\nein Skill nicht von selbst; er ist nur zu erreichen, wenn man ihn beim Namen\nruft. Die uebrigen 12 haben jetzt eines, abgeleitet aus ihrem eigenen ersten\nAbsatz — keine erfundenen Beschreibungen.\n\n  vorher   4 Skills vollstaendig\n  jetzt   16 Skills, 1 Agent, 5 Regeln\n\nOFFEN, BEWUSST NICHT MITERLEDIGT\nDrei Befunde bleiben: phase.md und progress_report.md liegen lose und werden\nnicht geladen, skills/reports/ hat keine SKILL.md. Das sind Umbenennungen mit\nFolgen fuer Verweise — sie gehoeren entschieden, nicht nebenbei geraeumt.",
+      "dateien": [
+        {
+          "pfad": ".claude/agents/widersacher.md",
+          "plus": 94,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/rules/architecture.md",
+          "plus": 44,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/rules/drupal.md",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/rules/figma-mcp-setup.md",
+          "plus": 70,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/rules/scss-conventions.md",
+          "plus": 43,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/rules/skill-development.md",
+          "plus": 41,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/agents/SKILL.md",
+          "plus": 103,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/analyze-competitor/SKILL.md",
+          "plus": 69,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/atomic-design/SKILL.md",
+          "plus": 218,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/audit-pipeline/SKILL.md",
+          "plus": 77,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/collateral-check/SKILL.md",
+          "plus": 89,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/commit/SKILL.md",
+          "plus": 120,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/create-drupal-block/SKILL.md",
+          "plus": 71,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/dashboard/SKILL.md",
+          "plus": 61,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/evaluate-component/SKILL.md",
+          "plus": 116,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/figma-sync/SKILL.md",
+          "plus": 74,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/phase.md",
+          "plus": 38,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/plan/SKILL.md",
+          "plus": 100,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/progress_report.md",
+          "plus": 13,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/publish-storybook/SKILL.md",
+          "plus": 49,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/categories.md",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/metrics.md",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/reports/workflows.md",
+          "plus": 14,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/screenshot-loop/SKILL.md",
+          "plus": 76,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/sync-recipe/SKILL.md",
+          "plus": 50,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/test/SKILL.md",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".claude/skills/widersacher/SKILL.md",
+          "plus": 117,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": ".gitignore",
+          "plus": 21,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/skills-pruefen.js",
+          "plus": 184,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "c596cd6",
+      "datum": "2026-08-18T09:44:07+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(agents): Atomic-Design-Skill, geerdet im eigenen System",
+      "rumpf": "Empfehlung 3. Der Skill fehlt im Wondel-Katalog vollstaendig — weder „Atomic\nDesign\" noch „Brad Frost\" kommen in 187 Dateien vor. Er ist hier aber gelebte\nPraxis und musste nur aufgeschrieben werden.\n\nDAS WICHTIGSTE ZUERST\nAtomic Design ist ein MENTALES MODELL, kein Ablauf. Die fuenf Ebenen sind\ngleichzeitig gueltig, nicht nacheinander zu durchlaufen. Man beginnt nicht bei\nden Atomen — meist beginnt man mit einer Seite, die jemand braucht, und findet\ndie Atome darin. Wer die Ebenen als Phasen liest, baut ein halbes Jahr an\neiner Bibliothek, bevor irgendjemand etwas sieht.\n\nDIE ZWEI EBENEN OHNE GEGENSTUECK\nITCSS hat mehr Ebenen als Atomic Design, und die Abbildung ist unvollstaendig:\n04-objects (container, grid, section, content) und 10-utilities (sr-only,\ncw-*, type-*) haben KEIN Gegenstueck im Modell. Wer sie in die fuenf Ebenen\npresst, bekommt „Atome\" ohne Funktion. Ein container ist kein Atom — er traegt\nkein Interface, er ordnet nur an.\n\nDie Abbildungstabelle steht im Skill, mit dem Bestand dieses Systems:\n9 Objekte, 36 Atome, 48 Molekuele, 49 Organismen, 9 Templates, 10 Utilities.\n\nFUENF FALLSTRICKE, ALLE HIER EINGETRETEN\nEbenen-Doppelung, geteilter Klassenname, Ladereihenfolge, ueberladenes\nMolekuel — und der teuerste: ROLLE STATT AUSSEHEN. Der teuerste Fehler dieses\nProjekts war kein Einordnungsfehler, sondern ein Rollenfehler: ein\nGattungsetikett mit interaktiver Flaeche und Akzent-Schriftfarbe.\n\nWERKZEUG NACHGEZOGEN, WEIL DER SKILL SONST GELOGEN HAETTE\nBeim Verifizieren fiel auf: Ich verweise auf `npm run risiko`, aber das\nWerkzeug prueft die KLEBESCHICHT — nicht die Doppelung innerhalb des Design\nSystems, also genau den Fall nicht, den ich als Beispiel nenne.\n\n`npm run risiko -- --ds` ergaenzt. Er zaehlt nur WURZELREGELN; dass zwei\nDateien dieselbe Klasse in einem Nachfahren-Selektor erwaehnen, ist normal.\n\nErster Lauf, zwei offene Faelle im Bestand:\n\n  card     .nc-card    05-atoms + 06-molecules\n  slider   .nc-slider  05-atoms + 06-molecules\n\nIn beiden Faellen laedt die Molekuel-Fassung spaeter und gewinnt; die\nAtom-Fassung ist wirkungslos. Nicht behoben — das ist eine Einordnungsfrage,\nkeine Fleissarbeit, und sie gehoert entschieden statt nebenbei geraeumt.",
+      "dateien": [
+        {
+          "pfad": "scripts/aufnahme-risiko.js",
+          "plus": 49,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "b084b7f",
+      "datum": "2026-08-18T09:22:53+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(agents): Zustandspruefung, /commit und /plan ausgeschrieben",
+      "rumpf": "ZUSTAENDE — DIE LUECKE DES REFERENZSTANDS\nDer Referenzstand misst 322 Bauteile auf 71 Seiten, alle im RUHEZUSTAND. Alle\nFehler, die er uebersehen hat, sassen in Zustaenden: der schwarze Unterstrich\nin der Navigation, die Kante, die nur bei Fokus erscheint.\n\nDieselbe Messung je Zustand zu wiederholen waere das Vierfache an Laufzeit\nfuer einen Bruchteil an Erkenntnis — eine Ueberschrift hat keinen\nUeberfahren-Zustand. scripts/zustand-pruefen.js prueft deshalb nur, was\nBEDIENBAR ist, dafuer aber vollstaendig:\n\n  Schriftfarbe je Zustand     4,5:1 bzw. 3:1 nach Groesse und Staerke\n  text-decoration-color       die Luecke aus der Empfehlung\n  ::after als Kante           Hoehe, Farbe, transform\n  Fokusanzeige                muss sich vom Ruhezustand UNTERSCHEIDEN\n\nDer letzte Punkt ist der wertvollste: Ein Fokusring, der genauso aussieht wie\nder Ruhezustand, ist keiner. Das faellt keiner Kontrastrechnung auf.\n\n  221 Messungen ueber 3 Seiten, 53 unsichtbare uebersprungen, kein Verstoss.\n\nMEIN EIGENES WERKZEUG HAT DEN WIDERSACHER-TEST NICHT BESTANDEN\nDer erste Lauf meldete zwei Elemente ohne Fokusanzeige. Nachgemessen: Das\nSuchfeld ist 0x0 — eingeklappt. Ein unsichtbares Element kann keinen Fokusring\nzeigen, und die Meldung war falsch.\n\nSichtbarkeitssperre eingebaut (Groesse, visibility, display, opacity). Genau\ndie Art Fehler, gegen die der Widersacher gebaut ist — diesmal in seinem\neigenen Werkzeug.\n\n/commit UND /plan AUSGESCHRIEBEN\nBei der Durchsicht kam ein Befund: Die guten 42 Zeilen fuer /commit lagen in\n.claude/skills/commit.md — einer LOSEN Datei, die nicht als Skill geladen\nwird. Aktiv war ein Sechs-Zeiler in commit/SKILL.md. Meine Bewertung\n„sechs Zeilen sind kein Skill\" stimmte also, aber aus dem falschen Grund: Der\nInhalt war da, nur am falschen Ort.\n\nBeide jetzt am richtigen Ort und auf die tatsaechliche Praxis dieser Sitzung\ngebracht:\n\n  commit  Drei-Repo-Topologie, `git -C` statt cd-Kette (zweimal gestolpert),\n          Pruefung nach Aenderungsart, fremde Arbeit erkennen und liegen\n          lassen, `commit -F` statt Backticks (zweimal gestolpert),\n          composer.lock nach jedem Theme-Push, Push nur auf Bitte\n  plan    Pruefschranke je Phase statt blosser Reihenfolge, sieben Risiken\n          die dieses Projekt kennt, Trennung zwischen selbst entscheiden und\n          fragen, die Gesamtstrecke als Planbestandteil statt Nachwort\n\nBeide tragen jetzt Frontmatter — ohne das findet Claude Code sie nicht\nzuverlaessig.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/zustand-pruefen.js",
+          "plus": 264,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "b9d12dd",
+      "datum": "2026-08-18T09:11:54+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Section-Header-Label im Solution-Tabs-Kontext zeigte auf den Akzent",
+      "rumpf": "Der erste Fund der Artefaktpruefung, und er war echt.\n\nDas Merkmal war „nur eine von 41 Seiten\". Eine Aenderung, die ueber ein Token\nlaeuft, wirkt ueberall — trifft sie nur eine Seite, stimmt etwas nicht. Genau\ndarauf ist das Merkmal ausgelegt, und hier hat es zum ersten Mal gegriffen.\n\nDER BEFUND\n.nc-solution-tabs-section .nc-section-header__label zeigte auf\n--nc-solution-tabs-accent, also auf die AKZENTFARBE statt auf eine Textfarbe.\nDie Regel hat die systemweite Umstellung des Labels auf Graphit 800 ueberlebt:\n40 Seiten richtig, eine falsch. Vor dem Palettenwechsel faerbte sie mit Cyan\n#0e7490, danach mit Lime 800 #006f0a — beides Akzent, beides falsch fuer eine\nBereichsbezeichnung.\n\nDer Kommentar daneben sagte „heller Text (dunkle Sektion)\". Gemessen ist die\nSektion hell: rgb(241, 243, 241), Graphit 100. Die Begruendung war ueberholt,\ndie Regel blieb.\n\nDER WEG DORTHIN\n  baseline-Vergleich   welche Seite, welche Eigenschaft\n  npm run widerlegen   das Token selbst war richtig (#414341 auf :root)\n  CSS.getMatchedStyles welche Regel gewinnt wirklich\n  messen.js            ist die Sektion ueberhaupt dunkel\n\nOhne den dritten Schritt haette ich am Token gedreht, das bereits stimmte.\n\nDIE KORREKTUR\nDer Kontext-Haken bleibt, nur ohne Vorgabe:\n\n  color: var(--nc-solution-tabs-label, var(--nc-section-header-label-color));\n\nOhne gesetzten Wert faellt die Regel auf die systemweite Label-Farbe zurueck.\nEine dunkle Fassung der Sektion kann --nc-solution-tabs-label setzen, ohne\ndiese Regel anzufassen. Die Regel loeschen waere kuerzer gewesen — dann haette\neine spaetere dunkle Sektion ein Graphit-800-Label auf dunklem Grund.\n\nGemessen nach der Korrektur: rgb(65, 67, 65) auf allen Seiten.",
+      "dateien": [
+        {
+          "pfad": "scss/scss/07-organisms/_solution-tabs.scss",
+          "plus": 19,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "c04a36c",
+      "datum": "2026-08-18T09:01:48+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(agents): Messartefakt-Pruefung und Widersacher als eigener Agent",
+      "rumpf": "VIERTER WIDERLEGUNGSWEG, JETZT RECHENBAR\nBisher stand er als Prueflliste im Skill. `baseline:diff` meldet Unterschiede,\naber nicht, ob sie echt sind — ein Seitenausfall sieht im Vergleich genauso aus\nwie eine Regression. Der Unterschied ist von aussen nicht zu sehen, aber\nrechenbar.\n\nscripts/artefakt-pruefen.js wertet vier Merkmale aus:\n\n  A  Seitenausfall        Seite traegt weniger als die Haelfte des Medians\n  B  Nur eine Seite       Komponente steht auf vielen, weicht auf einer ab\n  C  Verschwunden         fehlt ganz, statt andere Werte zu tragen\n  D  Ausserhalb           nicht unter den geaenderten Bauteilen (optional)\n\nZwei Merkmale heissen VERDAECHTIG. Kein Merkmal beweist allein etwas — ein\nbewusster Umbau kann eine Komponente durchaus verschwinden lassen.\n\nAN BEIDEN RICHTUNGEN GEPRUEFT\n  kontrolle-rueckbau → nach-rest1    der historische Fehlalarm\n                                      alle Befunde verdaechtig, drei Merkmale\n                                      „Neu messen. Nichts zuruecknehmen.\"\n  nach-limelink → nach-kopfleiste    die echte Palettenumstellung\n                                      283 echt, 0 verdaechtig, 1 zu pruefen\n\nDer eine „zu pruefen\" ist ein echter Fund: nc-section-header__label weicht auf\ngenau EINER von 41 Seiten ab, obwohl die Aenderung ueber ein Token lief und\nueberall wirken muesste. Steht offen.\n\nWIDERSACHER ALS EIGENER AGENT\n.claude/agents/widersacher.md — eigene Rolle mit eigenem Werkzeugkasten\n(Bash, Read, Grep, Glob). Der Grund fuer einen EIGENEN Agenten statt eines\nSkills: Er bekommt die Behauptung, aber NICHT den Weg dorthin. Wer die\nBegruendung kennt, uebernimmt sie und prueft dann die Herleitung statt das\nErgebnis.\n\nDer Agent darf „bestaetigt\" nicht sagen. Nur WIDERLEGT, TEILWEISE oder\n„kein Gegenbeweis\" — und dazu die Erinnerung, dass das kein Beweis ist.\n\nIN /agents VERDRAHTET\nPhase 3.5, laeuft nur wenn eine Phase davor etwas gemeldet hat. Es ist die\neinzige Phase mit einer SPERRE: Bei VERDAECHTIG wird nichts zurueckgenommen\nund nichts als fertig gemeldet, bevor neu gemessen wurde.\n\nDer Ablauf davor findet Fehler im Code. Er findet keine Fehler in der\nSCHLUSSFOLGERUNG — und genau dort lagen in dieser Sitzung die teuersten.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/artefakt-pruefen.js",
+          "plus": 198,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "58b3f16",
+      "datum": "2026-08-18T08:58:23+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf c8d7753 hochziehen",
+      "rumpf": "Enthaelt Navigation, Teaser-Bundle und die Element-Stile. Ohne diesen Schritt\nsetzt ein composer install das Theme zurueck.",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "9ebc34b",
+      "datum": "2026-08-18T08:48:41+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(agents): Widersacher — Rolle und Werkzeug",
+      "rumpf": "Die teuerste Luecke der bisherigen Architektur: Es gab niemanden, der einen\nBefund zu WIDERLEGEN versucht, bevor er als wahr gilt. Ein plausibler falscher\nBefund ist teurer als ein uebersehener — er fuehrt zu einer Korrektur, die\nnichts korrigiert, und verdeckt die echte Ursache.\n\nBeides ist aus den fix()-Commits dieser Sitzung abgeleitet, nicht aus einer\nMethodenlehre. Vier Arten, auf die Behauptungen hier nachweislich falsch waren:\n\n  1 QUELLE STATT AUSLIEFERUNG\n    Die Slate-Palette ueberlebte vier Tage lang eine als abgeschlossen\n    gemeldete Umstellung: 39 Token in neo-overrides.css, das spaeter laedt.\n\n  2 GELTUNGSBEREICH OHNE TRAEGER\n    Die Element-Stile lagen einen Tag auf .neo-mono-*, waehrend die Website\n    unter .neo-light-theme laeuft. Geloest und wirkungslos zugleich.\n\n  3 RUHEZUSTAND STATT ZUSTAND\n    Der Referenzstand misst ohne Zeiger und ohne Fokus. Der schwarze\n    Unterstrich in der Navigation blieb deshalb unbemerkt.\n\n  4 MESSARTEFAKT STATT BEFUND\n    19 „verschwundene\" Komponenten waren eine Seite, die einmal leer\n    zurueckkam. Beinahe haette ich einen fehlerfreien Stapel zurueckgenommen.\n\nscripts/widerlegen.js deckt die ersten drei mechanisch ab:\n\n  --token    listet JEDE Deklaration ueber alle ausgelieferten Stylesheets in\n             Ladereihenfolge, nennt den Gewinner und warnt, sobald mehr als\n             eine Datei beteiligt ist\n  --klasse   prueft, ob der Geltungsbereich auf den Seiten ueberhaupt einen\n             Traeger hat, und zeigt sonst, welche Klassen stattdessen da sind\n  --zustand  erzwingt hover/focus-visible/active und vergleicht mit der Ruhe,\n             inklusive ::after\n\nSofort an den historischen Faellen geprueft:\n  --klasse .neo-mono-light        0 Vorkommen, Traeger ist .neo-light-theme\n  --token --fnd-color-text-primary  zwei Dateien, neo-overrides.css gewinnt\n  --zustand .nav-link hover       Kante faehrt auf, kein schwarzer Unterstrich\n\n.claude/skills/widersacher/SKILL.md traegt die Ordnung dazu, samt vier Fragen,\ndie immer gelten (Ursache oder Symptom? Beweist die Pruefung, was ich behaupte?\nPruefe ich den richtigen Gegenstand? Stammt die Zahl aus einer Messung?).\nJede ist mit dem Fall belegt, in dem sie hier gefehlt hat.\n\nDer Skill schliesst mit der Grenze, ohne die er sich selbst aufhebt: Kein\nGegenbeweis ist KEIN Beweis. Er heisst nur, an diesen Stellen nicht\ngescheitert.\n\nNEBENBEI EINE KORREKTUR\nIch hatte gemeldet, getComputedStyle lese den transform eines\nPseudo-Elements nicht — „Messartefakt\". Das war falsch: Das Werkzeug liest\nmatrix(0,0,0,1,0,0) in Ruhe und matrix(0.999…) beim Ueberfahren. Warum der\nWert damals `none` war, weiss ich nicht sicher; am wahrscheinlichsten ein\nveraltetes Stylesheet. Die Erklaerung war jedenfalls erfunden, nicht gemessen —\ngenau der Fehler, gegen den dieser Commit antritt.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/widerlegen.js",
+          "plus": 265,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "ed42c53",
+      "datum": "2026-08-17T14:54:28+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(nav): Navigations-Teaser als Block-Bundle mit geprueften Auswahlen",
+      "rumpf": "Die Werbeflaeche war bisher ueber vier Felder AM MENUE-LINK gepflegt\n(field_nav_teaser_{title,text,cta,url}). Fuer Titel und Text reicht das;\nsobald Medien, Farbauswahl und Animation dazukommen, ist ein Block das\nbessere Zuhause.\n\nWARUM EIN BLOCK MIT REFERENZ UND NICHT EIN BLOCK IN EINER REGION\nEin Block liegt sonst in einer Region und wuesste nicht, unter welchem\nMenuepunkt er erscheinen soll. Das Referenzfeld am Menue-Link dreht die\nRichtung um: Der Menuepunkt sagt, welchen Teaser er zeigt. Damit bleibt die\nBindung erhalten, und die Redaktion bekommt trotzdem die volle\nBlock-Oberflaeche mit Medienauswahl.\n\nDie vier alten Felder bleiben als RUECKFALLEBENE bestehen. Vorhandene Teaser\nlaufen ohne Umbau weiter; ein referenzierter Block gewinnt.\n\nGEPRUEFTE AUSWAHL STATT FREIER FARBWAHL\nfield_teaser_bg ist eine Liste aus Graphit-Stufen, kein Farbwaehler. Jede\nStufe bringt ihre Schriftfarben mit und ist gegen sie gerechnet:\n\n  Graphit 50   Haupttext 17,17   Nebentext 6,51   Knopf dunkel 13,72\n  Graphit 100  Haupttext 16,01   Nebentext 6,07   (Vorgabe)\n  Graphit 200  Haupttext 14,23   Nebentext 5,40\n  Graphit 900  Haupttext 13,72   Nebentext 6,67   Knopf hell   17,17\n  Graphit 950  Haupttext 17,17   Nebentext 8,34\n  Lime         Haupttext 12,89   Nebentext 5,44   schwarze Schrift\n\nAuf Lime SCHWARZE Schrift, nie weisse: 12,89 gegen 1,63.\n\nANIMATION AUS DEM BESTAND\nfield_bganim samt den vier Farbfeldern wird WIEDERVERWENDET, kein neues\nStorage. Es sind dieselben 13 Varianten wie bei den Hero-Bloecken; zwei\nFelder fuer dieselbe Sache waeren genau die Doppelung, die wir gerade ueberall\nabbauen. Die Animation liegt in einer eigenen Ebene unter dem Text — neo-bg\nmalt in ein Element hinein, nicht in einen Hintergrund.\n\nDIE KNOPF-FASSUNG IST EINE ENTSCHEIDUNG, KEINE ABLEITUNG\nSobald ein Bild oder eine Animation dahinterliegt, laesst sich aus der\nFlaechenfarbe nicht mehr berechnen, welcher Knopf lesbar ist. Deshalb ein\neigenes Feld. Die Vorgabe greift nur, wo sie sicher ist: auf den beiden\ndunklen Stufen der helle Knopf, sonst der dunkle.\n\nEIN ORT JE ENTSCHEIDUNG\nDie Zuordnung Stufe -> Farbwert steht NUR im CSS. Weder das Modul noch das\nJavaScript kennen Hexwerte; sie reichen den Schluessel durch. Sonst gaebe es\ndrei Orte fuer dieselbe Entscheidung und zwei davon veralten.\n\n  scripts/neo-nav-teaser-bundle.php   Bundle und Felder, wiederholbar\n  neo_nav.module                      _neo_nav_teaser_block()\n  neo-nav.js                          Klassen, Bild, Animationsebene\n  neo-nav.css                         Flaechenstufen und Traeger\n\nNICHT MITEXPORTIERT\npathauto.pattern.event_url weicht in der Datenbank vom Stand im Verzeichnis ab\n— dort wird das Muster /events/[node:title] entfernt. Das ist keine Aenderung\nvon mir; ich habe die Datei zurueckgesetzt, damit sie nicht unbemerkt in\ndiesen Commit rutscht. Die Datenbank behaelt ihren Stand.",
+      "dateien": [
+        {
+          "pfad": "config/sync/block_content.type.neo_nav_teaser.yml",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/canvas.component.block.block_content.073318f2-3686-47f0-a0e8-d044f0fe6bb4.yml",
+          "plus": 25,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/canvas.component.block.block_content.9c09bf09-ccb4-449d-b95f-608195ffa598.yml",
+          "plus": 25,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/canvas.folder.9c080ccf-5d21-49ec-8b86-c5243cd6a9b3.yml",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.block_content.neo_nav_teaser.default.yml",
+          "plus": 124,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_bganim.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_bganim_c1.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_bganim_c2.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_bganim_c3.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_bganim_c4.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_bg.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_cta.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_cta_variant.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_image.yml",
+          "plus": 24,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_text.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.block_content.neo_nav_teaser.field_teaser_url.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.menu_link_content.main.field_nav_teaser_block.yml",
+          "plus": 25,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_bg.yml",
+          "plus": 39,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_cta.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_cta_variant.yml",
+          "plus": 27,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_image.yml",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_text.yml",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.block_content.field_teaser_url.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.menu_link_content.field_nav_teaser_block.yml",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/neo-nav-teaser-bundle.php",
+          "plus": 240,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "web/modules/custom/neo_nav/neo_nav.module",
+          "plus": 93,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "c8d7753",
+      "datum": "2026-08-17T14:54:28+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Teaser-Flaechen, Animationsebene und Knopf-Fassungen",
+      "rumpf": "Die geprueften Graphit-Stufen als Klassen, die Animation in einer eigenen\nEbene unter dem Text, und der Traeger fuer die Schrift ueber Bild oder\nAnimation. Die Zuordnung Stufe -> Farbwert steht nur hier.",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 31,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "8965ffe",
+      "datum": "2026-08-17T14:27:39+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Werbeflaeche im Mega-Menue untergeordnet",
+      "rumpf": "Vorher ein schwarzer Verlauf mit Lichtfleck — der kontraststaerkste Gegenstand\nim ganzen Panel und damit das Erste, was das Auge findet. Ein Hinweis im Menue\nist eine Beigabe, kein Ziel.\n\nJetzt eine leise Flaeche aus der Grauleiter:\n\n  Flaeche   Graphit 100  rgb(241, 243, 241)\n  Schrift   Graphit 950  16,01:1\n  Nebentext Graphit 700   6,07:1\n  Rahmen    Graphit 200\n  Knopf     Graphit 900 mit Graphit 50   13,72:1\n\nDer Lichtfleck entfaellt: Er gehoerte zur dunklen Flaeche und waere auf einem\nleisen Grau entweder unsichtbar oder ein Schmutzfleck. Sein ::after-Element\nbleibt bestehen, traegt aber jetzt --nn-teaser-scrim — den Traeger fuer die\nLesbarkeit, sobald ein Hintergrundbild dahinterliegt.\n\nVORBEREITET FUER DIE REDAKTION\nAlle Werte laufen ueber --nn-teaser-*, damit sie je Teaser gesetzt werden\nkoennen statt global zu gelten:\n\n  --nn-teaser-bg          Flaechenfarbe\n  --nn-teaser-image       Hintergrundbild oder Animation\n  --nn-teaser-scrim       Traeger fuer die Schrift ueber einem Bild\n  --nn-teaser-fg/-muted   Schriftfarben\n  --nn-teaser-cta-bg/-fg  der Knopf\n\nDazu drei Klassen:\n  .teaser--cta-dark    dunkler Knopf auf heller Flaeche (Vorgabe)\n  .teaser--cta-light   heller Knopf auf dunkler Flaeche\n  .teaser--has-image   setzt Traeger und helle Schrift fuer Bildhintergruende\n\nDie Knopf-Fassung ist bewusst eine ENTSCHEIDUNG und keine Ableitung aus der\nFlaechenfarbe: Bei einem Hintergrundbild laesst sie sich nicht berechnen.\n\nEIN FEHLER UNTERWEGS\nMein erster Durchgang setzte den Knopf auf Weiss — auf hellgrauer Flaeche\n1,09:1, praktisch unsichtbar. Ursache war eine Ersetzung, die nicht griff:\n`color` und `background` stehen dort auf EINER Zeile, mein Muster erwartete\nzwei. Die Messung hat es gefunden, nicht das Auge.\n\nNOCH NICHT ERLEDIGT\nDie redaktionelle Verwaltung. Die Werte oben sind vorbereitet, aber niemand\nkann sie bisher setzen — dazu braucht es Felder in Drupal. Der Vorschlag dazu\nsteht in der Antwort; er ist eine Architekturentscheidung und keine\nFleissarbeit.",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 71,
+          "minus": 7,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "71f31bb",
+      "datum": "2026-08-17T14:11:23+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Aktionsgruppe entkastet, Trenner entfernt",
+      "rumpf": "Die drei Schalter trugen im Ruhezustand eine Flaeche in Graphit 200. Drei\nNebenfunktionen brauchen keine drei staendigen Objekte neben einer Navigation,\ndie selbst keine hat.\n\nZWEI DINGE ZUSAETZLICH ZU DEN BEIDEN VORGABEN\n\n1  Der Rahmen musste mit. Er trug --nn-line, und das ist im hellen Thema\n   DIESELBE Farbe wie die Fuellung (beide Graphit 200) — deshalb war er nie zu\n   sehen. Haette ich nur die Fuellung entfernt, waere er als Umriss\n   hervorgetreten: aus drei gefuellten Kaesten waeren drei umrandete geworden.\n   Das ist das Gegenteil von entkasten.\n\n   Er bleibt als `transparent` STEHEN statt entfernt zu werden. Sonst\n   schrumpfte der Knopf beim Ueberfahren um 2px und die ganze Gruppe rueckte.\n\n2  Die Bewegung dreht sich um. Vorher: ruhend getoent, beim Anfassen die\n   weisse Basisflaeche — der Knopf trat heraus. Das geht jetzt nicht mehr,\n   eine weisse Flaeche auf weissem Grund zeigt nichts. Jetzt ruhend leer,\n   beim Anfassen getoent.\n\n     ruhe   rgba(0, 0, 0, 0)      Rahmen rgba(0, 0, 0, 0)\n     hover  rgb(228, 230, 228)    Rahmen rgba(0, 0, 0, 0)\n\nTRENNER\nAus CSS UND Markup. Ein leeres <span> ohne Darstellung ist nichts, was im\nBaum stehenbleiben sollte.\n\nWAS DAMIT VERLORENGEHT\nDer Trenner setzte die Suche als AKTION von den beiden EINSTELLUNGEN ab. Die\nUnterscheidung war richtig, das Mittel war teuer. Sie gehoert an die Suche\nselbst — eine Beschriftung oder ein sichtbares Tastenkuerzel macht sie\ndeutlicher als ein Strich daneben. Steht als Punkt 3 der Navigations-Vorlage\nnoch aus; bis dahin sind die drei Schalter optisch gleichrangig.\n\nBelegt durch Messung beider Zustaende und eine Bildschirmaufnahme.",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 27,
+          "minus": 20,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/navigation/neo-nav.html.twig",
+          "plus": 1,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "8140c22",
+      "datum": "2026-08-17T13:53:27+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Unterstrich beim Ueberfahren nur noch fuer klassenlose Links",
+      "rumpf": "Der schwarze Unterstrich an einfachen Menuepunkten („Editionen & Preise\") kam\naus einer pauschalen Regel in 03-elements/_links.scss:\n\n  a { &:hover { text-decoration: underline; } }\n\nSie gilt fuer JEDES <a> und hat Spezifitaet (0,1,1). Damit schlug sie sowohl\n`a` als auch `:where(.site-header[data-neo-nav] a)` im Theme — `:where()` hat\nnull Spezifitaet und kann nichts gewinnen. Ueber der Lime-Kante lag dadurch\nein zweiter, schwarzer Strich in der Textfarbe.\n\nUeber die Entwicklerschnittstelle nachgesehen, welche Regeln beim Ueberfahren\nwirklich zutreffen — geraten haette ich hier falsch, weil gleich vier Regeln\ntext-decoration setzen und nur die Reihenfolge entscheidet.\n\nDie Regel haengt jetzt an der ROLLE des Links statt am Element:\n\n  a:not([class]):hover { text-decoration: underline; }\n\nWer eine Komponentenklasse traegt, wird von seiner Komponente gestaltet.\nMenuepunkte, Knoepfe und Karten bringen ihre eigene Kennzeichnung mit; ein\nzusaetzlicher Unterstrich verdoppelt sie nur. Das ist derselbe Grundsatz, der\nin der Navigations-Vorlage unter „Die Ausnahme im Design System\" steht — hier\nzum ersten Mal angewendet.\n\nGemessen an .nav-link, alle drei Zustaende:\n  ruhe    Dekoration none   Kante 2px rgb(55,233,61)\n  hover   Dekoration none   Kante 2px rgb(55,233,61)\n  active  Dekoration none   Kante 2px rgb(55,233,61)\n\nKeine Messung gegen den Referenzstand: Der erfasst den Ruhezustand, und dort\naendert sich nichts. Belegt ist es durch die erzwungenen Pseudo-Zustaende und\neine Bildschirmaufnahme.\n\nNEBENBEI\nscripts/messen.js wartet jetzt 5s statt 3,5s auf den Seitenaufbau. Die\nHauptnavigation entsteht per JavaScript und war bei 3,5s regelmaessig noch\nnicht im Baum — die Messung meldete dann „nicht im Baum\" fuer Elemente, die es\nsehr wohl gibt.",
+      "dateien": [
+        {
+          "pfad": "scripts/messen.js",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_links.scss",
+          "plus": 12,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "efa3454",
+      "datum": "2026-08-17T13:18:09+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(theme): Kante statt Flaeche an den Menuepunkten, aktueller Ast markiert",
+      "rumpf": "Graue Fuellung bei Hover und am offenen Zweig ersatzlos entfernt, dafuer eine\n2px-Lime-Kante von links auffahrend. neo-nav.js setzt jetzt aria-current auf\nden passenden Menuepunkt: page fuer die Seite selbst, true fuer den Zweig, der\nsie enthaelt. Die CSS-Regeln dafuer gab es seit langem — gesetzt hat sie nie\njemand.",
+      "dateien": [
+        {
+          "pfad": "css/design-tokens.css",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 48,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-nav.js",
+          "plus": 72,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "bfac5a6",
+      "datum": "2026-08-17T13:18:09+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Unterstrich-Token, Navigationskante statt Flaeche, Ast-Markierung",
+      "rumpf": "1  UNTERSTRICH ALS TOKEN, 3 -> 4px\n--fnd-underline-offset: 4px und --fnd-underline-thickness: 2px, beide in\n00-settings/_typography.scss. Dort und nicht in _a11y.scss, weil ein\nUnterstrich eine Leseeigenschaft ist und kein Fokusmerkmal.\n\nDer eine Pixel hat einen Grund: Bei 2px Staerke beruehrte der Strich in\nkleineren Graden die Unterlaengen, und text-decoration-skip-ink schnitt ihn\ndort auf. Mit 4px laeuft er durch.\n\nDieselben Token tragen die Kante in Navigationslisten — damit sitzen\nFliesstext-Unterstrich und Navigationskante auf derselben Hoehe.\n\n2  KEINE FLAECHE MEHR AN DEN MENUEPUNKTEN\nDie graue Fuellung bei Hover und am offenen Zweig ist ersatzlos raus. Eine\nFuellung erzeugt ein zweites Objekt fuer einen Zustand, der nur „hier steht\nder Zeiger\" bedeutet. An ihrer Stelle dieselbe Kante wie im Panel: 2px Lime,\nvon links nach rechts auffahrend, 220ms.\n\nDie Lage der Kante haengt am Token und wird aus der halben Restbhoehe\ngerechnet — sie sitzt unter der TEXTZEILE, nicht am unteren Rand der\n44px-Trefferflaeche.\n\n3  DER AKTUELLE AST WAR NIE MARKIERT\nDie CSS-Regeln fuer [aria-current] und .is-active gab es seit langem. Gesetzt\nhat sie nie jemand: Auf /editionen-preise trug kein Menuepunkt eine\nMarkierung, alle standen auf Gewicht 500. Wer sich auf einer Unterseite\nbefand, sah in der Hauptnavigation nicht, wo er ist.\n\nneo-nav.js vergleicht jetzt den aktuellen Pfad mit dem Ziel jedes\nMenuepunkts UND allen Zielen in seinem Panel:\n\n  aria-current=\"page\"  der Punkt IST die Seite\n  aria-current=\"true\"  der Zweig ENTHAELT die Seite\n\nBeide sehen gleich aus (Kante plus Gewicht 600); der Unterschied ist fuer die\nVorlesesoftware. Ast-Treffer nur an einer Pfadgrenze, damit /loesungen nicht\nauf /loesungen-archiv passt, und der laengste Treffer gewinnt — sonst\nmarkierte ein Punkt mit \"/\" jede Seite.\n\nGemessen an den echten Adressen:\n  /editionen-preise                  Editionen & Preise  [page]  Gewicht 600\n  /loesungen/branchen/technologie    Loesungen           [true]  Gewicht 600\n\nDIE GANZE STRECKE\n  Design System   _typography.scss, _mono-elements.scss\n  Konfig-App      foundation.typography.underline\n  Dokumentation   FARB-FOUNDATION.md, Abschnitt „Unterstrich und Kante\"\n  Storybook       mono-foundation.stories.js auf 4px und den Markenwert\n\nBELEGT MIT BILD\nZwei Bildschirmaufnahmen, geschlossen und aufgeklappt: keine grauen Flaechen,\nKante am aktuellen Ast und beim Ueberfahren, Haarlinie zwischen Leiste und\nPanel sichtbar, beide Flaechen weiss.\n\nZu meinem Vorgehen: Ich hatte die Markierung zuerst gegen /node/69 geprueft\nund „funktioniert nicht\" gemeldet. Das war mein Testfehler — die Navigation\nzeigt auf Alias-Pfade. Die Regel selbst war richtig.",
+      "dateien": [
+        {
+          "pfad": "FARB-FOUNDATION.md",
+          "plus": 21,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_typography.scss",
+          "plus": 13,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_mono-elements.scss",
+          "plus": 3,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "stories/foundations/mono-foundation.stories.js",
+          "plus": 3,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "storybook"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "c547e77",
+      "datum": "2026-08-17T11:42:00+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(theme): Haarlinie und Schatten im Navigations-Verbund richtiggestellt",
+      "rumpf": "Frank hat beides gesehen: keine Trennung zwischen Leiste und Panel, und die\nLeiste wirkt dunkler. Zwei Ursachen, beide meine.\n\n1  DIE HAARLINIE WAR DA, ABER VERDECKT\nIch hatte sie als border-bottom an die Kopfleiste gesetzt. Das Panel sitzt auf\n`top: 100%` und beginnt damit GENAU auf dieser Kante — sobald es aufklappt,\nliegt es darueber. Die Linie existierte, war aber nie zu sehen.\n\nSie gehoert an das Panel: `border-top`. Dort sitzt sie zwangslaeufig zwischen\nbeiden, unabhaengig davon, wie die Kopfleiste ihre eigene untere Kante fuehrt.\n\n2  DER SCHATTEN MALT UEBER DIE LEISTE\nMein Denkfehler im Commit davor: Ich hatte angenommen, eine deckende Leiste\nverdecke den nach oben austretenden Teil des Panel-Schattens. Das ist falsch —\ndas Panel ist ein NACHFAHRE der Leiste und wird deshalb spaeter gezeichnet.\nSein Schatten legt sich ueber die Flaeche der Leiste und dunkelt sie ab. Genau\ndas hat Frank als „die Leiste erscheint dunkler\" beschrieben, und genau\ndeshalb wirkten die beiden Flaechen verschieden, obwohl beide rgb(255,255,255)\ntragen.\n\n`clip-path: inset(0 -60px -60px -60px)` kappt den Schatten an der Oberkante\ndes Panels; die anderen drei Seiten bleiben frei. Damit faellt er nur noch\nnach unten und zur Seite — und der Verbund hat eine Erhebung, die dort\nsichtbar ist, wo sie hingehoert.\n\nDie deckende Leiste aus dem vorigen Commit bleibt trotzdem richtig: Ohne sie\nschiene der Seiteninhalt durch. Sie war nur nicht die Loesung fuer den\nSchatten.\n\nGEMESSEN\n  .panel  border-top   1px rgb(210, 212, 210)   Graphit 300\n          clip-path    inset(0px -60px -60px)\n          background   rgb(255, 255, 255)\n  .site-header background rgb(255, 255, 255)\n\nEINSCHRAENKUNG\nDie Pruefung lief mit geschlossenem Panel — im Browser ohne Fenster liess es\nsich weder per Klick noch per Zeigerereignis oeffnen. Die berechneten Werte\ngelten unabhaengig davon; die Wirkung im aufgeklappten Zustand ist damit\ngerechnet, nicht gesehen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 19,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "3705baa",
+      "datum": "2026-08-17T10:50:57+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Slate-Palette entfernt, Kopfleiste deckend",
+      "rumpf": "39 Token standen in neo-overrides.css und haben den Palettenwechsel zur\nHaelfte ausgehebelt. Die Kopfleiste ist jetzt deckend und traegt dieselbe\nFlaeche wie das Panel; der Schatten gehoert dem Verbund. 418 -> 369 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 10,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 9,
+          "minus": 58,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "2431251",
+      "datum": "2026-08-17T10:50:57+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Palettenwechsel wirklich abgeschlossen, Kopfleiste in den Verbund",
+      "rumpf": "ZUERST EINE KORREKTUR\nMeine Meldung „Website auf die monochrome Grundlage umgeschaltet\" war falsch.\nneo-overrides.css trug weiterhin einen vollstaendigen Block der alten\nSlate-Palette — 39 Token, 20 im hellen und 18 im dunklen Thema. Die Datei\nlaedt NACH styles.css, der Kommentar an der Stelle sagte das sogar\nausdruecklich: „Dieser Layer laedt zuletzt und schlaegt damit styles.css\".\n\nDie Website lief vier Tage auf einer Mischung: Graphit fuer alles, was nicht\nin diesem Block stand, Slate fuer Flaechen, Textstufen und Rahmen.\n\nWARUM MEINE PRUEFUNG DAS NICHT SAH\nZwei blinde Flecken, beide meine:\n  - Beim Aufraeumen zaehlte ich Regeln mit `.nc-`Klassen. Ein Block, der nur\n    --fnd-color-*-Token setzt, hat keine.\n  - drift-check las ausschliesslich theme-overrides.css. Die zweite\n    Klebeschicht kam nie vor.\nBeides behoben: drift-check liest jetzt beide Dateien und meldet die drei\nverbliebenen Abweichungen (Schriftgroessen mit max()-Sicherung, keine Farben).\n\nDABEI GEFUNDEN\n--fnd-color-text-accent fehlte in der Bruecke. Dadurch ueberlebte dort das\nCyan #0e7490 aus der alten Palette — an der einzigen Stelle, an der Cyan noch\nlebte. Jetzt Akzentstufe 800 (6,41 auf Weiss) bzw. 500 im dunklen Thema.\n\nSCHRITT 2 AUS DER NAVIGATIONS-VORLAGE\nDie Kopfleiste stand auf 90% Deckkraft mit backdrop-filter. Das war der Grund,\naus dem Leiste und Panel wie zwei Teile wirkten: Das Panel liegt IM Kopf und\nwirft seinen Schatten nach allen Seiten — bei durchscheinender Leiste schlaegt\ner nach oben durch sie hindurch.\n\n  --nc-nav-bg  deckend statt 90%      Leiste und Panel tragen dieselbe Flaeche\n  Kante        --nn-line-strong        border-primary (1,49) statt -secondary\n                                       (1,25) — der Wert aus der Vorschau\n  Schatten     nur am Panel            die deckende Leiste verdeckt den nach\n                                       oben austretenden Teil\n\nDamit gehoert die Erhebung dem Verbund. Der backdrop-filter entfaellt: bei\ndeckender Flaeche wirkungslos, kostet aber Leistung und erzeugt eine eigene\nEbene.\n\nGemessen: .site-header und .panel tragen beide rgb(255,255,255), die Kante\nzwischen ihnen rgb(210,212,210).\n\nNEUES WERKZEUG\nscripts/messen.js liest berechnete Stile einzelner Selektoren auf einer Seite,\nwahlweise mit aufgeklapptem Menue. Der Referenzstand deckt nur `.nc-`Klassen\nab — der Kopfbereich benutzt eigene Namen, und genau deshalb blieb der\nPalettenrest dort so lange unbemerkt.",
+      "dateien": [
+        {
+          "pfad": "scripts/drift-check.js",
+          "plus": 7,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/messen.js",
+          "plus": 112,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 6,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "a013476",
+      "datum": "2026-08-17T10:24:17+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): CSS-Sync — Link-Unterstrich auf den Markenwert",
+      "rumpf": "",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "f49d49e",
+      "datum": "2026-08-17T10:24:17+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Link-Unterstrich auf den Markenwert, Rahmen davon getrennt",
+      "rumpf": "Schritt 1 von fuenf aus der Navigations-Vorlage.\n\nNICHT DURCH UEBERSCHREIBEN, SONDERN DURCH TRENNEN\n`--accent-line` war als „Rahmen und Unterstrich\" dokumentiert und stand auf\nStufe 700 (3,91 auf Weiss). Haette ich sie einfach auf den Markenwert gesetzt,\nwaere jeder kuenftige Akzentrahmen auf 1,63 gefallen und damit unter die 3:1\naus WCAG 1.4.11.\n\nEs sind zwei Rollen:\n\n  --accent-line        Stufe 700, 3,91   RAHMEN. Macht ein Element erkennbar\n                                         und ist das einzige Zeichen dafuer.\n  --accent-underline   Stufe 500, 1,63   UNTERSTRICH unter Schrift. Sein\n                                         Signal ist, DASS er da ist.\n\nEin Strich, wo vorher keiner war, ist auch blass wahrnehmbar; den Kontrast\ntraegt die Schrift darueber (17,85 auf Weiss). Fuer einen Rahmen gilt das\nnicht — er hat keine Schrift, die fuer ihn einspringt.\n\nWer die beiden zusammenlegt, muss sich zwischen richtig und schoen\nentscheiden. Getrennt kann beides stimmen: Der Unterstrich sieht wieder nach\nLime aus statt nach Waldgruen, ohne dass ein Rahmen darunter leidet.\n\n  vorher  #009612  3,91 auf Weiss\n  jetzt   #37e93d  1,63 auf Weiss, 10,95 im dunklen Thema\n\nDer Name --fnd-color-accent-underline gilt in BEIDEN Themenfamilien: in der\nBruecke fuer .neo-*-theme, im monochromen Thema als --accent-underline. Sonst\nhaette die Regel in _mono-elements.scss, die beide Familien bedient, ins Leere\ngezeigt.\n\nKonfig-App: als semantisches Token unter „Akzent\" ergaenzt, direkt neben\nAkzentlinie — der Unterschied soll dort nebeneinander sichtbar sein.\n\nNOCH OFFEN aus derselben Vorlage: Kopfleiste und Haarlinie, Aktionsgruppe,\nRhythmus und Maszstab, Werbeflaeche. Und die Regel, WO ueberhaupt\nunterstrichen wird — heute haengt das an `a:not([class])`, und genau deshalb\nunterstreicht das Mega-Menue mit.",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 6,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 17,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_mono-elements.scss",
+          "plus": 4,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "b64dfd1",
+      "datum": "2026-08-13T16:27:47+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Logowand — die Ursache war eine Flaeche auf JEDEM Bild",
+      "rumpf": "NICHT DER FILTER WAR SCHULD\nIch hatte zweimal an den Filterwerten gedreht und beide Male ein Symptom\nbehandelt. Die Ursache stand in _mono-elements.scss, von mir zwei Commits\nzuvor als „vergessene Oberflaeche\" eingefuehrt:\n\n  img, video { background: var(--fnd-color-background-secondary); }\n\nGedacht als Platzhalter, solange nichts geladen ist. Tatsaechlich fuellt diese\nFlaeche bei JEDEM freigestellten Bild den durchsichtigen Bereich — und weil sie\nIM Element sitzt, das den Filter traegt, wird sie mitgefiltert. Aus 13\ndurchsichtigen Logos wurden 13 Kloetze: mit brightness(0) schwarz, mit\nbrightness(0.4) dunkelgrau, im dunklen Thema weiss.\n\nFrank hat es an der richtigen Stelle gesehen: Beim Ueberfahren schaltet der\nFilter ab, und dann steht die Flaeche unveraendert da — „nicht mehr transparent\nbzw. reinweiss\". Genau das war sie.\n\nEin Platzhalter gehoert an den BEHAELTER, nicht an das Bild. Nur dort laesst er\nsich vom Bild selbst unterscheiden. Die Regel ist ersatzlos raus.\n\nGEMESSEN STATT ANGENOMMEN\nAlle 13 Logos einzeln ausgewertet (PNG entpackt, Filterbytes rueckgerechnet):\n71-95% durchsichtig, 0% Weissflaeche. Die Behauptung im alten Kommentar stimmte\nalso — nur half sie nicht, weil die Flaeche nicht aus der Datei kam.\n\nMittlere Helligkeit der Marken: 9 der 13 dunkel (38-108), 3 mittel, eine hell\n(DRV, 173).\n\nFILTER JETZT SO, WIE ES GEMEINT WAR\n  hell    grayscale(100%)              nur entsaettigen, sonst nichts\n  dunkel  grayscale(100%) invert(1)    dunkle Marken werden hell\n  hover   none                         volle Farbe\n\nDurchsichtige Bildpunkte bleiben durchsichtig — ein Filter kann sie nicht\neinfaerben. Damit ist die Pille wieder das, was sie sein soll: die Flaeche,\nund das Logo liegt darauf.\n\nEINSCHRAENKUNG, DIE BLEIBT\nDas DRV-Logo ist mit 173 das einzige helle. Im dunklen Thema kehrt invert(1)\nes nach unten, es steht dann dunkel auf dunkler Pille. Fuer 12 der 13 ist die\nUmkehrung richtig; dieses eine braucht eine eigene Fassung oder eine hellere\nDatei. Nicht heimlich mit einer Pauschalregel ueberdeckt.",
+      "dateien": [
+        {
+          "pfad": "scss/scss/03-elements/_mono-elements.scss",
+          "plus": 10,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_logo-wall.scss",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "a928d1a",
+      "datum": "2026-08-13T16:12:48+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): vier Korrekturen aus der Sichtpruefung",
+      "rumpf": "1  HERO-DACHZEILE ZURUECKGENOMMEN\nSie trug seit der Komponenten-Aufnahme eine Lime-Flaeche mit dunkler Schrift.\nDer Messstand belegt den Verlauf: im Stand „vorher\" durchsichtig mit weisser\nSchrift, ab „kontrolle-rueckbau\" Lime. Das war einer der Faelle, zu denen Frank\ndamals sagte, er koenne ohne visuelle Pruefung nicht entscheiden — jetzt hat\ner sie gesehen. Zurueck auf freistehend.\n\nSachlich ist das auch stimmiger: Der Akzent markiert die eine HANDLUNG. Eine\nDachzeile ordnet ein, sie ruft nicht auf, und ein Etikett an dieser Stelle\nnimmt dem Knopf darunter die Aufmerksamkeit.\n\n2  LOGOWAND: SILHOUETTE -> BINNENSTRUKTUR\n`brightness(0)` legt jede nicht-transparente Flaeche auf EINE Farbe. Der\nKontrast stimmte damit, aber jedes Logo wurde zu einem schwarzen Klotz — im\ndunklen Thema zu einem weissen. Genau so sah es auf der Website aus.\n\n`brightness(0.4)` MULTIPLIZIERT statt zu klemmen: Schwarz bleibt schwarz,\nWeiss wird mittelgrau, der Abstand zwischen hell und dunkel bleibt in voller\nBreite. Aussparungen und Binnenformen sind wieder zu sehen.\n\n  dunkelste Stelle auf Weiss  21,0:1     hellste  5,7:1\n  dunkles Thema: dieselbe Normalisierung, danach invert(1) — der Bereich\n  0-0,4 kippt geschlossen auf 0,6-1,0, hell genug und mit gleichem Abstand.\n  hellste 17,9:1, dunkelste 6,3:1\n\nDamit ist auch der Grund weg, aus dem die frueheren Fassungen scheiterten:\nein blosses Aufhellen liess dunkle Logos dunkel (1,87:1), eine Deckkraft-\nAbschwaechung mischte die Marke mit dem Untergrund (1,7-3,0:1).\n\n3  SECTION-HEADER-LABEL\nFarbe von der Akzentfarbe auf Graphit 800 (9,98:1), Fettung auf 800. Eine\nBereichsbezeichnung ordnet ein statt aufzurufen. Graphit 800 statt 950,\ndamit sie als GRAU lesbar bleibt und sich von der Ueberschrift darunter\nunterscheidet.\n\n4  KARTEN-SYMBOL\n--nc-card-summary-icon-size von 32px auf 60px, ueber das vorgesehene Token\nund ohne festen Wert im Bauteil. Farbe auf dasselbe Graphit 800 wie das Label\n— beide sind Einordnung, nicht Aufruf.\n\nKONFIG-APP NACHGEZOGEN\nAcht Token. Bei vieren musste der `ref`-Eintrag weichen: Sie verwiesen auf\n`background-accent` bzw. `text-accent`, und ohne das Entfernen haette die App\nweiter den Akzent angezeigt, waehrend das CSS laengst einen festen Wert fuehrt.",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 8,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 8,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 21,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_logo-wall.scss",
+          "plus": 38,
+          "minus": 23,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "9064aa7",
+      "datum": "2026-08-13T15:28:04+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): CSS-Sync nach Aktivierung der Element-Stile",
+      "rumpf": "",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "14ac965",
+      "datum": "2026-08-13T15:28:04+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Element-Stile greifen jetzt auch auf der Website",
+      "rumpf": "MEIN FEHLER, GEMELDET ALS ERLEDIGT\n_mono-elements.scss war auf `.neo-mono-*` begrenzt. Die Website laeuft aber\nunter `.neo-light-theme`. Damit waren Links, Fokusring, Textmarkierung,\nBildlaufleisten, Autofill, ::marker, hr und mark im Design System geloest —\naber auf der Website NICHT aktiv. Ich hatte sie als erledigt gemeldet.\n\nDer Geltungsbereich umfasst jetzt beide Themenfamilien. Die Regeln sprechen\ndabei die `--fnd-*`-Namen aus der Bruecke an, nicht die kurzen Rollennamen aus\n_mono-theme.scss — die gibt es unter `.neo-*-theme` nicht, und ein var() ins\nLeere waere still gescheitert.\n\nLINKS NUR OHNE KLASSE\nEine globale `a`-Regel haette die Navigation und die 21 Fusszeilen-Links\nunterstrichen. Auf der Website tragen Navigation, Fusszeile und Knoepfe alle\neine Komponentenklasse; ein Link OHNE Klasse ist ein Fliesstext-Link. Deshalb\n`a:not([class])` statt einer Ausschlussliste, die man laufend pflegen muesste.\n\nGemessen nach der Aktivierung: 9464 Paare, 0 neu durchgefallen.",
+      "dateien": [
+        {
+          "pfad": "scss/scss/03-elements/_mono-elements.scss",
+          "plus": 24,
+          "minus": 24,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "1482580",
+      "datum": "2026-08-13T15:14:32+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(theme): Icons in Cards wurden nicht angezeigt",
+      "rumpf": "Die Icons der Card-Bauteile kommen aus der Icon Library und werden per fetch\nnachgeladen. Der Basispfad stammte aus drupalSettings.path.themeDirectory —\ndort steht er nicht in jedem Rendering-Kontext zur Verfuegung, und der fetch\nlief dann ins Leere.\n\nDer Pfad wird jetzt aus dem src-Attribut des eigenen Script-Tags abgeleitet.\nDas Skript weiss immer, woher es selbst geladen wurde. drupalSettings bleibt\nals Rueckfallebene.\n\nAenderung von Frank, nebenlaeufig zur Farbumstellung entstanden.",
+      "dateien": [
+        {
+          "pfad": "js/neo-theme.js",
+          "plus": 5,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "46b0d11",
+      "datum": "2026-08-13T14:59:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf d0d5988 hochziehen",
+      "rumpf": "Enthaelt die Umschaltung auf die monochrome Farbgrundlage. Ohne diesen Schritt\nsetzt ein composer install das Theme auf df197e5 zurueck — dann waeren die\ngeleerten theme-overrides.css und damit die ganze Umstellung wieder weg.",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "d0d5988",
+      "datum": "2026-08-13T14:51:51+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): CSS-Sync nach dem Formularrahmen-Fix",
+      "rumpf": "",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "07f25be",
+      "datum": "2026-08-13T14:51:51+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(ds): Formularrahmen auf border-control, Pruefung erweitert",
+      "rumpf": "EIN VERSTOSS, DEN MEINE EIGENE PRUEFUNG NICHT SAH\nkontrast-pruefen.js verglich nur Schrift gegen Flaeche. Rahmen blieben aussen\nvor — und genau dort lag ein Verstoss: --nc-form-control-border-color zeigte\nauf --fnd-color-border-primary, also auf die LEISE TRENNLINIE (Graphit 300,\n1,49:1). WCAG 1.4.11 verlangt fuer den Rand, der ein Eingabefeld ueberhaupt\nerkennbar macht, 3:1.\n\nDas ist genau die Luecke, die im Kopf von _mono-bridge.scss steht: Die Bruecke\nkann keine Rolle erfinden, die es vorher nicht gab. Es GAB keinen Bedienrahmen,\nalso konnte sie ihn auch nicht zuordnen.\n\n  --fnd-color-border-control   hell Graphit 500 (3,11), dunkel 600 (3,83)\n  --nc-form-control-border-color zeigt jetzt darauf\n\nEin Token traegt alle: input, textarea, select und die Auswahlfelder ziehen\ndarueber.\n\nPRUEFUNG ERWEITERT\nnpm run kontrast prueft jetzt auch Bedienrahmen gegen 3:1. Die Messung weiss\nnicht, was ein Bedienelement IST — der Klassenname ist der beste verfuegbare\nAnhaltspunkt, deshalb wird nur geprueft, was eindeutig eines ist. Alles andere\nwaere Raterei und wuerde die Liste mit dekorativen Raendern fluten.\n\n  9422 Paare (444 mehr als vorher, das sind die Rahmen)\n  0 Rahmenverstoesse\n  0 neu durchgefallen, 4 behoben",
+      "dateien": [
+        {
+          "pfad": "scripts/kontrast-pruefen.js",
+          "plus": 36,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 4,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "3617e90",
+      "datum": "2026-08-13T14:23:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Farbtoken aus theme-overrides.css entfernt",
+      "rumpf": "112 Token hielten die Website auf der alten Cyan-Palette. Sie kommen jetzt aus\ndem Design System. Diese Datei laedt NACH styles.css — was hier steht, gewinnt.\nSie muss deshalb frei von Farbtoken bleiben, sonst ist die Umstellung still\nwieder weg. 141 -> 3 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "assets/icons/brand-speedtest.svg",
+          "plus": 15,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "assets/icons/color-swatch.svg",
+          "plus": 17,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "assets/icons/database-smile.svg",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "assets/icons/heart-handshake.svg",
+          "plus": 17,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/theme-overrides.css",
+          "plus": 5,
+          "minus": 137,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-theme.js",
+          "plus": 17,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "21bba8e",
+      "datum": "2026-08-13T14:23:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Website auf die monochrome Grundlage umgeschaltet",
+      "rumpf": "Graphit traegt, Lime unterbricht. Cyan und Dunkelblau haben ihre semantischen\nRollen abgegeben und bestehen nur noch als Primitives.\n\nDER WEG: EINE BRUECKE STATT HUNDERT UMBAUTEN\nDie 71 --fnd-color-*-Token sind ueber mehr als hundert Bauteile verteilt. Sie\nalle umzuschreiben waere ein Umbau von Wochen ohne Gegenwert — die Bauteile\nsprechen bereits eine semantische Sprache, sie zeigte nur auf die falschen\nWerte. _mono-bridge.scss zeigt sie auf die richtigen.\n\nDazu musste theme-overrides.css geleert werden: 112 Farbtoken standen dort und\nhaben die Website auf der alten Palette gehalten. Die Datei laedt NACH\nstyles.css — was dort steht, gewinnt. Sie muss frei von Farbtoken bleiben,\nsonst ist die Umstellung still wieder weg.\n\nNEUE PRUEFSCHRANKE, WEIL DIE ALTE HIER NICHTS TAUGT\nBei einer gewollten Farbumstellung aendert sich alles; baseline:diff wird damit\nsinnlos. npm run kontrast beantwortet stattdessen „ist es noch zulaessig\" und\nrechnet jedes gemessene Vorder-/Hintergrund-Paar gegen WCAG AA, mit dem\nrichtigen Grenzwert je Schriftgroesse und -staerke.\n\n  8978 Paare geprueft\n  0 neu durchgefallen, 4 behoben\n  2 Altfaelle bleiben (Parallaxe-Dekoration ohne sichtbaren Text)\n\nDie Pruefung weist Paare mit durchsichtigem Grund GETRENNT als „ungeklaert\"\naus (264 Bauteile) statt sie stillschweigend als bestanden zu verbuchen.\n\nEIN BEFUND, DER OHNE DIE PRUEFUNG DURCHGERUTSCHT WAERE\n.nc-event__tag--type nahm eine INTERAKTIVE Flaeche mit einer AKZENT-Schriftfarbe.\nDas ging gut, solange beide dasselbe Cyan waren — mit getrennten Rollen fiel die\nPaarung auf 1,32 und die Schrift verschwand. Ein Gattungsetikett ist weder\nAkzent noch Bedienung; es traegt jetzt die Umkehrflaeche.\n\nAKZENTLEITER AUF DIE 500-KONVENTION GEZOGEN\nIch hatte den Markenwert zunaechst auf Stufe 300 gelegt. Ueberall sonst im\nSystem ist 500 der Basiswert, und die Konfig-App fuehrte ihn auch dort — zwei\nZaehlweisen nebeneinander waeren genau die Drift, die wir gerade beseitigt\nhaben. Jetzt 500 in SCSS UND in design-tokens.json.\n\nEbenso angeglichen: --border-strong hiess in der Konfig-App border-emphasis,\nund der Erfolgswert stand in Thema und Bruecke unterschiedlich.\n\nDIE GANZE STRECKE BEDIENT\n  Design System   _neutral-ramps, _mono-theme, _mono-bridge, _mono-elements\n  Konfig-App      5 Leitern unter primitives, 5 semantische Gruppen\n                  (Flaechen, Akzent, Rahmenrollen, Erhebung, Fokus)\n  Dokumentation   FARB-FOUNDATION.md\n  Storybook       stories/foundations/mono-foundation.stories.js, 6 Stories\n\nDer Recipe-Lint meldet unveraendert 284 Fehler — vor wie nach der Aenderung\nderselbe Altbestand.",
+      "dateien": [
+        {
+          "pfad": "FARB-FOUNDATION.md",
+          "plus": 195,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 218,
+          "minus": 21,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-config.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AccordionArena-Cp74HTjn.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertArena-Bz4S0Ovq.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertDialogArena-Dj-m1LOR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AvatarArena-D7Yj1M7Q.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BadgeArena-BTfrby_L.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BannerArena-mpR4sREo.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BreadcrumbArena-DmjquzZr.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ButtonArena-1fe3xmSD.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CardArena-Rm74vD4h.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CheckboxArena-iKPeh2Ye.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ChipArena-BZWXWTlL.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CodeSnippetArena-BGPSsOKn.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ContainerArena-BZKFsHuW.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DataTableArena-D8szjHaK.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DrawerArena-q_h_zdaQ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DropdownMenuArena-CqLyfnGw.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FieldsetArena-C2PeWfAs.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormFieldArena-D--eriB2.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormLayoutArena-CkBn6o2D.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "GridArena-CI4_6nAV.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "HeroArena-1rdMOX8i.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputArena-CwkteYp3.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputGroupArena-CzXqjJU0.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ItemArena-CLtCk1Mp.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "LabelArena-BtSjD7qu.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "MetricArena-CQOJVNJh.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ModalArena-BL94P6NK.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationArena-CFwIobG8.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationMenuArena-DzdoyvsN.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NotificationArena-NB8dUknu.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PaginationArena-DeNudHFt.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PopoverArena-Eebe3tn9.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ProgressArena-CrrqcbHf.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PsychedelicBgArena-RNjoQreo.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RadioArena-BF_V2rYx.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RatingArena-CN-MQHpC.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RecipeSpecimenArena-DR1UTroT.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SearchArena-DA77g7I-.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SectionArena-QlD2Ozu7.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SegmentedControlArena--xF0gDdJ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SelectArena-CsFuII8n.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ShellArena-mHrkWFQU.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SidebarArena-Bhf2grWP.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SkeletonArena-BZJ5I5as.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SliderArena-C6CeZWq5.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SpinnerArena-Dis9SVcT.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "StatusArena-C5-4WY-9.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SwitchArena-BU8YCQS_.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TableArena-B9diwCSG.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TagArena-csaTDSz_.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TextareaArena-cwc2-dHj.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToastArena-CCVrKS-y.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToggleGroupArena-xNfWiKCJ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToolbarArena-BxXehAz8.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TooltipArena-DGtZSRd5.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TreeviewArena-OFXOGCxt.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-Be0AmNzM.css",
+          "plus": 0,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-CRxsojaq.css",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "index-Ddk9OBqh.js",
+          "plus": 3,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "useArenaHighlight-DeBlWFPM.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "config/theme-configurator/index.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 283,
+          "minus": 21,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/kontrast-pruefen.js",
+          "plus": 156,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_index.scss",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 237,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 13,
+          "minus": 13,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_neutral-ramps.scss",
+          "plus": 13,
+          "minus": 10,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_event.scss",
+          "plus": 7,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "stories/foundations/mono-foundation.stories.js",
+          "plus": 200,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "2b7ceaa",
+      "datum": "2026-08-13T13:00:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore(theme): CSS-Sync nach der monochromen Grundlage",
+      "rumpf": "Rein additiv — das neue Thema greift nur bei .neo-mono-*. Gemessen: keine\nAbweichung.",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "a897e89",
+      "datum": "2026-08-13T13:00:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): monochrome Farbgrundlage — vier Neutralleitern, Akzent, Flaechen",
+      "rumpf": "NEBEN dem bestehenden Thema, nicht an seiner Stelle. :root, .neo-light-theme\nund .neo-dark-theme bleiben unberuehrt; die Website faerbt sich nicht um,\nsolange niemand .neo-mono-* setzt. Gemessen: keine Abweichung ueber 28774\nWerte. Die Umstellung wird ein eigener, messbarer Schritt.\n\n00-settings/_neutral-ramps.scss\n  Graphit (fuehrend), Blau, Beige, Salbei — je 11 Stufen, dazu die\n  Akzentleiter. Alle in OKLCH gerechnet und auf sRGB begrenzt, wobei die\n  Buntheit VERKLEINERT statt abgeschnitten wird: sonst verschiebt sich der\n  Farbton.\n\n  Der Punkt der ganzen Konstruktion: alle vier Neutralleitern haben stufenweise\n  DIESELBEN Helligkeiten. Ein Bereich, der auf Beige umschaltet, behaelt\n  saemtliche Kontrastwerte — die Barrierefreiheit muss nicht neu geprueft\n  werden. Das gilt aber nur, solange Bauteile die Stufennummer ansprechen und\n  nicht den Hexwert.\n\n00-settings/_mono-theme.scss\n  .neo-mono-light / .neo-mono-dark, Leiterwechsel ueber data-neutral.\n\n  Flaechen: Modell C (Buehne + Karte) fuer die Website, Modell A (Ebenen) fuer\n  die Anwendung. Die ersten beiden Ebenen sind mit C identisch, deshalb waechst\n  die Website spaeter hinein, ohne dass etwas umbenannt werden muss.\n\n  Erhebung als EIGENE ACHSE. Flaeche sagt „worauf liege ich\", Erhebung „wie\n  hoch schwebe ich darueber\". Ein Hover-Zustand aendert die Erhebung und nicht\n  die Flaeche. Genau deren Vermischung machte den alten Satz unbrauchbar.\n\n  Rahmen in zwei Rollen: border-subtle gliedert und darf blass sein,\n  border-control macht ein Bedienelement erkennbar und erfuellt 3:1 in BEIDEN\n  Themen. WCAG 1.4.11 verlangt die 3:1 nur fuer das zweite — mit einem einzigen\n  Token wird entweder die Trennlinie zu hart oder das Eingabefeld zu blass.\n\n  accent / interactive / feedback getrennt. Ohne diese Trennung faerbt ein\n  Kunde, der in der Konfig-App seine Akzentfarbe waehlt, versehentlich jede\n  Schaltflaeche im System ein — und nachziehen laesst es sich spaeter nicht,\n  weil dann nicht mehr feststellbar ist, welches Bauteil welche Absicht hatte.\n\n  ERFOLG IST NICHT MEHR GRUEN. Bei Rot-Gruen-Sehschwaeche liegt ein Erfolgsgruen\n  0,4 Grad vom Markenlime entfernt — simuliert nach Vienot/Brettel/Mollon,\n  beide werden zu demselben Gelb. Petrol #00818c liegt 175 Grad entfernt.\n  Eine Marke, deren Zeichen gruen ist, kann Gruen nicht nebenbei als\n  Systemfarbe verbrauchen.\n\n03-elements/_mono-elements.scss\n  Links: Textfarbe, Fettung 550, abgesetzter Unterstrich im Akzent, dicker\n  statt bunter beim Ueberfahren. Der Akzent ist hier NICHT die Schriftfarbe —\n  der Markenwert erreicht als Schrift auf Weiss 1,63. Der Unterstrich ist kein\n  Text, fuer ihn gelten 3:1, und accent-line erfuellt sie mit 4,58.\n\n  Fokus zweischichtig: innen dunkel, aussen hell. Ein einfarbiger Ring muesste\n  auf JEDER Flaeche 3:1 erreichen, auch auf dem Akzentknopf — das schafft keine\n  einzelne Farbe. Auf sechs Gruenden gemessen, immer mindestens 10,9:1 auf\n  einer der beiden Schichten.\n\n  Die sieben vergessenen Oberflaechen: ::selection, Bildlaufleisten, Autofill\n  (ueber einen 1000px-Innenschatten, weil background-color dort ignoriert\n  wird), ::marker, hr, mark, Bildplatzhalter. theme-color und die zwei\n  Reitersymbole gehoeren ins Twig-Template und stehen als Anweisung im Kopf\n  der Datei.\n\n  Kontrastmodus (forced-colors): bewusst NICHT auf .neo-mono-* begrenzt. Er\n  greift nur bei aktivem Modus und ist eine Zugaenglichkeitsanforderung, die\n  auch fuer die heutige Website gelten soll. Der zweischichtige Fokusring\n  funktioniert dort nicht — box-shadow wird verworfen —, deshalb ein\n  Systemring.",
+      "dateien": [
+        {
+          "pfad": "scss/scss/00-settings/_index.scss",
+          "plus": 6,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 203,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_neutral-ramps.scss",
+          "plus": 127,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_mono-elements.scss",
+          "plus": 198,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "b6f1d0a",
+      "datum": "2026-08-13T09:49:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs: Altbestand von 99 Validator-Fehlern festhalten; Konfigurator-Bundle",
+      "rumpf": "",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "5a9dd7c",
+      "datum": "2026-08-13T09:49:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(configurator): 24 Komponenten und 992 Tokens nachgetragen",
+      "rumpf": "Die Konfig-App fuehrt jetzt 101 statt 77 Komponenten mit 2143 Reglern. Damit\nist jede Komponente, die eigene --nc-*-Tokens hat, fuer ein Kundendesign\nerreichbar.\n\nWARUM EIN NEUES WERKZEUG STATT `npm run tokens:sync -- --fix`\nDas vorhandene schreibt in apps/theme-configurator/src/data/tokens.generated.js.\nDiese Datei erzeugt `npm run tokens` aus data/design-tokens.json NEU — ein\nNachtrag dort ist beim naechsten Token-Build wieder weg. konfig-nachtragen.js\nschreibt deshalb in die Quelle.\n\n  npm run konfig:nachtragen                Vorschau\n  npm run konfig:nachtragen -- --schreiben\n  npm run konfig:nachtragen -- gallery --schreiben\n\nWAS ES ABLEITET\nAus dem Tokennamen und seinem Wert: Typ (color/size/spacing/radius/shadow/\nfontWeight/opacity/duration/generic), Beschriftung, Dunkel-Standard aus einem\n.neo-dark-theme-Block, und eine Untergruppe. Die Untergruppen sind eine\nABLEITUNG, kein Entwurf — aber eine flache Liste mit 50 Reglern (gallery) waere\nunbenutzbar. Bestehende Gruppen bleiben unangetastet; nachgetragen wird nur,\nwas fehlt.\n\nZWEI FEHLER, DIE DER VALIDATOR GEFANGEN HAT\nDer erste Lauf erzeugte 22 zusaetzliche Fehler:\n\n  1 Dubletten. Ich hatte nur INNERHALB der Zielgruppe geprueft. `nc-icon-button-*`\n    gehoert von Hand zur Button-Gruppe, meine Praefix-Zuordnung haette sie\n    zusaetzlich einer Gruppe `icon-button` gegeben. Jetzt global.\n\n  2 Tote Verweise. `var(--fnd-color-surface-elevated)` sieht aus wie eine\n    Referenz, aber `surface-elevated` gibt es als semantisches Token nicht.\n    Jetzt wird nur verwiesen, wenn das Ziel existiert — sonst der Wert.\n\nDanach: exakt die 99 Fehler, die der Validator VOR dieser Aenderung schon\nmeldete. Kein einziger neuer. Der Altbestand steht im BACKLOG.\n\nKEINE WIRKUNG AUF DIE WEBSITE\ndesign-tokens.css und styles.css sind unveraendert — Komponentengruppen\nerzeugen kein CSS. Deshalb keine Messung noetig.\n\nAusserdem: component-registry.json neu erzeugt, damit section-header, text-cta,\nbadge-row, media-frame und content ueberhaupt in der Navigation erscheinen.\nBundle gebaut.",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 13113,
+          "minus": 3920,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-config.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AccordionArena-CEj_HIxp.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertArena-DWgTZLSu.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertDialogArena-D19fMXqn.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AvatarArena-DNxq1WmI.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BadgeArena-tdo2x8N9.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BannerArena-bltGKMQN.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BreadcrumbArena-DH48fXqc.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ButtonArena-CKyqf9Gb.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CardArena-Be9GE5Ft.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CheckboxArena-DMHazzTo.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ChipArena-BmhBsDYW.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CodeSnippetArena-egfpDwDk.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ContainerArena-UglULl-6.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DataTableArena-C7QenCEG.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DrawerArena-BNU12KDS.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DropdownMenuArena-CK60nZOV.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FieldsetArena-k8vOoLyv.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormFieldArena-D0ea5JCY.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormLayoutArena-CsJV0mM1.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "GridArena-BKsi2FwK.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "HeroArena-Bj-NHPPY.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputArena-Be33pmqQ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputGroupArena-zWEv3_Rq.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ItemArena-CCphdUhO.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "LabelArena-DDjf9nCy.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "MetricArena-BitxIijC.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ModalArena-yqc8RGQV.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationArena-CS3zhs5e.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationMenuArena-CZdV6cwy.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NotificationArena-D0ySYVYf.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PaginationArena-CzNqqQ2E.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PopoverArena-DnvhmXNj.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ProgressArena-Bo8mVsKR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PsychedelicBgArena-Caws4sF8.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RadioArena-BAfVlAl_.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RatingArena-D_lOhLGj.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RecipeSpecimenArena-B92yKAho.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SearchArena-B8NWqwU4.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SectionArena-BHkpBQ_l.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SegmentedControlArena-BjLOtXQI.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SelectArena-CZcXMeT1.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ShellArena-DxlVaFnj.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SidebarArena-zQl0tCOh.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SkeletonArena-CAGgFiRD.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SliderArena-SZvHqlce.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SpinnerArena-B4iamzks.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "StatusArena-DfAU5DDy.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SwitchArena-B2LXQWzY.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TableArena-CT7y1Zvm.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TagArena-BqkL0SVp.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TextareaArena-Cru5k-G1.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToastArena-ppBE3P6r.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToggleGroupArena-BU1KOikw.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToolbarArena-DNQFpl8S.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TooltipArena-DuWHWPbR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TreeviewArena-D3SLjOtr.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-Be0AmNzM.css",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-CVsouELG.js",
+          "plus": 32,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-Dgz-p2Bv.js",
+          "plus": 0,
+          "minus": 22,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-j0Q5jn7q.css",
+          "plus": 0,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "useArenaHighlight-B9P-ehmu.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "config/theme-configurator/index.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/component-registry.json",
+          "plus": 1098,
+          "minus": 163,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 12997,
+          "minus": 4593,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/konfig-nachtragen.js",
+          "plus": 239,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "411a691",
+      "datum": "2026-08-13T09:41:37+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf df197e5 hochziehen",
+      "rumpf": "Sonst setzt ein composer install das Theme auf 12b1fe3 zurueck und die\nKomponenten-Aufnahme waere weg.",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "df197e5",
+      "datum": "2026-08-13T09:32:42+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): .nc-content-Regeln entfernt",
+      "rumpf": "In der Loeschliste des vorigen Commits vergessen — die Regeln standen doppelt,\nim DS und im Theme, und die Theme-Fassung gewann weiter. 433 -> 418 Zeilen.\nGemessen: keine Abweichung.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 0,
+          "minus": 15,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "0565131",
+      "datum": "2026-08-13T09:23:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs: Namenskollision feature-list, form-error-Entscheidung, Konfig-Luecke",
+      "rumpf": "",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 47,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "b6c1480",
+      "datum": "2026-08-13T09:23:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): letzte 15 Komponenten ans Design System abgegeben",
+      "rumpf": "neo-overrides.css von 563 auf 433 Zeilen, 31 Regeln. Keine Komponente ist mehr\nnur auf der Website. Gemessen: keine Abweichung.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 0,
+          "minus": 130,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "53b0c36",
+      "datum": "2026-08-13T09:23:21+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): letzte 15 Komponenten aufgenommen — Klebeschicht ist leer",
+      "rumpf": "Damit ist KEINE Komponente mehr nur auf der Website. neo-overrides.css von\n3896 auf 433 Zeilen, von 651 auf 31 Regeln.\n\nVON HAND STATT MIT DEM GENERATOR\nDiese 15 fuehrt das DS bereits — jede Klasse hat dort schon eine Datei. Der\nGenerator haette eine ZWEITE auf einer anderen Ebene angelegt; je nach\nLadeplatz haette dann die eine oder die andere Fassung gewonnen. Genau daran\nist der letzte Stapel gescheitert. Die Regeln stehen deshalb in der Datei, die\ndie Klasse schon fuehrt.\n\n  section, grid, content   04-objects      (content neu angelegt)\n  button                   05-atoms\n  card, form-field, form-label, nav-molecules   06-molecules\n  navigation, gallery, hero-tmob, product-showcase, solution-tabs  07-organisms\n\nZWEI STELLEN, DIE MEHR ALS EINEN UMZUG BRAUCHTEN\n\n.nc-feature-list — der Blocktyp hatte KEINE eigene Wurzelregel. Seine gesamte\nGrundgestaltung kam versehentlich aus _pricing.scss, wo die Merkmalsliste einer\nPreiskarte genauso heisst, aber ein <ul> ist. Deren `padding: 0` nahm dem Block\ndie Abschnittspolsterung; solange neo-overrides.css zuletzt lud, gab die\nTheme-Regel sie zurueck. Die Messung zeigte es als 36 Abweichungen in 6\nKomponenten. Der Block setzt seine Werte jetzt selbst. Die Umbenennung einer\nder beiden Komponenten steht im BACKLOG — das hier ist die Absicherung.\n\n.nc-product-showcase — die Breitenbegrenzung ab xxl setzte max-width OHNE die\n--mod-Stufe. Bisher unsichtbar, weil die Theme-Regel auch dort gewann. Nach dem\nUmzug haette eine einzeln gesetzte Breite ab xxl wieder auf den Standard\nzurueckgefallen. Angeglichen.\n\nSIEBEN OHNE MESSSCHUTZ, GEPRUEFT\nbrand, form-error, gallery, hero-tmob, mobile-toggle, product-showcase und grid\nkommen auf KEINER der 71 gemessenen Seiten vor. Ihre Theme-Regeln waren toter\nCode; der Umzug ist auf der Website ohne Wirkung. Sie gehoeren trotzdem ins DS,\nweil das Produkt sie braucht.\n\n.nc-form-error ist der einzige Fall, in dem NICHT die Website fuehrt: sie hatte\ndazu nichts zu sagen. Begruendung im BACKLOG.\n\nREMINDER ERWEITERT\nnpm run drift:check zaehlt jetzt eine vierte Zahl: 21 DS-Komponenten haben\neigene Tokens, aber keine Gruppe in components.groups. Ihre Tokens existieren,\ndoch im Konfigurator kann sie niemand setzen — fuer ein Kundendesign sind sie\nunsichtbar. Das ist die naechste Luecke zwischen dem heutigen Stand und dem\nZiel „alles steht in der Konfig-App\".\n\nGemessen: keine Abweichung ueber 28774 Werte in 322 Komponenten.",
+      "dateien": [
+        {
+          "pfad": "scripts/drift-check.js",
+          "plus": 32,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/04-objects/_content.scss",
+          "plus": 32,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/04-objects/_grid.scss",
+          "plus": 27,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/04-objects/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/04-objects/_section.scss",
+          "plus": 29,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_button.scss",
+          "plus": 12,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card.scss",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_form-field.scss",
+          "plus": 22,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_form-label.scss",
+          "plus": 14,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_nav-molecules.scss",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_feature-list.scss",
+          "plus": 25,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_gallery.scss",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero-tmob.scss",
+          "plus": 13,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_navigation.scss",
+          "plus": 12,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_product-showcase.scss",
+          "plus": 13,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_solution-tabs.scss",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "98da940",
+      "datum": "2026-08-13T08:37:15+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): 28 Restkomponenten ins Design System abgegeben",
+      "rumpf": "10 Komponenten und 18 Hilfsklassen. neo-overrides.css von 758 auf 562 Zeilen.\nGemessen: keine Abweichung.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 20,
+          "minus": 216,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "ae25b54",
+      "datum": "2026-08-13T08:37:15+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): 28 Restkomponenten aufgenommen, Vorabpruefung auf Risiken",
+      "rumpf": "npm run risiko -- --alle\nPrueft VOR der Aufnahme auf die drei Ursachen, die beim letzten Stapellauf zu\nRegressionen gefuehrt haben:\n  1 Ebenen-Doppelung   Das DS fuehrt die Komponente auf einer ANDEREN Ebene;\n                       eine tiefer angelegte Datei laedt frueher und verliert.\n                       So geschehen bei form-label, form-error, form-field,\n                       gallery.\n  2 Geteilter Klassenname  Eine andere DS-Komponente gestaltet dieselbe Klasse.\n                       Beim Blocktyp .nc-feature-list und der Merkmalsliste in\n                       _pricing.scss teilten sich beide sogar die Grundregel.\n  3 Reihenfolgen-Abhaengigkeit  Die Regel gewinnt nur, weil neo-overrides.css\n                       zuletzt laedt.\n\nErgebnis: 30 unauffaellig, 13 zu pruefen. Angewendet wurden die 27\nunauffaelligen ohne die drei Layout-Objekte (section, grid, content) — die\nwaren gestern die Ursache und bekommen eine eigene Runde.\n\n  10 Komponenten   05-atoms bis 07-organisms\n  18 Hilfsklassen  10-utilities (cw-*, type-*, sr-only), bewusst OHNE\n                   Konfigurator-Eintrag: keine Komponenten, die ein Kunde\n                   einzeln thematisieren wuerde\n\nMESSGERUEST GEHAERTET\nDer erste Durchgang meldete 19 verschwundene Komponenten. Ursache war KEINE\nRegression, sondern ein Messausfall: /node/51 kam einmal leer zurueck und\nnahm ihre 19 Komponenten mit. Die Seite laedt einwandfrei (57 KB, alle Klassen\nvorhanden). Das Geruest wiederholt leere Seiten jetzt bis zu dreimal — ohne\ndas erzeugt jede langsame Seite Phantom-Befunde.\n\nNach der Haertung gemessen: keine Abweichung ueber 28774 Werte.\nneo-overrides.css von 758 auf 562 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/aufnahme-risiko.js",
+          "plus": 124,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/baseline.js",
+          "plus": 13,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_form-hp.scss",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_index.scss",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_tbl-icon.scss",
+          "plus": 19,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_breadcrumb-section.scss",
+          "plus": 24,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card-grid-cq.scss",
+          "plus": 15,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card-grid-cta.scss",
+          "plus": 31,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_index.scss",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_section-intro.scss",
+          "plus": 36,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_accordion-block.scss",
+          "plus": 47,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_bento-section.scss",
+          "plus": 15,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_block-bundle.scss",
+          "plus": 26,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_card-grid-section.scss",
+          "plus": 16,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/10-utilities/_content-width.scss",
+          "plus": 31,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/10-utilities/_index.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/10-utilities/_sr-only.scss",
+          "plus": 13,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/10-utilities/_type-utilities.scss",
+          "plus": 51,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "8e39f5b",
+      "datum": "2026-08-13T08:12:27+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(backlog): ESM/CommonJS-Bruch an drei Stellen festhalten",
+      "rumpf": "package.json deklariert type: module, drei .js-Dateien werden aber per\nrequire() geladen. Folge: npm run build bricht ab (sync-tabler-icons.js) und\nder Recipe-Linter kann seinen Schema-Validator nicht laden\n(validate-recipe-schema.js). Beides faellt still aus.\n\nAm 13.08. beim Erzeugen der Storybook-Stories aufgefallen.",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "b8afdef",
+      "datum": "2026-08-13T08:10:18+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Storybook-Stories fuer die aufgenommenen Komponenten",
+      "rumpf": "npm run recipe -- <name> [--alle] [--schreiben]\nLeitet ein Recipe aus dem SCSS-Partial einer aufgenommenen Komponente ab:\n  .nc-<name>             -> anatomy.root\n  .nc-<name>__<slot>     -> anatomy.slots\n  .nc-<name>--<variante> -> axes\n  --nc-<name>-*          -> styling.tokens\nDaraus baut der vorhandene Generator (npm run generate:stories) die Story.\n\n14 Recipes geschrieben, 11 vorhandene UNANGETASTET: die sind von Hand gepflegt\nund deutlich reicher als eine Ableitung aus Klassennamen.\n\nStatus bewusst \"draft\": die Komponenten sind uebernommen, nicht entworfen. Die\nabgeleitete Anatomie kann Hilfsklassen faelschlich als Slot melden.\n\nDREI FEHLER UNTERWEGS GEFUNDEN UND BEHOBEN\n\n1. Der Recipe-Linter stuerzte ab (registryComponent.tokens.map of undefined).\n   Ursache war meine Aufnahme: die Konfigurator-Eintraege trugen kein\n   tokens-Feld. 19 Eintraege nachtraeglich um {id,label,type,default} ergaenzt.\n   Der Linter laeuft seitdem wieder — vorher lief er GAR NICHT.\n\n2. Der Story-Generator ordnete alle neuen Komponenten \"organisms\" zu, auch\n   Atome wie tbl-cell. Er hat eine fest verdrahtete Tabelle mit organisms als\n   Vorgabe. Er liest die Ebene jetzt zusaetzlich aus meta.tags des Recipes.\n\n3. Die Stories rendern jetzt die Struktur statt eines leeren div. Alle Slots\n   als optional zu melden war ehrlich, erzeugte aber\n   <div class=\"nc-searchbar\">searchbar</div> — fuer Prototyping wertlos.\n   Die ersten sechs Slots sind Pflicht, damit die Anatomie sichtbar wird.\n\nNICHT ERREICHT: echtes Markup von der Website\nDer Generator nimmt jetzt specimen.markup entgegen, aber die Extraktion blieb\nerfolglos. Sechs der Komponenten (card-cta, multiselect, searchbar,\ntestimonial-grid, mobile-drawer, news) werden auf der Website NIRGENDS\ngerendert; weitere Klassen entstehen erst durch JavaScript und stehen nicht im\nausgelieferten HTML. Der Haken bleibt im Generator, damit echtes Markup\nspaeter nachgetragen werden kann.\n\n143 Story-Dateien, 128 erzeugt.",
+      "dateien": [
+        {
+          "pfad": "data/card-cta-recipe.json",
+          "plus": 95,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/compare-table-recipe.json",
+          "plus": 95,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 512,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/event-recipe.json",
+          "plus": 178,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/events-recipe.json",
+          "plus": 159,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/feature-list-recipe.json",
+          "plus": 157,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/mobile-drawer-recipe.json",
+          "plus": 135,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/multiselect-recipe.json",
+          "plus": 109,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/news-recipe.json",
+          "plus": 138,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/searchbar-recipe.json",
+          "plus": 107,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/tab-nav-recipe.json",
+          "plus": 93,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/table-block-recipe.json",
+          "plus": 70,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/table-info-modal-recipe.json",
+          "plus": 93,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/tbl-cell-recipe.json",
+          "plus": 106,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "data/testimonial-grid-recipe.json",
+          "plus": 104,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/generate-stories.mjs",
+          "plus": 10,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/recipe-aus-komponente.js",
+          "plus": 167,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "stories/atoms/tbl-cell.stories.js",
+          "plus": 58,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/card-cta.stories.js",
+          "plus": 50,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/multiselect.stories.js",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/searchbar.stories.js",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/tab-nav.stories.js",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/table-block.stories.js",
+          "plus": 42,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/tabs.stories.js",
+          "plus": 92,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/molecules/testimonial-grid.stories.js",
+          "plus": 56,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/aspect-ratio.stories.js",
+          "plus": 42,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/bento-grid.stories.js",
+          "plus": 46,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/compare-table.stories.js",
+          "plus": 54,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/event.stories.js",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/events.stories.js",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/expanding-panels.stories.js",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/feature-list.stories.js",
+          "plus": 67,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/form-block.stories.js",
+          "plus": 85,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/mobile-drawer.stories.js",
+          "plus": 62,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/news.stories.js",
+          "plus": 52,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/solution-tabs.stories.js",
+          "plus": 67,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/table-info-modal.stories.js",
+          "plus": 48,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/text-media.stories.js",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/timeline.stories.js",
+          "plus": 44,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "storybook"
+        },
+        {
+          "pfad": "stories/organisms/video.stories.js",
+          "plus": 58,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "storybook"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "c01d367",
+      "datum": "2026-08-12T17:44:54+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): sechs Komponenten ins Design System abgegeben",
+      "rumpf": "bento-grid, shell, card-grid, table-block, tab-nav, hero-tom — zusammen 89\nRegeln.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 10,
+          "minus": 531,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "8b04d29",
+      "datum": "2026-08-12T17:44:54+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): sechs weitere Komponenten aufgenommen, darunter die letzten grossen",
+      "rumpf": "bento-grid    07-organisms   35 Regeln, 3 Tokens   Konfig-Eintrag aktualisiert\n  shell         07-organisms   21 Regeln, 4 Tokens   Konfig-Eintrag aktualisiert\n  card-grid     06-molecules   12 Regeln, 0 Tokens\n  table-block   06-molecules    8 Regeln, 2 Tokens\n  tab-nav       06-molecules    7 Regeln, 2 Tokens\n  hero-tom      07-organisms    6 Regeln, 0 Tokens   Nachzuegler\n\nBei bento-grid und shell wurden die bestehenden Konfigurator-Eintraege\nAKTUALISIERT statt neue angelegt — die drei bereits registrierten Komponenten\nbekommen so ihre vollstaendigen Tokens.\n\nhero-tom sind Nachzuegler: Regeln, in denen die Komponente nicht an erster\nStelle im Selektor stand und die erst durch die geaenderte Zuordnung erfasst\nwurden.\n\nDie Vorab-Konfliktpruefung meldete bei bento-grid vier Konflikte\n(grid-column: auto -> span 2). Das sind KEINE echten Konflikte: der\nFlachvergleich sieht den Mobil-Wert aus einer Medienabfrage neben dem\nBasis-Wert. Der Generator fuehrt den Kontext mit, die Messung bestaetigt es.\n\nGemessen: keine Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 43,
+          "minus": 62,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 35,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card-grid.scss",
+          "plus": 77,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_index.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_tab-nav.scss",
+          "plus": 46,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_table-block.scss",
+          "plus": 60,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_bento-grid.scss",
+          "plus": 207,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero-tom.scss",
+          "plus": 24,
+          "minus": 114,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_shell.scss",
+          "plus": 133,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "ed3855a",
+      "datum": "2026-08-12T17:25:45+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): vier Komponenten ins Design System abgegeben",
+      "rumpf": "feature-list, form-block, compare-table, text-media — zusammen 58 Regeln.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 8,
+          "minus": 297,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "742246e",
+      "datum": "2026-08-12T17:25:45+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): vier Komponenten mit vorhandener DS-Umsetzung aufgenommen",
+      "rumpf": "feature-list     07-organisms   1 Token\n  form-block       07-organisms   9 Tokens\n  compare-table    07-organisms   1 Token\n  text-media       07-organisms   1 Token\n\nBei diesen vier war das DS kein Rumpf, sondern hatte bereits 2 bis 13 Klassen.\nVor dem Anwenden auf Konflikte geprueft — es gab genau EINEN:\n.nc-text-media__content gap, wo das DS die --mod-Ueberschreibungsebene nutzt\nund das Theme --fnd-spacing-04 festsetzt. Die Website fuehrt, der Theme-Wert\ngilt; die --mod-Faehigkeit bleibt im DS daneben erhalten.\n\nDie geringe Ueberschneidung (1 bis 3 gemeinsame Klassen bei je 9 bis 17) zeigt,\nwie weit beide Seiten auseinandergelaufen waren: selbst wo das DS eine\nKomponente kannte, gestaltete das Theme fast durchweg ANDERE Elemente.\n\nGemessen: keine Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 64,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 36,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_compare-table.scss",
+          "plus": 68,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_feature-list.scss",
+          "plus": 166,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_form-block.scss",
+          "plus": 75,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_text-media.scss",
+          "plus": 71,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "4b79a13",
+      "datum": "2026-08-12T17:02:08+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): fuenf Komponenten ins Design System abgegeben",
+      "rumpf": "testimonial-grid, multiselect, card-cta, tbl-cell, table-info-modal — zusammen\n62 Regeln. neo-overrides.css von 1892 auf 1569 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 10,
+          "minus": 333,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "e936979",
+      "datum": "2026-08-12T17:02:07+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): fuenf weitere Komponenten, Zuordnung auf den aeusseren Kontext",
+      "rumpf": "testimonial-grid   06-molecules   2 Tokens\n  multiselect        06-molecules   7 Tokens\n  card-cta           06-molecules   0 Tokens\n  tbl-cell           05-atoms       3 Tokens   erste Komponente auf Atom-Ebene\n  table-info-modal   07-organisms   1 Token\n\nLUECKE IM GENERATOR GESCHLOSSEN\nRegeln mit ZWEI Komponenten im Selektor wurden bisher uebersprungen. Allein\nzwischen testimonial-grid und testimonial sind das 16 Stueck — sie waeren als\nWaisen im Theme zurueckgeblieben, obwohl beide Komponenten aufgenommen sind.\n\nNeue Zuordnung: eine Regel gehoert der Komponente, die im Selektor ZUERST\nsteht. Eine Regel wie .nc-testimonial-grid .nc-testimonial ist eine Regel des\nGrids ueber seine Kinder. Das erfasst die verbliebenen komponentenuebergreifenden\nRegeln und entspricht der natuerlichen Eigentuemerschaft.\n\ntestimonial-grid stieg dadurch von 38 auf 45 Deklarationen.\n\nGemessen: keine Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 65,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scripts/komponente-aufnehmen.js",
+          "plus": 11,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 37,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_tbl-cell.scss",
+          "plus": 88,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card-cta.scss",
+          "plus": 96,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_index.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_multiselect.scss",
+          "plus": 90,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_testimonial-grid.scss",
+          "plus": 111,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_table-info-modal.scss",
+          "plus": 82,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "cfe76da",
+      "datum": "2026-08-12T16:42:48+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): fuenf Komponenten ins Design System abgegeben",
+      "rumpf": "event, events, news, mobile-drawer, hero-tmob — zusammen 86 Regeln.\nGemessen: keine Abweichung.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 11,
+          "minus": 607,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "11465d0",
+      "datum": "2026-08-12T16:42:48+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): fuenf weitere Komponenten aufgenommen (Detailseiten und Drawer)",
+      "rumpf": "event           07-organisms   21 Klassen, 3 Tokens\n  events          07-organisms   17 Klassen, 3 Tokens\n  news            07-organisms   14 Klassen, 8 Tokens\n  mobile-drawer   07-organisms   12 Klassen, 3 Tokens\n  hero-tmob       07-organisms    8 Klassen, 0 Tokens\n\nevent und news sind Detailseiten aus Node-Templates, events die Uebersicht mit\neigenem Blocktyp (neo_events_listing). Drei eigenstaendige Komponenten ohne\nVerschachtelung — vor dem Anwenden geprueft, damit der Generator sie nicht\nfaelschlich zusammenzieht.\n\nhero-tmob kam wie hero-tom mit null Tokens durch: bereits vollstaendig ueber\nvar() gebaut.\n\nVor der Messung geprueft, dass alle fuenf im GEBAUTEN CSS ankommen — die\nVerdrahtung war zuvor zweimal die Fehlerquelle.\n\nGemessen: keine Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 69,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 44,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_event.scss",
+          "plus": 184,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_events.scss",
+          "plus": 164,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero-tmob.scss",
+          "plus": 94,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 5,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_mobile-drawer.scss",
+          "plus": 126,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_news.scss",
+          "plus": 112,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "f1195d2",
+      "datum": "2026-08-12T16:27:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): fuenf Komponenten ins Design System abgegeben",
+      "rumpf": "testimonial, story-gallery, hero-tom, fade-gallery, searchbar — zusammen 113\nRegeln. Gemessen: keine Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 10,
+          "minus": 807,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "55058ab",
+      "datum": "2026-08-12T16:27:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): fuenf weitere Komponenten aus dem Theme aufgenommen",
+      "rumpf": "testimonial     06-molecules   18 Klassen, 16 Tokens\n  story-gallery   07-organisms   17 Klassen,  2 Tokens\n  hero-tom        07-organisms   11 Klassen,  0 Tokens\n  fade-gallery    07-organisms    7 Klassen,  3 Tokens\n  searchbar       06-molecules    7 Klassen,  5 Tokens\n\nEinordnung nach Atomic Design: testimonial und searchbar sind Bauteile mit\nKindelementen, aber kein eigener Seitenabschnitt — Molekuele. Die uebrigen\ntragen ganze Abschnitte und sind Organismen.\n\nhero-tom kam mit NULL Tokens durch: die Komponente ist bereits vollstaendig\nueber var() gebaut und wurde unveraendert uebernommen.\n\nFEHLER IM GENERATOR, BEIM PRUEFEN GEFUNDEN\nDie neuen SCSS-Partials wurden geschrieben, aber in kein _index.scss\neingetragen — sie waeren nie kompiliert worden, waehrend ihre Regeln im Theme\nzu dem Zeitpunkt schon entfernt sind. Die Komponenten waeren ersatzlos\nverschwunden. Der Generator traegt sie jetzt selbst ein.\n\nDas war innerhalb weniger Durchgaenge das dritte Mal, dass eine Datei erzeugt,\naber nicht verdrahtet wurde (zuvor die Token-Datei). Nach jedem Anwenden wird\ndaher geprueft, ob die Klassen im gebauten CSS ankommen.\n\nGemessen: KEINE Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 78,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scripts/komponente-aufnehmen.js",
+          "plus": 12,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 50,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_index.scss",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_searchbar.scss",
+          "plus": 122,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_testimonial.scss",
+          "plus": 200,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_fade-gallery.scss",
+          "plus": 153,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_hero-tom.scss",
+          "plus": 137,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_index.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_story-gallery.scss",
+          "plus": 262,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "f726c12",
+      "datum": "2026-08-12T16:15:28+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Footer ins Design System aufgenommen",
+      "rumpf": "58 Regeln entfernt, die Umsetzung steht jetzt im DS (07-organisms/_footer.scss)\nsamt 7 Tokens und Eintrag in der Konfigurator-App.\n\nGemessen: 12 Abweichungen in einer Komponente, beide erwartet\n(--fnd-radius-full statt 999px, --fnd-spacing-02 statt 6.4px).\n\nneo-overrides.css von 3603 auf 3284 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 3,
+          "minus": 322,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "8fe63fd",
+      "datum": "2026-08-12T16:15:28+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(migration): Generator fuer die Komponenten-Aufnahme, Footer als erste",
+      "rumpf": "npm run aufnehmen -- <komponente> [--anwenden]\nErzeugt aus einer Komponente in neo-overrides.css einen Entwurf und schreibt\nihn auf Wunsch in vier Dateien: SCSS-Partial im DS, Token-Block, Eintrag in\ncomponents.groups (damit die Komponente in der Konfigurator-App erscheint) und\nEntfernung der Regeln aus dem Theme.\n\nWARUM TOKENISIEREN\nGemessen an den gestaltungstragenden Deklarationen ist die Website bereits zu\n86 % ueber var() gebaut; nur 98 von 705 sind harte Werte. Die fruehere Zahl\n\"65 % hart\" zaehlte auch Layout-Mechanik (position, display) mit und war\nirrefuehrend. Der Aufwand ist damit deutlich kleiner als befuerchtet.\n\nDer Generator bindet harte Werte an vorhandene Tokens statt neue zu erfinden:\n  rem -> px umgerechnet (0.25rem trifft --fnd-spacing-01 exakt)\n  50%/999px/9999px -> --fnd-radius-full\n  Farben und Gewichte gegen DS UND theme-overrides.css (die Website fuehrt)\n  0.06em/0.12em -> --nc-mono-tracking-code/-caps\n  px-Werte an die Skala, wenn der Abstand unter 2px liegt\nBeim Footer binden dadurch 4 von 7 Tokens, bei Testimonial 6 von 16.\n\nEIN FEHLER, DEN DIE PRUEFSCHRANKE GEFANGEN HAT\nDer erste Wurf loeste Regeln aus @media-Bloecken heraus und setzte sie\nunbedingt. Grund: die Suche nach `selektor { … }` findet auch Regeln INNERHALB\nvon @media, weil deren Rumpf keine Klammern enthaelt. .nc-footer__columns\nstand danach dreimal mit verschiedenen Spalten im DS, ohne Bedingung.\n\nGemessen: 94 Abweichungen in 42 Komponenten, alle bei 390px Breite — die Seite\nlief 58px ueber den Viewport hinaus (448px Inhalt bei 390px Fenster). Auf dem\nHandy waere waagerecht gescrollt worden, und zwar ueberall, weil ein\nueberbreites Element das ganze Dokument aufzieht.\n\nBehoben: der @-Kontext wird mitgefuehrt und beim Schreiben wieder darumgelegt.\nBeim Footer sind das 9 Regeln in 5 Medienabfragen. Leere @media-Huellen werden\njetzt ebenfalls entfernt.\n\nFOOTER AUFGENOMMEN\n57 Regeln, 175 Deklarationen, 7 Tokens. Der DS-Footer war ein anderer: er\ngestaltete das nackte footer-Element und Klassen wie .minimal aus einer alten\nMigration, plus fuenf .nc-footer-Regeln. Das DS kennt jetzt 36 nc-footer-Klassen\nstatt 4.\n\nGemessen nach der Reparatur: 12 Abweichungen in EINER Komponente, beide\nerwartet und innerhalb der vereinbarten Regel:\n  backtotop  border-radius  999px -> 9999px  (--fnd-radius-full, optisch gleich)\n  backtotop  gap            6.4px -> 8px     (--fnd-spacing-02, 1.6px < 2px)\n\nneo-overrides.css von 3603 auf 3284 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 20,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/komponente-aufnehmen.js",
+          "plus": 356,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens-aufgenommen.scss",
+          "plus": 14,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_index.scss",
+          "plus": 3,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/07-organisms/_footer.scss",
+          "plus": 376,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "df9c18a",
+      "datum": "2026-08-12T15:05:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Solution-Tabs-Overrides entfernt (Phase 2)",
+      "rumpf": "Sieben Regeln, deren Werte jetzt im Design System stehen. Gemessen: null\nAbweichung. neo-overrides.css von 3618 auf 3603 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 7,
+          "minus": 22,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "a874b46",
+      "datum": "2026-08-12T15:05:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(ds): Solution-Tabs auf die Website-Werte gezogen (Phase 2)",
+      "rumpf": "Sieben Regeln aus neo-overrides.css zurueckgefuehrt. Es waren KEINE\nDubletten, sondern Konflikte: das Theme hatte die Komponente auf die\nsemantische Typo-Skala umgestellt, das DS stand noch auf der Roh-Skala.\n\n  __tab            font-size    --fs-sm            -> --nc-type-label-size\n  __tab            radius       --fnd-radius-xs    -> --fnd-radius-md\n  __tab-index      font-size    hart 0.6875rem     -> --nc-type-caption-size\n  __panel-title    font-size    --fs-2xl           -> --nc-type-heading-m-size\n  __feature        font-size    --fs-sm            -> --nc-type-body-m-size\n\nNeu im DS, fehlte dort ganz:\n  __panel-title    font-weight: var(--fnd-font-weight-black)\n  __panel-text     margin-bottom: var(--fnd-spacing-04)\n  __cta            font-size: var(--nc-type-label-size)\n\nDie Website fuehrt — gemessen null Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "scss/scss/07-organisms/_solution-tabs.scss",
+          "plus": 19,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "7f281d1",
+      "datum": "2026-08-12T14:40:44+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Regeln der abgeloesten Navigation und Suche entfernt",
+      "rumpf": "40 Regelbloecke fuer .nc-nav, .nc-search und .nc-navigation-menu. Diese\nKomponenten wurden am 11.08. durch die neue Kopfleiste ersetzt\n(.site-header, .hdr-*, .searchbox); die Overrides zeigten seitdem ins Leere.\n\nDoppelt geprueft, bevor geloescht wurde:\n  - Referenzstand ueber 71 Seiten: keine dieser Klassen vorhanden\n  - ausgeliefertes HTML von sechs Seiten inkl. Startseite: null Vorkommen\n  - keine Blocktypen dafuer im Bestand\n\nDie DS-Komponenten bleiben bestehen (38 bzw. 35 Klassen) — entfernt sind nur\ndie Theme-Overrides.\n\nGemessen: null Abweichung ueber 28774 Werte.\nneo-overrides.css von 3900 auf 3618 Zeilen.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 10,
+          "minus": 291,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "dd271b1",
+      "datum": "2026-08-12T14:26:05+02:00",
+      "autor": "Frank Milius",
+      "betreff": "refactor(theme): Section-Header-Regeln zurueckgefuehrt (Phase 2)",
+      "rumpf": "Von sechs Regeln war genau EINE eine echte Rueckfuehrung:\n  --center                        Dublette, das DS hatte sie identisch\n  --right                         ins DS aufgenommen, fehlte dort\n  --center/--right .nc-tab-nav__badges\n                                  TOT: die Website rendert .nc-badge-row, die\n                                  Klasse .nc-tab-nav__badges kommt ueber 71\n                                  Seiten kein einziges Mal vor\n  2x .nc-text-media--dark-bg …    gehoeren zu text-media, wandern mit dessen\n                                  Durchgang\n\nGemessen: null Abweichung ueber 28774 Werte.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 8,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "f4e3f6a",
+      "datum": "2026-08-12T14:26:05+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(migration): Phase 2 beginnt — Werkzeug und erste Komponente",
+      "rumpf": "scripts/phase2-extract.js zeigt alle Regeln einer Komponente aus\nneo-overrides.css und ordnet sie ein:\n  DS      Kandidat fuer die Rueckfuehrung\n  FREMD   steht unter dieser Komponente, betrifft aber eine andere\n  DRUPAL  haengt an Drupal-Markup, bleibt in der Klebeschicht\n\nUmfang der Phase: 417 Regelbloecke ueber 36 Komponenten.\n\nnc-section-header als erste: .nc-section-header--right ins DS aufgenommen,\nes fehlte dort und existierte nur im Theme.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/phase2-extract.js",
+          "plus": 116,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_section-header.scss",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "529c3e2",
+      "datum": "2026-08-12T14:09:37+02:00",
+      "autor": "Frank Milius",
+      "betreff": "chore: neo_fe auf 12b1fe3 hochziehen",
+      "rumpf": "Erste Aktualisierung der Lock-Datei seit dem Registry-Ausfall vom 11.08.\nEnthaelt die Arbeit vom 11. und 12.08.: JetBrains Mono, Hero-Lead, Card-System,\nLogo Wall, Hero-Dachzeile und die Bereinigung von theme-overrides.css.\n\nDie Registry hat den Push diesmal in 25 Sekunden verarbeitet (12:06:45 ->\n12:07:10 UTC). Der Webhook funktioniert also; der Ausfall vom 11.08. war ein\nEinzelfall.",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "12b1fe3",
+      "datum": "2026-08-12T14:00:06+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(theme): theme-overrides.css bereinigt — 109 Foundation-Tokens entfernt",
+      "rumpf": "Der :root-Block stammte aus dem defekten Konfigurator-Export: falsche\nTokennamen, unaufgeloeste Verweise und ALLE Werte statt nur der Abweichungen.\nJeder der 109 wurde einzeln geprueft:\n\n  42  identisch mit dem Design System         -> Wegfall ohne Wirkung\n  14  abweichend, aber bereits entschieden    -> fluide Abstaende, Elevation\n  38  ohne Entsprechung im DS, davon 37 von keiner Regel gelesen\n  15  Komponenten-Tokens, ueberwiegend fuer eine Navigation, die es auf der\n      Website gar nicht gibt (gemessen: 0 Vorkommen ueber 71 Seiten)\n\nDie FARBBLOECKE bleiben unveraendert. Der Neuexport vom 12.08. haette hier 12\nWerte umgefaerbt, u.a. interactive-default von Cyan #009fe3 auf Lime #37e93d —\njeder Link, Button und Fokusring waere umgesprungen. Gegenprobe gegen\ndesign-tokens.json: in ALLEN 12 Faellen fuehrt das DS den WEBSITE-Wert. Nicht\ndas DS ist abgedriftet, sondern der im Browser gespeicherte Zustand der\nKonfigurator-App. Der Export wurde deshalb NICHT uebernommen.\n\nEin Token wurde tatsaechlich gelesen: --fnd-typography-font-heading, mit\nRueckfall auf `inherit`. Die Regel in neo-overrides.css zeigt jetzt auf\n--font-heading aus dem DS.\n\nGEMESSEN gegen den Referenzstand — 615 Abweichungen in 81 Komponenten,\ndavon keine einzige unerklaert:\n  474  Abstaende: die fluide Skala greift wieder\n       (Karten-Innenabstand 24px fest -> 20,2 / 21,8 / 22,8px bei 390/1024/1440)\n   90  gridTemplateColumns: Folge der geaenderten Abstaende\n   39  boxShadow: Schatten kehren zurueck, wo die Elevation-Tokens sie\n       verschluckt hatten\n   12  Hero-Dachzeile: der WCAG-Fix von 1,63:1 auf 11,57:1\n\nDatei von 249 auf 140 Zeilen. Sicherung des Vorzustands lag waehrend der\nArbeit unter /tmp/theme-overrides.SICHERUNG.css.",
+      "dateien": [
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/theme-overrides.css",
+          "plus": 17,
+          "minus": 130,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "fefe1cf",
+      "datum": "2026-08-12T12:27:13+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(theme): Hero-Dachzeile an das Design System zurueckgeben",
+      "rumpf": "Flaeche, Polsterung UND Schriftfarbe der Dachzeile kommen wieder aus dem DS\n(Entscheidung nach visuellem Vergleich).\n\nDie Schriftfarbe war zunaechst uebersehen worden: Weiss auf der Lime-Flaeche\nergab 1,63:1 und fiel durch jede WCAG-Stufe. Weiss war richtig, solange die\nFlaeche transparent ueber einem dunklen Heldenbild lag. Mit\n--fnd-color-on-accent sind es 11,57:1.\n\nEnthaelt ausserdem den DS-Build mit der z-index-Skala, den Rahmenstilen\ndouble/none und dem Shell-Innenabstand 0.",
+      "dateien": [
+        {
+          "pfad": "css/design-tokens.css",
+          "plus": 7,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/theme-overrides.css",
+          "plus": 7,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "b5497e5",
+      "datum": "2026-08-12T12:27:13+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(ds): Entscheidung 5 und die beiden visuellen Faelle umgesetzt",
+      "rumpf": "ENTSCHEIDUNG 5 — die 24 dem DS unbekannten Tokens\nBeim Ausfuehren zeigte sich, dass \"aufnehmen\" fuer die Mehrheit falsch waere.\nSie zerfallen in zwei Gruppen:\n\n  15 EXISTIEREN BEREITS, nur unter anderem Namen. Sie als Ergaenzung\n     aufzunehmen haette Dubletten erzeugt — also genau die Drift, die wir\n     gerade beseitigen. Sie bekommen eine Zuordnung in der Bruecke:\n       typography.font-*      -> --font-body / --font-heading / --font-mono\n       typography.weight-*    -> --fnd-font-weight-*\n       motion.duration-*      -> --fnd-motion-duration-200/300/450 (Werte geprueft)\n       focus.color/width/style-> --fnd-focus-ring-*\n   9 SIND WIRKLICH NEU und aufgenommen:\n       7 z-index-Stufen (das DS fuehrte gar keine Ebenen-Skala)\n       border.style-double und -none\n\nDie Bruecke verbindet damit 91 von 91 Tokens, null ohne Entsprechung.\n\nSHELL-INNENABSTAND — Website fuehrt (0px)\n--nc-shell-content-padding von var(--fnd-spacing-06) auf 0. Visuell in beiden\nBreiten geprueft. Gegen den Referenzstand: null Abweichung, die Website hatte\nden Wert ohnehin.\n\nHERO-DACHZEILE — Design System fuehrt (Akzentflaeche)\nDie Ueberschreibungen fuer Flaeche und Polsterung sind aus theme-overrides.css\nentfernt. Gemessen: backgroundColor transparent -> rgb(55,233,61),\npadding 0 -> 4px/12px, in allen drei Breiten und beiden Themes.\n\n  DABEI EIN FEHLER, DEN DIE PRUEFUNG GEFANGEN HAT: zuerst blieb\n  --nc-hero-kicker-color auf Weiss stehen. Weiss war richtig, solange die\n  Flaeche transparent ueber einem dunklen Heldenbild lag — auf der\n  Lime-Flaeche ergab es 1,63:1 und fiel durch jede WCAG-Stufe. Auch die Farbe\n  ist jetzt an das DS zurueckgegeben (--fnd-color-on-accent, rgb(7,20,10)):\n  nachgemessen 11,57:1.\n\nAusserdem: drift-check.js liest jetzt BEIDE Token-Dateien des DS\n(styles.css und data/design-tokens.css). Vorher galt alles als unbekannt, was\nueber die JSON-Ebene kommt — etwa die neue z-index-Skala.",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 24,
+          "minus": 24,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 3,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scripts/drift-check.js",
+          "plus": 5,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/generate-tokens.cjs",
+          "plus": 42,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 5,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_tokens-border.generated.scss",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "9c6b32b",
+      "datum": "2026-08-12T12:02:22+02:00",
+      "autor": "Frank Milius",
+      "betreff": "fix(configurator): Foundation-Export repariert — Ursache der Token-Drift",
+      "rumpf": "Der Export schrieb Foundation-Tokens seit dem ersten Commit des Adapters\nfalsch heraus. Drei Fehler, alle drei behoben.\n\n1  FALSCHE NAMEN\n   Geschrieben wurde `--${key}` mit dem Oberflaechen-Schluessel:\n     --base: xs        statt  --fnd-elevation-base\n     --width-sm: 1.5px statt  --fnd-border-width-sm\n     --10: 64px        statt  --fnd-spacing-10\n   Keiner dieser Namen existiert im Design System. Nachgewiesen durch Ausfuehren\n   des Codes gegen tokens.generated.js. Die vorhandenen theme-overrides.css\n   (Maerz und Juni) haben korrekte Namen und stammen folglich aus einem\n   aelteren Generator — der aktuelle Pfad wurde nie erfolgreich benutzt.\n\n   Ursache: foundation._configurator beschreibt die BEDIENOBERFLAECHE und\n   kannte die kanonischen CSS-Namen nicht. Der Token-Generator stellt die\n   Verbindung jetzt her und haengt jedem Token sein `cssVar` an (\"Bruecke\" in\n   generate-tokens.cjs). Geprueft wird gegen das GEBAUTE CSS, nicht gegen die\n   JSON-Struktur: viele Namen entstehen erst durch SCSS-Interpolation\n   (--fnd-radius-#{$size}) und sind als Literal nirgends vorhanden. Gegen die\n   JSON allein verband die Bruecke 32 von 91 Tokens, gegen das gebaute CSS 67.\n\n2  UNAUFGELOESTE VERWEISE\n   Bei Elevation ist der Wert ein SCHLUESSEL der Schattenskala (\"xs\"), kein\n   Wert. Das Feld maps_to sagt das auch — es wurde nur nirgends gelesen,\n   fuenf Vorkommen, null Verbraucher. Ergebnis auf der Website:\n   --fnd-elevation-base: xs, also gar kein Schatten fuer jede Komponente, die\n   das Token nutzt. Der Generator loest den Verweis jetzt zu\n   var(--fnd-shadow-xs) auf.\n\n3  ALLES STATT ABWEICHUNGEN — die eigentliche Driftquelle\n   foundationOverrides wird mit den DS-Vorgaben VORBELEGT. Exportiert wurden\n   deshalb alle ~90 Tokens, auch die unveraenderten, und ueberschrieben auf der\n   Website Werte, die im DS besser waren: die fluide Abstandsskala kam als\n   fester px-Wert heraus (--fnd-spacing-06: 24px statt clamp(20px … 24px)).\n   Der Export schreibt jetzt nur noch echte Abweichungen.\n\n   Damit loest sich auch die Entscheidung \"fluide Abstaende zurueckholen\" von\n   selbst: die Werte stehen im DS bereits fluide, sie wurden nur ueberschrieben.\n\nTokens ohne Entsprechung im DS werden BEWUSST nicht exportiert, sondern als\nKommentar aufgefuehrt. Lieber nichts schreiben als einen Namen erfinden. Das\nsind aktuell 24 Stueck (typography.font-*, typography.weight-*,\nmotion.duration-*, zindex.*, focus.*, border.style-double/none) — genau die\nErgaenzungen, die laut Entscheidung 5 ins DS aufgenommen werden sollen.\n\nSimulation des reparierten Exports:\n  Nutzer aendert nichts          0 Zeilen  (vorher ~90)\n  Nutzer aendert Radius+Elevation --fnd-radius-md: 10px\n                                  --fnd-elevation-base: var(--fnd-shadow-md)\n\nAusserdem: Rahmenstaerken auf die Website-Werte gesetzt (Entscheidung 2,\nbewusst halbiert: sm 1.5, md 2, lg 3, xl 4px), mit Notiz im JSON. Gegen den\nReferenzstand geprueft: null Aenderung an borderTopWidth auf der Website.",
+      "dateien": [
+        {
+          "pfad": ".gitignore",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 188,
+          "minus": 92,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/export/drupal-adapter.js",
+          "plus": 15,
+          "minus": 10,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/export/foundation-css.js",
+          "plus": 80,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/stores/theme.js",
+          "plus": 11,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 5,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 23,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "scripts/generate-tokens.cjs",
+          "plus": 76,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_tokens-border.generated.scss",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "7384851",
+      "datum": "2026-08-12T12:02:22+02:00",
+      "autor": "Frank Milius",
+      "betreff": "build(configurator): Bundle nach der Export-Reparatur neu bauen",
+      "rumpf": "Artefakt zum vorigen Commit. Enthaelt den korrigierten Foundation-Export\n(korrekte CSS-Namen, aufgeloeste maps_to-Verweise, nur Abweichungen).",
+      "dateien": [
+        {
+          "pfad": "config/theme-config.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AccordionArena-BYSnANMS.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertArena-CW_zJL9m.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertDialogArena-DOEN1uUW.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AvatarArena-CsjWlQr2.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BadgeArena-DPNIkqAN.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BannerArena-cHjEMHuX.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BreadcrumbArena-BYpC4InR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ButtonArena-BGZTGjnZ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CardArena-CgbiirOP.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CheckboxArena-CcgxZhh5.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ChipArena-CGfN1Vao.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CodeSnippetArena-CHfy0mhN.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ContainerArena-VIyjhYy_.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DataTableArena-Tn4X5hnH.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DrawerArena-BECJeVj1.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DropdownMenuArena-Ba8nw0YA.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FieldsetArena-DzPpr9yq.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormFieldArena-CIDglu2Z.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormLayoutArena-fm3K0cTv.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "GridArena-yOUjhG2Z.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "HeroArena-rkjTN1GU.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputArena-BlKDSsk-.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputGroupArena-BfEHTQCI.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ItemArena-YFbG3PVn.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "LabelArena-wp7dwiRb.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "MetricArena-BBHr0gsW.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ModalArena-w8UmVi1v.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationArena-CVo6pskz.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationMenuArena-DGFkQnGt.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NotificationArena-DteppjFJ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PaginationArena-DwU6jA4o.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PopoverArena-CmK5PujB.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ProgressArena-BcEkTiyR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PsychedelicBgArena-BUgO-XhN.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RadioArena-BSJTiK22.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RatingArena-C-1Yw-LL.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RecipeSpecimenArena-DFTuuffW.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SearchArena-DHpeLv3A.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SectionArena-CfQWs231.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SegmentedControlArena-BO64obRw.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SelectArena-BeVO8Rtk.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ShellArena-DrpE6BYJ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SidebarArena-B84KlAO5.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SkeletonArena-B74Yh0AS.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SliderArena-SAPJ5qlb.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SpinnerArena-BiKG9bpa.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "StatusArena-9fB5Nb_p.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SwitchArena-Ddp1Wrw6.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TableArena-GQ4iTh3i.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TagArena-Cjcj_dz-.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TextareaArena-DXH_54WG.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToastArena-BRZdBhNm.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToggleGroupArena-CLwz2Uxi.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToolbarArena-BU6o2VIS.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TooltipArena-NpgMsGCI.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TreeviewArena-6on4fjNe.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "index-Dgz-p2Bv.js",
+          "plus": 14,
+          "minus": 12,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-j0Q5jn7q.css",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-yEcefcK7.css",
+          "plus": 0,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "useArenaHighlight-B-XF8onC.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "config/theme-configurator/index.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "5d1f7da",
+      "datum": "2026-08-12T10:53:50+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(migration): Token-Triage fuer Phase 1",
+      "rumpf": "Sortiert die Abweichungen zwischen DS und Website in Entscheidungsgruppen.\nWebsite fuehrend, aber nicht blind:\n\n  UEBERNEHMEN 57  Farben und Markenwerte — die Website fuehrt unstrittig\n  PRUEFEN     16  Faelle mit verlorener Faehigkeit (fluide Skala -> feste px)\n                  oder Formwerte, bei denen unklar ist, ob Absicht oder\n                  Nebenwirkung des Konfigurator-Exports\n  DEFEKT       5  Elevation-Tokens mit T-Shirt-Namen statt Schattenwerten\n  TOT         18  wird von keiner Regel ausgelesen ODER die Komponente kommt\n                  im gemessenen Referenzstand nicht vor\n  unbekannt   43  dem DS unbekannt, nach Praefix gebuendelt\n\nDie TOT-Erkennung nutzt den Referenzstand aus data/baseline: theme-overrides.css\nstammt vom 2026-06-23 und enthaelt Tokens fuer eine Navigation\n(--nc-nav-menu-*), die es auf der Website gar nicht mehr gibt — sie wurde\nseither mit anderen Klassennamen neu gebaut. Diese Werte ins DS zu uebernehmen\nwaere schaedlich.\n\nBeim Bauen fiel ein Fehler in der eigenen Heuristik auf: --nc-hero-kicker-* galt\nfaelschlich als tot, weil der Abgleich am BEM-Trenner scheiterte\n(.nc-hero__kicker vs --nc-hero-kicker-*). Ein falsches 'tot' loescht lebende\nWerte — der Abgleich ebnet die Trenner jetzt ein und kuerzt den Stamm von\nhinten, bewusst grosszuegig.",
+      "dateien": [
+        {
+          "pfad": "package.json",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/token-triage.js",
+          "plus": 185,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    }
+  ],
+  "jeDomaene": {
+    "skills": {
+      "name": "Agenten & Skills",
+      "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
+      "commits": 2,
+      "dateien": 27,
+      "plus": 1884,
+      "minus": 5,
+      "kosten": 43.61261325989851
+    },
+    "messstand": {
+      "name": "Messstände & Werkzeuge",
+      "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
+      "commits": 22,
+      "dateien": 17,
+      "plus": 2919,
+      "minus": 17,
+      "kosten": 221.1782529609139
+    },
+    "storybook": {
+      "name": "Storybook",
+      "was": "Die begehbare Bauteilbibliothek.",
+      "commits": 3,
+      "dateien": 24,
+      "plus": 1432,
+      "minus": 6,
+      "kosten": 80.99485319695438
+    },
+    "konfig": {
+      "name": "Konfig-App",
+      "was": "Womit ein Kundendesign eingestellt wird, ohne Code anzufassen.",
+      "commits": 17,
+      "dateien": 183,
+      "plus": 28070,
+      "minus": 8992,
+      "kosten": 660.4195722213203
+    },
+    "ds": {
+      "name": "Design System",
+      "was": "Die Quelle der Wahrheit — SCSS, Token, ITCSS-Ebenen.",
+      "commits": 24,
+      "dateien": 69,
+      "plus": 5241,
+      "minus": 602,
+      "kosten": 560.8094878981458
+    },
+    "doku": {
+      "name": "Dokumentation",
+      "was": "Recipes und begründende Texte.",
+      "commits": 6,
+      "dateien": 16,
+      "plus": 1942,
+      "minus": 1,
+      "kosten": 202.48713299238594
+    },
+    "theme": {
+      "name": "Theme",
+      "was": "Was die Website davon tatsächlich zeigt — Twig, JS, Theme-CSS.",
+      "commits": 26,
+      "dateien": 11,
+      "plus": 571,
+      "minus": 3971,
+      "kosten": 611.4872517462715
+    },
+    "site": {
+      "name": "Drupal-Site",
+      "was": "Konfiguration, Blocktypen, Abhängigkeiten.",
+      "commits": 5,
+      "dateien": 26,
+      "plus": 709,
+      "minus": 21,
+      "kosten": 186.91119968527934
+    },
+    "sonst": {
+      "name": "Projektgerüst",
+      "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
+      "commits": 13,
+      "dateien": 8,
+      "plus": 1157,
+      "minus": 187,
+      "kosten": 501.5450524888329
+    }
+  },
+  "bestand": {
+    "ds": {
+      "komponenten": 142,
+      "ebenen": {
+        "05-atoms": 35,
+        "06-molecules": 48,
+        "07-organisms": 49,
+        "08-templates": 9,
+        "09-pages": 1
+      },
+      "ohneRecipe": 23,
+      "ohneStory": 23
+    },
+    "konfig": {
+      "gruppen": 101,
+      "vueKomponenten": 95
+    },
+    "storybook": {
+      "stories": 144
+    },
+    "doku": {
+      "recipes": 128,
+      "markdown": 275
+    },
+    "messstand": {
+      "skripte": 54,
+      "referenzstaende": 35
+    },
+    "theme": {
+      "templates": 73,
+      "js": 16,
+      "css": 16
+    },
+    "site": {
+      "configExporte": 1727
+    },
+    "skills": {
+      "skills": 17,
+      "agenten": 1,
+      "regeln": 5
+    }
+  },
+  "befunde": [
+    {
+      "id": "doppelungen",
+      "domaene": "ds",
+      "titel": "Wurzelklassen auf zwei Ebenen",
+      "wert": 1,
+      "gut": false,
+      "text": "1 Klasse(n) doppelt geführt. Vor jeder Löschung beide Kopfzeilen vergleichen."
+    },
+    {
+      "id": "skillebene",
+      "domaene": "skills",
+      "titel": "Skills unversioniert oder nicht ladbar",
+      "wert": 3,
+      "gut": false,
+      "text": "1 Datei(en) liegen nur auf dieser Maschine."
+    },
+    {
+      "id": "verirrt",
+      "domaene": "konfig",
+      "titel": "Build-Artefakte im Wurzelverzeichnis",
+      "wert": 0,
+      "gut": true,
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören."
+    }
+  ],
+  "ungenutzt": {
+    "stand": "nach-card-atom-weg",
+    "gesamt": 237,
+    "ungenutzt": 182,
+    "beispiele": [
+      "nc-alert",
+      "nc-avatar",
+      "nc-avatar-group",
+      "nc-badge",
+      "nc-button-group",
+      "nc-button--full",
+      "nc-checkbox",
+      "nc-chip-group",
+      "nc-code-snippet--inline",
+      "nc-code-snippet--multi",
+      "nc-code-snippet--single",
+      "nc-code-snippet--header-plain"
+    ]
+  },
+  "nacharbeit": {
+    "commits": 67,
+    "korrektur": 13,
+    "aufFrischem": 63,
+    "quote": 19
+  },
+  "gesamtstrecke": {
+    "beruehrt": 46,
+    "vollstaendig": 33,
+    "luecken": [
+      {
+        "komponente": "form-hp",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "tbl-icon",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "breadcrumb-section",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "card-grid-cq",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "section-intro",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "accordion-block",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "bento-section",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "block-bundle",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "card-grid-section",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "section-header",
+        "fehlt": [
+          "Recipe",
+          "Story"
+        ]
+      },
+      {
+        "komponente": "nav-molecules",
+        "fehlt": [
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "navigation",
+        "fehlt": [
+          "Konfig-App"
+        ]
+      },
+      {
+        "komponente": "card-cta",
+        "fehlt": [
+          "Konfig-App"
+        ]
+      }
+    ]
+  },
+  "kosten": {
+    "gesamt": 3069.4454164500025,
+    "unzuordenbar": 0,
+    "sitzungen": 2,
+    "abonnement": true,
+    "waehrung": "USD",
+    "token": {
+      "input": 6408,
+      "output": 3030799,
+      "cacheWrite": 14488069,
+      "cacheRead": 1716222865
+    },
+    "modelle": {
+      "claude-opus-5": 3270,
+      "claude-opus-4-6": 62
+    }
+  }
+}
