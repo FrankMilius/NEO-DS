@@ -68,6 +68,24 @@
         "element": ".nc-hero__mark",
         "optional": true,
         "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
+      },
+      {
+        "name": "picture",
+        "element": ".nc-hero__picture",
+        "optional": true,
+        "description": "Gerahmtes Bild mit eigener Flaeche und Schatten. Nur in der picture-Variante."
+      },
+      {
+        "name": "card",
+        "element": ".nc-hero__card",
+        "optional": true,
+        "description": "Dashboard-Attrappe mit Kennzahlen und Puls. NICHT zu verwechseln mit .nc-hero__cards (Plural) — das ist das Kennzahlen-Raster im Fuss."
+      },
+      {
+        "name": "metric",
+        "element": ".nc-hero__metric",
+        "optional": true,
+        "description": "Einzelne Kennzahl INNERHALB der Dashboard-Attrappe."
       }
     ],
     "convenience": [
@@ -113,7 +131,7 @@
         "name": "metric",
         "element": ".nc-hero__metric",
         "slot": "media",
-        "description": "Metric-Integration fuer card- und product-Variante."
+        "description": "Metric-Integration fuer die card-Variante."
       }
     ],
     "domNotes": [
@@ -129,13 +147,13 @@
       "Breadcrumb: nc-breadcrumb am oberen Content-Rand, nur sichtbar wenn Slot befuellt.",
       "Centered: Alle Inhalte text-align center, max-width fuer Titel und Highlights.",
       "Split: Content links, Media rechts buendig (kein Radius), nahtlose Kante zum naechsten Abschnitt.",
-      "Product: Metric-Integration fuer Preisangabe, prominenter CTA-Button."
+      ""
     ]
   },
   "axes": {
     "variant": {
       "label": "Variant",
-      "description": "Visuelle Variante — picture, card, split, product",
+      "description": "Visuelle Variante — picture, card, split",
       "values": {
         "picture": {
           "modifier": null,
@@ -169,20 +187,7 @@
             "media": true,
             "picture": true
           },
-          "description": "50/50 Layout: Text links, Bild/Video rechts buendig ohne Radius."
-        },
-        "product": {
-          "modifier": "nc-hero--product",
-          "tokenGroups": [
-            "product"
-          ],
-          "renderHint": "hero-product",
-          "slotConfig": {
-            "media": true,
-            "card": true,
-            "metric": true
-          },
-          "description": "E-Commerce: Titel + Metric (Preis) + prominenter Warenkorb-CTA."
+          "description": "50/50 Layout: Text auf einer Seite, Bild/Video auf der anderen — buendig bis zum VIEWPORT-Rand, ohne Radius. Welche Seite das Medium bekommt, entscheidet die Achse mediaPosition."
         }
       }
     },
@@ -196,9 +201,7 @@
         },
         "center": {
           "modifier": "nc-hero--center",
-          "tokenGroups": [
-            "centered"
-          ],
+          "tokenGroups": [],
           "description": "Zentriert alle Inhalte. Ideal fuer minimalistische Landingpages oder Intro-Sektionen."
         }
       }
@@ -325,17 +328,6 @@
         ],
         "notes": [
           "Overlay-Gradient muss immer aktiv sein wenn text-inverse verwendet wird, um Kontrast unabhaengig vom Bildinhalt zu sichern."
-        ]
-      },
-      {
-        "when": {
-          "variant": "product"
-        },
-        "require": [
-          "actions"
-        ],
-        "notes": [
-          "Product-Variante erfordert mindestens einen CTA im actions-Slot."
         ]
       },
       {
@@ -481,6 +473,24 @@
           "nc-hero-cards-min",
           "nc-hero-footer-rule"
         ]
+      },
+      "split": {
+        "label": "Split-Layout",
+        "tokens": [
+          "nc-hero-split-columns",
+          "nc-hero-split-media-min-height",
+          "nc-hero-split-gap"
+        ]
+      },
+      "card-media": {
+        "label": "Dashboard-Attrappe",
+        "tokens": [
+          "nc-hero-card-width",
+          "nc-hero-card-ratio",
+          "nc-hero-card-radius",
+          "nc-hero-card-padding",
+          "nc-hero-card-gap"
+        ]
       }
     }
   },
@@ -545,7 +555,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)",
-        "note": "Card: Pulse reduced-motion. Picture: alt-Text + Overlay-Kontrast. Split: buendiges Bild. Product: CTA fokussierbar."
+        "note": "Card: Pulse reduced-motion. Picture: alt-Text + Overlay-Kontrast. Split: buendiges Bild bis zum Viewport-Rand."
       }
     },
     {
@@ -616,42 +626,6 @@
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)",
         "note": "Badge: nicht allein durch Farbe. Breadcrumb: nav + aria-label. Actions: Focus-Ring auf Buttons."
-      }
-    },
-    {
-      "id": "product-hero",
-      "label": "Product Hero",
-      "description": "E-Commerce Hero mit Metric (Preis) und Warenkorb-CTA",
-      "matrix": {
-        "axes": {
-          "variant": [
-            "product"
-          ],
-          "alignment": [
-            "start"
-          ]
-        },
-        "states": [
-          "default"
-        ]
-      },
-      "focusTokenGroups": [
-        "layout",
-        "actions"
-      ],
-      "layout": "row",
-      "render": {
-        "label": "Product",
-        "slots": [
-          "content",
-          "media",
-          "actions"
-        ],
-        "compositionType": "product-showcase"
-      },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Metric: Preisangabe als text, nicht als Bild. CTA: Button mit aria-label fuer Warenkorb."
       }
     },
     {

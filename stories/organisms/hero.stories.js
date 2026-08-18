@@ -69,20 +69,6 @@ export const FullFeaturedHero = {
   },
 };
 
-export const ProductHero = {
-  name: 'Product Hero',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-hero">
-    <span class="nc-hero__content">content</span>
-  </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'E-Commerce Hero mit Metric (Preis) und Warenkorb-CTA' },
-    },
-  },
-};
-
 export const Flaechen = {
   name: 'Flaechen',
   render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">

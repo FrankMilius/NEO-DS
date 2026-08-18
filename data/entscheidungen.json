@@ -178,6 +178,29 @@
         "datei": "templates/block/block--inline-block--neo-hero.html.twig",
         "regex": "include '@neo_fe/block/block--block-content--neo-hero"
       }
+    },
+    {
+      "id": "hero-ohne-product-variante",
+      "titel": "Der Hero hat keine product-Variante",
+      "seit": "2026-08-18",
+      "warum": "Das Recipe fuehrte sie als E-Commerce-Hero mit Warenkorb-CTA. Diese Site hat kein Commerce-Modul, keinen Produkt-Inhaltstyp und keinen Warenkorb. Statt Code zu bauen, den niemand einsetzt, ist die Variante aus dem Recipe entfernt worden — samt Specimen, Regel und Token-Gruppe.",
+      "probe": {
+        "art": "muster",
+        "datei": "data/hero-recipe.json",
+        "regex": "nc-hero--product",
+        "erwartet": false
+      }
+    },
+    {
+      "id": "hero-split-buendig",
+      "titel": "Das Split-Medium reicht bis zum Viewport-Rand",
+      "seit": "2026-08-18",
+      "warum": "Der naheliegende Weg calc(50% - 50vw) ist an einem Grid-Element falsch: Prozente beziehen sich dort auf das Grid-Areal, also die halbe Spalte. Gerechnet wird deshalb ohne Prozente aus Container-Padding und halber ungenutzter Containerbreite. Gemessen bei 1920/1600/1440/1200/1100 px jeweils 0 px Abstand zur Kante, kein waagerechter Ueberlauf bei sieben Breiten von 390 bis 1920.",
+      "probe": {
+        "art": "muster",
+        "datei": "scss/scss/07-organisms/_hero.scss",
+        "regex": "@mixin hero-split-ueberstand"
+      }
     }
   ]
 }

@@ -288,6 +288,86 @@
 }
 
 // ---------------------------------------------------------------------------
+// Split — Text auf einer Seite, Medium buendig bis zum Viewport-Rand
+// ---------------------------------------------------------------------------
+// Das Recipe fuehrte nc-hero--split seit jeher; im CSS gab es ihn nie. Diese
+// Regeln loesen die Beschreibung ein, sie erfinden nichts dazu.
+//
+// WIE DAS MEDIUM AUS DEM CONTAINER KOMMT
+// Der naheliegende Weg — margin-inline-end: calc(50% - 50vw) — ist hier
+// FALSCH. Prozentwerte an einem Grid-Element beziehen sich auf sein
+// Grid-Areal, also auf die halbe Spalte, nicht auf den halben Container.
+// Der Ueberstand fiele damit etwa halb so gross aus wie noetig.
+//
+// Gerechnet wird deshalb ohne Prozente: eigenes Container-Padding plus die
+// Haelfte dessen, was der Container an Breite ungenutzt laesst. Beide Groessen
+// kennt das Layout — --container-pad setzt der container-padding-Mixin,
+// --nc-container-max-width steht in den Einstellungen und wird von den
+// cw-Modifiern ueberschrieben.
+//
+// Unterhalb von lg greift keine max-width; dort ist der zweite Summand 0 und
+// bleibt weg. Der ueberstehende Rand kann keine Querleiste erzeugen, weil
+// .nc-hero ohnehin overflow: hidden fuehrt.
+
+@mixin hero-split-ueberstand($seite) {
+  margin-inline-#{$seite}: calc(-1 * var(--container-pad, 0px));
+
+  @media (min-width: 1200px) {
+    margin-inline-#{$seite}: calc(-1 * (
+      var(--container-pad, 0px)
+      + max(0px, (100vw - var(--mod-container-max-width, var(--nc-container-max-width))) / 2)
+    ));
+  }
+}
+
+.nc-hero--split {
+  --nc-hero-gap: var(--mod-hero-split-gap, var(--nc-hero-split-gap));
+
+  .nc-hero__grid {
+    @include respond-to('md') {
+      grid-template-columns: var(--mod-hero-split-columns, var(--nc-hero-split-columns));
+      // stretch statt center: Das Medium soll die volle Hoehe des Verbunds
+      // fuellen. Bei center bliebe oben und unten ein Streifen Flaeche stehen,
+      // und "buendig" waere es nur an einer Kante.
+      align-items: stretch;
+    }
+  }
+
+  .nc-hero__media {
+    align-self: stretch;
+    min-height: var(--mod-hero-split-media-min-height, var(--nc-hero-split-media-min-height));
+
+    @include respond-to('md') {
+      @include hero-split-ueberstand(end);
+    }
+  }
+
+  // Steht das Medium links, gehoert der Ueberstand auf die andere Seite.
+  // Ohne diesen Zweig zoege das Bild nach rechts aus dem Container heraus,
+  // waehrend es links an der Containerkante klebte.
+  &.nc-hero--media-start .nc-hero__media {
+    @include respond-to('md') {
+      margin-inline-end: 0;
+      @include hero-split-ueberstand(start);
+    }
+  }
+
+  // Buendig heisst ohne Radius und ohne Luft: Das Bild fuellt seine Spalte.
+  .nc-hero__media-image,
+  .nc-hero__picture,
+  .nc-video {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nc-hero__picture {
+    box-shadow: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Fuss — Badges und Kennzahlen unter den Aktionen
 // ---------------------------------------------------------------------------
 // Eigene Bauteile werden hier NICHT erfunden: Die Badges sind .nc-badge-row,
@@ -450,16 +530,16 @@
 // ---------------------------------------------------------------------------
 
 .nc-hero__card {
-  width: min(420px, 90vw);
-  aspect-ratio: 4 / 5;
-  border-radius: var(--fnd-radius-4xl);
+  width: var(--mod-hero-card-width, var(--nc-hero-card-width));
+  aspect-ratio: var(--mod-hero-card-ratio, var(--nc-hero-card-ratio));
+  border-radius: var(--mod-hero-card-radius, var(--nc-hero-card-radius));
   background: radial-gradient(circle at top,
     color-mix(in srgb, var(--fnd-color-always-dark) 88%, var(--fnd-color-background-base)),
     color-mix(in srgb, var(--fnd-color-always-dark) 96%, var(--fnd-color-background-base))
   );
-  padding: var(--fnd-spacing-06);
+  padding: var(--mod-hero-card-padding, var(--nc-hero-card-padding));
   display: grid;
-  gap: var(--fnd-spacing-06);
+  gap: var(--mod-hero-card-gap, var(--nc-hero-card-gap));
   position: relative;
   color: var(--fnd-color-always-light);
   box-shadow: var(--fnd-elevation-overlay);
