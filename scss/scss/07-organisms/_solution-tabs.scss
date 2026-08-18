@@ -36,10 +36,26 @@
   --nc-solution-tabs-tab-bg-active: var(--nc-solution-tabs-accent);
 }
 
-// Sektions-Header in heller Schrift (dunkle Sektion). Der gemeinsame
-// nc-section-header nutzt dunkle Schrift; hier kontextbezogen ueberschrieben.
+// Sektions-Header im Kontext der Sektion. Titel und Untertitel folgen den
+// Textfarben der Sektion — das ist richtig und bleibt.
+//
+// DAS LABEL LAG FALSCH. Es zeigte auf --nc-solution-tabs-accent, also auf die
+// AKZENTFARBE statt auf eine Textfarbe. Eine Bereichsbezeichnung ordnet ein,
+// sie ruft nicht auf; genau deshalb wurde sie systemweit auf Graphit 800
+// gestellt. Diese eine Regel hat die Umstellung ueberlebt und faerbte das
+// Label auf /node/1 weiter mit dem Akzent — erst Cyan, nach dem
+// Palettenwechsel Lime 800. 40 Seiten richtig, eine falsch.
+//
+// Gefunden hat es die Artefaktpruefung: „nur eine von 41 Seiten" war das
+// Merkmal, das nicht zu einer Token-Aenderung passte.
+//
+// Der Kontext-Haken BLEIBT, nur ohne Vorgabe: Ohne gesetzten Wert faellt die
+// Regel auf die systemweite Label-Farbe zurueck. Eine dunkle Fassung der
+// Sektion kann --nc-solution-tabs-label setzen, ohne diese Regel anzufassen.
 .nc-solution-tabs-section .nc-section-header__title { color: var(--nc-solution-tabs-title); }
-.nc-solution-tabs-section .nc-section-header__label { color: var(--nc-solution-tabs-accent); }
+.nc-solution-tabs-section .nc-section-header__label {
+  color: var(--nc-solution-tabs-label, var(--nc-section-header-label-color));
+}
 .nc-solution-tabs-section .nc-section-header__subtitle { color: var(--nc-solution-tabs-text); }
 
 // ---------------------------------------------------------------------------
