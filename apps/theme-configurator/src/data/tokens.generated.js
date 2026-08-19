@@ -18138,7 +18138,8 @@ export const componentTokenGroups = [
           "nc-product-showcase-acc-marker-inset",
           "nc-product-showcase-acc-columns-gap",
           "nc-product-showcase-acc-card-width",
-          "nc-product-showcase-acc-card-gap"
+          "nc-product-showcase-acc-card-gap",
+          "nc-product-showcase-acc-marker-gap"
         ]
       },
       {
@@ -18198,7 +18199,8 @@ export const componentTokenGroups = [
           "nc-product-showcase-acc-pad",
           "nc-product-showcase-acc-rule",
           "nc-product-showcase-acc-marker",
-          "nc-product-showcase-acc-device-col"
+          "nc-product-showcase-acc-device-col",
+          "nc-product-showcase-acc-device-reserve"
         ]
       }
     ],
@@ -18532,6 +18534,18 @@ export const componentTokenGroups = [
         "label": "Acc Card Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-product-showcase-acc-device-reserve",
+        "label": "Acc Device Reserve",
+        "type": "size",
+        "default": "150px"
+      },
+      {
+        "id": "nc-product-showcase-acc-marker-gap",
+        "label": "Acc Marker Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
       }
     ]
   },
@@ -19589,7 +19603,8 @@ export const componentTokenGroups = [
           "nc-device-notch-radius",
           "nc-device-tilt",
           "nc-device-caption-size",
-          "nc-device-caption-gap"
+          "nc-device-caption-gap",
+          "nc-device-width-per-height"
         ]
       },
       {
@@ -19686,6 +19701,12 @@ export const componentTokenGroups = [
         "label": "Beschriftung — Farbe",
         "type": "color",
         "default": "var(--fnd-color-text-secondary)"
+      },
+      {
+        "id": "nc-device-width-per-height",
+        "label": "Width Per Height",
+        "type": "size",
+        "default": "0.46"
       }
     ]
   },

@@ -454,7 +454,17 @@
   // dagegenhalten, sondern die geerbte Eigenschaft ausdruecklich zuruecknehmen.
   border-inline-start: 0;
   border-block-end: 1px solid var(--mod-product-showcase-acc-rule, var(--nc-product-showcase-acc-rule));
-  padding-inline-start: calc(var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width)) + var(--fnd-spacing-05));
+
+  // KEIN EINZUG FUER DIE MARKE.
+  //
+  // Sie stand vorher im Textfluss: 3 px Marke plus 20 px Abstand schoben
+  // Etikett und Ueberschrift um 23 px nach innen. Der Abschnittskopf darueber
+  // lag damit auf der Anschnittlinie des Containers, die Stationen darunter
+  // nicht — gemessen 73 zu 96 px.
+  //
+  // Die Marke haengt jetzt im Bund links daneben. Dort ist Platz: Der Container
+  // haelt zur Fensterkante ohnehin Abstand.
+  padding-inline-start: 0;
 
   &:hover { color: inherit; }
   &:last-child { border-block-end: 0; }
@@ -473,7 +483,7 @@
     // der Kastenkante. Gleicher Einzug oben UND unten ergaebe deshalb keine
     // Symmetrie, sondern das Doppelte oben. Gemessen: 16 px oben zu 9 px unten.
     inset-block: 0 var(--mod-product-showcase-acc-marker-inset, var(--nc-product-showcase-acc-marker-inset));
-    inset-inline-start: 0;
+    inset-inline-start: calc(-1 * (var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width)) + var(--mod-product-showcase-acc-marker-gap, var(--nc-product-showcase-acc-marker-gap))));
     inline-size: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width));
     border-radius: var(--fnd-radius-full);
     background: transparent;
@@ -644,6 +654,8 @@
     &::before {
       inset-block: auto;
       inset-block-start: 0;
+      // Quer liegt sie oben AUF der Karte, nicht daneben — im Bund waere sie
+      // auf schmalen Bildschirmen ausserhalb des sichtbaren Bereichs.
       inset-inline: 0;
       inline-size: auto;
       block-size: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width));
@@ -657,6 +669,30 @@
 
   .nc-product-showcase--accordion .nc-product-showcase__trigger {
     padding-block-start: var(--fnd-spacing-04);
+  }
+
+  // DAS GERAET DARF DEN STREIFEN NICHT AUS DEM BILD SCHIEBEN.
+  //
+  // Der Rahmen ist am 19.08.2026 um ein Viertel gewachsen. Auf dem Schreibtisch
+  // ist das der Punkt der Uebung; auf einem Telefon im Hochformat kostet es
+  // Hoehe, die der Kartenstreifen darunter braucht. Gemessen bei 390x844:
+  // 204 px Breite ergaben 445 px Hoehe, ein Viertel mehr ergaebe 556 px — der
+  // Streifen stuende dann rund 110 px unterhalb des sichtbaren Bereichs.
+  //
+  // Deshalb hier keine feste Breite, sondern die kleinere von beiden: der
+  // fluide Vorgabewert ODER das, was die Hoehe hergibt.
+  //
+  // svh statt vh: vh rechnet mit der Leiste des Browsers als waere sie nie da.
+  // Genau die verdeckt aber unten das, was hier sichtbar bleiben soll.
+  //
+  // Kennt ein Browser svh nicht, faellt die ganze Zeile weg und es bleibt beim
+  // fluiden Wert — dieselbe Lage wie vorher, kein Schaden.
+  .nc-product-showcase--accordion .nc-device {
+    --mod-device-width: min(
+      var(--nc-device-width),
+      calc((100svh - var(--mod-product-showcase-acc-device-reserve, var(--nc-product-showcase-acc-device-reserve)))
+           * var(--nc-device-width-per-height))
+    );
   }
 }
 

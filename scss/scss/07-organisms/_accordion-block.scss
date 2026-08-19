@@ -9,13 +9,21 @@
 @use '../01-tools' as *;
 
 /* >>> aufgenommen: accordion-block */
+// DIE ANSCHNITTLINIE KOMMT VOM CONTAINER, NICHT VON HIER.
+//
+// Dieser Kasten hatte den Container nachgebaut: eigene Hoechstbreite (1440
+// statt --nc-container-max-width) und eigenes Polster (spacing-06 statt der
+// vierstufigen Staffel des Containers). Das Ergebnis war ein Block, der
+// zwischen allen anderen um 50 px verrutscht stand — gemessen bei 1440 px
+// Fensterbreite: Kopf bei 23 px, waehrend jeder andere Block bei 73 px begann.
+//
+// `.nc-container` traegt jetzt die Breite und das Polster (im Twig ergaenzt),
+// hier bleibt nur, was dieses Bauteil ausmacht: zwei Spalten und der
+// senkrechte Rhythmus.
 .nc-accordion-block__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--fnd-spacing-10);
-  max-width: var(--mod-container-max-width, var(--nc-container-max-width, 1440px));
-  margin-inline: auto;
-  padding-inline: var(--fnd-spacing-06);
   padding-block: var(--fnd-spacing-10);
   align-items: start;
 }

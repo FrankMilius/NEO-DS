@@ -3408,7 +3408,20 @@
   // zwischen zwei mehrstelligen Zahlen als Division und bricht ab. Bei
   // 4 / 5 faellt das nicht auf, bei 1206 / 2622 schon.
   --nc-device-ratio:               #{"1206 / 2622"};
-  --nc-device-width:               clamp(200px, calc(200px + (300px - 200px) * var(--fluid-bp)), 300px);
+
+  // Am 19.08.2026 um ein Viertel vergroessert: 200-300 -> 250-375 px.
+  // Der Rahmen war als Beiwerk gebaut; auf einer Seite, die eine App zeigt,
+  // ist er der Gegenstand.
+  --nc-device-width:               clamp(250px, calc(250px + (375px - 250px) * var(--fluid-bp)), 375px);
+
+  // Breite je verfuegbarer Hoehe — der Kehrwert von --nc-device-ratio als Zahl.
+  //
+  // Wozu: Wo die Hoehe knapp ist (Telefon im Hochformat), muss aus dem Platz
+  // die Breite gerechnet werden, nicht umgekehrt. Ein Verhaeltnis in der Form
+  // "1206 / 2622" laesst sich in calc() nicht als Faktor verwenden.
+  //
+  // 1206 / 2622 = 0.46. Wer das Verhaeltnis aendert, aendert beide Zeilen.
+  --nc-device-width-per-height:    0.46;
 
   // Der Rand ist das Geraet. Er traegt keine Bedeutung und muss deshalb keinen
   // Kontrastwert halten — er muss aber als Gegenstand lesbar sein, sonst wirkt
@@ -3502,6 +3515,19 @@
   // Um den Zwischenraum gekuerzt, steht sie unten und oben gleich weit von der
   // Haarlinie ab und liegt sichtbar frei.
   --nc-product-showcase-acc-marker-inset:  var(--nc-product-showcase-option-gap);
+
+  // Was neben dem Geraet noch in den Bildschirm passen muss, damit vom
+  // Kartenstreifen darunter etwas zu sehen bleibt: der Zwischenraum und so viel
+  // von der Karte, dass Etikett und Ueberschrift lesbar sind — 24 + 126 px.
+  //
+  // NICHT die Kopfleiste und nicht der Abschnittskopf. Beide stehen oberhalb
+  // und scrollen weg; wer eine Station waehlt, hat sie laengst hinter sich. Mit
+  // ihnen gerechnet (380 px) blieben auf einem 667-px-Bildschirm nur 132 px
+  // Geraetebreite — weniger als vor der Vergroesserung.
+  --nc-product-showcase-acc-device-reserve: 150px;
+
+  // Abstand der Marke zum Text — sie haengt im Bund, nicht im Textfluss.
+  --nc-product-showcase-acc-marker-gap:    var(--fnd-spacing-04);
   // Die Medienspalte ist so breit wie das Geraet, nicht so breit wie der Rest.
   --nc-product-showcase-acc-device-col:    auto;
 
