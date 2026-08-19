@@ -3459,6 +3459,42 @@
   // der Kopfleiste fest, die selbst klebt.
   --nc-product-showcase-sticky-top: calc(var(--nc-nav-height, 72px) + var(--fnd-spacing-06));
 
+  // -- Geraete-Strecke als Akkordeon --
+  // Die Typografie folgt der Leiter des Systems statt eigener Werte. Vorher
+  // stand hier die Ausstattung des Polestar-Vorbilds: Beschreibungstext in
+  // 40 % Weiss, gedacht fuer eine dunkle Flaeche. Auf der hellen Seite war er
+  // damit unsichtbar — gemessen color(srgb 0.976 0.984 0.976 / 0.4).
+  //
+  // Etikett -> Mono, wie jeder Kicker im System
+  // Ueberschrift -> heading-m (fs-xl), wie eine Kartenueberschrift
+  // Text -> body-m (fs-base), wie jeder Fliesstext
+  --nc-product-showcase-acc-label-family:   var(--font-mono);
+  --nc-product-showcase-acc-label-size:     var(--fs-xs);
+  --nc-product-showcase-acc-label-weight:   var(--nc-mono-label-weight-strong);
+  --nc-product-showcase-acc-label-tracking: var(--nc-mono-tracking-caps);
+  --nc-product-showcase-acc-label-color:    var(--fnd-color-text-tertiary);
+
+  --nc-product-showcase-acc-title-family:   var(--font-heading);
+  --nc-product-showcase-acc-title-size:     var(--nc-type-heading-m-size);
+  --nc-product-showcase-acc-title-weight:   var(--fnd-font-weight-semibold);
+  --nc-product-showcase-acc-title-lh:       var(--lh-heading);
+  --nc-product-showcase-acc-title-tracking: var(--fnd-tracking-snug);
+  --nc-product-showcase-acc-title-color:    var(--fnd-color-text-primary);
+
+  --nc-product-showcase-acc-text-size:      var(--nc-type-body-m-size);
+  --nc-product-showcase-acc-text-lh:        var(--lh-body);
+  --nc-product-showcase-acc-text-color:     var(--fnd-color-text-secondary);
+  --nc-product-showcase-acc-text-max:       58ch;
+
+  --nc-product-showcase-acc-gap:            var(--fnd-spacing-02);
+  --nc-product-showcase-acc-pad:            var(--fnd-spacing-05) 0;
+  --nc-product-showcase-acc-rule:           var(--fnd-color-border-primary);
+  --nc-product-showcase-acc-marker:         var(--fnd-color-background-accent);
+  --nc-product-showcase-acc-marker-width:   3px;
+  // Die Medienspalte ist so breit wie das Geraet, nicht so breit wie der Rest.
+  --nc-product-showcase-acc-device-col:    auto;
+  --nc-product-showcase-acc-duration:       var(--fnd-motion-duration-300, 300ms);
+
   // -- Hervorhebung in der Ueberschrift --
   // Zwei Bauarten, Balken und Tinte. BEIDE haengen von der Flaeche ab, und
   // zwar aus demselben Grund: Die Schriftfarbe des Heroes wechselt mit ihr.

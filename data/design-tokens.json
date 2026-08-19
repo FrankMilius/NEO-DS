@@ -18174,7 +18174,13 @@
               "nc-product-showcase-headline-size",
               "nc-product-showcase-desc-size",
               "nc-product-showcase-media-radius",
-              "nc-product-showcase-sticky-top"
+              "nc-product-showcase-sticky-top",
+              "nc-product-showcase-acc-label-size",
+              "nc-product-showcase-acc-title-size",
+              "nc-product-showcase-acc-text-size",
+              "nc-product-showcase-acc-text-max",
+              "nc-product-showcase-acc-gap",
+              "nc-product-showcase-acc-marker-width"
             ]
           },
           {
@@ -18187,7 +18193,11 @@
               "nc-product-showcase-options-align",
               "nc-product-showcase-label-font-size",
               "nc-product-showcase-label-font-family",
-              "nc-product-showcase-headline-weight"
+              "nc-product-showcase-headline-weight",
+              "nc-product-showcase-acc-label-weight",
+              "nc-product-showcase-acc-label-tracking",
+              "nc-product-showcase-acc-title-weight",
+              "nc-product-showcase-acc-title-tracking"
             ]
           },
           {
@@ -18201,7 +18211,10 @@
               "nc-product-showcase-label-color",
               "nc-product-showcase-headline-color",
               "nc-product-showcase-desc-color",
-              "nc-product-showcase-media-bg"
+              "nc-product-showcase-media-bg",
+              "nc-product-showcase-acc-label-color",
+              "nc-product-showcase-acc-title-color",
+              "nc-product-showcase-acc-text-color"
             ]
           },
           {
@@ -18210,7 +18223,8 @@
             "category": "state",
             "tokenIds": [
               "nc-product-showcase-animation-duration",
-              "nc-product-showcase-animation-easing"
+              "nc-product-showcase-animation-easing",
+              "nc-product-showcase-acc-duration"
             ]
           },
           {
@@ -18218,7 +18232,15 @@
             "label": "Weitere",
             "tokenIds": [
               "nc-product-showcase-label-family",
-              "nc-product-showcase-media-aspect-ratio"
+              "nc-product-showcase-media-aspect-ratio",
+              "nc-product-showcase-acc-label-family",
+              "nc-product-showcase-acc-title-family",
+              "nc-product-showcase-acc-title-lh",
+              "nc-product-showcase-acc-text-lh",
+              "nc-product-showcase-acc-pad",
+              "nc-product-showcase-acc-rule",
+              "nc-product-showcase-acc-marker",
+              "nc-product-showcase-acc-device-col"
             ]
           }
         ],
@@ -18396,6 +18418,138 @@
             "label": "Klebeabstand nach oben",
             "type": "size",
             "default": "calc(var(--nc-nav-height, 72px) + var(--fnd-spacing-06))"
+          },
+          {
+            "id": "nc-product-showcase-acc-label-family",
+            "label": "Acc Label Family",
+            "type": "generic",
+            "default": "var(--font-mono)"
+          },
+          {
+            "id": "nc-product-showcase-acc-label-size",
+            "label": "Acc Label Size",
+            "type": "size",
+            "default": "var(--fs-xs)"
+          },
+          {
+            "id": "nc-product-showcase-acc-label-weight",
+            "label": "Acc Label Weight",
+            "type": "fontWeight",
+            "default": "var(--nc-mono-label-weight-strong)"
+          },
+          {
+            "id": "nc-product-showcase-acc-label-tracking",
+            "label": "Acc Label Tracking",
+            "type": "size",
+            "default": "var(--nc-mono-tracking-caps)"
+          },
+          {
+            "id": "nc-product-showcase-acc-label-color",
+            "label": "Acc Label Color",
+            "type": "color",
+            "ref": "text-tertiary"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-family",
+            "label": "Acc Title Family",
+            "type": "generic",
+            "default": "var(--font-heading)"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-size",
+            "label": "Acc Title Size",
+            "type": "size",
+            "default": "var(--nc-type-heading-m-size)"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-weight",
+            "label": "Acc Title Weight",
+            "type": "fontWeight",
+            "default": "var(--fnd-font-weight-semibold)"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-lh",
+            "label": "Acc Title Lh",
+            "type": "generic",
+            "default": "var(--lh-heading)"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-tracking",
+            "label": "Acc Title Tracking",
+            "type": "size",
+            "default": "var(--fnd-tracking-snug)"
+          },
+          {
+            "id": "nc-product-showcase-acc-title-color",
+            "label": "Acc Title Color",
+            "type": "color",
+            "ref": "text-primary"
+          },
+          {
+            "id": "nc-product-showcase-acc-text-size",
+            "label": "Acc Text Size",
+            "type": "size",
+            "default": "var(--nc-type-body-m-size)"
+          },
+          {
+            "id": "nc-product-showcase-acc-text-lh",
+            "label": "Acc Text Lh",
+            "type": "generic",
+            "default": "var(--lh-body)"
+          },
+          {
+            "id": "nc-product-showcase-acc-text-color",
+            "label": "Acc Text Color",
+            "type": "color",
+            "ref": "text-secondary"
+          },
+          {
+            "id": "nc-product-showcase-acc-text-max",
+            "label": "Acc Text Max",
+            "type": "size",
+            "default": "58ch"
+          },
+          {
+            "id": "nc-product-showcase-acc-gap",
+            "label": "Acc Gap",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-02)"
+          },
+          {
+            "id": "nc-product-showcase-acc-pad",
+            "label": "Acc Pad",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-05) 0"
+          },
+          {
+            "id": "nc-product-showcase-acc-rule",
+            "label": "Acc Rule",
+            "type": "color",
+            "ref": "border-primary"
+          },
+          {
+            "id": "nc-product-showcase-acc-marker",
+            "label": "Acc Marker",
+            "type": "color",
+            "ref": "background-accent"
+          },
+          {
+            "id": "nc-product-showcase-acc-marker-width",
+            "label": "Acc Marker Width",
+            "type": "size",
+            "default": "3px"
+          },
+          {
+            "id": "nc-product-showcase-acc-device-col",
+            "label": "Acc Device Col",
+            "type": "generic",
+            "default": "auto"
+          },
+          {
+            "id": "nc-product-showcase-acc-duration",
+            "label": "Acc Duration",
+            "type": "duration",
+            "default": "var(--fnd-motion-duration-300, 300ms)"
           }
         ]
       },

@@ -314,12 +314,13 @@
   margin-block-start: var(--fnd-spacing-05);
 }
 
-[data-neo-device-scroll='aktiv'] {
+[data-neo-device-scroll='aktiv'],
+[data-neo-device-accordion='aktiv'] {
   .nc-product-showcase__option-device { display: none; }
 }
 
 // Ohne Skript hat der klebende Bereich nichts zu zeigen.
-.nc-product-showcase--device:not([data-neo-device-scroll='aktiv']) .nc-product-showcase__media-panel {
+.nc-product-showcase--device:not([data-neo-device-scroll='aktiv']):not([data-neo-device-accordion='aktiv']) .nc-product-showcase__media-panel {
   display: none;
 }
 
@@ -355,4 +356,206 @@
   &.is-active { border-inline-start-color: var(--fnd-color-background-accent); }
 
   .nc-product-showcase__label { font-weight: var(--fnd-font-weight-semibold); }
+}
+
+// ---------------------------------------------------------------------------
+// Akkordeon-Fassung — Klick statt Scrollen
+// ---------------------------------------------------------------------------
+// Ergaenzt am 19.08.2026. Die Scroll-Fassung wechselte den Screen, waehrend
+// man vorbeiscrollte; verlangt war stattdessen ein Wechsel per Klick, bei dem
+// gleichzeitig der Text aufklappt.
+//
+// WOHER DIE TEILE KOMMEN
+// Die Struktur bleibt die des Showcase: Liste auf der einen Seite, EIN
+// geteiltes Medium auf der anderen. Die Auf-und-Zu-Mechanik ist die des
+// Akkordeons (grid-template-rows 0fr -> 1fr) — sie animiert eine unbekannte
+// Hoehe, ohne dass jemand sie ausmessen muss.
+//
+// .nc-accordion selbst passt nicht: Dort steckt das Medium IN jedem Element.
+// Hier gibt es ein Geraet fuer alle, das wechselt.
+
+// SPALTENVERHAELTNIS UMGEDREHT
+// Der Showcase gibt der Liste 280 px und dem Medium den Rest. Das passt zu
+// seinem Zweck: Die Liste traegt Tab-Beschriftungen aus einem Wort, das Bild
+// traegt die Aussage.
+//
+// Hier ist es umgekehrt. In der Liste stehen Ueberschrift und Fliesstext; das
+// Medium ist ein Telefon und nie breiter als 300 px. Mit dem geerbten
+// Verhaeltnis blieben 280 px fuer den Text — gemessen wurde daraufhin eine
+// Ueberschrift ueber drei Zeilen und ein Absatz von 262 px Hoehe, waehrend
+// neben dem Telefon rund 600 px leer blieben.
+//
+// Die Medienspalte bekommt deshalb `auto`: genau die Breite des Geraets.
+.nc-product-showcase--accordion {
+  // Medium links ist die Vorgabe — anders als beim Showcase, wo die Optionen
+  // links stehen. Wer eine App zeigt, zeigt zuerst die App.
+  grid-template-columns: var(--mod-product-showcase-acc-device-col, var(--nc-product-showcase-acc-device-col)) 1fr;
+
+  .nc-product-showcase__media-panel { order: 0; }
+  .nc-product-showcase__options     { order: 1; }
+
+  @include respond-to('md') { align-items: start; }
+}
+
+// Medium rechts, Liste links.
+.nc-product-showcase--accordion.nc-product-showcase--media-end {
+  grid-template-columns: 1fr var(--mod-product-showcase-acc-device-col, var(--nc-product-showcase-acc-device-col));
+
+  .nc-product-showcase__media-panel { order: 1; }
+  .nc-product-showcase__options     { order: 0; }
+}
+
+// ---------------------------------------------------------------------------
+// Eine Station
+// ---------------------------------------------------------------------------
+
+// Die Grundfassung der Option ist eine Zeile: display:flex, align-items:center.
+// Das ist fuer einen Tab richtig — Punkt und Beschriftung nebeneinander. Hier
+// stehen Ausloeser und aufklappender Text UNTEREINANDER, also muss die Richtung
+// zurueckgenommen werden. Ohne diese vier Zeilen legt sich der Text neben die
+// Schaltflaeche, wird auf Restbreite gequetscht und laeuft in die Hoehe: gemessen
+// 531 px fuer drei Zeilen Flatterrand.
+//
+// Das Innenpolster wandert an den Ausloeser. Nur so ist die gesamte Zeile
+// anklickbar und nicht bloss die Schrift darin.
+.nc-product-showcase--accordion .nc-product-showcase__option {
+  display: block;
+  padding: 0;
+  cursor: default;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  color: inherit;
+
+  border-block-end: 1px solid var(--mod-product-showcase-acc-rule, var(--nc-product-showcase-acc-rule));
+  border-inline-start: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width)) solid transparent;
+  padding-inline-start: var(--fnd-spacing-05);
+  transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+  &:hover { color: inherit; }
+  &:last-child { border-block-end: 0; }
+  &.is-active { border-inline-start-color: var(--mod-product-showcase-acc-marker, var(--nc-product-showcase-acc-marker)); }
+}
+
+// Der Ausloeser ist ein <button>, kein <div> mit Klickbehandlung: Er ist damit
+// von Haus aus mit der Tastatur erreichbar, kennt Enter und Leertaste und wird
+// von Vorlesewerkzeugen als bedienbar angesagt.
+.nc-product-showcase--accordion .nc-product-showcase__trigger {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--mod-product-showcase-acc-gap, var(--nc-product-showcase-acc-gap));
+  inline-size: 100%;
+  padding: var(--mod-product-showcase-acc-pad, var(--nc-product-showcase-acc-pad));
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+    outline-offset: var(--fnd-focus-offset);
+  }
+}
+
+.nc-product-showcase--accordion .nc-product-showcase__label {
+  font-family: var(--mod-product-showcase-acc-label-family, var(--nc-product-showcase-acc-label-family));
+  font-size: var(--mod-product-showcase-acc-label-size, var(--nc-product-showcase-acc-label-size));
+  font-weight: var(--mod-product-showcase-acc-label-weight, var(--nc-product-showcase-acc-label-weight));
+  letter-spacing: var(--mod-product-showcase-acc-label-tracking, var(--nc-product-showcase-acc-label-tracking));
+  text-transform: uppercase;
+  color: var(--mod-product-showcase-acc-label-color, var(--nc-product-showcase-acc-label-color));
+}
+
+.nc-product-showcase__title {
+  font-family: var(--mod-product-showcase-acc-title-family, var(--nc-product-showcase-acc-title-family));
+  font-size: var(--mod-product-showcase-acc-title-size, var(--nc-product-showcase-acc-title-size));
+  font-weight: var(--mod-product-showcase-acc-title-weight, var(--nc-product-showcase-acc-title-weight));
+  line-height: var(--mod-product-showcase-acc-title-lh, var(--nc-product-showcase-acc-title-lh));
+  letter-spacing: var(--mod-product-showcase-acc-title-tracking, var(--nc-product-showcase-acc-title-tracking));
+  color: var(--mod-product-showcase-acc-title-color, var(--nc-product-showcase-acc-title-color));
+  margin: 0;
+  text-wrap: balance;
+}
+
+// ---------------------------------------------------------------------------
+// Der aufklappende Text
+// ---------------------------------------------------------------------------
+// grid-template-rows von 0fr auf 1fr: Damit laesst sich eine Hoehe animieren,
+// die niemand vorher kennt. max-height mit einem geratenen Wert waere die
+// Alternative — sie schneidet zu lange Texte ab oder laesst die Animation
+// stocken, je nachdem wie grosszuegig geraten wurde.
+.nc-product-showcase--accordion .nc-product-showcase__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--mod-product-showcase-acc-duration, var(--nc-product-showcase-acc-duration))
+              var(--fnd-motion-ease-focused, ease);
+
+  > * { overflow: hidden; }
+}
+
+.nc-product-showcase--accordion .nc-product-showcase__option.is-active .nc-product-showcase__panel {
+  grid-template-rows: 1fr;
+}
+
+.nc-product-showcase--accordion .nc-product-showcase__description-text {
+  font-size: var(--mod-product-showcase-acc-text-size, var(--nc-product-showcase-acc-text-size));
+  line-height: var(--mod-product-showcase-acc-text-lh, var(--nc-product-showcase-acc-text-lh));
+  color: var(--mod-product-showcase-acc-text-color, var(--nc-product-showcase-acc-text-color));
+  max-inline-size: var(--mod-product-showcase-acc-text-max, var(--nc-product-showcase-acc-text-max));
+  margin: 0;
+  padding-block-end: var(--fnd-spacing-05);
+
+  // Die Blende aus der Scroll-Fassung gilt hier nicht: Der Text erscheint
+  // durch das Aufklappen, nicht durch Einblenden. Beides zusammen ergaebe
+  // eine Bewegung, die zweimal dasselbe sagt.
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-product-showcase--accordion .nc-product-showcase__panel { transition: none; }
+}
+
+// Ohne JavaScript ist jede Station offen. Kein Skript heisst nicht kein
+// Inhalt — es heisst nur, dass man nicht zuklappen kann.
+.nc-product-showcase--accordion:not([data-neo-device-accordion='aktiv']) {
+  .nc-product-showcase__panel { grid-template-rows: 1fr; }
+}
+
+// ---------------------------------------------------------------------------
+// Schmale Bildschirme
+// ---------------------------------------------------------------------------
+// Die Grundfassung stapelt ab md — aber ihre Regel steht WEITER OBEN in dieser
+// Datei und hat dieselbe Spezifitaet wie `--accordion`. Bei Gleichstand
+// gewinnt die spaetere: Die Akkordeon-Spalten ueberschrieben das Stapeln
+// stillschweigend wieder. Gemessen bei 390 px: Geraet 204 px, Textspalte 89 px,
+// Ueberschrift ueber sieben Zeilen.
+//
+// Deshalb steht die Ausnahme hier unten und nicht oben — dieselbe Lehre wie bei
+// den Haarlinien der Hero-Karten: Wer mit hoeherer Spezifitaet dagegenhaelt,
+// verschiebt das Problem nur.
+@include respond-to-max('md') {
+  .nc-product-showcase--accordion,
+  .nc-product-showcase--accordion.nc-product-showcase--media-end {
+    grid-template-columns: 1fr;
+  }
+
+  // Und die Liste bleibt eine Liste. Die Grundfassung legt die Optionen auf
+  // schmalen Bildschirmen nebeneinander und laesst sie seitlich scrollen — das
+  // ist fuer Tab-Beschriftungen richtig und fuer aufklappende Absaetze falsch.
+  .nc-product-showcase--accordion .nc-product-showcase__options {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+
+  // Das Geraet steht ueber der Liste, nicht daneben.
+  .nc-product-showcase--accordion .nc-product-showcase__media-panel,
+  .nc-product-showcase--accordion.nc-product-showcase--media-end .nc-product-showcase__media-panel {
+    order: 0;
+    justify-self: center;
+  }
+
+  .nc-product-showcase--accordion .nc-product-showcase__options,
+  .nc-product-showcase--accordion.nc-product-showcase--media-end .nc-product-showcase__options {
+    order: 1;
+  }
 }

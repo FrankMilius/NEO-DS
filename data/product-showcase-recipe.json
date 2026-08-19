@@ -183,6 +183,73 @@
           "renderHint": "showcase-card"
         }
       }
+    },
+    "interaktion": {
+      "label": "Interaktion",
+      "description": "Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).",
+      "values": {
+        "tabs": {
+          "modifier": null,
+          "tokenGroups": [
+            "options"
+          ],
+          "renderHint": "showcase-tabs"
+        },
+        "accordion": {
+          "modifier": "nc-product-showcase--accordion",
+          "tokenGroups": [
+            "accordion"
+          ],
+          "renderHint": "showcase-accordion"
+        },
+        "scroll": {
+          "modifier": "nc-product-showcase--sticky",
+          "tokenGroups": [
+            "sticky"
+          ],
+          "renderHint": "showcase-scroll"
+        }
+      }
+    },
+    "mediaSide": {
+      "label": "Seite des Mediums",
+      "description": "Auf welcher Seite das Medium steht. Bei der Akkordeon-Fassung ist links die Vorgabe: Wer eine App zeigt, zeigt zuerst die App. Ab md gestapelt — dann steht das Medium immer oben.",
+      "values": {
+        "start": {
+          "modifier": null,
+          "tokenGroups": [
+            "accordion"
+          ],
+          "renderHint": "showcase-media-start"
+        },
+        "end": {
+          "modifier": "nc-product-showcase--media-end",
+          "tokenGroups": [
+            "accordion"
+          ],
+          "renderHint": "showcase-media-end"
+        }
+      }
+    },
+    "mediaFrame": {
+      "label": "Geraeterahmen",
+      "description": "Ohne Rahmen fuellt das Medium das Panel im vorgegebenen Seitenverhaeltnis. Mit Rahmen gibt das Panel sein Seitenverhaeltnis auf und ueberlaesst es dem Geraet (nc-device) — noetig fuer App-Screens im Format 1:2.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "showcase-frame-none"
+        },
+        "device": {
+          "modifier": "nc-product-showcase--device",
+          "tokenGroups": [
+            "layout"
+          ],
+          "renderHint": "showcase-frame-device"
+        }
+      }
     }
   },
   "states": {
@@ -343,6 +410,41 @@
         "tokens": [
           "nc-product-showcase-animation-duration",
           "nc-product-showcase-animation-easing"
+        ]
+      },
+      "accordion": {
+        "label": "Akkordeon",
+        "description": "Typografie und Geometrie der Klick-Fassung: Etikett, Ueberschrift, aufklappender Text, Trennlinie und Marke der offenen Station.",
+        "tokens": [
+          "nc-product-showcase-acc-label-family",
+          "nc-product-showcase-acc-label-size",
+          "nc-product-showcase-acc-label-weight",
+          "nc-product-showcase-acc-label-tracking",
+          "nc-product-showcase-acc-label-color",
+          "nc-product-showcase-acc-title-family",
+          "nc-product-showcase-acc-title-size",
+          "nc-product-showcase-acc-title-weight",
+          "nc-product-showcase-acc-title-lh",
+          "nc-product-showcase-acc-title-tracking",
+          "nc-product-showcase-acc-title-color",
+          "nc-product-showcase-acc-text-size",
+          "nc-product-showcase-acc-text-lh",
+          "nc-product-showcase-acc-text-color",
+          "nc-product-showcase-acc-text-max",
+          "nc-product-showcase-acc-gap",
+          "nc-product-showcase-acc-pad",
+          "nc-product-showcase-acc-rule",
+          "nc-product-showcase-acc-marker",
+          "nc-product-showcase-acc-marker-width",
+          "nc-product-showcase-acc-device-col",
+          "nc-product-showcase-acc-duration"
+        ]
+      },
+      "sticky": {
+        "label": "Mitlaufendes Medium",
+        "description": "Abstand des klebenden Medienpanels zur Oberkante des Fensters.",
+        "tokens": [
+          "nc-product-showcase-sticky-top"
         ]
       }
     }
