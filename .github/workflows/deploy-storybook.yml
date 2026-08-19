@@ -27,6 +27,19 @@ on:
       - 'stories/**'
       - 'scripts/generate-stories.mjs'
       - '.storybook/**'
+      # Der Workflow gehoert in seinen eigenen Ausloeser.
+      #
+      # Ohne diese Zeile aendert man ihn, pusht — und nichts passiert. Genau
+      # das ist am 19.08.2026 geschehen: Nach dem Aktivieren von GitHub Pages
+      # wartete alles auf einen Lauf, den kein Push mehr ausloeste, weil der
+      # letzte Push nur .github/ und agents/ beruehrt hatte.
+      #
+      # Ein Workflow, der sich selbst nicht beobachten kann, laesst sich nur
+      # ueber den Knopf "Run workflow" pruefen — und das vergisst man.
+      - '.github/workflows/deploy-storybook.yml'
+      # Abhaengigkeiten aendern die gebaute Ausgabe genauso wie Quelldateien.
+      - 'package.json'
+      - 'package-lock.json'
 
   workflow_dispatch:
 
