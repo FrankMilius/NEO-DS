@@ -108,10 +108,23 @@ function recipeBauen({ name, ebene, pfad }) {
       convenience: [],
       domNotes: [`Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.`],
     },
+    // Eine Achse braucht IMMER den Wert ohne Modifier.
+    //
+    // Bis zum 19.08.2026 fehlte er: Die Achse bestand nur aus den gefundenen
+    // Modifiern, und `default` zeigte auf den ERSTEN davon. Beides ist falsch —
+    // ein Modifier ist nie der Standard, die Abwesenheit eines Modifiers ist es.
+    //
+    // Bei genau einem Modifier fiel es auf (Achse mit einem Wert, der Test
+    // schlug an); bei mehreren blieb es unbemerkt, war aber derselbe Fehler.
+    // Drei Recipes trugen ihn still: compare-table, feature-list,
+    // testimonial-grid.
     axes: modifier.length ? [{
       name: 'variante',
-      values: modifier.map((m) => ({ value: m, modifier: `${wurzelKlasse}--${m}` })),
-      default: modifier[0],
+      values: [
+        { value: 'default', modifier: null },
+        ...modifier.map((m) => ({ value: m, modifier: `${wurzelKlasse}--${m}` })),
+      ],
+      default: 'default',
     }] : [],
     states: zustaende,
     a11y: {

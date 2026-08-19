@@ -26,7 +26,8 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
         "type": "select"
       },
       "options": [
-        "0"
+        "0",
+        "1"
       ],
       "description": ""
     }

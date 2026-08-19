@@ -28,7 +28,8 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
       "options": [
         "0",
         "1",
-        "2"
+        "2",
+        "3"
       ],
       "description": ""
     }
