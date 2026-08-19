@@ -1,3 +1,21 @@
+# Deploy Storybook
+#
+# VORAUSSETZUNG, DIE NICHT IM CODE STEHT
+# GitHub Pages muss im Repository aktiviert sein, und zwar mit der Quelle
+# „GitHub Actions" — nicht mit einem Branch:
+#
+#   Settings → Pages → Build and deployment → Source: GitHub Actions
+#
+# Fehlt das, laeuft der Bau fehlerfrei durch und NUR der letzte Schritt
+# scheitert, mit einer Meldung, die wie ein Rechtefehler aussieht:
+#
+#   Failed to create deployment (status: 404)
+#   HttpError: Not Found
+#
+# Am 19.08.2026 genau so passiert. Die Berechtigungen unten (pages: write,
+# id-token: write) sind richtig gesetzt und waren nie das Problem — sie
+# erlauben das Veroeffentlichen, aktivieren es aber nicht.
+
 name: Deploy Storybook
 
 on:
@@ -27,12 +45,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -48,7 +66,7 @@ jobs:
         run: npm run build-storybook
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: storybook-static
 
@@ -62,4 +80,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

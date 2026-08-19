@@ -103,6 +103,24 @@ export async function widersacherAgent(phasen, optionen = {}) {
   }
 
   // ── 3 · Voraussetzung ────────────────────────────────────────────────
+  //
+  // Auf einem Bauserver gibt es keine laufende Website — und es kann keine
+  // geben. Eine Warnung, die dort bei JEDEM Lauf erscheint und nie behebbar
+  // ist, ist Rauschen; sie wuerde genauso ignoriert wie der Test, der eine
+  // Woche lang rot war. Deshalb wird hier ausdruecklich uebersprungen statt
+  // gewarnt, mit Nennung des Grundes.
+  if (process.env.CI && !optionen.auchImCI) {
+    logInfo(AGENT, 'Bauserver ohne laufende Website — Phase uebersprungen.');
+    return {
+      agent: AGENT, status: 'pass', uebersprungen: true,
+      grund: 'CI ohne Website',
+      results: [createResult('widersacher', 'pass', {
+        hinweis: 'Auf dem Bauserver nicht durchfuehrbar. Die Widerlegung gehoert an den Arbeitsplatz, wo die Website laeuft.',
+      })],
+      duration: Date.now() - start,
+    };
+  }
+
   if (!seiteErreichbar()) {
     logWarn(AGENT, 'Website nicht erreichbar — Widerlegung nicht durchfuehrbar.');
     return {
