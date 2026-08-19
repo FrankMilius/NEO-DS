@@ -3409,10 +3409,11 @@
   // 4 / 5 faellt das nicht auf, bei 1206 / 2622 schon.
   --nc-device-ratio:               #{"1206 / 2622"};
 
-  // Am 19.08.2026 um ein Viertel vergroessert: 200-300 -> 250-375 px.
+  // Am 19.08.2026 vergroessert: 200-300 -> 230-345 px, also um 15 %.
   // Der Rahmen war als Beiwerk gebaut; auf einer Seite, die eine App zeigt,
-  // ist er der Gegenstand.
-  --nc-device-width:               clamp(250px, calc(250px + (375px - 250px) * var(--fluid-bp)), 375px);
+  // ist er der Gegenstand. Ein Viertel mehr war zu viel — das Geraet nahm dem
+  // Text daneben die Bahn.
+  --nc-device-width:               clamp(230px, calc(230px + (345px - 230px) * var(--fluid-bp)), 345px);
 
   // Breite je verfuegbarer Hoehe — der Kehrwert von --nc-device-ratio als Zahl.
   //
