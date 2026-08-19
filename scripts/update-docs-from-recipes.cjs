@@ -171,6 +171,20 @@ function generateStyleTab(recipe, tokenMap) {
 
 function generateTokenGroupTable(group, tokenMap) {
   const lines = [];
+
+  // Vier Recipes fuehren styling.tokenGroups als LISTE statt als Objekt
+  // (aspect-ratio, form-block, tabs, video). Dort gibt es weder label noch
+  // tokens, und `esc(undefined)` warf. Ein einzelnes fehlgeformtes Recipe legte
+  // damit die Erzeugung aller 131 Doku-Seiten lahm.
+  //
+  // Uebersprungen statt geraten: Ein erfundenes Label waere in der Doku nicht
+  // von einem echten zu unterscheiden. Der Hinweis nennt das Recipe beim Namen,
+  // damit die Form dort nachgezogen werden kann.
+  if (!group || typeof group !== 'object' || typeof group.label !== 'string'
+      || !Array.isArray(group.tokens)) {
+    console.warn(`    uebersprungen: Tokengruppe ohne label/tokens (${JSON.stringify(group).slice(0, 60)})`);
+    return lines;
+  }
   lines.push(`  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">${esc(group.label)}</h3>`);
   lines.push('  <div class="nc-data-table nc-data-table--static nc-data-table--striped">');
   lines.push('    <table class="nc-data-table__table">');
@@ -284,6 +298,13 @@ function generateApiTab(recipe, tokenMap) {
 
   if (styling.tokenGroups) {
     for (const [groupKey, group] of Object.entries(styling.tokenGroups)) {
+      // Dieselbe Absicherung wie in generateTokenGroupTable — die vier Recipes
+      // mit listenfoermigen tokenGroups laufen auch hier durch.
+      if (!group || typeof group !== 'object' || typeof group.label !== 'string'
+          || !Array.isArray(group.tokens)) {
+        continue;
+      }
+
       // Group header row
       lines.push(`      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">${esc(group.label)}</td></tr>`);
 
