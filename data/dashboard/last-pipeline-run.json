@@ -1,105 +1,140 @@
 {
-  "timestamp": "2026-03-25T11:36:24.994Z",
-  "overallStatus": "warn",
+  "timestamp": "2026-08-19T06:14:50.331Z",
+  "overallStatus": "fail",
   "summary": {
     "pass": 4,
-    "warn": 8,
-    "fail": 0
+    "warn": 11,
+    "fail": 1
   },
-  "duration": 29757,
+  "duration": 32635,
   "agents": [
     {
       "agent": "Builder",
       "status": "warn",
-      "duration": 6196,
+      "duration": 2149,
       "checks": 5
     },
     {
       "agent": "Tester",
-      "status": "warn",
-      "duration": 9617,
-      "checks": 4
+      "status": "fail",
+      "duration": 5473,
+      "checks": 5
     },
     {
       "agent": "Documenter",
       "status": "warn",
-      "duration": 13944,
+      "duration": 347,
+      "checks": 3
+    },
+    {
+      "agent": "Widersacher",
+      "status": "warn",
+      "duration": 24666,
       "checks": 3
     }
   ],
   "details": [
     {
       "agent": "tokens:generate",
-      "status": "warn",
-      "timestamp": "2026-03-25T11:35:55.902Z",
-      "error": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
+      "status": "pass",
+      "timestamp": "2026-08-19T06:14:17.957Z"
     },
     {
       "agent": "build:css",
       "status": "pass",
-      "timestamp": "2026-03-25T11:35:59.528Z",
-      "sizeKB": 825
+      "timestamp": "2026-08-19T06:14:19.150Z",
+      "sizeKB": 1120
     },
     {
       "agent": "tokens:sync",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:00.095Z",
-      "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
+      "timestamp": "2026-08-19T06:14:19.329Z",
+      "output": "pe-caption-size  →  var(--fs-xs);    --nc-type-caption-weight: 500; --nc-type-caption-lh: 1.40; --nc-type-caption-ls: 0.04em\n\n  Zum automatischen Beheben: node scripts/sync-component-tokens.js --fix\n\n"
     },
     {
       "agent": "lint:tokens",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:00.513Z",
-      "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
+      "timestamp": "2026-08-19T06:14:19.517Z",
+      "output": "g-*) oder var(--nc-*).\n    > gap: 0.15rem;\n\n============================================================\nToken-Lint: 30 Problem(e) in 15 Datei(en).\nErsetze hardcodierte Werte durch Foundation-Tokens.\n"
     },
     {
       "agent": "lint:recipes",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:01.431Z",
-      "output": "\n    WARN:  [video-section] Komponente nicht in design-tokens.json gefunden\n\n============================================================\nRecipe-Lint: 108 Dateien geprueft, 428 Fehler, 575 Warnungen.\n"
+      "timestamp": "2026-08-19T06:14:19.844Z",
+      "output": "\n    WARN:  [video-section] Komponente nicht in design-tokens.json gefunden\n\n============================================================\nRecipe-Lint: 129 Dateien geprueft, 280 Fehler, 528 Warnungen.\n"
     },
     {
       "agent": "vitest",
-      "status": "pass",
-      "timestamp": "2026-03-25T11:36:09.728Z",
-      "passed": 2,
-      "failed": 0
+      "status": "fail",
+      "timestamp": "2026-08-19T06:14:23.312Z",
+      "passed": 26,
+      "failed": 2,
+      "output": "0m   |\u001b[39m                                                             \u001b[31m^\u001b[39m\n    \u001b[90m199|\u001b[39m   })\u001b[33m;\u001b[39m\n    \u001b[90m200|\u001b[39m\n\n\u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m\n\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[90m (2)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[31m2 failed\u001b[39m\u001b[22m\u001b[2m | \u001b[22m\u001b[1m\u001b[32m26 passed\u001b[39m\u001b[22m\u001b[90m (28)\u001b[39m\n\u001b[2m   Start at \u001b[22m 08:14:20\n\u001b[2m   Duration \u001b[22m 2.85s\u001b[2m (transform 36ms, setup 0ms, import 51ms, tests 2.84s, environment 0ms)\u001b[22m\n\n"
     },
     {
       "agent": "pipeline:guard",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:10.172Z",
+      "timestamp": "2026-08-19T06:14:23.561Z",
       "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
     },
     {
       "agent": "lint:fragments",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:10.630Z",
+      "timestamp": "2026-08-19T06:14:23.753Z",
       "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
     },
     {
       "agent": "lint:scripts",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:11.049Z",
+      "timestamp": "2026-08-19T06:14:23.920Z",
       "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
+    },
+    {
+      "agent": "vue:test",
+      "status": "warn",
+      "timestamp": "2026-08-19T06:14:25.318Z",
+      "output": "[2m | \u001b[22m\u001b[1m\u001b[32m84 passed\u001b[39m\u001b[22m\u001b[90m (86)\u001b[39m\n\u001b[2m   Start at \u001b[22m 08:14:24\n\u001b[2m   Duration \u001b[22m 863ms\u001b[2m (transform 706ms, setup 91ms, import 1.30s, tests 222ms, environment 888ms)\u001b[22m\n\n"
     },
     {
       "agent": "stories:generate",
       "status": "pass",
-      "timestamp": "2026-03-25T11:36:11.689Z",
-      "count": 107
+      "timestamp": "2026-08-19T06:14:25.511Z",
+      "count": 128
     },
     {
       "agent": "lint:docs-tokens",
       "status": "warn",
-      "timestamp": "2026-03-25T11:36:12.149Z",
+      "timestamp": "2026-08-19T06:14:25.665Z",
       "output": "ob:268:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:543:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)\n\nNode.js v22.11.0\n"
     },
     {
-      "agent": "dashboard",
+      "agent": "changelog",
       "status": "pass",
-      "timestamp": "2026-03-25T11:36:24.993Z",
-      "score": 97
+      "timestamp": "2026-08-19T06:14:25.665Z",
+      "entry": {
+        "type": "feat",
+        "summary": "Recipe update: carousel, range",
+        "files": 24,
+        "date": "2026-08-19"
+      }
+    },
+    {
+      "agent": "verdaechtig:--nc-type-caption-weight",
+      "status": "warn",
+      "timestamp": "2026-08-19T06:14:34.253Z",
+      "error": "Mehr als eine Datei setzt dieses Token. Eine Aenderung an der falschen bleibt wirkungslos."
+    },
+    {
+      "agent": "verdaechtig:--nc-type-caption-lh",
+      "status": "warn",
+      "timestamp": "2026-08-19T06:14:42.219Z",
+      "error": "Mehr als eine Datei setzt dieses Token. Eine Aenderung an der falschen bleibt wirkungslos."
+    },
+    {
+      "agent": "verdaechtig:--nc-type-caption-ls",
+      "status": "warn",
+      "timestamp": "2026-08-19T06:14:50.331Z",
+      "error": "Mehr als eine Datei setzt dieses Token. Eine Aenderung an der falschen bleibt wirkungslos."
     }
   ]
 }

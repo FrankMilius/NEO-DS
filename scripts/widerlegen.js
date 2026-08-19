@@ -58,6 +58,19 @@ if (!art) {
 }
 
 const ziel = werte.filter((w) => w !== art && w !== argv[pfadIdx + 1]);
+
+// --streng macht das Werkzeug automatiktauglich.
+//
+// Bis zum 19.08.2026 endete dieser Lauf IMMER mit 0 — auch dann, wenn er
+// etwas widerlegt hatte. Fuer einen Menschen am Bildschirm reicht das, der
+// liest den Text. Ein Dirigent kann damit nichts anfangen: Er sieht nur den
+// Rueckgabecode und haelt jede Widerlegung fuer einen Erfolg.
+//
+// Die Vorgabe bleibt 0, damit bestehende Aufrufe unveraendert weiterlaufen.
+// Nur mit --streng wird ein Fund zum Fehlschlag. Am Ende steht ausserdem eine
+// maschinenlesbare Zeile, damit niemand Fliesstext zerlegen muss.
+const streng = argv.includes('--streng');
+const befunde = [];
 const warten = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------------------------------------------------------------------------
@@ -121,7 +134,25 @@ async function tokenPruefen(name, pfad) {
         [...regeln].forEach((regel) => {
           if (!regel.style) return;
           const wert = regel.style.getPropertyValue(name);
-          if (wert) treffer.push({ datei, nr, selektor: regel.selectorText || '?', wert: wert.trim() });
+          if (!wert) return;
+          // PHANTOM-TREFFER AUSSCHLIESSEN.
+          // Enthaelt eine Regel mit  all: unset  , liefert getPropertyValue fuer
+          // JEDE beliebige Custom Property genau diesen Wert zurueck — die
+          // Kurzschreibweise deckt sie im CSSOM mit ab. Ergebnis: Ein Token,
+          // das es nirgends gibt, meldete fuenf Deklarationen, und das Urteil
+          // "KEINE Deklaration" konnte nie zustande kommen.
+          // Am 19.08.2026 an .nc-modal__close aufgefallen.
+          // Der exakte Test: Steht der Name ueberhaupt in der
+          // Deklarationsliste der Regel? Custom Properties erscheinen dort,
+          // von einer Kurzschreibweise erfasste Werte nicht.
+          // (getPropertyValue('all') haette es auch tun sollen, liefert hier
+          // aber nichts — deshalb dieser Weg.)
+          let gesetzt = false;
+          for (let i = 0; i < regel.style.length; i++) {
+            if (regel.style[i] === name) { gesetzt = true; break; }
+          }
+          if (!gesetzt) return;
+          treffer.push({ datei, nr, selektor: regel.selectorText || '?', wert: wert.trim() });
         });
       });
       const c = getComputedStyle(document.documentElement);
@@ -211,6 +242,7 @@ try {
       if (!d.treffer.length) {
         console.log('  KEINE Deklaration in irgendeinem Stylesheet gefunden.');
         console.log('  → Der Wert kommt nicht aus dem CSS. Vererbung? Tippfehler im Namen?');
+        befunde.push({ art: 'WIDERLEGT', ziel: name, pfad, grund: 'keine Deklaration im CSS' });
       } else {
         console.log(`  ${d.treffer.length} Deklaration(en), in Ladereihenfolge — die LETZTE gewinnt:\n`);
         d.treffer.forEach((t, i) => {
@@ -221,6 +253,7 @@ try {
         if (quellen.size > 1) {
           console.log(`\n  ACHTUNG: ${quellen.size} verschiedene Dateien setzen dieses Token.`);
           console.log('  Eine Aenderung an der falschen bleibt wirkungslos.');
+          befunde.push({ art: 'VERDAECHTIG', ziel: name, pfad, grund: `${quellen.size} Dateien setzen es` });
         }
       }
     }
@@ -236,6 +269,7 @@ try {
       if (d.anzahl === 0) {
         console.log('  WIDERLEGT: Es gibt keinen Traeger. Jede Regel auf diesem');
         console.log('  Geltungsbereich ist wirkungslos.');
+        befunde.push({ art: 'WIDERLEGT', ziel: sel, pfad, grund: 'kein Traeger im Dokument' });
         console.log(`    <html class="${d.wurzel}">`);
         console.log(`    <body class="${d.koerper}">`);
       }
@@ -257,9 +291,17 @@ try {
   }
 
   console.log('\n' + '─'.repeat(78));
-  console.log('  Kein Gegenbeweis ist kein Beweis. Er heisst nur: an DIESEN Stellen');
-  console.log('  nicht gescheitert.\n');
+  if (befunde.length) {
+    console.log(`  ${befunde.length} Befund(e):`);
+    for (const b of befunde) console.log(`    ${b.art.padEnd(12)}${b.ziel}  ${b.pfad}  — ${b.grund}`);
+  } else {
+    console.log('  Kein Gegenbeweis ist kein Beweis. Er heisst nur: an DIESEN Stellen');
+    console.log('  nicht gescheitert.');
+  }
+  // Eine Zeile, die sich ohne Fliesstext-Zerlegung auswerten laesst.
+  console.log(`\nURTEIL ${befunde.some((b) => b.art === 'WIDERLEGT') ? 'WIDERLEGT'
+    : befunde.length ? 'VERDAECHTIG' : 'KEIN-GEGENBEWEIS'} ${befunde.length}\n`);
 } finally {
   kind.kill('SIGKILL');
 }
-process.exit(0);
+process.exit(streng && befunde.length ? 1 : 0);
