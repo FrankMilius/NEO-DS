@@ -217,6 +217,7 @@
   --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-dark-bg);
   --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-dark-color);
   --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-dark-border);
+  --nc-hero-cards-rule-color: var(--nc-hero-cards-rule-on-dark);
   --nc-hero-bg:         var(--nc-hero-surface-dark-bg);
   --nc-hero-color:      var(--nc-hero-surface-dark-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-dark);
@@ -230,6 +231,7 @@
   --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-light-bg);
   --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-light-color);
   --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-light-border);
+  --nc-hero-cards-rule-color: var(--nc-hero-cards-rule-on-light);
   --nc-hero-bg:         var(--nc-hero-surface-muted-bg);
   --nc-hero-color:      var(--nc-hero-surface-light-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-light);
@@ -243,6 +245,7 @@
   --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-light-bg);
   --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-light-color);
   --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-light-border);
+  --nc-hero-cards-rule-color: var(--nc-hero-cards-rule-on-light);
   --nc-hero-bg:         var(--nc-hero-surface-light-bg);
   --nc-hero-color:      var(--nc-hero-surface-light-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-light);
@@ -502,6 +505,82 @@
     opacity: 1;   // .nc-metric bringt eine eigene Deckkraft mit; hier zaehlt der Farbwert
     order: 2;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Flaeche der Karten
+// ---------------------------------------------------------------------------
+// Der Redakteur waehlt eine ROLLE, keine Farbe: base, secondary, tertiary,
+// inverse. Die Werte folgen dem Thema — base ist im hellen Modus Weiss, im
+// dunklen fast Schwarz. Damit bleibt eine Seite umschaltbar, ohne dass
+// jemand Karten nachpflegt.
+//
+// DIE FALLE, DIE HIER LAUERT
+// Solange die Karten durchsichtig sind, erben sie zu Recht die
+// Hero-Schriftfarbe. Sobald eine Flaeche daruntersteht, ist das falsch: Eine
+// weisse Karte auf dunklem Hero bekaeme weisse Schrift. Deshalb wechselt mit
+// der Flaeche auch die Schriftfarbe — aus den Thementoken, nicht aus dem Hero.
+//
+// Dieselbe Ursache wie bei den Badges und der Ueberschrift-Hervorhebung:
+// Flaeche und Vordergrund sind ein Paar und muessen zusammen gesetzt werden.
+
+@mixin hero-karten-flaeche($grund, $vordergrund, $gedaempft) {
+  --nc-hero-cards-bg:       #{$grund};
+  --nc-hero-cards-fg:       #{$vordergrund};
+  --nc-hero-cards-fg-muted: #{$gedaempft};
+}
+
+.nc-hero__cards--bg-base {
+  @include hero-karten-flaeche(
+    var(--fnd-color-background-base),
+    var(--fnd-color-text-primary),
+    var(--fnd-color-text-secondary)
+  );
+}
+
+.nc-hero__cards--bg-secondary {
+  @include hero-karten-flaeche(
+    var(--fnd-color-background-secondary),
+    var(--fnd-color-text-primary),
+    var(--fnd-color-text-secondary)
+  );
+}
+
+.nc-hero__cards--bg-tertiary {
+  @include hero-karten-flaeche(
+    var(--fnd-color-background-tertiary),
+    var(--fnd-color-text-primary),
+    var(--fnd-color-text-secondary)
+  );
+}
+
+// Umgekehrt zum Thema: dunkle Karte im hellen Modus, helle im dunklen.
+.nc-hero__cards--bg-inverse {
+  @include hero-karten-flaeche(
+    var(--fnd-color-background-inverse),
+    var(--fnd-color-text-inverse),
+    color-mix(in srgb, var(--fnd-color-text-inverse) 72%, transparent)
+  );
+}
+
+// Gefuellte Karten brauchen Polsterung und eine Kante — ohne beides klebt der
+// Text am Rand der Flaeche.
+.nc-hero__cards[class*='--bg-'] .nc-metric {
+  background: var(--mod-hero-cards-bg, var(--nc-hero-cards-bg));
+  color: var(--mod-hero-cards-fg, var(--nc-hero-cards-fg));
+  border-radius: var(--mod-hero-cards-radius, var(--nc-hero-cards-radius));
+  padding: var(--mod-hero-cards-pad, var(--nc-hero-cards-pad));
+
+  .nc-metric__label,
+  .nc-metric__footer {
+    color: var(--mod-hero-cards-fg-muted, var(--nc-hero-cards-fg-muted));
+  }
+}
+
+// Auf gefuellten Karten trennt die Linie nichts mehr — die Flaechen tun es
+// bereits. Sie wuerde nur als Strich AUF der Karte erscheinen.
+.nc-hero__cards[class*='--bg-'].nc-hero__cards--ruled .nc-metric {
+  border-inline-start: 0;
 }
 
 // ---------------------------------------------------------------------------

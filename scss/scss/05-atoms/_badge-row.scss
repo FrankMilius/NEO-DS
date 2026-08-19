@@ -49,6 +49,26 @@
     --mod-label-interactive-bg: var(--nc-badge-row-hero-bg);
     --mod-label-interactive-color: var(--nc-badge-row-hero-color);
     border-color: var(--nc-badge-row-hero-border);
+
+    // Groesse und Polsterung wachsen mit dem Fenster.
+    //
+    // .nc-label bringt --fs-2xs mit, und diese Stufe ist trotz clamp() nicht
+    // fluid: Unter- und Obergrenze sind derselbe Wert. Auf einem grossen
+    // Bildschirm standen die Badges deshalb so klein da wie auf dem Telefon.
+    //
+    // Die Familie wird hier gesetzt, weil .nc-label gar keine fuehrt und vom
+    // Koerper erbt — gemessen kam Manrope heraus. Merkmale wie
+    // "100% Open Source" gehoeren in dieselbe Gattung wie Kicker und
+    // Etikett, und die stehen im System in der Monospace.
+    font-family: var(--mod-badge-row-hero-family, var(--nc-badge-row-hero-family));
+    font-size: var(--mod-badge-row-hero-size, var(--nc-badge-row-hero-size));
+    letter-spacing: var(--mod-badge-row-hero-tracking, var(--nc-badge-row-hero-tracking));
+    padding-inline: var(--mod-badge-row-hero-pad-x, var(--nc-badge-row-hero-pad-x));
+    padding-block: var(--mod-badge-row-hero-pad-y, var(--nc-badge-row-hero-pad-y));
+    // Die Hoehe ergab sich bisher allein aus der Zeilenhoehe; mit eigener
+    // Polsterung braucht sie einen sauberen Ausgangswert.
+    line-height: var(--lh-snug);
+    height: auto;
   }
 }
 

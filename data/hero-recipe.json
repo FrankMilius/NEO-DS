@@ -315,6 +315,42 @@
           "description": "Lime statt Grau, kombinierbar mit jeder Staerke."
         }
       }
+    },
+    "cardsSurface": {
+      "label": "Flaeche der Kennzahlen-Karten",
+      "description": "Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "base": {
+          "modifier": "nc-hero__cards--bg-base",
+          "tokenGroups": [
+            "footer"
+          ],
+          "description": "hell: Weiss, dunkel: fast Schwarz"
+        },
+        "secondary": {
+          "modifier": "nc-hero__cards--bg-secondary",
+          "tokenGroups": [
+            "footer"
+          ]
+        },
+        "tertiary": {
+          "modifier": "nc-hero__cards--bg-tertiary",
+          "tokenGroups": [
+            "footer"
+          ]
+        },
+        "inverse": {
+          "modifier": "nc-hero__cards--bg-inverse",
+          "tokenGroups": [
+            "footer"
+          ],
+          "description": "dunkle Karte im hellen Modus und umgekehrt"
+        }
+      }
     }
   },
   "states": {
@@ -349,7 +385,10 @@
       "Eine frei gewaehlte Hervorhebungsfarbe hebt diese Pruefung auf. Bei der Bauart Balken bleibt der Text lesbar, bei Tinte nicht zwingend.",
       "Kicker der Kennzahlen: 68 % der Hero-Schriftfarbe. 55 % ergaben auf heller Flaeche 3,93:1 und fielen bei 12 px durch — er traegt eine eigene Aussage, keine Verzierung. Mit 68 %: 6,01:1 hell, 9,36:1 dunkel.",
       "Badge-Schleier folgt der Flaeche. Fest auf always-light gesetzt ergab er auf heller Flaeche weisse Schrift auf 18 % Weiss — rund 1,05:1, gemeldet als „Badges fehlen\". Jetzt je Flaeche eigene Werte: 13,71:1 auf hell.",
-      "Verhaeltnis Wert zu Beschriftung 29,0 zu 16,8 px = 1,728, also drei Stufen der 1,2er-Leiter. Vorher 60,2 zu 13,4 = 4,5:1."
+      "Verhaeltnis Wert zu Beschriftung 29,0 zu 16,8 px = 1,728, also drei Stufen der 1,2er-Leiter. Vorher 60,2 zu 13,4 = 4,5:1.",
+      "Haarlinie: nimmt die Werte des sekundaeren Button-Rahmens (neutral-900 hell, neutral-100 dunkel), aber an die HERO-FLAECHE gebunden, nicht ans Seiten-Thema. Direkt gekoppelt haette ein dunkler Hero auf heller Seite eine dunkle Linie auf dunklem Grund bekommen — und dunkle Heroes sind 84 von 92. Vorher 14 % der Hero-Schriftfarbe, gemessen rund 1,05:1; jetzt 13,72:1 hell und 18,83:1 dunkel.",
+      "Gefuellte Karten erben NICHT die Hero-Schriftfarbe. Eine weisse Karte auf dunklem Hero traege sonst weisse Schrift. Gemessen auf weisser Karte: Wert 17,85:1, Beschriftung 6,77:1.",
+      "Hero-Badges wachsen fluid von 12 auf 16 px (Polsterung 8/3 auf 16/7 px). --fs-2xs sah fluid aus, war es aber nicht: Unter- und Obergrenze derselbe Wert."
     ]
   },
   "constraints": {
@@ -515,7 +554,14 @@
           "nc-hero-cards-rule-accent",
           "nc-hero-cards-kicker-size",
           "nc-hero-cards-value-size",
-          "nc-hero-cards-label-size"
+          "nc-hero-cards-label-size",
+          "nc-hero-cards-rule-on-dark",
+          "nc-hero-cards-rule-on-light",
+          "nc-hero-cards-bg",
+          "nc-hero-cards-fg",
+          "nc-hero-cards-fg-muted",
+          "nc-hero-cards-radius",
+          "nc-hero-cards-pad"
         ]
       },
       "split": {

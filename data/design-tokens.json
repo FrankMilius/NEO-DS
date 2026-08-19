@@ -14693,7 +14693,12 @@
             "id": "geometry",
             "label": "Geometrie",
             "tokenIds": [
-              "nc-badge-row-gap"
+              "nc-badge-row-gap",
+              "nc-badge-row-hero-size",
+              "nc-badge-row-hero-pad-x",
+              "nc-badge-row-hero-pad-y",
+              "nc-badge-row-hero-family",
+              "nc-badge-row-hero-tracking"
             ]
           },
           {
@@ -14786,6 +14791,36 @@
             "label": "Hero hell — Kante",
             "type": "color",
             "default": "color-mix(in srgb, var(--fnd-color-always-dark) 24%, transparent)"
+          },
+          {
+            "id": "nc-badge-row-hero-size",
+            "label": "Hero-Badge — Größe (fluid)",
+            "type": "size",
+            "default": "clamp(0.75rem, calc(0.75rem + (1rem - 0.75rem) * var(--fluid-bp)), 1rem)"
+          },
+          {
+            "id": "nc-badge-row-hero-pad-x",
+            "label": "Hero-Badge — Polsterung X",
+            "type": "size",
+            "default": "clamp(8px, calc(8px + (16px - 8px) * var(--fluid-bp)), 16px)"
+          },
+          {
+            "id": "nc-badge-row-hero-pad-y",
+            "label": "Hero-Badge — Polsterung Y",
+            "type": "size",
+            "default": "clamp(3px, calc(3px + (7px - 3px) * var(--fluid-bp)), 7px)"
+          },
+          {
+            "id": "nc-badge-row-hero-family",
+            "label": "Hero-Badge — Schriftfamilie",
+            "type": "size",
+            "default": "var(--font-mono)"
+          },
+          {
+            "id": "nc-badge-row-hero-tracking",
+            "label": "Hero-Badge — Laufweite",
+            "type": "size",
+            "default": "0.01em"
           }
         ]
       },
@@ -15714,7 +15749,9 @@
               "nc-hero-cards-rule-width-sm",
               "nc-hero-cards-rule-width-md",
               "nc-hero-cards-rule-width-lg",
-              "nc-hero-cards-rule-inset"
+              "nc-hero-cards-rule-inset",
+              "nc-hero-cards-radius",
+              "nc-hero-cards-pad"
             ]
           },
           {
@@ -15765,7 +15802,12 @@
               "nc-hero-mark-tint-on-dark",
               "nc-hero-footer-rule",
               "nc-hero-cards-rule-color",
-              "nc-hero-cards-rule-accent"
+              "nc-hero-cards-rule-accent",
+              "nc-hero-cards-rule-on-dark",
+              "nc-hero-cards-rule-on-light",
+              "nc-hero-cards-bg",
+              "nc-hero-cards-fg",
+              "nc-hero-cards-fg-muted"
             ]
           },
           {
@@ -16233,6 +16275,48 @@
             "label": "Kennzahlen — Beschriftungs-Zeilenhöhe",
             "type": "size",
             "default": "var(--lh-snug)"
+          },
+          {
+            "id": "nc-hero-cards-rule-on-dark",
+            "label": "Trennlinie auf dunkler Fläche",
+            "type": "color",
+            "default": "var(--fnd-neutral-100)"
+          },
+          {
+            "id": "nc-hero-cards-rule-on-light",
+            "label": "Trennlinie auf heller Fläche",
+            "type": "color",
+            "default": "var(--fnd-neutral-900)"
+          },
+          {
+            "id": "nc-hero-cards-bg",
+            "label": "Kartenfläche",
+            "type": "color",
+            "default": "transparent"
+          },
+          {
+            "id": "nc-hero-cards-fg",
+            "label": "Kartenschrift",
+            "type": "color",
+            "default": "inherit"
+          },
+          {
+            "id": "nc-hero-cards-fg-muted",
+            "label": "Kartenschrift gedämpft",
+            "type": "color",
+            "default": "inherit"
+          },
+          {
+            "id": "nc-hero-cards-radius",
+            "label": "Karten — Radius",
+            "type": "size",
+            "default": "var(--fnd-radius-lg)"
+          },
+          {
+            "id": "nc-hero-cards-pad",
+            "label": "Karten — Polsterung",
+            "type": "size",
+            "default": "clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px)"
           }
         ]
       },

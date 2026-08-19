@@ -1415,6 +1415,31 @@
   --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-dark-bg);
   --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-dark-color);
   --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-dark-border);
+
+  // -- Badges im Hero: Groesse und Polsterung waren nicht fluid --
+  //
+  // Gemessen am 19.08.2026: 12 px Schrift und 8 px Polsterung, auf JEDER
+  // Breite. --fs-2xs sieht fluid aus, ist es aber nicht:
+  //   clamp(0.75rem, calc(0.75rem + (0.75rem - 0.75rem) * …), 0.75rem)
+  // Unter- und Obergrenze sind derselbe Wert — eine Attrappe. Auf einem
+  // 3840er Bildschirm stehen die Badges deshalb so klein da wie auf dem
+  // Telefon.
+  //
+  // Eigene Werte statt --fs-2xs zu reparieren: Diese Stufe wird an 40 Stellen
+  // benutzt: sie fluid zu machen, waere eine Aenderung an allem gleichzeitig.
+  // Das gehoert gemessen und einzeln entschieden, nicht nebenbei.
+  --nc-badge-row-hero-size:     clamp(0.75rem, calc(0.75rem + (1rem - 0.75rem) * var(--fluid-bp)), 1rem);
+  --nc-badge-row-hero-pad-x:    clamp(8px, calc(8px + (16px - 8px) * var(--fluid-bp)), 16px);
+  --nc-badge-row-hero-pad-y:    clamp(3px, calc(3px + (7px - 3px) * var(--fluid-bp)), 7px);
+
+  // Schriftfamilie: JetBrains Mono statt Manrope.
+  //
+  // Die Badges tragen Merkmale, keine Saetze — "100% Open Source",
+  // "WCAG-konform". Das ist dieselbe Gattung wie Kicker und Etikett, und die
+  // stehen im System bereits in der Monospace. Gemessen kam bisher Manrope
+  // heraus, weil .nc-label gar keine Familie setzt und vom Koerper erbt.
+  --nc-badge-row-hero-family:   var(--font-mono);
+  --nc-badge-row-hero-tracking: 0.01em;
   --nc-badge-row-hero-spacing: var(--fnd-spacing-04);
 
   // -- Default (Subtle) --
@@ -3330,9 +3355,40 @@
   --nc-hero-cards-rule-width-md:   2px;
   --nc-hero-cards-rule-width-lg:   4px;
   --nc-hero-cards-rule-width:      var(--nc-hero-cards-rule-width-sm);
-  --nc-hero-cards-rule-color:      var(--nc-hero-footer-rule);
   --nc-hero-cards-rule-accent:     var(--fnd-accent-500);   // Markenwert, nur Flaeche
   --nc-hero-cards-rule-inset:      var(--fnd-spacing-06);   // Abstand Linie zum Inhalt
+
+  // Die Linie nimmt die Werte, die auch der sekundaere Button fuer seinen
+  // Rahmen nimmt: neutral-900 im hellen, neutral-100 im dunklen Modus.
+  //
+  // Vorher stand hier --nc-hero-footer-rule, also 14 % der Hero-Schriftfarbe.
+  // Bei 2 px Staerke war davon nichts zu sehen; gemessen ergab es auf heller
+  // Flaeche color-mix(#ffffff 14%, transparent).
+  //
+  // WARUM NICHT DIREKT --nc-button-secondary-border
+  // Der Button folgt dem SEITEN-Thema, die Hero-Flaeche ist davon unabhaengig.
+  // Ein dunkler Hero auf einer hellen Seite bekaeme sonst eine dunkle Linie
+  // auf dunklem Grund — und dunkle Heroes sind 84 von 92. Deshalb dieselben
+  // Stufen, aber an die FLAECHE gebunden.
+  //
+  // Preis dieser Entkopplung: Wer den Sekundaerrahmen aendert, aendert die
+  // Haarlinie nicht mit. Das ist der kleinere Schaden.
+  --nc-hero-cards-rule-on-dark:    var(--fnd-neutral-100);
+  --nc-hero-cards-rule-on-light:   var(--fnd-neutral-900);
+  --nc-hero-cards-rule-color:      var(--nc-hero-cards-rule-on-dark);
+
+  // -- Flaeche der Kennzahlen-Karten --
+  // Die Werte folgen dem Thema: base ist im hellen Modus Weiss, im dunklen
+  // fast Schwarz. Der Redakteur waehlt die ROLLE, nicht die Farbe.
+  //
+  // Sobald eine Flaeche gesetzt ist, darf der Text NICHT mehr die
+  // Hero-Schriftfarbe erben: Eine weisse Karte auf dunklem Hero traegt sonst
+  // weisse Schrift. Er kommt dann aus den Thementoken.
+  --nc-hero-cards-bg:              transparent;
+  --nc-hero-cards-fg:              inherit;
+  --nc-hero-cards-fg-muted:        inherit;
+  --nc-hero-cards-radius:          var(--fnd-radius-lg);
+  --nc-hero-cards-pad:             clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px);
 
   // -- Hervorhebung in der Ueberschrift --
   // Zwei Bauarten, Balken und Tinte. BEIDE haengen von der Flaeche ab, und
