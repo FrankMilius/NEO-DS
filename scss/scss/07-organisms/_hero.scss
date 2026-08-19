@@ -577,12 +577,6 @@
   }
 }
 
-// Auf gefuellten Karten trennt die Linie nichts mehr — die Flaechen tun es
-// bereits. Sie wuerde nur als Strich AUF der Karte erscheinen.
-.nc-hero__cards[class*='--bg-'].nc-hero__cards--ruled .nc-metric {
-  border-inline-start: 0;
-}
-
 // ---------------------------------------------------------------------------
 // Ausrichtung innerhalb der Karten
 // ---------------------------------------------------------------------------
@@ -598,10 +592,22 @@
 // Die Linie trennt SPALTEN. Wo es keine zweite Spalte gibt, trennt sie
 // nichts — deshalb wird sie erst ab der Zweispaltigkeit ueberhaupt gesetzt.
 //
-// Der umgekehrte Aufbau (Linie immer, am Zeilenanfang wieder weg) war der
-// erste Versuch und schlug in der Einspaltigkeit fehl: Dort ist JEDE Karte
-// Zeilenanfang, aber nur die erste ist auch :first-child. Gemessen bei
-// 640 px: drei von vier Karten trugen einen Strich ins Leere.
+// UND SIE TRENNT NUR DURCHSICHTIGE KARTEN.
+// Sobald die Karten eine eigene Flaeche haben, trennen die Flaechen bereits;
+// die Linie waere ein Strich AUF der Karte. Das steht deshalb in JEDEM
+// Selektor als :not([class*='--bg-']) — nicht in einer eigenen Regel, die
+// das hinterher zuruecknimmt.
+//
+// Der erste Versuch tat genau das und ging schief: Die Ruecknahme wog 4,
+// die Wiederherstellung weiter unten wog 6. Gewonnen hat die schwerere —
+// bei vier Karten ausgerechnet die dritte, weil sie :nth-child(2n+1) ist,
+// aber nicht :nth-child(4n+1). Gemessen am 19.08.2026: Karte 3 trug 1 px,
+// die anderen drei nichts.
+//
+// Mit Spezifitaet dagegenzuhalten waere der naheliegende Weg gewesen und der
+// falsche: Die naechste Regel haette dieselbe Frage neu gestellt. Zwei
+// Eigenschaften, die sich ausschliessen, gehoeren im Selektor
+// ausgeschlossen — nicht nachtraeglich korrigiert.
 //
 // Ebenso verworfen: die Linie nur beim Nachbarn ueber `+`. Das sieht kuerzer
 // aus, kann den Zeilenanfang aber gar nicht erkennen — nach einem Umbruch
@@ -621,14 +627,18 @@
 }
 
 // Einspaltig: keine Linien.
-.nc-hero__cards--ruled .nc-metric {
+.nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric {
   @include hero-karten-ohne-linie;
 }
 
 // Zweispaltig: Linie ueberall, ausser am Zeilenanfang.
 @include respond-to('sm') {
-  .nc-hero__cards--ruled .nc-metric { @include hero-karten-linie; }
-  .nc-hero__cards--ruled .nc-metric:nth-child(2n + 1) { @include hero-karten-ohne-linie; }
+  .nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric {
+    @include hero-karten-linie;
+  }
+  .nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric:nth-child(2n + 1) {
+    @include hero-karten-ohne-linie;
+  }
 }
 
 // Ab md gilt die jeweilige Spaltenzahl. Zwei Regeln je Fassung: Zeilenanfang
@@ -636,19 +646,19 @@
 // aber nicht mehr ist, bekommt sie zurueck.
 @include respond-to('md') {
   @each $n in (2, 3, 4) {
-    .nc-hero__cards--n#{$n}.nc-hero__cards--ruled .nc-metric:nth-child(#{$n}n + 1) {
+    .nc-hero__cards--n#{$n}.nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric:nth-child(#{$n}n + 1) {
       @include hero-karten-ohne-linie;
     }
     @if $n != 2 {
-      .nc-hero__cards--n#{$n}.nc-hero__cards--ruled .nc-metric:nth-child(2n + 1):not(:nth-child(#{$n}n + 1)) {
+      .nc-hero__cards--n#{$n}.nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric:nth-child(2n + 1):not(:nth-child(#{$n}n + 1)) {
         @include hero-karten-linie;
       }
     }
   }
-  .nc-hero__cards--n5.nc-hero__cards--ruled .nc-metric:nth-child(4n + 1) {
+  .nc-hero__cards--n5.nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric:nth-child(4n + 1) {
     @include hero-karten-ohne-linie;
   }
-  .nc-hero__cards--n5.nc-hero__cards--ruled .nc-metric:nth-child(2n + 1):not(:nth-child(4n + 1)) {
+  .nc-hero__cards--n5.nc-hero__cards--ruled:not([class*='--bg-']) .nc-metric:nth-child(2n + 1):not(:nth-child(4n + 1)) {
     @include hero-karten-linie;
   }
 }

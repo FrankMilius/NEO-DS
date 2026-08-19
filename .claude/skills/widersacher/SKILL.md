@@ -115,3 +115,34 @@ verwandelt — und damit abgeschafft.
 - `npm run baseline:diff` — Regression, stumm bei gewollten Umbauten
 - `npm run drift:check` — Auseinanderlaufen von System und Produkt
 - `scripts/messen.js` — berechnete Stile einzelner Selektoren
+
+## Eine fünfte Art, falsch zu liegen: nachgeladener Inhalt
+
+`npm run artefakt` kennt vier Merkmale — Seitenausfall, eine von vielen Seiten,
+verschwunden statt geändert, außerhalb der Änderung. Es gibt ein fünftes, das
+sie nicht abdecken:
+
+**Bauteile, die erst per JavaScript aus einer API entstehen.**
+
+Am 19.08.2026 verschwanden acht `.nc-events__*` aus dem Referenzstand. Der
+Artefakt-Prüfer meldete korrekt „kein Seitenausfall" — die Seite war ja da.
+Das Bauteil war es nicht: Die Events-Liste hängt an
+`data-neo-events-listing` und wird nach einem Aufruf von `/api/events`
+gezeichnet. Die API antwortet in 96 ms, der Referenzstand wartet 3,8 s —
+und trotzdem fehlten sie in genau diesem Lauf.
+
+**Die Gegenprobe ist ein zweiter Lauf ohne jede Codeänderung.** Kommen die
+Bauteile zurück, war es die Uhr:
+
+```
+nach-linienfix      335 Komponenten   ← Events fehlten
+kontrolle-events    342 Komponenten   ← ohne Codeänderung wieder da
+```
+
+Erst danach ist ein Vergleich belastbar — und dann gegen den Kontrolllauf,
+nicht gegen den Fehllauf.
+
+> **Woran man den Verdacht erkennt:** Eine ganze Bauteilfamilie verschwindet
+> gemeinsam, und im Markup steht ein `data-`-Attribut, das nach einer API
+> klingt. Ein echter Regress trifft selten acht Geschwister auf einmal und
+> lässt die Elternsektion stehen.
