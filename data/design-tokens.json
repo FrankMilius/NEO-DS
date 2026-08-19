@@ -14703,7 +14703,13 @@
             "tokenIds": [
               "nc-badge-row-hero-bg",
               "nc-badge-row-hero-color",
-              "nc-badge-row-hero-border"
+              "nc-badge-row-hero-border",
+              "nc-badge-row-hero-on-dark-bg",
+              "nc-badge-row-hero-on-dark-color",
+              "nc-badge-row-hero-on-dark-border",
+              "nc-badge-row-hero-on-light-bg",
+              "nc-badge-row-hero-on-light-color",
+              "nc-badge-row-hero-on-light-border"
             ]
           },
           {
@@ -14744,6 +14750,42 @@
             "label": "Hero Spacing",
             "type": "spacing",
             "default": "var(--fnd-spacing-04)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-dark-bg",
+            "label": "Hero dunkel — Schleier",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-always-light) 18%, transparent)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-dark-color",
+            "label": "Hero dunkel — Schrift",
+            "type": "color",
+            "default": "var(--fnd-color-always-light)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-dark-border",
+            "label": "Hero dunkel — Kante",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-always-light) 32%, transparent)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-light-bg",
+            "label": "Hero hell — Schleier",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-always-dark) 10%, transparent)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-light-color",
+            "label": "Hero hell — Schrift",
+            "type": "color",
+            "default": "var(--fnd-neutral-950)"
+          },
+          {
+            "id": "nc-badge-row-hero-on-light-border",
+            "label": "Hero hell — Kante",
+            "type": "color",
+            "default": "color-mix(in srgb, var(--fnd-color-always-dark) 24%, transparent)"
           }
         ]
       },
@@ -15657,7 +15699,6 @@
               "nc-hero-footer-margin-top",
               "nc-hero-footer-gap",
               "nc-hero-cards-gap",
-              "nc-hero-cards-min",
               "nc-hero-split-columns",
               "nc-hero-split-media-min-height",
               "nc-hero-split-gap",
@@ -15665,7 +15706,15 @@
               "nc-hero-mockup-ratio",
               "nc-hero-mockup-radius",
               "nc-hero-mockup-padding",
-              "nc-hero-mockup-gap"
+              "nc-hero-mockup-gap",
+              "nc-hero-cards-kicker-size",
+              "nc-hero-cards-value-size",
+              "nc-hero-cards-label-size",
+              "nc-hero-cards-stack",
+              "nc-hero-cards-rule-width-sm",
+              "nc-hero-cards-rule-width-md",
+              "nc-hero-cards-rule-width-lg",
+              "nc-hero-cards-rule-inset"
             ]
           },
           {
@@ -15677,7 +15726,14 @@
               "nc-hero-kicker-transform",
               "nc-hero-title-weight",
               "nc-hero-title-line-height",
-              "nc-hero-subtitle-line-height"
+              "nc-hero-subtitle-line-height",
+              "nc-hero-cards-kicker-weight",
+              "nc-hero-cards-kicker-family",
+              "nc-hero-cards-kicker-tracking",
+              "nc-hero-cards-value-family",
+              "nc-hero-cards-value-weight",
+              "nc-hero-cards-value-lh",
+              "nc-hero-cards-label-lh"
             ]
           },
           {
@@ -15707,7 +15763,9 @@
               "nc-hero-mark-tint",
               "nc-hero-mark-tint-on-light",
               "nc-hero-mark-tint-on-dark",
-              "nc-hero-footer-rule"
+              "nc-hero-footer-rule",
+              "nc-hero-cards-rule-color",
+              "nc-hero-cards-rule-accent"
             ]
           },
           {
@@ -16027,12 +16085,6 @@
             "default": "var(--fnd-spacing-06)"
           },
           {
-            "id": "nc-hero-cards-min",
-            "label": "Kennzahlen — Spaltenbreite",
-            "type": "size",
-            "default": "160px"
-          },
-          {
             "id": "nc-hero-split-columns",
             "label": "Split — Spalten",
             "type": "size",
@@ -16079,6 +16131,108 @@
             "label": "Attrappe — Abstand innen",
             "type": "size",
             "default": "var(--fnd-spacing-06)"
+          },
+          {
+            "id": "nc-hero-cards-kicker-size",
+            "label": "Kennzahlen — Kicker-Größe",
+            "type": "size",
+            "default": "var(--fs-xs)"
+          },
+          {
+            "id": "nc-hero-cards-value-size",
+            "label": "Kennzahlen — Wert-Größe",
+            "type": "size",
+            "default": "var(--fs-2xl)"
+          },
+          {
+            "id": "nc-hero-cards-label-size",
+            "label": "Kennzahlen — Beschriftungs-Größe",
+            "type": "size",
+            "default": "var(--fs-base)"
+          },
+          {
+            "id": "nc-hero-cards-stack",
+            "label": "Kennzahlen — Innenabstand",
+            "type": "size",
+            "default": "var(--fnd-spacing-01)"
+          },
+          {
+            "id": "nc-hero-cards-rule-width-sm",
+            "label": "Trennlinie fein",
+            "type": "size",
+            "default": "1px"
+          },
+          {
+            "id": "nc-hero-cards-rule-width-md",
+            "label": "Trennlinie mittel",
+            "type": "size",
+            "default": "2px"
+          },
+          {
+            "id": "nc-hero-cards-rule-width-lg",
+            "label": "Trennlinie kräftig",
+            "type": "size",
+            "default": "4px"
+          },
+          {
+            "id": "nc-hero-cards-rule-inset",
+            "label": "Trennlinie — Abstand zum Inhalt",
+            "type": "size",
+            "default": "var(--fnd-spacing-06)"
+          },
+          {
+            "id": "nc-hero-cards-rule-color",
+            "label": "Trennlinie — Farbe",
+            "type": "color",
+            "default": "var(--nc-hero-footer-rule)"
+          },
+          {
+            "id": "nc-hero-cards-rule-accent",
+            "label": "Trennlinie — Lime",
+            "type": "color",
+            "default": "var(--fnd-accent-500)"
+          },
+          {
+            "id": "nc-hero-cards-kicker-weight",
+            "label": "Kennzahlen — Kicker-Gewicht",
+            "type": "size",
+            "default": "var(--nc-mono-label-weight-strong)"
+          },
+          {
+            "id": "nc-hero-cards-kicker-family",
+            "label": "Kennzahlen — Kicker-Schrift",
+            "type": "size",
+            "default": "var(--font-mono)"
+          },
+          {
+            "id": "nc-hero-cards-kicker-tracking",
+            "label": "Kennzahlen — Kicker-Laufweite",
+            "type": "size",
+            "default": "var(--nc-mono-tracking-caps)"
+          },
+          {
+            "id": "nc-hero-cards-value-family",
+            "label": "Kennzahlen — Wert-Schrift",
+            "type": "size",
+            "default": "var(--font-heading)"
+          },
+          {
+            "id": "nc-hero-cards-value-weight",
+            "label": "Kennzahlen — Wert-Gewicht",
+            "type": "size",
+            "default": "var(--fnd-font-weight-bold)"
+          },
+          {
+            "id": "nc-hero-cards-value-lh",
+            "label": "Kennzahlen — Wert-Zeilenhöhe",
+            "type": "size",
+            "default": "var(--lh-heading)"
+          },
+          {
+            "id": "nc-hero-cards-label-lh",
+            "label": "Kennzahlen — Beschriftungs-Zeilenhöhe",
+            "type": "size",
+            "default": "var(--lh-snug)"
           }
         ]
       },

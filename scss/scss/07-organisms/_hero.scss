@@ -214,6 +214,9 @@
 
 .nc-hero--surface-dark {
   @include hero-textfarben;
+  --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-dark-bg);
+  --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-dark-color);
+  --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-dark-border);
   --nc-hero-bg:         var(--nc-hero-surface-dark-bg);
   --nc-hero-color:      var(--nc-hero-surface-dark-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-dark);
@@ -224,6 +227,9 @@
 // die sich von einer weissen Seite absetzen sollen, ohne dunkel zu werden.
 .nc-hero--surface-muted {
   @include hero-textfarben;
+  --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-light-bg);
+  --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-light-color);
+  --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-light-border);
   --nc-hero-bg:         var(--nc-hero-surface-muted-bg);
   --nc-hero-color:      var(--nc-hero-surface-light-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-light);
@@ -234,6 +240,9 @@
 
 .nc-hero--surface-light {
   @include hero-textfarben;
+  --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-light-bg);
+  --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-light-color);
+  --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-light-border);
   --nc-hero-bg:         var(--nc-hero-surface-light-bg);
   --nc-hero-color:      var(--nc-hero-surface-light-fg);
   --nc-hero-mark-color: var(--nc-hero-mark-on-light);
@@ -262,7 +271,16 @@
 // warum. :not(:has()) macht die Regel selbst darauf aufmerksam.
 .nc-hero--center:not(:has(.nc-hero__media)) {
   .nc-hero__content {
-    justify-items: center;
+    // justify-items: center waere hier falsch. Es zentriert nicht nur, es
+    // SCHRUMPFT jedes Rasterkind auf seine Inhaltsbreite. Gemessen am
+    // 19.08.2026: Der Fuss war 1294 px breit, das Kennzahlen-Raster darin
+    // nur 452 — deshalb standen von vier Karten nur zwei nebeneinander,
+    // und es sah nach einem Fehler im Raster aus.
+    //
+    // Zentriert wird deshalb ueber text-align (wirkt auf den Textfluss) und
+    // ueber justify-content der Zeilen (wirkt auf die Anordnung). Die Kinder
+    // behalten ihre volle Breite.
+    justify-items: stretch;
     text-align: center;
     margin-inline: auto;
   }
@@ -273,7 +291,6 @@
   }
 
   .nc-hero__actions,
-  .nc-hero__footer,
   .nc-badge-row {
     justify-content: center;
   }
@@ -390,34 +407,182 @@
   width: 100%;
 }
 
-// Kennzahlen-Reihe. auto-fit statt fester Spaltenzahl: Vier Karten stehen auf
-// dem Schreibtisch nebeneinander, auf dem Telefon untereinander, ohne dass
-// jemand eine Bruchstelle pflegen muss.
+// ---------------------------------------------------------------------------
+// Kennzahlen-Reihe
+// ---------------------------------------------------------------------------
+// FESTE SPALTENZAHL STATT auto-fit — und das ist eine Abwaegung.
+//
+// auto-fit ist bequem: Es bricht von selbst um, ohne dass jemand eine
+// Bruchstelle pflegt. Es hat aber einen Preis, der hier zu hoch ist: Niemand
+// — auch das Stylesheet nicht — weiss dann, WELCHES Kind eine Zeile beginnt.
+// Genau das braucht die Haarlinie, damit links vom ersten Kind einer Zeile
+// keine steht.
+//
+// Deshalb traegt das Raster seine Spaltenzahl als Klasse (--n2 bis --n4, aus
+// der Zahl der Karten erzeugt), und die Linienregel rechnet mit derselben
+// Zahl. Fuenf und mehr Karten laufen auf vier Spalten.
+
 .nc-hero__cards {
   display: grid;
   gap: var(--mod-hero-cards-gap, var(--nc-hero-cards-gap));
-  grid-template-columns: repeat(auto-fit, minmax(var(--mod-hero-cards-min, var(--nc-hero-cards-min)), 1fr));
+  grid-template-columns: 1fr;
+  width: 100%;
+
+  @include respond-to('sm') { grid-template-columns: repeat(2, 1fr); }
 }
 
+@each $n in (2, 3, 4) {
+  .nc-hero__cards--n#{$n} {
+    @include respond-to('md') { grid-template-columns: repeat(#{$n}, 1fr); }
+  }
+}
+
+// Fuenf und mehr: vier Spalten, danach umbrechen.
+.nc-hero__cards--n5 {
+  @include respond-to('md') { grid-template-columns: repeat(4, 1fr); }
+}
+
+// ---------------------------------------------------------------------------
+// Eine Karte
+// ---------------------------------------------------------------------------
 // Die Karten stehen AUF der Hero-Flaeche, nicht auf der Seitenflaeche. Sie
 // erben deshalb den Hero-Vordergrund, statt ihre eigene Textfarbe
 // mitzubringen — sonst stuende dunkler Kartentext auf dunklem Hero.
+//
+// Die drei Ebenen bilden die Anatomie von .nc-metric ab, statt eigene Namen
+// zu erfinden: __label steht laut dessen Dokumentation UEBER dem Wert
+// (also der Kicker), __footer darunter (also die Beschriftung).
 .nc-hero__cards .nc-metric {
   background: transparent;
   color: inherit;
   padding-inline: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mod-hero-cards-stack, var(--nc-hero-cards-stack));
 
-  .nc-metric__value { color: inherit; }
-  .nc-metric__label { color: color-mix(in srgb, var(--nc-hero-color) 65%, transparent); }
+  // Kicker — ueber dem Wert, in der Mono-Auszeichnung des Heroes
+  .nc-metric__label {
+    font-family: var(--mod-hero-cards-kicker-family, var(--nc-hero-cards-kicker-family));
+    font-size: var(--mod-hero-cards-kicker-size, var(--nc-hero-cards-kicker-size));
+    font-weight: var(--mod-hero-cards-kicker-weight, var(--nc-hero-cards-kicker-weight));
+    letter-spacing: var(--mod-hero-cards-kicker-tracking, var(--nc-hero-cards-kicker-tracking));
+    text-transform: uppercase;
+    // 68 % statt der zunaechst gewaehlten 55 %. Gemessen auf der hellen
+    // Flaeche: 55 % ergaben 3,93:1 — bei 12 px ist das normaler Text, es
+    // gilt also 4,5:1, und der Wert faellt durch. 68 % kommen auf 6,01:1
+    // hell und 9,36:1 dunkel.
+    //
+    // Der Kicker darf ruhig zuruecktreten, aber Zuruecktreten heisst nicht
+    // Unterschreiten: Er traegt eine eigene Aussage („Lizenz", „Betrieb"),
+    // keine Verzierung.
+    color: color-mix(in srgb, var(--nc-hero-color) 68%, transparent);
+    order: 0;
+  }
+
+  .nc-metric__value-row { order: 1; }
+
+  .nc-metric__value {
+    font-family: var(--mod-hero-cards-value-family, var(--nc-hero-cards-value-family));
+    font-size: var(--mod-hero-cards-value-size, var(--nc-hero-cards-value-size));
+    font-weight: var(--mod-hero-cards-value-weight, var(--nc-hero-cards-value-weight));
+    line-height: var(--mod-hero-cards-value-lh, var(--nc-hero-cards-value-lh));
+    letter-spacing: var(--fnd-tracking-snug);
+    color: inherit;
+    // Lange Werte wie "Cloud & On-Prem" duerfen umbrechen, aber nicht
+    // mitten im Wort zerbrechen.
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  // Beschriftung — unter dem Wert
+  .nc-metric__footer {
+    font-size: var(--mod-hero-cards-label-size, var(--nc-hero-cards-label-size));
+    line-height: var(--mod-hero-cards-label-lh, var(--nc-hero-cards-label-lh));
+    color: color-mix(in srgb, var(--nc-hero-color) 72%, transparent);
+    opacity: 1;   // .nc-metric bringt eine eigene Deckkraft mit; hier zaehlt der Farbwert
+    order: 2;
+  }
 }
 
-// Trennlinien zwischen den Kennzahlen, wie im Entwurf. Nur zwischen den
-// Spalten, nicht vor der ersten — deshalb ueber den Nachbarn statt ueber
-// border-left auf allen.
-.nc-hero__cards--ruled .nc-metric + .nc-metric {
-  border-inline-start: 1px solid var(--mod-hero-footer-rule, var(--nc-hero-footer-rule));
-  padding-inline-start: var(--fnd-spacing-06);
+// ---------------------------------------------------------------------------
+// Ausrichtung innerhalb der Karten
+// ---------------------------------------------------------------------------
+// Getrennt von der Ausrichtung des Heroes: Ein zentrierter Hero kann
+// linksbuendige Kennzahlen tragen und umgekehrt.
+.nc-hero__cards--start  .nc-metric { align-items: flex-start;  text-align: start; }
+.nc-hero__cards--center .nc-metric { align-items: center;      text-align: center; }
+.nc-hero__cards--end    .nc-metric { align-items: flex-end;    text-align: end; }
+
+// ---------------------------------------------------------------------------
+// Haarlinien
+// ---------------------------------------------------------------------------
+// Die Linie trennt SPALTEN. Wo es keine zweite Spalte gibt, trennt sie
+// nichts — deshalb wird sie erst ab der Zweispaltigkeit ueberhaupt gesetzt.
+//
+// Der umgekehrte Aufbau (Linie immer, am Zeilenanfang wieder weg) war der
+// erste Versuch und schlug in der Einspaltigkeit fehl: Dort ist JEDE Karte
+// Zeilenanfang, aber nur die erste ist auch :first-child. Gemessen bei
+// 640 px: drei von vier Karten trugen einen Strich ins Leere.
+//
+// Ebenso verworfen: die Linie nur beim Nachbarn ueber `+`. Das sieht kuerzer
+// aus, kann den Zeilenanfang aber gar nicht erkennen — nach einem Umbruch
+// ist das erste Kind der neuen Zeile immer noch der Nachbar des letzten der
+// vorigen.
+
+@mixin hero-karten-linie {
+  border-inline-start: var(--mod-hero-cards-rule-width, var(--nc-hero-cards-rule-width))
+                       solid
+                       var(--mod-hero-cards-rule-color, var(--nc-hero-cards-rule-color));
+  padding-inline-start: var(--mod-hero-cards-rule-inset, var(--nc-hero-cards-rule-inset));
 }
+
+@mixin hero-karten-ohne-linie {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+// Einspaltig: keine Linien.
+.nc-hero__cards--ruled .nc-metric {
+  @include hero-karten-ohne-linie;
+}
+
+// Zweispaltig: Linie ueberall, ausser am Zeilenanfang.
+@include respond-to('sm') {
+  .nc-hero__cards--ruled .nc-metric { @include hero-karten-linie; }
+  .nc-hero__cards--ruled .nc-metric:nth-child(2n + 1) { @include hero-karten-ohne-linie; }
+}
+
+// Ab md gilt die jeweilige Spaltenzahl. Zwei Regeln je Fassung: Zeilenanfang
+// verliert die Linie, und was in der Zweispaltigkeit Zeilenanfang WAR, es hier
+// aber nicht mehr ist, bekommt sie zurueck.
+@include respond-to('md') {
+  @each $n in (2, 3, 4) {
+    .nc-hero__cards--n#{$n}.nc-hero__cards--ruled .nc-metric:nth-child(#{$n}n + 1) {
+      @include hero-karten-ohne-linie;
+    }
+    @if $n != 2 {
+      .nc-hero__cards--n#{$n}.nc-hero__cards--ruled .nc-metric:nth-child(2n + 1):not(:nth-child(#{$n}n + 1)) {
+        @include hero-karten-linie;
+      }
+    }
+  }
+  .nc-hero__cards--n5.nc-hero__cards--ruled .nc-metric:nth-child(4n + 1) {
+    @include hero-karten-ohne-linie;
+  }
+  .nc-hero__cards--n5.nc-hero__cards--ruled .nc-metric:nth-child(2n + 1):not(:nth-child(4n + 1)) {
+    @include hero-karten-linie;
+  }
+}
+
+// Staerke und Farbe
+.nc-hero__cards--rule-sm { --nc-hero-cards-rule-width: var(--nc-hero-cards-rule-width-sm); }
+.nc-hero__cards--rule-md { --nc-hero-cards-rule-width: var(--nc-hero-cards-rule-width-md); }
+.nc-hero__cards--rule-lg { --nc-hero-cards-rule-width: var(--nc-hero-cards-rule-width-lg); }
+
+// Lime als Linienfarbe. Die Linie traegt keinen Text und kennzeichnet kein
+// Bedienelement — der Markenwert darf hier stehen, wo er als Schriftfarbe
+// nichts zu suchen haette.
+.nc-hero__cards--rule-accent { --nc-hero-cards-rule-color: var(--nc-hero-cards-rule-accent); }
 
 // ---------------------------------------------------------------------------
 // Hervorhebung in der Ueberschrift
@@ -432,7 +597,9 @@
 // gilt stattdessen der Marker-Balken.
 
 .nc-hero__title .nc-hero__mark,
-.nc-hero__title mark {
+.nc-hero__title mark,
+.nc-hero__subtitle .nc-hero__mark,
+.nc-hero__subtitle mark {
   color: inherit;
   padding: 0;
   border-radius: 0;
@@ -460,7 +627,9 @@
 // Tinte statt Balken: faerbt den Text. Der Wert kommt aus einem eigenen
 // Token, den die Flaechen-Modifier passend setzen — siehe Begruendung dort.
 .nc-hero__title .nc-hero__mark--tint,
-.nc-hero--mark-tint .nc-hero__title mark {
+.nc-hero__subtitle .nc-hero__mark--tint,
+.nc-hero--mark-tint .nc-hero__title mark,
+.nc-hero--mark-tint .nc-hero__subtitle mark {
   background-image: none;
   color: var(--mod-hero-mark-tint, var(--nc-hero-mark-tint));
 }
@@ -468,7 +637,9 @@
 // Bei erhoehtem Kontrast tritt die Systemfarbe an die Stelle des Balkens.
 @media (forced-colors: active) {
   .nc-hero__title .nc-hero__mark,
-  .nc-hero__title mark {
+  .nc-hero__title mark,
+  .nc-hero__subtitle .nc-hero__mark,
+  .nc-hero__subtitle mark {
     background-image: none;
     text-decoration: underline;
     text-decoration-thickness: 0.12em;

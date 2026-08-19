@@ -481,7 +481,7 @@ export function validateTokenCoverage(recipe, tokenRegistry) {
  * @param {string} componentId - Component ID
  * @returns {{ errors: string[], warnings: string[] }}
  */
-export function validateScssParity(scssContent, registryComponent, componentId) {
+export function validateScssParity(scssContent, registryComponent, componentId, alleKomponenten = []) {
   const errors = [];
   const warnings = [];
   const prefix = `--nc-${componentId}-`;
@@ -508,11 +508,29 @@ export function validateScssParity(scssContent, registryComponent, componentId) 
 
   const registryTokens = new Set(registryComponent.tokens.map(t => t.id));
 
+  // Praefixe anderer Komponenten, die LAENGER sind als der eigene.
+  //
+  // Das Praefix --nc-badge- faengt auch --nc-badge-row-* mit ab, --nc-hero-
+  // auch --nc-hero-tom-* und --nc-hero-tmob-*. Diese Token sind ordentlich
+  // registriert — nur eben bei badge-row, hero-tom und hero-tmob, nicht bei
+  // badge und hero. Sie hier zu melden heisst, der Elternkomponente etwas
+  // vorzuwerfen, das ihr nicht gehoert.
+  //
+  // Am 19.08.2026 waren das 28 von 286 Fehlern: 22 bei hero (tom/tmob), 6 bei
+  // badge (badge-row). Alle 28 nachgeprueft — jedes Token liegt in der Gruppe
+  // seiner eigenen Komponente.
+  const fremdePraefixe = alleKomponenten
+    .map((k) => `nc-${k.id}-`)
+    .filter((p) => p.length > `nc-${componentId}-`.length && p.startsWith(`nc-${componentId}-`));
+
   // SCSS→registry: only check tokens matching the component prefix
   for (const tok of scssTokens) {
     if (!registryTokens.has(tok)) {
       const hasVariant = [...registryTokens].some(rt => rt.startsWith(tok + '-'));
       if (hasVariant) continue;
+      // Gehoert das Token einer spezielleren Komponente? Dann ist es dort zu
+      // pruefen, nicht hier.
+      if (fremdePraefixe.some((p) => tok.startsWith(p))) continue;
       errors.push(`[${componentId}] SCSS deklariert "${tok}" — fehlt in design-tokens.json`);
     }
   }

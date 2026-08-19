@@ -112,7 +112,7 @@ for (const filePath of recipeFiles) {
   const registryComponent = tokenRegistry.find(c => c.id === component);
   let parityResult = { errors: [], warnings: [] };
   if (registryComponent && scssContent) {
-    parityResult = validateScssParity(scssContent, registryComponent, component);
+    parityResult = validateScssParity(scssContent, registryComponent, component, tokenRegistry);
   }
 
   // 4. Specimen sanity

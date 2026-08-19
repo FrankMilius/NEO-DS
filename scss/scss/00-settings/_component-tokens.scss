@@ -1394,9 +1394,27 @@
   // Auf Hero-Flaechen: eigene, vom Untergrund unabhaengige Flaeche. Ein
   // Schleier aus always-light traegt auf Bild, Video und Farbe gleichermassen;
   // eine Mischung GEGEN den Untergrund taete das nicht.
-  --nc-badge-row-hero-bg: color-mix(in srgb, var(--fnd-color-always-light) 18%, transparent);
-  --nc-badge-row-hero-color: var(--fnd-color-always-light);
-  --nc-badge-row-hero-border: color-mix(in srgb, var(--fnd-color-always-light) 32%, transparent);
+  // Der Schleier muss zur FLAECHE passen, nicht zur Vorgabe.
+  //
+  // Bis zum 19.08.2026 stand hier fest always-light. Das war richtig, solange
+  // der Hero immer dunkel war. Auf der hellen Flaeche wurde daraus weisse
+  // Schrift auf 18 % Weiss ueber Fast-Weiss — gemessen rund 1,05:1. Die Badges
+  // waren da und unsichtbar; gemeldet wurden sie als "fehlen".
+  --nc-badge-row-hero-on-dark-bg:     color-mix(in srgb, var(--fnd-color-always-light) 18%, transparent);
+  --nc-badge-row-hero-on-dark-color:  var(--fnd-color-always-light);
+  --nc-badge-row-hero-on-dark-border: color-mix(in srgb, var(--fnd-color-always-light) 32%, transparent);
+
+  // Auf heller Flaeche traegt derselbe Gedanke mit umgekehrtem Vorzeichen:
+  // ein Schleier aus always-dark, damit er auf Bild, Video und Farbe
+  // gleichermassen wirkt. 10 % statt 18 %, weil Dunkel auf Hell staerker
+  // deckt als umgekehrt.
+  --nc-badge-row-hero-on-light-bg:     color-mix(in srgb, var(--fnd-color-always-dark) 10%, transparent);
+  --nc-badge-row-hero-on-light-color:  var(--fnd-neutral-950);
+  --nc-badge-row-hero-on-light-border: color-mix(in srgb, var(--fnd-color-always-dark) 24%, transparent);
+
+  --nc-badge-row-hero-bg:     var(--nc-badge-row-hero-on-dark-bg);
+  --nc-badge-row-hero-color:  var(--nc-badge-row-hero-on-dark-color);
+  --nc-badge-row-hero-border: var(--nc-badge-row-hero-on-dark-border);
   --nc-badge-row-hero-spacing: var(--fnd-spacing-04);
 
   // -- Default (Subtle) --
@@ -3268,8 +3286,53 @@
   --nc-hero-footer-margin-top:     var(--fnd-spacing-08);
   --nc-hero-footer-gap:            var(--fnd-spacing-06);
   --nc-hero-cards-gap:             var(--fnd-spacing-06);
-  --nc-hero-cards-min:             160px;   // Spaltenbreite, ab der umbrochen wird
   --nc-hero-footer-rule:           color-mix(in srgb, var(--nc-hero-color) 14%, transparent);
+
+  // -- Typografie der Kennzahlen --
+  // Vorher kam der Wert aus dem Molekuel .nc-metric: fs-6xl in Monospace.
+  // Gemessen 60,2 px gegen 13,4 px Beschriftung — ein Verhaeltnis von 4,5:1.
+  // Das liest sich nicht als Zahl mit Erklaerung, sondern als zwei fremde
+  // Dinge untereinander; und in Monospace brach "Cloud & On-Prem" ueber drei
+  // Zeilen.
+  //
+  // Neu, am Verhaeltnis von .nc-card--featured orientiert (Titel heading('m'),
+  // Text darunter body): drei Stufen der 1,2er-Leiter zwischen Wert und
+  // Beschriftung.
+  //
+  //   Kicker         fs-xs    12,0 – 12,5 px
+  //   Wert           fs-2xl   24,2 – 31,1 px
+  //   Beschriftung   fs-base  14,0 – 18,0 px
+  //
+  // Verhaeltnis Wert zu Beschriftung 1,728 — genau 1,2 hoch 3, an beiden
+  // Enden der fluiden Spanne gleich. Der Wert bleibt deutlich unter der
+  // Ueberschrift (fs-4xl): Diese Karten stuetzen die Aussage, sie sind nicht
+  // die Aussage.
+  //
+  // Serifenlos statt Monospace: Die Werte sind hier ebenso oft Woerter wie
+  // Zahlen. Monospace ist fuer Ziffernkolonnen gedacht, nicht fuer
+  // "Barrierefrei".
+  --nc-hero-cards-kicker-size:     var(--fs-xs);
+  --nc-hero-cards-kicker-weight:   var(--nc-mono-label-weight-strong);
+  --nc-hero-cards-kicker-family:   var(--font-mono);
+  --nc-hero-cards-kicker-tracking: var(--nc-mono-tracking-caps);
+  --nc-hero-cards-value-size:      var(--fs-2xl);
+  --nc-hero-cards-value-family:    var(--font-heading);
+  --nc-hero-cards-value-weight:    var(--fnd-font-weight-bold);
+  --nc-hero-cards-value-lh:        var(--lh-heading);
+  --nc-hero-cards-label-size:      var(--fs-base);
+  --nc-hero-cards-label-lh:        var(--lh-snug);
+  --nc-hero-cards-stack:           var(--fnd-spacing-01);   // Abstand innerhalb einer Karte
+
+  // -- Haarlinien zwischen den Kennzahlen --
+  // Drei Staerken zur Auswahl. Die Linie gliedert nur und kennzeichnet kein
+  // Bedienelement — 1.4.11 greift dort nicht, deshalb darf sie blass sein.
+  --nc-hero-cards-rule-width-sm:   1px;
+  --nc-hero-cards-rule-width-md:   2px;
+  --nc-hero-cards-rule-width-lg:   4px;
+  --nc-hero-cards-rule-width:      var(--nc-hero-cards-rule-width-sm);
+  --nc-hero-cards-rule-color:      var(--nc-hero-footer-rule);
+  --nc-hero-cards-rule-accent:     var(--fnd-accent-500);   // Markenwert, nur Flaeche
+  --nc-hero-cards-rule-inset:      var(--fnd-spacing-06);   // Abstand Linie zum Inhalt
 
   // -- Hervorhebung in der Ueberschrift --
   // Zwei Bauarten, Balken und Tinte. BEIDE haengen von der Flaeche ab, und
