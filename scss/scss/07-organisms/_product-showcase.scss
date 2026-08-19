@@ -261,3 +261,98 @@
 .nc-product-showcase {
   max-width: var(--mod-container-max-width, var(--container-max-width));
 }
+
+// ---------------------------------------------------------------------------
+// Klebender Medienbereich — die App-Strecke
+// ---------------------------------------------------------------------------
+// Ergaenzt am 19.08.2026. Der Anlass: Die App-Landingpage hatte sechs
+// unmittelbar aufeinanderfolgende Feature-Listen mit identischer Form. Sechs
+// gleich gebaute Abschnitte lesen sich wie eine Liste, durch die man scrollt,
+// nicht wie eine Argumentation.
+//
+// Mit klebendem Medium wird daraus eine Fuehrung: Das Geraet bleibt stehen,
+// der Text laeuft daran vorbei, der Screen wechselt je Station.
+//
+// UNTERHALB DER UMBRUCHBREITE KLEBT NICHTS.
+// Dort stehen Medium und Text untereinander, und ein klebendes Medium wuerde
+// den halben Bildschirm dauerhaft belegen — aus dem Anker wuerde eine Sperre.
+.nc-product-showcase--sticky {
+  @include respond-to('md') {
+    align-items: start;
+
+    .nc-product-showcase__media-panel {
+      position: sticky;
+      inset-block-start: var(--mod-product-showcase-sticky-top, var(--nc-product-showcase-sticky-top));
+    }
+  }
+}
+
+// Geraeterahmen im Medienbereich: Der Rahmen bringt sein Seitenverhaeltnis
+// selbst mit, das Panel darf ihm keines aufzwingen.
+.nc-product-showcase--device .nc-product-showcase__media-panel {
+  aspect-ratio: auto;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.nc-product-showcase--device .nc-product-showcase__media-item {
+  position: relative;
+  inset: auto;
+}
+
+// Das Geraet je Station — die Fassung OHNE JavaScript.
+//
+// Ohne Skript steht bei jeder Station ihr eigener Screen, untereinander. Das
+// ist die ehrlichere Grundform: Der Inhalt haengt nicht daran, ob ein Skript
+// laeuft. Bei der Fade-Galerie war genau das der Fall, und im ausgelieferten
+// Dokument stand ein leeres div.
+//
+// Sobald das Skript uebernimmt, setzt es data-neo-device-scroll="aktiv" und
+// die Einzelgeraete verschwinden — dann zeigt das klebende Geraet den Screen.
+.nc-product-showcase__option-device {
+  margin-block-start: var(--fnd-spacing-05);
+}
+
+[data-neo-device-scroll='aktiv'] {
+  .nc-product-showcase__option-device { display: none; }
+}
+
+// Ohne Skript hat der klebende Bereich nichts zu zeigen.
+.nc-product-showcase--device:not([data-neo-device-scroll='aktiv']) .nc-product-showcase__media-panel {
+  display: none;
+}
+
+// Die Screens im klebenden Geraet liegen uebereinander; nur einer ist sichtbar.
+.nc-product-showcase--device .nc-product-showcase__media-panel .nc-device__screen {
+  position: relative;
+
+  > img {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--fnd-motion-duration-300, 300ms) var(--fnd-motion-ease-focused, ease);
+
+    &.is-active { opacity: 1; }
+  }
+}
+
+// Wer Bewegung reduziert, bekommt den Wechsel ohne Blende.
+@media (prefers-reduced-motion: reduce) {
+  .nc-product-showcase--device .nc-product-showcase__media-panel .nc-device__screen > img {
+    transition: none;
+  }
+}
+
+// Stationen: die aktive tritt hervor, die uebrigen treten zurueck. Nicht ueber
+// Deckkraft allein — Text, den man nicht lesen kann, ist kein Text (WCAG 1.4.3
+// gilt auch fuer den Ruhezustand). Deshalb Kante und Gewicht statt Ausblenden.
+.nc-product-showcase--sticky .nc-product-showcase__option {
+  border-inline-start: 2px solid transparent;
+  padding-inline-start: var(--fnd-spacing-05);
+  transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+  &.is-active { border-inline-start-color: var(--fnd-color-background-accent); }
+
+  .nc-product-showcase__label { font-weight: var(--fnd-font-weight-semibold); }
+}

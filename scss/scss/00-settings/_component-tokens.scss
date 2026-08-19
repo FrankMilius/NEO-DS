@@ -3390,6 +3390,75 @@
   --nc-hero-cards-radius:          var(--fnd-radius-lg);
   --nc-hero-cards-pad:             clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px);
 
+  // ---------------------------------------------------------------------------
+  // Device — Geraeterahmen
+  // ---------------------------------------------------------------------------
+  // Angelegt am 19.08.2026. Bis dahin gab es im System keinen Geraeterahmen,
+  // und jeder Block, der App-Screenshots zeigen sollte, erzwang Querformat:
+  //
+  //   nc-fade-gallery  16/9  ->  74 % des Screenshots verworfen
+  //   nc-feature-list   4/3  ->  66 %
+  //   nc-card-grid      3/2  ->  69 %
+  //
+  // DAS SEITENVERHAELTNIS IST GEMESSEN, NICHT GESCHAETZT
+  // 1206 x 2622 ist das echte Mass der vorhandenen Screenshots (iPhone 17).
+  // Genau dieses Verhaeltnis steht hier, damit object-fit nichts zu tun hat:
+  // Wo Rahmen und Bild uebereinstimmen, gibt es keinen Zuschnitt.
+  // In Anfuehrungszeichen mit Interpolation: Sass liest einen Schraegstrich
+  // zwischen zwei mehrstelligen Zahlen als Division und bricht ab. Bei
+  // 4 / 5 faellt das nicht auf, bei 1206 / 2622 schon.
+  --nc-device-ratio:               #{"1206 / 2622"};
+  --nc-device-width:               clamp(200px, calc(200px + (300px - 200px) * var(--fluid-bp)), 300px);
+
+  // Der Rand ist das Geraet. Er traegt keine Bedeutung und muss deshalb keinen
+  // Kontrastwert halten — er muss aber als Gegenstand lesbar sein, sonst wirkt
+  // der Screenshot wie ein angeschnittenes Bild.
+  --nc-device-bezel:               clamp(6px, calc(6px + (10px - 6px) * var(--fluid-bp)), 10px);
+  --nc-device-bezel-color:         var(--fnd-neutral-950);
+  --nc-device-radius:              clamp(22px, calc(22px + (38px - 22px) * var(--fluid-bp)), 38px);
+  --nc-device-screen-radius:       clamp(14px, calc(14px + (26px - 14px) * var(--fluid-bp)), 26px);
+  --nc-device-shadow:              var(--fnd-elevation-overlay);
+
+  // Die Aussparung oben. Rein zeichenhaft — sie sagt in einer Zehntelsekunde,
+  // dass hier ein Telefon steht. Fuer Vorlesewerkzeuge ist sie unsichtbar.
+  --nc-device-notch-width:         34%;
+  --nc-device-notch-height:        clamp(14px, calc(14px + (24px - 14px) * var(--fluid-bp)), 24px);
+  --nc-device-notch-radius:        var(--fnd-radius-full);
+
+  --nc-device-caption-size:        var(--fs-sm);
+  --nc-device-caption-color:       var(--fnd-color-text-secondary);
+  --nc-device-caption-gap:         var(--fnd-spacing-04);
+  --nc-device-tilt:                6deg;
+
+  // ---------------------------------------------------------------------------
+  // App-Store-Verweise
+  // ---------------------------------------------------------------------------
+  --nc-app-store-gap:              var(--fnd-spacing-05);
+  --nc-app-store-badge-gap:        var(--fnd-spacing-03);
+  --nc-app-store-badge-pad:        var(--fnd-spacing-03) var(--fnd-spacing-05);
+  --nc-app-store-badge-radius:     var(--fnd-radius-md);
+  --nc-app-store-badge-border-width: var(--fnd-border-width-sm);
+  --nc-app-store-badge-border:     var(--fnd-color-border-primary);
+  --nc-app-store-badge-border-hover: var(--fnd-color-interactive-default);
+  --nc-app-store-badge-bg:         transparent;
+  --nc-app-store-badge-bg-hover:   var(--fnd-color-background-secondary);
+  --nc-app-store-badge-color:      var(--fnd-color-text-primary);
+  --nc-app-store-kicker-size:      var(--fs-xs);
+  --nc-app-store-name-size:        var(--fs-lg);
+  --nc-app-store-icon-size:        clamp(22px, calc(22px + (28px - 22px) * var(--fluid-bp)), 28px);
+  --nc-app-store-qr-size:          clamp(96px, calc(96px + (128px - 96px) * var(--fluid-bp)), 128px);
+
+  // ---------------------------------------------------------------------------
+  // Product-Showcase: klebender Medienbereich
+  // ---------------------------------------------------------------------------
+  // Ergaenzt am 19.08.2026 fuer die App-Strecke. Das Bauteil hatte Optionen
+  // links und Medium rechts bereits — es fehlte nur, dass das Medium beim
+  // Scrollen stehen bleibt.
+  //
+  // Der Abstand nach oben ist kein Geschmack: Ohne ihn klebt das Geraet unter
+  // der Kopfleiste fest, die selbst klebt.
+  --nc-product-showcase-sticky-top: calc(var(--nc-nav-height, 72px) + var(--fnd-spacing-06));
+
   // -- Hervorhebung in der Ueberschrift --
   // Zwei Bauarten, Balken und Tinte. BEIDE haengen von der Flaeche ab, und
   // zwar aus demselben Grund: Die Schriftfarbe des Heroes wechselt mit ihr.

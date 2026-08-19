@@ -1,0 +1,137 @@
+// ==========================================================================
+// 05-Atoms: Device — Geraeterahmen
+// ==========================================================================
+// Ein Telefon als Rahmen um einen Screenshot.
+//
+// WARUM ES DAS BRAUCHT
+// Bis zum 19.08.2026 gab es im System keinen Geraeterahmen. Jeder Block, der
+// App-Screenshots zeigen sollte, hatte ein festes Seitenverhaeltnis im
+// Stylesheet — und alle waren quer:
+//
+//   nc-fade-gallery  16/9   ->  von 2622 px Hoehe blieben 678   (74 % weg)
+//   nc-feature-list   4/3   ->  66 % weg
+//   nc-card-grid      3/2   ->  69 % weg
+//
+// Ein Bildformat-Feld am Block half nicht: Die Auswahl erreichte diese Regeln
+// gar nicht. Deshalb ein eigenes Bauteil, das das Verhaeltnis MITBRINGT.
+//
+// WARUM 05-ATOMS
+// Der Rahmen stellt etwas dar (Rand, Radius, Aussparung, Schatten) und ordnet
+// nicht nur an — ein Layout-Objekt waere er damit nicht. Weiter zerlegen liesse
+// er sich zwar (Rahmen, Bildschirm, Aussparung), aber keines der Teile ist fuer
+// sich verwendbar. Nach den Entscheidungsregeln also ein Atom.
+//
+// WARUM ES KEINEN ZUSCHNITT GIBT
+// --nc-device-ratio ist 1206 / 2622 — das echte Mass der vorhandenen
+// Screenshots. Wo Rahmen und Bild uebereinstimmen, hat object-fit nichts zu
+// tun. Bei abweichendem Bildmaterial greift `contain` statt `cover`: lieber
+// ein Rand als ein abgeschnittener Bildschirm.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-device {
+  display: inline-block;
+  position: relative;
+  inline-size: var(--mod-device-width, var(--nc-device-width));
+  max-inline-size: 100%;
+  padding: var(--mod-device-bezel, var(--nc-device-bezel));
+  background: var(--mod-device-bezel-color, var(--nc-device-bezel-color));
+  border-radius: var(--mod-device-radius, var(--nc-device-radius));
+  box-shadow: var(--mod-device-shadow, var(--nc-device-shadow));
+  // Der Rahmen ist ein Gegenstand, kein Text. Er darf nicht mitwachsen, wenn
+  // jemand die Schriftgroesse hochstellt — sonst sprengt er sein Raster.
+  line-height: 0;
+}
+
+.nc-device__screen {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: var(--mod-device-ratio, var(--nc-device-ratio));
+  border-radius: var(--mod-device-screen-radius, var(--nc-device-screen-radius));
+  overflow: hidden;
+  background: var(--fnd-color-background-secondary);
+  position: relative;
+}
+
+.nc-device__screen img,
+.nc-device__screen video {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  // contain, NICHT cover.
+  //
+  // cover war die Ursache des ganzen Problems: Es fuellt den Rahmen und
+  // schneidet weg, was nicht passt — bei 1:2,17 in 16:9 waren das 74 %.
+  // Passt das Bild (der Normalfall), verhalten sich beide gleich. Passt es
+  // nicht, zeigt contain den ganzen Screenshot mit Rand. Ein Rand ist ein
+  // sichtbarer Hinweis auf falsches Bildmaterial; ein Zuschnitt ist keiner.
+  object-fit: contain;
+  object-position: center;
+}
+
+// Die Aussparung. Rein zeichenhaft — sie sagt in einer Zehntelsekunde, dass
+// hier ein Telefon steht. aria-hidden waere Markup; hier genuegt, dass sie
+// als Pseudoelement gar nicht im Baum steht.
+.nc-device__screen::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  inline-size: var(--mod-device-notch-width, var(--nc-device-notch-width));
+  block-size: var(--mod-device-notch-height, var(--nc-device-notch-height));
+  background: var(--mod-device-bezel-color, var(--nc-device-bezel-color));
+  border-end-start-radius: var(--mod-device-notch-radius, var(--nc-device-notch-radius));
+  border-end-end-radius: var(--mod-device-notch-radius, var(--nc-device-notch-radius));
+  z-index: 1;
+}
+
+// Ohne Aussparung — fuer Screenshots, die ihre eigene Statusleiste mitbringen.
+.nc-device--plain .nc-device__screen::after { content: none; }
+
+// ---------------------------------------------------------------------------
+// Groessen
+// ---------------------------------------------------------------------------
+.nc-device--sm { --nc-device-width: clamp(140px, calc(140px + (200px - 140px) * var(--fluid-bp)), 200px); }
+.nc-device--lg { --nc-device-width: clamp(260px, calc(260px + (400px - 260px) * var(--fluid-bp)), 400px); }
+
+// ---------------------------------------------------------------------------
+// Neigung
+// ---------------------------------------------------------------------------
+// Nur Zierde, deshalb unter prefers-reduced-motion nicht animiert — gedreht
+// bleibt es trotzdem, eine statische Neigung ist keine Bewegung.
+.nc-device--tilt-left  { transform: rotate(calc(-1 * var(--mod-device-tilt, var(--nc-device-tilt)))); }
+.nc-device--tilt-right { transform: rotate(var(--mod-device-tilt, var(--nc-device-tilt))); }
+
+// ---------------------------------------------------------------------------
+// Beschriftung
+// ---------------------------------------------------------------------------
+// Getrennt vom Rahmen, weil sie ausserhalb steht und mitfliessen soll.
+.nc-device-figure {
+  display: grid;
+  justify-items: center;
+  gap: var(--mod-device-caption-gap, var(--nc-device-caption-gap));
+  margin: 0;
+}
+
+.nc-device-figure__caption {
+  font-size: var(--mod-device-caption-size, var(--nc-device-caption-size));
+  color: var(--mod-device-caption-color, var(--nc-device-caption-color));
+  line-height: var(--lh-snug);
+  text-align: center;
+  max-inline-size: 28ch;
+}
+
+// ---------------------------------------------------------------------------
+// Erhoehter Kontrast
+// ---------------------------------------------------------------------------
+// Bei forced-colors verschwinden Hintergrundfarben. Ohne diese Zeile bliebe
+// vom Geraet nichts uebrig und der Screenshot staende frei im Raum.
+@media (forced-colors: active) {
+  .nc-device {
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+  .nc-device__screen::after { content: none; }
+}

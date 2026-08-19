@@ -18173,7 +18173,8 @@
               "nc-product-showcase-indicator-radius",
               "nc-product-showcase-headline-size",
               "nc-product-showcase-desc-size",
-              "nc-product-showcase-media-radius"
+              "nc-product-showcase-media-radius",
+              "nc-product-showcase-sticky-top"
             ]
           },
           {
@@ -18389,6 +18390,12 @@
             "label": "Animation Easing",
             "type": "generic",
             "default": "cubic-bezier(0.16, 1, 0.3, 1)"
+          },
+          {
+            "id": "nc-product-showcase-sticky-top",
+            "label": "Klebeabstand nach oben",
+            "type": "size",
+            "default": "calc(var(--nc-nav-height, 72px) + var(--fnd-spacing-06))"
           }
         ]
       },
@@ -19424,6 +19431,244 @@
             "label": "Bordered Padding",
             "type": "spacing",
             "default": "var(--fnd-spacing-03)"
+          }
+        ]
+      },
+      {
+        "id": "device",
+        "label": "Geräterahmen",
+        "icon": "square",
+        "subgroups": [
+          {
+            "id": "geometry",
+            "label": "Geometrie",
+            "tokenIds": [
+              "nc-device-ratio",
+              "nc-device-width",
+              "nc-device-bezel",
+              "nc-device-radius",
+              "nc-device-screen-radius",
+              "nc-device-notch-width",
+              "nc-device-notch-height",
+              "nc-device-notch-radius",
+              "nc-device-tilt",
+              "nc-device-caption-size",
+              "nc-device-caption-gap"
+            ]
+          },
+          {
+            "id": "colors",
+            "label": "Farben",
+            "tokenIds": [
+              "nc-device-bezel-color",
+              "nc-device-shadow",
+              "nc-device-caption-color"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-device-ratio",
+            "label": "Seitenverhältnis",
+            "type": "size",
+            "default": "1206 / 2622"
+          },
+          {
+            "id": "nc-device-width",
+            "label": "Breite",
+            "type": "size",
+            "default": "clamp(200px, calc(200px + (300px - 200px) * var(--fluid-bp)), 300px)"
+          },
+          {
+            "id": "nc-device-bezel",
+            "label": "Rand",
+            "type": "size",
+            "default": "clamp(6px, calc(6px + (10px - 6px) * var(--fluid-bp)), 10px)"
+          },
+          {
+            "id": "nc-device-radius",
+            "label": "Radius außen",
+            "type": "size",
+            "default": "clamp(22px, calc(22px + (38px - 22px) * var(--fluid-bp)), 38px)"
+          },
+          {
+            "id": "nc-device-screen-radius",
+            "label": "Radius Bildschirm",
+            "type": "size",
+            "default": "clamp(14px, calc(14px + (26px - 14px) * var(--fluid-bp)), 26px)"
+          },
+          {
+            "id": "nc-device-notch-width",
+            "label": "Aussparung — Breite",
+            "type": "size",
+            "default": "34%"
+          },
+          {
+            "id": "nc-device-notch-height",
+            "label": "Aussparung — Höhe",
+            "type": "size",
+            "default": "clamp(14px, calc(14px + (24px - 14px) * var(--fluid-bp)), 24px)"
+          },
+          {
+            "id": "nc-device-notch-radius",
+            "label": "Aussparung — Radius",
+            "type": "size",
+            "default": "var(--fnd-radius-full)"
+          },
+          {
+            "id": "nc-device-tilt",
+            "label": "Neigung",
+            "type": "size",
+            "default": "6deg"
+          },
+          {
+            "id": "nc-device-caption-size",
+            "label": "Beschriftung — Größe",
+            "type": "size",
+            "default": "var(--fs-sm)"
+          },
+          {
+            "id": "nc-device-caption-gap",
+            "label": "Beschriftung — Abstand",
+            "type": "size",
+            "default": "var(--fnd-spacing-04)"
+          },
+          {
+            "id": "nc-device-bezel-color",
+            "label": "Rand — Farbe",
+            "type": "color",
+            "default": "var(--fnd-neutral-950)"
+          },
+          {
+            "id": "nc-device-shadow",
+            "label": "Schatten",
+            "type": "color",
+            "default": "var(--fnd-elevation-overlay)"
+          },
+          {
+            "id": "nc-device-caption-color",
+            "label": "Beschriftung — Farbe",
+            "type": "color",
+            "default": "var(--fnd-color-text-secondary)"
+          }
+        ]
+      },
+      {
+        "id": "app-store",
+        "label": "App-Store-Verweise",
+        "icon": "square",
+        "subgroups": [
+          {
+            "id": "geometry",
+            "label": "Geometrie",
+            "tokenIds": [
+              "nc-app-store-gap",
+              "nc-app-store-badge-gap",
+              "nc-app-store-badge-pad",
+              "nc-app-store-badge-radius",
+              "nc-app-store-badge-border-width",
+              "nc-app-store-kicker-size",
+              "nc-app-store-name-size",
+              "nc-app-store-icon-size",
+              "nc-app-store-qr-size"
+            ]
+          },
+          {
+            "id": "colors",
+            "label": "Farben",
+            "tokenIds": [
+              "nc-app-store-badge-border",
+              "nc-app-store-badge-border-hover",
+              "nc-app-store-badge-bg",
+              "nc-app-store-badge-bg-hover",
+              "nc-app-store-badge-color"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-app-store-gap",
+            "label": "Abstand",
+            "type": "size",
+            "default": "var(--fnd-spacing-05)"
+          },
+          {
+            "id": "nc-app-store-badge-gap",
+            "label": "Abzeichen — Abstand",
+            "type": "size",
+            "default": "var(--fnd-spacing-03)"
+          },
+          {
+            "id": "nc-app-store-badge-pad",
+            "label": "Abzeichen — Polsterung",
+            "type": "size",
+            "default": "var(--fnd-spacing-03) var(--fnd-spacing-05)"
+          },
+          {
+            "id": "nc-app-store-badge-radius",
+            "label": "Abzeichen — Radius",
+            "type": "size",
+            "default": "var(--fnd-radius-md)"
+          },
+          {
+            "id": "nc-app-store-badge-border-width",
+            "label": "Abzeichen — Randstärke",
+            "type": "size",
+            "default": "var(--fnd-border-width-sm)"
+          },
+          {
+            "id": "nc-app-store-kicker-size",
+            "label": "Kicker — Größe",
+            "type": "size",
+            "default": "var(--fs-xs)"
+          },
+          {
+            "id": "nc-app-store-name-size",
+            "label": "Name — Größe",
+            "type": "size",
+            "default": "var(--fs-lg)"
+          },
+          {
+            "id": "nc-app-store-icon-size",
+            "label": "Symbolgröße",
+            "type": "size",
+            "default": "clamp(22px, calc(22px + (28px - 22px) * var(--fluid-bp)), 28px)"
+          },
+          {
+            "id": "nc-app-store-qr-size",
+            "label": "QR-Code — Größe",
+            "type": "size",
+            "default": "clamp(96px, calc(96px + (128px - 96px) * var(--fluid-bp)), 128px)"
+          },
+          {
+            "id": "nc-app-store-badge-border",
+            "label": "Abzeichen — Rand",
+            "type": "color",
+            "default": "var(--fnd-color-border-primary)"
+          },
+          {
+            "id": "nc-app-store-badge-border-hover",
+            "label": "Abzeichen — Rand beim Überfahren",
+            "type": "color",
+            "default": "var(--fnd-color-interactive-default)"
+          },
+          {
+            "id": "nc-app-store-badge-bg",
+            "label": "Abzeichen — Fläche",
+            "type": "color",
+            "default": "transparent"
+          },
+          {
+            "id": "nc-app-store-badge-bg-hover",
+            "label": "Abzeichen — Fläche beim Überfahren",
+            "type": "color",
+            "default": "var(--fnd-color-background-secondary)"
+          },
+          {
+            "id": "nc-app-store-badge-color",
+            "label": "Abzeichen — Schrift",
+            "type": "color",
+            "default": "var(--fnd-color-text-primary)"
           }
         ]
       }

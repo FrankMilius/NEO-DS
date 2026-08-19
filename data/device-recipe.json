@@ -1,0 +1,188 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "device",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "media",
+      "app",
+      "device"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/device-docs"
+    },
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_device.scss"
+      ]
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-device"
+    },
+    "slots": [
+      {
+        "name": "screen",
+        "element": ".nc-device__screen",
+        "optional": false,
+        "description": "Der Bildschirm. Bringt das Seitenverhaeltnis mit — deshalb darf ihm kein Elternteil eines aufzwingen."
+      },
+      {
+        "name": "caption",
+        "element": ".nc-device-figure__caption",
+        "optional": true,
+        "description": "Beschriftung ausserhalb des Rahmens, in .nc-device-figure."
+      }
+    ],
+    "domNotes": [
+      "Das Seitenverhaeltnis 1206/2622 ist das gemessene Mass der vorhandenen App-Screenshots (iPhone 17), nicht ein gerundeter Geraetewert. Wo Rahmen und Bild uebereinstimmen, hat object-fit nichts zu tun.",
+      "object-fit ist contain, NICHT cover. cover war die Ursache des Problems, fuer das dieses Bauteil gebaut wurde: In einem 16:9-Rahmen blieben von 2622 px Hoehe 678 uebrig.",
+      "Die Aussparung ist ein Pseudoelement und steht deshalb gar nicht im Baum — sie braucht kein aria-hidden."
+    ]
+  },
+  "axes": {
+    "size": {
+      "label": "Groesse",
+      "values": {
+        "sm": {
+          "modifier": "nc-device--sm",
+          "tokenGroups": [
+            "layout"
+          ]
+        },
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout"
+          ]
+        },
+        "lg": {
+          "modifier": "nc-device--lg",
+          "tokenGroups": [
+            "layout"
+          ]
+        }
+      }
+    },
+    "tilt": {
+      "label": "Neigung",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "left": {
+          "modifier": "nc-device--tilt-left",
+          "tokenGroups": [
+            "layout"
+          ]
+        },
+        "right": {
+          "modifier": "nc-device--tilt-right",
+          "tokenGroups": [
+            "layout"
+          ]
+        }
+      }
+    },
+    "notch": {
+      "label": "Aussparung",
+      "values": {
+        "on": {
+          "modifier": null,
+          "tokenGroups": [
+            "layout"
+          ]
+        },
+        "off": {
+          "modifier": "nc-device--plain",
+          "tokenGroups": []
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": []
+  },
+  "a11y": {
+    "base": [
+      "Der Rahmen traegt keine Bedeutung. Die Aussage steckt im Screenshot, und der braucht einen alt-Text am img.",
+      "line-height: 0 am Rahmen ist Absicht: Der Rahmen ist ein Gegenstand und darf nicht mitwachsen, wenn jemand die Schriftgroesse hochstellt.",
+      "Bei forced-colors verschwinden Hintergrundfarben; dann traegt eine Kontur das Geraet, sonst staende der Screenshot frei im Raum."
+    ],
+    "overrides": []
+  },
+  "constraints": {
+    "rules": []
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-device"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-device-ratio",
+          "nc-device-width",
+          "nc-device-bezel",
+          "nc-device-bezel-color",
+          "nc-device-radius",
+          "nc-device-screen-radius",
+          "nc-device-shadow",
+          "nc-device-notch-width",
+          "nc-device-notch-height",
+          "nc-device-notch-radius",
+          "nc-device-tilt",
+          "nc-device-caption-size",
+          "nc-device-caption-color",
+          "nc-device-caption-gap"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.orientation.values.*.modifier",
+        "axes.mode.values.*.modifier",
+        "axes.display.values.*.modifier",
+        "axes.validation.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+  "specimens": []
+}

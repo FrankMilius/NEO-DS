@@ -1,0 +1,143 @@
+// ==========================================================================
+// 06-Molecules: App-Store-Verweise
+// ==========================================================================
+// Store-Abzeichen und QR-Code.
+//
+// WARUM DAS BAUTEIL EXISTIERT
+// Die App-Landingpage endete am 19.08.2026 mit einem Formular („Testzugang
+// anfordern"). Bei einer nativen App ist der Store der Ort der Entscheidung;
+// ein Formular dazwischen kostet genau dort, wo die Absicht am hoechsten ist.
+//
+// Der QR-Code loest dabei ein echtes Problem und nicht nur ein optisches: Die
+// Seite wird am Schreibtisch gelesen, installiert wird auf dem Geraet. Ohne
+// ihn muss jemand den Store von Hand durchsuchen — und die meisten tun das
+// nicht.
+//
+// ABZEICHEN ALS TEXT, NICHT ALS BILD
+// Die offiziellen Store-Abzeichen sind Marken Dritter mit eigenen
+// Gestaltungsvorgaben. Solange sie nicht als Datei vorliegen, steht hier eine
+// eigene Schaltflaeche im Systemstil — sie ist ehrlicher als eine nachgebaute
+// Marke und beim Austausch gegen die echte Grafik ist nichts verloren.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-app-store {
+  display: grid;
+  gap: var(--mod-app-store-gap, var(--nc-app-store-gap));
+  justify-items: start;
+}
+
+.nc-app-store__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mod-app-store-badge-gap, var(--nc-app-store-badge-gap));
+  align-items: center;
+}
+
+.nc-app-store__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-03);
+  padding: var(--mod-app-store-badge-pad, var(--nc-app-store-badge-pad));
+  border: var(--nc-app-store-badge-border-width) solid var(--mod-app-store-badge-border, var(--nc-app-store-badge-border));
+  border-radius: var(--mod-app-store-badge-radius, var(--nc-app-store-badge-radius));
+  background: var(--mod-app-store-badge-bg, var(--nc-app-store-badge-bg));
+  color: var(--mod-app-store-badge-color, var(--nc-app-store-badge-color));
+  text-decoration: none;
+  line-height: var(--lh-snug);
+  transition: background-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused),
+              border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+  &:hover {
+    background: var(--mod-app-store-badge-bg-hover, var(--nc-app-store-badge-bg-hover));
+    border-color: var(--mod-app-store-badge-border-hover, var(--nc-app-store-badge-border-hover));
+  }
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+    outline-offset: var(--fnd-focus-offset);
+  }
+}
+
+// Zweizeilig: „Laden im" klein, Storename gross. Die kleine Zeile ist eine
+// Beschriftung, keine Marke — deshalb Monospace wie alle Etiketten im System.
+.nc-app-store__badge-text { display: grid; }
+
+.nc-app-store__badge-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--mod-app-store-kicker-size, var(--nc-app-store-kicker-size));
+  letter-spacing: var(--nc-mono-tracking-caps);
+  text-transform: uppercase;
+  opacity: var(--fnd-opacity-high);
+}
+
+.nc-app-store__badge-name {
+  font-size: var(--mod-app-store-name-size, var(--nc-app-store-name-size));
+  font-weight: var(--fnd-font-weight-semibold);
+}
+
+.nc-app-store__badge-icon {
+  inline-size: var(--nc-app-store-icon-size);
+  block-size: var(--nc-app-store-icon-size);
+  flex: 0 0 auto;
+}
+
+// ---------------------------------------------------------------------------
+// QR-Code
+// ---------------------------------------------------------------------------
+// Auf schmalen Geraeten ausgeblendet: Wer die Seite auf dem Telefon liest,
+// braucht keinen Code, um auf das Telefon zu kommen — er braucht den
+// Store-Verweis, und der steht daneben.
+.nc-app-store__qr {
+  display: none;
+  align-items: center;
+  gap: var(--fnd-spacing-04);
+
+  @include respond-to('md') { display: flex; }
+}
+
+.nc-app-store__qr-code {
+  inline-size: var(--mod-app-store-qr-size, var(--nc-app-store-qr-size));
+  block-size: var(--mod-app-store-qr-size, var(--nc-app-store-qr-size));
+  padding: var(--fnd-spacing-02);
+  background: var(--fnd-color-always-light);
+  border-radius: var(--fnd-radius-md);
+  flex: 0 0 auto;
+
+  img, svg, canvas { inline-size: 100%; block-size: 100%; display: block; }
+}
+
+.nc-app-store__qr-text {
+  font-size: var(--fs-sm);
+  color: var(--fnd-color-text-secondary);
+  max-inline-size: 24ch;
+  line-height: var(--lh-snug);
+}
+
+.nc-app-store__note {
+  font-size: var(--fs-sm);
+  color: var(--fnd-color-text-tertiary);
+  line-height: var(--lh-snug);
+}
+
+// ---------------------------------------------------------------------------
+// Auf dunkler Flaeche
+// ---------------------------------------------------------------------------
+// Wie ueberall im System: Flaeche und Vordergrund sind ein Paar. Steht die
+// Zeile in einem dunklen Hero, muessen die Abzeichen mitwechseln — sonst
+// dunkler Rahmen auf dunklem Grund.
+.nc-app-store--on-dark {
+  --nc-app-store-badge-color: var(--fnd-color-always-light);
+  --nc-app-store-badge-border: color-mix(in srgb, var(--fnd-color-always-light) 34%, transparent);
+  --nc-app-store-badge-border-hover: var(--fnd-color-always-light);
+  --nc-app-store-badge-bg: transparent;
+  --nc-app-store-badge-bg-hover: color-mix(in srgb, var(--fnd-color-always-light) 10%, transparent);
+}
+
+.nc-app-store--center {
+  justify-items: center;
+  text-align: center;
+
+  .nc-app-store__badges { justify-content: center; }
+}
