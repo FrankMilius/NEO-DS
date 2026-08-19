@@ -3491,8 +3491,29 @@
   --nc-product-showcase-acc-rule:           var(--fnd-color-border-primary);
   --nc-product-showcase-acc-marker:         var(--fnd-color-background-accent);
   --nc-product-showcase-acc-marker-width:   3px;
+
+  // Die Marke ist um diesen Betrag kuerzer als die Station.
+  //
+  // Sie sass vorher als border-inline-start am Kasten und lief damit exakt bis
+  // in die graue Haarlinie am unteren Rand — waehrend oben der Abstand zur
+  // Haarlinie darueber den vollen Zwischenraum betrug. Diese Unwucht las sich
+  // wie ein Fehler: Die Marke wirkte oben abgeschnitten.
+  //
+  // Um den Zwischenraum gekuerzt, steht sie unten und oben gleich weit von der
+  // Haarlinie ab und liegt sichtbar frei.
+  --nc-product-showcase-acc-marker-inset:  var(--nc-product-showcase-option-gap);
   // Die Medienspalte ist so breit wie das Geraet, nicht so breit wie der Rest.
   --nc-product-showcase-acc-device-col:    auto;
+
+  // Der Abstand zwischen Geraet und Liste ist doppelt so gross wie der des
+  // Showcase. Dort trennt er zwei Spalten gleicher Art; hier trennt er das
+  // Geraet von einem Textblock — und ein Geraet braucht Luft um sich herum,
+  // sonst liest es sich als Teil der Liste.
+  --nc-product-showcase-acc-columns-gap:   calc(var(--nc-product-showcase-gap) * 2);
+
+  // Auf schmalen Bildschirmen liegen die Stationen als Karten nebeneinander.
+  --nc-product-showcase-acc-card-width:    min(84%, 26rem);
+  --nc-product-showcase-acc-card-gap:      var(--fnd-spacing-05);
   --nc-product-showcase-acc-duration:       var(--fnd-motion-duration-300, 300ms);
 
   // -- Hervorhebung in der Ueberschrift --

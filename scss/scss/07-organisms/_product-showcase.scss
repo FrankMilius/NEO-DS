@@ -390,6 +390,21 @@
   // Medium links ist die Vorgabe — anders als beim Showcase, wo die Optionen
   // links stehen. Wer eine App zeigt, zeigt zuerst die App.
   grid-template-columns: var(--mod-product-showcase-acc-device-col, var(--nc-product-showcase-acc-device-col)) 1fr;
+  gap: var(--mod-product-showcase-acc-columns-gap, var(--nc-product-showcase-acc-columns-gap));
+
+  // KEIN INNENPOLSTER
+  // Der Showcase polstert sich selbst — als eigenstaendiger Abschnitt, der
+  // allein auf der Seite steht. Hier steht er unter einem Abschnittskopf im
+  // selben Container. Das eigene Polster schob ihn dort nach innen: seitlich
+  // ein zweites Mal eingerueckt neben dem Kopf, oben ein unbestimmter Streifen
+  // zwischen beiden. Ohne Polster liegt die erste Haarlinie als klare
+  // Anschnittkante unter dem Kopf.
+  padding: 0;
+
+  // Und die Breite bestimmt der Container, nicht das Bauteil. Sonst haette der
+  // Block zwei Breitenquellen — die Inhaltsbreite am Block-Wrapper und die
+  // eigene Hoechstbreite — und die engere gaewinne stillschweigend.
+  max-width: none;
 
   .nc-product-showcase__media-panel { order: 0; }
   .nc-product-showcase__options     { order: 1; }
@@ -427,14 +442,47 @@
   font-family: inherit;
   color: inherit;
 
+  position: relative;
+
+  // Die Scroll-Fassung (--sticky, weiter oben in dieser Datei) setzt eine
+  // 2 px-Kante links und faerbt sie bei .is-active gruen. Beide Fassungen
+  // stehen an derselben Instanz — die Kante blieb also stehen und lief neben
+  // der neuen Marke her: auf schmalen Bildschirmen ein senkrechter gruener
+  // Strich, obwohl die Marke dort quer oben liegen soll.
+  //
+  // Wieder derselbe Fall wie bei den Haarlinien der Hero-Karten: nicht
+  // dagegenhalten, sondern die geerbte Eigenschaft ausdruecklich zuruecknehmen.
+  border-inline-start: 0;
   border-block-end: 1px solid var(--mod-product-showcase-acc-rule, var(--nc-product-showcase-acc-rule));
-  border-inline-start: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width)) solid transparent;
-  padding-inline-start: var(--fnd-spacing-05);
-  transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+  padding-inline-start: calc(var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width)) + var(--fnd-spacing-05));
 
   &:hover { color: inherit; }
   &:last-child { border-block-end: 0; }
-  &.is-active { border-inline-start-color: var(--mod-product-showcase-acc-marker, var(--nc-product-showcase-acc-marker)); }
+
+  // Die Marke der offenen Station — ein Pseudoelement, kein Rahmen.
+  //
+  // Als border-inline-start lief sie ueber die volle Kastenhoehe und damit
+  // exakt bis in die Haarlinie unten, waehrend oben der Zwischenraum zur
+  // Haarlinie darueber frei blieb. Ein Rahmen kann nicht kuerzer sein als
+  // sein Kasten; ein Pseudoelement schon.
+  &::before {
+    content: '';
+    position: absolute;
+    // Oben 0, unten der Zwischenraum: Ueber der Station liegt der Zwischenraum
+    // ohnehin schon frei, unter ihr nicht — dort sitzt die Haarlinie direkt an
+    // der Kastenkante. Gleicher Einzug oben UND unten ergaebe deshalb keine
+    // Symmetrie, sondern das Doppelte oben. Gemessen: 16 px oben zu 9 px unten.
+    inset-block: 0 var(--mod-product-showcase-acc-marker-inset, var(--nc-product-showcase-acc-marker-inset));
+    inset-inline-start: 0;
+    inline-size: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width));
+    border-radius: var(--fnd-radius-full);
+    background: transparent;
+    transition: background-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+  }
+
+  &.is-active::before {
+    background: var(--mod-product-showcase-acc-marker, var(--nc-product-showcase-acc-marker));
+  }
 }
 
 // Der Ausloeser ist ein <button>, kein <div> mit Klickbehandlung: Er ist damit
@@ -522,8 +570,22 @@
 }
 
 // ---------------------------------------------------------------------------
-// Schmale Bildschirme
+// Schmale Bildschirme — die Stationen liegen nebeneinander
 // ---------------------------------------------------------------------------
+// WARUM QUER UND NICHT LAENGS
+// Untereinander gestapelt schob jede geoeffnete Station das Geraet aus dem
+// Bild. Man waehlte eine Station und sah genau das nicht, was sich dabei
+// aenderte — den Screen. Ein klebendes Geraet waere der naheliegende Ausweg
+// und der falsche: Es belegte auf 390 px dauerhaft ein Drittel der Hoehe.
+//
+// Quer geloest sich das von selbst. Gewischt wird SEITWAERTS, also bewegt sich
+// die Seite gar nicht — das Geraet steht, waehrend die Stationen daran
+// vorbeiziehen. Dasselbe Prinzip wie beim klebenden Medium auf breiten
+// Bildschirmen, nur ohne dass etwas kleben muss.
+//
+// Auf schmalen Bildschirmen ist jede Karte offen. Zuklappen spart hier nichts:
+// Es steht ohnehin nur eine Karte im Bild.
+//
 // Die Grundfassung stapelt ab md — aber ihre Regel steht WEITER OBEN in dieser
 // Datei und hat dieselbe Spezifitaet wie `--accordion`. Bei Gleichstand
 // gewinnt die spaetere: Die Akkordeon-Spalten ueberschrieben das Stapeln
@@ -537,17 +599,10 @@
   .nc-product-showcase--accordion,
   .nc-product-showcase--accordion.nc-product-showcase--media-end {
     grid-template-columns: 1fr;
+    gap: var(--fnd-spacing-06);
   }
 
-  // Und die Liste bleibt eine Liste. Die Grundfassung legt die Optionen auf
-  // schmalen Bildschirmen nebeneinander und laesst sie seitlich scrollen — das
-  // ist fuer Tab-Beschriftungen richtig und fuer aufklappende Absaetze falsch.
-  .nc-product-showcase--accordion .nc-product-showcase__options {
-    flex-direction: column;
-    overflow-x: visible;
-  }
-
-  // Das Geraet steht ueber der Liste, nicht daneben.
+  // Das Geraet steht ueber dem Streifen, nicht daneben.
   .nc-product-showcase--accordion .nc-product-showcase__media-panel,
   .nc-product-showcase--accordion.nc-product-showcase--media-end .nc-product-showcase__media-panel {
     order: 0;
@@ -558,4 +613,54 @@
   .nc-product-showcase--accordion.nc-product-showcase--media-end .nc-product-showcase__options {
     order: 1;
   }
+
+  .nc-product-showcase--accordion .nc-product-showcase__options {
+    flex-direction: row;
+    gap: var(--mod-product-showcase-acc-card-gap, var(--nc-product-showcase-acc-card-gap));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    // Karte fuer Karte, nicht frei gleitend: Wer wischt, landet auf einer
+    // Station und nicht zwischen zweien.
+    scroll-behavior: smooth;
+    @include hide-scrollbar;
+
+    // Die letzte Karte muss bis in die Mitte gezogen werden koennen, sonst
+    // laesst sie sich nicht auswaehlen.
+    scroll-padding-inline: 0;
+  }
+
+  .nc-product-showcase--accordion .nc-product-showcase__option {
+    flex: 0 0 var(--mod-product-showcase-acc-card-width, var(--nc-product-showcase-acc-card-width));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+
+    // Im Streifen trennt der Zwischenraum, nicht die Linie.
+    border-block-end: 0;
+    padding-inline-start: 0;
+
+    // Und die Marke liegt oben quer statt links laengs: Neben einer Karte in
+    // einer Reihe laese sich ein senkrechter Strich als Trenner zwischen zwei
+    // Karten, nicht als Kennzeichnung einer.
+    &::before {
+      inset-block: auto;
+      inset-block-start: 0;
+      inset-inline: 0;
+      inline-size: auto;
+      block-size: var(--mod-product-showcase-acc-marker-width, var(--nc-product-showcase-acc-marker-width));
+    }
+  }
+
+  // Jede Karte zeigt ihren Text. Siehe oben: Es steht ohnehin nur eine im Bild.
+  .nc-product-showcase--accordion .nc-product-showcase__panel {
+    grid-template-rows: 1fr;
+  }
+
+  .nc-product-showcase--accordion .nc-product-showcase__trigger {
+    padding-block-start: var(--fnd-spacing-04);
+  }
+}
+
+// Wer Bewegung reduziert, bekommt den Sprung ohne Gleiten.
+@media (prefers-reduced-motion: reduce) {
+  .nc-product-showcase--accordion .nc-product-showcase__options { scroll-behavior: auto; }
 }

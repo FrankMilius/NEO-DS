@@ -18134,7 +18134,11 @@ export const componentTokenGroups = [
           "nc-product-showcase-acc-text-size",
           "nc-product-showcase-acc-text-max",
           "nc-product-showcase-acc-gap",
-          "nc-product-showcase-acc-marker-width"
+          "nc-product-showcase-acc-marker-width",
+          "nc-product-showcase-acc-marker-inset",
+          "nc-product-showcase-acc-columns-gap",
+          "nc-product-showcase-acc-card-width",
+          "nc-product-showcase-acc-card-gap"
         ]
       },
       {
@@ -18504,6 +18508,30 @@ export const componentTokenGroups = [
         "label": "Acc Duration",
         "type": "duration",
         "default": "var(--fnd-motion-duration-300, 300ms)"
+      },
+      {
+        "id": "nc-product-showcase-acc-marker-inset",
+        "label": "Acc Marker Inset",
+        "type": "size",
+        "default": "var(--nc-product-showcase-option-gap)"
+      },
+      {
+        "id": "nc-product-showcase-acc-columns-gap",
+        "label": "Acc Columns Gap",
+        "type": "size",
+        "default": "calc(var(--nc-product-showcase-gap) * 2)"
+      },
+      {
+        "id": "nc-product-showcase-acc-card-width",
+        "label": "Acc Card Width",
+        "type": "size",
+        "default": "min(84%, 26rem)"
+      },
+      {
+        "id": "nc-product-showcase-acc-card-gap",
+        "label": "Acc Card Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
       }
     ]
   },
